@@ -79,13 +79,13 @@
     <Setting Name="RedrawAsMainWndResizes" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="NewEventsFromFilesDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="NewSessionsFromFilesDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="NewEventsFromFilesDlgComponentGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="NewSessionsFromFilesDlgComponentGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="NewEventsFromFilesLastFolder" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+    <Setting Name="NewSessionsFromFilesLastFolder" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SilWebSite" Type="System.String" Scope="Application">
@@ -100,10 +100,10 @@
     <Setting Name="PersonScreenComponentsSplitterPos" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="EventScreenElementsListSplitterPos" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+    <Setting Name="SessionScreenElementsListSplitterPos" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="EventScreenComponentsSplitterPos" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+    <Setting Name="SessionScreenComponentsSplitterPos" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="WelcomeDialog" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
@@ -112,7 +112,7 @@
     <Setting Name="ProjectWindow" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="EventScreenComponentGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="SessionScreenComponentGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="PersonScreenComponentGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
@@ -136,8 +136,8 @@
     <Setting Name="MetadataFileExtension" Type="System.String" Scope="Application">
       <Value Profile="(Default)">.meta</Value>
     </Setting>
-    <Setting Name="EventFileExtension" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">.event</Value>
+    <Setting Name="SessionFileExtension" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.session</Value>
     </Setting>
     <Setting Name="PersonFileExtension" Type="System.String" Scope="Application">
       <Value Profile="(Default)">.person</Value>
@@ -154,7 +154,7 @@
     <Setting Name="AutoPlayMediaPlayerWhenSelectingMediaFile" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="CustomEventFileFields" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
+    <Setting Name="CustomSessionFileFields" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="CustomPersonFileFields" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
@@ -172,7 +172,7 @@
     <Setting Name="CustomUnknownFileFields" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="EventCustomFieldsGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="SessionCustomFieldsGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="PersonCustomFieldsGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
@@ -190,16 +190,16 @@
     <Setting Name="UnknownFileFieldsGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="EventEditorsBackgroundColor" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="SessionEditorsBackgroundColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">207, 240, 159</Value>
     </Setting>
-    <Setting Name="EventEditorsBorderColor" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="SessionEditorsBorderColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">148, 195, 151</Value>
     </Setting>
-    <Setting Name="EventEditorsButtonBackgroundColor1" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="SessionEditorsButtonBackgroundColor1" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">207, 240, 159</Value>
     </Setting>
-    <Setting Name="EventEditorsButtonBackgroundColor2" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="SessionEditorsButtonBackgroundColor2" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">169, 219, 168</Value>
     </Setting>
     <Setting Name="PersonEditorsBackgroundColor" Type="System.Drawing.Color" Scope="Application">
@@ -259,7 +259,7 @@
     <Setting Name="IncompleteStageColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">Ivory</Value>
     </Setting>
-    <Setting Name="EventsListGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="SessionsListGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="PersonListGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
@@ -386,7 +386,7 @@
     <Setting Name="MinimumAnnotationSegmentLengthInMilliseconds" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">500</Value>
     </Setting>
-    <Setting Name="EventRecorderDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="SessionRecorderDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TranscriptionPlaybackType" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">

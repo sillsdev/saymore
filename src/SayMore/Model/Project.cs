@@ -11,18 +11,18 @@ namespace SayMore.Model
 	/// <summary>
 	/// A project corresponds to a single folder (with subfolders) on the disk.
 	/// In that folder is a file which persists the settings, then a folder of
-	/// people, and another of events.
+	/// people, and another of sessions.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class Project
 	{
-		private const string EventFolderName = "Events";
+		private const string SessionFolderName = "Sessions";
 
 		public delegate Project Factory(string desiredOrExistingFilePath);
 		//public delegate Project FactoryForNew(string parentDirectory, int x, string projectName);
 
-		public Event.Factory EventFactory { get; set; }
-		public Func<Event, Event> EventPropertyInjectionMethod { get; set; }
+		public Session.Factory SessionFactory { get; set; }
+		public Func<Session, Session> SessionPropertyInjectionMethod { get; set; }
 		/// ------------------------------------------------------------------------------------
 		public string Name { get; protected set; }
 
@@ -40,7 +40,7 @@ namespace SayMore.Model
 
 			if (File.Exists(desiredOrExistingSettingsFilePath))
 			{
-				RenameSessionsToEvents(projectDirectory);
+				RenameEventsToSessions(projectDirectory);
 				Load();
 			}
 			else
@@ -70,21 +70,21 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Renames the project's Sessions folder to Events; rename's all its session files
-		/// to have "event" extensions rather than "session" extensions; renames the Session
-		/// tags in those files to "Event".
+		/// Renames the project's Events folder to Sessions; rename's all its session files
+		/// to have "session" extensions rather than "event" extensions; renames the Event
+		/// tags in those files to "Session".
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void RenameSessionsToEvents(string projectDirectory)
+		public void RenameEventsToSessions(string projectDirectory)
 		{
-			var sessionFolder = Directory.GetDirectories(projectDirectory,
-				"Sessions", SearchOption.TopDirectoryOnly).FirstOrDefault();
+			var eventFolder = Directory.GetDirectories(projectDirectory,
+				"Events", SearchOption.TopDirectoryOnly).FirstOrDefault();
 
-			if (string.IsNullOrEmpty(sessionFolder))
+			if (string.IsNullOrEmpty(eventFolder))
 				return;
 
-			var oldFolder = Path.Combine(projectDirectory, "Sessions");
-			var newFolder = Path.Combine(projectDirectory, "Events");
+			var oldFolder = Path.Combine(projectDirectory, "Events");
+			var newFolder = Path.Combine(projectDirectory, "Sessions");
 
 			try
 			{
@@ -99,9 +99,8 @@ namespace SayMore.Model
 				//say "sorry, couldn't open that." If we have more info to give here, we could do that via a non-fatal error.
 			}
 
-			var sessionFiles = Directory.GetFiles(newFolder, "*.session", SearchOption.AllDirectories);
-			foreach (var file in sessionFiles)
-				RenameSessionFileToEventFile(file);
+			foreach (var file in Directory.GetFiles(newFolder, "*.event", SearchOption.AllDirectories))
+				RenameEventFileToSessionFile(file);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -110,39 +109,39 @@ namespace SayMore.Model
 		/// Session tags inside the file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void RenameSessionFileToEventFile(string oldFile)
+		private void RenameEventFileToSessionFile(string oldFile)
 		{
 			// TODO: Should probably put some error checking in here. Although,
 			// I'm not sure what I would do with a failure along the way.
-			var session = XElement.Load(oldFile);
-			var evnt = new XElement("Event", session.Nodes());
-			var newFile = Path.ChangeExtension(oldFile, "event");
-			evnt.Save(newFile);
+			var evnt = XElement.Load(oldFile);
+			var session = new XElement("Session", evnt.Nodes());
+			var newFile = Path.ChangeExtension(oldFile, "session");
+			session.Save(newFile);
 			File.Delete(oldFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes the events for the project.
+		/// Initializes the sessions for the project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void InitializeEvents()
+		public void InitializeSessions()
 		{
-			if (!Directory.Exists(EventsFolder))
-				Directory.CreateDirectory(EventsFolder);
+			if (!Directory.Exists(SessionsFolder))
+				Directory.CreateDirectory(SessionsFolder);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the list of sorted event folders (including their full path) in the project.
+		/// Gets the list of sorted session folders (including their full path) in the project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string[] EventNames
+		public string[] SessionNames
 		{
 			get
 			{
-				return (from x in Directory.GetDirectories(EventsFolder)
+				return (from x in Directory.GetDirectories(SessionsFolder)
 						orderby x
 						select x).ToArray();
 			}
@@ -150,13 +149,13 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the full path to the folder in which the project's event folders are stored.
+		/// Gets the full path to the folder in which the project's session folders are stored.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string EventsFolder
+		public string SessionsFolder
 		{
-			get { return Path.Combine(ProjectFolder, EventFolderName); }
+			get { return Path.Combine(ProjectFolder, SessionFolderName); }
 		}
 
 		/// ------------------------------------------------------------------------------------

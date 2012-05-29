@@ -73,7 +73,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutConvert.SetColumnSpan(this._labelSourceFileName, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelSourceFileName, null);
 			this.locExtender.SetLocalizationComment(this._labelSourceFileName, null);
-			this.locExtender.SetLocalizingId(this._labelSourceFileName, "EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelSourceFi" +
+			this.locExtender.SetLocalizingId(this._labelSourceFileName, "SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelSourceFi" +
         "leName");
 			this._labelSourceFileName.Location = new System.Drawing.Point(15, 98);
 			this._labelSourceFileName.Margin = new System.Windows.Forms.Padding(15, 15, 15, 0);
@@ -90,7 +90,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutConvert.SetColumnSpan(this._labelConvertIntroduction, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelConvertIntroduction, null);
 			this.locExtender.SetLocalizationComment(this._labelConvertIntroduction, null);
-			this.locExtender.SetLocalizingId(this._labelConvertIntroduction, "EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduc" +
+			this.locExtender.SetLocalizingId(this._labelConvertIntroduction, "SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduc" +
         "tion");
 			this._labelConvertIntroduction.Location = new System.Drawing.Point(15, 70);
 			this._labelConvertIntroduction.Margin = new System.Windows.Forms.Padding(15, 15, 15, 0);
@@ -105,7 +105,7 @@ namespace SayMore.Transcription.UI
 			this._labelConvertHeading.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelConvertHeading, null);
 			this.locExtender.SetLocalizationComment(this._labelConvertHeading, null);
-			this.locExtender.SetLocalizingId(this._labelConvertHeading, "EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelHeading");
+			this.locExtender.SetLocalizingId(this._labelConvertHeading, "SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelHeading");
 			this._labelConvertHeading.Location = new System.Drawing.Point(130, 21);
 			this._labelConvertHeading.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
 			this._labelConvertHeading.Name = "_labelConvertHeading";
@@ -121,7 +121,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelSourceFileNameValue, null);
 			this.locExtender.SetLocalizationComment(this._labelSourceFileNameValue, null);
 			this.locExtender.SetLocalizationPriority(this._labelSourceFileNameValue, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelSourceFileNameValue, "EventsView.Transcription.StartAnnotatingTab._labelSegmentationMethod");
+			this.locExtender.SetLocalizingId(this._labelSourceFileNameValue, "SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethod");
 			this._labelSourceFileNameValue.Location = new System.Drawing.Point(32, 116);
 			this._labelSourceFileNameValue.Margin = new System.Windows.Forms.Padding(32, 5, 15, 0);
 			this._labelSourceFileNameValue.Name = "_labelSourceFileNameValue";
@@ -137,7 +137,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutConvert.SetColumnSpan(this._labelStandardAudioFileName, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelStandardAudioFileName, null);
 			this.locExtender.SetLocalizationComment(this._labelStandardAudioFileName, null);
-			this.locExtender.SetLocalizingId(this._labelStandardAudioFileName, "EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelStandard" +
+			this.locExtender.SetLocalizingId(this._labelStandardAudioFileName, "SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelStandard" +
         "AudioFileName");
 			this._labelStandardAudioFileName.Location = new System.Drawing.Point(15, 144);
 			this._labelStandardAudioFileName.Margin = new System.Windows.Forms.Padding(15, 15, 15, 0);
@@ -154,7 +154,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelStandardAudioFileNameValue, null);
 			this.locExtender.SetLocalizationComment(this._labelStandardAudioFileNameValue, null);
 			this.locExtender.SetLocalizationPriority(this._labelStandardAudioFileNameValue, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelStandardAudioFileNameValue, "EventsView.Transcription.StartAnnotatingTab._labelSegmentationMethod");
+			this.locExtender.SetLocalizingId(this._labelStandardAudioFileNameValue, "SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethod");
 			this._labelStandardAudioFileNameValue.Location = new System.Drawing.Point(32, 162);
 			this._labelStandardAudioFileNameValue.Margin = new System.Windows.Forms.Padding(32, 5, 15, 0);
 			this._labelStandardAudioFileNameValue.Name = "_labelStandardAudioFileNameValue";
@@ -169,7 +169,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutConvert.SetColumnSpan(this._buttonConvert, 2);
 			this.locExtender.SetLocalizableToolTip(this._buttonConvert, null);
 			this.locExtender.SetLocalizationComment(this._buttonConvert, null);
-			this.locExtender.SetLocalizingId(this._buttonConvert, "EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._buttonConvert" +
+			this.locExtender.SetLocalizingId(this._buttonConvert, "SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._buttonConvert" +
         "");
 			this._buttonConvert.Location = new System.Drawing.Point(206, 187);
 			this._buttonConvert.Margin = new System.Windows.Forms.Padding(0, 12, 10, 3);
@@ -222,7 +222,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this, "EventsView.Transcription.StartAnnotatingTab.EditorBase");
+			this.locExtender.SetLocalizingId(this, "SessionsView.Transcription.StartAnnotatingTab.EditorBase");
 			this.Name = "ConvertToStandardAudioEditor";
 			this.Padding = new System.Windows.Forms.Padding(12, 6, 12, 12);
 			this.Size = new System.Drawing.Size(536, 265);

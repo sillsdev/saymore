@@ -86,7 +86,7 @@ namespace SayMore.Transcription.Model
 			if (OnUpdateStatus != null)
 			{
 				StatusString = LocalizationManager.GetString(
-					"EventsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.ProgressMsg",
+					"SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.ProgressMsg",
 					"Exporting...");
 
 				OnUpdateStatus(this, EventArgs.Empty);
@@ -111,7 +111,7 @@ namespace SayMore.Transcription.Model
 			if (OnFinished != null)
 			{
 				StatusString = LocalizationManager.GetString(
-					"EventsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.FinsihedMsg",
+					"SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.FinsihedMsg",
 					"Finished Exporting");
 
 				OnFinished.Invoke(this, new ProgressFinishedArgs(false, null));
@@ -212,7 +212,7 @@ namespace SayMore.Transcription.Model
 				tierCollection, wsTranscriptionId, wsFreeTranslationId);
 
 			var caption = LocalizationManager.GetString(
-					"EventsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.Caption",
+					"SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.Caption",
 					"Exporting to FLEx Interlinear");
 
 			using (var dlg = new ProgressDlg(helper, caption))

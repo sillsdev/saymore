@@ -376,8 +376,8 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._linkSource.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this._linkSource.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._linkSource, "Source:\\nThe recording of the event. Used to satisfy\\nthe \'Source Recording\' stag" +
-        "e of the event.");
+			this.locExtender.SetLocalizableToolTip(this._linkSource, "Source:\\nThe recording of the session. Used to satisfy\\nthe \'Source Recording\' stag" +
+		"e of the session.");
 			this.locExtender.SetLocalizationComment(this._linkSource, null);
 			this.locExtender.SetLocalizingId(this._linkSource, "DialogBoxes.ComponentFileRenamingDlg._linkSource");
 			this._linkSource.Location = new System.Drawing.Point(82, 92);

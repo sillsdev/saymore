@@ -317,33 +317,33 @@ namespace SayMore.Model.Files
 
 	#endregion
 
-	#region EventFileType class
+	#region SessionFileType class
 	/// ----------------------------------------------------------------------------------------
-	public class EventFileType : FileType
+	public class SessionFileType : FileType
 	{
-		private readonly Func<EventBasicEditor.Factory> _eventBasicEditorFactoryLazy;
+		private readonly Func<SessionBasicEditor.Factory> _sessionBasicEditorFactoryLazy;
 		private readonly Func<StatusAndStagesEditor.Factory> _statusAndStagesEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		///
 		/// </summary>
-		/// <param name="eventBasicEditorFactoryLazy">This is to get us around a circular dependency
-		/// error in autofac.  NB: when we move to .net 4, this can be replaced by
-		/// Lazy<Func<EventBasicEditor.Factory></param>
+		/// <param name="sessionBasicEditorFactoryLazy">This is to get us around a circular
+		/// dependency error in autofac. NB: when we move to .net 4, this can be replaced by
+		/// Lazy<Func<SessionBasicEditor.Factory></param>
 		/// ------------------------------------------------------------------------------------
-		public EventFileType(Func<EventBasicEditor.Factory> eventBasicEditorFactoryLazy,
+		public SessionFileType(Func<SessionBasicEditor.Factory> sessionBasicEditorFactoryLazy,
 			Func<StatusAndStagesEditor.Factory> statusAndStagesEditorFactoryLazy)
-			: base("Event", p => p.ToLower().EndsWith(Settings.Default.EventFileExtension.ToLower()))
+			: base("Session", p => p.ToLower().EndsWith(Settings.Default.SessionFileExtension.ToLower()))
 		{
-			_eventBasicEditorFactoryLazy = eventBasicEditorFactoryLazy;
+			_sessionBasicEditorFactoryLazy = sessionBasicEditorFactoryLazy;
 			_statusAndStagesEditorFactoryLazy = statusAndStagesEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override string FieldsGridSettingsName
 		{
-			get { return "EventCustomFieldsGrid"; }
+			get { return "SessionCustomFieldsGrid"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -379,35 +379,35 @@ namespace SayMore.Model.Files
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
 			var col = SilGrid.CreateTextBoxColumn("id");
-			col.HeaderText = "_L10N_:EventsView.EventsList.ColumnHeadings.Id!Id";
+			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Id!Id";
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("title");
-			col.HeaderText = "_L10N_:EventsView.EventsList.ColumnHeadings.Title!Title";
+			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Title!Title";
 			col.DataPropertyName = "title";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateImageColumn("stages");
-			col.HeaderText = "_L10N_:EventsView.EventsList.ColumnHeadings.Stages!Stages";
+			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Stages!Stages";
 			col.DataPropertyName = "stages";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateImageColumn("status");
-			col.HeaderText = "_L10N_:EventsView.EventsList.ColumnHeadings.Status!Status";
+			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Status!Status";
 			col.DataPropertyName = "status";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("date");
-			col.HeaderText = "_L10N_:EventsView.EventsList.ColumnHeadings.Date!Date";
+			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Date!Date";
 			col.DataPropertyName = "date";
 			col.ReadOnly = true;
 			col.Visible = false;
@@ -415,7 +415,7 @@ namespace SayMore.Model.Files
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("genre");
-			col.HeaderText = "_L10N_:EventsView.EventsList.ColumnHeadings.Genre!Genre";
+			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Genre!Genre";
 			col.DataPropertyName = "genre";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
@@ -423,7 +423,7 @@ namespace SayMore.Model.Files
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("location");
-			col.HeaderText = "_L10N_:EventsView.EventsList.ColumnHeadings.Location!Location";
+			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Location!Location";
 			col.DataPropertyName = "location";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
@@ -434,7 +434,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			yield return _eventBasicEditorFactoryLazy()(file, "Event");
+			yield return _sessionBasicEditorFactoryLazy()(file, "Session");
 			yield return _statusAndStagesEditorFactoryLazy()(file, "StatusAndStages");
 			yield return new NotesEditor(file);
 		}
@@ -455,7 +455,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get { return Resources.EventFileImage; }
+			get { return Resources.SessionFileImage; }
 		}
 	}
 

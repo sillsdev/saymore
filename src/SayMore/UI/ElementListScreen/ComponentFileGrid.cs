@@ -164,12 +164,12 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleFileGridPaint(object sender, PaintEventArgs e)
 		{
-			if (_grid.RowCount == 1)
+			if (_grid.RowCount == 1 && FilesBeingDraggedOverGrid != null)
 			{
 				var rcRow = _grid.GetRowDisplayRectangle(0, false);
 
 				var msg = LocalizationManager.GetString("CommonToMultipleViews.FileList.AddFilesPrompt",
-					"Add additional files related to this event by\ndragging them here or clicking the 'Add Files' button.");
+					"Add additional files related to this session by\ndragging them here or clicking the 'Add Files' button.");
 
 				_grid.DrawMessageInCenterOfGrid(e.Graphics, msg, rcRow.Height);
 			}

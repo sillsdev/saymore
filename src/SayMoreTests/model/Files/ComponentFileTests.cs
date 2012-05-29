@@ -463,15 +463,15 @@ namespace SayMoreTests.Model.Files
 		{
 			var componentRoles = new[]
 			{
-				new ComponentRole(typeof(Event), "translation", "translation",
+				new ComponentRole(typeof(Session), "translation", "translation",
 					ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"),
 					"$ElementId$_Translation", Color.Magenta, Color.Black),
 
-				new ComponentRole(typeof(Event), "transcriptionN", "Written Translation",
+				new ComponentRole(typeof(Session), "transcriptionN", "Written Translation",
 					ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"),
 					"$ElementId$_Transcriptino", Color.Magenta, Color.Black),
 
-				new ComponentRole(typeof(Event), "source", "Source Recording",
+				new ComponentRole(typeof(Session), "source", "Source Recording",
 					ComponentRole.MeasurementTypes.Time, FileSystemUtils.GetIsAudioVideo,
 					"$ElementId$_Source", Color.Magenta, Color.Black),
 
@@ -490,14 +490,14 @@ namespace SayMoreTests.Model.Files
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetRelevantComponentRoles_ForEvent_ReturnsOnlyEventRoles()
+		public void GetRelevantComponentRoles_ForEvent_ReturnsOnlySessionRoles()
 		{
-			using (var eventFolder = new TemporaryFolder("TestGetRelevantComponentRoles"))
+			using (var folder = new TemporaryFolder("TestGetRelevantComponentRoles"))
 			{
-				var evnt = ProjectElementTests.CreateEvent(eventFolder.Path, "stupidEvent");
-				var f = CreateComponentFileWithRoleChoices(evnt, "abc.txt");
+				var session = ProjectElementTests.CreateSession(folder.Path, "stupidSession");
+				var f = CreateComponentFileWithRoleChoices(session, "abc.txt");
 				foreach (var role in f.GetRelevantComponentRoles())
-					Assert.AreEqual(typeof(Event), role.RelevantElementType);
+					Assert.AreEqual(typeof(Session), role.RelevantElementType);
 			}
 		}
 
@@ -505,10 +505,10 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void GetRelevantComponentRoles_ForPerson_ReturnsOnlyPersonRoles()
 		{
-			using (var eventFolder = new TemporaryFolder("TestGetRelevantComponentRoles"))
+			using (var folder = new TemporaryFolder("TestGetRelevantComponentRoles"))
 			{
-				var evnt = ProjectElementTests.CreatePerson(eventFolder.Path, "stupidPerson");
-				var f = CreateComponentFileWithRoleChoices(evnt, "abc.txt");
+				var session = ProjectElementTests.CreatePerson(folder.Path, "stupidPerson");
+				var f = CreateComponentFileWithRoleChoices(session, "abc.txt");
 				foreach (var role in f.GetRelevantComponentRoles())
 					Assert.AreEqual(typeof(Person), role.RelevantElementType);
 			}
@@ -532,10 +532,10 @@ namespace SayMoreTests.Model.Files
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetAssignedRoles_ForConsentAndEventType_ReturnsEmptyEnumerator()
+		public void GetAssignedRoles_ForConsentAndSessionType_ReturnsEmptyEnumerator()
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Consent.txt");
-			Assert.AreEqual(0, f.GetAssignedRoles(typeof(Event)).Count());
+			Assert.AreEqual(0, f.GetAssignedRoles(typeof(Session)).Count());
 		}
 
 		[Test]
@@ -551,7 +551,7 @@ namespace SayMoreTests.Model.Files
 		public void GetAssignedRoles_ForTranslation_ReturnCorrectOne()
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Translation.txt");
-			Assert.AreEqual("translation", f.GetAssignedRoles(typeof(Event)).First().Name);
+			Assert.AreEqual("translation", f.GetAssignedRoles(typeof(Session)).First().Name);
 		}
 
 		[Test]
@@ -559,7 +559,7 @@ namespace SayMoreTests.Model.Files
 		public void GetAssignedRoles_HasTranslationWIthLanguageTag_ReturnTranslation()
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Translation-xyz.txt");
-			Assert.AreEqual("translation", f.GetAssignedRoles(typeof(Event)).First().Name);
+			Assert.AreEqual("translation", f.GetAssignedRoles(typeof(Session)).First().Name);
 		}
 
 		[Test]
@@ -567,7 +567,7 @@ namespace SayMoreTests.Model.Files
 		public void IdentifyAsRole_FileRenamed()
 		{
 			var f = CreateComponentFile("abc.txt");
-			var role = new ComponentRole(typeof (Event), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
+			var role = new ComponentRole(typeof (Session), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
 										 p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta, Color.Black);
 			f.AssignRole(role);
 			Assert.AreEqual(ParentFolderName + "_someRole.txt", Path.GetFileName(f.PathToAnnotatedFile));

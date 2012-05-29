@@ -86,7 +86,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelReadAboutStatus.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelReadAboutStatus, null);
 			this.locExtender.SetLocalizationComment(this._labelReadAboutStatus, null);
-			this.locExtender.SetLocalizingId(this._labelReadAboutStatus, "EventsView.StatusAndStagesEditor._labelReadAboutStatus");
+			this.locExtender.SetLocalizingId(this._labelReadAboutStatus, "SessionsView.StatusAndStagesEditor._labelReadAboutStatus");
 			this._labelReadAboutStatus.Location = new System.Drawing.Point(257, 81);
 			this._labelReadAboutStatus.Margin = new System.Windows.Forms.Padding(15, 4, 0, 0);
 			this._labelReadAboutStatus.Name = "_labelReadAboutStatus";
@@ -101,7 +101,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayoutOuter.SetColumnSpan(this._labelStatus, 4);
 			this.locExtender.SetLocalizableToolTip(this._labelStatus, null);
 			this.locExtender.SetLocalizationComment(this._labelStatus, null);
-			this.locExtender.SetLocalizingId(this._labelStatus, "EventsView.StatusAndStagesEditor._labelStatus");
+			this.locExtender.SetLocalizingId(this._labelStatus, "SessionsView.StatusAndStagesEditor._labelStatus");
 			this._labelStatus.Location = new System.Drawing.Point(0, 0);
 			this._labelStatus.Margin = new System.Windows.Forms.Padding(0, 0, 0, 4);
 			this._labelStatus.Name = "_labelStatus";
@@ -140,14 +140,14 @@ namespace SayMore.UI.ComponentEditors
 			this._labelStatusHint.ForeColor = System.Drawing.Color.DimGray;
 			this.locExtender.SetLocalizableToolTip(this._labelStatusHint, null);
 			this.locExtender.SetLocalizationComment(this._labelStatusHint, null);
-			this.locExtender.SetLocalizingId(this._labelStatusHint, "EventsView.StatusAndStagesEditor._labelStatusHint");
+			this.locExtender.SetLocalizingId(this._labelStatusHint, "SessionsView.StatusAndStagesEditor._labelStatusHint");
 			this._labelStatusHint.Location = new System.Drawing.Point(236, 21);
 			this._labelStatusHint.Margin = new System.Windows.Forms.Padding(5, 4, 0, 0);
 			this._labelStatusHint.Name = "_labelStatusHint";
 			this._tableLayoutOuter.SetRowSpan(this._labelStatusHint, 3);
 			this._labelStatusHint.Size = new System.Drawing.Size(195, 26);
 			this._labelStatusHint.TabIndex = 22;
-			this._labelStatusHint.Text = "Use the status to mark the big picture of this event.";
+			this._labelStatusHint.Text = "Use the status to mark the big picture of this session.";
 			// 
 			// _labelStages
 			// 
@@ -155,7 +155,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayoutOuter.SetColumnSpan(this._labelStages, 4);
 			this.locExtender.SetLocalizableToolTip(this._labelStages, null);
 			this.locExtender.SetLocalizationComment(this._labelStages, null);
-			this.locExtender.SetLocalizingId(this._labelStages, "EventsView.StatusAndStagesEditor._labelStages");
+			this.locExtender.SetLocalizingId(this._labelStages, "SessionsView.StatusAndStagesEditor._labelStages");
 			this._labelStages.Location = new System.Drawing.Point(0, 109);
 			this._labelStages.Margin = new System.Windows.Forms.Padding(0, 12, 0, 4);
 			this._labelStages.Name = "_labelStages";
@@ -169,7 +169,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelReadAboutStages.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelReadAboutStages, null);
 			this.locExtender.SetLocalizationComment(this._labelReadAboutStages, null);
-			this.locExtender.SetLocalizingId(this._labelReadAboutStages, "EventsView.StatusAndStagesEditor._labelReadAboutStages");
+			this.locExtender.SetLocalizingId(this._labelReadAboutStages, "SessionsView.StatusAndStagesEditor._labelReadAboutStages");
 			this._labelReadAboutStages.Location = new System.Drawing.Point(257, 230);
 			this._labelReadAboutStages.Margin = new System.Windows.Forms.Padding(15, 4, 0, 0);
 			this._labelReadAboutStages.Name = "_labelReadAboutStages";
@@ -185,7 +185,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelStagesHint.ForeColor = System.Drawing.Color.DimGray;
 			this.locExtender.SetLocalizableToolTip(this._labelStagesHint, null);
 			this.locExtender.SetLocalizationComment(this._labelStagesHint, null);
-			this.locExtender.SetLocalizingId(this._labelStagesHint, "EventsView.StatusAndStagesEditor._labelStagesHint");
+			this.locExtender.SetLocalizingId(this._labelStagesHint, "SessionsView.StatusAndStagesEditor._labelStagesHint");
 			this._labelStagesHint.Location = new System.Drawing.Point(235, 130);
 			this._labelStagesHint.Margin = new System.Windows.Forms.Padding(5, 4, 0, 0);
 			this._labelStagesHint.Name = "_labelStagesHint";

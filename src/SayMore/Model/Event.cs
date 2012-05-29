@@ -11,13 +11,13 @@ namespace SayMore.Model
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// An event is recorded, documented, transcribed, etc.
-	/// Each event is represented on disk as a single folder, with 1 or more files
-	/// related to that even.  The one file it will always have is some meta data about
-	/// the event.
+	/// A session is recorded, documented, transcribed, etc.
+	/// Each session is represented on disk as a single folder, with 1 or more files
+	/// related to that session.  The one file it will always have is some meta data about
+	/// the session.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class Event : ProjectElement
+	public class Session : ProjectElement
 	{
 		public enum Status
 		{
@@ -28,23 +28,23 @@ namespace SayMore.Model
 		}
 
 		//autofac uses this
-		public delegate Event Factory(string parentElementFolder, string id);
+		public delegate Session Factory(string parentElementFolder, string id);
 
 		private readonly PersonInformant _personInformant;
 
 		[Obsolete("For Mocking Only")]
-		public Event() { }
+		public Session() { }
 
 		/// ------------------------------------------------------------------------------------
-		public Event(string parentElementFolder, string id,
+		public Session(string parentElementFolder, string id,
 			Action<ProjectElement, string, string> idChangedNotificationReceiver,
-			EventFileType eventFileType,
+			SessionFileType sessionFileType,
 			Func<ProjectElement, string, ComponentFile> componentFileFactory,
 			FileSerializer fileSerializer,
 			ProjectElementComponentFile.Factory prjElementComponentFileFactory,
 			IEnumerable<ComponentRole> componentRoles,
 			PersonInformant personInformant)
-			: base(parentElementFolder, id, idChangedNotificationReceiver, eventFileType,
+			: base(parentElementFolder, id, idChangedNotificationReceiver, sessionFileType,
 				componentFileFactory, fileSerializer, prjElementComponentFileFactory, componentRoles)
 		{
 			_personInformant = personInformant;
@@ -71,25 +71,25 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public override string RootElementName
 		{
-			get { return "Event"; }
+			get { return "Session"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected static string ExtensionWithoutPeriodStatic
 		{
-			get { return Settings.Default.EventFileExtension.TrimStart('.'); }
+			get { return Settings.Default.SessionFileExtension.TrimStart('.'); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override string DefaultElementNamePrefix
 		{
-			get { return LocalizationManager.GetString("EventsView.Miscellaneous.NewEventNamePrefix", "New Event"); }
+			get { return LocalizationManager.GetString("SessionsView.Miscellaneous.NewEventNamePrefix", "New Session"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string NoIdSaveFailureMessage
 		{
-			get { return LocalizationManager.GetString("EventsView.Miscellaneous.NoIdSaveFailureMessage", "You must specify an event id."); }
+			get { return LocalizationManager.GetString("SessionsView.Miscellaneous.NoIdSaveFailureMessage", "You must specify a session id."); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -97,8 +97,8 @@ namespace SayMore.Model
 		{
 			get
 			{
-				return LocalizationManager.GetString("EventsView.Miscellaneous.EventAlreadyExistsSaveFailureMessage",
-					"Could not rename from {0} to {1} because there is already a event by that name.");
+				return LocalizationManager.GetString("SessionsView.Miscellaneous.SessionAlreadyExistsSaveFailureMessage",
+					"Could not rename from {0} to {1} because there is already a session by that name.");
 			}
 		}
 
@@ -116,15 +116,15 @@ namespace SayMore.Model
 			statusAsText = statusAsText.Replace(' ', '_');
 
 			if (statusAsText == Status.Incoming.ToString())
-				return LocalizationManager.GetString("EventsView.EventStatus.Incoming", "Incoming");
+				return LocalizationManager.GetString("SessionsView.SessionStatus.Incoming", "Incoming");
 
 			if (statusAsText == Status.In_Progress.ToString())
-				return LocalizationManager.GetString("EventsView.EventStatus.InProgress", "In Progress");
+				return LocalizationManager.GetString("SessionsView.SessionStatus.InProgress", "In Progress");
 
 			if (statusAsText == Status.Finished.ToString())
-				return LocalizationManager.GetString("EventsView.EventStatus.Finished", "Finished");
+				return LocalizationManager.GetString("SessionsView.SessionStatus.Finished", "Finished");
 
-			return LocalizationManager.GetString("EventsView.EventStatus.Skipped", "Skipped");
+			return LocalizationManager.GetString("SessionsView.SessionStatus.Skipped", "Skipped");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -206,10 +206,10 @@ namespace SayMore.Model
 
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Comparer class to compare two string representations of event status'.
+	/// Comparer class to compare two string representations of session status'.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class EventStatusComparer : IComparer<string>
+	public class SessionStatusComparer : IComparer<string>
 	{
 		public int Compare(string x, string y)
 		{
@@ -225,14 +225,14 @@ namespace SayMore.Model
 			x = x.Replace(' ', '_');
 			y = y.Replace(' ', '_');
 
-			if (!Enum.GetNames(typeof(Event.Status)).Contains(x))
+			if (!Enum.GetNames(typeof(Session.Status)).Contains(x))
 				return 1;
 
-			if (!Enum.GetNames(typeof(Event.Status)).Contains(y))
+			if (!Enum.GetNames(typeof(Session.Status)).Contains(y))
 				return -1;
 
-			return (int)Enum.Parse(typeof(Event.Status), x) -
-				(int)Enum.Parse(typeof(Event.Status), y);
+			return (int)Enum.Parse(typeof(Session.Status), x) -
+				(int)Enum.Parse(typeof(Session.Status), y);
 		}
 	}
 }

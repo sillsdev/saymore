@@ -7,7 +7,7 @@ using Moq;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.UI.ElementListScreen;
-using SayMore.UI.NewEventsFromFiles;
+using SayMore.UI.NewSessionsFromFiles;
 
 namespace SayMoreTests.UI.NewEventsFromFiles
 {
@@ -16,28 +16,28 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 	{
 		private TemporaryFolder _tmpFolder;
 		private string _srcFolder;
-		private string _eventsFolder;
-		private ElementListViewModel<Event> _eventPresentationModel;
-		private NewEventsFromFileDlgViewModel _model;
+		private string _sessionsFolder;
+		private ElementListViewModel<Session> _sessionPresentationModel;
+		private NewSessionsFromFileDlgViewModel _model;
 
-		// TODO: Need tests for CreateSingleEvent() and some other stuff.
+		// TODO: Need tests for CreateSingleSession() and some other stuff.
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void Setup()
 		{
-			_tmpFolder = new TemporaryFolder("NewEventsFromFilesTests");
+			_tmpFolder = new TemporaryFolder("NewSessionsFromFilesTests");
 
 			_srcFolder = _tmpFolder.Combine("source");
-			_eventsFolder = _tmpFolder.Combine("Events");
+			_sessionsFolder = _tmpFolder.Combine("Sessions");
 
 			Directory.CreateDirectory(_srcFolder);
 
-			var repo = new Mock<ElementRepository<Event>>();
-			repo.Setup(e => e.PathToFolder).Returns(_eventsFolder);
+			var repo = new Mock<ElementRepository<Session>>();
+			repo.Setup(e => e.PathToFolder).Returns(_sessionsFolder);
 
-			_eventPresentationModel = new ElementListViewModel<Event>(repo.Object);
-			_model = new NewEventsFromFileDlgViewModel(_eventPresentationModel, CreateNewComponentFile);
+			_sessionPresentationModel = new ElementListViewModel<Session>(repo.Object);
+			_model = new NewSessionsFromFileDlgViewModel(_sessionPresentationModel, CreateNewComponentFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -60,15 +60,15 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 		[Test]
 		public void GetAllSourceAndDestinationPairs_HaveFiles_ReturnsThem()
 		{
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\coke.wav"));
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\pepsi.wmv"));
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\drpepper.mpg"));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\coke.wav"));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\pepsi.wmv"));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\drpepper.mpg"));
 
 			var pairs = _model.GetAllSourceAndDestinationPairs().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-			Assert.AreEqual(Path.Combine(_eventsFolder, @"coke\coke.wav"), pairs[@"c:\newEventSrc\coke.wav"]);
-			Assert.AreEqual(Path.Combine(_eventsFolder, @"pepsi\pepsi.wmv"), pairs[@"c:\newEventSrc\pepsi.wmv"]);
-			Assert.AreEqual(Path.Combine(_eventsFolder, @"drpepper\drpepper.mpg"), pairs[@"c:\newEventSrc\drpepper.mpg"]);
+			Assert.AreEqual(Path.Combine(_sessionsFolder, @"coke\coke.wav"), pairs[@"c:\newSessionSrc\coke.wav"]);
+			Assert.AreEqual(Path.Combine(_sessionsFolder, @"pepsi\pepsi.wmv"), pairs[@"c:\newSessionSrc\pepsi.wmv"]);
+			Assert.AreEqual(Path.Combine(_sessionsFolder, @"drpepper\drpepper.mpg"), pairs[@"c:\newSessionSrc\drpepper.mpg"]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 		[Test]
 		public void GetFullFilePath_IndexTooBig_ReturnsEmptyString()
 		{
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\coke.wav"));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\coke.wav"));
 			Assert.AreEqual(string.Empty, _model.GetFullFilePath(1));
 		}
 
@@ -98,10 +98,10 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 		[Test]
 		public void GetFullFilePath_IndexInRange_ReturnsCorrectPath()
 		{
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\pepsi.wmv"));
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\drpepper.mpg"));
-			Assert.AreEqual(@"c:\newEventSrc\pepsi.wmv", _model.GetFullFilePath(0));
-			Assert.AreEqual(@"c:\newEventSrc\drpepper.mpg", _model.GetFullFilePath(1));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\pepsi.wmv"));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\drpepper.mpg"));
+			Assert.AreEqual(@"c:\newSessionSrc\pepsi.wmv", _model.GetFullFilePath(0));
+			Assert.AreEqual(@"c:\newSessionSrc\drpepper.mpg", _model.GetFullFilePath(1));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 		[Test]
 		public void ToggleFilesSelectedState_IndexTooBig_DoesNotCrash()
 		{
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\drpepper.mpg"));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\drpepper.mpg"));
 			_model.ToggleFilesSelectedState(1);
 		}
 
@@ -124,7 +124,7 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 		[Test]
 		public void ToggleFilesSelectedState_IndexInRange_TogglesState()
 		{
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\drpepper.mpg"));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\drpepper.mpg"));
 			_model.Files[0].Selected = false;
 			_model.ToggleFilesSelectedState(0);
 			Assert.IsTrue(_model.Files[0].Selected);
@@ -136,8 +136,8 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 		[Test]
 		public void SelectAllFiles_Select_SelectsAll()
 		{
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\pepsi.wmv"));
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\drpepper.mpg"));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\pepsi.wmv"));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\drpepper.mpg"));
 			_model.Files[0].Selected = false;
 			_model.Files[1].Selected = false;
 
@@ -156,29 +156,29 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 		[Test]
 		public void GetUniqueSourceAndDestinationPairs_NoDestExists_ReturnsAllPairs()
 		{
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\coke.wav"));
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\pepsi.wmv"));
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\drpepper.mpg"));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\coke.wav"));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\pepsi.wmv"));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\drpepper.mpg"));
 
 			var pairs = _model.GetUniqueSourceAndDestinationPairs().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-			Assert.AreEqual(Path.Combine(_eventsFolder, @"coke\coke.wav"), pairs[@"c:\newEventSrc\coke.wav"]);
-			Assert.AreEqual(Path.Combine(_eventsFolder, @"pepsi\pepsi.wmv"), pairs[@"c:\newEventSrc\pepsi.wmv"]);
-			Assert.AreEqual(Path.Combine(_eventsFolder, @"drpepper\drpepper.mpg"), pairs[@"c:\newEventSrc\drpepper.mpg"]);
+			Assert.AreEqual(Path.Combine(_sessionsFolder, @"coke\coke.wav"), pairs[@"c:\newSessionSrc\coke.wav"]);
+			Assert.AreEqual(Path.Combine(_sessionsFolder, @"pepsi\pepsi.wmv"), pairs[@"c:\newSessionSrc\pepsi.wmv"]);
+			Assert.AreEqual(Path.Combine(_sessionsFolder, @"drpepper\drpepper.mpg"), pairs[@"c:\newSessionSrc\drpepper.mpg"]);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetUniqueSourceAndDestinationPairs_SomeDestExists_ReturnsOnlyPairsForNonExistant()
 		{
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\coke.wav"));
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\pepsi.wmv"));
-			_model.Files.Add(CreateNewComponentFile(@"c:\newEventSrc\drpepper.mpg"));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\coke.wav"));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\pepsi.wmv"));
+			_model.Files.Add(CreateNewComponentFile(@"c:\newSessionSrc\drpepper.mpg"));
 
-			Directory.CreateDirectory(Path.Combine(_eventsFolder, "coke"));
-			Directory.CreateDirectory(Path.Combine(_eventsFolder, "drpepper"));
-			File.CreateText(Path.Combine(_eventsFolder, @"coke\coke.wav")).Close();
-			File.CreateText(Path.Combine(_eventsFolder, @"drpepper\drpepper.mpg")).Close();
+			Directory.CreateDirectory(Path.Combine(_sessionsFolder, "coke"));
+			Directory.CreateDirectory(Path.Combine(_sessionsFolder, "drpepper"));
+			File.CreateText(Path.Combine(_sessionsFolder, @"coke\coke.wav")).Close();
+			File.CreateText(Path.Combine(_sessionsFolder, @"drpepper\drpepper.mpg")).Close();
 
 			ErrorReport.IsOkToInteractWithUser = false;
 
@@ -186,7 +186,7 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 			{
 				var pairs = _model.GetUniqueSourceAndDestinationPairs().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 				Assert.AreEqual(1, pairs.Count);
-				Assert.AreEqual(Path.Combine(_eventsFolder, @"pepsi\pepsi.wmv"), pairs[@"c:\newEventSrc\pepsi.wmv"]);
+				Assert.AreEqual(Path.Combine(_sessionsFolder, @"pepsi\pepsi.wmv"), pairs[@"c:\newSessionSrc\pepsi.wmv"]);
 			}
 		}
 	}

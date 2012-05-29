@@ -7,102 +7,102 @@ namespace SayMore.Model
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Provides access to event workflow information.
+	/// Provides access to session workflow information.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class EventWorkflowInformant
+	public class SessionWorkflowInformant
 	{
-		private readonly ElementRepository<Event> _eventRepository;
+		private readonly ElementRepository<Session> _sessionRepository;
 		private IEnumerable<ComponentRole> _componentRoles;
 
 		[Obsolete("For mocking only")]
-		public EventWorkflowInformant(){}
+		public SessionWorkflowInformant(){}
 
 		/// ------------------------------------------------------------------------------------
-		public EventWorkflowInformant(ElementRepository<Event> eventRepository,
+		public SessionWorkflowInformant(ElementRepository<Session> sessionRepository,
 			IEnumerable<ComponentRole> componentRoles)
 		{
-			_eventRepository = eventRepository;
+			_sessionRepository = sessionRepository;
 			_componentRoles = componentRoles;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public int NumberOfEvents
+		public int NumberOfSessions
 		{
-			get { return _eventRepository.AllItems.Count(); }
+			get { return _sessionRepository.AllItems.Count(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Returns a lists of events whose specified field contains the specified field.
+		/// Returns a lists of sessions whose specified field contains the specified field.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<Event> GetEventsHavingFieldValue(string field, string value)
+		public IEnumerable<Session> GetSessionsHavingFieldValue(string field, string value)
 		{
-			return GetEventsFromListHavingFieldValue(_eventRepository.AllItems, field, value);
+			return GetSessionsFromListHavingFieldValue(_sessionRepository.AllItems, field, value);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Returns a subset of the specified list of events based on those events whose
-		/// specified field contains the specified field.
+		/// Returns a subset of the specified list of sessions whose specified field contains
+		/// the specified field.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<Event> GetEventsFromListHavingFieldValue(
-			IEnumerable<Event> eventList, string field, string value)
+		public static IEnumerable<Session> GetSessionsFromListHavingFieldValue(
+			IEnumerable<Session> sessionList, string field, string value)
 		{
-			return from evnt in eventList
-				   orderby evnt.Id
-				   where evnt.MetaDataFile.GetStringValue(field, null) == value
-				   select evnt;
+			return from session in sessionList
+				   orderby session.Id
+				   where session.MetaDataFile.GetStringValue(field, null) == value
+				   select session;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Returns a dictionary of event lists; one list for each unique value of the
+		/// Returns a dictionary of session lists; one list for each unique value of the
 		/// specified field.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public IDictionary<string, IEnumerable<Event>> GetCategorizedEventsByField(string field)
+		public IDictionary<string, IEnumerable<Session>> GetCategorizedSessionsByField(string field)
 		{
-			return GetCategorizedEventsFromListByField(_eventRepository.AllItems, field);
+			return GetCategorizedSessionsFromListByField(_sessionRepository.AllItems, field);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static IDictionary<string, IEnumerable<Event>> GetCategorizedEventsFromListByField(
-			IEnumerable<Event> eventList, string field)
+		public static IDictionary<string, IEnumerable<Session>> GetCategorizedSessionsFromListByField(
+			IEnumerable<Session> sessionList, string field)
 		{
-			var list = new Dictionary<string, IEnumerable<Event>>();
+			var list = new Dictionary<string, IEnumerable<Session>>();
 
-			foreach (var evnt in eventList)
+			foreach (var session in sessionList)
 			{
-				var value = evnt.MetaDataFile.GetStringValue(field, null);
+				var value = session.MetaDataFile.GetStringValue(field, null);
 				if (!string.IsNullOrEmpty(value) && !list.ContainsKey(value))
-					list[value] = GetEventsFromListHavingFieldValue(eventList, field, value);
+					list[value] = GetSessionsFromListHavingFieldValue(sessionList, field, value);
 			}
 
 			return list;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IDictionary<string, IDictionary<string, IEnumerable<Event>>> GetCategorizedEventsFromDoubleKey(
+		public IDictionary<string, IDictionary<string, IEnumerable<Session>>> GetCategorizedSessionsFromDoubleKey(
 			string primaryField, string secondaryField)
 		{
-			var outerList = new Dictionary<string, IDictionary<string, IEnumerable<Event>>>();
+			var outerList = new Dictionary<string, IDictionary<string, IEnumerable<Session>>>();
 
-			foreach (var kvp in GetCategorizedEventsByField(primaryField))
-				outerList[kvp.Key] = GetCategorizedEventsFromListByField(kvp.Value, secondaryField);
+			foreach (var kvp in GetCategorizedSessionsByField(primaryField))
+				outerList[kvp.Key] = GetCategorizedSessionsFromListByField(kvp.Value, secondaryField);
 
 			return outerList;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IDictionary<ComponentRole, IEnumerable<Event>> GetEventsCategorizedByStage()
+		public IDictionary<ComponentRole, IEnumerable<Session>> GetSessionsCategorizedByStage()
 		{
 			return _componentRoles.ToDictionary(role => role, role =>
-				from evnt in _eventRepository.AllItems
-				where evnt.GetCompletedStages().SingleOrDefault(r => r.Id == role.Id) != null
-				select evnt);
+				from session in _sessionRepository.AllItems
+				where session.GetCompletedStages().SingleOrDefault(r => r.Id == role.Id) != null
+				select session);
 		}
 	}
 }

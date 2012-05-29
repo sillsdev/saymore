@@ -8,7 +8,7 @@ using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SayMore.UI.NewEventsFromFiles;
+using SayMore.UI.NewSessionsFromFiles;
 using SayMore.Utilities;
 
 namespace SayMore.Transcription.UI
@@ -243,10 +243,11 @@ namespace SayMore.Transcription.UI
 				//dstFile += latestBackup + 1;
 			}
 
-			//// If the source file is not one of the original oral annotation
-			//// segment files, then there's no need to back it up
-			//if (_oralAnnotationFilesBeforeChanges.All(f => Path.GetFileName(f) != fileName))
-			//    return;
+			// TODO: This might have to be commented out to make successive undo possible, but currently that causes a test failure. Have Dave help me figure this out before he leaves.
+			// If the source file is not one of the original oral annotation
+			// segment files, then there's no need to back it up
+			if (_oralAnnotationFilesBeforeChanges.All(f => Path.GetFileName(f) != fileName))
+				return;
 
 			if (!Directory.Exists(TempOralAnnotationsFolder))
 				FileSystemUtils.CreateDirectory(TempOralAnnotationsFolder);

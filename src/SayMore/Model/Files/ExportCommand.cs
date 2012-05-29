@@ -9,10 +9,10 @@ using SayMore.Model.Fields;
 
 namespace SayMore.Model.Files
 {
-	public class ExportEventsCommand: ExportCommand
+	public class ExportSessionsCommand: ExportCommand
 	{
-		public ExportEventsCommand(ElementRepository<Event> events)
-			: base("exportEvents", events.AllItems.ToArray())
+		public ExportSessionsCommand(ElementRepository<Session> sessions)
+			: base("exportSessions", sessions.AllItems.ToArray())
 		{
 		}
 	}

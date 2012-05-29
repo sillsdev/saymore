@@ -8,9 +8,9 @@ using Palaso.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Model;
 
-namespace SayMore.UI.EventRecording
+namespace SayMore.UI.SessionRecording
 {
-	public class EventRecorderDlgViewModel : IDisposable
+	public class SessionRecorderDlgViewModel : IDisposable
 	{
 		public Action UpdateAction { get; set; }
 		public AudioRecorder Recorder { get; private set; }
@@ -18,7 +18,7 @@ namespace SayMore.UI.EventRecording
 		private readonly string _path;
 
 		/// ------------------------------------------------------------------------------------
-		public EventRecorderDlgViewModel()
+		public SessionRecorderDlgViewModel()
 		{
 			UpdateAction = delegate {  };
 
@@ -38,7 +38,7 @@ namespace SayMore.UI.EventRecording
 			Recorder.Stopped += delegate { UpdateAction(); };
 
 			_path = Path.Combine(Path.GetTempPath(),
-				string.Format("SayMoreEventRecording_{0}.wav",
+				string.Format("SayMoreSessionRecording_{0}.wav",
 				DateTime.Now.ToString("yyyyMMdd_HHmmss")));
 
 			if (File.Exists(_path))
@@ -145,23 +145,23 @@ namespace SayMore.UI.EventRecording
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void MoveRecordingToEventFolder(Event evnt)
+		public void MoveRecordingToSessionFolder(Session session)
 		{
 			try
 			{
 				CloseAll();
-				File.Move(_path, Path.Combine(evnt.FolderPath, evnt.Id + ".wav"));
+				File.Move(_path, Path.Combine(session.FolderPath, session.Id + ".wav"));
 			}
 			catch (Exception e)
 			{
 				var msg = LocalizationManager.GetString(
-					"DialogBoxes.EventRecorderDlg.ErrorMovingRecordingToEventFolder",
-					"There was an error moving your recording to the event folder for '{0}'.\r\n\r\n" +
+					"DialogBoxes.SessionRecorderDlg.ErrorMovingRecordingToSessionFolder",
+					"There was an error moving your recording to the session folder for '{0}'.\r\n\r\n" +
 					"Unexpectedly, SayMore has probably kept a lock on the file, therefore the recording will not " +
 					"be deleted and it may be copied from your temporary folder after closing " +
 					"SayMore.\r\n\r\nThe file is:\r\n\r\n{1}.");
 
-				ErrorReport.NotifyUserOfProblem(e, msg, evnt.Id, _path);
+				ErrorReport.NotifyUserOfProblem(e, msg, session.Id, _path);
 			}
 		}
 	}

@@ -29,9 +29,9 @@ namespace SayMoreTests.Model
 			_parentFolder = null;
 		}
 
-		private Event CreateEvent()
+		private Session CreateSession()
 		{
-			return new Event(_parentFolder.Path, "xyz", null, new EventFileType(() => null, () => null),
+			return new Session(_parentFolder.Path, "xyz", null, new SessionFileType(() => null, () => null),
 				(parentElement, path) => null, new FileSerializer(null), (w, x, y, z) =>
 			{
 				return new ProjectElementComponentFile(w, x, y, z,
@@ -40,19 +40,19 @@ namespace SayMoreTests.Model
 			}, null,null);
 		}
 
-		private void SaveAndChangeIdShouldSucceed(Event evnt)
+		private void SaveAndChangeIdShouldSucceed(Session session)
 		{
-			evnt.Save();
+			session.Save();
 			string failureMessage;
-			Assert.IsTrue(evnt.TryChangeIdAndSave("newId", out failureMessage));
-			evnt.Save();
+			Assert.IsTrue(session.TryChangeIdAndSave("newId", out failureMessage));
+			session.Save();
 		}
 
-		private string SaveAndChangeIdShouldFail(Event evnt, string newId)
+		private string SaveAndChangeIdShouldFail(Session session, string newId)
 		{
-			evnt.Save();
+			session.Save();
 			string failureMessage;
-			Assert.IsFalse(evnt.TryChangeIdAndSave(newId, out failureMessage));
+			Assert.IsFalse(session.TryChangeIdAndSave(newId, out failureMessage));
 			return failureMessage;
 		}
 
@@ -60,7 +60,7 @@ namespace SayMoreTests.Model
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_FolderPathUpdated()
 		{
-			var newEvent = CreateEvent();
+			var newEvent = CreateSession();
 			SaveAndChangeIdShouldSucceed(newEvent);
 			Assert.AreEqual("newId", Path.GetFileNameWithoutExtension(newEvent.FolderPath));
 		}
@@ -69,7 +69,7 @@ namespace SayMoreTests.Model
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_SettingsFilePathUpdated()
 		{
-			var newEvent = CreateEvent();
+			var newEvent = CreateSession();
 			SaveAndChangeIdShouldSucceed(newEvent);
 			Assert.AreEqual("newId", Path.GetFileNameWithoutExtension(newEvent.SettingsFilePath));
 		}
@@ -78,7 +78,7 @@ namespace SayMoreTests.Model
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_FolderRenamed()
 		{
-			var newEvent = CreateEvent();
+			var newEvent = CreateSession();
 			SaveAndChangeIdShouldSucceed(newEvent);
 			Assert.IsTrue(Directory.Exists(_parentFolder.Combine("newId")));
 			Assert.IsFalse(Directory.Exists(_parentFolder.Combine("xyz")));
@@ -88,7 +88,7 @@ namespace SayMoreTests.Model
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_ElementMetaDataFileRenamed()
 		{
-			var newEvent = CreateEvent();
+			var newEvent = CreateSession();
 			SaveAndChangeIdShouldSucceed(newEvent);
 			Assert.IsTrue(File.Exists(newEvent.SettingsFilePath));
 			Assert.AreEqual(1, Directory.GetFiles(newEvent.FolderPath).Count(), "was an old file left behind instead of renamed?");
@@ -98,7 +98,7 @@ namespace SayMoreTests.Model
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_HasFilesWithOldName_RenamesFiles()
 		{
-			var newEvent = CreateEvent();
+			var newEvent = CreateSession();
 			File.CreateText(Path.Combine(newEvent.FolderPath, "xyz_source.wav")).Close();
 			SaveAndChangeIdShouldSucceed(newEvent);
 			Assert.IsTrue(File.Exists(Path.Combine(newEvent.FolderPath, "newId_source.wav")));
@@ -109,7 +109,7 @@ namespace SayMoreTests.Model
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_NewIdIsEmptyString_ReturnsFalse()
 		{
-			var newEvent = CreateEvent();
+			var newEvent = CreateSession();
 			SaveAndChangeIdShouldFail(newEvent, "");
 		}
 
@@ -117,7 +117,7 @@ namespace SayMoreTests.Model
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_NewIdIsInvalidFolderName_ReturnsFalse()
 		{
-			var newEvent = CreateEvent();
+			var newEvent = CreateSession();
 			SaveAndChangeIdShouldFail(newEvent, "chan*ge");
 		}
 
@@ -126,7 +126,7 @@ namespace SayMoreTests.Model
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_NewIdAlreadyInUse_ReturnsFalse()
 		{
-			var newEvent = CreateEvent();
+			var newEvent = CreateSession();
 			Directory.CreateDirectory(_parentFolder.Combine("red"));
 			SaveAndChangeIdShouldFail(newEvent, "red");
 		}

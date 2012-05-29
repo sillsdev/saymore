@@ -33,7 +33,7 @@ namespace SayMore.Transcription.UI
 			};
 
 			menuItem.Text = LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Source",
+				"SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Source",
 				"Playback Source Recording", null, menuItem);
 
 			yield return menuItem;
@@ -45,7 +45,7 @@ namespace SayMore.Transcription.UI
 			};
 
 			menuItem.Text = LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.OralTranslation",
+				"SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.OralTranslation",
 				"Playback Oral Translation Recording", null, menuItem);
 
 			yield return menuItem;
@@ -57,7 +57,7 @@ namespace SayMore.Transcription.UI
 			};
 
 			menuItem.Text = LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Both",
+				"SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Both",
 				"Playback Both Recordings", null, menuItem);
 
 			yield return menuItem;

@@ -17,7 +17,7 @@ namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// This is the base class for both People and Event screens.
+	/// This is the base class for both People and Session screens.
 	///
 	/// Review for later: Some alternate ways to approach this:
 	///
@@ -64,7 +64,7 @@ namespace SayMore.UI.ElementListScreen
 			_tabControlImages.Images.Add("Notes", Resources.NotesTabImage);
 			_tabControlImages.Images.Add("Play", Resources.PlayTabImage);
 			_tabControlImages.Images.Add("Person", Resources.PersonFileImage);
-			_tabControlImages.Images.Add("Event", Resources.EventFileImage);
+			_tabControlImages.Images.Add("Session", Resources.SessionFileImage);
 			_tabControlImages.Images.Add("Image", Resources.ImageFileImage);
 			_tabControlImages.Images.Add("Video", Resources.VideoFileImage);
 			_tabControlImages.Images.Add("Audio", Resources.AudioFileImage);
@@ -255,7 +255,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This is called when the Component File raises this event, in response to the user
-		/// changing a person's name, or an event's id.
+		/// changing a person's name, or an session's id.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleComponentFileIdChanged(ComponentFile file,
@@ -378,13 +378,13 @@ namespace SayMore.UI.ElementListScreen
 
 			// This doesn't feel completely like the right thing to do. This fixes SP-339,
 			// which is a crash that happens when clicking the New button when the current
-			// component editor is not the one for an .event or .person file. SP-339 was
+			// component editor is not the one for an .session or .person file. SP-339 was
 			// introduced with the fix for the reentrant call problem (e.g. SP-333). That
 			// fix now causes a lag between when a component file is selected and when all
 			// the editors for that component file are loaded into the view. It is during
 			// that lag that the code below gets executed (i.e the code to get the first
 			// component file editor). But if the editors for the new item's meta data file
-			// (i.e. .event or .person) are not yet loaded, then the first editor gotten
+			// (i.e. .session or .person) are not yet loaded, then the first editor gotten
 			// is one left over from those associated with the previous component file.
 			_model.SetSelectedComponentFile(0);
 
@@ -413,8 +413,8 @@ namespace SayMore.UI.ElementListScreen
 			int itemCount = _elementsGrid.SelectedRows.Count;
 
 			var msg = (itemCount == 1 ?
-				LocalizationManager.GetString("MainWindow.DeleteOneItemMsg", "{0}", "For deleting events and people items") :
-				LocalizationManager.GetString("MainWindow.DeleteMultipleItemsMsg", "{0} items", "For deleting events and people items"));
+				LocalizationManager.GetString("MainWindow.DeleteOneItemMsg", "{0}", "For deleting sessions and people items") :
+				LocalizationManager.GetString("MainWindow.DeleteMultipleItemsMsg", "{0} items", "For deleting sessions and people items"));
 
 			msg = (itemCount > 1 ? string.Format(msg, itemCount) :
 				string.Format(msg, _elementsGrid.GetCurrentElement().Id));

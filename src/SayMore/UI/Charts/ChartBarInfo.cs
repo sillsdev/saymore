@@ -12,16 +12,16 @@ namespace SayMore.UI.Charts
 	{
 		public string FieldValue { get; set; }
 		public IEnumerable<ChartBarSegmentInfo> Segments { get; set; }
-		public int TotalEvents { get; protected set; }
+		public int TotalSessions { get; protected set; }
 		public int TotalTime { get; protected set; }
 		public int BarSize { get; protected set; } // This is a percentage of the total table width.
 		public override string ToString() { return FieldValue; }
 
 		/// ------------------------------------------------------------------------------------
-		public ChartBarInfo(string fieldValue, IEnumerable<Event> eventList, Color clrBack, Color clrText)
+		public ChartBarInfo(string fieldValue, IEnumerable<Session> sessionList, Color clrBack, Color clrText)
 		{
-			var segmentList = new Dictionary<string, IEnumerable<Event>>();
-			segmentList[fieldValue] = eventList;
+			var segmentList = new Dictionary<string, IEnumerable<Session>>();
+			segmentList[fieldValue] = sessionList;
 
 			var backColors = new Dictionary<string, Color>();
 			backColors[fieldValue] = clrBack;
@@ -34,7 +34,7 @@ namespace SayMore.UI.Charts
 
 		/// ------------------------------------------------------------------------------------
 		public ChartBarInfo(string fieldValue, string secondaryFieldName,
-			IDictionary<string, IEnumerable<Event>> segmentList,
+			IDictionary<string, IEnumerable<Session>> segmentList,
 			IDictionary<string, Color> backColors, IDictionary<string, Color> textColors)
 		{
 			Initialize(fieldValue, secondaryFieldName, segmentList, backColors, textColors);
@@ -42,7 +42,7 @@ namespace SayMore.UI.Charts
 
 		/// ----------------------------------------------------------------------------------------
 		protected void Initialize(string fieldValue, string secondaryFieldName,
-			IDictionary<string, IEnumerable<Event>> segmentList,
+			IDictionary<string, IEnumerable<Session>> segmentList,
 			IDictionary<string, Color> backColors, IDictionary<string, Color> textColors)
 		{
 			FieldValue = fieldValue.Trim('<', '>');
@@ -50,11 +50,11 @@ namespace SayMore.UI.Charts
 				FieldValue = FieldValue.Replace(" ", HTMLChartBuilder.kNonBreakingSpace);
 
 			Segments = (from kvp in segmentList
-						where (secondaryFieldName != "status" || kvp.Key != Event.Status.Skipped.ToString())
+						where (secondaryFieldName != "status" || kvp.Key != Session.Status.Skipped.ToString())
 						select new ChartBarSegmentInfo(secondaryFieldName, kvp.Key, kvp.Value,
 							backColors[kvp.Key], textColors[kvp.Key])).OrderBy(kvp => kvp).ToList();
 
-			TotalEvents = Segments.Sum(s => s.Events.Count());
+			TotalSessions = Segments.Sum(s => s.Sessions.Count());
 			TotalTime = Segments.Sum(s => s.TotalTime);
 
 			foreach (var seg in Segments)
@@ -83,7 +83,7 @@ namespace SayMore.UI.Charts
 	{
 		public string FieldName { get; protected set; }
 		public string FieldValue { get; protected set; }
-		public IEnumerable<Event> Events { get; protected set; }
+		public IEnumerable<Session> Sessions { get; protected set; }
 		public Color BackColor { get; protected set; }
 		public Color TextColor { get; protected set; }
 		public int TotalTime { get; protected set; }
@@ -92,15 +92,15 @@ namespace SayMore.UI.Charts
 
 		/// ------------------------------------------------------------------------------------
 		public ChartBarSegmentInfo(string fieldName, string fieldValue,
-			IEnumerable<Event> events, Color backColor, Color textColor)
+			IEnumerable<Session> sessions, Color backColor, Color textColor)
 		{
 			FieldName = fieldName;
 			FieldValue = fieldValue.Trim('<', '>');
-			Events = events;
+			Sessions = sessions;
 			BackColor = backColor;
 			TextColor = textColor;
 
-			var minutesInSegment = Events.Sum(x => x.GetTotalMediaDuration().TotalMinutes);
+			var minutesInSegment = Sessions.Sum(x => x.GetTotalMediaDuration().TotalMinutes);
 			TotalTime = (int)Math.Ceiling(minutesInSegment);
 		}
 
@@ -116,14 +116,14 @@ namespace SayMore.UI.Charts
 			var sx = FieldValue.Replace(' ', '_');
 			var sy = other.FieldValue.Replace(' ', '_');
 
-			if (!Enum.GetNames(typeof(Event.Status)).Contains(sx))
+			if (!Enum.GetNames(typeof(Session.Status)).Contains(sx))
 				return 1;
 
-			if (!Enum.GetNames(typeof(Event.Status)).Contains(sy))
+			if (!Enum.GetNames(typeof(Session.Status)).Contains(sy))
 				return -1;
 
-			return (int)Enum.Parse(typeof(Event.Status), sx) -
-				(int)Enum.Parse(typeof(Event.Status), sy);
+			return (int)Enum.Parse(typeof(Session.Status), sx) -
+				(int)Enum.Parse(typeof(Session.Status), sy);
 		}
 	}
 }

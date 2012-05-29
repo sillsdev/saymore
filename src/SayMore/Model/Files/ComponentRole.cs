@@ -8,13 +8,13 @@ using SayMore.Utilities;
 namespace SayMore.Model.Files
 {
 	/// <summary>
-	/// An event or person folder contains multiple files, each of which is there because
+	/// A session or person folder contains multiple files, each of which is there because
 	/// it plays some role in our workflow.  This class is used to define those roles, so
 	/// that when a file is identified with 1 or more roles, we can do things like name it
 	/// appropriately, know what work remains to be done, and collect statistics on what has
 	/// allready been done.
 	///	An object of this class can tell if a given file is elligble for being the one which
-	///	fullfills that role, can tell if the event has that role filled already, and can
+	///	fullfills that role, can tell if the session has that role filled already, and can
 	///	rename a file to fit the template for this role.
 	/// </summary>
 	public class ComponentRole
@@ -100,21 +100,21 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetCanoncialName(string eventId, string path)
+		public string GetCanoncialName(string sessionId, string path)
 		{
 			var dir = Path.GetDirectoryName(path);
-			var name = _renamingTemplate.Replace("$ElementId$", eventId) + Path.GetExtension(path);
+			var name = _renamingTemplate.Replace("$ElementId$", sessionId) + Path.GetExtension(path);
 			return (string.IsNullOrEmpty(dir) ? name : Path.Combine(dir, name));
 		}
 
 		///// ------------------------------------------------------------------------------------
-		//public bool AtLeastOneFileHasThisRole(string eventId, string[] paths)
+		//public bool AtLeastOneFileHasThisRole(string sessionId, string[] paths)
 		//{
 		//    return paths.Any(p =>
 		//    {
 		//        var name = Path.GetFileNameWithoutExtension(p).ToLower();
 		//        return _elligibilityFilter(Path.GetExtension(p)) &&
-		//            (name == GetRenamingTemplateSuffix().ToLower() || name == (eventId + "_Original").ToLower());
+		//            (name == GetRenamingTemplateSuffix().ToLower() || name == (sessionId + "_Original").ToLower());
 		//    });
 		//}
 

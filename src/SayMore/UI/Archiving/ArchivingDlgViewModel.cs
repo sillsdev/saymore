@@ -35,8 +35,8 @@ namespace SayMore.UI.Utilities
 		private static extern bool BringWindowToTop(int hWnd);
 #endif
 
-		private readonly string _eventTitle;
-		private Event _event;
+		private readonly string _sessionTitle;
+		private Session _session;
 		private PersonInformant _personInformant;
 		private string _metsFilePath;
 		private BackgroundWorker _worker;
@@ -54,11 +54,11 @@ namespace SayMore.UI.Utilities
 
 		#region construction and initialization
 		/// ------------------------------------------------------------------------------------
-		public ArchivingDlgViewModel(Event evnt, PersonInformant personInformant)
+		public ArchivingDlgViewModel(Session session, PersonInformant personInformant)
 		{
-			_event = evnt;
+			_session = session;
 			_personInformant = personInformant;
-			_eventTitle = _event.MetaDataFile.GetStringValue("title", null) ?? _event.Id;
+			_sessionTitle = _session.MetaDataFile.GetStringValue("title", null) ?? _session.Id;
 
 			LogBox = new LogBox();
 			LogBox.TabStop = false;
@@ -109,18 +109,18 @@ namespace SayMore.UI.Utilities
 		/// ------------------------------------------------------------------------------------
 		public IDictionary<string, IEnumerable<string>> GetFilesToArchive()
 		{
-			var filesInDir = Directory.GetFiles(_event.FolderPath);
+			var filesInDir = Directory.GetFiles(_session.FolderPath);
 
-			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingEventFilesProgressMsg", "Adding Files for Event '{0}'");
+			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg", "Adding Files for Session '{0}'");
 			var msgKey = Path.GetFileName(filesInDir[0]);
-			_progressMessages[msgKey] = string.Format(fmt, _eventTitle);
+			_progressMessages[msgKey] = string.Format(fmt, _sessionTitle);
 
 			var fileList = new Dictionary<string, IEnumerable<string>>();
 			fileList[string.Empty] = filesInDir.Where(IncludeFileInArchive);
 
 			fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
 
-			foreach (var person in _event.GetAllParticipants()
+			foreach (var person in _session.GetAllParticipants()
 				.Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
 			{
 				filesInDir = Directory.GetFiles(person.FolderPath);
@@ -147,29 +147,29 @@ namespace SayMore.UI.Utilities
 			if (_fileLists.Count > 1)
 			{
 				LogBox.WriteMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1",
-					"The following event and contributor files will be added to your archive."));
+					"The following session and contributor files will be added to your archive."));
 			}
 			else
 			{
-				LogBox.WriteWarning(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.NoContributorsForEventMsg",
-					"There are no contributors for this event."));
+				LogBox.WriteWarning(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg",
+					"There are no contributors for this session."));
 
 				LogBox.WriteMessage(Environment.NewLine +
 					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2",
-						"The following event files will be added to your archive."));
+						"The following session files will be added to your archive."));
 			}
 
 			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingProgressMsg", "     {0}: {1}",
-				"The first parameter (in English, that is) is 'Event' or 'Contributor'. The second parameter is the even or contributor name.");
+				"The first parameter is 'Session' or 'Contributor'. The second parameter is the session or contributor name.");
 
 			foreach (var kvp in _fileLists)
 			{
 				var element = (kvp.Key == string.Empty ?
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.EventElementName", "Event") :
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Session") :
 					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor"));
 
 				LogBox.WriteMessage(Environment.NewLine + string.Format(fmt, element,
-					(kvp.Key == string.Empty ? _eventTitle : kvp.Key)));
+					(kvp.Key == string.Empty ? _sessionTitle : kvp.Key)));
 
 				foreach (var file in kvp.Value)
 					LogBox.WriteMessageWithFontStyle(FontStyle.Regular, "          \u00B7 {0}", Path.GetFileName(file));
@@ -282,7 +282,7 @@ namespace SayMore.UI.Utilities
 			catch (Exception e)
 			{
 				ReportError(e, LocalizationManager.GetString("DialogBoxes.ArchivingDlg.CreatingInternalReapMetsFileErrorMsg",
-					"There was an error attempting to create a RAMP/REAP mets file for the event '{0}'."));
+					"There was an error attempting to create a RAMP/REAP mets file for the session '{0}'."));
 
 				return false;
 			}
@@ -296,18 +296,18 @@ namespace SayMore.UI.Utilities
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<string> GetMetsPairs()
 		{
-			yield return JSONUtils.MakeKeyValuePair("dc.title", _eventTitle);
+			yield return JSONUtils.MakeKeyValuePair("dc.title", _sessionTitle);
 			yield return JSONUtils.MakeKeyValuePair("broad_type", "wider_audience");
 			yield return JSONUtils.MakeKeyValuePair("dc.type.scholarlyWork", "Data set");
 			yield return JSONUtils.MakeKeyValuePair("dc.subject.silDomain", "LING:Linguistics", true);
 			yield return JSONUtils.MakeKeyValuePair("type.domainSubtype.LING", "language documentation (LING)", true);
 
-			var value = _event.MetaDataFile.GetStringValue("date", null);
+			var value = _session.MetaDataFile.GetStringValue("date", null);
 			if (!string.IsNullOrEmpty(value))
 				yield return JSONUtils.MakeKeyValuePair("dc.date.created", value);
 
-			//// Return the event's situation as the the package's description.
-			//value = _event.MetaDataFile.GetStringValue("situation", null);
+			//// Return the session's situation as the the package's description.
+			//value = _session.MetaDataFile.GetStringValue("situation", null);
 			//if (value != null)
 			//{
 			//    var desc = JSONUtils.MakeKeyValuePair(" ", value) + "," +
@@ -316,8 +316,8 @@ namespace SayMore.UI.Utilities
 			//    yield return JSONUtils.MakeArrayFromValues("dc.description", new[] { desc });
 			//}
 
-			// Return the event's note as the abstract portion of the package's description.
-			value = _event.MetaDataFile.GetStringValue("synopsis", null);
+			// Return the session's note as the abstract portion of the package's description.
+			value = _session.MetaDataFile.GetStringValue("synopsis", null);
 			if (!string.IsNullOrEmpty(value))
 			{
 				var abs = JSONUtils.MakeKeyValuePair(" ", value) + "," +
@@ -327,7 +327,7 @@ namespace SayMore.UI.Utilities
 			}
 
 			// Return JSON array of contributors
-			var contributions = _event.MetaDataFile.GetValue("contributions", null) as ContributionCollection;
+			var contributions = _session.MetaDataFile.GetValue("contributions", null) as ContributionCollection;
 			if (contributions != null && contributions.Count > 0)
 			{
 				yield return JSONUtils.MakeArrayFromValues("dc.contributor",
@@ -335,7 +335,7 @@ namespace SayMore.UI.Utilities
 			}
 
 			// Return total duration of source audio/video recordings.
-			var recExtent = GetRecordingExtent(_event.GetComponentFiles().Where(file =>
+			var recExtent = GetRecordingExtent(_session.GetComponentFiles().Where(file =>
 				file.GetAssignedRoles().FirstOrDefault(r =>
 					r.Id == ComponentRole.kSourceComponentRoleId) != null)
 					.Where(f => !string.IsNullOrEmpty(f.DurationString)).Select(f => f.DurationString));
@@ -348,12 +348,12 @@ namespace SayMore.UI.Utilities
 
 			if (_fileLists != null)
 			{
-				// Return a list of types found in event's files (e.g. Text, Video, etc.).
+				// Return a list of types found in session's files (e.g. Text, Video, etc.).
 				value = GetMode(_fileLists.SelectMany(f => f.Value));
 				if (value != null)
 					yield return value;
 
-				// Return JSON array of event and contributor files with their descriptions.
+				// Return JSON array of session and contributor files with their descriptions.
 				yield return JSONUtils.MakeArrayFromValues("files",
 					GetSourceFilesForMetsData(_fileLists));
 			}
@@ -423,13 +423,13 @@ namespace SayMore.UI.Utilities
 				foreach (var file in kvp.Value)
 				{
 					var description = (kvp.Key == string.Empty ?
-						"SayMore Event File" : "SayMore Contributor File");
+						"SayMore Session File" : "SayMore Contributor File");
 
-					if (file.ToLower().EndsWith(".event"))
-						description = "SayMore Event Metadata (XML)";
-					else if (file.ToLower().EndsWith(".person"))
+					if (file.ToLower().EndsWith(Settings.Default.SessionFileExtension))
+						description = "SayMore Session Metadata (XML)";
+					else if (file.ToLower().EndsWith(Settings.Default.PersonFileExtension))
 						description = "SayMore Contributor Metadata (XML)";
-					else if (file.ToLower().EndsWith(".meta"))
+					else if (file.ToLower().EndsWith(Settings.Default.MetadataFileExtension))
 						description = "SayMore File Metadata (XML)";
 
 					var filePath = (kvp.Key == string.Empty ? Path.GetFileName(file) :
@@ -450,7 +450,7 @@ namespace SayMore.UI.Utilities
 		{
 			try
 			{
-				RampPackagePath = Path.Combine(Path.GetTempPath(), _event.Id + ".ramp");
+				RampPackagePath = Path.Combine(Path.GetTempPath(), _session.Id + ".ramp");
 
 				using (_worker = new BackgroundWorker())
 				{
@@ -510,7 +510,7 @@ namespace SayMore.UI.Utilities
 			{
 				_worker.ReportProgress(0, new KeyValuePair<Exception, string>(exception,
 					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg",
-						"There was an error attempting to create an archive for the event '{0}'.")));
+						"There was an error attempting to create an archive for the session '{0}'.")));
 
 				_workerException = true;
 			}
@@ -582,7 +582,7 @@ namespace SayMore.UI.Utilities
 		private void ReportError(Exception e, string msg)
 		{
 			WaitCursor.Hide();
-			LogBox.WriteError(msg, _eventTitle);
+			LogBox.WriteError(msg, _sessionTitle);
 			LogBox.WriteException(e);
 		}
 
@@ -593,7 +593,7 @@ namespace SayMore.UI.Utilities
 			try { File.Delete(_metsFilePath); }
 			catch { }
 
-			_event = null;
+			_session = null;
 			_personInformant = null;
 		}
 

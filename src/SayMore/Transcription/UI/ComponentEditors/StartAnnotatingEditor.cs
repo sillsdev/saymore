@@ -71,7 +71,7 @@ namespace SayMore.Transcription.UI
 		protected override void HandleStringsLocalized()
 		{
 			TabText = LocalizationManager.GetString(
-				"EventsView.Transcription.StartAnnotatingTab.TabText", "Start Annotating");
+				"SessionsView.Transcription.StartAnnotatingTab.TabText", "Start Annotating");
 
 			base.HandleStringsLocalized();
 		}

@@ -3,7 +3,7 @@ using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI.ComponentEditors
 {
-	partial class EventBasicEditor
+	partial class SessionBasicEditor
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -71,7 +71,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelId.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelId, null);
 			this.locExtender.SetLocalizationComment(this._labelId, null);
-			this.locExtender.SetLocalizingId(this._labelId, "EventsView.MetadataEditor._labelId");
+			this.locExtender.SetLocalizingId(this._labelId, "SessionsView.MetadataEditor._labelId");
 			this._labelId.Location = new System.Drawing.Point(0, 0);
 			this._labelId.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
 			this._labelId.Name = "_labelId";
@@ -89,7 +89,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._id, null);
 			this.locExtender.SetLocalizationComment(this._id, null);
 			this.locExtender.SetLocalizationPriority(this._id, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._id, "EventBasicEditor._id");
+			this.locExtender.SetLocalizingId(this._id, "SessionBasicEditor._id");
 			this._id.Location = new System.Drawing.Point(0, 16);
 			this._id.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._id.Name = "_id";
@@ -104,7 +104,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelTitle.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelTitle, null);
 			this.locExtender.SetLocalizationComment(this._labelTitle, null);
-			this.locExtender.SetLocalizingId(this._labelTitle, "EventsView.MetadataEditor._labelTitle");
+			this.locExtender.SetLocalizingId(this._labelTitle, "SessionsView.MetadataEditor._labelTitle");
 			this._labelTitle.Location = new System.Drawing.Point(0, 47);
 			this._labelTitle.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelTitle.Name = "_labelTitle";
@@ -122,7 +122,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._title, null);
 			this.locExtender.SetLocalizationComment(this._title, null);
 			this.locExtender.SetLocalizationPriority(this._title, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._title, "EventBasicEditor._title");
+			this.locExtender.SetLocalizingId(this._title, "SessionBasicEditor._title");
 			this._title.Location = new System.Drawing.Point(0, 63);
 			this._title.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._title.Name = "_title";
@@ -142,7 +142,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._situation, null);
 			this.locExtender.SetLocalizationComment(this._situation, null);
 			this.locExtender.SetLocalizationPriority(this._situation, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._situation, "EventBasicEditor._situation");
+			this.locExtender.SetLocalizingId(this._situation, "SessionBasicEditor._situation");
 			this._situation.Location = new System.Drawing.Point(0, 202);
 			this._situation.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._situation.Multiline = true;
@@ -160,7 +160,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSynopsis.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelSynopsis, null);
 			this.locExtender.SetLocalizationComment(this._labelSynopsis, null);
-			this.locExtender.SetLocalizingId(this._labelSynopsis, "EventsView.MetadataEditor._labelAbstract");
+			this.locExtender.SetLocalizingId(this._labelSynopsis, "SessionsView.MetadataEditor._labelAbstract");
 			this._labelSynopsis.Location = new System.Drawing.Point(212, 186);
 			this._labelSynopsis.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelSynopsis.Name = "_labelSynopsis";
@@ -181,7 +181,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._synopsis, null);
 			this.locExtender.SetLocalizationComment(this._synopsis, null);
 			this.locExtender.SetLocalizationPriority(this._synopsis, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._synopsis, "EventBasicEditor._synopsis");
+			this.locExtender.SetLocalizingId(this._synopsis, "SessionBasicEditor._synopsis");
 			this._synopsis.Location = new System.Drawing.Point(212, 202);
 			this._synopsis.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._synopsis.Multiline = true;
@@ -257,7 +257,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._participants, null);
 			this.locExtender.SetLocalizationComment(this._participants, null);
 			this.locExtender.SetLocalizationPriority(this._participants, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._participants, "EventBasicEditor.MultiValueComboBox");
+			this.locExtender.SetLocalizingId(this._participants, "SessionBasicEditor.MultiValueComboBox");
 			this._participants.Location = new System.Drawing.Point(0, 109);
 			this._participants.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._participants.Name = "_participants";
@@ -286,7 +286,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelCustomFields.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelCustomFields, null);
 			this.locExtender.SetLocalizationComment(this._labelCustomFields, null);
-			this.locExtender.SetLocalizingId(this._labelCustomFields, "EventsView.MetadataEditor._labelCustomFields");
+			this.locExtender.SetLocalizingId(this._labelCustomFields, "SessionsView.MetadataEditor._labelCustomFields");
 			this._labelCustomFields.Location = new System.Drawing.Point(0, 306);
 			this._labelCustomFields.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelCustomFields.Name = "_labelCustomFields";
@@ -307,7 +307,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._access, null);
 			this.locExtender.SetLocalizationComment(this._access, null);
 			this.locExtender.SetLocalizationPriority(this._access, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._access, "EventBasicEditor._access");
+			this.locExtender.SetLocalizingId(this._access, "SessionBasicEditor._access");
 			this._access.Location = new System.Drawing.Point(212, 156);
 			this._access.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._access.Name = "_access";
@@ -323,7 +323,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelAccess.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelAccess, null);
 			this.locExtender.SetLocalizationComment(this._labelAccess, null);
-			this.locExtender.SetLocalizingId(this._labelAccess, "EventsView.MetadataEditor._labelAccess");
+			this.locExtender.SetLocalizingId(this._labelAccess, "SessionsView.MetadataEditor._labelAccess");
 			this._labelAccess.Location = new System.Drawing.Point(212, 140);
 			this._labelAccess.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelAccess.Name = "_labelAccess";
@@ -342,7 +342,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._genre, null);
 			this.locExtender.SetLocalizationComment(this._genre, null);
 			this.locExtender.SetLocalizationPriority(this._genre, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._genre, "EventBasicEditor._genre");
+			this.locExtender.SetLocalizingId(this._genre, "SessionBasicEditor._genre");
 			this._genre.Location = new System.Drawing.Point(0, 156);
 			this._genre.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._genre.Name = "_genre";
@@ -356,7 +356,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelGenre.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelGenre, null);
 			this.locExtender.SetLocalizationComment(this._labelGenre, null);
-			this.locExtender.SetLocalizingId(this._labelGenre, "EventsView.MetadataEditor._labelGenre");
+			this.locExtender.SetLocalizingId(this._labelGenre, "SessionsView.MetadataEditor._labelGenre");
 			this._labelGenre.Location = new System.Drawing.Point(0, 140);
 			this._labelGenre.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelGenre.Name = "_labelGenre";
@@ -377,7 +377,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._location, null);
 			this.locExtender.SetLocalizationComment(this._location, null);
 			this.locExtender.SetLocalizationPriority(this._location, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._location, "EventBasicEditor._location");
+			this.locExtender.SetLocalizingId(this._location, "SessionBasicEditor._location");
 			this._location.Location = new System.Drawing.Point(212, 109);
 			this._location.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._location.Name = "_location";
@@ -393,7 +393,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelLocation.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelLocation, null);
 			this.locExtender.SetLocalizationComment(this._labelLocation, null);
-			this.locExtender.SetLocalizingId(this._labelLocation, "EventsView.MetadataEditor._labelLocation");
+			this.locExtender.SetLocalizingId(this._labelLocation, "SessionsView.MetadataEditor._labelLocation");
 			this._labelLocation.Location = new System.Drawing.Point(212, 93);
 			this._labelLocation.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelLocation.Name = "_labelLocation";
@@ -408,7 +408,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelParticipants.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelParticipants, null);
 			this.locExtender.SetLocalizationComment(this._labelParticipants, null);
-			this.locExtender.SetLocalizingId(this._labelParticipants, "EventsView.MetadataEditor._labelParticipants");
+			this.locExtender.SetLocalizingId(this._labelParticipants, "SessionsView.MetadataEditor._labelParticipants");
 			this._labelParticipants.Location = new System.Drawing.Point(0, 93);
 			this._labelParticipants.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelParticipants.Name = "_labelParticipants";
@@ -424,7 +424,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSetting.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelSetting, null);
 			this.locExtender.SetLocalizationComment(this._labelSetting, null);
-			this.locExtender.SetLocalizingId(this._labelSetting, "EventsView.MetadataEditor._labelSetting");
+			this.locExtender.SetLocalizingId(this._labelSetting, "SessionsView.MetadataEditor._labelSetting");
 			this._labelSetting.Location = new System.Drawing.Point(212, 47);
 			this._labelSetting.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelSetting.Name = "_labelSetting";
@@ -445,7 +445,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._setting, null);
 			this.locExtender.SetLocalizationComment(this._setting, null);
 			this.locExtender.SetLocalizationPriority(this._setting, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._setting, "EventBasicEditor._setting");
+			this.locExtender.SetLocalizingId(this._setting, "SessionBasicEditor._setting");
 			this._setting.Location = new System.Drawing.Point(212, 63);
 			this._setting.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._setting.Name = "_setting";
@@ -460,7 +460,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSituation.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelSituation, null);
 			this.locExtender.SetLocalizationComment(this._labelSituation, null);
-			this.locExtender.SetLocalizingId(this._labelSituation, "EventsView.MetadataEditor._labelSituation");
+			this.locExtender.SetLocalizingId(this._labelSituation, "SessionsView.MetadataEditor._labelSituation");
 			this._labelSituation.Location = new System.Drawing.Point(0, 186);
 			this._labelSituation.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelSituation.Name = "_labelSituation";
@@ -475,7 +475,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelDate.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelDate, null);
 			this.locExtender.SetLocalizationComment(this._labelDate, null);
-			this.locExtender.SetLocalizingId(this._labelDate, "EventsView.MetadataEditor._labelDate");
+			this.locExtender.SetLocalizingId(this._labelDate, "SessionsView.MetadataEditor._labelDate");
 			this._labelDate.Location = new System.Drawing.Point(212, 0);
 			this._labelDate.Margin = new System.Windows.Forms.Padding(5, 0, 3, 0);
 			this._labelDate.Name = "_labelDate";
@@ -490,7 +490,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelStatus.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelStatus, null);
 			this.locExtender.SetLocalizationComment(this._labelStatus, null);
-			this.locExtender.SetLocalizingId(this._labelStatus, "EventsView.MetadataEditor._labelStatus");
+			this.locExtender.SetLocalizingId(this._labelStatus, "SessionsView.MetadataEditor._labelStatus");
 			this._labelStatus.Location = new System.Drawing.Point(316, 0);
 			this._labelStatus.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
 			this._labelStatus.Name = "_labelStatus";
@@ -510,7 +510,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._status, null);
 			this.locExtender.SetLocalizationComment(this._status, null);
 			this.locExtender.SetLocalizationPriority(this._status, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._status, "EventBasicEditor._status");
+			this.locExtender.SetLocalizingId(this._status, "SessionBasicEditor._status");
 			this._status.Location = new System.Drawing.Point(314, 16);
 			this._status.Margin = new System.Windows.Forms.Padding(4, 3, 3, 3);
 			this._status.Name = "_status";
@@ -529,7 +529,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._date, null);
 			this.locExtender.SetLocalizationComment(this._date, null);
 			this.locExtender.SetLocalizationPriority(this._date, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._date, "EventBasicEditor._date");
+			this.locExtender.SetLocalizingId(this._date, "SessionBasicEditor._date");
 			this._date.Location = new System.Drawing.Point(212, 16);
 			this._date.Margin = new System.Windows.Forms.Padding(5, 3, 2, 3);
 			this._date.Name = "_date";
@@ -540,7 +540,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
-			// EventBasicEditor
+			// SessionBasicEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -548,8 +548,8 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this, "EventBasicEditor.EditorBase");
-			this.Name = "EventBasicEditor";
+			this.locExtender.SetLocalizingId(this, "SessionBasicEditor.EditorBase");
+			this.Name = "SessionBasicEditor";
 			this.Size = new System.Drawing.Size(429, 400);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();

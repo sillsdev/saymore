@@ -43,7 +43,7 @@ namespace SayMore.Transcription.Model
 		private static string GetGenericErrorMsg()
 		{
 			return LocalizationManager.GetString(
-				"EventsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileGenericErrorMsg",
+				"SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileGenericErrorMsg",
 				"There was an error generating the oral annotation file.");
 		}
 
@@ -59,7 +59,7 @@ namespace SayMore.Transcription.Model
 				ExceptionHandler.AddDelegate(HandleOralAnnotationFileGeneratorException);
 
 				var msg = LocalizationManager.GetString(
-					"EventsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg",
+					"SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg",
 					"Generating Oral Annotation file...");
 
 				using (var generator = new OralAnnotationFileGenerator(sourceRecodingTier))
@@ -152,7 +152,7 @@ namespace SayMore.Transcription.Model
 			if (_srcRecStreamProvider.Error != null)
 			{
 				var msg = LocalizationManager.GetString(
-					"EventsView.Transcription.GeneratedOralAnnotationView.ProcessingSourceRecordingErrorMsg",
+					"SessionsView.Transcription.GeneratedOralAnnotationView.ProcessingSourceRecordingErrorMsg",
 					"There was an error processing the source recording.");
 
 				ErrorReport.NotifyUserOfProblem(msg, _srcRecStreamProvider.Error);
@@ -231,7 +231,7 @@ namespace SayMore.Transcription.Model
 			if (provider.Error != null && !(provider.Error is FileNotFoundException))
 			{
 				var msg = LocalizationManager.GetString(
-					"EventsView.Transcription.GeneratedOralAnnotationView.ProcessingAnnotationFileErrorMsg",
+					"SessionsView.Transcription.GeneratedOralAnnotationView.ProcessingAnnotationFileErrorMsg",
 					"There was an error processing a {0} annotation file.",
 					"The parameter is the annotation type (i.e. careful, translation).");
 

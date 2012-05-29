@@ -1,9 +1,9 @@
 using System.Windows.Forms;
 using SilTools;
 
-namespace SayMore.UI.NewEventsFromFiles
+namespace SayMore.UI.NewSessionsFromFiles
 {
-	partial class NewEventsFromFilesDlg
+	partial class NewSessionsFromFilesDlg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -33,7 +33,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		{
 			this.components = new System.ComponentModel.Container();
 			this._linkFindFiles = new System.Windows.Forms.LinkLabel();
-			this._buttonCreateEvents = new System.Windows.Forms.Button();
+			this._buttonCreateSessions = new System.Windows.Forms.Button();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._labelSourceFolder = new System.Windows.Forms.Label();
 			this._labelIncomingFiles = new System.Windows.Forms.Label();
@@ -62,7 +62,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._linkFindFiles.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._linkFindFiles, null);
 			this.locExtender.SetLocalizationComment(this._linkFindFiles, null);
-			this.locExtender.SetLocalizingId(this._linkFindFiles, "DialogBoxes.NewEventsFromFilesDlg._linkFindFiles");
+			this.locExtender.SetLocalizingId(this._linkFindFiles, "DialogBoxes.NewSessionsFromFilesDlg._linkFindFiles");
 			this._linkFindFiles.Location = new System.Drawing.Point(3, 10);
 			this._linkFindFiles.Margin = new System.Windows.Forms.Padding(3, 10, 7, 20);
 			this._linkFindFiles.Name = "_linkFindFiles";
@@ -72,23 +72,23 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._linkFindFiles.Text = "Find Files on Recorder/Card...";
 			this._linkFindFiles.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleFindFilesLinkClicked);
 			//
-			// _buttonCreateEvents
+			// _buttonCreateSessions
 			//
-			this._buttonCreateEvents.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this._buttonCreateEvents.AutoSize = true;
-			this._buttonCreateEvents.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.locExtender.SetLocalizableToolTip(this._buttonCreateEvents, null);
-			this.locExtender.SetLocalizationComment(this._buttonCreateEvents, "Parameter is for the number of events that will be created.");
-			this.locExtender.SetLocalizingId(this._buttonCreateEvents, "DialogBoxes.NewEventsFromFilesDlg._buttonCreateEvents");
-			this._buttonCreateEvents.Location = new System.Drawing.Point(0, 0);
-			this._buttonCreateEvents.Margin = new System.Windows.Forms.Padding(0);
-			this._buttonCreateEvents.MinimumSize = new System.Drawing.Size(130, 26);
-			this._buttonCreateEvents.Name = "_buttonCreateEvents";
-			this._buttonCreateEvents.Size = new System.Drawing.Size(142, 26);
-			this._buttonCreateEvents.TabIndex = 3;
-			this._buttonCreateEvents.Text = "Create {0} Events";
-			this._buttonCreateEvents.UseVisualStyleBackColor = true;
-			this._buttonCreateEvents.Click += new System.EventHandler(this.HandleCreateEventsButtonClick);
+			this._buttonCreateSessions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this._buttonCreateSessions.AutoSize = true;
+			this._buttonCreateSessions.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.locExtender.SetLocalizableToolTip(this._buttonCreateSessions, null);
+			this.locExtender.SetLocalizationComment(this._buttonCreateSessions, "Parameter is for the number of sessions that will be created.");
+			this.locExtender.SetLocalizingId(this._buttonCreateSessions, "DialogBoxes.NewSessionsFromFilesDlg._buttonCreateSessions");
+			this._buttonCreateSessions.Location = new System.Drawing.Point(0, 0);
+			this._buttonCreateSessions.Margin = new System.Windows.Forms.Padding(0);
+			this._buttonCreateSessions.MinimumSize = new System.Drawing.Size(130, 26);
+			this._buttonCreateSessions.Name = "_buttonCreateSessions";
+			this._buttonCreateSessions.Size = new System.Drawing.Size(142, 26);
+			this._buttonCreateSessions.TabIndex = 3;
+			this._buttonCreateSessions.Text = "Create {0} Sessions";
+			this._buttonCreateSessions.UseVisualStyleBackColor = true;
+			this._buttonCreateSessions.Click += new System.EventHandler(this.HandleCreateSessionsButtonClick);
 			//
 			// _buttonCancel
 			//
@@ -97,7 +97,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
-			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.NewEventsFromFilesDlg._buttonCancel");
+			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.NewSessionsFromFilesDlg._buttonCancel");
 			this._buttonCancel.Location = new System.Drawing.Point(150, 0);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
 			this._buttonCancel.Name = "_buttonCancel";
@@ -116,7 +116,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this.locExtender.SetLocalizableToolTip(this._labelSourceFolder, null);
 			this.locExtender.SetLocalizationComment(this._labelSourceFolder, null);
 			this.locExtender.SetLocalizationPriority(this._labelSourceFolder, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelSourceFolder, "DialogBoxes.NewEventsFromFilesDlg._labelSourceFolder");
+			this.locExtender.SetLocalizingId(this._labelSourceFolder, "DialogBoxes.NewSessionsFromFilesDlg._labelSourceFolder");
 			this._labelSourceFolder.Location = new System.Drawing.Point(162, 10);
 			this._labelSourceFolder.Margin = new System.Windows.Forms.Padding(3, 10, 3, 20);
 			this._labelSourceFolder.Name = "_labelSourceFolder";
@@ -131,7 +131,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._outerTableLayout.SetColumnSpan(this._labelIncomingFiles, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelIncomingFiles, null);
 			this.locExtender.SetLocalizationComment(this._labelIncomingFiles, null);
-			this.locExtender.SetLocalizingId(this._labelIncomingFiles, "DialogBoxes.NewEventsFromFilesDlg._labelIncomingFiles");
+			this.locExtender.SetLocalizingId(this._labelIncomingFiles, "DialogBoxes.NewSessionsFromFilesDlg._labelIncomingFiles");
 			this._labelIncomingFiles.Location = new System.Drawing.Point(3, 43);
 			this._labelIncomingFiles.Margin = new System.Windows.Forms.Padding(3, 0, 3, 5);
 			this._labelIncomingFiles.Name = "_labelIncomingFiles";
@@ -149,14 +149,14 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._outerTableLayout.SetColumnSpan(this._labelInstructions, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelInstructions, null);
 			this.locExtender.SetLocalizationComment(this._labelInstructions, null);
-			this.locExtender.SetLocalizingId(this._labelInstructions, "DialogBoxes.NewEventsFromFilesDlg._labelInstructions");
+			this.locExtender.SetLocalizingId(this._labelInstructions, "DialogBoxes.NewSessionsFromFilesDlg._labelInstructions");
 			this._labelInstructions.Location = new System.Drawing.Point(3, 266);
 			this._labelInstructions.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this._labelInstructions.Name = "_labelInstructions";
 			this._labelInstructions.Size = new System.Drawing.Size(419, 26);
 			this._labelInstructions.TabIndex = 2;
-			this._labelInstructions.Text = "Mark each file which represents an source recording of an event. For each one, " +
-	"SayMore will create a new event and copy the file into it.";
+			this._labelInstructions.Text = "Mark each file which represents an source recording of an session. For each one, " +
+	"SayMore will create a new session and copy the file into it.";
 			//
 			// _mediaPlayerPanel
 			//
@@ -173,7 +173,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._mediaPlayerPanel.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._mediaPlayerPanel, null);
 			this.locExtender.SetLocalizationComment(this._mediaPlayerPanel, null);
-			this.locExtender.SetLocalizingId(this._mediaPlayerPanel, "DialogBoxes.NewEventsFromFilesDlg._mediaPlayerPanel");
+			this.locExtender.SetLocalizingId(this._mediaPlayerPanel, "DialogBoxes.NewSessionsFromFilesDlg._mediaPlayerPanel");
 			this._mediaPlayerPanel.Location = new System.Drawing.Point(445, 61);
 			this._mediaPlayerPanel.Margin = new System.Windows.Forms.Padding(20, 0, 0, 0);
 			this._mediaPlayerPanel.MnemonicGeneratesClick = false;
@@ -202,7 +202,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelProgress.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelProgress, null);
 			this.locExtender.SetLocalizationComment(this._labelProgress, null);
-			this.locExtender.SetLocalizingId(this._labelProgress, "DialogBoxes.NewEventsFromFilesDlg._labelProgress");
+			this.locExtender.SetLocalizingId(this._labelProgress, "DialogBoxes.NewSessionsFromFilesDlg._labelProgress");
 			this._labelProgress.Location = new System.Drawing.Point(0, 0);
 			this._labelProgress.Name = "_labelProgress";
 			this._labelProgress.Size = new System.Drawing.Size(214, 18);
@@ -255,7 +255,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._tableLayoutButtons.ColumnCount = 2;
 			this._tableLayoutButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayoutButtons.Controls.Add(this._buttonCreateEvents, 0, 0);
+			this._tableLayoutButtons.Controls.Add(this._buttonCreateSessions, 0, 0);
 			this._tableLayoutButtons.Controls.Add(this._buttonCancel, 1, 0);
 			this._tableLayoutButtons.Location = new System.Drawing.Point(459, 356);
 			this._tableLayoutButtons.Margin = new System.Windows.Forms.Padding(5, 5, 0, 0);
@@ -278,7 +278,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this.locExtender.SetLocalizableToolTip(this._gridFiles, null);
 			this.locExtender.SetLocalizationComment(this._gridFiles, null);
 			this.locExtender.SetLocalizationPriority(this._gridFiles, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._gridFiles, "DialogBoxes.NewEventsFromFilesDlg.ComponentFileGrid");
+			this.locExtender.SetLocalizingId(this._gridFiles, "DialogBoxes.NewSessionsFromFilesDlg.ComponentFileGrid");
 			this._gridFiles.Location = new System.Drawing.Point(0, 61);
 			this._gridFiles.Margin = new System.Windows.Forms.Padding(0);
 			this._gridFiles.Name = "_gridFiles";
@@ -300,7 +300,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			//
 			this.locExtender.LocalizationManagerId = "SayMore";
 			//
-			// NewEventsFromFilesDlg
+			// NewSessionsFromFilesDlg
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -308,16 +308,16 @@ namespace SayMore.UI.NewEventsFromFiles
 			this.Controls.Add(this._outerTableLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "DialogBoxes.NewEventsFromFilesDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.NewSessionsFromFilesDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(650, 380);
-			this.Name = "NewEventsFromFilesDlg";
+			this.Name = "NewSessionsFromFilesDlg";
 			this.Padding = new System.Windows.Forms.Padding(15);
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "New Events From Device";
+			this.Text = "New Sessions From Device";
 			this._mediaPlayerPanel.ResumeLayout(false);
 			this._panelProgress.ResumeLayout(false);
 			this._outerTableLayout.ResumeLayout(false);
@@ -332,7 +332,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		#endregion
 
 		private System.Windows.Forms.LinkLabel _linkFindFiles;
-		private System.Windows.Forms.Button _buttonCreateEvents;
+		private System.Windows.Forms.Button _buttonCreateSessions;
 		private System.Windows.Forms.Button _buttonCancel;
 		private System.Windows.Forms.Label _labelSourceFolder;
 		private System.Windows.Forms.Label _labelIncomingFiles;

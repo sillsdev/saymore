@@ -19,19 +19,19 @@ namespace SayMore.UI.Overview.Statistics
 		protected HTMLChartBuilder _chartBuilder;
 
 		public PersonInformant PersonInformant { get; protected set; }
-		public EventWorkflowInformant EventInformant { get; protected set; }
+		public SessionWorkflowInformant SessionInformant { get; protected set; }
 		public string ProjectName { get; protected set; }
 		public string ProjectPath { get; protected set; }
 
 		/// ------------------------------------------------------------------------------------
 		public StatisticsViewModel(Project project, PersonInformant personInformant,
-			EventWorkflowInformant eventInformant, IEnumerable<ComponentRole> componentRoles,
+			SessionWorkflowInformant sessionInformant, IEnumerable<ComponentRole> componentRoles,
 			AudioVideoDataGatherer backgroundStatisticsMananager)
 		{
 			ProjectName = (project == null ? string.Empty : project.Name);
 			ProjectPath = (project == null ? string.Empty : project.FolderPath);
 			PersonInformant = personInformant;
-			EventInformant = eventInformant;
+			SessionInformant = sessionInformant;
 			_componentRoles = componentRoles;
 			_backgroundStatisticsGather = backgroundStatisticsMananager;
 			_backgroundStatisticsGather.NewDataAvailable += HandleNewStatistics;
@@ -74,10 +74,10 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<KeyValuePair<string, string>> GetElementStatisticsPairs()
 		{
-			var eventsLabel = LocalizationManager.GetString("ProgressView.EventsLabel", "Events:");
+			var sessionsLabel = LocalizationManager.GetString("ProgressView.SessionsLabel", "Sessions:");
 			var peopleLabel = LocalizationManager.GetString("ProgressView.PeopleLabel", "People:");
 
-			yield return new KeyValuePair<string, string>(eventsLabel, EventInformant.NumberOfEvents.ToString());
+			yield return new KeyValuePair<string, string>(sessionsLabel, SessionInformant.NumberOfSessions.ToString());
 			yield return new KeyValuePair<string, string>(peopleLabel, PersonInformant.NumberOfPeople.ToString());
 		}
 

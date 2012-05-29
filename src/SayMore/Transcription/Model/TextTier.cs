@@ -14,10 +14,10 @@ namespace SayMore.Transcription.Model
 		public const string ElanTranslationTierId = "Phrase Free Translation";
 
 		public static string TranscriptionTierDisplayName =
-			LocalizationManager.GetString("EventsView.Transcription.TierDisplayNames.Transcription", "Transcription");
+			LocalizationManager.GetString("SessionsView.Transcription.TierDisplayNames.Transcription", "Transcription");
 
 		public static string FreeTranslationTierDisplayName =
-			LocalizationManager.GetString("EventsView.Transcription.TierDisplayNames.FreeTranslation", "Free Translation");
+			LocalizationManager.GetString("SessionsView.Transcription.TierDisplayNames.FreeTranslation", "Free Translation");
 
 		protected TierColumnBase _gridColumn;
 

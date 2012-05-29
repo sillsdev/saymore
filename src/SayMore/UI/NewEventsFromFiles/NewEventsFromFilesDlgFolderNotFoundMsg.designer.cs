@@ -1,6 +1,6 @@
-namespace SayMore.UI.NewEventsFromFiles
+namespace SayMore.UI.NewSessionsFromFiles
 {
-	partial class NewEventsFromFilesDlgFolderNotFoundMsg
+	partial class NewSessionsFromFilesDlgFolderNotFoundMsg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -51,7 +51,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelProblemOverviewMsg.LeftMargin = 10;
 			this.locExtender.SetLocalizableToolTip(this._labelProblemOverviewMsg, null);
 			this.locExtender.SetLocalizationComment(this._labelProblemOverviewMsg, null);
-			this.locExtender.SetLocalizingId(this._labelProblemOverviewMsg, "DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.ProblemOverviewMsgLabel");
+			this.locExtender.SetLocalizingId(this._labelProblemOverviewMsg, "DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.ProblemOverviewMsgLabel");
 			this._labelProblemOverviewMsg.Location = new System.Drawing.Point(0, 0);
 			this._labelProblemOverviewMsg.Margin = new System.Windows.Forms.Padding(0);
 			this._labelProblemOverviewMsg.Name = "_labelProblemOverviewMsg";
@@ -70,7 +70,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelPossibleProblemsMsg1.LeftMargin = 42;
 			this.locExtender.SetLocalizableToolTip(this._labelPossibleProblemsMsg1, null);
 			this.locExtender.SetLocalizationComment(this._labelPossibleProblemsMsg1, null);
-			this.locExtender.SetLocalizingId(this._labelPossibleProblemsMsg1, "DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel1");
+			this.locExtender.SetLocalizingId(this._labelPossibleProblemsMsg1, "DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel1");
 			this._labelPossibleProblemsMsg1.Location = new System.Drawing.Point(0, 42);
 			this._labelPossibleProblemsMsg1.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._labelPossibleProblemsMsg1.Name = "_labelPossibleProblemsMsg1";
@@ -88,7 +88,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelDriveLetterHintMsg.LeftMargin = 65;
 			this.locExtender.SetLocalizableToolTip(this._labelDriveLetterHintMsg, null);
 			this.locExtender.SetLocalizationComment(this._labelDriveLetterHintMsg, null);
-			this.locExtender.SetLocalizingId(this._labelDriveLetterHintMsg, "DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.DriveLetterHintMsgLabel");
+			this.locExtender.SetLocalizingId(this._labelDriveLetterHintMsg, "DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.DriveLetterHintMsgLabel");
 			this._labelDriveLetterHintMsg.Location = new System.Drawing.Point(0, 102);
 			this._labelDriveLetterHintMsg.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
 			this._labelDriveLetterHintMsg.Name = "_labelDriveLetterHintMsg";
@@ -132,7 +132,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelPossibleProblemsMsg2.LeftMargin = 42;
 			this.locExtender.SetLocalizableToolTip(this._labelPossibleProblemsMsg2, null);
 			this.locExtender.SetLocalizationComment(this._labelPossibleProblemsMsg2, null);
-			this.locExtender.SetLocalizingId(this._labelPossibleProblemsMsg2, "DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel2");
+			this.locExtender.SetLocalizingId(this._labelPossibleProblemsMsg2, "DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel2");
 			this._labelPossibleProblemsMsg2.Location = new System.Drawing.Point(0, 67);
 			this._labelPossibleProblemsMsg2.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._labelPossibleProblemsMsg2.Name = "_labelPossibleProblemsMsg2";
@@ -151,7 +151,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelPossibleProblemsMsg3.LeftMargin = 42;
 			this.locExtender.SetLocalizableToolTip(this._labelPossibleProblemsMsg3, null);
 			this.locExtender.SetLocalizationComment(this._labelPossibleProblemsMsg3, null);
-			this.locExtender.SetLocalizingId(this._labelPossibleProblemsMsg3, "DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel3");
+			this.locExtender.SetLocalizingId(this._labelPossibleProblemsMsg3, "DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel3");
 			this._labelPossibleProblemsMsg3.Location = new System.Drawing.Point(0, 142);
 			this._labelPossibleProblemsMsg3.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._labelPossibleProblemsMsg3.Name = "_labelPossibleProblemsMsg3";
@@ -163,15 +163,15 @@ namespace SayMore.UI.NewEventsFromFiles
 			//
 			this.locExtender.LocalizationManagerId = "SayMore";
 			//
-			// NewEventsFromFilesDlgFolderNotFoundMsg
+			// NewSessionsFromFilesDlgFolderNotFoundMsg
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._tableLayoutPanel);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.WindowTitle");
-			this.Name = "NewEventsFromFilesDlgFolderNotFoundMsg";
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.WindowTitle");
+			this.Name = "NewSessionsFromFilesDlgFolderNotFoundMsg";
 			this.Size = new System.Drawing.Size(390, 200);
 			this._tableLayoutPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();

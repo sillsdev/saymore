@@ -20,7 +20,7 @@ namespace SayMore.Model
 	};
 
 	/// <summary>
-	/// A project is made of events and people, each of which subclass from
+	/// A project is made of sessions and people, each of which subclass from
 	/// this simple class. Here, we call those things "ProjectElements"
 	/// </summary>
 	public abstract class ProjectElement
@@ -45,7 +45,7 @@ namespace SayMore.Model
 		/// <summary>
 		/// Use this for creating new or existing elements
 		/// </summary>
-		/// <param name="parentElementFolder">E.g. "c:/MyProject/Events"</param>
+		/// <param name="parentElementFolder">E.g. "c:/MyProject/Sessions"</param>
 		/// <param name="id">e.g. "ETR007"</param>
 		/// <param name="idChangedNotificationReceiver"></param>
 		/// <param name="componentFileFactory"></param>
@@ -90,7 +90,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ComponentFile> GetComponentFiles()
 		{
-			// This is the actual person or event data
+			// This is the actual person or session data
 			yield return MetaDataFile;
 
 			// These are the other files we find in the folder
@@ -298,7 +298,7 @@ namespace SayMore.Model
 				{
 					failureMessage = LocalizationManager.GetString("CommonToMultipleViews.ChangeIdFailureMsg",
 						"Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.",
-						"Message displayed when attempt failed to change an event id or a person's name (i.e. id)");
+						"Message displayed when attempt failed to change a session id or a person's name (i.e. id)");
 
 					return false;
 				}
@@ -356,7 +356,7 @@ namespace SayMore.Model
 		/// purpose of waiting 5 seconds is because after a user has played a media file,
 		/// there is a lag between when playing stops and when the player releases all the
 		/// resources. That may leave a lock on the folder containing the media file.
-		/// Therefore, if the user tries to rename their event or person right after
+		/// Therefore, if the user tries to rename their session or person right after
 		/// playing a media file, there's a risk that it will fail due to the lock not
 		/// yet having been released. (I know, it's a bit of a kludge, but my thought is
 		/// that the scenario is not very common.)
@@ -401,7 +401,7 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// What are the workflow stages which have been complete for this event/person?
+		/// What are the workflow stages which have been completed for this session/person?
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ComponentRole> GetCompletedStages()
@@ -411,7 +411,7 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// What are the workflow stages which have been complete for this event/person?
+		/// What are the workflow stages which have been completed for this session/person?
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ComponentRole> GetCompletedStages(

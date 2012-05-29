@@ -5,34 +5,34 @@ using Localization;
 using SayMore.Media.Audio;
 using SayMore.Model;
 using SayMore.Properties;
-using SayMore.UI.EventRecording;
-using SayMore.UI.NewEventsFromFiles;
+using SayMore.UI.SessionRecording;
+using SayMore.UI.NewSessionsFromFiles;
 using SayMore.UI.ProjectWindow;
 
 namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class EventsListScreen : ConcreteEventScreen, ISayMoreView
+	public partial class SessionsListScreen : ConcreteSessionScreen, ISayMoreView
 	{
-		private readonly NewEventsFromFileDlgViewModel.Factory _newEventsFromFileDlgViewModel;
+		private readonly NewSessionsFromFileDlgViewModel.Factory _newSessionsFromFileDlgViewModel;
 
 		/// ------------------------------------------------------------------------------------
-		public EventsListScreen(ElementListViewModel<Event> presentationModel,
-			NewEventsFromFileDlgViewModel.Factory newEventsFromFileDlgViewModel,
-			EventsGrid.Factory eventGridFactory)
+		public SessionsListScreen(ElementListViewModel<Session> presentationModel,
+			NewSessionsFromFileDlgViewModel.Factory newSessionsFromFileDlgViewModel,
+			SessionsGrid.Factory sessionGridFactory)
 			: base(presentationModel)
 		{
-			_elementsGrid = eventGridFactory();
-			_elementsGrid.Name = "EventsGrid";
-			_newEventsFromFileDlgViewModel = newEventsFromFileDlgViewModel;
+			_elementsGrid = sessionGridFactory();
+			_elementsGrid.Name = "SessionsGrid";
+			_newSessionsFromFileDlgViewModel = newSessionsFromFileDlgViewModel;
 			InitializeComponent();
 
 			if (DesignMode)
 				return;
 
-			Initialize(_componentsSplitter.Panel2, _eventComponentFileGrid, _eventsListPanel);
-			_eventComponentFileGrid.InitializeGrid("EventScreen",
-				LocalizationManager.GetString("EventsView.FileList.AddEventsButtonToolTip", "Add Files to the Event"));
+			Initialize(_componentsSplitter.Panel2, _sessionComponentFileGrid, _sessionsListPanel);
+			_sessionComponentFileGrid.InitializeGrid("SessionScreen",
+				LocalizationManager.GetString("SessionsView.FileList.AddSessionsButtonToolTip", "Add Files to the Session"));
 
 			_elementsListPanel.InsertButton(1, _buttonNewFromFiles);
 			_elementsListPanel.InsertButton(2, _buttonNewFromRecording);
@@ -46,13 +46,13 @@ namespace SayMore.UI.ElementListScreen
 
 			_componentsSplitter.Panel2.ControlRemoved += HandleLastSetOfComponentEditorsRemoved;
 
-			_elementsListPanel.ButtonPanelBackColor1 = Settings.Default.EventEditorsButtonBackgroundColor1;
-			_elementsListPanel.ButtonPanelBackColor2 = Settings.Default.EventEditorsButtonBackgroundColor2;
-			_elementsListPanel.ButtonPanelTopBorderColor = Settings.Default.EventEditorsBorderColor;
+			_elementsListPanel.ButtonPanelBackColor1 = Settings.Default.SessionEditorsButtonBackgroundColor1;
+			_elementsListPanel.ButtonPanelBackColor2 = Settings.Default.SessionEditorsButtonBackgroundColor2;
+			_elementsListPanel.ButtonPanelTopBorderColor = Settings.Default.SessionEditorsBorderColor;
 
-			_elementsListPanel.HeaderPanelBackColor1 = Settings.Default.EventEditorsButtonBackgroundColor2;
-			_elementsListPanel.HeaderPanelBackColor2 = Settings.Default.EventEditorsButtonBackgroundColor1;
-			_elementsListPanel.HeaderPanelBottomBorderColor = Settings.Default.EventEditorsBorderColor;
+			_elementsListPanel.HeaderPanelBackColor1 = Settings.Default.SessionEditorsButtonBackgroundColor2;
+			_elementsListPanel.HeaderPanelBackColor2 = Settings.Default.SessionEditorsButtonBackgroundColor1;
+			_elementsListPanel.HeaderPanelBottomBorderColor = Settings.Default.SessionEditorsBorderColor;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -60,30 +60,30 @@ namespace SayMore.UI.ElementListScreen
 		{
 			MainMenuItem = new ToolStripMenuItem();
 			MainMenuItem.Text = LocalizationManager.GetString(
-				"EventsView.EventsMainMenu.TopLevelMenuText", "&Event", null, MainMenuItem);
+				"SessionsView.SessionsMainMenu.TopLevelMenuText", "&Session", null, MainMenuItem);
 
 			var menu = new ToolStripMenuItem();
 			MainMenuItem.DropDownItems.Add(menu);
 			menu.Click += HandleAddingNewElement;
 			menu.Text = LocalizationManager.GetString(
-				"EventsView.EventsMainMenu.NewMenuText", "&New", null, menu);
+				"SessionsView.SessionsMainMenu.NewMenuText", "&New", null, menu);
 
 			menu = new ToolStripMenuItem();
 			MainMenuItem.DropDownItems.Add(menu);
 			menu.Click += HandleButtonNewFromFilesClick;
 			menu.Text = LocalizationManager.GetString(
-				"EventsView.EventsMainMenu.NewFromDeviceMenuText", "New From De&vice...", null, menu);
+				"SessionsView.SessionsMainMenu.NewFromDeviceMenuText", "New From De&vice...", null, menu);
 
 			menu = new ToolStripMenuItem();
 			MainMenuItem.DropDownItems.Add(menu);
 			menu.Click += HandleButtonNewFromRecordingsClick;
 			menu.Text = LocalizationManager.GetString(
-				"EventsView.EventsMainMenu.NewFromRecordingMenuText", "New From &Recording...", null, menu);
+				"SessionsView.SessionsMainMenu.NewFromRecordingMenuText", "New From &Recording...", null, menu);
 
 			MainMenuItem.DropDownItems.Add(new ToolStripSeparator());
 
-			foreach (var eventMenuItem in _elementsGrid.GetMenuCommands())
-				MainMenuItem.DropDownItems.Add(eventMenuItem);
+			foreach (var sessionMenuItem in _elementsGrid.GetMenuCommands())
+				MainMenuItem.DropDownItems.Add(sessionMenuItem);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -114,8 +114,8 @@ namespace SayMore.UI.ElementListScreen
 		public void AddTabToTabGroup(ViewTabGroup viewTabGroup)
 		{
 			var tab = viewTabGroup.AddTab(this);
-			tab.Name = "EventsViewTab"; // for tests
-			tab.Text = LocalizationManager.GetString("EventsView.ViewTabText", "Events", null, "Events View", null, tab);
+			tab.Name = "SessionsViewTab"; // for tests
+			tab.Text = LocalizationManager.GetString("SessionsView.ViewTabText", "Sessions", null, "Sessions View", null, tab);
 			Text = tab.Text;
 		}
 
@@ -126,18 +126,18 @@ namespace SayMore.UI.ElementListScreen
 
 			if (firstTime)
 			{
-				if (Settings.Default.EventScreenElementsListSplitterPos > 0)
-					_elementListSplitter.SplitterDistance = Settings.Default.EventScreenElementsListSplitterPos;
+				if (Settings.Default.SessionScreenElementsListSplitterPos > 0)
+					_elementListSplitter.SplitterDistance = Settings.Default.SessionScreenElementsListSplitterPos;
 
-				if (Settings.Default.EventScreenComponentsSplitterPos > 0)
-					_componentsSplitter.SplitterDistance = Settings.Default.EventScreenComponentsSplitterPos;
+				if (Settings.Default.SessionScreenComponentsSplitterPos > 0)
+					_componentsSplitter.SplitterDistance = Settings.Default.SessionScreenComponentsSplitterPos;
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public Image Image
 		{
-			get { return Resources.Events; }
+			get { return Resources.Sessions; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -146,33 +146,33 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected override Color ComponentEditorBackgroundColor
 		{
-			get { return Settings.Default.EventEditorsBackgroundColor; }
+			get { return Settings.Default.SessionEditorsBackgroundColor; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override Color ComponentEditorBorderColor
 		{
-			get { return Settings.Default.EventEditorsBorderColor; }
+			get { return Settings.Default.SessionEditorsBorderColor; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			Settings.Default.EventScreenElementsListSplitterPos = _elementListSplitter.SplitterDistance;
-			Settings.Default.EventScreenComponentsSplitterPos = _componentsSplitter.SplitterDistance;
+			Settings.Default.SessionScreenElementsListSplitterPos = _elementListSplitter.SplitterDistance;
+			Settings.Default.SessionScreenComponentsSplitterPos = _componentsSplitter.SplitterDistance;
 			base.OnHandleDestroyed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonNewFromFilesClick(object sender, EventArgs e)
 		{
-			using (var viewModel = _newEventsFromFileDlgViewModel(_model))
-			using (var dlg = new NewEventsFromFilesDlg(viewModel))
+			using (var viewModel = _newSessionsFromFileDlgViewModel(_model))
+			using (var dlg = new NewSessionsFromFilesDlg(viewModel))
 			{
 				viewModel.Dialog = dlg;
 
 				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
-					LoadElementList(viewModel.FirstNewEventAdded);
+					LoadElementList(viewModel.FirstNewSessionAdded);
 
 				FindForm().Focus();
 			}
@@ -184,15 +184,15 @@ namespace SayMore.UI.ElementListScreen
 			if (!AudioUtils.GetCanRecordAudio())
 				return;
 
-			using (var viewModel = new EventRecorderDlgViewModel())
-			using (var dlg = new EventRecorderDlg(viewModel))
+			using (var viewModel = new SessionRecorderDlgViewModel())
+			using (var dlg = new SessionRecorderDlg(viewModel))
 			{
 				if (dlg.ShowDialog(FindForm()) != DialogResult.OK)
 					return;
 
-				var newEvent = _model.CreateNewElement();
-				viewModel.MoveRecordingToEventFolder(newEvent);
-				LoadElementList(newEvent);
+				var newSession = _model.CreateNewElement();
+				viewModel.MoveRecordingToSessionFolder(newSession);
+				LoadElementList(newSession);
 				FindForm().Focus();
 			}
 		}
@@ -205,14 +205,14 @@ namespace SayMore.UI.ElementListScreen
 	/// directly inhertis from a generic class! So we have this intermediate class.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class ConcreteEventScreen : ElementListScreen<Event>
+	public class ConcreteSessionScreen : ElementListScreen<Session>
 	{
 		//design time only
-		private ConcreteEventScreen()
+		private ConcreteSessionScreen()
 			: base(null)
 		{}
 
-		public ConcreteEventScreen(ElementListViewModel<Event> presentationModel)
+		public ConcreteSessionScreen(ElementListViewModel<Session> presentationModel)
 			: base(presentationModel)
 		{}
 	}

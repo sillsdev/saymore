@@ -11,15 +11,15 @@ using SilTools;
 
 namespace SayMore.UI.ElementListScreen
 {
-	public class EventsGrid : ElementGrid
+	public class SessionsGrid : ElementGrid
 	{
-		public delegate EventsGrid Factory();  //autofac uses this
+		public delegate SessionsGrid Factory();  //autofac uses this
 
 		private readonly StagesDataProvider _stagesDataProvider;
 		private readonly StagesControlToolTip _tooltip;
 
 		/// ------------------------------------------------------------------------------------
-		public EventsGrid(StagesDataProvider stagesDataProvider, StagesControlToolTip toolTip)
+		public SessionsGrid(StagesDataProvider stagesDataProvider, StagesControlToolTip toolTip)
 		{
 			_stagesDataProvider = stagesDataProvider;
 			_tooltip = toolTip;
@@ -28,8 +28,8 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public override GridSettings GridSettings
 		{
-			get { return Settings.Default.EventsListGrid; }
-			set { Settings.Default.EventsListGrid = value; }
+			get { return Settings.Default.SessionsListGrid; }
+			set { Settings.Default.SessionsListGrid = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ namespace SayMore.UI.ElementListScreen
 			if (fieldName == "status")
 			{
 				var statusString = base.GetValueForField(element, fieldName) as string;
-				var status = (Event.Status)Enum.Parse(typeof(Event.Status), statusString.Replace(' ', '_'));
+				var status = (Session.Status)Enum.Parse(typeof(Session.Status), statusString.Replace(' ', '_'));
 				return (int)status;
 			}
 
@@ -93,9 +93,9 @@ namespace SayMore.UI.ElementListScreen
 			var cmds = base.GetMenuCommands().ToList();
 
 			var menu = new ToolStripMenuItem(string.Empty,
-				Resources.RampIcon, (s, e) => ((Event)GetCurrentElement()).CreateArchiveFile());
+				Resources.RampIcon, (s, e) => ((Session)GetCurrentElement()).CreateArchiveFile());
 
-			menu.Text = LocalizationManager.GetString("EventsView.EventsList.RampArchiveMenuText",
+			menu.Text = LocalizationManager.GetString("SessionsView.SessionsList.RampArchiveMenuText",
 				"Archive with RAMP (SIL)...", null, menu);
 
 			cmds.Insert(0, menu);
@@ -134,10 +134,10 @@ namespace SayMore.UI.ElementListScreen
 				Columns[e.ColumnIndex].DataPropertyName == "status")
 			{
 				var value = base.GetValueForField(_items.ElementAt(e.RowIndex), "status");
-				var statusText = Event.GetLocalizedStatus(value as string);
+				var statusText = Session.GetLocalizedStatus(value as string);
 
 				e.ToolTipText = string.Format(
-					LocalizationManager.GetString("EventsView.EventStatus.TooltipFormatText", "Status: {0}"), statusText);
+					LocalizationManager.GetString("SessionsView.SessionStatus.TooltipFormatText", "Status: {0}"), statusText);
 			}
 
 			base.OnCellToolTipTextNeeded(e);

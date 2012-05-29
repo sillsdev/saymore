@@ -9,25 +9,25 @@ using SayMore.Properties;
 using SayMore.Media.MPlayer;
 using SilTools;
 
-namespace SayMore.UI.NewEventsFromFiles
+namespace SayMore.UI.NewSessionsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Dialog class in which the user may create many events based on files they choose,
+	/// Dialog class in which the user may create many sessions based on files they choose,
 	/// most likely from a recorder or flash memory.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class NewEventsFromFilesDlg : Form
+	public partial class NewSessionsFromFilesDlg : Form
 	{
 		//private readonly AxWindowsMediaPlayer _winMediaPlayer;
-		private readonly NewEventsFromFileDlgViewModel _viewModel;
-		private readonly NewEventsFromFilesDlgFolderNotFoundMsg _folderMissingMsgCtrl;
+		private readonly NewSessionsFromFileDlgViewModel _viewModel;
+		private readonly NewSessionsFromFilesDlgFolderNotFoundMsg _folderMissingMsgCtrl;
 		private readonly CheckBoxColumnHeaderHandler _chkBoxColHdrHandler;
 		private readonly MediaPlayerViewModel _mediaPlayerViewModel;
 		private readonly MediaPlayer _mediaPlayer;
 
 		/// ------------------------------------------------------------------------------------
-		public NewEventsFromFilesDlg(NewEventsFromFileDlgViewModel viewModel)
+		public NewSessionsFromFilesDlg(NewSessionsFromFileDlgViewModel viewModel)
 		{
 			InitializeComponent();
 
@@ -41,7 +41,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			_gridFiles.Grid.Columns.Insert(0, selectedCol);
 			_chkBoxColHdrHandler = new CheckBoxColumnHeaderHandler(selectedCol);
 
-			_gridFiles.InitializeGrid("NewEventsFromFilesDlg", null);
+			_gridFiles.InitializeGrid("NewSessionsFromFilesDlg", null);
 			_gridFiles.AfterComponentSelected = HandleComponentFileSelected;
 
 			Controls.Add(_panelProgress);
@@ -52,13 +52,13 @@ namespace SayMore.UI.NewEventsFromFiles
 			_labelSourceFolder.Font = new Font(Program.DialogFont, FontStyle.Bold);
 			_panelProgress.Visible = false;
 
-			if (Settings.Default.NewEventsFromFilesDlg == null)
+			if (Settings.Default.NewSessionsFromFilesDlg == null)
 			{
 				StartPosition = FormStartPosition.CenterScreen;
-				Settings.Default.NewEventsFromFilesDlg = FormSettings.Create(this);
+				Settings.Default.NewSessionsFromFilesDlg = FormSettings.Create(this);
 			}
 
-			_folderMissingMsgCtrl = new NewEventsFromFilesDlgFolderNotFoundMsg();
+			_folderMissingMsgCtrl = new NewSessionsFromFilesDlgFolderNotFoundMsg();
 			_gridFiles.Controls.Add(_folderMissingMsgCtrl);
 			_folderMissingMsgCtrl.BringToFront();
 
@@ -77,10 +77,10 @@ namespace SayMore.UI.NewEventsFromFiles
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
-			Settings.Default.NewEventsFromFilesDlg.InitializeForm(this);
+			Settings.Default.NewSessionsFromFilesDlg.InitializeForm(this);
 			base.OnShown(e);
 			_mediaPlayerViewModel.VolumeChanged = delegate { Invoke((Action)HandleMediaPlayerVolumeChanged); };
-			_viewModel.SelectedFolder = Settings.Default.NewEventsFromFilesLastFolder;
+			_viewModel.SelectedFolder = Settings.Default.NewSessionsFromFilesLastFolder;
 			UpdateDisplay();
 		}
 
@@ -168,21 +168,21 @@ namespace SayMore.UI.NewEventsFromFiles
 		private void UpdateCreateButton()
 		{
 			var selectedCount = _viewModel.NumberOfSelectedFiles;
-			_buttonCreateEvents.Enabled = (selectedCount > 0 && !_panelProgress.Visible);
+			_buttonCreateSessions.Enabled = (selectedCount > 0 && !_panelProgress.Visible);
 
 			if (selectedCount == 0)
 			{
-				var text = LocalizationManager.GetString("DialogBoxes.NewEventsFromFilesDlg.NoFilesSelectedCreateButtonText",
-					"Create Events", "Text in create button when no files are selected.");
+				var text = LocalizationManager.GetString("DialogBoxes.NewSessionsFromFilesDlg.NoFilesSelectedCreateButtonText",
+					"Create Sessions", "Text in create button when no files are selected.");
 
-				_buttonCreateEvents.Text = text;
+				_buttonCreateSessions.Text = text;
 			}
 			else
 			{
-				var fmt = LocalizationManager.GetString("DialogBoxes.NewEventsFromFilesDlg.FilesSelectedCreateButtonText",
-					"Create {0} Events", "Format text in create button when one or more files are selected.");
+				var fmt = LocalizationManager.GetString("DialogBoxes.NewSessionsFromFilesDlg.FilesSelectedCreateButtonText",
+					"Create {0} Sessions", "Format text in create button when one or more files are selected.");
 
-				_buttonCreateEvents.Text = string.Format(fmt, selectedCount);
+				_buttonCreateSessions.Text = string.Format(fmt, selectedCount);
 			}
 		}
 
@@ -239,10 +239,10 @@ namespace SayMore.UI.NewEventsFromFiles
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Handles creating new events from the selected files.
+		/// Handles creating new sessions from the selected files.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleCreateEventsButtonClick(object sender, EventArgs e)
+		private void HandleCreateSessionsButtonClick(object sender, EventArgs e)
 		{
 			Hide();
 
@@ -254,7 +254,7 @@ namespace SayMore.UI.NewEventsFromFiles
 				return;
 
 			var model = new CopyFilesViewModel(pairs);
-			model.BeforeFileCopiedAction = _viewModel.CreateSingleEvent;
+			model.BeforeFileCopiedAction = _viewModel.CreateSingleSession;
 
 			model.FileCopyFailedAction = (srcFile, dstFile) =>
 			{
@@ -263,8 +263,8 @@ namespace SayMore.UI.NewEventsFromFiles
 			};
 
 			var caption = LocalizationManager.GetString(
-				"DialogBoxes.NewEventsFromFilesDlg.CreatingEvents.ProgressDlg.Caption",
-				"Creating Events");
+				"DialogBoxes.NewSessionsFromFilesDlg.CreatingSessions.ProgressDlg.Caption",
+				"Creating Sessions");
 
 			using (var dlg = new ProgressDlg(model, caption))
 			{
@@ -276,7 +276,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Displays an open file dialog box in which the user may specify files from which
-		/// to make new events.
+		/// to make new sessions.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleFindFilesLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

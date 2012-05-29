@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace SayMoreTests.Model
 {
 	[TestFixture]
-	public class EventTests
+	public class SessionTests
 	{
 		private TemporaryFolder _parentFolder;
 
@@ -19,7 +19,7 @@ namespace SayMoreTests.Model
 		[SetUp]
 		public void Setup()
 		{
-			_parentFolder = new TemporaryFolder("eventTest");
+			_parentFolder = new TemporaryFolder("sessionTest");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ namespace SayMoreTests.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private Event CreateEvent(IEnumerable<string> particpants)
+		private Session CreateSession(IEnumerable<string> particpants)
 		{
 			ProjectElementComponentFile.Factory factory = (parentElement, fileType, fileSerializer, ootElementName) =>
 			{
@@ -62,8 +62,8 @@ namespace SayMoreTests.Model
 			componentRoles.Add(new ComponentRole(null, "consent", null,
 				ComponentRole.MeasurementTypes.None, null, null, Color.Empty, Color.Empty));
 
-			return new Event(_parentFolder.Path, "dummyId", null,
-				new EventFileType(() => null, () => null), componentFactory,
+			return new Session(_parentFolder.Path, "dummyId", null,
+				new SessionFileType(() => null, () => null), componentFactory,
 				new FileSerializer(null), factory, componentRoles, personInformant.Object);
 
 			//ComponentFile.CreateMinimalComponentFileForTests
@@ -78,16 +78,16 @@ namespace SayMoreTests.Model
 		[Test]
 		public void GetAllParticipants_NoParticpantsListed_NoneReturned()
 		{
-			var evnt = CreateEvent(new string[] { });
-			Assert.AreEqual(0, evnt.GetAllParticipants().Count());
+			var session = CreateSession(new string[] { });
+			Assert.AreEqual(0, session.GetAllParticipants().Count());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetAllParticipants_SomeParticpantsListed_ReturnsTheirNames()
 		{
-			var evnt = CreateEvent(new[] { "mo", "curly" });
-			var names = evnt.GetAllParticipants().ToList();
+			var session = CreateSession(new[] { "mo", "curly" });
+			var names = session.GetAllParticipants().ToList();
 			Assert.Contains("mo", names);
 			Assert.Contains("curly", names);
 		}
@@ -96,7 +96,7 @@ namespace SayMoreTests.Model
 		[Test]
 		public void GetCompletedStages_NoParticpantsListed_NoConsent()
 		{
-			var stages = CreateEvent(new string[]{}).GetCompletedStages();
+			var stages = CreateSession(new string[]{}).GetCompletedStages();
 			Assert.IsFalse(stages.Any(s => s.Name == "consent"));
 		}
 
@@ -104,7 +104,7 @@ namespace SayMoreTests.Model
 		[Test]
 		public void GetCompletedStages_ParticpantsListedButNotFound_NoConsent()
 		{
-			var stages = CreateEvent(new[] {"you", "me" }).GetCompletedStages();
+			var stages = CreateSession(new[] {"you", "me" }).GetCompletedStages();
 			Assert.IsFalse(stages.Any(s => s.Name == "consent"));
 		}
 
@@ -112,7 +112,7 @@ namespace SayMoreTests.Model
 		[Test]
 		public void GetCompletedStages_TwoParticpantsFoundOneLacksConsent_NoConsent()
 		{
-			var stages = CreateEvent(new[] { "oneWithConsent", "none" }).GetCompletedStages();
+			var stages = CreateSession(new[] { "oneWithConsent", "none" }).GetCompletedStages();
 			Assert.IsFalse(stages.Any(s => s.Name == "consent"));
 		}
 
@@ -120,7 +120,7 @@ namespace SayMoreTests.Model
 		[Test]
 		public void GetCompletedStages_TwoParticpantsFoundBothHaveConsent_ResultIncludesConsent()
 		{
-		  var stages = CreateEvent(new[] {"oneWithConsent", "anotherWithConsent" }).GetCompletedStages();
+		  var stages = CreateSession(new[] {"oneWithConsent", "anotherWithConsent" }).GetCompletedStages();
 			Assert.IsFalse(stages.Any(s => s.Name == "consent"));
 		}
 	}

@@ -18,13 +18,13 @@ using System.Collections.Generic;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 
-namespace SayMore.UI.NewEventsFromFiles
+namespace SayMore.UI.NewSessionsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// This class is like a ComponentFile except that it's for ComponentFiles displayed in
-	/// the grid of files from which a user may create new events (i.e. when clicking the
-	/// "New From Device" button on the events screen).
+	/// the grid of files from which a user may create new sessions (i.e. when clicking the
+	/// "New From Device" button on the sessions screen).
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class NewComponentFile : ComponentFile

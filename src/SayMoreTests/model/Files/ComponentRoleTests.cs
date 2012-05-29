@@ -70,7 +70,7 @@ namespace SayMoreTests.Model.Files
 
 		private static ComponentRole GetRoleForSourceRecording()
 		{
-			return new ComponentRole(typeof(Event), "source", "Source Recording",
+			return new ComponentRole(typeof(Session), "source", "Source Recording",
 				ComponentRole.MeasurementTypes.Time, FileSystemUtils.GetIsAudioVideo,
 				"$ElementId$_Source", Color.Magenta, Color.Black);
 		}
@@ -79,14 +79,14 @@ namespace SayMoreTests.Model.Files
 		public void GetCanonicalName_NoDirectoryInPath_ChangesName()
 		{
 			ComponentRole role = GetRoleForSourceRecording();
-			Assert.AreEqual("myEvent_Source.wav", role.GetCanoncialName("myEvent", "fub.wav"));
+			Assert.AreEqual("mySession_Source.wav", role.GetCanoncialName("mySession", "fub.wav"));
 		}
 
 		[Test]
 		public void GetCanonicalName_HasDirectoryInPath_ChangesName()
 		{
 			ComponentRole role = GetRoleForSourceRecording();
-			Assert.AreEqual(@"c:\foo\myEvent_Source.wav", role.GetCanoncialName("myEvent", @"c:\foo\fub.wav"));
+			Assert.AreEqual(@"c:\foo\mySession_Source.wav", role.GetCanoncialName("mySession", @"c:\foo\fub.wav"));
 		}
 
 		//[Test]

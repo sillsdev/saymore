@@ -106,8 +106,8 @@ namespace SayMore
 			get
 			{
 				yield return new
-					ComponentRole(typeof(Event), ComponentRole.kSourceComponentRoleId,
-						LocalizationManager.GetString("EventsView.EventsList.Stages.SourceRecording", "Source Recording"),
+					ComponentRole(typeof(Session), ComponentRole.kSourceComponentRoleId,
+						LocalizationManager.GetString("SessionsView.SessionsList.Stages.SourceRecording", "Source Recording"),
 						ComponentRole.MeasurementTypes.Time,
 						FileSystemUtils.GetIsAudioVideo, "$ElementId$_Source",
 						Settings.Default.WorkflowStageColor1,
@@ -115,38 +115,38 @@ namespace SayMore
 
 				yield return
 					new ComponentRole(typeof(Person), "consent",
-						LocalizationManager.GetString("EventsView.EventsList.Stages.InformedConsent", "Informed Consent"),
+						LocalizationManager.GetString("SessionsView.SessionsList.Stages.InformedConsent", "Informed Consent"),
 						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent",
 						Settings.Default.WorkflowStageColor2,
 						Settings.Default.WorkflowStageTextColor2);
 
 				yield return
-					new ComponentRole(typeof(Event), "carefulSpeech",
-						LocalizationManager.GetString("EventsView.EventsList.Stages.CarefulSpeech", "Careful Speech"),
+					new ComponentRole(typeof(Session), "carefulSpeech",
+						LocalizationManager.GetString("SessionsView.SessionsList.Stages.CarefulSpeech", "Careful Speech"),
 						ComponentRole.MeasurementTypes.Time,
 						FileSystemUtils.GetIsAudioVideo, "$ElementId$_Careful",
 						Settings.Default.WorkflowStageColor3,
 						Settings.Default.WorkflowStageTextColor3);
 
 				yield return
-					new ComponentRole(typeof(Event), "oralTranslation",
-						LocalizationManager.GetString("EventsView.EventsList.Stages.OralTranslation", "Oral Translation"),
+					new ComponentRole(typeof(Session), "oralTranslation",
+						LocalizationManager.GetString("SessionsView.SessionsList.Stages.OralTranslation", "Oral Translation"),
 						ComponentRole.MeasurementTypes.Time,
 						FileSystemUtils.GetIsAudioVideo, "$ElementId$_OralTranslation",
 						Settings.Default.WorkflowStageColor4,
 						Settings.Default.WorkflowStageTextColor4);
 
 				yield return
-					new ComponentRole(typeof(Event), "transcription",
-						LocalizationManager.GetString("EventsView.EventsList.Stages.Transcription", "Transcription"),
+					new ComponentRole(typeof(Session), "transcription",
+						LocalizationManager.GetString("SessionsView.SessionsList.Stages.Transcription", "Transcription"),
 						ComponentRole.MeasurementTypes.Words,
 						FileSystemUtils.GetIsAudioVideo, "$ElementId$_Transcription",
 						Settings.Default.WorkflowStageColor5,
 						Settings.Default.WorkflowStageTextColor5);
 
 				yield return
-					new ComponentRole(typeof(Event), "transcriptionN",
-						LocalizationManager.GetString("EventsView.EventsList.Stages.WrittenTranslation", "Written Translation"),
+					new ComponentRole(typeof(Session), "transcriptionN",
+						LocalizationManager.GetString("SessionsView.SessionsList.Stages.WrittenTranslation", "Written Translation"),
 						ComponentRole.MeasurementTypes.Words,
 						FileSystemUtils.GetIsText, "$ElementId$_Translation",
 						Settings.Default.WorkflowStageColor6,

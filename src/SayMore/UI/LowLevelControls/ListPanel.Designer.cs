@@ -84,7 +84,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonNew.AutoSize = true;
 			this._buttonNew.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.locExtender.SetLocalizableToolTip(this._buttonNew, null);
-			this.locExtender.SetLocalizationComment(this._buttonNew, "Button for adding new events and people");
+			this.locExtender.SetLocalizationComment(this._buttonNew, "Button for adding new sessions and people");
 			this.locExtender.SetLocalizingId(this._buttonNew, "CommonToMultipleViews.ElementList.NewButtonText");
 			this._buttonNew.Location = new System.Drawing.Point(5, 5);
 			this._buttonNew.MinimumSize = new System.Drawing.Size(75, 26);
@@ -100,7 +100,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonDelete.AutoSize = true;
 			this._buttonDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.locExtender.SetLocalizableToolTip(this._buttonDelete, null);
-			this.locExtender.SetLocalizationComment(this._buttonDelete, "Button for deleting events and people");
+			this.locExtender.SetLocalizationComment(this._buttonDelete, "Button for deleting sessions and people");
 			this.locExtender.SetLocalizingId(this._buttonDelete, "CommonToMultipleViews.ElementList.DeleteButtonText");
 			this._buttonDelete.Location = new System.Drawing.Point(86, 5);
 			this._buttonDelete.MinimumSize = new System.Drawing.Size(75, 26);

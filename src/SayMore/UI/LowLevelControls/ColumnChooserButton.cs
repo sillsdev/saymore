@@ -86,7 +86,7 @@ namespace SayMore.UI.LowLevelControls
 
 					var msg = LocalizationManager.GetString("CommonToMultipleViews.ElementList.OneColumnMustBeVisibleMsg",
 						"One column must be visible.",
-						"Displayed when user unchecks all columns for display in events or people list");
+						"Displayed when user unchecks all columns for display in sessions or people list");
 
 					var pt = PointToScreen(new Point(Width / 2, Height / 3));
 					_msgWindow.Show(msg, pt);

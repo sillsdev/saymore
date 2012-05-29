@@ -13,9 +13,9 @@ using SayMore.UI.LowLevelControls;
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class EventBasicEditor : EditorBase
+	public partial class SessionBasicEditor : EditorBase
 	{
-		public delegate EventBasicEditor Factory(ComponentFile file, string imageKey);
+		public delegate SessionBasicEditor Factory(ComponentFile file, string imageKey);
 
 		private FieldsValuesGrid _gridCustomFields;
 		private FieldsValuesGridViewModel _gridViewModel;
@@ -24,18 +24,18 @@ namespace SayMore.UI.ComponentEditors
 		private bool _genreFieldEntered;
 
 		/// ------------------------------------------------------------------------------------
-		public EventBasicEditor(ComponentFile file, string imageKey,
+		public SessionBasicEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer,
 			PersonInformant personInformant)
 			: base(file, null, imageKey)
 		{
 			InitializeComponent();
-			Name = "EventEditor";
+			Name = "SessionEditor";
 
 			_personInformant = personInformant;
 			InitializeGrid(autoCompleteProvider, fieldGatherer);
 
-			_status.Items.AddRange(Enum.GetNames(typeof(Event.Status))
+			_status.Items.AddRange(Enum.GetNames(typeof(Session.Status))
 				.Select(x => x.ToString().Replace('_', ' ')).ToArray());
 
 			_autoCompleteProvider = autoCompleteProvider;
@@ -167,7 +167,7 @@ namespace SayMore.UI.ComponentEditors
 			rc = e.Bounds;
 			rc.X += (img.Width + 3);
 			rc.Width -= (img.Width + 3);
-			TextRenderer.DrawText(e.Graphics, Event.GetLocalizedStatus(enumText), e.Font,
+			TextRenderer.DrawText(e.Graphics, Session.GetLocalizedStatus(enumText), e.Font,
 				rc, e.ForeColor, TextFormatFlags.VerticalCenter | TextFormatFlags.WordEllipsis);
 		}
 
@@ -178,7 +178,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = LocalizationManager.GetString("EventsView.MetadataEditor.TabText", "Event");
+			TabText = LocalizationManager.GetString("SessionsView.MetadataEditor.TabText", "Session");
 			base.HandleStringsLocalized();
 		}
 	}

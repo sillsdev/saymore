@@ -12,32 +12,32 @@ using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using Palaso.Extensions;
 
-namespace SayMore.UI.NewEventsFromFiles
+namespace SayMore.UI.NewSessionsFromFiles
 {
-	#region NewEventsFromFileDlgModel class
+	#region NewSessionsFromFileDlgViewModel class
 	/// ----------------------------------------------------------------------------------------
-	public class NewEventsFromFileDlgViewModel : IDisposable
+	public class NewSessionsFromFileDlgViewModel : IDisposable
 	{
 		private readonly NewComponentFile.NewComponentFileFactory _newComponentFileFactory;
 
-		public delegate NewEventsFromFileDlgViewModel Factory(ElementListViewModel<Event> eventPresentationModel);
+		public delegate NewSessionsFromFileDlgViewModel Factory(ElementListViewModel<Session> sessionPresentationModel);
 
 		public bool WaitForAsyncFileLoadingToFinish { get; set; }
 
-		protected ElementListViewModel<Event> EventPresentationModel { get; private set; }
+		protected ElementListViewModel<Session> SessionPresentationModel { get; private set; }
 
 		private string _selectedFolder;
-		private NewEventsFromFilesDlg _dlg;
+		private NewSessionsFromFilesDlg _dlg;
 		private readonly BackgroundWorker _fileLoaderWorker;
 		private readonly FileSystemWatcher _fileWatcher;
 
 		#region Construction, initialization and disposal.
 		/// ------------------------------------------------------------------------------------
-		public NewEventsFromFileDlgViewModel(ElementListViewModel<Event> eventPresentationModel,
+		public NewSessionsFromFileDlgViewModel(ElementListViewModel<Session> sessionPresentationModel,
 			NewComponentFile.NewComponentFileFactory newComponentFileFactory)
 		{
 			_newComponentFileFactory = newComponentFileFactory;
-			EventPresentationModel = eventPresentationModel;
+			SessionPresentationModel = sessionPresentationModel;
 
 			_fileWatcher = new FileSystemWatcher();
 			_fileWatcher.EnableRaisingEvents = false;
@@ -69,7 +69,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		/// Gets or sets the dialog for which this class is the view model.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public NewEventsFromFilesDlg Dialog
+		public NewSessionsFromFilesDlg Dialog
 		{
 			get { return _dlg; }
 			set
@@ -88,14 +88,14 @@ namespace SayMore.UI.NewEventsFromFiles
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the Id of the first of the newly added event.
+		/// Gets the Id of the first of the newly added sessions.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string FirstNewEventAdded { get; private set; }
+		public string FirstNewSessionAdded { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the list of potential event files.
+		/// Gets the list of potential session files.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public List<NewComponentFile> Files { get; private set; }
@@ -103,7 +103,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets a value indicating whether or not any files are selected from which a
-		/// event will be created.
+		/// session will be created.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool AnyFilesSelected
@@ -123,7 +123,7 @@ namespace SayMore.UI.NewEventsFromFiles
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating how many files are selected from which events will be
+		/// Gets a value indicating how many files are selected from which sessions will be
 		/// created.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ namespace SayMore.UI.NewEventsFromFiles
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets the selected folder from which new events will be created.
+		/// Gets or sets the selected folder from which new sessions will be created.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string SelectedFolder
@@ -144,7 +144,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			{
 				_selectedFolder = value;
 				LoadFilesFromFolder(value);
-				Settings.Default.NewEventsFromFilesLastFolder = value;
+				Settings.Default.NewSessionsFromFilesLastFolder = value;
 				EnableFileWatchingIfAble();
 			}
 		}
@@ -292,7 +292,7 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			using (var dlg = new FolderBrowserDialog())
 			{
-				dlg.Description = LocalizationManager.GetString("DialogBoxes.NewEventsFromFilesDlg.FolderBrowserDlgDescription",
+				dlg.Description = LocalizationManager.GetString("DialogBoxes.NewSessionsFromFilesDlg.FolderBrowserDlgDescription",
 					"Choose a Folder of Media Files.");
 
 				if (SelectedFolder != null && Directory.Exists(SelectedFolder))
@@ -365,9 +365,9 @@ namespace SayMore.UI.NewEventsFromFiles
 				{
 					if (validExtensions.Contains(Path.GetExtension(file).ToLower()))
 					{
-						var eventFile = _newComponentFileFactory(file);
-						eventFile.Selected = (new FileInfo(file).Attributes & FileAttributes.Archive) > 0;
-						Files.Add(eventFile);
+						var sessionFile = _newComponentFileFactory(file);
+						sessionFile.Selected = (new FileInfo(file).Attributes & FileAttributes.Archive) > 0;
+						Files.Add(sessionFile);
 					}
 				}
 				catch (Exception)
@@ -411,16 +411,16 @@ namespace SayMore.UI.NewEventsFromFiles
 
 		#endregion
 
-		#region Methods for creating events from selected files
+		#region Methods for creating sessions from selected files
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<KeyValuePair<string, string>> GetAllSourceAndDestinationPairs()
 		{
-			var eventsPath = EventPresentationModel.PathToEventsFolder;
+			var sessionsPath = SessionPresentationModel.PathToSessionsFolder;
 
 			return Files.Where(source => source.Selected).Select(source =>
 			{
 				var srcFile = source.PathToAnnotatedFile;
-				var destPath = Path.Combine(eventsPath, Path.GetFileNameWithoutExtension(srcFile));
+				var destPath = Path.Combine(sessionsPath, Path.GetFileNameWithoutExtension(srcFile));
 				destPath = Path.Combine(destPath, Path.GetFileName(srcFile));
 				return new KeyValuePair<string, string>(srcFile, destPath);
 			});
@@ -443,16 +443,16 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			if (existing.Count > 0)
 			{
-				// Remove the pairs for which events already exist.
+				// Remove the pairs for which sessions already exist.
 				pairs = pairs.Where(kvp => !existing.Contains(kvp.Key));
 
-				// Build a string showing all the event Ids that will be skipped.
+				// Build a string showing all the session Ids that will be skipped.
 				var bldr = new StringBuilder();
 				foreach (var file in existing)
 					bldr.AppendLine(Path.GetFileNameWithoutExtension(file));
 
-				var msg = LocalizationManager.GetString("DialogBoxes.NewEventsFromFilesDlg.EventsAlreadyExistMsg",
-					"Events already exist for the following Ids. These will be skipped.\n\n{0}");
+				var msg = LocalizationManager.GetString("DialogBoxes.NewSessionsFromFilesDlg.SessionsAlreadyExistMsg",
+					"Sessions already exist for the following Ids. These will be skipped.\n\n{0}");
 
 				ErrorReport.NotifyUserOfProblem(msg, bldr);
 			}
@@ -462,24 +462,24 @@ namespace SayMore.UI.NewEventsFromFiles
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Creates an event which will "receive" the specified file. New event names are
-		/// the name of the file without the extension. The Date of the event is the file's
-		/// DateModified date.
+		/// Creates a session to "receive" the specified file. New session names are the name of
+		/// the file without the extension. The Date of the session is the file's DateModified
+		/// date.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void CreateSingleEvent(string sourcePath)
+		public void CreateSingleSession(string sourcePath)
 		{
 			var id = Path.GetFileNameWithoutExtension(sourcePath);
-			var newEvent = EventPresentationModel.CreateNewElementWithId(id);
+			var newSession = SessionPresentationModel.CreateNewElementWithId(id);
 
 			string msg;
 			var date = File.GetLastWriteTime(sourcePath);
-			newEvent.MetaDataFile.SetStringValue("date", date.ToISO8601DateOnlyString(), out msg);
-			newEvent.MetaDataFile.SetStringValue("status", Event.Status.Incoming.ToString(), out msg);
-			newEvent.MetaDataFile.Save();
+			newSession.MetaDataFile.SetStringValue("date", date.ToISO8601DateOnlyString(), out msg);
+			newSession.MetaDataFile.SetStringValue("status", Session.Status.Incoming.ToString(), out msg);
+			newSession.MetaDataFile.Save();
 
-			if (FirstNewEventAdded == null)
-				FirstNewEventAdded = newEvent.Id;
+			if (FirstNewSessionAdded == null)
+				FirstNewSessionAdded = newSession.Id;
 		}
 
 		#endregion

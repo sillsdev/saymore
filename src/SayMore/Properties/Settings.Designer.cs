@@ -207,36 +207,36 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.FormSettings NewEventsFromFilesDlg {
+        public global::SilTools.FormSettings NewSessionsFromFilesDlg {
             get {
-                return ((global::SilTools.FormSettings)(this["NewEventsFromFilesDlg"]));
+                return ((global::SilTools.FormSettings)(this["NewSessionsFromFilesDlg"]));
             }
             set {
-                this["NewEventsFromFilesDlg"] = value;
+                this["NewSessionsFromFilesDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings NewEventsFromFilesDlgComponentGrid {
+        public global::SilTools.GridSettings NewSessionsFromFilesDlgComponentGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["NewEventsFromFilesDlgComponentGrid"]));
+                return ((global::SilTools.GridSettings)(this["NewSessionsFromFilesDlgComponentGrid"]));
             }
             set {
-                this["NewEventsFromFilesDlgComponentGrid"] = value;
+                this["NewSessionsFromFilesDlgComponentGrid"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public string NewEventsFromFilesLastFolder {
+        public string NewSessionsFromFilesLastFolder {
             get {
-                return ((string)(this["NewEventsFromFilesLastFolder"]));
+                return ((string)(this["NewSessionsFromFilesLastFolder"]));
             }
             set {
-                this["NewEventsFromFilesLastFolder"] = value;
+                this["NewSessionsFromFilesLastFolder"] = value;
             }
         }
         
@@ -285,24 +285,24 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public int EventScreenElementsListSplitterPos {
+        public int SessionScreenElementsListSplitterPos {
             get {
-                return ((int)(this["EventScreenElementsListSplitterPos"]));
+                return ((int)(this["SessionScreenElementsListSplitterPos"]));
             }
             set {
-                this["EventScreenElementsListSplitterPos"] = value;
+                this["SessionScreenElementsListSplitterPos"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public int EventScreenComponentsSplitterPos {
+        public int SessionScreenComponentsSplitterPos {
             get {
-                return ((int)(this["EventScreenComponentsSplitterPos"]));
+                return ((int)(this["SessionScreenComponentsSplitterPos"]));
             }
             set {
-                this["EventScreenComponentsSplitterPos"] = value;
+                this["SessionScreenComponentsSplitterPos"] = value;
             }
         }
         
@@ -333,12 +333,12 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings EventScreenComponentGrid {
+        public global::SilTools.GridSettings SessionScreenComponentGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["EventScreenComponentGrid"]));
+                return ((global::SilTools.GridSettings)(this["SessionScreenComponentGrid"]));
             }
             set {
-                this["EventScreenComponentGrid"] = value;
+                this["SessionScreenComponentGrid"] = value;
             }
         }
         
@@ -382,7 +382,7 @@ namespace SayMore.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>.event</string>
+  <string>.session</string>
   <string>.person</string>
   <string>.meta</string>
   <string>thumbs.db</string>
@@ -404,10 +404,10 @@ namespace SayMore.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".event")]
-        public string EventFileExtension {
+        [global::System.Configuration.DefaultSettingValueAttribute(".session")]
+        public string SessionFileExtension {
             get {
-                return ((string)(this["EventFileExtension"]));
+                return ((string)(this["SessionFileExtension"]));
             }
         }
         
@@ -466,12 +466,12 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection CustomEventFileFields {
+        public global::System.Collections.Specialized.StringCollection CustomSessionFileFields {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["CustomEventFileFields"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["CustomSessionFileFields"]));
             }
             set {
-                this["CustomEventFileFields"] = value;
+                this["CustomSessionFileFields"] = value;
             }
         }
         
@@ -538,12 +538,12 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings EventCustomFieldsGrid {
+        public global::SilTools.GridSettings SessionCustomFieldsGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["EventCustomFieldsGrid"]));
+                return ((global::SilTools.GridSettings)(this["SessionCustomFieldsGrid"]));
             }
             set {
-                this["EventCustomFieldsGrid"] = value;
+                this["SessionCustomFieldsGrid"] = value;
             }
         }
         
@@ -610,36 +610,36 @@ namespace SayMore.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("207, 240, 159")]
-        public global::System.Drawing.Color EventEditorsBackgroundColor {
+        public global::System.Drawing.Color SessionEditorsBackgroundColor {
             get {
-                return ((global::System.Drawing.Color)(this["EventEditorsBackgroundColor"]));
+                return ((global::System.Drawing.Color)(this["SessionEditorsBackgroundColor"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("148, 195, 151")]
-        public global::System.Drawing.Color EventEditorsBorderColor {
+        public global::System.Drawing.Color SessionEditorsBorderColor {
             get {
-                return ((global::System.Drawing.Color)(this["EventEditorsBorderColor"]));
+                return ((global::System.Drawing.Color)(this["SessionEditorsBorderColor"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("207, 240, 159")]
-        public global::System.Drawing.Color EventEditorsButtonBackgroundColor1 {
+        public global::System.Drawing.Color SessionEditorsButtonBackgroundColor1 {
             get {
-                return ((global::System.Drawing.Color)(this["EventEditorsButtonBackgroundColor1"]));
+                return ((global::System.Drawing.Color)(this["SessionEditorsButtonBackgroundColor1"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("169, 219, 168")]
-        public global::System.Drawing.Color EventEditorsButtonBackgroundColor2 {
+        public global::System.Drawing.Color SessionEditorsButtonBackgroundColor2 {
             get {
-                return ((global::System.Drawing.Color)(this["EventEditorsButtonBackgroundColor2"]));
+                return ((global::System.Drawing.Color)(this["SessionEditorsButtonBackgroundColor2"]));
             }
         }
         
@@ -833,12 +833,12 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings EventsListGrid {
+        public global::SilTools.GridSettings SessionsListGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["EventsListGrid"]));
+                return ((global::SilTools.GridSettings)(this["SessionsListGrid"]));
             }
             set {
-                this["EventsListGrid"] = value;
+                this["SessionsListGrid"] = value;
             }
         }
         
@@ -1267,12 +1267,12 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.FormSettings EventRecorderDlg {
+        public global::SilTools.FormSettings SessionRecorderDlg {
             get {
-                return ((global::SilTools.FormSettings)(this["EventRecorderDlg"]));
+                return ((global::SilTools.FormSettings)(this["SessionRecorderDlg"]));
             }
             set {
-                this["EventRecorderDlg"] = value;
+                this["SessionRecorderDlg"] = value;
             }
         }
         

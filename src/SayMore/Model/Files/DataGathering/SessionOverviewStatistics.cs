@@ -8,14 +8,14 @@ namespace SayMore.Model.Files.DataGathering
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// A EventOverviewStatistics is created for a single event. It then provides
+	/// A SessionOverviewStatistics is created for a single session. It then provides
 	/// information to be used on an overview screen.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class EventOverviewStatistics
+	public class SessionOverviewStatistics
 	{
-		private string _eventFolder;
-		private readonly IEnumerable<string> _eventFiles;
+		private string _sessionFolder;
+		private readonly IEnumerable<string> _sessionFiles;
 		private readonly List<string> _recordingFileExtensions;
 
 		public string Id { get; private set; }
@@ -24,11 +24,11 @@ namespace SayMore.Model.Files.DataGathering
 		public bool HasNationalTranslation { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public EventOverviewStatistics(string eventFolder)
+		public SessionOverviewStatistics(string sessionFolder)
 		{
-			_eventFolder = eventFolder;
+			_sessionFolder = sessionFolder;
 
-			_eventFiles = Directory.GetFiles(eventFolder, "*.*").Select(x => x.ToLowerInvariant());
+			_sessionFiles = Directory.GetFiles(sessionFolder, "*.*").Select(x => x.ToLowerInvariant());
 
 			_recordingFileExtensions = new List<string>();
 			_recordingFileExtensions.AddRange(Settings.Default.AudioFileExtensions.Cast<string>());
@@ -38,7 +38,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public bool GetHasCarefulSpeech()
 		{
-			var filename = _eventFiles.FirstOrDefault(x =>
+			var filename = _sessionFiles.FirstOrDefault(x =>
 			{
 				var ext = Path.GetExtension(x);
 				if (!_recordingFileExtensions.Contains(ext))
@@ -54,13 +54,13 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public bool GetHasVernacularTranscription()
 		{
-			return _eventFiles.FirstOrDefault(x => x.EndsWith("transcription.txt")) != null;
+			return _sessionFiles.FirstOrDefault(x => x.EndsWith("transcription.txt")) != null;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool GetHasEnglishTranscription()
 		{
-			var filename = _eventFiles.FirstOrDefault(x =>
+			var filename = _sessionFiles.FirstOrDefault(x =>
 			{
 				var nameonly = Path.GetFileNameWithoutExtension(x);
 				return nameonly.EndsWith("english");

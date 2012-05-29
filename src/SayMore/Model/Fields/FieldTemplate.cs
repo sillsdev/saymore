@@ -130,13 +130,13 @@ namespace SayMore.Model.Fields
 
 	#endregion
 
-	//#region EventFileInfoField class
+	//#region SessionFileInfoField class
 	///// ----------------------------------------------------------------------------------------
 	///// <summary>
 	/////
 	///// </summary>
 	///// ----------------------------------------------------------------------------------------
-	//public class EventFileInfoField : IInfoPanelField
+	//public class SessionFileInfoField : IInfoPanelField
 	//{
 	//    /// ------------------------------------------------------------------------------------
 	//    /// <summary>

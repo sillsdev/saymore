@@ -41,7 +41,7 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Open current event file in its associated application.
+		/// Open current session file in its associated application.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void HandleOpenInApp_Click(string path)

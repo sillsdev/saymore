@@ -11,19 +11,19 @@ using SayMore.Media.MPlayer;
 using SilTools;
 using NoToolStripBorderRenderer = SilTools.NoToolStripBorderRenderer;
 
-namespace SayMore.UI.EventRecording
+namespace SayMore.UI.SessionRecording
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class EventRecorderDlg : Form
+	public partial class SessionRecorderDlg : Form
 	{
-		private readonly EventRecorderDlgViewModel _viewModel;
+		private readonly SessionRecorderDlgViewModel _viewModel;
 		private string _recordedLengthLabelFormat;
 		private readonly bool _moreReliableDesignMode;
 		private PeakMeterCtrl _peakMeter;
 		private RecordingDeviceButton _recDeviceButton;
 
 		/// ------------------------------------------------------------------------------------
-		public EventRecorderDlg()
+		public SessionRecorderDlg()
 		{
 			InitializeComponent();
 
@@ -54,15 +54,15 @@ namespace SayMore.UI.EventRecording
 				Close();
 			};
 
-			if (Settings.Default.EventRecorderDlg == null)
+			if (Settings.Default.SessionRecorderDlg == null)
 			{
 				StartPosition = FormStartPosition.CenterScreen;
-				Settings.Default.EventRecorderDlg = FormSettings.Create(this);
+				Settings.Default.SessionRecorderDlg = FormSettings.Create(this);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public EventRecorderDlg(EventRecorderDlgViewModel viewModel) : this()
+		public SessionRecorderDlg(SessionRecorderDlgViewModel viewModel) : this()
 		{
 			if (_moreReliableDesignMode)
 				return;
@@ -96,7 +96,7 @@ namespace SayMore.UI.EventRecording
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
-			Settings.Default.EventRecorderDlg.InitializeForm(this);
+			Settings.Default.SessionRecorderDlg.InitializeForm(this);
 			base.OnShown(e);
 
 			if (_moreReliableDesignMode)

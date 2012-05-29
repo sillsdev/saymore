@@ -39,14 +39,14 @@ namespace SayMoreTests.Model
 			Assert.AreEqual(1, Directory.GetFiles(_parentFolder.Combine("xyz")).Length);
 		}
 
-		private Event CreateEvent()
+		private Session CreateSession()
 		{
-			return CreateEvent(_parentFolder.Path, "xyz");
+			return CreateSession(_parentFolder.Path, "xyz");
 		}
 
-		public static Event CreateEvent(string parentFolderPath, string name)
+		public static Session CreateSession(string parentFolderPath, string name)
 		{
-			return new Event(parentFolderPath, name, null, new EventFileType(() => null, () => null),
+			return new Session(parentFolderPath, name, null, new SessionFileType(() => null, () => null),
 				MakeComponent, new FileSerializer(null), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
 					ApplicationContainer.ComponentRoles, null);
@@ -307,8 +307,8 @@ namespace SayMoreTests.Model
 		[Category("SkipOnTeamCity")]
 		public void GetShowAsNormalComponentFile_IsEventFile_ReturnsFalse()
 		{
-			Assert.IsFalse(CreateEvent().GetShowAsNormalComponentFile("corn.event"));
-			Assert.IsFalse(CreateEvent().GetShowAsNormalComponentFile("CORN.EVENT"));
+			Assert.IsFalse(CreateSession().GetShowAsNormalComponentFile("corn.session"));
+			Assert.IsFalse(CreateSession().GetShowAsNormalComponentFile("CORN.SESSION"));
 		}
 
 		//[Test]
@@ -323,10 +323,10 @@ namespace SayMoreTests.Model
 		//    var file3 = new Mock<ComponentFile>();
 		//    file3.Setup(f => f.DurationString).Returns("00:04:14");
 
-		//    var evnt = new Mock<Event>();
-		//    evnt.Setup(e => e.GetComponentFiles()).Returns(new[] { file1.Object, file2.Object, file3.Object });
+		//    var session = new Mock<Session>();
+		//    session.Setup(e => e.GetComponentFiles()).Returns(new[] { file1.Object, file2.Object, file3.Object });
 
-		//    Assert.AreEqual(new TimeSpan(0, 7, 36), evnt.Object.GetTotalMediaDuration());
+		//    Assert.AreEqual(new TimeSpan(0, 7, 36), session.Object.GetTotalMediaDuration());
 		//}
 	}
 }

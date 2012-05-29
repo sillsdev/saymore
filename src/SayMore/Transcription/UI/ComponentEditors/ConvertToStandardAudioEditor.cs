@@ -59,7 +59,7 @@ namespace SayMore.Transcription.UI
 			if (_file.FileType.IsVideo)
 			{
 				text = LocalizationManager.GetString(
-					"EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForVideo",
+					"SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForVideo",
 					"In order to annotate, SayMore needs to convert this video to WAV PCM audio. " +
 					"During the conversion process, a standard audio file will be created from the " +
 					"source and added to the session's file list. The name of the new audio file will " +
@@ -72,7 +72,7 @@ namespace SayMore.Transcription.UI
 			var encoding = AudioUtils.GetAudioEncoding(_file.PathToAnnotatedFile);
 
 			text = LocalizationManager.GetString(
-				"EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForAudio",
+				"SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForAudio",
 				"The format of this audio file is '{0}'. In order to annotate, SayMore needs to convert " +
 				"it to WAV PCM, which is a good, standard choice for archiving. During the conversion " +
 				"process, a standard audio file will be created from the source and added to the " +
@@ -98,7 +98,7 @@ namespace SayMore.Transcription.UI
 		protected override void HandleStringsLocalized()
 		{
 			TabText = LocalizationManager.GetString(
-				"EventsView.Transcription.StartAnnotatingTab.TabText", "Start Annotating");
+				"SessionsView.Transcription.StartAnnotatingTab.TabText", "Start Annotating");
 
 			base.HandleStringsLocalized();
 		}

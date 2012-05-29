@@ -14,7 +14,7 @@ namespace SayMoreTests.Export
 		public void GetFileString_EmptyList_DoesntCrash()
 		{
 			var exporter = new ExportCommand();
-			exporter.GetFileString(new List<Event>().ToArray());
+			exporter.GetFileString(new List<Session>().ToArray());
 		}
 
 		[Test]

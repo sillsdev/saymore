@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model;
+using SayMore.Properties;
 
 namespace SayMoreTests.Model
 {
@@ -114,66 +115,66 @@ namespace SayMoreTests.Model
 		public void RenameSessionsToEvents_FolderRename_RenamesFolder()
 		{
 			var prj = CreateProject(_parentFolder);
-			var sessionPath = CreateSessionFolder(prj);
+			var eventPath = CreateEventFolder(prj);
 
-			Assert.IsFalse(Directory.Exists(prj.EventsFolder));
-			Assert.IsTrue(Directory.Exists(sessionPath));
+			Assert.IsFalse(Directory.Exists(prj.SessionsFolder));
+			Assert.IsTrue(Directory.Exists(eventPath));
 
-			prj.RenameSessionsToEvents(prj.FolderPath);
+			prj.RenameEventsToSessions(prj.FolderPath);
 
-			Assert.IsTrue(Directory.Exists(prj.EventsFolder));
-			Assert.IsFalse(Directory.Exists(sessionPath));
+			Assert.IsTrue(Directory.Exists(prj.SessionsFolder));
+			Assert.IsFalse(Directory.Exists(eventPath));
 		}
 
 		[Test]
 		public void RenameSessionsToEvents_FileRename_RenamesFileExtension()
 		{
 			var prj = CreateProject(_parentFolder);
-			var sessionPath = CreateSessionFolder(prj);
-			var sessionFile = CreateSessionFile(sessionPath);
+			var eventPath = CreateEventFolder(prj);
+			var eventFile = CreateEventFile(eventPath);
 
-			Assert.AreEqual(".session", Path.GetExtension(sessionFile));
-			Assert.IsTrue(File.Exists(sessionFile));
+			Assert.AreEqual(".event", Path.GetExtension(eventFile));
+			Assert.IsTrue(File.Exists(eventFile));
 
-			prj.RenameSessionsToEvents(prj.FolderPath);
+			prj.RenameEventsToSessions(prj.FolderPath);
 
-			Assert.IsFalse(File.Exists(sessionFile));
-			var eventFile = Path.ChangeExtension(sessionFile, "event");
-			eventFile = Path.GetFileName(eventFile);
-			Assert.IsTrue(File.Exists(Path.Combine(prj.EventsFolder, eventFile)));
+			Assert.IsFalse(File.Exists(eventFile));
+			var sessionFile = Path.ChangeExtension(eventFile, Settings.Default.SessionFileExtension);
+			sessionFile = Path.GetFileName(sessionFile);
+			Assert.IsTrue(File.Exists(Path.Combine(prj.SessionsFolder, sessionFile)));
 		}
 
 		[Test]
 		public void RenameSessionsToEvents_TagRename_RenamesTagsInFile()
 		{
 			var prj = CreateProject(_parentFolder);
-			var sessionPath = CreateSessionFolder(prj);
-			var sessionFile = CreateSessionFile(sessionPath);
+			var eventPath = CreateEventFolder(prj);
+			var eventFile = CreateEventFile(eventPath);
 
-			var contents = XElement.Load(sessionFile);
-			Assert.AreEqual("Session", contents.Name.LocalName);
-
-			prj.RenameSessionsToEvents(prj.FolderPath);
-
-			var eventFile = Path.ChangeExtension(sessionFile, "event");
-			eventFile = Path.GetFileName(eventFile);
-			eventFile = Path.Combine(prj.EventsFolder, eventFile);
-
-			contents = XElement.Load(eventFile);
+			var contents = XElement.Load(eventFile);
 			Assert.AreEqual("Event", contents.Name.LocalName);
+
+			prj.RenameEventsToSessions(prj.FolderPath);
+
+			var sessionFile = Path.ChangeExtension(eventFile, Settings.Default.SessionFileExtension);
+			sessionFile = Path.GetFileName(sessionFile);
+			sessionFile = Path.Combine(prj.SessionsFolder, sessionFile);
+
+			contents = XElement.Load(sessionFile);
+			Assert.AreEqual("Session", contents.Name.LocalName);
 		}
 
-		private static string CreateSessionFolder(Project prj)
+		private static string CreateEventFolder(Project prj)
 		{
-			var sessionPath = Path.Combine(prj.FolderPath, "Sessions");
+			var sessionPath = Path.Combine(prj.FolderPath, "Events");
 			Directory.CreateDirectory(sessionPath);
 			return sessionPath;
 		}
 
-		private static string CreateSessionFile(string sessionPath)
+		private static string CreateEventFile(string sessionPath)
 		{
-			var sessionFile = Path.Combine(sessionPath, "foodoo.session");
-			XElement session = new XElement("Session");
+			var sessionFile = Path.Combine(sessionPath, "foodoo.event");
+			XElement session = new XElement("Event");
 			session.Save(sessionFile);
 			return sessionFile;
 		}

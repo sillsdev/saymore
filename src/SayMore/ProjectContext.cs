@@ -46,8 +46,8 @@ namespace SayMore
 			var peopleRepoFactory = _scope.Resolve<ElementRepository<Person>.Factory>();
 			peopleRepoFactory(rootDirectoryPath, "People", _scope.Resolve<PersonFileType>());
 
-			var eventRepoFactory = _scope.Resolve<ElementRepository<Event>.Factory>();
-			eventRepoFactory(rootDirectoryPath, "Events", _scope.Resolve<EventFileType>());
+			var sessionRepoFactory = _scope.Resolve<ElementRepository<Session>.Factory>();
+			sessionRepoFactory(rootDirectoryPath, "Sessions", _scope.Resolve<SessionFileType>());
 
 			// Create background operations
 			_presetGatherer = _scope.Resolve<PresetGatherer>();
@@ -63,7 +63,7 @@ namespace SayMore
 
 			var views = new ISayMoreView[]
 			{
-				_scope.Resolve<EventsListScreen>(),
+				_scope.Resolve<SessionsListScreen>(),
 				_scope.Resolve<PersonListScreen>(),
 				_scope.Resolve<ProgressScreen>()
 			};
@@ -76,16 +76,16 @@ namespace SayMore
 		{
 			_scope = parentContainer.BeginLifetimeScope(builder =>
 			{
-				builder.RegisterType<ElementRepository<Event>>().InstancePerLifetimeScope();
+				builder.RegisterType<ElementRepository<Session>>().InstancePerLifetimeScope();
 				builder.RegisterType<ElementRepository<Person>>().InstancePerLifetimeScope();
-				builder.RegisterType<ElementListViewModel<Event>>().InstancePerLifetimeScope();
+				builder.RegisterType<ElementListViewModel<Session>>().InstancePerLifetimeScope();
 				builder.RegisterType<ElementListViewModel<Person>>().InstancePerLifetimeScope();
 				builder.RegisterType<AudioVideoDataGatherer>().InstancePerLifetimeScope();
 				builder.RegisterType<IEnumerable<FileType>>().InstancePerLifetimeScope();
 
 				builder.RegisterType<Project>().InstancePerLifetimeScope();
 
-				builder.RegisterType<EventFileType>().InstancePerLifetimeScope();
+				builder.RegisterType<SessionFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<PersonFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<AnnotationFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<OralAnnotationFileType>().InstancePerLifetimeScope();
@@ -134,7 +134,7 @@ namespace SayMore
 				//make a lazy factory-getter to get around a mysterious circular dependency problem
 				//NB: when we move to .net 4, we can remove this and instead use Lazy<Func<PersonBasicEditor.Factory> in the PersonFileType constructor
 				//builder.Register<Func<PersonBasicEditor.Factory>>(c => () => c.Resolve<PersonBasicEditor.Factory>());
-				//builder.Register<Func<EventBasicEditor.Factory>>(c => () => c.Resolve<EventBasicEditor.Factory>());
+				//builder.Register<Func<SessionBasicEditor.Factory>>(c => () => c.Resolve<SessionBasicEditor.Factory>());
 			});
 		}
 
@@ -143,7 +143,7 @@ namespace SayMore
 		{
 			return new List<FileType>(new FileType[]
 			{
-				context.Resolve<EventFileType>(),
+				context.Resolve<SessionFileType>(),
 				context.Resolve<PersonFileType>(),
 				context.Resolve<AnnotationFileType>(),
 				context.Resolve<OralAnnotationFileType>(),	// This must come before AudioFileType.
@@ -159,7 +159,7 @@ namespace SayMore
 		{
 			return new List<FileType>(new FileType[]
 			{
-				context.Resolve<EventFileType>(),
+				context.Resolve<SessionFileType>(),
 				context.Resolve<PersonFileType>(),
 				// REVIEW: Should this be a gathered type?
 				// context.Resolve<OralAnnotationFileType>(),

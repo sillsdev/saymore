@@ -1,8 +1,8 @@
 using SilTools.Controls;
 
-namespace SayMore.UI.EventRecording
+namespace SayMore.UI.SessionRecording
 {
-	partial class EventRecorderDlg
+	partial class SessionRecorderDlg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -79,7 +79,7 @@ namespace SayMore.UI.EventRecording
 			this._buttonOK.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._buttonOK, null);
 			this.locExtender.SetLocalizationComment(this._buttonOK, null);
-			this.locExtender.SetLocalizingId(this._buttonOK, "DialogBoxes.EventRecorderDlg.OKButtonText");
+			this.locExtender.SetLocalizingId(this._buttonOK, "DialogBoxes.SessionRecorderDlg.OKButtonText");
 			this._buttonOK.Location = new System.Drawing.Point(198, 161);
 			this._buttonOK.Margin = new System.Windows.Forms.Padding(0, 8, 3, 0);
 			this._buttonOK.Name = "_buttonOK";
@@ -91,13 +91,13 @@ namespace SayMore.UI.EventRecording
 			// _labelRecordingFormat
 			//
 			this._labelRecordingFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelRecordingFormat.AutoEllipsis = true;
 			this._labelRecordingFormat.AutoSize = true;
 			this._labelRecordingFormat.ForeColor = System.Drawing.Color.DarkRed;
 			this.locExtender.SetLocalizableToolTip(this._labelRecordingFormat, null);
 			this.locExtender.SetLocalizationComment(this._labelRecordingFormat, null);
-			this.locExtender.SetLocalizingId(this._labelRecordingFormat, "DialogBoxes.EventRecorderDlg.RecordingFormatLabel");
+			this.locExtender.SetLocalizingId(this._labelRecordingFormat, "DialogBoxes.SessionRecorderDlg.RecordingFormatLabel");
 			this._labelRecordingFormat.Location = new System.Drawing.Point(23, 171);
 			this._labelRecordingFormat.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
 			this._labelRecordingFormat.Name = "_labelRecordingFormat";
@@ -112,7 +112,7 @@ namespace SayMore.UI.EventRecording
 			this.tableLayoutPanel1.SetColumnSpan(this._buttonCancel, 2);
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
-			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.EventRecorderDlg.CancelButtonText");
+			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.SessionRecorderDlg.CancelButtonText");
 			this._buttonCancel.Location = new System.Drawing.Point(279, 161);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(3, 8, 0, 0);
 			this._buttonCancel.MinimumSize = new System.Drawing.Size(75, 26);
@@ -138,7 +138,7 @@ namespace SayMore.UI.EventRecording
 			this.locExtender.SetLocalizableToolTip(this._panelPeakMeter, null);
 			this.locExtender.SetLocalizationComment(this._panelPeakMeter, null);
 			this.locExtender.SetLocalizationPriority(this._panelPeakMeter, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._panelPeakMeter, "EventRecorderDlg.panel1");
+			this.locExtender.SetLocalizingId(this._panelPeakMeter, "SessionRecorderDlg.panel1");
 			this._panelPeakMeter.Location = new System.Drawing.Point(337, 0);
 			this._panelPeakMeter.Margin = new System.Windows.Forms.Padding(0);
 			this._panelPeakMeter.MnemonicGeneratesClick = false;
@@ -177,7 +177,7 @@ namespace SayMore.UI.EventRecording
 			this._buttonRecord.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonRecord, null);
 			this.locExtender.SetLocalizationComment(this._buttonRecord, null);
-			this.locExtender.SetLocalizingId(this._buttonRecord, "DialogBoxes.EventRecorderDlg.RecordButtonText");
+			this.locExtender.SetLocalizingId(this._buttonRecord, "DialogBoxes.SessionRecorderDlg.RecordButtonText");
 			this._buttonRecord.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this._buttonRecord.Name = "_buttonRecord";
 			this._buttonRecord.Size = new System.Drawing.Size(225, 24);
@@ -193,7 +193,7 @@ namespace SayMore.UI.EventRecording
 			this._buttonPlayback.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonPlayback, null);
 			this.locExtender.SetLocalizationComment(this._buttonPlayback, null);
-			this.locExtender.SetLocalizingId(this._buttonPlayback, "DialogBoxes.EventRecorderDlg.PlaybackButtonText");
+			this.locExtender.SetLocalizingId(this._buttonPlayback, "DialogBoxes.SessionRecorderDlg.PlaybackButtonText");
 			this._buttonPlayback.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this._buttonPlayback.Name = "_buttonPlayback";
 			this._buttonPlayback.Size = new System.Drawing.Size(225, 24);
@@ -209,7 +209,7 @@ namespace SayMore.UI.EventRecording
 			this._buttonStop.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonStop, "Stop");
 			this.locExtender.SetLocalizationComment(this._buttonStop, null);
-			this.locExtender.SetLocalizingId(this._buttonStop, "DialogBoxes.EventRecorderDlg.StopButtonText");
+			this.locExtender.SetLocalizingId(this._buttonStop, "DialogBoxes.SessionRecorderDlg.StopButtonText");
 			this._buttonStop.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this._buttonStop.Name = "_buttonStop";
 			this._buttonStop.Size = new System.Drawing.Size(225, 24);
@@ -219,12 +219,12 @@ namespace SayMore.UI.EventRecording
 			// _labelRecLength
 			//
 			this._labelRecLength.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelRecLength.AutoSize = true;
 			this.tableLayoutPanel1.SetColumnSpan(this._labelRecLength, 4);
 			this.locExtender.SetLocalizableToolTip(this._labelRecLength, null);
 			this.locExtender.SetLocalizationComment(this._labelRecLength, null);
-			this.locExtender.SetLocalizingId(this._labelRecLength, "DialogBoxes.EventRecorderDlg.RecordedLengthLabel");
+			this.locExtender.SetLocalizingId(this._labelRecLength, "DialogBoxes.SessionRecorderDlg.RecordedLengthLabel");
 			this._labelRecLength.Location = new System.Drawing.Point(0, 140);
 			this._labelRecLength.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelRecLength.Name = "_labelRecLength";
@@ -236,7 +236,7 @@ namespace SayMore.UI.EventRecording
 			//
 			this.locExtender.LocalizationManagerId = "SayMore";
 			//
-			// EventRecorderDlg
+			// SessionRecorderDlg
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -244,16 +244,16 @@ namespace SayMore.UI.EventRecording
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.OralAnnotationDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.SessionRecorderDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(340, 225);
-			this.Name = "EventRecorderDlg";
+			this.Name = "SessionRecorderDlg";
 			this.Padding = new System.Windows.Forms.Padding(12);
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "Event Recorder";
+			this.Text = "Session Recorder";
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
 			this.toolStrip1.ResumeLayout(false);

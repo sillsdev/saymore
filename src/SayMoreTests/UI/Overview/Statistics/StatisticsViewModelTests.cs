@@ -21,7 +21,7 @@ namespace SayMoreTests.UI.Overview.Statistics
 		{
 			_folder = new TemporaryFolder("StatisticsViewModelTests");
 			Directory.CreateDirectory(_folder.Combine("people"));
-			Directory.CreateDirectory(_folder.Combine("events"));
+			Directory.CreateDirectory(_folder.Combine("sessions"));
 			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 		}
 
@@ -33,18 +33,18 @@ namespace SayMoreTests.UI.Overview.Statistics
 
 		private StatisticsViewModel CreateModel()
 		{
-			var nullRole = new ComponentRole(typeof(Event), "someRole", "someRole",
+			var nullRole = new ComponentRole(typeof(Session), "someRole", "someRole",
 				ComponentRole.MeasurementTypes.None,
 				p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta, Color.Black);
 
 			var personInformer = new PersonInformant(
 				new ElementRepository<Person>(_folder.Combine("people"), "People", null, null), null);
 
-			var eventInformer = new EventWorkflowInformant(
-				new ElementRepository<Event>(_folder.Combine("events"), "Events", null, null),
+			var sessionInformer = new SessionWorkflowInformant(
+				new ElementRepository<Session>(_folder.Combine("sessions"), "Sessions", null, null),
 				new[] { nullRole });
 
-			return new StatisticsViewModel(null, personInformer, eventInformer, new[] { nullRole },
+			return new StatisticsViewModel(null, personInformer, sessionInformer, new[] { nullRole },
 				new AudioVideoDataGatherer(_folder.Path, new[] { new AudioFileType(() => null, null) }));
 		}
 
@@ -53,7 +53,7 @@ namespace SayMoreTests.UI.Overview.Statistics
 		{
 			//Mock<ComponentRole> role = new Mock<ComponentRole>();
 			//role.Setup(x => x.IsMatch("zzzz")).Returns(false);
-			var role = new ComponentRole(typeof (Event), "blah", "blah", ComponentRole.MeasurementTypes.Time,
+			var role = new ComponentRole(typeof (Session), "blah", "blah", ComponentRole.MeasurementTypes.Time,
 										 FileSystemUtils.GetIsAudioVideo, "CantMatchThis", Color.Magenta, Color.Black);
 			Assert.AreEqual(new TimeSpan(0),
 							   CreateModel().GetRecordingDurations(role));
@@ -107,10 +107,10 @@ namespace SayMoreTests.UI.Overview.Statistics
 		}
 	*/
 
-		//private void CreateCanonciallyNamedRecordingInEvent(ComponentRole roleDefinition, string eventId)
+		//private void CreateCanonciallyNamedRecordingInEvent(ComponentRole roleDefinition, string sessionId)
 		//{
 		//    var path = MediaFileInfoTests.CreateRecording(_folder.Path);
-		//    File.Move(path, roleDefinition.GetCanoncialName(eventId, path));
+		//    File.Move(path, roleDefinition.GetCanoncialName(sessionId, path));
 		//}
 	}
 }

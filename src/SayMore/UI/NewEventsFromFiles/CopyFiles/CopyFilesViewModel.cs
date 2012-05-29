@@ -9,7 +9,7 @@ using Localization;
 using Palaso.Code;
 using SayMore.UI.LowLevelControls;
 
-namespace SayMore.UI.NewEventsFromFiles
+namespace SayMore.UI.NewSessionsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

@@ -75,25 +75,25 @@ namespace SayMore.Transcription.UI
 		private void LoadPlaybackSpeedCombo()
 		{
 			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct", "100% (Normal)"));
+				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct", "100% (Normal)"));
 			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct", "90%"));
+				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct", "90%"));
 			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.80Pct", "80%"));
+				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.80Pct", "80%"));
 			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.70Pct", "70%"));
+				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.70Pct", "70%"));
 			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.60Pct", "60%"));
+				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.60Pct", "60%"));
 			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.50Pct", "50%"));
+				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.50Pct", "50%"));
 			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.40Pct", "40%"));
+				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.40Pct", "40%"));
 			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.30Pct", "30%"));
+				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.30Pct", "30%"));
 			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.20Pct", "20%"));
+				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.20Pct", "20%"));
 			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.10Pct", "10%"));
+				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.10Pct", "10%"));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -120,7 +120,7 @@ namespace SayMore.Transcription.UI
 			var exception = annotationFile.TryLoadAndReturnException();
 			if (exception != null)
 			{
-				var msg = LocalizationManager.GetString("EventsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg",
+				var msg = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg",
 					"There was an error loading the annotation file '{0}'.");
 
 				ErrorReport.NotifyUserOfProblem(exception, msg, file.PathToAnnotatedFile);
@@ -314,7 +314,7 @@ namespace SayMore.Transcription.UI
 		protected override void HandleStringsLocalized()
 		{
 			TabText = LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
+				"SessionsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
 
 			base.HandleStringsLocalized();
 		}

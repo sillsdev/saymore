@@ -6,8 +6,8 @@ using SayMore.Model.Files.DataGathering;
 namespace SayMore.Model
 {
 	/// <summary>
-	/// I couldn't  think of a good name... the idea is to put stuff for the event in here, so as to keep
-	/// knowledge of people somewhat seperate from Event
+	/// I couldn't  think of a good name... the idea is to put stuff for the session in here, so as to keep
+	/// knowledge of people somewhat seperate from Session
 	/// </summary>
 	public class PersonInformant
 	{

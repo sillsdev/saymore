@@ -4,7 +4,7 @@ using SilTools;
 
 namespace SayMore.UI.ElementListScreen
 {
-	partial class EventsListScreen
+	partial class SessionsListScreen
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -36,9 +36,9 @@ namespace SayMore.UI.ElementListScreen
 			this._elementListSplitter = new System.Windows.Forms.SplitContainer();
 			this._buttonNewFromRecording = new System.Windows.Forms.Button();
 			this._buttonNewFromFiles = new System.Windows.Forms.Button();
-			this._eventsListPanel = new SayMore.UI.LowLevelControls.ListPanel();
+			this._sessionsListPanel = new SayMore.UI.LowLevelControls.ListPanel();
 			this._componentsSplitter = new System.Windows.Forms.SplitContainer();
-			this._eventComponentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
+			this._sessionComponentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._labelClickNewHelpPrompt = new System.Windows.Forms.Label();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._elementListSplitter.Panel1.SuspendLayout();
@@ -60,7 +60,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._elementListSplitter.Panel1.Controls.Add(this._buttonNewFromRecording);
 			this._elementListSplitter.Panel1.Controls.Add(this._buttonNewFromFiles);
-			this._elementListSplitter.Panel1.Controls.Add(this._eventsListPanel);
+			this._elementListSplitter.Panel1.Controls.Add(this._sessionsListPanel);
 			// 
 			// _elementListSplitter.Panel2
 			// 
@@ -78,7 +78,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonNewFromRecording.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.locExtender.SetLocalizableToolTip(this._buttonNewFromRecording, null);
 			this.locExtender.SetLocalizationComment(this._buttonNewFromRecording, null);
-			this.locExtender.SetLocalizingId(this._buttonNewFromRecording, "EventsView.EventsList.NewFilesFromRecordingButtonText");
+			this.locExtender.SetLocalizingId(this._buttonNewFromRecording, "SessionsView.SessionsList.NewFilesFromRecordingButtonText");
 			this._buttonNewFromRecording.Location = new System.Drawing.Point(24, 216);
 			this._buttonNewFromRecording.MinimumSize = new System.Drawing.Size(117, 26);
 			this._buttonNewFromRecording.Name = "_buttonNewFromRecording";
@@ -95,7 +95,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonNewFromFiles.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.locExtender.SetLocalizableToolTip(this._buttonNewFromFiles, null);
 			this.locExtender.SetLocalizationComment(this._buttonNewFromFiles, null);
-			this.locExtender.SetLocalizingId(this._buttonNewFromFiles, "EventsView.EventsList.NewFilesFromDeviceButtonText");
+			this.locExtender.SetLocalizingId(this._buttonNewFromFiles, "SessionsView.SessionsList.NewFilesFromDeviceButtonText");
 			this._buttonNewFromFiles.Location = new System.Drawing.Point(33, 161);
 			this._buttonNewFromFiles.MinimumSize = new System.Drawing.Size(117, 26);
 			this._buttonNewFromFiles.Name = "_buttonNewFromFiles";
@@ -105,25 +105,25 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonNewFromFiles.UseVisualStyleBackColor = true;
 			this._buttonNewFromFiles.Click += new System.EventHandler(this.HandleButtonNewFromFilesClick);
 			// 
-			// _eventsListPanel
+			// _sessionsListPanel
 			// 
-			this._eventsListPanel.ButtonPanelBackColor1 = System.Drawing.SystemColors.Control;
-			this._eventsListPanel.ButtonPanelBackColor2 = System.Drawing.SystemColors.Control;
-			this._eventsListPanel.ButtonPanelTopBorderColor = System.Drawing.SystemColors.ControlDark;
-			this._eventsListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._eventsListPanel.HeaderPanelBackColor1 = System.Drawing.SystemColors.Control;
-			this._eventsListPanel.HeaderPanelBackColor2 = System.Drawing.SystemColors.Control;
-			this._eventsListPanel.HeaderPanelBottomBorderColor = System.Drawing.SystemColors.ControlDark;
-			this.locExtender.SetLocalizableToolTip(this._eventsListPanel, null);
-			this.locExtender.SetLocalizationComment(this._eventsListPanel, null);
-			this.locExtender.SetLocalizingId(this._eventsListPanel, "EventsView.EventsList.HeadingText");
-			this._eventsListPanel.Location = new System.Drawing.Point(0, 0);
-			this._eventsListPanel.MinimumSize = new System.Drawing.Size(165, 0);
-			this._eventsListPanel.Name = "_eventsListPanel";
-			this._eventsListPanel.ShowColumnChooserButton = true;
-			this._eventsListPanel.Size = new System.Drawing.Size(182, 350);
-			this._eventsListPanel.TabIndex = 0;
-			this._eventsListPanel.Text = "Events";
+			this._sessionsListPanel.ButtonPanelBackColor1 = System.Drawing.SystemColors.Control;
+			this._sessionsListPanel.ButtonPanelBackColor2 = System.Drawing.SystemColors.Control;
+			this._sessionsListPanel.ButtonPanelTopBorderColor = System.Drawing.SystemColors.ControlDark;
+			this._sessionsListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._sessionsListPanel.HeaderPanelBackColor1 = System.Drawing.SystemColors.Control;
+			this._sessionsListPanel.HeaderPanelBackColor2 = System.Drawing.SystemColors.Control;
+			this._sessionsListPanel.HeaderPanelBottomBorderColor = System.Drawing.SystemColors.ControlDark;
+			this.locExtender.SetLocalizableToolTip(this._sessionsListPanel, null);
+			this.locExtender.SetLocalizationComment(this._sessionsListPanel, null);
+			this.locExtender.SetLocalizingId(this._sessionsListPanel, "SessionsView.SessionsList.HeadingText");
+			this._sessionsListPanel.Location = new System.Drawing.Point(0, 0);
+			this._sessionsListPanel.MinimumSize = new System.Drawing.Size(165, 0);
+			this._sessionsListPanel.Name = "_sessionsListPanel";
+			this._sessionsListPanel.ShowColumnChooserButton = true;
+			this._sessionsListPanel.Size = new System.Drawing.Size(182, 350);
+			this._sessionsListPanel.TabIndex = 0;
+			this._sessionsListPanel.Text = "Sessions";
 			// 
 			// _componentsSplitter
 			// 
@@ -134,7 +134,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// _componentsSplitter.Panel1
 			// 
-			this._componentsSplitter.Panel1.Controls.Add(this._eventComponentFileGrid);
+			this._componentsSplitter.Panel1.Controls.Add(this._sessionComponentFileGrid);
 			// 
 			// _componentsSplitter.Panel2
 			// 
@@ -145,23 +145,23 @@ namespace SayMore.UI.ElementListScreen
 			this._componentsSplitter.TabIndex = 0;
 			this._componentsSplitter.TabStop = false;
 			// 
-			// _eventComponentFileGrid
+			// _sessionComponentFileGrid
 			// 
-			this._eventComponentFileGrid.AddButtonEnabled = false;
-			this._eventComponentFileGrid.AddButtonVisible = true;
-			this._eventComponentFileGrid.ConvertButtonVisible = true;
-			this._eventComponentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._eventComponentFileGrid.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold);
-			this.locExtender.SetLocalizableToolTip(this._eventComponentFileGrid, null);
-			this.locExtender.SetLocalizationComment(this._eventComponentFileGrid, null);
-			this.locExtender.SetLocalizationPriority(this._eventComponentFileGrid, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._eventComponentFileGrid, "UI.EventsView.ComponentFileGrid");
-			this._eventComponentFileGrid.Location = new System.Drawing.Point(0, 0);
-			this._eventComponentFileGrid.Name = "_eventComponentFileGrid";
-			this._eventComponentFileGrid.RenameButtonVisible = true;
-			this._eventComponentFileGrid.ShowContextMenu = true;
-			this._eventComponentFileGrid.Size = new System.Drawing.Size(315, 147);
-			this._eventComponentFileGrid.TabIndex = 0;
+			this._sessionComponentFileGrid.AddButtonEnabled = false;
+			this._sessionComponentFileGrid.AddButtonVisible = true;
+			this._sessionComponentFileGrid.ConvertButtonVisible = true;
+			this._sessionComponentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._sessionComponentFileGrid.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold);
+			this.locExtender.SetLocalizableToolTip(this._sessionComponentFileGrid, null);
+			this.locExtender.SetLocalizationComment(this._sessionComponentFileGrid, null);
+			this.locExtender.SetLocalizationPriority(this._sessionComponentFileGrid, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._sessionComponentFileGrid, "UI.SessionsView.ComponentFileGrid");
+			this._sessionComponentFileGrid.Location = new System.Drawing.Point(0, 0);
+			this._sessionComponentFileGrid.Name = "_sessionComponentFileGrid";
+			this._sessionComponentFileGrid.RenameButtonVisible = true;
+			this._sessionComponentFileGrid.ShowContextMenu = true;
+			this._sessionComponentFileGrid.Size = new System.Drawing.Size(315, 147);
+			this._sessionComponentFileGrid.TabIndex = 0;
 			// 
 			// _labelClickNewHelpPrompt
 			// 
@@ -169,19 +169,19 @@ namespace SayMore.UI.ElementListScreen
 			this._labelClickNewHelpPrompt.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelClickNewHelpPrompt, null);
 			this.locExtender.SetLocalizationComment(this._labelClickNewHelpPrompt, null);
-			this.locExtender.SetLocalizingId(this._labelClickNewHelpPrompt, "EventsView.EventsList.ClickNewButtonHelpPrompt");
+			this.locExtender.SetLocalizingId(this._labelClickNewHelpPrompt, "SessionsView.SessionsList.ClickNewButtonHelpPrompt");
 			this._labelClickNewHelpPrompt.Location = new System.Drawing.Point(0, 0);
 			this._labelClickNewHelpPrompt.Name = "_labelClickNewHelpPrompt";
 			this._labelClickNewHelpPrompt.Size = new System.Drawing.Size(315, 197);
 			this._labelClickNewHelpPrompt.TabIndex = 0;
-			this._labelClickNewHelpPrompt.Text = "Click \'New\' to add a new event.";
+			this._labelClickNewHelpPrompt.Text = "Click \'New\' to add a new session.";
 			this._labelClickNewHelpPrompt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
-			// EventsListScreen
+			// SessionsListScreen
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -189,8 +189,8 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this, "UI.EventsView.EventsListScreen");
-			this.Name = "EventsListScreen";
+			this.locExtender.SetLocalizingId(this, "UI.SessionsView.SessionsListScreen");
+			this.Name = "SessionsListScreen";
 			this.Size = new System.Drawing.Size(503, 350);
 			this._elementListSplitter.Panel1.ResumeLayout(false);
 			this._elementListSplitter.Panel1.PerformLayout();
@@ -206,10 +206,10 @@ namespace SayMore.UI.ElementListScreen
 
 		#endregion
 
-		private ListPanel _eventsListPanel;
+		private ListPanel _sessionsListPanel;
 		private System.Windows.Forms.SplitContainer _elementListSplitter;
 		private System.Windows.Forms.SplitContainer _componentsSplitter;
-		private ComponentFileGrid _eventComponentFileGrid;
+		private ComponentFileGrid _sessionComponentFileGrid;
 		private System.Windows.Forms.Button _buttonNewFromFiles;
 		private System.Windows.Forms.Label _labelClickNewHelpPrompt;
 		private Localization.UI.LocalizationExtender locExtender;
@@ -217,7 +217,7 @@ namespace SayMore.UI.ElementListScreen
 
 	    public string NameForUsageReporting
 	    {
-            get { return "Events"; }
+            get { return "Sessions"; }
 	    }
 	}
 }

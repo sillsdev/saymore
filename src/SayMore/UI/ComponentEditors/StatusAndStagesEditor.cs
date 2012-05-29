@@ -66,7 +66,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void AddStatusFields()
 		{
-			_statusRadioButtons = new List<RadioButton>(Enum.GetValues(typeof(Event.Status)).Length);
+			_statusRadioButtons = new List<RadioButton>(Enum.GetValues(typeof(Session.Status)).Length);
 
 			int row = _tableLayoutOuter.GetRow(_labelStatus) + 1;
 			int lastRow = _tableLayoutOuter.GetRow(_labelStages) - 1;
@@ -76,7 +76,7 @@ namespace SayMore.UI.ComponentEditors
 
 			int tabIndex = 0;
 
-			foreach (var status in Enum.GetValues(typeof(Event.Status)).Cast<Event.Status>())
+			foreach (var status in Enum.GetValues(typeof(Session.Status)).Cast<Session.Status>())
 			{
 				var picBox = AddStatusImage(row, status);
 				var radioButton = AddStatusRadioButton(row++, tabIndex++, status);
@@ -101,7 +101,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private PictureBox AddStatusImage(int row, Event.Status status)
+		private PictureBox AddStatusImage(int row, Session.Status status)
 		{
 			var statusPicBox = new PictureBox
 			{
@@ -120,7 +120,7 @@ namespace SayMore.UI.ComponentEditors
 
 			statusPicBox.MouseEnter += delegate
 			{
-				_toolTip.ToolTipTitle = Event.GetLocalizedStatus(status.ToString());
+				_toolTip.ToolTipTitle = Session.GetLocalizedStatus(status.ToString());
 			};
 
 			if (row == _tableLayoutOuter.GetRow(_labelStages))
@@ -131,7 +131,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private RadioButton AddStatusRadioButton(int row, int tabIndex, Event.Status status)
+		private RadioButton AddStatusRadioButton(int row, int tabIndex, Session.Status status)
 		{
 			var statusRadioButton = new RadioButton
 			{
@@ -140,7 +140,7 @@ namespace SayMore.UI.ComponentEditors
 				AutoEllipsis = true,
 				AutoSize = true,
 				Margin = new Padding(10, 4, 0, 2),
-				Text = Event.GetLocalizedStatus(status.ToString()),
+				Text = Session.GetLocalizedStatus(status.ToString()),
 				Font = Program.DialogFont,
 				UseVisualStyleBackColor = true,
 				Tag = status,
@@ -169,33 +169,33 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ----------------------------------------------------------------------------------------
-		private string GetStatusToolTip(Event.Status status)
+		private string GetStatusToolTip(Session.Status status)
 		{
-			if (status == Event.Status.Incoming)
+			if (status == Session.Status.Incoming)
 			{
 				return LocalizationManager.GetString(
-					"EventsView.StatusAndStagesEditor.StatusToolTips.Incoming",
+					"SessionsView.StatusAndStagesEditor.StatusToolTips.Incoming",
 					"I am gathering the recording and meta\ndata and may or may not take it further.");
 			}
 
-			if (status == Event.Status.In_Progress)
+			if (status == Session.Status.In_Progress)
 			{
 				return LocalizationManager.GetString(
-					"EventsView.StatusAndStagesEditor.StatusToolTips.In_Progress",
+					"SessionsView.StatusAndStagesEditor.StatusToolTips.In_Progress",
 					"I'm working on it.");
 			}
 
-			if (status == Event.Status.Finished)
+			if (status == Session.Status.Finished)
 			{
 				return LocalizationManager.GetString(
-					"EventsView.StatusAndStagesEditor.StatusToolTips.Finished",
+					"SessionsView.StatusAndStagesEditor.StatusToolTips.Finished",
 					"I'm done working on it.");
 			}
 
-			if (status == Event.Status.Skipped)
+			if (status == Session.Status.Skipped)
 			{
 				return LocalizationManager.GetString(
-					"EventsView.StatusAndStagesEditor.StatusToolTips.Skipped",
+					"SessionsView.StatusAndStagesEditor.StatusToolTips.Skipped",
 					"I've decided to not develop\nthis event at this time.");
 			}
 
@@ -272,7 +272,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			Utils.SetWindowRedraw(this, false);
 
-			var status = _file.GetValue("status", Event.Status.Incoming.ToString()) as string;
+			var status = _file.GetValue("status", Session.Status.Incoming.ToString()) as string;
 
 			foreach (var radioButton in _statusRadioButtons.Where(r => r.Tag.ToString() == status))
 				radioButton.Checked = true;
@@ -324,14 +324,14 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = LocalizationManager.GetString("EventsView.StatusAndStagesEditor.TabText", "Status && Stages");
+			TabText = LocalizationManager.GetString("SessionsView.StatusAndStagesEditor.TabText", "Status && Stages");
 			base.HandleStringsLocalized();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleTableLayoutOuterPaint(object sender, PaintEventArgs e)
 		{
-			using (var pen = new Pen(Properties.Settings.Default.EventEditorsBorderColor))
+			using (var pen = new Pen(Properties.Settings.Default.SessionEditorsBorderColor))
 			{
 				foreach (var label in new[] { _labelStatus, _labelStages })
 				{
@@ -394,7 +394,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			var roleFormat = LocalizationManager.GetString(
-				"EventsView.StatusAndStagesEditor.StageNameDisplayFormat", "{0} (on auto-pilot)");
+				"SessionsView.StatusAndStagesEditor.StageNameDisplayFormat", "{0} (on auto-pilot)");
 
 			if (_completeType == StageCompleteType.Auto)
 			{

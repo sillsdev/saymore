@@ -60,8 +60,8 @@ namespace SayMore.UI.ElementListScreen
 				_tableLayout.Controls.Add(GetNewRoleLabel(_nameTemplate, text), 1, row);
 
 				text = (role.IsContainedIn(compRoles) ?
-					LocalizationManager.GetString("EventsView.EventsList.Stages.CompleteToolTipText", "Complete") :
-					LocalizationManager.GetString("EventsView.EventsList.Stages.IncompleteToolTipText", "Incomplete"));
+					LocalizationManager.GetString("SessionsView.SessionsList.Stages.CompleteToolTipText", "Complete") :
+					LocalizationManager.GetString("SessionsView.SessionsList.Stages.IncompleteToolTipText", "Incomplete"));
 
 				_tableLayout.Controls.Add(GetNewRoleLabel(_compltedTemplate, text), 2, row);
 

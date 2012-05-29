@@ -100,9 +100,9 @@ namespace SayMoreTests.UI.ProjectWindow
 			Application.DoEvents();
 			WalkThroughElements("PersonEditor", "_peopleListPanel", "_personComponentFileGrid", "PersonListScreen");
 
-			ClickEventTab();
+			ClickSessionTab();
 			Application.DoEvents();
-			WalkThroughElements("EventEditor", "_eventsListPanel", "_eventComponentFileGrid", "EventsListScreen");
+			WalkThroughElements("SessionEditor", "_sessionsListPanel", "_sessionComponentFileGrid", "SessionsListScreen");
 
 			_projectContext.ProjectWindow.Close();
 			_projectContext.Dispose();
@@ -112,11 +112,11 @@ namespace SayMoreTests.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void ClickEventTab()
+		private static void ClickSessionTab()
 		{
-			var eventTabTester = new ControlTester("EventsViewTab", "ProjectWindow");
-			eventTabTester.Click();
-			Assert.IsTrue((bool)eventTabTester["Selected"]);
+			var sessionTabTester = new ControlTester("SessionsViewTab", "ProjectWindow");
+			sessionTabTester.Click();
+			Assert.IsTrue((bool)sessionTabTester["Selected"]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -129,7 +129,7 @@ namespace SayMoreTests.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Select each event or person.
+		/// Select each session or person.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void WalkThroughElements(string editorName, string listPanelName,
@@ -152,7 +152,7 @@ namespace SayMoreTests.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Select each component file on the event and people screen.
+		/// Select each component file on the session and people screen.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static void WalkThroughComponentFiles(string componentGridName, string screenName)
@@ -170,7 +170,7 @@ namespace SayMoreTests.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Click on each tab on the event or people screen.
+		/// Click on each tab on the session or people screen.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static void WalkThroughComponentEditorTabs(string screenName)
@@ -184,7 +184,7 @@ namespace SayMoreTests.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Deletes all the events, or all the people.
+		/// Deletes all the sessions, or all the people.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static void DeleteItems(ListPanel listPanel, string screenName)
@@ -214,15 +214,15 @@ namespace SayMoreTests.UI.ProjectWindow
 		{
 			CreateProject();
 
-			// Add new event.
-			var idTextBoxTester = AddItem("EventEditor", "_eventsListPanel");
+			// Add new session.
+			var idTextBoxTester = AddItem("SessionEditor", "_sessionsListPanel");
 
-			// Add a component file to the event.
+			// Add a component file to the session.
 			var filePath = Path.Combine(_projectsFolder.Path, "dummyFile.png");
 			(new Bitmap(1, 1)).Save(filePath);
 
 			var componentGrid = _projectContext.ProjectWindow.Controls.Find(
-				"_eventComponentFileGrid", true)[0] as ComponentFileGrid;
+				"_sessionComponentFileGrid", true)[0] as ComponentFileGrid;
 
 			// Can't add the file via clicking the add button because we cannot control the
 			// open file dialog box unless this class were to derive from NUnitFormTest, but
@@ -230,25 +230,25 @@ namespace SayMoreTests.UI.ProjectWindow
 			componentGrid.FilesAdded(new[] { filePath });
 			Assert.AreEqual("dummyFile.png", componentGrid.Grid[1, 1].Value as string);
 
-			var listPanel = GetListPanelByName("_eventsListPanel");
+			var listPanel = GetListPanelByName("_sessionsListPanel");
 			var list = listPanel.ListControl as ElementGrid;
 
-			// Rename the event.
-			idTextBoxTester.Enter("RenamedEvent");
+			// Rename the session.
+			idTextBoxTester.Enter("RenamedSession");
 			idTextBoxTester.FireEvent("Validating", new CancelEventArgs());
-			Assert.AreEqual("RenamedEvent", idTextBoxTester.Text);
-			Assert.AreEqual("RenamedEvent", list.GetCurrentElement().Id);
-			Assert.AreEqual("RenamedEvent.event", componentGrid.Grid[1, 0].Value as string);
+			Assert.AreEqual("RenamedSession", idTextBoxTester.Text);
+			Assert.AreEqual("RenamedSession", list.GetCurrentElement().Id);
+			Assert.AreEqual("RenamedSession.session", componentGrid.Grid[1, 0].Value as string);
 
-			// Delete the event.
-			DeleteItems(listPanel, "EventListScreen");
+			// Delete the session.
+			DeleteItems(listPanel, "SessionListScreen");
 			Assert.AreEqual(0, list.RowCount);
 
 			// Open the dialog to add files from a device, then cancel it.
 			using (var modalFormTester = new ModalFormTester())
 			{
 				var cancelButtonTester = new ButtonTester("_buttonCancel");
-				modalFormTester.ExpectModal("NewEventsFromFilesDlg", cancelButtonTester.Click);
+				modalFormTester.ExpectModal("NewSessionsFromFilesDlg", cancelButtonTester.Click);
 				var newButtonTester = new ButtonTester("_buttonNewFromFiles");
 				newButtonTester.Click();
 			}
@@ -291,7 +291,7 @@ namespace SayMoreTests.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Adds an event or a person.
+		/// Adds a session or a person.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private TextBoxTester AddItem(string editorName, string listPanelName)

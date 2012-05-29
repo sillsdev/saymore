@@ -155,7 +155,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = LocalizationManager.GetString("EventsView.Transcription.GeneratedOralAnnotationView.TabText", "Generated Audio");
+			TabText = LocalizationManager.GetString("SessionsView.Transcription.GeneratedOralAnnotationView.TabText", "Generated Audio");
 			base.HandleStringsLocalized();
 		}
 	}

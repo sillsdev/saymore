@@ -62,10 +62,10 @@ namespace SayMore.UI.Charts
 		/// ------------------------------------------------------------------------------------
 		protected void WriteStageChart()
 		{
-			var eventsByStage = _statsViewModel.EventInformant.GetEventsCategorizedByStage()
+			var sessionsByStage = _statsViewModel.SessionInformant.GetSessionsCategorizedByStage()
 				.Where(r => r.Key.Id != "consent");
 
-			var barInfoList = (eventsByStage.Select(
+			var barInfoList = (sessionsByStage.Select(
 				x => new ChartBarInfo(x.Key.Name, x.Value, x.Key.Color, x.Key.TextColor))).ToList();
 
 			ChartBarInfo.CalculateBarSizes(barInfoList);
@@ -78,7 +78,7 @@ namespace SayMore.UI.Charts
 		{
 			var statusColors = new Dictionary<string, Color>();
 
-			foreach (var statusName in Enum.GetNames(typeof(Event.Status)).Where(x => x != Event.Status.Skipped.ToString()))
+			foreach (var statusName in Enum.GetNames(typeof(Session.Status)).Where(x => x != Session.Status.Skipped.ToString()))
 			{
 				statusColors[statusName.Replace('_', ' ')] =
 					(Color)Properties.Settings.Default[statusName + "StatusColor"];
@@ -124,7 +124,7 @@ namespace SayMore.UI.Charts
 			string secondaryField, IDictionary<string, Color> colors, IDictionary<string, Color> textColors)
 		{
 			var outerList =
-				_statsViewModel.EventInformant.GetCategorizedEventsFromDoubleKey(primaryField, secondaryField);
+				_statsViewModel.SessionInformant.GetCategorizedSessionsFromDoubleKey(primaryField, secondaryField);
 
 			var barInfoList = (from x in outerList
 							  select new ChartBarInfo(x.Key, secondaryField, x.Value, colors, textColors))
@@ -188,8 +188,8 @@ namespace SayMore.UI.Charts
 					WriteBarSegment(seg);
 			}
 
-			var text = LocalizationManager.GetString("ProgressView.SummaryTotalsTextForOneBar", "{0} events totaling {1} minutes");
-			return string.Format(text, barInfo.TotalEvents, barInfo.TotalTime);
+			var text = LocalizationManager.GetString("ProgressView.SummaryTotalsTextForOneBar", "{0} sessions totaling {1} minutes");
+			return string.Format(text, barInfo.TotalSessions, barInfo.TotalTime);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -200,11 +200,11 @@ namespace SayMore.UI.Charts
 				barSegInfo.TotalTime.ToString() : kNonBreakingSpace);
 
 			var fmt = (string.IsNullOrEmpty(barSegInfo.FieldValue) ?
-				LocalizationManager.GetString("ProgressView.SummaryTotalsTextForSegment1", "{0}{1} events totaling {2} minutes") :
-				LocalizationManager.GetString("ProgressView.SummaryTotalsTextForSegment2", "{0}: {1} events totaling {2} minutes"));
+				LocalizationManager.GetString("ProgressView.SummaryTotalsTextForSegment1", "{0}{1} sessions totaling {2} minutes") :
+				LocalizationManager.GetString("ProgressView.SummaryTotalsTextForSegment2", "{0}: {1} sessions totaling {2} minutes"));
 
 			var tooltipText = string.Format(fmt, barSegInfo.FieldValue,
-				barSegInfo.Events.Count(), barSegInfo.TotalTime);
+				barSegInfo.Sessions.Count(), barSegInfo.TotalTime);
 
 			WriteTableCell(null, barSegInfo.SegmentSize, barSegInfo.BackColor,
 				barSegInfo.TextColor, tooltipText, segmentText);

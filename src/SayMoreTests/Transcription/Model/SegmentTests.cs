@@ -36,7 +36,7 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void Copy_SetStartAndEndInOriginal_CreatesCopyWithSameStartAndEnd()
+		public void Copy_SetStartAndEndInSource_CreatesCopyWithSameStartAndEnd()
 		{
 			_segment.Start = 123f;
 			_segment.End = 789f;

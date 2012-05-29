@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using SayMore.Properties;
+using SayMore.Utilities;
 
 namespace SayMore.Model.Files
 {
@@ -19,23 +19,23 @@ namespace SayMore.Model.Files
 	/// </summary>
 	public class ComponentRole
 	{
-		public const string kOriginalComponentRoleId = "original";
+		public const string kSourceComponentRoleId = "source";
 
 		private readonly string _englishLabel;
 
 		public enum MeasurementTypes { None, Time, Words }
 
-		public string RenamingTemplate { get; private set; }
 		public Type RelevantElementType { get; private set; }
 		public MeasurementTypes MeasurementType { get; private set; }
 		public string Id { get; private set; }
 		public Color Color { get; private set; }
 		public Color TextColor { get; private set; }
-		public Image Icon { get; set; }
 
 		//tells whether this file looks like it *might* be filling this role
-		public Func<string, bool> ElligibilityFilter { get; private set; }
+		private readonly Func<string, bool> _elligibilityFilter;
+		private readonly string _renamingTemplate;
 
+		/// ------------------------------------------------------------------------------------
 		public ComponentRole(Type relevantElementType, string id, string englishLabel,
 			MeasurementTypes measurementType, Func<string, bool> elligibilityFilter,
 			string renamingTemplate, Color color, Color textColor)
@@ -44,102 +44,81 @@ namespace SayMore.Model.Files
 			RelevantElementType = relevantElementType;
 			_englishLabel = englishLabel;
 			MeasurementType = measurementType;
-			ElligibilityFilter = elligibilityFilter;
+			_elligibilityFilter = elligibilityFilter;
+			_renamingTemplate = renamingTemplate;
 			Color = color;
 			TextColor = textColor;
-			RenamingTemplate = renamingTemplate;
 		}
 
-		public string ConvertFileNameToMatchThisRole(string name)
+		/// ------------------------------------------------------------------------------------
+		public string GetRenamingTemplateSuffix(bool includeLeadingUnderscore = false)
 		{
-			return name;
+			return _renamingTemplate.Replace(includeLeadingUnderscore ?
+				"$ElementId$" : "$ElementId$_", string.Empty);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Is this file marked as having this role?
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public bool IsMatch(string path)
 		{
-			string partofRenamingTemplateWhichDoesNotDependOnId = RenamingTemplate.Replace("$ElementId$", "");
+			var nameWithoutExtension = Path.GetFileNameWithoutExtension(path);
 
-			if (!Path.GetFileNameWithoutExtension(path).Contains(partofRenamingTemplateWhichDoesNotDependOnId))
-				return false;
-
-			return ElligibilityFilter(path);
+			return (_elligibilityFilter(path) &&
+				(nameWithoutExtension.Contains(GetRenamingTemplateSuffix(true)) ||
+					(Id == kSourceComponentRoleId && nameWithoutExtension.Contains("_Original"))));
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Does it make sense to offer this role as something the user can assign to this file?
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public bool IsPotential(string path)
 		{
-			return ElligibilityFilter(path);
+			return _elligibilityFilter(path);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public string Name
 		{
 			get { return _englishLabel; }
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public static bool GetCanHaveTranscriptionRole(string path)
 		{
-			return (GetIsAudioVideo(path) || AnnotationFileType.GetIsAnAnnotationFile(path));
+			return (FileSystemUtils.GetIsAudioVideo(path) || AnnotationFileType.GetIsAnAnnotationFile(path));
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public static bool GetCanHaveWrittenTranslationRole(string path)
 		{
-			return (GetIsText(path) || AnnotationFileType.GetIsAnAnnotationFile(path));
+			return (FileSystemUtils.GetIsText(path) || AnnotationFileType.GetIsAnAnnotationFile(path));
 		}
 
-		public static bool GetIsAudioVideo(string path)
-		{
-			return (GetIsAudio(path) || GetIsVideo(path));
-		}
-
-		public static bool GetIsAudio(string path)
-		{
-			var extensions = Settings.Default.AudioFileExtensions;
-			return extensions.Contains(Path.GetExtension(path).ToLower());
-		}
-
-		public static bool GetIsVideo(string path)
-		{
-			var extensions = Settings.Default.VideoFileExtensions;
-			return extensions.Contains(Path.GetExtension(path).ToLower());
-		}
-
-		public static bool GetIsImage(string path)
-		{
-			var extensions = Settings.Default.ImageFileExtensions;
-			return extensions.Contains(Path.GetExtension(path).ToLower());
-		}
-
-		public static bool GetIsText(string path)
-		{
-			var extensions = Settings.Default.TextFileExtensions;
-			return extensions.Contains(Path.GetExtension(path).ToLower());
-		}
-
+		/// ------------------------------------------------------------------------------------
 		public string GetCanoncialName(string eventId, string path)
 		{
 			var dir = Path.GetDirectoryName(path);
-			//var fileName = Path.GetFileNameWithoutExtension(path);
-			var name = RenamingTemplate + Path.GetExtension(path);
-			name = name.Replace("$ElementId$", eventId);
-
+			var name = _renamingTemplate.Replace("$ElementId$", eventId) + Path.GetExtension(path);
 			return (string.IsNullOrEmpty(dir) ? name : Path.Combine(dir, name));
 		}
 
-		public bool AtLeastOneFileHasThisRole(string eventId, string[] paths)
-		{
-			return paths.Any(p =>
-			{
-				var name = Path.GetFileNameWithoutExtension(p);
-				return ElligibilityFilter(Path.GetExtension(p))
-				&& name.ToLower() == RenamingTemplate.Replace("$ElementId$", eventId).ToLower();
-			});
-		}
+		///// ------------------------------------------------------------------------------------
+		//public bool AtLeastOneFileHasThisRole(string eventId, string[] paths)
+		//{
+		//    return paths.Any(p =>
+		//    {
+		//        var name = Path.GetFileNameWithoutExtension(p).ToLower();
+		//        return _elligibilityFilter(Path.GetExtension(p)) &&
+		//            (name == GetRenamingTemplateSuffix().ToLower() || name == (eventId + "_Original").ToLower());
+		//    });
+		//}
 
+		/// ------------------------------------------------------------------------------------
 		public bool IsContainedIn(IEnumerable<ComponentRole> roleSet)
 		{
 			//todo (jh, jh): why didn't this work? Are there multiple instance being made somewhere?
@@ -147,6 +126,7 @@ namespace SayMore.Model.Files
 			return roleSet.Any(r => r.Name == Name);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
 			return Name + ", " + Id + ", Type: " + RelevantElementType;

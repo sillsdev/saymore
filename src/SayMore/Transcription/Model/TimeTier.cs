@@ -22,7 +22,7 @@ namespace SayMore.Transcription.Model
 		public Action<string> BackupOralAnnotationSegmentFileAction { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public TimeTier(string filename) : this("Original", filename)
+		public TimeTier(string filename) : this("Source", filename)
 		{
 		}
 

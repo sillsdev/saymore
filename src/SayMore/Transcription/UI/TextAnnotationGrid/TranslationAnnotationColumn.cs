@@ -28,13 +28,13 @@ namespace SayMore.Transcription.UI
 		{
 			var menuItem = new ToolStripMenuItem(null, null, HandlePlaybackTypeMenuItemClicked)
 			{
-				Tag = OralAnnotationType.Original,
-				Checked = (PlaybackType == OralAnnotationType.Original),
+				Tag = OralAnnotationType.Source,
+				Checked = (PlaybackType == OralAnnotationType.Source),
 			};
 
 			menuItem.Text = LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Original",
-				"Playback Original Recording", null, menuItem);
+				"EventsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Source",
+				"Playback Source Recording", null, menuItem);
 
 			yield return menuItem;
 
@@ -52,8 +52,8 @@ namespace SayMore.Transcription.UI
 
 			menuItem = new ToolStripMenuItem(null, null, HandlePlaybackTypeMenuItemClicked)
 			{
-				Tag = (OralAnnotationType.Original | OralAnnotationType.Translation),
-				Checked = (PlaybackType == (OralAnnotationType.Original | OralAnnotationType.Translation)),
+				Tag = (OralAnnotationType.Source | OralAnnotationType.Translation),
+				Checked = (PlaybackType == (OralAnnotationType.Source | OralAnnotationType.Translation)),
 			};
 
 			menuItem.Text = LocalizationManager.GetString(

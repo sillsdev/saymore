@@ -124,7 +124,7 @@ namespace SayMore.Transcription.UI
 			var carefulSpeechFile = GetCurrentSegment().GetFullPathToCarefulSpeechFile();
 			var oralTranslationFile = GetCurrentSegment().GetFullPathToOralTranslationFile();
 
-			if ((playbackType & OralAnnotationType.Original) == OralAnnotationType.Original)
+			if ((playbackType & OralAnnotationType.Source) == OralAnnotationType.Source)
 				yield return GetOriginalAnnotationPlaybackInfo();
 
 			if ((playbackType & OralAnnotationType.Careful) == OralAnnotationType.Careful)

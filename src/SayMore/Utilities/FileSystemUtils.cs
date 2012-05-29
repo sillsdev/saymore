@@ -2,11 +2,46 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using SayMore.Properties;
 
 namespace SayMore.Utilities
 {
 	public class FileSystemUtils
 	{
+		/// ------------------------------------------------------------------------------------
+		public static bool GetIsText(string path)
+		{
+			var extensions = Settings.Default.TextFileExtensions;
+			return extensions.Contains(Path.GetExtension(path).ToLower());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool GetIsAudioVideo(string path)
+		{
+			return (GetIsAudio(path) || GetIsVideo(path));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool GetIsAudio(string path)
+		{
+			var extensions = Settings.Default.AudioFileExtensions;
+			return extensions.Contains(Path.GetExtension(path).ToLower());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool GetIsVideo(string path)
+		{
+			var extensions = Settings.Default.VideoFileExtensions;
+			return extensions.Contains(Path.GetExtension(path).ToLower());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool GetIsImage(string path)
+		{
+			var extensions = Settings.Default.ImageFileExtensions;
+			return extensions.Contains(Path.GetExtension(path).ToLower());
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Waits for the lock on a file to be released. The method will give up after waiting

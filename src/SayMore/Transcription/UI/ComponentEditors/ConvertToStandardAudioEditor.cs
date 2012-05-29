@@ -32,10 +32,10 @@ namespace SayMore.Transcription.UI
 
 			_labelConvertHeading.Font = FontHelper.MakeFont(Program.DialogFont, 10, FontStyle.Bold);
 			_labelConvertIntroduction.Font = Program.DialogFont;
-			_labelOriginalFileName.Font = Program.DialogFont;
-			_labelOriginalFileNameValue.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
+			_labelSourceFileName.Font = Program.DialogFont;
+			_labelSourceFileNameValue.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
 			_labelStandardAudioFileName.Font = Program.DialogFont;
-			_labelStandardAudioFileNameValue.Font = _labelOriginalFileNameValue.Font;
+			_labelStandardAudioFileNameValue.Font = _labelSourceFileNameValue.Font;
 
 			SetComponentFile(_file);
 		}
@@ -46,7 +46,7 @@ namespace SayMore.Transcription.UI
 			base.SetComponentFile(file);
 
 			_labelConvertIntroduction.Text = GetIntroMessage();
-			_labelOriginalFileNameValue.Text = Path.GetFileName(_file.PathToAnnotatedFile);
+			_labelSourceFileNameValue.Text = Path.GetFileName(_file.PathToAnnotatedFile);
 			_labelStandardAudioFileNameValue.Text = Path.GetFileName(_file.GetSuggestedPathToStandardAudioFile());
 		}
 
@@ -62,9 +62,9 @@ namespace SayMore.Transcription.UI
 					"EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForVideo",
 					"In order to annotate, SayMore needs to convert this video to WAV PCM audio. " +
 					"During the conversion process, a standard audio file will be created from the " +
-					"original and added to the event's file list. The name of the new audio file will " +
-					"be that of the original with the suffix \"{0}\" added to the end. The original " +
-					"file will remain unchanged in the event's file list.", null, _labelConvertIntroduction);
+					"source and added to the session's file list. The name of the new audio file will " +
+					"be the same as the name of the source with the suffix \"{0}\" added to the end. The source " +
+					"file will remain unchanged in the session's file list.", null, _labelConvertIntroduction);
 
 				return string.Format(text, suffix);
 			}
@@ -75,10 +75,10 @@ namespace SayMore.Transcription.UI
 				"EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForAudio",
 				"The format of this audio file is '{0}'. In order to annotate, SayMore needs to convert " +
 				"it to WAV PCM, which is a good, standard choice for archiving. During the conversion " +
-				"process, a standard audio file will be created from the original and added to the " +
-				"event's file list. The name of the new audio file will be that of the original with " +
-				"the suffix \"{1}\" added to the end. The original file will remain unchanged in the " +
-				"event's file list.", null, _labelConvertIntroduction);
+				"process, a standard audio file will be created from the source and added to the " +
+				"session's file list. The name of the new audio file will be the same as the source with " +
+				"the suffix \"{1}\" added to the end. The source file will remain unchanged in the " +
+				"session's file list.", null, _labelConvertIntroduction);
 
 			return string.Format(text, encoding, suffix);
 		}

@@ -46,7 +46,7 @@ namespace SayMoreTests.Model.Files.DataGathering
 		[Category("SkipOnTeamCity")]
 		public void GetData_FileRenamed_RemovesOldGivesNew()
 		{
-			var original = WriteTestWav(@"first");
+			var source = WriteTestWav(@"first");
 			using (var processor = CreateProcessor())
 			{
 				using (processor.ExpectNewDataAvailable())
@@ -54,10 +54,10 @@ namespace SayMoreTests.Model.Files.DataGathering
 					processor.Start();
 				}
 
-				Assert.IsNotNull(processor.GetFileData(original));
+				Assert.IsNotNull(processor.GetFileData(source));
 				var renamed = RenameTestWav();
 				WaitUntilNotBusy(processor);
-				Assert.IsNull(processor.GetFileData(original));
+				Assert.IsNull(processor.GetFileData(source));
 				Assert.IsNotNull(processor.GetFileData(renamed));
 			}
 		}

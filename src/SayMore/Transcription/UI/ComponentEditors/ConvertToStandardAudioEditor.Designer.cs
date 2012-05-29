@@ -34,10 +34,10 @@ namespace SayMore.Transcription.UI
 			this.components = new System.ComponentModel.Container();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._pictureInfo = new System.Windows.Forms.PictureBox();
-			this._labelOriginalFileName = new System.Windows.Forms.Label();
+			this._labelSourceFileName = new System.Windows.Forms.Label();
 			this._labelConvertIntroduction = new System.Windows.Forms.Label();
 			this._labelConvertHeading = new System.Windows.Forms.Label();
-			this._labelOriginalFileNameValue = new System.Windows.Forms.Label();
+			this._labelSourceFileNameValue = new System.Windows.Forms.Label();
 			this._labelStandardAudioFileName = new System.Windows.Forms.Label();
 			this._labelStandardAudioFileNameValue = new System.Windows.Forms.Label();
 			this._buttonConvert = new System.Windows.Forms.Button();
@@ -66,21 +66,21 @@ namespace SayMore.Transcription.UI
 			this._pictureInfo.TabIndex = 1;
 			this._pictureInfo.TabStop = false;
 			// 
-			// _labelOriginalFileName
+			// _labelSourceFileName
 			// 
-			this._labelOriginalFileName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._labelOriginalFileName.AutoSize = true;
-			this._tableLayoutConvert.SetColumnSpan(this._labelOriginalFileName, 2);
-			this.locExtender.SetLocalizableToolTip(this._labelOriginalFileName, null);
-			this.locExtender.SetLocalizationComment(this._labelOriginalFileName, null);
-			this.locExtender.SetLocalizingId(this._labelOriginalFileName, "EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelOriginal" +
-        "FileName");
-			this._labelOriginalFileName.Location = new System.Drawing.Point(15, 98);
-			this._labelOriginalFileName.Margin = new System.Windows.Forms.Padding(15, 15, 15, 0);
-			this._labelOriginalFileName.Name = "_labelOriginalFileName";
-			this._labelOriginalFileName.Size = new System.Drawing.Size(482, 13);
-			this._labelOriginalFileName.TabIndex = 2;
-			this._labelOriginalFileName.Text = "Name of original media file:";
+			this._labelSourceFileName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelSourceFileName.AutoSize = true;
+			this._tableLayoutConvert.SetColumnSpan(this._labelSourceFileName, 2);
+			this.locExtender.SetLocalizableToolTip(this._labelSourceFileName, null);
+			this.locExtender.SetLocalizationComment(this._labelSourceFileName, null);
+			this.locExtender.SetLocalizingId(this._labelSourceFileName, "EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelSourceFi" +
+        "leName");
+			this._labelSourceFileName.Location = new System.Drawing.Point(15, 98);
+			this._labelSourceFileName.Margin = new System.Windows.Forms.Padding(15, 15, 15, 0);
+			this._labelSourceFileName.Name = "_labelSourceFileName";
+			this._labelSourceFileName.Size = new System.Drawing.Size(482, 13);
+			this._labelSourceFileName.TabIndex = 2;
+			this._labelSourceFileName.Text = "Name of source media file:";
 			// 
 			// _labelConvertIntroduction
 			// 
@@ -113,21 +113,21 @@ namespace SayMore.Transcription.UI
 			this._labelConvertHeading.TabIndex = 1;
 			this._labelConvertHeading.Text = "File Conversion Required";
 			// 
-			// _labelOriginalFileNameValue
+			// _labelSourceFileNameValue
 			// 
-			this._labelOriginalFileNameValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._labelOriginalFileNameValue.AutoSize = true;
-			this._tableLayoutConvert.SetColumnSpan(this._labelOriginalFileNameValue, 2);
-			this.locExtender.SetLocalizableToolTip(this._labelOriginalFileNameValue, null);
-			this.locExtender.SetLocalizationComment(this._labelOriginalFileNameValue, null);
-			this.locExtender.SetLocalizationPriority(this._labelOriginalFileNameValue, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelOriginalFileNameValue, "EventsView.Transcription.StartAnnotatingTab._labelSegmentationMethod");
-			this._labelOriginalFileNameValue.Location = new System.Drawing.Point(32, 116);
-			this._labelOriginalFileNameValue.Margin = new System.Windows.Forms.Padding(32, 5, 15, 0);
-			this._labelOriginalFileNameValue.Name = "_labelOriginalFileNameValue";
-			this._labelOriginalFileNameValue.Size = new System.Drawing.Size(465, 13);
-			this._labelOriginalFileNameValue.TabIndex = 15;
-			this._labelOriginalFileNameValue.Text = "#";
+			this._labelSourceFileNameValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelSourceFileNameValue.AutoSize = true;
+			this._tableLayoutConvert.SetColumnSpan(this._labelSourceFileNameValue, 2);
+			this.locExtender.SetLocalizableToolTip(this._labelSourceFileNameValue, null);
+			this.locExtender.SetLocalizationComment(this._labelSourceFileNameValue, null);
+			this.locExtender.SetLocalizationPriority(this._labelSourceFileNameValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelSourceFileNameValue, "EventsView.Transcription.StartAnnotatingTab._labelSegmentationMethod");
+			this._labelSourceFileNameValue.Location = new System.Drawing.Point(32, 116);
+			this._labelSourceFileNameValue.Margin = new System.Windows.Forms.Padding(32, 5, 15, 0);
+			this._labelSourceFileNameValue.Name = "_labelSourceFileNameValue";
+			this._labelSourceFileNameValue.Size = new System.Drawing.Size(465, 13);
+			this._labelSourceFileNameValue.TabIndex = 15;
+			this._labelSourceFileNameValue.Text = "#";
 			// 
 			// _labelStandardAudioFileName
 			// 
@@ -190,10 +190,10 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutConvert.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutConvert.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutConvert.Controls.Add(this._pictureInfo, 0, 0);
-			this._tableLayoutConvert.Controls.Add(this._labelOriginalFileName, 0, 2);
+			this._tableLayoutConvert.Controls.Add(this._labelSourceFileName, 0, 2);
 			this._tableLayoutConvert.Controls.Add(this._labelConvertIntroduction, 0, 1);
 			this._tableLayoutConvert.Controls.Add(this._labelConvertHeading, 1, 0);
-			this._tableLayoutConvert.Controls.Add(this._labelOriginalFileNameValue, 0, 3);
+			this._tableLayoutConvert.Controls.Add(this._labelSourceFileNameValue, 0, 3);
 			this._tableLayoutConvert.Controls.Add(this._labelStandardAudioFileName, 0, 4);
 			this._tableLayoutConvert.Controls.Add(this._labelStandardAudioFileNameValue, 0, 5);
 			this._tableLayoutConvert.Controls.Add(this._buttonConvert, 0, 6);
@@ -240,10 +240,10 @@ namespace SayMore.Transcription.UI
 		private Localization.UI.LocalizationExtender locExtender;
 		private TableLayoutPanel _tableLayoutConvert;
 		private PictureBox _pictureInfo;
-		private Label _labelOriginalFileName;
+		private Label _labelSourceFileName;
 		private Label _labelConvertIntroduction;
 		private Label _labelConvertHeading;
-		private Label _labelOriginalFileNameValue;
+		private Label _labelSourceFileNameValue;
 		private Label _labelStandardAudioFileName;
 		private Label _labelStandardAudioFileNameValue;
 		private Button _buttonConvert;

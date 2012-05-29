@@ -7,21 +7,21 @@ namespace SayMore.Media.Audio
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// NAudio can only playback audio that's 1 or 2 channels. Oral annotation audio streams
-	/// are either 3 channel or 4 channel, depending on whether the original recording
+	/// are either 3 channel or 4 channel, depending on whether the source recording
 	/// has 1 or 2 channels. This class acts like a 1 or 2 channel audio stream, but will
 	/// read its data from the oral annotation stream merging channels into a 1 or 2
 	/// channel stream.
 	///
-	/// When the original recording is 1 channel, then the oral annotation is 3 channel (i.e.
-	/// 1 = original, 2 = careful speech, 3 = oral translation). In that case, all 3 channels
+	/// When the source recording is 1 channel, then the oral annotation is 3 channel (i.e.
+	/// 1 = source, 2 = careful speech, 3 = oral translation). In that case, all 3 channels
 	/// in the oral annotation stream are combined into a single channel.
 	///
-	/// When the original recording is 2 channel, then the oral annotation is 4 channel (i.e.
-	/// 1 and 2 = original, 2 = careful speech, 3 = oral translation). In that case, channels
+	/// When the source recording is 2 channel, then the oral annotation is 4 channel (i.e.
+	/// 1 and 2 = source, 2 = careful speech, 3 = oral translation). In that case, channels
 	/// 3 and 4 in the oral annotation stream are combined with both channels 1 and 2.
 	///
 	/// This all works well since the upper two channels (i.e. careful speech and oral
-	/// translation) will always be silent when the original is not and vice versa.
+	/// translation) will always be silent when the source is not and vice versa.
 	///
 	/// The oral annotations sample rate and bits per sample are preserved.
 	/// </summary>

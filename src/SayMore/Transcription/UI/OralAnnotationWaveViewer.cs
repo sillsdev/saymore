@@ -118,13 +118,13 @@ namespace SayMore.Transcription.UI
 
 			if (rects.Length == 4)
 			{
-				_labelOriginal.Top = rects[0].Bottom - (int)Math.Ceiling(_labelOriginal.Height / 2f);
+				_labelSource.Top = rects[0].Bottom - (int)Math.Ceiling(_labelSource.Height / 2f);
 				i = 2;
 			}
 			else
 			{
-				_labelOriginal.Top = (rects[0].Top + (int)Math.Ceiling(rects[0].Height / 2f)) -
-					(int)Math.Ceiling(_labelOriginal.Height / 2f);
+				_labelSource.Top = (rects[0].Top + (int)Math.Ceiling(rects[0].Height / 2f)) -
+					(int)Math.Ceiling(_labelSource.Height / 2f);
 				i++;
 			}
 

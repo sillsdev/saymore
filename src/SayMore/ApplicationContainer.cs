@@ -10,6 +10,7 @@ using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ProjectChoosingAndCreating;
+using SayMore.Utilities;
 using SilTools;
 
 namespace SayMore
@@ -105,10 +106,10 @@ namespace SayMore
 			get
 			{
 				yield return new
-					ComponentRole(typeof(Event), ComponentRole.kOriginalComponentRoleId,
-						LocalizationManager.GetString("EventsView.EventsList.Stages.OriginalRecording", "Original Recording"),
+					ComponentRole(typeof(Event), ComponentRole.kSourceComponentRoleId,
+						LocalizationManager.GetString("EventsView.EventsList.Stages.SourceRecording", "Source Recording"),
 						ComponentRole.MeasurementTypes.Time,
-						ComponentRole.GetIsAudioVideo, "$ElementId$_Original",
+						FileSystemUtils.GetIsAudioVideo, "$ElementId$_Source",
 						Settings.Default.WorkflowStageColor1,
 						Settings.Default.WorkflowStageTextColor1);//todo... but maybe we dont' show this as a stage?
 
@@ -123,7 +124,7 @@ namespace SayMore
 					new ComponentRole(typeof(Event), "carefulSpeech",
 						LocalizationManager.GetString("EventsView.EventsList.Stages.CarefulSpeech", "Careful Speech"),
 						ComponentRole.MeasurementTypes.Time,
-						ComponentRole.GetIsAudioVideo, "$ElementId$_Careful",
+						FileSystemUtils.GetIsAudioVideo, "$ElementId$_Careful",
 						Settings.Default.WorkflowStageColor3,
 						Settings.Default.WorkflowStageTextColor3);
 
@@ -131,7 +132,7 @@ namespace SayMore
 					new ComponentRole(typeof(Event), "oralTranslation",
 						LocalizationManager.GetString("EventsView.EventsList.Stages.OralTranslation", "Oral Translation"),
 						ComponentRole.MeasurementTypes.Time,
-						ComponentRole.GetIsAudioVideo, "$ElementId$_OralTranslation",
+						FileSystemUtils.GetIsAudioVideo, "$ElementId$_OralTranslation",
 						Settings.Default.WorkflowStageColor4,
 						Settings.Default.WorkflowStageTextColor4);
 
@@ -139,7 +140,7 @@ namespace SayMore
 					new ComponentRole(typeof(Event), "transcription",
 						LocalizationManager.GetString("EventsView.EventsList.Stages.Transcription", "Transcription"),
 						ComponentRole.MeasurementTypes.Words,
-						ComponentRole.GetIsAudioVideo, "$ElementId$_Transcription",
+						FileSystemUtils.GetIsAudioVideo, "$ElementId$_Transcription",
 						Settings.Default.WorkflowStageColor5,
 						Settings.Default.WorkflowStageTextColor5);
 
@@ -147,7 +148,7 @@ namespace SayMore
 					new ComponentRole(typeof(Event), "transcriptionN",
 						LocalizationManager.GetString("EventsView.EventsList.Stages.WrittenTranslation", "Written Translation"),
 						ComponentRole.MeasurementTypes.Words,
-						ComponentRole.GetIsText, "$ElementId$_Translation",
+						FileSystemUtils.GetIsText, "$ElementId$_Translation",
 						Settings.Default.WorkflowStageColor6,
 						Settings.Default.WorkflowStageTextColor6);
 			}

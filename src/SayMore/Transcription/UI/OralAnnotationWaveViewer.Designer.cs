@@ -20,7 +20,7 @@ namespace SayMore.Transcription.UI
 			this._panelLabels = new System.Windows.Forms.Panel();
 			this._labelTranslation = new System.Windows.Forms.Label();
 			this._labelCareful = new System.Windows.Forms.Label();
-			this._labelOriginal = new System.Windows.Forms.Label();
+			this._labelSource = new System.Windows.Forms.Label();
 			this._waveControl = new SayMore.Media.Audio.WaveControlBasic();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
@@ -52,7 +52,7 @@ namespace SayMore.Transcription.UI
 			this._panelLabels.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._panelLabels.Controls.Add(this._labelTranslation);
 			this._panelLabels.Controls.Add(this._labelCareful);
-			this._panelLabels.Controls.Add(this._labelOriginal);
+			this._panelLabels.Controls.Add(this._labelSource);
 			this._panelLabels.Location = new System.Drawing.Point(0, 0);
 			this._panelLabels.Margin = new System.Windows.Forms.Padding(0);
 			this._panelLabels.Name = "_panelLabels";
@@ -88,19 +88,19 @@ namespace SayMore.Transcription.UI
 			this._labelCareful.TabIndex = 5;
 			this._labelCareful.Text = "Careful";
 			// 
-			// _labelOriginal
+			// _labelSource
 			// 
-			this._labelOriginal.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this._labelOriginal.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._labelOriginal, null);
-			this.locExtender.SetLocalizationComment(this._labelOriginal, null);
-			this.locExtender.SetLocalizingId(this._labelOriginal, "EventsView.GeneratedOralAnnotationView.OriginalLabel");
-			this._labelOriginal.Location = new System.Drawing.Point(0, 31);
-			this._labelOriginal.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
-			this._labelOriginal.Name = "_labelOriginal";
-			this._labelOriginal.Size = new System.Drawing.Size(42, 13);
-			this._labelOriginal.TabIndex = 4;
-			this._labelOriginal.Text = "Original";
+			this._labelSource.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._labelSource.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelSource, null);
+			this.locExtender.SetLocalizationComment(this._labelSource, null);
+			this.locExtender.SetLocalizingId(this._labelSource, "EventsView.GeneratedOralAnnotationView.SourceLabel");
+			this._labelSource.Location = new System.Drawing.Point(0, 31);
+			this._labelSource.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
+			this._labelSource.Name = "_labelOriginal";
+			this._labelSource.Size = new System.Drawing.Size(42, 13);
+			this._labelSource.TabIndex = 4;
+			this._labelSource.Text = "Source";
 			// 
 			// _waveControl
 			// 
@@ -150,7 +150,7 @@ namespace SayMore.Transcription.UI
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
 		private SayMore.Media.Audio.WaveControlBasic _waveControl;
-		private System.Windows.Forms.Label _labelOriginal;
+		private System.Windows.Forms.Label _labelSource;
 		private System.Windows.Forms.Label _labelTranslation;
 		private System.Windows.Forms.Label _labelCareful;
 		private Localization.UI.LocalizationExtender locExtender;

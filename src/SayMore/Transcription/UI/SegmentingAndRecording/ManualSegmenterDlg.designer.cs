@@ -94,7 +94,7 @@ namespace SayMore.Transcription.UI
 			this._buttonListenToOriginal.Name = "_buttonListenToOriginal";
 			this._buttonListenToOriginal.Size = new System.Drawing.Size(253, 24);
 			this._buttonListenToOriginal.Text = "Listen (press SPACE key)";
-			this._buttonListenToOriginal.ToolTipText = "Listen to original recording";
+			this._buttonListenToOriginal.ToolTipText = "Listen to source recording";
 			//
 			// _buttonStopOriginal
 			//

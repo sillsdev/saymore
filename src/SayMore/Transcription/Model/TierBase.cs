@@ -15,7 +15,7 @@ namespace SayMore.Transcription.Model
 	[FlagsAttribute]
 	public enum OralAnnotationType
 	{
-		Original = 1,
+		Source = 1,
 		Careful = 2,
 		Translation = 4
 	}

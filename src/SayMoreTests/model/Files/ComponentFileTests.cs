@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
+using SayMore.Utilities;
 using SayMoreTests.Transcription.Model;
 
 namespace SayMoreTests.Model.Files
@@ -470,9 +471,9 @@ namespace SayMoreTests.Model.Files
 					ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"),
 					"$ElementId$_Transcriptino", Color.Magenta, Color.Black),
 
-				new ComponentRole(typeof(Event), "original", "Original Recording",
-					ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo,
-					"$ElementId$_Original", Color.Magenta, Color.Black),
+				new ComponentRole(typeof(Event), "source", "Source Recording",
+					ComponentRole.MeasurementTypes.Time, FileSystemUtils.GetIsAudioVideo,
+					"$ElementId$_Source", Color.Magenta, Color.Black),
 
 				new ComponentRole(typeof(Person), "consent", "Informed Consent",
 					ComponentRole.MeasurementTypes.None, (p => p.Contains("_Consent.")),
@@ -525,7 +526,7 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void GetAssignedRoles_HasOneRoles_ReturnsThem()
 		{
-			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Original.avi");
+			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Source.avi");
 			Assert.AreEqual(1, f.GetAssignedRoles().Count());
 		}
 

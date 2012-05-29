@@ -99,10 +99,10 @@ namespace SayMoreTests.Model
 		public void TryChangeIdAndSave_HasFilesWithOldName_RenamesFiles()
 		{
 			var newEvent = CreateEvent();
-			File.CreateText(Path.Combine(newEvent.FolderPath, "xyz_original.wav")).Close();
+			File.CreateText(Path.Combine(newEvent.FolderPath, "xyz_source.wav")).Close();
 			SaveAndChangeIdShouldSucceed(newEvent);
-			Assert.IsTrue(File.Exists(Path.Combine(newEvent.FolderPath, "newId_original.wav")));
-			Assert.IsFalse(File.Exists(Path.Combine(newEvent.FolderPath, "xyz_original.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(newEvent.FolderPath, "newId_source.wav")));
+			Assert.IsFalse(File.Exists(Path.Combine(newEvent.FolderPath, "xyz_source.wav")));
 		}
 
 		[Test]

@@ -116,7 +116,7 @@ namespace SayMore.UI
 			this._labelOverview.Size = new Size(479, 26);
 			this._labelOverview.TabIndex = 2;
 			this._labelOverview.Text = "To convert your media file to a different format, choose from one of the availabl" +
-    "e conversions below and click \'Begin Conversion\'. Your original media file will " +
+    "e conversions below and click \'Begin Conversion\'. Your source media file will " +
     "not be affected.";
 			// 
 			// _labelFileToConvert

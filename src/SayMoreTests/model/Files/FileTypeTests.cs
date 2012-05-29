@@ -45,41 +45,41 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		public void ComputeStandardPcmAudioFilePath_OriginalHasStandardAudioSuffixAndExt_ReturnsOriginal()
+		public void ComputeStandardPcmAudioFilePath_SourceHasStandardAudioSuffixAndExt_ReturnsOriginal()
 		{
 			Assert.AreEqual(@"c:\blah\dumb_StandardAudio.wav",
 				AudioVideoFileTypeBase.ComputeStandardPcmAudioFilePath(@"c:\blah\dumb_StandardAudio.wav"));
 		}
 
 		[Test]
-		public void ComputeStandardPcmAudioFilePath_OriginalHasStandardAudioSuffixButNotExt_DoesNotDuplicateSuffix()
+		public void ComputeStandardPcmAudioFilePath_SourceHasStandardAudioSuffixButNotExt_DoesNotDuplicateSuffix()
 		{
 			Assert.AreEqual(@"c:\blah\dumb_StandardAudio.wav",
 				AudioVideoFileTypeBase.ComputeStandardPcmAudioFilePath(@"c:\blah\dumb_StandardAudio.mpg"));
 		}
 
 		[Test]
-		public void ComputeStandardPcmAudioFilePath_OriginalDoesNotHaveStandardAudioSuffix_ReturnsCorrectPath()
+		public void ComputeStandardPcmAudioFilePath_SourceDoesNotHaveStandardAudioSuffix_ReturnsCorrectPath()
 		{
 			Assert.AreEqual(@"c:\blah\dumb_StandardAudio.wav",
 				AudioVideoFileTypeBase.ComputeStandardPcmAudioFilePath(@"c:\blah\dumb.mp3"));
 		}
 
 		[Test]
-		public void GetIsStandardPcmAudioFile_OriginalHasStandardAudioSuffixAndExt_ReturnsTrue()
+		public void GetIsStandardPcmAudioFile_SourceHasStandardAudioSuffixAndExt_ReturnsTrue()
 		{
 			Assert.IsTrue(AudioVideoFileTypeBase.GetIsStandardPcmAudioFile(@"c:\blah\dumb_StandardAudio.wav"));
 		}
 
 		[Test]
-		public void GetIsStandardPcmAudioFile_OriginalHasStandardAudioSuffixButNotExt_ReturnsFalse()
+		public void GetIsStandardPcmAudioFile_SourceHasStandardAudioSuffixButNotExt_ReturnsFalse()
 		{
 			using (var tempFile = new TempFileFromFolder(_parentFolder, "blah_StandardAudio.mp3", ""))
 				Assert.IsFalse(AudioVideoFileTypeBase.GetIsStandardPcmAudioFile(tempFile.Path));
 		}
 
 		[Test]
-		public void GetIsStandardPcmAudioFile_OriginalIsAlreadyPcm_ReturnsTrue()
+		public void GetIsStandardPcmAudioFile_SourceIsAlreadyPcm_ReturnsTrue()
 		{
 			var audioFile = MediaFileInfoTests.GetShortTestAudioFile();
 

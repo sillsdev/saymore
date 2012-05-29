@@ -105,10 +105,10 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnBoundaryMovedToOrigin(TimeSpan originalBoundary)
+		protected override void OnBoundaryMovedToOrigin(TimeSpan sourceBoundary)
 		{
-			base.OnBoundaryMovedToOrigin(originalBoundary);
-			MyPainter.SetSelectedBoundary(originalBoundary);
+			base.OnBoundaryMovedToOrigin(sourceBoundary);
+			MyPainter.SetSelectedBoundary(sourceBoundary);
 			MyPainter.HighlightBoundaryWhenMouseIsNear = true;
 		}
 

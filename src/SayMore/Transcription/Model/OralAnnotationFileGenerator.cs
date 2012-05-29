@@ -17,25 +17,25 @@ namespace SayMore.Transcription.Model
 	/// <summary>
 	/// This class generates an oral annotation file by interleaving into a single audio file
 	/// having one channel for the careful speech, one for the oral translation and one or
-	/// two for the original recording. Therefore, the result is an audio file containing
-	/// 3 or 4 channels, depending on how many are in the original.
+	/// two for the source recording. Therefore, the result is an audio file containing
+	/// 3 or 4 channels, depending on how many are in the source.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class OralAnnotationFileGenerator : IDisposable
 	{
 		private enum AnnotationChannel
 		{
-			Original,
+			Source,
 			Careful,
 			Translation
 		}
 
-		private readonly TimeTier _origRecordingTier;
-		private readonly Segment[] _origRecordingSegments;
+		private readonly TimeTier _srcRecordingTier;
+		private readonly Segment[] _srcRecordingSegments;
 		private WaveFileWriter _audioFileWriter;
 		private readonly WaveFormat _outputAudioFormat;
 		private readonly WaveFormat _output1ChannelAudioFormat;
-		private WaveStreamProvider _origRecStreamProvider;
+		private WaveStreamProvider _srcRecStreamProvider;
 		private string _outputFileName;
 
 		#region Static methods
@@ -45,13 +45,12 @@ namespace SayMore.Transcription.Model
 			return LocalizationManager.GetString(
 				"EventsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileGenericErrorMsg",
 				"There was an error generating the oral annotation file.");
-
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string Generate(TimeTier originalRecodingTier, Control parentControlForDialog)
+		public static string Generate(TimeTier sourceRecodingTier, Control parentControlForDialog)
 		{
-			if (!CanGenerate(originalRecodingTier))
+			if (!CanGenerate(sourceRecodingTier))
 				return null;
 
 			try
@@ -63,7 +62,7 @@ namespace SayMore.Transcription.Model
 					"EventsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg",
 					"Generating Oral Annotation file...");
 
-				using (var generator = new OralAnnotationFileGenerator(originalRecodingTier))
+				using (var generator = new OralAnnotationFileGenerator(sourceRecodingTier))
 				using (var dlg = new LoadingDlg(msg))
 				{
 					if (parentControlForDialog != null)
@@ -101,22 +100,10 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static bool CanGenerate(TimeTier originalRecodingTier)
+		private static bool CanGenerate(TimeTier sourceRecodingTier)
 		{
-			return Directory.Exists(originalRecodingTier.MediaFileName +
+			return Directory.Exists(sourceRecodingTier.MediaFileName +
 				Settings.Default.OralAnnotationsFolderSuffix);
-
-			//var pathToAnnotationsFolder = originalRecodingTier.MediaFileName +
-			//    Settings.Default.OralAnnotationsFolderSuffix;
-
-			//// First, look for the folder that stores the oral annotation segment files.
-			//if (!Directory.Exists(pathToAnnotationsFolder))
-			//    return false;
-
-			//// Now look in that folder to see if any segment files actually exist.
-			//return (Directory.GetFiles(pathToAnnotationsFolder).Any(f =>
-			//    f.ToLower().EndsWith(Settings.Default.OralAnnotationCarefulSegmentFileSuffix.ToLower()) ||
-			//    f.ToLower().EndsWith(Settings.Default.OralAnnotationTranslationSegmentFileSuffix.ToLower())));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -129,21 +116,21 @@ namespace SayMore.Transcription.Model
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		private OralAnnotationFileGenerator(TimeTier originalRecodingTier)
+		private OralAnnotationFileGenerator(TimeTier sourceRecodingTier)
 		{
-			_origRecordingTier = originalRecodingTier;
-			_origRecordingSegments = _origRecordingTier.Segments.ToArray();
+			_srcRecordingTier = sourceRecodingTier;
+			_srcRecordingSegments = _srcRecordingTier.Segments.ToArray();
 
-			_origRecStreamProvider = WaveStreamProvider.Create(
-				AudioUtils.GetDefaultWaveFormat(1), _origRecordingTier.MediaFileName);
+			_srcRecStreamProvider = WaveStreamProvider.Create(
+				AudioUtils.GetDefaultWaveFormat(1), _srcRecordingTier.MediaFileName);
 
-			var originalFormat = _origRecStreamProvider.Stream.WaveFormat;
+			var sourceFormat = _srcRecStreamProvider.Stream.WaveFormat;
 
-			_outputAudioFormat = new WaveFormat(originalFormat.SampleRate,
-				originalFormat.BitsPerSample, originalFormat.Channels + 2);
+			_outputAudioFormat = new WaveFormat(sourceFormat.SampleRate,
+				sourceFormat.BitsPerSample, sourceFormat.Channels + 2);
 
-			_output1ChannelAudioFormat = new WaveFormat(originalFormat.SampleRate,
-				originalFormat.BitsPerSample, 1);
+			_output1ChannelAudioFormat = new WaveFormat(sourceFormat.SampleRate,
+				sourceFormat.BitsPerSample, 1);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -152,27 +139,27 @@ namespace SayMore.Transcription.Model
 			if (_audioFileWriter != null)
 				_audioFileWriter.Close();
 
-			if (_origRecStreamProvider != null)
-				_origRecStreamProvider.Dispose();
+			if (_srcRecStreamProvider != null)
+				_srcRecStreamProvider.Dispose();
 
 			_audioFileWriter = null;
-			_origRecStreamProvider = null;
+			_srcRecStreamProvider = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void CreateInterleavedAudioFile(object sender, DoWorkEventArgs e)
 		{
-			if (_origRecStreamProvider.Error != null)
+			if (_srcRecStreamProvider.Error != null)
 			{
 				var msg = LocalizationManager.GetString(
-					"EventsView.Transcription.GeneratedOralAnnotationView.ProcessingOriginalRecordingErrorMsg",
-					"There was an error processing the original recording.");
+					"EventsView.Transcription.GeneratedOralAnnotationView.ProcessingSourceRecordingErrorMsg",
+					"There was an error processing the source recording.");
 
-				ErrorReport.NotifyUserOfProblem(msg, _origRecStreamProvider.Error);
+				ErrorReport.NotifyUserOfProblem(msg, _srcRecStreamProvider.Error);
 				return;
 			}
 
-			_outputFileName = _origRecordingTier.MediaFileName +
+			_outputFileName = _srcRecordingTier.MediaFileName +
 				Settings.Default.OralAnnotationGeneratedFileSuffix;
 
 			var tmpOutputFile = Path.GetFileName(_outputFileName);
@@ -182,7 +169,7 @@ namespace SayMore.Transcription.Model
 			{
 				using (_audioFileWriter = new WaveFileWriter(tmpOutputFile, _outputAudioFormat))
 				{
-					foreach (var segment in _origRecordingSegments)
+					foreach (var segment in _srcRecordingSegments)
 						InterleaveSegments(segment);
 				}
 
@@ -209,10 +196,10 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		private void InterleaveSegments(Segment segment)
 		{
-			// Write a channel for the original recording segment
-			var inputStream = _origRecStreamProvider.GetStreamSubset(segment);
+			// Write a channel for the source recording segment
+			var inputStream = _srcRecStreamProvider.GetStreamSubset(segment);
 			if (inputStream != null)
-				WriteAudioStreamToChannel(AnnotationChannel.Original, inputStream);
+				WriteAudioStreamToChannel(AnnotationChannel.Source, inputStream);
 
 			// Write a channel for the careful speech segment
 			using (var provider = GetWaveStreamForOralAnnotationSegment(segment, OralAnnotationType.Careful))
@@ -233,7 +220,7 @@ namespace SayMore.Transcription.Model
 		private WaveStreamProvider GetWaveStreamForOralAnnotationSegment(Segment segment,
 			OralAnnotationType annotationType)
 		{
-			var pathToAnnotationsFolder = _origRecordingTier.MediaFileName +
+			var pathToAnnotationsFolder = _srcRecordingTier.MediaFileName +
 				Settings.Default.OralAnnotationsFolderSuffix;
 
 			var filename = Path.Combine(pathToAnnotationsFolder, (annotationType == OralAnnotationType.Careful ?
@@ -248,7 +235,7 @@ namespace SayMore.Transcription.Model
 					"There was an error processing a {0} annotation file.",
 					"The parameter is the annotation type (i.e. careful, translation).");
 
-				ErrorReport.NotifyUserOfProblem(_origRecStreamProvider.Error, msg,
+				ErrorReport.NotifyUserOfProblem(_srcRecStreamProvider.Error, msg,
 					annotationType.ToString().ToLower());
 			}
 
@@ -258,7 +245,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		private void WriteAudioStreamToChannel(AnnotationChannel channel, WaveStream inputStream)
 		{
-			var silentBlocksForOrig = new float[_origRecStreamProvider.Stream.WaveFormat.Channels];
+			var silentBlocksForOrig = new float[_srcRecStreamProvider.Stream.WaveFormat.Channels];
 			var blocksRead = 0;
 			var totalBlocks = inputStream.Length / inputStream.WaveFormat.BlockAlign;
 			var provider = new SampleChannel(inputStream);
@@ -270,8 +257,8 @@ namespace SayMore.Transcription.Model
 
 				switch (channel)
 				{
-					case AnnotationChannel.Original:
-						_audioFileWriter.WriteSamples(buffer, 0, _origRecStreamProvider.Stream.WaveFormat.Channels);
+					case AnnotationChannel.Source:
+						_audioFileWriter.WriteSamples(buffer, 0, _srcRecStreamProvider.Stream.WaveFormat.Channels);
 						_audioFileWriter.WriteSample(0f);
 						_audioFileWriter.WriteSample(0f);
 						break;

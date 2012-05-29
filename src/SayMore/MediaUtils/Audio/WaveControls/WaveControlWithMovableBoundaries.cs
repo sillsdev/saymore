@@ -145,9 +145,9 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void OnBoundaryMovedToOrigin(TimeSpan originalBoundary)
+		protected virtual void OnBoundaryMovedToOrigin(TimeSpan sourceBoundary)
 		{
-			Painter.InvalidateBoundary(originalBoundary);
+			Painter.InvalidateBoundary(sourceBoundary);
 		}
 
 		/// ------------------------------------------------------------------------------------

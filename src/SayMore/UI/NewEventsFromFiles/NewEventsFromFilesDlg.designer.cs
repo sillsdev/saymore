@@ -155,7 +155,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelInstructions.Name = "_labelInstructions";
 			this._labelInstructions.Size = new System.Drawing.Size(419, 26);
 			this._labelInstructions.TabIndex = 2;
-			this._labelInstructions.Text = "Mark each file which represents an original recording of an event. For each one, " +
+			this._labelInstructions.Text = "Mark each file which represents an source recording of an event. For each one, " +
 	"SayMore will create a new event and copy the file into it.";
 			//
 			// _mediaPlayerPanel

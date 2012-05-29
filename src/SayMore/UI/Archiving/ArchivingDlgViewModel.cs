@@ -334,16 +334,16 @@ namespace SayMore.UI.Utilities
 					contributions.Select(GetContributorsMetsPair));
 			}
 
-			// Return total duration of original audio/video recordings.
+			// Return total duration of source audio/video recordings.
 			var recExtent = GetRecordingExtent(_event.GetComponentFiles().Where(file =>
 				file.GetAssignedRoles().FirstOrDefault(r =>
-					r.Id == ComponentRole.kOriginalComponentRoleId) != null)
+					r.Id == ComponentRole.kSourceComponentRoleId) != null)
 					.Where(f => !string.IsNullOrEmpty(f.DurationString)).Select(f => f.DurationString));
 
 			if (!string.IsNullOrEmpty(recExtent))
 			{
 				yield return JSONUtils.MakeKeyValuePair("format.extent.recording",
-					string.Format("Total Length of Original Recordings: {0}", recExtent));
+					string.Format("Total Length of Source Recordings: {0}", recExtent));
 			}
 
 			if (_fileLists != null)
@@ -373,13 +373,13 @@ namespace SayMore.UI.Utilities
 
 			foreach (var file in files)
 			{
-				if (ComponentRole.GetIsAudio(file))
+				if (FileSystemUtils.GetIsAudio(file))
 					list.Add("Speech");
-				if (ComponentRole.GetIsVideo(file))
+				if (FileSystemUtils.GetIsVideo(file))
 					list.Add("Video");
-				if (ComponentRole.GetIsText(file))
+				if (FileSystemUtils.GetIsText(file))
 					list.Add("Text");
-				if (ComponentRole.GetIsImage(file))
+				if (FileSystemUtils.GetIsImage(file))
 					list.Add("Photograph");
 			}
 

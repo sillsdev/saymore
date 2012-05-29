@@ -2,6 +2,7 @@ using System.Drawing;
 using NUnit.Framework;
 using SayMore.Model;
 using SayMore.Model.Files;
+using SayMore.Utilities;
 
 namespace SayMoreTests.Model.Files
 {
@@ -11,7 +12,7 @@ namespace SayMoreTests.Model.Files
 		[Test]
 		public void IsPotential_PathMatches_True()
 		{
-			ComponentRole role = GetRoleForOriginalRecording();
+			ComponentRole role = GetRoleForSourceRecording();
 			Assert.IsTrue(role.IsPotential("fub.wav"));
 			Assert.IsTrue(role.IsPotential("fub.mp3"));
 			Assert.IsTrue(role.IsPotential("fub.ogg"));
@@ -22,58 +23,98 @@ namespace SayMoreTests.Model.Files
 		[Test]
 		public void IsPotential_PathDoesNotMatch_False()
 		{
-			ComponentRole role = GetRoleForOriginalRecording();
+			ComponentRole role = GetRoleForSourceRecording();
 			Assert.IsFalse(role.IsPotential("fub.xmp3"));
 			Assert.IsFalse(role.IsPotential("fub.mp3x"));
 		}
 
-		private static ComponentRole GetRoleForOriginalRecording()
+		[Test]
+		public void IsMatch_IsNotCorrectFileType_ReturnsFalse()
 		{
-			return new ComponentRole(typeof(Event), "original", "Original Recording",
-				ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo,
-				"$ElementId$_Original", Color.Magenta, Color.Black);
+			var role = GetRoleForSourceRecording();
+			Assert.IsFalse(role.IsMatch("fub.ogg"));
+			Assert.IsFalse(role.IsMatch("fub.txt"));
+			Assert.IsFalse(role.IsMatch("fub.pdf"));
+			Assert.IsFalse(role.IsMatch("fub.doc"));
+			Assert.IsFalse(role.IsMatch("fub_Original.doc"));
+			Assert.IsFalse(role.IsMatch("fub_Source.doc"));
+		}
+
+		[Test]
+		public void IsMatch_HasCorrectFileTypeWithoutCorrectSuffix_ReturnsFalse()
+		{
+			var role = GetRoleForSourceRecording();
+			Assert.IsFalse(role.IsMatch("fub.wav"));
+			Assert.IsFalse(role.IsMatch("fub.mpg"));
+			Assert.IsFalse(role.IsMatch("fub.mp3"));
+			Assert.IsFalse(role.IsMatch("fub.wmv"));
+		}
+
+		[Test]
+		public void IsMatch_HasCorrectFileTypeAndSuffix_ReturnsTrue()
+		{
+			var role = GetRoleForSourceRecording();
+			Assert.IsTrue(role.IsMatch("fub_Source.wav"));
+			Assert.IsTrue(role.IsMatch("fub_Source.mpg"));
+			Assert.IsTrue(role.IsMatch("fub_Source.mp4"));
+		}
+
+		[Test]
+		public void IsMatch_HasCorrectFileTypeAndOldSourceSuffix_ReturnsTrue()
+		{
+			var role = GetRoleForSourceRecording();
+			Assert.IsTrue(role.IsMatch("fub_Original.wav"));
+			Assert.IsTrue(role.IsMatch("fub_Original.mpg"));
+			Assert.IsTrue(role.IsMatch("fub_Original.mp4"));
+		}
+
+		private static ComponentRole GetRoleForSourceRecording()
+		{
+			return new ComponentRole(typeof(Event), "source", "Source Recording",
+				ComponentRole.MeasurementTypes.Time, FileSystemUtils.GetIsAudioVideo,
+				"$ElementId$_Source", Color.Magenta, Color.Black);
 		}
 
 		[Test]
 		public void GetCanonicalName_NoDirectoryInPath_ChangesName()
 		{
-			ComponentRole role = GetRoleForOriginalRecording();
-			Assert.AreEqual("myEvent_Original.wav", role.GetCanoncialName("myEvent", "fub.wav"));
+			ComponentRole role = GetRoleForSourceRecording();
+			Assert.AreEqual("myEvent_Source.wav", role.GetCanoncialName("myEvent", "fub.wav"));
 		}
 
 		[Test]
 		public void GetCanonicalName_HasDirectoryInPath_ChangesName()
 		{
-			ComponentRole role = GetRoleForOriginalRecording();
-			Assert.AreEqual(@"c:\foo\myEvent_Original.wav", role.GetCanoncialName("myEvent", @"c:\foo\fub.wav"));
+			ComponentRole role = GetRoleForSourceRecording();
+			Assert.AreEqual(@"c:\foo\myEvent_Source.wav", role.GetCanoncialName("myEvent", @"c:\foo\fub.wav"));
 		}
 
-		[Test]
-		public void AtLeastOneFileHasThisRole_HaveOneMatching_True()
-		{
-			ComponentRole role = GetRoleForOriginalRecording();
-			Assert.IsTrue(role.AtLeastOneFileHasThisRole("myEvent", new string[] { "x.txt", @"c:\foo\myEvent_Original.wav", "z.doc" }));
-		}
+		//[Test]
+		//public void AtLeastOneFileHasThisRole_HaveOneMatching_True()
+		//{
+		//    ComponentRole role = GetRoleForSourceRecording();
+		//    Assert.IsTrue(role.AtLeastOneFileHasThisRole("myEvent", new[] { "x.txt", @"c:\foo\myEvent_Source.wav", "z.doc" }));
+		//}
 
-		[Test]
-		public void AtLeastOneFileHasThisRole_NonMatchingEvent_False()
-		{
-			ComponentRole role = GetRoleForOriginalRecording();
-			Assert.IsFalse(role.AtLeastOneFileHasThisRole("myEvent", new string[] { @"c:\foo\XEvent_Original.wav" }));
-		}
+		//[Test]
+		//public void AtLeastOneFileHasThisRole_NonMatchingEvent_False()
+		//{
+		//    ComponentRole role = GetRoleForSourceRecording();
+		//    Assert.IsFalse(role.AtLeastOneFileHasThisRole("myEvent", new[] { @"c:\foo\XEvent_Source.wav" }));
+		//}
 
-		[Test]
-		public void AtLeastOneFileHasThisRole_NonMatchingExtension_False()
-		{
-			ComponentRole role = GetRoleForOriginalRecording();
-			Assert.IsFalse(role.AtLeastOneFileHasThisRole("myEvent", new string[] { @"c:\foo\myEvent_Original.txt" }));
-		}
+		//[Test]
+		//public void AtLeastOneFileHasThisRole_NonMatchingExtension_False()
+		//{
+		//    ComponentRole role = GetRoleForSourceRecording();
+		//    Assert.IsFalse(role.AtLeastOneFileHasThisRole("myEvent", new[] { @"c:\foo\myEvent_Source.txt" }));
+		//}
 
-		[Test]
-		public void AtLeastOneFileHasThisRole_NonMatchingTemplate_False()
-		{
-			ComponentRole role = GetRoleForOriginalRecording();
-			Assert.IsFalse(role.AtLeastOneFileHasThisRole("myEvent", new string[] { @"c:\foo\myEvent_BLAH.wav" }));
-		}
+		//[Test]
+		//public void AtLeastOneFileHasThisRole_NonMatchingTemplate_False()
+		//{
+		//    ComponentRole role = GetRoleForSourceRecording();
+		//    Assert.IsFalse(role.AtLeastOneFileHasThisRole("myEvent", new[] { @"c:\foo\myEvent_BLAH.wav" }));
+		//}
 	}
 }

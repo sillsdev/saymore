@@ -43,7 +43,7 @@ namespace SayMore.UI.ElementListScreen
 			HandleTextBoxTextChanged(null, null);
 			SetFonts();
 
-			IntializeLink(_linkSource, ComponentRole.kOriginalComponentRoleId);
+			IntializeLink(_linkSource, ComponentRole.kSourceComponentRoleId);
 			IntializeLink(_linkConsent, "consent");
 			IntializeLink(_linkCareful, "carefulSpeech");
 			IntializeLink(_linkOralTranslation, "oralTranslation");
@@ -115,7 +115,7 @@ namespace SayMore.UI.ElementListScreen
 		public ComponentRole GetNewRoleOfFile()
 		{
 			return _componentRoles.FirstOrDefault(r =>
-				_textBox.Text.ToLower() == r.RenamingTemplate.Replace("$ElementId$_", string.Empty).ToLower());
+				_textBox.Text.ToLower() == r.GetRenamingTemplateSuffix().ToLower());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ namespace SayMore.UI.ElementListScreen
 			if (role == null)
 				return;
 
-			_textBox.Text = role.RenamingTemplate.Replace("$ElementId$_", string.Empty);
+			_textBox.Text = role.GetRenamingTemplateSuffix();
 		}
 
 		/// ------------------------------------------------------------------------------------

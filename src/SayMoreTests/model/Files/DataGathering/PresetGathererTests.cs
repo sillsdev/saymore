@@ -45,7 +45,7 @@ namespace SayMoreTests.Model.Files.DataGathering
 		[Category("SkipOnTeamCity")]
 		public void Background_SidecarDataChanged_PresetChanged()
 		{
-			WriteTestWavWithSidecar(@"original");
+			WriteTestWavWithSidecar(@"source");
 			using (var processor = CreateProcessor())
 			{
 				using (processor.ExpectNewDataAvailable())
@@ -53,7 +53,7 @@ namespace SayMoreTests.Model.Files.DataGathering
 					processor.Start();
 					WaitUntilNotBusy(processor);
 				}
-				Assert.AreEqual("original", processor.FirstValueOfFirstPreset());
+				Assert.AreEqual("source", processor.FirstValueOfFirstPreset());
 				using (processor.ExpectNewDataAvailable())
 				{
 					WriteOnlySidecar(@"changed");

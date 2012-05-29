@@ -330,7 +330,7 @@ namespace SayMore.Transcription.UI
 				return;
 
 			var currCol = Columns[CurrentCellAddress.X] as TextAnnotationColumnWithMenu;
-			var playbackType = (currCol != null ? currCol.PlaybackType : OralAnnotationType.Original);
+			var playbackType = (currCol != null ? currCol.PlaybackType : OralAnnotationType.Source);
 			_mediaFileQueue = AnnotationPlaybackInfoProvider(playbackType).ToList();
 			InternalPlay();
 			PlaybackInProgress = true;

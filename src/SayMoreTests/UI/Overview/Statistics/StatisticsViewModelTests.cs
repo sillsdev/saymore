@@ -8,6 +8,7 @@ using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.UI.Overview.Statistics;
+using SayMore.Utilities;
 
 namespace SayMoreTests.UI.Overview.Statistics
 {
@@ -53,7 +54,7 @@ namespace SayMoreTests.UI.Overview.Statistics
 			//Mock<ComponentRole> role = new Mock<ComponentRole>();
 			//role.Setup(x => x.IsMatch("zzzz")).Returns(false);
 			var role = new ComponentRole(typeof (Event), "blah", "blah", ComponentRole.MeasurementTypes.Time,
-										 ComponentRole.GetIsAudioVideo, "CantMatchThis", Color.Magenta, Color.Black);
+										 FileSystemUtils.GetIsAudioVideo, "CantMatchThis", Color.Magenta, Color.Black);
 			Assert.AreEqual(new TimeSpan(0),
 							   CreateModel().GetRecordingDurations(role));
 		}

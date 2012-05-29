@@ -22,7 +22,7 @@ namespace SayMore.Transcription.UI
 			this._panelWaveControl = new System.Windows.Forms.Panel();
 			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutTop = new System.Windows.Forms.TableLayoutPanel();
-			this._labelOriginalRecording = new System.Windows.Forms.Label();
+			this._labelSourceRecording = new System.Windows.Forms.Label();
 			this._labelZoom = new System.Windows.Forms.Label();
 			this._comboBoxZoom = new System.Windows.Forms.ComboBox();
 			this._toolStripStatus = new System.Windows.Forms.ToolStrip();
@@ -83,7 +83,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this._tableLayoutTop.Controls.Add(this._labelOriginalRecording, 0, 0);
+			this._tableLayoutTop.Controls.Add(this._labelSourceRecording, 0, 0);
 			this._tableLayoutTop.Controls.Add(this._labelZoom, 1, 0);
 			this._tableLayoutTop.Controls.Add(this._comboBoxZoom, 2, 0);
 			this._tableLayoutTop.Location = new System.Drawing.Point(0, 0);
@@ -94,20 +94,20 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutTop.Size = new System.Drawing.Size(703, 24);
 			this._tableLayoutTop.TabIndex = 9;
 			//
-			// _labelOriginalRecording
+			// _labelSourceRecording
 			//
-			this._labelOriginalRecording.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this._labelOriginalRecording.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._labelOriginalRecording, null);
-			this.locExtender.SetLocalizationComment(this._labelOriginalRecording, null);
-			this.locExtender.SetLocalizingId(this._labelOriginalRecording, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlgDlg._labelOriginalRecording" +
+			this._labelSourceRecording.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._labelSourceRecording.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelSourceRecording, null);
+			this.locExtender.SetLocalizationComment(this._labelSourceRecording, null);
+			this.locExtender.SetLocalizingId(this._labelSourceRecording, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlgDlg._labelOriginalRecording" +
 					"");
-			this._labelOriginalRecording.Location = new System.Drawing.Point(0, 5);
-			this._labelOriginalRecording.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
-			this._labelOriginalRecording.Name = "_labelOriginalRecording";
-			this._labelOriginalRecording.Size = new System.Drawing.Size(72, 13);
-			this._labelOriginalRecording.TabIndex = 4;
-			this._labelOriginalRecording.Text = "Original Audio";
+			this._labelSourceRecording.Location = new System.Drawing.Point(0, 5);
+			this._labelSourceRecording.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
+			this._labelSourceRecording.Name = "_labelSourceRecording";
+			this._labelSourceRecording.Size = new System.Drawing.Size(71, 13);
+			this._labelSourceRecording.TabIndex = 4;
+			this._labelSourceRecording.Text = "Source Audio";
 			//
 			// _labelZoom
 			//
@@ -297,7 +297,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripLabel _labelTimeDisplay;
 		protected System.Windows.Forms.ToolStripLabel _labelSegmentXofY;
 		protected System.Windows.Forms.ToolStripLabel _labelSegmentNumber;
-		protected System.Windows.Forms.Label _labelOriginalRecording;
+		protected System.Windows.Forms.Label _labelSourceRecording;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutTop;
 		protected TableLayoutPanel _tableLayoutButtons;
 		protected ToolStrip _toolStripStatus;

@@ -31,10 +31,10 @@ namespace SayMore.Transcription.UI
 		private RecordingDeviceButton _recDeviceButton;
 		private Timer _recordingTooShortMsgTimer;
 		private Image _hotPlayInSegmentButton;
-		private Image _hotPlayOriginalButton;
+		private Image _hotPlaySourceButton;
 		private Image _hotRecordAnnotationButton;
 		private Image _normalPlayInSegmentButton;
-		private Image _normalPlayOriginalButton;
+		private Image _normalPlaySourceButton;
 		private Image _normalRecordAnnotationButton;
 		private Image _normalRerecordAnnotationButton;
 		private Image _hotRerecordAnnotationButton;
@@ -133,7 +133,7 @@ namespace SayMore.Transcription.UI
 			{
 				components.Dispose();
 				_annotationSegmentFont.Dispose();
-				_hotPlayOriginalButton.Dispose();
+				_hotPlaySourceButton.Dispose();
 				_hotRecordAnnotationButton.Dispose();
 				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 				AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrown;
@@ -201,12 +201,12 @@ namespace SayMore.Transcription.UI
 		{
 			_labelListenButton.MouseEnter += delegate
 			{
-				HandleListenOrRecordButtonMouseEnter(_labelListenButton, _hotPlayOriginalButton);
+				HandleListenOrRecordButtonMouseEnter(_labelListenButton, _hotPlaySourceButton);
 			};
 
 			_labelListenButton.MouseLeave += delegate
 			{
-				_labelListenButton.Image = _normalPlayOriginalButton;
+				_labelListenButton.Image = _normalPlaySourceButton;
 				_scrollTimer.Stop();
 			};
 
@@ -262,13 +262,13 @@ namespace SayMore.Transcription.UI
 			panel.AutoSize = true;
 			_tableLayoutMediaButtons.Controls.Add(panel, 0, 0);
 			panel.Margin = _panelListen.Margin;
-			_labelOriginalRecording.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-			var margin = _labelOriginalRecording.Margin;
+			_labelSourceRecording.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			var margin = _labelSourceRecording.Margin;
 			margin.Top = 10;
 			margin.Left = margin.Right;
-			_labelOriginalRecording.Margin = margin;
-			panel.Controls.Add(_labelOriginalRecording);
-			_labelOriginalRecording.Location = new Point(3, 10);
+			_labelSourceRecording.Margin = margin;
+			panel.Controls.Add(_labelSourceRecording);
+			_labelSourceRecording.Location = new Point(3, 10);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -278,11 +278,11 @@ namespace SayMore.Transcription.UI
 				return;
 
 			_normalPlayInSegmentButton = Resources.ListenToSegmentsAnnotation;
-			_normalPlayOriginalButton = _labelListenButton.Image;
+			_normalPlaySourceButton = _labelListenButton.Image;
 			_normalRecordAnnotationButton = _labelRecordButton.Image;
 			_normalRerecordAnnotationButton = Resources.RerecordOralAnnotation;
 			_hotPlayInSegmentButton = PaintingHelper.MakeHotImage(_normalPlayInSegmentButton);
-			_hotPlayOriginalButton = PaintingHelper.MakeHotImage(_normalPlayOriginalButton);
+			_hotPlaySourceButton = PaintingHelper.MakeHotImage(_normalPlaySourceButton);
 			_hotRecordAnnotationButton = PaintingHelper.MakeHotImage(_normalRecordAnnotationButton);
 			_hotRerecordAnnotationButton = PaintingHelper.MakeHotImage(_normalRerecordAnnotationButton);
 		}
@@ -290,9 +290,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void InitializeHintLabelsAndButtonFonts()
 		{
-			_labelListenHint.Font = _labelOriginalRecording.Font;
-			_labelRecordHint.Font = _labelOriginalRecording.Font;
-			_labelErrorInfo.Font = _labelOriginalRecording.Font;
+			_labelListenHint.Font = _labelSourceRecording.Font;
+			_labelRecordHint.Font = _labelSourceRecording.Font;
+			_labelErrorInfo.Font = _labelSourceRecording.Font;
 			_labelFinishedHint.Font = FontHelper.MakeFont(Program.DialogFont, 10, FontStyle.Bold);
 			_labelListenButton.Font = Program.DialogFont;
 			_labelRecordButton.Font = Program.DialogFont;
@@ -301,7 +301,7 @@ namespace SayMore.Transcription.UI
 			undoButtonSize.Width += _labelUndoButton.MinimumSize.Width;
 			_labelUndoButton.AutoSize = false;
 			_labelUndoButton.Size = undoButtonSize;
-			_labelOriginalRecording.ForeColor = _labelListenButton.ForeColor;
+			_labelSourceRecording.ForeColor = _labelListenButton.ForeColor;
 
 			_annotationSegmentFont = FontHelper.MakeFont(Program.DialogFont, 8, FontStyle.Bold);
 
@@ -322,14 +322,14 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected void InitializeRecordingLabel(Label labelRecording)
 		{
-			labelRecording.Margin = _labelOriginalRecording.Margin;
-			labelRecording.TextAlign = _labelOriginalRecording.TextAlign;
-			labelRecording.Anchor = _labelOriginalRecording.Anchor;
+			labelRecording.Margin = _labelSourceRecording.Margin;
+			labelRecording.TextAlign = _labelSourceRecording.TextAlign;
+			labelRecording.Anchor = _labelSourceRecording.Anchor;
 			_tableLayoutRecordAnnotations.RowStyles[0].SizeType = SizeType.AutoSize;
 			_tableLayoutRecordAnnotations.Controls.Add(labelRecording, 0, 0);
 			_tableLayoutRecordAnnotations.SetColumnSpan(labelRecording, 2);
 			labelRecording.ForeColor = _labelRecordButton.ForeColor;
-			_labelOriginalRecording.FontChanged += delegate { labelRecording.Font = _labelOriginalRecording.Font; };
+			_labelSourceRecording.FontChanged += delegate { labelRecording.Font = _labelSourceRecording.Font; };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -447,16 +447,14 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void UpdateDisplay()
 		{
-			// Restore this code to work on UNDO feature
-			//var undoableSegmentRange = ViewModel.TimeRangeForUndo;
-			//_labelUndoButton.Visible = undoableSegmentRange != null;
-			//if (_labelUndoButton.Visible)
-			//{
-			//    // TODO: Figure out why this button gets placed wrong. Also get it to move when the wave view is scrolled.
-			//    _labelUndoButton.Location = new Point(
-			//        WavePainter.ConvertTimeToXCoordinate(undoableSegmentRange.End) - _labelUndoButton.Width - 5,
-			//        _waveControl.ClientRectangle.Top + 5);
-			//}
+			var undoableSegmentRange = ViewModel.TimeRangeForUndo;
+			_labelUndoButton.Visible = undoableSegmentRange != null;
+			if (_labelUndoButton.Visible)
+			{
+				_labelUndoButton.Location = new Point(_waveControl.Left +
+					WavePainter.ConvertTimeToXCoordinate(undoableSegmentRange.End) - _labelUndoButton.Width - 5,
+					_waveControl.Top + 5);
+			}
 
 			_labelListenButton.Image = (_waveControl.IsPlaying && _playingBackUsingHoldDownButton ?
 				Resources.ListenToOriginalRecordingDown : Resources.ListenToOriginalRecording);
@@ -778,9 +776,9 @@ namespace SayMore.Transcription.UI
 			if (playButtonRectangles == null || ViewModel.GetIsRecording())
 				return;
 
-			bool playOriginal = playButtonRectangles.Item1.Contains(e.Location);
+			bool playSource = playButtonRectangles.Item1.Contains(e.Location);
 			bool playAnnotation = playButtonRectangles.Item2.Contains(e.Location);
-			if (!playOriginal && !playAnnotation)
+			if (!playSource && !playAnnotation)
 				return;
 
 			var segMouseOver = _waveControl.GetSegmentForX(e.X);
@@ -796,12 +794,12 @@ namespace SayMore.Transcription.UI
 
 			if (segment == null)
 			{
-				// Play the original recording for the new segment.
+				// Play the source recording for the new segment.
 				_waveControl.Play(ViewModel.GetEndOfLastSegment(), ViewModel.NewSegmentEndBoundary);
 			}
 			else
 			{
-				if (playOriginal)
+				if (playSource)
 					_waveControl.Play(segment.TimeRange);
 				else
 				{
@@ -831,16 +829,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleUndoButtonClick(object sender, EventArgs e)
 		{
-			// TODO: Figure out why undo doesn't work right. After listening to create a new
-			// segment and then recording an annotation for it, we should have exactly one
-			// SegmentChange in the ViewModel's UndoStack, whose undo action should be a
-			// compounding of the lamba expressions from adding the annotation and creating the
-			// segment. Possibly, they need to be undone in a different order. See
-			// SegmentChange.TryUpdate in SegmenterDlgBaseViewModel.cs.
 			UpdateDisplayForChangeInNewSegmentEndBoundary(delegate
 			{
+				var timeRangeToInvalidate = ViewModel.TimeRangeForUndo;
 				ViewModel.Undo();
 				_spaceBarMode = SpaceBarMode.Listen;
+				_waveControl.InvalidateIfNeeded(WavePainter.GetUpperRectangleForTimeRange(timeRangeToInvalidate));
 
 				if (_labelFinishedHint.Visible)
 				{
@@ -1296,7 +1290,7 @@ namespace SayMore.Transcription.UI
 			if (rc.IsEmpty || playButtonSize.Width + 6 > rc.Width)
 				return null;
 
-			var originalRecordingButtonRect = new Rectangle(rc.X + 6,
+			var sourceRecordingButtonRect = new Rectangle(rc.X + 6,
 				rc.Bottom - _waveControl.BottomReservedAreaHeight - 5 - playButtonSize.Height,
 				playButtonSize.Width, playButtonSize.Height);
 
@@ -1304,7 +1298,7 @@ namespace SayMore.Transcription.UI
 				Rectangle.Empty : new Rectangle(rc.X + 6, rc.Bottom - 5 - playButtonSize.Height,
 				playButtonSize.Width, playButtonSize.Height));
 
-			return new Tuple<Rectangle, Rectangle>(originalRecordingButtonRect, annotationRecordingButtonRect);
+			return new Tuple<Rectangle, Rectangle>(sourceRecordingButtonRect, annotationRecordingButtonRect);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1398,7 +1392,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleListenToOriginalMouseDown(object sender, MouseEventArgs e)
+		private void HandleListenToSourceMouseDown(object sender, MouseEventArgs e)
 		{
 			if (_waveControl.GetCursorTime() == ViewModel.OrigWaveStream.TotalTime)
 				return;
@@ -1452,12 +1446,12 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void BeginRecording(TimeRange timeRangeOfOriginalBeingAnnotated)
+		private void BeginRecording(TimeRange timeRangeOfSourceBeingAnnotated)
 		{
 			Segment hotSegment;
 			var rcHot = GetRectangleAndIndexOfHotSegment(out hotSegment);
 
-			if (!ViewModel.BeginAnnotationRecording(timeRangeOfOriginalBeingAnnotated))
+			if (!ViewModel.BeginAnnotationRecording(timeRangeOfSourceBeingAnnotated))
 			{
 				_spaceKeyIsDown = false;
 				return;
@@ -1477,7 +1471,7 @@ namespace SayMore.Transcription.UI
 				_waveControl.InvalidateIfNeeded(rcHot);
 
 			_waveControl.SelectSegmentOnMouseOver = false;
-			_segmentBeingRecorded = timeRangeOfOriginalBeingAnnotated.Copy();
+			_segmentBeingRecorded = timeRangeOfSourceBeingAnnotated.Copy();
 
 			var rc = GetVisibleAnnotationRectangleForSegmentBeingRecorded();
 			rc.Inflate(-5, -5);
@@ -1539,7 +1533,7 @@ namespace SayMore.Transcription.UI
 				if (_spaceBarMode == SpaceBarMode.Record && _labelRecordHint.Visible)
 					HandleRecordAnnotationMouseDown(null, null);
 				else if (_spaceBarMode == SpaceBarMode.Listen && _labelListenHint.Visible)
-					HandleListenToOriginalMouseDown(null, null);
+					HandleListenToSourceMouseDown(null, null);
 
 				return true;
 			}

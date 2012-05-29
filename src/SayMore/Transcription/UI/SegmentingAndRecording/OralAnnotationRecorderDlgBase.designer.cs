@@ -71,7 +71,7 @@ namespace SayMore.Transcription.UI
 			this._labelListenButton.TabIndex = 0;
 			this._labelListenButton.Text = "Listen";
 			this._labelListenButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this._labelListenButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HandleListenToOriginalMouseDown);
+			this._labelListenButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HandleListenToSourceMouseDown);
 			//
 			// locExtender
 			//

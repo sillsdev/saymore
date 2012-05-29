@@ -214,6 +214,12 @@ namespace SayMore.Transcription.UI
 			return InsertNewBoundary(NewSegmentEndBoundary);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		protected override void RevertNewSegment(SegmentChange change)
+		{
+			base.RevertNewSegment(change);
+			_endBoundary = GetEndOfLastSegment();
+		}
 		#endregion
 
 		#region Annotation recording methods

@@ -63,7 +63,8 @@ namespace SayMore.Transcription.UI
 				if (newChange.Type == SegmentChangeType.Addition && Type == SegmentChangeType.AnnotationAdded &&
 					newChange.NewRange == OriginalRange)
 				{
-					UndoAction = c => { newChange.UndoAction(c); UndoAction(c); };
+					Action<SegmentChange> originalUndoAction = UndoAction;
+					UndoAction = c => { originalUndoAction(c); newChange.UndoAction(c); };
 					return true;
 				}
 
@@ -115,6 +116,12 @@ namespace SayMore.Transcription.UI
 			public TimeRange TimeRangeForUndo
 			{
 				get { return (_undoStack.Count == 0) ? null : _undoStack.Peek().NewRange; }
+			}
+
+			/// ------------------------------------------------------------------------------------
+			public int SequenceId
+			{
+				get { return _undoStack.Count; }
 			}
 
 			/// ------------------------------------------------------------------------------------
@@ -221,16 +228,25 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void BackupOralAnnotationSegmentFile(string srcfile)
 		{
-			var dstFile = Path.Combine(TempOralAnnotationsFolder, Path.GetFileName(srcfile));
+			var fileName = Path.GetFileName(srcfile);
+			if (fileName == null)
+				return;
+			var dstFile = Path.Combine(TempOralAnnotationsFolder, fileName);
 
-			// If the file has already been backed up, then there's no need to do it again.
+			// If the file has already been backed up, then make a backup with the next
+			// available sequence number.
 			if (File.Exists(dstFile))
+			{
 				return;
+				// TODO: Implement this to allow successive undo's of re-recording annotations
+				//int latestBackup = GetLatestBackupNumberForFile(dstFile);
+				//dstFile += latestBackup + 1;
+			}
 
-			// If the source file is not one of the original oral annotation
-			// segment files, then there's no need to back it up
-			if (_oralAnnotationFilesBeforeChanges.All(f => Path.GetFileName(f) != Path.GetFileName(srcfile)))
-				return;
+			//// If the source file is not one of the original oral annotation
+			//// segment files, then there's no need to back it up
+			//if (_oralAnnotationFilesBeforeChanges.All(f => Path.GetFileName(f) != fileName))
+			//    return;
 
 			if (!Directory.Exists(TempOralAnnotationsFolder))
 				FileSystemUtils.CreateDirectory(TempOralAnnotationsFolder);
@@ -397,11 +413,17 @@ namespace SayMore.Transcription.UI
 			if (Tiers.InsertTierSegment((float)newBoundary.TotalSeconds) == BoundaryModificationResult.Success)
 			{
 				_undoStack.Push(new SegmentChange(TimeTier.Segments.First(s => s.TimeRange.End == newBoundary).TimeRange.Copy(),
-					c => DeleteBoundary(c.NewRange.End)));
+					RevertNewSegment));
 				OnBoundaryWasDeletedInsertedOrMoved();
 			}
 
 			return GetSegmentEndBoundaries();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void RevertNewSegment(SegmentChange change)
+		{
+			DeleteBoundary(change.NewRange.End);
 		}
 
 		/// ------------------------------------------------------------------------------------

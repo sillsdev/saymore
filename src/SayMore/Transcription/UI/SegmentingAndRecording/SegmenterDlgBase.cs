@@ -129,7 +129,7 @@ namespace SayMore.Transcription.UI
 			_labelSegmentXofY.Font = Program.DialogFont;
 			_labelSegmentNumber.Font = Program.DialogFont;
 			_labelTimeDisplay.Font = Program.DialogFont;
-			_labelOriginalRecording.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
+			_labelSourceRecording.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
 
 			// If we ever get zooming working again, remove the following two
 			// lines and uncomment the two below them.

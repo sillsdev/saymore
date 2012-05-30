@@ -142,7 +142,8 @@
       <DependentUpon>FFmpegDownloadDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="MediaUtils\FFmpeg\FFmpegDownloadHelper.cs" />
-    <Compile Include="Model\EventWorkflowInformant.cs" />
+    <Compile Include="Model\Session.cs" />
+    <Compile Include="Model\SessionWorkflowInformant.cs" />
     <Compile Include="Model\Fields\ContributionSerializer.cs" />
     <Compile Include="Model\Fields\FieldDefinition.cs">
       <SubType>Code</SubType>
@@ -178,7 +179,6 @@
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
-    <Compile Include="Model\Event.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -368,11 +368,11 @@
     <Compile Include="UI\ComponentEditors\DiagnosticsFileInfoControl.Designer.cs">
       <DependentUpon>DiagnosticsFileInfoControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ComponentEditors\EventBasicEditor.cs">
+    <Compile Include="UI\ComponentEditors\SessionBasicEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\ComponentEditors\EventBasicEditor.Designer.cs">
-      <DependentUpon>EventBasicEditor.cs</DependentUpon>
+    <Compile Include="UI\ComponentEditors\SessionBasicEditor.Designer.cs">
+      <DependentUpon>SessionBasicEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ComponentEditors\ComponentEditorTabPage.cs">
       <SubType>Component</SubType>
@@ -417,7 +417,7 @@
     <Compile Include="UI\ElementListScreen\StagesControlToolTip.Designer.cs">
       <DependentUpon>StagesControlToolTip.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ElementListScreen\EventsGrid.cs">
+    <Compile Include="UI\ElementListScreen\SessionsGrid.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\ElementListScreen\PersonListScreen.cs">
@@ -436,13 +436,13 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\ElementListScreen\StagesDataProvider.cs" />
-    <Compile Include="UI\EventRecording\EventRecorderDlg.cs">
+    <Compile Include="UI\SessionRecording\SessionRecorderDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\EventRecording\EventRecorderDlg.designer.cs">
-      <DependentUpon>EventRecorderDlg.cs</DependentUpon>
+    <Compile Include="UI\SessionRecording\SessionRecorderDlg.designer.cs">
+      <DependentUpon>SessionRecorderDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\EventRecording\EventRecorderDlgViewModel.cs" />
+    <Compile Include="UI\SessionRecording\SessionRecorderDlgViewModel.cs" />
     <Compile Include="UI\LoadingDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -538,20 +538,20 @@
     <Compile Include="UI\LowLevelControls\ParentButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\NewEventsFromFiles\CopyFiles\CopyFilesViewModel.cs" />
-    <Compile Include="UI\NewEventsFromFiles\NewComponentFile.cs" />
-    <Compile Include="UI\NewEventsFromFiles\NewEventsFromFileDlgViewModel.cs" />
-    <Compile Include="UI\NewEventsFromFiles\NewEventsFromFilesDlg.cs">
+    <Compile Include="UI\NewSessionsFromFiles\CopyFiles\CopyFilesViewModel.cs" />
+    <Compile Include="UI\NewSessionsFromFiles\NewComponentFile.cs" />
+    <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFileDlgViewModel.cs" />
+    <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\NewEventsFromFiles\NewEventsFromFilesDlg.designer.cs">
-      <DependentUpon>NewEventsFromFilesDlg.cs</DependentUpon>
+    <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlg.designer.cs">
+      <DependentUpon>NewSessionsFromFilesDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\NewEventsFromFiles\NewEventsFromFilesDlgFolderNotFoundMsg.cs">
+    <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlgFolderNotFoundMsg.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\NewEventsFromFiles\NewEventsFromFilesDlgFolderNotFoundMsg.designer.cs">
-      <DependentUpon>NewEventsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
+    <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlgFolderNotFoundMsg.designer.cs">
+      <DependentUpon>NewSessionsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Overview\ProgressScreen.cs">
       <SubType>UserControl</SubType>
@@ -575,11 +575,11 @@
     <Compile Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlgViewModel.cs" />
     <Compile Include="UI\ProjectChoosingAndCreating\WelcomeDialogViewModel.cs" />
     <Compile Include="UI\ElementListScreen\ElementListViewModel.cs" />
-    <Compile Include="UI\ElementListScreen\EventsListScreen.cs">
+    <Compile Include="UI\ElementListScreen\SessionsListScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\ElementListScreen\EventsListScreen.Designer.cs">
-      <DependentUpon>EventsListScreen.cs</DependentUpon>
+    <Compile Include="UI\ElementListScreen\SessionsListScreen.Designer.cs">
+      <DependentUpon>SessionsListScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Command.cs" />
     <Compile Include="UI\ProjectWindow\AboutDialog.cs">
@@ -691,8 +691,8 @@
     <EmbeddedResource Include="UI\ComponentEditors\DiagnosticsFileInfoControl.resx">
       <DependentUpon>DiagnosticsFileInfoControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ComponentEditors\EventBasicEditor.resx">
-      <DependentUpon>EventBasicEditor.cs</DependentUpon>
+    <EmbeddedResource Include="UI\ComponentEditors\SessionBasicEditor.resx">
+      <DependentUpon>SessionBasicEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\StatusAndStagesEditor.resx">
       <DependentUpon>StatusAndStagesEditor.cs</DependentUpon>
@@ -715,8 +715,8 @@
     <EmbeddedResource Include="UI\ElementListScreen\ElementListScreen.resx">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\EventRecording\EventRecorderDlg.resx">
-      <DependentUpon>EventRecorderDlg.cs</DependentUpon>
+    <EmbeddedResource Include="UI\SessionRecording\SessionRecorderDlg.resx">
+      <DependentUpon>SessionRecorderDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LoadingDlg.resx">
       <DependentUpon>LoadingDlg.cs</DependentUpon>
@@ -727,11 +727,11 @@
     <EmbeddedResource Include="MediaUtils\MPlayer\MPlayerDebuggingOutputWindow.resx">
       <DependentUpon>MPlayerDebuggingOutputWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\NewEventsFromFiles\NewEventsFromFilesDlg.resx">
-      <DependentUpon>NewEventsFromFilesDlg.cs</DependentUpon>
+    <EmbeddedResource Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlg.resx">
+      <DependentUpon>NewSessionsFromFilesDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\NewEventsFromFiles\NewEventsFromFilesDlgFolderNotFoundMsg.resx">
-      <DependentUpon>NewEventsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
+    <EmbeddedResource Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlgFolderNotFoundMsg.resx">
+      <DependentUpon>NewSessionsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProgressDlg.resx">
       <DependentUpon>ProgressDlg.cs</DependentUpon>
@@ -745,8 +745,8 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ElementListScreen\EventsListScreen.resx">
-      <DependentUpon>EventsListScreen.cs</DependentUpon>
+    <EmbeddedResource Include="UI\ElementListScreen\SessionsListScreen.resx">
+      <DependentUpon>SessionsListScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectWindow\ProjectWindow.resx">
       <DependentUpon>ProjectWindow.cs</DependentUpon>

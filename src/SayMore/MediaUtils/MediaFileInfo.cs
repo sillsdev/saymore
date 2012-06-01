@@ -58,23 +58,24 @@ namespace SayMore.Media
 			info.Close();
 			Exception error;
 			var mediaInfo = XmlSerializationHelper.DeserializeFromString<MediaFileInfo>(output, out error);
-			return mediaInfo == null || mediaInfo.Audio == null ? null : mediaInfo;
+
+			if (mediaInfo == null || mediaInfo.Audio == null)
+				return null;
+
+			mediaInfo.MediaFilePath = mediaFile;
+			return mediaInfo;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static string GetInfoAsHtml(string mediaFile, bool verbose)
 		{
-			var prs = new ExternalProcess(MediaInfoProgramPath);
-			prs.StartInfo.Arguments = string.Format(
-				"--output=HTML {0} \"{1}\"", (verbose ? "-f" : string.Empty), mediaFile);
+			var info = new MediaInfo();
+			info.Open(mediaFile);
 
-			if (!prs.StartProcess())
-				return null;
-
-			var output = prs.StandardOutput.ReadToEnd();
-			prs.WaitForExit();
-			prs.Close();
-
+			info.Option("Complete", verbose ? "1" : "0");
+			info.Option("Inform", "HTML");
+			string output = info.Inform();
+			info.Close();
 			return output;
 		}
 

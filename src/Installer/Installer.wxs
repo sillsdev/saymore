@@ -101,7 +101,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		  <Component Id="NAudio.dll" Guid="{BB025B7C-B3CA-435e-9A4B-192373EE12AA}">
 			<File Id="NAudio.dll" Name="NAudio.dll" KeyPath="yes" Source="..\..\output\release\NAudio.dll" />
 		  </Component>
-
 			<Component Id="LocalizationManager.dll" Guid="{92419CBC-BA15-4dfd-B57E-399BEC7FE926}">
 			<File Id="LocalizationManager.dll" Name="LocalizationManager.dll" KeyPath="yes" Source="..\..\output\release\LocalizationManager.dll" />
 		  </Component>
@@ -111,7 +110,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		  <Component Id="Palaso.dll" Guid="{C46C492A-304B-47b8-A13A-7CE4896B5634}">
 			<File Id="Palaso.dll" Name="Palaso.dll" KeyPath="yes" Source="..\..\output\release\Palaso.dll" />
 		  </Component>
-
 		  <Component Id="PalasoUIWindowsForms.dll" Guid="{47046B6E-668C-4a4d-A866-719922C142B5}">
 			<File Id="PalasoUIWindowsForms.dll" Name="PalasoUIWindowsForms.dll" KeyPath="yes" Source="..\..\output\release\PalasoUIWindowsForms.dll" />
 		  </Component>
@@ -119,9 +117,11 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<File Id="Palaso.Media.dll" Name="Palaso.Media.dll" KeyPath="yes" Source="..\..\output\release\Palaso.Media.dll" />
 		  </Component>
 		  <Component Id="SayMore.exe.config" Guid="{ECCD0940-AC00-4f18-91DD-5223878373BB}">
-					<File Id="SayMore.exe.config" Name="SayMore.exe.config" KeyPath="yes" Source="..\..\output\release\SayMore.exe.config" />
+			 <File Id="SayMore.exe.config" Name="SayMore.exe.config" KeyPath="yes" Source="..\..\output\release\SayMore.exe.config" />
 		  </Component>
-
+			<Component Id="MediaInfo.dll" Guid="B87CF78F-0226-4F5B-B7DC-C13899E934E5">
+				<File Id="MediaInfo.dll" Name="MediaInfo.dll" KeyPath="yes" Source="..\..\lib\MediaInfo.dll" />
+			</Component>
 		</Directory>
 	  </Directory>
 	</Directory>

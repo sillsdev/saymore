@@ -90,8 +90,10 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
+
 			if (_watcher != null)
 				_watcher.Dispose();
+			_componentFiles = null;
 		}
 
 		[Obsolete("For Mocking Only")]
@@ -100,8 +102,13 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ComponentFile> GetComponentFiles()
 		{
-			if (_componentFiles != null)
-				return _componentFiles;
+			lock (this)
+			{
+				// Return a copy of the list to guard against changes
+				// on another thread (i.e., from the FileSystemWatcher)
+				if (_componentFiles != null)
+					return _componentFiles.ToArray();
+			}
 
 			_componentFiles = new HashSet<ComponentFile>();
 
@@ -135,13 +142,19 @@ namespace SayMore.Model
 				var file = _componentFiles.FirstOrDefault(f => f.PathToAnnotatedFile == e.FullPath);
 				if (file != null)
 				{
-					_componentFiles.Remove(file);
 					if (e.ChangeType == WatcherChangeTypes.Changed)
-						_componentFiles.Add(_componentFileFactory(this, e.FullPath));
+						file.Refresh();
+					else
+					{
+						lock (this)
+						{
+							_componentFiles.Remove(file);
+						}
+					}
 				}
 			};
 
-			return _componentFiles;
+			return GetComponentFiles();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -249,7 +262,13 @@ namespace SayMore.Model
 				{
 					var destFile = Path.Combine(FolderPath, Path.GetFileName(srcFile));
 					File.Copy(srcFile, destFile);
-					_componentFiles.Add(_componentFileFactory(this, destFile));
+					if (_componentFiles != null)
+					{
+						lock (this)
+						{
+							_componentFiles.Add(_componentFileFactory(this, destFile));
+						}
+					}
 				}
 				catch (Exception e)
 				{

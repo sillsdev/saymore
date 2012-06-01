@@ -76,7 +76,7 @@ namespace SayMore
 			if (_splashScreen == null)
 			{
 				_splashScreen = new UI.SplashScreen();
-				_splashScreen.Show();
+				_splashScreen.ShowWithoutFade();
 			}
 		}
 

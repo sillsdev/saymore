@@ -301,6 +301,12 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public virtual void Refresh()
+		{
+			LoadFileSizeAndDateModified();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected void LoadFileSizeAndDateModified()
 		{
 			// Initialize file's display size. File should only not exist during tests.
@@ -767,12 +773,18 @@ namespace SayMore.Model.Files
 
 				File.Move(PathToAnnotatedFile, newPath);
 				if (renameMetaFile)
+				{
 					File.Move(_metaDataPath, newMetaPath);
+					_metaDataPath = newMetaPath;
+				}
 
 				PathToAnnotatedFile = newPath;
 
 				if (_annotationFile != null)
 					_annotationFile.RenameAnnotatedFile(GetSuggestedPathToAnnotationFile());
+
+				if (_oralAnnotationFile != null)
+					_oralAnnotationFile.RenameAnnotatedFile(GetSuggestedPathToOralAnnotationFile());
 			}
 			catch (Exception e)
 			{

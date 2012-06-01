@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Localization;
 using SayMore.Model;
+using SayMore.Model.Files;
 using SayMore.UI.Overview.Statistics;
 
 namespace SayMore.UI.Charts
@@ -63,7 +64,7 @@ namespace SayMore.UI.Charts
 		protected void WriteStageChart()
 		{
 			var sessionsByStage = _statsViewModel.SessionInformant.GetSessionsCategorizedByStage()
-				.Where(r => r.Key.Id != "consent");
+				.Where(r => r.Key.Id != ComponentRole.kConsentComponentRoleId);
 
 			var barInfoList = (sessionsByStage.Select(
 				x => new ChartBarInfo(x.Key.Name, x.Value, x.Key.Color, x.Key.TextColor))).ToList();

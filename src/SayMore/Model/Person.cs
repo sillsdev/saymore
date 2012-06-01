@@ -136,7 +136,7 @@ namespace SayMore.Model
 		{
 			foreach (var component in GetComponentFiles())
 			{
-				if (component.GetAssignedRoles().FirstOrDefault(x => x.Id == "consent") != null)
+				if (component.GetAssignedRoles().FirstOrDefault(x => x.Id == ComponentRole.kConsentComponentRoleId) != null)
 					return component;
 			}
 

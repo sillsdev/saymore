@@ -5,6 +5,7 @@ using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
+using SayMoreTests.Model.Files;
 
 namespace SayMoreTests.Transcription.Model
 {
@@ -18,15 +19,18 @@ namespace SayMoreTests.Transcription.Model
 		[SetUp]
 		public void Setup()
 		{
+			var tempMediaPath = MediaFileInfoTests.GetLongerTestAudioFile();
 			_tempFolder = new TemporaryFolder("TierCollectionTests");
-			_tier = new TimeTier("test tier", Path.Combine(_tempFolder.Path, "mediaFile.wav"));
+			var mediaFile = Path.Combine(_tempFolder.Path, "mediaFile.wav");
+			File.Move(tempMediaPath, mediaFile);
+			_tier = new TimeTier("test tier", mediaFile);
 			_tier.AddSegment(10f, 20f);
 			_tier.AddSegment(20f, 30f);
 			_tier.AddSegment(30f, 40f);
 
 			Assert.AreEqual("test tier", _tier.Id);
 			Assert.AreEqual(string.Empty, _tier.DisplayName);
-			Assert.AreEqual(Path.Combine(_tempFolder.Path, "mediaFile.wav"), _tier.MediaFileName);
+			Assert.AreEqual(mediaFile, _tier.MediaFileName);
 			Assert.AreEqual(Path.Combine(_tempFolder.Path, "mediaFile.wav_Annotations"), _tier.SegmentFileFolder);
 
 			Assert.IsInstanceOf<AudioWaveFormColumn>(_tier.GridColumn);
@@ -211,7 +215,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void RemoveSegment_ByIndex_RemoveFirstSegment_RemovesAndRenamesSegAnnotationFiles()
 		{
-			SetupSegmentFileFoldersForRealSegments();
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
 
 			Assert.IsTrue(_tier.RemoveSegment(0));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")));
@@ -227,7 +231,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void RemoveSegment_ByIndex_RemoveMiddleSegment_RemovesAndRenamesSegAnnotationFiles()
 		{
-			SetupSegmentFileFoldersForRealSegments();
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
 
 			Assert.IsTrue(_tier.RemoveSegment(1));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
@@ -243,7 +247,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void RemoveSegment_ByIndex_RemoveLastSegment_RemovesSegAnnotationFiles()
 		{
-			SetupSegmentFileFoldersForRealSegments();
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
 
 			Assert.IsTrue(_tier.RemoveSegment(2));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
@@ -305,7 +309,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void RemoveSegment_BySegment_RemoveFirstSegment_RemovesAndRenamesSegAnnotationFiles()
 		{
-			SetupSegmentFileFoldersForRealSegments();
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
 
 			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 10f, 20f)));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")));
@@ -321,7 +325,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void RemoveSegment_BySegment_RemoveMiddleSegment_RemovesAndRenamesSegAnnotationFiles()
 		{
-			SetupSegmentFileFoldersForRealSegments();
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
 
 			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 20f, 30f)));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
@@ -337,7 +341,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void RemoveSegment_BySegment_RemoveLastSegment_RemovesSegAnnotationFiles()
 		{
-			SetupSegmentFileFoldersForRealSegments();
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
 
 			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 30f, 40f)));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
@@ -462,6 +466,67 @@ namespace SayMoreTests.Transcription.Model
 				TimeTier.ComputeFileNameForOralTranslationSegment(3.456f, 10.321f));
 		}
 
+		#region GetTotalAnnotatedTime tests
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTotalAnnotatedTime_NoSegments_ReturnsZero()
+		{
+			_tier.Segments.Clear();
+			Assert.AreEqual(TimeSpan.Zero, _tier.GetTotalAnnotatedTime(OralAnnotationType.CarefulSpeech));
+			Assert.AreEqual(TimeSpan.Zero, _tier.GetTotalAnnotatedTime(OralAnnotationType.Translation));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTotalAnnotatedTime_NoAnnotations_ReturnsZero()
+		{
+			Assert.AreEqual(TimeSpan.Zero, _tier.GetTotalAnnotatedTime(OralAnnotationType.CarefulSpeech));
+			Assert.AreEqual(TimeSpan.Zero, _tier.GetTotalAnnotatedTime(OralAnnotationType.Translation));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTotalAnnotatedTime_SomeSegmentsHaveAnnotations_ReturnsTotalAnnotatedTime()
+		{
+			Directory.CreateDirectory(_tier.SegmentFileFolder);
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")).Close();
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")).Close();
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")).Close();
+			Assert.AreEqual(TimeSpan.FromSeconds(20), _tier.GetTotalAnnotatedTime(OralAnnotationType.CarefulSpeech));
+			Assert.AreEqual(TimeSpan.FromSeconds(10), _tier.GetTotalAnnotatedTime(OralAnnotationType.Translation));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTotalAnnotatedTime_NotFullyAnnotatedButAllSegmentsHaveAnnotations_ReturnsTotalAnnotatedTime()
+		{
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
+			Assert.AreEqual(TimeSpan.FromSeconds(30), _tier.GetTotalAnnotatedTime(OralAnnotationType.CarefulSpeech));
+			Assert.AreEqual(TimeSpan.FromSeconds(30), _tier.GetTotalAnnotatedTime(OralAnnotationType.Translation));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTotalAnnotatedTime_FullyAnnotated_ReturnsLengthOfMediaFile()
+		{
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
+			var totalTime = (float)_tier.TotalTime.TotalSeconds;
+			CreateAndAnnotateSegment(0, 10f);
+			CreateAndAnnotateSegment(40f, totalTime);
+
+			Assert.AreEqual(_tier.TotalTime, _tier.GetTotalAnnotatedTime(OralAnnotationType.CarefulSpeech));
+			Assert.AreEqual(_tier.TotalTime, _tier.GetTotalAnnotatedTime(OralAnnotationType.Translation));
+		}
+		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		private void CreateAndAnnotateSegment(float startTime, float endTime)
+		{
+			var segment = _tier.AddSegment(startTime, endTime);
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, _tier.GetFullPathToCarefulSpeechFile(segment))).Close();
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, _tier.GetFullPathToOralTranslationFile(segment))).Close();
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private void SetupSegmentFileFolders()
 		{
@@ -483,7 +548,7 @@ namespace SayMoreTests.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void SetupSegmentFileFoldersForRealSegments()
+		private void CreateAnnotationFilesForSegmentsCreatedInSetup()
 		{
 			Directory.CreateDirectory(_tier.SegmentFileFolder);
 
@@ -660,7 +725,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void ChangeSegmentsEndBoundary_WhenSegmentIsLast_RenamesSegAnnotationFiles()
 		{
-			SetupSegmentFileFoldersForRealSegments();
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
 
 			var segment = _tier.Segments[2];
 			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(segment, 35f));
@@ -676,7 +741,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void ChangeSegmentsEndBoundary_WhenSegmentIsNotLast_RenamesSegAnnotationFiles()
 		{
-			SetupSegmentFileFoldersForRealSegments();
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
 
 			var segment = _tier.Segments[1];
 			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(segment, 25f));
@@ -760,7 +825,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void InsertSegmentBoundary_NewBoundaryInsertedInMiddleOfExistingSegment_RenamesPrecedingSegmentFilesAndReturnsSuccess()
 		{
-			SetupSegmentFileFoldersForRealSegments();
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
 
 			Assert.AreEqual(BoundaryModificationResult.Success, _tier.InsertSegmentBoundary(25f));
 

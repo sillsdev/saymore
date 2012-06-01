@@ -114,14 +114,14 @@ namespace SayMore
 						Settings.Default.WorkflowStageTextColor1);//todo... but maybe we dont' show this as a stage?
 
 				yield return
-					new ComponentRole(typeof(Person), "consent",
+					new ComponentRole(typeof(Person), ComponentRole.kConsentComponentRoleId,
 						LocalizationManager.GetString("SessionsView.SessionsList.Stages.InformedConsent", "Informed Consent"),
 						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent",
 						Settings.Default.WorkflowStageColor2,
 						Settings.Default.WorkflowStageTextColor2);
 
 				yield return
-					new ComponentRole(typeof(Session), "carefulSpeech",
+					new ComponentRole(typeof(Session), ComponentRole.kCarefulSpeechComponentRoleId,
 						LocalizationManager.GetString("SessionsView.SessionsList.Stages.CarefulSpeech", "Careful Speech"),
 						ComponentRole.MeasurementTypes.Time,
 						FileSystemUtils.GetIsAudioVideo, "$ElementId$_Careful",
@@ -129,7 +129,7 @@ namespace SayMore
 						Settings.Default.WorkflowStageTextColor3);
 
 				yield return
-					new ComponentRole(typeof(Session), "oralTranslation",
+					new ComponentRole(typeof(Session), ComponentRole.kOralTranslationComponentRoleId,
 						LocalizationManager.GetString("SessionsView.SessionsList.Stages.OralTranslation", "Oral Translation"),
 						ComponentRole.MeasurementTypes.Time,
 						FileSystemUtils.GetIsAudioVideo, "$ElementId$_OralTranslation",
@@ -137,7 +137,7 @@ namespace SayMore
 						Settings.Default.WorkflowStageTextColor4);
 
 				yield return
-					new ComponentRole(typeof(Session), "transcription",
+					new ComponentRole(typeof(Session), ComponentRole.kTranscriptionComponentRoleId,
 						LocalizationManager.GetString("SessionsView.SessionsList.Stages.Transcription", "Transcription"),
 						ComponentRole.MeasurementTypes.Words,
 						FileSystemUtils.GetIsAudioVideo, "$ElementId$_Transcription",
@@ -145,7 +145,7 @@ namespace SayMore
 						Settings.Default.WorkflowStageTextColor5);
 
 				yield return
-					new ComponentRole(typeof(Session), "transcriptionN",
+					new ComponentRole(typeof(Session), ComponentRole.kFreeTranslationComponentRoleId,
 						LocalizationManager.GetString("SessionsView.SessionsList.Stages.WrittenTranslation", "Written Translation"),
 						ComponentRole.MeasurementTypes.Words,
 						FileSystemUtils.GetIsText, "$ElementId$_Translation",

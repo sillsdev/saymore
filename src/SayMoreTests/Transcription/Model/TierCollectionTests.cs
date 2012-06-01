@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using Palaso.TestUtilities;
 using SayMore.Transcription.Model;
 using SayMoreTests.Model.Files;
 
@@ -11,36 +12,60 @@ namespace SayMoreTests.Transcription.Model
 	public class TierCollectionTests
 	{
 		private TierCollection _collection;
+		private TemporaryFolder _tempFolder;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void Setup()
 		{
-			_collection = new TierCollection("annotatedBlah");
+			var tempMediaPath = MediaFileInfoTests.GetLongerTestAudioFile();
+			_tempFolder = new TemporaryFolder("TierCollectionTests");
+			var mediaFile = Path.Combine(_tempFolder.Path, "mediaFile.wav");
+			File.Move(tempMediaPath, mediaFile);
+
+			_collection = new TierCollection(mediaFile);
 			_collection.Clear();
-			_collection.Add(new TimeTier("timeTier", "timeTierFilename"));
-			_collection.Add(new TextTier(TextTier.ElanTranscriptionTierId));
-			_collection.Add(new TextTier(TextTier.ElanTranslationTierId));
-			_collection.Add(new TextTier("otherTextTier"));
+			var timeTier = new TimeTier("timeTier", mediaFile);
+			_collection.Add(timeTier);
 
-			((TimeTier)_collection[0]).AddSegment(10f, 20f);
-			((TimeTier)_collection[0]).AddSegment(20f, 30f);
-			((TimeTier)_collection[0]).AddSegment(30f, 40f);
+			var transcriptionTier = new TextTier(TextTier.ElanTranscriptionTierId);
+			_collection.Add(transcriptionTier);
 
-			((TextTier)_collection[1]).AddSegment("trans1");
-			((TextTier)_collection[1]).AddSegment("trans2");
-			((TextTier)_collection[1]).AddSegment("trans3");
+			var translationTier = new TextTier(TextTier.ElanTranslationTierId);
+			_collection.Add(translationTier);
 
-			((TextTier)_collection[2]).AddSegment("free1");
-			((TextTier)_collection[2]).AddSegment("free2");
-			((TextTier)_collection[2]).AddSegment(null);
+			var otherTextTier = new TextTier("otherTextTier");
+			_collection.Add(otherTextTier);
 
-			((TextTier)_collection[3]).AddSegment("other1");
-			((TextTier)_collection[3]).AddSegment(null);
-			((TextTier)_collection[3]).AddSegment(null);
+			timeTier.AddSegment(10f, 20f);
+			timeTier.AddSegment(20f, 30f);
+			timeTier.AddSegment(30f, 40f);
 
-			Assert.AreEqual("annotatedBlah", _collection.AnnotatedMediaFile);
+			transcriptionTier.AddSegment("trans1");
+			transcriptionTier.AddSegment("trans2");
+			transcriptionTier.AddSegment("trans3");
+
+			translationTier.AddSegment("free1");
+			translationTier.AddSegment("free2");
+			translationTier.AddSegment(null);
+
+			otherTextTier.AddSegment("other1");
+			otherTextTier.AddSegment(null);
+			otherTextTier.AddSegment(null);
+
+			Assert.AreEqual(mediaFile, _collection.AnnotatedMediaFile);
 			Assert.AreEqual(4, _collection.Count);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[TearDown]
+		public void TearDown()
+		{
+			if (_tempFolder != null)
+			{
+				_tempFolder.Dispose();
+				_tempFolder = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -345,6 +370,69 @@ namespace SayMoreTests.Transcription.Model
 			Assert.AreEqual(_collection.GetTimeTier().Segments.Count, newTier.Segments.Count);
 			Assert.IsTrue(newTier.Segments.All(s => s.Text == string.Empty));
 		}
+
+		#region GetTotalAnnotatedTime tests
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTotalAnnotatedTime_NoSegments_ReturnsZero()
+		{
+			_collection.GetTranscriptionTier().Segments.Clear();
+			_collection.GetFreeTranslationTier().Segments.Clear();
+			_collection.GetTimeTier().Segments.Clear();
+			Assert.AreEqual(TimeSpan.Zero, _collection.GetTotalAnnotatedTime(TextAnnotationType.Transcription));
+			Assert.AreEqual(TimeSpan.Zero, _collection.GetTotalAnnotatedTime(TextAnnotationType.Translation));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTotalAnnotatedTime_NoAnnotations_ReturnsZero()
+		{
+			foreach (var segment in _collection.GetTranscriptionTier().Segments)
+				segment.Text = null;
+			foreach (var segment in _collection.GetFreeTranslationTier().Segments)
+				segment.Text = null;
+			Assert.AreEqual(TimeSpan.Zero, _collection.GetTotalAnnotatedTime(TextAnnotationType.Transcription));
+			Assert.AreEqual(TimeSpan.Zero, _collection.GetTotalAnnotatedTime(TextAnnotationType.Translation));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTotalAnnotatedTime_SomeSegmentsHaveAnnotations_ReturnsTotalAnnotatedTime()
+		{
+			_collection.GetTranscriptionTier().Segments[1].Text = string.Empty;
+			Assert.AreEqual(TimeSpan.FromSeconds(20), _collection.GetTotalAnnotatedTime(TextAnnotationType.Transcription));
+			Assert.AreEqual(TimeSpan.FromSeconds(20), _collection.GetTotalAnnotatedTime(TextAnnotationType.Translation));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTotalAnnotatedTime_NotFullyAnnotatedButAllSegmentsHaveAnnotations_ReturnsTotalAnnotatedTime()
+		{
+			_collection.GetFreeTranslationTier().Segments[2].Text = "Now I'm not empty anymore";
+			Assert.AreEqual(TimeSpan.FromSeconds(30), _collection.GetTotalAnnotatedTime(TextAnnotationType.Transcription));
+			Assert.AreEqual(TimeSpan.FromSeconds(30), _collection.GetTotalAnnotatedTime(TextAnnotationType.Translation));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTotalAnnotatedTime_FullyAnnotated_ReturnsLengthOfMediaFile()
+		{
+			_collection.GetTimeTier().Segments.Insert(0, new Segment(_collection.GetTimeTier(), 0, 10));
+			_collection.GetTimeTier().AddSegment(40, (float)_collection.GetTimeTier().TotalTime.TotalSeconds);
+
+			var transcriptionTier = _collection.GetTranscriptionTier();
+			transcriptionTier.Segments.Insert(0, new Segment(transcriptionTier, "0"));
+			transcriptionTier.AddSegment("4");
+
+			var translationTier = _collection.GetFreeTranslationTier();
+			translationTier.Segments.Insert(0, new Segment(translationTier, "translation of 0"));
+			translationTier.Segments[3].Text = "Now I'm not empty anymore";
+			translationTier.AddSegment("translation of 4");
+
+			Assert.AreEqual(_collection.GetTimeTier().TotalTime, _collection.GetTotalAnnotatedTime(TextAnnotationType.Transcription));
+			Assert.AreEqual(_collection.GetTimeTier().TotalTime, _collection.GetTotalAnnotatedTime(TextAnnotationType.Translation));
+		}
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		public static void CheckTier(TierBase expected, TierBase actual)

@@ -13,7 +13,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public TranslationAnnotationColumn(TierBase tier) : base(tier)
 		{
-			PlaybackType = (OralAnnotationType)Settings.Default.TranslationPlaybackType;
+			PlaybackType = (AudioRecordingType)Settings.Default.TranslationPlaybackType;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -28,8 +28,8 @@ namespace SayMore.Transcription.UI
 		{
 			var menuItem = new ToolStripMenuItem(null, null, HandlePlaybackTypeMenuItemClicked)
 			{
-				Tag = OralAnnotationType.Source,
-				Checked = (PlaybackType == OralAnnotationType.Source),
+				Tag = AudioRecordingType.Source,
+				Checked = (PlaybackType == AudioRecordingType.Source),
 			};
 
 			menuItem.Text = LocalizationManager.GetString(
@@ -40,8 +40,8 @@ namespace SayMore.Transcription.UI
 
 			menuItem = new ToolStripMenuItem(null, null, HandlePlaybackTypeMenuItemClicked)
 			{
-				Tag = OralAnnotationType.Translation,
-				Checked = (PlaybackType == OralAnnotationType.Translation),
+				Tag = AudioRecordingType.Translation,
+				Checked = (PlaybackType == AudioRecordingType.Translation),
 			};
 
 			menuItem.Text = LocalizationManager.GetString(
@@ -52,8 +52,8 @@ namespace SayMore.Transcription.UI
 
 			menuItem = new ToolStripMenuItem(null, null, HandlePlaybackTypeMenuItemClicked)
 			{
-				Tag = (OralAnnotationType.Source | OralAnnotationType.Translation),
-				Checked = (PlaybackType == (OralAnnotationType.Source | OralAnnotationType.Translation)),
+				Tag = (AudioRecordingType.Source | AudioRecordingType.Translation),
+				Checked = (PlaybackType == (AudioRecordingType.Source | AudioRecordingType.Translation)),
 			};
 
 			menuItem.Text = LocalizationManager.GetString(

@@ -142,10 +142,25 @@ namespace SayMore.Transcription.Model
 			if (timeTier.Segments.Count > i + 1)
 			{
 				segment = timeTier.Segments[i + 1];
-				return segment.GetHasOralAnnotation();
+				return segment.GetHasAnyOralAnnotation();
 			}
 
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeSpan GetTotalAnnotatedTime(TextAnnotationType type)
+		{
+			TextTier textTier = (type == TextAnnotationType.Transcription ? GetTranscriptionTier() :
+				GetFreeTranslationTier());
+			TimeSpan totalTime = TimeSpan.Zero;
+			for (int i = 0; i < GetTimeTier().Segments.Count; i++)
+			{
+				if (!string.IsNullOrEmpty(textTier.Segments[i].Text))
+					totalTime += GetTimeTier().Segments[i].TimeRange.Duration;
+			}
+
+			return totalTime;
 		}
 
 		#region Methods for Saving tiers to EAF file

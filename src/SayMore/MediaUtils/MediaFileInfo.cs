@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using Palaso.IO;
 using SayMore.Media.MPlayer;
 using SayMore.Properties;
+using SayMore.Utilities;
 using SilTools;
 
 namespace SayMore.Media
@@ -15,6 +16,7 @@ namespace SayMore.Media
 	public class MediaFileInfo
 	{
 		private Image _fullSizeThumbnail;
+		private static string s_mediaInfoTemplateFile;
 
 		[XmlIgnore]
 		public string MediaFilePath { get; private set; }
@@ -36,6 +38,23 @@ namespace SayMore.Media
 
 		#region Constructor and initialization helper methods
 		/// ------------------------------------------------------------------------------------
+		static MediaFileInfo()
+		{
+			var path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData,
+				Environment.SpecialFolderOption.Create);
+
+			path = Path.Combine(path, "SIL");
+			path = Path.Combine(path, "SayMore");
+
+			if (!Directory.Exists(path))
+				Directory.CreateDirectory(path);
+
+			s_mediaInfoTemplateFile = Path.Combine(path, "mediaInfoTemplate.xml");
+			var templateData = Resources.mediaFileInfoOutputTemplate.Replace(Environment.NewLine + "<", "<");
+			File.WriteAllText(s_mediaInfoTemplateFile, templateData);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static string MediaInfoProgramPath
 		{
 			get { return FileLocator.GetFileDistributedWithApplication("MediaInfo", "MediaInfo.exe"); }
@@ -44,38 +63,40 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public static MediaFileInfo GetInfo(string mediaFile)
 		{
-			var templatePath = Path.Combine(Path.GetTempPath(), "mediaInfoTemplate.xml");
+			int attempts = 0;
 
-			var prs = new ExternalProcess(MediaInfoProgramPath);
-
-			try
+			while (attempts < 8)
 			{
-				var templateData = Resources.mediaFileInfoOutputTemplate.Replace(Environment.NewLine + "<", "<");
-				File.WriteAllText(templatePath, templateData);
-				prs.StartInfo.Arguments = string.Format("--inform=file://\"{0}\" \"{1}\"", templatePath, mediaFile);
+				try
+				{
+					string output;
+					using (var prs = new ExternalProcess(MediaInfoProgramPath))
+					{
+						prs.StartInfo.Arguments = string.Format("--inform=file://\"{0}\" \"{1}\"", s_mediaInfoTemplateFile, mediaFile);
 
-				if (!prs.StartProcess())
-					return null;
+						if (!prs.StartProcess())
+							return null;
 
-				var output = prs.StandardOutput.ReadToEnd();
-				prs.WaitForExit();
-				prs.Close();
+						output = prs.StandardOutput.ReadToEnd();
+						prs.WaitForExit();
+						prs.Close();
+					}
 
-				Exception error;
-				var mediaInfo = XmlSerializationHelper.DeserializeFromString<MediaFileInfo>(output, out error);
+					Exception error;
+					var mediaInfo = XmlSerializationHelper.DeserializeFromString<MediaFileInfo>(output, out error);
 
-				if (mediaInfo == null || mediaInfo.Audio == null)
-					return null;
+					if (mediaInfo == null || mediaInfo.Audio == null)
+						throw new FileLoadException();
 
-				mediaInfo.MediaFilePath = mediaFile;
-				return mediaInfo;
+					mediaInfo.MediaFilePath = mediaFile;
+					return mediaInfo;
+				}
+				catch (FileLoadException)
+				{
+					attempts++;
+				}
 			}
-			finally
-			{
-
-				if (File.Exists(templatePath))
-					File.Delete(templatePath);
-			}
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------

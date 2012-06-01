@@ -23,7 +23,7 @@ namespace SayMore.Model
 	/// A project is made of sessions and people, each of which subclass from
 	/// this simple class. Here, we call those things "ProjectElements"
 	/// </summary>
-	public abstract class ProjectElement
+	public abstract class ProjectElement : IDisposable
 	{
 		/// <summary>
 		/// This lets us make componentFile instances without knowing all the inputs they need
@@ -40,6 +40,9 @@ namespace SayMore.Model
 		public abstract string RootElementName { get; }
 		protected internal string ParentFolderPath { get; set; }
 		protected abstract string ExtensionWithoutPeriod { get; }
+
+		protected HashSet<ComponentFile> _componentFiles;
+		FileSystemWatcher _watcher;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -84,14 +87,26 @@ namespace SayMore.Model
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public void Dispose()
+		{
+			if (_watcher != null)
+				_watcher.Dispose();
+		}
+
 		[Obsolete("For Mocking Only")]
 		public ProjectElement(){}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual IEnumerable<ComponentFile> GetComponentFiles()
+		public IEnumerable<ComponentFile> GetComponentFiles()
 		{
+			if (_componentFiles != null)
+				return _componentFiles;
+
+			_componentFiles = new HashSet<ComponentFile>();
+
 			// This is the actual person or session data
-			yield return MetaDataFile;
+			_componentFiles.Add(MetaDataFile);
 
 			// These are the other files we find in the folder
 			var otherFiles = from f in Directory.GetFiles(FolderPath, "*.*")
@@ -99,16 +114,35 @@ namespace SayMore.Model
 							 orderby f
 							 select f;
 
-			foreach (var newComponentFile in otherFiles.Select(f => _componentFileFactory(this, f)))
+			foreach (var filename in otherFiles)
 			{
-				yield return newComponentFile;
+				var newComponentFile = _componentFileFactory(this, filename);
+				_componentFiles.Add(newComponentFile);
 
 				if (newComponentFile.GetAnnotationFile() != null)
-					yield return newComponentFile.GetAnnotationFile();
+					_componentFiles.Add(newComponentFile.GetAnnotationFile());
 
 				if (newComponentFile.GetOralAnnotationFile() != null)
-					yield return newComponentFile.GetOralAnnotationFile();
+					_componentFiles.Add(newComponentFile.GetOralAnnotationFile());
 			}
+
+			throw new Exception("Add code to dispose the ProjectElement so the wathcer gets disposed. Also, add code to handle renaming a ComponentFile.");
+			_watcher = new FileSystemWatcher(FolderPath);
+			_watcher.Changed += (s, e) =>
+			{
+				if (e.ChangeType != WatcherChangeTypes.Changed && e.ChangeType != WatcherChangeTypes.Deleted)
+					return;
+				var file = _componentFiles.FirstOrDefault(f => f.PathToAnnotatedFile == e.FullPath);
+				if (file != null)
+				{
+					_componentFiles.Remove(file);
+					if (e.ChangeType == WatcherChangeTypes.Changed)
+						_componentFiles.Add(_componentFileFactory(this, e.FullPath));
+				}
+			};
+			_watcher.EnableRaisingEvents = true;
+
+			return _componentFiles;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -216,6 +250,7 @@ namespace SayMore.Model
 				{
 					var destFile = Path.Combine(FolderPath, Path.GetFileName(srcFile));
 					File.Copy(srcFile, destFile);
+					_componentFiles.Add(_componentFileFactory(this, destFile));
 				}
 				catch (Exception e)
 				{
@@ -429,6 +464,14 @@ namespace SayMore.Model
 			{
 				foreach (var role in component.GetAssignedRoles(GetType()))
 					completedRoles[role.Id] = role;
+			}
+			if (ComponentRoles.Except(completedRoles.Values).Any())
+			{
+				foreach (var component in GetComponentFiles())
+				{
+					foreach (var role in component.GetAssignedRolesFromAnnotationFile(GetType()))
+						completedRoles[role.Id] = role;
+				}
 			}
 
 			return (modifyComputedListWithUserOverrides ?

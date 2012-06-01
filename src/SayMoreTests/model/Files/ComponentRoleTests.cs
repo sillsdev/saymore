@@ -70,7 +70,7 @@ namespace SayMoreTests.Model.Files
 
 		private static ComponentRole GetRoleForSourceRecording()
 		{
-			return new ComponentRole(typeof(Session), "source", "Source Recording",
+			return new ComponentRole(typeof(Session), ComponentRole.kSourceComponentRoleId, "Source Recording",
 				ComponentRole.MeasurementTypes.Time, FileSystemUtils.GetIsAudioVideo,
 				"$ElementId$_Source", Color.Magenta, Color.Black);
 		}

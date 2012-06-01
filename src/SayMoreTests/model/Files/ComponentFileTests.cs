@@ -463,23 +463,23 @@ namespace SayMoreTests.Model.Files
 		{
 			var componentRoles = new[]
 			{
-				new ComponentRole(typeof(Session), "translation", "translation",
+				new ComponentRole(typeof(Session), ComponentRole.kOralTranslationComponentRoleId, "translation",
 					ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"),
 					"$ElementId$_Translation", Color.Magenta, Color.Black),
 
-				new ComponentRole(typeof(Session), "transcriptionN", "Written Translation",
+				new ComponentRole(typeof(Session), ComponentRole.kFreeTranslationComponentRoleId, "Written Translation",
 					ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"),
-					"$ElementId$_Transcriptino", Color.Magenta, Color.Black),
+					"$ElementId$_Transcription", Color.Magenta, Color.Black),
 
-				new ComponentRole(typeof(Session), "source", "Source Recording",
+				new ComponentRole(typeof(Session), ComponentRole.kSourceComponentRoleId, "Source Recording",
 					ComponentRole.MeasurementTypes.Time, FileSystemUtils.GetIsAudioVideo,
 					"$ElementId$_Source", Color.Magenta, Color.Black),
 
-				new ComponentRole(typeof(Person), "consent", "Informed Consent",
+				new ComponentRole(typeof(Person), ComponentRole.kConsentComponentRoleId, "Informed Consent",
 					ComponentRole.MeasurementTypes.None, (p => p.Contains("_Consent.")),
 					"$ElementId$_Consent", Color.Magenta, Color.Black),
 
-				new ComponentRole(typeof(Person), "careful", "Careful Speech",
+				new ComponentRole(typeof(Person), ComponentRole.kCarefulSpeechComponentRoleId, "Careful Speech",
 					ComponentRole.MeasurementTypes.None, (p => p.Contains("_Careful.")),
 					"$ElementId$_Consent", Color.Magenta, Color.Black)
 			};

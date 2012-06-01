@@ -72,12 +72,12 @@ namespace SayMoreTests.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void CreateAnnotationFile(OralAnnotationType fileType, float start, float end)
+		private void CreateAnnotationFile(AudioRecordingType fileType, float start, float end)
 		{
 			if (!Directory.Exists(_model.OralAnnotationsFolder))
 				Directory.CreateDirectory(_model.OralAnnotationsFolder);
 
-			if (fileType == OralAnnotationType.Careful)
+			if (fileType == AudioRecordingType.Careful)
 			{
 				File.OpenWrite(Path.Combine(_model.OralAnnotationsFolder,
 					TimeTier.ComputeFileNameForCarefulSpeechSegment(start, end))).Close();
@@ -440,7 +440,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_NonAdjacentSegmentHasOralAnnotation_ReturnsFalse()
 		{
-			CreateAnnotationFile(OralAnnotationType.Careful, 0, 10);
+			CreateAnnotationFile(AudioRecordingType.Careful, 0, 10);
 
 			Assert.IsFalse(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(20)));
 		}
@@ -460,7 +460,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_MiddleSegmentBeforeBoundaryHasCarefulSpeechOralAnnotation_ReturnsTrue()
 		{
-			CreateAnnotationFile(OralAnnotationType.Careful, 10, 20);
+			CreateAnnotationFile(AudioRecordingType.Careful, 10, 20);
 
 			Assert.IsTrue(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(20)));
 		}
@@ -469,7 +469,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_InitialSegmentBeforeBoundaryHasTranslationOralAnnotation_ReturnsTrue()
 		{
-			CreateAnnotationFile(OralAnnotationType.Translation, 0, 10);
+			CreateAnnotationFile(AudioRecordingType.Translation, 0, 10);
 
 			Assert.IsTrue(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(10)));
 		}
@@ -478,7 +478,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_FinalSegmentAfterBoundaryHasCarefulSpeechOralAnnotation_ReturnsTrue()
 		{
-			CreateAnnotationFile(OralAnnotationType.Careful, 20, 30);
+			CreateAnnotationFile(AudioRecordingType.Careful, 20, 30);
 
 			Assert.IsTrue(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(20)));
 		}
@@ -487,7 +487,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_FinalSegmentBeforeBoundaryHasTranslationOralAnnotation_ReturnsTrue()
 		{
-			CreateAnnotationFile(OralAnnotationType.Translation, 20, 30);
+			CreateAnnotationFile(AudioRecordingType.Translation, 20, 30);
 
 			Assert.IsTrue(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(30)));
 		}

@@ -10,7 +10,7 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public class TextAnnotationColumnWithMenu : TextAnnotationColumn
 	{
-		public OralAnnotationType PlaybackType { get; protected set; }
+		public AudioRecordingType PlaybackType { get; protected set; }
 		//public Action<OralAnnotationType> AnnotationPlaybackTypeChangedAction { get; set; }
 
 		private readonly ContextMenuStrip _playbackTypeMenu;
@@ -53,7 +53,7 @@ namespace SayMore.Transcription.UI
 				_grid.InvalidateCell(audioCol.Index, _grid.CurrentCellAddress.Y);
 
 			foreach (var menuItem in _playbackTypeMenu.Items.Cast<ToolStripMenuItem>())
-				menuItem.Checked = ((OralAnnotationType)menuItem.Tag == PlaybackType);
+				menuItem.Checked = ((AudioRecordingType)menuItem.Tag == PlaybackType);
 
 			var rc = _grid.GetCellDisplayRectangle(Index, -1, false);
 			var pt = _grid.PointToScreen(new Point(rc.Left, rc.Bottom));
@@ -70,7 +70,7 @@ namespace SayMore.Transcription.UI
 		protected virtual void HandlePlaybackTypeMenuItemClicked(object sender, EventArgs e)
 		{
 			var menuItem = sender as ToolStripMenuItem;
-			PlaybackType = (OralAnnotationType)menuItem.Tag;
+			PlaybackType = (AudioRecordingType)menuItem.Tag;
 			_grid.Play();
 		}
 

@@ -1,3 +1,5 @@
+using SayMore.Transcription.Model;
+
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------
@@ -11,6 +13,12 @@ namespace SayMore.Transcription.UI
 			Opacity = 0D;
 
 			InitializeRecordingLabel(_labelOralTranslation);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual OralAnnotationType AnnotationType
+		{
+			get { return Model.OralAnnotationType.CarefulSpeech; }
 		}
 	}
 }

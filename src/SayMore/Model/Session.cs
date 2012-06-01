@@ -140,7 +140,7 @@ namespace SayMore.Model
 			var list = base.GetCompletedStages(modifyComputedListWithUserOverrides).ToList();
 
 			if (GetShouldReportHaveConsent())
-			   list.Insert(0, ComponentRoles.First(r => r.Id == "consent"));
+			   list.Insert(0, ComponentRoles.First(r => r.Id == ComponentRole.kConsentComponentRoleId));
 
 			return (modifyComputedListWithUserOverrides ?
 				GetCompletedStagesModifedByUserOverrides(list) : list);

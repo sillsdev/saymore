@@ -121,12 +121,18 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetHasOralAnnotation()
+		public bool GetHasOralAnnotation(OralAnnotationType type)
 		{
-			var pathToCarefulSpeechFile = GetFullPathToCarefulSpeechFile();
-			var pathToOralTranslationFile = GetFullPathToOralTranslationFile();
-			return ((pathToCarefulSpeechFile != null && File.Exists(pathToCarefulSpeechFile)) ||
-				(pathToOralTranslationFile != null && File.Exists(pathToOralTranslationFile)));
+			var pathToOralAnnotation = (type == OralAnnotationType.CarefulSpeech ?
+				GetFullPathToCarefulSpeechFile() : GetFullPathToOralTranslationFile());
+			return (pathToOralAnnotation != null && File.Exists(pathToOralAnnotation));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetHasAnyOralAnnotation()
+		{
+			return GetHasOralAnnotation(OralAnnotationType.CarefulSpeech) ||
+				GetHasOralAnnotation(OralAnnotationType.Translation);
 		}
 
 		/// ------------------------------------------------------------------------------------

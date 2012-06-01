@@ -56,9 +56,9 @@ namespace SayMore.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		public static OralAnnotationRecorderBaseDlg Create(
-			OralAnnotationRecorderDlgViewModel viewModel, OralAnnotationType annotationType)
+			OralAnnotationRecorderDlgViewModel viewModel, AudioRecordingType annotationType)
 		{
-			return (annotationType == OralAnnotationType.Careful ?
+			return (annotationType == AudioRecordingType.Careful ?
 				new CarefulSpeechRecorderDlg(viewModel) as OralAnnotationRecorderBaseDlg :
 				new OralTranslationRecorderDlg(viewModel));
 		}
@@ -82,7 +82,6 @@ namespace SayMore.Transcription.UI
 			InitializeComponent();
 
 			Padding = new Padding(0);
-			_cursorBlinkTimer.Enabled = true;
 			_cursorBlinkTimer.Tag = true;
 
 			_scrollTimer.Tick += delegate
@@ -162,6 +161,8 @@ namespace SayMore.Transcription.UI
 
 			if (_moreReliableDesignMode)
 				return;
+
+			_cursorBlinkTimer.Enabled = true;
 
 			if (ViewModel.GetSegmentCount() > 0)
 			{

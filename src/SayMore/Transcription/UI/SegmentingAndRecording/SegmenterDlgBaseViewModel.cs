@@ -342,8 +342,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public TimeSpan GetEndOfLastSegment()
 		{
-			return (TimeTier.Segments.Count == 0 ? TimeSpan.Zero :
-				TimeTier.Segments[TimeTier.Segments.Count - 1].TimeRange.End);
+			return TimeTier.EndOfLastSegment;
 		}
 
 		/// ------------------------------------------------------------------------------------

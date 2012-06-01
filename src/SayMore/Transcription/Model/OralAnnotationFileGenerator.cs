@@ -202,14 +202,14 @@ namespace SayMore.Transcription.Model
 				WriteAudioStreamToChannel(AnnotationChannel.Source, inputStream);
 
 			// Write a channel for the careful speech segment
-			using (var provider = GetWaveStreamForOralAnnotationSegment(segment, OralAnnotationType.Careful))
+			using (var provider = GetWaveStreamForOralAnnotationSegment(segment, AudioRecordingType.Careful))
 			{
 				if (provider.Stream != null)
 					WriteAudioStreamToChannel(AnnotationChannel.Careful, provider.Stream);
 			}
 
 			// Write a channel for the oral translation segment
-			using (var provider = GetWaveStreamForOralAnnotationSegment(segment, OralAnnotationType.Translation))
+			using (var provider = GetWaveStreamForOralAnnotationSegment(segment, AudioRecordingType.Translation))
 			{
 				if (provider.Stream != null)
 					WriteAudioStreamToChannel(AnnotationChannel.Translation, provider.Stream);
@@ -218,12 +218,12 @@ namespace SayMore.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		private WaveStreamProvider GetWaveStreamForOralAnnotationSegment(Segment segment,
-			OralAnnotationType annotationType)
+			AudioRecordingType annotationType)
 		{
 			var pathToAnnotationsFolder = _srcRecordingTier.MediaFileName +
 				Settings.Default.OralAnnotationsFolderSuffix;
 
-			var filename = Path.Combine(pathToAnnotationsFolder, (annotationType == OralAnnotationType.Careful ?
+			var filename = Path.Combine(pathToAnnotationsFolder, (annotationType == AudioRecordingType.Careful ?
 				TimeTier.ComputeFileNameForCarefulSpeechSegment(segment) :
 				TimeTier.ComputeFileNameForOralTranslationSegment(segment)));
 

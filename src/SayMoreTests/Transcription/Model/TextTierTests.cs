@@ -319,7 +319,7 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void RemoveSegment_With1Segments_RemovesIt()
+		public void RemoveSegment_With1Segment_RemovesIt()
 		{
 			_tier.AddSegment("1");
 			Assert.IsTrue(_tier.RemoveSegment(0));

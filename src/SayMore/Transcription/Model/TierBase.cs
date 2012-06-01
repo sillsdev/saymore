@@ -13,11 +13,23 @@ namespace SayMore.Transcription.Model
 	}
 
 	[FlagsAttribute]
-	public enum OralAnnotationType
+	public enum AudioRecordingType
 	{
 		Source = 1,
 		Careful = 2,
 		Translation = 4
+	}
+
+	public enum OralAnnotationType
+	{
+		CarefulSpeech,
+		Translation,
+	}
+
+	public enum TextAnnotationType
+	{
+		Transcription,
+		Translation,
 	}
 
 	/// ----------------------------------------------------------------------------------------

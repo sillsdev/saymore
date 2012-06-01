@@ -20,6 +20,11 @@ namespace SayMore.Model.Files
 	public class ComponentRole
 	{
 		public const string kSourceComponentRoleId = "source";
+		public const string kConsentComponentRoleId = "consent";
+		public const string kCarefulSpeechComponentRoleId = "carefulSpeech";
+		public const string kOralTranslationComponentRoleId = "oralTranslation";
+		public const string kTranscriptionComponentRoleId = "transcription";
+		public const string kFreeTranslationComponentRoleId = "transcriptionN";
 
 		private readonly string _englishLabel;
 

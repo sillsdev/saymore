@@ -145,11 +145,17 @@ namespace SayMore.Model.Files
 		{
 			var tier = Tiers.GetTranscriptionTier();
 			if (tier != null && tier.GetIsComplete())
-				yield return _componentRoles.Single(r => r.Id == "transcription");
+				yield return _componentRoles.Single(r => r.Id == ComponentRole.kTranscriptionComponentRoleId);
 
 			tier = Tiers.GetFreeTranslationTier();
 			if (tier != null && tier.GetIsComplete())
-				yield return _componentRoles.Single(r => r.Id == "transcriptionN");
+				yield return _componentRoles.Single(r => r.Id == ComponentRole.kFreeTranslationComponentRoleId);
+
+			if (Tiers.GetTimeTier().GetIsFullyAnnotated(OralAnnotationType.CarefulSpeech))
+				yield return _componentRoles.Single(r => r.Id == ComponentRole.kCarefulSpeechComponentRoleId);
+
+			if (Tiers.GetTimeTier().GetIsFullyAnnotated(OralAnnotationType.Translation))
+				yield return _componentRoles.Single(r => r.Id == ComponentRole.kOralTranslationComponentRoleId);
 		}
 	}
 }

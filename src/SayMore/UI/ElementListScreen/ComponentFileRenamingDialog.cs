@@ -44,11 +44,11 @@ namespace SayMore.UI.ElementListScreen
 			SetFonts();
 
 			IntializeLink(_linkSource, ComponentRole.kSourceComponentRoleId);
-			IntializeLink(_linkConsent, "consent");
-			IntializeLink(_linkCareful, "carefulSpeech");
-			IntializeLink(_linkOralTranslation, "oralTranslation");
-			IntializeLink(_linkTranscription, "transcription");
-			IntializeLink(_linkWrittenTranslation, "transcriptionN");
+			IntializeLink(_linkConsent, ComponentRole.kConsentComponentRoleId);
+			IntializeLink(_linkCareful, ComponentRole.kCarefulSpeechComponentRoleId);
+			IntializeLink(_linkOralTranslation, ComponentRole.kOralTranslationComponentRoleId);
+			IntializeLink(_linkTranscription, ComponentRole.kTranscriptionComponentRoleId);
+			IntializeLink(_linkWrittenTranslation, ComponentRole.kTranscriptionComponentRoleId);
 
 			_textBox.ReadOnly = !_componentFile.CanBeCustomRenamed;
 		}

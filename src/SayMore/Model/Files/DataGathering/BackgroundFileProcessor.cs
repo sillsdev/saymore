@@ -346,6 +346,20 @@ namespace SayMore.Model.Files.DataGathering
 				if (ShouldStop)
 					break;
 
+				while (true)
+				{
+					int suspendCount;
+					lock (_lockObj)
+					{
+						suspendCount = _suspendEventProcessingCount;
+					}
+
+					if (suspendCount == 0)
+						break;
+
+					Thread.Sleep(100);
+				}
+
 				if (GetDoIncludeFile(paths[i]))
 				{
 					Status = string.Format("{0}: Processing {1} of {2} files",

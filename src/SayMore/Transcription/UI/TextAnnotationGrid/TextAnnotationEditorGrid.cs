@@ -24,7 +24,7 @@ namespace SayMore.Transcription.UI
 		public event PreProcessMouseClickHandler PreProcessMouseClick;
 
 		public Func<Segment> SegmentProvider;
-		public Func<OralAnnotationType, IEnumerable<AnnotationPlaybackInfo>> AnnotationPlaybackInfoProvider;
+		public Func<AudioRecordingType, IEnumerable<AnnotationPlaybackInfo>> AnnotationPlaybackInfoProvider;
 		public MediaPlayerViewModel PlayerViewModel { get; private set; }
 		public bool PlaybackInProgress { get; private set; }
 
@@ -330,7 +330,7 @@ namespace SayMore.Transcription.UI
 				return;
 
 			var currCol = Columns[CurrentCellAddress.X] as TextAnnotationColumnWithMenu;
-			var playbackType = (currCol != null ? currCol.PlaybackType : OralAnnotationType.Source);
+			var playbackType = (currCol != null ? currCol.PlaybackType : AudioRecordingType.Source);
 			_mediaFileQueue = AnnotationPlaybackInfoProvider(playbackType).ToList();
 			InternalPlay();
 			PlaybackInProgress = true;

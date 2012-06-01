@@ -37,9 +37,9 @@ namespace SayMore.Transcription.UI
 
 		/// ----------------------------------------------------------------------------------------
 		public static OralAnnotationRecorderDlgViewModel Create(ComponentFile file,
-			OralAnnotationType annotationType)
+			AudioRecordingType annotationType)
 		{
-			return (annotationType == OralAnnotationType.Careful ?
+			return (annotationType == AudioRecordingType.Careful ?
 				new CarefulSpeechAnnotationRecorderDlgViewModel(file) as OralAnnotationRecorderDlgViewModel :
 				new OralTranslationAnnotationRecorderDlgViewModel(file));
 		}
@@ -71,6 +71,12 @@ namespace SayMore.Transcription.UI
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
+		public virtual OralAnnotationType AnnotationType
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public TimeSpan NewSegmentEndBoundary
 		{
 			get { return _endBoundary; }
@@ -80,13 +86,13 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool IsFullySegmented
 		{
-			get { return (GetEndOfLastSegment() == OrigWaveStream.TotalTime); }
+			get { return TimeTier.IsFullySegmented; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsFullyAnnotated()
 		{
-			return IsFullySegmented && TimeTier.Segments.All(GetDoesSegmentHaveAnnotationFile);
+			return TimeTier.GetIsFullyAnnotated(AnnotationType);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -496,14 +502,15 @@ namespace SayMore.Transcription.UI
 	public class CarefulSpeechAnnotationRecorderDlgViewModel : OralAnnotationRecorderDlgViewModel
 	{
 		/// ------------------------------------------------------------------------------------
-		public CarefulSpeechAnnotationRecorderDlgViewModel(ComponentFile file) : base(file)
+		public CarefulSpeechAnnotationRecorderDlgViewModel(ComponentFile file)
+			: base(file)
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string ProgramAreaForUsageReporting
 		{
-			get { return "Annotations/Oral/" + OralAnnotationType.Careful; }
+			get { return "Annotations/Oral/" + AudioRecordingType.Careful; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -513,8 +520,13 @@ namespace SayMore.Transcription.UI
 				new Segment(null, timeRange);
 			return TimeTier.GetFullPathToCarefulSpeechFile(segment);
 		}
-	}
 
+		/// ------------------------------------------------------------------------------------
+		public override OralAnnotationType AnnotationType
+		{
+			get { return OralAnnotationType.Translation; }
+		}
+	}
 	#endregion
 
 	#region OralTranslationAnnotationRecorderDlgViewModel
@@ -529,7 +541,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override string ProgramAreaForUsageReporting
 		{
-			get { return "Annotations/Oral/" + OralAnnotationType.Translation; }
+			get { return "Annotations/Oral/" + AudioRecordingType.Translation; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -537,7 +549,14 @@ namespace SayMore.Transcription.UI
 		{
 			var segment = TimeTier.Segments.FirstOrDefault(s => s.TimeRange == timeRange) ??
 				new Segment(null, timeRange);
+
 			return TimeTier.GetFullPathToOralTranslationFile(segment);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override OralAnnotationType AnnotationType
+		{
+			get { return OralAnnotationType.Translation; }
 		}
 	}
 

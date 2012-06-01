@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using SayMore.Media;
 using SayMore.Properties;
 using SayMore.Transcription.UI;
 
@@ -17,6 +18,7 @@ namespace SayMore.Transcription.Model
 	/// ----------------------------------------------------------------------------------------
 	public class TimeTier : TierBase
 	{
+		private readonly TimeSpan _totalTime;
 		public string MediaFileName { get; protected set; }
 		public bool ReadOnlyTimeRanges { get; set; }
 		public Action<string> BackupOralAnnotationSegmentFileAction { get; set; }
@@ -36,6 +38,7 @@ namespace SayMore.Transcription.Model
 		public TimeTier(string id, string filename) : base(id, tier => new AudioWaveFormColumn(tier))
 		{
 			MediaFileName = filename;
+			_totalTime = MediaFileInfo.GetInfo(filename).Duration;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -44,7 +47,7 @@ namespace SayMore.Transcription.Model
 			return new TimeTier(Id, MediaFileName) { ReadOnlyTimeRanges = ReadOnlyTimeRanges };
 		}
 
-		#region Methods for getting segment file paths
+		#region Methods for dealing with annotation files
 		/// ------------------------------------------------------------------------------------
 		public string GetFullPathToCarefulSpeechFile(Segment segment)
 		{
@@ -57,6 +60,20 @@ namespace SayMore.Transcription.Model
 			return Path.Combine(SegmentFileFolder, ComputeFileNameForOralTranslationSegment(segment));
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsFullyAnnotated(OralAnnotationType type)
+		{
+			return IsFullySegmented && Segments.All(s => type == OralAnnotationType.CarefulSpeech ?
+				File.Exists(GetFullPathToCarefulSpeechFile(s)) :
+				File.Exists(GetFullPathToOralTranslationFile(s)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeSpan GetTotalAnnotatedTime(OralAnnotationType type)
+		{
+			return TimeSpan.FromSeconds(Segments.Where(segment =>
+				segment.GetHasOralAnnotation(type)).Sum(segment => segment.GetLength()));
+		}
 		#endregion
 
 		#region Static methods for computing oral annotation segment audio file names.
@@ -108,6 +125,12 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public TimeSpan TotalTime
+		{
+			get { return _totalTime; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public string SegmentFileFolder
 		{
 			get { return MediaFileName + Settings.Default.OralAnnotationsFolderSuffix; }
@@ -120,6 +143,20 @@ namespace SayMore.Transcription.Model
 			set { }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public bool IsFullySegmented
+		{
+			get { return EndOfLastSegment >= _totalTime; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeSpan EndOfLastSegment
+		{
+			get
+			{
+				return (Segments.Count == 0 ? TimeSpan.Zero : Segments[Segments.Count - 1].TimeRange.End);
+			}
+		}
 		#endregion
 
 		/// ------------------------------------------------------------------------------------

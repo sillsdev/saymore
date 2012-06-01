@@ -286,7 +286,7 @@ namespace SayMore.Transcription.UI
 				return;
 
 			var annotationType = (sender == _buttonCarefulSpeech ?
-				OralAnnotationType.Careful : OralAnnotationType.Translation);
+				AudioRecordingType.Careful : AudioRecordingType.Translation);
 
 			if (AssociatedComponentFile.RecordAnnotations(FindForm(), annotationType) != null &&
 				ComponentFileListRefreshAction != null)

@@ -119,27 +119,27 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private IEnumerable<AnnotationPlaybackInfo> GetAnnotationMediaInfo(OralAnnotationType playbackType)
+		private IEnumerable<AnnotationPlaybackInfo> GetAnnotationMediaInfo(AudioRecordingType playbackType)
 		{
 			var carefulSpeechFile = GetCurrentSegment().GetFullPathToCarefulSpeechFile();
 			var oralTranslationFile = GetCurrentSegment().GetFullPathToOralTranslationFile();
 
-			if ((playbackType & OralAnnotationType.Source) == OralAnnotationType.Source)
+			if ((playbackType & AudioRecordingType.Source) == AudioRecordingType.Source)
 				yield return GetOriginalAnnotationPlaybackInfo();
 
-			if ((playbackType & OralAnnotationType.Careful) == OralAnnotationType.Careful)
+			if ((playbackType & AudioRecordingType.Careful) == AudioRecordingType.Careful)
 			{
 				if (File.Exists(carefulSpeechFile))
 					yield return new AnnotationPlaybackInfo { MediaFile = carefulSpeechFile };
-				else if (playbackType == OralAnnotationType.Careful)
+				else if (playbackType == AudioRecordingType.Careful)
 					yield return GetOriginalAnnotationPlaybackInfo();
 			}
 
-			if ((playbackType & OralAnnotationType.Translation) == OralAnnotationType.Translation)
+			if ((playbackType & AudioRecordingType.Translation) == AudioRecordingType.Translation)
 			{
 				if (File.Exists(oralTranslationFile))
 					yield return new AnnotationPlaybackInfo { MediaFile = oralTranslationFile };
-				else if (playbackType == OralAnnotationType.Translation)
+				else if (playbackType == AudioRecordingType.Translation)
 					yield return GetOriginalAnnotationPlaybackInfo();
 			}
 		}

@@ -529,8 +529,21 @@ namespace SayMore.Model.Files
 		public virtual IEnumerable<ComponentRole> GetAssignedRoles(Type elementType)
 		{
 			return from r in _componentRoles
-				   where r.IsMatch(PathToAnnotatedFile) && (elementType == null || elementType == r.RelevantElementType)
+				   where (r.IsMatch(PathToAnnotatedFile) && (elementType == null || elementType == r.RelevantElementType))
 				   select r;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// What part(s) does this file's annotation file play in the workflow of the session/
+		/// person?
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<ComponentRole> GetAssignedRolesFromAnnotationFile(Type elementType)
+		{
+			if (GetDoesHaveAnnotationFile())
+				return GetAnnotationFile().GetAssignedRoles(elementType);
+			return new ComponentRole[0];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -660,7 +673,7 @@ namespace SayMore.Model.Files
 		/// file is returned. Otherwise null is returned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string RecordAnnotations(Form frm, OralAnnotationType annotationType)
+		public string RecordAnnotations(Form frm, AudioRecordingType annotationType)
 		{
 			try
 			{

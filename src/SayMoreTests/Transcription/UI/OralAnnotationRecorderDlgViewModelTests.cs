@@ -35,7 +35,7 @@ namespace SayMoreTests.Transcription.UI
 			_componentFile.Setup(f => f.PathToAnnotatedFile).Returns(_tempAudioFile);
 			_componentFile.Setup(f => f.GetAnnotationFile()).Returns(annotationFile.Object);
 
-			_model = OralAnnotationRecorderDlgViewModel.Create(_componentFile.Object, OralAnnotationType.Careful);
+			_model = OralAnnotationRecorderDlgViewModel.Create(_componentFile.Object, AudioRecordingType.Careful);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -55,21 +55,21 @@ namespace SayMoreTests.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void CreateModelAndAnnotationFileForSegment(float start, float end)
 		{
-			CreateModelAndAnnotationFileForType(OralAnnotationType.Careful,
-				OralAnnotationType.Careful, start, end);
+			CreateModelAndAnnotationFileForType(AudioRecordingType.Careful,
+				AudioRecordingType.Careful, start, end);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void CreateModelAndAnnotationFileForType(OralAnnotationType modelType,
-			OralAnnotationType fileType)
+		private void CreateModelAndAnnotationFileForType(AudioRecordingType modelType,
+			AudioRecordingType fileType)
 		{
 			CreateModelAndAnnotationFileForType(modelType, fileType, 25f, 30f);
 // REVIEW			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(30f));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void CreateModelAndAnnotationFileForType(OralAnnotationType modelType,
-			OralAnnotationType fileType, float start, float end)
+		private void CreateModelAndAnnotationFileForType(AudioRecordingType modelType,
+			AudioRecordingType fileType, float start, float end)
 		{
 			if (Directory.Exists(_model.OralAnnotationsFolder))
 				Directory.Delete(_model.OralAnnotationsFolder, true);
@@ -79,7 +79,7 @@ namespace SayMoreTests.Transcription.UI
 
 			Directory.CreateDirectory(_model.OralAnnotationsFolder);
 
-			if (fileType == OralAnnotationType.Careful)
+			if (fileType == AudioRecordingType.Careful)
 			{
 				File.OpenWrite(Path.Combine(_model.OralAnnotationsFolder,
 					TimeTier.ComputeFileNameForCarefulSpeechSegment(start, end))).Close();
@@ -289,7 +289,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void GetDoesSegmentHaveAnnotationFile_TypeIsTranslation_CarefulExistsTranslationDoesNot_ReturnsFalse()
 		{
-			CreateModelAndAnnotationFileForType(OralAnnotationType.Translation, OralAnnotationType.Careful);
+			CreateModelAndAnnotationFileForType(AudioRecordingType.Translation, AudioRecordingType.Careful);
 			Assert.IsFalse(_model.GetDoesSegmentHaveAnnotationFile(3));
 		}
 
@@ -297,7 +297,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void GetDoesSegmentHaveAnnotationFile_TypeIsCareful_TranslationExistsCarefulDoesNot_ReturnsFalse()
 		{
-			CreateModelAndAnnotationFileForType(OralAnnotationType.Careful, OralAnnotationType.Translation);
+			CreateModelAndAnnotationFileForType(AudioRecordingType.Careful, AudioRecordingType.Translation);
 			Assert.IsFalse(_model.GetDoesSegmentHaveAnnotationFile(3));
 		}
 
@@ -305,7 +305,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void GetDoesSegmentHaveAnnotationFile_TypeIsCareful_CarefulExists_ReturnsTrue()
 		{
-			CreateModelAndAnnotationFileForType(OralAnnotationType.Careful, OralAnnotationType.Careful);
+			CreateModelAndAnnotationFileForType(AudioRecordingType.Careful, AudioRecordingType.Careful);
 			Assert.IsTrue(_model.GetDoesSegmentHaveAnnotationFile(3));
 		}
 
@@ -313,7 +313,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void GetDoesSegmentHaveAnnotationFile_TypeIsTranslation_TranslationExists_ReturnsTrue()
 		{
-			CreateModelAndAnnotationFileForType(OralAnnotationType.Translation, OralAnnotationType.Translation);
+			CreateModelAndAnnotationFileForType(AudioRecordingType.Translation, AudioRecordingType.Translation);
 			Assert.IsTrue(_model.GetDoesSegmentHaveAnnotationFile(3));
 		}
 

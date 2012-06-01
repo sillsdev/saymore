@@ -59,7 +59,7 @@ namespace SayMoreTests.Model
 			}
 
 			var componentRoles = new List<ComponentRole>();
-			componentRoles.Add(new ComponentRole(null, "consent", null,
+			componentRoles.Add(new ComponentRole(null, ComponentRole.kConsentComponentRoleId, null,
 				ComponentRole.MeasurementTypes.None, null, null, Color.Empty, Color.Empty));
 
 			return new Session(_parentFolder.Path, "dummyId", null,
@@ -97,7 +97,7 @@ namespace SayMoreTests.Model
 		public void GetCompletedStages_NoParticpantsListed_NoConsent()
 		{
 			var stages = CreateSession(new string[]{}).GetCompletedStages();
-			Assert.IsFalse(stages.Any(s => s.Name == "consent"));
+			Assert.IsFalse(stages.Any(s => s.Id == ComponentRole.kConsentComponentRoleId));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ namespace SayMoreTests.Model
 		public void GetCompletedStages_ParticpantsListedButNotFound_NoConsent()
 		{
 			var stages = CreateSession(new[] {"you", "me" }).GetCompletedStages();
-			Assert.IsFalse(stages.Any(s => s.Name == "consent"));
+			Assert.IsFalse(stages.Any(s => s.Id == ComponentRole.kConsentComponentRoleId));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ namespace SayMoreTests.Model
 		public void GetCompletedStages_TwoParticpantsFoundOneLacksConsent_NoConsent()
 		{
 			var stages = CreateSession(new[] { "oneWithConsent", "none" }).GetCompletedStages();
-			Assert.IsFalse(stages.Any(s => s.Name == "consent"));
+			Assert.IsFalse(stages.Any(s => s.Id == ComponentRole.kConsentComponentRoleId));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -121,7 +121,7 @@ namespace SayMoreTests.Model
 		public void GetCompletedStages_TwoParticpantsFoundBothHaveConsent_ResultIncludesConsent()
 		{
 		  var stages = CreateSession(new[] {"oneWithConsent", "anotherWithConsent" }).GetCompletedStages();
-			Assert.IsFalse(stages.Any(s => s.Name == "consent"));
+		  Assert.IsTrue(stages.Any(s => s.Id == ComponentRole.kConsentComponentRoleId));
 		}
 	}
 }

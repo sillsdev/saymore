@@ -197,7 +197,7 @@ namespace SayMore.Transcription.UI
 			{
 				var segmentContainingCursor = ViewModel.TimeTier.GetSegmentEnclosingTime((float)cursorTime.TotalSeconds);
 				if (segmentContainingCursor != null)
-					_buttonAddSegmentBoundary.Enabled = !segmentContainingCursor.GetHasOralAnnotation();
+					_buttonAddSegmentBoundary.Enabled = !segmentContainingCursor.GetHasAnyOralAnnotation();
 			}
 			_buttonDeleteSegment.Enabled = _waveControl.GetSelectedBoundary() > TimeSpan.Zero &&
 				!ViewModel.IsBoundaryPermanent(_waveControl.GetSelectedBoundary());

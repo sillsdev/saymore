@@ -132,6 +132,8 @@ namespace SayMore.Model
 				return false;
 
 			_items.Remove(item);
+			item.Dispose();
+
 			return true;
 		}
 

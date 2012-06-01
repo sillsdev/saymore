@@ -126,8 +126,8 @@ namespace SayMore.Model
 					_componentFiles.Add(newComponentFile.GetOralAnnotationFile());
 			}
 
-			throw new Exception("Add code to dispose the ProjectElement so the wathcer gets disposed. Also, add code to handle renaming a ComponentFile.");
 			_watcher = new FileSystemWatcher(FolderPath);
+			_watcher.EnableRaisingEvents = true;
 			_watcher.Changed += (s, e) =>
 			{
 				if (e.ChangeType != WatcherChangeTypes.Changed && e.ChangeType != WatcherChangeTypes.Deleted)
@@ -140,7 +140,6 @@ namespace SayMore.Model
 						_componentFiles.Add(_componentFileFactory(this, e.FullPath));
 				}
 			};
-			_watcher.EnableRaisingEvents = true;
 
 			return _componentFiles;
 		}

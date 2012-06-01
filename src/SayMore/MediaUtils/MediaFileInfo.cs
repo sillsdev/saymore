@@ -1,11 +1,10 @@
 using System;
 using System.Drawing;
-using System.IO;
 using System.Xml.Serialization;
 using Palaso.IO;
 using SayMore.Media.MPlayer;
 using SayMore.Properties;
-using SayMore.Utilities;
+using MediaInfoLib;
 using SilTools;
 
 namespace SayMore.Media
@@ -16,7 +15,7 @@ namespace SayMore.Media
 	public class MediaFileInfo
 	{
 		private Image _fullSizeThumbnail;
-		private static string s_mediaInfoTemplateFile;
+		private static string s_templateData;
 
 		[XmlIgnore]
 		public string MediaFilePath { get; private set; }
@@ -40,18 +39,7 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		static MediaFileInfo()
 		{
-			var path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData,
-				Environment.SpecialFolderOption.Create);
-
-			path = Path.Combine(path, "SIL");
-			path = Path.Combine(path, "SayMore");
-
-			if (!Directory.Exists(path))
-				Directory.CreateDirectory(path);
-
-			s_mediaInfoTemplateFile = Path.Combine(path, "mediaInfoTemplate.xml");
-			var templateData = Resources.mediaFileInfoOutputTemplate.Replace(Environment.NewLine + "<", "<");
-			File.WriteAllText(s_mediaInfoTemplateFile, templateData);
+			s_templateData = Resources.mediaFileInfoOutputTemplate.Replace(Environment.NewLine + "<", "<");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -63,40 +51,14 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public static MediaFileInfo GetInfo(string mediaFile)
 		{
-			int attempts = 0;
-
-			while (attempts < 8)
-			{
-				try
-				{
-					string output;
-					using (var prs = new ExternalProcess(MediaInfoProgramPath))
-					{
-						prs.StartInfo.Arguments = string.Format("--inform=file://\"{0}\" \"{1}\"", s_mediaInfoTemplateFile, mediaFile);
-
-						if (!prs.StartProcess())
-							return null;
-
-						output = prs.StandardOutput.ReadToEnd();
-						prs.WaitForExit();
-						prs.Close();
-					}
-
-					Exception error;
-					var mediaInfo = XmlSerializationHelper.DeserializeFromString<MediaFileInfo>(output, out error);
-
-					if (mediaInfo == null || mediaInfo.Audio == null)
-						throw new FileLoadException();
-
-					mediaInfo.MediaFilePath = mediaFile;
-					return mediaInfo;
-				}
-				catch (FileLoadException)
-				{
-					attempts++;
-				}
-			}
-			return null;
+			var info = new MediaInfo();
+			info.Open(mediaFile);
+			info.Option("Inform", s_templateData);
+			string output = info.Inform();
+			info.Close();
+			Exception error;
+			var mediaInfo = XmlSerializationHelper.DeserializeFromString<MediaFileInfo>(output, out error);
+			return mediaInfo == null || mediaInfo.Audio == null ? null : mediaInfo;
 		}
 
 		/// ------------------------------------------------------------------------------------

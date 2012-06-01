@@ -142,6 +142,7 @@
       <DependentUpon>FFmpegDownloadDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="MediaUtils\FFmpeg\FFmpegDownloadHelper.cs" />
+    <Compile Include="MediaUtils\MediaInfoDLL.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Model\SessionWorkflowInformant.cs" />
     <Compile Include="Model\Fields\ContributionSerializer.cs" />

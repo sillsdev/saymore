@@ -160,6 +160,38 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public Font TranscriptionFont
+		{
+			get
+			{
+				return GetColumns().First(c =>
+					c is TextAnnotationColumn).DefaultCellStyle.Font ?? DefaultCellStyle.Font;
+			}
+			set
+			{
+				var col = GetColumns().First(c => c is TextAnnotationColumn);
+				DataGridViewCellStyle cellStyle = col.DefaultCellStyle.Clone();
+				cellStyle.Font = (value ?? DefaultCellStyle.Font);
+				col.DefaultCellStyle = cellStyle;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Font FreeTranslationFont
+		{
+			get
+			{
+				return GetColumns().First(c =>
+					c is TranslationAnnotationColumn).DefaultCellStyle.Font ?? DefaultCellStyle.Font;
+			}
+			set
+			{
+				GetColumns().First(c => c is TranslationAnnotationColumn).DefaultCellStyle.Font =
+					(value ?? DefaultCellStyle.Font);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void WndProc(ref Message m)
 		{
 			if (m.Msg == WM_LBUTTONUP && _eatNextLButtonUpEvent)

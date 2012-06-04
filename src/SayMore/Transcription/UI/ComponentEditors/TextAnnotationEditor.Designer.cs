@@ -23,15 +23,19 @@ namespace SayMore.Transcription.UI
 			this._toolStrip = new System.Windows.Forms.ToolStrip();
 			this._buttonHelp = new System.Windows.Forms.ToolStripButton();
 			this._buttonExport = new System.Windows.Forms.ToolStripButton();
+			this._buttonResegment = new System.Windows.Forms.ToolStripButton();
 			this._buttonRecordings = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonCarefulSpeech = new System.Windows.Forms.ToolStripMenuItem();
 			this._buttonOralTranslation = new System.Windows.Forms.ToolStripMenuItem();
-			this._buttonResegment = new System.Windows.Forms.ToolStripButton();
 			this._tableLayoutPlaybackSpeed = new System.Windows.Forms.TableLayoutPanel();
 			this._comboPlaybackSpeed = new System.Windows.Forms.ComboBox();
 			this._labelPlaybackSpeed = new System.Windows.Forms.Label();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this._buttonFonts = new System.Windows.Forms.ToolStripDropDownButton();
+			this._buttonTranscriptionFont = new System.Windows.Forms.ToolStripMenuItem();
+			this._buttonFreeTranslationFont = new System.Windows.Forms.ToolStripMenuItem();
 			this._tableLayout.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._splitter)).BeginInit();
 			this._splitter.SuspendLayout();
 			this._toolStrip.SuspendLayout();
 			this._tableLayoutPlaybackSpeed.SuspendLayout();
@@ -58,9 +62,9 @@ namespace SayMore.Transcription.UI
 			// 
 			// _splitter
 			// 
-			this._splitter.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this._splitter.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayout.SetColumnSpan(this._splitter, 2);
 			this._splitter.Location = new System.Drawing.Point(0, 33);
 			this._splitter.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
@@ -80,7 +84,8 @@ namespace SayMore.Transcription.UI
             this._buttonHelp,
             this._buttonExport,
             this._buttonResegment,
-            this._buttonRecordings});
+            this._buttonRecordings,
+            this._buttonFonts});
 			this.locExtender.SetLocalizableToolTip(this._toolStrip, null);
 			this.locExtender.SetLocalizationComment(this._toolStrip, null);
 			this.locExtender.SetLocalizationPriority(this._toolStrip, Localization.LocalizationPriority.NotLocalizable);
@@ -118,6 +123,21 @@ namespace SayMore.Transcription.UI
 			this._buttonExport.Text = "Export...";
 			this._buttonExport.Click += new System.EventHandler(this.HandleExportButtonClick);
 			// 
+			// _buttonResegment
+			// 
+			this._buttonResegment.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this._buttonResegment.Image = global::SayMore.Properties.Resources.Segment;
+			this._buttonResegment.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._buttonResegment, "Add, remove or move segment boundaries");
+			this.locExtender.SetLocalizationComment(this._buttonResegment, null);
+			this.locExtender.SetLocalizingId(this._buttonResegment, "SessionsView.Transcription.TextAnnotationEditor.ResegmentButton");
+			this._buttonResegment.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
+			this._buttonResegment.Name = "_buttonResegment";
+			this._buttonResegment.Size = new System.Drawing.Size(83, 22);
+			this._buttonResegment.Text = "Segment...";
+			this._buttonResegment.ToolTipText = "Add, remove or move segment boundaries";
+			this._buttonResegment.Click += new System.EventHandler(this.HandleResegmentButtonClick);
+			// 
 			// _buttonRecordings
 			// 
 			this._buttonRecordings.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -136,7 +156,6 @@ namespace SayMore.Transcription.UI
 			// 
 			// _buttonCarefulSpeech
 			// 
-			this._buttonCarefulSpeech.Image = global::SayMore.Properties.Resources.CarefulSpeech;
 			this.locExtender.SetLocalizableToolTip(this._buttonCarefulSpeech, null);
 			this.locExtender.SetLocalizationComment(this._buttonCarefulSpeech, null);
 			this.locExtender.SetLocalizingId(this._buttonCarefulSpeech, "SessionsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText");
@@ -147,7 +166,6 @@ namespace SayMore.Transcription.UI
 			// 
 			// _buttonOralTranslation
 			// 
-			this._buttonOralTranslation.Image = global::SayMore.Properties.Resources.OralTranslation;
 			this.locExtender.SetLocalizableToolTip(this._buttonOralTranslation, null);
 			this.locExtender.SetLocalizationComment(this._buttonOralTranslation, null);
 			this.locExtender.SetLocalizingId(this._buttonOralTranslation, "SessionsView.Transcription.TextAnnotationEditor.OralTranslationMenu");
@@ -155,21 +173,6 @@ namespace SayMore.Transcription.UI
 			this._buttonOralTranslation.Size = new System.Drawing.Size(167, 22);
 			this._buttonOralTranslation.Text = "&Oral Translation...";
 			this._buttonOralTranslation.Click += new System.EventHandler(this.HandleRecordedAnnotationButtonClick);
-			// 
-			// _buttonResegment
-			// 
-			this._buttonResegment.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this._buttonResegment.Image = global::SayMore.Properties.Resources.Segment;
-			this._buttonResegment.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonResegment, "Add, remove or move segment boundaries");
-			this.locExtender.SetLocalizationComment(this._buttonResegment, null);
-			this.locExtender.SetLocalizingId(this._buttonResegment, "SessionsView.Transcription.TextAnnotationEditor.ResegmentButton");
-			this._buttonResegment.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
-			this._buttonResegment.Name = "_buttonResegment";
-			this._buttonResegment.Size = new System.Drawing.Size(83, 22);
-			this._buttonResegment.Text = "Segment...";
-			this._buttonResegment.ToolTipText = "Add, remove or move segment boundaries";
-			this._buttonResegment.Click += new System.EventHandler(this.HandleResegmentButtonClick);
 			// 
 			// _tableLayoutPlaybackSpeed
 			// 
@@ -221,6 +224,41 @@ namespace SayMore.Transcription.UI
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
+			// _buttonFonts
+			// 
+			this._buttonFonts.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this._buttonFonts.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._buttonTranscriptionFont,
+            this._buttonFreeTranslationFont});
+			this._buttonFonts.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._buttonFonts, null);
+			this.locExtender.SetLocalizationComment(this._buttonFonts, null);
+			this.locExtender.SetLocalizationPriority(this._buttonFonts, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._buttonFonts, "._buttonFonts");
+			this._buttonFonts.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
+			this._buttonFonts.Name = "_buttonFonts";
+			this._buttonFonts.Size = new System.Drawing.Size(49, 22);
+			this._buttonFonts.Text = "Fonts";
+			this._buttonFonts.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.HandleFontClick);
+			// 
+			// _buttonTranscriptionFont
+			// 
+			this.locExtender.SetLocalizableToolTip(this._buttonTranscriptionFont, null);
+			this.locExtender.SetLocalizationComment(this._buttonTranscriptionFont, null);
+			this.locExtender.SetLocalizingId(this._buttonTranscriptionFont, ".transcriptionToolStripMenuItem");
+			this._buttonTranscriptionFont.Name = "_buttonTranscriptionFont";
+			this._buttonTranscriptionFont.Size = new System.Drawing.Size(167, 22);
+			this._buttonTranscriptionFont.Text = "&Transcription...";
+			// 
+			// _buttonFreeTranslationFont
+			// 
+			this.locExtender.SetLocalizableToolTip(this._buttonFreeTranslationFont, null);
+			this.locExtender.SetLocalizationComment(this._buttonFreeTranslationFont, null);
+			this.locExtender.SetLocalizingId(this._buttonFreeTranslationFont, ".freeTranslationToolStripMenuItem");
+			this._buttonFreeTranslationFont.Name = "_buttonFreeTranslationFont";
+			this._buttonFreeTranslationFont.Size = new System.Drawing.Size(167, 22);
+			this._buttonFreeTranslationFont.Text = "Free Translation...";
+			// 
 			// TextAnnotationEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -234,6 +272,7 @@ namespace SayMore.Transcription.UI
 			this.Size = new System.Drawing.Size(621, 364);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this._splitter)).EndInit();
 			this._splitter.ResumeLayout(false);
 			this._toolStrip.ResumeLayout(false);
 			this._toolStrip.PerformLayout();
@@ -259,6 +298,9 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripButton _buttonHelp;
 		private System.Windows.Forms.ToolStripButton _buttonResegment;
 		private Localization.UI.LocalizationExtender locExtender;
+		private System.Windows.Forms.ToolStripDropDownButton _buttonFonts;
+		private System.Windows.Forms.ToolStripMenuItem _buttonTranscriptionFont;
+		private System.Windows.Forms.ToolStripMenuItem _buttonFreeTranslationFont;
 
 
 	}

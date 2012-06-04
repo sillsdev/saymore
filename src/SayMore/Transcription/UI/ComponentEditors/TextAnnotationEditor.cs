@@ -318,5 +318,21 @@ namespace SayMore.Transcription.UI
 
 			base.HandleStringsLocalized();
 		}
+
+		private void HandleFontClick(object sender, ToolStripItemClickedEventArgs e)
+		{
+			using (var dlg = new FontDialog())
+			{
+				dlg.Font = (e.ClickedItem == _buttonTranscriptionFont ? _grid.TranscriptionFont :
+					_grid.FreeTranslationFont);
+				if (dlg.ShowDialog() != DialogResult.OK)
+					return;
+
+				if (e.ClickedItem == _buttonTranscriptionFont)
+					_grid.TranscriptionFont = dlg.Font;
+				else
+					_grid.FreeTranslationFont = dlg.Font;
+			}
+		}
 	}
 }

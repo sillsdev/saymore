@@ -15,6 +15,7 @@ namespace SayMore.Transcription.UI
 		{
 			Debug.Assert(tier is TextTier);
 			DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+			DefaultCellStyle.Font = Program.DialogFont;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -100,7 +100,20 @@ namespace SayMore.Model
 		public ProjectElement(){}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<ComponentFile> GetComponentFiles()
+		/// <summary>
+		/// Used for tests, but could be used in production if necessary.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void RefreshComponentFiles()
+		{
+			_componentFiles = null;
+
+			if (_watcher != null)
+				_watcher.Dispose();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<ComponentFile> GetComponentFiles()
 		{
 			lock (this)
 			{

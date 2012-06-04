@@ -5,8 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using NUnit.Framework;
+using Palaso.Reporting;
 using Palaso.TestUtilities;
 using SayMore.Transcription.Model;
+using SayMoreTests.Model.Files;
 
 namespace SayMoreTests.Transcription.Model
 {
@@ -32,6 +34,7 @@ namespace SayMoreTests.Transcription.Model
 		[SetUp]
 		public void Setup()
 		{
+			ErrorReport.IsOkToInteractWithUser = false;
 			_folder = new TemporaryFolder("AnnotationFileHelperTests");
 			_basicEafFileName = _folder.Combine("basic.eaf");
 			_root = new XElement("ANNOTATION_DOCUMENT");
@@ -48,20 +51,22 @@ namespace SayMoreTests.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void LoadEafFile()
+		private void LoadEafFile(bool loadBasicEafFile = true, bool setMediaFile = true)
 		{
-			LoadEafFile(true);
-		}
 
-		/// ------------------------------------------------------------------------------------
-		private void LoadEafFile(bool loadBasicEafFile)
-		{
 			if (!loadBasicEafFile)
 				_helper = AnnotationFileHelper.Load(CreateTestEaf());
 			else
 			{
 				_root.Save(_basicEafFileName);
 				_helper = AnnotationFileHelper.Load(_basicEafFileName);
+			}
+
+			if (setMediaFile)
+			{
+				var mediaFilePath = MediaFileInfoTests.GetShortTestAudioFile();
+				File.Move(mediaFilePath, _folder.Combine("dummy.wav"));
+				_helper.SetMediaFile(_folder.Combine("dummy.wav"));
 			}
 
 			_root = _helper.Root;
@@ -95,7 +100,9 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void Save_ExpectedTiers_SavesAsExpected()
 		{
+			var mediaFilePath = MediaFileInfoTests.GetShortTestAudioFile();
 			var origMediaFilename = Path.Combine(_folder.Path, "junk.wav");
+			File.Move(mediaFilePath, origMediaFilename);
 
 			var tiers = new TierCollection(origMediaFilename);
 			tiers.GetTimeTier().AddSegment(0, 3);
@@ -117,7 +124,9 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void Save_NoTextTiers_CreatesTextTiersWithEmptySegments()
 		{
+			var mediaFilePath = MediaFileInfoTests.GetShortTestAudioFile();
 			var origMediaFilename = Path.Combine(_folder.Path, "junk.wav");
+			File.Move(mediaFilePath, origMediaFilename);
 
 			var tiers = new TierCollection(origMediaFilename);
 			tiers.GetTimeTier().AddSegment(0, 3);
@@ -190,7 +199,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void GetFullPathToMediaFile_NoHeaderElement_ReturnsNull()
 		{
-			LoadEafFile();
+			LoadEafFile(true, false);
 			Assert.IsNull(_helper.GetFullPathToMediaFile());
 		}
 
@@ -199,7 +208,7 @@ namespace SayMoreTests.Transcription.Model
 		public void GetFullPathToMediaFile_NoMediaDescriptorElement_ReturnsNull()
 		{
 			_root.Add(_header);
-			LoadEafFile();
+			LoadEafFile(true, false);
 			Assert.IsNull(_helper.GetFullPathToMediaFile());
 		}
 
@@ -208,7 +217,7 @@ namespace SayMoreTests.Transcription.Model
 		public void GetFullPathToMediaFile_NoMediaUrlAttribute_ReturnsNull()
 		{
 			_root.Add(_header);
-			LoadEafFile();
+			LoadEafFile(true, false);
 			Assert.IsNull(_helper.GetFullPathToMediaFile());
 		}
 
@@ -221,14 +230,14 @@ namespace SayMoreTests.Transcription.Model
 			_root.Add(_header);
 			LoadEafFile();
 			Assert.AreEqual(Path.Combine(_helper.GetAnnotationFolderPath(),
-				"UninspiredMediaFileName.wav"), _helper.GetFullPathToMediaFile());
+				"dummy.wav"), _helper.GetFullPathToMediaFile());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SetMediaFile_HeaderMissing_SetsMediaFileName()
 		{
-			LoadEafFile();
+			LoadEafFile(true, false);
 			Assert.IsNull(_helper.GetFullPathToMediaFile());
 			_helper.SetMediaFile("BeaversAndDucks.mp3");
 			Assert.AreEqual(Path.Combine(_helper.GetAnnotationFolderPath(), "BeaversAndDucks.mp3"), _helper.GetFullPathToMediaFile());
@@ -239,7 +248,7 @@ namespace SayMoreTests.Transcription.Model
 		public void SetMediaFile_MediaDescriptorMissing_SetsMediaFileName()
 		{
 			_root.Add(_header);
-			LoadEafFile();
+			LoadEafFile(true, false);
 			Assert.IsNull(_helper.GetFullPathToMediaFile());
 			_helper.SetMediaFile("BeaversAndDucks.mp3");
 			Assert.AreEqual(Path.Combine(_helper.GetAnnotationFolderPath(), "BeaversAndDucks.mp3"), _helper.GetFullPathToMediaFile());
@@ -251,7 +260,7 @@ namespace SayMoreTests.Transcription.Model
 		{
 			_header.Add(_mediaDescriptor);
 			_root.Add(_header);
-			LoadEafFile();
+			LoadEafFile(true, false);
 			Assert.IsNull(_helper.GetFullPathToMediaFile());
 			_helper.SetMediaFile("BeaversAndDucks.mp3");
 			Assert.AreEqual(Path.Combine(_helper.GetAnnotationFolderPath(), "BeaversAndDucks.mp3"), _helper.GetFullPathToMediaFile());
@@ -264,7 +273,7 @@ namespace SayMoreTests.Transcription.Model
 			_mediaDescriptor.Add(_mediaUrl);
 			_header.Add(_mediaDescriptor);
 			_root.Add(_header);
-			LoadEafFile();
+			LoadEafFile(true, false);
 			Assert.AreEqual(Path.Combine(_helper.GetAnnotationFolderPath(), "UninspiredMediaFileName.wav"), _helper.GetFullPathToMediaFile());
 			_helper.SetMediaFile("BeaversAndDucks.mp3");
 			Assert.AreEqual(Path.Combine(_helper.GetAnnotationFolderPath(), "BeaversAndDucks.mp3"), _helper.GetFullPathToMediaFile());
@@ -646,7 +655,7 @@ namespace SayMoreTests.Transcription.Model
 		public void GetOrCreateHeader_HeaderPresent_ReturnsHeaderButDoesNotCreate()
 		{
 			_root.Add(_header);
-			LoadEafFile();
+			LoadEafFile(true, false);
 			var element = _helper.GetOrCreateHeader();
 			Assert.AreEqual("HEADER", element.Name.LocalName);
 			Assert.IsNull(element.Element("MEDIA_DESCRIPTOR"));
@@ -659,7 +668,7 @@ namespace SayMoreTests.Transcription.Model
 		public void CreateMediaDescriptorElement_NullMediaFile_ReturnsBasicElement()
 		{
 			_root.Add(_header);
-			LoadEafFile();
+			LoadEafFile(true, false);
 			var element = _helper.CreateMediaDescriptorElement();
 			Assert.AreEqual("MEDIA_DESCRIPTOR", element.Name.LocalName);
 			Assert.IsNull(element.Attribute("MEDIA_URL"));

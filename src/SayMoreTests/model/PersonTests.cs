@@ -1,8 +1,8 @@
 using System.IO;
 using NUnit.Framework;
 using Palaso.IO;
+using Palaso.Reporting;
 using Palaso.TestUtilities;
-using SayMoreTests.Model;
 
 namespace SayMoreTests.Model
 {
@@ -16,6 +16,7 @@ namespace SayMoreTests.Model
 		[SetUp]
 		public void Setup()
 		{
+			ErrorReport.IsOkToInteractWithUser = false;
 			_parentFolder = new TemporaryFolder("ProjectElementTest");
 		}
 
@@ -31,13 +32,14 @@ namespace SayMoreTests.Model
 		[Test]
 		public void GetInformedConsentComponentFile_NonePresent_ReturnsNull()
 		{
-			var person = ProjectElementTests.CreatePerson(_parentFolder.Path, "soarbum");
-
-			using (var fileToAdd1 = new TempFile())
-			using (var fileToAdd2 = new TempFile())
+			using (var person = ProjectElementTests.CreatePerson(_parentFolder.Path, "soarbum"))
 			{
-				person.AddComponentFiles(new[] { fileToAdd1.Path, fileToAdd2.Path });
-				Assert.That(person.GetInformedConsentComponentFile(), Is.Null);
+				using (var fileToAdd1 = new TempFile())
+				using (var fileToAdd2 = new TempFile())
+				{
+					person.AddComponentFiles(new[] { fileToAdd1.Path, fileToAdd2.Path });
+					Assert.That(person.GetInformedConsentComponentFile(), Is.Null);
+				}
 			}
 		}
 
@@ -45,25 +47,26 @@ namespace SayMoreTests.Model
 		[Test]
 		public void GetInformedConsentComponentFile_ConsentFileAdded_ReturnsThatFile()
 		{
-			var person = ProjectElementTests.CreatePerson(_parentFolder.Path, "soarbum");
-
-			using (var fileToAdd1 = new TempFile())
-			using (var fileToAdd2 = new TempFile())
+			using (var person = ProjectElementTests.CreatePerson(_parentFolder.Path, "soarbum"))
 			{
-				var consentFileName = Path.GetDirectoryName(fileToAdd1.Path);
-				consentFileName = Path.Combine(consentFileName, "ddo_consent.pdf");
-
-				try
+				using (var fileToAdd1 = new TempFile())
+				using (var fileToAdd2 = new TempFile())
 				{
-					File.Move(fileToAdd1.Path, consentFileName);
-					person.AddComponentFiles(new[] { consentFileName, fileToAdd2.Path });
+					var consentFileName = Path.GetDirectoryName(fileToAdd1.Path);
+					consentFileName = Path.Combine(consentFileName, "ddo_consent.pdf");
 
-					var componentFile = person.GetInformedConsentComponentFile();
-					Assert.That(componentFile.PathToAnnotatedFile.EndsWith("ddo_consent.pdf"), Is.True);
-				}
-				catch
-				{
-					File.Delete(consentFileName);
+					try
+					{
+						File.Move(fileToAdd1.Path, consentFileName);
+						person.AddComponentFiles(new[] { consentFileName, fileToAdd2.Path });
+
+						var componentFile = person.GetInformedConsentComponentFile();
+						Assert.That(componentFile.PathToAnnotatedFile.EndsWith("ddo_consent.pdf"), Is.True);
+					}
+					catch
+					{
+						File.Delete(consentFileName);
+					}
 				}
 			}
 		}

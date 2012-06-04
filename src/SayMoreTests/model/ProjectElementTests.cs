@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Palaso.IO;
+using Palaso.Reporting;
 using Palaso.TestUtilities;
 using SayMore;
 using SayMore.Model;
@@ -20,6 +21,7 @@ namespace SayMoreTests.Model
 		[SetUp]
 		public void Setup()
 		{
+			ErrorReport.IsOkToInteractWithUser = false;
 			_parentFolder = new TemporaryFolder("ProjectElementTest");
 		}
 
@@ -30,13 +32,16 @@ namespace SayMoreTests.Model
 			_parentFolder = null;
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test]
+		[Category("SkipOnTeamCity")]
 		public void Save_NewlyCreated_CreatesMetaDataFile()
 		{
-			Person person = CreatePerson();
-			person.Save();
-			Assert.IsTrue(File.Exists(_parentFolder.Combine("xyz", "xyz.person")));
-			Assert.AreEqual(1, Directory.GetFiles(_parentFolder.Combine("xyz")).Length);
+			using (var person = CreatePerson())
+			{
+				person.Save();
+				Assert.IsTrue(File.Exists(_parentFolder.Combine("xyz", "xyz.person")));
+				Assert.AreEqual(1, Directory.GetFiles(_parentFolder.Combine("xyz")).Length);
+			}
 		}
 
 		private Session CreateSession()
@@ -82,33 +87,42 @@ namespace SayMoreTests.Model
 			return suceeded;
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test]
+		[Category("SkipOnTeamCity")]
 		public void Load_AfterSave_PreservesId()
 		{
-			Person person = CreatePerson();
-			SetValue(person, "color", "red");
-			person.Save();
-			Person person2 = CreatePerson();
-			person2.Load();
-			Assert.AreEqual("red", person2.MetaDataFile.GetStringValue("color", "blue"));
-			Assert.AreEqual(1, Directory.GetFiles(_parentFolder.Combine("xyz")).Length);
+			using (var person = CreatePerson())
+			{
+				SetValue(person, "color", "red");
+				person.Save();
+				using (var person2 = CreatePerson())
+				{
+					person2.Load();
+					Assert.AreEqual("red", person2.MetaDataFile.GetStringValue("color", "blue"));
+					Assert.AreEqual(1, Directory.GetFiles(_parentFolder.Combine("xyz")).Length);
+				}
+			}
 		}
 
 		[Test][Category("SkipOnTeamCity")]
 		public void GetComponentFiles_AfterCreation_GivesASingleFile()
 		{
-			var person = CreatePerson();
-			IEnumerable<ComponentFile> componentFiles = person.GetComponentFiles();
-			Assert.AreEqual(1, componentFiles.Count());
-			Assert.AreEqual("xyz.person", componentFiles.First().FileName);
+			using (var person = CreatePerson())
+			{
+				IEnumerable<ComponentFile> componentFiles = person.GetComponentFiles();
+				Assert.AreEqual(1, componentFiles.Count());
+				Assert.AreEqual("xyz.person", componentFiles.First().FileName);
+			}
 		}
 
 		[Test][Category("SkipOnTeamCity")]
 		public void GetComponentFiles_SomeFiles_GivesThem()
 		{
-			var person = CreatePerson();
-			File.WriteAllText(_parentFolder.Combine("xyz", "test.txt"), @"hello");
-			Assert.AreEqual(2, person.GetComponentFiles().Count());
+			using (var person = CreatePerson())
+			{
+				File.WriteAllText(_parentFolder.Combine("xyz", "test.txt"), @"hello");
+				Assert.AreEqual(2, person.GetComponentFiles().Count());
+			}
 		}
 
 		[Test][Category("SkipOnTeamCity")]
@@ -117,32 +131,37 @@ namespace SayMoreTests.Model
 			using (var fileToAdd1 = new TempFile())
 			using (var fileToAdd2 = new TempFile())
 			{
-				var person = CreatePerson();
+				using (var person = CreatePerson())
+				{
+					var list = person.RemoveInvalidFilesFromProspectiveFilesToAdd(
+						new[] { fileToAdd1.Path, fileToAdd2.Path });
 
-				var list = person.RemoveInvalidFilesFromProspectiveFilesToAdd(
-					new[] { fileToAdd1.Path, fileToAdd2.Path });
+					Assert.That(list.Count(), Is.EqualTo(2));
 
-				Assert.That(list.Count(), Is.EqualTo(2));
-
-				Assert.That(list.Contains(fileToAdd1.Path), Is.True);
-				Assert.That(list.Contains(fileToAdd2.Path), Is.True);
+					Assert.That(list.Contains(fileToAdd1.Path), Is.True);
+					Assert.That(list.Contains(fileToAdd2.Path), Is.True);
+				}
 			}
 		}
 
 		[Test][Category("SkipOnTeamCity")]
 		public void RemoveInvalidFilesFromProspectiveFilesToAdd_NullInput_ReturnsEmptyList()
 		{
-			var person = CreatePerson();
-			var list = person.RemoveInvalidFilesFromProspectiveFilesToAdd(null);
-			Assert.That(list.Count(), Is.EqualTo(0));
+			using (var person = CreatePerson())
+			{
+				var list = person.RemoveInvalidFilesFromProspectiveFilesToAdd(null);
+				Assert.That(list.Count(), Is.EqualTo(0));
+			}
 		}
 
 		[Test][Category("SkipOnTeamCity")]
 		public void RemoveInvalidFilesFromProspectiveFilesToAdd_EmptyListInput_ReturnsEmptyList()
 		{
-			var person = CreatePerson();
-			var list = person.RemoveInvalidFilesFromProspectiveFilesToAdd(new string[] { });
-			Assert.That(list.Count(), Is.EqualTo(0));
+			using (var person = CreatePerson())
+			{
+				var list = person.RemoveInvalidFilesFromProspectiveFilesToAdd(new string[] { });
+				Assert.That(list.Count(), Is.EqualTo(0));
+			}
 		}
 
 		[Test][Category("SkipOnTeamCity")]
@@ -156,108 +175,132 @@ namespace SayMoreTests.Model
 
 			using (var fileToAdd = new TempFile())
 			{
-				var person = CreatePerson();
+				using (var person = CreatePerson())
+				{
+					var list = person.RemoveInvalidFilesFromProspectiveFilesToAdd(
+						new[] { "stupidFile.aaa", fileToAdd.Path, "reallyStupidFile.bbb" });
 
-				var list = person.RemoveInvalidFilesFromProspectiveFilesToAdd(
-					new[] { "stupidFile.aaa", fileToAdd.Path, "reallyStupidFile.bbb" });
-
-				Assert.That(list.Count(), Is.EqualTo(1));
-				Assert.That(list.Contains(fileToAdd.Path), Is.True);
+					Assert.That(list.Count(), Is.EqualTo(1));
+					Assert.That(list.Contains(fileToAdd.Path), Is.True);
+				}
 			}
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test]
+		[Category("SkipOnTeamCity")]
 		public void AddComponentFile_SomeFile_AddsIt()
 		{
-			var person = CreatePerson();
-			Assert.That(person.GetComponentFiles().Count(), Is.EqualTo(1));
-
-			using (var fileToAdd = new TempFile())
+			using (var person = CreatePerson())
 			{
-				Assert.That(person.AddComponentFile(fileToAdd.Path), Is.True);
-				var componentFiles = person.GetComponentFiles();
-				Assert.That(componentFiles.Count(), Is.EqualTo(2));
-				Assert.That(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd.Path)), Is.True);
+				Assert.That(person.GetComponentFiles().Count(), Is.EqualTo(1));
+
+				using (var fileToAdd = new TempFile())
+				{
+					Assert.That(person.AddComponentFile(fileToAdd.Path), Is.True);
+					var componentFiles = person.GetComponentFiles();
+					Assert.That(componentFiles.Count(), Is.EqualTo(2));
+					Assert.That(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd.Path)), Is.True);
+				}
 			}
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test]
+		[Category("SkipOnTeamCity")]
 		public void AddComponentFiles_SomeFiles_AddsThem()
 		{
-			var person = CreatePerson();
-			Assert.That(person.GetComponentFiles().Count(), Is.EqualTo(1));
-
-			using (var fileToAdd1 = new TempFile())
-			using (var fileToAdd2 = new TempFile())
+			using (var person = CreatePerson())
 			{
-				Assert.That(person.AddComponentFiles( new[] { fileToAdd1.Path, fileToAdd2.Path }), Is.True);
-				var componentFiles = person.GetComponentFiles();
-				Assert.That(componentFiles.Count(), Is.EqualTo(3));
-				Assert.That(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd1.Path)), Is.True);
-				Assert.That(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd2.Path)), Is.True);
+				Assert.That(person.GetComponentFiles().Count(), Is.EqualTo(1));
+
+				using (var fileToAdd1 = new TempFile())
+				using (var fileToAdd2 = new TempFile())
+				{
+					Assert.That(person.AddComponentFiles(new[] { fileToAdd1.Path, fileToAdd2.Path }), Is.True);
+					var componentFiles = person.GetComponentFiles();
+					Assert.That(componentFiles.Count(), Is.EqualTo(3));
+					Assert.That(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd1.Path)), Is.True);
+					Assert.That(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd2.Path)), Is.True);
+				}
 			}
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test]
+		[Category("SkipOnTeamCity")]
 		public void AddComponentFile_FileAlreadyExistsInDest_DoesNotAdd()
 		{
-			var person = CreatePerson();
-			Assert.That(person.GetComponentFiles().Count(), Is.EqualTo(1));
-
-			using (var fileToAdd = new TempFile())
+			using (var person = CreatePerson())
 			{
-				var fileName = Path.GetFileName(fileToAdd.Path);
-				File.CreateText(Path.Combine(person.FolderPath, fileName)).Close();
-				Assert.That(person.GetComponentFiles().Count(), Is.EqualTo(2));
-				Assert.That(person.AddComponentFile(fileToAdd.Path), Is.False);
-				Assert.That(person.GetComponentFiles().Count(), Is.EqualTo(2));
+				Assert.AreEqual(1, person.GetComponentFiles().Count());
+
+				using (var fileToAdd = new TempFile())
+				{
+					var fileName = Path.GetFileName(fileToAdd.Path);
+					person.RefreshComponentFiles();
+					File.CreateText(Path.Combine(person.FolderPath, fileName)).Close();
+					Assert.AreEqual(2, person.GetComponentFiles().Count());
+					Assert.IsFalse(person.AddComponentFile(fileToAdd.Path));
+					Assert.AreEqual(2, person.GetComponentFiles().Count());
+				}
 			}
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test]
+		[Category("SkipOnTeamCity")]
 		public void AddComponentFiles_AtLeastOneFileAlreadyExistsInDest_AddsOneNotOther()
 		{
-			var person = CreatePerson();
-			Assert.AreEqual(1, person.GetComponentFiles().Count());
-
-			using (var fileToAdd1 = new TempFile())
-			using (var fileToAdd2 = new TempFile())
+			using (var person = CreatePerson())
 			{
-				var fileName = Path.GetFileName(fileToAdd1.Path);
-				File.CreateText(Path.Combine(person.FolderPath, fileName)).Close();
-				Assert.AreEqual(2, person.GetComponentFiles().Count());
+				Assert.AreEqual(1, person.GetComponentFiles().Count());
 
-				Assert.IsTrue(person.AddComponentFiles(new[] { fileToAdd1.Path, fileToAdd2.Path }));
+				using (var fileToAdd1 = new TempFile())
+				using (var fileToAdd2 = new TempFile())
+				{
+					var fileName = Path.GetFileName(fileToAdd1.Path);
+					File.CreateText(Path.Combine(person.FolderPath, fileName)).Close();
+					person.RefreshComponentFiles();
+					Assert.AreEqual(2, person.GetComponentFiles().Count());
 
-				var componentFiles = person.GetComponentFiles();
-				Assert.AreEqual(3, componentFiles.Count());
-				Assert.IsTrue(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd1.Path)));
-				Assert.IsTrue(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd2.Path)));
+					Assert.IsTrue(person.AddComponentFiles(new[] { fileToAdd1.Path, fileToAdd2.Path }));
+
+					var componentFiles = person.GetComponentFiles();
+					Assert.AreEqual(3, componentFiles.Count());
+					Assert.IsTrue(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd1.Path)));
+					Assert.IsTrue(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd2.Path)));
+				}
 			}
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test]
+		[Category("SkipOnTeamCity")]
 		public void GetNewDefaultElementName_NoClashOnFirstTry_GivesName()
 		{
-			var person = CreatePerson();
-			Assert.AreEqual(person.DefaultElementNamePrefix + " 01", person.GetNewDefaultElementName());
+			using (var person = CreatePerson())
+			{
+				Assert.AreEqual(person.DefaultElementNamePrefix + " 01", person.GetNewDefaultElementName());
+			}
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test]
+		[Category("SkipOnTeamCity")]
 		public void GetNewDefaultElementName_FindsClash_GivesName()
 		{
-			var person = CreatePerson();
-			Directory.CreateDirectory(Path.Combine(_parentFolder.Path, person.DefaultElementNamePrefix + " 01"));
-			Directory.CreateDirectory(Path.Combine(_parentFolder.Path, person.DefaultElementNamePrefix + " 02"));
-			Assert.AreEqual(person.DefaultElementNamePrefix + " 03", person.GetNewDefaultElementName());
+			using (var person = CreatePerson())
+			{
+				Directory.CreateDirectory(Path.Combine(_parentFolder.Path, person.DefaultElementNamePrefix + " 01"));
+				Directory.CreateDirectory(Path.Combine(_parentFolder.Path, person.DefaultElementNamePrefix + " 02"));
+				Assert.AreEqual(person.DefaultElementNamePrefix + " 03", person.GetNewDefaultElementName());
+			}
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void GetShowAsNormalComponentFile_IsElanPrefFile_ReturnsFalse()
 		{
-			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("carrots.wav.pfsx"));
-			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("CARROTS.WAV.PFSX"));
+			using (var person = CreatePerson())
+				Assert.IsFalse(person.GetShowAsNormalComponentFile("carrots.wav.pfsx"));
+
+			using (var person = CreatePerson())
+				Assert.IsFalse(person.GetShowAsNormalComponentFile("CARROTS.WAV.PFSX"));
 		}
 
 		[Test]
@@ -265,8 +308,12 @@ namespace SayMoreTests.Model
 		public void GetShowAsNormalComponentFile_HasAnnotationFileExtButNotSuffix_ReturnsTrue()
 		{
 			File.OpenWrite(_parentFolder.Combine("peas.mp3")).Close();
-			Assert.IsTrue(CreatePerson().GetShowAsNormalComponentFile("peas.mp3.eaf"));
-			Assert.IsTrue(CreatePerson().GetShowAsNormalComponentFile("PEAS.MP3.EAF"));
+
+			using (var person = CreatePerson())
+				Assert.IsTrue(person.GetShowAsNormalComponentFile("peas.mp3.eaf"));
+
+			using (var person = CreatePerson())
+				Assert.IsTrue(person.GetShowAsNormalComponentFile("PEAS.MP3.EAF"));
 		}
 
 		[Test]
@@ -275,40 +322,55 @@ namespace SayMoreTests.Model
 		{
 			File.OpenWrite(_parentFolder.Combine("corn.mp3")).Close();
 
-			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile(_parentFolder.Combine("corn.mp3.ANNotations.eaf")));
-			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile(_parentFolder.Combine("CORN.MP3.annotations.EAF")));
+			using (var person = CreatePerson())
+				Assert.IsFalse(person.GetShowAsNormalComponentFile(_parentFolder.Combine("corn.mp3.ANNotations.eaf")));
+
+			using (var person = CreatePerson())
+				Assert.IsFalse(person.GetShowAsNormalComponentFile(_parentFolder.Combine("CORN.MP3.annotations.EAF")));
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void GetShowAsNormalComponentFile_IsMetaFile_ReturnsFalse()
 		{
-			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("beans.wav.meta"));
-			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("BEANS.WAV.META"));
+			using (var person = CreatePerson())
+				Assert.IsFalse(person.GetShowAsNormalComponentFile("beans.wav.meta"));
+
+			using (var person = CreatePerson())
+				Assert.IsFalse(person.GetShowAsNormalComponentFile("BEANS.WAV.META"));
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void GetShowAsNormalComponentFile_IsThumbsFile_ReturnsFalse()
 		{
-			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("thumbs.db"));
-			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("THUMBS.DB"));
+			using (var person = CreatePerson())
+				Assert.IsFalse(person.GetShowAsNormalComponentFile("thumbs.db"));
+
+			using (var person = CreatePerson())
+				Assert.IsFalse(person.GetShowAsNormalComponentFile("THUMBS.DB"));
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void GetShowAsNormalComponentFile_IsPersonFile_ReturnsFalse()
 		{
-			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("broccoli.person"));
-			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("BROCCOLI.PERSON"));
+			using (var person = CreatePerson())
+				Assert.IsFalse(person.GetShowAsNormalComponentFile("broccoli.person"));
+
+			using (var person = CreatePerson())
+				Assert.IsFalse(person.GetShowAsNormalComponentFile("BROCCOLI.PERSON"));
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void GetShowAsNormalComponentFile_IsEventFile_ReturnsFalse()
 		{
-			Assert.IsFalse(CreateSession().GetShowAsNormalComponentFile("corn.session"));
-			Assert.IsFalse(CreateSession().GetShowAsNormalComponentFile("CORN.SESSION"));
+			using (var session = CreateSession())
+				Assert.IsFalse(session.GetShowAsNormalComponentFile("corn.session"));
+
+			using (var session = CreateSession())
+				Assert.IsFalse(session.GetShowAsNormalComponentFile("CORN.SESSION"));
 		}
 
 		//[Test]

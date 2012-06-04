@@ -84,7 +84,7 @@ namespace SayMore.UI.ElementListScreen
 			_componentFilesControl = componentGrid;
 			_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
 			_componentFilesControl.FilesAdded = HandleFilesAddedToComponentGrid;
-			_componentFilesControl.FileDeletionAction = HandleFileDeletedFromComponentGrid;
+			_componentFilesControl.FileDeletionAction = (file) => _model.DeleteComponentFile(file);
 			_componentFilesControl.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
 			_componentFilesControl.FilesDroppedOnGrid = HandleFilesAddedToComponentGrid;
 			_componentFilesControl.PostMenuCommandRefreshAction = HandlePostMenuCommandRefresh;
@@ -188,12 +188,6 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool HandleFileDeletedFromComponentGrid(ComponentFile file)
-		{
-			return _model.DeleteComponentFile(file);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected virtual void LoadElementList()
 		{
 			LoadElementList(null);
@@ -265,7 +259,7 @@ namespace SayMore.UI.ElementListScreen
 			_elementsGrid.SelectedElementChanged -= HandleSelectedElementChanged;
 			_elementsGrid.SelectElement(_model.SelectedElement);
 			_elementsGrid.SelectedElementChanged += HandleSelectedElementChanged;
-			_model.RefreshAfterIdChanged();
+			_model.RefreshComponentFileList();
 			UpdateComponentFileList();
 		}
 

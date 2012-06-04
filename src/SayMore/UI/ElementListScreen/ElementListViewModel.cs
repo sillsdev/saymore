@@ -145,21 +145,16 @@ namespace SayMore.UI.ElementListScreen
 			if (_currentEditorProviders.Any(editor => !editor.ComponentFileDeletionInitiated(file)))
 				return false;
 
-			return DeleteComponentFile(file, true);
+			if (SelectedElement.DeleteComponentFile(file, true))
+			{
+				RefreshComponentFileList();
+				return true;
+			}
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool DeleteComponentFile(ComponentFile file, bool askForConfirmation)
-		{
-			if (!ComponentFile.MoveToRecycleBin(file, askForConfirmation))
-				return false;
-
-			_componentFiles = SelectedElement.GetComponentFiles().ToArray();
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void RefreshAfterIdChanged()
+		public void RefreshComponentFileList()
 		{
 			_componentFiles = SelectedElement.GetComponentFiles().ToArray();
 		}

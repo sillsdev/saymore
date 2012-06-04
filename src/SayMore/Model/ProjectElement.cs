@@ -150,24 +150,24 @@ namespace SayMore.Model
 			_watcher.EnableRaisingEvents = true;
 			_watcher.Changed += (s, e) =>
 			{
-				if (e.ChangeType != WatcherChangeTypes.Changed && e.ChangeType != WatcherChangeTypes.Deleted)
+				if (e.ChangeType != WatcherChangeTypes.Changed)
 					return;
 				var file = _componentFiles.FirstOrDefault(f => f.PathToAnnotatedFile == e.FullPath);
 				if (file != null)
-				{
-					if (e.ChangeType == WatcherChangeTypes.Changed)
-						file.Refresh();
-					else
-					{
-						lock (this)
-						{
-							_componentFiles.Remove(file);
-						}
-					}
-				}
+					file.Refresh();
 			};
 
 			return GetComponentFiles();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool DeleteComponentFile(ComponentFile file, bool askForConfirmation)
+		{
+			if (!ComponentFile.MoveToRecycleBin(file, askForConfirmation))
+				return false;
+
+			_componentFiles.Remove(file);
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

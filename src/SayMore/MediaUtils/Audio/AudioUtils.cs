@@ -126,7 +126,7 @@ namespace SayMore.Media.Audio
 				return encoding.ToString().Replace("WAVE_FORMAT", "WAV").Replace('_', ' ').ToUpperInvariant();
 
 			var info = MediaFileInfo.GetInfo(mediaFilePath);
-			return info.AudioEncoding;
+			return info == null ? string.Empty : info.AudioEncoding;
 		}
 
 		/// ------------------------------------------------------------------------------------

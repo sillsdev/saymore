@@ -64,6 +64,12 @@ namespace SayMore.UI.Utilities
 			LogBox.TabStop = false;
 			LogBox.ShowMenu = false;
 			LogBox.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
+
+			foreach (var orphanedRampPackage in Directory.GetFiles(Path.GetTempPath(), "*.ramp"))
+			{
+				try { File.Delete(orphanedRampPackage); }
+				catch { }
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -600,8 +606,9 @@ namespace SayMore.UI.Utilities
 		/// ------------------------------------------------------------------------------------
 		public void CleanUpTempRampPackage()
 		{
-			try { File.Delete(RampPackagePath); }
-			catch { }
+			// Comment out as a test !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			//try { File.Delete(RampPackagePath); }
+			//catch { }
 
 			if (_timer != null)
 			{

@@ -572,6 +572,7 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			var annotationFile = currFile.GetAnnotationFile();
+			var oralAnnotationFile = currFile.GetOralAnnotationFile();
 
 			if (!FileDeletionAction(currFile))
 				return;
@@ -581,6 +582,9 @@ namespace SayMore.UI.ElementListScreen
 
 			if (annotationFile != null)
 				newList.Remove(annotationFile);
+
+			if (oralAnnotationFile != null)
+				newList.Remove(oralAnnotationFile);
 
 			if (index == newList.Count)
 				index--;

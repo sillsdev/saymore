@@ -137,7 +137,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 				_mediaPlayerPanel.Enabled = (_gridFiles.Grid.RowCount > 0);
 			else
 			{
-				_gridFiles.UpdateComponentFileList(_viewModel.Files.Cast<ComponentFile>());
+				_gridFiles.UpdateComponentFileList(_viewModel.Files);
 
 				if (fileCount == 0)
 				{
@@ -151,7 +151,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 					QueueMediaFile(_gridFiles.Grid.CurrentCellAddress.Y);
 				}
 
-				var selectedCount = _viewModel.Files.Where(x => x.Selected).Count();
+				var selectedCount = _viewModel.Files.Count(x => x.Selected);
 				if (selectedCount == _viewModel.Files.Count)
 					_chkBoxColHdrHandler.HeadersCheckState = CheckState.Checked;
 				else

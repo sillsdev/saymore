@@ -29,27 +29,27 @@ namespace SayMoreTests.UI.ElementListScreen
 
 			var peter = new Mock<Person>();
 			peter.Setup(p => p.Id).Returns("peter");
-			peter.Setup(p => p.GetComponentFiles()).Returns(new List<ComponentFile>(new[]
+			peter.Setup(p => p.GetComponentFiles()).Returns(new[]
 			{
 				ComponentFileTests.CreateComponentFile(_tmpFolder, peter.Object, "peterSong1.mp3"),
 				ComponentFileTests.CreateComponentFile(_tmpFolder, peter.Object, "peterSong2.mp3"),
-			}));
+			});
 
 			var paul = new Mock<Person>();
 			paul.Setup(p => p.Id).Returns("paul");
-			paul.Setup(p => p.GetComponentFiles()).Returns(new List<ComponentFile>(new[]
+			paul.Setup(p => p.GetComponentFiles()).Returns(new[]
 			{
 				ComponentFileTests.CreateComponentFile(_tmpFolder, peter.Object, "paulSong1.mp3"),
 				ComponentFileTests.CreateComponentFile(_tmpFolder, peter.Object, "paulSong2.mp3"),
-			}));
+			});
 
 			var mary = new Mock<Person>();
 			mary.Setup(p => p.Id).Returns("mary");
-			mary.Setup(p => p.GetComponentFiles()).Returns(new List<ComponentFile>(new[]
+			mary.Setup(p => p.GetComponentFiles()).Returns(new[]
 			{
 				ComponentFileTests.CreateComponentFile(_tmpFolder, peter.Object, "marySong1.mp3"),
 				ComponentFileTests.CreateComponentFile(_tmpFolder, peter.Object, "marySong2.mp3"),
-			}));
+			});
 
 			_repo = new ElementRepository<Person>(_tmpFolder.Path, "People", new PersonFileType(null),
 				(folder, id, idChangedAction) =>
@@ -244,7 +244,7 @@ namespace SayMoreTests.UI.ElementListScreen
 		{
 			_model.SetSelectedElement(_model.Elements.ElementAt(1) as Person);
 			var file = _model.GetComponentFile(1);
-			Assert.IsTrue(_model.DeleteComponentFile(file, false));
+			Assert.IsTrue(_model.SelectedElement.DeleteComponentFile(file, false));
 			Assert.IsFalse(File.Exists(file.PathToAnnotatedFile));
 			Assert.IsFalse(File.Exists(file.PathToAnnotatedFile + ".meta"));
 		}

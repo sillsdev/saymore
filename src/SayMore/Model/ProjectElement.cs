@@ -100,10 +100,6 @@ namespace SayMore.Model
 		public ProjectElement(){}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Used for tests, but could be used in production if necessary.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void RefreshComponentFiles()
 		{
 			_componentFiles = null;
@@ -113,7 +109,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual IEnumerable<ComponentFile> GetComponentFiles()
+		public virtual ComponentFile[] GetComponentFiles()
 		{
 			lock (this)
 			{
@@ -166,7 +162,7 @@ namespace SayMore.Model
 			if (!ComponentFile.MoveToRecycleBin(file, askForConfirmation))
 				return false;
 
-			_componentFiles.Remove(file);
+			RefreshComponentFiles();
 			return true;
 		}
 

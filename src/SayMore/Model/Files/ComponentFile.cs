@@ -979,6 +979,7 @@ namespace SayMore.Model.Files
 				file.PreDeleteAction();
 
 			var annotationFile = file.GetAnnotationFile();
+			var oralAnnotationFile = file.GetOralAnnotationFile();
 
 			// Delete the file.
 			if (!ConfirmRecycleDialog.Recycle(path))
@@ -991,6 +992,9 @@ namespace SayMore.Model.Files
 
 			if (annotationFile != null)
 				annotationFile.Delete();
+
+			if (oralAnnotationFile != null)
+				ConfirmRecycleDialog.Recycle(oralAnnotationFile.PathToAnnotatedFile);
 
 			return true;
 		}

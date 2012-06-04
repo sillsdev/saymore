@@ -17,7 +17,6 @@ namespace SayMore.UI.ElementListScreen
 	{
 		private readonly ElementRepository<T> _repository;
 		private IEnumerable<IEditorProvider> _currentEditorProviders;
-		private ComponentFile[] _componentFiles;
 
 		public T SelectedElement { get; private set; }
 		public ComponentFile SelectedComponentFile { get; private set; }
@@ -43,7 +42,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ComponentFile> GetComponentsOfSelectedElement()
 		{
-			return (SelectedElement == null ? new ComponentFile[] { } : _componentFiles);
+			return (SelectedElement == null ? new ComponentFile[] { } : SelectedElement.GetComponentFiles());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -76,12 +75,6 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void RefreshSelectedElementComponentFileList()
-		{
-			_componentFiles = (SelectedElement != null ? SelectedElement.GetComponentFiles().ToArray() : null);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public int GetIndexOfSelectedElement()
 		{
 			int index = 0;
@@ -103,7 +96,6 @@ namespace SayMore.UI.ElementListScreen
 				return false;
 
 			SelectedElement = element;
-			RefreshSelectedElementComponentFileList();
 			return true;
 		}
 
@@ -116,10 +108,14 @@ namespace SayMore.UI.ElementListScreen
 				return false;
 			}
 
-			if (index < 0 || index >= _componentFiles.Length)
+			if (index < 0)
 				return false;
 
-			SelectedComponentFile = _componentFiles[index];
+			var componentFiles = SelectedElement.GetComponentFiles();
+			if (index >= componentFiles.Length)
+				return false;
+
+			SelectedComponentFile = componentFiles[index];
 
 			_currentEditorProviders = SelectedComponentFile.FileType.GetEditorProviders(
 				GetHashCode(), SelectedComponentFile);
@@ -130,13 +126,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public bool AddComponentFiles(string[] files)
 		{
-			if (SelectedElement.AddComponentFiles(files))
-			{
-				_componentFiles = SelectedElement.GetComponentFiles().ToArray();
-				return true;
-			}
-
-			return false;
+			return SelectedElement.AddComponentFiles(files);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -145,24 +135,13 @@ namespace SayMore.UI.ElementListScreen
 			if (_currentEditorProviders.Any(editor => !editor.ComponentFileDeletionInitiated(file)))
 				return false;
 
-			if (SelectedElement.DeleteComponentFile(file, true))
-			{
-				RefreshComponentFileList();
-				return true;
-			}
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void RefreshComponentFileList()
-		{
-			_componentFiles = SelectedElement.GetComponentFiles().ToArray();
+			return SelectedElement.DeleteComponentFile(file, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public ComponentFile GetComponentFile(int index)
 		{
-			return _componentFiles[index];
+			return SelectedElement.GetComponentFiles()[index];
 		}
 
 		/// ------------------------------------------------------------------------------------

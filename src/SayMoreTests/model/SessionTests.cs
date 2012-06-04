@@ -39,7 +39,7 @@ namespace SayMoreTests.Model
 			  file.Setup(f => f.Save());
 			  file.Setup(
 				  f => f.GetStringValue("participants", string.Empty)).
-				  Returns(particpants.Count()>0? particpants.Aggregate((a,b)=>a+";"+b):string.Empty
+					Returns(particpants.Count() > 0 ? particpants.Aggregate((a,b)=>a+";"+b):string.Empty
 				  );
 			  return file.Object;
 			};
@@ -78,50 +78,64 @@ namespace SayMoreTests.Model
 		[Test]
 		public void GetAllParticipants_NoParticpantsListed_NoneReturned()
 		{
-			var session = CreateSession(new string[] { });
-			Assert.AreEqual(0, session.GetAllParticipants().Count());
+			using (var session = CreateSession(new string[] { }))
+				Assert.AreEqual(0, session.GetAllParticipants().Count());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetAllParticipants_SomeParticpantsListed_ReturnsTheirNames()
 		{
-			var session = CreateSession(new[] { "mo", "curly" });
-			var names = session.GetAllParticipants().ToList();
-			Assert.Contains("mo", names);
-			Assert.Contains("curly", names);
+			using (var session = CreateSession(new[] { "mo", "curly" }))
+			{
+				var names = session.GetAllParticipants().ToList();
+				Assert.Contains("mo", names);
+				Assert.Contains("curly", names);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetCompletedStages_NoParticpantsListed_NoConsent()
 		{
-			var stages = CreateSession(new string[]{}).GetCompletedStages();
-			Assert.IsFalse(stages.Any(s => s.Id == ComponentRole.kConsentComponentRoleId));
+			using (var session = CreateSession(new string[] { }))
+			{
+				var stages = session.GetCompletedStages();
+				Assert.IsFalse(stages.Any(s => s.Id == ComponentRole.kConsentComponentRoleId));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetCompletedStages_ParticpantsListedButNotFound_NoConsent()
 		{
-			var stages = CreateSession(new[] {"you", "me" }).GetCompletedStages();
-			Assert.IsFalse(stages.Any(s => s.Id == ComponentRole.kConsentComponentRoleId));
+			using (var session = CreateSession(new[] { "you", "me" }))
+			{
+				var stages = session.GetCompletedStages();
+				Assert.IsFalse(stages.Any(s => s.Id == ComponentRole.kConsentComponentRoleId));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetCompletedStages_TwoParticpantsFoundOneLacksConsent_NoConsent()
 		{
-			var stages = CreateSession(new[] { "oneWithConsent", "none" }).GetCompletedStages();
-			Assert.IsFalse(stages.Any(s => s.Id == ComponentRole.kConsentComponentRoleId));
+			using (var session = CreateSession(new[] { "oneWithConsent", "none" }))
+			{
+				var stages = session.GetCompletedStages();
+				Assert.IsFalse(stages.Any(s => s.Id == ComponentRole.kConsentComponentRoleId));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetCompletedStages_TwoParticpantsFoundBothHaveConsent_ResultIncludesConsent()
 		{
-		  var stages = CreateSession(new[] {"oneWithConsent", "anotherWithConsent" }).GetCompletedStages();
-		  Assert.IsTrue(stages.Any(s => s.Id == ComponentRole.kConsentComponentRoleId));
+			using (var session = CreateSession(new[] { "oneWithConsent", "anotherWithConsent" }))
+			{
+				var stages = session.GetCompletedStages();
+				Assert.IsTrue(stages.Any(s => s.Id == ComponentRole.kConsentComponentRoleId));
+			}
 		}
 	}
 }

@@ -1,9 +1,11 @@
 using System;
 using System.IO;
+using System.Drawing;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using SayMore.Properties;
+using SilTools;
 
 namespace SayMore.Model
 {
@@ -23,8 +25,14 @@ namespace SayMore.Model
 
 		public Session.Factory SessionFactory { get; set; }
 		public Func<Session, Session> SessionPropertyInjectionMethod { get; set; }
-		/// ------------------------------------------------------------------------------------
+
 		public string Name { get; protected set; }
+
+		public Font TranscriptionFont { get; protected set; }
+		public Font FreeTranslationFont { get; protected set; }
+
+		private string _transcriptionFont;
+		private string _freeTranslationFont;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -53,6 +61,12 @@ namespace SayMore.Model
 
 				Save();
 			}
+
+			if (TranscriptionFont == null)
+				TranscriptionFont = Program.DialogFont;
+
+			if (FreeTranslationFont == null)
+				FreeTranslationFont = Program.DialogFont;
 		}
 
 //		public Project(string parentDirectory,  string projectName)
@@ -168,21 +182,36 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			XElement project = new XElement("Project");
+			var project = new XElement("Project");
 			project.Add(new XElement("Iso639Code", Iso639Code));
+
+			if (TranscriptionFont != Program.DialogFont)
+				project.Add(new XElement("transcriptionFont", FontHelper.FontToString(TranscriptionFont)));
+
+			if (FreeTranslationFont != Program.DialogFont)
+				project.Add(new XElement("freeTranslationFont", FontHelper.FontToString(FreeTranslationFont)));
+
 			project.Save(SettingsFilePath);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
-			XElement project = XElement.Load(SettingsFilePath);
+			var project = XElement.Load(SettingsFilePath);
 			var elements = project.Descendants("Iso639Code").ToArray();
 
 			if (elements.Length == 0)
 				elements = project.Descendants("IsoCode").ToArray(); //old value when we were called "Sponge"
 
 			Iso639Code = elements.First().Value;
+
+			elements = project.Descendants("transcriptionFont").ToArray();
+			if (elements.Length > 0)
+				TranscriptionFont = FontHelper.MakeFont(elements.First().Value);
+
+			elements = project.Descendants("freeTranslationFont").ToArray();
+			if (elements.Length > 0)
+				FreeTranslationFont = FontHelper.MakeFont(elements.First().Value);
 		}
 
 		/// ------------------------------------------------------------------------------------

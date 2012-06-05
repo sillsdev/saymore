@@ -8,8 +8,15 @@
 	<contributor>
 	  <name>Hatton</name>
 	  <role>recorder</role>
-	  <date>9/10/2010</date>
-	  <notes />
+	  <date>2010-09-10</date>
+	  <notes></notes>
 	</contributor>
   </contributions>
+  <Duration type="string">00:00:10</Duration>
+  <Channels type="string">stereo</Channels>
+  <Sample_Rate type="string">48000 Hz</Sample_Rate>
+  <Audio_Bit_Rate type="string">96 kbps</Audio_Bit_Rate>
+  <Video_Bit_Rate type="string">218 kbps</Video_Bit_Rate>
+  <Resolution type="string">176 x 144</Resolution>
+  <Frame_Rate type="string">30 frames/second</Frame_Rate>
 </MetaData>

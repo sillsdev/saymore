@@ -237,15 +237,13 @@ namespace SayMore.Transcription.UI
 			// available sequence number.
 			if (File.Exists(dstFile))
 			{
-				return;
+				return; // TODO: Remove this line
 				// TODO: Implement this to allow successive undo's of re-recording annotations
 				//int latestBackup = GetLatestBackupNumberForFile(dstFile);
 				//dstFile += latestBackup + 1;
 			}
 
-			// TODO: This might have to be commented out to make successive undo possible, but currently that causes a test failure. Have Dave help me figure this out before he leaves.
-			// If the source file is not one of the original oral annotation
-			// segment files, then there's no need to back it up
+			// TODO: Remove these two lines to make undo work:
 			if (_oralAnnotationFilesBeforeChanges.All(f => Path.GetFileName(f) != fileName))
 				return;
 

@@ -151,19 +151,19 @@ namespace SayMoreTests.Transcription.UI
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void BackupOralAnnotationSegmentFile_SrcFileDidNotAlreadyExists_DoesNotCopy()
-		{
-			var srcFile = Path.Combine(_model.OralAnnotationsFolder, "one.wav");
-			var dstFile = Path.Combine(_model.TempOralAnnotationsFolder, "one.wav");
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void BackupOralAnnotationSegmentFile_SrcFileDidNotAlreadyExists_DoesNotCopy()
+		//{
+		//    var srcFile = Path.Combine(_model.OralAnnotationsFolder, "one.wav");
+		//    var dstFile = Path.Combine(_model.TempOralAnnotationsFolder, "one.wav");
 
-			Directory.CreateDirectory(_model.TempOralAnnotationsFolder);
+		//    Directory.CreateDirectory(_model.TempOralAnnotationsFolder);
 
-			Assert.IsFalse(File.Exists(dstFile));
-			_model.BackupOralAnnotationSegmentFile(srcFile);
-			Assert.IsFalse(File.Exists(dstFile));
-		}
+		//    Assert.IsFalse(File.Exists(dstFile));
+		//    _model.BackupOralAnnotationSegmentFile(srcFile);
+		//    Assert.IsFalse(File.Exists(dstFile));
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]

@@ -11,8 +11,6 @@ using Palaso.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
-using SayMore.UI.NewSessionsFromFiles;
-using SayMore.Utilities;
 
 namespace SayMore.Transcription.UI
 {
@@ -32,7 +30,6 @@ namespace SayMore.Transcription.UI
 		public Segment CurrentUnannotatedSegment { get; private set; }
 		public OralAnnotationRecorder Recorder { get; private set; }
 		private AudioPlayer _annotationPlayer;
-		private TimeRange _timeRangeForAnnotationBeingRerecorded;
 		private TimeSpan _endBoundary;
 
 		/// ----------------------------------------------------------------------------------------
@@ -66,7 +63,7 @@ namespace SayMore.Transcription.UI
 								  select GetFullPathToAnnotationFileForSegment(s);
 
 			foreach (var path in annotationFiles.Where(p => !AudioUtils.GetDoesFileSeemToBeWave(p)))
-				EraseAnnotation(path);
+				BackupOralAnnotationSegmentFile(path, true);
 		}
 
 		#region Properties
@@ -111,14 +108,12 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override bool SegmentBoundaryMoved(TimeSpan oldEndTime, TimeSpan newEndTime)
+		protected override bool UpdateSegmentBoundary(TimeSpan oldEndTime, TimeSpan newEndTime)
 		{
-			var moved = base.SegmentBoundaryMoved(oldEndTime, newEndTime);
-			if (oldEndTime == NewSegmentEndBoundary && (moved || !TimeTier.Segments.Any(s => s.TimeRange.End == oldEndTime)))
+			var moved = base.UpdateSegmentBoundary(oldEndTime, newEndTime);
+			if (oldEndTime == NewSegmentEndBoundary)
 			{
 				NewSegmentEndBoundary = newEndTime;
-				if (!moved)
-					OnBoundaryWasDeletedInsertedOrMoved();
 				return true;
 			}
 			return moved;
@@ -258,23 +253,37 @@ namespace SayMore.Transcription.UI
 			if (RecordingErrorAction != null)
 				RecordingErrorAction(exception);
 		}
-
 		/// ------------------------------------------------------------------------------------
 		public bool BeginAnnotationRecording(TimeRange timeRange)
 		{
-			return BeginAnnotationRecording(GetFullPathOfAnnotationFileForTimeRange(timeRange));
+			if (GetIsRecording())
+				return false;
+
+			var path = GetFullPathOfAnnotationFileForTimeRange(timeRange);
+			var backupCreated = false;
+			if (File.Exists(path))
+			{
+				BackupOralAnnotationSegmentFile(path, true);
+				backupCreated = true;
+			}
+			else
+			{
+				var dir = Path.GetDirectoryName(path);
+				if (dir != null && !Directory.Exists(dir))
+					Directory.CreateDirectory(dir);
+			}
+
+			var recordingStarted = AttemptBeginAnnotationRecording(path);
+
+			if (!recordingStarted && backupCreated)
+				RestorePreviousVersionOfAnnotation(path);
+
+			return recordingStarted;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool BeginAnnotationRecording(string path)
+		private bool AttemptBeginAnnotationRecording(string path)
 		{
-			if (GetIsRecording() || File.Exists(path))
-				return false;
-
-			var dir = Path.GetDirectoryName(path);
-			if (dir != null && !Directory.Exists(dir))
-				Directory.CreateDirectory(dir);
-
 			try
 			{
 				AudioUtils.NAudioExceptionThrown += HandleNAudioExceptionThrownDuringRecord;
@@ -308,16 +317,15 @@ namespace SayMore.Transcription.UI
 
 			if (isRecordingTooShort || isRecorderInErrorState)
 			{
-				EraseAnnotation(timeRange);
-				RecoverTemporarilySavedAnnotation();
+				RestorePreviousVersionOfAnnotation(timeRange);
 			}
 			else
 			{
 				_undoStack.Push(new SegmentChange(SegmentChangeType.AnnotationAdded, timeRange, timeRange,
-					c => EraseAnnotation(timeRange)));
+					c => RestorePreviousVersionOfAnnotation(timeRange)));
 			}
 
-			DeleteTemporarilySavedAnnotation();
+			//DeleteTemporarilySavedAnnotation();
 
 			if (isRecorderInErrorState)
 				return StopAnnotationRecordingResult.RecordingError;
@@ -332,41 +340,6 @@ namespace SayMore.Transcription.UI
 		{
 			return (Recorder != null && !Recorder.GetIsInErrorState() &&
 				Recorder.RecordingState == RecordingState.Recording);
-		}
-
-		#endregion
-
-		#region Methods for dealing with temporarily saved rerecorded annotation
-		/// ------------------------------------------------------------------------------------
-		public void TemporarilySaveAnnotationBeingRerecorded(TimeRange timeRange)
-		{
-			var srcFile = GetFullPathOfAnnotationFileForTimeRange(timeRange);
-			var dstFile = Path.Combine(Path.GetTempPath(), Path.GetFileName(srcFile));
-			CopyFilesViewModel.Copy(srcFile, dstFile, true);
-			_timeRangeForAnnotationBeingRerecorded = timeRange;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void RecoverTemporarilySavedAnnotation()
-		{
-			if (_timeRangeForAnnotationBeingRerecorded == null)
-				return;
-
-			var dstFile = GetFullPathOfAnnotationFileForTimeRange(_timeRangeForAnnotationBeingRerecorded);
-			var srcFile = Path.Combine(Path.GetTempPath(), Path.GetFileName(dstFile));
-			CopyFilesViewModel.Copy(srcFile, dstFile, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void DeleteTemporarilySavedAnnotation()
-		{
-			if (_timeRangeForAnnotationBeingRerecorded == null)
-				return;
-
-			var path = GetFullPathOfAnnotationFileForTimeRange(_timeRangeForAnnotationBeingRerecorded);
-			path = Path.Combine(Path.GetTempPath(), Path.GetFileName(path));
-			File.Delete(path);
-			_timeRangeForAnnotationBeingRerecorded = null;
 		}
 
 		#endregion
@@ -458,42 +431,19 @@ namespace SayMore.Transcription.UI
 
 		#region Methods for erasing an annotation recording
 		/// ------------------------------------------------------------------------------------
-		public void EraseAnnotation(TimeRange timeRange)
+		protected void RestorePreviousVersionOfAnnotation(TimeRange timeRange)
 		{
-			EraseAnnotation(GetFullPathOfAnnotationFileForTimeRange(timeRange));
+			var audioFilePath = GetFullPathOfAnnotationFileForTimeRange(timeRange);
+			RestorePreviousVersionOfAnnotation(audioFilePath);
+			SegmentsAnnotationSamplesToDraw.RemoveWhere(h => h.AudioFilePath == audioFilePath);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void EraseAnnotation(Segment segment)
-		{
-			EraseAnnotation(GetFullPathToAnnotationFileForSegment(segment));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void EraseAnnotation(string path)
+		protected override void EraseAnnotation(string path)
 		{
 			CloseAnnotationPlayer();
-			FileSystemUtils.WaitForFileRelease(path);
-
-			try
-			{
-				if (File.Exists(path))
-				{
-					BackupOralAnnotationSegmentFile(path);
-					File.Delete(path);
-					SegmentsAnnotationSamplesToDraw.RemoveWhere(h => h.AudioFilePath == path);
-				}
-
-				//InitializeAnnotationPlayer();
-				UsageReporter.SendNavigationNotice(ProgramAreaForUsageReporting + "/EraseAnnotation");
-			}
-			catch (Exception e)
-			{
-				ErrorReport.NotifyUserOfProblem(e,
-					"Could not remove that annotation. If this problem persists, try restarting your computer.");
-			}
+			base.EraseAnnotation(path);
 		}
-
 		#endregion
 	}
 

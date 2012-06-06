@@ -596,9 +596,11 @@ namespace SayMoreTests.Transcription.Model
 			SetupSegmentFileFolders();
 
 			bool backupCalled = false;
-			_tier.BackupOralAnnotationSegmentFileAction = (f => backupCalled = true);
+			bool deleteFlag = true;
+			_tier.BackupOralAnnotationSegmentFileAction = (f, g) => { backupCalled = true; deleteFlag = g; };
 			_tier.RenameAnnotationSegmentFile(new Segment(null, 3f, 4.5f), 6.234f, 10.587f);
 			Assert.IsFalse(backupCalled);
+			Assert.IsTrue(deleteFlag);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -608,14 +610,16 @@ namespace SayMoreTests.Transcription.Model
 			SetupSegmentFileFolders();
 
 			bool backupCalled = false;
-			_tier.BackupOralAnnotationSegmentFileAction = (f => backupCalled = true);
+			bool deleteFlag = true;
+			_tier.BackupOralAnnotationSegmentFileAction = (f, g) => { backupCalled = true; deleteFlag = g; };
 			_tier.RenameAnnotationSegmentFile(new Segment(null, 2f, 4.5f), 6.234f, 10.587f);
 			Assert.IsTrue(backupCalled);
+			Assert.IsFalse(deleteFlag);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void DeleteAnnotationSegmentFile_DeleteCarerfulSpeech()
+		public void DeleteAnnotationSegmentFile_DeleteCarefulSpeech()
 		{
 			SetupSegmentFileFolders();
 
@@ -640,9 +644,11 @@ namespace SayMoreTests.Transcription.Model
 			SetupSegmentFileFolders();
 
 			bool backupCalled = false;
-			_tier.BackupOralAnnotationSegmentFileAction = (f => backupCalled = true);
+			bool deleteFlag = false;
+			_tier.BackupOralAnnotationSegmentFileAction = (f, g) => { backupCalled = true; deleteFlag = g; };
 			_tier.DeleteAnnotationSegmentFile(new Segment(null, 3f, 4.5f));
 			Assert.IsFalse(backupCalled);
+			Assert.IsFalse(deleteFlag);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -652,9 +658,11 @@ namespace SayMoreTests.Transcription.Model
 			SetupSegmentFileFolders();
 
 			bool backupCalled = false;
-			_tier.BackupOralAnnotationSegmentFileAction = (f => backupCalled = true);
+			bool deleteFlag = false;
+			_tier.BackupOralAnnotationSegmentFileAction = (f, g) => { backupCalled = true; deleteFlag = g; };
 			_tier.DeleteAnnotationSegmentFile(new Segment(null, 2f, 4.5f));
 			Assert.IsTrue(backupCalled);
+			Assert.IsTrue(deleteFlag);
 		}
 
 		/// ------------------------------------------------------------------------------------

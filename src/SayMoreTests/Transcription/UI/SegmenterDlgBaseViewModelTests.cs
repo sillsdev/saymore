@@ -123,7 +123,7 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void BackupOralAnnotationSegmentFile_DestFileAlreadyExists_DoesNotCopy()
+		public void BackupOralAnnotationSegmentFile_DestFileAlreadyExists_MakesNewBackupVersion()
 		{
 			var srcFile = Path.Combine(_model.OralAnnotationsFolder, "one.wav");
 			var dstFile = Path.Combine(_model.TempOralAnnotationsFolder, "one.wav");
@@ -138,7 +138,7 @@ namespace SayMoreTests.Transcription.UI
 			stream.WriteByte(0xFF);
 			stream.Close();
 
-			_model.BackupOralAnnotationSegmentFile(srcFile);
+			_model.BackupOralAnnotationSegmentFile(srcFile, false);
 
 			try
 			{
@@ -149,25 +149,21 @@ namespace SayMoreTests.Transcription.UI
 			{
 				stream.Close();
 			}
+
+			try
+			{
+				stream = File.OpenRead(dstFile +  ".b1");
+				Assert.AreEqual(0, stream.ReadByte());
+			}
+			finally
+			{
+				stream.Close();
+			}
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void BackupOralAnnotationSegmentFile_SrcFileDidNotAlreadyExists_DoesNotCopy()
-		//{
-		//    var srcFile = Path.Combine(_model.OralAnnotationsFolder, "one.wav");
-		//    var dstFile = Path.Combine(_model.TempOralAnnotationsFolder, "one.wav");
-
-		//    Directory.CreateDirectory(_model.TempOralAnnotationsFolder);
-
-		//    Assert.IsFalse(File.Exists(dstFile));
-		//    _model.BackupOralAnnotationSegmentFile(srcFile);
-		//    Assert.IsFalse(File.Exists(dstFile));
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void BackupOralAnnotationSegmentFile_SrcFileExistsDestFileDoesNotAlreadyExists_CopiesThem()
+		public void BackupOralAnnotationSegmentFile_SrcFilesExistDestFilesDoNotAlreadyExist_CopiesThem()
 		{
 			var srcFile1 = Path.Combine(_model.OralAnnotationsFolder, "one_Careful.wav");
 			var srcFile2 = Path.Combine(_model.OralAnnotationsFolder, "one_Translation.wav");
@@ -177,11 +173,11 @@ namespace SayMoreTests.Transcription.UI
 			CreateNewModel();
 
 			Assert.IsFalse(File.Exists(Path.Combine(_model.TempOralAnnotationsFolder, "one_Careful.wav")));
-			_model.BackupOralAnnotationSegmentFile(srcFile1);
+			_model.BackupOralAnnotationSegmentFile(srcFile1, false);
 			Assert.IsTrue(File.Exists(Path.Combine(_model.TempOralAnnotationsFolder, "one_Careful.wav")));
 
 			Assert.IsFalse(File.Exists(Path.Combine(_model.TempOralAnnotationsFolder, "one_Translation.wav")));
-			_model.BackupOralAnnotationSegmentFile(srcFile2);
+			_model.BackupOralAnnotationSegmentFile(srcFile2, false);
 			Assert.IsTrue(File.Exists(Path.Combine(_model.TempOralAnnotationsFolder, "one_Translation.wav")));
 		}
 
@@ -277,10 +273,8 @@ namespace SayMoreTests.Transcription.UI
 			File.OpenWrite(file1).Close();
 			File.OpenWrite(file2).Close();
 			CreateNewModel();
-			_model.BackupOralAnnotationSegmentFile(file1);
-			_model.BackupOralAnnotationSegmentFile(file2);
-			File.Delete(file1);
-			File.Delete(file2);
+			_model.BackupOralAnnotationSegmentFile(file1, true);
+			_model.BackupOralAnnotationSegmentFile(file2, true);
 
 			Assert.IsFalse(File.Exists(file1));
 			Assert.IsFalse(File.Exists(file2));
@@ -289,6 +283,52 @@ namespace SayMoreTests.Transcription.UI
 
 			Assert.IsTrue(File.Exists(file1));
 			Assert.IsTrue(File.Exists(file2));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RestoreOriginalRecordedAnnotations_HasMultipleVersionsOfFile_RestoresOriginalVersion()
+		{
+			var srcFile = Path.Combine(_model.OralAnnotationsFolder, "one_Careful.wav");
+			var stream = File.OpenWrite(srcFile);
+			stream.WriteByte(0xAA);
+			stream.Close();
+
+			CreateNewModel();
+
+			_model.BackupOralAnnotationSegmentFile(srcFile, true); // back up original
+			Assert.IsFalse(File.Exists(srcFile));
+
+			stream = File.OpenWrite(srcFile);
+			stream.WriteByte(0);
+			stream.Close();
+
+			Assert.IsTrue(File.Exists(srcFile));
+
+			_model.BackupOralAnnotationSegmentFile(srcFile, true); // back up 2nd version
+			Assert.IsFalse(File.Exists(srcFile));
+
+			stream = File.OpenWrite(srcFile);
+			stream.WriteByte(0xFF);
+			stream.Close();
+
+			_model.BackupOralAnnotationSegmentFile(srcFile, false); // back up 3rd version
+
+			Assert.IsTrue(File.Exists(srcFile));
+
+			_model.RestoreOriginalRecordedAnnotations();
+
+			Assert.IsTrue(File.Exists(srcFile));
+
+			try
+			{
+				stream = File.OpenRead(srcFile);
+				Assert.AreEqual(0xAA, stream.ReadByte());
+			}
+			finally
+			{
+				stream.Close();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

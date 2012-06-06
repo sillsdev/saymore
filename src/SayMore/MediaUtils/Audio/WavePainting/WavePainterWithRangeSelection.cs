@@ -127,10 +127,7 @@ namespace SayMore.Media.Audio
 					e.Graphics.FillRectangle(brush, rcSegmentedArea);
 			}
 
-			if (!SegmentBoundaries.Any())
-				return;
-
-			var x = ConvertTimeToXCoordinate(SegmentBoundaries.Last()) + 1;
+			var x = (!SegmentBoundaries.Any()) ? 0 : ConvertTimeToXCoordinate(SegmentBoundaries.Last()) + 1;
 			if (x > rc.Right)
 				return;
 

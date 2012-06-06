@@ -21,7 +21,7 @@ namespace SayMore.Transcription.Model
 		private readonly TimeSpan _totalTime;
 		public string MediaFileName { get; protected set; }
 		public bool ReadOnlyTimeRanges { get; set; }
-		public Action<string> BackupOralAnnotationSegmentFileAction { get; set; }
+		public Action<string, bool> BackupOralAnnotationSegmentFileAction { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public TimeTier(string filename) : this("Source", filename)
@@ -317,7 +317,7 @@ namespace SayMore.Transcription.Model
 				if (File.Exists(oldSegmentFilePath))
 				{
 					if (BackupOralAnnotationSegmentFileAction != null)
-						BackupOralAnnotationSegmentFileAction(oldSegmentFilePath);
+						BackupOralAnnotationSegmentFileAction(oldSegmentFilePath, false);
 
 					File.Move(oldSegmentFilePath, Path.Combine(SegmentFileFolder,
 						ComputeFileNameForCarefulSpeechSegment(newStart, newEnd)));
@@ -333,7 +333,7 @@ namespace SayMore.Transcription.Model
 				if (File.Exists(oldSegmentFilePath))
 				{
 					if (BackupOralAnnotationSegmentFileAction != null)
-						BackupOralAnnotationSegmentFileAction(oldSegmentFilePath);
+						BackupOralAnnotationSegmentFileAction(oldSegmentFilePath, false);
 
 					File.Move(oldSegmentFilePath, Path.Combine(SegmentFileFolder,
 						ComputeFileNameForOralTranslationSegment(newStart, newEnd)));
@@ -351,9 +351,9 @@ namespace SayMore.Transcription.Model
 				if (File.Exists(path))
 				{
 					if (BackupOralAnnotationSegmentFileAction != null)
-						BackupOralAnnotationSegmentFileAction(path);
-
-					File.Delete(path);
+						BackupOralAnnotationSegmentFileAction(path, true);
+					else
+						File.Delete(path);
 				}
 			}
 			catch { }
@@ -364,9 +364,9 @@ namespace SayMore.Transcription.Model
 				if (File.Exists(path))
 				{
 					if (BackupOralAnnotationSegmentFileAction != null)
-						BackupOralAnnotationSegmentFileAction(path);
-
-					File.Delete(path);
+						BackupOralAnnotationSegmentFileAction(path, true);
+					else
+						File.Delete(path);
 				}
 			}
 			catch { }

@@ -835,7 +835,8 @@ namespace SayMore.Transcription.UI
 				var timeRangeToInvalidate = ViewModel.TimeRangeForUndo;
 				ViewModel.Undo();
 				_spaceBarMode = SpaceBarMode.Listen;
-				_waveControl.InvalidateIfNeeded(WavePainter.GetUpperRectangleForTimeRange(timeRangeToInvalidate));
+				_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
+				_waveControl.InvalidateIfNeeded(WavePainter.GetFullRectangleForTimeRange(timeRangeToInvalidate));
 
 				if (_labelFinishedHint.Visible)
 				{
@@ -884,8 +885,6 @@ namespace SayMore.Transcription.UI
 				return;
 
 			var segMouseOver = GetHighlightedSegment();
-			ViewModel.TemporarilySaveAnnotationBeingRerecorded(segMouseOver.TimeRange);
-			ViewModel.EraseAnnotation(segMouseOver);
 			_reRecording = true;
 			BeginRecording(segMouseOver.TimeRange);
 		}

@@ -151,6 +151,8 @@ namespace SayMore.Transcription.UI
 
 		#endregion
 
+		private const string kBackupVersionPrefix = ".b";
+
 		public ComponentFile ComponentFile { get; protected set; }
 		public WaveStream OrigWaveStream { get; protected set; }
 		public bool HaveSegmentBoundaries { get; set; }
@@ -226,7 +228,19 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void BackupOralAnnotationSegmentFile(string srcfile)
+		protected virtual void EraseAnnotation(string path)
+		{
+			FileSystemUtils.WaitForFileRelease(path);
+
+			if (File.Exists(path))
+			{
+				File.Delete(path);
+				SegmentsAnnotationSamplesToDraw.RemoveWhere(h => h.AudioFilePath == path);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void BackupOralAnnotationSegmentFile(string srcfile, bool deleteAfterBackingUp)
 		{
 			var fileName = Path.GetFileName(srcfile);
 			if (fileName == null)
@@ -237,20 +251,46 @@ namespace SayMore.Transcription.UI
 			// available sequence number.
 			if (File.Exists(dstFile))
 			{
-				return; // TODO: Remove this line
-				// TODO: Implement this to allow successive undo's of re-recording annotations
-				//int latestBackup = GetLatestBackupNumberForFile(dstFile);
-				//dstFile += latestBackup + 1;
+				int latestBackup = GetLatestBackupNumberForFile(dstFile);
+				dstFile += kBackupVersionPrefix + (latestBackup + 1);
 			}
-
-			// TODO: Remove these two lines to make undo work:
-			if (_oralAnnotationFilesBeforeChanges.All(f => Path.GetFileName(f) != fileName))
-				return;
 
 			if (!Directory.Exists(TempOralAnnotationsFolder))
 				FileSystemUtils.CreateDirectory(TempOralAnnotationsFolder);
 
 			CopyFilesViewModel.Copy(srcfile, dstFile);
+
+			if (deleteAfterBackingUp)
+				EraseAnnotation(srcfile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void RestorePreviousVersionOfAnnotation(string dstFile)
+		{
+			var backupFile = Path.Combine(TempOralAnnotationsFolder, Path.GetFileName(dstFile));
+			if (File.Exists(backupFile))
+			{
+				int versionNumber = GetLatestBackupNumberForFile(dstFile);
+				if (versionNumber > 0)
+					backupFile += kBackupVersionPrefix + versionNumber;
+				CopyFilesViewModel.Copy(backupFile, dstFile, true);
+			}
+			else
+				File.Delete(dstFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private int GetLatestBackupNumberForFile(string dstFile)
+		{
+			int max = 0;
+			foreach (var bakFile in Directory.EnumerateFiles(Path.GetDirectoryName(dstFile), Path.GetFileName(dstFile) + kBackupVersionPrefix + "*"))
+			{
+				var ich = bakFile.LastIndexOf(kBackupVersionPrefix, 0, StringComparison.Ordinal) + 1;
+				int backupNum;
+				if (ich > 0 && ich < bakFile.Length && Int32.TryParse(bakFile.Substring(ich + 1), out backupNum))
+					max = Math.Max(max, backupNum);
+			}
+			return max;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -387,10 +427,12 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool UpdateSegmentBoundary(TimeSpan oldEndTime, TimeSpan newEndTime)
+		protected virtual bool UpdateSegmentBoundary(TimeSpan oldEndTime, TimeSpan newEndTime)
 		{
-			var seg = TimeTier.Segments.First(s => s.TimeRange.End == oldEndTime);
-			// TODO: Figure out why dragging new segment end boundary to the left can cause seg to be null (resulting in a crash).
+			var seg = TimeTier.Segments.FirstOrDefault(s => s.TimeRange.End == oldEndTime);
+			if (seg == null)
+				return false;
+
 			var origTimeRange = seg.TimeRange.Copy();
 
 			var result = TimeTier.ChangeSegmentsEndBoundary(

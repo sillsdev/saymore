@@ -85,23 +85,15 @@ namespace SayMore.Utilities
 			var timeout = DateTime.Now.AddMilliseconds(millisecondsToWait);
 
 			// Now wait until the process lets go of the file.
-			while (true)
+			while (DateTime.Now < timeout)
 			{
-				try
-				{
-					if (callingThread == Thread.CurrentThread)
-						Application.DoEvents();
-					else
-						Thread.Sleep(100);
+				if (!IsFileLocked(filePath))
+					return;
 
-					if (!IsFileLocked(filePath) || DateTime.Now >= timeout)
-						return;
-				}
-				catch
-				{
-					if (DateTime.Now >= timeout)
-						return;
-				}
+				if (callingThread == Thread.CurrentThread)
+					Application.DoEvents();
+				else
+					Thread.Sleep(100);
 			}
 		}
 

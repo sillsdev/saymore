@@ -482,10 +482,14 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class AnnotationFileType : FileTypeWithContributors
 	{
+		protected readonly Func<TextAnnotationEditor.Factory> _textAnnotationEditorFactoryLazy;
+
 		/// ------------------------------------------------------------------------------------
-		public AnnotationFileType(Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
+		public AnnotationFileType(Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy,
+			Func<TextAnnotationEditor.Factory> textAnnotationEditorFactoryLazy)
 			: base("Annotations", GetIsAnAnnotationFile, contributorsEditorFactoryLazy)
 		{
+			_textAnnotationEditorFactoryLazy = textAnnotationEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -500,7 +504,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			yield return new TextAnnotationEditor(file, "Annotation");
+			yield return _textAnnotationEditorFactoryLazy()(file, "Annotation");
 			//yield return _contributorsEditorFactoryLazy()(file, null);
 			//yield return new NotesEditor(file);
 		}

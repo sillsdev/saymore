@@ -128,6 +128,25 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void SetFonts(Font transcriptionFont, Font freeTranslationFont)
+		{
+			foreach (var col in GetColumns())
+			{
+				if (col is TranscriptionAnnotationColumn)
+					((TranscriptionAnnotationColumn)col).DefaultCellStyle.Font = transcriptionFont;
+				else if (col is TranslationAnnotationColumn)
+					((TranslationAnnotationColumn)col).DefaultCellStyle.Font = freeTranslationFont;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
+		{
+			e.CellStyle.Font = Columns[e.ColumnIndex].DefaultCellStyle.Font;
+			base.OnCellFormatting(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// When the user is in a transcription cell, this will intercept the tab and shift+tab
 		/// keys so they move to the next transcription cell or previous transcription cell
@@ -157,38 +176,6 @@ namespace SayMore.Transcription.UI
 			}
 
 			return base.ProcessCmdKey(ref msg, keyData);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public Font TranscriptionFont
-		{
-			get
-			{
-				return GetColumns().First(c =>
-					c is TextAnnotationColumn).DefaultCellStyle.Font ?? DefaultCellStyle.Font;
-			}
-			set
-			{
-				var col = GetColumns().First(c => c is TextAnnotationColumn);
-				DataGridViewCellStyle cellStyle = col.DefaultCellStyle.Clone();
-				cellStyle.Font = (value ?? DefaultCellStyle.Font);
-				col.DefaultCellStyle = cellStyle;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public Font FreeTranslationFont
-		{
-			get
-			{
-				return GetColumns().First(c =>
-					c is TranslationAnnotationColumn).DefaultCellStyle.Font ?? DefaultCellStyle.Font;
-			}
-			set
-			{
-				GetColumns().First(c => c is TranslationAnnotationColumn).DefaultCellStyle.Font =
-					(value ?? DefaultCellStyle.Font);
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -28,11 +28,8 @@ namespace SayMore.Model
 
 		public string Name { get; protected set; }
 
-		public Font TranscriptionFont { get; protected set; }
-		public Font FreeTranslationFont { get; protected set; }
-
-		private string _transcriptionFont;
-		private string _freeTranslationFont;
+		public Font TranscriptionFont { get; set; }
+		public Font FreeTranslationFont { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

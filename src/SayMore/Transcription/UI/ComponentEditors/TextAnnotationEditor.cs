@@ -11,19 +11,24 @@ using SayMore.Transcription.Model;
 using SayMore.UI.ComponentEditors;
 using SayMore.Media.MPlayer;
 using SilTools;
+using SayMore.Model;
 
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class TextAnnotationEditor : EditorBase
 	{
+		public delegate TextAnnotationEditor Factory(ComponentFile file, string imageKey);
+
 		private readonly TextAnnotationEditorGrid _grid;
 		private readonly VideoPanel _videoPanel;
 		private FileSystemWatcher _watcher;
 		private bool _isFirstTimeActivated = true;
+		private Project _project;
 
 		/// ------------------------------------------------------------------------------------
-		public TextAnnotationEditor(ComponentFile file, string imageKey) : base(file, null, imageKey)
+		public TextAnnotationEditor(ComponentFile file, string imageKey, Project project)
+			: base(file, null, imageKey)
 		{
 			InitializeComponent();
 			Name = "Annotations";
@@ -31,6 +36,7 @@ namespace SayMore.Transcription.UI
 
 			_comboPlaybackSpeed.Font = Program.DialogFont;
 
+			_project = project;
 			_grid = new TextAnnotationEditorGrid();
 			_grid.Dock = DockStyle.Fill;
 			_splitter.Panel2.Controls.Add(_grid);
@@ -127,6 +133,7 @@ namespace SayMore.Transcription.UI
 			}
 
 			_grid.Load(annotationFile);
+			_grid.SetFonts(_project.TranscriptionFont, _project.FreeTranslationFont);
 
 			_buttonExport.Enabled = (_grid.RowCount > 0);
 
@@ -274,6 +281,7 @@ namespace SayMore.Transcription.UI
 			{
 				_file.Load();
 				_grid.Load(_file as AnnotationComponentFile);
+				_grid.SetFonts(_project.TranscriptionFont, _project.FreeTranslationFont);
 			}));
 		}
 
@@ -319,19 +327,24 @@ namespace SayMore.Transcription.UI
 			base.HandleStringsLocalized();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void HandleFontClick(object sender, ToolStripItemClickedEventArgs e)
 		{
 			using (var dlg = new FontDialog())
 			{
-				dlg.Font = (e.ClickedItem == _buttonTranscriptionFont ? _grid.TranscriptionFont :
-					_grid.FreeTranslationFont);
+				dlg.Font = (e.ClickedItem == _buttonTranscriptionFont ? _project.TranscriptionFont :
+					_project.FreeTranslationFont);
 				if (dlg.ShowDialog() != DialogResult.OK)
 					return;
 
 				if (e.ClickedItem == _buttonTranscriptionFont)
-					_grid.TranscriptionFont = dlg.Font;
+					_project.TranscriptionFont = dlg.Font;
 				else
-					_grid.FreeTranslationFont = dlg.Font;
+					_project.FreeTranslationFont = dlg.Font;
+
+				_project.Save();
+				_grid.SetFonts(_project.TranscriptionFont, _project.FreeTranslationFont);
+				_grid.Refresh();
 			}
 		}
 	}

@@ -433,7 +433,7 @@ namespace SayMoreTests.Model.Files
 			var annotationPath = Path.Combine(_parentFolder.Path, filename + ".annotations.eaf");
 			AnnotationFileHelperTests.CreateTestEaf(annotationPath);
 			var annotationFile = new AnnotationComponentFile(null, annotationPath,
-				null, new AnnotationFileType(null), null);
+				null, new AnnotationFileType(null, null), null);
 
 			file.SetAnnotationFile(annotationFile);
 			return file;
@@ -448,7 +448,7 @@ namespace SayMoreTests.Model.Files
 			var annotationPath = Path.Combine(_parentFolder.Path, filename + ".annotations.eaf");
 			AnnotationFileHelperTests.CreateTestEaf(annotationPath);
 			var annotationFile = new AnnotationComponentFile(null, annotationPath,
-				null, new AnnotationFileType(null), null);
+				null, new AnnotationFileType(null, null), null);
 
 			file.SetAnnotationFile(annotationFile);
 			return file;

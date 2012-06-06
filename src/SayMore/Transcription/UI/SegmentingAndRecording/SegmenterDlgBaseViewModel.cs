@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using Localization;
 using NAudio.Wave;
 using Palaso.Reporting;
 using SayMore.Media.Audio;
@@ -80,13 +81,35 @@ namespace SayMore.Transcription.UI
 			/// ------------------------------------------------------------------------------------
 			public override string ToString()
 			{
+				string fmt;
 				switch (Type)
 				{
-					case SegmentChangeType.Deletion: return "Deletion of segment " + OriginalRange;
-					case SegmentChangeType.Addition: return "Addition of segment " + NewRange;
-					case SegmentChangeType.EndBoundaryMoved: return "Segment boundary change from " + OriginalRange + " to " + NewRange;
-					case SegmentChangeType.AnnotationAdded: return "Annotation addition " + OriginalRange;
-					default: return "Unknown action";
+					case SegmentChangeType.Deletion:
+						fmt = LocalizationManager.GetString(
+							"DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentDeletion",
+							"Deletion of segment {0}",
+							"Parameter is time range of deleted segment.");
+						return String.Format(fmt, OriginalRange);
+					case SegmentChangeType.Addition:
+						fmt = LocalizationManager.GetString(
+							"DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentAddition",
+							"Addition of segment {0}",
+							"Parameter is time range of added segment.");
+						return String.Format(fmt, OriginalRange);
+					case SegmentChangeType.EndBoundaryMoved:
+						fmt = LocalizationManager.GetString(
+							"DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentBoundaryMove",
+							"Segment boundary change from {0} to {1}",
+							"Parameter 0 is the original time range of the segment. Parameter 1 is the new time range.");
+						return String.Format(fmt, OriginalRange, NewRange);
+					case SegmentChangeType.AnnotationAdded:
+						fmt = LocalizationManager.GetString(
+							"DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.AnnotationRecording",
+							"Recording annotation for segment {0}",
+							"Parameter is time range of the segment for which the annotation was recorded.");
+						return String.Format(fmt, OriginalRange);
+					default:
+						return "Unknown action";
 				}
 			}
 		}
@@ -116,6 +139,12 @@ namespace SayMore.Transcription.UI
 			public TimeRange TimeRangeForUndo
 			{
 				get { return (_undoStack.Count == 0) ? null : _undoStack.Peek().NewRange; }
+			}
+
+			/// ------------------------------------------------------------------------------------
+			public string DescriptionForUndo
+			{
+				get { return (_undoStack.Count == 0) ? null : _undoStack.Peek().ToString(); }
 			}
 
 			/// ------------------------------------------------------------------------------------
@@ -387,6 +416,12 @@ namespace SayMore.Transcription.UI
 		public TimeRange TimeRangeForUndo
 		{
 			get { return _undoStack.TimeRangeForUndo; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string DescriptionForUndo
+		{
+			get { return _undoStack.DescriptionForUndo; }
 		}
 
 		/// ------------------------------------------------------------------------------------

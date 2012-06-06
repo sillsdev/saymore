@@ -29,7 +29,8 @@ namespace SayMore.Transcription.UI
 			this._labelListenHint = new System.Windows.Forms.Label();
 			this._labelFinishedHint = new System.Windows.Forms.Label();
 			this._pictureFinished = new System.Windows.Forms.PictureBox();
-			this._labelUndoButton = new System.Windows.Forms.Label();
+			this._lastSegmentMenuStrip = new System.Windows.Forms.MenuStrip();
+			this._undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._scrollTimer = new System.Windows.Forms.Timer(this.components);
 			this._cursorBlinkTimer = new System.Windows.Forms.Timer(this.components);
 			this._tableLayoutRecordAnnotations = new System.Windows.Forms.TableLayoutPanel();
@@ -39,6 +40,7 @@ namespace SayMore.Transcription.UI
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureFinished)).BeginInit();
+			this._lastSegmentMenuStrip.SuspendLayout();
 			this._tableLayoutRecordAnnotations.SuspendLayout();
 			this._tableLayoutMediaButtons.SuspendLayout();
 			this.SuspendLayout();
@@ -221,27 +223,41 @@ namespace SayMore.Transcription.UI
 			this._pictureFinished.TabStop = false;
 			this._pictureFinished.Visible = false;
 			//
-			// _labelUndoButton
+			// _lastSegmentMenuStrip
 			//
-			this._labelUndoButton.AutoSize = true;
-			this._labelUndoButton.BackColor = System.Drawing.Color.AliceBlue;
-			this._labelUndoButton.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this._labelUndoButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this._labelUndoButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
-			this._labelUndoButton.Image = global::SayMore.Properties.Resources.undo;
-			this._labelUndoButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.locExtender.SetLocalizableToolTip(this._labelUndoButton, null);
-			this.locExtender.SetLocalizationComment(this._labelUndoButton, null);
-			this.locExtender.SetLocalizingId(this._labelUndoButton, "label1.label1");
-			this._labelUndoButton.Location = new System.Drawing.Point(90, 3);
-			this._labelUndoButton.MinimumSize = new System.Drawing.Size(20, 20);
-			this._labelUndoButton.Name = "_labelUndoButton";
-			this._labelUndoButton.Size = new System.Drawing.Size(35, 20);
-			this._labelUndoButton.TabIndex = 13;
-			this._labelUndoButton.Text = "Undo";
-			this._labelUndoButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this._labelUndoButton.Visible = false;
-			this._labelUndoButton.Click += new System.EventHandler(this.HandleUndoButtonClick);
+			this._lastSegmentMenuStrip.AllowMerge = false;
+			this._lastSegmentMenuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
+			this._lastSegmentMenuStrip.Dock = System.Windows.Forms.DockStyle.None;
+			this._lastSegmentMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this._undoToolStripMenuItem});
+			this.locExtender.SetLocalizableToolTip(this._lastSegmentMenuStrip, null);
+			this.locExtender.SetLocalizationComment(this._lastSegmentMenuStrip, null);
+			this.locExtender.SetLocalizationPriority(this._lastSegmentMenuStrip, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._lastSegmentMenuStrip, "OralAnnotationRecorderBaseDlg._lastSegmentMenuStrip");
+			this._lastSegmentMenuStrip.Location = new System.Drawing.Point(169, 5);
+			this._lastSegmentMenuStrip.Name = "_lastSegmentMenuStrip";
+			this._lastSegmentMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
+			this._lastSegmentMenuStrip.ShowItemToolTips = true;
+			this._lastSegmentMenuStrip.Size = new System.Drawing.Size(155, 24);
+			this._lastSegmentMenuStrip.TabIndex = 15;
+			this._lastSegmentMenuStrip.Visible = false;
+			//
+			// _undoToolStripMenuItem
+			//
+			this._undoToolStripMenuItem.BackColor = System.Drawing.Color.AliceBlue;
+			this._undoToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
+			this._undoToolStripMenuItem.Image = global::SayMore.Properties.Resources.undo;
+			this.locExtender.SetLocalizableToolTip(this._undoToolStripMenuItem, null);
+			this.locExtender.SetLocalizationComment(this._undoToolStripMenuItem, null);
+			this.locExtender.SetLocalizationPriority(this._undoToolStripMenuItem, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._undoToolStripMenuItem, "OralAnnotationRecorderBaseDlg._undoToolStripMenuItem");
+			this._undoToolStripMenuItem.Name = "_undoToolStripMenuItem";
+			this._undoToolStripMenuItem.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+			this._undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+			this._undoToolStripMenuItem.ShowShortcutKeys = false;
+			this._undoToolStripMenuItem.Size = new System.Drawing.Size(60, 21);
+			this._undoToolStripMenuItem.Text = "Undo";
+			this._undoToolStripMenuItem.Click += new System.EventHandler(this.HandleUndoButtonClick);
 			//
 			// _scrollTimer
 			//
@@ -299,7 +315,7 @@ namespace SayMore.Transcription.UI
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(703, 412);
-			this.Controls.Add(this._labelUndoButton);
+			this.Controls.Add(this._lastSegmentMenuStrip);
 			this.Controls.Add(this._pictureFinished);
 			this.Controls.Add(this._labelFinishedHint);
 			this.Controls.Add(this._labelRecordHint);
@@ -312,6 +328,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this, "Localized in subclass");
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CarefulSpeechAnnotationDlg.WindowTitle");
+			this.MainMenuStrip = this._lastSegmentMenuStrip;
 			this.MinimumSize = new System.Drawing.Size(330, 415);
 			this.Name = "OralAnnotationRecorderBaseDlg";
 			this.Opacity = 1D;
@@ -323,11 +340,13 @@ namespace SayMore.Transcription.UI
 			this.Controls.SetChildIndex(this._labelRecordHint, 0);
 			this.Controls.SetChildIndex(this._labelFinishedHint, 0);
 			this.Controls.SetChildIndex(this._pictureFinished, 0);
-			this.Controls.SetChildIndex(this._labelUndoButton, 0);
+			this.Controls.SetChildIndex(this._lastSegmentMenuStrip, 0);
 			this._panelListen.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureFinished)).EndInit();
+			this._lastSegmentMenuStrip.ResumeLayout(false);
+			this._lastSegmentMenuStrip.PerformLayout();
 			this._tableLayoutRecordAnnotations.ResumeLayout(false);
 			this._tableLayoutMediaButtons.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -353,6 +372,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Timer _checkForRecordingDevice;
 		private System.Windows.Forms.Panel _panelListen;
 		private System.Windows.Forms.PictureBox _pictureFinished;
-		private System.Windows.Forms.Label _labelUndoButton;
+		private System.Windows.Forms.MenuStrip _lastSegmentMenuStrip;
+		private System.Windows.Forms.ToolStripMenuItem _undoToolStripMenuItem;
 	}
 }

@@ -297,11 +297,11 @@ namespace SayMore.Transcription.UI
 			_labelFinishedHint.Font = FontHelper.MakeFont(Program.DialogFont, 10, FontStyle.Bold);
 			_labelListenButton.Font = Program.DialogFont;
 			_labelRecordButton.Font = Program.DialogFont;
-			_labelUndoButton.Font = Program.DialogFont;
-			var undoButtonSize = _labelUndoButton.Size;
-			undoButtonSize.Width += _labelUndoButton.MinimumSize.Width;
-			_labelUndoButton.AutoSize = false;
-			_labelUndoButton.Size = undoButtonSize;
+			_undoToolStripMenuItem.Font = Program.DialogFont;
+			//var undoButtonSize = _labelUndoButton.Size;
+			//undoButtonSize.Width += _labelUndoButton.MinimumSize.Width;
+			//_labelUndoButton.AutoSize = false;
+			//_labelUndoButton.Size = undoButtonSize;
 			_labelSourceRecording.ForeColor = _labelListenButton.ForeColor;
 
 			_annotationSegmentFont = FontHelper.MakeFont(Program.DialogFont, 8, FontStyle.Bold);
@@ -449,12 +449,15 @@ namespace SayMore.Transcription.UI
 		protected override void UpdateDisplay()
 		{
 			var undoableSegmentRange = ViewModel.TimeRangeForUndo;
-			_labelUndoButton.Visible = undoableSegmentRange != null;
-			if (_labelUndoButton.Visible)
+			_lastSegmentMenuStrip.Visible = undoableSegmentRange != null;
+			if (_lastSegmentMenuStrip.Visible)
 			{
-				_labelUndoButton.Location = new Point(_waveControl.Left +
-					WavePainter.ConvertTimeToXCoordinate(undoableSegmentRange.End) - _labelUndoButton.Width - 5,
+				_lastSegmentMenuStrip.Location = new Point(_waveControl.Left +
+					WavePainter.ConvertTimeToXCoordinate(undoableSegmentRange.End) - _lastSegmentMenuStrip.Width - 5,
 					_waveControl.Top + 5);
+				_undoToolStripMenuItem.ToolTipText = String.Format(LocalizationManager.GetString(
+					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UndoToolTipMsg",
+					"Undo: {0} (Ctrl-Z)"), ViewModel.DescriptionForUndo);
 			}
 
 			_labelListenButton.Image = (_waveControl.IsPlaying && _playingBackUsingHoldDownButton ?
@@ -1521,8 +1524,6 @@ namespace SayMore.Transcription.UI
 			if (!ContainsFocus || _waveControl.IsBoundaryMovingInProgress)
 				return true;
 
-			// Check that SHIFT is not down too, because Ctrl+Shift on a UI item brings up
-			// the localization dialog box. We don't want it to also start playback.
 			if (key == Keys.Space)
 			{
 				if (_spaceKeyIsDown || IsBoundaryMovingInProgressUsingArrowKeys)

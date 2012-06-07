@@ -220,6 +220,11 @@ namespace SayMore.Transcription.UI
 				Settings.Default.OralAnnotationsFolderSuffix;
 
 			TempOralAnnotationsFolder = Path.Combine(Path.GetTempPath(), "SayMoreOralAnnotations");
+			if (Directory.Exists(TempOralAnnotationsFolder))
+			{
+				foreach (var tempFile in Directory.EnumerateFiles(TempOralAnnotationsFolder))
+					File.Delete(tempFile);
+			}
 			_oralAnnotationFilesBeforeChanges = GetListOfOralAnnotationSegmentFilesBeforeChanges().ToList();
 			TimeTier.BackupOralAnnotationSegmentFileAction = BackupOralAnnotationSegmentFile;
 		}
@@ -302,7 +307,9 @@ namespace SayMore.Transcription.UI
 				int versionNumber = GetLatestBackupNumberForFile(dstFile);
 				if (versionNumber > 0)
 					backupFile += kBackupVersionPrefix + versionNumber;
-				CopyFilesViewModel.Copy(backupFile, dstFile, true);
+				if (File.Exists(dstFile))
+					File.Delete(dstFile);
+				File.Move(backupFile, dstFile);
 			}
 			else
 				File.Delete(dstFile);
@@ -312,9 +319,9 @@ namespace SayMore.Transcription.UI
 		private int GetLatestBackupNumberForFile(string dstFile)
 		{
 			int max = 0;
-			foreach (var bakFile in Directory.EnumerateFiles(Path.GetDirectoryName(dstFile), Path.GetFileName(dstFile) + kBackupVersionPrefix + "*"))
+			foreach (var bakFile in Directory.EnumerateFiles(TempOralAnnotationsFolder, Path.GetFileName(dstFile) + kBackupVersionPrefix + "*"))
 			{
-				var ich = bakFile.LastIndexOf(kBackupVersionPrefix, 0, StringComparison.Ordinal) + 1;
+				var ich = bakFile.LastIndexOf(kBackupVersionPrefix, bakFile.Length, StringComparison.Ordinal) + 1;
 				int backupNum;
 				if (ich > 0 && ich < bakFile.Length && Int32.TryParse(bakFile.Substring(ich + 1), out backupNum))
 					max = Math.Max(max, backupNum);

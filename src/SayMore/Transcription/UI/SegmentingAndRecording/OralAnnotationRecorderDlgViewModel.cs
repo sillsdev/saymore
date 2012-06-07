@@ -325,8 +325,6 @@ namespace SayMore.Transcription.UI
 					c => RestorePreviousVersionOfAnnotation(timeRange)));
 			}
 
-			//DeleteTemporarilySavedAnnotation();
-
 			if (isRecorderInErrorState)
 				return StopAnnotationRecordingResult.RecordingError;
 

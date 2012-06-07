@@ -472,7 +472,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public override OralAnnotationType AnnotationType
 		{
-			get { return OralAnnotationType.Translation; }
+			get { return OralAnnotationType.CarefulSpeech; }
 		}
 	}
 	#endregion

@@ -131,6 +131,7 @@ namespace SayMore.Transcription.UI
 			this._labelErrorInfo.Size = new System.Drawing.Size(215, 13);
 			this._labelErrorInfo.TabIndex = 2;
 			this._labelErrorInfo.Text = "This text will be set programmatically";
+			this._labelErrorInfo.Visible = false;
 			//
 			// _labelRecordHint
 			//

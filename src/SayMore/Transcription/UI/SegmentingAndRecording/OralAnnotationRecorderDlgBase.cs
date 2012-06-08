@@ -454,7 +454,7 @@ namespace SayMore.Transcription.UI
 		protected override void UpdateDisplay()
 		{
 			var undoableSegmentRange = ViewModel.TimeRangeForUndo;
-			_lastSegmentMenuStrip.Visible = undoableSegmentRange != null;
+			_lastSegmentMenuStrip.Visible = _undoToolStripMenuItem.Enabled = (undoableSegmentRange != null);
 			if (_lastSegmentMenuStrip.Visible)
 			{
 				_lastSegmentMenuStrip.Location = new Point(_waveControl.Left +
@@ -497,7 +497,7 @@ namespace SayMore.Transcription.UI
 			{
 				UdateErrorMessageDisplay();
 
-				_pictureIcon.Image = (_labelErrorInfo.Visible) ? Resources.Information_red : Resources.InfoBlue24x24;
+				_pictureIcon.Image = (_labelErrorInfo.Visible) ? Resources.Information_red : Resources.Information_blue;
 
 				float percentage = (_labelErrorInfo.Visible) ? 50 : 100;
 				_tableLayoutButtons.RowStyles[0].Height = (_labelErrorInfo.Visible) ? percentage : 0;
@@ -862,7 +862,7 @@ namespace SayMore.Transcription.UI
 
 				if (_labelFinishedHint.Visible)
 				{
-					_pictureIcon.Image = Resources.InfoBlue24x24;
+					_pictureIcon.Image = Resources.Information_blue;
 					_labelFinishedHint.Visible = false;
 					_tableLayoutButtons.Controls.Remove(_labelFinishedHint);
 					AcceptButton = null;
@@ -1153,10 +1153,11 @@ namespace SayMore.Transcription.UI
 			using (var lightPen = new Pen(ColorHelper.CalculateColor(Color.White, _labelListenButton.ForeColor, 75)))
 			using (var darkPen = new Pen(_labelListenButton.ForeColor))
 			{
-				var pen = ((bool)_cursorBlinkTimer.Tag) ? darkPen : lightPen;
+				var showThickCursor = (bool)_cursorBlinkTimer.Tag || _spaceBarMode == SpaceBarMode.Record;
+				var pen = showThickCursor ? darkPen : lightPen;
 
 				g.DrawLine(pen, rc.X + 1, 0, rc.X + 1, rc.Height);
-				if ((bool)_cursorBlinkTimer.Tag)
+				if (showThickCursor)
 				{
 					g.DrawLine(lightPen, rc.X, 0, rc.X, rc.Height);
 					g.DrawLine(lightPen, rc.X + 2, 0, rc.X + 2, rc.Height);

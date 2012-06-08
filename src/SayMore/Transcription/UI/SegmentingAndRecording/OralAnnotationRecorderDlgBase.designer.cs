@@ -31,6 +31,7 @@ namespace SayMore.Transcription.UI
 			this._pictureFinished = new System.Windows.Forms.PictureBox();
 			this._lastSegmentMenuStrip = new System.Windows.Forms.MenuStrip();
 			this._undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this._pictureError = new System.Windows.Forms.PictureBox();
 			this._scrollTimer = new System.Windows.Forms.Timer(this.components);
 			this._cursorBlinkTimer = new System.Windows.Forms.Timer(this.components);
 			this._tableLayoutRecordAnnotations = new System.Windows.Forms.TableLayoutPanel();
@@ -41,6 +42,7 @@ namespace SayMore.Transcription.UI
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureFinished)).BeginInit();
 			this._lastSegmentMenuStrip.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._pictureError)).BeginInit();
 			this._tableLayoutRecordAnnotations.SuspendLayout();
 			this._tableLayoutMediaButtons.SuspendLayout();
 			this.SuspendLayout();
@@ -238,7 +240,7 @@ namespace SayMore.Transcription.UI
 			this._lastSegmentMenuStrip.Name = "_lastSegmentMenuStrip";
 			this._lastSegmentMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
 			this._lastSegmentMenuStrip.ShowItemToolTips = true;
-			this._lastSegmentMenuStrip.Size = new System.Drawing.Size(155, 24);
+			this._lastSegmentMenuStrip.Size = new System.Drawing.Size(63, 24);
 			this._lastSegmentMenuStrip.TabIndex = 15;
 			this._lastSegmentMenuStrip.Visible = false;
 			//
@@ -258,6 +260,23 @@ namespace SayMore.Transcription.UI
 			this._undoToolStripMenuItem.Size = new System.Drawing.Size(60, 21);
 			this._undoToolStripMenuItem.Text = "Undo";
 			this._undoToolStripMenuItem.Click += new System.EventHandler(this.HandleUndoButtonClick);
+			//
+			// _pictureError
+			//
+			this._pictureError.BackColor = System.Drawing.Color.Transparent;
+			this._pictureError.Image = global::SayMore.Properties.Resources.Information_red;
+			this.locExtender.SetLocalizableToolTip(this._pictureError, null);
+			this.locExtender.SetLocalizationComment(this._pictureError, null);
+			this.locExtender.SetLocalizationPriority(this._pictureError, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pictureError, "pictureBox1.pictureBox1");
+			this._pictureError.Location = new System.Drawing.Point(54, 375);
+			this._pictureError.Name = "_pictureError";
+			this._pictureError.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+			this._pictureError.Size = new System.Drawing.Size(35, 30);
+			this._pictureError.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this._pictureError.TabIndex = 16;
+			this._pictureError.TabStop = false;
+			this._pictureError.Visible = false;
 			//
 			// _scrollTimer
 			//
@@ -315,6 +334,7 @@ namespace SayMore.Transcription.UI
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(703, 412);
+			this.Controls.Add(this._pictureError);
 			this.Controls.Add(this._lastSegmentMenuStrip);
 			this.Controls.Add(this._pictureFinished);
 			this.Controls.Add(this._labelFinishedHint);
@@ -341,12 +361,14 @@ namespace SayMore.Transcription.UI
 			this.Controls.SetChildIndex(this._labelFinishedHint, 0);
 			this.Controls.SetChildIndex(this._pictureFinished, 0);
 			this.Controls.SetChildIndex(this._lastSegmentMenuStrip, 0);
+			this.Controls.SetChildIndex(this._pictureError, 0);
 			this._panelListen.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureFinished)).EndInit();
 			this._lastSegmentMenuStrip.ResumeLayout(false);
 			this._lastSegmentMenuStrip.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this._pictureError)).EndInit();
 			this._tableLayoutRecordAnnotations.ResumeLayout(false);
 			this._tableLayoutMediaButtons.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -374,5 +396,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.PictureBox _pictureFinished;
 		private System.Windows.Forms.MenuStrip _lastSegmentMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem _undoToolStripMenuItem;
+		private System.Windows.Forms.PictureBox _pictureError;
 	}
 }

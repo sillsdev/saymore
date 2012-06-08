@@ -962,6 +962,7 @@
     <EmbeddedResource Include="UI\ComponentEditors\ModifyMediaFileInfoOutput.xslt" />
     <None Include="Resources\InfoBlue16x16.png" />
     <None Include="Resources\InfoBlue24x24.png" />
+    <None Include="Resources\Information_red.png" />
     <Content Include="Resources\MoreMediaInfoStyles.css" />
     <None Include="Resources\Presets.png" />
     <None Include="Resources\Green_check.png" />

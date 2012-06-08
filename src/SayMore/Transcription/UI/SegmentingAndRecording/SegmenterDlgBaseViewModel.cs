@@ -312,7 +312,7 @@ namespace SayMore.Transcription.UI
 				File.Move(backupFile, dstFile);
 			}
 			else
-				File.Delete(dstFile);
+				EraseAnnotation(dstFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -464,7 +464,7 @@ namespace SayMore.Transcription.UI
 
 			if (!UpdateSegmentBoundary(oldEndTime, newEndTime))
 				return false;
-			OnBoundaryWasDeletedInsertedOrMoved();
+			OnSegmentBoundaryChanged();
 			return true;
 		}
 
@@ -496,7 +496,7 @@ namespace SayMore.Transcription.UI
 			{
 				_undoStack.Push(new SegmentChange(TimeTier.Segments.First(s => s.TimeRange.End == newBoundary).TimeRange.Copy(),
 					RevertNewSegment));
-				OnBoundaryWasDeletedInsertedOrMoved();
+				OnSegmentBoundaryChanged();
 			}
 
 			return GetSegmentEndBoundaries();
@@ -509,15 +509,15 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool DeleteBoundary(TimeSpan boundary)
+		public bool DeleteBoundary(TimeSpan boundary)
 		{
 			var seg = TimeTier.GetSegmentHavingEndBoundary((float)boundary.TotalSeconds);
 
 			if (!Tiers.RemoveTierSegments(TimeTier.GetIndexOfSegment(seg)))
 				return false;
 
-			_undoStack.Push(new SegmentChange(SegmentChangeType.Deletion, seg.TimeRange.Copy(), null, null));
-			OnBoundaryWasDeletedInsertedOrMoved();
+			OnSegmentDeleted(seg);
+			OnSegmentBoundaryChanged();
 			return true;
 		}
 
@@ -528,7 +528,13 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void OnBoundaryWasDeletedInsertedOrMoved()
+		protected virtual void OnSegmentDeleted(Segment segment)
+		{
+			_undoStack.Push(new SegmentChange(SegmentChangeType.Deletion, segment.TimeRange.Copy(), null, null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void OnSegmentBoundaryChanged()
 		{
 			SegmentsAnnotationSamplesToDraw.Clear();
 

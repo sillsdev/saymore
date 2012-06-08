@@ -477,6 +477,53 @@ namespace SayMore.Transcription.UI
 			_labelListenHint.Visible = _spaceBarMode == SpaceBarMode.Listen && _labelListenButton.Enabled;
 			_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record && _labelRecordButton.Enabled && !_reRecording;
 
+			if (_spaceBarMode == SpaceBarMode.Done)
+			{
+				if (!_labelFinishedHint.Visible)
+				{
+					DisplayIcon(_pictureFinished);
+					_labelFinishedHint.Visible = true;
+					_tableLayoutButtons.Controls.Add(_labelFinishedHint, 1, 0);
+					_tableLayoutButtons.SetRowSpan(_labelFinishedHint, 3);
+					AcceptButton = _buttonOK;
+				}
+			}
+			else
+			{
+				UdateErrorMessageDisplay();
+
+				DisplayIcon((_labelErrorInfo.Visible) ? _pictureError : null);
+
+				float percentage = (_labelErrorInfo.Visible) ? 50 : 100;
+				_tableLayoutButtons.RowStyles[0].Height = (_labelErrorInfo.Visible) ? percentage : 0;
+				_tableLayoutButtons.RowStyles[1].Height = (_labelListenHint.Visible) ? percentage : 0;
+				_tableLayoutButtons.RowStyles[2].Height = (_labelRecordHint.Visible) ? percentage : 0;
+			}
+			base.UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DisplayIcon(PictureBox picture)
+		{
+			PictureBox existingIcon = _tableLayoutButtons.GetControlFromPosition(0, 0) as PictureBox;
+			if (existingIcon != null)
+			{
+				_tableLayoutButtons.Controls.Remove(existingIcon);
+				existingIcon.Visible = false;
+			}
+
+			if (picture == null)
+				return;
+
+			_tableLayoutButtons.Controls.Add(picture, 0, 0);
+			_tableLayoutButtons.SetRowSpan(picture, 3);
+				picture.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+				picture.Visible = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UdateErrorMessageDisplay()
+		{
 			_labelErrorInfo.Visible = false;
 			if (!_playingBackUsingHoldDownButton && !_waveControl.IsBoundaryMovingInProgress)
 			{
@@ -489,48 +536,25 @@ namespace SayMore.Transcription.UI
 				{
 					_labelErrorInfo.Visible = true;
 					_labelErrorInfo.Text = LocalizationManager.GetString(
-						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.CannotRecordErrorMsg",
-						"Recording not working. Please make sure your microphone is plugged in.");
+					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.CannotRecordErrorMsg",
+					"Recording not working. Please make sure your microphone is plugged in.");
 				}
 				else if (_recordingTooShortMsgTimer != null)
 				{
 					_labelErrorInfo.Visible = true;
 
 					bool selectedSegmentHadRecordingThatWasTooShort =
-						(_recordingTooShortMsgTimer != null && ViewModel.GetSelectedTimeRange() == (TimeRange)_recordingTooShortMsgTimer.Tag);
+					(_recordingTooShortMsgTimer != null && ViewModel.GetSelectedTimeRange() == (TimeRange)_recordingTooShortMsgTimer.Tag);
 
 					_labelErrorInfo.Text = selectedSegmentHadRecordingThatWasTooShort ?
-						LocalizationManager.GetString(
-							"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenSpaceOrMouseIsValid",
-							"Whoops. You need to hold down the SPACE bar or mouse button while talking.") :
-						LocalizationManager.GetString(
-							"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenOnlyMouseIsValid",
-							"Whoops. You need to hold down the mouse button while talking.");
+																					  LocalizationManager.GetString(
+																					  "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenSpaceOrMouseIsValid",
+																					  "Whoops. You need to hold down the SPACE bar or mouse button while talking.")
+					: LocalizationManager.GetString(
+					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenOnlyMouseIsValid",
+					"Whoops. You need to hold down the mouse button while talking.");
 				}
 			}
-
-			if (_spaceBarMode == SpaceBarMode.Done)
-			{
-				if (!_labelFinishedHint.Visible)
-				{
-					_tableLayoutButtons.Controls.Add(_pictureFinished, 0, 0);
-					_tableLayoutButtons.SetRowSpan(_pictureFinished, 3);
-					_pictureFinished.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-					_pictureFinished.Visible = true;
-					_labelFinishedHint.Visible = true;
-					_tableLayoutButtons.Controls.Add(_labelFinishedHint, 1, 0);
-					_tableLayoutButtons.SetRowSpan(_labelFinishedHint, 3);
-					AcceptButton = _buttonOK;
-				}
-			}
-			else
-			{
-				float percentage = (_labelErrorInfo.Visible) ? 50 : 100;
-				_tableLayoutButtons.RowStyles[0].Height = (_labelErrorInfo.Visible) ? percentage : 0;
-				_tableLayoutButtons.RowStyles[1].Height = (_labelListenHint.Visible) ? percentage : 0;
-				_tableLayoutButtons.RowStyles[2].Height = (_labelRecordHint.Visible) ? percentage : 0;
-			}
-			base.UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -707,10 +731,13 @@ namespace SayMore.Transcription.UI
 			var origNewSegmentCursorRectangle = GetNewSegmentCursorRectangle();
 			action();
 			var newEnd = ViewModel.NewSegmentEndBoundary;
-			WavePainter.SetSelectionTimes(new TimeRange(ViewModel.GetEndOfLastSegment(), newEnd),
-				_selectedSegmentHighlighColor);
-			_waveControl.InvalidateIfNeeded((newEnd < origNewSegmentEndBoundary) ?
-				origNewSegmentCursorRectangle : Rectangle.Empty);
+			if (origNewSegmentEndBoundary != newEnd)
+			{
+				WavePainter.SetSelectionTimes(new TimeRange(ViewModel.GetEndOfLastSegment(), newEnd),
+					_selectedSegmentHighlighColor);
+				_waveControl.InvalidateIfNeeded((newEnd < origNewSegmentEndBoundary) ?
+					origNewSegmentCursorRectangle : Rectangle.Empty);
+			}
 			UpdateDisplay();
 		}
 
@@ -838,13 +865,18 @@ namespace SayMore.Transcription.UI
 				var timeRangeToInvalidate = ViewModel.TimeRangeForUndo;
 				ViewModel.Undo();
 				_spaceBarMode = SpaceBarMode.Listen;
-				_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
-				_waveControl.InvalidateIfNeeded(WavePainter.GetFullRectangleForTimeRange(timeRangeToInvalidate));
+
+				// If Undo causes an annotation to be removed for a pre-existing segment, that
+				// segment will now be the current unnanotated segment
+				if (ViewModel.CurrentUnannotatedSegment != null)
+					_waveControl.SetSelectionTimes(ViewModel.CurrentUnannotatedSegment.TimeRange, _selectedSegmentHighlighColor);
+
+				ScrollInPreparationForListenOrRecord(_labelListenButton);
+				_waveControl.InvalidateRegionBetweenTimes(timeRangeToInvalidate);
 
 				if (_labelFinishedHint.Visible)
 				{
-					_tableLayoutButtons.Controls.Remove(_pictureFinished);
-					_pictureFinished.Visible = false;
+					DisplayIcon(null);
 					_labelFinishedHint.Visible = false;
 					_tableLayoutButtons.Controls.Remove(_labelFinishedHint);
 					AcceptButton = null;
@@ -1079,8 +1111,11 @@ namespace SayMore.Transcription.UI
 		private void HandleCursorBlinkTimerTick(object sender, EventArgs e)
 		{
 			var newSegmentCursorRect = GetNewSegmentCursorRectangle();
-			if (newSegmentCursorRect == Rectangle.Empty || _waveControl.IsPlaying ||
-				ViewModel.GetIsAnnotationPlaying() || ViewModel.GetIsRecording())
+			if ((_spaceBarMode == SpaceBarMode.Done ||
+				(_spaceBarMode == SpaceBarMode.Listen && newSegmentCursorRect == Rectangle.Empty)) ||
+				_waveControl.IsPlaying ||
+				ViewModel.GetIsAnnotationPlaying() ||
+				ViewModel.GetIsRecording())
 			{
 				// Next time it does get painted, make sure it gets drawn in the "on" state.
 				_cursorBlinkTimer.Tag = true;
@@ -1109,7 +1144,7 @@ namespace SayMore.Transcription.UI
 				DrawTextInAnnotationWaveCellWhileRecording(e.Graphics);
 			else if (ViewModel.GetIsRecorderInErrorState())
 				_pictureRecording.Visible = false;
-			else if ((bool)_cursorBlinkTimer.Tag)
+			else if (_spaceBarMode == SpaceBarMode.Record && (bool)_cursorBlinkTimer.Tag)
 			{
 				var rc = GetReadyToRecordCursorRectangle();
 				if (rc != Rectangle.Empty)

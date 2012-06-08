@@ -1,3 +1,8 @@
+//
+// Red Information red.svg icon attribution:
+// Ezekiel63745 at en.wikipedia [CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0) or GFDL (http://www.gnu.org/copyleft/fdl.html)], via Wikimedia Commons
+//
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -219,7 +224,15 @@ namespace SayMore.Transcription.UI
 		protected override void RevertNewSegment(SegmentChange change)
 		{
 			base.RevertNewSegment(change);
-			_endBoundary = GetEndOfLastSegment();
+			NewSegmentEndBoundary = _endBoundary = GetEndOfLastSegment();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnSegmentDeleted(Segment segment)
+		{
+			base.OnSegmentDeleted(segment);
+			if (segment == CurrentUnannotatedSegment)
+				SetNextUnannotatedSegment();
 		}
 		#endregion
 
@@ -275,7 +288,9 @@ namespace SayMore.Transcription.UI
 
 			var recordingStarted = AttemptBeginAnnotationRecording(path);
 
-			if (!recordingStarted && backupCreated)
+			if (recordingStarted)
+				CurrentUnannotatedSegment = null;
+			else if (backupCreated)
 				RestorePreviousVersionOfAnnotation(path);
 
 			return recordingStarted;
@@ -441,6 +456,8 @@ namespace SayMore.Transcription.UI
 		{
 			CloseAnnotationPlayer();
 			base.EraseAnnotation(path);
+			if (CurrentUnannotatedSegment == null)
+				SetNextUnannotatedSegment();
 		}
 		#endregion
 	}

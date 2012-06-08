@@ -28,10 +28,9 @@ namespace SayMore.Transcription.UI
 			this._panelPeakMeter = new SilTools.Controls.SilPanel();
 			this._labelListenHint = new System.Windows.Forms.Label();
 			this._labelFinishedHint = new System.Windows.Forms.Label();
-			this._pictureFinished = new System.Windows.Forms.PictureBox();
+			this._pictureIcon = new System.Windows.Forms.PictureBox();
 			this._lastSegmentMenuStrip = new System.Windows.Forms.MenuStrip();
 			this._undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this._pictureError = new System.Windows.Forms.PictureBox();
 			this._scrollTimer = new System.Windows.Forms.Timer(this.components);
 			this._cursorBlinkTimer = new System.Windows.Forms.Timer(this.components);
 			this._tableLayoutRecordAnnotations = new System.Windows.Forms.TableLayoutPanel();
@@ -40,9 +39,8 @@ namespace SayMore.Transcription.UI
 			this._panelListen.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this._pictureFinished)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this._pictureIcon)).BeginInit();
 			this._lastSegmentMenuStrip.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this._pictureError)).BeginInit();
 			this._tableLayoutRecordAnnotations.SuspendLayout();
 			this._tableLayoutMediaButtons.SuspendLayout();
 			this.SuspendLayout();
@@ -196,34 +194,34 @@ namespace SayMore.Transcription.UI
 			this._labelFinishedHint.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelFinishedHint.AutoSize = true;
 			this._labelFinishedHint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelFinishedHint.ForeColor = System.Drawing.Color.Green;
+			this._labelFinishedHint.ForeColor = System.Drawing.Color.White;
 			this.locExtender.SetLocalizableToolTip(this._labelFinishedHint, null);
 			this.locExtender.SetLocalizationComment(this._labelFinishedHint, null);
 			this.locExtender.SetLocalizingId(this._labelFinishedHint, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelFinishedHint");
 			this._labelFinishedHint.Location = new System.Drawing.Point(11, 306);
 			this._labelFinishedHint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this._labelFinishedHint.Name = "_labelFinishedHint";
-			this._labelFinishedHint.Size = new System.Drawing.Size(58, 13);
+			this._labelFinishedHint.Size = new System.Drawing.Size(54, 13);
 			this._labelFinishedHint.TabIndex = 11;
-			this._labelFinishedHint.Text = "Finished!";
+			this._labelFinishedHint.Text = "Finished";
 			this._labelFinishedHint.Visible = false;
 			//
-			// _pictureFinished
+			// _pictureIcon
 			//
-			this._pictureFinished.BackColor = System.Drawing.Color.Transparent;
-			this._pictureFinished.Image = global::SayMore.Properties.Resources.Green_check;
-			this.locExtender.SetLocalizableToolTip(this._pictureFinished, null);
-			this.locExtender.SetLocalizationComment(this._pictureFinished, null);
-			this.locExtender.SetLocalizationPriority(this._pictureFinished, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._pictureFinished, "pictureBox1.pictureBox1");
-			this._pictureFinished.Location = new System.Drawing.Point(12, 375);
-			this._pictureFinished.Name = "_pictureFinished";
-			this._pictureFinished.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-			this._pictureFinished.Size = new System.Drawing.Size(35, 30);
-			this._pictureFinished.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-			this._pictureFinished.TabIndex = 12;
-			this._pictureFinished.TabStop = false;
-			this._pictureFinished.Visible = false;
+			this._pictureIcon.BackColor = System.Drawing.Color.Transparent;
+			this._pictureIcon.Image = global::SayMore.Properties.Resources.Information_blue;
+			this.locExtender.SetLocalizableToolTip(this._pictureIcon, null);
+			this.locExtender.SetLocalizationComment(this._pictureIcon, null);
+			this.locExtender.SetLocalizationPriority(this._pictureIcon, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pictureIcon, "pictureBox1.pictureBox1");
+			this._pictureIcon.Location = new System.Drawing.Point(12, 375);
+			this._pictureIcon.Name = "_pictureIcon";
+			this._pictureIcon.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+			this._pictureIcon.Size = new System.Drawing.Size(35, 30);
+			this._pictureIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this._pictureIcon.TabIndex = 12;
+			this._pictureIcon.TabStop = false;
+			this._pictureIcon.Visible = false;
 			//
 			// _lastSegmentMenuStrip
 			//
@@ -260,23 +258,6 @@ namespace SayMore.Transcription.UI
 			this._undoToolStripMenuItem.Size = new System.Drawing.Size(60, 21);
 			this._undoToolStripMenuItem.Text = "Undo";
 			this._undoToolStripMenuItem.Click += new System.EventHandler(this.HandleUndoButtonClick);
-			//
-			// _pictureError
-			//
-			this._pictureError.BackColor = System.Drawing.Color.Transparent;
-			this._pictureError.Image = global::SayMore.Properties.Resources.Information_red;
-			this.locExtender.SetLocalizableToolTip(this._pictureError, null);
-			this.locExtender.SetLocalizationComment(this._pictureError, null);
-			this.locExtender.SetLocalizationPriority(this._pictureError, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._pictureError, "pictureBox1.pictureBox1");
-			this._pictureError.Location = new System.Drawing.Point(54, 375);
-			this._pictureError.Name = "_pictureError";
-			this._pictureError.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-			this._pictureError.Size = new System.Drawing.Size(35, 30);
-			this._pictureError.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-			this._pictureError.TabIndex = 16;
-			this._pictureError.TabStop = false;
-			this._pictureError.Visible = false;
 			//
 			// _scrollTimer
 			//
@@ -334,9 +315,8 @@ namespace SayMore.Transcription.UI
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(703, 412);
-			this.Controls.Add(this._pictureError);
 			this.Controls.Add(this._lastSegmentMenuStrip);
-			this.Controls.Add(this._pictureFinished);
+			this.Controls.Add(this._pictureIcon);
 			this.Controls.Add(this._labelFinishedHint);
 			this.Controls.Add(this._labelRecordHint);
 			this.Controls.Add(this._pictureRecording);
@@ -359,16 +339,14 @@ namespace SayMore.Transcription.UI
 			this.Controls.SetChildIndex(this._pictureRecording, 0);
 			this.Controls.SetChildIndex(this._labelRecordHint, 0);
 			this.Controls.SetChildIndex(this._labelFinishedHint, 0);
-			this.Controls.SetChildIndex(this._pictureFinished, 0);
+			this.Controls.SetChildIndex(this._pictureIcon, 0);
 			this.Controls.SetChildIndex(this._lastSegmentMenuStrip, 0);
-			this.Controls.SetChildIndex(this._pictureError, 0);
 			this._panelListen.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this._pictureFinished)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this._pictureIcon)).EndInit();
 			this._lastSegmentMenuStrip.ResumeLayout(false);
 			this._lastSegmentMenuStrip.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this._pictureError)).EndInit();
 			this._tableLayoutRecordAnnotations.ResumeLayout(false);
 			this._tableLayoutMediaButtons.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -393,9 +371,8 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Label _labelFinishedHint;
 		private System.Windows.Forms.Timer _checkForRecordingDevice;
 		private System.Windows.Forms.Panel _panelListen;
-		private System.Windows.Forms.PictureBox _pictureFinished;
+		private System.Windows.Forms.PictureBox _pictureIcon;
 		private System.Windows.Forms.MenuStrip _lastSegmentMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem _undoToolStripMenuItem;
-		private System.Windows.Forms.PictureBox _pictureError;
 	}
 }

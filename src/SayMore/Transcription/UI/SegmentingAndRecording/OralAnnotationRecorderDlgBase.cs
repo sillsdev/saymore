@@ -312,6 +312,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void InitializeTableLayoutButtonControls()
 		{
+			_tableLayoutButtons.Controls.Add(_pictureIcon, 0, 0);
+			_tableLayoutButtons.SetRowSpan(_pictureIcon, 3);
+			_pictureIcon.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			_pictureIcon.Visible = true;
+
 			_tableLayoutButtons.Controls.Add(_labelErrorInfo, 1, 0);
 			_tableLayoutButtons.Controls.Add(_labelListenHint, 1, 1);
 			_tableLayoutButtons.Controls.Add(_labelRecordHint, 1, 2);
@@ -481,7 +486,7 @@ namespace SayMore.Transcription.UI
 			{
 				if (!_labelFinishedHint.Visible)
 				{
-					DisplayIcon(_pictureFinished);
+					_pictureIcon.Image = Resources.Green_check;
 					_labelFinishedHint.Visible = true;
 					_tableLayoutButtons.Controls.Add(_labelFinishedHint, 1, 0);
 					_tableLayoutButtons.SetRowSpan(_labelFinishedHint, 3);
@@ -492,7 +497,7 @@ namespace SayMore.Transcription.UI
 			{
 				UdateErrorMessageDisplay();
 
-				DisplayIcon((_labelErrorInfo.Visible) ? _pictureError : null);
+				_pictureIcon.Image = (_labelErrorInfo.Visible) ? Resources.Information_red : Resources.InfoBlue24x24;
 
 				float percentage = (_labelErrorInfo.Visible) ? 50 : 100;
 				_tableLayoutButtons.RowStyles[0].Height = (_labelErrorInfo.Visible) ? percentage : 0;
@@ -500,25 +505,6 @@ namespace SayMore.Transcription.UI
 				_tableLayoutButtons.RowStyles[2].Height = (_labelRecordHint.Visible) ? percentage : 0;
 			}
 			base.UpdateDisplay();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void DisplayIcon(PictureBox picture)
-		{
-			PictureBox existingIcon = _tableLayoutButtons.GetControlFromPosition(0, 0) as PictureBox;
-			if (existingIcon != null)
-			{
-				_tableLayoutButtons.Controls.Remove(existingIcon);
-				existingIcon.Visible = false;
-			}
-
-			if (picture == null)
-				return;
-
-			_tableLayoutButtons.Controls.Add(picture, 0, 0);
-			_tableLayoutButtons.SetRowSpan(picture, 3);
-				picture.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-				picture.Visible = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -876,7 +862,7 @@ namespace SayMore.Transcription.UI
 
 				if (_labelFinishedHint.Visible)
 				{
-					DisplayIcon(null);
+					_pictureIcon.Image = Resources.InfoBlue24x24;
 					_labelFinishedHint.Visible = false;
 					_tableLayoutButtons.Controls.Remove(_labelFinishedHint);
 					AcceptButton = null;
@@ -996,7 +982,7 @@ namespace SayMore.Transcription.UI
 			KillSegTooShortMsgTimer();
 
 			_recordingTooShortMsgTimer = new Timer();
-			_recordingTooShortMsgTimer.Interval = 4000;
+			_recordingTooShortMsgTimer.Interval = Int32.MaxValue;
 			_recordingTooShortMsgTimer.Tag = _segmentBeingRecorded;
 			_recordingTooShortMsgTimer.Tick += delegate { KillSegTooShortMsgTimer(); };
 			_recordingTooShortMsgTimer.Start();

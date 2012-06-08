@@ -246,6 +246,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Information_blue {
+            get {
+                object obj = ResourceManager.GetObject("Information_blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Information_red {
             get {
                 object obj = ResourceManager.GetObject("Information_red", resourceCulture);

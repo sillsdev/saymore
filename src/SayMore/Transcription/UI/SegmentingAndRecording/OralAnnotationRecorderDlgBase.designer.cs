@@ -125,7 +125,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this._labelErrorInfo, null);
 			this.locExtender.SetLocalizationPriority(this._labelErrorInfo, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelErrorInfo, "OralAnnotationRecorderBaseDlg._labelListenHint");
-			this._labelErrorInfo.Location = new System.Drawing.Point(8, 204);
+			this._labelErrorInfo.Location = new System.Drawing.Point(8, 220);
 			this._labelErrorInfo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this._labelErrorInfo.Name = "_labelErrorInfo";
 			this._labelErrorInfo.Size = new System.Drawing.Size(215, 13);
@@ -142,7 +142,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelRecordHint, null);
 			this.locExtender.SetLocalizationComment(this._labelRecordHint, null);
 			this.locExtender.SetLocalizingId(this._labelRecordHint, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint");
-			this._labelRecordHint.Location = new System.Drawing.Point(9, 271);
+			this._labelRecordHint.Location = new System.Drawing.Point(9, 287);
 			this._labelRecordHint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this._labelRecordHint.Name = "_labelRecordHint";
 			this._labelRecordHint.Size = new System.Drawing.Size(243, 13);
@@ -183,7 +183,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelListenHint, null);
 			this.locExtender.SetLocalizationComment(this._labelListenHint, null);
 			this.locExtender.SetLocalizingId(this._labelListenHint, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint");
-			this._labelListenHint.Location = new System.Drawing.Point(9, 234);
+			this._labelListenHint.Location = new System.Drawing.Point(9, 250);
 			this._labelListenHint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this._labelListenHint.Name = "_labelListenHint";
 			this._labelListenHint.Size = new System.Drawing.Size(376, 13);
@@ -199,7 +199,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelFinishedHint, null);
 			this.locExtender.SetLocalizationComment(this._labelFinishedHint, null);
 			this.locExtender.SetLocalizingId(this._labelFinishedHint, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelFinishedHint");
-			this._labelFinishedHint.Location = new System.Drawing.Point(11, 306);
+			this._labelFinishedHint.Location = new System.Drawing.Point(11, 322);
 			this._labelFinishedHint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this._labelFinishedHint.Name = "_labelFinishedHint";
 			this._labelFinishedHint.Size = new System.Drawing.Size(54, 13);
@@ -217,8 +217,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this._pictureIcon, "pictureBox1.pictureBox1");
 			this._pictureIcon.Location = new System.Drawing.Point(12, 375);
 			this._pictureIcon.Name = "_pictureIcon";
-			this._pictureIcon.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-			this._pictureIcon.Size = new System.Drawing.Size(35, 30);
+			this._pictureIcon.Size = new System.Drawing.Size(30, 30);
 			this._pictureIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
 			this._pictureIcon.TabIndex = 12;
 			this._pictureIcon.TabStop = false;
@@ -315,7 +314,7 @@ namespace SayMore.Transcription.UI
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(703, 412);
+			this.ClientSize = new System.Drawing.Size(703, 444);
 			this.Controls.Add(this._lastSegmentMenuStrip);
 			this.Controls.Add(this._pictureIcon);
 			this.Controls.Add(this._labelFinishedHint);
@@ -330,7 +329,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CarefulSpeechAnnotationDlg.WindowTitle");
 			this.MainMenuStrip = this._lastSegmentMenuStrip;
-			this.MinimumSize = new System.Drawing.Size(330, 415);
+			this.MinimumSize = new System.Drawing.Size(330, 480);
 			this.Name = "OralAnnotationRecorderBaseDlg";
 			this.Opacity = 1D;
 			this.Text = "Change my text";

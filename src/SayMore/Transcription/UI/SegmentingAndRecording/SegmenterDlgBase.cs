@@ -53,7 +53,6 @@ namespace SayMore.Transcription.UI
 			WaitCursor.Show();
 
 			_toolStripStatus.Renderer = new SilTools.NoToolStripBorderRenderer();
-			_tableLayoutButtons.BackColor = Settings.Default.BarColorEnd;
 			_panelWaveControl.BackColor = Settings.Default.BarColorBorder;
 
 			_buttonCancel.Click += delegate { Close(); };

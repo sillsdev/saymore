@@ -81,7 +81,6 @@ namespace SayMore.Transcription.UI
 
 			InitializeComponent();
 
-			Padding = new Padding(0);
 			_cursorBlinkTimer.Tag = true;
 
 			_scrollTimer.Tick += delegate
@@ -250,6 +249,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void InitializeTableLayouts()
 		{
+			BackColor = Settings.Default.BarColorBorder;
 			_tableLayoutTop.Visible = false;
 
 			_tableLayoutMediaButtons.Dock = DockStyle.Left;
@@ -298,10 +298,6 @@ namespace SayMore.Transcription.UI
 			_labelListenButton.Font = Program.DialogFont;
 			_labelRecordButton.Font = Program.DialogFont;
 			_undoToolStripMenuItem.Font = Program.DialogFont;
-			//var undoButtonSize = _labelUndoButton.Size;
-			//undoButtonSize.Width += _labelUndoButton.MinimumSize.Width;
-			//_labelUndoButton.AutoSize = false;
-			//_labelUndoButton.Size = undoButtonSize;
 			_labelSourceRecording.ForeColor = _labelListenButton.ForeColor;
 
 			_annotationSegmentFont = FontHelper.MakeFont(Program.DialogFont, 8, FontStyle.Bold);

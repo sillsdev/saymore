@@ -72,6 +72,7 @@ namespace SayMore.Transcription.UI
 		public ManualSegmenterDlg(ManualSegmenterDlgViewModel viewModel) : base(viewModel)
 		{
 			InitializeComponent();
+			_tableLayoutButtons.BackColor = Settings.Default.BarColorEnd;
 			Opacity = 0D;
 
 			Controls.Remove(toolStripButtons);
@@ -146,6 +147,11 @@ namespace SayMore.Transcription.UI
 		protected override WaveControlBasic CreateWaveControl()
 		{
 			_waveControl = new WaveControlWithBoundarySelection();
+
+			_buttonCancel.Margin = new Padding(_buttonCancel.Margin.Left,
+				_buttonCancel.Margin.Top, Padding.Right, _buttonCancel.Margin.Bottom);
+			Padding = new Padding(0, 8, 0, 0);
+
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
 			_waveControl.BoundaryMouseDown += delegate { UpdateDisplay(); };
 			_waveControl.CursorTimeChanged += delegate { UpdateDisplay(); };

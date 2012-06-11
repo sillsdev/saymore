@@ -45,6 +45,7 @@ namespace SayMore.Transcription.UI
 			this._panelWaveControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this._panelWaveControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._tableLayoutOuter.SetColumnSpan(this._panelWaveControl, 2);
 			this._panelWaveControl.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World);
 			this._panelWaveControl.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -52,7 +53,7 @@ namespace SayMore.Transcription.UI
 			this._panelWaveControl.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this._panelWaveControl.Name = "_panelWaveControl";
 			this._panelWaveControl.Padding = new System.Windows.Forms.Padding(1);
-			this._panelWaveControl.Size = new System.Drawing.Size(703, 108);
+			this._panelWaveControl.Size = new System.Drawing.Size(739, 170);
 			this._panelWaveControl.TabIndex = 1;
 			//
 			// _tableLayoutOuter
@@ -65,13 +66,13 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutOuter.Controls.Add(this._tableLayoutTop, 0, 0);
 			this._tableLayoutOuter.Controls.Add(this._toolStripStatus, 1, 2);
 			this._tableLayoutOuter.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._tableLayoutOuter.Location = new System.Drawing.Point(0, 12);
+			this._tableLayoutOuter.Location = new System.Drawing.Point(17, 17);
 			this._tableLayoutOuter.Name = "_tableLayoutOuter";
 			this._tableLayoutOuter.RowCount = 3;
 			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-			this._tableLayoutOuter.Size = new System.Drawing.Size(703, 290);
+			this._tableLayoutOuter.Size = new System.Drawing.Size(739, 352);
 			this._tableLayoutOuter.TabIndex = 6;
 			//
 			// _tableLayoutTop
@@ -91,7 +92,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutTop.Name = "_tableLayoutTop";
 			this._tableLayoutTop.RowCount = 1;
 			this._tableLayoutTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayoutTop.Size = new System.Drawing.Size(703, 24);
+			this._tableLayoutTop.Size = new System.Drawing.Size(739, 24);
 			this._tableLayoutTop.TabIndex = 9;
 			//
 			// _labelSourceRecording
@@ -116,7 +117,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelZoom, null);
 			this.locExtender.SetLocalizationComment(this._labelZoom, null);
 			this.locExtender.SetLocalizingId(this._labelZoom, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelZoom");
-			this._labelZoom.Location = new System.Drawing.Point(564, 5);
+			this._labelZoom.Location = new System.Drawing.Point(600, 5);
 			this._labelZoom.Name = "_labelZoom";
 			this._labelZoom.Size = new System.Drawing.Size(37, 13);
 			this._labelZoom.TabIndex = 6;
@@ -130,7 +131,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this._comboBoxZoom, null);
 			this.locExtender.SetLocalizationPriority(this._comboBoxZoom, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._comboBoxZoom, "ManualSegmenterDlg._comboBoxZoom");
-			this._comboBoxZoom.Location = new System.Drawing.Point(607, 0);
+			this._comboBoxZoom.Location = new System.Drawing.Point(643, 0);
 			this._comboBoxZoom.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._comboBoxZoom.Name = "_comboBoxZoom";
 			this._comboBoxZoom.Size = new System.Drawing.Size(96, 21);
@@ -155,7 +156,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this._toolStripStatus, null);
 			this.locExtender.SetLocalizationPriority(this._toolStripStatus, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._toolStripStatus, "toolStrip1.toolStrip1");
-			this._toolStripStatus.Location = new System.Drawing.Point(470, 140);
+			this._toolStripStatus.Location = new System.Drawing.Point(506, 202);
 			this._toolStripStatus.Name = "_toolStripStatus";
 			this._toolStripStatus.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this._toolStripStatus.Size = new System.Drawing.Size(233, 25);
@@ -201,7 +202,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._buttonOK, null);
 			this.locExtender.SetLocalizationComment(this._buttonOK, null);
 			this.locExtender.SetLocalizingId(this._buttonOK, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonClose");
-			this._buttonOK.Location = new System.Drawing.Point(535, 17);
+			this._buttonOK.Location = new System.Drawing.Point(583, 17);
 			this._buttonOK.Margin = new System.Windows.Forms.Padding(3, 12, 3, 12);
 			this._buttonOK.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonOK.Name = "_buttonOK";
@@ -218,8 +219,8 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
 			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonCancel");
-			this._buttonCancel.Location = new System.Drawing.Point(616, 17);
-			this._buttonCancel.Margin = new System.Windows.Forms.Padding(3, 12, 12, 12);
+			this._buttonCancel.Location = new System.Drawing.Point(664, 17);
+			this._buttonCancel.Margin = new System.Windows.Forms.Padding(3, 12, 0, 12);
 			this._buttonCancel.Name = "_buttonCancel";
 			this._tableLayoutButtons.SetRowSpan(this._buttonCancel, 3);
 			this._buttonCancel.Size = new System.Drawing.Size(75, 26);
@@ -241,13 +242,13 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutButtons.Controls.Add(this._buttonOK, 2, 0);
 			this._tableLayoutButtons.Controls.Add(this._buttonCancel, 3, 0);
 			this._tableLayoutButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this._tableLayoutButtons.Location = new System.Drawing.Point(0, 302);
+			this._tableLayoutButtons.Location = new System.Drawing.Point(17, 369);
 			this._tableLayoutButtons.Name = "_tableLayoutButtons";
 			this._tableLayoutButtons.RowCount = 3;
 			this._tableLayoutButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
 			this._tableLayoutButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
 			this._tableLayoutButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-			this._tableLayoutButtons.Size = new System.Drawing.Size(703, 60);
+			this._tableLayoutButtons.Size = new System.Drawing.Size(739, 60);
 			this._tableLayoutButtons.TabIndex = 7;
 			this._tableLayoutButtons.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleTableLayoutButtonsPaint);
 			//
@@ -255,7 +256,8 @@ namespace SayMore.Transcription.UI
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(703, 362);
+			this.BackColor = System.Drawing.SystemColors.Control;
+			this.ClientSize = new System.Drawing.Size(773, 429);
 			this.Controls.Add(this._tableLayoutOuter);
 			this.Controls.Add(this._tableLayoutButtons);
 			this.locExtender.SetLocalizableToolTip(this, null);
@@ -267,7 +269,7 @@ namespace SayMore.Transcription.UI
 			this.MinimumSize = new System.Drawing.Size(330, 400);
 			this.Name = "SegmenterDlgBase";
 			this.Opacity = 0D;
-			this.Padding = new System.Windows.Forms.Padding(0, 12, 0, 0);
+			this.Padding = new System.Windows.Forms.Padding(17, 17, 17, 0);
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
@@ -290,7 +292,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ComboBox _comboBoxZoom;
 		private System.Windows.Forms.Label _labelZoom;
 		protected System.Windows.Forms.Button _buttonOK;
-		private System.Windows.Forms.Button _buttonCancel;
 		private Localization.UI.LocalizationExtender locExtender;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
 		protected Panel _panelWaveControl;
@@ -301,5 +302,6 @@ namespace SayMore.Transcription.UI
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutTop;
 		protected TableLayoutPanel _tableLayoutButtons;
 		protected ToolStrip _toolStripStatus;
+		protected Button _buttonCancel;
 	}
 }

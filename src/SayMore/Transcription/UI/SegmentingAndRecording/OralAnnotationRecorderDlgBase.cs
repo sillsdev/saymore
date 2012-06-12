@@ -7,6 +7,7 @@ using Localization;
 using Localization.UI;
 using Palaso.Media.Naudio;
 using Palaso.Media.Naudio.UI;
+using Palaso.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Media.MPlayer;
 using SayMore.Properties;
@@ -92,6 +93,9 @@ namespace SayMore.Transcription.UI
 			InitializeListenAndRecordButtonEvents();
 
 			_toolStripStatus.Visible = false;
+
+			BackColor = Settings.Default.BarColorBorder;
+
 			InitializeTableLayouts();
 			SetupPeakMeterAndRecordingDeviceIndicator();
 
@@ -249,7 +253,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void InitializeTableLayouts()
 		{
-			BackColor = Settings.Default.BarColorBorder;
 			_tableLayoutTop.Visible = false;
 
 			_tableLayoutMediaButtons.Dock = DockStyle.Left;
@@ -299,19 +302,37 @@ namespace SayMore.Transcription.UI
 			_labelRecordButton.Font = Program.DialogFont;
 			_undoToolStripMenuItem.Font = Program.DialogFont;
 			_labelSourceRecording.ForeColor = _labelListenButton.ForeColor;
+			_videoHelpMenu.Font = _labelSourceRecording.Font;
 
 			_annotationSegmentFont = FontHelper.MakeFont(Program.DialogFont, 8, FontStyle.Bold);
 
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
 		}
 
+		private const int kNumberOfRows = 4;
+
 		/// ------------------------------------------------------------------------------------
 		private void InitializeTableLayoutButtonControls()
 		{
+			_tableLayoutButtons.RowCount = kNumberOfRows;
+			_tableLayoutButtons.Controls.Add(_videoHelpMenuStrip, 1, kNumberOfRows - 1);
+			_tableLayoutButtons.RowStyles[0].Height = 25f;
+			_tableLayoutButtons.RowStyles[1].Height = 25f;
+			_tableLayoutButtons.RowStyles[2].Height = 25f;
+			_tableLayoutButtons.RowStyles.Add(new RowStyle(SizeType.AutoSize, 1f));
+			_tableLayoutButtons.Height += _videoHelpMenuStrip.Height;
+			_videoHelpMenuStrip.BackColor = BackColor;
+
+			var okButtonPos = _tableLayoutButtons.GetPositionFromControl(_buttonOK);
+			_tableLayoutButtons.Controls.Add(_buttonOK, okButtonPos.Column, kNumberOfRows - 1);
+			_tableLayoutButtons.SetRowSpan(_buttonOK, 1);
+			var cancelButtonPos = _tableLayoutButtons.GetPositionFromControl(_buttonCancel);
+			_tableLayoutButtons.Controls.Add(_buttonCancel, cancelButtonPos.Column, kNumberOfRows - 1);
+			_tableLayoutButtons.SetRowSpan(_buttonCancel, 1);
+
 			_tableLayoutButtons.Controls.Add(_pictureIcon, 0, 0);
 			_tableLayoutButtons.SetRowSpan(_pictureIcon, 3);
 			_pictureIcon.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-			_pictureIcon.Visible = true;
 
 			_tableLayoutButtons.Controls.Add(_labelErrorInfo, 1, 0);
 			_tableLayoutButtons.Controls.Add(_labelListenHint, 1, 1);
@@ -435,7 +456,6 @@ namespace SayMore.Transcription.UI
 		protected override void HandleStringsLocalized()
 		{
 			base.HandleStringsLocalized();
-
 			UpdateDisplay();
 		}
 
@@ -455,7 +475,7 @@ namespace SayMore.Transcription.UI
 			{
 				_lastSegmentMenuStrip.Location = new Point(_waveControl.Left +
 					WavePainter.ConvertTimeToXCoordinate(undoableSegmentRange.End) - _lastSegmentMenuStrip.Width - 5,
-					_waveControl.Top + 5);
+					Padding.Top + _waveControl.Top + 5);
 				_undoToolStripMenuItem.ToolTipText = String.Format(LocalizationManager.GetString(
 					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UndoToolTipMsg",
 					"Undo: {0} (Ctrl-Z)"), ViewModel.DescriptionForUndo);
@@ -529,12 +549,12 @@ namespace SayMore.Transcription.UI
 					(_recordingTooShortMsgTimer != null && ViewModel.GetSelectedTimeRange() == (TimeRange)_recordingTooShortMsgTimer.Tag);
 
 					_labelErrorInfo.Text = selectedSegmentHadRecordingThatWasTooShort ?
-																					  LocalizationManager.GetString(
-																					  "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenSpaceOrMouseIsValid",
-																					  "Whoops. You need to hold down the SPACE bar or mouse button while talking.")
-					: LocalizationManager.GetString(
-					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenOnlyMouseIsValid",
-					"Whoops. You need to hold down the mouse button while talking.");
+						LocalizationManager.GetString(
+						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenSpaceOrMouseIsValid",
+						"Whoops. You need to hold down the SPACE BAR or mouse button while talking.")
+						: LocalizationManager.GetString(
+						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenOnlyMouseIsValid",
+						"Whoops. You need to hold down the mouse button while talking.");
 				}
 			}
 		}
@@ -837,6 +857,12 @@ namespace SayMore.Transcription.UI
 			}
 
 			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleVideoHelpButtonClick(object sender, EventArgs e)
+		{
+			UsageReporter.SendNavigationNotice("Video Help requested in " + ViewModel.AnnotationType + " dialog box.");
 		}
 
 		/// ------------------------------------------------------------------------------------

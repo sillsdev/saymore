@@ -199,7 +199,7 @@ namespace SayMore.Transcription.UI
 				case SegmentDefinitionMode.HoldingSpace:
 					return LocalizationManager.GetString(
 						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortHoldingSpace",
-						"You need to keep the space bar down while you listen.");
+						"You need to keep the SPACE BAR down while you listen.");
 				case SegmentDefinitionMode.PressingButton:
 					return LocalizationManager.GetString(
 						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortPressingButton",

@@ -51,7 +51,7 @@ namespace SayMore.Transcription.UI
 			this._buttonAddSegmentBoundary.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._buttonAddSegmentBoundary.Name = "_buttonAddSegmentBoundary";
 			this._buttonAddSegmentBoundary.Size = new System.Drawing.Size(253, 24);
-			this._buttonAddSegmentBoundary.Text = "Add Segment Boundary (press ENTER key)";
+			this._buttonAddSegmentBoundary.Text = "Add Segment Boundary (press ENTER)";
 			this._buttonAddSegmentBoundary.ToolTipText = "Add segment boundary";
 			//
 			// locExtender
@@ -93,7 +93,7 @@ namespace SayMore.Transcription.UI
 			this._buttonListenToOriginal.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._buttonListenToOriginal.Name = "_buttonListenToOriginal";
 			this._buttonListenToOriginal.Size = new System.Drawing.Size(253, 24);
-			this._buttonListenToOriginal.Text = "Listen (press SPACE key)";
+			this._buttonListenToOriginal.Text = "Listen (press the SPACE BAR)";
 			this._buttonListenToOriginal.ToolTipText = "Listen to source recording";
 			//
 			// _buttonStopOriginal
@@ -107,7 +107,7 @@ namespace SayMore.Transcription.UI
 			this._buttonStopOriginal.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._buttonStopOriginal.Name = "_buttonStopOriginal";
 			this._buttonStopOriginal.Size = new System.Drawing.Size(253, 24);
-			this._buttonStopOriginal.Text = "Stop (press SPACE key)";
+			this._buttonStopOriginal.Text = "Stop (press the SPACE BAR)";
 			//
 			// _buttonDeleteSegment
 			//
@@ -121,7 +121,7 @@ namespace SayMore.Transcription.UI
 			this._buttonDeleteSegment.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._buttonDeleteSegment.Name = "_buttonDeleteSegment";
 			this._buttonDeleteSegment.Size = new System.Drawing.Size(253, 26);
-			this._buttonDeleteSegment.Text = "Delete Selected Boundary (press DEL key)";
+			this._buttonDeleteSegment.Text = "Delete Selected Boundary (press DELETE)";
 			//
 			// _clearWarningMessageTimer
 			//

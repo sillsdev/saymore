@@ -14,11 +14,5 @@ namespace SayMore.Transcription.UI
 
 			InitializeRecordingLabel(_labelOralTranslation);
 		}
-
-		/// ------------------------------------------------------------------------------------
-		public virtual OralAnnotationType AnnotationType
-		{
-			get { return Model.OralAnnotationType.CarefulSpeech; }
-		}
 	}
 }

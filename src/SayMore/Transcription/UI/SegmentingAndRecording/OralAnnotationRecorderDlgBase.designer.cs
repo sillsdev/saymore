@@ -31,6 +31,8 @@ namespace SayMore.Transcription.UI
 			this._pictureIcon = new System.Windows.Forms.PictureBox();
 			this._lastSegmentMenuStrip = new System.Windows.Forms.MenuStrip();
 			this._undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this._videoHelpMenuStrip = new System.Windows.Forms.MenuStrip();
+			this._videoHelpMenu = new System.Windows.Forms.ToolStripMenuItem();
 			this._scrollTimer = new System.Windows.Forms.Timer(this.components);
 			this._cursorBlinkTimer = new System.Windows.Forms.Timer(this.components);
 			this._tableLayoutRecordAnnotations = new System.Windows.Forms.TableLayoutPanel();
@@ -41,6 +43,7 @@ namespace SayMore.Transcription.UI
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureIcon)).BeginInit();
 			this._lastSegmentMenuStrip.SuspendLayout();
+			this._videoHelpMenuStrip.SuspendLayout();
 			this._tableLayoutRecordAnnotations.SuspendLayout();
 			this._tableLayoutMediaButtons.SuspendLayout();
 			this.SuspendLayout();
@@ -125,7 +128,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this._labelErrorInfo, null);
 			this.locExtender.SetLocalizationPriority(this._labelErrorInfo, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelErrorInfo, "OralAnnotationRecorderBaseDlg._labelListenHint");
-			this._labelErrorInfo.Location = new System.Drawing.Point(8, 220);
+			this._labelErrorInfo.Location = new System.Drawing.Point(8, 242);
 			this._labelErrorInfo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this._labelErrorInfo.Name = "_labelErrorInfo";
 			this._labelErrorInfo.Size = new System.Drawing.Size(215, 13);
@@ -142,12 +145,12 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelRecordHint, null);
 			this.locExtender.SetLocalizationComment(this._labelRecordHint, null);
 			this.locExtender.SetLocalizingId(this._labelRecordHint, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint");
-			this._labelRecordHint.Location = new System.Drawing.Point(9, 287);
+			this._labelRecordHint.Location = new System.Drawing.Point(9, 309);
 			this._labelRecordHint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this._labelRecordHint.Name = "_labelRecordHint";
-			this._labelRecordHint.Size = new System.Drawing.Size(243, 13);
+			this._labelRecordHint.Size = new System.Drawing.Size(248, 13);
 			this._labelRecordHint.TabIndex = 3;
-			this._labelRecordHint.Text = "To record, press and hold the SPACE key";
+			this._labelRecordHint.Text = "To record, press and hold the SPACE BAR";
 			//
 			// _panelPeakMeter
 			//
@@ -183,12 +186,12 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelListenHint, null);
 			this.locExtender.SetLocalizationComment(this._labelListenHint, null);
 			this.locExtender.SetLocalizingId(this._labelListenHint, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint");
-			this._labelListenHint.Location = new System.Drawing.Point(9, 250);
+			this._labelListenHint.Location = new System.Drawing.Point(9, 272);
 			this._labelListenHint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this._labelListenHint.Name = "_labelListenHint";
-			this._labelListenHint.Size = new System.Drawing.Size(376, 13);
+			this._labelListenHint.Size = new System.Drawing.Size(381, 13);
 			this._labelListenHint.TabIndex = 10;
-			this._labelListenHint.Text = "To listen to the original recording, press and hold the SPACE key";
+			this._labelListenHint.Text = "To listen to the original recording, press and hold the SPACE BAR";
 			//
 			// _labelFinishedHint
 			//
@@ -199,7 +202,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelFinishedHint, null);
 			this.locExtender.SetLocalizationComment(this._labelFinishedHint, null);
 			this.locExtender.SetLocalizingId(this._labelFinishedHint, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelFinishedHint");
-			this._labelFinishedHint.Location = new System.Drawing.Point(11, 322);
+			this._labelFinishedHint.Location = new System.Drawing.Point(11, 344);
 			this._labelFinishedHint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this._labelFinishedHint.Name = "_labelFinishedHint";
 			this._labelFinishedHint.Size = new System.Drawing.Size(54, 13);
@@ -221,7 +224,6 @@ namespace SayMore.Transcription.UI
 			this._pictureIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
 			this._pictureIcon.TabIndex = 12;
 			this._pictureIcon.TabStop = false;
-			this._pictureIcon.Visible = false;
 			//
 			// _lastSegmentMenuStrip
 			//
@@ -249,7 +251,6 @@ namespace SayMore.Transcription.UI
 			this._undoToolStripMenuItem.Image = global::SayMore.Properties.Resources.undo;
 			this.locExtender.SetLocalizableToolTip(this._undoToolStripMenuItem, null);
 			this.locExtender.SetLocalizationComment(this._undoToolStripMenuItem, null);
-			this.locExtender.SetLocalizationPriority(this._undoToolStripMenuItem, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._undoToolStripMenuItem, "OralAnnotationRecorderBaseDlg._undoToolStripMenuItem");
 			this._undoToolStripMenuItem.Name = "_undoToolStripMenuItem";
 			this._undoToolStripMenuItem.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
@@ -258,6 +259,42 @@ namespace SayMore.Transcription.UI
 			this._undoToolStripMenuItem.Size = new System.Drawing.Size(60, 21);
 			this._undoToolStripMenuItem.Text = "Undo";
 			this._undoToolStripMenuItem.Click += new System.EventHandler(this.HandleUndoButtonClick);
+			//
+			// _videoHelpMenuStrip
+			//
+			this._videoHelpMenuStrip.AllowMerge = false;
+			this._videoHelpMenuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
+			this._videoHelpMenuStrip.Dock = System.Windows.Forms.DockStyle.None;
+			this._videoHelpMenuStrip.ImageScalingSize = new System.Drawing.Size(30, 30);
+			this._videoHelpMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this._videoHelpMenu});
+			this.locExtender.SetLocalizableToolTip(this._videoHelpMenuStrip, null);
+			this.locExtender.SetLocalizationComment(this._videoHelpMenuStrip, null);
+			this.locExtender.SetLocalizationPriority(this._videoHelpMenuStrip, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._videoHelpMenuStrip, "OralAnnotationRecorderBaseDlg._videoHelpMenuStrip");
+			this._videoHelpMenuStrip.Location = new System.Drawing.Point(50, 385);
+			this._videoHelpMenuStrip.Name = "_videoHelpMenuStrip";
+			this._videoHelpMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
+			this._videoHelpMenuStrip.ShowItemToolTips = true;
+			this._videoHelpMenuStrip.Size = new System.Drawing.Size(201, 37);
+			this._videoHelpMenuStrip.TabIndex = 18;
+			//
+			// _videoHelpMenu
+			//
+			this._videoHelpMenu.BackColor = System.Drawing.Color.Transparent;
+			this._videoHelpMenu.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._videoHelpMenu.ForeColor = System.Drawing.Color.White;
+			this._videoHelpMenu.Image = global::SayMore.Properties.Resources.ShowVideoHelp;
+			this.locExtender.SetLocalizableToolTip(this._videoHelpMenu, null);
+			this.locExtender.SetLocalizationComment(this._videoHelpMenu, null);
+			this.locExtender.SetLocalizationPriority(this._videoHelpMenu, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._videoHelpMenu, "OralAnnotationRecorderBaseDlg._videoHelpMenu");
+			this._videoHelpMenu.Name = "_videoHelpMenu";
+			this._videoHelpMenu.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+			this._videoHelpMenu.ShortcutKeys = System.Windows.Forms.Keys.F1;
+			this._videoHelpMenu.ShowShortcutKeys = false;
+			this._videoHelpMenu.Size = new System.Drawing.Size(106, 34);
+			this._videoHelpMenu.Text = "Video Help";
 			//
 			// _scrollTimer
 			//
@@ -314,7 +351,8 @@ namespace SayMore.Transcription.UI
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(703, 444);
+			this.ClientSize = new System.Drawing.Size(703, 488);
+			this.Controls.Add(this._videoHelpMenuStrip);
 			this.Controls.Add(this._lastSegmentMenuStrip);
 			this.Controls.Add(this._pictureIcon);
 			this.Controls.Add(this._labelFinishedHint);
@@ -329,7 +367,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CarefulSpeechAnnotationDlg.WindowTitle");
 			this.MainMenuStrip = this._lastSegmentMenuStrip;
-			this.MinimumSize = new System.Drawing.Size(330, 480);
+			this.MinimumSize = new System.Drawing.Size(446, 526);
 			this.Name = "OralAnnotationRecorderBaseDlg";
 			this.Opacity = 1D;
 			this.Text = "Change my text";
@@ -341,12 +379,15 @@ namespace SayMore.Transcription.UI
 			this.Controls.SetChildIndex(this._labelFinishedHint, 0);
 			this.Controls.SetChildIndex(this._pictureIcon, 0);
 			this.Controls.SetChildIndex(this._lastSegmentMenuStrip, 0);
+			this.Controls.SetChildIndex(this._videoHelpMenuStrip, 0);
 			this._panelListen.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureIcon)).EndInit();
 			this._lastSegmentMenuStrip.ResumeLayout(false);
 			this._lastSegmentMenuStrip.PerformLayout();
+			this._videoHelpMenuStrip.ResumeLayout(false);
+			this._videoHelpMenuStrip.PerformLayout();
 			this._tableLayoutRecordAnnotations.ResumeLayout(false);
 			this._tableLayoutMediaButtons.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -374,5 +415,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.PictureBox _pictureIcon;
 		private System.Windows.Forms.MenuStrip _lastSegmentMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem _undoToolStripMenuItem;
+		private System.Windows.Forms.MenuStrip _videoHelpMenuStrip;
+		private System.Windows.Forms.ToolStripMenuItem _videoHelpMenu;
 	}
 }

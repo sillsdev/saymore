@@ -687,6 +687,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap ShowVideoHelp {
+            get {
+                object obj = ResourceManager.GetObject("ShowVideoHelp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap SmallSayMoreLogo {
             get {
                 object obj = ResourceManager.GetObject("SmallSayMoreLogo", resourceCulture);

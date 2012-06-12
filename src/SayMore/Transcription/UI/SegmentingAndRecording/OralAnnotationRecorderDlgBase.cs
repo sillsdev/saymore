@@ -361,6 +361,9 @@ namespace SayMore.Transcription.UI
 			_waveControl = new WaveControlWithRangeSelection();
 			_waveControl.BottomReservedAreaBorderColor = Settings.Default.DataEntryPanelColorBorder;
 			_waveControl.BottomReservedAreaColor = _tableLayoutRecordAnnotations.BackColor;
+			_waveControl.Controls.Add(_lastSegmentMenuStrip);
+			_lastSegmentMenuStrip.UseWaitCursor = false;
+
 			_waveControl.BottomReservedAreaPaintAction = HandlePaintingAnnotatedWaveArea;
 			_waveControl.PostPaintAction = HandleWaveControlPostPaint;
 			_waveControl.MouseMove += HandleWaveControlMouseMove;
@@ -473,9 +476,9 @@ namespace SayMore.Transcription.UI
 			_lastSegmentMenuStrip.Visible = _undoToolStripMenuItem.Enabled = (undoableSegmentRange != null);
 			if (_lastSegmentMenuStrip.Visible)
 			{
-				_lastSegmentMenuStrip.Location = new Point(_waveControl.Left +
+				_lastSegmentMenuStrip.Location = new Point(/*_waveControl.Left +*/
 					WavePainter.ConvertTimeToXCoordinate(undoableSegmentRange.End) - _lastSegmentMenuStrip.Width - 5,
-					Padding.Top + _waveControl.Top + 5);
+					/*Padding.Top + _waveControl.Top + */5);
 				_undoToolStripMenuItem.ToolTipText = String.Format(LocalizationManager.GetString(
 					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UndoToolTipMsg",
 					"Undo: {0} (Ctrl-Z)"), ViewModel.DescriptionForUndo);

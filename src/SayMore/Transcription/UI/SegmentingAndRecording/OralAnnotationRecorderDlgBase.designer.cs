@@ -240,7 +240,7 @@ namespace SayMore.Transcription.UI
 			this._lastSegmentMenuStrip.Name = "_lastSegmentMenuStrip";
 			this._lastSegmentMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
 			this._lastSegmentMenuStrip.ShowItemToolTips = true;
-			this._lastSegmentMenuStrip.Size = new System.Drawing.Size(63, 24);
+			this._lastSegmentMenuStrip.Size = new System.Drawing.Size(155, 24);
 			this._lastSegmentMenuStrip.TabIndex = 15;
 			this._lastSegmentMenuStrip.Visible = false;
 			//
@@ -276,7 +276,7 @@ namespace SayMore.Transcription.UI
 			this._videoHelpMenuStrip.Name = "_videoHelpMenuStrip";
 			this._videoHelpMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
 			this._videoHelpMenuStrip.ShowItemToolTips = true;
-			this._videoHelpMenuStrip.Size = new System.Drawing.Size(201, 37);
+			this._videoHelpMenuStrip.Size = new System.Drawing.Size(109, 37);
 			this._videoHelpMenuStrip.TabIndex = 18;
 			//
 			// _videoHelpMenu

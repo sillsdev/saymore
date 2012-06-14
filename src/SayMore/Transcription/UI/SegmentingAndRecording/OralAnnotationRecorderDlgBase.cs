@@ -488,6 +488,7 @@ namespace SayMore.Transcription.UI
 					"Undo: {0} (Ctrl-Z)"), ViewModel.DescriptionForUndo);
 			}
 
+			_pendingAnnotationMenuStrip.Visible = _skipToolStripMenuItem.Enabled = false;
 			if (!_waveControl.IsPlaying && !ViewModel.GetIsRecording())
 			{
 				_skipToolStripMenuItem.Text = _skipMenuText;
@@ -794,18 +795,16 @@ namespace SayMore.Transcription.UI
 			{
 				if (!ViewModel.GetDoesSegmentHaveAnnotationFile(segMouseOver))
 				{
-					if (_tooltip.GetToolTip(_waveControl) == string.Empty)
-					{
-						var toolTipText = (ViewModel.GetIsSegmentJunk(segMouseOver)) ?
-							LocalizationManager.GetString(
-								"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.SkippedSegmentToolTipMsg",
-								"This segment was skipped.") :
-							LocalizationManager.GetString(
-								"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.NoAnnotationToolTipMsg",
-								"This segment does not have a recorded annotaton.");
+					var toolTipText = (ViewModel.GetIsSegmentJunk(segMouseOver)) ?
+						LocalizationManager.GetString(
+							"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.SkippedSegmentToolTipMsg",
+							"This segment was skipped.") :
+						LocalizationManager.GetString(
+							"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.NoAnnotationToolTipMsg",
+							"This segment does not have a recorded annotaton.");
 
+					if (_tooltip.GetToolTip(_waveControl) != toolTipText)
 						_tooltip.SetToolTip(_waveControl, toolTipText);
-					}
 					return;
 				}
 				if (GetRerecordButtonRectangleForSegmentMouseIsOver().Contains(e.Location))

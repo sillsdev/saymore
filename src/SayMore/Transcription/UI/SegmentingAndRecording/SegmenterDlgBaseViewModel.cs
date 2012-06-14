@@ -527,7 +527,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsSegmentJunk(int segmentIndex)
 		{
-			if (segmentIndex < 0 || segmentIndex >= Tiers.GetTranscriptionTier().Segments.Count)
+			if (Tiers.GetTranscriptionTier() == null || segmentIndex < 0 || segmentIndex >= Tiers.GetTranscriptionTier().Segments.Count)
 				return false;
 			return Tiers.GetIsSegmentJunk(segmentIndex);
 		}

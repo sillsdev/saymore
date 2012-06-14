@@ -39,6 +39,7 @@ namespace SayMore.Transcription.UI
 		private Image _normalRecordAnnotationButton;
 		private Image _normalRerecordAnnotationButton;
 		private Image _hotRerecordAnnotationButton;
+		private string _skipMenuText;
 
 		private TimeSpan _elapsedRecordingTime;
 		private TimeSpan _annotationPlaybackLength;
@@ -363,6 +364,8 @@ namespace SayMore.Transcription.UI
 			_waveControl.BottomReservedAreaColor = _tableLayoutRecordAnnotations.BackColor;
 			_waveControl.Controls.Add(_lastSegmentMenuStrip);
 			_lastSegmentMenuStrip.UseWaitCursor = false;
+			_waveControl.Controls.Add(_pendingAnnotationMenuStrip);
+			_pendingAnnotationMenuStrip.UseWaitCursor = false;
 
 			_waveControl.BottomReservedAreaPaintAction = HandlePaintingAnnotatedWaveArea;
 			_waveControl.PostPaintAction = HandleWaveControlPostPaint;
@@ -459,6 +462,7 @@ namespace SayMore.Transcription.UI
 		protected override void HandleStringsLocalized()
 		{
 			base.HandleStringsLocalized();
+			_skipMenuText = _skipToolStripMenuItem.Text;
 			UpdateDisplay();
 		}
 
@@ -476,14 +480,29 @@ namespace SayMore.Transcription.UI
 			_lastSegmentMenuStrip.Visible = _undoToolStripMenuItem.Enabled = (undoableSegmentRange != null);
 			if (_lastSegmentMenuStrip.Visible)
 			{
-				_lastSegmentMenuStrip.Location = new Point(/*_waveControl.Left +*/
+				_lastSegmentMenuStrip.Location = new Point(
 					WavePainter.ConvertTimeToXCoordinate(undoableSegmentRange.End) - _lastSegmentMenuStrip.Width - 5,
-					/*Padding.Top + _waveControl.Top + */5);
+					5);
 				_undoToolStripMenuItem.ToolTipText = String.Format(LocalizationManager.GetString(
 					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UndoToolTipMsg",
 					"Undo: {0} (Ctrl-Z)"), ViewModel.DescriptionForUndo);
 			}
 
+			if (!_waveControl.IsPlaying && !ViewModel.GetIsRecording())
+			{
+				_skipToolStripMenuItem.Text = _skipMenuText;
+				var rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange(ViewModel.GetSelectedTimeRange());
+				if (rc.Width < _pendingAnnotationMenuStrip.Width)
+					_skipToolStripMenuItem.Text = string.Empty;
+				_pendingAnnotationMenuStrip.Visible = _skipToolStripMenuItem.Enabled =
+					(rc.Width >= _pendingAnnotationMenuStrip.Width);
+				if (_pendingAnnotationMenuStrip.Visible)
+				{
+					_pendingAnnotationMenuStrip.Location = new Point(rc.Right -
+						_pendingAnnotationMenuStrip.Width - Math.Min(5, (rc.Width - _pendingAnnotationMenuStrip.Width) / 2),
+						rc.Top + 5);
+				}
+			}
 			_labelListenButton.Image = (_waveControl.IsPlaying && _playingBackUsingHoldDownButton ?
 				Resources.ListenToOriginalRecordingDown : Resources.ListenToOriginalRecording);
 
@@ -777,9 +796,15 @@ namespace SayMore.Transcription.UI
 				{
 					if (_tooltip.GetToolTip(_waveControl) == string.Empty)
 					{
-						_tooltip.SetToolTip(_waveControl, LocalizationManager.GetString(
-							"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.NoAnnotationToolTipMsg",
-							"This segment does not have a recorded annotaton."));
+						var toolTipText = (ViewModel.GetIsSegmentJunk(segMouseOver)) ?
+							LocalizationManager.GetString(
+								"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.SkippedSegmentToolTipMsg",
+								"This segment was skipped.") :
+							LocalizationManager.GetString(
+								"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.NoAnnotationToolTipMsg",
+								"This segment does not have a recorded annotaton.");
+
+						_tooltip.SetToolTip(_waveControl, toolTipText);
 					}
 					return;
 				}
@@ -895,6 +920,15 @@ namespace SayMore.Transcription.UI
 					InitializeTableLayoutButtonControls();
 				}
 			});
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleSkipButtonClick(object sender, EventArgs e)
+		{
+			ViewModel.MarkCurrentSegmentAsJunk();
+			GoToNextUnannotatedSegment();
+			_spaceBarMode = ViewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1050,7 +1084,16 @@ namespace SayMore.Transcription.UI
 					continue;
 
 				if (!ViewModel.GetDoesSegmentHaveAnnotationFile(i))
+				{
+					if (ViewModel.GetIsSegmentJunk(i))
+					{
+						using (var brush = new SolidBrush(Color.Pink))
+						{
+							e.Graphics.FillRectangle(brush, rc);
+						}
+					}
 					continue;
+				}
 
 				if (rc.X == 0)
 					rc.Width -= 2;
@@ -1081,20 +1124,10 @@ namespace SayMore.Transcription.UI
 			// is restored because of the error.
 			try
 			{
-				// If the samples to paint for this oral annotation have not been calculated,
-				// then create a helper to get those samples, then cache them in the ViewModel.
-				var audioFilePath = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
-				var helper = ViewModel.SegmentsAnnotationSamplesToDraw.FirstOrDefault(h => h.AudioFilePath == audioFilePath);
-				if (helper == null)
-				{
-					helper = new AudioFileHelper(audioFilePath);
-					ViewModel.SegmentsAnnotationSamplesToDraw.Add(helper);
-				}
-
 				// Draw the oral annotation's wave in the bottom, reserved area of the wave control.
 				using (var painter = new WavePainterBasic { ForeColor = Color.Black, BackColor = Color.Black })
 				{
-					painter.SetSamplesToDraw(helper.GetSamples((uint)rc.Width));
+					painter.SetSamplesToDraw(ViewModel.GetSegmentSamples(segment, (uint)rc.Width));
 					painter.Draw(e, rc);
 				}
 			}

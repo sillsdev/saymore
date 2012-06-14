@@ -11,6 +11,8 @@ namespace SayMore.Transcription.Model
 	/// ----------------------------------------------------------------------------------------
 	public class TierCollection : Collection<TierBase>
 	{
+		public const string kJunk = "%junk%";
+
 		public bool PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -69,6 +71,61 @@ namespace SayMore.Transcription.Model
 		public bool GetDoTimeSegmentsExist()
 		{
 			return (GetTimeTier() != null && GetTimeTier().Segments.Count > 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsFullyAnnotated(OralAnnotationType type)
+		{
+			var timeTier = GetTimeTier();
+			if (!timeTier.IsFullySegmented)
+				return false;
+
+			var transcriptionTier = GetTranscriptionTier(false);
+			Segment transcriptionSegment;
+			Func<Segment, string> GetPathToAnnotationFile = (type == OralAnnotationType.CarefulSpeech) ?
+				(Func<Segment, string>)timeTier.GetFullPathToCarefulSpeechFile :
+				(Func<Segment, string>)timeTier.GetFullPathToOralTranslationFile;
+
+			for (int iSegment = 0; iSegment < timeTier.Segments.Count; iSegment++)
+			{
+				if (!(transcriptionTier != null &&
+					transcriptionTier.TryGetSegment(iSegment, out transcriptionSegment) &&
+					transcriptionSegment.Text == kJunk) &&
+					!File.Exists(GetPathToAnnotationFile(timeTier.Segments[iSegment])))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void MarkSegmentAsJunk(int iSegment)
+		{
+			GetTranscriptionTier().Segments[iSegment].Text = kJunk;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void AddJunkSegment(float boundary)
+		{
+			var timeTier = GetTimeTier();
+
+			var newSeg = timeTier.AppendSegment(boundary);
+			var i = timeTier.GetIndexOfSegment(newSeg);
+
+			var transcriptionTier = GetTranscriptionTier();
+			foreach (var tier in this.OfType<TextTier>())
+			{
+				var text = (tier == transcriptionTier) ? kJunk : string.Empty;
+				tier.Segments.Add(new Segment(tier, text));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsSegmentJunk(int segmentIndex)
+		{
+			var transcriptionTier = GetTranscriptionTier();
+			return (transcriptionTier != null && transcriptionTier.Segments[segmentIndex].Text == kJunk);
 		}
 
 		/// ------------------------------------------------------------------------------------

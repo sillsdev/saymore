@@ -94,7 +94,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsFullyAnnotated()
 		{
-			return TimeTier.GetIsFullyAnnotated(AnnotationType);
+			return Tiers.GetIsFullyAnnotated(AnnotationType);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -144,17 +144,6 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetDoesSegmentHaveAnnotationFile(TimeRange timeRange)
-		{
-			var segment = TimeTier.GetSegmentHavingEndBoundary(timeRange.EndSeconds);
-
-			if (segment != null)
-				Debug.Assert(segment.Start.Equals(timeRange.StartSeconds));
-
-			return GetDoesSegmentHaveAnnotationFile(segment);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public bool GetDoesSegmentHaveAnnotationFile(Segment segment)
 		{
 			return (segment != null && File.Exists(GetFullPathToAnnotationFileForSegment(segment)));
@@ -185,19 +174,36 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void MarkCurrentSegmentAsJunk()
+		{
+			if (CurrentUnannotatedSegment != null)
+			{
+				Tiers.MarkSegmentAsJunk(TimeTier.GetIndexOfSegment(CurrentUnannotatedSegment));
+				var timeRange = CurrentUnannotatedSegment.TimeRange.Copy();
+				_undoStack.Push(new SegmentChange(SegmentChangeType.Skipped, timeRange, timeRange,
+					sc => Tiers.GetTranscriptionTier().Segments.First(s => s.TimeRange == sc.OriginalRange).Text = string.Empty));
+			}
+			else
+				AddJunkSegment(NewSegmentEndBoundary);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool SetNextUnannotatedSegment()
 		{
 			CurrentUnannotatedSegment = TimeTier.Segments.FirstOrDefault(s =>
 				(CurrentUnannotatedSegment == null || s.End > CurrentUnannotatedSegment.End) &&
-				!GetDoesSegmentHaveAnnotationFile(s));
+				SegmentNeedsAnnotation(s));
 
 			if (CurrentUnannotatedSegment == null)
-			{
-				CurrentUnannotatedSegment = TimeTier.Segments
-					.FirstOrDefault(s => !GetDoesSegmentHaveAnnotationFile(s));
-			}
+				CurrentUnannotatedSegment = TimeTier.Segments.FirstOrDefault(SegmentNeedsAnnotation);
 
 			return CurrentUnannotatedSegment != null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool SegmentNeedsAnnotation(Segment s)
+		{
+			return !GetDoesSegmentHaveAnnotationFile(s) && !GetIsSegmentJunk(s);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -233,6 +239,21 @@ namespace SayMore.Transcription.UI
 			base.OnSegmentDeleted(segment);
 			if (segment == CurrentUnannotatedSegment)
 				SetNextUnannotatedSegment();
+		}
+
+		/// ----------------------------------------------------------------------------------------
+		public Tuple<float, float>[,] GetSegmentSamples(Segment segment, uint numberOfSamplesToReturn)
+		{
+			// If the samples for this oral annotation have not been calculated, then create a
+			// helper to get those samples and cache them.
+			var audioFilePath = GetFullPathToAnnotationFileForSegment(segment);
+			var helper = SegmentsAnnotationSamplesToDraw.FirstOrDefault(h => h.AudioFilePath == audioFilePath);
+			if (helper == null)
+			{
+				helper = new AudioFileHelper(audioFilePath);
+				SegmentsAnnotationSamplesToDraw.Add(helper);
+			}
+			return helper.GetSamples(numberOfSamplesToReturn);
 		}
 		#endregion
 

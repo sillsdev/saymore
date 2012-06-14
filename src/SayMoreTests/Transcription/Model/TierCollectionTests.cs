@@ -434,6 +434,94 @@ namespace SayMoreTests.Transcription.Model
 		}
 		#endregion
 
+		#region GetIsFullyAnnotated tests
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetIsFullyAnnotated_NoSegments_ReturnsFalse()
+		{
+			_collection.GetTimeTier().Segments.Clear();
+			Assert.IsFalse(_collection.GetIsFullyAnnotated(OralAnnotationType.CarefulSpeech));
+			Assert.IsFalse(_collection.GetIsFullyAnnotated(OralAnnotationType.Translation));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetIsFullyAnnotated_NoAnnotations_ReturnsFalse()
+		{
+			Assert.IsFalse(_collection.GetIsFullyAnnotated(OralAnnotationType.CarefulSpeech));
+			Assert.IsFalse(_collection.GetIsFullyAnnotated(OralAnnotationType.Translation));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetIsFullyAnnotated_SomeSegmentsHaveAnnotations_ReturnsFalse()
+		{
+			var timeTier = _collection.GetTimeTier();
+			Directory.CreateDirectory(timeTier.SegmentFileFolder);
+			File.OpenWrite(Path.Combine(timeTier.SegmentFileFolder, "10_to_20_Careful.wav")).Close();
+			File.OpenWrite(Path.Combine(timeTier.SegmentFileFolder, "30_to_40_Careful.wav")).Close();
+			File.OpenWrite(Path.Combine(timeTier.SegmentFileFolder, "30_to_40_Translation.wav")).Close();
+			Assert.IsFalse(_collection.GetIsFullyAnnotated(OralAnnotationType.CarefulSpeech));
+			Assert.IsFalse(_collection.GetIsFullyAnnotated(OralAnnotationType.Translation));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetIsFullyAnnotated_NotFullySegmentedButAllSegmentsHaveAnnotations_ReturnsFalse()
+		{
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
+			Assert.IsFalse(_collection.GetIsFullyAnnotated(OralAnnotationType.CarefulSpeech));
+			Assert.IsFalse(_collection.GetIsFullyAnnotated(OralAnnotationType.Translation));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetIsFullyAnnotated_FullySegmentedButSomeSegmentsNotAnnotated_ReturnsFalse()
+		{
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
+			var timeTier = _collection.GetTimeTier();
+			_collection.InsertTierSegment(10f);
+			_collection.InsertTierSegment((float)timeTier.TotalTime.TotalSeconds);
+			Assert.IsFalse(_collection.GetIsFullyAnnotated(OralAnnotationType.CarefulSpeech));
+			Assert.IsFalse(_collection.GetIsFullyAnnotated(OralAnnotationType.Translation));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetIsFullyAnnotated_FullySegmentedButSomeSegmentsSkipped_ReturnsTrue()
+		{
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
+			var timeTier = _collection.GetTimeTier();
+			_collection.InsertTierSegment(10f);
+			_collection.MarkSegmentAsJunk(0);
+			_collection.InsertTierSegment((float)timeTier.TotalTime.TotalSeconds);
+			_collection.MarkSegmentAsJunk(timeTier.Segments.Count - 1);
+			Assert.IsTrue(_collection.GetIsFullyAnnotated(OralAnnotationType.CarefulSpeech));
+			Assert.IsTrue(_collection.GetIsFullyAnnotated(OralAnnotationType.Translation));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetIsFullyAnnotated_FullyAnnotated_ReturnsTrue()
+		{
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
+			var timeTier = _collection.GetTimeTier();
+			TimeTierTests.CreateAndAnnotateSegment(timeTier, 0, 10f);
+			TimeTierTests.CreateAndAnnotateSegment(timeTier, 40f, (float)timeTier.TotalTime.TotalSeconds);
+
+			Assert.IsTrue(_collection.GetIsFullyAnnotated(OralAnnotationType.CarefulSpeech));
+			Assert.IsTrue(_collection.GetIsFullyAnnotated(OralAnnotationType.Translation));
+		}
+		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		private void CreateAnnotationFilesForSegmentsCreatedInSetup()
+		{
+			TimeTierTests.CreateAnnotationFiles(_collection.GetTimeTier(),
+				"10_to_20_Careful.wav", "20_to_30_Careful.wav", "30_to_40_Careful.wav",
+				"10_to_20_Translation.wav", "20_to_30_Translation.wav", "30_to_40_Translation.wav");
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public static void CheckTier(TierBase expected, TierBase actual)
 		{

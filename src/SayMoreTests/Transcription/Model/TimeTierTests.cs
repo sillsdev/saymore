@@ -498,7 +498,7 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetTotalAnnotatedTime_NotFullyAnnotatedButAllSegmentsHaveAnnotations_ReturnsTotalAnnotatedTime()
+		public void GetTotalAnnotatedTime_NotFullySegmentedButAllSegmentsHaveAnnotations_ReturnsTotalAnnotatedTime()
 		{
 			CreateAnnotationFilesForSegmentsCreatedInSetup();
 			Assert.AreEqual(TimeSpan.FromSeconds(30), _tier.GetTotalAnnotatedTime(OralAnnotationType.CarefulSpeech));
@@ -522,9 +522,15 @@ namespace SayMoreTests.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		private void CreateAndAnnotateSegment(float startTime, float endTime)
 		{
-			var segment = _tier.AddSegment(startTime, endTime);
-			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, _tier.GetFullPathToCarefulSpeechFile(segment))).Close();
-			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, _tier.GetFullPathToOralTranslationFile(segment))).Close();
+			CreateAndAnnotateSegment(_tier, startTime, endTime);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void CreateAndAnnotateSegment(TimeTier tier, float startTime, float endTime)
+		{
+			var segment = tier.AddSegment(startTime, endTime);
+			File.OpenWrite(Path.Combine(tier.SegmentFileFolder, tier.GetFullPathToCarefulSpeechFile(segment))).Close();
+			File.OpenWrite(Path.Combine(tier.SegmentFileFolder, tier.GetFullPathToOralTranslationFile(segment))).Close();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -550,21 +556,20 @@ namespace SayMoreTests.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		private void CreateAnnotationFilesForSegmentsCreatedInSetup()
 		{
-			Directory.CreateDirectory(_tier.SegmentFileFolder);
+			CreateAnnotationFiles(_tier, "10_to_20_Careful.wav", "20_to_30_Careful.wav", "30_to_40_Careful.wav",
+				"10_to_20_Translation.wav", "20_to_30_Translation.wav", "30_to_40_Translation.wav");
+		}
 
-			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")).Close();
-			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")).Close();
-			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")).Close();
-			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Translation.wav")).Close();
-			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")).Close();
-			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")).Close();
+		/// ------------------------------------------------------------------------------------
+		internal static void CreateAnnotationFiles(TimeTier tier, params string[] files)
+		{
+			Directory.CreateDirectory(tier.SegmentFileFolder);
 
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Translation.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
+			foreach (var file in files)
+				File.OpenWrite(Path.Combine(tier.SegmentFileFolder, file)).Close();
+
+			foreach (var file in files)
+				Assert.IsTrue(File.Exists(Path.Combine(tier.SegmentFileFolder, file)));
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -61,14 +61,6 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetIsFullyAnnotated(OralAnnotationType type)
-		{
-			return IsFullySegmented && Segments.All(s => type == OralAnnotationType.CarefulSpeech ?
-				File.Exists(GetFullPathToCarefulSpeechFile(s)) :
-				File.Exists(GetFullPathToOralTranslationFile(s)));
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public TimeSpan GetTotalAnnotatedTime(OralAnnotationType type)
 		{
 			return TimeSpan.FromSeconds(Segments.Where(segment =>
@@ -184,6 +176,15 @@ namespace SayMore.Transcription.Model
 		}
 
 		#region Methods for Adding and removing segments
+		/// ------------------------------------------------------------------------------------
+		public Segment AppendSegment(float endOfNewSegment)
+		{
+			var startOfNewSegment = Segments.Last().End;
+			if (endOfNewSegment <= startOfNewSegment)
+				throw new ArgumentException("Cannot append a segment ending at " + endOfNewSegment + " because it is before the end of the last existing segment.");
+			return AddSegment(startOfNewSegment, endOfNewSegment);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public Segment AddSegment(float start, float stop)
 		{

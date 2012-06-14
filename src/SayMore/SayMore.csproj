@@ -964,6 +964,7 @@
     <None Include="Resources\InfoBlue24x24.png" />
     <None Include="Resources\Information_red.png" />
     <None Include="Resources\Information_blue.png" />
+    <None Include="Resources\arrow_skip_right.png" />
     <Content Include="Resources\MoreMediaInfoStyles.css" />
     <None Include="Resources\Presets.png" />
     <None Include="Resources\Green_check.png" />

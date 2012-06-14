@@ -23,6 +23,7 @@ namespace SayMore.Transcription.UI
 			Deletion,
 			EndBoundaryMoved,
 			AnnotationAdded,
+			Skipped,
 		}
 
 		#region SegmentChange class
@@ -107,6 +108,12 @@ namespace SayMore.Transcription.UI
 							"DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.AnnotationRecording",
 							"Recording annotation for segment {0}",
 							"Parameter is time range of the segment for which the annotation was recorded.");
+						return String.Format(fmt, OriginalRange);
+					case SegmentChangeType.Skipped:
+						fmt = LocalizationManager.GetString(
+							"DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.JunkSegmentSkipped",
+							"Skipping segment {0}",
+							"Parameter is time range of the segment that was skipped.");
 						return String.Format(fmt, OriginalRange);
 					default:
 						return "Unknown action";
@@ -500,6 +507,29 @@ namespace SayMore.Transcription.UI
 			}
 
 			return GetSegmentEndBoundaries();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void AddJunkSegment(TimeSpan newBoundary)
+		{
+			Tiers.AddJunkSegment((float)newBoundary.TotalSeconds);
+			_undoStack.Push(new SegmentChange(TimeTier.Segments.First(s => s.TimeRange.End == newBoundary).TimeRange.Copy(),
+				c => { Tiers.GetTranscriptionTier().Segments.Last().Text = string.Empty; RevertNewSegment(c); }));
+			OnSegmentBoundaryChanged();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsSegmentJunk(Segment segment)
+		{
+			return GetIsSegmentJunk(TimeTier.GetIndexOfSegment(segment));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsSegmentJunk(int segmentIndex)
+		{
+			if (segmentIndex < 0 || segmentIndex >= Tiers.GetTranscriptionTier().Segments.Count)
+				return false;
+			return Tiers.GetIsSegmentJunk(segmentIndex);
 		}
 
 		/// ------------------------------------------------------------------------------------

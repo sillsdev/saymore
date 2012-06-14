@@ -32,7 +32,7 @@ namespace SayMoreTests.Transcription.UI
 			_timeTier.AddSegment(10f, 20f);
 			_timeTier.AddSegment(20f, 30f);
 
-			_textTier = new TextTier("Junk");
+			_textTier = new TextTier(TextTier.ElanTranscriptionTierId);
 
 			var annotationFile = new Mock<AnnotationComponentFile>();
 			annotationFile.Setup(a => a.Tiers).Returns(new TierCollection { _timeTier, _textTier });
@@ -827,7 +827,7 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void Undo_SegmentBoundaryHasBeenMovedAndFollowingSegmentAdded_RemovesAddedSegmentAndThnRestoresOriginalBoundary()
+		public void Undo_SegmentBoundaryHasBeenMovedAndFollowingSegmentAdded_RemovesAddedSegmentAndThenRestoresOriginalBoundary()
 		{
 			AddTextSegmentsForAllTimeSegments();
 			var startingSegmentCount = _model.GetSegmentCount();
@@ -851,6 +851,31 @@ namespace SayMoreTests.Transcription.UI
 			Assert.IsFalse(_model.WereChangesMade);
 			Assert.IsFalse(_model.SegmentBoundariesChanged);
 			Assert.AreEqual(null, _model.TimeRangeForUndo);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Undo_JunkSegmentAdded_RemovesAddedSegment()
+		{
+			AddTextSegmentsForAllTimeSegments();
+			var startingSegmentCount = _model.GetSegmentCount();
+			_model.Tiers.GetTranscriptionTier().Segments[startingSegmentCount - 1].Text = "last segment";
+			var startingLastSegmentBoundary = _model.GetEndOfLastSegment();
+			var newEnd = TimeSpan.FromSeconds(40);
+			_model.AddJunkSegment(newEnd);
+			Assert.IsTrue(_model.WereChangesMade);
+			Assert.IsTrue(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(newEnd, _model.GetEndOfLastSegment());
+			Assert.IsTrue(_model.GetIsSegmentJunk(startingSegmentCount));
+			Assert.AreEqual(new TimeRange(30, 40), _model.TimeRangeForUndo);
+			_model.Undo();
+			Assert.AreEqual(startingSegmentCount, _model.GetSegmentCount());
+			Assert.AreEqual(startingLastSegmentBoundary, _model.GetEndOfLastSegment());
+			Assert.IsFalse(_model.WereChangesMade);
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(null, _model.TimeRangeForUndo);
+			Assert.AreEqual("last segment", _model.Tiers.GetTranscriptionTier().Segments[startingSegmentCount - 1].Text);
+			Assert.IsFalse(_model.GetIsSegmentJunk(startingSegmentCount - 1));
 		}
 	}
 }

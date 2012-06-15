@@ -107,7 +107,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonDelete.Name = "_buttonDelete";
 			this._buttonDelete.Size = new System.Drawing.Size(75, 26);
 			this._buttonDelete.TabIndex = 1;
-			this._buttonDelete.Text = "&Delete";
+			this._buttonDelete.Text = "&Delete...";
 			this._buttonDelete.UseVisualStyleBackColor = true;
 			this._buttonDelete.Click += new System.EventHandler(this.HandleDeleteButtonClick);
 			// 

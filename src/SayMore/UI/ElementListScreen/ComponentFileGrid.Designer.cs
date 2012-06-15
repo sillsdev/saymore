@@ -75,7 +75,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizingId(this._menuDeleteFile, "CommonToMultipleViews.FileList.DeleteFileMenuText");
 			this._menuDeleteFile.Name = "_menuDeleteFile";
 			this._menuDeleteFile.Size = new System.Drawing.Size(128, 22);
-			this._menuDeleteFile.Text = "Delete File";
+			this._menuDeleteFile.Text = "&Delete File...";
 			// 
 			// _panelOuter
 			// 

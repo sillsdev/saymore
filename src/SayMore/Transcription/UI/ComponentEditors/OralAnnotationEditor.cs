@@ -55,7 +55,7 @@ namespace SayMore.Transcription.UI
 
 			_buttonHelp.Click += delegate
 			{
-				Program.ShowHelpTopic("/Using_Tools/Events_tab/Generated_Audio_tab_overview.htm");
+				Program.ShowHelpTopic("/Using_Tools/Sessions_tab/Generated_Audio_tab_overview.htm");
 			};
 		}
 

@@ -1656,5 +1656,10 @@ namespace SayMore.Transcription.UI
 		}
 
 		#endregion
+
+		private void _videoHelpMenu_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Sorry, we don't actually have a video for this yet. Contributions welcome!");
+		}
 	}
 }

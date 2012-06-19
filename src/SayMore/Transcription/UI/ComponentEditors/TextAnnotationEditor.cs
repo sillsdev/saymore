@@ -81,7 +81,7 @@ namespace SayMore.Transcription.UI
 		private void LoadPlaybackSpeedCombo()
 		{
 			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct", "100% (Normal)"));
+				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct", "100%"));
 			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
 				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct", "90%"));
 			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(

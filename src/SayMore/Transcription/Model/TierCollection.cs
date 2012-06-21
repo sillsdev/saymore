@@ -77,7 +77,7 @@ namespace SayMore.Transcription.Model
 		public bool GetIsFullyAnnotated(OralAnnotationType type)
 		{
 			var timeTier = GetTimeTier();
-			if (!timeTier.IsFullySegmented)
+			if (timeTier == null || !timeTier.IsFullySegmented)
 				return false;
 
 			var transcriptionTier = GetTranscriptionTier(false);

@@ -178,10 +178,11 @@ namespace SayMore.Transcription.UI
 		{
 			if (CurrentUnannotatedSegment != null)
 			{
-				Tiers.MarkSegmentAsJunk(TimeTier.GetIndexOfSegment(CurrentUnannotatedSegment));
+				var segmentIndex = TimeTier.GetIndexOfSegment(CurrentUnannotatedSegment);
+				Tiers.MarkSegmentAsJunk(segmentIndex);
 				var timeRange = CurrentUnannotatedSegment.TimeRange.Copy();
 				_undoStack.Push(new SegmentChange(SegmentChangeType.Skipped, timeRange, timeRange,
-					sc => Tiers.GetTranscriptionTier().Segments.First(s => s.TimeRange == sc.OriginalRange).Text = string.Empty));
+					sc => Tiers.GetTranscriptionTier().Segments[segmentIndex].Text = string.Empty));
 			}
 			else
 				AddJunkSegment(NewSegmentEndBoundary);

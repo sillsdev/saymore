@@ -125,7 +125,7 @@ namespace SayMoreTests.Transcription.Model
 			var duration = TimeSpan.FromSeconds(3);
 			_sampleProvider.TotalTime = duration;
 
-			Settings.Default.MaximumSegmentLengthInMilliseconds = 6000;
+			Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds = 6000;
 
 			var segmenter = new AutoSegmenter(_sampleProvider);
 			var breaks = segmenter.GetNaturalBreaks().ToList();
@@ -142,7 +142,7 @@ namespace SayMoreTests.Transcription.Model
 			var duration = TimeSpan.FromSeconds(3);
 			_sampleProvider.TotalTime = duration;
 
-			Settings.Default.MaximumSegmentLengthInMilliseconds = 6000;
+			Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds = 6000;
 
 			var segmenter = new AutoSegmenter(_sampleProvider);
 			var breaks = segmenter.GetNaturalBreaks().ToList();
@@ -164,7 +164,7 @@ namespace SayMoreTests.Transcription.Model
 			_sampleProvider.TotalTime = duration;
 
 			Settings.Default.AutoSegmenterPreferrerdPauseLength = TimeSpan.FromMilliseconds(10);
-			Settings.Default.MaximumSegmentLengthInMilliseconds = 1200;
+			Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds = 1200;
 
 			var segmenter = new AutoSegmenter(_sampleProvider);
 			var breaks = segmenter.GetNaturalBreaks().ToArray();
@@ -192,7 +192,7 @@ namespace SayMoreTests.Transcription.Model
 			_sampleProvider.TotalTime = duration;
 
 			Settings.Default.AutoSegmenterPreferrerdPauseLength = TimeSpan.FromMilliseconds(10);
-			Settings.Default.MaximumSegmentLengthInMilliseconds = 2000;
+			Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds = 2000;
 			var segmenter = new AutoSegmenter(_sampleProvider);
 			var breaks = segmenter.GetNaturalBreaks().ToArray();
 			Assert.AreEqual(3, breaks.Length);
@@ -219,7 +219,7 @@ namespace SayMoreTests.Transcription.Model
 			_sampleProvider.TotalTime = duration;
 
 			Settings.Default.AutoSegmenterPreferrerdPauseLength = TimeSpan.FromMilliseconds(10);
-			Settings.Default.MaximumSegmentLengthInMilliseconds = 2200;
+			Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds = 2200;
 
 			var segmenter = new AutoSegmenter(_sampleProvider);
 			var breaks = segmenter.GetNaturalBreaks().ToArray();
@@ -265,7 +265,7 @@ namespace SayMoreTests.Transcription.Model
 			_sampleProvider.TotalTime = duration;
 
 			Settings.Default.AutoSegmenterPreferrerdPauseLength = TimeSpan.FromMilliseconds(10);
-			Settings.Default.MaximumSegmentLengthInMilliseconds = 6000;
+			Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds = 6000;
 
 			var segmenter = new AutoSegmenter(_sampleProvider);
 			var breaks = segmenter.GetNaturalBreaks().ToArray();
@@ -304,7 +304,7 @@ namespace SayMoreTests.Transcription.Model
 
 			_sampleProvider.TotalTime = duration;
 
-			Settings.Default.MaximumSegmentLengthInMilliseconds = 6000;
+			Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds = 6000;
 
 			var segmenter = new AutoSegmenter(_sampleProvider);
 			var breaks = segmenter.GetNaturalBreaks().ToArray();

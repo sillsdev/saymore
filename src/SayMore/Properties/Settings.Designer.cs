@@ -1405,22 +1405,22 @@ namespace SayMore.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10000")]
-        public int MaximumSegmentLengthInMilliseconds {
+        public int AutoSegmenterMaximumSegmentLengthInMilliseconds {
             get {
-                return ((int)(this["MaximumSegmentLengthInMilliseconds"]));
+                return ((int)(this["AutoSegmenterMaximumSegmentLengthInMilliseconds"]));
             }
             set {
-                this["MaximumSegmentLengthInMilliseconds"] = value;
+                this["AutoSegmenterMaximumSegmentLengthInMilliseconds"] = value;
             }
         }
         
         /// <summary>
-        /// The larger this value, the longer the pause that the autosegmenter will try to find to use as a break.
+        /// The larger this value, the longer the pause that the auto-segmenter will try to find to use as a break.
         /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Configuration.SettingsDescriptionAttribute("The larger this value, the longer the pause that the autosegmenter will try to fi" +
-            "nd to use as a break.")]
+        [global::System.Configuration.SettingsDescriptionAttribute("The larger this value, the longer the pause that the auto-segmenter will try to f" +
+            "ind to use as a break.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("00:00:00.2500000")]
         public global::System.TimeSpan AutoSegmenterPreferrerdPauseLength {

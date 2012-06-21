@@ -12,7 +12,7 @@ namespace SayMore.Media.FFmpeg
 	public partial class FFmpegDownloadDlg : Form
 	{
 		/// ------------------------------------------------------------------------------------
-		private enum ProgressSate
+		private enum ProgressState
 		{
 			NotStarted,
 			DownloadStarted,
@@ -23,7 +23,7 @@ namespace SayMore.Media.FFmpeg
 		}
 
 		private FFmpegDownloadHelper _downloadHelper;
-		private ProgressSate _state = ProgressSate.NotStarted;
+		private ProgressState _state = ProgressState.NotStarted;
 
 		/// ------------------------------------------------------------------------------------
 		public FFmpegDownloadDlg()
@@ -108,15 +108,15 @@ namespace SayMore.Media.FFmpeg
 		{
 			_labelStatus.Visible = false;
 
-			if (_state == ProgressSate.DownloadStarted)
+			if (_state == ProgressState.DownloadStarted)
 				_progressControl.Visible = true;
-			else if (_state != ProgressSate.NotStarted)
+			else if (_state != ProgressState.NotStarted)
 			{
 				_progressControl.Visible = false;
 
 				switch (_state)
 				{
-					case ProgressSate.DownloadCanceled:
+					case ProgressState.DownloadCanceled:
 						_labelStatus.ForeColor = Color.Red;
 						_labelStatus.Text = LocalizationManager.GetString(
 							"DialogBoxes.FFmpegDownloadDlg.DownloadCancelledMsg",
@@ -124,7 +124,7 @@ namespace SayMore.Media.FFmpeg
 
 						break;
 
-					case ProgressSate.DownloadedAndInstallSucceeded:
+					case ProgressState.DownloadedAndInstallSucceeded:
 						_labelStatus.ForeColor = Color.Green;
 						_labelStatus.Text = LocalizationManager.GetString(
 							"DialogBoxes.FFmpegDownloadDlg.DownloadCompleteMsg",
@@ -132,7 +132,7 @@ namespace SayMore.Media.FFmpeg
 
 						break;
 
-					case ProgressSate.Installing:
+					case ProgressState.Installing:
 						_labelStatus.ForeColor = ForeColor;
 						_labelStatus.Text = LocalizationManager.GetString(
 							"DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileMsg",
@@ -140,7 +140,7 @@ namespace SayMore.Media.FFmpeg
 
 						break;
 
-					case ProgressSate.Installed:
+					case ProgressState.Installed:
 						_labelStatus.ForeColor = Color.Green;
 						_labelStatus.Text = LocalizationManager.GetString(
 							"DialogBoxes.FFmpegDownloadDlg.InstallCompletedingMsg",
@@ -152,8 +152,8 @@ namespace SayMore.Media.FFmpeg
 				_labelStatus.Visible = true;
 			}
 
-			_buttonInstall.Enabled = (_state != ProgressSate.DownloadStarted && !FFmpegDownloadHelper.DoesFFmpegForSayMoreExist);
-			_buttonCancel.Visible = (_state == ProgressSate.DownloadStarted);
+			_buttonInstall.Enabled = (_state != ProgressState.DownloadStarted && !FFmpegDownloadHelper.DoesFFmpegForSayMoreExist);
+			_buttonCancel.Visible = (_state == ProgressState.DownloadStarted);
 			_buttonClose.Visible = !_buttonCancel.Visible;
 
 			if (!_buttonClose.Visible)
@@ -171,7 +171,7 @@ namespace SayMore.Media.FFmpeg
 		/// ------------------------------------------------------------------------------------
 		private void HanleAudoAutoDownloadLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			if (_state != ProgressSate.NotStarted && _state != ProgressSate.DownloadCanceled)
+			if (_state != ProgressState.NotStarted && _state != ProgressState.DownloadCanceled)
 				return;
 
 			UseWaitCursor = true;
@@ -179,7 +179,7 @@ namespace SayMore.Media.FFmpeg
 			_downloadHelper.OnFinished += HandleDownloadProgressFinished;
 			_progressControl.Initialize(_downloadHelper);
 
-			_state = ProgressSate.DownloadStarted;
+			_state = ProgressState.DownloadStarted;
 			UpdateDisplay();
 			_downloadHelper.Start();
 		}
@@ -188,9 +188,9 @@ namespace SayMore.Media.FFmpeg
 		private void HandleDownloadProgressFinished(object sender, ProgressFinishedArgs e)
 		{
 			if (e.ProgressCanceled)
-				_state = ProgressSate.DownloadCanceled;
+				_state = ProgressState.DownloadCanceled;
 			else if (InstallDownloadedFile(_downloadHelper.DownloadedZipFilePath))
-				_state = ProgressSate.DownloadedAndInstallSucceeded;
+				_state = ProgressState.DownloadedAndInstallSucceeded;
 
 			_downloadHelper = null;
 			UpdateDisplay();
@@ -207,7 +207,7 @@ namespace SayMore.Media.FFmpeg
 
 			if (!_downloadHelper.GetIsValidFFmpegForSayMoreFile(downloadedZipFile, errorMsg))
 			{
-				_state = ProgressSate.DownloadCanceled;
+				_state = ProgressState.DownloadCanceled;
 				return false;
 			}
 
@@ -227,7 +227,7 @@ namespace SayMore.Media.FFmpeg
 		/// ------------------------------------------------------------------------------------
 		private void HandleManualDownloadLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			if (_state != ProgressSate.NotStarted && _state != ProgressSate.DownloadCanceled)
+			if (_state != ProgressState.NotStarted && _state != ProgressState.DownloadCanceled)
 				return;
 
 			var prs = new Process();
@@ -255,11 +255,11 @@ namespace SayMore.Media.FFmpeg
 
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
-					_state = ProgressSate.Installing;
+					_state = ProgressState.Installing;
 					UpdateDisplay();
 					Application.DoEvents();
 					_state = (InstallDownloadedFile(dlg.FileName) ?
-						ProgressSate.Installed : ProgressSate.NotStarted);
+						ProgressState.Installed : ProgressState.NotStarted);
 				}
 			}
 

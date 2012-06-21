@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using Localization;
 using NAudio.Wave;
@@ -162,21 +163,65 @@ namespace SayMore.Transcription.Model
 			_outputFileName = _srcRecordingTier.MediaFileName +
 				Settings.Default.OralAnnotationGeneratedFileSuffix;
 
-			var tmpOutputFile = Path.GetFileName(_outputFileName);
-			tmpOutputFile = Path.Combine(Path.GetTempPath(), tmpOutputFile);
+			var tmpOutputFile = Path.Combine(Path.GetTempPath(), Path.GetFileName(_outputFileName));
 
 			try
 			{
-				using (_audioFileWriter = new WaveFileWriter(tmpOutputFile, _outputAudioFormat))
+				int retry = 0;
+				do
 				{
-					foreach (var segment in _srcRecordingSegments)
-						InterleaveSegments(segment);
-				}
+					if (retry == 0 || !File.Exists(tmpOutputFile))
+					{
+						// REVIEW: Not sure why this should have to be inside the do-loop, but in at least one of my tests,
+						// the temp file went AWOL.
+						using (_audioFileWriter = new WaveFileWriter(tmpOutputFile, _outputAudioFormat))
+						{
+							foreach (var segment in _srcRecordingSegments)
+								InterleaveSegments(segment);
+						}
+					}
 
-				if (File.Exists(_outputFileName))
-					File.Delete(_outputFileName);
+					try
+					{
+						if (File.Exists(_outputFileName))
+							File.Delete(_outputFileName);
 
-				File.Move(tmpOutputFile, _outputFileName);
+						File.Move(tmpOutputFile, _outputFileName);
+
+						retry = 0;
+					}
+					catch (Exception failure)
+					{
+						string failureMsg;
+						if (failure is UnauthorizedAccessException)
+						{
+							var retryMsg = LocalizationManager.GetString(
+								"SessionsView.Transcription.GeneratedOralAnnotationView.RetryGeneratingOralAnnotationFileMsg",
+								"If you can determine which program is using this file, close it and click Retry. ");
+							failureMsg = failure.Message + Environment.NewLine + retryMsg;
+						}
+						else if (failure is IOException)
+						{
+							var detailsMsg = LocalizationManager.GetString(
+								"SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileDetails",
+								"Attempting to generate file:");
+							failureMsg = failure.Message + Environment.NewLine + detailsMsg + Environment.NewLine + _outputFileName;
+						}
+						else
+							throw;
+						if (retry++ > 0)
+						{
+							if (MessageBox.Show(GetGenericErrorMsg() + Environment.NewLine + failureMsg,
+								Application.ProductName, MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+							{
+								UsageReporter.ReportException(false,
+									"Cancelled by user after 1 automatic retry and " + (retry - 1) + "retries requested by the user",
+									failure);
+								retry = 0;
+							}
+						}
+					}
+				} while (retry > 0);
 			}
 			catch (Exception error)
 			{

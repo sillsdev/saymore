@@ -1438,12 +1438,13 @@ namespace SayMore.Properties {
         }
         
         /// <summary>
-        /// The larger this number, the more strongly the auto-segmenter will favor possible breaks close to the midpoint between the minimum and the maximum segment length
+        /// The larger this number, the more strongly the auto-segmenter will favor possible breaks close to the midpoint between the minimum and the maximum segment length.
         /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("The larger this number, the more strongly the auto-segmenter will favor possible " +
-            "breaks close to the midpoint between the minimum and the maximum segment length")]
+            "breaks close to the midpoint between the minimum and the maximum segment length." +
+            "")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("4E-06")]
         public double AutoSegmenterOptimumLengthClampingFactor {

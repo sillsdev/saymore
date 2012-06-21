@@ -30,7 +30,7 @@ namespace SayMore.Media.Audio
 			{
 				if (_audioDuration == default(TimeSpan))
 				{
-					using (WaveFileReader stream = new WaveFileReader(AudioFilePath))
+					using (var stream = new WaveFileReaderWrapper(AudioFilePath))
 					{
 						_audioDuration = stream.TotalTime;
 						stream.Close();
@@ -55,7 +55,7 @@ namespace SayMore.Media.Audio
 		{
 			if (_cachedSamples == null || _cachedSamples.Length != numberOfSamplesToReturn)
 			{
-				using (var stream = new WaveFileReader(AudioFilePath))
+				using (var stream = new WaveFileReaderWrapper(AudioFilePath))
 				{
 					_audioDuration = stream.TotalTime;
 					_cachedSamples = GetSamples(stream, numberOfSamplesToReturn);
@@ -67,40 +67,38 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static Tuple<float, float>[,] GetSamples(WaveFileReader stream,
+		public static Tuple<float, float>[,] GetSamples(IWaveStreamReader stream,
 			uint numberOfSamplesToReturn)
 		{
 			if (numberOfSamplesToReturn == 0 ||
-				(stream.WaveFormat.BitsPerSample == 32 && stream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat))
+				(stream.BitsPerSample == 32 && stream.Encoding != WaveFormatEncoding.IeeeFloat))
 			{
 				return new Tuple<float, float>[0, 0];
 			}
 
-			var channels = stream.WaveFormat.Channels;
+			var channels = stream.ChannelCount;
 			var sampleCount = stream.SampleCount;
 			if (sampleCount < numberOfSamplesToReturn)
 				numberOfSamplesToReturn = (uint)sampleCount;
 
 			var samplesPerAggregate = sampleCount / (double)numberOfSamplesToReturn;
-
 			var samplesToReturn = new Tuple<float, float>[numberOfSamplesToReturn, channels];
 
 			stream.Seek(0, SeekOrigin.Begin);
-			var provider = new SampleChannel(stream);
 
-			int bufferSize = (int)samplesPerAggregate * provider.WaveFormat.Channels;
+			int bufferSize = (int)samplesPerAggregate * channels;
 			var buffer = new float[bufferSize];
 
 			int sampleIndex = 0;
 			int read;
-			while (sampleIndex < numberOfSamplesToReturn && (read = provider.Read(buffer, 0, bufferSize)) > 0)
+			while (sampleIndex < numberOfSamplesToReturn && (read = stream.Read(buffer, bufferSize)) > 0)
 			{
 				for (var c = 0; c < channels; c++)
 				{
 					var biggestSample = float.MinValue;
 					var smallestSample = float.MaxValue;
 
-					for (int i = 0; i < read; i += provider.WaveFormat.Channels)
+					for (int i = 0; i < read; i += channels)
 					{
 						biggestSample = Math.Max(biggestSample, buffer[i + c]);
 						smallestSample = Math.Min(smallestSample, buffer[i + c]);

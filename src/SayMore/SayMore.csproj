@@ -115,6 +115,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MediaUtils\Audio\AudioUtils.cs" />
+    <Compile Include="MediaUtils\Audio\WaveFileReaderWrapper.cs" />
+    <Compile Include="Transcription\Model\AutoSegmenter.cs" />
     <Compile Include="MediaUtils\Audio\OralAnnotationPlaybackWaveStream.cs" />
     <Compile Include="MediaUtils\Audio\WaveControls\WaveControlBasic.cs">
       <SubType>UserControl</SubType>

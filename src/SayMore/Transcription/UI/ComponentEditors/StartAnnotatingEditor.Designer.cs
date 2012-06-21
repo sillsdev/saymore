@@ -339,7 +339,7 @@ namespace SayMore.Transcription.UI
 			// 
 			this._radioButtonAutoSegmenter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._radioButtonAutoSegmenter.AutoSize = true;
-			this._radioButtonAutoSegmenter.Enabled = false;
+			this._radioButtonAutoSegmenter.Enabled = true;
 			this.locExtender.SetLocalizableToolTip(this._radioButtonAutoSegmenter, null);
 			this.locExtender.SetLocalizationComment(this._radioButtonAutoSegmenter, null);
 			this.locExtender.SetLocalizingId(this._radioButtonAutoSegmenter, "SessionsView.Transcription.StartAnnotatingTab._radioButtonAutoSegmenter");
@@ -349,7 +349,7 @@ namespace SayMore.Transcription.UI
 			this._radioButtonAutoSegmenter.Size = new System.Drawing.Size(188, 17);
 			this._radioButtonAutoSegmenter.TabIndex = 11;
 			this._radioButtonAutoSegmenter.TabStop = true;
-			this._radioButtonAutoSegmenter.Text = "Use auto segmenter (experimental)";
+			this._radioButtonAutoSegmenter.Text = "Use auto segmenter";
 			this._radioButtonAutoSegmenter.UseVisualStyleBackColor = true;
 			// 
 			// locExtender

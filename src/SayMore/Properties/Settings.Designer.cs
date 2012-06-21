@@ -382,7 +382,7 @@ namespace SayMore.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>.session</string>
+  <string>.event</string>
   <string>.person</string>
   <string>.meta</string>
   <string>thumbs.db</string>
@@ -1398,6 +1398,55 @@ namespace SayMore.Properties {
             }
             set {
                 this["MediaFileMoreInfoDlg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10000")]
+        public int MaximumSegmentLengthInMilliseconds {
+            get {
+                return ((int)(this["MaximumSegmentLengthInMilliseconds"]));
+            }
+            set {
+                this["MaximumSegmentLengthInMilliseconds"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// The larger this value, the longer the pause that the autosegmenter will try to find to use as a break.
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsDescriptionAttribute("The larger this value, the longer the pause that the autosegmenter will try to fi" +
+            "nd to use as a break.")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:00:00.2500000")]
+        public global::System.TimeSpan AutoSegmenterPreferrerdPauseLength {
+            get {
+                return ((global::System.TimeSpan)(this["AutoSegmenterPreferrerdPauseLength"]));
+            }
+            set {
+                this["AutoSegmenterPreferrerdPauseLength"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// The larger this number, the more strongly the auto-segmenter will favor possible breaks close to the midpoint between the minimum and the maximum segment length
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsDescriptionAttribute("The larger this number, the more strongly the auto-segmenter will favor possible " +
+            "breaks close to the midpoint between the minimum and the maximum segment length")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4E-06")]
+        public double AutoSegmenterOptimumLengthClampingFactor {
+            get {
+                return ((double)(this["AutoSegmenterOptimumLengthClampingFactor"]));
+            }
+            set {
+                this["AutoSegmenterOptimumLengthClampingFactor"] = value;
             }
         }
     }

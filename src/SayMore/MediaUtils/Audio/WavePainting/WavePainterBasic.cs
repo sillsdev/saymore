@@ -223,7 +223,7 @@ namespace SayMore.Media.Audio
 
 			if (_waveStream != null)
 			{
-				_samplesToDraw = AudioFileHelper.GetSamples(_waveStream,
+				_samplesToDraw = AudioFileHelper.GetSamples(new WaveFileReaderWrapper(_waveStream),
 					(uint)(VirtualWidth - kRightDisplayPadding));
 			}
 

@@ -422,5 +422,14 @@
     <Setting Name="MediaFileMoreInfoDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="MaximumSegmentLengthInMilliseconds" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10000</Value>
+    </Setting>
+    <Setting Name="AutoSegmenterPreferrerdPauseLength" Description="The larger this value, the longer the pause that the autosegmenter will try to find to use as a break." Provider="SilTools.PortableSettingsProvider" Type="System.TimeSpan" Scope="User">
+      <Value Profile="(Default)">00:00:00.2500000</Value>
+    </Setting>
+    <Setting Name="AutoSegmenterOptimumLengthClampingFactor" Description="The larger this number, the more strongly the auto-segmenter will favor possible breaks close to the midpoint between the minimum and the maximum segment length" Provider="SilTools.PortableSettingsProvider" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">4E-06</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

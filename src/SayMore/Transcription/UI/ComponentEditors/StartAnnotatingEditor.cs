@@ -120,6 +120,8 @@ namespace SayMore.Transcription.UI
 			}
 			else if (_radioButtonAutoSegmenter.Checked)
 			{
+				var segmenter = new AutoSegmenter(_file);
+				newAnnotationFile = segmenter.Run();
 				Settings.Default.DefaultSegmentationMethod = 4;
 			}
 

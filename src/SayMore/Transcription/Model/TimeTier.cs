@@ -179,7 +179,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public Segment AppendSegment(float endOfNewSegment)
 		{
-			var startOfNewSegment = Segments.Last().End;
+			var startOfNewSegment = (float)EndOfLastSegment.TotalSeconds;
 			if (endOfNewSegment <= startOfNewSegment)
 				throw new ArgumentException("Cannot append a segment ending at " + endOfNewSegment + " because it is before the end of the last existing segment.");
 			return AddSegment(startOfNewSegment, endOfNewSegment);

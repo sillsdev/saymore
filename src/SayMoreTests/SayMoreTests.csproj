@@ -134,6 +134,7 @@
     <Compile Include="ShrinkProject.cs" />
     <Compile Include="Transcription\Model\AnnotationFileHelperTests.cs" />
     <Compile Include="Transcription\Model\AudacityLabelHelperTests.cs" />
+    <Compile Include="Transcription\Model\AutoSegmenterTests.cs" />
     <Compile Include="Transcription\Model\InterlinearXmlHelperTests.cs" />
     <Compile Include="Transcription\Model\SegmentTests.cs" />
     <Compile Include="Transcription\Model\TextTierTests.cs" />

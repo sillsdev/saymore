@@ -126,8 +126,8 @@ namespace SayMore.Transcription.UI
 			// 
 			// _labelSegmentationMethod
 			// 
-			this._labelSegmentationMethod.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelSegmentationMethod.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelSegmentationMethod.AutoSize = true;
 			this._tableLayoutGetStarted.SetColumnSpan(this._labelSegmentationMethod, 4);
 			this.locExtender.SetLocalizableToolTip(this._labelSegmentationMethod, null);
@@ -142,8 +142,8 @@ namespace SayMore.Transcription.UI
 			// 
 			// _labelIntroduction
 			// 
-			this._labelIntroduction.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelIntroduction.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelIntroduction.AutoSize = true;
 			this._tableLayoutGetStarted.SetColumnSpan(this._labelIntroduction, 4);
 			this.locExtender.SetLocalizableToolTip(this._labelIntroduction, null);
@@ -155,12 +155,12 @@ namespace SayMore.Transcription.UI
 			this._labelIntroduction.Size = new System.Drawing.Size(482, 26);
 			this._labelIntroduction.TabIndex = 0;
 			this._labelIntroduction.Text = "You can add transcription, translation, careful speech and audio translation to t" +
-    "his media file. But first...";
+				"his media file. But first...";
 			// 
 			// _labelSegmentationMethodQuestion
 			// 
-			this._labelSegmentationMethodQuestion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelSegmentationMethodQuestion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelSegmentationMethodQuestion.AutoSize = true;
 			this._tableLayoutGetStarted.SetColumnSpan(this._labelSegmentationMethodQuestion, 4);
 			this.locExtender.SetLocalizableToolTip(this._labelSegmentationMethodQuestion, null);
@@ -172,7 +172,7 @@ namespace SayMore.Transcription.UI
 			this._labelSegmentationMethodQuestion.Size = new System.Drawing.Size(482, 26);
 			this._labelSegmentationMethodQuestion.TabIndex = 1;
 			this._labelSegmentationMethodQuestion.Text = "Each annotation will be linked to a single time segment of media. How would you l" +
-    "ike to identify those segments?";
+				"ike to identify those segments?";
 			// 
 			// _radioButtonManual
 			// 
@@ -339,7 +339,6 @@ namespace SayMore.Transcription.UI
 			// 
 			this._radioButtonAutoSegmenter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._radioButtonAutoSegmenter.AutoSize = true;
-			this._radioButtonAutoSegmenter.Enabled = true;
 			this.locExtender.SetLocalizableToolTip(this._radioButtonAutoSegmenter, null);
 			this.locExtender.SetLocalizationComment(this._radioButtonAutoSegmenter, null);
 			this.locExtender.SetLocalizingId(this._radioButtonAutoSegmenter, "SessionsView.Transcription.StartAnnotatingTab._radioButtonAutoSegmenter");
@@ -349,7 +348,7 @@ namespace SayMore.Transcription.UI
 			this._radioButtonAutoSegmenter.Size = new System.Drawing.Size(188, 17);
 			this._radioButtonAutoSegmenter.TabIndex = 11;
 			this._radioButtonAutoSegmenter.TabStop = true;
-			this._radioButtonAutoSegmenter.Text = "Use auto segmenter";
+			this._radioButtonAutoSegmenter.Text = "Use auto segmenter (experimental)";
 			this._radioButtonAutoSegmenter.UseVisualStyleBackColor = true;
 			// 
 			// locExtender

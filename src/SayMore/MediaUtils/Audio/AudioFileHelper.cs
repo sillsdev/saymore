@@ -86,12 +86,19 @@ namespace SayMore.Media.Audio
 
 			stream.Seek(0, SeekOrigin.Begin);
 
-			int bufferSize = (int)samplesPerAggregate * channels;
-			var buffer = new float[bufferSize];
+			// To avoid compounding rounding errors as we get further along in the file, we need to separately track
+			// the number of samples we've actually read and the ideal (unrounded) number of samples we should have
+			// processed. Every time the rounding error builds to a whole integer, we read an extra sample to get them
+			// back in synch. The buffer needs to be big enough to hold the extra sample for the times through the loop
+			// when we're reading the higher number of samples.
+			double idealSamplesProcessed = 0;
+			var buffer = new float[(int)(Math.Ceiling(samplesPerAggregate)) * channels];
+			int valuesToRead = (int)(Math.Floor(samplesPerAggregate)) * channels;
 
 			int sampleIndex = 0;
 			int read;
-			while (sampleIndex < numberOfSamplesToReturn && (read = stream.Read(buffer, bufferSize)) > 0)
+			long totalRead = 0;
+			while (sampleIndex < numberOfSamplesToReturn && (read = stream.Read(buffer, valuesToRead)) > 0)
 			{
 				for (var c = 0; c < channels; c++)
 				{
@@ -106,6 +113,13 @@ namespace SayMore.Media.Audio
 
 					samplesToReturn[sampleIndex, c] = new Tuple<float, float>(biggestSample, smallestSample);
 				}
+
+				// See big comment above.
+				valuesToRead = (int)(Math.Floor(samplesPerAggregate)) * channels;
+				totalRead += (read / channels);
+				idealSamplesProcessed += samplesPerAggregate;
+				if (totalRead < Math.Floor(idealSamplesProcessed))
+					valuesToRead += channels;
 
 				sampleIndex++;
 			}

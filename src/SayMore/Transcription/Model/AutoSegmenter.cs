@@ -81,7 +81,7 @@ namespace SayMore.Transcription.Model
 				uint lastBreak = 0;
 				var millisecondsPerSample = StreamReader.TotalTime.TotalMilliseconds / remainingSamples;
 				_adjacentSamplesToFactorIntoAdjustedScore = (uint)(Settings.Default.AutoSegmenterPreferrerdPauseLength.TotalMilliseconds / millisecondsPerSample);
-				var minSamplesPerSegment = (uint)(Settings.Default.MinimumSegmentLengthInMilliseconds / millisecondsPerSample);
+				var minSamplesPerSegment = (uint)(Settings.Default.AutoSegmenterMinimumSegmentLengthInMilliseconds / millisecondsPerSample);
 				var maxSamplesPerSegment = (uint)(Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds / millisecondsPerSample);
 
 				uint idealSegmentLengthInSamples = (minSamplesPerSegment + maxSamplesPerSegment) / 2;

@@ -1402,12 +1402,12 @@ namespace SayMore.Properties {
         }
         
         /// <summary>
-        /// The auto-segmenter will calculate the &quot;optimal&quot; segment length to be halfway between the minimum segment length and this value.
+        /// The auto-segmenter will calculate the &quot;optimal&quot; segment length to be halfway between AutoSegmenterMinimumSegmentLengthInMilliseconds and this value.
         /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("The auto-segmenter will calculate the \"optimal\" segment length to be halfway betw" +
-            "een the minimum segment length and this value.")]
+            "een AutoSegmenterMinimumSegmentLengthInMilliseconds and this value.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10000")]
         public int AutoSegmenterMaximumSegmentLengthInMilliseconds {
@@ -1453,6 +1453,24 @@ namespace SayMore.Properties {
             }
             set {
                 this["AutoSegmenterOptimumLengthClampingFactor"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// The auto-segmenter will calculate the &quot;optimal&quot; segment length to be halfway between this value and AutoSegmenterMaximumSegmentLengthInMilliseconds.
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsDescriptionAttribute("The auto-segmenter will calculate the \"optimal\" segment length to be halfway betw" +
+            "een this value and AutoSegmenterMaximumSegmentLengthInMilliseconds.")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int AutoSegmenterMinimumSegmentLengthInMilliseconds {
+            get {
+                return ((int)(this["AutoSegmenterMinimumSegmentLengthInMilliseconds"]));
+            }
+            set {
+                this["AutoSegmenterMinimumSegmentLengthInMilliseconds"] = value;
             }
         }
     }

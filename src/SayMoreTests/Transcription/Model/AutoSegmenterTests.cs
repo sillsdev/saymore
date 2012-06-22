@@ -105,6 +105,7 @@ namespace SayMoreTests.Transcription.Model
 		public void Setup()
 		{
 			_sampleProvider = new DummyWaveStream();
+			Settings.Default.AutoSegmenterMinimumSegmentLengthInMilliseconds = 850;
 		}
 
 		#region GetNaturalBreaks tests

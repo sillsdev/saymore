@@ -504,6 +504,7 @@ namespace SayMore.Transcription.UI
 						rc.Top + 5);
 				}
 			}
+
 			_labelListenButton.Image = (_waveControl.IsPlaying && _playingBackUsingHoldDownButton ?
 				Resources.ListenToOriginalRecordingDown : Resources.ListenToOriginalRecording);
 
@@ -739,6 +740,7 @@ namespace SayMore.Transcription.UI
 			{
 				InvalidateBottomReservedRectangleForCurrentUnannotatedSegment();
 				_userHasListenedToSelectedSegment = true;
+				_spaceBarMode = SpaceBarMode.Record;
 				UpdateDisplay();
 			}
 		}

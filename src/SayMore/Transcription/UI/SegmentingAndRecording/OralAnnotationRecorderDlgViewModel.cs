@@ -310,9 +310,7 @@ namespace SayMore.Transcription.UI
 
 			var recordingStarted = AttemptBeginAnnotationRecording(path);
 
-			if (recordingStarted)
-				CurrentUnannotatedSegment = null;
-			else if (backupCreated)
+			if (!recordingStarted && backupCreated)
 				RestorePreviousVersionOfAnnotation(path);
 
 			return recordingStarted;
@@ -471,6 +469,9 @@ namespace SayMore.Transcription.UI
 			var audioFilePath = GetFullPathOfAnnotationFileForTimeRange(timeRange);
 			RestorePreviousVersionOfAnnotation(audioFilePath);
 			SegmentsAnnotationSamplesToDraw.RemoveWhere(h => h.AudioFilePath == audioFilePath);
+			var segment = TimeTier.Segments.FirstOrDefault(s => s.TimeRange.Equals(timeRange));
+			if (segment != null && !segment.GetHasOralAnnotation(AnnotationType))
+				CurrentUnannotatedSegment = segment;
 		}
 
 		/// ------------------------------------------------------------------------------------

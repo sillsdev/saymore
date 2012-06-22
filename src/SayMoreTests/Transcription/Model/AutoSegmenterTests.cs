@@ -55,7 +55,13 @@ namespace SayMoreTests.Transcription.Model
 			}
 
 			/// ------------------------------------------------------------------------------------
-			public int ChannelCount
+			public int NativeChannelCount
+			{
+				get { return _channels; }
+			}
+
+			/// ------------------------------------------------------------------------------------
+			public int SamplingChannelCount
 			{
 				get { return _channels; }
 			}

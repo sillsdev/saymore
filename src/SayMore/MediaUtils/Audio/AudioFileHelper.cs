@@ -70,21 +70,21 @@ namespace SayMore.Media.Audio
 		public static Tuple<float, float>[,] GetSamples(IWaveStreamReader stream,
 			uint numberOfSamplesToReturn)
 		{
-			if (numberOfSamplesToReturn == 0 ||
+			var sampleCount = stream.SampleCount;
+			if (numberOfSamplesToReturn == 0 || sampleCount == 0 ||
 				(stream.BitsPerSample == 32 && stream.Encoding != WaveFormatEncoding.IeeeFloat))
 			{
 				return new Tuple<float, float>[0, 0];
 			}
 
-			var channels = stream.ChannelCount;
-			var sampleCount = stream.SampleCount;
 			if (sampleCount < numberOfSamplesToReturn)
 				numberOfSamplesToReturn = (uint)sampleCount;
 
-			var samplesPerAggregate = sampleCount / (double)numberOfSamplesToReturn;
-			var samplesToReturn = new Tuple<float, float>[numberOfSamplesToReturn, channels];
-
 			stream.Seek(0, SeekOrigin.Begin);
+			var channels = stream.SamplingChannelCount;
+
+			var samplesPerAggregate = sampleCount / (double)numberOfSamplesToReturn;
+			var samplesToReturn = new Tuple<float, float>[numberOfSamplesToReturn, stream.NativeChannelCount];
 
 			// To avoid compounding rounding errors as we get further along in the file, we need to separately track
 			// the number of samples we've actually read and the ideal (unrounded) number of samples we should have
@@ -100,7 +100,7 @@ namespace SayMore.Media.Audio
 			long totalRead = 0;
 			while (sampleIndex < numberOfSamplesToReturn && (read = stream.Read(buffer, valuesToRead)) > 0)
 			{
-				for (var c = 0; c < channels; c++)
+				for (var c = 0; c < stream.NativeChannelCount; c++)
 				{
 					var biggestSample = float.MinValue;
 					var smallestSample = float.MaxValue;

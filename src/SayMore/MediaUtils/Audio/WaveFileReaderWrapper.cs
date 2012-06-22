@@ -17,7 +17,14 @@ namespace SayMore.Media.Audio
 		long SampleCount { get; }
 
 		/// ------------------------------------------------------------------------------------
-		int ChannelCount { get; }
+		/// The actual number of channels contained in the underlying data
+		/// ------------------------------------------------------------------------------------
+		int NativeChannelCount { get; }
+
+		/// ------------------------------------------------------------------------------------
+		/// The number of channels returned in the buffer when calling Read
+		/// ------------------------------------------------------------------------------------
+		int SamplingChannelCount { get; }
 
 		/// ------------------------------------------------------------------------------------
 		TimeSpan TotalTime { get; }
@@ -87,9 +94,26 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public int ChannelCount
+		/// The actual number of channels contained in the underlying data
+		/// ------------------------------------------------------------------------------------
+		public int NativeChannelCount
 		{
 			get { return _reader.WaveFormat.Channels; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// The number of channels returned in the buffer when calling Read (can be higher than
+		/// the NativeChannelCount because SampleChannel can magically turn mono inputs into
+		/// stereo).
+		/// ------------------------------------------------------------------------------------
+		public int SamplingChannelCount
+		{
+			get
+			{
+				if (_sampleChannel == null)
+					Seek(0, SeekOrigin.Begin);
+				return _sampleChannel.WaveFormat.Channels;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

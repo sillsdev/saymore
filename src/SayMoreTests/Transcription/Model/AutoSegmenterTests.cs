@@ -309,9 +309,12 @@ namespace SayMoreTests.Transcription.Model
 			var segmenter = new AutoSegmenter(_sampleProvider);
 			var breaks = segmenter.GetNaturalBreaks().ToArray();
 			Assert.AreEqual(3, breaks.Length, "Breaks are expected roughly halfway between the min and max segment lengths, not at every pause");
-			Assert.AreEqual(TimeSpan.FromMilliseconds(3500), breaks[0]);
-			Assert.AreEqual(TimeSpan.FromSeconds(7), breaks[1]);
-			Assert.AreEqual(TimeSpan.FromSeconds(12), breaks[2]);
+			Assert.IsTrue(TimeSpan.FromMilliseconds(3498) <= breaks[0]);
+			Assert.IsTrue(TimeSpan.FromMilliseconds(3502) >= breaks[0]);
+			Assert.IsTrue(TimeSpan.FromMilliseconds(6998) <= breaks[1]);
+			Assert.IsTrue(TimeSpan.FromMilliseconds(7002) >= breaks[1]);
+			Assert.IsTrue(TimeSpan.FromMilliseconds(11998) <= breaks[2]);
+			Assert.IsTrue(TimeSpan.FromMilliseconds(12002) >= breaks[2]);
 		}
 		#endregion
 	}

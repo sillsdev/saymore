@@ -7,17 +7,52 @@ using SayMore.Properties;
 
 namespace SayMore.Transcription.Model
 {
+	/// ------------------------------------------------------------------------------------
+	public interface IAutoSegmenterSettings
+	{
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The auto-segmenter will calculate the optimal segment length to be halfway between
+		///  this value and AutoSegmenterMaximumSegmentLengthInMilliseconds.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		int AutoSegmenterMinimumSegmentLengthInMilliseconds { get; }
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The auto-segmenter will calculate the optimal segment length to be halfway between
+		/// AutoSegmenterMinimumSegmentLengthInMilliseconds and this value.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		int AutoSegmenterMaximumSegmentLengthInMilliseconds { get; }
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The larger this value, the longer the pause that the auto-segmenter will try to find
+		/// to use as a break.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		int AutoSegmenterPreferrerdPauseLengthInMilliseconds { get; }
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The larger this number, the more strongly the auto-segmenter will favor possible
+		/// breaks close to the midpoint between the minimum and the maximum segment length.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		double AutoSegmenterOptimumLengthClampingFactor { get; }
+	}
+
 	public class AutoSegmenter
 	{
 		private readonly ComponentFile _file;
+		private readonly IAutoSegmenterSettings _settings;
 		private IWaveStreamReader _streamReader;
 
 		private uint _adjacentSamplesToFactorIntoAdjustedScore;
 
 		/// ------------------------------------------------------------------------------------
-		public AutoSegmenter(ComponentFile file)
+		public AutoSegmenter(ComponentFile file, IAutoSegmenterSettings settings)
 		{
 			_file = file;
+			_settings = settings;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -25,9 +60,10 @@ namespace SayMore.Transcription.Model
 		/// Constructor to facilitate testing
 		/// </summary>
 		/// ----------------------------------------------------------------------------------------
-		public AutoSegmenter(IWaveStreamReader sampleProvider)
+		public AutoSegmenter(IWaveStreamReader sampleProvider, IAutoSegmenterSettings settings)
 		{
 			_streamReader = sampleProvider;
+			_settings = settings;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -80,11 +116,11 @@ namespace SayMore.Transcription.Model
 
 				uint lastBreak = 0;
 				var millisecondsPerSample = StreamReader.TotalTime.TotalMilliseconds / remainingSamples;
-				_adjacentSamplesToFactorIntoAdjustedScore = (uint)(Settings.Default.AutoSegmenterPreferrerdPauseLength.TotalMilliseconds / millisecondsPerSample);
-				var minSamplesPerSegment = (uint)(Settings.Default.AutoSegmenterMinimumSegmentLengthInMilliseconds / millisecondsPerSample);
-				var maxSamplesPerSegment = (uint)(Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds / millisecondsPerSample);
+				_adjacentSamplesToFactorIntoAdjustedScore = (uint)(_settings.AutoSegmenterPreferrerdPauseLengthInMilliseconds / millisecondsPerSample);
+				var minSamplesPerSegment = (uint)(_settings.AutoSegmenterMinimumSegmentLengthInMilliseconds / millisecondsPerSample);
+				var maxSamplesPerSegment = (uint)(_settings.AutoSegmenterMaximumSegmentLengthInMilliseconds / millisecondsPerSample);
 
-				uint idealSegmentLengthInSamples = (minSamplesPerSegment + maxSamplesPerSegment) / 2;
+				uint idealSegmentLengthInSamples = (uint)Math.Ceiling((minSamplesPerSegment + maxSamplesPerSegment) / 2.0);
 
 				while (remainingSamples >= maxSamplesPerSegment)
 				{
@@ -112,7 +148,7 @@ namespace SayMore.Transcription.Model
 							//    System.Diagnostics.Debug.WriteLine("Position = " + (lastBreak + idealSegmentLengthInSamples + i) + "; Raw score = " + rawScores[idealSegmentLengthInSamples + i]);
 							//    System.Diagnostics.Debug.WriteLine("Position = " + (lastBreak + idealSegmentLengthInSamples - i) + "; Raw score = " + rawScores[idealSegmentLengthInSamples - i]);
 							//}
-							double distanceFactor = Math.Pow(i * Settings.Default.AutoSegmenterOptimumLengthClampingFactor + 1, 2);
+							double distanceFactor = Math.Pow(i * _settings.AutoSegmenterOptimumLengthClampingFactor + 1, 2);
 							uint iAdjust = idealSegmentLengthInSamples + i - _adjacentSamplesToFactorIntoAdjustedScore;
 							double totalNewAdjustedScores = adjustedScores[iAdjust] = ComputeAdjustedScore(rawScores, iAdjust, distanceFactor);
 							if (adjustedScores[iAdjust] < bestScore)

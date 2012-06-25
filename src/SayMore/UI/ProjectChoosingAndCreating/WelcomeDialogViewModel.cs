@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using SayMore.Model;
 using SayMore.Properties;
 using SilTools;
@@ -60,7 +58,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 
 			if (Directory.Exists(path))
 			{
-				foreach (var sampleProjectFile in Directory.GetFiles(path, "*.sprj", SearchOption.AllDirectories))
+				foreach (var sampleProjectFile in Project.GetAllProjectSettingsFiles(path))
 					MruFiles.AddNewPath(sampleProjectFile);
 
 				Settings.Default.FirstTimeRun = false;

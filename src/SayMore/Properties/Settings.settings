@@ -154,24 +154,6 @@
     <Setting Name="AutoPlayMediaPlayerWhenSelectingMediaFile" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="CustomSessionFileFields" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="CustomPersonFileFields" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="CustomImageFileFields" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="CustomAudioFileFields" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="CustomVideoFileFields" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="CustomUnknownFileFields" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="SessionCustomFieldsGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
@@ -422,16 +404,16 @@
     <Setting Name="MediaFileMoreInfoDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="AutoSegmenterMaximumSegmentLengthInMilliseconds" Description="The auto-segmenter will calculate the &quot;optimal&quot; segment length to be halfway between AutoSegmenterMinimumSegmentLengthInMilliseconds and this value." Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+    <Setting Name="DefaultAutoSegmenterMaximumSegmentLengthInMilliseconds" Description="The auto-segmenter will calculate the &quot;optimal&quot; segment length to be halfway between AutoSegmenterMinimumSegmentLengthInMilliseconds and this value." Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">10000</Value>
     </Setting>
-    <Setting Name="AutoSegmenterPreferrerdPauseLength" Description="The larger this value, the longer the pause that the auto-segmenter will try to find to use as a break." Provider="SilTools.PortableSettingsProvider" Type="System.TimeSpan" Scope="User">
-      <Value Profile="(Default)">00:00:00.2500000</Value>
+    <Setting Name="DefaultAutoSegmenterPreferrerdPauseLengthInMilliseconds" Description="The larger this value, the longer the pause that the auto-segmenter will try to find to use as a break." Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">250</Value>
     </Setting>
-    <Setting Name="AutoSegmenterOptimumLengthClampingFactor" Description="The larger this number, the more strongly the auto-segmenter will favor possible breaks close to the midpoint between the minimum and the maximum segment length." Provider="SilTools.PortableSettingsProvider" Type="System.Double" Scope="User">
+    <Setting Name="DefaultAutoSegmenterOptimumLengthClampingFactor" Description="The larger this number, the more strongly the auto-segmenter will favor possible breaks close to the midpoint between the minimum and the maximum segment length." Provider="SilTools.PortableSettingsProvider" Type="System.Double" Scope="Application">
       <Value Profile="(Default)">4E-06</Value>
     </Setting>
-    <Setting Name="AutoSegmenterMinimumSegmentLengthInMilliseconds" Description="The auto-segmenter will calculate the &quot;optimal&quot; segment length to be halfway between this value and AutoSegmenterMaximumSegmentLengthInMilliseconds." Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+    <Setting Name="DefaultAutoSegmenterMinimumSegmentLengthInMilliseconds" Description="The auto-segmenter will calculate the &quot;optimal&quot; segment length to be halfway between this value and AutoSegmenterMaximumSegmentLengthInMilliseconds." Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">1000</Value>
     </Setting>
   </Settings>

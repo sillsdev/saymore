@@ -427,7 +427,7 @@ namespace SayMoreTests.Model.Files
 		private ComponentFile CreateAudioComponentFile(string filename)
 		{
 			var file = new ComponentFile(null, _parentFolder.Combine(filename),
-				new FileType[] { new AudioFileType(null, null), new UnknownFileType(null, null) },
+				new FileType[] { new AudioFileType(null, null, null), new UnknownFileType(null, null) },
 				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
 
 			var annotationPath = Path.Combine(_parentFolder.Path, filename + ".annotations.eaf");
@@ -442,7 +442,7 @@ namespace SayMoreTests.Model.Files
 		private ComponentFile CreateVideoComponentFile(string filename)
 		{
 			var file = new ComponentFile(null, _parentFolder.Combine(filename),
-				new FileType[] { new VideoFileType(null, null), new UnknownFileType(null, null) },
+				new FileType[] { new VideoFileType(null, null, null), new UnknownFileType(null, null) },
 				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
 
 			var annotationPath = Path.Combine(_parentFolder.Path, filename + ".annotations.eaf");

@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using SayMore;
+using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.LowLevelControls;
@@ -83,7 +84,7 @@ namespace SayMoreTests.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void SetupProjectWindow(string prjFile)
 		{
-			prjFile = (prjFile ?? Directory.GetFiles(_projectsFolder.Path, "*.sprj", SearchOption.AllDirectories)[0]);
+			prjFile = (prjFile ?? Project.GetAllProjectSettingsFiles(_projectsFolder.Path)[0]);
 			_projectContext = _applicationContainer.CreateProjectContext(prjFile);
 			_projectContext.ProjectWindow.Show();
 		}

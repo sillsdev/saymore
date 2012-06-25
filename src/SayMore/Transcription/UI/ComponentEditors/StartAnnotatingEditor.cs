@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Localization;
 using SayMore.Media.Audio;
+using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -15,9 +16,13 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class StartAnnotatingEditor : EditorBase
 	{
+		private readonly Project _project;
+
 		/// ------------------------------------------------------------------------------------
-		public StartAnnotatingEditor(ComponentFile file) : base(file, null, null)
+		public StartAnnotatingEditor(ComponentFile file, Project project) :
+			base(file, null, null)
 		{
+			_project = project;
 			InitializeComponent();
 			Name = "StartAnnotating";
 
@@ -120,7 +125,7 @@ namespace SayMore.Transcription.UI
 			}
 			else if (_radioButtonAutoSegmenter.Checked)
 			{
-				var segmenter = new AutoSegmenter(_file);
+				var segmenter = new AutoSegmenter(_file, _project);
 				newAnnotationFile = segmenter.Run();
 				Settings.Default.DefaultSegmentationMethod = 4;
 			}

@@ -466,78 +466,6 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection CustomSessionFileFields {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["CustomSessionFileFields"]));
-            }
-            set {
-                this["CustomSessionFileFields"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection CustomPersonFileFields {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["CustomPersonFileFields"]));
-            }
-            set {
-                this["CustomPersonFileFields"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection CustomImageFileFields {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["CustomImageFileFields"]));
-            }
-            set {
-                this["CustomImageFileFields"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection CustomAudioFileFields {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["CustomAudioFileFields"]));
-            }
-            set {
-                this["CustomAudioFileFields"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection CustomVideoFileFields {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["CustomVideoFileFields"]));
-            }
-            set {
-                this["CustomVideoFileFields"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection CustomUnknownFileFields {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["CustomUnknownFileFields"]));
-            }
-            set {
-                this["CustomUnknownFileFields"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::SilTools.GridSettings SessionCustomFieldsGrid {
             get {
                 return ((global::SilTools.GridSettings)(this["SessionCustomFieldsGrid"]));
@@ -1404,73 +1332,61 @@ namespace SayMore.Properties {
         /// <summary>
         /// The auto-segmenter will calculate the &quot;optimal&quot; segment length to be halfway between AutoSegmenterMinimumSegmentLengthInMilliseconds and this value.
         /// </summary>
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("The auto-segmenter will calculate the \"optimal\" segment length to be halfway betw" +
             "een AutoSegmenterMinimumSegmentLengthInMilliseconds and this value.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10000")]
-        public int AutoSegmenterMaximumSegmentLengthInMilliseconds {
+        public int DefaultAutoSegmenterMaximumSegmentLengthInMilliseconds {
             get {
-                return ((int)(this["AutoSegmenterMaximumSegmentLengthInMilliseconds"]));
-            }
-            set {
-                this["AutoSegmenterMaximumSegmentLengthInMilliseconds"] = value;
+                return ((int)(this["DefaultAutoSegmenterMaximumSegmentLengthInMilliseconds"]));
             }
         }
         
         /// <summary>
         /// The larger this value, the longer the pause that the auto-segmenter will try to find to use as a break.
         /// </summary>
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("The larger this value, the longer the pause that the auto-segmenter will try to f" +
             "ind to use as a break.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("00:00:00.2500000")]
-        public global::System.TimeSpan AutoSegmenterPreferrerdPauseLength {
+        [global::System.Configuration.DefaultSettingValueAttribute("250")]
+        public int DefaultAutoSegmenterPreferrerdPauseLengthInMilliseconds {
             get {
-                return ((global::System.TimeSpan)(this["AutoSegmenterPreferrerdPauseLength"]));
-            }
-            set {
-                this["AutoSegmenterPreferrerdPauseLength"] = value;
+                return ((int)(this["DefaultAutoSegmenterPreferrerdPauseLengthInMilliseconds"]));
             }
         }
         
         /// <summary>
         /// The larger this number, the more strongly the auto-segmenter will favor possible breaks close to the midpoint between the minimum and the maximum segment length.
         /// </summary>
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("The larger this number, the more strongly the auto-segmenter will favor possible " +
             "breaks close to the midpoint between the minimum and the maximum segment length." +
             "")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("4E-06")]
-        public double AutoSegmenterOptimumLengthClampingFactor {
+        public double DefaultAutoSegmenterOptimumLengthClampingFactor {
             get {
-                return ((double)(this["AutoSegmenterOptimumLengthClampingFactor"]));
-            }
-            set {
-                this["AutoSegmenterOptimumLengthClampingFactor"] = value;
+                return ((double)(this["DefaultAutoSegmenterOptimumLengthClampingFactor"]));
             }
         }
         
         /// <summary>
         /// The auto-segmenter will calculate the &quot;optimal&quot; segment length to be halfway between this value and AutoSegmenterMaximumSegmentLengthInMilliseconds.
         /// </summary>
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("The auto-segmenter will calculate the \"optimal\" segment length to be halfway betw" +
             "een this value and AutoSegmenterMaximumSegmentLengthInMilliseconds.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1000")]
-        public int AutoSegmenterMinimumSegmentLengthInMilliseconds {
+        public int DefaultAutoSegmenterMinimumSegmentLengthInMilliseconds {
             get {
-                return ((int)(this["AutoSegmenterMinimumSegmentLengthInMilliseconds"]));
-            }
-            set {
-                this["AutoSegmenterMinimumSegmentLengthInMilliseconds"] = value;
+                return ((int)(this["DefaultAutoSegmenterMinimumSegmentLengthInMilliseconds"]));
             }
         }
     }

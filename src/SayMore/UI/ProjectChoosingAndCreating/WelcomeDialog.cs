@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using Localization;
 using Localization.UI;
+using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 using SayMore.Utilities;
@@ -143,7 +144,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			using (var dlg = new OpenFileDialog())
 			{
 				dlg.Title = LocalizationManager.GetString("DialogBoxes.WelcomeDlg.OpenFileDlgCaption", "Open SayMore Project");
-				var prjFilterText = LocalizationManager.GetString("DialogBoxes.WelcomeDlg.ProjectFileType", "SayMore Project (*.sprj)");
+				var prjFilterText = LocalizationManager.GetString("DialogBoxes.WelcomeDlg.ProjectFileType",
+					"SayMore Project") + String.Format("(*.{0})|*.{0}", Project.ProjectSettingsFileExtension);
 
 				// TODO: This should really be a static or at least in a class that is accessible
 				// from anywhere because this is the second place it's used. I'm hesitant to use
@@ -155,7 +157,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 				var projPath = Path.Combine(
 					Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SayMore");
 
-				dlg.Filter = prjFilterText + "|*.sprj";
+				dlg.Filter = prjFilterText;
 				dlg.InitialDirectory = projPath;
 				dlg.CheckFileExists = true;
 				dlg.CheckPathExists = true;

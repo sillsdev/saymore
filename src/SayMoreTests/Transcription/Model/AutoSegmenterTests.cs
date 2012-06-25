@@ -4,8 +4,8 @@ using System.Linq;
 using NAudio.Wave;
 using NUnit.Framework;
 using SayMore.Media.Audio;
-using SayMore.Properties;
 using SayMore.Transcription.Model;
+using Moq;
 
 namespace SayMoreTests.Transcription.Model
 {
@@ -105,13 +105,16 @@ namespace SayMoreTests.Transcription.Model
 		}
 
 		DummyWaveStream _sampleProvider;
+		Mock<IAutoSegmenterSettings> _settings = new Mock<IAutoSegmenterSettings>();
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void Setup()
 		{
 			_sampleProvider = new DummyWaveStream();
-			Settings.Default.AutoSegmenterMinimumSegmentLengthInMilliseconds = 850;
+			_settings.Setup(s => s.AutoSegmenterMinimumSegmentLengthInMilliseconds).Returns(850);
+			_settings.Setup(s => s.AutoSegmenterPreferrerdPauseLengthInMilliseconds).Returns(250);
+			_settings.Setup(s => s.AutoSegmenterOptimumLengthClampingFactor).Returns(0.000004);
 		}
 
 		#region GetNaturalBreaks tests
@@ -120,7 +123,7 @@ namespace SayMoreTests.Transcription.Model
 		public void GetNaturalBreaks_ZeroSamples_ReturnsEmptyEnumeration()
 		{
 			_sampleProvider.SetSamples(0, 1, 0, 0, null);
-			var segmenter = new AutoSegmenter(_sampleProvider);
+			var segmenter = new AutoSegmenter(_sampleProvider, _settings.Object);
 			Assert.AreEqual(0, segmenter.GetNaturalBreaks().Count());
 		}
 
@@ -132,9 +135,9 @@ namespace SayMoreTests.Transcription.Model
 			var duration = TimeSpan.FromSeconds(3);
 			_sampleProvider.TotalTime = duration;
 
-			Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds = 6000;
+			_settings.Setup(s => s.AutoSegmenterMaximumSegmentLengthInMilliseconds).Returns(6000);
 
-			var segmenter = new AutoSegmenter(_sampleProvider);
+			var segmenter =new AutoSegmenter(_sampleProvider, _settings.Object);
 			var breaks = segmenter.GetNaturalBreaks().ToList();
 			Assert.AreEqual(1, breaks.Count());
 			Assert.AreEqual(duration, breaks[0]);
@@ -149,9 +152,9 @@ namespace SayMoreTests.Transcription.Model
 			var duration = TimeSpan.FromSeconds(3);
 			_sampleProvider.TotalTime = duration;
 
-			Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds = 6000;
+			_settings.Setup(s => s.AutoSegmenterMaximumSegmentLengthInMilliseconds).Returns(6000);
 
-			var segmenter = new AutoSegmenter(_sampleProvider);
+			var segmenter =new AutoSegmenter(_sampleProvider, _settings.Object);
 			var breaks = segmenter.GetNaturalBreaks().ToList();
 			Assert.AreEqual(1, breaks.Count());
 			Assert.AreEqual(duration, breaks[0]);
@@ -170,10 +173,10 @@ namespace SayMoreTests.Transcription.Model
 			});
 			_sampleProvider.TotalTime = duration;
 
-			Settings.Default.AutoSegmenterPreferrerdPauseLength = TimeSpan.FromMilliseconds(10);
-			Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds = 1200;
+			_settings.Setup(s => s.AutoSegmenterPreferrerdPauseLengthInMilliseconds).Returns(10);
+			_settings.Setup(s => s.AutoSegmenterMaximumSegmentLengthInMilliseconds).Returns(1200);
 
-			var segmenter = new AutoSegmenter(_sampleProvider);
+			var segmenter =new AutoSegmenter(_sampleProvider, _settings.Object);
 			var breaks = segmenter.GetNaturalBreaks().ToArray();
 			Assert.AreEqual(3, breaks.Length);
 			Assert.AreEqual(TimeSpan.FromSeconds(1), breaks[0]);
@@ -198,9 +201,9 @@ namespace SayMoreTests.Transcription.Model
 			});
 			_sampleProvider.TotalTime = duration;
 
-			Settings.Default.AutoSegmenterPreferrerdPauseLength = TimeSpan.FromMilliseconds(10);
-			Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds = 2000;
-			var segmenter = new AutoSegmenter(_sampleProvider);
+			_settings.Setup(s => s.AutoSegmenterPreferrerdPauseLengthInMilliseconds).Returns(10);
+			_settings.Setup(s => s.AutoSegmenterMaximumSegmentLengthInMilliseconds).Returns(2000);
+			var segmenter =new AutoSegmenter(_sampleProvider, _settings.Object);
 			var breaks = segmenter.GetNaturalBreaks().ToArray();
 			Assert.AreEqual(3, breaks.Length);
 			Assert.AreEqual(TimeSpan.FromSeconds(1), breaks[0]);
@@ -225,10 +228,10 @@ namespace SayMoreTests.Transcription.Model
 			});
 			_sampleProvider.TotalTime = duration;
 
-			Settings.Default.AutoSegmenterPreferrerdPauseLength = TimeSpan.FromMilliseconds(10);
-			Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds = 2200;
+			_settings.Setup(s => s.AutoSegmenterPreferrerdPauseLengthInMilliseconds).Returns(10);
+			_settings.Setup(s => s.AutoSegmenterMaximumSegmentLengthInMilliseconds).Returns(2200);
 
-			var segmenter = new AutoSegmenter(_sampleProvider);
+			var segmenter =new AutoSegmenter(_sampleProvider, _settings.Object);
 			var breaks = segmenter.GetNaturalBreaks().ToArray();
 			Assert.AreEqual(2, breaks.Length);
 			Assert.AreEqual(TimeSpan.FromSeconds(2), breaks[0]);
@@ -271,10 +274,10 @@ namespace SayMoreTests.Transcription.Model
 
 			_sampleProvider.TotalTime = duration;
 
-			Settings.Default.AutoSegmenterPreferrerdPauseLength = TimeSpan.FromMilliseconds(10);
-			Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds = 6000;
+			_settings.Setup(s => s.AutoSegmenterPreferrerdPauseLengthInMilliseconds).Returns(10);
+			_settings.Setup(s => s.AutoSegmenterMaximumSegmentLengthInMilliseconds).Returns(6000);
 
-			var segmenter = new AutoSegmenter(_sampleProvider);
+			var segmenter =new AutoSegmenter(_sampleProvider, _settings.Object);
 			var breaks = segmenter.GetNaturalBreaks().ToArray();
 			Assert.AreEqual(3, breaks.Length);
 			Assert.IsTrue(TimeSpan.FromMilliseconds(4998) <= breaks[0]);
@@ -311,9 +314,9 @@ namespace SayMoreTests.Transcription.Model
 
 			_sampleProvider.TotalTime = duration;
 
-			Settings.Default.AutoSegmenterMaximumSegmentLengthInMilliseconds = 6000;
+			_settings.Setup(s => s.AutoSegmenterMaximumSegmentLengthInMilliseconds).Returns(6000);
 
-			var segmenter = new AutoSegmenter(_sampleProvider);
+			var segmenter =new AutoSegmenter(_sampleProvider, _settings.Object);
 			var breaks = segmenter.GetNaturalBreaks().ToArray();
 			Assert.AreEqual(3, breaks.Length, "Breaks are expected roughly halfway between the min and max segment lengths, not at every pause");
 			Assert.IsTrue(TimeSpan.FromMilliseconds(3498) <= breaks[0]);

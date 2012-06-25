@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using SayMore.Properties;
+using SayMore.Transcription.Model;
 using SilTools;
 
 namespace SayMore.Model
@@ -16,7 +17,7 @@ namespace SayMore.Model
 	/// people, and another of sessions.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class Project
+	public class Project : IAutoSegmenterSettings
 	{
 		private const string SessionFolderName = "Sessions";
 
@@ -30,6 +31,11 @@ namespace SayMore.Model
 
 		public Font TranscriptionFont { get; set; }
 		public Font FreeTranslationFont { get; set; }
+
+		public int AutoSegmenterMinimumSegmentLengthInMilliseconds { get; set; }
+		public int AutoSegmenterMaximumSegmentLengthInMilliseconds { get; set; }
+		public int AutoSegmenterPreferrerdPauseLengthInMilliseconds { get; set; }
+		public double AutoSegmenterOptimumLengthClampingFactor { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -64,6 +70,24 @@ namespace SayMore.Model
 
 			if (FreeTranslationFont == null)
 				FreeTranslationFont = Program.DialogFont;
+
+			if (AutoSegmenterMinimumSegmentLengthInMilliseconds < Settings.Default.MinimumSegmentLengthInMilliseconds ||
+				AutoSegmenterMaximumSegmentLengthInMilliseconds <= 0 ||
+				AutoSegmenterMinimumSegmentLengthInMilliseconds >= AutoSegmenterMaximumSegmentLengthInMilliseconds ||
+				AutoSegmenterPreferrerdPauseLengthInMilliseconds <= 0 ||
+				AutoSegmenterPreferrerdPauseLengthInMilliseconds > AutoSegmenterMaximumSegmentLengthInMilliseconds ||
+				AutoSegmenterOptimumLengthClampingFactor <= 0)
+			{
+				var saveNeeded = AutoSegmenterMinimumSegmentLengthInMilliseconds != 0 || AutoSegmenterMaximumSegmentLengthInMilliseconds != 0 ||
+					AutoSegmenterPreferrerdPauseLengthInMilliseconds != 0 || !AutoSegmenterOptimumLengthClampingFactor.Equals(0);
+
+				AutoSegmenterMinimumSegmentLengthInMilliseconds = Settings.Default.DefaultAutoSegmenterMinimumSegmentLengthInMilliseconds;
+				AutoSegmenterMaximumSegmentLengthInMilliseconds = Settings.Default.DefaultAutoSegmenterMaximumSegmentLengthInMilliseconds;
+				AutoSegmenterPreferrerdPauseLengthInMilliseconds = Settings.Default.DefaultAutoSegmenterPreferrerdPauseLengthInMilliseconds;
+				AutoSegmenterOptimumLengthClampingFactor = Settings.Default.DefaultAutoSegmenterOptimumLengthClampingFactor;
+				if (saveNeeded)
+					Save();
+			}
 		}
 
 //		public Project(string parentDirectory,  string projectName)
@@ -188,6 +212,19 @@ namespace SayMore.Model
 			if (FreeTranslationFont != Program.DialogFont)
 				project.Add(new XElement("freeTranslationFont", FontHelper.FontToString(FreeTranslationFont)));
 
+			if (AutoSegmenterMinimumSegmentLengthInMilliseconds != Settings.Default.DefaultAutoSegmenterMinimumSegmentLengthInMilliseconds ||
+				AutoSegmenterMaximumSegmentLengthInMilliseconds != Settings.Default.DefaultAutoSegmenterMaximumSegmentLengthInMilliseconds ||
+				AutoSegmenterPreferrerdPauseLengthInMilliseconds != Settings.Default.DefaultAutoSegmenterPreferrerdPauseLengthInMilliseconds ||
+				!AutoSegmenterOptimumLengthClampingFactor.Equals(Settings.Default.DefaultAutoSegmenterOptimumLengthClampingFactor))
+			{
+				var autoSegmenterSettings = new XElement("AutoSegmentersettings");
+				project.Add(autoSegmenterSettings);
+				autoSegmenterSettings.Add(new XAttribute("minSegmentLength", AutoSegmenterMinimumSegmentLengthInMilliseconds));
+				autoSegmenterSettings.Add(new XAttribute("maxSegmentLength", AutoSegmenterMaximumSegmentLengthInMilliseconds));
+				autoSegmenterSettings.Add(new XAttribute("preferrerdPauseLength", AutoSegmenterPreferrerdPauseLengthInMilliseconds));
+				autoSegmenterSettings.Add(new XAttribute("optimumLengthClampingFactor", AutoSegmenterOptimumLengthClampingFactor));
+			}
+
 			project.Save(SettingsFilePath);
 		}
 
@@ -209,6 +246,35 @@ namespace SayMore.Model
 			elements = project.Descendants("freeTranslationFont").ToArray();
 			if (elements.Length > 0)
 				FreeTranslationFont = FontHelper.MakeFont(elements.First().Value);
+
+			var autoSegmenterSettings = project.Element("AutoSegmentersettings");
+			if (autoSegmenterSettings != null)
+			{
+				AutoSegmenterMinimumSegmentLengthInMilliseconds = GetIntAttributeValue(autoSegmenterSettings,
+					"minSegmentLength");
+				AutoSegmenterMaximumSegmentLengthInMilliseconds = GetIntAttributeValue(autoSegmenterSettings,
+					"maxSegmentLength");
+				AutoSegmenterPreferrerdPauseLengthInMilliseconds = GetIntAttributeValue(autoSegmenterSettings,
+					"preferrerdPauseLength");
+				AutoSegmenterOptimumLengthClampingFactor = GetDoubleAttributeValue(autoSegmenterSettings,
+					"optimumLengthClampingFactor");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private int GetIntAttributeValue(XElement project, string attribName)
+		{
+			var attrib = project.Attribute(attribName);
+			int val;
+			return (attrib != null && Int32.TryParse(attrib.Value, out val)) ? val : default(int);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private double GetDoubleAttributeValue(XElement project, string attribName)
+		{
+			var attrib = project.Attribute(attribName);
+			double val;
+			return (attrib != null && Double.TryParse(attrib.Value, out val)) ? val : default(double);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -236,6 +302,8 @@ namespace SayMore.Model
 		public string SettingsFilePath { get; set; }
 
 		/// ------------------------------------------------------------------------------------
+		/// Gets the SayMore project settings file extension (without the leading period)
+		/// ------------------------------------------------------------------------------------
 		public static string ProjectSettingsFileExtension
 		{
 			get { return Settings.Default.ProjectFileExtension.TrimStart('.'); }
@@ -246,6 +314,12 @@ namespace SayMore.Model
 		{
 			var p = Path.Combine(parentFolderPath, newProjectName);
 			return Path.Combine(p, newProjectName + "." + ProjectSettingsFileExtension);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string[] GetAllProjectSettingsFiles(string path)
+		{
+			return Directory.GetFiles(path, "*." + ProjectSettingsFileExtension, SearchOption.AllDirectories);
 		}
 	}
 }

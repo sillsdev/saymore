@@ -66,7 +66,7 @@ namespace SayMoreTests.Model.Files.DataGathering
 		private PresetGatherer CreatePresetGatherer()
 		{
 			return new PresetGatherer(_folder.Path,
-				new FileType[] { new AudioFileType(() => null, () => null) },
+				new FileType[] { new AudioFileType(null, () => null, () => null) },
 				MakePresetFromContentsOfFile);
 		}
 
@@ -110,7 +110,7 @@ namespace SayMoreTests.Model.Files.DataGathering
 		private PresetGatherer CreateProcessor()
 		{
 			return new PresetGatherer(_folder.Path,
-				new FileType[] { new AudioFileType(() => null, () => null) },
+				new FileType[] { new AudioFileType(null, () => null, () => null) },
 				MakePresetFromContentsOfFile);
 		}
 	}

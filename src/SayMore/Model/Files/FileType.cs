@@ -524,9 +524,10 @@ namespace SayMore.Model.Files
 	{
 		/// ------------------------------------------------------------------------------------
 		public OralAnnotationFileType(
+			Func<Project> project,
 			Func<AudioComponentEditor.Factory> audioComponentEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy) :
-				base(audioComponentEditorFactoryLazy, contributorsEditorFactoryLazy)
+			base(project(), audioComponentEditorFactoryLazy, contributorsEditorFactoryLazy)
 		{
 			Name = "OralAnnotations";
 		}
@@ -563,17 +564,20 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public abstract class AudioVideoFileTypeBase : FileTypeWithContributors
 	{
+		private readonly Project _project;
+
 		/// ------------------------------------------------------------------------------------
-		protected AudioVideoFileTypeBase(string name, Func<string, bool> isMatchPredicate,
+		protected AudioVideoFileTypeBase(string name, Project project, Func<string, bool> isMatchPredicate,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
 			: base(name, isMatchPredicate, contributorsEditorFactoryLazy)
 		{
+			_project = project;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			yield return new StartAnnotatingEditor(file);
+			yield return new StartAnnotatingEditor(file, _project);
 			yield return new ConvertToStandardAudioEditor(file);
 		}
 
@@ -793,10 +797,10 @@ namespace SayMore.Model.Files
 		protected readonly Func<AudioComponentEditor.Factory> _audioComponentEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
-		public AudioFileType(
+		public AudioFileType(Project project,
 			Func<AudioComponentEditor.Factory> audioComponentEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
-			: base("Audio",
+			: base("Audio", project,
 				p => Settings.Default.AudioFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())),
 				contributorsEditorFactoryLazy)
 		{
@@ -887,10 +891,10 @@ namespace SayMore.Model.Files
 		private readonly Func<VideoComponentEditor.Factory> _videoComponentEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
-		public VideoFileType(
+		public VideoFileType(Project project,
 			Func<VideoComponentEditor.Factory> videoComponentEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
-			: base("Video", p => Settings.Default.VideoFileExtensions.Cast<string>()
+			: base("Video", project, p => Settings.Default.VideoFileExtensions.Cast<string>()
 				.Any(ext => p.ToLower().EndsWith(ext.ToLower())), contributorsEditorFactoryLazy)
 		{
 			_videoComponentEditorFactoryLazy = videoComponentEditorFactoryLazy;

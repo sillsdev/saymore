@@ -83,7 +83,7 @@ namespace SayMore.UI.ComponentEditors
 				genreList.AddRange(GenreDefinition.FactoryGenreDefinitions.Select(gd => gd.Name).ToArray());
 			}
 
-			if (genreList.Count == 0)
+			if (genreList.Count == 0 || !_genre.IsHandleCreated)
 				return;
 
 			// Do this because we've gotten here when the auto-complete helper has new data available.

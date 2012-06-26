@@ -335,7 +335,14 @@ namespace SayMore.Media.Audio
 				_model.BeginConversion(null, outputAudioFile);
 
 				if (_model.ConversionState == ConvertMediaUIState.FinishedConverting)
-					return true;
+					return File.Exists(outputAudioFile);
+
+				if (_model.ConversionState == ConvertMediaUIState.ConversionFailed)
+				{
+					var e = _model.ConversionException;
+					if (e != null)
+						throw e;
+				}
 			}
 
 			return false;

@@ -3,8 +3,10 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Media;
 using SayMore.Media.FFmpeg;
 using SayMore.Utilities;
@@ -37,6 +39,8 @@ namespace SayMore.UI
 		private ExternalProcess _process;
 		private Action<TimeSpan, string> _conversionReportingAction;
 		private TimeSpan _prevReportedTime;
+		private StringBuilder _conversionOutput;
+		private string _codecError;
 
 		/// ------------------------------------------------------------------------------------
 		public ConvertMediaDlgViewModel(string inputFile, string initialConversionName)
@@ -49,6 +53,18 @@ namespace SayMore.UI
 
 			ConversionState = (FFmpegDownloadHelper.DoesFFmpegForSayMoreExist ?
 				ConvertMediaUIState.WaitingToConvert : ConvertMediaUIState.FFmpegDownloadNeeded);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Exception ConversionException
+		{
+			get
+			{
+				return _codecError == null ? null :
+					new Exception(_codecError + Environment.NewLine +
+					LocalizationManager.GetString("ConvertMedia.FullConversionOutput", "Full output from conversion:") +
+					Environment.NewLine + _conversionOutput);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -155,13 +171,23 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		private void DoConversion(object commandLine)
 		{
+			var exePath = FFmpegDownloadHelper.GetFullPathToFFmpegForSayMoreExe();
+			_conversionOutput = new StringBuilder(exePath);
+			_conversionOutput.Append(commandLine);
+
 			// ffmpeg always seems to write the output to standarderror.
 			// I don't understand why and that's wrong, but we'll deal with it.
-			_process = ExternalProcess.StartProcessToMonitor(
-				FFmpegDownloadHelper.GetFullPathToFFmpegForSayMoreExe(), commandLine as string,
+			_process = ExternalProcess.StartProcessToMonitor(exePath, commandLine as string,
 				HandleProcessDataReceived, HandleProcessDataReceived, null);
 
-			_process.PriorityClass = ProcessPriorityClass.BelowNormal;
+			try
+			{
+				_process.PriorityClass = ProcessPriorityClass.BelowNormal;
+			}
+			catch (InvalidOperationException)
+			{
+				// process probably already exited
+			}
 			_process.WaitForExit();
 
 			if (_conversionReportingAction != null)
@@ -194,8 +220,20 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleProcessDataReceived(object sender, DataReceivedEventArgs e)
 		{
-			if (e.Data != null && e.Data.ToLower().Contains("error"))
-				ConversionState = ConvertMediaUIState.ConversionFailed;
+			if (e.Data != null)
+			{
+				_conversionOutput.Append(Environment.NewLine);
+				_conversionOutput.Append(e.Data);
+
+				if (e.Data.ToLower().Contains("could not find codec"))
+				{
+					if (_codecError == null)
+						_codecError = e.Data;
+					ConversionState = ConvertMediaUIState.ConversionFailed;
+				}
+				else if (e.Data.ToLower().Contains("error"))
+					ConversionState = ConvertMediaUIState.ConversionFailed;
+			}
 
 			if (_conversionReportingAction != null)
 				_conversionReportingAction(GetTimeOfProgress(e.Data), e.Data);

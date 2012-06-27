@@ -141,5 +141,11 @@ namespace SayMore.UI.ElementListScreen
 			_buttonRename.Enabled = _pathValidator.IsPathValid(
 				Path.GetDirectoryName(_componentFile.PathToAnnotatedFile), NewFileName, validMsg);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleReadAboutRenamingButtonClick(object sender, EventArgs e)
+		{
+			Program.ShowHelpTopic("/Basic_Tasks/Rename_file.htm");
+		}
 	}
 }

@@ -155,6 +155,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonReadAboutRenaming.Size = new System.Drawing.Size(22, 22);
 			this._buttonReadAboutRenaming.TabIndex = 1;
 			this._buttonReadAboutRenaming.UseVisualStyleBackColor = false;
+			this._buttonReadAboutRenaming.Click += new System.EventHandler(this.HandleReadAboutRenamingButtonClick);
 			// 
 			// _buttonCancel
 			// 

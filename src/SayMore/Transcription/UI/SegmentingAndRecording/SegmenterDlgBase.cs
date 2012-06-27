@@ -292,11 +292,12 @@ namespace SayMore.Transcription.UI
 				DialogResult = Utils.MsgBox(msg, MessageBoxButtons.YesNoCancel);
 				if (DialogResult == DialogResult.Cancel)
 					return;
+				DialogResult = DialogResult.OK;
 			}
 
 			e.Cancel = false;
 
-			if (DialogResult == DialogResult.OK || DialogResult == DialogResult.Yes)
+			if (DialogResult == DialogResult.OK)
 				_viewModel.CreateMissingTextSegmentsToMatchTimeSegmentCount();
 
 			base.OnFormClosing(e);

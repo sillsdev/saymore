@@ -92,7 +92,7 @@ namespace SayMore.Model.Files.DataGathering
 				{
 					foreach (var key in listofKeys)
 					{
-						if (!fieldsForType.Any(f => f.Key == key))
+						if (fieldsForType.All(f => f.Key != key))
 							fieldsForType.Add(new FieldDefinition(key) { IsCustom = fileType.GetIsCustomFieldId(key) });
 					}
 				}

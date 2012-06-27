@@ -10,7 +10,7 @@ namespace SayMore.Model.Fields
 	/// This code originally came from WeSay, which has a more complicated, hierarchical
 	/// structure. It also had (and still has some) code for user creating/editing of the
 	/// field properties. I couldn't bring myself to quite strip all that out just yet,
-	/// though it surely won't be part of early releases of Sponge.
+	/// though it surely won't be part of early releases of SayMore.
 	///
 	/// So, some of what is left may turn out to be overkill, but in general this has
 	/// proved to be a nice model to work with.
@@ -179,7 +179,7 @@ namespace SayMore.Model.Fields
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("name")]
-		[Description("The name of the field, as it will appear an external file.")]
+		[Description("The name of the field, as it will appear in an external file.")]
 		public string FieldName
 		{
 			get

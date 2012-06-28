@@ -145,7 +145,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleReadAboutRenamingButtonClick(object sender, EventArgs e)
 		{
-			Program.ShowHelpTopic("/Basic_Tasks/Rename_file.htm");
+			Program.ShowHelpTopic("/Concepts/File_names.htm");
 		}
 	}
 }

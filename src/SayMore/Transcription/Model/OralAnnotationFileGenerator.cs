@@ -32,6 +32,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		private readonly TimeTier _srcRecordingTier;
+		private readonly ISynchronizeInvoke _synchInvoke;
 		private readonly Segment[] _srcRecordingSegments;
 		private WaveFileWriter _audioFileWriter;
 		private readonly WaveFormat _outputAudioFormat;
@@ -63,7 +64,7 @@ namespace SayMore.Transcription.Model
 					"SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg",
 					"Generating Oral Annotation file...");
 
-				using (var generator = new OralAnnotationFileGenerator(sourceRecodingTier))
+				using (var generator = new OralAnnotationFileGenerator(sourceRecodingTier, parentControlForDialog))
 				using (var dlg = new LoadingDlg(msg))
 				{
 					if (parentControlForDialog != null)
@@ -117,9 +118,10 @@ namespace SayMore.Transcription.Model
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		private OralAnnotationFileGenerator(TimeTier sourceRecodingTier)
+		private OralAnnotationFileGenerator(TimeTier sourceRecodingTier, ISynchronizeInvoke synchInvoke)
 		{
 			_srcRecordingTier = sourceRecodingTier;
+			_synchInvoke = synchInvoke;
 			_srcRecordingSegments = _srcRecordingTier.Segments.ToArray();
 
 			_srcRecStreamProvider = WaveStreamProvider.Create(
@@ -150,13 +152,21 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		private void CreateInterleavedAudioFile(object sender, DoWorkEventArgs e)
 		{
+			Action<Action> Invoke = actionToInvoke => {
+				if (_synchInvoke.InvokeRequired)
+					_synchInvoke.Invoke(actionToInvoke, null);
+				else
+					actionToInvoke();
+			};
+
 			if (_srcRecStreamProvider.Error != null)
 			{
 				var msg = LocalizationManager.GetString(
 					"SessionsView.Transcription.GeneratedOralAnnotationView.ProcessingSourceRecordingErrorMsg",
 					"There was an error processing the source recording.");
 
-				ErrorReport.NotifyUserOfProblem(msg, _srcRecStreamProvider.Error);
+
+				Invoke(() => ErrorReport.NotifyUserOfProblem(msg, _srcRecStreamProvider.Error));
 				return;
 			}
 
@@ -211,21 +221,24 @@ namespace SayMore.Transcription.Model
 							throw;
 						if (retry++ > 0)
 						{
-							if (MessageBox.Show(GetGenericErrorMsg() + Environment.NewLine + failureMsg,
-								Application.ProductName, MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+							Invoke(() =>
 							{
-								UsageReporter.ReportException(false,
-									"Cancelled by user after 1 automatic retry and " + (retry - 1) + "retries requested by the user",
-									failure);
-								retry = 0;
-							}
+								if (MessageBox.Show(GetGenericErrorMsg() + Environment.NewLine + failureMsg,
+									Application.ProductName, MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+								{
+									UsageReporter.ReportException(false,
+										"Cancelled by user after 1 automatic retry and " + (retry - 1) + "retries requested by the user",
+										failure);
+									retry = 0;
+								}
+							});
 						}
 					}
 				} while (retry > 0);
 			}
 			catch (Exception error)
 			{
-				ErrorReport.NotifyUserOfProblem(error, GetGenericErrorMsg());
+				Invoke(() => ErrorReport.NotifyUserOfProblem(error, GetGenericErrorMsg()));
 			}
 			finally
 			{

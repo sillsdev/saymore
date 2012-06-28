@@ -695,7 +695,7 @@ namespace SayMore.Model.Files
 					}
 
 					var eafFileName = viewModel.Tiers.Save(PathToAnnotatedFile);
-					GenerateOralAnnotationFile(viewModel.Tiers.GetTimeTier(), null);
+					GenerateOralAnnotationFile(viewModel.Tiers.GetTimeTier(), frm);
 					return eafFileName;
 				}
 			}

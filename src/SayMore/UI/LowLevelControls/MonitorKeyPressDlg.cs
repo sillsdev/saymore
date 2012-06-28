@@ -1,4 +1,5 @@
 using System.Windows.Forms;
+using Palaso.Reporting;
 
 namespace SayMore.UI.LowLevelControls
 {
@@ -34,6 +35,9 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		public bool PreFilterMessage(ref Message m)
 		{
+			if (ActiveForm is ExceptionReportingDialog)
+				return false;
+
 			if (m.Msg == WM_KEYDOWN)
 				return OnLowLevelKeyDown((Keys)m.WParam);
 

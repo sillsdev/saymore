@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
@@ -20,7 +19,7 @@ namespace SayMore.UI.ComponentEditors
 		private FieldsValuesGrid _gridCustomFields;
 		private FieldsValuesGridViewModel _gridViewModel;
 		private readonly PersonInformant _personInformant;
-		private AutoCompleteValueGatherer _autoCompleteProvider;
+		private readonly AutoCompleteValueGatherer _autoCompleteProvider;
 		private bool _genreFieldEntered;
 
 		/// ------------------------------------------------------------------------------------
@@ -35,9 +34,6 @@ namespace SayMore.UI.ComponentEditors
 			_personInformant = personInformant;
 			InitializeGrid(autoCompleteProvider, fieldGatherer);
 
-			_status.Items.AddRange(Enum.GetNames(typeof(Session.Status))
-				.Select(x => x.ToString().Replace('_', ' ')).ToArray());
-
 			_autoCompleteProvider = autoCompleteProvider;
 			_autoCompleteProvider.NewDataAvailable += LoadGenreList;
 
@@ -45,13 +41,8 @@ namespace SayMore.UI.ComponentEditors
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
 			_participants.JITListAcquisition += HandleParticipantJustInTimeListAcquisition;
 
-			var sampleStatusImage = Properties.Resources.StatusFinished;
-			if (_status.ItemHeight < sampleStatusImage.Height)
-				_status.ItemHeight = sampleStatusImage.Height;
-
 			_id.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelId); };
 			_date.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelDate); };
-			_status.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelStatus); };
 
 			_genre.Enter += delegate { _genreFieldEntered = true; };
 			_genre.Leave += delegate { _genreFieldEntered = false; };
@@ -69,7 +60,7 @@ namespace SayMore.UI.ComponentEditors
 			{
 				// Add the genres in use, factory or not.
 				var valueLists = autoCompleteProvider.GetValueLists(false);
-				IEnumerable<string> list = null;
+				IEnumerable<string> list;
 				if (valueLists.TryGetValue("genre", out list))
 					genreList.AddRange(list.ToArray());
 			}
@@ -90,7 +81,7 @@ namespace SayMore.UI.ComponentEditors
 			_genre.BeginInvoke((MethodInvoker)delegate
 			{
 				_genre.Items.Clear();
-				_genre.Items.AddRange(genreList.ToArray());
+				_genre.Items.AddRange(new object[] {genreList});
 			});
 		}
 
@@ -145,30 +136,6 @@ namespace SayMore.UI.ComponentEditors
 				LoadGenreList(_autoCompleteProvider, null);
 
 			base.Activated();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleStatusDrawItem(object sender, DrawItemEventArgs e)
-		{
-			e.DrawBackground();
-
-			var enumText = (e.Index < 0 ? string.Empty : _status.Items[e.Index] as string).Replace(' ', '_');
-			var img = (Image)Properties.Resources.ResourceManager.GetObject("Status" + enumText);
-			int dy = (int)Math.Round((e.Bounds.Height - img.Height) / 2f, MidpointRounding.AwayFromZero);
-
-			// Draw image
-			var rc = e.Bounds;
-			rc.Width = img.Width;
-			rc.Y += dy;
-			rc.Height = img.Height;
-			e.Graphics.DrawImage(img, rc);
-
-			// Draw text
-			rc = e.Bounds;
-			rc.X += (img.Width + 3);
-			rc.Width -= (img.Width + 3);
-			TextRenderer.DrawText(e.Graphics, Session.GetLocalizedStatus(enumText), e.Font,
-				rc, e.ForeColor, TextFormatFlags.VerticalCenter | TextFormatFlags.WordEllipsis);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -216,6 +216,9 @@ namespace SayMore.UI.LowLevelControls
 				e.Graphics.FillRectangle(br, rc);
 			}
 
+			TextRenderer.DrawText(e.Graphics, _headerLabel.Text, _headerLabel.Font, rc,
+				_headerLabel.ForeColor, TextFormatFlags.VerticalCenter);
+
 			AppColors.PaintBorder(e.Graphics, HeaderPanelBottomBorderColor, rc, BorderSides.Bottom);
 		}
 

@@ -5,7 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Localization;
@@ -263,7 +262,14 @@ namespace SayMore.Transcription.UI
 		public void InitializeAnnotationRecorder(PeakMeterCtrl peakMeter,
 			Action<TimeSpan> recordingProgressAction)
 		{
-			Recorder = new OralAnnotationRecorder(peakMeter, recordingProgressAction);
+			try
+			{
+				Recorder = new OralAnnotationRecorder(peakMeter, recordingProgressAction);
+			}
+			catch
+			{
+				return;
+			}
 			Recorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();
 			Recorder.Stopped += (sender, args) => InvokeUpdateDisplayAction();
 			Recorder.BeginMonitoring();

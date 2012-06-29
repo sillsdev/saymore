@@ -714,10 +714,21 @@ namespace SayMore.Media.Audio
 				return;
 
 			_waveOut.Stop();
+			TimeSpan stopped;
+			try
+			{
+				stopped = _playbackStream.CurrentTime;
+			}
+			catch
+			{
+				// Might have already stopped and been disposed
+				stopped = _playbackRange.End;
+			}
+
 			_waveOut.Dispose();
 			_waveOut = null;
 			_scrollCalculator = null;
-			OnPlaybackStopped(_playbackRange.Start, _playbackStream.CurrentTime);
+			OnPlaybackStopped(_playbackRange.Start, stopped);
 		}
 
 		#endregion

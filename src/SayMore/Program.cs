@@ -35,6 +35,10 @@ namespace SayMore
 		[STAThread]
 		static void Main()
 		{
+			// Think this line of code is stupid? See SP-436 and read this article:
+			// http://stackoverflow.com/questions/4077822/net-4-0-and-the-dreaded-onuserpreferencechanged-hang
+			Microsoft.Win32.SystemEvents.UserPreferenceChanged += delegate { };
+
 			// This is pretty annoying: When, because .Net doesn't have a font style of SemiBold
 			// (e.g. Segoe UI SemiBold), fonts having that style are assumed to be bold, but
 			// when some controls (e.g. Label) are set to a SemiBold font, they are displayed as

@@ -32,15 +32,11 @@ namespace SayMore.Media.Audio
 		{
 			if (RecordingDevice.Devices.Any())
 			{
-				string sDevices = string.Empty;
-				foreach (var device in RecordingDevice.Devices)
-				{
-					sDevices += Environment.NewLine + device.DeviceNumber + ", " + device.GenericName + ", " + device.ProductName;
-				}
-				MessageBox.Show("TEMPORARY: Recording devices available: " + sDevices);
 				_displayCannotRecordWarning = true;
 				return true;
 			}
+
+			MessageBox.Show("TEMPORARY: No Recording devices available! suppressWarningDisplay = " + suppressWarningDisplay + "; _displayCannotRecordWarning = " + _displayCannotRecordWarning);
 
 			if (!suppressWarningDisplay && _displayCannotRecordWarning)
 			{

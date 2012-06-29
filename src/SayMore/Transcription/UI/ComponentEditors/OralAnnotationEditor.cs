@@ -46,7 +46,7 @@ namespace SayMore.Transcription.UI
 			_oralAnnotationWaveViewer.PlaybackStopped += delegate
 			{
 				_buttonStop.Enabled = false;
-				_buttonPlay.Enabled = true;
+				_buttonPlay.Enabled = !IsRegeneratingAudioFile;
 			};
 
 			_oralAnnotationWaveViewer.CursorTimeChanged += (c, time) =>
@@ -146,6 +146,12 @@ namespace SayMore.Transcription.UI
 			_oralAnnotationWaveViewer.Invalidate(true);
 
 			_buttonRegenerate.Enabled = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool IsRegeneratingAudioFile
+		{
+			get { return !_buttonRegenerate.Enabled; }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -290,8 +290,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRecordedAnnotationButtonClick(object sender, EventArgs e)
 		{
-			MessageBox.Show("TEMPORARY: About to call AudioUtils.GetCanRecordAudio");
-
 			if (!AudioUtils.GetCanRecordAudio())
 				return;
 

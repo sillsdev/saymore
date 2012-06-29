@@ -266,9 +266,8 @@ namespace SayMore.Transcription.UI
 			{
 				Recorder = new OralAnnotationRecorder(peakMeter, recordingProgressAction);
 			}
-			catch (Exception e)
+			catch
 			{
-				System.Windows.Forms.MessageBox.Show("TEMPORARY: Exception caught in InitializeAnnotationRecorder: " + e.Message);
 				return;
 			}
 			Recorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();

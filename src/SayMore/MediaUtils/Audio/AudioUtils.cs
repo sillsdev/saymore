@@ -17,7 +17,6 @@ using SayMore.Media.FFmpeg;
 using SayMore.Media.MPlayer;
 using SayMore.Properties;
 using SayMore.UI;
-using SayMore.Utilities;
 
 namespace SayMore.Media.Audio
 {
@@ -35,8 +34,6 @@ namespace SayMore.Media.Audio
 				_displayCannotRecordWarning = true;
 				return true;
 			}
-
-			MessageBox.Show("TEMPORARY: No Recording devices available! suppressWarningDisplay = " + suppressWarningDisplay + "; _displayCannotRecordWarning = " + _displayCannotRecordWarning);
 
 			if (!suppressWarningDisplay && _displayCannotRecordWarning)
 			{

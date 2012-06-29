@@ -129,7 +129,7 @@ namespace SayMore.Transcription.UI
 			this._buttonRegenerate.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this._buttonRegenerate.Image = global::SayMore.Properties.Resources.RegenerateAnnotationFile;
 			this._buttonRegenerate.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonRegenerate, "Regenerate Oral Annotation Aduio File");
+			this.locExtender.SetLocalizableToolTip(this._buttonRegenerate, "Regenerate Oral Annotation Audio File");
 			this.locExtender.SetLocalizationComment(this._buttonRegenerate, null);
 			this.locExtender.SetLocalizingId(this._buttonRegenerate, "SessionsView.Transcription.GeneratedOralAnnotationView.RegenerateButton");
 			this._buttonRegenerate.Name = "_buttonRegenerate";

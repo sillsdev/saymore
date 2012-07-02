@@ -81,7 +81,7 @@ namespace SayMore.UI.ComponentEditors
 			_genre.BeginInvoke((MethodInvoker)delegate
 			{
 				_genre.Items.Clear();
-				_genre.Items.AddRange(new object[] {genreList});
+				_genre.Items.AddRange(genreList.Cast<object>().ToArray());
 			});
 		}
 

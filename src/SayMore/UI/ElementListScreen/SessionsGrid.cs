@@ -93,10 +93,24 @@ namespace SayMore.UI.ElementListScreen
 			var cmds = base.GetMenuCommands().ToList();
 
 			var menu = new ToolStripMenuItem(string.Empty,
-				Resources.RampIcon, (s, e) => ((Session)GetCurrentElement()).CreateArchiveFile());
+				Resources.RampIcon, (s, e) => {
+					var session = (Session)GetCurrentElement();
+					if (session != null)
+						session.CreateArchiveFile();
+				});
 
 			menu.Text = LocalizationManager.GetString("SessionsView.SessionsList.RampArchiveMenuText",
 				"Archive with RAMP (SIL)...", null, menu);
+
+			// Since this item isn't going to be added to an actual menu yet, we can't hook up the
+			// code to enable/disable it yet. When it is added to a menu, if that menu is a drop-down
+			// (which it will be), then we set up the handler to disable it if there is not a current
+			// session.
+			menu.OwnerChanged += (s, e) =>
+			{
+				if (menu.Owner.IsDropDown)
+					((ToolStripDropDown)menu.Owner).Opened += (s1, e1) => menu.Enabled = GetCurrentElement() is Session;
+			};
 
 			cmds.Insert(0, menu);
 

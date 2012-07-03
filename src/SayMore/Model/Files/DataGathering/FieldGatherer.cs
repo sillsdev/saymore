@@ -116,7 +116,7 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			var file = componentFileFactory(null, path);
 			FileType = file.FileType.GetType();
-			FieldKeys = file.AllFields.Select(field => field.FieldId);
+			FieldKeys = file.StandardMetaDataFieldValues.Select(field => field.FieldId);
 		}
 	}
 

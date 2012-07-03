@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using SayMore.Model.Files;
 
 namespace SayMore.UI.ComponentEditors
@@ -17,13 +16,6 @@ namespace SayMore.UI.ComponentEditors
 
 			foreach (var field in file.StandardMetaDataFieldValues)
 				textBox1.Text += Environment.NewLine + field.FieldId + ": " + field.ValueAsString;
-			if (file.CustomMetaDataFieldValues.Any())
-			{
-				textBox1.Text += Environment.NewLine + Environment.NewLine + "Custom fields: ";
-
-				foreach (var field in file.CustomMetaDataFieldValues)
-					textBox1.Text += Environment.NewLine + field.FieldId + ": " + field.ValueAsString;
-			}
 		}
 	}
 }

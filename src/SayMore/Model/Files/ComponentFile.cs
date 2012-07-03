@@ -70,7 +70,6 @@ namespace SayMore.Model.Files
 		public string RootElementName { get; protected set; }
 		public virtual string PathToAnnotatedFile { get; protected set; }
 		public List<FieldInstance> StandardMetaDataFieldValues { get; protected set; }
-		public List<FieldInstance> CustomMetaDataFieldValues { get; protected set; }
 		public FileType FileType { get; protected set; }
 		public string FileTypeDescription { get; protected set; }
 		public string FileSize { get; protected set; }
@@ -111,7 +110,6 @@ namespace SayMore.Model.Files
 			//_metaDataPath = ComputeMetaDataPath(pathToAnnotatedFile);
 
 			StandardMetaDataFieldValues = new List<FieldInstance>();
-			CustomMetaDataFieldValues = new List<FieldInstance>();
 
 			Guard.AgainstNull(FileType, "At runtime (maybe not in tests) FileType should go to a type intended for unknowns");
 
@@ -144,7 +142,6 @@ namespace SayMore.Model.Files
 			_metaDataPath = filePath;
 			_fieldUpdater = fieldUpdater;
 			StandardMetaDataFieldValues = new List<FieldInstance>();
-			CustomMetaDataFieldValues = new List<FieldInstance>();
 			_componentRoles = new ComponentRole[] {}; //no roles for person or event
 			InitializeFileInfo();
 		}
@@ -281,12 +278,6 @@ namespace SayMore.Model.Files
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<FieldInstance> AllFields
-		{
-			get { return StandardMetaDataFieldValues.Union(CustomMetaDataFieldValues); }
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public virtual int DisplayIndentLevel
 		{
 			get { return 0; }
@@ -341,9 +332,7 @@ namespace SayMore.Model.Files
 			}
 
 			// Get the value from the metadata file.
-			var	field = (key.StartsWith(FieldDefinition.kCustomFieldIdPrefix)) ?
-				CustomMetaDataFieldValues.FirstOrDefault(v => v.FieldId == key.Substring(FieldDefinition.kCustomFieldIdPrefix.Length)) :
-				StandardMetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
+			var	field = StandardMetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
 			var savedValue = (field == null ? defaultValue : field.ValueAsString);
 
 			if (!string.IsNullOrEmpty(computedValue))
@@ -425,21 +414,10 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string SetStringValue(FieldInstance newFieldInstance, out string failureMessage)
 		{
-			var key = newFieldInstance.FieldId;
-			List<FieldInstance> metaDataFieldValues;
-			if (key.StartsWith(FieldDefinition.kCustomFieldIdPrefix))
-			{
-				key = key.Substring(FieldDefinition.kCustomFieldIdPrefix.Length);
-				newFieldInstance = new FieldInstance(key, newFieldInstance.Type, newFieldInstance.Value);
-				metaDataFieldValues = CustomMetaDataFieldValues;
-			}
-			else
-				metaDataFieldValues = StandardMetaDataFieldValues;
-
 			failureMessage = null;
 
 			newFieldInstance.Value = (newFieldInstance.ValueAsString ?? string.Empty).Trim();
-			var oldFieldValue = metaDataFieldValues.Find(v => v.FieldId == key);
+			var oldFieldValue = StandardMetaDataFieldValues.Find(v => v.FieldId == newFieldInstance.FieldId);
 
 			if (oldFieldValue == newFieldInstance)
 				return newFieldInstance.ValueAsString;
@@ -447,7 +425,7 @@ namespace SayMore.Model.Files
 			string oldValue = null;
 
 			if (oldFieldValue == null)
-				metaDataFieldValues.Add(newFieldInstance);
+				StandardMetaDataFieldValues.Add(newFieldInstance);
 			else
 			{
 				oldValue = oldFieldValue.ValueAsString;
@@ -492,8 +470,7 @@ namespace SayMore.Model.Files
 		{
 			_metaDataPath = path;
 			OnBeforeSave(this);
-			_fileSerializer.Save(StandardMetaDataFieldValues, CustomMetaDataFieldValues,
-				_metaDataPath, RootElementName);
+			_fileSerializer.Save(StandardMetaDataFieldValues, _metaDataPath, RootElementName);
 			OnAfterSave(this);
 		}
 
@@ -516,7 +493,7 @@ namespace SayMore.Model.Files
 		{
 			_fileSerializer.CreateIfMissing(_metaDataPath, RootElementName);
 			_fileSerializer.Load(/*TODO this.Work, */ StandardMetaDataFieldValues,
-				CustomMetaDataFieldValues, _metaDataPath, RootElementName, FileType);
+				_metaDataPath, RootElementName, FileType);
 		}
 
 		/// ------------------------------------------------------------------------------------

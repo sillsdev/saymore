@@ -77,16 +77,13 @@ namespace SayMore.Model.Files
 					continue;
 
 				var standardMetaDataFields = new List<FieldInstance>();
-				var customMetaDataFields = new List<FieldInstance>();
-				_fileSerializer.Load(standardMetaDataFields, customMetaDataFields,
-					sidecarFilePath, file.RootElementName, file.FileType);
+				_fileSerializer.Load(standardMetaDataFields, sidecarFilePath, file.RootElementName, file.FileType);
 
 				var field = standardMetaDataFields.Find(x => x.FieldId == idOfFieldToFind);
 				if (field != null)
 				{
 					updateAction(standardMetaDataFields, field);
-					_fileSerializer.Save(standardMetaDataFields, customMetaDataFields,
-						sidecarFilePath, file.RootElementName);
+					_fileSerializer.Save(standardMetaDataFields, sidecarFilePath, file.RootElementName);
 					if (_fieldGatherer != null)
 						_fieldGatherer.GatherFieldsForFileNow(sidecarFilePath);
 				}

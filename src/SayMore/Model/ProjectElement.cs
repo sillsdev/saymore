@@ -201,8 +201,6 @@ namespace SayMore.Model
 				yield return new FieldInstance("id", Id);
 				foreach (var field in MetaDataFile.StandardMetaDataFieldValues)
 					yield return field;
-				foreach (var field in MetaDataFile.CustomMetaDataFieldValues)
-					yield return field;
 			}
 		}
 

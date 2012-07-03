@@ -157,8 +157,8 @@ namespace SayMore.UI.ComponentEditors
 				case "Resolution": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Resolution", "Resolution");
 				case "Frame_Rate": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.FrameRate", "Frame Rate");
 				default:
-					return id.StartsWith(FieldDefinition.kCustomFieldIdPrefix) ?
-						id.Substring(FieldDefinition.kCustomFieldIdPrefix.Length) : id;
+					return id.StartsWith(FileSerializer.kCustomFieldIdPrefix) ?
+						id.Substring(FileSerializer.kCustomFieldIdPrefix.Length) : id;
 			}
 		}
 

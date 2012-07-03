@@ -17,6 +17,7 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class FileSerializer
 	{
+		public const string kCustomFieldIdPrefix = "custom_";
 		private const string kCustomFieldsElement = "CustomFields";
 		protected IDictionary<string, IXmlFieldSerializer> _xmlFieldSerializers;
 
@@ -27,21 +28,28 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Save(IEnumerable<FieldInstance> standardFields,
-			IEnumerable<FieldInstance> customFields, string path, string rootElementName)
+		public void Save(IEnumerable<FieldInstance> fields, string path, string rootElementName)
 		{
 			var root = new XElement(rootElementName); // TODO: could use actual name
 
-			foreach (var element in standardFields.Select(GetElementFromField).Where(e => e != null))
-				root.Add(element);
-
-			if (customFields != null && customFields.Any())
+			XElement customFieldsElement = null;
+			foreach (var fieldInstance in fields)
 			{
-				var customFieldsElement = new XElement(kCustomFieldsElement);
-				root.Add(customFieldsElement);
-
-				foreach (var element in customFields.Select(GetElementFromField).Where(e => e != null))
+				bool custom;
+				var element = GetElementFromField(fieldInstance, out custom);
+				if (element == null)
+					continue;
+				if (custom)
+				{
+					if (customFieldsElement == null)
+					{
+						customFieldsElement = new XElement(kCustomFieldsElement);
+						root.Add(customFieldsElement);
+					}
 					customFieldsElement.Add(element);
+				}
+				else
+					root.Add(element);
 			}
 
 			var giveUpTime = DateTime.Now.AddSeconds(4);
@@ -64,13 +72,21 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public XElement GetElementFromField(FieldInstance fld)
+		public XElement GetElementFromField(FieldInstance fld, out bool custom)
 		{
 			XElement element = null;
 
+			var id = fld.FieldId;
+			custom = false;
+			if (id.StartsWith(kCustomFieldIdPrefix))
+			{
+				id = id.Substring(kCustomFieldIdPrefix.Length);
+				custom = true;
+			}
+
 			IXmlFieldSerializer fldSerializer;
 
-			if (_xmlFieldSerializers != null && _xmlFieldSerializers.TryGetValue(fld.FieldId, out fldSerializer))
+			if (!custom && _xmlFieldSerializers != null && _xmlFieldSerializers.TryGetValue(id, out fldSerializer))
 			{
 				element = fldSerializer.Serialize(fld.Value);
 			}
@@ -78,7 +94,7 @@ namespace SayMore.Model.Files
 			{
 				var value = (fld.ValueAsString ?? string.Empty);
 				if (value.Length > 0)
-					element = new XElement(fld.FieldId, fld.ValueAsString);
+					element = new XElement(id, fld.ValueAsString);
 			}
 
 			if (element != null)
@@ -98,16 +114,15 @@ namespace SayMore.Model.Files
 			if (File.Exists(path))
 				return false;
 
-			Save(new FieldInstance[]{}, null, path, rootElementName);
+			Save(new FieldInstance[]{}, path, rootElementName);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Load(/*TODO: ClearShare.Work work,*/ List<FieldInstance> standardFields,
-			List<FieldInstance> customFields, string path, string rootElementName, FileType fileType)
+		public void Load(/*TODO: ClearShare.Work work,*/ List<FieldInstance> fields, string path,
+			string rootElementName, FileType fileType)
 		{
-			standardFields.Clear();
-			customFields.Clear();
+			fields.Clear();
 
 			var doc = new XmlDocument();
 
@@ -130,26 +145,21 @@ namespace SayMore.Model.Files
 			}
 
 			var root = doc.ChildNodes[1];
-			standardFields.AddRange(root.ChildNodes.Cast<XmlNode>()
-				.Select(GetFieldFromNode)
+			fields.AddRange(root.ChildNodes.Cast<XmlNode>()
+				.Select(node => GetFieldFromNode(node, fileType.GetIsCustomFieldId))
 				.Where(fieldInstance => fieldInstance != null));
-
-			customFields.AddRange(standardFields.Where(f => fileType.GetIsCustomFieldId(f.FieldId)));
-
-			foreach (var field in customFields)
-				standardFields.Remove(field);
 
 			var customFieldList = root.SelectSingleNode(kCustomFieldsElement);
 			if (customFieldList != null)
 			{
-				customFields.AddRange(customFieldList.ChildNodes.Cast<XmlNode>()
-					.Select(node => new FieldInstance(node.Name, FieldInstance.kStringType,
-						CleanupLineBreaks(node.InnerText))));
+				fields.AddRange(customFieldList.ChildNodes.Cast<XmlNode>()
+					.Select(node => new FieldInstance(kCustomFieldIdPrefix + node.Name, FieldInstance.kStringType,
+					CleanupLineBreaks(node.InnerText))));
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FieldInstance GetFieldFromNode(XmlNode node)
+		public FieldInstance GetFieldFromNode(XmlNode node, Func<string, bool> isCustomField)
 		{
 			if (node.Name == "olac")//might not be quite right, it will be in a namespace
 			{
@@ -174,7 +184,11 @@ namespace SayMore.Model.Files
 				return new FieldInstance(fieldId, type, fldSerializer.Deserialize(node.OuterXml));
 
 			if (type == FieldInstance.kStringType)
+			{
+				if (isCustomField != null && isCustomField(fieldId))
+					fieldId = kCustomFieldIdPrefix + fieldId;
 				return new FieldInstance(fieldId, type, CleanupLineBreaks(node.InnerText));
+			}
 
 			return null;
 		}

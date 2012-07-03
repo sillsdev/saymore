@@ -156,7 +156,9 @@ namespace SayMore.UI.ComponentEditors
 				case "Channels": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Channels", "Channels");
 				case "Resolution": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Resolution", "Resolution");
 				case "Frame_Rate": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.FrameRate", "Frame Rate");
-				default: return id;
+				default:
+					return id.StartsWith(FieldDefinition.kCustomFieldIdPrefix) ?
+						id.Substring(FieldDefinition.kCustomFieldIdPrefix.Length) : id;
 			}
 		}
 
@@ -169,7 +171,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public bool GetShouldAskToRemoveFieldEverywhere(int index, string newId, out string oldId)
 		{
-			oldId = (index < 0 || index >= RowData.Count ? null : RowData[index].FieldId);
+			oldId = GetDisplayableFieldName(index);
 			return ((newId == null || newId.Trim() == string.Empty) && oldId != null);
 		}
 

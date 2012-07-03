@@ -200,7 +200,7 @@ namespace SayMore.Model
 
 			StageCompletedControlValues = ComponentRoles.ToDictionary(role => role.Id,
 				role => (StageCompleteType)Enum.Parse(typeof(StageCompleteType),
-					MetaDataFile.GetValue("stage_" + role.Id, StageCompleteType.Auto.ToString()) as string));
+					MetaDataFile.GetValue(SessionFileType.kStageFieldPrefix + role.Id, StageCompleteType.Auto.ToString()) as string));
 		}
 	}
 

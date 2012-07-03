@@ -27,6 +27,7 @@ namespace SayMore.Model.Fields
 	[XmlType("field")]
 	public class FieldDefinition
 	{
+		public const string kCustomFieldIdPrefix = "custom_";
 		#region Enumerations
 		public enum MultiplicityType
 		{
@@ -209,7 +210,7 @@ namespace SayMore.Model.Fields
 		/// ------------------------------------------------------------------------------------
 		public string Key
 		{
-			get { return /*_className + "." +*/ _fieldName; }
+			get { return (IsCustom ? kCustomFieldIdPrefix : string.Empty) + _fieldName; }
 		}
 
 		/// ------------------------------------------------------------------------------------

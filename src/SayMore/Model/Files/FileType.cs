@@ -321,6 +321,7 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class SessionFileType : FileType
 	{
+		public const string kStageFieldPrefix = "stage_";
 		private readonly Func<SessionBasicEditor.Factory> _sessionBasicEditorFactoryLazy;
 		private readonly Func<StatusAndStagesEditor.Factory> _statusAndStagesEditorFactoryLazy;
 
@@ -344,6 +345,19 @@ namespace SayMore.Model.Files
 		public override string FieldsGridSettingsName
 		{
 			get { return "SessionCustomFieldsGrid"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override bool GetIsCustomFieldId(string key)
+		{
+			if (key.StartsWith(kStageFieldPrefix))
+			{
+				var role = key.Substring(kStageFieldPrefix.Length);
+				if (ApplicationContainer.ComponentRoles.Any(cr => cr.Id == role))
+					return false;
+			}
+
+			return base.GetIsCustomFieldId(key);
 		}
 
 		/// ------------------------------------------------------------------------------------

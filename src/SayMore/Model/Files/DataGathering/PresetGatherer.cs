@@ -98,7 +98,7 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			var file = componentFileFactory(null, path);
 
-			var writableFields = from field in file.MetaDataFieldValues
+			var writableFields = from field in file.StandardMetaDataFieldValues
 								 where file.FileType.GetShowInPresetOptions(field.FieldId)
 								 select field;
 

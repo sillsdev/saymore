@@ -8,6 +8,7 @@ using Palaso.TestUtilities;
 using System.Linq;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
+using Moq;
 
 namespace SayMoreTests.Model.Files
 {
@@ -47,22 +48,27 @@ namespace SayMoreTests.Model.Files
 		#endregion
 
 		private TemporaryFolder _parentFolder;
-		private List<FieldInstance> _fields;
+		private List<FieldInstance> _standardFields;
+		private List<FieldInstance> _customFields;
 		private FileSerializer _serializer;
 		private TestFieldSerializer _testFieldSerializer;
+		private Mock<FileType> _fileType;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void Setup()
 		{
 			_testFieldSerializer = new TestFieldSerializer();
+			_fileType = new Mock<FileType>("Mocked", null);
+			_fileType.Setup(f => f.GetIsCustomFieldId(It.Is<string>(id => id != "a" && id != "dates" && id != "b"))).Returns(true);
 
 			var fieldSerializers = new Dictionary<string, IXmlFieldSerializer>();
 			fieldSerializers[_testFieldSerializer.ElementName] = _testFieldSerializer;
 
 			_serializer = new FileSerializer(fieldSerializers);
 			_parentFolder = new TemporaryFolder("fileTypeTest");
-			_fields = new List<FieldInstance>();
+			_standardFields = new List<FieldInstance>();
+			_customFields = new List<FieldInstance>();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -85,11 +91,11 @@ namespace SayMoreTests.Model.Files
 		[Test]
 		public void GetElementFromField_FieldValueIsString_ReturnsCorrectElement()
 		{
-			var fld = new FieldInstance("a", "string", "blah");
+			var fld = new FieldInstance("a", FieldInstance.kStringType, "blah");
 			var e = _serializer.GetElementFromField(fld);
 
 			Assert.IsNotNull("a", e.Name.ToString());
-			Assert.AreEqual("string", e.Attribute("type").Value);
+			Assert.AreEqual(FieldInstance.kStringType, e.Attribute("type").Value);
 			Assert.AreEqual("blah", e.Value);
 		}
 
@@ -118,13 +124,28 @@ namespace SayMoreTests.Model.Files
 		{
 			var doc = new XmlDocument();
 			var node = doc.CreateElement("a");
-			node.SetAttribute("type", "string");
+			node.SetAttribute("type", FieldInstance.kStringType);
 			node.InnerText = "element stuff";
 
 			var fld = _serializer.GetFieldFromNode(node);
 
 			Assert.AreEqual("a", fld.FieldId);
-			Assert.AreEqual("string", fld.Type);
+			Assert.AreEqual(FieldInstance.kStringType, fld.Type);
+			Assert.AreEqual("element stuff", fld.Value);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetFieldFromNode_ImplicitSpongeStringType_ReturnsField()
+		{
+			var doc = new XmlDocument();
+			var node = doc.CreateElement("a");
+			node.InnerText = "element stuff";
+
+			var fld = _serializer.GetFieldFromNode(node);
+
+			Assert.AreEqual("a", fld.FieldId);
+			Assert.AreEqual(FieldInstance.kStringType, fld.Type);
 			Assert.AreEqual("element stuff", fld.Value);
 		}
 
@@ -146,6 +167,41 @@ namespace SayMoreTests.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void GetFieldFromNode_fullName_ReturnsNull()
+		{
+			var doc = new XmlDocument();
+			var node = doc.CreateElement("fullName");
+			node.SetAttribute("type", FieldInstance.kStringType);
+			node.InnerXml = "John Peter Bogle Jr The Third";
+
+			Assert.IsNull(_serializer.GetFieldFromNode(node));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetFieldFromNode_UnknownType_ReturnsNull()
+		{
+			var doc = new XmlDocument();
+			var node = doc.CreateElement("a");
+			node.SetAttribute("type", "flubber");
+			node.InnerText = "element stuff";
+
+			Assert.IsNull(_serializer.GetFieldFromNode(node));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetFieldFromNode_CustomFieldsNode_ReturnsNull()
+		{
+			var doc = new XmlDocument();
+			var node = doc.CreateElement("CustomFields");
+			node.InnerText = "<stage_source type=\"string\">one hour</stage_source>";
+
+			Assert.IsNull(_serializer.GetFieldFromNode(node));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void Load_FileDoesNotExist_Throws()
 		{
 			Assert.Throws<FileNotFoundException>(LoadFromStandardPlace);
@@ -156,7 +212,7 @@ namespace SayMoreTests.Model.Files
 		public void Save_CannotCreateFile_Throws()
 		{
 			Assert.Throws<DirectoryNotFoundException>(() =>
-				_serializer.Save(_fields, _parentFolder.Combine("notthere", "test.txt"), "x"));
+				_serializer.Save(_standardFields, null, _parentFolder.Combine("notthere", "test.txt"), "x"));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -165,88 +221,138 @@ namespace SayMoreTests.Model.Files
 		{
 			SaveToStandardPlace();
 			LoadFromStandardPlace();
-			Assert.AreEqual(0, _fields.Count);
+			Assert.AreEqual(0, _standardFields.Count);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SaveThenLoad_TwoStrings_RoundTripped()
 		{
-			var valueA = new FieldInstance("a", "string", "aaa");
-			_fields.Add(valueA);
-			var valueB = new FieldInstance("b", "string", "bbb");
-			_fields.Add(valueB);
+			var valueA = new FieldInstance("a", FieldInstance.kStringType, "aaa");
+			_standardFields.Add(valueA);
+			var valueB = new FieldInstance("b", FieldInstance.kStringType, "bbb");
+			_standardFields.Add(valueB);
 
 			DoRoundTrip();
-			Assert.AreEqual(2, _fields.Count);
-			Assert.IsTrue(_fields.Contains(valueA));
-			Assert.IsTrue(_fields.Contains(valueB));
+			Assert.AreEqual(2, _standardFields.Count);
+			Assert.IsTrue(_standardFields.Contains(valueA));
+			Assert.IsTrue(_standardFields.Contains(valueB));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SaveThenLoad_UnrecognizedStringField_LoadsAsCustom()
+		{
+			var standardField = new FieldInstance("a", FieldInstance.kStringType, "aaa");
+			_standardFields.Add(standardField);
+			var fieldThatShouldLoadAsCustom = new FieldInstance("unrecognized", FieldInstance.kStringType, "bbb");
+			_standardFields.Add(fieldThatShouldLoadAsCustom);
+
+			DoRoundTrip();
+			Assert.AreEqual(1, _standardFields.Count);
+			Assert.AreEqual(1, _customFields.Count);
+			Assert.IsTrue(_standardFields.Contains(standardField));
+			Assert.IsTrue(_customFields.Contains(fieldThatShouldLoadAsCustom));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SaveThenLoad_CustomStringField_RoundTripped()
+		{
+			var standardField = new FieldInstance("a", FieldInstance.kStringType, "aaa");
+			_standardFields.Add(standardField);
+			var customField = new FieldInstance("custom", FieldInstance.kStringType, "bbb");
+			_customFields.Add(customField);
+
+			DoRoundTrip();
+			Assert.AreEqual(1, _standardFields.Count);
+			Assert.AreEqual(1, _customFields.Count);
+			Assert.IsTrue(_standardFields.Contains(standardField));
+			Assert.IsTrue(_customFields.Contains(customField));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SaveThenLoad_CustomFieldWithSameNameAsFactoryField_RoundTrippedAsCustom()
+		{
+			var standardField = new FieldInstance("a", FieldInstance.kStringType, "aaa");
+			_standardFields.Add(standardField);
+			var customField = new FieldInstance("b", FieldInstance.kStringType, "bbb");
+			_customFields.Add(customField);
+
+			DoRoundTrip();
+			Assert.AreEqual(1, _standardFields.Count);
+			Assert.AreEqual(1, _customFields.Count);
+			Assert.IsTrue(_standardFields.Contains(standardField));
+			Assert.IsTrue(_customFields.Contains(customField));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SaveThenLoad_StringsWithNewLines_RoundTripped()
 		{
-			var valueA = new FieldInstance("a", "string", "aaa" + Environment.NewLine + "second line");
-			_fields.Add(valueA);
+			var valueA = new FieldInstance("a", FieldInstance.kStringType, "aaa" + Environment.NewLine + "second line");
+			_standardFields.Add(valueA);
 
 			DoRoundTrip();
-			Assert.AreEqual(1, _fields.Count);
-			Assert.AreEqual(valueA, _fields[0]);
+			Assert.AreEqual(1, _standardFields.Count);
+			Assert.AreEqual(valueA, _standardFields[0]);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void Load_LoadingMultipleTimes_DoesNotIntroduceDuplicates()
 		{
-			_fields.Add(new FieldInstance("a", "string", "aaa"));
+			_standardFields.Add(new FieldInstance("a", FieldInstance.kStringType, "aaa"));
 
 			SaveToStandardPlace();
 			LoadFromStandardPlace();
 			LoadFromStandardPlace();
 			LoadFromStandardPlace();
-			Assert.AreEqual(1, _fields.Count);
+			Assert.AreEqual(1, _standardFields.Count);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SaveThenLoad_StringWithXmlSymbols_RoundTripped()
 		{
-			_fields.Add(new FieldInstance("a", "string", "<mess me up"));
+			_standardFields.Add(new FieldInstance("a", FieldInstance.kStringType, "<mess me up"));
 			DoRoundTrip();
-			Assert.AreEqual("<mess me up", _fields.First().ValueAsString);
+			Assert.AreEqual("<mess me up", _standardFields.First().ValueAsString);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void SaveThenLoad_NoneStringType_RoundTripped()
+		public void SaveThenLoad_NonStringType_RoundTripped()
 		{
 			var value = new FieldInstance(_testFieldSerializer.ElementName, new DateTime(2010, 12, 13));
-			_fields.Add(value);
+			_standardFields.Add(value);
 
 			DoRoundTrip();
-			Assert.AreEqual(1, _fields.Count);
-			Assert.AreEqual(new DateTime(2010, 12, 13), (DateTime)_fields.First().Value);
+			Assert.AreEqual(1, _standardFields.Count);
+			Assert.AreEqual(new DateTime(2010, 12, 13), (DateTime)_standardFields.First().Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void DoRoundTrip()
 		{
 			SaveToStandardPlace();
-			_fields.Clear();
+			_standardFields.Clear();
+			_customFields.Clear();
 			LoadFromStandardPlace();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void SaveToStandardPlace()
 		{
-			_serializer.Save(_fields, _parentFolder.Combine("test.txt"), "x");
+			_serializer.Save(_standardFields, _customFields, _parentFolder.Combine("test.txt"), "x");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void LoadFromStandardPlace()
 		{
-			_serializer.Load(_fields, _parentFolder.Combine("test.txt"), "x");
+			_serializer.Load(_standardFields, _customFields, _parentFolder.Combine("test.txt"),
+				"x", _fileType.Object);
 		}
 	}
 }

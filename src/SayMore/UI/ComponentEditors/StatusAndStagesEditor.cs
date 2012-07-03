@@ -309,7 +309,7 @@ namespace SayMore.UI.ComponentEditors
 			var newCompleteType = checkBox.Update(true, _file.ParentElement.StageCompletedControlValues);
 			checkBox.CheckedChanged += HandleStageCheckBoxCheckChanged;
 
-			SaveFieldValue("stage_" + checkBox.Role.Id, newCompleteType);
+			SaveFieldValue(SessionFileType.kStageFieldPrefix + checkBox.Role.Id, newCompleteType);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -14,9 +14,11 @@ namespace SayMore.Model.Fields
 	public class FieldInstance : IEquatable<FieldInstance>
 	{
 		public const char kDefaultMultiValueDelimiter = ';';
+		public const string kStringType = "string";
 
 		public string FieldId { get; set; }
 		public string Type { get; set; }
+		public bool IsCustom { get; set; }
 		public object Value { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -29,7 +31,7 @@ namespace SayMore.Model.Fields
 
 		/// ------------------------------------------------------------------------------------
 		public FieldInstance(string id, object value) :
-			this(id, (value == null || value is string) ? "string" : "xml", value)
+			this(id, (value == null || value is string) ? kStringType : "xml", value)
 		{
 		}
 

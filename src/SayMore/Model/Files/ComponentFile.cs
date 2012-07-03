@@ -69,7 +69,8 @@ namespace SayMore.Model.Files
 		public ProjectElement ParentElement { get; protected set; }
 		public string RootElementName { get; protected set; }
 		public virtual string PathToAnnotatedFile { get; protected set; }
-		public List<FieldInstance> MetaDataFieldValues { get; protected set; }
+		public List<FieldInstance> StandardMetaDataFieldValues { get; protected set; }
+		public List<FieldInstance> CustomMetaDataFieldValues { get; protected set; }
 		public FileType FileType { get; protected set; }
 		public string FileTypeDescription { get; protected set; }
 		public string FileSize { get; protected set; }
@@ -109,7 +110,8 @@ namespace SayMore.Model.Files
 			// to keep, say, foo.wav and foo.txt separate. Instead, we just append ".meta"
 			//_metaDataPath = ComputeMetaDataPath(pathToAnnotatedFile);
 
-			MetaDataFieldValues = new List<FieldInstance>();
+			StandardMetaDataFieldValues = new List<FieldInstance>();
+			CustomMetaDataFieldValues = new List<FieldInstance>();
 
 			Guard.AgainstNull(FileType, "At runtime (maybe not in tests) FileType should go to a type intended for unknowns");
 
@@ -141,7 +143,8 @@ namespace SayMore.Model.Files
 			_fileSerializer = fileSerializer;
 			_metaDataPath = filePath;
 			_fieldUpdater = fieldUpdater;
-			MetaDataFieldValues = new List<FieldInstance>();
+			StandardMetaDataFieldValues = new List<FieldInstance>();
+			CustomMetaDataFieldValues = new List<FieldInstance>();
 			_componentRoles = new ComponentRole[] {}; //no roles for person or event
 			InitializeFileInfo();
 		}
@@ -278,6 +281,12 @@ namespace SayMore.Model.Files
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
+		public IEnumerable<FieldInstance> AllFields
+		{
+			get { return StandardMetaDataFieldValues.Union(CustomMetaDataFieldValues); }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public virtual int DisplayIndentLevel
 		{
 			get { return 0; }
@@ -332,7 +341,9 @@ namespace SayMore.Model.Files
 			}
 
 			// Get the value from the metadata file.
-			var	field = MetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
+			var	field = (key.StartsWith(FieldDefinition.kCustomFieldIdPrefix)) ?
+				CustomMetaDataFieldValues.FirstOrDefault(v => v.FieldId == key.Substring(FieldDefinition.kCustomFieldIdPrefix.Length)) :
+				StandardMetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
 			var savedValue = (field == null ? defaultValue : field.ValueAsString);
 
 			if (!string.IsNullOrEmpty(computedValue))
@@ -360,7 +371,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual object GetValue(string key, object defaultValue)
 		{
-			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
+			var field = StandardMetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
 			return (field == null ? defaultValue : field.Value);
 		}
 
@@ -384,14 +395,14 @@ namespace SayMore.Model.Files
 			failureMessage = null;
 
 			object oldFieldValue = null;
-			var oldFieldInstance = MetaDataFieldValues.Find(v => v.FieldId == key);
+			var oldFieldInstance = StandardMetaDataFieldValues.Find(v => v.FieldId == key);
 
 			if (oldFieldInstance == null)
 			{
 				if (newValue == null)
 					return null;
 
-				MetaDataFieldValues.Add(new FieldInstance(key, newValue));
+				StandardMetaDataFieldValues.Add(new FieldInstance(key, newValue));
 			}
 			else if (oldFieldInstance.Value.Equals(newValue))
 				return newValue;
@@ -414,12 +425,21 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string SetStringValue(FieldInstance newFieldInstance, out string failureMessage)
 		{
+			var key = newFieldInstance.FieldId;
+			List<FieldInstance> metaDataFieldValues;
+			if (key.StartsWith(FieldDefinition.kCustomFieldIdPrefix))
+			{
+				key = key.Substring(FieldDefinition.kCustomFieldIdPrefix.Length);
+				newFieldInstance = new FieldInstance(key, newFieldInstance.Type, newFieldInstance.Value);
+				metaDataFieldValues = CustomMetaDataFieldValues;
+			}
+			else
+				metaDataFieldValues = StandardMetaDataFieldValues;
+
 			failureMessage = null;
 
 			newFieldInstance.Value = (newFieldInstance.ValueAsString ?? string.Empty).Trim();
-
-			var oldFieldValue =
-				MetaDataFieldValues.Find(v => v.FieldId == newFieldInstance.FieldId);
+			var oldFieldValue = metaDataFieldValues.Find(v => v.FieldId == key);
 
 			if (oldFieldValue == newFieldInstance)
 				return newFieldInstance.ValueAsString;
@@ -427,7 +447,7 @@ namespace SayMore.Model.Files
 			string oldValue = null;
 
 			if (oldFieldValue == null)
-				MetaDataFieldValues.Add(newFieldInstance);
+				metaDataFieldValues.Add(newFieldInstance);
 			else
 			{
 				oldValue = oldFieldValue.ValueAsString;
@@ -442,7 +462,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual void RenameId(string oldId, string newId)
 		{
-			var fieldValue = MetaDataFieldValues.Find(v => v.FieldId == oldId);
+			var fieldValue = StandardMetaDataFieldValues.Find(v => v.FieldId == oldId);
 			if (fieldValue != null)
 				fieldValue.FieldId = newId;
 
@@ -453,9 +473,9 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual void RemoveField(string idToRemove)
 		{
-			var existingValue = MetaDataFieldValues.Find(f => f.FieldId == idToRemove);
+			var existingValue = StandardMetaDataFieldValues.Find(f => f.FieldId == idToRemove);
 			if (existingValue != null)
-				MetaDataFieldValues.Remove(existingValue);
+				StandardMetaDataFieldValues.Remove(existingValue);
 
 			if (_fieldUpdater != null)
 				_fieldUpdater.DeleteField(this, idToRemove);
@@ -472,7 +492,8 @@ namespace SayMore.Model.Files
 		{
 			_metaDataPath = path;
 			OnBeforeSave(this);
-			_fileSerializer.Save(MetaDataFieldValues, _metaDataPath, RootElementName);
+			_fileSerializer.Save(StandardMetaDataFieldValues, CustomMetaDataFieldValues,
+				_metaDataPath, RootElementName);
 			OnAfterSave(this);
 		}
 
@@ -494,7 +515,8 @@ namespace SayMore.Model.Files
 		public virtual void Load()
 		{
 			_fileSerializer.CreateIfMissing(_metaDataPath, RootElementName);
-			_fileSerializer.Load(/*TODO this.Work, */ MetaDataFieldValues, _metaDataPath, RootElementName);
+			_fileSerializer.Load(/*TODO this.Work, */ StandardMetaDataFieldValues,
+				CustomMetaDataFieldValues, _metaDataPath, RootElementName, FileType);
 		}
 
 		/// ------------------------------------------------------------------------------------

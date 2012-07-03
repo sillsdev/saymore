@@ -76,14 +76,17 @@ namespace SayMore.Model.Files
 				if (!File.Exists(sidecarFilePath))
 					continue;
 
-				var metaDataFields = new List<FieldInstance>();
-				_fileSerializer.Load(metaDataFields, sidecarFilePath, file.RootElementName);
+				var standardMetaDataFields = new List<FieldInstance>();
+				var customMetaDataFields = new List<FieldInstance>();
+				_fileSerializer.Load(standardMetaDataFields, customMetaDataFields,
+					sidecarFilePath, file.RootElementName, file.FileType);
 
-				var field = metaDataFields.Find(x => x.FieldId == idOfFieldToFind);
+				var field = standardMetaDataFields.Find(x => x.FieldId == idOfFieldToFind);
 				if (field != null)
 				{
-					updateAction(metaDataFields, field);
-					_fileSerializer.Save(metaDataFields, sidecarFilePath, file.RootElementName);
+					updateAction(standardMetaDataFields, field);
+					_fileSerializer.Save(standardMetaDataFields, customMetaDataFields,
+						sidecarFilePath, file.RootElementName);
 					if (_fieldGatherer != null)
 						_fieldGatherer.GatherFieldsForFileNow(sidecarFilePath);
 				}

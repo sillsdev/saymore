@@ -17,6 +17,7 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class FileSerializer
 	{
+		private const string kCustomFieldsElement = "CustomFields";
 		protected IDictionary<string, IXmlFieldSerializer> _xmlFieldSerializers;
 
 		/// ------------------------------------------------------------------------------------
@@ -26,12 +27,22 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Save(IEnumerable<FieldInstance> fields, string path, string rootElementName)
+		public void Save(IEnumerable<FieldInstance> standardFields,
+			IEnumerable<FieldInstance> customFields, string path, string rootElementName)
 		{
-			var child = new XElement(rootElementName);//todo could use actual name
+			var root = new XElement(rootElementName); // TODO: could use actual name
 
-			foreach (var element in fields.Select(GetElementFromField).Where(e => e != null))
-				child.Add(element);
+			foreach (var element in standardFields.Select(GetElementFromField).Where(e => e != null))
+				root.Add(element);
+
+			if (customFields != null && customFields.Any())
+			{
+				var customFieldsElement = new XElement(kCustomFieldsElement);
+				root.Add(customFieldsElement);
+
+				foreach (var element in customFields.Select(GetElementFromField).Where(e => e != null))
+					customFieldsElement.Add(element);
+			}
 
 			var giveUpTime = DateTime.Now.AddSeconds(4);
 
@@ -39,7 +50,7 @@ namespace SayMore.Model.Files
 			{
 				try
 				{
-					child.Save(path);
+					root.Save(path);
 					break;
 				}
 				catch (IOException)
@@ -63,7 +74,7 @@ namespace SayMore.Model.Files
 			{
 				element = fldSerializer.Serialize(fld.Value);
 			}
-			else if (fld.Type == "string")
+			else if (fld.Type == FieldInstance.kStringType)
 			{
 				var value = (fld.ValueAsString ?? string.Empty);
 				if (value.Length > 0)
@@ -87,14 +98,17 @@ namespace SayMore.Model.Files
 			if (File.Exists(path))
 				return false;
 
-			Save(new FieldInstance[]{}, path, rootElementName);
+			Save(new FieldInstance[]{}, null, path, rootElementName);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Load(/*TODO: ClearShare.Work work,*/List<FieldInstance> fields, string path, string rootElementName)
+		public void Load(/*TODO: ClearShare.Work work,*/ List<FieldInstance> standardFields,
+			List<FieldInstance> customFields, string path, string rootElementName, FileType fileType)
 		{
-			fields.Clear();
+			standardFields.Clear();
+			customFields.Clear();
+
 			var doc = new XmlDocument();
 
 			var giveUpTime = DateTime.Now.AddSeconds(4);
@@ -115,15 +129,23 @@ namespace SayMore.Model.Files
 				}
 			}
 
-			//using (var reader = XElement.Load(path).CreateReader())
-			//{
-			//    doc.Load(reader);
-			//    reader.Close();
-			//}
-
-			fields.AddRange(doc.ChildNodes[1].ChildNodes.Cast<XmlNode>()
+			var root = doc.ChildNodes[1];
+			standardFields.AddRange(root.ChildNodes.Cast<XmlNode>()
 				.Select(GetFieldFromNode)
 				.Where(fieldInstance => fieldInstance != null));
+
+			customFields.AddRange(standardFields.Where(f => fileType.GetIsCustomFieldId(f.FieldId)));
+
+			foreach (var field in customFields)
+				standardFields.Remove(field);
+
+			var customFieldList = root.SelectSingleNode(kCustomFieldsElement);
+			if (customFieldList != null)
+			{
+				customFields.AddRange(customFieldList.ChildNodes.Cast<XmlNode>()
+					.Select(node => new FieldInstance(node.Name, FieldInstance.kStringType,
+						CleanupLineBreaks(node.InnerText))));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -140,17 +162,18 @@ namespace SayMore.Model.Files
 			var fieldId = node.Name;
 			fieldId = UpdateOldSpongeIds(fieldId);
 
-			if (fieldId == "fullName")
-				return null; //we don't store that separately from the file name, anymore
+			// We don't store fullName separately from the file name, anymore
+			if (fieldId == kCustomFieldsElement || fieldId == "fullName")
+				return null;
 
 			// In SayMore, the type attribute is not optional, but it was in Sponge.
-			var type = node.GetOptionalStringAttribute("type", "string");
+			var type = node.GetOptionalStringAttribute("type", FieldInstance.kStringType);
 
 			IXmlFieldSerializer fldSerializer;
 			if (_xmlFieldSerializers != null && _xmlFieldSerializers.TryGetValue(fieldId, out fldSerializer))
 				return new FieldInstance(fieldId, type, fldSerializer.Deserialize(node.OuterXml));
 
-			if (type == "string")
+			if (type == FieldInstance.kStringType)
 				return new FieldInstance(fieldId, type, CleanupLineBreaks(node.InnerText));
 
 			return null;

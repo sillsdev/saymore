@@ -65,7 +65,7 @@ namespace SayMore.Transcription.UI
 			// _labelListenButton
 			//
 			this._labelListenButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelListenButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
 			this._labelListenButton.Image = global::SayMore.Properties.Resources.ListenToOriginalRecording;
 			this._labelListenButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -88,7 +88,7 @@ namespace SayMore.Transcription.UI
 			// _labelRecordButton
 			//
 			this._labelRecordButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutRecordAnnotations.SetColumnSpan(this._labelRecordButton, 2);
 			this._labelRecordButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(95)))), ((int)(((byte)(14)))));
 			this._labelRecordButton.Image = global::SayMore.Properties.Resources.RecordOralAnnotation;
@@ -158,7 +158,7 @@ namespace SayMore.Transcription.UI
 			// _panelPeakMeter
 			//
 			this._panelPeakMeter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this._panelPeakMeter.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this._panelPeakMeter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._panelPeakMeter.ClipTextForChildControls = true;
@@ -279,7 +279,7 @@ namespace SayMore.Transcription.UI
 			this._videoHelpMenuStrip.Name = "_videoHelpMenuStrip";
 			this._videoHelpMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
 			this._videoHelpMenuStrip.ShowItemToolTips = true;
-			this._videoHelpMenuStrip.Size = new System.Drawing.Size(154, 27);
+			this._videoHelpMenuStrip.Size = new System.Drawing.Size(246, 27);
 			this._videoHelpMenuStrip.TabIndex = 18;
 			//
 			// _videoHelpMenu
@@ -299,7 +299,7 @@ namespace SayMore.Transcription.UI
 			this._videoHelpMenu.ShowShortcutKeys = false;
 			this._videoHelpMenu.Size = new System.Drawing.Size(151, 24);
 			this._videoHelpMenu.Text = "Video Help (not yet)";
-			this._videoHelpMenu.Click += new System.EventHandler(this._videoHelpMenu_Click);
+			this._videoHelpMenu.Click += new System.EventHandler(this.HandleVideoHelpButtonClick);
 			//
 			// _pendingAnnotationMenuStrip
 			//
@@ -348,8 +348,8 @@ namespace SayMore.Transcription.UI
 			// _tableLayoutRecordAnnotations
 			//
 			this._tableLayoutRecordAnnotations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutRecordAnnotations.BackColor = System.Drawing.Color.MintCream;
 			this._tableLayoutRecordAnnotations.ColumnCount = 2;
 			this._tableLayoutRecordAnnotations.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));

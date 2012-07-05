@@ -235,7 +235,7 @@ namespace SayMore.Transcription.UI
 			};
 
 			_labelRecordButton.MouseDown += HandleRecordAnnotationMouseDown;
-			_labelRecordButton.MouseUp += delegate { FinishRecording(true); };
+			_labelRecordButton.MouseUp += delegate { FinishRecording(AdvanceOptionsAfterRecording.Advance); };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -380,7 +380,7 @@ namespace SayMore.Transcription.UI
 			_waveControl.MouseUp += delegate
 			{
 				if (_reRecording)
-					FinishRecording(false);
+					FinishRecording(AdvanceOptionsAfterRecording.AdvanceOnlyToContiguousUnsegmentedAudio);
 			};
 
 			_waveControl.ClientSizeChanged += delegate
@@ -891,6 +891,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleVideoHelpButtonClick(object sender, EventArgs e)
 		{
+			MessageBox.Show("Sorry, we don't actually have a video for this yet. Contributions welcome!");
 			UsageReporter.SendNavigationNotice("Video Help requested in " + ViewModel.AnnotationType + " dialog box.");
 		}
 
@@ -928,7 +929,6 @@ namespace SayMore.Transcription.UI
 		{
 			ViewModel.MarkCurrentSegmentAsJunk();
 			GoToNextUnannotatedSegment();
-			_spaceBarMode = ViewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
 			UpdateDisplay();
 		}
 
@@ -974,13 +974,22 @@ namespace SayMore.Transcription.UI
 		protected override void OnDeactivate(EventArgs e)
 		{
 			if (ViewModel.GetIsRecording())
-				FinishRecording(!_reRecording);
-
+			{
+				FinishRecording(!_reRecording ? AdvanceOptionsAfterRecording.Advance :
+					AdvanceOptionsAfterRecording.DoNotAdvance);
+			}
 			base.OnDeactivate(e);
 		}
 
+		private enum AdvanceOptionsAfterRecording
+		{
+			Advance,
+			AdvanceOnlyToContiguousUnsegmentedAudio,
+			DoNotAdvance,
+		}
+
 		/// ------------------------------------------------------------------------------------
-		private void FinishRecording(bool advanceToNextUnannotatedSegment)
+		private void FinishRecording(AdvanceOptionsAfterRecording advanceOption)
 		{
 			_pictureRecording.Visible = false;
 			_waveControl.SelectSegmentOnMouseOver = true;
@@ -1002,6 +1011,12 @@ namespace SayMore.Transcription.UI
 				return;
 			}
 
+			if (advanceOption == AdvanceOptionsAfterRecording.AdvanceOnlyToContiguousUnsegmentedAudio)
+			{
+				advanceOption = (ViewModel.GetEndOfLastSegment() != _segmentBeingRecorded.End) ?
+					AdvanceOptionsAfterRecording.DoNotAdvance : AdvanceOptionsAfterRecording.Advance;
+			}
+
 			_segmentBeingRecorded = null;
 
 			if (stopResult == StopAnnotationRecordingResult.RecordingError)
@@ -1013,13 +1028,13 @@ namespace SayMore.Transcription.UI
 				_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
 			}
 
-			if (advanceToNextUnannotatedSegment)
+			if (advanceOption == AdvanceOptionsAfterRecording.Advance)
 			{
 				_userHasListenedToSelectedSegment = false;
 				GoToNextUnannotatedSegment();
 			}
-
-			_spaceBarMode = ViewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
+			else
+				_spaceBarMode = ViewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
 
 			UpdateDisplay();
 		}
@@ -1508,7 +1523,7 @@ namespace SayMore.Transcription.UI
 		public void HandleRecordingError(Exception e)
 		{
 			_spaceKeyIsDown = false;
-			FinishRecording(false);
+			FinishRecording(AdvanceOptionsAfterRecording.DoNotAdvance);
 			_waveControl.Invalidate();
 			UpdateDisplay();
 		}
@@ -1580,22 +1595,25 @@ namespace SayMore.Transcription.UI
 				var timeRange = ViewModel.CurrentUnannotatedSegment.TimeRange;
 				_waveControl.SetSelectionTimes(timeRange, _selectedSegmentHighlighColor);
 				_waveControl.EnsureTimeIsVisible(timeRange.Start, timeRange, true, false);
+				_spaceBarMode = ViewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
 			}
 			else
 			{
 				_waveControl.SetSelectionTimes(new TimeRange(TimeSpan.Zero, TimeSpan.Zero),
-					_selectedSegmentHighlighColor);
+				_selectedSegmentHighlighColor);
 
-				if (!ViewModel.IsFullySegmented)
+				if (ViewModel.IsFullySegmented)
+					_spaceBarMode = SpaceBarMode.Done;
+				else
 				{
 					var timeRange = new TimeRange(ViewModel.GetEndOfLastSegment(), ViewModel.OrigWaveStream.TotalTime);
 					_waveControl.SetCursor(timeRange.Start);
 					_waveControl.EnsureTimeIsVisible(timeRange.Start, timeRange, true, false);
 					_waveControl.InvalidateIfNeeded(GetNewSegmentCursorRectangle());
+					_spaceBarMode = SpaceBarMode.Listen;
 				}
 			}
 		}
-
 		#endregion
 
 		#region Low level keyboard handling
@@ -1648,7 +1666,7 @@ namespace SayMore.Transcription.UI
 						FinishListeningUsingEarOrSpace();
 					}
 					else if (!_reRecording && ViewModel.GetIsRecording())
-						FinishRecording(true);
+						FinishRecording(AdvanceOptionsAfterRecording.Advance);
 				}
 
 				return true;
@@ -1658,10 +1676,5 @@ namespace SayMore.Transcription.UI
 		}
 
 		#endregion
-
-		private void _videoHelpMenu_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("Sorry, we don't actually have a video for this yet. Contributions welcome!");
-		}
 	}
 }

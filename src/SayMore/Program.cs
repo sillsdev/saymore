@@ -247,7 +247,18 @@ namespace SayMore
 			}
 			else
 			{
-				Application.Exit();
+				try
+				{
+					Application.Exit();
+				}
+				catch (IndexOutOfRangeException ex)
+				{
+					// This is a kludge to prevent reporting a known (and apparently harmless) bug
+					// in .Net. For more info, see SP-438, which has a link to the MS bug report.
+					if (!ex.StackTrace.Contains("System.Windows.Forms.Application.ThreadContext.ExitCommon") ||
+						!ex.StackTrace.Contains("System.Collections.Hashtable.ValueCollection.CopyTo"))
+						throw;
+				}
 			}
 		}
 

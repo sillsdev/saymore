@@ -199,7 +199,7 @@ namespace SayMore.Model
 			get
 			{
 				yield return new FieldInstance("id", Id);
-				foreach (var field in MetaDataFile.StandardMetaDataFieldValues)
+				foreach (var field in MetaDataFile.MetaDataFieldValues)
 					yield return field;
 			}
 		}

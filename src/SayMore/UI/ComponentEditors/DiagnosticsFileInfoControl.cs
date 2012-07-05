@@ -14,7 +14,7 @@ namespace SayMore.UI.ComponentEditors
 			Name = "diagnostics";
 			TabText = "Info";
 
-			foreach (var field in file.StandardMetaDataFieldValues)
+			foreach (var field in file.MetaDataFieldValues)
 				textBox1.Text += Environment.NewLine + field.FieldId + ": " + field.ValueAsString;
 		}
 	}

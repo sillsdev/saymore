@@ -69,7 +69,7 @@ namespace SayMore.Model.Files
 		public ProjectElement ParentElement { get; protected set; }
 		public string RootElementName { get; protected set; }
 		public virtual string PathToAnnotatedFile { get; protected set; }
-		public List<FieldInstance> StandardMetaDataFieldValues { get; protected set; }
+		public List<FieldInstance> MetaDataFieldValues { get; protected set; }
 		public FileType FileType { get; protected set; }
 		public string FileTypeDescription { get; protected set; }
 		public string FileSize { get; protected set; }
@@ -109,7 +109,7 @@ namespace SayMore.Model.Files
 			// to keep, say, foo.wav and foo.txt separate. Instead, we just append ".meta"
 			//_metaDataPath = ComputeMetaDataPath(pathToAnnotatedFile);
 
-			StandardMetaDataFieldValues = new List<FieldInstance>();
+			MetaDataFieldValues = new List<FieldInstance>();
 
 			Guard.AgainstNull(FileType, "At runtime (maybe not in tests) FileType should go to a type intended for unknowns");
 
@@ -141,7 +141,7 @@ namespace SayMore.Model.Files
 			_fileSerializer = fileSerializer;
 			_metaDataPath = filePath;
 			_fieldUpdater = fieldUpdater;
-			StandardMetaDataFieldValues = new List<FieldInstance>();
+			MetaDataFieldValues = new List<FieldInstance>();
 			_componentRoles = new ComponentRole[] {}; //no roles for person or event
 			InitializeFileInfo();
 		}
@@ -332,7 +332,7 @@ namespace SayMore.Model.Files
 			}
 
 			// Get the value from the metadata file.
-			var	field = StandardMetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
+			var	field = MetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
 			var savedValue = (field == null ? defaultValue : field.ValueAsString);
 
 			if (!string.IsNullOrEmpty(computedValue))
@@ -360,7 +360,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual object GetValue(string key, object defaultValue)
 		{
-			var field = StandardMetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
+			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
 			return (field == null ? defaultValue : field.Value);
 		}
 
@@ -384,14 +384,14 @@ namespace SayMore.Model.Files
 			failureMessage = null;
 
 			object oldFieldValue = null;
-			var oldFieldInstance = StandardMetaDataFieldValues.Find(v => v.FieldId == key);
+			var oldFieldInstance = MetaDataFieldValues.Find(v => v.FieldId == key);
 
 			if (oldFieldInstance == null)
 			{
 				if (newValue == null)
 					return null;
 
-				StandardMetaDataFieldValues.Add(new FieldInstance(key, newValue));
+				MetaDataFieldValues.Add(new FieldInstance(key, newValue));
 			}
 			else if (oldFieldInstance.Value.Equals(newValue))
 				return newValue;
@@ -417,7 +417,7 @@ namespace SayMore.Model.Files
 			failureMessage = null;
 
 			newFieldInstance.Value = (newFieldInstance.ValueAsString ?? string.Empty).Trim();
-			var oldFieldValue = StandardMetaDataFieldValues.Find(v => v.FieldId == newFieldInstance.FieldId);
+			var oldFieldValue = MetaDataFieldValues.Find(v => v.FieldId == newFieldInstance.FieldId);
 
 			if (oldFieldValue == newFieldInstance)
 				return newFieldInstance.ValueAsString;
@@ -425,7 +425,7 @@ namespace SayMore.Model.Files
 			string oldValue = null;
 
 			if (oldFieldValue == null)
-				StandardMetaDataFieldValues.Add(newFieldInstance);
+				MetaDataFieldValues.Add(newFieldInstance);
 			else
 			{
 				oldValue = oldFieldValue.ValueAsString;
@@ -440,7 +440,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual void RenameId(string oldId, string newId)
 		{
-			var fieldValue = StandardMetaDataFieldValues.Find(v => v.FieldId == oldId);
+			var fieldValue = MetaDataFieldValues.Find(v => v.FieldId == oldId);
 			if (fieldValue != null)
 				fieldValue.FieldId = newId;
 
@@ -455,9 +455,9 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual void RemoveField(string idToRemove)
 		{
-			var existingValue = StandardMetaDataFieldValues.Find(f => f.FieldId == idToRemove);
+			var existingValue = MetaDataFieldValues.Find(f => f.FieldId == idToRemove);
 			if (existingValue != null)
-				StandardMetaDataFieldValues.Remove(existingValue);
+				MetaDataFieldValues.Remove(existingValue);
 
 			if (_fieldUpdater != null)
 				_fieldUpdater.DeleteField(this, idToRemove);
@@ -474,7 +474,7 @@ namespace SayMore.Model.Files
 		{
 			_metaDataPath = path;
 			OnBeforeSave(this);
-			_fileSerializer.Save(StandardMetaDataFieldValues, _metaDataPath, RootElementName);
+			_fileSerializer.Save(MetaDataFieldValues, _metaDataPath, RootElementName);
 			OnAfterSave(this);
 		}
 
@@ -496,7 +496,7 @@ namespace SayMore.Model.Files
 		public virtual void Load()
 		{
 			_fileSerializer.CreateIfMissing(_metaDataPath, RootElementName);
-			_fileSerializer.Load(/*TODO this.Work, */ StandardMetaDataFieldValues,
+			_fileSerializer.Load(/*TODO this.Work, */ MetaDataFieldValues,
 				_metaDataPath, RootElementName, FileType);
 		}
 

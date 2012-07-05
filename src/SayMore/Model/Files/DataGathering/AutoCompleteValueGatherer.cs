@@ -81,7 +81,7 @@ namespace SayMore.Model.Files.DataGathering
 				var file = componentFileFactory(null, path);
 				var dictionary = new Dictionary<string, string>();
 
-				foreach (var fieldInstance in file.StandardMetaDataFieldValues)
+				foreach (var fieldInstance in file.MetaDataFieldValues)
 				{
 					var value = (fieldInstance.Value is IAutoCompleteValueProvider ?
 						((IAutoCompleteValueProviderWeird)fieldInstance.Value).GetValueForKey(fieldInstance.FieldId) :

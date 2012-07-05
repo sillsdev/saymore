@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -122,26 +123,29 @@ namespace SayMore.Model.Files.DataGathering
 				AddFactoryChoices(keyToValuesDictionary);
 
 			// Go through each file's dictionary of field/value pairs.
-			foreach (var fieldValuePairs in _fileToDataDictionary.Values)
+			lock (((ICollection)_fileToDataDictionary).SyncRoot)
 			{
-				// Go through each field/value pair.
-				foreach (var field in fieldValuePairs)
+				foreach (var fieldValuePairs in _fileToDataDictionary.Values)
 				{
-					var key = GetKeyFromFieldName(field.Key);
-
-					// If a list for the specified key hasn't already been started,
-					// then start a new one for the key.
-					if (!keyToValuesDictionary.ContainsKey(key))
-						keyToValuesDictionary.Add(key, new List<string>());
-
-					// In most cases, this will just loop once because most fields do not
-					// contain multiple values. However, some fields contain multiple
-					// values delimited by commas or semicolons. In those cases, this
-					// loop will iterate once for each delimited value found.
-					foreach (var value in GetIndividualValues(field)
-						.Where(value => !keyToValuesDictionary[key].Contains(value)))
+					// Go through each field/value pair.
+					foreach (var field in fieldValuePairs)
 					{
-						((List<string>)keyToValuesDictionary[key]).Add(value);
+						var key = GetKeyFromFieldName(field.Key);
+
+						// If a list for the specified key hasn't already been started,
+						// then start a new one for the key.
+						if (!keyToValuesDictionary.ContainsKey(key))
+							keyToValuesDictionary.Add(key, new List<string>());
+
+						// In most cases, this will just loop once because most fields do not
+						// contain multiple values. However, some fields contain multiple
+						// values delimited by commas or semicolons. In those cases, this
+						// loop will iterate once for each delimited value found.
+						foreach (var value in GetIndividualValues(field)
+							.Where(value => !keyToValuesDictionary[key].Contains(value)))
+						{
+							((List<string>)keyToValuesDictionary[key]).Add(value);
+						}
 					}
 				}
 			}

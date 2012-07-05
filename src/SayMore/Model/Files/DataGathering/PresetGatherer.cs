@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -50,8 +51,12 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<KeyValuePair<string, Dictionary<string, string>>> GetPresets()
 		{
-			var suggestor = new UniqueCombinationsFinder(_fileToDataDictionary.Values.Select(d => d.Dictionary));
-			var suggestions = suggestor.GetSuggestions().ToArray();
+			KeyValuePair<string, Dictionary<string, string>>[] suggestions;
+			lock (((ICollection)_fileToDataDictionary).SyncRoot)
+			{
+				var suggestor = new UniqueCombinationsFinder(_fileToDataDictionary.Values.Select(d => d.Dictionary));
+				suggestions = suggestor.GetSuggestions().ToArray();
+			}
 
 			if (suggestions.Length == 0)
 			{

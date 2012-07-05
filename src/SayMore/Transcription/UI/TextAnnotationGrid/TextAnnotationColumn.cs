@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
@@ -16,6 +17,7 @@ namespace SayMore.Transcription.UI
 			Debug.Assert(tier is TextTier);
 			DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 			DefaultCellStyle.Font = Program.DialogFont;
+			CellTemplate = new TextAnnotationCell();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -55,5 +57,16 @@ namespace SayMore.Transcription.UI
 				Clipboard.SetData(dataFormat, data);
 			});
 		}
+	}
+}
+
+/// ----------------------------------------------------------------------------------------
+public class TextAnnotationCell : DataGridViewTextBoxCell
+{
+	public override void PositionEditingControl(bool setLocation, bool setSize, Rectangle cellBounds, Rectangle cellClip, DataGridViewCellStyle cellStyle, bool singleVerticalBorderAdded, bool singleHorizontalBorderAdded, bool isFirstDisplayedColumn, bool isFirstDisplayedRow)
+	{
+		base.PositionEditingControl(false, false, cellBounds, cellClip, cellStyle, singleVerticalBorderAdded, singleHorizontalBorderAdded, isFirstDisplayedColumn, isFirstDisplayedRow);
+		var editingControl = DataGridView.EditingControl;
+		editingControl.Bounds = DataGridView.CurrentCell.ContentBounds;
 	}
 }

@@ -133,9 +133,9 @@ namespace SayMore.Transcription.UI
 			foreach (var col in GetColumns())
 			{
 				if (col is TranscriptionAnnotationColumn)
-					((TranscriptionAnnotationColumn)col).DefaultCellStyle.Font = transcriptionFont;
+					col.DefaultCellStyle.Font = transcriptionFont;
 				else if (col is TranslationAnnotationColumn)
-					((TranslationAnnotationColumn)col).DefaultCellStyle.Font = freeTranslationFont;
+					col.DefaultCellStyle.Font = freeTranslationFont;
 			}
 		}
 

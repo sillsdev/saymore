@@ -156,6 +156,7 @@ namespace SayMore.UI.ComponentEditors
 				case "Channels": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Channels", "Channels");
 				case "Resolution": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Resolution", "Resolution");
 				case "Frame_Rate": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.FrameRate", "Frame Rate");
+				case null: return null;
 				default:
 					return id.StartsWith(FileSerializer.kCustomFieldIdPrefix) ?
 						id.Substring(FileSerializer.kCustomFieldIdPrefix.Length) : id;

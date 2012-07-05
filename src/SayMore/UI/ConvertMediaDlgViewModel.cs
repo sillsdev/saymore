@@ -113,7 +113,9 @@ namespace SayMore.UI
 		public void BeginConversion(Action<TimeSpan, string> conversionReportingAction,
 			string outputFile = null)
 		{
-			var commandLine = BuildCommandLine(outputFile ?? GetNewOutputFileName(false));
+			if (outputFile == null)
+				outputFile = GetNewOutputFileName(false);
+			var commandLine = BuildCommandLine(outputFile);
 			ConversionState = ConvertMediaUIState.Converting;
 
 			_conversionReportingAction = conversionReportingAction;
@@ -132,7 +134,8 @@ namespace SayMore.UI
 				Application.DoEvents();
 
 			if (ConversionState == ConvertMediaUIState.Converting)
-				ConversionState = ConvertMediaUIState.FinishedConverting;
+				ConversionState = File.Exists(outputFile) ?
+					ConvertMediaUIState.FinishedConverting : ConvertMediaUIState.ConversionFailed;
 		}
 
 		/// ------------------------------------------------------------------------------------

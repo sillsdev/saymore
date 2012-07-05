@@ -77,15 +77,15 @@ namespace SayMoreTests.Model.Files
 		[Test]
 		public void RenameField_InvokeForAudioFiles_DoesNotUpdateOtherFileTypes()
 		{
-			_updater.RenameField(_audioFile1, "born", "WasBirthed");
+			_updater.RenameField(_audioFile1, "born", "Channels");
 
 			_imgFile1.Load();
-			Assert.IsNotNull(_imgFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "born"));
-			Assert.IsNull(_imgFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "WasBirthed"));
+			Assert.IsNotNull(_imgFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "custom_born"));
+			Assert.IsNull(_imgFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "Channels"));
 
 			_imgFile2.Load();
-			Assert.IsNotNull(_imgFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "born"));
-			Assert.IsNull(_imgFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "WasBirthed"));
+			Assert.IsNotNull(_imgFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "custom_born"));
+			Assert.IsNull(_imgFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "Channels"));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -100,21 +100,24 @@ namespace SayMoreTests.Model.Files
 			_updater.RenameField(_audioFile1, "died", "PassedOn");
 
 			_audioFile1.Load();
-			Assert.IsNotNull(_audioFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "died"));
+			Assert.IsNotNull(_audioFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "custom_died"));
 			Assert.IsNull(_audioFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "PassedOn"));
+			Assert.IsNull(_audioFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "custom_PassedOn"));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void RenameField_Invoked_DoesUpdates()
 		{
-			_updater.RenameField(_audioFile1, "born", "WasBirthed");
+			_updater.RenameField(_audioFile1, "born", "Channels");
 
 			// See RenameField_InvokedOnFile1_UpdatesFile2ButNotFile1 for why _file2 isn't checked.
 
+			Assert.IsNull(_audioFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "Channels"));
 			_audioFile2.Load();
 			Assert.IsNull(_audioFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "born"));
-			Assert.IsNotNull(_audioFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "WasBirthed"));
+			Assert.IsNull(_audioFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "custom_born"));
+			Assert.IsNotNull(_audioFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "Channels"));
 		}
 
 		#endregion
@@ -122,18 +125,18 @@ namespace SayMoreTests.Model.Files
 		#region Deleting tests (Commented out)
 		///// ------------------------------------------------------------------------------------
 		[Test]
-		public void DeleteFields_Delete2Fields_DoesNotDeleteFromOtherFileTypes()
+		public void DeleteField_Delete2Fields_DoesNotDeleteFromOtherFileTypes()
 		{
 			_updater.DeleteField(_audioFile1, "born");
 			_updater.DeleteField(_audioFile1, "died");
 
 			_imgFile1.Load();
-			Assert.IsNotNull(_imgFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "born"));
-			Assert.IsNotNull(_imgFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "died"));
+			Assert.IsNotNull(_imgFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "custom_born"));
+			Assert.IsNotNull(_imgFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "custom_died"));
 
 			_imgFile2.Load();
-			Assert.IsNotNull(_imgFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "born"));
-			Assert.IsNotNull(_imgFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "died"));
+			Assert.IsNotNull(_imgFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "custom_born"));
+			Assert.IsNotNull(_imgFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "custom_died"));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -143,30 +146,33 @@ namespace SayMoreTests.Model.Files
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void DeleteFields_Delete2Fields_DeleteFromFile2ButNotFile1()
+		public void DeleteField_Delete2Fields_DeleteFromFile2ButNotFile1()
 		{
 			_updater.DeleteField(_audioFile1, "born");
 			_updater.DeleteField(_audioFile1, "died");
 
 			_audioFile1.Load();
-			Assert.IsNotNull(_audioFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "born"));
-			Assert.IsNotNull(_audioFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "died"));
+			Assert.IsNotNull(_audioFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "custom_born"));
+			Assert.IsNotNull(_audioFile1.StandardMetaDataFieldValues.Find(x => x.FieldId == "custom_died"));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void DeleteFields_Delete2Fields_DeletesThem()
+		public void DeleteField_Delete2Fields_DeletesThem()
 		{
 			_updater.DeleteField(_audioFile1, "born");
 			_updater.DeleteField(_audioFile1, "died");
 
 			// See DeleteFields_Delete2Fields_DeleteFromFile2ButNotFile1 for why _file2 isn't checked.
 
+			// File2 hasn't yet bee reloaded
 			Assert.IsNotNull(_audioFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "born"));
 			Assert.IsNotNull(_audioFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "died"));
 			_audioFile2.Load();
 			Assert.IsNull(_audioFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "born"));
+			Assert.IsNull(_audioFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "custom_born"));
 			Assert.IsNull(_audioFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "died"));
+			Assert.IsNull(_audioFile2.StandardMetaDataFieldValues.Find(x => x.FieldId == "custom_died"));
 		}
 
 		#endregion

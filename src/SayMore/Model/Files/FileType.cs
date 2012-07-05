@@ -723,9 +723,9 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override void Migrate(ComponentFile file)
 		{
-			AddContribution(file, "Recordist", "recorder");
-			AddContribution(file, "Speaker", "speaker");
-			AddContribution(file, "speaker", "speaker");
+			MigrateFieldToContribution(file, FileSerializer.kCustomFieldIdPrefix + "Recordist", "recorder");
+			MigrateFieldToContribution(file, FileSerializer.kCustomFieldIdPrefix + "Speaker", "speaker");
+			MigrateFieldToContribution(file, FileSerializer.kCustomFieldIdPrefix + "speaker", "speaker");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -736,7 +736,7 @@ namespace SayMore.Model.Files
 		/// file's metadata is saved.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void AddContribution(ComponentFile file, string fieldId, string roleCode)
+		private static void MigrateFieldToContribution(ComponentFile file, string fieldId, string roleCode)
 		{
 			var value = file.GetStringValue(fieldId, null);
 			if (value == null)

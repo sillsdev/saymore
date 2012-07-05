@@ -62,6 +62,12 @@ namespace SayMore.Model.Files
 		private void FindAndUpdateFiles(ComponentFile file, string idOfFieldToFind,
 			Action<List<FieldInstance>, FieldInstance> updateAction)
 		{
+			// Since the field being removed or renamed is *no longer* a factory field, it
+			// will be loaded as a custom field (having prefix "custom_", so if the caller
+			// passes the field name without that prefix, we need to add it.
+			if (!idOfFieldToFind.StartsWith(FileSerializer.kCustomFieldIdPrefix))
+				idOfFieldToFind = FileSerializer.kCustomFieldIdPrefix + idOfFieldToFind;
+
 			var matchingFiles = GetMatchingFiles(file.FileType);
 
 			if (_fieldGatherer != null)
@@ -76,14 +82,14 @@ namespace SayMore.Model.Files
 				if (!File.Exists(sidecarFilePath))
 					continue;
 
-				var standardMetaDataFields = new List<FieldInstance>();
-				_fileSerializer.Load(standardMetaDataFields, sidecarFilePath, file.RootElementName, file.FileType);
+				var metaDataFields = new List<FieldInstance>();
+				_fileSerializer.Load(metaDataFields, sidecarFilePath, file.RootElementName, file.FileType);
 
-				var field = standardMetaDataFields.Find(x => x.FieldId == idOfFieldToFind);
+				var field = metaDataFields.Find(x => x.FieldId == idOfFieldToFind);
 				if (field != null)
 				{
-					updateAction(standardMetaDataFields, field);
-					_fileSerializer.Save(standardMetaDataFields, sidecarFilePath, file.RootElementName);
+					updateAction(metaDataFields, field);
+					_fileSerializer.Save(metaDataFields, sidecarFilePath, file.RootElementName);
 					if (_fieldGatherer != null)
 						_fieldGatherer.GatherFieldsForFileNow(sidecarFilePath);
 				}

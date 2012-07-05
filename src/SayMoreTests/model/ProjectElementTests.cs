@@ -78,7 +78,7 @@ namespace SayMoreTests.Model
 		public string SetValue(Person person, string key, string value)
 		{
 			string failureMessage;
-			var suceeded = person.MetaDataFile.SetStringValue("color", "red", out failureMessage);
+			var suceeded = person.MetaDataFile.SetStringValue(key, value, out failureMessage);
 			if (!string.IsNullOrEmpty(failureMessage))
 			{
 				throw new ApplicationException(failureMessage);
@@ -89,7 +89,24 @@ namespace SayMoreTests.Model
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void Load_AfterSave_PreservesId()
+		public void Load_AfterSaveOfFactoryField_PreservesId()
+		{
+			using (var person = CreatePerson())
+			{
+				SetValue(person, "primaryLanguage", "Esperanto");
+				person.Save();
+				using (var person2 = CreatePerson())
+				{
+					person2.Load();
+					Assert.AreEqual("Esperanto", person2.MetaDataFile.GetStringValue("primaryLanguage", "Swahili"));
+					Assert.AreEqual(1, Directory.GetFiles(_parentFolder.Combine("xyz")).Length);
+				}
+			}
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void Load_AfterSave_ChangesUnknownIdToCustomId()
 		{
 			using (var person = CreatePerson())
 			{
@@ -98,7 +115,7 @@ namespace SayMoreTests.Model
 				using (var person2 = CreatePerson())
 				{
 					person2.Load();
-					Assert.AreEqual("red", person2.MetaDataFile.GetStringValue("color", "blue"));
+					Assert.AreEqual("red", person2.MetaDataFile.GetStringValue("custom_color", "blue"));
 					Assert.AreEqual(1, Directory.GetFiles(_parentFolder.Combine("xyz")).Length);
 				}
 			}

@@ -449,6 +449,10 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>Removes the given (custom) field from this file's meta-data and also
+		/// updates all other component files of this type if possible.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public virtual void RemoveField(string idToRemove)
 		{
 			var existingValue = StandardMetaDataFieldValues.Find(f => f.FieldId == idToRemove);

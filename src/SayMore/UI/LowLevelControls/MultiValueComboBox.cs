@@ -2,22 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using AutoComplete;
 using SilTools;
 
 namespace SayMore.UI.LowLevelControls
 {
 	public partial class MultiValueComboBox : UserControl
 	{
-#if !__MonoCS__
-		[DllImport("user32")]
-		private static extern bool HideCaret(IntPtr hWnd);
-#endif
-
-		public delegate IEnumerable<PickerPopupItem> JITListAcquisitionHandler(object sender);
-		public event JITListAcquisitionHandler JITListAcquisition;
+		public Func<IEnumerable<PickerPopupItem>> JITListAcquisition;
 		public event CancelEventHandler DropDownOpening;
 		public event EventHandler ValueChanged;
 		public new event KeyEventHandler KeyDown;
@@ -27,21 +23,22 @@ namespace SayMore.UI.LowLevelControls
 		protected readonly int _borderWidth;
 		protected AutoCompleteMode _autoCompleteMode;
 		protected AutoCompleteSource _autoCompleteSource;
-		protected AutoCompleteStringCollection _autoCompleteCustomSource;
-		protected bool _readOnly;
 		private bool _selectAllTextOnMouseDown;
+		private bool _showingSuggestions;
 
 		/// ------------------------------------------------------------------------------------
 		public MultiValueComboBox()
 		{
 			Popup = new MultiValuePickerPopup();
 			Popup.PopupOpening += OnDropDownOpening;
-			Popup.PopupClosing += OnDropDownClosing;
 			Popup.ItemCheckChanged += HandleItemCheckChanged;
 
-			base.Font = Program.DialogFont;
+			Font = Program.DialogFont;
 			InitializeComponent();
-			Font = base.Font;
+			_textBox.PopulateAndDisplayList = DisplaySuggestions;
+			_textBox.HideList = () => Popup.ClosePopup();
+			_textBox.Font = Font;
+			Height = 1;
 
 			_borderWidth = (_textBox.Size.Width - _textBox.ClientSize.Width) / 2;
 			var borderHeight = (_textBox.Size.Height - _textBox.ClientSize.Height) / 2;
@@ -51,8 +48,6 @@ namespace SayMore.UI.LowLevelControls
 			Padding = new Padding(_borderWidth, borderHeight, _borderWidth, borderHeight);
 			CausesValidation = true;
 
-			_textBox.MouseMove += delegate { HideTextBoxInsertionPoint(); };
-			_textBox.MouseClick += delegate { HideTextBoxInsertionPoint(); };
 			_textBox.MouseDown += delegate
 			{
 				if (_selectAllTextOnMouseDown)
@@ -88,18 +83,6 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override Font Font
-		{
-			get { return base.Font; }
-			set
-			{
-				base.Font = value;
-				_textBox.Font = value;
-				Height = 1;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public override Color BackColor
 		{
 			get { return base.BackColor; }
@@ -131,7 +114,15 @@ namespace SayMore.UI.LowLevelControls
 		public AutoCompleteStringCollection AutoCompleteCustomSource
 		{
 			get { return _textBox.AutoCompleteCustomSource; }
-			set { _autoCompleteCustomSource = _textBox.AutoCompleteCustomSource = value; }
+			set
+			{
+				_textBox.AutoCompleteCustomSource = value;
+				string[] values = new string[value.Count];
+				int i = 0;
+				foreach (var item in _textBox.AutoCompleteCustomSource)
+					values[i++] = item.ToString();
+				_textBox.Values = values;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -139,7 +130,7 @@ namespace SayMore.UI.LowLevelControls
 		public bool ReadOnly
 		{
 			get { return _textBox.ReadOnly; }
-			set { _readOnly = _textBox.ReadOnly = value; }
+			set { _textBox.ReadOnly = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -159,19 +150,22 @@ namespace SayMore.UI.LowLevelControls
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		private void HideTextBoxInsertionPoint()
+		private void DisplaySuggestions(string[] matches)
 		{
-			// Another way of doing this will have to be found when compiling for Mono.
-#if !__MonoCS__
-			if (_readOnly)
-				HideCaret(_textBox.Handle);
-#endif
+			_showingSuggestions = true;
+
+			var temp = JITListAcquisition;
+			JITListAcquisition = () => from name in matches
+									   orderby name
+									   select new PickerPopupItem(name, false);
+			ShowPopup();
+			JITListAcquisition = temp;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SelectAll()
 		{
-			//_textBox.SelectAll();
+			_textBox.SelectAll();
 		}
 
 		#region Overrides and painting methods
@@ -304,53 +298,25 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleTextBoxEnter(object sender, EventArgs e)
-		{
-			//var pt = _textBox.PointToClient(MousePosition);
-
-			//if (MouseButtons == MouseButtons.Left && _textBox.ClientRectangle.Contains(pt))
-			//    _selectAllTextOnMouseDown = true;
-			//else
-			//{
-			////	_textBox.SelectAll();
-			//}
-
-			_textBox.BackColor = SystemColors.Highlight;
-			_textBox.ForeColor = SystemColors.HighlightText;
-			Application.Idle += HandleApplicationIdle;
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void HandleTextBoxLeave(object sender, EventArgs e)
 		{
-			_textBox.BackColor = SystemColors.Window;
-			_textBox.ForeColor = SystemColors.WindowText;
 			_textBox.SelectionStart = 0;
 			_textBox.SelectionLength = 0;
-			HideTextBoxInsertionPoint();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleButtonMouseEnterLeave(object sender, EventArgs e)
-		{
-			_panelButton.Invalidate();
-			HideTextBoxInsertionPoint();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleButtonMouseDownUp(object sender, MouseEventArgs e)
-		{
-			_panelButton.Invalidate();
-			HideTextBoxInsertionPoint();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleMouseClickOnDropDownButton(object sender, MouseEventArgs e)
 		{
+			ShowPopup();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ShowPopup()
+		{
 			if (JITListAcquisition != null)
 			{
 				Popup.Clear();
-				Popup.AddRange(JITListAcquisition(this));
+				Popup.AddRange(JITListAcquisition());
 			}
 
 			if (!_textBox.Focused)
@@ -368,33 +334,23 @@ namespace SayMore.UI.LowLevelControls
 				DropDownOpening(this, e);
 
 			if (!e.Cancel)
-			{
-				_textBox.BackColor = SystemColors.Window;
-				_textBox.ForeColor = SystemColors.WindowText;
-				_textBox.HideSelection = false;
 				Popup.SetCheckedItemsFromDelimitedString(Text);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual void OnDropDownClosing(object sender, ToolStripDropDownClosingEventArgs e)
-		{
-			if (!e.Cancel)
-			{
-				_textBox.BackColor = SystemColors.Highlight;
-				_textBox.ForeColor = SystemColors.HighlightText;
-				_textBox.HideSelection = true;
-			}
-
-			HideTextBoxInsertionPoint();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		void HandleItemCheckChanged(object sender, PickerPopupItem item)
 		{
-			Text = Popup.GetCheckedItemsString();
-			_textBox.SelectAll();
-			Application.Idle += HandleApplicationIdle;
+			if (_showingSuggestions)
+			{
+				_textBox.InsertWord(Popup.GetCheckedItemsString());
+				Popup.ClosePopup();
+				_showingSuggestions = false;
+			}
+			else
+			{
+				Text = Popup.GetCheckedItemsString();
+				_textBox.SelectAll();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -402,8 +358,6 @@ namespace SayMore.UI.LowLevelControls
 		{
 			if (ValueChanged != null)
 				ValueChanged(this, EventArgs.Empty);
-
-			HideTextBoxInsertionPoint();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -416,27 +370,14 @@ namespace SayMore.UI.LowLevelControls
 				return;
 
 			if (e.Alt && e.KeyCode == Keys.Down)
-				HandleMouseClickOnDropDownButton(null, null);
+				ShowPopup();
 
 			if (!_textBox.ReadOnly)
 				return;
 
-			if (e.KeyCode == Keys.Right || e.KeyCode == Keys.Left ||
-				e.KeyCode == Keys.Down || e.KeyCode == Keys.Up)
-			{
-				e.Handled = true;
-			}
-
-			HideTextBoxInsertionPoint();
+			e.Handled = (e.KeyCode == Keys.Right || e.KeyCode == Keys.Left ||
+				e.KeyCode == Keys.Down || e.KeyCode == Keys.Up);
 		}
-
-		/// ------------------------------------------------------------------------------------
-		void HandleApplicationIdle(object sender, EventArgs e)
-		{
-			Application.Idle -= HandleApplicationIdle;
-			HideTextBoxInsertionPoint();
-		}
-
 		#endregion
 	}
 }

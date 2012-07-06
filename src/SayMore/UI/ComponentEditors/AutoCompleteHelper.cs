@@ -13,8 +13,8 @@ namespace SayMore.UI.ComponentEditors
 	/// This is kind of an experiment at the moment...
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	[ProvideProperty("AutoCompleteKey", typeof(IComponent))]
-	[ProvideProperty("UpdateGatherer", typeof(IComponent))]
+	[ProvideProperty("AutoCompleteKey", typeof(Control))]
+	[ProvideProperty("UpdateGatherer", typeof(Control))]
 	public class AutoCompleteHelper : Component, IExtenderProvider
 	{
 		public delegate bool GetBoundControlValueHandler(BindingHelper helper,
@@ -78,33 +78,28 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		[Localizable(false)]
 		[Category("AutoCompleteHelper Properties")]
-		public bool GetUpdateGatherer(object obj)
+		public bool GetUpdateGatherer(Control control)
 		{
 			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetUpdateGatherer(object obj, bool updateGatherer)
+		public void SetUpdateGatherer(Control control, bool updateGatherer)
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Localizable(false)]
 		[Category("AutoCompleteHelper Properties")]
-		public string GetAutoCompleteKey(object obj)
+		public string GetAutoCompleteKey(Control control)
 		{
 			string key;
-			return (_keysForControls.TryGetValue(obj as Control, out key) ? key : string.Empty);
+			return (_keysForControls.TryGetValue(control, out key) ? key : string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetAutoCompleteKey(object obj, string key)
+		public void SetAutoCompleteKey(Control control, string key)
 		{
-			var control = obj as Control;
-
-			if (control == null)
-				return;
-
 			_keysForControls[control] = key;
 
 			if (!string.IsNullOrEmpty(key))

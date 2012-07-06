@@ -439,6 +439,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\ElementListScreen\StagesDataProvider.cs" />
+    <Compile Include="UI\LowLevelControls\AutoCompleteTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\SessionRecording\SessionRecorderDlg.cs">
       <SubType>Form</SubType>
     </Compile>

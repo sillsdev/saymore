@@ -28,7 +28,7 @@ namespace SayMore.UI.LowLevelControls
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this._textBox = new System.Windows.Forms.TextBox();
+			this._textBox = new AutoComplete.AutoCompleteTextBox();
 			this._panelButton = new System.Windows.Forms.Panel();
 			this.SuspendLayout();
 			// 
@@ -36,6 +36,7 @@ namespace SayMore.UI.LowLevelControls
 			// 
 			this._textBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this._textBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._textBox.Location = new System.Drawing.Point(2, 0);
 			this._textBox.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._textBox.Name = "_textBox";
@@ -44,7 +45,6 @@ namespace SayMore.UI.LowLevelControls
 			this._textBox.TextChanged += new System.EventHandler(this.HandleTextBoxTextChanged);
 			this._textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleTextBoxKeyDown);
 			this._textBox.Leave += new System.EventHandler(this.HandleTextBoxLeave);
-			this._textBox.Enter += new System.EventHandler(this.HandleTextBoxEnter);
 			// 
 			// _panelButton
 			// 
@@ -53,13 +53,9 @@ namespace SayMore.UI.LowLevelControls
 			this._panelButton.Name = "_panelButton";
 			this._panelButton.Size = new System.Drawing.Size(18, 28);
 			this._panelButton.TabIndex = 1;
-			this._panelButton.MouseLeave += new System.EventHandler(this.HandleButtonMouseEnterLeave);
+			this._panelButton.SizeChanged += new System.EventHandler(this.HandleButtonSizeChanged);
 			this._panelButton.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleButtonPaint);
 			this._panelButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandleMouseClickOnDropDownButton);
-			this._panelButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HandleButtonMouseDownUp);
-			this._panelButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.HandleButtonMouseDownUp);
-			this._panelButton.SizeChanged += new System.EventHandler(this.HandleButtonSizeChanged);
-			this._panelButton.MouseEnter += new System.EventHandler(this.HandleButtonMouseEnterLeave);
 			// 
 			// MultiValueComboBox
 			// 
@@ -76,7 +72,7 @@ namespace SayMore.UI.LowLevelControls
 
 		#endregion
 
-		private System.Windows.Forms.TextBox _textBox;
+		private AutoComplete.AutoCompleteTextBox _textBox;
 		private System.Windows.Forms.Panel _panelButton;
 	}
 }

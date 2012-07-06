@@ -39,7 +39,7 @@ namespace SayMore.UI.ComponentEditors
 
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
-			_participants.JITListAcquisition += HandleParticipantJustInTimeListAcquisition;
+			_participants.JITListAcquisition = HandleParticipantJustInTimeListAcquisition;
 
 			_id.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelId); };
 			_date.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelDate); };
@@ -100,7 +100,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private IEnumerable<PickerPopupItem> HandleParticipantJustInTimeListAcquisition(object sender)
+		private IEnumerable<PickerPopupItem> HandleParticipantJustInTimeListAcquisition()
 		{
 			return from name in _personInformant.GetPeopleNamesFromRepository()
 				   orderby name

@@ -11,6 +11,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Ionic.Zip;
 using Localization;
+using Palaso.Reporting;
 using Palaso.UI.WindowsForms.ClearShare;
 using Palaso.IO;
 using Palaso.Progress;
@@ -190,6 +191,12 @@ namespace SayMore.UI.Utilities
 		/// ------------------------------------------------------------------------------------
 		public bool CallRAMP()
 		{
+			if (!File.Exists(RampPackagePath))
+			{
+				ErrorReport.NotifyUserOfProblem("Eeeek. SayMore prematurely removed .ramp package.");
+				return false;
+			}
+
 			try
 			{
 				var prs = new Process();
@@ -483,6 +490,12 @@ namespace SayMore.UI.Utilities
 			finally
 			{
 				_worker = null;
+			}
+
+			if(!File.Exists(RampPackagePath))
+			{
+				ErrorReport.NotifyUserOfProblem("Ack. SayMore failed to actually make the .ramp package.");
+				return false;
 			}
 
 			return !_cancelProcess && !_workerException;

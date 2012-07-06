@@ -27,6 +27,13 @@ namespace SayMore.Transcription.UI
 			Done,
 		}
 
+		private enum AdvanceOptionsAfterRecording
+		{
+			Advance,
+			AdvanceOnlyToContiguousUnsegmentedAudio,
+			DoNotAdvance,
+		}
+
 		private readonly ToolTip _tooltip = new ToolTip();
 		private PeakMeterCtrl _peakMeter;
 		private RecordingDeviceButton _recDeviceButton;
@@ -981,13 +988,6 @@ namespace SayMore.Transcription.UI
 			base.OnDeactivate(e);
 		}
 
-		private enum AdvanceOptionsAfterRecording
-		{
-			Advance,
-			AdvanceOnlyToContiguousUnsegmentedAudio,
-			DoNotAdvance,
-		}
-
 		/// ------------------------------------------------------------------------------------
 		private void FinishRecording(AdvanceOptionsAfterRecording advanceOption)
 		{
@@ -1011,10 +1011,10 @@ namespace SayMore.Transcription.UI
 				return;
 			}
 
-			if (advanceOption == AdvanceOptionsAfterRecording.AdvanceOnlyToContiguousUnsegmentedAudio)
+			if (advanceOption == AdvanceOptionsAfterRecording.AdvanceOnlyToContiguousUnsegmentedAudio &&
+				ViewModel.GetEndOfLastSegment() == _segmentBeingRecorded.End)
 			{
-				advanceOption = (ViewModel.GetEndOfLastSegment() != _segmentBeingRecorded.End) ?
-					AdvanceOptionsAfterRecording.DoNotAdvance : AdvanceOptionsAfterRecording.Advance;
+				advanceOption = AdvanceOptionsAfterRecording.Advance;
 			}
 
 			_segmentBeingRecorded = null;
@@ -1034,7 +1034,16 @@ namespace SayMore.Transcription.UI
 				GoToNextUnannotatedSegment();
 			}
 			else
+			{
+				if (advanceOption == AdvanceOptionsAfterRecording.AdvanceOnlyToContiguousUnsegmentedAudio)
+				{
+					// Though we don't actually want to highlight the segment or move to it yet, we
+					// want to set this, so that if the user presses the space bar or mouses over the
+					// listen button, they will advance to the next segment.
+					ViewModel.SetNextUnannotatedSegment();
+				}
 				_spaceBarMode = ViewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
+			}
 
 			UpdateDisplay();
 		}

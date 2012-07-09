@@ -132,10 +132,8 @@ namespace SayMore.Transcription.UI
 		{
 			foreach (var col in GetColumns())
 			{
-				if (col is TranscriptionAnnotationColumn)
-					col.DefaultCellStyle.Font = transcriptionFont;
-				else if (col is TranslationAnnotationColumn)
-					col.DefaultCellStyle.Font = freeTranslationFont;
+				col.DefaultCellStyle.Font = (col is TranscriptionAnnotationColumn) ?
+					transcriptionFont : freeTranslationFont;
 			}
 		}
 

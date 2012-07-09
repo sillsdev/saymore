@@ -300,7 +300,7 @@ namespace SayMore.UI.ComponentEditors
 			if (e.RowIndex != NewRowIndex && e.RowIndex < _model.RowData.Count)
 			{
 				e.Value = e.ColumnIndex == 0 ?
-					_model.GetDisplayableFieldName(e.RowIndex).Replace('_', ' ') :
+					_model.GetDisplayableFieldName(e.RowIndex) :
 					_model.GetValueForIndex(e.RowIndex);
 			}
 

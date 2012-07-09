@@ -327,6 +327,7 @@
     <Compile Include="UI\ComponentEditors\ContributorsEditor.designer.cs">
       <DependentUpon>ContributorsEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ComponentEditors\CustomFieldsValuesGridViewModel.cs" />
     <Compile Include="UI\ComponentEditors\EditorBase.cs">
       <SubType>UserControl</SubType>
     </Compile>

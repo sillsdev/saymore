@@ -57,12 +57,12 @@ namespace SayMore.UI.ComponentEditors
 		/// Load the field values into the model's data cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void LoadFields()
+		private void LoadFields()
 		{
-			var factoryFields = _file.FileType.FactoryFields.ToArray();
+			var factoryFields = FileType.FactoryFields.ToArray();
 
 			_fieldDefsForFile = factoryFields
-				.Union(_fieldGatherer.GetAllFieldsForFileType(_file.FileType)
+				.Union(_fieldGatherer.GetAllFieldsForFileType(FileType)
 				.Where(f => !factoryFields.Any(e => e.Key == f.Key)));
 
 			foreach (var field in _fieldDefsForFile)
@@ -78,9 +78,15 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected FileType FileType
+		{
+			get { return _file.FileType; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public string GridSettingsName
 		{
-			get { return _file.FileType.FieldsGridSettingsName; }
+			get { return FileType.FieldsGridSettingsName; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -140,7 +146,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetDisplayableFieldName(int index)
+		public virtual string GetDisplayableFieldName(int index)
 		{
 			var id = GetIdForIndex(index);
 
@@ -158,8 +164,7 @@ namespace SayMore.UI.ComponentEditors
 				case "Frame_Rate": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.FrameRate", "Frame Rate");
 				case null: return null;
 				default:
-					return id.StartsWith(FileSerializer.kCustomFieldIdPrefix) ?
-						id.Substring(FileSerializer.kCustomFieldIdPrefix.Length) : id;
+					return id;
 			}
 		}
 
@@ -182,7 +187,7 @@ namespace SayMore.UI.ComponentEditors
 			if (newId == null || newId.Trim() == string.Empty)
 				return;
 
-			newId = newId.Trim().Replace(' ', '_');
+			newId = GetFieldNameToSerialize(newId);
 
 			if (index == RowData.Count)
 				RowData.Add(new FieldInstance(newId));
@@ -195,6 +200,12 @@ namespace SayMore.UI.ComponentEditors
 				_fieldGatherer.GatherFieldsForFileNow(_file.PathToAnnotatedFile);
 				_fieldGatherer.ResumeProcessing(true);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual string GetFieldNameToSerialize(string id)
+		{
+			return id.Trim().Replace(' ', '_');
 		}
 
 		/// ------------------------------------------------------------------------------------

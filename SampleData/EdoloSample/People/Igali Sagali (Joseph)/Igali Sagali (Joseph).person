@@ -6,7 +6,6 @@
   <otherLanguage1 type="string">Tok Pisin</otherLanguage1>
   <education type="string">Grade 1</education>
   <primaryOccupation type="string">Subsistence Farmer</primaryOccupation>
-  <howToContact type="string"></howToContact>
   <gender type="string">Male</gender>
   <birthYear type="string">36/4</birthYear>
   <fathersLanguage type="string">Edolo</fathersLanguage>

@@ -2,9 +2,12 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
+using Localization;
 using Localization.UI;
 using Palaso.Media.Naudio.UI;
+using Palaso.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
@@ -116,7 +119,37 @@ namespace SayMore.UI.SessionRecording
 		/// ------------------------------------------------------------------------------------
 		private void HandleRecordClick(object sender, EventArgs e)
 		{
-			_viewModel.BeginRecording();
+			int retry = 0;
+			do
+			{
+				try
+				{
+					_viewModel.BeginRecording();
+					retry = 0;
+				}
+				catch (IOException failure)
+				{
+					string failureMsg = LocalizationManager.GetString(
+						"DialogBoxes.SessionRecorderDlg.UnableToStartRecording",
+						"Unable to start recording.") + Environment.NewLine +
+						failure.Message + Environment.NewLine +
+						LocalizationManager.GetString(
+						"CommonToMultipleViews.RetryAfterUnauthorizedAccessExceptionMsg",
+						"If you can determine which program is using this file, close it and click Retry.");
+					if (retry++ > 0)
+					{
+						if (MessageBox.Show(failureMsg, Application.ProductName, MessageBoxButtons.RetryCancel,
+							MessageBoxIcon.Warning) == DialogResult.Cancel)
+						{
+							UsageReporter.ReportException(false,
+								"Cancelled by user after 1 automatic retry and " + (retry - 1) + "retries requested by the user",
+								failure);
+							retry = 0;
+						}
+					}
+				}
+			} while (retry > 0);
+
 			UpdateDisplay();
 		}
 

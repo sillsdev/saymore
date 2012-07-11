@@ -206,8 +206,8 @@ namespace SayMore.Transcription.Model
 						if (failure is UnauthorizedAccessException)
 						{
 							var retryMsg = LocalizationManager.GetString(
-								"SessionsView.Transcription.GeneratedOralAnnotationView.RetryGeneratingOralAnnotationFileMsg",
-								"If you can determine which program is using this file, close it and click Retry. ");
+								"CommonToMultipleViews.RetryAfterUnauthorizedAccessExceptionMsg",
+								"If you can determine which program is using this file, close it and click Retry.");
 							failureMsg = failure.Message + Environment.NewLine + retryMsg;
 						}
 						else if (failure is IOException)

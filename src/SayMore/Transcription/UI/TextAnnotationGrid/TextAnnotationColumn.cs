@@ -62,5 +62,11 @@ namespace SayMore.Transcription.UI
 				Clipboard.SetData(dataFormat, data);
 			});
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void InitializeColumnContextMenu()
+		{
+			// no-op
+		}
 	}
 }

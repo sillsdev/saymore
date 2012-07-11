@@ -118,6 +118,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private int AddColumnForTier(TierBase tier)
 		{
+			tier.GridColumn.InitializeColumnContextMenu();
 			Columns.Add(tier.GridColumn);
 
 			var col = tier.GridColumn as TextAnnotationColumn;

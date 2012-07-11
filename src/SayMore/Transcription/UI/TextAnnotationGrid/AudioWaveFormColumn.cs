@@ -176,6 +176,12 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override void InitializeColumnContextMenu()
+		{
+			// no-op
+		}
+
+		/// ------------------------------------------------------------------------------------
 		void HandleKeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode != Keys.F2)

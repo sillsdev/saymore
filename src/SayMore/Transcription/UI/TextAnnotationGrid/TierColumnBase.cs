@@ -7,7 +7,7 @@ using SayMore.Transcription.Model;
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------
-	public class TierColumnBase : DataGridViewColumn
+	public abstract class TierColumnBase : DataGridViewColumn
 	{
 		protected TextAnnotationEditorGrid _grid;
 
@@ -101,5 +101,8 @@ namespace SayMore.Transcription.UI
 		{
 			return new ToolStripMenuItem[] { };
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public abstract void InitializeColumnContextMenu();
 	}
 }

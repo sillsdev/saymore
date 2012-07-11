@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using Localization;
 using Palaso.IO;
@@ -35,9 +36,12 @@ namespace SayMore
 		[STAThread]
 		static void Main()
 		{
-			// Think this line of code is stupid? See SP-436 and read this article:
+			// I had put the following line of code in to fix a SP-436 after reading this article:
 			// http://stackoverflow.com/questions/4077822/net-4-0-and-the-dreaded-onuserpreferencechanged-hang
-			Microsoft.Win32.SystemEvents.UserPreferenceChanged += delegate { };
+			// Microsoft.Win32.SystemEvents.UserPreferenceChanged += delegate { };
+			// But then I found this page: http://www.aaronlerch.com/blog/2008/12/15/debugging-ui/
+			// which describes how to find out where the actual problem is.
+			Thread.CurrentThread.Name = "UI";
 
 			// This is pretty annoying: When, because .Net doesn't have a font style of SemiBold
 			// (e.g. Segoe UI SemiBold), fonts having that style are assumed to be bold, but

@@ -13,17 +13,12 @@ namespace SayMore.Transcription.UI
 		public AudioRecordingType PlaybackType { get; protected set; }
 		//public Action<OralAnnotationType> AnnotationPlaybackTypeChangedAction { get; set; }
 
-		private readonly ContextMenuStrip _playbackTypeMenu;
+		private ContextMenuStrip _playbackTypeMenu;
 
 		/// ------------------------------------------------------------------------------------
 		public TextAnnotationColumnWithMenu(TierBase tier) : base(tier)
 		{
 			SortMode = DataGridViewColumnSortMode.Programmatic;
-
-			_playbackTypeMenu = new ContextMenuStrip();
-			_playbackTypeMenu.Items.AddRange(GetPlaybackOptionMenus().ToArray());
-			_playbackTypeMenu.ShowCheckMargin = true;
-			_playbackTypeMenu.ShowImageMargin = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -82,6 +77,17 @@ namespace SayMore.Transcription.UI
 
 			HeaderCell.SortGlyphDirection = SortOrder.Descending;
 			_grid.CellPainting -= HandleGridCellPainting;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void InitializeColumnContextMenu()
+		{
+			if (_playbackTypeMenu != null)
+				throw new InvalidOperationException("InitializeColumnContextMenu should only be called once");
+			_playbackTypeMenu = new ContextMenuStrip();
+			_playbackTypeMenu.Items.AddRange(GetPlaybackOptionMenus().Cast<ToolStripItem>().ToArray());
+			_playbackTypeMenu.ShowCheckMargin = true;
+			_playbackTypeMenu.ShowImageMargin = false;
 		}
 	}
 }

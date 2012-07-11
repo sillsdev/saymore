@@ -125,7 +125,7 @@ namespace SayMore.UI.SessionRecording
 				try
 				{
 					_viewModel.BeginRecording();
-					retry = 0;
+					break;
 				}
 				catch (IOException failure)
 				{

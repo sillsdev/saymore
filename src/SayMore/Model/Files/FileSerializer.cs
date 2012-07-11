@@ -52,7 +52,8 @@ namespace SayMore.Model.Files
 					root.Add(element);
 			}
 
-			var giveUpTime = DateTime.Now.AddSeconds(4);
+			var giveUpTime = DateTime.Now.AddSeconds(5);
+			bool attemptedRetry = false;
 
 			while (true)
 			{
@@ -63,9 +64,11 @@ namespace SayMore.Model.Files
 				}
 				catch (IOException)
 				{
-					if (DateTime.Now >= giveUpTime)
+					// Guarantee that it retries at least once
+					if (attemptedRetry && DateTime.Now >= giveUpTime)
 						throw;
 
+					attemptedRetry = true;
 					Thread.Sleep(100);
 				}
 			}

@@ -19,8 +19,6 @@ namespace SayMore.Transcription.Model
 		public static string FreeTranslationTierDisplayName =
 			LocalizationManager.GetString("SessionsView.Transcription.TierDisplayNames.FreeTranslation", "Free Translation");
 
-		protected TierColumnBase _gridColumn;
-
 		/// ------------------------------------------------------------------------------------
 		public TextTier(string id) : base(id, tier => AnnotationColumnProvider(id, tier))
 		{

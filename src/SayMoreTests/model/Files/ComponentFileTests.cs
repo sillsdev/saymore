@@ -535,7 +535,7 @@ namespace SayMoreTests.Model.Files
 		public void GetAssignedRoles_ForConsentAndSessionType_ReturnsEmptyEnumerator()
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Consent.txt");
-			Assert.AreEqual(0, f.GetAssignedRoles(typeof(Session)).Count());
+			Assert.AreEqual(0, f.GetAssignedRoles(new Session()).Count());
 		}
 
 		[Test]
@@ -543,7 +543,7 @@ namespace SayMoreTests.Model.Files
 		public void GetAssignedRoles_ForConsentAndPersonType_ReturnsThem()
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Consent.txt");
-			Assert.AreEqual(1, f.GetAssignedRoles(typeof(Person)).Count());
+			Assert.AreEqual(1, f.GetAssignedRoles(new Person()).Count());
 		}
 
 		[Test]
@@ -551,7 +551,7 @@ namespace SayMoreTests.Model.Files
 		public void GetAssignedRoles_ForTranslation_ReturnCorrectOne()
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Translation.txt");
-			Assert.AreEqual("translation", f.GetAssignedRoles(typeof(Session)).First().Name);
+			Assert.AreEqual("translation", f.GetAssignedRoles(new Session()).First().Name);
 		}
 
 		[Test]
@@ -559,7 +559,7 @@ namespace SayMoreTests.Model.Files
 		public void GetAssignedRoles_HasTranslationWIthLanguageTag_ReturnTranslation()
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Translation-xyz.txt");
-			Assert.AreEqual("translation", f.GetAssignedRoles(typeof(Session)).First().Name);
+			Assert.AreEqual("translation", f.GetAssignedRoles(new Session()).First().Name);
 		}
 
 		[Test]

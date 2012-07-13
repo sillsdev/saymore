@@ -114,7 +114,7 @@ namespace SayMore
 						Settings.Default.WorkflowStageTextColor1);//todo... but maybe we dont' show this as a stage?
 
 				yield return
-					new ComponentRole(typeof(Person), ComponentRole.kConsentComponentRoleId,
+					new ComponentRole(typeof(ProjectElement), ComponentRole.kConsentComponentRoleId,
 						LocalizationManager.GetString("SessionsView.SessionsList.Stages.InformedConsent", "Informed Consent"),
 						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent",
 						Settings.Default.WorkflowStageColor2,

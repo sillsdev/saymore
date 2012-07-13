@@ -124,7 +124,10 @@ namespace SayMore.Model.Files
 		}
 
 		[Obsolete("For Mocking Only")]
-		public ComponentFile(){}
+		public ComponentFile()
+		{
+			_componentRoles = ApplicationContainer.ComponentRoles;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -535,10 +538,11 @@ namespace SayMore.Model.Files
 		/// What part(s) does this file play in the workflow of the session/person?
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual IEnumerable<ComponentRole> GetAssignedRoles(Type elementType)
+		public IEnumerable<ComponentRole> GetAssignedRoles(ProjectElement element)
 		{
+			//if (_componentRoles)
 			return from r in _componentRoles
-				   where (r.IsMatch(PathToAnnotatedFile) && (elementType == null || elementType == r.RelevantElementType))
+				   where (r.IsMatch(PathToAnnotatedFile) && (element == null || r.RelevantElementType.IsInstanceOfType(element)))
 				   select r;
 		}
 
@@ -548,10 +552,10 @@ namespace SayMore.Model.Files
 		/// person?
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual IEnumerable<ComponentRole> GetAssignedRolesFromAnnotationFile(Type elementType)
+		public IEnumerable<ComponentRole> GetAssignedRolesFromAnnotationFile()
 		{
 			if (GetDoesHaveAnnotationFile())
-				return GetAnnotationFile().GetAssignedRoles(elementType);
+				return GetAnnotationFile().GetAssignedRoles();
 			return new ComponentRole[0];
 		}
 

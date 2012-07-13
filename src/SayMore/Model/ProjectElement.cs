@@ -487,14 +487,14 @@ namespace SayMore.Model
 
 			foreach (var component in GetComponentFiles())
 			{
-				foreach (var role in component.GetAssignedRoles(GetType()))
+				foreach (var role in component.GetAssignedRoles(this))
 					completedRoles[role.Id] = role;
 			}
 			if (ComponentRoles.Except(completedRoles.Values).Any())
 			{
 				foreach (var component in GetComponentFiles())
 				{
-					foreach (var role in component.GetAssignedRolesFromAnnotationFile(GetType()))
+					foreach (var role in component.GetAssignedRolesFromAnnotationFile())
 						completedRoles[role.Id] = role;
 				}
 			}

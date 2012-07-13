@@ -71,7 +71,7 @@ namespace SayMore.Model.Files
 		{
 			var nameWithoutExtension = Path.GetFileNameWithoutExtension(path);
 
-			return (_elligibilityFilter(path) &&
+			return (_elligibilityFilter(path) && nameWithoutExtension != null &&
 				(nameWithoutExtension.Contains(GetRenamingTemplateSuffix(true)) ||
 					(Id == kSourceComponentRoleId && nameWithoutExtension.Contains("_Original"))));
 		}

@@ -141,7 +141,7 @@ namespace SayMore.Model.Files
 		/// empty.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<ComponentRole> GetAssignedRoles(Type elementType)
+		public override IEnumerable<ComponentRole> GetAssignedRoles()
 		{
 			var tier = Tiers.GetTranscriptionTier();
 			if (tier != null && tier.GetIsComplete())

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -11,8 +12,7 @@ namespace SayMore.Utilities
 		/// ------------------------------------------------------------------------------------
 		public static bool GetIsText(string path)
 		{
-			var extensions = Settings.Default.TextFileExtensions;
-			return extensions.Contains(Path.GetExtension(path).ToLower());
+			return GetIsSpecifiedFileType(Settings.Default.TextFileExtensions, path);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -24,22 +24,26 @@ namespace SayMore.Utilities
 		/// ------------------------------------------------------------------------------------
 		public static bool GetIsAudio(string path)
 		{
-			var extensions = Settings.Default.AudioFileExtensions;
-			return extensions.Contains(Path.GetExtension(path).ToLower());
+			return GetIsSpecifiedFileType(Settings.Default.AudioFileExtensions, path);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static bool GetIsVideo(string path)
 		{
-			var extensions = Settings.Default.VideoFileExtensions;
-			return extensions.Contains(Path.GetExtension(path).ToLower());
+			return GetIsSpecifiedFileType(Settings.Default.VideoFileExtensions, path);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static bool GetIsImage(string path)
 		{
-			var extensions = Settings.Default.ImageFileExtensions;
-			return extensions.Contains(Path.GetExtension(path).ToLower());
+			return GetIsSpecifiedFileType(Settings.Default.ImageFileExtensions, path);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static bool GetIsSpecifiedFileType(StringCollection extensions, string path)
+		{
+			var extension = Path.GetExtension(path);
+			return (extension != null) && extensions.Contains(extension.ToLower());
 		}
 
 		/// ------------------------------------------------------------------------------------

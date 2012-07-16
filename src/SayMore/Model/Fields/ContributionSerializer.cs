@@ -41,7 +41,7 @@ namespace SayMore.Model.Fields
 				Role role;
 				_olacSystem.TryGetRoleByCode(e.Element("role").Value, out role);
 				var contrib = new Contribution(e.Element("name").Value, role);
-				// We have this permsissive business because we released versions of SayMore (prior to 1.1.120) which used the local
+				// We have this permissive business because we released versions of SayMore (prior to 1.1.120) which used the local
 				// format, rather than a universal one.
 				var when = e.Element("date").Value;
 				try
@@ -51,13 +51,13 @@ namespace SayMore.Model.Fields
 				catch
 				{
 					contrib.Date = DateTime.MinValue;
-					// looked  like it would take hours to change scores of methods to propogate a progress thing (e.g. ErrorCollector) down this far. Sigh...  progress.WriteError("SayMore had trouble understanding the date '{0}', on a contribution by {1}. For now, it was replaced by {2}", d, contrib.ContributorName, contrib.Date.ToString(CultureInfo.CurrentCulture));
+					// looked like it would take hours to change scores of methods to propogate a progress thing (e.g. ErrorCollector) down this far. Sigh...  progress.WriteError("SayMore had trouble understanding the date '{0}', on a contribution by {1}. For now, it was replaced by {2}", d, contrib.ContributorName, contrib.Date.ToString(CultureInfo.CurrentCulture));
 				}
 				contrib.Comments = e.Element(@"notes").Value;
 				return contrib;
 			});
 
-			return new ContributionCollection(contributionCollection);
+			return (contributionCollection.Any()) ? new ContributionCollection(contributionCollection) : null;
 		}
 
 		/// ------------------------------------------------------------------------------------

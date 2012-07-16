@@ -28,7 +28,7 @@ namespace SayMore.UI.LowLevelControls
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this._textBox = new AutoComplete.AutoCompleteTextBox();
+			this._textBox = new AutoCompleteTextBox();
 			this._panelButton = new System.Windows.Forms.Panel();
 			this.SuspendLayout();
 			// 
@@ -42,7 +42,6 @@ namespace SayMore.UI.LowLevelControls
 			this._textBox.Name = "_textBox";
 			this._textBox.Size = new System.Drawing.Size(123, 20);
 			this._textBox.TabIndex = 0;
-			this._textBox.TextChanged += new System.EventHandler(this.HandleTextBoxTextChanged);
 			this._textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleTextBoxKeyDown);
 			this._textBox.Leave += new System.EventHandler(this.HandleTextBoxLeave);
 			// 
@@ -72,7 +71,7 @@ namespace SayMore.UI.LowLevelControls
 
 		#endregion
 
-		private AutoComplete.AutoCompleteTextBox _textBox;
+		private AutoCompleteTextBox _textBox;
 		private System.Windows.Forms.Panel _panelButton;
 	}
 }

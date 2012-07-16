@@ -119,10 +119,10 @@ namespace SayMore.UI.ComponentEditors
 		public void SetAutoCompleteProvider(IMultiListDataProvider provider)
 		{
 			_provider = provider;
-			_provider.NewDataAvailable += HandleNewDataAvailable;
-
 			foreach (var control in _keysForControls.Where(x => !string.IsNullOrEmpty(x.Value)).Select(x => x.Key))
 				AddSupport(control);
+			_provider.NewDataAvailable += HandleNewDataAvailable;
+			HandleNewDataAvailable(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------

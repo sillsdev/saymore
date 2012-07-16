@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Palaso.UI.WindowsForms.ClearShare;
 
 namespace SayMore.Model.Fields
 {
@@ -49,7 +51,18 @@ namespace SayMore.Model.Fields
 				if (Value == null)
 					return null;
 
-				return (Value is string ? (string)Value : Value.ToString());
+				// Following turns a contribution collection into a list of contributor names.
+				// According to JohnH in SP-575, the people field only applies to Persons in the
+				// People Tab. It's not about "who contributed", but "who was recorded". Not sure
+				// if this will ever be needed elsewhere, but at least for this purpose then, it
+				// seems we just want to return null. Ideally, I think this should be done in an
+				// override of ToString in the ContributionCollection class, but that is part of
+				// Palaso, and it might be used elsewhere, besides it feels a little weird to
+				// override ToString just to make it return null.
+				// var contribs = Value as ContributionCollection;
+				//return contribs != null ? String.Join(";", contribs) : Value.ToString();
+				return Value is ContributionCollection ? null :
+					(Value is string ? (string)Value : Value.ToString());
 			}
 		}
 

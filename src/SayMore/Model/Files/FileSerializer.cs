@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
+using Palaso.Reporting;
 using SayMore.Model.Fields;
 using Palaso.Xml;
 
@@ -141,7 +142,10 @@ namespace SayMore.Model.Files
 				catch (IOException)
 				{
 					if (DateTime.Now >= giveUpTime)
+					{
+						Logger.WriteEvent("IO Exception path: " + path ?? "null");
 						throw;
+					}
 
 					Thread.Sleep(100);
 				}
@@ -184,7 +188,10 @@ namespace SayMore.Model.Files
 
 			IXmlFieldSerializer fldSerializer;
 			if (_xmlFieldSerializers != null && _xmlFieldSerializers.TryGetValue(fieldId, out fldSerializer))
-				return new FieldInstance(fieldId, type, fldSerializer.Deserialize(node.OuterXml));
+			{
+				var obj = fldSerializer.Deserialize(node.OuterXml);
+				return obj == null ? null : new FieldInstance(fieldId, type, obj);
+			}
 
 			if (type == FieldInstance.kStringType)
 			{

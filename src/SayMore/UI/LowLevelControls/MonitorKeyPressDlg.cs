@@ -5,7 +5,7 @@ namespace SayMore.UI.LowLevelControls
 {
 	public class MonitorKeyPressDlg : Form, IMessageFilter
 	{
-		private const int WM_KEYDOWN = 0x100;
+		public const int WM_KEYDOWN = 0x100;
 		private const int WM_KEYUP = 0x101;
 
 		/// ------------------------------------------------------------------------------------

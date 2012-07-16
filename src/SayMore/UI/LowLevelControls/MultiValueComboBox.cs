@@ -3,34 +3,31 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using AutoComplete;
 using SilTools;
 
 namespace SayMore.UI.LowLevelControls
 {
-	public partial class MultiValueComboBox : UserControl
+	public partial class MultiValueComboBox : UserControl, IMessageFilter
 	{
-		public Func<IEnumerable<PickerPopupItem>> JITListAcquisition;
+		private Func<IEnumerable<PickerPopupItem>> _funcJITListAcquisition;
 		public event CancelEventHandler DropDownOpening;
-		public event EventHandler ValueChanged;
 		public new event KeyEventHandler KeyDown;
 
 		public MultiValuePickerPopup Popup { get; private set; }
 
 		protected readonly int _borderWidth;
-		protected AutoCompleteMode _autoCompleteMode;
-		protected AutoCompleteSource _autoCompleteSource;
 		private bool _selectAllTextOnMouseDown;
-		private bool _showingSuggestions;
+		private string[] _displayedMatches = null;
 
+		#region Constructor and Initialization
 		/// ------------------------------------------------------------------------------------
 		public MultiValueComboBox()
 		{
 			Popup = new MultiValuePickerPopup();
 			Popup.PopupOpening += OnDropDownOpening;
+			Popup.PopupClosing += delegate { StopPreFilteringMessagesForPopup(); };
 			Popup.ItemCheckChanged += HandleItemCheckChanged;
 
 			Font = Program.DialogFont;
@@ -58,7 +55,27 @@ namespace SayMore.UI.LowLevelControls
 			};
 		}
 
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			Parent.Disposed += delegate { StopPreFilteringMessagesForPopup(); };
+		}
+		#endregion
+
 		#region Properties
+		/// ------------------------------------------------------------------------------------
+		public Func<IEnumerable<PickerPopupItem>> JITListAcquisition
+		{
+			get { return _funcJITListAcquisition; }
+			set
+			{
+				_funcJITListAcquisition = value;
+				_textBox.JITListAcquisition = () => from item in value()
+													select item.Text;
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		[DefaultValue(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -100,26 +117,35 @@ namespace SayMore.UI.LowLevelControls
 		public AutoCompleteMode AutoCompleteMode
 		{
 			get { return _textBox.AutoCompleteMode; }
-			set { _autoCompleteMode = _textBox.AutoCompleteMode = value; }
+			set { _textBox.AutoCompleteMode = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public AutoCompleteSource AutoCompleteSource
 		{
 			get { return _textBox.AutoCompleteSource; }
-			set { _autoCompleteSource = _textBox.AutoCompleteSource = value; }
+			set { _textBox.AutoCompleteSource = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public AutoCompleteStringCollection AutoCompleteCustomSource
 		{
-			get { return _textBox.AutoCompleteCustomSource; }
+			get
+			{
+				var values = _textBox.Values;
+				if (values == null)
+					return null;
+				var source = new AutoCompleteStringCollection();
+					source.AddRange(values);
+				return source;
+			}
 			set
 			{
-				_textBox.AutoCompleteCustomSource = value;
+				if (_textBox.JITListAcquisition != null)
+					return;
 				string[] values = new string[value.Count];
 				int i = 0;
-				foreach (var item in _textBox.AutoCompleteCustomSource)
+				foreach (var item in value)
 					values[i++] = item.ToString();
 				_textBox.Values = values;
 			}
@@ -149,24 +175,13 @@ namespace SayMore.UI.LowLevelControls
 
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		private void DisplaySuggestions(string[] matches)
-		{
-			_showingSuggestions = true;
-
-			var temp = JITListAcquisition;
-			JITListAcquisition = () => from name in matches
-									   orderby name
-									   select new PickerPopupItem(name, false);
-			ShowPopup();
-			JITListAcquisition = temp;
-		}
-
+		#region public methods
 		/// ------------------------------------------------------------------------------------
 		public void SelectAll()
 		{
 			_textBox.SelectAll();
 		}
+		#endregion
 
 		#region Overrides and painting methods
 		/// ------------------------------------------------------------------------------------
@@ -174,6 +189,16 @@ namespace SayMore.UI.LowLevelControls
 		{
 			base.OnEnter(e);
 			_textBox.Focus();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLeave(EventArgs e)
+		{
+			base.OnLeave(e);
+			Popup.Clear();
+			Popup.AddRange(JITListAcquisition());
+			Popup.SetCheckedItemsFromDelimitedString(Text);
+			Text = Popup.GetCheckedItemsString();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -292,6 +317,26 @@ namespace SayMore.UI.LowLevelControls
 
 		#region Event handlers
 		/// ------------------------------------------------------------------------------------
+		private void DisplaySuggestions(string[] matches)
+		{
+			if (_displayedMatches != null && _displayedMatches.SequenceEqual(matches))
+				return;
+
+			var temp = JITListAcquisition;
+			_funcJITListAcquisition = () => from name in matches
+									   orderby name
+									   select new PickerPopupItem(name, false);
+
+			// Need to pre-filter messages, so that additional typing can be sent to the
+			// text box, not the popup.
+			Application.AddMessageFilter(this);
+			ShowPopup();
+			_textBox.Focus();
+			_displayedMatches = matches;
+			JITListAcquisition = temp;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleButtonSizeChanged(object sender, EventArgs e)
 		{
 			_textBox.Width = ClientSize.Width - ((_borderWidth * 2) + _panelButton.Width + 3);
@@ -319,9 +364,6 @@ namespace SayMore.UI.LowLevelControls
 				Popup.AddRange(JITListAcquisition());
 			}
 
-			if (!_textBox.Focused)
-				_textBox.Focus();
-
 			Popup.Width = Width;
 			var pt = PointToScreen(new Point(0, Height));
 			Popup.ShowPopup(pt);
@@ -340,24 +382,16 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		void HandleItemCheckChanged(object sender, PickerPopupItem item)
 		{
-			if (_showingSuggestions)
+			if (_displayedMatches != null)
 			{
 				_textBox.InsertWord(Popup.GetCheckedItemsString());
 				Popup.ClosePopup();
-				_showingSuggestions = false;
 			}
 			else
 			{
 				Text = Popup.GetCheckedItemsString();
 				_textBox.SelectAll();
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleTextBoxTextChanged(object sender, EventArgs e)
-		{
-			if (ValueChanged != null)
-				ValueChanged(this, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -377,6 +411,59 @@ namespace SayMore.UI.LowLevelControls
 
 			e.Handled = (e.KeyCode == Keys.Right || e.KeyCode == Keys.Left ||
 				e.KeyCode == Keys.Down || e.KeyCode == Keys.Up);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void StopPreFilteringMessagesForPopup()
+		{
+			if (_displayedMatches != null)
+			{
+				Application.RemoveMessageFilter(this);
+				_displayedMatches = null;
+			}
+		}
+		#endregion
+
+		#region Implementation of IMessageFilter
+		const int WM_CHAR = 0x102;
+		const int VK_BACK = 0x8;
+		const int VK_DELETE = 0x2e;
+		/// ------------------------------------------------------------------------------------
+		/// <summary>This is a bit of a hack to get around the problem that the control in the
+		/// popup window gets all the keyboard input, so the user can't keep typing in the text
+		/// box when the list is showing.</summary>
+		/// ------------------------------------------------------------------------------------
+		public bool PreFilterMessage(ref Message m)
+		{
+			if (_displayedMatches == null || Form.ActiveForm != _textBox.FindForm())
+				return false;
+
+			switch (m.Msg)
+			{
+				case MonitorKeyPressDlg.WM_KEYDOWN:
+					if ((int)m.WParam == VK_BACK && _textBox.SelectionStart > 0)
+					{
+						_textBox.ChangeText(Text.Substring(0, _textBox.SelectionStart - 1) +
+							Text.Substring(_textBox.SelectionStart + SelectionLength),
+							_textBox.SelectionStart - 1);
+						return true;
+					}
+					if ((int)m.WParam == VK_DELETE && _textBox.Text.Length > _textBox.SelectionStart)
+					{
+						_textBox.ChangeText(Text.Substring(0, _textBox.SelectionStart) +
+							Text.Substring(_textBox.SelectionStart + 1 + SelectionLength),
+							_textBox.SelectionStart);
+						return true;
+					}
+					return false;
+				case WM_CHAR:
+					_textBox.ChangeText(Text.Substring(0, _textBox.SelectionStart) +
+						(char)((int)m.WParam) + Text.Substring(_textBox.SelectionStart + SelectionLength),
+						_textBox.SelectionStart + 1);
+					return true;
+				default:
+					return false;
+			}
 		}
 		#endregion
 	}

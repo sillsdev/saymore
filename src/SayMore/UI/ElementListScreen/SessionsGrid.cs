@@ -108,7 +108,7 @@ namespace SayMore.UI.ElementListScreen
 			// session.
 			menu.OwnerChanged += (s, e) =>
 			{
-				if (menu.Owner.IsDropDown)
+				if (menu.Owner != null && menu.Owner.IsDropDown)
 					((ToolStripDropDown)menu.Owner).Opened += (s1, e1) => menu.Enabled = GetCurrentElement() is Session;
 			};
 

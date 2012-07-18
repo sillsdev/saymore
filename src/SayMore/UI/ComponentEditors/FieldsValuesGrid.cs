@@ -42,9 +42,9 @@ namespace SayMore.UI.ComponentEditors
 
 			SetSelectionColors(false);
 
-			AddColumns();
-
 			_model = model;
+
+			AddColumns();
 
 			// Add one for new row.
 			RowCount = _model.RowData.Count + 1;
@@ -126,11 +126,13 @@ namespace SayMore.UI.ComponentEditors
 			var col = CreateTextBoxColumn("colField");
 			col.HeaderText = "_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Field!Field";
 			col.Width = 125;
+			col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 			Columns.Add(col);
 
 			col = CreateTextBoxColumn("colValue");
 			col.HeaderText = "_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Value!Value";
 			col.Width = 175;
+			col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 			Columns.Add(col);
 
 			_locExtender.EndInit();
@@ -176,7 +178,7 @@ namespace SayMore.UI.ComponentEditors
 			var isReadOnly = _model.IsIndexForReadOnlyField(e.RowIndex);
 			var isCustom = _model.IsIndexForCustomField(e.RowIndex);
 
-			if (string.IsNullOrEmpty(_model.GetIdForIndex(e.RowIndex)))
+			if (string.IsNullOrEmpty(_model.GetIdForIndex(e.RowIndex)) && ColumnCount > 1)
 				this[1, e.RowIndex].ReadOnly = true;
 			else if (e.RowIndex < NewRowIndex)
 			{

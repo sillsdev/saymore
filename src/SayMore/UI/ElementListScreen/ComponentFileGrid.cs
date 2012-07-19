@@ -400,7 +400,10 @@ namespace SayMore.UI.ElementListScreen
 			{
 				if (Path.GetFileName(f.PathToAnnotatedFile) == file)
 				{
+					var forceRefresh = _grid.CurrentCellAddress.Y != i;
 					SelectComponent(i);
+					if (forceRefresh)
+						ForceRefresh();
 					return true;
 				}
 

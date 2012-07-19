@@ -148,5 +148,21 @@ namespace SayMore.UI.ComponentEditors
 			TabText = LocalizationManager.GetString("SessionsView.MetadataEditor.TabText", "Session");
 			base.HandleStringsLocalized();
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This feels like a complete hack to fix SP-586, but I can't find where the text is
+		/// getting selected. When the Genre gets set from the value in the component file, the
+		/// text is definitely not selected. I even tried setting a breakpoint in several
+		/// methods in the .Net ComboBox code itself. I get to those breakpoints, so I know I've
+		/// set them correctly, but between the time the text is set and the time the control
+		/// gets painted with the text selected, these breakpoints never get hit.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HideTextSelection(object sender, EventArgs e)
+		{
+			if (ActiveControl != _genre && (_genre.SelectionStart == 0 && _genre.SelectionLength > 0))
+				_genre.SelectionLength = 0;
+		}
 	}
 }

@@ -239,6 +239,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _participants
 			// 
+			this._participants.AutoCompleteCustomSource = null;
 			this._autoCompleteHelper.SetAutoCompleteKey(this._participants, "person");
 			this._participants.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._participants.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
@@ -247,6 +248,7 @@ namespace SayMore.UI.ComponentEditors
 			this._participants.Font = new System.Drawing.Font("Segoe UI", 9F);
 			this._binder.SetIsBound(this._participants, true);
 			this._binder.SetIsComponentFileId(this._participants, false);
+			this._participants.JITListAcquisition = null;
 			this.locExtender.SetLocalizableToolTip(this._participants, null);
 			this.locExtender.SetLocalizationComment(this._participants, null);
 			this.locExtender.SetLocalizationPriority(this._participants, Localization.LocalizationPriority.NotLocalizable);
@@ -323,6 +325,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._genre.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._genre.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+			this._genre.CausesValidation = false;
 			this._genre.Dock = System.Windows.Forms.DockStyle.Top;
 			this._genre.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._genre, true);
@@ -336,6 +339,7 @@ namespace SayMore.UI.ComponentEditors
 			this._genre.Name = "_genre";
 			this._genre.Size = new System.Drawing.Size(202, 21);
 			this._genre.TabIndex = 15;
+			this._genre.Leave += new System.EventHandler(this.HideTextSelection);
 			// 
 			// _labelGenre
 			// 
@@ -495,6 +499,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizingId(this, "SessionBasicEditor.EditorBase");
 			this.Name = "SessionBasicEditor";
 			this.Size = new System.Drawing.Size(429, 400);
+			this.VisibleChanged += new System.EventHandler(this.HideTextSelection);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();

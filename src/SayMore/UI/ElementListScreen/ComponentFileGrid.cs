@@ -8,9 +8,11 @@ using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
 using Localization;
+using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SilTools;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using GridSettings = Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -616,7 +618,7 @@ namespace SayMore.UI.ElementListScreen
 
 	#region InternalComponentFileGrid class
 	/// ----------------------------------------------------------------------------------------
-	internal class InternalComponentFileGrid : SilGrid
+	internal class InternalComponentFileGrid : BetterGrid
 	{
 		private int _prevRow = -1;
 

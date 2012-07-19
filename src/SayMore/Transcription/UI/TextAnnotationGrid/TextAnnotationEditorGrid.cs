@@ -6,15 +6,17 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
+using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Media.MPlayer;
 using SilTools;
+using GridSettings = Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings;
 
 namespace SayMore.Transcription.UI
 {
-	public class TextAnnotationEditorGrid : SilGrid
+	public class TextAnnotationEditorGrid : BetterGrid
 	{
 		private const int WM_LBUTTONDOWN = 0x201;
 		private const int WM_LBUTTONUP = 0x202;
@@ -172,19 +174,6 @@ namespace SayMore.Transcription.UI
 					CurrentCell = this[ColumnCount - 1, CurrentCellAddress.Y - 1];
 					return true;
 				}
-			}
-			else if (msg.WParam.ToInt32() == (int)Keys.Down &&
-				IsCurrentCellInEditMode && EditingControl is DataGridViewTextBoxEditingControl &&
-				((DataGridViewTextBoxEditingControl)EditingControl).SelectionStart == EditingControl.Text.Length)
-			{
-				// This fixes SP-220. The default behavior of the control is very strange. For some
-				// reason, if a cell is being edited and the selection is at the very end of the
-				// text, down arrow sets the selection back to the start of the text in that cell
-				// instead of taking you to the next cell.
-				EndEdit();
-				if (CurrentCellAddress.Y < RowCount - 1)
-					CurrentCell = this[CurrentCellAddress.X, CurrentCellAddress.Y + 1];
-				return true;
 			}
 
 			return base.ProcessCmdKey(ref msg, keyData);

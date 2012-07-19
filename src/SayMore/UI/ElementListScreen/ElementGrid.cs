@@ -6,15 +6,15 @@ using System.Windows.Forms;
 using Localization;
 using Localization.UI;
 using Palaso.Extensions;
+using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SilTools;
 using ColorHelper = SilTools.ColorHelper;
 
 namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
-	public class ElementGrid : SilGrid
+	public class ElementGrid : BetterGrid
 	{
 		public delegate void SelectedElementChangedHandler(object sender,
 			ProjectElement oldElement, ProjectElement newElement);

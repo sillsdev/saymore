@@ -4,12 +4,11 @@ using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model.Fields;
 using SIL.Localization;
-using SilUtils;
 
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
-	public class CustomFieldsGrid : SilGrid
+	public class CustomFieldsGrid : BetterGrid
 	{
 		/// ------------------------------------------------------------------------------------
 		public CustomFieldsGrid()

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Properties;
 using Palaso.Extensions;
-using SilTools;
 
 namespace SayMore.UI.ElementListScreen
 {

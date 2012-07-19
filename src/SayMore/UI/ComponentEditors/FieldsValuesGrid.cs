@@ -4,15 +4,15 @@ using System.Media;
 using System.Windows.Forms;
 using Localization;
 using Localization.UI;
+using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
-using SilTools;
 using ColorHelper = SilTools.ColorHelper;
 
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
-	public class FieldsValuesGrid : SilGrid
+	public class FieldsValuesGrid : BetterGrid
 	{
 		private readonly FieldsValuesGridViewModel _model;
 		private readonly Font _factoryFieldFont;

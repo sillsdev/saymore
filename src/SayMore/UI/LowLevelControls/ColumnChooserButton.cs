@@ -6,7 +6,7 @@ using System.Media;
 using System.Windows.Forms;
 using Localization;
 using Palaso.UI.WindowsForms.ClearShare.WinFormsUI;
-using SilTools;
+using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SilTools.Controls;
 
 namespace SayMore.UI.LowLevelControls
@@ -97,8 +97,8 @@ namespace SayMore.UI.LowLevelControls
 
 				// If the column is the current column, then change the current column
 				// before hiding it. Otherwise, the current column becomes indeterminate.
-				if (_grid is SilGrid && _grid.CurrentCellAddress.X == col.Index)
-					((SilGrid)_grid).SelectAdjacentVisibleColumn(true);
+				if (_grid is BetterGrid && _grid.CurrentCellAddress.X == col.Index)
+					((BetterGrid)_grid).SelectAdjacentVisibleColumn(true);
 			}
 
 			_grid.SuspendLayout();

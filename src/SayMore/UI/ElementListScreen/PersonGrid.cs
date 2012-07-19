@@ -1,8 +1,8 @@
 using System.Linq;
 using System.Windows.Forms;
+using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Properties;
-using SilTools;
 
 namespace SayMore.UI.ElementListScreen
 {

@@ -219,9 +219,9 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings NewSessionsFromFilesDlgComponentGrid {
+        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings NewSessionsFromFilesDlgComponentGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["NewSessionsFromFilesDlgComponentGrid"]));
+                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["NewSessionsFromFilesDlgComponentGrid"]));
             }
             set {
                 this["NewSessionsFromFilesDlgComponentGrid"] = value;
@@ -333,9 +333,9 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings SessionScreenComponentGrid {
+        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings SessionScreenComponentGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["SessionScreenComponentGrid"]));
+                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["SessionScreenComponentGrid"]));
             }
             set {
                 this["SessionScreenComponentGrid"] = value;
@@ -345,9 +345,9 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings PersonScreenComponentGrid {
+        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings PersonScreenComponentGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["PersonScreenComponentGrid"]));
+                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["PersonScreenComponentGrid"]));
             }
             set {
                 this["PersonScreenComponentGrid"] = value;
@@ -466,9 +466,9 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings SessionCustomFieldsGrid {
+        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings SessionCustomFieldsGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["SessionCustomFieldsGrid"]));
+                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["SessionCustomFieldsGrid"]));
             }
             set {
                 this["SessionCustomFieldsGrid"] = value;
@@ -478,9 +478,9 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings PersonCustomFieldsGrid {
+        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings PersonCustomFieldsGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["PersonCustomFieldsGrid"]));
+                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["PersonCustomFieldsGrid"]));
             }
             set {
                 this["PersonCustomFieldsGrid"] = value;
@@ -490,9 +490,9 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings AudioFileFieldsGrid {
+        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings AudioFileFieldsGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["AudioFileFieldsGrid"]));
+                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["AudioFileFieldsGrid"]));
             }
             set {
                 this["AudioFileFieldsGrid"] = value;
@@ -502,9 +502,9 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings VideoFileFieldsGrid {
+        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings VideoFileFieldsGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["VideoFileFieldsGrid"]));
+                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["VideoFileFieldsGrid"]));
             }
             set {
                 this["VideoFileFieldsGrid"] = value;
@@ -514,9 +514,9 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings ImageFileFieldsGrid {
+        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings ImageFileFieldsGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["ImageFileFieldsGrid"]));
+                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["ImageFileFieldsGrid"]));
             }
             set {
                 this["ImageFileFieldsGrid"] = value;
@@ -526,9 +526,9 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings UnknownFileFieldsGrid {
+        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings UnknownFileFieldsGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["UnknownFileFieldsGrid"]));
+                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["UnknownFileFieldsGrid"]));
             }
             set {
                 this["UnknownFileFieldsGrid"] = value;
@@ -761,9 +761,9 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings SessionsListGrid {
+        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings SessionsListGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["SessionsListGrid"]));
+                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["SessionsListGrid"]));
             }
             set {
                 this["SessionsListGrid"] = value;
@@ -773,9 +773,9 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings PersonListGrid {
+        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings PersonListGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["PersonListGrid"]));
+                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["PersonListGrid"]));
             }
             set {
                 this["PersonListGrid"] = value;
@@ -833,9 +833,9 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings ContributorsGrid {
+        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings ContributorsGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["ContributorsGrid"]));
+                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["ContributorsGrid"]));
             }
             set {
                 this["ContributorsGrid"] = value;
@@ -939,9 +939,9 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings SegmentGrid {
+        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings SegmentGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["SegmentGrid"]));
+                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["SegmentGrid"]));
             }
             set {
                 this["SegmentGrid"] = value;

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using Palaso.UI.WindowsForms.ClearShare;
+using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Media;
 using SayMore.Media.Audio;
 using SayMore.Model.Fields;
@@ -13,7 +14,6 @@ using SayMore.Properties;
 using SayMore.Transcription.UI;
 using SayMore.UI;
 using SayMore.UI.ComponentEditors;
-using SilTools;
 
 namespace SayMore.Model.Files
 {
@@ -273,7 +273,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
-			var col = SilGrid.CreateTextBoxColumn("id");
+			var col = BetterGrid.CreateTextBoxColumn("id");
 			col.HeaderText = "_L10N_:PeopleView.PeopleList.ColumnHeadings.Id!Id";
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
@@ -281,7 +281,7 @@ namespace SayMore.Model.Files
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = SilGrid.CreateImageColumn("consent");
+			col = BetterGrid.CreateImageColumn("consent");
 			col.HeaderText = "_L10N_:PeopleView.PeopleList.ColumnHeadings.Consent!Consent";
 			col.DataPropertyName = "consent";
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
@@ -392,35 +392,35 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
-			var col = SilGrid.CreateTextBoxColumn("id");
+			var col = BetterGrid.CreateTextBoxColumn("id");
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Id!Id";
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = SilGrid.CreateTextBoxColumn("title");
+			col = BetterGrid.CreateTextBoxColumn("title");
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Title!Title";
 			col.DataPropertyName = "title";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = SilGrid.CreateImageColumn("stages");
+			col = BetterGrid.CreateImageColumn("stages");
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Stages!Stages";
 			col.DataPropertyName = "stages";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = SilGrid.CreateImageColumn("status");
+			col = BetterGrid.CreateImageColumn("status");
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Status!Status";
 			col.DataPropertyName = "status";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = SilGrid.CreateTextBoxColumn("date");
+			col = BetterGrid.CreateTextBoxColumn("date");
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Date!Date";
 			col.DataPropertyName = "date";
 			col.ReadOnly = true;
@@ -428,7 +428,7 @@ namespace SayMore.Model.Files
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = SilGrid.CreateTextBoxColumn("genre");
+			col = BetterGrid.CreateTextBoxColumn("genre");
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Genre!Genre";
 			col.DataPropertyName = "genre";
 			col.ReadOnly = true;
@@ -436,7 +436,7 @@ namespace SayMore.Model.Files
 			col.Visible = false;
 			yield return col;
 
-			col = SilGrid.CreateTextBoxColumn("location");
+			col = BetterGrid.CreateTextBoxColumn("location");
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Location!Location";
 			col.DataPropertyName = "location";
 			col.ReadOnly = true;

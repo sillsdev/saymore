@@ -141,7 +141,7 @@ namespace SayMore.UI.LowLevelControls
 			}
 			set
 			{
-				if (_textBox.JITListAcquisition != null)
+				if (_textBox.JITListAcquisition != null || value == null)
 					return;
 				string[] values = new string[value.Count];
 				int i = 0;

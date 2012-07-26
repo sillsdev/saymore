@@ -976,6 +976,7 @@
     <None Include="Resources\Green_check.png" />
     <None Include="Resources\undo.png" />
     <None Include="Resources\ShowVideoHelp.png" />
+    <None Include="Resources\SayMore.ico" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

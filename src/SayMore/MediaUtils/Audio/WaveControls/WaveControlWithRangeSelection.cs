@@ -47,12 +47,6 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void InvalidateSelectedRegion()
-		{
-			InvalidateRegionBetweenTimes(MyPainter.DefaultSelectedRange);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public int GetSegmentForX(int dx)
 		{
 			var timeAtX = GetTimeFromX(dx);

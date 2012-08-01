@@ -33,8 +33,8 @@ namespace SayMore.Transcription.UI
 			this._undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._videoHelpMenuStrip = new System.Windows.Forms.MenuStrip();
 			this._videoHelpMenu = new System.Windows.Forms.ToolStripMenuItem();
-			this._pendingAnnotationMenuStrip = new System.Windows.Forms.MenuStrip();
-			this._skipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this._currentSegmentMenuStrip = new System.Windows.Forms.MenuStrip();
+			this._ignoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._scrollTimer = new System.Windows.Forms.Timer(this.components);
 			this._cursorBlinkTimer = new System.Windows.Forms.Timer(this.components);
 			this._tableLayoutRecordAnnotations = new System.Windows.Forms.TableLayoutPanel();
@@ -46,7 +46,7 @@ namespace SayMore.Transcription.UI
 			((System.ComponentModel.ISupportInitialize)(this._pictureIcon)).BeginInit();
 			this._lastSegmentMenuStrip.SuspendLayout();
 			this._videoHelpMenuStrip.SuspendLayout();
-			this._pendingAnnotationMenuStrip.SuspendLayout();
+			this._currentSegmentMenuStrip.SuspendLayout();
 			this._tableLayoutRecordAnnotations.SuspendLayout();
 			this._tableLayoutMediaButtons.SuspendLayout();
 			this.SuspendLayout();
@@ -243,9 +243,10 @@ namespace SayMore.Transcription.UI
 			this._lastSegmentMenuStrip.Name = "_lastSegmentMenuStrip";
 			this._lastSegmentMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
 			this._lastSegmentMenuStrip.ShowItemToolTips = true;
-			this._lastSegmentMenuStrip.Size = new System.Drawing.Size(63, 24);
+			this._lastSegmentMenuStrip.Size = new System.Drawing.Size(155, 24);
 			this._lastSegmentMenuStrip.TabIndex = 15;
 			this._lastSegmentMenuStrip.Visible = false;
+			this._lastSegmentMenuStrip.VisibleChanged += new System.EventHandler(this.HandleLastSegmentMenuStripVisibleChanged);
 			//
 			// _undoToolStripMenuItem
 			//
@@ -279,7 +280,7 @@ namespace SayMore.Transcription.UI
 			this._videoHelpMenuStrip.Name = "_videoHelpMenuStrip";
 			this._videoHelpMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
 			this._videoHelpMenuStrip.ShowItemToolTips = true;
-			this._videoHelpMenuStrip.Size = new System.Drawing.Size(246, 27);
+			this._videoHelpMenuStrip.Size = new System.Drawing.Size(154, 27);
 			this._videoHelpMenuStrip.TabIndex = 18;
 			//
 			// _videoHelpMenu
@@ -301,40 +302,44 @@ namespace SayMore.Transcription.UI
 			this._videoHelpMenu.Text = "Video Help (not yet)";
 			this._videoHelpMenu.Click += new System.EventHandler(this.HandleVideoHelpButtonClick);
 			//
-			// _pendingAnnotationMenuStrip
+			// _currentSegmentMenuStrip
 			//
-			this._pendingAnnotationMenuStrip.AllowMerge = false;
-			this._pendingAnnotationMenuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(95)))), ((int)(((byte)(14)))));
-			this._pendingAnnotationMenuStrip.Dock = System.Windows.Forms.DockStyle.None;
-			this._pendingAnnotationMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this._skipToolStripMenuItem});
-			this.locExtender.SetLocalizableToolTip(this._pendingAnnotationMenuStrip, null);
-			this.locExtender.SetLocalizationComment(this._pendingAnnotationMenuStrip, null);
-			this.locExtender.SetLocalizationPriority(this._pendingAnnotationMenuStrip, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._pendingAnnotationMenuStrip, "OralAnnotationRecorderBaseDlg._lastSegmentMenuStrip");
-			this._pendingAnnotationMenuStrip.Location = new System.Drawing.Point(511, 232);
-			this._pendingAnnotationMenuStrip.Name = "_pendingAnnotationMenuStrip";
-			this._pendingAnnotationMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
-			this._pendingAnnotationMenuStrip.ShowItemToolTips = true;
-			this._pendingAnnotationMenuStrip.Size = new System.Drawing.Size(56, 24);
-			this._pendingAnnotationMenuStrip.TabIndex = 19;
-			this._pendingAnnotationMenuStrip.Visible = false;
+			this._currentSegmentMenuStrip.AllowMerge = false;
+			this._currentSegmentMenuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
+			this._currentSegmentMenuStrip.Dock = System.Windows.Forms.DockStyle.None;
+			this._currentSegmentMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this._ignoreToolStripMenuItem});
+			this.locExtender.SetLocalizableToolTip(this._currentSegmentMenuStrip, null);
+			this.locExtender.SetLocalizationComment(this._currentSegmentMenuStrip, null);
+			this.locExtender.SetLocalizationPriority(this._currentSegmentMenuStrip, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._currentSegmentMenuStrip, "OralAnnotationRecorderBaseDlg._lastSegmentMenuStrip");
+			this._currentSegmentMenuStrip.Location = new System.Drawing.Point(511, 232);
+			this._currentSegmentMenuStrip.Name = "_currentSegmentMenuStrip";
+			this._currentSegmentMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
+			this._currentSegmentMenuStrip.ShowItemToolTips = true;
+			this._currentSegmentMenuStrip.Size = new System.Drawing.Size(68, 24);
+			this._currentSegmentMenuStrip.TabIndex = 19;
+			this._currentSegmentMenuStrip.Visible = false;
 			//
-			// _skipToolStripMenuItem
+			// _ignoreToolStripMenuItem
 			//
-			this._skipToolStripMenuItem.BackColor = System.Drawing.Color.MintCream;
-			this._skipToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(95)))), ((int)(((byte)(14)))));
-			this._skipToolStripMenuItem.Image = global::SayMore.Properties.Resources.arrow_skip_right;
-			this.locExtender.SetLocalizableToolTip(this._skipToolStripMenuItem, null);
-			this.locExtender.SetLocalizationComment(this._skipToolStripMenuItem, null);
-			this.locExtender.SetLocalizationPriority(this._skipToolStripMenuItem, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._skipToolStripMenuItem, "OralAnnotationRecorderBaseDlg._skipToolStripMenuItem");
-			this._skipToolStripMenuItem.Name = "_skipToolStripMenuItem";
-			this._skipToolStripMenuItem.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-			this._skipToolStripMenuItem.ShowShortcutKeys = false;
-			this._skipToolStripMenuItem.Size = new System.Drawing.Size(53, 21);
-			this._skipToolStripMenuItem.Text = "Skip";
-			this._skipToolStripMenuItem.Click += new System.EventHandler(this.HandleSkipButtonClick);
+			this._ignoreToolStripMenuItem.BackColor = System.Drawing.Color.AliceBlue;
+			this._ignoreToolStripMenuItem.Checked = true;
+			this._ignoreToolStripMenuItem.CheckOnClick = true;
+			this._ignoreToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this._ignoreToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
+			this._ignoreToolStripMenuItem.Image = global::SayMore.Properties.Resources.UncheckedBox;
+			this.locExtender.SetLocalizableToolTip(this._ignoreToolStripMenuItem, null);
+			this.locExtender.SetLocalizationComment(this._ignoreToolStripMenuItem, null);
+			this.locExtender.SetLocalizationPriority(this._ignoreToolStripMenuItem, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._ignoreToolStripMenuItem, "OralAnnotationRecorderBaseDlg._skipToolStripMenuItem");
+			this._ignoreToolStripMenuItem.Name = "_ignoreToolStripMenuItem";
+			this._ignoreToolStripMenuItem.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+			this._ignoreToolStripMenuItem.ShowShortcutKeys = false;
+			this._ignoreToolStripMenuItem.Size = new System.Drawing.Size(65, 21);
+			this._ignoreToolStripMenuItem.Text = "Ignore";
+			this._ignoreToolStripMenuItem.CheckedChanged += new System.EventHandler(this.HandleIgnoreToolStripMenuItemCheckedChanged);
+			this._ignoreToolStripMenuItem.Click += new System.EventHandler(this.HandleIgnoreButtonClick);
 			//
 			// _scrollTimer
 			//
@@ -392,7 +397,7 @@ namespace SayMore.Transcription.UI
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(703, 488);
-			this.Controls.Add(this._pendingAnnotationMenuStrip);
+			this.Controls.Add(this._currentSegmentMenuStrip);
 			this.Controls.Add(this._videoHelpMenuStrip);
 			this.Controls.Add(this._lastSegmentMenuStrip);
 			this.Controls.Add(this._pictureIcon);
@@ -421,7 +426,7 @@ namespace SayMore.Transcription.UI
 			this.Controls.SetChildIndex(this._pictureIcon, 0);
 			this.Controls.SetChildIndex(this._lastSegmentMenuStrip, 0);
 			this.Controls.SetChildIndex(this._videoHelpMenuStrip, 0);
-			this.Controls.SetChildIndex(this._pendingAnnotationMenuStrip, 0);
+			this.Controls.SetChildIndex(this._currentSegmentMenuStrip, 0);
 			this._panelListen.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).EndInit();
@@ -430,8 +435,8 @@ namespace SayMore.Transcription.UI
 			this._lastSegmentMenuStrip.PerformLayout();
 			this._videoHelpMenuStrip.ResumeLayout(false);
 			this._videoHelpMenuStrip.PerformLayout();
-			this._pendingAnnotationMenuStrip.ResumeLayout(false);
-			this._pendingAnnotationMenuStrip.PerformLayout();
+			this._currentSegmentMenuStrip.ResumeLayout(false);
+			this._currentSegmentMenuStrip.PerformLayout();
 			this._tableLayoutRecordAnnotations.ResumeLayout(false);
 			this._tableLayoutMediaButtons.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -461,7 +466,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripMenuItem _undoToolStripMenuItem;
 		private System.Windows.Forms.MenuStrip _videoHelpMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem _videoHelpMenu;
-		private System.Windows.Forms.MenuStrip _pendingAnnotationMenuStrip;
-		private System.Windows.Forms.ToolStripMenuItem _skipToolStripMenuItem;
+		private System.Windows.Forms.MenuStrip _currentSegmentMenuStrip;
+		private System.Windows.Forms.ToolStripMenuItem _ignoreToolStripMenuItem;
 	}
 }

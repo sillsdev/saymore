@@ -326,18 +326,10 @@ namespace SayMore.Media.Audio
 			if (TimeRange.IsNullOrZeroLength(timeRange))
 				return;
 
-			InvalidateIfNeeded(new Rectangle(Painter.ConvertTimeToXCoordinate(timeRange.Start),
-				0, Painter.ConvertTimeToXCoordinate(timeRange.End), ClientSize.Height));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void InvalidateRegionBetweenTimes(TimeSpan start, TimeSpan end)
-		{
-			if (start == end)
-				return;
-
-			InvalidateIfNeeded(new Rectangle(Painter.ConvertTimeToXCoordinate(start),
-				0, Painter.ConvertTimeToXCoordinate(end), ClientSize.Height));
+			var x = Painter.ConvertTimeToXCoordinate(timeRange.Start);
+			var rc = new Rectangle(x, 0, Painter.ConvertTimeToXCoordinate(timeRange.End) - x,
+				ClientSize.Height);
+			InvalidateIfNeeded(rc);
 		}
 
 		/// ------------------------------------------------------------------------------------

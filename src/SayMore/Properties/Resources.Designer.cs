@@ -123,6 +123,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap CheckedBox {
+            get {
+                object obj = ResourceManager.GetObject("CheckedBox", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap ColumnChooser {
             get {
                 object obj = ResourceManager.GetObject("ColumnChooser", resourceCulture);
@@ -785,6 +792,13 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap TechnicalTabImage {
             get {
                 object obj = ResourceManager.GetObject("TechnicalTabImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap UncheckedBox {
+            get {
+                object obj = ResourceManager.GetObject("UncheckedBox", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

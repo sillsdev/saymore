@@ -23,7 +23,8 @@ namespace SayMore.Transcription.UI
 			Deletion,
 			EndBoundaryMoved,
 			AnnotationAdded,
-			Skipped,
+			Ignored,
+			Unignored,
 		}
 
 		#region SegmentChange class
@@ -109,11 +110,17 @@ namespace SayMore.Transcription.UI
 							"Recording annotation for segment {0}",
 							"Parameter is time range of the segment for which the annotation was recorded.");
 						return String.Format(fmt, OriginalRange);
-					case SegmentChangeType.Skipped:
+					case SegmentChangeType.Ignored:
 						fmt = LocalizationManager.GetString(
-							"DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.JunkSegmentSkipped",
-							"Skipping segment {0}",
-							"Parameter is time range of the segment that was skipped.");
+							"DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.JunkSegmentIgnored",
+							"Ignoring segment {0}",
+							"Parameter is time range of the segment that was ignored.");
+						return String.Format(fmt, OriginalRange);
+					case SegmentChangeType.Unignored:
+						fmt = LocalizationManager.GetString(
+							"DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentUnignored",
+							"Marking segment {0} as relevant",
+							"Parameter is time range of the segment that was ignored.");
 						return String.Format(fmt, OriginalRange);
 					default:
 						return "Unknown action";

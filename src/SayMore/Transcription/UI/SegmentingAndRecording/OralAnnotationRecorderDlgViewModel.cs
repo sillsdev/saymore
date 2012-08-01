@@ -173,18 +173,46 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void MarkCurrentSegmentAsJunk()
+		public void SetIgnoredFlagForSegment(Segment segment, bool ignore)
 		{
-			if (CurrentUnannotatedSegment != null)
+			if (segment != null)
 			{
-				var segmentIndex = TimeTier.GetIndexOfSegment(CurrentUnannotatedSegment);
-				Tiers.MarkSegmentAsJunk(segmentIndex);
-				var timeRange = CurrentUnannotatedSegment.TimeRange.Copy();
-				_undoStack.Push(new SegmentChange(SegmentChangeType.Skipped, timeRange, timeRange,
-					sc => Tiers.GetTranscriptionTier().Segments[segmentIndex].Text = string.Empty));
+				var segmentIndex = TimeTier.GetIndexOfSegment(segment);
+				var timeRange = segment.TimeRange.Copy();
+				if (ignore)
+				{
+					var path = GetFullPathOfAnnotationFileForTimeRange(timeRange);
+					Action restoreState = () => { };
+					if (File.Exists(path))
+					{
+						BackupOralAnnotationSegmentFile(path, true);
+						restoreState = () => RestorePreviousVersionOfAnnotation(timeRange);
+					}
+					else if (segment == CurrentUnannotatedSegment)
+					{
+						restoreState = () => { CurrentUnannotatedSegment = segment; };
+					}
+
+					Tiers.MarkSegmentAsJunk(segmentIndex);
+					_undoStack.Push(new SegmentChange(SegmentChangeType.Ignored, timeRange, timeRange, sc =>
+						{
+							Tiers.GetTranscriptionTier().Segments[segmentIndex].Text = string.Empty;
+							restoreState();
+						}));
+				}
+				else
+				{
+					Tiers.GetTranscriptionTier().Segments[segmentIndex].Text = string.Empty;
+					_undoStack.Push(new SegmentChange(SegmentChangeType.Unignored, timeRange, timeRange,
+						sc => Tiers.MarkSegmentAsJunk(segmentIndex)));
+				}
 			}
 			else
+			{
+				if (!ignore)
+					throw new InvalidOperationException("New segment can never be unignored.");
 				AddJunkSegment(NewSegmentEndBoundary);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

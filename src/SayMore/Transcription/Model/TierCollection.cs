@@ -11,7 +11,7 @@ namespace SayMore.Transcription.Model
 	/// ----------------------------------------------------------------------------------------
 	public class TierCollection : Collection<TierBase>
 	{
-		public const string kJunk = "%junk%";
+		public const string kIgnoreSegment = "%ignore%";
 
 		public bool PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent { get; set; }
 
@@ -90,7 +90,7 @@ namespace SayMore.Transcription.Model
 			{
 				if (!(transcriptionTier != null &&
 					transcriptionTier.TryGetSegment(iSegment, out transcriptionSegment) &&
-					transcriptionSegment.Text == kJunk) &&
+					transcriptionSegment.Text == kIgnoreSegment) &&
 					!File.Exists(GetPathToAnnotationFile(timeTier.Segments[iSegment])))
 				{
 					return false;
@@ -102,7 +102,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public void MarkSegmentAsJunk(int iSegment)
 		{
-			GetTranscriptionTier().Segments[iSegment].Text = kJunk;
+			GetTranscriptionTier().Segments[iSegment].Text = kIgnoreSegment;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -116,7 +116,7 @@ namespace SayMore.Transcription.Model
 			var transcriptionTier = GetTranscriptionTier();
 			foreach (var tier in this.OfType<TextTier>())
 			{
-				var text = (tier == transcriptionTier) ? kJunk : string.Empty;
+				var text = (tier == transcriptionTier) ? kIgnoreSegment : string.Empty;
 				tier.Segments.Add(new Segment(tier, text));
 			}
 		}
@@ -125,7 +125,7 @@ namespace SayMore.Transcription.Model
 		public bool GetIsSegmentJunk(int segmentIndex)
 		{
 			var transcriptionTier = GetTranscriptionTier();
-			return (transcriptionTier != null && transcriptionTier.Segments[segmentIndex].Text == kJunk);
+			return (transcriptionTier != null && transcriptionTier.Segments[segmentIndex].Text == kIgnoreSegment);
 		}
 
 		/// ------------------------------------------------------------------------------------

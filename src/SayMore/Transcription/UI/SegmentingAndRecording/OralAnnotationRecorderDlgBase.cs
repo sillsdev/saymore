@@ -110,6 +110,17 @@ namespace SayMore.Transcription.UI
 			_spaceBarMode = viewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
 			viewModel.PlaybackErrorAction = HandlePlaybackError;
 			viewModel.RecordingErrorAction = HandleRecordingError;
+
+			SegmentIgnored += HandleSegmentIgnored;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleSegmentIgnored()
+		{
+			if (HotSegment == null || ViewModel.CurrentUnannotatedSegment == null || HotSegment == ViewModel.CurrentUnannotatedSegment)
+				GoToNextUnannotatedSegment();
+			else
+				SetModeToListenOrFinished();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -308,7 +319,6 @@ namespace SayMore.Transcription.UI
 			_labelFinishedHint.Font = FontHelper.MakeFont(Program.DialogFont, 10, FontStyle.Bold);
 			_labelListenButton.Font = Program.DialogFont;
 			_labelRecordButton.Font = Program.DialogFont;
-			_undoToolStripMenuItem.Font = Program.DialogFont;
 			_labelSourceRecording.ForeColor = _labelListenButton.ForeColor;
 			_videoHelpMenu.Font = _labelSourceRecording.Font;
 
@@ -376,14 +386,9 @@ namespace SayMore.Transcription.UI
 			_waveControl = new WaveControlWithRangeSelection();
 			_waveControl.BottomReservedAreaBorderColor = Settings.Default.DataEntryPanelColorBorder;
 			_waveControl.BottomReservedAreaColor = _tableLayoutRecordAnnotations.BackColor;
-			_waveControl.Controls.Add(_lastSegmentMenuStrip);
-			_lastSegmentMenuStrip.UseWaitCursor = false;
-			_waveControl.Controls.Add(_currentSegmentMenuStrip);
-			_currentSegmentMenuStrip.UseWaitCursor = false;
 
 			_waveControl.BottomReservedAreaPaintAction = HandlePaintingAnnotatedWaveArea;
 			_waveControl.PostPaintAction = HandleWaveControlPostPaint;
-			_waveControl.MouseMove += HandleWaveControlMouseMove;
 			_waveControl.MouseLeave += HandleWaveControlMouseLeave;
 			_waveControl.MouseClick += HandleWaveControlMouseClick;
 			_waveControl.MouseDown += HandleWaveControlMouseDown;
@@ -489,18 +494,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void UpdateDisplay()
 		{
-			var undoableSegmentRange = ViewModel.TimeRangeForUndo;
-			_lastSegmentMenuStrip.Visible = _undoToolStripMenuItem.Enabled = (undoableSegmentRange != null);
-			if (_lastSegmentMenuStrip.Visible)
-			{
-				_lastSegmentMenuStrip.Location = new Point(
-					WavePainter.ConvertTimeToXCoordinate(undoableSegmentRange.End) - _lastSegmentMenuStrip.Width - 5,
-					5);
-				_undoToolStripMenuItem.ToolTipText = String.Format(LocalizationManager.GetString(
-					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UndoToolTipMsg",
-					"Undo: {0} (Ctrl-Z)"), ViewModel.DescriptionForUndo);
-			}
-
 			_labelListenButton.Image = (_waveControl.IsPlaying && _playingBackUsingHoldDownButton ?
 				Resources.ListenToOriginalRecordingDown : Resources.ListenToOriginalRecording);
 
@@ -773,33 +766,14 @@ namespace SayMore.Transcription.UI
 
 		#region Event handlers for the wave control
 		/// ------------------------------------------------------------------------------------
-		private void HandleWaveControlMouseMove(object sender, MouseEventArgs e)
+		protected override void HandleWaveControlMouseMove(object sender, MouseEventArgs e)
 		{
 			if (ViewModel.GetIsRecording())
 				return;
 
-			bool enableIgnoreMenu = false;
-			var rc = HotSegmentRectangle;
-			if (rc != Rectangle.Empty && !ViewModel.GetIsRecording())
-			{
-				_waveControl.InvalidateIfNeeded(PlayOrigButtonRectangle);
-				_waveControl.InvalidateIfNeeded(PlayAnnotationButtonRectangle);
-
-				var hotSegment = HotSegment;
-				// Meed to prevent Undo and Ignore buttons from appearing for the same segment. They
-				// overlap, and if the Undo button is displayed, then the Ignore button isn't really needed.
-				if (!_waveControl.IsPlaying && (ViewModel.TimeRangeForUndo == null ||
-					hotSegment == null || ViewModel.TimeRangeForUndo != hotSegment.TimeRange))
-				{
-					enableIgnoreMenu = true;
-
-					_currentSegmentMenuStrip.Location = new Point(rc.Right -
-						_currentSegmentMenuStrip.Width - Math.Min(5, (rc.Width - _currentSegmentMenuStrip.Width) / 2),
-						rc.Top + 5);
-					_ignoreToolStripMenuItem.Checked = hotSegment != null && ViewModel.GetIsSegmentJunk(hotSegment);
-				}
-			}
-			_currentSegmentMenuStrip.Visible = _ignoreToolStripMenuItem.Enabled = enableIgnoreMenu;
+			base.HandleWaveControlMouseMove(sender, e);
+			_waveControl.InvalidateIfNeeded(PlayOrigButtonRectangle);
+			_waveControl.InvalidateIfNeeded(PlayAnnotationButtonRectangle);
 
 			_waveControl.InvalidateIfNeeded(GetRerecordButtonRectangleForSegmentMouseIsOver());
 
@@ -907,7 +881,13 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleUndoButtonClick(object sender, EventArgs e)
+		protected override bool UndoImplemented
+		{
+			get { return true; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleUndoButtonClick(object sender, EventArgs e)
 		{
 			UpdateDisplayForChangeInNewSegmentEndBoundary(delegate
 			{
@@ -939,41 +919,6 @@ namespace SayMore.Transcription.UI
 
 				SetTableLayoutForListenOrRecordMode();
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleLastSegmentMenuStripVisibleChanged(object sender, EventArgs e)
-		{
-			// Prevent both tool strips from displaying simultaneously for the same segment.
-			if (!_currentSegmentMenuStrip.Visible || !_lastSegmentMenuStrip.Visible)
-				return;
-			if (HotSegment == null || ViewModel.TimeRangeForUndo == HotSegment.TimeRange)
-				_currentSegmentMenuStrip.Visible = _ignoreToolStripMenuItem.Enabled = false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleIgnoreToolStripMenuItemCheckedChanged(object sender, EventArgs e)
-		{
-			_ignoreToolStripMenuItem.Image = _ignoreToolStripMenuItem.Checked ?
-				Resources.CheckedBox : Resources.UncheckedBox;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleIgnoreButtonClick(object sender, EventArgs e)
-		{
-			var ignore = _ignoreToolStripMenuItem.Checked;
-			ViewModel.SetIgnoredFlagForSegment(HotSegment, ignore);
-			_waveControl.InvalidateIfNeeded(HotSegmentRectangle);
-			if (HotSegment == null || ViewModel.CurrentUnannotatedSegment == null ||
-				HotSegment == ViewModel.CurrentUnannotatedSegment)
-			{
-				GoToNextUnannotatedSegment();
-			}
-			else
-			{
-				SetModeToListenOrFinished();
-			}
-			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1348,9 +1293,7 @@ namespace SayMore.Transcription.UI
 			if (!ViewModel.GetHasNewSegment())
 				return Rectangle.Empty;
 
-			var x1 = _waveControl.Painter.ConvertTimeToXCoordinate(ViewModel.GetEndOfLastSegment());
-			var x2 = _waveControl.Painter.ConvertTimeToXCoordinate(ViewModel.NewSegmentEndBoundary);
-			return new Rectangle(x1, 0, x2 - x1 + 1, _waveControl.ClientSize.Height);
+			return GetRectangleForTimeRangeBeyondEndOfLastSegment(ViewModel.NewSegmentEndBoundary);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1396,21 +1339,9 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal Point MousePositionInWaveControl
-		{
-			get { return _waveControl.PointToClient(MousePosition); }
-		}
-
-		/// ------------------------------------------------------------------------------------
 		internal Size PlayButtonSize
 		{
 			get { return _normalPlayInSegmentButton.Size; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal Rectangle GetFullRectangleForTimeRange(TimeRange timeRange)
-		{
-			return _waveControl.Painter.GetFullRectangleForTimeRange(timeRange);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1687,26 +1618,9 @@ namespace SayMore.Transcription.UI
 
 		#region Hot segment - the segment the mouse is over
 		/// ------------------------------------------------------------------------------------
-		private Segment HotSegment
+		protected override TimeRange CurrentTimeRange
 		{
-			get
-			{
-				var timeRangeOfHighlightedSegment = WavePainter.DefaultSelectedRange;
-				return ViewModel.TimeTier.Segments.FirstOrDefault(s => s.TimeRange == timeRangeOfHighlightedSegment);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private Rectangle HotSegmentRectangle
-		{
-			get
-			{
-				var hotSegment = HotSegment;
-				if (hotSegment != null)
-					return GetFullRectangleForTimeRange(hotSegment.TimeRange);
-				var rc = GetNewSegmentRectangle();
-				return !rc.Contains(MousePositionInWaveControl) ? Rectangle.Empty : rc;
-			}
+			get { return WavePainter.DefaultSelectedRange; }
 		}
 
 		/// ------------------------------------------------------------------------------------

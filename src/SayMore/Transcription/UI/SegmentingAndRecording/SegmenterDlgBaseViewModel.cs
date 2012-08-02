@@ -434,6 +434,12 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public virtual TimeSpan VirtualBoundaryBeyondLastSegment
+		{
+			get { return OrigWaveStream.TotalTime; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public TimeRange TimeRangeForUndo
 		{
 			get { return _undoStack.TimeRangeForUndo; }
@@ -514,6 +520,45 @@ namespace SayMore.Transcription.UI
 			}
 
 			return GetSegmentEndBoundaries();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetIgnoredFlagForSegment(Segment segment, bool ignore)
+		{
+			if (segment != null)
+			{
+				var segmentIndex = TimeTier.GetIndexOfSegment(segment);
+				var timeRange = segment.TimeRange.Copy();
+				if (ignore)
+				{
+					Action restoreState = GetActionToRestoreStateWhenUndoingAnIgnore(segment);
+
+					Tiers.MarkSegmentAsJunk(segmentIndex);
+					_undoStack.Push(new SegmentChange(SegmentChangeType.Ignored, timeRange, timeRange, sc =>
+					{
+						Tiers.GetTranscriptionTier().Segments[segmentIndex].Text = string.Empty;
+						restoreState();
+					}));
+				}
+				else
+				{
+					Tiers.GetTranscriptionTier().Segments[segmentIndex].Text = string.Empty;
+					_undoStack.Push(new SegmentChange(SegmentChangeType.Unignored, timeRange, timeRange,
+						sc => Tiers.MarkSegmentAsJunk(segmentIndex)));
+				}
+			}
+			else
+			{
+				if (!ignore)
+					throw new InvalidOperationException("New segment can never be unignored.");
+				AddJunkSegment(VirtualBoundaryBeyondLastSegment);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual Action GetActionToRestoreStateWhenUndoingAnIgnore(Segment segment)
+		{
+			return () => { };
 		}
 
 		/// ------------------------------------------------------------------------------------

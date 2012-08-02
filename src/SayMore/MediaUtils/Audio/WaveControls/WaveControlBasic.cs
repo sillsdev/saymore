@@ -535,7 +535,7 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public int GetIndexOfFirstBoundaryBeforeTime(TimeSpan time)
+		public int GetIndexOfLastBoundaryBeforeTime(TimeSpan time)
 		{
 			var segs = SegmentBoundaries.ToArray();
 
@@ -585,23 +585,23 @@ namespace SayMore.Media.Audio
 			return (_boundaryMouseOver != default(TimeSpan));
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//public TimeRange GetTimeRangeEnclosingMouseX()
-		//{
-		//    var pt = PointToClient(MousePosition);
-		//    var time = Painter.ConvertXCoordinateToTime(pt.X);
+		/// ------------------------------------------------------------------------------------
+		public TimeRange GetTimeRangeEnclosingMouseX()
+		{
+			var pt = PointToClient(MousePosition);
+			var time = Painter.ConvertXCoordinateToTime(pt.X);
 
-		//    var startTime = TimeSpan.Zero;
-		//    foreach (var boundary in Painter.SegmentBoundaries)
-		//    {
-		//        if (boundary >= time)
-		//            return (new TimeRange(startTime, boundary));
+			var startTime = TimeSpan.Zero;
+			foreach (var boundary in Painter.SegmentBoundaries)
+			{
+				if (boundary >= time)
+					return (new TimeRange(startTime, boundary));
 
-		//        startTime = boundary;
-		//    }
+				startTime = boundary;
+			}
 
-		//    return new TimeRange(0, 0);
-		//}
+			return new TimeRange(0, 0);
+		}
 
 		#region Playback/stop methods
 		/// ------------------------------------------------------------------------------------

@@ -78,6 +78,12 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override TimeSpan VirtualBoundaryBeyondLastSegment
+		{
+			get { return NewSegmentEndBoundary; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public TimeSpan NewSegmentEndBoundary
 		{
 			get { return _endBoundary; }
@@ -173,46 +179,19 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetIgnoredFlagForSegment(Segment segment, bool ignore)
+		protected override Action GetActionToRestoreStateWhenUndoingAnIgnore(Segment segment)
 		{
-			if (segment != null)
-			{
-				var segmentIndex = TimeTier.GetIndexOfSegment(segment);
-				var timeRange = segment.TimeRange.Copy();
-				if (ignore)
-				{
-					var path = GetFullPathOfAnnotationFileForTimeRange(timeRange);
-					Action restoreState = () => { };
-					if (File.Exists(path))
-					{
-						BackupOralAnnotationSegmentFile(path, true);
-						restoreState = () => RestorePreviousVersionOfAnnotation(timeRange);
-					}
-					else if (segment == CurrentUnannotatedSegment)
-					{
-						restoreState = () => { CurrentUnannotatedSegment = segment; };
-					}
+			var timeRange = segment.TimeRange.Copy();
 
-					Tiers.MarkSegmentAsJunk(segmentIndex);
-					_undoStack.Push(new SegmentChange(SegmentChangeType.Ignored, timeRange, timeRange, sc =>
-						{
-							Tiers.GetTranscriptionTier().Segments[segmentIndex].Text = string.Empty;
-							restoreState();
-						}));
-				}
-				else
-				{
-					Tiers.GetTranscriptionTier().Segments[segmentIndex].Text = string.Empty;
-					_undoStack.Push(new SegmentChange(SegmentChangeType.Unignored, timeRange, timeRange,
-						sc => Tiers.MarkSegmentAsJunk(segmentIndex)));
-				}
-			}
-			else
+			var path = GetFullPathOfAnnotationFileForTimeRange(timeRange);
+			if (File.Exists(path))
 			{
-				if (!ignore)
-					throw new InvalidOperationException("New segment can never be unignored.");
-				AddJunkSegment(NewSegmentEndBoundary);
+				BackupOralAnnotationSegmentFile(path, true);
+				return () => RestorePreviousVersionOfAnnotation(timeRange);
 			}
+			if (segment == CurrentUnannotatedSegment)
+				return () => { CurrentUnannotatedSegment = segment; };
+			return base.GetActionToRestoreStateWhenUndoingAnIgnore(segment);
 		}
 
 		/// ------------------------------------------------------------------------------------

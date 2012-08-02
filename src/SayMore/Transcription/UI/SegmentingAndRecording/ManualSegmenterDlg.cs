@@ -179,13 +179,16 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override int GetHeightOfTableLayoutButtonRow()
+		protected override int HeightOfTableLayoutButtonRow
 		{
-			return (_buttonListenToOriginal.Height * 3) + 5 +
-				_buttonListenToOriginal.Margin.Top + _buttonListenToOriginal.Margin.Bottom +
-				_buttonAddSegmentBoundary.Margin.Top + _buttonAddSegmentBoundary.Margin.Bottom +
-				_buttonDeleteSegment.Margin.Top + _buttonDeleteSegment.Margin.Bottom +
-				toolStripButtons.Margin.Top + toolStripButtons.Margin.Bottom;
+			get
+			{
+				return (_buttonListenToOriginal.Height * 3) + 5 +
+					_buttonListenToOriginal.Margin.Top + _buttonListenToOriginal.Margin.Bottom +
+					_buttonAddSegmentBoundary.Margin.Top + _buttonAddSegmentBoundary.Margin.Bottom +
+					_buttonDeleteSegment.Margin.Top + _buttonDeleteSegment.Margin.Bottom +
+					toolStripButtons.Margin.Top + toolStripButtons.Margin.Bottom;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

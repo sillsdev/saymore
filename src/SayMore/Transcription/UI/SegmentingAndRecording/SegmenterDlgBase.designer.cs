@@ -20,6 +20,10 @@ namespace SayMore.Transcription.UI
 		{
 			this.components = new System.ComponentModel.Container();
 			this._panelWaveControl = new System.Windows.Forms.Panel();
+			this._lastSegmentMenuStrip = new System.Windows.Forms.MenuStrip();
+			this._undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this._currentSegmentMenuStrip = new System.Windows.Forms.MenuStrip();
+			this._ignoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutTop = new System.Windows.Forms.TableLayoutPanel();
 			this._labelSourceRecording = new System.Windows.Forms.Label();
@@ -33,6 +37,9 @@ namespace SayMore.Transcription.UI
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
+			this._panelWaveControl.SuspendLayout();
+			this._lastSegmentMenuStrip.SuspendLayout();
+			this._currentSegmentMenuStrip.SuspendLayout();
 			this._tableLayoutOuter.SuspendLayout();
 			this._tableLayoutTop.SuspendLayout();
 			this._toolStripStatus.SuspendLayout();
@@ -47,6 +54,8 @@ namespace SayMore.Transcription.UI
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._panelWaveControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._tableLayoutOuter.SetColumnSpan(this._panelWaveControl, 2);
+			this._panelWaveControl.Controls.Add(this._lastSegmentMenuStrip);
+			this._panelWaveControl.Controls.Add(this._currentSegmentMenuStrip);
 			this._panelWaveControl.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World);
 			this._panelWaveControl.ForeColor = System.Drawing.SystemColors.ControlText;
 			this._panelWaveControl.Location = new System.Drawing.Point(0, 29);
@@ -55,6 +64,82 @@ namespace SayMore.Transcription.UI
 			this._panelWaveControl.Padding = new System.Windows.Forms.Padding(1);
 			this._panelWaveControl.Size = new System.Drawing.Size(739, 170);
 			this._panelWaveControl.TabIndex = 1;
+			//
+			// _lastSegmentMenuStrip
+			//
+			this._lastSegmentMenuStrip.AllowMerge = false;
+			this._lastSegmentMenuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
+			this._lastSegmentMenuStrip.Dock = System.Windows.Forms.DockStyle.None;
+			this._lastSegmentMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this._undoToolStripMenuItem});
+			this.locExtender.SetLocalizableToolTip(this._lastSegmentMenuStrip, null);
+			this.locExtender.SetLocalizationComment(this._lastSegmentMenuStrip, null);
+			this.locExtender.SetLocalizationPriority(this._lastSegmentMenuStrip, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._lastSegmentMenuStrip, "OralAnnotationRecorderBaseDlg._lastSegmentMenuStrip");
+			this._lastSegmentMenuStrip.Location = new System.Drawing.Point(311, 11);
+			this._lastSegmentMenuStrip.Name = "_lastSegmentMenuStrip";
+			this._lastSegmentMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
+			this._lastSegmentMenuStrip.ShowItemToolTips = true;
+			this._lastSegmentMenuStrip.Size = new System.Drawing.Size(155, 24);
+			this._lastSegmentMenuStrip.TabIndex = 16;
+			this._lastSegmentMenuStrip.Visible = false;
+			this._lastSegmentMenuStrip.VisibleChanged += new System.EventHandler(this.HandleLastSegmentMenuStripVisibleChanged);
+			//
+			// _undoToolStripMenuItem
+			//
+			this._undoToolStripMenuItem.BackColor = System.Drawing.Color.AliceBlue;
+			this._undoToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
+			this._undoToolStripMenuItem.Image = global::SayMore.Properties.Resources.undo;
+			this.locExtender.SetLocalizableToolTip(this._undoToolStripMenuItem, null);
+			this.locExtender.SetLocalizationComment(this._undoToolStripMenuItem, null);
+			this.locExtender.SetLocalizingId(this._undoToolStripMenuItem, "OralAnnotationRecorderBaseDlg._undoToolStripMenuItem");
+			this._undoToolStripMenuItem.Name = "_undoToolStripMenuItem";
+			this._undoToolStripMenuItem.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+			this._undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+			this._undoToolStripMenuItem.ShowShortcutKeys = false;
+			this._undoToolStripMenuItem.Size = new System.Drawing.Size(60, 21);
+			this._undoToolStripMenuItem.Text = "Undo";
+			this._undoToolStripMenuItem.Click += new System.EventHandler(this.HandleUndoButtonClick);
+			//
+			// _currentSegmentMenuStrip
+			//
+			this._currentSegmentMenuStrip.AllowMerge = false;
+			this._currentSegmentMenuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
+			this._currentSegmentMenuStrip.Dock = System.Windows.Forms.DockStyle.None;
+			this._currentSegmentMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this._ignoreToolStripMenuItem});
+			this.locExtender.SetLocalizableToolTip(this._currentSegmentMenuStrip, null);
+			this.locExtender.SetLocalizationComment(this._currentSegmentMenuStrip, null);
+			this.locExtender.SetLocalizationPriority(this._currentSegmentMenuStrip, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._currentSegmentMenuStrip, "OralAnnotationRecorderBaseDlg._lastSegmentMenuStrip");
+			this._currentSegmentMenuStrip.Location = new System.Drawing.Point(532, 86);
+			this._currentSegmentMenuStrip.Name = "_currentSegmentMenuStrip";
+			this._currentSegmentMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
+			this._currentSegmentMenuStrip.ShowItemToolTips = true;
+			this._currentSegmentMenuStrip.Size = new System.Drawing.Size(68, 24);
+			this._currentSegmentMenuStrip.TabIndex = 20;
+			this._currentSegmentMenuStrip.Visible = false;
+			//
+			// _ignoreToolStripMenuItem
+			//
+			this._ignoreToolStripMenuItem.BackColor = System.Drawing.Color.AliceBlue;
+			this._ignoreToolStripMenuItem.Checked = true;
+			this._ignoreToolStripMenuItem.CheckOnClick = true;
+			this._ignoreToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this._ignoreToolStripMenuItem.Enabled = false;
+			this._ignoreToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
+			this._ignoreToolStripMenuItem.Image = global::SayMore.Properties.Resources.UncheckedBox;
+			this.locExtender.SetLocalizableToolTip(this._ignoreToolStripMenuItem, null);
+			this.locExtender.SetLocalizationComment(this._ignoreToolStripMenuItem, null);
+			this.locExtender.SetLocalizationPriority(this._ignoreToolStripMenuItem, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._ignoreToolStripMenuItem, "OralAnnotationRecorderBaseDlg._skipToolStripMenuItem");
+			this._ignoreToolStripMenuItem.Name = "_ignoreToolStripMenuItem";
+			this._ignoreToolStripMenuItem.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+			this._ignoreToolStripMenuItem.ShowShortcutKeys = false;
+			this._ignoreToolStripMenuItem.Size = new System.Drawing.Size(65, 21);
+			this._ignoreToolStripMenuItem.Text = "Ignore";
+			this._ignoreToolStripMenuItem.CheckedChanged += new System.EventHandler(this.HandleIgnoreToolStripMenuItemCheckedChanged);
+			this._ignoreToolStripMenuItem.Click += new System.EventHandler(this.HandleIgnoreButtonClick);
 			//
 			// _tableLayoutOuter
 			//
@@ -274,6 +359,12 @@ namespace SayMore.Transcription.UI
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Change this text";
+			this._panelWaveControl.ResumeLayout(false);
+			this._panelWaveControl.PerformLayout();
+			this._lastSegmentMenuStrip.ResumeLayout(false);
+			this._lastSegmentMenuStrip.PerformLayout();
+			this._currentSegmentMenuStrip.ResumeLayout(false);
+			this._currentSegmentMenuStrip.PerformLayout();
 			this._tableLayoutOuter.ResumeLayout(false);
 			this._tableLayoutOuter.PerformLayout();
 			this._tableLayoutTop.ResumeLayout(false);
@@ -303,5 +394,9 @@ namespace SayMore.Transcription.UI
 		protected TableLayoutPanel _tableLayoutButtons;
 		protected ToolStrip _toolStripStatus;
 		protected Button _buttonCancel;
+		protected MenuStrip _currentSegmentMenuStrip;
+		protected ToolStripMenuItem _ignoreToolStripMenuItem;
+		private MenuStrip _lastSegmentMenuStrip;
+		private ToolStripMenuItem _undoToolStripMenuItem;
 	}
 }

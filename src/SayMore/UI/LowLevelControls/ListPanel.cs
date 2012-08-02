@@ -48,7 +48,6 @@ namespace SayMore.UI.LowLevelControls
 			if (DesignMode)
 				return;
 
-			DeleteButton.Enabled = false;
 			_headerLabel.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
 		}
 
@@ -124,14 +123,14 @@ namespace SayMore.UI.LowLevelControls
 
 				if (!string.IsNullOrEmpty(prevName))
 				{
-					_buttonDelete.Name = _buttonDelete.Name.Replace(prevName + "_", string.Empty);
+					//_buttonDelete.Name = _buttonDelete.Name.Replace(prevName + "_", string.Empty);
 					_buttonNew.Name = _buttonNew.Name.Replace(prevName + "_", string.Empty);
 				}
 
 				if (!string.IsNullOrEmpty(value))
 				{
 					// Setting these names are for the sake of testing.
-					_buttonDelete.Name = string.Format("{0}_{1}", value, _buttonDelete.Name);
+					//_buttonDelete.Name = string.Format("{0}_{1}", value, _buttonDelete.Name);
 					_buttonNew.Name = string.Format("{0}_{1}", value, _buttonNew.Name);
 				}
 			}
@@ -155,13 +154,6 @@ namespace SayMore.UI.LowLevelControls
 		public Button NewButton
 		{
 			get { return _buttonNew; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public Button DeleteButton
-		{
-			get { return _buttonDelete; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -232,10 +224,7 @@ namespace SayMore.UI.LowLevelControls
 		public void InsertButton(int index, Button btn)
 		{
 			if (_buttons.Count == 0)
-			{
 				_buttons.Add(_buttonNew);
-				_buttons.Add(_buttonDelete);
-			}
 
 			btn.Height = _buttonNew.Height;
 			btn.Margin = _buttonNew.Margin;

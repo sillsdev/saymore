@@ -211,6 +211,7 @@ namespace SayMoreTests.UI.ElementListScreen
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		[Ignore("JohnH asked to remove support for selecting multiple elements")]
 		public void GetSelectedElements_WhenMultipleElementsSelected_ReturnsThem()
 		{
 			_grid.Items = new[]

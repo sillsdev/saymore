@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Properties;
@@ -15,6 +17,17 @@ namespace SayMore.UI.ElementListScreen
 		{
 			get { return Settings.Default.PersonListGrid; }
 			set { Settings.Default.PersonListGrid = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<ToolStripMenuItem> GetMenuCommands()
+		{
+			if (DeleteAction != null)
+			{
+				var menu = new ToolStripMenuItem(string.Empty, null, (s, e) => DeleteAction());
+				menu.Text = LocalizationManager.GetString("MainWindow.DeletePersonMenuText", "&Delete Person...", null, menu);
+				yield return menu;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

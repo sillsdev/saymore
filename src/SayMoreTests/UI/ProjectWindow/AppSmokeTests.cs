@@ -200,7 +200,7 @@ namespace SayMoreTests.UI.ProjectWindow
 				{
 					list.SelectElement(0);
 					modalFormTester.ExpectModal("ConfirmRecycleDialog", delButtonTester.Click);
-					listPanel.DeleteButton.PerformClick();
+					list.DeleteAction();
 
 					if (--maxDeleteAttempts == 0)
 						throw new Exception(string.Format("Deleting items from {0} failed.", screenName));

@@ -90,8 +90,6 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<ToolStripMenuItem> GetMenuCommands()
 		{
-			var cmds = base.GetMenuCommands().ToList();
-
 			var menu = new ToolStripMenuItem(string.Empty,
 				Resources.RampIcon, (s, e) => {
 					var session = (Session)GetCurrentElement();
@@ -112,9 +110,14 @@ namespace SayMore.UI.ElementListScreen
 					((ToolStripDropDown)menu.Owner).Opened += (s1, e1) => menu.Enabled = GetCurrentElement() is Session;
 			};
 
-			cmds.Insert(0, menu);
+			yield return menu;
 
-			return cmds;
+			if (DeleteAction != null)
+			{
+				menu = new ToolStripMenuItem(string.Empty, null, (s, e) => DeleteAction());
+				menu.Text = LocalizationManager.GetString("MainWindow.DeleteSessionMenuText", "&Delete Session...", null, menu);
+				yield return menu;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -38,7 +38,9 @@ namespace SayMore.UI.ElementListScreen
 			BorderStyle = BorderStyle.None;
 			StandardTab = true;
 			Font = Program.DialogFont;
-			MultiSelect = true;
+			// Underlying code still allows for deleting multiple elements, but JohnH said not
+			// to allow it.
+			MultiSelect = false;
 			PaintFullRowFocusRectangle = true;
 			ExtendFullRowSelectRectangleToEdge = true;
 			ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -271,12 +273,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ToolStripMenuItem> GetMenuCommands()
 		{
-			if (DeleteAction == null)
-				yield return null;
-
-			var menu = new ToolStripMenuItem(string.Empty, null, (s, e) => DeleteAction());
-			menu.Text = LocalizationManager.GetString("MainWindow.DeleteElementMenuText", "&Delete...", null, menu);
-			yield return menu;
+			yield return null;
 		}
 
 		/// ------------------------------------------------------------------------------------

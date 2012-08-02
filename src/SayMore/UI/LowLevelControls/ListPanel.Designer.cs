@@ -25,7 +25,6 @@ namespace SayMore.UI.LowLevelControls
 			this._outerPanel = new SilTools.Controls.SilPanel();
 			this._buttonsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this._buttonNew = new System.Windows.Forms.Button();
-			this._buttonDelete = new System.Windows.Forms.Button();
 			this._headerLabel = new SilTools.Controls.HeaderLabel();
 			this._buttonColChooser = new SayMore.UI.LowLevelControls.ColumnChooserButton();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -41,7 +40,7 @@ namespace SayMore.UI.LowLevelControls
 			// _outerPanel
 			// 
 			this._outerPanel.BackColor = System.Drawing.SystemColors.Window;
-			this._outerPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(166)))), ((int)(((byte)(170)))));
+			this._outerPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this._outerPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._outerPanel.ClipTextForChildControls = true;
 			this._outerPanel.ControlReceivingFocusOnMnemonic = null;
@@ -69,7 +68,6 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonsFlowLayoutPanel.AutoSize = true;
 			this._buttonsFlowLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._buttonsFlowLayoutPanel.Controls.Add(this._buttonNew);
-			this._buttonsFlowLayoutPanel.Controls.Add(this._buttonDelete);
 			this._buttonsFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this._buttonsFlowLayoutPanel.Location = new System.Drawing.Point(0, 239);
 			this._buttonsFlowLayoutPanel.Name = "_buttonsFlowLayoutPanel";
@@ -94,22 +92,6 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonNew.Text = "&New";
 			this._buttonNew.UseVisualStyleBackColor = true;
 			this._buttonNew.Click += new System.EventHandler(this.HandleNewButtonClick);
-			// 
-			// _buttonDelete
-			// 
-			this._buttonDelete.AutoSize = true;
-			this._buttonDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.locExtender.SetLocalizableToolTip(this._buttonDelete, null);
-			this.locExtender.SetLocalizationComment(this._buttonDelete, "Button for deleting sessions and people");
-			this.locExtender.SetLocalizingId(this._buttonDelete, "CommonToMultipleViews.ElementList.DeleteButtonText");
-			this._buttonDelete.Location = new System.Drawing.Point(86, 5);
-			this._buttonDelete.MinimumSize = new System.Drawing.Size(75, 26);
-			this._buttonDelete.Name = "_buttonDelete";
-			this._buttonDelete.Size = new System.Drawing.Size(75, 26);
-			this._buttonDelete.TabIndex = 1;
-			this._buttonDelete.Text = "&Delete...";
-			this._buttonDelete.UseVisualStyleBackColor = true;
-			this._buttonDelete.Click += new System.EventHandler(this.HandleDeleteButtonClick);
 			// 
 			// _headerLabel
 			// 
@@ -185,7 +167,6 @@ namespace SayMore.UI.LowLevelControls
 		private SilTools.Controls.SilPanel _outerPanel;
 		private HeaderLabel _headerLabel;
 		private LocalizationExtender locExtender;
-		public System.Windows.Forms.Button _buttonDelete;
 		public System.Windows.Forms.Button _buttonNew;
 		private System.Windows.Forms.FlowLayoutPanel _buttonsFlowLayoutPanel;
 		private ColumnChooserButton _buttonColChooser;

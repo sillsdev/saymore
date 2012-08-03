@@ -41,7 +41,36 @@ namespace SayMore.UI.LowLevelControls
 				SetDefaultFormat();
 
 			_ignoreEvents = true;
-			base.Text = value;
+
+			if (_value == null)
+				base.Text = null;
+			else
+			{
+				DateTime parsedDate;
+				// This will attempt to parse using the ISO8601 date format.
+				if (!DateTime.TryParseExact(_value, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate))
+				{
+					// SP-592: See if it is the local date format or one of the common non-ISO8601 formats.
+					if (!DateTime.TryParse(_value, out parsedDate))
+					{
+						var temp = _value.Replace("-", "/");
+						if (!DateTime.TryParseExact(temp, "M/d/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate) &&
+							!DateTime.TryParseExact(temp, "d/M/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate))
+						{
+							throw new FormatException("String was not recognized as a valid DateTime.");
+						}
+					}
+					if (parsedDate.Day <= 12 && parsedDate.Day != parsedDate.Month)
+					{
+						// The date was not in the ISO8601 format and cannot be unambiguously parsed, so we need to alert the caller.
+						Value = parsedDate;
+						_ignoreEvents = false;
+						throw new AmbiguousDateException(value);
+					}
+				}
+				Value = parsedDate;
+			}
+
 			_ignoreEvents = false;
 		}
 
@@ -132,6 +161,14 @@ namespace SayMore.UI.LowLevelControls
 				_value = Value.ToShortDateString();
 
 			base.OnValueChanged(e);
+		}
+	}
+
+	/// ------------------------------------------------------------------------------------
+	public class AmbiguousDateException : Exception
+	{
+		public AmbiguousDateException(string msg) : base(msg)
+		{
 		}
 	}
 }

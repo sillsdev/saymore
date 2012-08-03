@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 using Palaso.Extensions;
 using SayMore.Model.Files;
 using SayMore.UI.LowLevelControls;
@@ -245,6 +246,21 @@ namespace SayMore.UI.ComponentEditors
 			}
 			catch (Exception error)
 			{
+				if (error is AmbiguousDateException)
+				{
+					var notesField = ComponentFile.MetaDataFieldValues.FirstOrDefault(f => f.FieldId == "notes");
+					if (notesField != null)
+					{
+						notesField.Value = notesField.ValueAsString + Environment.NewLine +
+						String.Format(LocalizationManager.GetString("CommonToMultipleViews.BindingHelper.AmbiguousDateNote",
+							"***This record had an ambiguous {0}, produced by a bug in an old version of SayMore. The date was \"{1}\". " +
+							"SayMore has attempted to interpret the date, but might have swapped the day and month. " +
+							"Please accept our apologies for this error. After you have fixed the date or confirmed that it is correct, please delete this message.",
+							"Text appended to the note for an element with an ambigous date field value"), key, error.Message);
+						return;
+					}
+				}
+
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
 					new Palaso.Reporting.ShowOncePerSessionBasedOnExactMessagePolicy(), error,
 						"SayMore had a problem displaying the {0}, which had a value of {1}. " +

@@ -40,7 +40,7 @@ namespace SayMore.UI.LowLevelControls
 			// _outerPanel
 			// 
 			this._outerPanel.BackColor = System.Drawing.SystemColors.Window;
-			this._outerPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this._outerPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(166)))), ((int)(((byte)(170)))));
 			this._outerPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._outerPanel.ClipTextForChildControls = true;
 			this._outerPanel.ControlReceivingFocusOnMnemonic = null;

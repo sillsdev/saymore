@@ -90,8 +90,8 @@ namespace SayMore.Transcription.Model
 			{
 				if (!(transcriptionTier != null &&
 					transcriptionTier.TryGetSegment(iSegment, out transcriptionSegment) &&
-					transcriptionSegment.Text == kIgnoreSegment) &&
-					!File.Exists(GetPathToAnnotationFile(timeTier.Segments[iSegment])))
+					(transcriptionSegment.Text == kIgnoreSegment || transcriptionSegment.Text == "%junk%")) //%junk% was used in a couple alpha builds
+					&& !File.Exists(GetPathToAnnotationFile(timeTier.Segments[iSegment])))
 				{
 					return false;
 				}
@@ -100,13 +100,13 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void MarkSegmentAsJunk(int iSegment)
+		public void MarkSegmentAsIgnored(int iSegment)
 		{
 			GetTranscriptionTier().Segments[iSegment].Text = kIgnoreSegment;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void AddJunkSegment(float boundary)
+		public void AddIgnoredSegment(float boundary)
 		{
 			var timeTier = GetTimeTier();
 
@@ -122,10 +122,12 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetIsSegmentJunk(int segmentIndex)
+		public bool GetIsSegmentIgnored(int segmentIndex)
 		{
 			var transcriptionTier = GetTranscriptionTier();
-			return (transcriptionTier != null && transcriptionTier.Segments[segmentIndex].Text == kIgnoreSegment);
+			var content = transcriptionTier.Segments[segmentIndex].Text;
+			return (transcriptionTier != null &&
+				(content == kIgnoreSegment) || content == "%Ignored%" /*old indicator*/);
 		}
 
 		/// ------------------------------------------------------------------------------------

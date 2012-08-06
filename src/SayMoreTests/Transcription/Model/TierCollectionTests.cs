@@ -493,9 +493,9 @@ namespace SayMoreTests.Transcription.Model
 			CreateAnnotationFilesForSegmentsCreatedInSetup();
 			var timeTier = _collection.GetTimeTier();
 			_collection.InsertTierSegment(10f);
-			_collection.MarkSegmentAsJunk(0);
+			_collection.MarkSegmentAsIgnored(0);
 			_collection.InsertTierSegment((float)timeTier.TotalTime.TotalSeconds);
-			_collection.MarkSegmentAsJunk(timeTier.Segments.Count - 1);
+			_collection.MarkSegmentAsIgnored(timeTier.Segments.Count - 1);
 			Assert.IsTrue(_collection.GetIsFullyAnnotated(OralAnnotationType.CarefulSpeech));
 			Assert.IsTrue(_collection.GetIsFullyAnnotated(OralAnnotationType.Translation));
 		}

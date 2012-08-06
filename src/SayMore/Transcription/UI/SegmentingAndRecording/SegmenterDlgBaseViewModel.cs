@@ -112,7 +112,7 @@ namespace SayMore.Transcription.UI
 						return String.Format(fmt, OriginalRange);
 					case SegmentChangeType.Ignored:
 						fmt = LocalizationManager.GetString(
-							"DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.JunkSegmentIgnored",
+							"DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentIgnored",
 							"Ignoring segment {0}",
 							"Parameter is time range of the segment that was ignored.");
 						return String.Format(fmt, OriginalRange);
@@ -533,7 +533,7 @@ namespace SayMore.Transcription.UI
 				{
 					Action restoreState = GetActionToRestoreStateWhenUndoingAnIgnore(segment);
 
-					Tiers.MarkSegmentAsJunk(segmentIndex);
+					Tiers.MarkSegmentAsIgnored(segmentIndex);
 					_undoStack.Push(new SegmentChange(SegmentChangeType.Ignored, timeRange, timeRange, sc =>
 					{
 						Tiers.GetTranscriptionTier().Segments[segmentIndex].Text = string.Empty;
@@ -544,7 +544,7 @@ namespace SayMore.Transcription.UI
 				{
 					Tiers.GetTranscriptionTier().Segments[segmentIndex].Text = string.Empty;
 					_undoStack.Push(new SegmentChange(SegmentChangeType.Unignored, timeRange, timeRange,
-						sc => Tiers.MarkSegmentAsJunk(segmentIndex)));
+						sc => Tiers.MarkSegmentAsIgnored(segmentIndex)));
 				}
 			}
 			else
@@ -564,7 +564,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void AddIgnoredSegment(TimeSpan newBoundary)
 		{
-			Tiers.AddJunkSegment((float)newBoundary.TotalSeconds);
+			Tiers.AddIgnoredSegment((float)newBoundary.TotalSeconds);
 			_undoStack.Push(new SegmentChange(TimeTier.Segments.First(s => s.TimeRange.End == newBoundary).TimeRange.Copy(),
 				c => { Tiers.GetTranscriptionTier().Segments.Last().Text = string.Empty; RevertNewSegment(c); }));
 			OnSegmentBoundaryChanged();
@@ -581,7 +581,7 @@ namespace SayMore.Transcription.UI
 		{
 			if (Tiers.GetTranscriptionTier() == null || segmentIndex < 0 || segmentIndex >= Tiers.GetTranscriptionTier().Segments.Count)
 				return false;
-			return Tiers.GetIsSegmentJunk(segmentIndex);
+			return Tiers.GetIsSegmentIgnored(segmentIndex);
 		}
 
 		/// ------------------------------------------------------------------------------------

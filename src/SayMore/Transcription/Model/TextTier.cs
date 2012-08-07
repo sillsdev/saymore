@@ -116,8 +116,14 @@ namespace SayMore.Transcription.Model
 			var fromText = (fromSeg.Text ?? string.Empty).Trim();
 			var toText = (toSeg.Text ?? string.Empty).Trim();
 
+			// Prevent doubling up "%ignore%" flag or combining an %ignore% with valid text.
+			if (fromText == TierCollection.kIgnoreSegment)
+				fromText = string.Empty;
+			else if (toText == TierCollection.kIgnoreSegment)
+				toText = string.Empty;
+
 			toSeg.Text = (fromIndex < toIndex ?
-				(fromText + " " + toText).Trim() : (toText + " " + fromText).Trim());
+					(fromText + " " + toText).Trim() : (toText + " " + fromText).Trim());
 		}
 
 		/// ------------------------------------------------------------------------------------

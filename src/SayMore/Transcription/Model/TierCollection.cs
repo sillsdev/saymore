@@ -90,13 +90,20 @@ namespace SayMore.Transcription.Model
 			{
 				if (!(transcriptionTier != null &&
 					transcriptionTier.TryGetSegment(iSegment, out transcriptionSegment) &&
-					(transcriptionSegment.Text == kIgnoreSegment || transcriptionSegment.Text == "%junk%")) //%junk% was used in a couple alpha builds
+					SegmentIsIgnored(transcriptionSegment))
 					&& !File.Exists(GetPathToAnnotationFile(timeTier.Segments[iSegment])))
 				{
 					return false;
 				}
 			}
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool SegmentIsIgnored(Segment transcriptionSegment)
+		{
+			return transcriptionSegment.Text == kIgnoreSegment
+				|| transcriptionSegment.Text == "%junk%" /*old indicator*/;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -125,9 +132,7 @@ namespace SayMore.Transcription.Model
 		public bool GetIsSegmentIgnored(int segmentIndex)
 		{
 			var transcriptionTier = GetTranscriptionTier();
-			var content = transcriptionTier.Segments[segmentIndex].Text;
-			return (transcriptionTier != null &&
-				(content == kIgnoreSegment) || content == "%Ignored%" /*old indicator*/);
+			return transcriptionTier != null && SegmentIsIgnored(transcriptionTier.Segments[segmentIndex]);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -197,7 +197,7 @@
     <Compile Include="Transcription\UI\SegmentingAndRecording\OralAnnotationRecorder.cs" />
     <Compile Include="Transcription\UI\StandardAudioButtons.cs" />
     <Compile Include="Transcription\Model\AudacityLabelHelper.cs" />
-    <Compile Include="Transcription\Model\InterlinearXmlHelper.cs" />
+    <Compile Include="Transcription\Model\FLExTextExporter.cs" />
     <Compile Include="Transcription\Model\OralAnnotationFileGenerator.cs" />
     <Compile Include="Transcription\Model\TextTier.cs" />
     <Compile Include="Transcription\Model\TierBase.cs" />

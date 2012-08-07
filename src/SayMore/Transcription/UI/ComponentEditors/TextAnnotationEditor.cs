@@ -239,7 +239,7 @@ namespace SayMore.Transcription.UI
 				if (dlg.ShowDialog() == DialogResult.Cancel)
 					return;
 
-				InterlinearXmlHelper.Save(dlg.FileName, mediaFileName,
+				FLExTextExporter.Save(dlg.FileName, mediaFileName,
 					file.Tiers, dlg.TranscriptionWs.Id, dlg.FreeTranslationWs.Id);
 			}
 		}

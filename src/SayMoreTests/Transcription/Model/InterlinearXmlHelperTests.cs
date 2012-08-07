@@ -8,13 +8,13 @@ namespace SayMoreTests.Transcription.Model
 	[TestFixture]
 	public class InterlinearXmlHelperTests
 	{
-		InterlinearXmlHelper _helper;
+		FLExTextExporter _helper;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void Setup()
 		{
-			_helper = new InterlinearXmlHelper(null, "Homer", null, "en", "fr");
+			_helper = new FLExTextExporter(null, "Homer", null, "en", "fr");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -218,7 +218,7 @@ namespace SayMoreTests.Transcription.Model
 			dependentTier.AddSegment("around");
 			dependentTier.AddSegment("through");
 
-			_helper = new InterlinearXmlHelper(null, "Homer", new TierCollection { tier, dependentTier }, "en", "fr");
+			_helper = new FLExTextExporter(null, "Homer", new TierCollection { tier, dependentTier }, "en", "fr");
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -12,7 +12,10 @@ using SayMore.UI.LowLevelControls;
 
 namespace SayMore.Transcription.Model
 {
-	public class InterlinearXmlHelper : IProgressViewModel
+	/// <summary>
+	/// Exports FLEX-Text interlinear
+	/// </summary>
+	public class FLExTextExporter : IProgressViewModel
 	{
 		public event EventHandler<ProgressFinishedArgs> OnFinished;
 		public event EventHandler OnUpdateProgress;
@@ -27,7 +30,7 @@ namespace SayMore.Transcription.Model
 		private readonly int _segmentCount;
 
 		/// ------------------------------------------------------------------------------------
-		public InterlinearXmlHelper(string outputFilePath, string title,
+		public FLExTextExporter(string outputFilePath, string title,
 			TierCollection tierCollection, string wsTranscriptionId, string wsFreeTranslationId)
 		{
 			_outputFilePath = outputFilePath;
@@ -208,7 +211,7 @@ namespace SayMore.Transcription.Model
 		public static void Save(string outputFilePath, string title, TierCollection tierCollection,
 			string wsTranscriptionId, string wsFreeTranslationId)
 		{
-			var helper = new InterlinearXmlHelper(outputFilePath, title,
+			var helper = new FLExTextExporter(outputFilePath, title,
 				tierCollection, wsTranscriptionId, wsFreeTranslationId);
 
 			var caption = LocalizationManager.GetString(

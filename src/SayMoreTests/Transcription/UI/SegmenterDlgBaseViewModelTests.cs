@@ -866,7 +866,7 @@ namespace SayMoreTests.Transcription.UI
 			Assert.IsTrue(_model.WereChangesMade);
 			Assert.IsTrue(_model.SegmentBoundariesChanged);
 			Assert.AreEqual(newEnd, _model.GetEndOfLastSegment());
-			Assert.IsTrue(_model.GetIsSegmentJunk(startingSegmentCount));
+			Assert.IsTrue(_model.GetIsSegmentIgnored(startingSegmentCount));
 			Assert.AreEqual(new TimeRange(30, 40), _model.TimeRangeForUndo);
 			_model.Undo();
 			Assert.AreEqual(startingSegmentCount, _model.GetSegmentCount());
@@ -875,7 +875,7 @@ namespace SayMoreTests.Transcription.UI
 			Assert.IsFalse(_model.SegmentBoundariesChanged);
 			Assert.AreEqual(null, _model.TimeRangeForUndo);
 			Assert.AreEqual("last segment", _model.Tiers.GetTranscriptionTier().Segments[startingSegmentCount - 1].Text);
-			Assert.IsFalse(_model.GetIsSegmentJunk(startingSegmentCount - 1));
+			Assert.IsFalse(_model.GetIsSegmentIgnored(startingSegmentCount - 1));
 		}
 	}
 }

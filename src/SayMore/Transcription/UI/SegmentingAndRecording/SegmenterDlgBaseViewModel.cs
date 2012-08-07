@@ -571,13 +571,13 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetIsSegmentJunk(Segment segment)
+		public bool GetIsSegmentIgnored(Segment segment)
 		{
-			return GetIsSegmentJunk(TimeTier.GetIndexOfSegment(segment));
+			return GetIsSegmentIgnored(TimeTier.GetIndexOfSegment(segment));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetIsSegmentJunk(int segmentIndex)
+		public bool GetIsSegmentIgnored(int segmentIndex)
 		{
 			if (Tiers.GetTranscriptionTier() == null || segmentIndex < 0 || segmentIndex >= Tiers.GetTranscriptionTier().Segments.Count)
 				return false;

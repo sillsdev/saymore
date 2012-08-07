@@ -210,7 +210,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private bool SegmentNeedsAnnotation(Segment s)
 		{
-			return !GetDoesSegmentHaveAnnotationFile(s) && !GetIsSegmentJunk(s);
+			return !GetDoesSegmentHaveAnnotationFile(s) && !GetIsSegmentIgnored(s);
 		}
 
 		/// ------------------------------------------------------------------------------------

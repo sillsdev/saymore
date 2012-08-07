@@ -783,7 +783,7 @@ namespace SayMore.Transcription.UI
 			{
 				if (!ViewModel.GetDoesSegmentHaveAnnotationFile(segMouseOver))
 				{
-					var toolTipText = (ViewModel.GetIsSegmentJunk(segMouseOver)) ?
+					var toolTipText = (ViewModel.GetIsSegmentIgnored(segMouseOver)) ?
 						LocalizationManager.GetString(
 							"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.SkippedSegmentToolTipMsg",
 							"This segment was skipped.") :
@@ -1085,7 +1085,7 @@ namespace SayMore.Transcription.UI
 
 				if (!ViewModel.GetDoesSegmentHaveAnnotationFile(i))
 				{
-					if (ViewModel.GetIsSegmentJunk(i))
+					if (ViewModel.GetIsSegmentIgnored(i))
 					{
 						using (var brush = new SolidBrush(Color.Gray))
 						{

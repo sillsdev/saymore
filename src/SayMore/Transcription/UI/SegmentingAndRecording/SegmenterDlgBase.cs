@@ -470,7 +470,7 @@ namespace SayMore.Transcription.UI
 					_currentSegmentMenuStrip.Location = new Point(rc.Right -
 						_currentSegmentMenuStrip.Width - Math.Min(5, (rc.Width - _currentSegmentMenuStrip.Width) / 2),
 						rc.Top + 5);
-					_ignoreToolStripMenuItem.Checked = hotSegment != null && _viewModel.GetIsSegmentJunk(hotSegment);
+					_ignoreToolStripMenuItem.Checked = hotSegment != null && _viewModel.GetIsSegmentIgnored(hotSegment);
 				}
 			}
 			_currentSegmentMenuStrip.Visible = _ignoreToolStripMenuItem.Enabled = enableIgnoreMenu;

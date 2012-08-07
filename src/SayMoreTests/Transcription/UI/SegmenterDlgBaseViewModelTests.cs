@@ -855,14 +855,14 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void Undo_JunkSegmentAdded_RemovesAddedSegment()
+		public void Undo_IgnoredSegmentAdded_RemovesAddedSegment()
 		{
 			AddTextSegmentsForAllTimeSegments();
 			var startingSegmentCount = _model.GetSegmentCount();
 			_model.Tiers.GetTranscriptionTier().Segments[startingSegmentCount - 1].Text = "last segment";
 			var startingLastSegmentBoundary = _model.GetEndOfLastSegment();
 			var newEnd = TimeSpan.FromSeconds(40);
-			_model.AddJunkSegment(newEnd);
+			_model.AddIgnoredSegment(newEnd);
 			Assert.IsTrue(_model.WereChangesMade);
 			Assert.IsTrue(_model.SegmentBoundariesChanged);
 			Assert.AreEqual(newEnd, _model.GetEndOfLastSegment());

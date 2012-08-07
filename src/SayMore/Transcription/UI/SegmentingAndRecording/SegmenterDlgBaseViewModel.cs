@@ -551,7 +551,7 @@ namespace SayMore.Transcription.UI
 			{
 				if (!ignore)
 					throw new InvalidOperationException("New segment can never be unignored.");
-				AddJunkSegment(VirtualBoundaryBeyondLastSegment);
+				AddIgnoredSegment(VirtualBoundaryBeyondLastSegment);
 			}
 		}
 
@@ -562,7 +562,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void AddJunkSegment(TimeSpan newBoundary)
+		public void AddIgnoredSegment(TimeSpan newBoundary)
 		{
 			Tiers.AddJunkSegment((float)newBoundary.TotalSeconds);
 			_undoStack.Push(new SegmentChange(TimeTier.Segments.First(s => s.TimeRange.End == newBoundary).TimeRange.Copy(),
@@ -582,6 +582,16 @@ namespace SayMore.Transcription.UI
 			if (Tiers.GetTranscriptionTier() == null || segmentIndex < 0 || segmentIndex >= Tiers.GetTranscriptionTier().Segments.Count)
 				return false;
 			return Tiers.GetIsSegmentJunk(segmentIndex);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<TimeRange> GetIgnoredSegmentRanges()
+		{
+			for (int i = 0; i < GetSegmentCount(); i++)
+			{
+				if (GetIsSegmentIgnored(i))
+					yield return TimeTier.Segments[i].TimeRange;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

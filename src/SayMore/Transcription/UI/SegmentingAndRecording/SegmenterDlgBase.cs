@@ -153,6 +153,7 @@ namespace SayMore.Transcription.UI
 		{
 			_waveControl.Initialize(_viewModel.OrigWaveStream as WaveFileReader);
 			_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
+			_waveControl.Painter.SetIgnoredRegions(_viewModel.GetIgnoredSegmentRanges());
 			_waveControl.PlaybackStarted += OnPlaybackStarted;
 			_waveControl.PlaybackUpdate += OnPlayingback;
 			_waveControl.PlaybackStopped += OnPlaybackStopped;
@@ -489,6 +490,10 @@ namespace SayMore.Transcription.UI
 			var ignore = _ignoreToolStripMenuItem.Checked;
 			_viewModel.SetIgnoredFlagForSegment(HotSegment, ignore);
 			_waveControl.InvalidateIfNeeded(HotSegmentRectangle);
+			if (ignore)
+				_waveControl.Painter.AddIgnoredRegion(HotSegment.TimeRange);
+			else
+				_waveControl.Painter.RemoveIgnoredRegion(HotSegment.TimeRange.End);
 			if (SegmentIgnored != null)
 				SegmentIgnored();
 			UpdateDisplay();
@@ -498,6 +503,7 @@ namespace SayMore.Transcription.UI
 		protected virtual void HandleUndoButtonClick(object sender, EventArgs e)
 		{
 			_viewModel.Undo();
+			_waveControl.Painter.SetIgnoredRegions(_viewModel.GetIgnoredSegmentRanges());
 			UpdateDisplay();
 		}
 

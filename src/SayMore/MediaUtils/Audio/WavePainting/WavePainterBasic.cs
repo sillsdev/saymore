@@ -50,6 +50,8 @@ namespace SayMore.Media.Audio
 		protected Pen _solidBorderPen;
 		protected Pen _translucentBorderPen;
 
+		protected readonly List<TimeRange> _ignoredRegions = new List<TimeRange>();
+
 		/// ------------------------------------------------------------------------------------
 		public WavePainterBasic(WaveFileReader stream) : this(null, stream)
 		{
@@ -147,6 +149,27 @@ namespace SayMore.Media.Audio
 				if (_allowDrawing && Control != null)
 					Control.Invalidate();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetIgnoredRegions(IEnumerable<TimeRange> ranges)
+		{
+			_ignoredRegions.Clear();
+			_ignoredRegions.AddRange(ranges);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void AddIgnoredRegion(TimeRange range)
+		{
+			_ignoredRegions.Add(range);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void RemoveIgnoredRegion(TimeSpan boundary)
+		{
+			var remove = _ignoredRegions.FirstOrDefault(r => r.End == boundary);
+			if (remove != null)
+				_ignoredRegions.Remove(remove);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -357,6 +380,7 @@ namespace SayMore.Media.Audio
 
 			DrawWave(e, rc);
 			DrawBottomArea(e, rc);
+			ShadeIgnoredSegments(e);
 			DrawSegmentBoundaries(e.Graphics, rc.Height + BottomReservedAreaHeight);
 			DrawCursor(e.Graphics, rc);
 
@@ -381,6 +405,18 @@ namespace SayMore.Media.Audio
 			using (var br = new SolidBrush(BottomReservedAreaColor))
 				e.Graphics.FillRectangle(br, rc);
 
+			foreach (var range in _ignoredRegions)
+			{
+				var rcIgnoredSegment = GetBottomReservedRectangleForTimeRange(range);
+				if (e.ClipRectangle.IntersectsWith(rcIgnoredSegment))
+				{
+					using (var brush = new SolidBrush(Color.White))
+						e.Graphics.FillRectangle(brush, rcIgnoredSegment);
+					using (var brush = new SolidBrush(Color.FromArgb(125, Color.LightGray)))
+						e.Graphics.FillRectangle(brush, rcIgnoredSegment);
+				}
+			}
+
 			using (var pen = new Pen(BottomReservedAreaBorderColor))
 				e.Graphics.DrawLine(pen, rc.X, rc.Y, rc.Right, rc.Y);
 
@@ -391,10 +427,6 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		protected virtual void DrawFormatNotSupportedMessage(Graphics g, Rectangle rc, string msg)
 		{
-			if (msg == null)
-			{
-			}
-
 			using (var fnt = FontHelper.MakeFont(Program.DialogFont, 10, FontStyle.Bold))
 			{
 				const TextFormatFlags fmt = TextFormatFlags.VerticalCenter |
@@ -539,6 +571,26 @@ namespace SayMore.Media.Audio
 			var endX = ConvertTimeToXCoordinate(timeRange.End);
 
 			return new Rectangle(startX, 0, endX - startX + 1, (Control == null ? 0 : Control.ClientRectangle.Height));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ShadeIgnoredSegments(PaintEventArgs e)
+		{
+			FillIgnoredSegments(e, Color.FromArgb(125, Color.LightGray));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void FillIgnoredSegments(PaintEventArgs e, Color fillColor)
+		{
+			foreach (var range in _ignoredRegions)
+			{
+				var rc = GetUpperRectangleForTimeRange(range);
+				if (e.ClipRectangle.IntersectsWith(rc))
+				{
+					using (var brush = new SolidBrush(fillColor))
+						e.Graphics.FillRectangle(brush, rc);
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

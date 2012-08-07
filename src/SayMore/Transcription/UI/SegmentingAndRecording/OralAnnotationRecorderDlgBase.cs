@@ -893,6 +893,7 @@ namespace SayMore.Transcription.UI
 			{
 				var timeRangeToInvalidate = ViewModel.TimeRangeForUndo;
 				ViewModel.Undo();
+				_waveControl.Painter.SetIgnoredRegions(_viewModel.GetIgnoredSegmentRanges());
 				SetModeToListenOrFinished();
 
 				// If Undo causes an annotation to be removed for a pre-existing segment, that
@@ -1080,20 +1081,8 @@ namespace SayMore.Transcription.UI
 				var rc = new Rectangle(segRects[i].X, areaRectangle.Y + 1,
 					segRects[i].Width, areaRectangle.Height - 1);
 
-				if (!areaRectangle.IntersectsWith(rc))
+				if (!areaRectangle.IntersectsWith(rc) || !ViewModel.GetDoesSegmentHaveAnnotationFile(i))
 					continue;
-
-				if (!ViewModel.GetDoesSegmentHaveAnnotationFile(i))
-				{
-					if (ViewModel.GetIsSegmentIgnored(i))
-					{
-						using (var brush = new SolidBrush(Color.Gray))
-						{
-							e.Graphics.FillRectangle(brush, rc);
-						}
-					}
-					continue;
-				}
 
 				if (rc.X == 0)
 					rc.Width -= 2;

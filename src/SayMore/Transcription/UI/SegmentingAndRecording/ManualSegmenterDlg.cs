@@ -119,6 +119,7 @@ namespace SayMore.Transcription.UI
 					return;
 
 				_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
+				_waveControl.Painter.RemoveIgnoredRegion(boundary);
 				UpdateDisplay();
 			};
 		}

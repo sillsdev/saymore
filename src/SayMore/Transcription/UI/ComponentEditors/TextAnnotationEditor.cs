@@ -293,6 +293,8 @@ namespace SayMore.Transcription.UI
 			if (!AudioUtils.GetCanRecordAudio())
 				return;
 
+			_grid.PreventPlayback = true;
+
 			var annotationType = (sender == _buttonCarefulSpeech ?
 				AudioRecordingType.Careful : AudioRecordingType.Translation);
 
@@ -301,6 +303,8 @@ namespace SayMore.Transcription.UI
 			{
 				ComponentFileListRefreshAction(_file.PathToAnnotatedFile, null);
 			}
+
+			_grid.PreventPlayback = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

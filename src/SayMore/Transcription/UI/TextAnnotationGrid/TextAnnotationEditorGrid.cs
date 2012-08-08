@@ -29,6 +29,7 @@ namespace SayMore.Transcription.UI
 		public Func<AudioRecordingType, IEnumerable<AnnotationPlaybackInfo>> AnnotationPlaybackInfoProvider;
 		public MediaPlayerViewModel PlayerViewModel { get; private set; }
 		public bool PlaybackInProgress { get; private set; }
+		public bool PreventPlayback { get; set; }
 
 		private AnnotationComponentFile _annotationFile;
 		private List<AnnotationPlaybackInfo> _mediaFileQueue = new List<AnnotationPlaybackInfo>();
@@ -277,14 +278,7 @@ namespace SayMore.Transcription.UI
 
 			base.OnEditingControlShowing(e);
 
-			// Now that we're on a new row, wait a 1/4 of a second before beginning to
-			// play this row's media segment. Do this just in case the user is moving
-			// from row to row rapidly. Before the 1/4 sec. delay, the program's
-			// responsiveness to moving from row to row rapidly was very sluggish. This
-			// forces the user to settle on a row, at least briefly, before we attempt
-			// to begin playback.
-			_delayBeginRowPlayingTimer = new System.Threading.Timer(
-				a => Play(), null, 250, System.Threading.Timeout.Infinite);
+			SchedulePlaybackForCell();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -295,6 +289,12 @@ namespace SayMore.Transcription.UI
 			if (e.ColumnIndex != 0 || CurrentCellAddress.Y < 0 || (!Focused && (EditingControl == null || !EditingControl.Focused)))
 				return;
 
+			SchedulePlaybackForCell();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SchedulePlaybackForCell()
+		{
 			// Now that we're on a new row, wait a 1/4 of a second before beginning to
 			// play this row's media segment. Do this just in case the user is moving
 			// from row to row rapidly. Before the 1/4 sec. delay, the program's
@@ -333,7 +333,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void Play(bool resetLoopCounter)
 		{
-			if (RowCount == 0)
+			if (RowCount == 0 || !PreventPlayback)
 				return;
 
 			DisableTimer();

@@ -272,7 +272,16 @@ namespace SayMore.Media.Audio
 				}
 
 				if (error != null && File.Exists(outputMediaFile))
-					File.Delete(outputMediaFile);
+				{
+					try
+					{
+						File.Delete(outputMediaFile);
+					}
+					catch (Exception e)
+					{
+						ErrorReport.ReportNonFatalException(e);
+					}
+				}
 
 				if (dlg != null)
 				{

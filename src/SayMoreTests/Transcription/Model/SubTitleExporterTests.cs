@@ -32,7 +32,7 @@ namespace SayMoreTests.Transcription.Model
 		{
 			using (var temp = TempFile.CreateAndGetPathButDontMakeTheFile())
 			{
-				SRTFormatSubTitleExporter.Export(temp.Path, CreateTier());
+				SRTFormatSubTitleExporter.Export(temp.Path, new TextTier(TextTier.ElanTranscriptionTierId));
 				Assert.IsTrue(File.Exists(temp.Path));
 				Assert.AreEqual(0,File.ReadAllText(temp.Path).Length);
 			}

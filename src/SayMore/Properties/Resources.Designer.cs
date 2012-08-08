@@ -160,6 +160,9 @@ namespace SayMore.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ColumnChooser {
             get {
                 object obj = ResourceManager.GetObject("ColumnChooser", resourceCulture);
@@ -1070,6 +1073,9 @@ namespace SayMore.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap UncheckedBox {
             get {
                 object obj = ResourceManager.GetObject("UncheckedBox", resourceCulture);

@@ -147,5 +147,20 @@ namespace SayMore.Transcription.Model
 		{
 			return (Segments.Count > 0 && !Segments.Any(s => string.IsNullOrEmpty(s.Text)));
 		}
+
+		/// <summary>
+		/// The current design doles out segments with empty time ranges, making those objects have incorrect "TimeRange"/"Start"/"End"
+		/// properties. Perhaps that design can be changed? In the meantime, if you need your text segments to have actualy TimeRanges, call this.
+		/// </summary>
+		public void AddTimeRangeData(TimeTier timeTier)
+		{
+			int length = Segments.Count;
+
+			for (int i = 0; i < length; i++)
+			{
+				Segments[i].TimeRange = timeTier.Segments[i].TimeRange;
+			}
+		}
+
 	}
 }

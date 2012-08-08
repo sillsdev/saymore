@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -135,7 +136,7 @@ namespace SayMore.Transcription.UI
 			_grid.Load(annotationFile);
 			_grid.SetFonts(_project.TranscriptionFont, _project.FreeTranslationFont);
 
-			_buttonExport.Enabled = (_grid.RowCount > 0);
+			_exportMenu.Enabled = (_grid.RowCount > 0);
 
 			SetupWatchingForFileChanges();
 			Utils.SetWindowRedraw(this, true);
@@ -229,7 +230,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleExportButtonClick(object sender, EventArgs e)
+		private void OnFLexTextExportClick(object sender, EventArgs e)
 		{
 			var file = (AnnotationComponentFile)_file;
 			var mediaFileName = Path.GetFileName(file.GetPathToAssociatedMediaFile());
@@ -351,5 +352,50 @@ namespace SayMore.Transcription.UI
 				_grid.Refresh();
 			}
 		}
+
+		private void OnExportFreeTranslationSubtitlesMenuItem_Click(object sender, EventArgs e)
+		{
+			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
+			var contentTier = ((AnnotationComponentFile) _file).Tiers.GetFreeTranslationTier();
+			DoExportSubtitleDialog(timeTier, contentTier);
+		}
+
+		private void OnExportVernacularSubtitlesMenuItem_Click(object sender, EventArgs e)
+		{
+			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
+			var contentTier = ((AnnotationComponentFile)_file).Tiers.GetTranscriptionTier();
+			DoExportSubtitleDialog(timeTier,contentTier);
+		}
+
+		private void DoExportSubtitleDialog(TimeTier timeTier, TextTier textTeir)
+		{
+			textTeir.AddTimeRangeData(timeTier);
+//			using (var dlg = new SaveFileDialog())
+//			{
+//				dlg.AddExtension = true;
+//				dlg.CheckPathExists = true;
+//				dlg.AutoUpgradeEnabled = true;
+//				dlg.DefaultExt = ".srt";
+//				dlg.Filter = "SRT Subtitle File (*.srt)|*.srt";
+//				dlg.FileName = _file.ParentElement.Id +"_subtitle.srt";
+//				dlg.RestoreDirectory = true;
+//				dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+//
+//				if (DialogResult.OK != dlg.ShowDialog())
+//					return;
+
+				try
+				{
+					var path = Path.Combine(Path.GetDirectoryName(_file.PathToAnnotatedFile), _file.ParentElement.Id + "_subtitle.srt");
+					SRTFormatSubTitleExporter.Export(path, textTeir);
+					//Process.Start(Path.GetDirectoryName(dlg.FileName));
+				}
+				catch (Exception error)
+				{
+					ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
+				}
+			//
+		}
+
 	}
 }

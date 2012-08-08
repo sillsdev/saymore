@@ -22,7 +22,10 @@ namespace SayMore.Transcription.UI
 			this._splitter = new System.Windows.Forms.SplitContainer();
 			this._toolStrip = new System.Windows.Forms.ToolStrip();
 			this._buttonHelp = new System.Windows.Forms.ToolStripButton();
-			this._buttonExport = new System.Windows.Forms.ToolStripButton();
+			this._exportMenu = new System.Windows.Forms.ToolStripDropDownButton();
+			this.plainTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.fLExInterlinearTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this._exportFreeTranslationSubtitlesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._buttonResegment = new System.Windows.Forms.ToolStripButton();
 			this._buttonRecordings = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonCarefulSpeech = new System.Windows.Forms.ToolStripMenuItem();
@@ -33,6 +36,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutPlaybackSpeed = new System.Windows.Forms.TableLayoutPanel();
 			this._comboPlaybackSpeed = new System.Windows.Forms.ComboBox();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this._exportVernacularSubtitlesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._splitter)).BeginInit();
 			this._splitter.SuspendLayout();
@@ -81,7 +85,7 @@ namespace SayMore.Transcription.UI
 			this._toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this._toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._buttonHelp,
-            this._buttonExport,
+            this._exportMenu,
             this._buttonResegment,
             this._buttonRecordings,
             this._buttonFonts});
@@ -108,20 +112,57 @@ namespace SayMore.Transcription.UI
 			this._buttonHelp.Size = new System.Drawing.Size(23, 22);
 			this._buttonHelp.Text = "Help";
 			// 
-			// _buttonExport
+			// _exportMenu
 			// 
-			this._buttonExport.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this._buttonExport.Image = global::SayMore.Properties.Resources.InterlinearExport;
-			this._buttonExport.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonExport, "Export to FieldWorks Interlinear");
-			this.locExtender.SetLocalizationComment(this._buttonExport, null);
-			this.locExtender.SetLocalizingId(this._buttonExport, "SessionsView.Transcription.TextAnnotationEditor.ExportButton");
-			this._buttonExport.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
-			this._buttonExport.Name = "_buttonExport";
-			this._buttonExport.Size = new System.Drawing.Size(69, 22);
-			this._buttonExport.Text = "Export...";
-			this._buttonExport.ToolTipText = "Save for FLEx interlinear";
-			this._buttonExport.Click += new System.EventHandler(this.HandleExportButtonClick);
+			this._exportMenu.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this._exportMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.plainTextToolStripMenuItem,
+            this.fLExInterlinearTextToolStripMenuItem,
+            this._exportVernacularSubtitlesMenuItem,
+            this._exportFreeTranslationSubtitlesMenuItem});
+			this._exportMenu.Image = global::SayMore.Properties.Resources.InterlinearExport;
+			this._exportMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._exportMenu, null);
+			this.locExtender.SetLocalizationComment(this._exportMenu, null);
+			this.locExtender.SetLocalizationPriority(this._exportMenu, Localization.LocalizationPriority.Medium);
+			this.locExtender.SetLocalizingId(this._exportMenu, "SessionsView.Transcription.TextAnnotation.ExportMenu");
+			this._exportMenu.Name = "_exportMenu";
+			this._exportMenu.Size = new System.Drawing.Size(69, 22);
+			this._exportMenu.Text = "Export";
+			// 
+			// plainTextToolStripMenuItem
+			// 
+			this.plainTextToolStripMenuItem.Enabled = false;
+			this.locExtender.SetLocalizableToolTip(this.plainTextToolStripMenuItem, null);
+			this.locExtender.SetLocalizationComment(this.plainTextToolStripMenuItem, null);
+			this.locExtender.SetLocalizationPriority(this.plainTextToolStripMenuItem, Localization.LocalizationPriority.Medium);
+			this.locExtender.SetLocalizingId(this.plainTextToolStripMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu,plainTextExport");
+			this.plainTextToolStripMenuItem.Name = "plainTextToolStripMenuItem";
+			this.plainTextToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
+			this.plainTextToolStripMenuItem.Text = "Plain Text...";
+			// 
+			// fLExInterlinearTextToolStripMenuItem
+			// 
+			this.locExtender.SetLocalizableToolTip(this.fLExInterlinearTextToolStripMenuItem, null);
+			this.locExtender.SetLocalizationComment(this.fLExInterlinearTextToolStripMenuItem, null);
+			this.locExtender.SetLocalizationPriority(this.fLExInterlinearTextToolStripMenuItem, Localization.LocalizationPriority.Medium);
+			this.locExtender.SetLocalizingId(this.fLExInterlinearTextToolStripMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu,FLExTextExport");
+			this.fLExInterlinearTextToolStripMenuItem.Name = "fLExInterlinearTextToolStripMenuItem";
+			this.fLExInterlinearTextToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
+			this.fLExInterlinearTextToolStripMenuItem.Text = "FLEx Interlinear Text...";
+			this.fLExInterlinearTextToolStripMenuItem.Click += new System.EventHandler(this.OnFLexTextExportClick);
+			// 
+			// _exportFreeTranslationSubtitlesMenuItem
+			// 
+			this.locExtender.SetLocalizableToolTip(this._exportFreeTranslationSubtitlesMenuItem, null);
+			this.locExtender.SetLocalizationComment(this._exportFreeTranslationSubtitlesMenuItem, null);
+			this.locExtender.SetLocalizingId(this._exportFreeTranslationSubtitlesMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.srtFreeTranslationSubtitlesE" +
+        "xport");
+			this._exportFreeTranslationSubtitlesMenuItem.Name = "_exportFreeTranslationSubtitlesMenuItem";
+			this._exportFreeTranslationSubtitlesMenuItem.Size = new System.Drawing.Size(236, 22);
+			this._exportFreeTranslationSubtitlesMenuItem.Text = "Free Translation Subtitles File...";
+			this._exportFreeTranslationSubtitlesMenuItem.ToolTipText = "The SRT format can be used to create subtitle (captioned) video";
+			this._exportFreeTranslationSubtitlesMenuItem.Click += new System.EventHandler(this.OnExportFreeTranslationSubtitlesMenuItem_Click);
 			// 
 			// _buttonResegment
 			// 
@@ -151,8 +192,8 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this._buttonRecordings, "SessionsView.Transcription.TextAnnotationEditor.RecordButton");
 			this._buttonRecordings.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
 			this._buttonRecordings.Name = "_buttonRecordings";
-			this._buttonRecordings.Size = new System.Drawing.Size(135, 22);
-			this._buttonRecordings.Text = "Oral Annotations...";
+			this._buttonRecordings.Size = new System.Drawing.Size(158, 22);
+			this._buttonRecordings.Text = "Oral Annotations Tools";
 			this._buttonRecordings.ToolTipText = "Record audio annotations";
 			// 
 			// _buttonCarefulSpeech
@@ -249,6 +290,18 @@ namespace SayMore.Transcription.UI
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
+			// _exportVernacularSubtitlesMenuItem
+			// 
+			this.locExtender.SetLocalizableToolTip(this._exportVernacularSubtitlesMenuItem, null);
+			this.locExtender.SetLocalizationComment(this._exportVernacularSubtitlesMenuItem, null);
+			this.locExtender.SetLocalizingId(this._exportVernacularSubtitlesMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu,srtVernacularSubtitlesExport" +
+        "");
+			this._exportVernacularSubtitlesMenuItem.Name = "_exportVernacularSubtitlesMenuItem";
+			this._exportVernacularSubtitlesMenuItem.Size = new System.Drawing.Size(236, 22);
+			this._exportVernacularSubtitlesMenuItem.Text = "Vernacular Subtitles File...";
+			this._exportVernacularSubtitlesMenuItem.ToolTipText = "The SRT format can be used to create subtitle (captioned) video";
+			this._exportVernacularSubtitlesMenuItem.Click += new System.EventHandler(this.OnExportVernacularSubtitlesMenuItem_Click);
+			// 
 			// TextAnnotationEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -280,7 +333,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ComboBox _comboPlaybackSpeed;
 		private System.Windows.Forms.ToolStrip _toolStrip;
 		private System.Windows.Forms.ToolStripDropDownButton _buttonRecordings;
-		private System.Windows.Forms.ToolStripButton _buttonExport;
 		private System.Windows.Forms.ToolStripMenuItem _buttonCarefulSpeech;
 		private System.Windows.Forms.ToolStripMenuItem _buttonOralTranslation;
 		private System.Windows.Forms.ToolStripButton _buttonHelp;
@@ -289,6 +341,11 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripDropDownButton _buttonFonts;
 		private System.Windows.Forms.ToolStripMenuItem _buttonTranscriptionFont;
 		private System.Windows.Forms.ToolStripMenuItem _buttonFreeTranslationFont;
+		private System.Windows.Forms.ToolStripDropDownButton _exportMenu;
+		private System.Windows.Forms.ToolStripMenuItem plainTextToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem fLExInterlinearTextToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem _exportFreeTranslationSubtitlesMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem _exportVernacularSubtitlesMenuItem;
 
 
 	}

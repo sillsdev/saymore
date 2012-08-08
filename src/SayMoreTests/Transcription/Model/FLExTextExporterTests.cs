@@ -6,7 +6,7 @@ using SayMore.Transcription.Model;
 namespace SayMoreTests.Transcription.Model
 {
 	[TestFixture]
-	public class InterlinearXmlHelperTests
+	public class FLExTextExporterTests
 	{
 		FLExTextExporter _helper;
 

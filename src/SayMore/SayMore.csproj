@@ -190,6 +190,7 @@
     <Compile Include="Transcription\Model\AnnotationFileHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Transcription\Model\SRTFormatSubTitleExporter.cs" />
     <Compile Include="Transcription\Model\Segment.cs" />
     <Compile Include="Transcription\Model\TierCollection.cs" />
     <Compile Include="Transcription\Model\TimeRange.cs" />
@@ -979,6 +980,7 @@
     <None Include="Resources\ShowVideoHelp.png" />
     <None Include="Resources\SayMore.ico" />
     <None Include="Resources\UncheckedBox.png" />
+    <None Include="Resources\SayMoreText.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

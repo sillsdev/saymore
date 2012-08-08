@@ -85,7 +85,7 @@ namespace SayMore.Media.FFmpeg
 			if (i >= 0)
 				_linkManualDownload.LinkArea = new LinkArea(i, underlinedPortionOfManualLink.Length);
 
-			_linkAutoDownload.LinkClicked += HanleAudoAutoDownloadLinkClicked;
+			_linkAutoDownload.LinkClicked += HandleAutoDownloadLinkClicked;
 			_linkManualDownload.LinkClicked += HandleManualDownloadLinkClicked;
 		}
 
@@ -169,7 +169,7 @@ namespace SayMore.Media.FFmpeg
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HanleAudoAutoDownloadLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		private void HandleAutoDownloadLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			if (_state != ProgressState.NotStarted && _state != ProgressState.DownloadCanceled)
 				return;
@@ -205,7 +205,7 @@ namespace SayMore.Media.FFmpeg
 				"The file '{0}'\r\n\r\neither does not contain ffmpeg or is not a valid zip file."),
 				downloadedZipFile);
 
-			if (!_downloadHelper.GetIsValidFFmpegForSayMoreFile(downloadedZipFile, errorMsg))
+			if (!FFmpegDownloadHelper.GetIsValidFFmpegForSayMoreFile(downloadedZipFile, errorMsg))
 			{
 				_state = ProgressState.DownloadCanceled;
 				return false;
@@ -221,7 +221,7 @@ namespace SayMore.Media.FFmpeg
 				"There was an error installing the downloaded file:\r\n\r\n{0}"),
 				downloadedZipFile);
 
-			return _downloadHelper.ExtractDownloadedZipFile(downloadedZipFile, errorMsg);
+			return FFmpegDownloadHelper.ExtractDownloadedZipFile(downloadedZipFile, errorMsg);
 		}
 
 		/// ------------------------------------------------------------------------------------

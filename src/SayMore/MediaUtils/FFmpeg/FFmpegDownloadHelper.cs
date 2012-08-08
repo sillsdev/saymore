@@ -199,7 +199,7 @@ namespace SayMore.Media.FFmpeg
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetIsValidFFmpegForSayMoreFile(string pathToZipFile, string msgToDisplayIfError)
+		public static bool GetIsValidFFmpegForSayMoreFile(string pathToZipFile, string msgToDisplayIfError)
 		{
 			try
 			{
@@ -220,7 +220,7 @@ namespace SayMore.Media.FFmpeg
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool ExtractDownloadedZipFile(string pathToZipFile, string msgToDisplayIfError)
+		public static bool ExtractDownloadedZipFile(string pathToZipFile, string msgToDisplayIfError)
 		{
 			try
 			{

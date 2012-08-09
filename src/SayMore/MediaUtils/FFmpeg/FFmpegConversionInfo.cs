@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using Nini.Ini;
 using Palaso.IO;
 using SayMore.Properties;
@@ -10,6 +12,7 @@ namespace SayMore.Media.FFmpeg
 	/// ----------------------------------------------------------------------------------------
 	public class FFmpegConversionInfo
 	{
+		public Action<string> AfterConversionAction {get; protected set;}
 		public string Name { get; protected set; }
 		public string OutputExtension { get; protected set; }
 		public string Comments { get; protected set; }
@@ -53,6 +56,15 @@ namespace SayMore.Media.FFmpeg
 					CommandLine = "-vb {vb} -codec:v mpeg4 -ab {ab} -codec:a aac -strict -2",
 					ApplicableFileType = "video"
 				};
+
+//				yield return new FFmpegConversionInfo
+//				{
+//					Name = "Subtitled video for playing on computers (MKV)",
+//					OutputExtension = "mkv",
+//					CommandLine = "-vb {vb} -codec:v mpeg4 -ab {ab} -codec:a aac -strict -2",
+//					ApplicableFileType = "video",
+//					AfterConversionAction = (path=>MessageBox.Show("pretend "+path);
+//				};
 			}
 
 			yield return new FFmpegConversionInfo

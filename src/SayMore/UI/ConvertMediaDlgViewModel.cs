@@ -133,9 +133,15 @@ namespace SayMore.UI
 			while (_workerThread.IsAlive)
 				Application.DoEvents();
 
+			if (SelectedConversion.AfterConversionAction != null && File.Exists(outputFile))
+			{
+				SelectedConversion.AfterConversionAction(outputFile);
+			}
+
 			if (ConversionState == ConvertMediaUIState.Converting)
 				ConversionState = File.Exists(outputFile) ?
 					ConvertMediaUIState.FinishedConverting : ConvertMediaUIState.ConversionFailed;
+
 		}
 
 		/// ------------------------------------------------------------------------------------

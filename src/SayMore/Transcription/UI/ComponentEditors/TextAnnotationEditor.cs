@@ -459,5 +459,34 @@ namespace SayMore.Transcription.UI
 			MessageBox.Show("Actually, SayMore already stores this information in ELAN format (.eaf). Simply double click the annotations file to edit it in ELAN.");
 		}
 
+		private void _toolboxInterlinearExportMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				using (var dlg = new SaveFileDialog())
+				{
+					dlg.AddExtension = true;
+					dlg.CheckPathExists = true;
+					dlg.AutoUpgradeEnabled = true;
+					dlg.DefaultExt = ".txt";
+					dlg.Filter = "Toolbox Standard Format File (*.txt)|*.txt";
+					dlg.FileName = _file.ParentElement.Id + "_interlinear.txt";
+					//dlg.RestoreDirectory = true;
+					dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+					if (DialogResult.OK != dlg.ShowDialog())
+						return;
+
+					var mediaFileName = Path.GetFileName(AssociatedComponentFile.PathToAnnotatedFile);
+					ToolboxTranscriptionExporter.Export(_file.ParentElement.Id, mediaFileName, dlg.FileName, (((AnnotationComponentFile)_file).Tiers));
+					Process.Start("Explorer", "/select, \"" + dlg.FileName + "\"");
+				}
+			}
+			catch (Exception error)
+			{
+				ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
+			}
+		}
+
 	}
 }

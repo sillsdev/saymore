@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
+using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -32,7 +33,7 @@ namespace SayMore.Transcription.UI
 		public bool PreventPlayback { get; set; }
 
 		private AnnotationComponentFile _annotationFile;
-		private List<AnnotationPlaybackInfo> _mediaFileQueue = new List<AnnotationPlaybackInfo>();
+		private readonly List<AnnotationPlaybackInfo> _mediaFileQueue = new List<AnnotationPlaybackInfo>();
 		private int _annotationPlaybackLoopCount;
 		private Action _playbackProgressReportingAction;
 
@@ -58,6 +59,7 @@ namespace SayMore.Transcription.UI
 			RowTemplate.MinimumHeight = 24;
 
 			PlayerViewModel = new MediaPlayerViewModel();
+
 			PlayerViewModel.SetVolume(100);
 			PlayerViewModel.SetSpeed(Settings.Default.AnnotationEditorPlaybackSpeedIndex);
 
@@ -333,7 +335,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void Play(bool resetLoopCounter)
 		{
-			if (RowCount == 0 || !PreventPlayback)
+			if (RowCount == 0 || PreventPlayback)
 				return;
 
 			DisableTimer();
@@ -351,35 +353,66 @@ namespace SayMore.Transcription.UI
 
 			var currCol = Columns[CurrentCellAddress.X] as TextAnnotationColumnWithMenu;
 			var playbackType = (currCol != null ? currCol.PlaybackType : AudioRecordingType.Source);
-			_mediaFileQueue = AnnotationPlaybackInfoProvider(playbackType).ToList();
+
+			lock (_mediaFileQueue)
+			{
+				_mediaFileQueue.Clear();
+				_mediaFileQueue.AddRange(AnnotationPlaybackInfoProvider(playbackType));
+			}
 			InternalPlay();
-			PlaybackInProgress = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InternalPlay()
+		private bool InternalPlay()
 		{
+			string errorMessage = null;
 			lock (_mediaFileQueue)
 			{
 				if (_mediaFileQueue.Count == 0)
-					return;
+					return false;
 
 				PlayerViewModel.PlaybackStarted -= HandleMediaPlayStarted;
 				PlayerViewModel.PlaybackEnded -= HandleMediaPlaybackEnded;
 
-				if (_mediaFileQueue[0].Length > 0f)
-					PlayerViewModel.LoadFile(_mediaFileQueue[0].MediaFile, _mediaFileQueue[0].Start, _mediaFileQueue[0].Length);
-				else
+				try
 				{
-					PlayerViewModel.LoadFile(_mediaFileQueue[0].MediaFile);
-					_mediaFileQueue[0].Length = _mediaFileQueue[0].End = PlayerViewModel.GetTotalMediaDuration();
+					LoadFile();
 				}
+				catch (Exception e)
+				{
+					_mediaFileQueue.Clear();
+					errorMessage = e.Message;
+				}
+			}
+			if (errorMessage != null)
+			{
+				if (InvokeRequired)
+					Invoke((Action)(() => ErrorReport.NotifyUserOfProblem(errorMessage)));
+				else
+					ErrorReport.NotifyUserOfProblem(errorMessage);
+				return false;
 			}
 
 			PlayerViewModel.PlaybackStarted += HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded += HandleMediaPlaybackEnded;
 			PlayerViewModel.PlaybackPositionChanged = (pos => Invoke(_playbackProgressReportingAction));
 			PlayerViewModel.Play();
+			PlaybackInProgress = true;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void LoadFile()
+		{
+			if (_mediaFileQueue[0].Length > 0f)
+			{
+				PlayerViewModel.LoadFile(_mediaFileQueue[0].MediaFile, _mediaFileQueue[0].Start, _mediaFileQueue[0].Length);
+			}
+			else
+			{
+				PlayerViewModel.LoadFile(_mediaFileQueue[0].MediaFile);
+				_mediaFileQueue[0].Length = _mediaFileQueue[0].End = PlayerViewModel.GetTotalMediaDuration();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -393,7 +426,10 @@ namespace SayMore.Transcription.UI
 			PlayerViewModel.PlaybackEnded -= HandleMediaPlaybackEnded;
 			PlayerViewModel.PlaybackPositionChanged = null;
 			PlayerViewModel.Stop();
-			_mediaFileQueue.Clear();
+			lock (_mediaFileQueue)
+			{
+				_mediaFileQueue.Clear();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -411,10 +447,11 @@ namespace SayMore.Transcription.UI
 			{
 				if (_mediaFileQueue.Count > 0)
 					_mediaFileQueue.RemoveAt(0);
+			}
 
-				if (_mediaFileQueue.Count > 0)
-					InternalPlay();
-				else if (_annotationPlaybackLoopCount++ < 4)
+			if (!InternalPlay())
+			{
+				if (_annotationPlaybackLoopCount++ < 4)
 					Play(false);
 				else
 				{
@@ -439,18 +476,22 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void DrawPlaybackProgressBar(Graphics g, Rectangle rc, Color baseBackColor)
 		{
-			if (_mediaFileQueue.Count == 0 || !PlaybackInProgress)
-				return;
+			lock (_mediaFileQueue)
+			{
+				if (_mediaFileQueue.Count == 0 || !PlaybackInProgress)
+					return;
 
-			var playbackPosition = PlayerViewModel.CurrentPosition;
-			if (playbackPosition.Equals(0f))
-				return;
+				var playbackPosition = PlayerViewModel.CurrentPosition;
+				if (playbackPosition.Equals(0f))
+					return;
 
-			var start = _mediaFileQueue[0].Start;
-			var end = _mediaFileQueue[0].End;
-			var length = Math.Round(end - start, 1, MidpointRounding.AwayFromZero);
-			var pixelsPerSec = rc.Width / length;
-			rc.Width = (int)Math.Ceiling(pixelsPerSec * (playbackPosition - start));
+				var start = _mediaFileQueue[0].Start;
+				var end = _mediaFileQueue[0].End;
+
+				var length = Math.Round(end - start, 1, MidpointRounding.AwayFromZero);
+				var pixelsPerSec = rc.Width / length;
+				rc.Width = (int)Math.Ceiling(pixelsPerSec * (playbackPosition - start));
+			}
 
 			if (rc.Width <= 0)
 				return;

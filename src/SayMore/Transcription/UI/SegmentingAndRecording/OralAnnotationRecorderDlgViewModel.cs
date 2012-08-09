@@ -151,7 +151,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool GetDoesSegmentHaveAnnotationFile(Segment segment)
 		{
-			return (segment != null && File.Exists(GetFullPathToAnnotationFileForSegment(segment)));
+			if (segment == null)
+				return false;
+			var path = GetFullPathToAnnotationFileForSegment(segment);
+			return File.Exists(path) && AudioUtils.GetDoesFileSeemToBeWave(path);
 		}
 
 		/// ------------------------------------------------------------------------------------

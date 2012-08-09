@@ -130,7 +130,7 @@ namespace SayMore.Media.MPlayer
 		private void HandleMediaQueued(object sender, EventArgs e)
 		{
 			if (InvokeRequired)
-				Invoke((Action)AdjustVideoSurfaceSize);
+				BeginInvoke((Action)AdjustVideoSurfaceSize);
 			else
 				AdjustVideoSurfaceSize();
 		}

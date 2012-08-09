@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Localization;
+using Palaso.Reporting;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
@@ -65,6 +66,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			_mediaPlayerPanel.BorderStyle = BorderStyle.None;
 
 			_mediaPlayerViewModel = new MediaPlayerViewModel();
+
 			_mediaPlayerViewModel.SetVolume(Settings.Default.MediaPlayerVolume);
 			_mediaPlayer = new MediaPlayer(_mediaPlayerViewModel);
 			_mediaPlayer.Dock = DockStyle.Fill;
@@ -195,7 +197,17 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// ------------------------------------------------------------------------------------
 		private void QueueMediaFile(int rowIndex)
 		{
-			_mediaPlayerViewModel.LoadFile(_viewModel.GetFullFilePath(rowIndex));
+			try
+			{
+				_mediaPlayerViewModel.LoadFile(_viewModel.GetFullFilePath(rowIndex));
+			}
+			catch (Exception e)
+			{
+				if (InvokeRequired)
+					Invoke((Action)(() => ErrorReport.NotifyUserOfProblem(e.Message)));
+				else
+					ErrorReport.NotifyUserOfProblem(e.Message);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

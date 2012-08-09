@@ -140,30 +140,24 @@ namespace SayMore.Media.MPlayer
 
 			if (string.IsNullOrEmpty(filename))
 			{
-				ErrorReport.NotifyUserOfProblem(
-					LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.MediaFileNotSpecifiedMsg",
-						"Media player file name has not been specified."));
-
-				return;
+				throw new ArgumentException(LocalizationManager.GetString(
+					"CommonToMultipleViews.MediaPlayer.MediaFileNotSpecifiedMsg",
+					"Media player file name has not been specified."));
 			}
 
 			if (!File.Exists(filename))
 			{
-				ErrorReport.NotifyUserOfProblem(
-					LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg",
-						"Media file '{0}' not found."), filename);
-
-				return;
+				throw new FileNotFoundException(String.Format(LocalizationManager.GetString(
+					"CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg",
+					"Media file not found: {0}"), filename), filename);
 			}
 
 			MediaInfo = MediaFileInfo.GetInfo(filename);
 			if (MediaInfo == null)
 			{
-				ErrorReport.NotifyUserOfProblem(
-					LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.InvalidMediaFile",
-						"File '{0}' does not appear to be a valid media file."), filename);
-
-				return;
+				throw new FileFormatException(String.Format(LocalizationManager.GetString(
+					"CommonToMultipleViews.MediaPlayer.InvalidMediaFile",
+					"File does not appear to be a valid media file: {0}"), filename));
 			}
 
 			MediaFile = filename.Replace('\\', '/');

@@ -81,16 +81,31 @@ namespace SayMoreTests.Transcription.UI
 
 			if (fileType == AudioRecordingType.Careful)
 			{
-				File.OpenWrite(Path.Combine(_model.OralAnnotationsFolder,
-					TimeTier.ComputeFileNameForCarefulSpeechSegment(start, end))).Close();
+				WriteWavFile(Path.Combine(_model.OralAnnotationsFolder,
+					TimeTier.ComputeFileNameForCarefulSpeechSegment(start, end)));
 			}
 			else
 			{
-				File.OpenWrite(Path.Combine(_model.OralAnnotationsFolder,
-					TimeTier.ComputeFileNameForOralTranslationSegment(start, end))).Close();
+				WriteWavFile(Path.Combine(_model.OralAnnotationsFolder,
+					TimeTier.ComputeFileNameForOralTranslationSegment(start, end)));
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		private static void WriteWavFile(string mediaFilePath)
+		{
+			var stream = Resources.shortSound;
+			var buffer = new byte[stream.Length];
+			stream.Read(buffer, 0, buffer.Length);
+			stream.Close();
+			stream.Dispose();
+
+			using (var outStream = File.OpenWrite(mediaFilePath))
+			{
+				outStream.Write(buffer, 0, buffer.Length);
+				outStream.Close();
+			}
+		}
 		#endregion
 
 		///// ------------------------------------------------------------------------------------

@@ -79,7 +79,6 @@ namespace SayMoreTests.Model.Files
 			return mediaFilePath;
 		}
 
-
 		/// ------------------------------------------------------------------------------------
 		public static string CreateRecording(string folder)
 		{

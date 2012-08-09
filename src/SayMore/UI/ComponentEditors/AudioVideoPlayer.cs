@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using Localization;
+using Palaso.Reporting;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
@@ -23,6 +24,7 @@ namespace SayMore.UI.ComponentEditors
 			Name = "AudioVideoPlayer";
 
 			_mediaPlayerViewModel = new MediaPlayerViewModel();
+
 			_mediaPlayer = new MediaPlayer(_mediaPlayerViewModel);
 			_mediaPlayer.Dock = DockStyle.Fill;
 			Controls.Add(_mediaPlayer);
@@ -70,12 +72,12 @@ namespace SayMore.UI.ComponentEditors
 
 			file.PreDeleteAction = (() => _mediaPlayerViewModel.Stop(true));
 			file.PreFileCommandAction = (() => _mediaPlayerViewModel.Stop(true));
-			file.PostFileCommandAction = (() => _mediaPlayerViewModel.LoadFile(file.PathToAnnotatedFile));
+			file.PostFileCommandAction = (() => LoadAnnotationFile(file));
 			file.PreRenameAction = (() => _mediaPlayerViewModel.Stop(true));
-			file.PostRenameAction = (() => _mediaPlayerViewModel.LoadFile(file.PathToAnnotatedFile));
+			file.PostRenameAction = (() => LoadAnnotationFile(file));
 
 			_playerPausedWhenTabChanged = false;
-			_mediaPlayerViewModel.LoadFile(file.PathToAnnotatedFile);
+			LoadAnnotationFile(file);
 
 			if (Settings.Default.MediaPlayerVolume >= 0)
 				_mediaPlayerViewModel.SetVolume(Settings.Default.MediaPlayerVolume);
@@ -84,6 +86,24 @@ namespace SayMore.UI.ComponentEditors
 
 			UseWaitCursor = false;
 			Cursor = Cursors.Default;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void LoadAnnotationFile(ComponentFile file)
+		{
+			try
+			{
+				_mediaPlayerViewModel.LoadFile(file.PathToAnnotatedFile);
+			}
+			catch (Exception e)
+			{
+				{
+					if (InvokeRequired)
+						Invoke((Action)(() => ErrorReport.NotifyUserOfProblem(e.Message)));
+					else
+						ErrorReport.NotifyUserOfProblem(e.Message);
+				};
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

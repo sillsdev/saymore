@@ -28,15 +28,12 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Open the file's folder in the OS' file manager.
-		/// ENHANCE: After opening
-		/// the file manager, it would be nice to select the file itself, but that
-		/// appears to be harder to accomplish, so I leave that for a future exercise.
+		/// Open the file in the OS' file manager.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void HandleOpenInFileManager_Click(string path)
 		{
-			Process.Start(Path.GetDirectoryName(path));
+			Process.Start("Explorer", "/select, \""+path+"\"");
 		}
 
 		/// ------------------------------------------------------------------------------------

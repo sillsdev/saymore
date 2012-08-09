@@ -3624,5 +3624,101 @@
        height="14.849242"
        x="837.92157"
        y="1388.0706" />
+    <g
+       id="g3689-1"
+       transform="translate(414.01097,-83.511798)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3682-7-9-3-5-4-7"
+         y="1399.0337"
+         x="755.89056"
+         style="font-size:10.73888206px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+         xml:space="preserve"><tspan
+           y="1399.0337"
+           x="755.89056"
+           id="tspan3684-7-2-5-9-8-4"
+           sodipodi:role="line">Ignored</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1093.5405"
+       y="1303.498"
+       id="text3681-8"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3683-8"
+         x="1093.5405"
+         y="1303.498"
+         style="font-size:12px">1</tspan><tspan
+         sodipodi:role="line"
+         x="1093.5405"
+         y="1318.498"
+         id="tspan3685-2"
+         style="font-size:12px">2</tspan><tspan
+         sodipodi:role="line"
+         x="1093.5405"
+         y="1333.498"
+         id="tspan3687-4"
+         style="font-size:12px">3</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1151.1116"
+       y="1283.542"
+       id="text3681-2-5"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="1151.1116"
+         y="1283.542"
+         id="tspan3687-8-5"
+         style="font-size:12px">Transcription</tspan></text>
+    <path
+       style="fill:#e6e6e6;stroke:#e6e6e6;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 1133.8457,1273.0924 c 0,111.7228 0,112.4299 0,112.4299"
+       id="path4497-7"
+       inkscape:connector-curvature="0" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text3682-7-9-3-5-4-7-2"
+       y="1313.5337"
+       x="1282.6024"
+       style="font-size:10.73888206px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       xml:space="preserve"><tspan
+         y="1313.5337"
+         x="1282.6024"
+         id="tspan3684-7-2-5-9-8-4-8"
+         sodipodi:role="line">Ignored</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1263.8124"
+       y="1281.5538"
+       id="text3681-2-5-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="1263.8124"
+         y="1281.5538"
+         id="tspan3687-8-5-8"
+         style="font-size:12px">Free Translation</tspan></text>
+    <rect
+       style="fill:#e6e6e6;fill-opacity:0.52659577;stroke:none"
+       id="rect3727-7-1"
+       width="263.75082"
+       height="14.849242"
+       x="1091.4194"
+       y="1269.2035" />
+    <rect
+       style="fill:#e6e6e6;fill-opacity:0.52659577;stroke:none"
+       id="rect3727-1"
+       width="260.2153"
+       height="14.849242"
+       x="1090.005"
+       y="1305.7407" />
+    <path
+       style="fill:#e6e6e6;stroke:#e6e6e6;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 1241.6795,1267.8624 c 0,111.7228 0,112.4299 0,112.4299"
+       id="path4497-7-8"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

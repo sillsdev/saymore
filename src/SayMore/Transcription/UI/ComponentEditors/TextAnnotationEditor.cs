@@ -388,13 +388,41 @@ namespace SayMore.Transcription.UI
 				{
 					var path = Path.Combine(Path.GetDirectoryName(_file.PathToAnnotatedFile), _file.ParentElement.Id + "_subtitle.srt");
 					SRTFormatSubTitleExporter.Export(path, textTeir);
-					//Process.Start(Path.GetDirectoryName(dlg.FileName));
+					Process.Start("Explorer", "/select, \"" + path + "\"");
 				}
 				catch (Exception error)
 				{
 					ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
 				}
 			//
+		}
+
+		private void OnPlainTextExportMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				using (var dlg = new SaveFileDialog())
+				{
+					dlg.AddExtension = true;
+					dlg.CheckPathExists = true;
+					dlg.AutoUpgradeEnabled = true;
+					dlg.DefaultExt = ".srt";
+					dlg.Filter = "Text File (*.txt)|*.txt";
+					dlg.FileName = _file.ParentElement.Id + "_transcription.txt";
+					dlg.RestoreDirectory = true;
+					dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+					if (DialogResult.OK != dlg.ShowDialog())
+						return;
+
+					PlainTextTranscriptionExporter.Export(dlg.FileName, (((AnnotationComponentFile) _file).Tiers));
+					Process.Start("Explorer", "/select, \"" + dlg.FileName + "\"");
+				}
+			}
+			catch (Exception error)
+			{
+				ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
+			}
 		}
 
 	}

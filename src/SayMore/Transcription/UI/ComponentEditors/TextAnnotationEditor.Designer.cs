@@ -23,8 +23,9 @@ namespace SayMore.Transcription.UI
 			this._toolStrip = new System.Windows.Forms.ToolStrip();
 			this._buttonHelp = new System.Windows.Forms.ToolStripButton();
 			this._exportMenu = new System.Windows.Forms.ToolStripDropDownButton();
-			this.plainTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.fLExInterlinearTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this._plainTextExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this._flexInterlinearExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this._exportVernacularSubtitlesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._exportFreeTranslationSubtitlesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._buttonResegment = new System.Windows.Forms.ToolStripButton();
 			this._buttonRecordings = new System.Windows.Forms.ToolStripDropDownButton();
@@ -36,7 +37,6 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutPlaybackSpeed = new System.Windows.Forms.TableLayoutPanel();
 			this._comboPlaybackSpeed = new System.Windows.Forms.ComboBox();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this._exportVernacularSubtitlesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._splitter)).BeginInit();
 			this._splitter.SuspendLayout();
@@ -116,8 +116,8 @@ namespace SayMore.Transcription.UI
 			// 
 			this._exportMenu.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this._exportMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.plainTextToolStripMenuItem,
-            this.fLExInterlinearTextToolStripMenuItem,
+            this._plainTextExportMenuItem,
+            this._flexInterlinearExportMenuItem,
             this._exportVernacularSubtitlesMenuItem,
             this._exportFreeTranslationSubtitlesMenuItem});
 			this._exportMenu.Image = global::SayMore.Properties.Resources.InterlinearExport;
@@ -130,32 +130,46 @@ namespace SayMore.Transcription.UI
 			this._exportMenu.Size = new System.Drawing.Size(69, 22);
 			this._exportMenu.Text = "Export";
 			// 
-			// plainTextToolStripMenuItem
+			// _plainTextExportMenuItem
 			// 
-			this.plainTextToolStripMenuItem.Enabled = false;
-			this.locExtender.SetLocalizableToolTip(this.plainTextToolStripMenuItem, null);
-			this.locExtender.SetLocalizationComment(this.plainTextToolStripMenuItem, null);
-			this.locExtender.SetLocalizationPriority(this.plainTextToolStripMenuItem, Localization.LocalizationPriority.Medium);
-			this.locExtender.SetLocalizingId(this.plainTextToolStripMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu,plainTextExport");
-			this.plainTextToolStripMenuItem.Name = "plainTextToolStripMenuItem";
-			this.plainTextToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
-			this.plainTextToolStripMenuItem.Text = "Plain Text...";
+			this.locExtender.SetLocalizableToolTip(this._plainTextExportMenuItem, null);
+			this.locExtender.SetLocalizationComment(this._plainTextExportMenuItem, null);
+			this.locExtender.SetLocalizationPriority(this._plainTextExportMenuItem, Localization.LocalizationPriority.Medium);
+			this.locExtender.SetLocalizingId(this._plainTextExportMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.plainTextExport");
+			this._plainTextExportMenuItem.Name = "_plainTextExportMenuItem";
+			this._plainTextExportMenuItem.Size = new System.Drawing.Size(236, 22);
+			this._plainTextExportMenuItem.Text = "Plain Text...";
+			this._plainTextExportMenuItem.Click += new System.EventHandler(this.OnPlainTextExportMenuItem_Click);
 			// 
-			// fLExInterlinearTextToolStripMenuItem
+			// _flexInterlinearExportMenuItem
 			// 
-			this.locExtender.SetLocalizableToolTip(this.fLExInterlinearTextToolStripMenuItem, null);
-			this.locExtender.SetLocalizationComment(this.fLExInterlinearTextToolStripMenuItem, null);
-			this.locExtender.SetLocalizationPriority(this.fLExInterlinearTextToolStripMenuItem, Localization.LocalizationPriority.Medium);
-			this.locExtender.SetLocalizingId(this.fLExInterlinearTextToolStripMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu,FLExTextExport");
-			this.fLExInterlinearTextToolStripMenuItem.Name = "fLExInterlinearTextToolStripMenuItem";
-			this.fLExInterlinearTextToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
-			this.fLExInterlinearTextToolStripMenuItem.Text = "FLEx Interlinear Text...";
-			this.fLExInterlinearTextToolStripMenuItem.Click += new System.EventHandler(this.OnFLexTextExportClick);
+			this.locExtender.SetLocalizableToolTip(this._flexInterlinearExportMenuItem, null);
+			this.locExtender.SetLocalizationComment(this._flexInterlinearExportMenuItem, null);
+			this.locExtender.SetLocalizationPriority(this._flexInterlinearExportMenuItem, Localization.LocalizationPriority.Medium);
+			this.locExtender.SetLocalizingId(this._flexInterlinearExportMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.FLExTextExport");
+			this._flexInterlinearExportMenuItem.Name = "_flexInterlinearExportMenuItem";
+			this._flexInterlinearExportMenuItem.Size = new System.Drawing.Size(236, 22);
+			this._flexInterlinearExportMenuItem.Text = "FLEx Interlinear Text...";
+			this._flexInterlinearExportMenuItem.Click += new System.EventHandler(this.OnFLexTextExportClick);
+			// 
+			// _exportVernacularSubtitlesMenuItem
+			// 
+			this.locExtender.SetLocalizableToolTip(this._exportVernacularSubtitlesMenuItem, null);
+			this.locExtender.SetLocalizationComment(this._exportVernacularSubtitlesMenuItem, null);
+			this.locExtender.SetLocalizationPriority(this._exportVernacularSubtitlesMenuItem, Localization.LocalizationPriority.Medium);
+			this.locExtender.SetLocalizingId(this._exportVernacularSubtitlesMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.srtVernacularSubtitlesExport" +
+        "");
+			this._exportVernacularSubtitlesMenuItem.Name = "_exportVernacularSubtitlesMenuItem";
+			this._exportVernacularSubtitlesMenuItem.Size = new System.Drawing.Size(236, 22);
+			this._exportVernacularSubtitlesMenuItem.Text = "Vernacular Subtitles File...";
+			this._exportVernacularSubtitlesMenuItem.ToolTipText = "The SRT format can be used to create subtitle (captioned) video";
+			this._exportVernacularSubtitlesMenuItem.Click += new System.EventHandler(this.OnExportVernacularSubtitlesMenuItem_Click);
 			// 
 			// _exportFreeTranslationSubtitlesMenuItem
 			// 
 			this.locExtender.SetLocalizableToolTip(this._exportFreeTranslationSubtitlesMenuItem, null);
 			this.locExtender.SetLocalizationComment(this._exportFreeTranslationSubtitlesMenuItem, null);
+			this.locExtender.SetLocalizationPriority(this._exportFreeTranslationSubtitlesMenuItem, Localization.LocalizationPriority.Medium);
 			this.locExtender.SetLocalizingId(this._exportFreeTranslationSubtitlesMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.srtFreeTranslationSubtitlesE" +
         "xport");
 			this._exportFreeTranslationSubtitlesMenuItem.Name = "_exportFreeTranslationSubtitlesMenuItem";
@@ -290,18 +304,6 @@ namespace SayMore.Transcription.UI
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
-			// _exportVernacularSubtitlesMenuItem
-			// 
-			this.locExtender.SetLocalizableToolTip(this._exportVernacularSubtitlesMenuItem, null);
-			this.locExtender.SetLocalizationComment(this._exportVernacularSubtitlesMenuItem, null);
-			this.locExtender.SetLocalizingId(this._exportVernacularSubtitlesMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu,srtVernacularSubtitlesExport" +
-        "");
-			this._exportVernacularSubtitlesMenuItem.Name = "_exportVernacularSubtitlesMenuItem";
-			this._exportVernacularSubtitlesMenuItem.Size = new System.Drawing.Size(236, 22);
-			this._exportVernacularSubtitlesMenuItem.Text = "Vernacular Subtitles File...";
-			this._exportVernacularSubtitlesMenuItem.ToolTipText = "The SRT format can be used to create subtitle (captioned) video";
-			this._exportVernacularSubtitlesMenuItem.Click += new System.EventHandler(this.OnExportVernacularSubtitlesMenuItem_Click);
-			// 
 			// TextAnnotationEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -342,8 +344,8 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripMenuItem _buttonTranscriptionFont;
 		private System.Windows.Forms.ToolStripMenuItem _buttonFreeTranslationFont;
 		private System.Windows.Forms.ToolStripDropDownButton _exportMenu;
-		private System.Windows.Forms.ToolStripMenuItem plainTextToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem fLExInterlinearTextToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem _plainTextExportMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem _flexInterlinearExportMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem _exportFreeTranslationSubtitlesMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem _exportVernacularSubtitlesMenuItem;
 

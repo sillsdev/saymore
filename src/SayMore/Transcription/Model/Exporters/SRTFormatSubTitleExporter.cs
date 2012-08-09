@@ -1,14 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Windows.Forms;
-using System.Xml.Linq;
-using Localization;
-using Palaso.IO;
-using Palaso.Reporting;
-using SayMore.Media.MPlayer;
 
 
 namespace SayMore.Transcription.Model

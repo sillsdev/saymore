@@ -354,6 +354,11 @@ namespace SayMore.Transcription.UI
 			}
 		}
 
+		private void OnExportElanMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Actually, SayMore already stores this information in ELAN format (.eaf). Simply double click the annotations file to edit it in ELAN.");
+		}
+
 		private void OnExportFreeTranslationSubtitlesMenuItem_Click(object sender, EventArgs e)
 		{
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
@@ -371,34 +376,43 @@ namespace SayMore.Transcription.UI
 		private void DoExportSubtitleDialog(string fileNameSuffix, TimeTier timeTier, TextTier textTeir)
 		{
 			textTeir.AddTimeRangeData(timeTier);
-			using (var dlg = new SaveFileDialog())
-			{
-				dlg.AddExtension = true;
-				dlg.CheckPathExists = true;
-				dlg.AutoUpgradeEnabled = true;
-				dlg.DefaultExt = ".srt";
-				dlg.Filter = "SRT Subtitle File (*.srt)|*.srt";
-				dlg.FileName = _file.ParentElement.Id + "_"+fileNameSuffix+".srt";
-				dlg.RestoreDirectory = true;
-				dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 
-				if (DialogResult.OK != dlg.ShowDialog())
-					return;
+			var filter =  "SRT Subtitle File (*.srt)|*.srt";
+			var fileName =_file.ParentElement.Id + "_"+fileNameSuffix+".srt";
+			var action = new Action<string>(path => SRTFormatSubTitleExporter.Export(path, textTeir));
 
-				try
-				{
-					//var path = Path.Combine(Path.GetDirectoryName(_file.PathToAnnotatedFile), _file.ParentElement.Id + "_subtitle.srt");
-					SRTFormatSubTitleExporter.Export(dlg.FileName, textTeir);
-					Process.Start("Explorer", "/select, \"" + dlg.FileName + "\"");
-				}
-				catch (Exception error)
-				{
-					ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
-				}
-			}
+			DoSimpleExportDialog(".srt", filter, fileName, action);
 		}
 
 		private void OnPlainTextExportMenuItem_Click(object sender, EventArgs e)
+		{
+			var filter = "Text File (*.txt)|*.txt";
+			var fileName = _file.ParentElement.Id + "_transcription.txt";
+			var action = new Action<string>(path => PlainTextTranscriptionExporter.Export(path, (((AnnotationComponentFile) _file).Tiers)));
+
+			DoSimpleExportDialog(".txt", filter, fileName, action);
+		}
+
+		private void OnCsvExportMenuItem_Click(object sender, EventArgs e)
+		{
+			var filter = "Comma Separated Values File (*.csv)|*.csv";
+			var fileName = _file.ParentElement.Id + "_transcription.csv";
+			var action = new Action<string>(path => CSVTranscriptionExporter.Export(path, (((AnnotationComponentFile) _file).Tiers)));
+
+			DoSimpleExportDialog(".csv", filter, fileName, action);
+		}
+
+		private void OnToolboxInterlinearExportMenuItem_Click(object sender, EventArgs e)
+		{
+			var filter = "Toolbox Standard Format File (*.txt)|*.txt";
+			var fileName = _file.ParentElement.Id + "_interlinear.txt";
+			var mediaFileName = Path.GetFileName(AssociatedComponentFile.PathToAnnotatedFile);
+			var action = new Action<string>(path => ToolboxTranscriptionExporter.Export(_file.ParentElement.Id, mediaFileName, path, (((AnnotationComponentFile)_file).Tiers)));
+
+			DoSimpleExportDialog(".txt", filter, fileName, action);
+		}
+
+		private static void DoSimpleExportDialog(string defaultExt, string filter, string fileName, Action<string> action)
 		{
 			try
 			{
@@ -407,16 +421,16 @@ namespace SayMore.Transcription.UI
 					dlg.AddExtension = true;
 					dlg.CheckPathExists = true;
 					dlg.AutoUpgradeEnabled = true;
-					dlg.DefaultExt = ".srt";
-					dlg.Filter = "Text File (*.txt)|*.txt";
-					dlg.FileName = _file.ParentElement.Id + "_transcription.txt";
+					dlg.DefaultExt = defaultExt;
+					dlg.Filter = filter;
+					dlg.FileName = fileName;
 					dlg.RestoreDirectory = true;
 					dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
 					if (DialogResult.OK != dlg.ShowDialog())
 						return;
 
-					PlainTextTranscriptionExporter.Export(dlg.FileName, (((AnnotationComponentFile) _file).Tiers));
+					action(dlg.FileName);
 					Process.Start("Explorer", "/select, \"" + dlg.FileName + "\"");
 				}
 			}
@@ -425,68 +439,5 @@ namespace SayMore.Transcription.UI
 				ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
 			}
 		}
-
-		private void OnCsvExportMenuItem_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				using (var dlg = new SaveFileDialog())
-				{
-					dlg.AddExtension = true;
-					dlg.CheckPathExists = true;
-					dlg.AutoUpgradeEnabled = true;
-					dlg.DefaultExt = ".srt";
-					dlg.Filter = "Comma Separated Values File (*.csv)|*.csv";
-					dlg.FileName = _file.ParentElement.Id + "_transcription.csv";
-					//dlg.RestoreDirectory = true;
-					dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-					if (DialogResult.OK != dlg.ShowDialog())
-						return;
-
-					CSVTranscriptionExporter.Export(dlg.FileName, (((AnnotationComponentFile)_file).Tiers));
-					Process.Start("Explorer", "/select, \"" + dlg.FileName + "\"");
-				}
-			}
-			catch (Exception error)
-			{
-				ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
-			}
-		}
-
-		private void _exportElanMenuItem_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("Actually, SayMore already stores this information in ELAN format (.eaf). Simply double click the annotations file to edit it in ELAN.");
-		}
-
-		private void _toolboxInterlinearExportMenuItem_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				using (var dlg = new SaveFileDialog())
-				{
-					dlg.AddExtension = true;
-					dlg.CheckPathExists = true;
-					dlg.AutoUpgradeEnabled = true;
-					dlg.DefaultExt = ".txt";
-					dlg.Filter = "Toolbox Standard Format File (*.txt)|*.txt";
-					dlg.FileName = _file.ParentElement.Id + "_interlinear.txt";
-					//dlg.RestoreDirectory = true;
-					dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-					if (DialogResult.OK != dlg.ShowDialog())
-						return;
-
-					var mediaFileName = Path.GetFileName(AssociatedComponentFile.PathToAnnotatedFile);
-					ToolboxTranscriptionExporter.Export(_file.ParentElement.Id, mediaFileName, dlg.FileName, (((AnnotationComponentFile)_file).Tiers));
-					Process.Start("Explorer", "/select, \"" + dlg.FileName + "\"");
-				}
-			}
-			catch (Exception error)
-			{
-				ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
-			}
-		}
-
 	}
 }

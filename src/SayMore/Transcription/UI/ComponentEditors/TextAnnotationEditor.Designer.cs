@@ -29,6 +29,7 @@ namespace SayMore.Transcription.UI
 			this._plainTextExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._exportVernacularSubtitlesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._exportFreeTranslationSubtitlesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this._toolboxInterlinearExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._buttonResegment = new System.Windows.Forms.ToolStripButton();
 			this._buttonRecordings = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonCarefulSpeech = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,7 +40,6 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutPlaybackSpeed = new System.Windows.Forms.TableLayoutPanel();
 			this._comboPlaybackSpeed = new System.Windows.Forms.ComboBox();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this._toolboxInterlinearExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._splitter)).BeginInit();
 			this._splitter.SuspendLayout();
@@ -119,12 +119,12 @@ namespace SayMore.Transcription.UI
 			// 
 			this._exportMenu.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this._exportMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._csvExportMenuItem,
             this._exportElanMenuItem,
             this._flexInterlinearExportMenuItem,
+            this._exportFreeTranslationSubtitlesMenuItem,
             this._plainTextExportMenuItem,
             this._exportVernacularSubtitlesMenuItem,
-            this._exportFreeTranslationSubtitlesMenuItem,
+            this._csvExportMenuItem,
             this._toolboxInterlinearExportMenuItem});
 			this._exportMenu.Image = global::SayMore.Properties.Resources.InterlinearExport;
 			this._exportMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -142,8 +142,8 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this._csvExportMenuItem, null);
 			this.locExtender.SetLocalizingId(this._csvExportMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.commaSeparatedValueExport");
 			this._csvExportMenuItem.Name = "_csvExportMenuItem";
-			this._csvExportMenuItem.Size = new System.Drawing.Size(239, 22);
-			this._csvExportMenuItem.Text = "Comma Separated Values File...";
+			this._csvExportMenuItem.Size = new System.Drawing.Size(236, 22);
+			this._csvExportMenuItem.Text = "Spreadsheet (CSV) File...";
 			this._csvExportMenuItem.ToolTipText = "Use this for getting data into a spreadsheet application.";
 			this._csvExportMenuItem.Click += new System.EventHandler(this.OnCsvExportMenuItem_Click);
 			// 
@@ -153,9 +153,9 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this._exportElanMenuItem, null);
 			this.locExtender.SetLocalizingId(this._exportElanMenuItem, ".eLANFileToolStripMenuItem");
 			this._exportElanMenuItem.Name = "_exportElanMenuItem";
-			this._exportElanMenuItem.Size = new System.Drawing.Size(239, 22);
+			this._exportElanMenuItem.Size = new System.Drawing.Size(236, 22);
 			this._exportElanMenuItem.Text = "ELAN File...";
-			this._exportElanMenuItem.Click += new System.EventHandler(this._exportElanMenuItem_Click);
+			this._exportElanMenuItem.Click += new System.EventHandler(this.OnExportElanMenuItem_Click);
 			// 
 			// _flexInterlinearExportMenuItem
 			// 
@@ -164,7 +164,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationPriority(this._flexInterlinearExportMenuItem, Localization.LocalizationPriority.Medium);
 			this.locExtender.SetLocalizingId(this._flexInterlinearExportMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.FLExTextExport");
 			this._flexInterlinearExportMenuItem.Name = "_flexInterlinearExportMenuItem";
-			this._flexInterlinearExportMenuItem.Size = new System.Drawing.Size(239, 22);
+			this._flexInterlinearExportMenuItem.Size = new System.Drawing.Size(236, 22);
 			this._flexInterlinearExportMenuItem.Text = "FLEx Interlinear Text...";
 			this._flexInterlinearExportMenuItem.Click += new System.EventHandler(this.OnFLexTextExportClick);
 			// 
@@ -175,7 +175,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationPriority(this._plainTextExportMenuItem, Localization.LocalizationPriority.Medium);
 			this.locExtender.SetLocalizingId(this._plainTextExportMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.plainTextExport");
 			this._plainTextExportMenuItem.Name = "_plainTextExportMenuItem";
-			this._plainTextExportMenuItem.Size = new System.Drawing.Size(239, 22);
+			this._plainTextExportMenuItem.Size = new System.Drawing.Size(236, 22);
 			this._plainTextExportMenuItem.Text = "Plain Text...";
 			this._plainTextExportMenuItem.Click += new System.EventHandler(this.OnPlainTextExportMenuItem_Click);
 			// 
@@ -187,7 +187,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this._exportVernacularSubtitlesMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.srtVernacularSubtitlesExport" +
         "");
 			this._exportVernacularSubtitlesMenuItem.Name = "_exportVernacularSubtitlesMenuItem";
-			this._exportVernacularSubtitlesMenuItem.Size = new System.Drawing.Size(239, 22);
+			this._exportVernacularSubtitlesMenuItem.Size = new System.Drawing.Size(236, 22);
 			this._exportVernacularSubtitlesMenuItem.Text = "Vernacular Subtitles File...";
 			this._exportVernacularSubtitlesMenuItem.ToolTipText = "The SRT format can be used to create subtitle (captioned) video";
 			this._exportVernacularSubtitlesMenuItem.Click += new System.EventHandler(this.OnExportVernacularSubtitlesMenuItem_Click);
@@ -200,10 +200,20 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this._exportFreeTranslationSubtitlesMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.srtFreeTranslationSubtitlesE" +
         "xport");
 			this._exportFreeTranslationSubtitlesMenuItem.Name = "_exportFreeTranslationSubtitlesMenuItem";
-			this._exportFreeTranslationSubtitlesMenuItem.Size = new System.Drawing.Size(239, 22);
+			this._exportFreeTranslationSubtitlesMenuItem.Size = new System.Drawing.Size(236, 22);
 			this._exportFreeTranslationSubtitlesMenuItem.Text = "Free Translation Subtitles File...";
 			this._exportFreeTranslationSubtitlesMenuItem.ToolTipText = "The SRT format can be used to create subtitle (captioned) video";
 			this._exportFreeTranslationSubtitlesMenuItem.Click += new System.EventHandler(this.OnExportFreeTranslationSubtitlesMenuItem_Click);
+			// 
+			// _toolboxInterlinearExportMenuItem
+			// 
+			this.locExtender.SetLocalizableToolTip(this._toolboxInterlinearExportMenuItem, null);
+			this.locExtender.SetLocalizationComment(this._toolboxInterlinearExportMenuItem, null);
+			this.locExtender.SetLocalizingId(this._toolboxInterlinearExportMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.ToolboxExport");
+			this._toolboxInterlinearExportMenuItem.Name = "_toolboxInterlinearExportMenuItem";
+			this._toolboxInterlinearExportMenuItem.Size = new System.Drawing.Size(236, 22);
+			this._toolboxInterlinearExportMenuItem.Text = "Toolbox File...";
+			this._toolboxInterlinearExportMenuItem.Click += new System.EventHandler(this.OnToolboxInterlinearExportMenuItem_Click);
 			// 
 			// _buttonResegment
 			// 
@@ -330,16 +340,6 @@ namespace SayMore.Transcription.UI
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
-			// 
-			// _toolboxInterlinearExportMenuItem
-			// 
-			this.locExtender.SetLocalizableToolTip(this._toolboxInterlinearExportMenuItem, null);
-			this.locExtender.SetLocalizationComment(this._toolboxInterlinearExportMenuItem, null);
-			this.locExtender.SetLocalizingId(this._toolboxInterlinearExportMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.ToolboxExport");
-			this._toolboxInterlinearExportMenuItem.Name = "_toolboxInterlinearExportMenuItem";
-			this._toolboxInterlinearExportMenuItem.Size = new System.Drawing.Size(239, 22);
-			this._toolboxInterlinearExportMenuItem.Text = "Toolbox File...";
-			this._toolboxInterlinearExportMenuItem.Click += new System.EventHandler(this._toolboxInterlinearExportMenuItem_Click);
 			// 
 			// TextAnnotationEditor
 			// 

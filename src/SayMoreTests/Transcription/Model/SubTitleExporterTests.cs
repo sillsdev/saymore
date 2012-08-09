@@ -8,6 +8,7 @@ using NUnit.Framework;
 using Palaso.IO;
 using Palaso.TestUtilities;
 using SayMore.Transcription.Model;
+using SayMore.Transcription.Model.Exporters;
 using SayMore.Transcription.UI;
 using SilTools;
 

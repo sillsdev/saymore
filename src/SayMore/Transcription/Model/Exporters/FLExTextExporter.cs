@@ -7,10 +7,9 @@ using System.Xml.Linq;
 using Localization;
 using Palaso.Reporting;
 using SayMore.UI;
-using SayMore.Utilities;
 using SayMore.UI.LowLevelControls;
 
-namespace SayMore.Transcription.Model
+namespace SayMore.Transcription.Model.Exporters
 {
 	/// <summary>
 	/// Exports FLEX-Text interlinear

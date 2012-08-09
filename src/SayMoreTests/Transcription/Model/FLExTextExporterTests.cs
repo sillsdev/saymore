@@ -2,6 +2,7 @@ using System.Linq;
 using System.Xml.Linq;
 using NUnit.Framework;
 using SayMore.Transcription.Model;
+using SayMore.Transcription.Model.Exporters;
 
 namespace SayMoreTests.Transcription.Model
 {

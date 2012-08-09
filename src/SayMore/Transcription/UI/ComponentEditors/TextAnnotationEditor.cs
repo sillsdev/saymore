@@ -9,6 +9,7 @@ using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using SayMore.Transcription.Model.Exporters;
 using SayMore.UI.ComponentEditors;
 using SayMore.Media.MPlayer;
 using SilTools;
@@ -357,44 +358,44 @@ namespace SayMore.Transcription.UI
 		{
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var contentTier = ((AnnotationComponentFile) _file).Tiers.GetFreeTranslationTier();
-			DoExportSubtitleDialog(timeTier, contentTier);
+			DoExportSubtitleDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtFreeTranslationSubtitlesExport.freeTranslationFilenameSuffix","freeTranslation_subtitle"), timeTier, contentTier);
 		}
 
 		private void OnExportVernacularSubtitlesMenuItem_Click(object sender, EventArgs e)
 		{
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var contentTier = ((AnnotationComponentFile)_file).Tiers.GetTranscriptionTier();
-			DoExportSubtitleDialog(timeTier,contentTier);
+			DoExportSubtitleDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtVernacularSubtitlesExport.transcriptionFilenameSuffix","vernacular_subtitle"), timeTier, contentTier);
 		}
 
-		private void DoExportSubtitleDialog(TimeTier timeTier, TextTier textTeir)
+		private void DoExportSubtitleDialog(string fileNameSuffix, TimeTier timeTier, TextTier textTeir)
 		{
 			textTeir.AddTimeRangeData(timeTier);
-//			using (var dlg = new SaveFileDialog())
-//			{
-//				dlg.AddExtension = true;
-//				dlg.CheckPathExists = true;
-//				dlg.AutoUpgradeEnabled = true;
-//				dlg.DefaultExt = ".srt";
-//				dlg.Filter = "SRT Subtitle File (*.srt)|*.srt";
-//				dlg.FileName = _file.ParentElement.Id +"_subtitle.srt";
-//				dlg.RestoreDirectory = true;
-//				dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-//
-//				if (DialogResult.OK != dlg.ShowDialog())
-//					return;
+			using (var dlg = new SaveFileDialog())
+			{
+				dlg.AddExtension = true;
+				dlg.CheckPathExists = true;
+				dlg.AutoUpgradeEnabled = true;
+				dlg.DefaultExt = ".srt";
+				dlg.Filter = "SRT Subtitle File (*.srt)|*.srt";
+				dlg.FileName = _file.ParentElement.Id + "_"+fileNameSuffix+".srt";
+				dlg.RestoreDirectory = true;
+				dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+
+				if (DialogResult.OK != dlg.ShowDialog())
+					return;
 
 				try
 				{
-					var path = Path.Combine(Path.GetDirectoryName(_file.PathToAnnotatedFile), _file.ParentElement.Id + "_subtitle.srt");
-					SRTFormatSubTitleExporter.Export(path, textTeir);
-					Process.Start("Explorer", "/select, \"" + path + "\"");
+					//var path = Path.Combine(Path.GetDirectoryName(_file.PathToAnnotatedFile), _file.ParentElement.Id + "_subtitle.srt");
+					SRTFormatSubTitleExporter.Export(dlg.FileName, textTeir);
+					Process.Start("Explorer", "/select, \"" + dlg.FileName + "\"");
 				}
 				catch (Exception error)
 				{
 					ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
 				}
-			//
+			}
 		}
 
 		private void OnPlainTextExportMenuItem_Click(object sender, EventArgs e)
@@ -423,6 +424,39 @@ namespace SayMore.Transcription.UI
 			{
 				ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
 			}
+		}
+
+		private void OnCsvExportMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				using (var dlg = new SaveFileDialog())
+				{
+					dlg.AddExtension = true;
+					dlg.CheckPathExists = true;
+					dlg.AutoUpgradeEnabled = true;
+					dlg.DefaultExt = ".srt";
+					dlg.Filter = "Comma Separated Values File (*.csv)|*.csv";
+					dlg.FileName = _file.ParentElement.Id + "_transcription.csv";
+					//dlg.RestoreDirectory = true;
+					dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+					if (DialogResult.OK != dlg.ShowDialog())
+						return;
+
+					CSVTranscriptionExporter.Export(dlg.FileName, (((AnnotationComponentFile)_file).Tiers));
+					Process.Start("Explorer", "/select, \"" + dlg.FileName + "\"");
+				}
+			}
+			catch (Exception error)
+			{
+				ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
+			}
+		}
+
+		private void _exportElanMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Actually, SayMore already stores this information in ELAN format (.eaf). Simply double click the annotations file to edit it in ELAN.");
 		}
 
 	}

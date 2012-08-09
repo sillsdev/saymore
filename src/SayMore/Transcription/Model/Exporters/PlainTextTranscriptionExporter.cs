@@ -1,8 +1,7 @@
 using System.IO;
 using Localization;
 
-
-namespace SayMore.Transcription.Model
+namespace SayMore.Transcription.Model.Exporters
 {
 	/// <summary>
 	/// Exports the text of a tier to an SRT format text file

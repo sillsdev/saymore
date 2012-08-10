@@ -297,16 +297,22 @@ namespace SayMore.Transcription.UI
 
 			_grid.PreventPlayback = true;
 
-			var annotationType = (sender == _buttonCarefulSpeech ?
-				AudioRecordingType.Careful : AudioRecordingType.Translation);
-
-			if (AssociatedComponentFile.RecordAnnotations(FindForm(), annotationType) != null &&
-				ComponentFileListRefreshAction != null)
+			try
 			{
-				ComponentFileListRefreshAction(_file.PathToAnnotatedFile, null);
-			}
+				var annotationType = (sender == _buttonCarefulSpeech
+										? AudioRecordingType.Careful
+										: AudioRecordingType.Translation);
 
-			_grid.PreventPlayback = false;
+				if (AssociatedComponentFile.RecordAnnotations(FindForm(), annotationType) != null &&
+					ComponentFileListRefreshAction != null)
+				{
+					ComponentFileListRefreshAction(_file.PathToAnnotatedFile, null);
+				}
+			}
+			finally
+			{
+				_grid.PreventPlayback = false;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

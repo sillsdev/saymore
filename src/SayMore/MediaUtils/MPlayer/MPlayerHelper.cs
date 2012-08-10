@@ -84,6 +84,13 @@ namespace SayMore.Media.MPlayer
 #endif
 					yield return string.Format("-wid {0}", hwndVideo);
 				}
+#if !__MonoCS__
+				else
+				{
+					// This forces the use of the native windows audio driver, which seems to fix SP-403: playback truncation
+					yield return "-ao win32";
+				}
+#endif
 			}
 		}
 

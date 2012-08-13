@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace SayMore.Transcription.Model
 
 		private readonly TimeTier _srcRecordingTier;
 		private readonly ISynchronizeInvoke _synchInvoke;
-		private readonly Segment[] _srcRecordingSegments;
+		private readonly List<TimeRange> _srcRecordingSegments;
 		private WaveFileWriter _audioFileWriter;
 		private readonly WaveFormat _outputAudioFormat;
 		private readonly WaveFormat _output1ChannelAudioFormat;
@@ -50,9 +51,10 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string Generate(TimeTier sourceRecodingTier, Control parentControlForDialog)
+		public static string Generate(TierCollection tierCollection, Control parentControlForDialog)
 		{
-			if (!CanGenerate(sourceRecodingTier))
+			var timeTier = tierCollection.GetTimeTier();
+			if (!CanGenerate(timeTier))
 				return null;
 
 			try
@@ -64,7 +66,8 @@ namespace SayMore.Transcription.Model
 					"SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg",
 					"Generating Oral Annotation file...");
 
-				using (var generator = new OralAnnotationFileGenerator(sourceRecodingTier, parentControlForDialog))
+				using (var generator = new OralAnnotationFileGenerator(timeTier,
+					tierCollection.GetIsSegmentIgnored, parentControlForDialog))
 				using (var dlg = new LoadingDlg(msg))
 				{
 					if (parentControlForDialog != null)
@@ -118,11 +121,22 @@ namespace SayMore.Transcription.Model
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		private OralAnnotationFileGenerator(TimeTier sourceRecodingTier, ISynchronizeInvoke synchInvoke)
+		private OralAnnotationFileGenerator(TimeTier sourceTier, Func<int, bool> ignoreSegment,
+			ISynchronizeInvoke synchInvoke)
 		{
-			_srcRecordingTier = sourceRecodingTier;
+			_srcRecordingTier = sourceTier;
 			_synchInvoke = synchInvoke;
-			_srcRecordingSegments = _srcRecordingTier.Segments.ToArray();
+
+			bool fullySegmented = sourceTier.IsFullySegmented;
+			_srcRecordingSegments = new List<TimeRange>();
+			for (int i = 0; i < sourceTier.Segments.Count; i++)
+			{
+				// Per JohnH's request via e-mail (8-12-2012), exclude ignored segments
+				if (!ignoreSegment(i))
+					_srcRecordingSegments.Add(sourceTier.Segments[i].TimeRange);
+			}
+			if (!fullySegmented)
+				_srcRecordingSegments.Add(new TimeRange(sourceTier.EndOfLastSegment, sourceTier.TotalTime));
 
 			_srcRecStreamProvider = WaveStreamProvider.Create(
 				AudioUtils.GetDefaultWaveFormat(1), _srcRecordingTier.MediaFileName);
@@ -180,14 +194,15 @@ namespace SayMore.Transcription.Model
 				int retry = 0;
 				do
 				{
+					// REVIEW: Not sure why this should have to be inside the do-loop, but in at least one of my tests,
+					// the temp file went AWOL.
 					if (retry == 0 || !File.Exists(tmpOutputFile))
 					{
-						// REVIEW: Not sure why this should have to be inside the do-loop, but in at least one of my tests,
-						// the temp file went AWOL.
+
 						using (_audioFileWriter = new WaveFileWriter(tmpOutputFile, _outputAudioFormat))
 						{
-							foreach (var segment in _srcRecordingSegments)
-								InterleaveSegments(segment);
+							foreach (var timeRange in _srcRecordingSegments)
+								InterleaveSegments(timeRange);
 						}
 					}
 
@@ -252,22 +267,27 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InterleaveSegments(Segment segment)
+		private void InterleaveSegments(TimeRange segmentRange)
 		{
 			// Write a channel for the source recording segment
-			var inputStream = _srcRecStreamProvider.GetStreamSubset(segment);
+			var inputStream = _srcRecStreamProvider.GetStreamSubset(segmentRange);
 			if (inputStream != null)
 				WriteAudioStreamToChannel(AnnotationChannel.Source, inputStream);
 
+			var pathToAnnotationsFolder = _srcRecordingTier.MediaFileName +
+				Settings.Default.OralAnnotationsFolderSuffix;
+
 			// Write a channel for the careful speech segment
-			using (var provider = GetWaveStreamForOralAnnotationSegment(segment, AudioRecordingType.Careful))
+			var filename = Path.Combine(pathToAnnotationsFolder, TimeTier.ComputeFileNameForCarefulSpeechSegment(segmentRange));
+			using (var provider = GetWaveStreamForOralAnnotationSegment(filename, AudioRecordingType.Careful))
 			{
 				if (provider.Stream != null)
 					WriteAudioStreamToChannel(AnnotationChannel.Careful, provider.Stream);
 			}
 
 			// Write a channel for the oral translation segment
-			using (var provider = GetWaveStreamForOralAnnotationSegment(segment, AudioRecordingType.Translation))
+			filename = Path.Combine(pathToAnnotationsFolder, TimeTier.ComputeFileNameForOralTranslationSegment(segmentRange));
+			using (var provider = GetWaveStreamForOralAnnotationSegment(filename, AudioRecordingType.Translation))
 			{
 				if (provider.Stream != null)
 					WriteAudioStreamToChannel(AnnotationChannel.Translation, provider.Stream);
@@ -275,16 +295,9 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private WaveStreamProvider GetWaveStreamForOralAnnotationSegment(Segment segment,
+		private WaveStreamProvider GetWaveStreamForOralAnnotationSegment(string filename,
 			AudioRecordingType annotationType)
 		{
-			var pathToAnnotationsFolder = _srcRecordingTier.MediaFileName +
-				Settings.Default.OralAnnotationsFolderSuffix;
-
-			var filename = Path.Combine(pathToAnnotationsFolder, (annotationType == AudioRecordingType.Careful ?
-				TimeTier.ComputeFileNameForCarefulSpeechSegment(segment) :
-				TimeTier.ComputeFileNameForOralTranslationSegment(segment)));
-
 			var provider = WaveStreamProvider.Create(_output1ChannelAudioFormat, filename);
 			if (provider.Error != null && !(provider.Error is FileNotFoundException))
 			{

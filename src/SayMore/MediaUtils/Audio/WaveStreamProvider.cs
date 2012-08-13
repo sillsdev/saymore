@@ -78,10 +78,10 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public WaveStream GetStreamSubset(Segment segment)
+		public WaveStream GetStreamSubset(TimeRange segmentRange)
 		{
-			return (segment.TimeRange.DurationSeconds > 0 ? new WaveSegmentStream(Stream,
-				segment.TimeRange.Start, segment.TimeRange.Duration) : Stream);
+			return (segmentRange.DurationSeconds > 0 ? new WaveSegmentStream(Stream,
+				segmentRange.Start, segmentRange.Duration) : Stream);
 		}
 	}
 }

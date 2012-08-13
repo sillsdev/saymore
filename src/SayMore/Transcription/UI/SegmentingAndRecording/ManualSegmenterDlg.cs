@@ -47,7 +47,7 @@ namespace SayMore.Transcription.UI
 					error = annotationFile.TryLoadAndReturnException();
 					if (error == null)
 					{
-						annotationFile.AssociatedComponentFile.GenerateOralAnnotationFile(viewModel.Tiers.GetTimeTier(), parent);
+						annotationFile.AssociatedComponentFile.GenerateOralAnnotationFile(viewModel.Tiers, parent);
 						return eafFile;
 					}
 

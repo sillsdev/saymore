@@ -702,7 +702,7 @@ namespace SayMore.Model.Files
 					}
 
 					var eafFileName = viewModel.Tiers.Save(PathToAnnotatedFile);
-					GenerateOralAnnotationFile(viewModel.Tiers.GetTimeTier(), frm);
+					GenerateOralAnnotationFile(viewModel.Tiers, frm);
 					return eafFileName;
 				}
 			}
@@ -713,12 +713,12 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GenerateOralAnnotationFile(TimeTier timeTier, Control parentOfProgressPopup)
+		public string GenerateOralAnnotationFile(TierCollection tiers, Control parentOfProgressPopup)
 		{
 			if (PreGenerateOralAnnotationFileAction != null)
 				PreGenerateOralAnnotationFileAction();
 
-			var filename = OralAnnotationFileGenerator.Generate(timeTier, parentOfProgressPopup);
+			var filename = OralAnnotationFileGenerator.Generate(tiers, parentOfProgressPopup);
 
 			if (PostGenerateOralAnnotationFileAction != null)
 				PostGenerateOralAnnotationFileAction();

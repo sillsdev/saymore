@@ -1389,5 +1389,25 @@ namespace SayMore.Properties {
                 return ((int)(this["DefaultAutoSegmenterMinimumSegmentLengthInMilliseconds"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public int NumberOfNAudioRecordingBuffers {
+            get {
+                return ((int)(this["NumberOfNAudioRecordingBuffers"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public int NAudioBufferMilliseconds {
+            get {
+                return ((int)(this["NAudioBufferMilliseconds"]));
+            }
+        }
     }
 }

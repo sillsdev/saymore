@@ -32,6 +32,14 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void InitializeWaveIn()
+		{
+			base.InitializeWaveIn();
+			_waveIn.NumberOfBuffers = Settings.Default.NumberOfNAudioRecordingBuffers;
+			_waveIn.BufferMilliseconds = Settings.Default.NAudioBufferMilliseconds;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool BeginAnnotationRecording(string outputWaveFileName)
 		{
 			if (GetIsInErrorState())

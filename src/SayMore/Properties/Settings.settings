@@ -375,7 +375,7 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="TranslationPlaybackType" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1</Value>
+      <Value Profile="(Default)">4</Value>
     </Setting>
     <Setting Name="MPlayerDebuggingOutputWindow" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />

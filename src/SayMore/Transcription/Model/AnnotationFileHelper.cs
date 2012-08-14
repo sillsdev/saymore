@@ -15,6 +15,8 @@ namespace SayMore.Transcription.Model
 	/// <summary>
 	/// Class for managing annotation files. SayMore annotation files are the same as
 	/// ELAN eaf files.
+	///
+	/// A nice presentation on the ELAN format is available here: http://pubman.mpdl.mpg.de/pubman/item/escidoc:131150:5/component/escidoc:135959/ELAN_Augsburg.pdf
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class AnnotationFileHelper
@@ -349,10 +351,11 @@ namespace SayMore.Transcription.Model
 		{
 			var timeSlots = GetTimeSlots();
 
+#if combineDuplicateSlots // see http://jira.palaso.org/issues/browse/SP-597
 			var slot = timeSlots.FirstOrDefault(kvp => kvp.Value.Equals(time));
 			if (!slot.Equals(default(KeyValuePair<string, float>)))
 				return slot.Key;
-
+#endif
 			var lastTimeSlotId = (timeSlots.Count == 0 ? 0 :
 				timeSlots.Keys.Max(id => int.Parse(id.Substring(2))));
 

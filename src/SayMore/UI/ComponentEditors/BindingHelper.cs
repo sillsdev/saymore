@@ -262,7 +262,10 @@ namespace SayMore.UI.ComponentEditors
 							"SayMore has attempted to interpret the date, but might have swapped the day and month. " +
 							"Please accept our apologies for this error. After you have fixed the date or confirmed that it is correct, please delete this message.",
 							"Text appended to the note for an element with an ambigous date field value"), key, error.Message);
-						return;
+
+					//this will save that new value, and this note
+					HandleValidatingControl(ctrl,new CancelEventArgs());
+					return;
 
 				}
 

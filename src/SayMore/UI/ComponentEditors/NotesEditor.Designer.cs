@@ -38,6 +38,7 @@ namespace SayMore.UI.ComponentEditors
 			this._notes.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._notes.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._notes, true);
+			this._binder.SetIsComponentFileId(this._notes, false);
 			this._notes.Location = new System.Drawing.Point(7, 7);
 			this._notes.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._notes.Multiline = true;
@@ -54,6 +55,7 @@ namespace SayMore.UI.ComponentEditors
 			this.Controls.Add(this._notes);
 			this.Name = "NotesEditor";
 			this.Size = new System.Drawing.Size(449, 279);
+			this.Load += new System.EventHandler(this.NotesEditor_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

@@ -24,8 +24,23 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void HandleNotesTextChanged(object sender, EventArgs e)
 		{
-			TabText = (_notes.Text.Trim() == string.Empty ?
-				string.Format("({0})", _origTabText) : _origTabText);
+			UpdateNotesTabLabel();
+		}
+
+		private void UpdateNotesTabLabel()
+		{
+			if (_notes.Text.Contains("**"))
+			{
+				TabText = "**" + _origTabText;
+			}
+			else if (_notes.Text.Trim() == string.Empty)
+			{
+				TabText = string.Format("({0})", _origTabText);
+			}
+			else
+			{
+				TabText = _origTabText;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -44,6 +59,11 @@ namespace SayMore.UI.ComponentEditors
 		{
 			_origTabText = TabText = LocalizationManager.GetString("CommonToMultipleViews.NotesEditor.TabText", "Notes");
 			base.HandleStringsLocalized();
+		}
+
+		private void NotesEditor_Load(object sender, EventArgs e)
+		{
+			UpdateNotesTabLabel();
 		}
 	}
 }

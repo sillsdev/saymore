@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Specialized;
 using System.Configuration;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,9 +9,11 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using Localization;
+using Palaso.Extensions;
 using Palaso.IO;
 using Palaso.Progress;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Media;
 using SayMore.Properties;
 using SayMore.UI.ProjectWindow;
@@ -58,12 +61,67 @@ namespace SayMore
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			//bring in settings from any previous version
-			if (Settings.Default.NeedUpgrade)
+			//NB: this code doesn't actually work, becuase for some reason Saymore uses its own settings code,
+			//(which emits a "settings" file rather than "user.config"),
+			//and which apparently doesn't use the application version to trigger the following technique:
+			if (Settings.Default.NeedUpgrade) //TODO: this doesn't get triggered with David's custom settings
 			{
 				//see http://stackoverflow.com/questions/3498561/net-applicationsettingsbase-should-i-call-upgrade-every-time-i-load
-				Settings.Default.Upgrade();
+				Settings.Default.Upgrade();	//TODO: and this doesn't seem to actually do anything with David's custom settings
 				Settings.Default.NeedUpgrade = false;
 				Settings.Default.Save();
+			}
+			//so, as a hack because this is biting our users *now*.
+			//this hack is begins the damage control started above, when from 1.6.52 to 1.6.53, we changed the namespace
+			//of the grid settings. It removes the old settings, talks to the user, and waits for the user to restart.
+			else
+			{
+				try
+				{
+					var x = Settings.Default.SegmentGrid; //we want this to throw if the last version used the SILGrid, and this one uses the BetterGrid
+				}
+				catch (Exception)
+				{
+					string path="";
+					try
+					{
+						ErrorReport.NotifyUserOfProblem("We apologize for the inconvenience, but to complete this upgrade, SayMore needs to exit. Please run it again to complete the upgrade.");
+
+						var s = Application.LocalUserAppDataPath;
+						s = s.Substring(0, s.IndexOf("Local") + 5);
+						path = s.CombineForPath("SayMore", "SayMore.Settings");
+						File.Delete(path);
+
+						Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
+						//leave this reminder to our post-restart self
+						if(MruFiles.Latest!=null)
+							File.WriteAllText(MRULatestReminderFilePath, MruFiles.Latest);
+
+						//Application.Restart(); won't work, because the settings will still get saved
+
+						System.Environment.FailFast("SayMore quiting hard to prevent old settings from being saved again.");
+					}
+					catch (Exception error)
+					{
+						ErrorReport.NotifyUserOfProblem(error,
+														"SayMore was unable to find or delete the settings file from the old version of SayMore. Normally, this would be found at " + path);
+						Application.Exit();
+					}
+				}
+
+			}
+
+			//this hack is a continuation of the damage control started above, when from 1.6.52 to 1.6.53, we changed the namespace
+			//of the grid settings.
+			if(File.Exists(MRULatestReminderFilePath))
+			{
+				var path = File.ReadAllText(MRULatestReminderFilePath).Trim();
+				if(File.Exists(path))
+				{
+					Settings.Default.MRUList = new StringCollection();
+					Settings.Default.MRUList.Add(path);
+				}
+				File.Delete(MRULatestReminderFilePath);
 			}
 
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
@@ -87,6 +145,16 @@ namespace SayMore
 			Settings.Default.Save();
 
 			SafelyDisposeProjectContext();
+		}
+
+		private static string MRULatestReminderFilePath
+		{
+			get
+			{
+				var s = Application.LocalUserAppDataPath;
+				s = s.Substring(0, s.IndexOf("Local") + 5);
+				return s.CombineForPath("SayMore", "lastFilePath.txt");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

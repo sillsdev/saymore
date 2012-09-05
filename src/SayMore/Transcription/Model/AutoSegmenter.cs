@@ -114,73 +114,75 @@ namespace SayMore.Transcription.Model
 				var samples = AudioFileHelper.GetSamples(StreamReader, requestedSamples);
 				uint remainingSamples = (uint)samples.GetLength(0);
 
-				uint lastBreak = 0;
-				var millisecondsPerSample = StreamReader.TotalTime.TotalMilliseconds / remainingSamples;
-				_adjacentSamplesToFactorIntoAdjustedScore = (uint)(_settings.AutoSegmenterPreferrerdPauseLengthInMilliseconds / millisecondsPerSample);
-				var minSamplesPerSegment = (uint)(_settings.AutoSegmenterMinimumSegmentLengthInMilliseconds / millisecondsPerSample);
-				var maxSamplesPerSegment = (uint)(_settings.AutoSegmenterMaximumSegmentLengthInMilliseconds / millisecondsPerSample);
-
-				uint idealSegmentLengthInSamples = (uint)Math.Ceiling((minSamplesPerSegment + maxSamplesPerSegment) / 2.0);
-
-				while (remainingSamples >= maxSamplesPerSegment)
-				{
-					if (remainingSamples < idealSegmentLengthInSamples * 2)
-						idealSegmentLengthInSamples = remainingSamples / 2;
-					uint samplesOnEitherSideOfTarget = idealSegmentLengthInSamples + _adjacentSamplesToFactorIntoAdjustedScore - minSamplesPerSegment;
-					uint targetBreak = lastBreak + idealSegmentLengthInSamples;
-					uint bestBreak = targetBreak;
-					double[] rawScores = new double[idealSegmentLengthInSamples * 2 + 1];
-					double[] adjustedScores = new double[idealSegmentLengthInSamples * 2 + 1];
-					rawScores[idealSegmentLengthInSamples] = ComputeRawScore(samples, targetBreak);
-					double bestScore = double.MaxValue;
-					double averageScore = 0;
-					for (uint i = 1; i < samplesOnEitherSideOfTarget; i++)
-					{
-						if (i < idealSegmentLengthInSamples)
-						{
-							rawScores[idealSegmentLengthInSamples + i] = ComputeRawScore(samples, targetBreak + i);
-							rawScores[idealSegmentLengthInSamples - i] = ComputeRawScore(samples, targetBreak - i);
-						}
-						if (i >= _adjacentSamplesToFactorIntoAdjustedScore)
-						{
-// DEBUG code if ((targetBreak - i) * millisecondsPerSample < 138939 && lastBreak > 138939 - maxSamplesPerSegment)
-							//{
-							//    System.Diagnostics.Debug.WriteLine("Position = " + (lastBreak + idealSegmentLengthInSamples + i) + "; Raw score = " + rawScores[idealSegmentLengthInSamples + i]);
-							//    System.Diagnostics.Debug.WriteLine("Position = " + (lastBreak + idealSegmentLengthInSamples - i) + "; Raw score = " + rawScores[idealSegmentLengthInSamples - i]);
-							//}
-							double distanceFactor = Math.Pow(i * _settings.AutoSegmenterOptimumLengthClampingFactor + 1, 2);
-							uint iAdjust = idealSegmentLengthInSamples + i - _adjacentSamplesToFactorIntoAdjustedScore;
-							double totalNewAdjustedScores = adjustedScores[iAdjust] = ComputeAdjustedScore(rawScores, iAdjust, distanceFactor);
-							if (adjustedScores[iAdjust] < bestScore)
-							{
-								bestScore = adjustedScores[iAdjust];
-								bestBreak = lastBreak + iAdjust;
-							}
-							iAdjust = idealSegmentLengthInSamples - i + _adjacentSamplesToFactorIntoAdjustedScore;
-							adjustedScores[iAdjust] = ComputeAdjustedScore(rawScores, iAdjust, distanceFactor);
-							totalNewAdjustedScores += adjustedScores[iAdjust];
-							if (adjustedScores[iAdjust] < bestScore)
-							{
-								bestScore = adjustedScores[iAdjust];
-								bestBreak = lastBreak + iAdjust;
-							}
-							uint samplesInPrevAvg = (1 + 2 * ( i - _adjacentSamplesToFactorIntoAdjustedScore - 1));
-							averageScore = (averageScore * samplesInPrevAvg + totalNewAdjustedScores) / (samplesInPrevAvg + 2);
-							if (bestScore < averageScore / 2 && i < idealSegmentLengthInSamples &&
-								rawScores[idealSegmentLengthInSamples + i] < rawScores[idealSegmentLengthInSamples + i + 1] &&
-								rawScores[idealSegmentLengthInSamples - i] < rawScores[idealSegmentLengthInSamples - i - 1])
-							{
-								break;
-							}
-						}
-					}
-					remainingSamples -= (bestBreak - lastBreak);
-					lastBreak = bestBreak;
-					yield return TimeSpan.FromMilliseconds(millisecondsPerSample * bestBreak);
-				}
-
 				if (remainingSamples > 0)
-					yield return StreamReader.TotalTime;
+				{
+					uint lastBreak = 0;
+					var millisecondsPerSample = StreamReader.TotalTime.TotalMilliseconds / remainingSamples;
+					_adjacentSamplesToFactorIntoAdjustedScore = (uint)(_settings.AutoSegmenterPreferrerdPauseLengthInMilliseconds / millisecondsPerSample);
+					var minSamplesPerSegment = (uint)(_settings.AutoSegmenterMinimumSegmentLengthInMilliseconds / millisecondsPerSample);
+					var maxSamplesPerSegment = (uint)(_settings.AutoSegmenterMaximumSegmentLengthInMilliseconds / millisecondsPerSample);
+
+					uint idealSegmentLengthInSamples = (uint)Math.Ceiling((minSamplesPerSegment + maxSamplesPerSegment) / 2.0);
+
+					while (remainingSamples >= maxSamplesPerSegment)
+					{
+						if (remainingSamples < idealSegmentLengthInSamples * 2)
+							idealSegmentLengthInSamples = remainingSamples / 2;
+						uint samplesOnEitherSideOfTarget = idealSegmentLengthInSamples + _adjacentSamplesToFactorIntoAdjustedScore - minSamplesPerSegment;
+						uint targetBreak = lastBreak + idealSegmentLengthInSamples;
+						uint bestBreak = targetBreak;
+						double[] rawScores = new double[idealSegmentLengthInSamples * 2 + 1];
+						double[] adjustedScores = new double[idealSegmentLengthInSamples * 2 + 1];
+						rawScores[idealSegmentLengthInSamples] = ComputeRawScore(samples, targetBreak);
+						double bestScore = double.MaxValue;
+						double averageScore = 0;
+						for (uint i = 1; i < samplesOnEitherSideOfTarget; i++)
+						{
+							if (i < idealSegmentLengthInSamples)
+							{
+								rawScores[idealSegmentLengthInSamples + i] = ComputeRawScore(samples, targetBreak + i);
+								rawScores[idealSegmentLengthInSamples - i] = ComputeRawScore(samples, targetBreak - i);
+							}
+							if (i >= _adjacentSamplesToFactorIntoAdjustedScore)
+							{
+								// DEBUG code if ((targetBreak - i) * millisecondsPerSample < 138939 && lastBreak > 138939 - maxSamplesPerSegment)
+								//{
+								//    System.Diagnostics.Debug.WriteLine("Position = " + (lastBreak + idealSegmentLengthInSamples + i) + "; Raw score = " + rawScores[idealSegmentLengthInSamples + i]);
+								//    System.Diagnostics.Debug.WriteLine("Position = " + (lastBreak + idealSegmentLengthInSamples - i) + "; Raw score = " + rawScores[idealSegmentLengthInSamples - i]);
+								//}
+								double distanceFactor = Math.Pow(i * _settings.AutoSegmenterOptimumLengthClampingFactor + 1, 2);
+								uint iAdjust = idealSegmentLengthInSamples + i - _adjacentSamplesToFactorIntoAdjustedScore;
+								double totalNewAdjustedScores = adjustedScores[iAdjust] = ComputeAdjustedScore(rawScores, iAdjust, distanceFactor);
+								if (adjustedScores[iAdjust] < bestScore)
+								{
+									bestScore = adjustedScores[iAdjust];
+									bestBreak = lastBreak + iAdjust;
+								}
+								iAdjust = idealSegmentLengthInSamples - i + _adjacentSamplesToFactorIntoAdjustedScore;
+								adjustedScores[iAdjust] = ComputeAdjustedScore(rawScores, iAdjust, distanceFactor);
+								totalNewAdjustedScores += adjustedScores[iAdjust];
+								if (adjustedScores[iAdjust] < bestScore)
+								{
+									bestScore = adjustedScores[iAdjust];
+									bestBreak = lastBreak + iAdjust;
+								}
+								uint samplesInPrevAvg = (1 + 2 * (i - _adjacentSamplesToFactorIntoAdjustedScore - 1));
+								averageScore = (averageScore * samplesInPrevAvg + totalNewAdjustedScores) / (samplesInPrevAvg + 2);
+								if (bestScore < averageScore / 2 && i < idealSegmentLengthInSamples &&
+									rawScores[idealSegmentLengthInSamples + i] < rawScores[idealSegmentLengthInSamples + i + 1] &&
+									rawScores[idealSegmentLengthInSamples - i] < rawScores[idealSegmentLengthInSamples - i - 1])
+								{
+									break;
+								}
+							}
+						}
+						remainingSamples -= (bestBreak - lastBreak);
+						lastBreak = bestBreak;
+						yield return TimeSpan.FromMilliseconds(millisecondsPerSample * bestBreak);
+					}
+					if (remainingSamples > 0)
+						yield return StreamReader.TotalTime;
+				}
 			}
 		}
 

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Palaso.Reporting;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SilTools;
@@ -121,18 +122,33 @@ namespace SayMore.Model
 			var oldFolder = Path.Combine(projectDirectory, "Events");
 			var newFolder = Path.Combine(projectDirectory, "Sessions");
 
-			try
+			if (Directory.Exists(newFolder))
 			{
-				Directory.Move(oldFolder, newFolder);
+				if (Directory.EnumerateFiles(newFolder).Any() || Directory.EnumerateDirectories(newFolder).Any())
+				{
+					var backupSessionsFolder = newFolder + " BAK";
+					Directory.Move(newFolder, backupSessionsFolder);
+					ErrorReport.NotifyUserOfProblem("In order to upgrade this project, SayMore renamed Events to Sessions. Because a Sessions" +
+						"folder already existed, SayMore renamed it to Sessions BAK." + Environment.NewLine +
+						"Project path: " + projectDirectory + Environment.NewLine + Environment.NewLine +
+						"We recommend you request technical support to decide what to do with the contents of the Sessions BAK folder.");
+				}
+				else
+					Directory.Delete(newFolder);
 			}
-			catch (Exception)
-			{
-				// TODO: should probably be more informative and give the user
-				// a chance to "unlock" the folder and retry.
-				//Palaso.Reporting.ErrorReport.ReportFatalException(e);
-				throw;  //by rethrowing, we allow the higher levels to do what they are supposed to, which is to
-				//say "sorry, couldn't open that." If we have more info to give here, we could do that via a non-fatal error.
-			}
+
+			//try
+			//{
+			Directory.Move(oldFolder, newFolder);
+			//}
+			//catch (Exception)
+			//{
+			//    // TODO: should probably be more informative and give the user
+			//    // a chance to "unlock" the folder and retry.
+			//    //Palaso.Reporting.ErrorReport.ReportFatalException(e);
+			//    throw;  //by rethrowing, we allow the higher levels to do what they are supposed to, which is to
+			//    //say "sorry, couldn't open that." If we have more info to give here, we could do that via a non-fatal error.
+			//}
 
 			foreach (var file in Directory.GetFiles(newFolder, "*.event", SearchOption.AllDirectories))
 				RenameEventFileToSessionFile(file);

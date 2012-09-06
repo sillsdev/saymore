@@ -97,7 +97,6 @@ namespace SayMore.Transcription.UI
 				{
 					_waveControl.SegmentBoundaries = ViewModel.InsertNewBoundary(_waveControl.GetCursorTime());
 					_waveControl.SetSelectedBoundary(_waveControl.GetCursorTime());
-					_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
 				}
 				else
 				{

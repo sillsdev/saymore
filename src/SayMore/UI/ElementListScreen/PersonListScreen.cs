@@ -27,6 +27,8 @@ namespace SayMore.UI.ElementListScreen
 			_personComponentFileGrid.InitializeGrid("PersonScreen",
 				LocalizationManager.GetString("PeopleView.FileList.AddPersonButtonToolTip", "Add Files for the Person"));
 
+			InitializeMenus();
+
 			if (_componentsSplitter.Panel2.Controls.Count > 1)
 				_labelClickNewHelpPrompt.Visible = false;
 			else
@@ -41,6 +43,26 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.HeaderPanelBackColor1 = Settings.Default.PersonEditorsButtonBackgroundColor2;
 			_elementsListPanel.HeaderPanelBackColor2 = Settings.Default.PersonEditorsButtonBackgroundColor1;
 			_elementsListPanel.HeaderPanelBottomBorderColor = Settings.Default.PersonEditorsBorderColor;
+		}
+
+
+		/// ------------------------------------------------------------------------------------
+		private void InitializeMenus()
+		{
+			MainMenuItem = new ToolStripMenuItem();
+			MainMenuItem.Text = LocalizationManager.GetString(
+				"PeopleView.PeopleMainMenu.TopLevelMenuText", "&Person", null, MainMenuItem);
+
+			var menu = new ToolStripMenuItem();
+			MainMenuItem.DropDownItems.Add(menu);
+			menu.Click += HandleAddingNewElement;
+			menu.Text = LocalizationManager.GetString(
+				"PeopleView.PeopleMainMenu.NewMenuText", "&New", null, menu);
+
+			MainMenuItem.DropDownItems.Add(new ToolStripSeparator());
+
+			foreach (var menuItem in _elementsGrid.GetMenuCommands())
+				MainMenuItem.DropDownItems.Add(menuItem);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -67,10 +89,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ToolStripMenuItem MainMenuItem
-		{
-			get { return null; }
-		}
+		public ToolStripMenuItem MainMenuItem { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public string NameForUsageReporting

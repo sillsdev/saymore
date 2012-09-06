@@ -126,8 +126,12 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		/// ------------------------------------------------------------------------------------
 		private void HandleMessageControlPaint(object sender, PaintEventArgs e)
 		{
+			var formatFlags = TextFormatFlags.PathEllipsis;
+			var label = _ctrlMessage as Label;
+			if (label != null && label.TextAlign == ContentAlignment.MiddleLeft)
+				formatFlags |= TextFormatFlags.VerticalCenter;
 			TextRenderer.DrawText(e.Graphics, _message, _ctrlMessage.Font,
-				_ctrlMessage.ClientRectangle, _foreColor, TextFormatFlags.PathEllipsis);
+				_ctrlMessage.ClientRectangle, _foreColor, formatFlags);
 		}
 	}
 }

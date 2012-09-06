@@ -42,7 +42,6 @@ namespace SayMore.UI.ElementListScreen
 			this._textBox = new System.Windows.Forms.TextBox();
 			this._labelPrefix = new System.Windows.Forms.Label();
 			this._labelExtension = new System.Windows.Forms.Label();
-			this._labelMessage = new System.Windows.Forms.Label();
 			this._labelChangeNameTo = new System.Windows.Forms.Label();
 			this._flowLayoutShortcuts = new System.Windows.Forms.FlowLayoutPanel();
 			this._labelShortcuts = new System.Windows.Forms.Label();
@@ -51,11 +50,16 @@ namespace SayMore.UI.ElementListScreen
 			this._labelNonSayMoreImportHint = new System.Windows.Forms.Label();
 			this._linkCareful = new System.Windows.Forms.LinkLabel();
 			this._linkOralTranslation = new System.Windows.Forms.LinkLabel();
+			this._messagePanel = new System.Windows.Forms.Panel();
+			this._warningIcon = new System.Windows.Forms.PictureBox();
+			this._labelMessage = new System.Windows.Forms.Label();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this._tableLayoutButtons.SuspendLayout();
 			this._tableLayoutTextBox.SuspendLayout();
 			this._flowLayoutShortcuts.SuspendLayout();
+			this._messagePanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._warningIcon)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -72,13 +76,13 @@ namespace SayMore.UI.ElementListScreen
 			this._tableLayout.Controls.Add(this._linkTranscription, 0, 6);
 			this._tableLayout.Controls.Add(this._linkConsent, 1, 3);
 			this._tableLayout.Controls.Add(this._tableLayoutTextBox, 0, 1);
-			this._tableLayout.Controls.Add(this._labelMessage, 0, 7);
 			this._tableLayout.Controls.Add(this._labelChangeNameTo, 0, 0);
 			this._tableLayout.Controls.Add(this._flowLayoutShortcuts, 0, 2);
 			this._tableLayout.Controls.Add(this._linkSource, 0, 3);
 			this._tableLayout.Controls.Add(this._labelNonSayMoreImportHint, 0, 4);
 			this._tableLayout.Controls.Add(this._linkCareful, 0, 5);
 			this._tableLayout.Controls.Add(this._linkOralTranslation, 1, 5);
+			this._tableLayout.Controls.Add(this._messagePanel, 0, 7);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._tableLayout.Location = new System.Drawing.Point(15, 15);
 			this._tableLayout.Name = "_tableLayout";
@@ -296,23 +300,6 @@ namespace SayMore.UI.ElementListScreen
 			this._labelExtension.TabIndex = 2;
 			this._labelExtension.Text = "label2";
 			// 
-			// _labelMessage
-			// 
-			this._labelMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this._labelMessage.AutoSize = true;
-			this._tableLayout.SetColumnSpan(this._labelMessage, 2);
-			this.locExtender.SetLocalizableToolTip(this._labelMessage, null);
-			this.locExtender.SetLocalizationComment(this._labelMessage, null);
-			this.locExtender.SetLocalizationPriority(this._labelMessage, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelMessage, "_labelMessage");
-			this._labelMessage.Location = new System.Drawing.Point(15, 222);
-			this._labelMessage.Margin = new System.Windows.Forms.Padding(15, 15, 10, 0);
-			this._labelMessage.Name = "_labelMessage";
-			this._labelMessage.Size = new System.Drawing.Size(389, 13);
-			this._labelMessage.TabIndex = 9;
-			this._labelMessage.Text = "label1";
-			// 
 			// _labelChangeNameTo
 			// 
 			this._labelChangeNameTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -377,8 +364,8 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._linkSource.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this._linkSource.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._linkSource, "Source:\\nThe recording of the session. Used to satisfy\\nthe \'Source Recording\' stag" +
-		"e of the session.");
+			this.locExtender.SetLocalizableToolTip(this._linkSource, "Source:\\nThe recording of the session. Used to satisfy\\nthe \'Source Recording\' st" +
+        "age of the session.");
 			this.locExtender.SetLocalizationComment(this._linkSource, null);
 			this.locExtender.SetLocalizingId(this._linkSource, "DialogBoxes.ComponentFileRenamingDlg._linkSource");
 			this._linkSource.Location = new System.Drawing.Point(82, 92);
@@ -433,6 +420,47 @@ namespace SayMore.UI.ElementListScreen
 			this._linkOralTranslation.TabStop = true;
 			this._linkOralTranslation.Text = "Oral Translation";
 			// 
+			// _messagePanel
+			// 
+			this._tableLayout.SetColumnSpan(this._messagePanel, 2);
+			this._messagePanel.Controls.Add(this._labelMessage);
+			this._messagePanel.Controls.Add(this._warningIcon);
+			this._messagePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._messagePanel.Location = new System.Drawing.Point(3, 210);
+			this._messagePanel.Name = "_messagePanel";
+			this._messagePanel.Size = new System.Drawing.Size(408, 58);
+			this._messagePanel.TabIndex = 11;
+			// 
+			// _warningIcon
+			// 
+			this._warningIcon.Dock = System.Windows.Forms.DockStyle.Left;
+			this._warningIcon.Image = global::SayMore.Properties.Resources.kimidWarning;
+			this.locExtender.SetLocalizableToolTip(this._warningIcon, null);
+			this.locExtender.SetLocalizationComment(this._warningIcon, null);
+			this.locExtender.SetLocalizationPriority(this._warningIcon, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._warningIcon, "ComponentFileRenamingDialog._warningIcon");
+			this._warningIcon.Location = new System.Drawing.Point(0, 0);
+			this._warningIcon.Name = "_warningIcon";
+			this._warningIcon.Size = new System.Drawing.Size(32, 58);
+			this._warningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+			this._warningIcon.TabIndex = 10;
+			this._warningIcon.TabStop = false;
+			this._warningIcon.Visible = false;
+			// 
+			// _labelMessage
+			// 
+			this._labelMessage.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.locExtender.SetLocalizableToolTip(this._labelMessage, null);
+			this.locExtender.SetLocalizationComment(this._labelMessage, null);
+			this.locExtender.SetLocalizationPriority(this._labelMessage, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelMessage, "_labelMessage");
+			this._labelMessage.Location = new System.Drawing.Point(32, 0);
+			this._labelMessage.Margin = new System.Windows.Forms.Padding(15, 15, 10, 0);
+			this._labelMessage.Name = "_labelMessage";
+			this._labelMessage.Size = new System.Drawing.Size(376, 58);
+			this._labelMessage.TabIndex = 9;
+			this._labelMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
@@ -466,6 +494,8 @@ namespace SayMore.UI.ElementListScreen
 			this._tableLayoutTextBox.PerformLayout();
 			this._flowLayoutShortcuts.ResumeLayout(false);
 			this._flowLayoutShortcuts.PerformLayout();
+			this._messagePanel.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this._warningIcon)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -497,5 +527,7 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.LinkLabel _linkTranscription;
 		private System.Windows.Forms.Button _buttonReadAboutRenaming;
 		private System.Windows.Forms.LinkLabel _linkWrittenTranslation;
+		private System.Windows.Forms.Panel _messagePanel;
+		private System.Windows.Forms.PictureBox _warningIcon;
 	}
 }

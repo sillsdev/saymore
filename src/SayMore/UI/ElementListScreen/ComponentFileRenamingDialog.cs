@@ -140,6 +140,7 @@ namespace SayMore.UI.ElementListScreen
 
 			_buttonRename.Enabled = _pathValidator.IsPathValid(
 				Path.GetDirectoryName(_componentFile.PathToAnnotatedFile), NewFileName, validMsg);
+			_warningIcon.Visible = !_buttonRename.Enabled;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -460,17 +460,30 @@ namespace SayMore.Transcription.UI
 			var rc = HotSegmentRectangle;
 			if (rc != Rectangle.Empty)
 			{
-				var hotSegment = HotSegment;
-				// Meed to prevent Undo and Ignore buttons from appearing for the same segment. They
-				// overlap, and if the Undo button is displayed, then the Ignore button isn't really needed.
-				if (!_waveControl.IsPlaying && (!UndoImplemented || _viewModel.TimeRangeForUndo == null ||
-					hotSegment == null || _viewModel.TimeRangeForUndo != hotSegment.TimeRange))
+				if (!_waveControl.IsPlaying)
 				{
 					enableIgnoreMenu = true;
 
-					_currentSegmentMenuStrip.Location = new Point(rc.Right -
+					var currentSegmentMenuStripLocation = new Point(rc.Right -
 						_currentSegmentMenuStrip.Width - Math.Min(5, (rc.Width - _currentSegmentMenuStrip.Width) / 2),
 						rc.Top + 5);
+
+					var hotSegment = HotSegment;
+
+					// If the undo button is also showing for this same segment. we need to shift the
+					// ignore to the left or down to allow it to fit without overlapping.
+					if (UndoImplemented && _viewModel.TimeRangeForUndo != null &&
+						hotSegment != null && _viewModel.TimeRangeForUndo == hotSegment.TimeRange)
+					{
+
+						if (rc.Width > _lastSegmentMenuStrip.Width + _currentSegmentMenuStrip.Width + 15)
+							currentSegmentMenuStripLocation.Offset(-(_lastSegmentMenuStrip.Width + 5), 0);
+						else
+							currentSegmentMenuStripLocation.Offset(0, _lastSegmentMenuStrip.Height + 5);
+					}
+
+					_currentSegmentMenuStrip.Location = currentSegmentMenuStripLocation;
+
 					_ignoreToolStripMenuItem.Checked = hotSegment != null && _viewModel.GetIsSegmentIgnored(hotSegment);
 				}
 			}
@@ -496,6 +509,8 @@ namespace SayMore.Transcription.UI
 				_waveControl.Painter.RemoveIgnoredRegion(HotSegment.TimeRange.End);
 			if (SegmentIgnored != null)
 				SegmentIgnored();
+			HandleWaveControlMouseMove(_waveControl,
+				new MouseEventArgs(MouseButtons.None, 0, MousePosition.X, MousePosition.Y, 0));
 			UpdateDisplay();
 		}
 
@@ -504,17 +519,9 @@ namespace SayMore.Transcription.UI
 		{
 			_viewModel.Undo();
 			_waveControl.Painter.SetIgnoredRegions(_viewModel.GetIgnoredSegmentRanges());
+			HandleWaveControlMouseMove(_waveControl,
+				new MouseEventArgs(MouseButtons.None, 0, MousePosition.X, MousePosition.Y, 0));
 			UpdateDisplay();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleLastSegmentMenuStripVisibleChanged(object sender, EventArgs e)
-		{
-			// Prevent both tool strips from displaying simultaneously for the same segment.
-			if (!_currentSegmentMenuStrip.Visible || !_lastSegmentMenuStrip.Visible)
-				return;
-			if (HotSegment == null || _viewModel.TimeRangeForUndo == HotSegment.TimeRange)
-				_currentSegmentMenuStrip.Visible = _ignoreToolStripMenuItem.Enabled = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

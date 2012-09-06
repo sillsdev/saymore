@@ -83,7 +83,6 @@ namespace SayMore.Transcription.UI
 			this._lastSegmentMenuStrip.Size = new System.Drawing.Size(155, 24);
 			this._lastSegmentMenuStrip.TabIndex = 16;
 			this._lastSegmentMenuStrip.Visible = false;
-			this._lastSegmentMenuStrip.VisibleChanged += new System.EventHandler(this.HandleLastSegmentMenuStripVisibleChanged);
 			//
 			// _undoToolStripMenuItem
 			//

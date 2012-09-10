@@ -89,6 +89,27 @@ namespace SayMore.Transcription.UI
 
 			if (Settings.Default.SegmentGrid != null)
 				Settings.Default.SegmentGrid.InitializeGrid(this);
+
+			// Select the first non-ignored row
+			int targetRow = 0;
+			int segmentCount = _annotationFile.Tiers.GetTimeTier().Segments.Count;
+			while (targetRow < segmentCount && _annotationFile.Tiers.GetIsSegmentIgnored(targetRow))
+				targetRow++;
+			if (targetRow < segmentCount) // found a row that is not ignored.
+				CurrentCell = Rows[targetRow].Cells[CurrentCellAddress.X];
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+
+			var targetRow = CurrentCellAddress.Y;
+
+			if (targetRow < 0 || !Visible || Height <= ColumnHeadersHeight)
+				return;
+
+			FirstDisplayedScrollingRowIndex = targetRow;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -180,6 +201,33 @@ namespace SayMore.Transcription.UI
 			}
 
 			return base.ProcessCmdKey(ref msg, keyData);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override bool ProcessDownKey(TextBox txtBox)
+		{
+			if (base.ProcessDownKey(txtBox))
+				return true;
+			int targetRow = CurrentCellAddress.Y + 1;
+			int segmentCount = _annotationFile.Tiers.GetTimeTier().Segments.Count;
+			while (targetRow < segmentCount && _annotationFile.Tiers.GetIsSegmentIgnored(targetRow))
+				targetRow++;
+			if (targetRow < segmentCount) // found a subsequent row that is not ignored.
+				CurrentCell = Rows[targetRow].Cells[CurrentCellAddress.X];
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override bool ProcessUpKey(TextBox txtBox)
+		{
+			if (base.ProcessDownKey(txtBox))
+				return true;
+			int targetRow = CurrentCellAddress.Y - 1;
+			while (targetRow >= 0 && _annotationFile.Tiers.GetIsSegmentIgnored(targetRow))
+				targetRow--;
+			if (targetRow >= 0) // found a previous row that is not ignored.
+				CurrentCell = Rows[targetRow].Cells[CurrentCellAddress.X];
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -513,7 +561,6 @@ namespace SayMore.Transcription.UI
 			using (var br = new SolidBrush(ColorHelper.CalculateColor(Color.White, baseBackColor, 110)))
 				g.FillRectangle(br, rc);
 		}
-
 		#endregion
 	}
 }

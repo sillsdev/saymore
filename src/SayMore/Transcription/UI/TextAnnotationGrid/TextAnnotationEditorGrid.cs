@@ -89,9 +89,6 @@ namespace SayMore.Transcription.UI
 
 			if (Settings.Default.SegmentGrid != null)
 				Settings.Default.SegmentGrid.InitializeGrid(this);
-
-			AutoResizeColumnHeadersHeight();
-			ColumnHeadersHeight += 8;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -128,7 +125,10 @@ namespace SayMore.Transcription.UI
 
 			var col = tier.GridColumn as TextAnnotationColumn;
 			if (col != null)
+			{
 				col.SegmentChangedAction = _annotationFile.Save;
+				col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+			}
 
 			return tier.Segments.Count();
 		}
@@ -217,9 +217,21 @@ namespace SayMore.Transcription.UI
 		protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
 		{
 			base.OnColumnWidthChanged(e);
+			BeginInvoke((Action)ResizeColumnHeaders);
+
+			if (ContainsFocus) // If this control doesn't have focus, the resize is not the result of the user dragging the column divider
+			{
+				Settings.Default.SegmentGrid = GridSettings.Create(this);
+				Debug.WriteLine("Column 1 FillWeight: " + Settings.Default.SegmentGrid.Columns[1].FillWeight);
+				Debug.WriteLine("Column 2 FillWeight: " + Settings.Default.SegmentGrid.Columns[2].FillWeight);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ResizeColumnHeaders()
+		{
 			AutoResizeColumnHeadersHeight();
 			ColumnHeadersHeight += 8;
-			Settings.Default.SegmentGrid = GridSettings.Create(this);
 		}
 
 		/// ------------------------------------------------------------------------------------

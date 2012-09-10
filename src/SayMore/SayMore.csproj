@@ -672,6 +672,9 @@
     <EmbeddedResource Include="Transcription\UI\SegmentingAndRecording\SegmenterDlgBase.resx">
       <DependentUpon>SegmenterDlgBase.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\TextAnnotationGrid\TextAnnotationEditorGrid.resx">
+      <DependentUpon>TextAnnotationEditorGrid.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Archiving\ArchivingDlg.resx">
       <DependentUpon>ArchivingDlg.cs</DependentUpon>
     </EmbeddedResource>

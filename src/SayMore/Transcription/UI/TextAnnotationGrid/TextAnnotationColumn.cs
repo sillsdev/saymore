@@ -61,6 +61,27 @@ namespace SayMore.Transcription.UI
 				var data = Tier.GetTierClipboardData(out dataFormat);
 				Clipboard.SetData(dataFormat, data);
 			});
+
+			text = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotationEditor.IgnoredMenuText",
+				"&Ignored");
+
+			var ignoredMenuItem = new ToolStripMenuItem(text, null);
+			ignoredMenuItem.CheckOnClick = true;
+
+			ignoredMenuItem.Click += (sender, e) =>
+			{
+				ToolStripMenuItem menu = (ToolStripMenuItem)sender;
+				_grid.SetIgnoreStateForCurrentRow(menu.Checked);
+			};
+
+			ignoredMenuItem.OwnerChanged += (s, e) =>
+			{
+				if (ignoredMenuItem.Owner != null && ignoredMenuItem.Owner.IsDropDown)
+					((ToolStripDropDown)ignoredMenuItem.Owner).Opened += (s1, e1) =>
+						ignoredMenuItem.Checked = _grid.GetIgnoreStateForCurrentRow();
+			};
+
+			yield return ignoredMenuItem;
 		}
 
 		/// ------------------------------------------------------------------------------------

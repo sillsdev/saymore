@@ -536,13 +536,13 @@ namespace SayMore.Transcription.UI
 					Tiers.MarkSegmentAsIgnored(segmentIndex);
 					_undoStack.Push(new SegmentChange(SegmentChangeType.Ignored, timeRange, timeRange, sc =>
 					{
-						Tiers.GetTranscriptionTier().Segments[segmentIndex].Text = string.Empty;
+						Tiers.MarkSegmentAsUnignored(segmentIndex);
 						restoreState();
 					}));
 				}
 				else
 				{
-					Tiers.GetTranscriptionTier().Segments[segmentIndex].Text = string.Empty;
+					Tiers.MarkSegmentAsUnignored(segmentIndex);
 					_undoStack.Push(new SegmentChange(SegmentChangeType.Unignored, timeRange, timeRange,
 						sc => Tiers.MarkSegmentAsIgnored(segmentIndex)));
 				}

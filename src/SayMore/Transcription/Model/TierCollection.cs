@@ -113,6 +113,12 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void MarkSegmentAsUnignored(int iSegment)
+		{
+			GetTranscriptionTier().Segments[iSegment].Text = string.Empty;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void AddIgnoredSegment(float boundary)
 		{
 			var timeTier = GetTimeTier();

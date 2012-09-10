@@ -36,6 +36,7 @@ namespace SayMore.Transcription.UI
 		private readonly List<AnnotationPlaybackInfo> _mediaFileQueue = new List<AnnotationPlaybackInfo>();
 		private int _annotationPlaybackLoopCount;
 		private Action _playbackProgressReportingAction;
+		private System.ComponentModel.IContainer components;
 
 		private System.Threading.Timer _delayBeginRowPlayingTimer;
 
@@ -314,6 +315,7 @@ namespace SayMore.Transcription.UI
 			if (menuItems.Length == 0)
 				return;
 
+			CurrentCell = Rows[e.RowIndex].Cells[e.ColumnIndex];
 			var menu = new ContextMenuStrip();
 			menu.Items.AddRange(menuItems.ToArray());
 			menu.Show(MousePosition);
@@ -562,5 +564,21 @@ namespace SayMore.Transcription.UI
 				g.FillRectangle(br, rc);
 		}
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIgnoreStateForCurrentRow()
+		{
+			return _annotationFile.Tiers.GetIsSegmentIgnored(CurrentCellAddress.Y);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetIgnoreStateForCurrentRow(bool ignored)
+		{
+			if (ignored)
+				_annotationFile.Tiers.MarkSegmentAsIgnored(CurrentCellAddress.Y);
+			else
+				_annotationFile.Tiers.MarkSegmentAsUnignored(CurrentCellAddress.Y);
+			InvalidateRow(CurrentCellAddress.Y);
+		}
 	}
 }

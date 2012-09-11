@@ -36,6 +36,8 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutRecordAnnotations = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutMediaButtons = new System.Windows.Forms.TableLayoutPanel();
 			this._checkForRecordingDevice = new System.Windows.Forms.Timer(this.components);
+			this._bufferCount = new System.Windows.Forms.NumericUpDown();
+			this._bufferSize = new System.Windows.Forms.NumericUpDown();
 			this._panelListen.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).BeginInit();
@@ -43,6 +45,8 @@ namespace SayMore.Transcription.UI
 			this._videoHelpMenuStrip.SuspendLayout();
 			this._tableLayoutRecordAnnotations.SuspendLayout();
 			this._tableLayoutMediaButtons.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._bufferCount)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this._bufferSize)).BeginInit();
 			this.SuspendLayout();
 			//
 			// _panelListen
@@ -59,7 +63,7 @@ namespace SayMore.Transcription.UI
 			// _labelListenButton
 			//
 			this._labelListenButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelListenButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
 			this._labelListenButton.Image = global::SayMore.Properties.Resources.ListenToOriginalRecording;
 			this._labelListenButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -82,7 +86,7 @@ namespace SayMore.Transcription.UI
 			// _labelRecordButton
 			//
 			this._labelRecordButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutRecordAnnotations.SetColumnSpan(this._labelRecordButton, 2);
 			this._labelRecordButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(95)))), ((int)(((byte)(14)))));
 			this._labelRecordButton.Image = global::SayMore.Properties.Resources.RecordOralAnnotation;
@@ -152,7 +156,7 @@ namespace SayMore.Transcription.UI
 			// _panelPeakMeter
 			//
 			this._panelPeakMeter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this._panelPeakMeter.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this._panelPeakMeter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._panelPeakMeter.ClipTextForChildControls = true;
@@ -272,8 +276,8 @@ namespace SayMore.Transcription.UI
 			// _tableLayoutRecordAnnotations
 			//
 			this._tableLayoutRecordAnnotations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutRecordAnnotations.BackColor = System.Drawing.Color.MintCream;
 			this._tableLayoutRecordAnnotations.ColumnCount = 2;
 			this._tableLayoutRecordAnnotations.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -311,11 +315,68 @@ namespace SayMore.Transcription.UI
 			this._checkForRecordingDevice.Interval = 500;
 			this._checkForRecordingDevice.Tick += new System.EventHandler(this.CheckForRecordingDevice);
 			//
+			// _bufferCount
+			//
+			this.locExtender.SetLocalizableToolTip(this._bufferCount, "Buffer Count (temporary)");
+			this.locExtender.SetLocalizationComment(this._bufferCount, null);
+			this.locExtender.SetLocalizingId(this._bufferCount, "numericUpDown1.numericUpDown1");
+			this._bufferCount.Location = new System.Drawing.Point(538, 399);
+			this._bufferCount.Maximum = new decimal(new int[] {
+			30,
+			0,
+			0,
+			0});
+			this._bufferCount.Minimum = new decimal(new int[] {
+			1,
+			0,
+			0,
+			0});
+			this._bufferCount.Name = "_bufferCount";
+			this._bufferCount.Size = new System.Drawing.Size(56, 20);
+			this._bufferCount.TabIndex = 19;
+			this._bufferCount.Value = new decimal(new int[] {
+			1,
+			0,
+			0,
+			0});
+			//
+			// _bufferSize
+			//
+			this._bufferSize.Increment = new decimal(new int[] {
+			50,
+			0,
+			0,
+			0});
+			this.locExtender.SetLocalizableToolTip(this._bufferSize, "Buffer Size in Milliseconds (temporary)");
+			this.locExtender.SetLocalizationComment(this._bufferSize, null);
+			this.locExtender.SetLocalizingId(this._bufferSize, "numericUpDown1.numericUpDown1");
+			this._bufferSize.Location = new System.Drawing.Point(616, 399);
+			this._bufferSize.Maximum = new decimal(new int[] {
+			2000,
+			0,
+			0,
+			0});
+			this._bufferSize.Minimum = new decimal(new int[] {
+			50,
+			0,
+			0,
+			0});
+			this._bufferSize.Name = "_bufferSize";
+			this._bufferSize.Size = new System.Drawing.Size(56, 20);
+			this._bufferSize.TabIndex = 20;
+			this._bufferSize.Value = new decimal(new int[] {
+			100,
+			0,
+			0,
+			0});
+			//
 			// OralAnnotationRecorderBaseDlg
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(703, 488);
+			this.Controls.Add(this._bufferSize);
+			this.Controls.Add(this._bufferCount);
 			this.Controls.Add(this._videoHelpMenuStrip);
 			this.Controls.Add(this._pictureIcon);
 			this.Controls.Add(this._labelFinishedHint);
@@ -341,6 +402,8 @@ namespace SayMore.Transcription.UI
 			this.Controls.SetChildIndex(this._labelFinishedHint, 0);
 			this.Controls.SetChildIndex(this._pictureIcon, 0);
 			this.Controls.SetChildIndex(this._videoHelpMenuStrip, 0);
+			this.Controls.SetChildIndex(this._bufferCount, 0);
+			this.Controls.SetChildIndex(this._bufferSize, 0);
 			this._panelListen.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).EndInit();
@@ -349,6 +412,8 @@ namespace SayMore.Transcription.UI
 			this._videoHelpMenuStrip.PerformLayout();
 			this._tableLayoutRecordAnnotations.ResumeLayout(false);
 			this._tableLayoutMediaButtons.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this._bufferCount)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this._bufferSize)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -374,5 +439,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.PictureBox _pictureIcon;
 		private System.Windows.Forms.MenuStrip _videoHelpMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem _videoHelpMenu;
+		private System.Windows.Forms.NumericUpDown _bufferCount;
+		private System.Windows.Forms.NumericUpDown _bufferSize;
 	}
 }

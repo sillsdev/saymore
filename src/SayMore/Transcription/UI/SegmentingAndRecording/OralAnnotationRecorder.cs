@@ -40,6 +40,22 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// Temporary code
+		public int NumberOfBuffers
+		{
+			get { return _waveIn.NumberOfBuffers; }
+			set { _waveIn.NumberOfBuffers = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// Temporary code
+		public int BufferMilliseconds
+		{
+			get { return _waveIn.BufferMilliseconds; }
+			set { _waveIn.BufferMilliseconds = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool BeginAnnotationRecording(string outputWaveFileName)
 		{
 			if (GetIsInErrorState())

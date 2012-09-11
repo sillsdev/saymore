@@ -20,8 +20,8 @@ namespace SayMore.Transcription.UI
 			Debug.Assert(tier.TierType == TierType.Time);
 			ReadOnly = true;
 
-			DefaultCellStyle.Font = FontHelper.MakeFont(Program.DialogFont, 7f);
-			DefaultCellStyle.ForeColor = ColorHelper.CalculateColor(Color.White, DefaultCellStyle.ForeColor, 85);
+			DefaultCellStyle.Font = FontHelper.MakeFont(Program.DialogFont, 9f);
+			MinimumWidth = 40;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -172,7 +172,7 @@ namespace SayMore.Transcription.UI
 			if (e.ColumnIndex != Index)
 				return;
 
-			e.Value = Tier.Segments[e.RowIndex];
+			e.Value = e.RowIndex + 1;
 		}
 
 		/// ------------------------------------------------------------------------------------

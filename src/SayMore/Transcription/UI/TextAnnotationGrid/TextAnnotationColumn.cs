@@ -44,7 +44,11 @@ namespace SayMore.Transcription.UI
 			base.HandleGridCellValueNeeded(sender, e);
 
 			if (e.ColumnIndex == Index)
-				e.Value = Tier.Segments.ElementAt(e.RowIndex).Text;
+			{
+				e.Value = _grid.GetIgnoreStateForRow(e.RowIndex) ?
+					LocalizationManager.GetString("SessionsView.Transcription.TextAnnotationEditor.IgnoredSegmentIndicator", "Ignored") :
+					Tier.Segments.ElementAt(e.RowIndex).Text;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

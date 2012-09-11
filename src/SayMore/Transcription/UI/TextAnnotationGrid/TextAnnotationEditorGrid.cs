@@ -83,8 +83,9 @@ namespace SayMore.Transcription.UI
 
 			foreach (var tier in _annotationFile.Tiers)
 				rowCount = Math.Max(rowCount, AddColumnForTier(tier));
-
 			RowCount = rowCount;
+			Font = Columns[0].DefaultCellStyle.Font;
+
 			Utils.SetWindowRedraw(this, true);
 			Invalidate();
 
@@ -158,7 +159,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void SetFonts(Font transcriptionFont, Font freeTranslationFont)
 		{
-			foreach (var col in GetColumns())
+			foreach (TextAnnotationColumn col in GetColumns().OfType<TextAnnotationColumn>())
 			{
 				col.DefaultCellStyle.Font = (col is TranscriptionAnnotationColumn) ?
 					transcriptionFont : freeTranslationFont;
@@ -168,7 +169,13 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
 		{
-			e.CellStyle.Font = Columns[e.ColumnIndex].DefaultCellStyle.Font;
+			if (e.ColumnIndex > 0 && GetIgnoreStateForRow(e.RowIndex))
+			{
+				e.CellStyle.Font = Font;
+				e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+			}
+			else
+				e.CellStyle.Font = Columns[e.ColumnIndex].DefaultCellStyle.Font;
 			base.OnCellFormatting(e);
 		}
 
@@ -284,6 +291,19 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnRowPrePaint(DataGridViewRowPrePaintEventArgs e)
+		{
+			var i = e.RowIndex;
+			if (i < 0)
+				return;
+			var enabled = ((CurrentRow != null && CurrentRow.Index == i) || !GetIgnoreStateForRow(i));
+			var backColor = enabled ? BackgroundColor : ColorHelper.CalculateColor(GridColor, BackgroundColor, 128);
+			Rows[i].DefaultCellStyle.BackColor = backColor;
+			Rows[i].DefaultCellStyle.ForeColor = enabled ? ForeColor : ColorHelper.CalculateColor(ForeColor, backColor, 128);
+			base.OnRowPrePaint(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
@@ -350,6 +370,7 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnCellEnter(e);
 
+			EditMode = (GetIgnoreStateForRow(CurrentCellAddress.Y)) ? DataGridViewEditMode.EditProgrammatically : DataGridViewEditMode.EditOnEnter;
 			if (e.ColumnIndex != 0 || CurrentCellAddress.Y < 0 || (!Focused && (EditingControl == null || !EditingControl.Focused)))
 				return;
 
@@ -384,7 +405,7 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnEnter(e);
 
-			if (!PlayerViewModel.HasPlaybackStarted)
+			if (!PlayerViewModel.HasPlaybackStarted && !GetIgnoreStateForRow(CurrentCellAddress.Y))
 				Play();
 		}
 
@@ -565,10 +586,17 @@ namespace SayMore.Transcription.UI
 		}
 		#endregion
 
+		#region Methods for getting/setting ignore state
+		/// ------------------------------------------------------------------------------------
+		public bool GetIgnoreStateForRow(int rowIndex)
+		{
+			return _annotationFile.Tiers.GetIsSegmentIgnored(rowIndex);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public bool GetIgnoreStateForCurrentRow()
 		{
-			return _annotationFile.Tiers.GetIsSegmentIgnored(CurrentCellAddress.Y);
+			return GetIgnoreStateForRow(CurrentCellAddress.Y);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -580,5 +608,6 @@ namespace SayMore.Transcription.UI
 				_annotationFile.Tiers.MarkSegmentAsUnignored(CurrentCellAddress.Y);
 			InvalidateRow(CurrentCellAddress.Y);
 		}
+		#endregion
 	}
 }

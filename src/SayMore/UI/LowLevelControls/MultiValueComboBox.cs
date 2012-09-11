@@ -33,7 +33,7 @@ namespace SayMore.UI.LowLevelControls
 			Font = Program.DialogFont;
 			InitializeComponent();
 			_textBox.PopulateAndDisplayList = DisplaySuggestions;
-			_textBox.HideList = () => Popup.ClosePopup();
+			_textBox.HideList = ClosePopup;
 			_textBox.Font = Font;
 			Height = 1;
 
@@ -43,6 +43,9 @@ namespace SayMore.UI.LowLevelControls
 			_panelButton.Width = SystemInformation.VerticalScrollBarWidth;
 
 			Padding = new Padding(_borderWidth, borderHeight, _borderWidth, borderHeight);
+
+			_textBox.Validating += (s, e) => OnValidating(e);
+
 			CausesValidation = true;
 
 			_textBox.MouseDown += delegate
@@ -385,13 +388,22 @@ namespace SayMore.UI.LowLevelControls
 			if (_displayedMatches != null)
 			{
 				_textBox.InsertWord(Popup.GetCheckedItemsString());
-				Popup.ClosePopup();
+				ClosePopup();
 			}
 			else
 			{
 				Text = Popup.GetCheckedItemsString();
 				_textBox.SelectAll();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ClosePopup()
+		{
+			var cancel = new CancelEventArgs();
+			OnValidating(cancel);
+			if (!cancel.Cancel)
+				Popup.ClosePopup();
 		}
 
 		/// ------------------------------------------------------------------------------------

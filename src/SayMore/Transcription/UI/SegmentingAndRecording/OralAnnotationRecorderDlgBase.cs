@@ -152,7 +152,8 @@ namespace SayMore.Transcription.UI
 			if (AudioUtils.GetCanRecordAudio())
 			{
 				_checkForRecordingDevice.Stop();
-				ViewModel.InitializeAnnotationRecorder(_peakMeter, HandleAnnotationRecordingProgress);
+				ViewModel.InitializeAnnotationRecorder(_peakMeter, _recDeviceButton,
+					HandleAnnotationRecordingProgress);
 				_waveControl.Invalidate();
 				UpdateDisplay();
 			}
@@ -178,7 +179,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
-			ViewModel.InitializeAnnotationRecorder(_peakMeter, HandleAnnotationRecordingProgress);
+			ViewModel.InitializeAnnotationRecorder(_peakMeter, _recDeviceButton,
+				HandleAnnotationRecordingProgress);
 			base.OnLoad(e);
 			InitializeTableLayoutButtonControls();
 			InitializeHintLabelsAndButtonFonts();
@@ -220,7 +222,6 @@ namespace SayMore.Transcription.UI
 			_recDeviceButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
 			_recDeviceButton.Margin = new Padding(4, 3, 0, 3);
 			_tableLayoutRecordAnnotations.Controls.Add(_recDeviceButton, 0, 2);
-			_recDeviceButton.Recorder = ViewModel.Recorder;
 
 			_panelPeakMeter.BorderColor = Settings.Default.BarColorBorder;
 			_panelPeakMeter.BackColor = Settings.Default.BarColorBegin;
@@ -505,6 +506,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void UpdateDisplay()
 		{
+			_recDeviceButton.UpdateDisplay();
+
 			_labelListenButton.Image = (_waveControl.IsPlaying && _playingBackUsingHoldDownButton ?
 				Resources.ListenToOriginalRecordingDown : Resources.ListenToOriginalRecording);
 

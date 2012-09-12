@@ -476,7 +476,7 @@ namespace SayMoreTests.Transcription.UI
 			var startingSegmentCount = _model.GetSegmentCount();
 			var startingLastSegmentBoundary = _model.GetEndOfLastSegment();
 			var segmentTimeRange = _model.GetSegment(0).TimeRange.Copy();
-			_model.InitializeAnnotationRecorder(null, t => { });
+			_model.InitializeAnnotationRecorder(null, null, t => { });
 			_model.BeginAnnotationRecording(segmentTimeRange);
 			var endTime = DateTime.Now.AddMilliseconds(SayMore.Properties.Settings.Default.MinimumSegmentLengthInMilliseconds);
 			while (endTime < DateTime.Now)

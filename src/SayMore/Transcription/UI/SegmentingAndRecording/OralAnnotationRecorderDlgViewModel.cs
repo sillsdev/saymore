@@ -270,7 +270,7 @@ namespace SayMore.Transcription.UI
 		#region Annotation recording methods
 		/// ------------------------------------------------------------------------------------
 		public void InitializeAnnotationRecorder(PeakMeterCtrl peakMeter,
-			Action<TimeSpan> recordingProgressAction)
+			RecordingDeviceButton recordingDeviceBtn, Action<TimeSpan> recordingProgressAction)
 		{
 			try
 			{
@@ -280,6 +280,8 @@ namespace SayMore.Transcription.UI
 			{
 				return;
 			}
+			if (recordingDeviceBtn != null)
+				recordingDeviceBtn.Recorder = Recorder;
 			Recorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();
 			Recorder.Stopped += (sender, args) => InvokeUpdateDisplayAction();
 			Recorder.BeginMonitoring();

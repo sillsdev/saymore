@@ -361,6 +361,19 @@ namespace SayMore.Transcription.UI
 			Stop();
 
 			base.OnEditingControlShowing(e);
+			//TextBox ec = EditingControl as TextBox;
+			//if (ec != null)
+			//{
+			//    int currentHeight = CurrentRow.Height;
+			//    int currentMinHeight = CurrentRow.MinimumHeight;
+			//    CurrentRow.MinimumHeight = currentHeight + 40;
+			//    ec.MinimumSize = new Size(0, ec.Height + 40);
+			//    CellEndEdit += delegate { CurrentRow.MinimumHeight = currentMinHeight; };
+			//    //ec.TextChanged += delegate
+			//    //{
+			//    //    Rows[CurrentRow.Index].Height = ec.TextLength / 2;
+			//    //};
+			//}
 
 			SchedulePlaybackForCell();
 		}
@@ -372,9 +385,21 @@ namespace SayMore.Transcription.UI
 
 			EditMode = (GetIgnoreStateForRow(CurrentCellAddress.Y)) ? DataGridViewEditMode.EditProgrammatically : DataGridViewEditMode.EditOnEnter;
 			if (e.ColumnIndex != 0 || CurrentCellAddress.Y < 0 || (!Focused && (EditingControl == null || !EditingControl.Focused)))
+			{
+				var minHeight = RowTemplate.Height * 3;
+				if (CurrentRow != null && CurrentRow.Height < minHeight)
+					CurrentRow.MinimumHeight = minHeight;
 				return;
-
+			}
 			SchedulePlaybackForCell();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellLeave(DataGridViewCellEventArgs e)
+		{
+			base.OnCellLeave(e);
+			if (e.RowIndex >= 0 && e.RowIndex < RowCount)
+				Rows[e.RowIndex].MinimumHeight = RowTemplate.MinimumHeight;
 		}
 
 		/// ------------------------------------------------------------------------------------

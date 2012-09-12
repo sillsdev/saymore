@@ -53,7 +53,7 @@ namespace SayMore.Transcription.UI
 		private Segment _segmentWhoseAnnotationIsBeingPlayedBack;
 		private Font _annotationSegmentFont;
 		private TimeRange _segmentBeingRecorded;
-		private bool _spaceKeyIsDown;
+		private bool _shortcutKeyIsDown;
 		private bool _playingBackUsingHoldDownButton;
 		private bool _reRecording;
 		private bool _userHasListenedToSelectedSegment;
@@ -853,38 +853,39 @@ namespace SayMore.Transcription.UI
 
 			var segment = ViewModel.GetSegment(segMouseOver);
 
-			if (segment == null)
-			{
-				// Play the source recording for the new segment.
-				_waveControl.Play(ViewModel.GetEndOfLastSegment(), ViewModel.NewSegmentEndBoundary);
-			}
+			if (playSource)
+				PlaySource(segment);
 			else
 			{
-				if (playSource)
-					_waveControl.Play(segment.TimeRange);
-				else
+				_waveControl.EnsureTimeIsVisible(segment.TimeRange.Start, segment.TimeRange, true, true);
+
+				_segmentWhoseAnnotationIsBeingPlayedBack = segment;
+
+				var path = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
+				_annotationPlaybackLength = ViewModel.SegmentsAnnotationSamplesToDraw.First(
+					h => h.AudioFilePath == path).AudioDuration;
+
+				KillSegTooShortMsgTimer();
+
+				ViewModel.StartAnnotationPlayback(segment, HandleAnnotationPlaybackProgress, () =>
 				{
-					_waveControl.EnsureTimeIsVisible(segment.TimeRange.Start, segment.TimeRange, true, true);
-
-					_segmentWhoseAnnotationIsBeingPlayedBack = segment;
-
-					var path = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
-					_annotationPlaybackLength = ViewModel.SegmentsAnnotationSamplesToDraw.First(
-						h => h.AudioFilePath == path).AudioDuration;
-
-					KillSegTooShortMsgTimer();
-
-					ViewModel.StartAnnotationPlayback(segment, HandleAnnotationPlaybackProgress, () =>
-					{
-						_lastAnnotationPlaybackPosition = TimeSpan.Zero;
-						_waveControl.InvalidateIfNeeded(GetBottomReservedRectangleForSegment(_segmentWhoseAnnotationIsBeingPlayedBack));
-						_segmentWhoseAnnotationIsBeingPlayedBack = null;
-						_waveControl.DiscardScrollCalculator();
-					});
-				}
+					_lastAnnotationPlaybackPosition = TimeSpan.Zero;
+					_waveControl.InvalidateIfNeeded(GetBottomReservedRectangleForSegment(_segmentWhoseAnnotationIsBeingPlayedBack));
+					_segmentWhoseAnnotationIsBeingPlayedBack = null;
+					_waveControl.DiscardScrollCalculator();
+				});
 			}
 
 			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void PlaySource(Segment segment)
+		{
+			if (segment == null) // Play the source recording for the new segment.
+				_waveControl.Play(ViewModel.GetEndOfLastSegment(), ViewModel.NewSegmentEndBoundary);
+			else
+				_waveControl.Play(segment.TimeRange);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1474,7 +1475,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void HandleRecordingError(Exception e)
 		{
-			_spaceKeyIsDown = false;
+			_shortcutKeyIsDown = false;
 			FinishRecording(AdvanceOptionsAfterRecording.DoNotAdvance);
 			_waveControl.Invalidate();
 			UpdateDisplay();
@@ -1483,7 +1484,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void HandlePlaybackError(Exception e)
 		{
-			_spaceKeyIsDown = false;
+			_shortcutKeyIsDown = false;
 			_waveControl.Stop();
 			_waveControl.Invalidate();
 			UpdateDisplay();
@@ -1501,7 +1502,7 @@ namespace SayMore.Transcription.UI
 		{
 			if (!ViewModel.BeginAnnotationRecording(timeRangeOfSourceBeingAnnotated))
 			{
-				_spaceKeyIsDown = false;
+				_shortcutKeyIsDown = false;
 				return;
 			}
 
@@ -1566,16 +1567,18 @@ namespace SayMore.Transcription.UI
 			if (!ContainsFocus || _waveControl.IsBoundaryMovingInProgress)
 				return true;
 
-			if (key == Keys.Space)
+			if (key == Keys.Space || (key == Keys.B && _spaceBarMode == SpaceBarMode.Record && _labelListenButton.Enabled))
 			{
-				if (_spaceKeyIsDown || IsBoundaryMovingInProgressUsingArrowKeys)
+				if (_shortcutKeyIsDown || IsBoundaryMovingInProgressUsingArrowKeys)
 					return true;
 
-				_spaceKeyIsDown = true;
+				_shortcutKeyIsDown = true;
 
-				if (_spaceBarMode == SpaceBarMode.Record && _labelRecordHint.Visible)
+				if (key == Keys.B)
+					PlaySource(ViewModel.CurrentUnannotatedSegment);
+				else if (_spaceBarMode == SpaceBarMode.Record && _labelRecordHint.Visible)
 					HandleRecordAnnotationMouseDown(null, null);
-				else if (_spaceBarMode == SpaceBarMode.Listen && _labelListenHint.Visible)
+				else if (_labelListenHint.Visible && _spaceBarMode == SpaceBarMode.Listen)
 					HandleListenToSourceMouseDown(null, null);
 
 				return true;
@@ -1597,11 +1600,11 @@ namespace SayMore.Transcription.UI
 			if (!ContainsFocus)
 				return true;
 
-			if (key == Keys.Space)
+			if (key == Keys.Space || key == Keys.B)
 			{
-				if (!IsBoundaryMovingInProgressUsingArrowKeys && _spaceKeyIsDown)
+				if (!IsBoundaryMovingInProgressUsingArrowKeys && _shortcutKeyIsDown)
 				{
-					_spaceKeyIsDown = false;
+					_shortcutKeyIsDown = false;
 
 					if (_playingBackUsingHoldDownButton)
 					{
@@ -1610,6 +1613,8 @@ namespace SayMore.Transcription.UI
 					}
 					else if (!_reRecording && ViewModel.GetIsRecording())
 						FinishRecording(AdvanceOptionsAfterRecording.Advance);
+					else if (key == Keys.B)
+						base.StopAllMedia();
 				}
 
 				return true;

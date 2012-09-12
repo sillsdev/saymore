@@ -22,7 +22,7 @@ namespace SayMore.Media.Audio
 
 		/// ------------------------------------------------------------------------------------
 		public WaveControlScrollCalculator(WaveControlBasic waveControl, TimeRange timeRange,
-			bool scrollToCenter) : this(waveControl, timeRange, scrollToCenter, 5, 95)
+			bool scrollToCenter) : this(waveControl, timeRange, scrollToCenter, 5, 75)
 		{
 		}
 

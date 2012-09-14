@@ -482,7 +482,7 @@ namespace SayMoreTests.Transcription.UI
 			while (endTime < DateTime.Now)
 				System.Windows.Forms.Application.DoEvents();
 			//Thread.Sleep(SayMore.Properties.Settings.Default.MinimumSegmentLengthInMilliseconds);
-			_model.StopAnnotationRecording(segmentTimeRange);
+			_model.StopAnnotationRecording();
 			Assert.IsTrue(_model.WereChangesMade);
 			Assert.IsFalse(_model.SegmentBoundariesChanged);
 			Assert.IsTrue(_model.GetDoesSegmentHaveAnnotationFile(0));

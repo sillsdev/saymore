@@ -12,6 +12,9 @@ namespace SayMore.Transcription.UI
 		private readonly PeakMeterCtrl _peakMeterCtrl;
 		private readonly Action<TimeSpan> _recordingProgressAction;
 		private bool _formerlyInErrorState;
+		private int _bufferSize = Settings.Default.NAudioBufferMilliseconds;
+		private int _bufferCount = Settings.Default.NumberOfNAudioRecordingBuffers;
+		private bool _waveInBuffersChanged;
 
 		/// ------------------------------------------------------------------------------------
 		public OralAnnotationRecorder(PeakMeterCtrl peakMeter, Action<TimeSpan> recordingProgressAction)
@@ -35,24 +38,30 @@ namespace SayMore.Transcription.UI
 		protected override void InitializeWaveIn()
 		{
 			base.InitializeWaveIn();
-			_waveIn.NumberOfBuffers = Settings.Default.NumberOfNAudioRecordingBuffers;
-			_waveIn.BufferMilliseconds = Settings.Default.NAudioBufferMilliseconds;
+			_waveIn.NumberOfBuffers = _bufferCount;
+			_waveIn.BufferMilliseconds = _bufferSize;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// Temporary code
 		public int NumberOfBuffers
 		{
-			get { return _waveIn.NumberOfBuffers; }
-			set { _waveIn.NumberOfBuffers = value; }
+			set
+			{
+				_bufferCount = value;
+				_waveInBuffersChanged = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// Temporary code
 		public int BufferMilliseconds
 		{
-			get { return _waveIn.BufferMilliseconds; }
-			set { _waveIn.BufferMilliseconds = value; }
+			set
+			{
+				_bufferSize = value;
+				_waveInBuffersChanged = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -61,8 +70,9 @@ namespace SayMore.Transcription.UI
 			if (GetIsInErrorState())
 				return false;
 
-			if (_formerlyInErrorState)
+			if (_formerlyInErrorState || _waveInBuffersChanged)
 			{
+				_waveInBuffersChanged = false;
 				CloseWaveIn();
 				RecordingFormat = AudioUtils.GetDefaultWaveFormat(1);
 				SelectedDevice = RecordingDevice.Devices.First();

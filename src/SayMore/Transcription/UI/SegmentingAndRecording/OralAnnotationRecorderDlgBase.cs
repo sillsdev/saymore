@@ -59,7 +59,8 @@ namespace SayMore.Transcription.UI
 		private bool _userHasListenedToSelectedSegment;
 		private SpaceBarMode _spaceBarMode;
 		private readonly Color _selectedSegmentHighlighColor = Color.Moccasin;
-		Size _playButtonSize = Resources.ListenToSegmentsAnnotation.Size;
+		private Size _playButtonSize = Resources.ListenToSegmentsAnnotation.Size;
+		private AdvanceOptionsAfterRecording _advanceOption;
 
 		protected WaveControlWithRangeSelection _waveControl;
 
@@ -121,6 +122,7 @@ namespace SayMore.Transcription.UI
 			_spaceBarMode = viewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
 			viewModel.PlaybackErrorAction = HandlePlaybackError;
 			viewModel.RecordingErrorAction = HandleRecordingError;
+			viewModel.RecordingCompleted = RecordingCompleted;
 
 			SegmentIgnored += HandleSegmentIgnored;
 		}
@@ -992,7 +994,13 @@ namespace SayMore.Transcription.UI
 				_reRecording = false;
 			}
 
-			var stopResult = ViewModel.StopAnnotationRecording(_segmentBeingRecorded);
+			_advanceOption = advanceOption;
+			ViewModel.StopAnnotationRecording();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void RecordingCompleted(StopAnnotationRecordingResult stopResult)
+		{
 			_waveControl.InvalidateIfNeeded(GetVisibleAnnotationRectangleForSegmentBeingRecorded());
 
 			if (stopResult == StopAnnotationRecordingResult.AnnotationTooShort)
@@ -1002,10 +1010,10 @@ namespace SayMore.Transcription.UI
 				return;
 			}
 
-			if (advanceOption == AdvanceOptionsAfterRecording.AdvanceOnlyToContiguousUnsegmentedAudio &&
+			if (_advanceOption == AdvanceOptionsAfterRecording.AdvanceOnlyToContiguousUnsegmentedAudio &&
 				ViewModel.GetEndOfLastSegment() == _segmentBeingRecorded.End)
 			{
-				advanceOption = AdvanceOptionsAfterRecording.Advance;
+				_advanceOption = AdvanceOptionsAfterRecording.Advance;
 			}
 
 			_segmentBeingRecorded = null;
@@ -1019,14 +1027,14 @@ namespace SayMore.Transcription.UI
 				_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
 			}
 
-			if (advanceOption == AdvanceOptionsAfterRecording.Advance)
+			if (_advanceOption == AdvanceOptionsAfterRecording.Advance)
 			{
 				_userHasListenedToSelectedSegment = false;
 				GoToNextUnannotatedSegment();
 			}
 			else
 			{
-				if (advanceOption == AdvanceOptionsAfterRecording.AdvanceOnlyToContiguousUnsegmentedAudio)
+				if (_advanceOption == AdvanceOptionsAfterRecording.AdvanceOnlyToContiguousUnsegmentedAudio)
 				{
 					// Though we don't actually want to highlight the segment or move to it yet, we
 					// want to set this, so that if the user presses the space bar or mouses over the
@@ -1181,6 +1189,13 @@ namespace SayMore.Transcription.UI
 			if (!ViewModel.GetIsRecording())
 			{
 				DrawPlayButtonInSegment(e.Graphics, PlayOrigButtonRectangle);
+				var currentSegment = ViewModel.CurrentUnannotatedSegment;
+				if (currentSegment != null && HotSegment != currentSegment)
+				{
+					DrawPlayButtonInSegment(e.Graphics,
+						GetPlayOrigButtonRectangleForSegment(WavePainter.GetFullRectangleForTimeRange(
+						currentSegment.TimeRange)));
+				}
 				DrawPlayButtonInSegment(e.Graphics, PlayAnnotationButtonRectangle);
 			}
 
@@ -1636,22 +1651,19 @@ namespace SayMore.Transcription.UI
 		{
 			get
 			{
-				var rc = HotSegmentRectangle;
-				if (rc.IsEmpty || _playButtonSize.Width + 6 > rc.Width)
-					return Rectangle.Empty;
-
-				var hotSegment = HotSegment;
-				if (hotSegment == null)
-				{
-					return new Rectangle(rc.X + 6,
-						rc.Bottom - AnnotationAreaHeight - 5 - _playButtonSize.Height,
-						_playButtonSize.Width, _playButtonSize.Height);
-				}
-
-				return new Rectangle(rc.X + 6,
-					rc.Bottom - AnnotationAreaHeight - 5 - _playButtonSize.Height,
-					_playButtonSize.Width, _playButtonSize.Height);
+				return GetPlayOrigButtonRectangleForSegment(HotSegmentRectangle);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Rectangle GetPlayOrigButtonRectangleForSegment(Rectangle rc)
+		{
+			if (rc.IsEmpty || _playButtonSize.Width + 6 > rc.Width)
+				return Rectangle.Empty;
+
+			return new Rectangle(rc.X + 6,
+				rc.Bottom - AnnotationAreaHeight - 5 - _playButtonSize.Height,
+				_playButtonSize.Width, _playButtonSize.Height);
 		}
 
 		/// ------------------------------------------------------------------------------------

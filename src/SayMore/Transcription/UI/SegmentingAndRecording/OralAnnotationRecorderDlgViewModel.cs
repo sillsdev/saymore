@@ -31,10 +31,12 @@ namespace SayMore.Transcription.UI
 	{
 		public Action<Exception> RecordingErrorAction { get; set; }
 		public Action<Exception> PlaybackErrorAction { get; set; }
+		public Action<StopAnnotationRecordingResult> RecordingCompleted;
 		public Segment CurrentUnannotatedSegment { get; private set; }
 		public OralAnnotationRecorder Recorder { get; private set; }
 		private AudioPlayer _annotationPlayer;
 		private TimeSpan _endBoundary;
+		private TimeRange _segmentBeingRecorded;
 
 		/// ----------------------------------------------------------------------------------------
 		public static OralAnnotationRecorderDlgViewModel Create(ComponentFile file,
@@ -151,7 +153,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool GetDoesSegmentHaveAnnotationFile(Segment segment)
 		{
-			if (segment == null)
+			if (segment == null || segment.TimeRange == _segmentBeingRecorded)
 				return false;
 			var path = GetFullPathToAnnotationFileForSegment(segment);
 			return File.Exists(path) && AudioUtils.GetDoesFileSeemToBeWave(path);
@@ -283,7 +285,10 @@ namespace SayMore.Transcription.UI
 			if (recordingDeviceBtn != null)
 				recordingDeviceBtn.Recorder = Recorder;
 			Recorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();
-			Recorder.Stopped += (sender, args) => InvokeUpdateDisplayAction();
+			Recorder.Stopped += (sender, args) => {
+				AnnotationRecordingFinished();
+				InvokeUpdateDisplayAction();
+			};
 			Recorder.BeginMonitoring();
 		}
 
@@ -331,6 +336,9 @@ namespace SayMore.Transcription.UI
 			if (!recordingStarted && backupCreated)
 				RestorePreviousVersionOfAnnotation(path);
 
+			if (recordingStarted)
+				_segmentBeingRecorded = timeRange;
+
 			return recordingStarted;
 		}
 
@@ -359,12 +367,17 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public StopAnnotationRecordingResult StopAnnotationRecording(TimeRange timeRange)
+		public void StopAnnotationRecording()
 		{
 			AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrownDuringRecord;
-
 			Recorder.Stop();
+		}
 
+		/// ------------------------------------------------------------------------------------
+		public void AnnotationRecordingFinished()
+		{
+			TimeRange timeRange = _segmentBeingRecorded;
+			_segmentBeingRecorded = null;
 			var isRecorderInErrorState = Recorder.GetIsInErrorState();
 			var isRecordingTooShort = Recorder.GetIsRecordingTooShort() && !isRecorderInErrorState;
 
@@ -378,12 +391,17 @@ namespace SayMore.Transcription.UI
 					c => RestorePreviousVersionOfAnnotation(timeRange)));
 			}
 
-			if (isRecorderInErrorState)
-				return StopAnnotationRecordingResult.RecordingError;
-
-			return (isRecordingTooShort ?
-				StopAnnotationRecordingResult.AnnotationTooShort :
-				StopAnnotationRecordingResult.Normal);
+			if (RecordingCompleted != null)
+			{
+				if (isRecorderInErrorState)
+					RecordingCompleted(StopAnnotationRecordingResult.RecordingError);
+				else
+				{
+					RecordingCompleted((isRecordingTooShort ?
+						StopAnnotationRecordingResult.AnnotationTooShort :
+						StopAnnotationRecordingResult.Normal));
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

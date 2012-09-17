@@ -44,7 +44,7 @@ namespace SayMore.Transcription.UI
 			_splitter.Panel2.Controls.Add(_grid);
 
 			LoadPlaybackSpeedCombo();
-			_comboPlaybackSpeed.SelectedValueChanged += HandlePlaybackSpeedValueChanged;
+			_comboPlaybackSpeed.SelectedIndexChanged += HandlePlaybackSpeedValueChanged;
 			SetSpeedPercentage(Settings.Default.AnnotationEditorPlaybackSpeedIndex);
 
 			_videoPanel = new VideoPanel();

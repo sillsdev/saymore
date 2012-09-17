@@ -18,17 +18,16 @@ namespace SayMore.Transcription.UI
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
-			this._splitter = new System.Windows.Forms.SplitContainer();
 			this._toolStrip = new System.Windows.Forms.ToolStrip();
+			this._comboPlaybackSpeed = new System.Windows.Forms.ToolStripComboBox();
 			this._buttonHelp = new System.Windows.Forms.ToolStripButton();
 			this._exportMenu = new System.Windows.Forms.ToolStripDropDownButton();
-			this._csvExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._exportElanMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._flexInterlinearExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this._exportFreeTranslationSubtitlesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._plainTextExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._exportVernacularSubtitlesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this._exportFreeTranslationSubtitlesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this._csvExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._toolboxInterlinearExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._buttonResegment = new System.Windows.Forms.ToolStripButton();
 			this._buttonRecordings = new System.Windows.Forms.ToolStripDropDownButton();
@@ -37,56 +36,20 @@ namespace SayMore.Transcription.UI
 			this._buttonFonts = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonTranscriptionFont = new System.Windows.Forms.ToolStripMenuItem();
 			this._buttonFreeTranslationFont = new System.Windows.Forms.ToolStripMenuItem();
-			this._tableLayoutPlaybackSpeed = new System.Windows.Forms.TableLayoutPanel();
-			this._comboPlaybackSpeed = new System.Windows.Forms.ComboBox();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this._tableLayout.SuspendLayout();
+			this._splitter = new System.Windows.Forms.SplitContainer();
+			this._toolStrip.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._splitter)).BeginInit();
 			this._splitter.SuspendLayout();
-			this._toolStrip.SuspendLayout();
-			this._tableLayoutPlaybackSpeed.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// _tableLayout
-			// 
-			this._tableLayout.BackColor = System.Drawing.Color.Transparent;
-			this._tableLayout.ColumnCount = 2;
-			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayout.Controls.Add(this._splitter, 0, 1);
-			this._tableLayout.Controls.Add(this._toolStrip, 1, 0);
-			this._tableLayout.Controls.Add(this._tableLayoutPlaybackSpeed, 0, 0);
-			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._tableLayout.Location = new System.Drawing.Point(12, 6);
-			this._tableLayout.Name = "_tableLayout";
-			this._tableLayout.RowCount = 2;
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayout.Size = new System.Drawing.Size(597, 346);
-			this._tableLayout.TabIndex = 0;
-			// 
-			// _splitter
-			// 
-			this._splitter.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this._tableLayout.SetColumnSpan(this._splitter, 2);
-			this._splitter.Location = new System.Drawing.Point(0, 33);
-			this._splitter.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
-			this._splitter.Name = "_splitter";
-			this._splitter.Size = new System.Drawing.Size(597, 313);
-			this._splitter.SplitterDistance = 192;
-			this._splitter.SplitterWidth = 8;
-			this._splitter.TabIndex = 3;
 			// 
 			// _toolStrip
 			// 
-			this._toolStrip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._toolStrip.BackColor = System.Drawing.Color.Transparent;
-			this._toolStrip.Dock = System.Windows.Forms.DockStyle.None;
 			this._toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this._toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._comboPlaybackSpeed,
             this._buttonHelp,
             this._exportMenu,
             this._buttonResegment,
@@ -96,10 +59,25 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this._toolStrip, null);
 			this.locExtender.SetLocalizationPriority(this._toolStrip, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._toolStrip, "Transcription.UI.TextAnnotationEditor._toolStrip");
-			this._toolStrip.Location = new System.Drawing.Point(52, 0);
+			this._toolStrip.Location = new System.Drawing.Point(12, 6);
 			this._toolStrip.Name = "_toolStrip";
-			this._toolStrip.Size = new System.Drawing.Size(545, 25);
+			this._toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 1, 11);
+			this._toolStrip.Size = new System.Drawing.Size(597, 34);
 			this._toolStrip.TabIndex = 1;
+			// 
+			// _comboPlaybackSpeed
+			// 
+			this._comboPlaybackSpeed.AutoSize = false;
+			this._comboPlaybackSpeed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this._comboPlaybackSpeed.DropDownWidth = 49;
+			this.locExtender.SetLocalizableToolTip(this._comboPlaybackSpeed, "Playback speed");
+			this.locExtender.SetLocalizationComment(this._comboPlaybackSpeed, null);
+			this.locExtender.SetLocalizationPriority(this._comboPlaybackSpeed, Localization.LocalizationPriority.Medium);
+			this.locExtender.SetLocalizingId(this._comboPlaybackSpeed, "Transcription.UI.TextAnnotationEditor._comboPlaybackSpeed");
+			this._comboPlaybackSpeed.Name = "_comboPlaybackSpeed";
+			this._comboPlaybackSpeed.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
+			this._comboPlaybackSpeed.Size = new System.Drawing.Size(49, 23);
+			this._comboPlaybackSpeed.ToolTipText = "Playback speed";
 			// 
 			// _buttonHelp
 			// 
@@ -112,7 +90,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this._buttonHelp, "SessionsView.Transcription.TextAnnotationEditor.HelpButton");
 			this._buttonHelp.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
 			this._buttonHelp.Name = "_buttonHelp";
-			this._buttonHelp.Size = new System.Drawing.Size(23, 22);
+			this._buttonHelp.Size = new System.Drawing.Size(23, 20);
 			this._buttonHelp.Text = "Help";
 			// 
 			// _exportMenu
@@ -133,19 +111,8 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationPriority(this._exportMenu, Localization.LocalizationPriority.Medium);
 			this.locExtender.SetLocalizingId(this._exportMenu, "SessionsView.Transcription.TextAnnotation.ExportMenu");
 			this._exportMenu.Name = "_exportMenu";
-			this._exportMenu.Size = new System.Drawing.Size(69, 22);
+			this._exportMenu.Size = new System.Drawing.Size(69, 20);
 			this._exportMenu.Text = "Export";
-			// 
-			// _csvExportMenuItem
-			// 
-			this.locExtender.SetLocalizableToolTip(this._csvExportMenuItem, null);
-			this.locExtender.SetLocalizationComment(this._csvExportMenuItem, null);
-			this.locExtender.SetLocalizingId(this._csvExportMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.commaSeparatedValueExport");
-			this._csvExportMenuItem.Name = "_csvExportMenuItem";
-			this._csvExportMenuItem.Size = new System.Drawing.Size(236, 22);
-			this._csvExportMenuItem.Text = "Spreadsheet (CSV) File...";
-			this._csvExportMenuItem.ToolTipText = "Use this for getting data into a spreadsheet application.";
-			this._csvExportMenuItem.Click += new System.EventHandler(this.OnCsvExportMenuItem_Click);
 			// 
 			// _exportElanMenuItem
 			// 
@@ -167,6 +134,19 @@ namespace SayMore.Transcription.UI
 			this._flexInterlinearExportMenuItem.Size = new System.Drawing.Size(236, 22);
 			this._flexInterlinearExportMenuItem.Text = "FLEx Interlinear Text...";
 			this._flexInterlinearExportMenuItem.Click += new System.EventHandler(this.OnFLexTextExportClick);
+			// 
+			// _exportFreeTranslationSubtitlesMenuItem
+			// 
+			this.locExtender.SetLocalizableToolTip(this._exportFreeTranslationSubtitlesMenuItem, null);
+			this.locExtender.SetLocalizationComment(this._exportFreeTranslationSubtitlesMenuItem, null);
+			this.locExtender.SetLocalizationPriority(this._exportFreeTranslationSubtitlesMenuItem, Localization.LocalizationPriority.Medium);
+			this.locExtender.SetLocalizingId(this._exportFreeTranslationSubtitlesMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.srtFreeTranslationSubtitlesE" +
+        "xport");
+			this._exportFreeTranslationSubtitlesMenuItem.Name = "_exportFreeTranslationSubtitlesMenuItem";
+			this._exportFreeTranslationSubtitlesMenuItem.Size = new System.Drawing.Size(236, 22);
+			this._exportFreeTranslationSubtitlesMenuItem.Text = "Free Translation Subtitles File...";
+			this._exportFreeTranslationSubtitlesMenuItem.ToolTipText = "The SRT format can be used to create subtitle (captioned) video";
+			this._exportFreeTranslationSubtitlesMenuItem.Click += new System.EventHandler(this.OnExportFreeTranslationSubtitlesMenuItem_Click);
 			// 
 			// _plainTextExportMenuItem
 			// 
@@ -192,18 +172,16 @@ namespace SayMore.Transcription.UI
 			this._exportVernacularSubtitlesMenuItem.ToolTipText = "The SRT format can be used to create subtitle (captioned) video";
 			this._exportVernacularSubtitlesMenuItem.Click += new System.EventHandler(this.OnExportVernacularSubtitlesMenuItem_Click);
 			// 
-			// _exportFreeTranslationSubtitlesMenuItem
+			// _csvExportMenuItem
 			// 
-			this.locExtender.SetLocalizableToolTip(this._exportFreeTranslationSubtitlesMenuItem, null);
-			this.locExtender.SetLocalizationComment(this._exportFreeTranslationSubtitlesMenuItem, null);
-			this.locExtender.SetLocalizationPriority(this._exportFreeTranslationSubtitlesMenuItem, Localization.LocalizationPriority.Medium);
-			this.locExtender.SetLocalizingId(this._exportFreeTranslationSubtitlesMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.srtFreeTranslationSubtitlesE" +
-        "xport");
-			this._exportFreeTranslationSubtitlesMenuItem.Name = "_exportFreeTranslationSubtitlesMenuItem";
-			this._exportFreeTranslationSubtitlesMenuItem.Size = new System.Drawing.Size(236, 22);
-			this._exportFreeTranslationSubtitlesMenuItem.Text = "Free Translation Subtitles File...";
-			this._exportFreeTranslationSubtitlesMenuItem.ToolTipText = "The SRT format can be used to create subtitle (captioned) video";
-			this._exportFreeTranslationSubtitlesMenuItem.Click += new System.EventHandler(this.OnExportFreeTranslationSubtitlesMenuItem_Click);
+			this.locExtender.SetLocalizableToolTip(this._csvExportMenuItem, null);
+			this.locExtender.SetLocalizationComment(this._csvExportMenuItem, null);
+			this.locExtender.SetLocalizingId(this._csvExportMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.commaSeparatedValueExport");
+			this._csvExportMenuItem.Name = "_csvExportMenuItem";
+			this._csvExportMenuItem.Size = new System.Drawing.Size(236, 22);
+			this._csvExportMenuItem.Text = "Spreadsheet (CSV) File...";
+			this._csvExportMenuItem.ToolTipText = "Use this for getting data into a spreadsheet application.";
+			this._csvExportMenuItem.Click += new System.EventHandler(this.OnCsvExportMenuItem_Click);
 			// 
 			// _toolboxInterlinearExportMenuItem
 			// 
@@ -225,7 +203,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this._buttonResegment, "SessionsView.Transcription.TextAnnotationEditor.ResegmentButton");
 			this._buttonResegment.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
 			this._buttonResegment.Name = "_buttonResegment";
-			this._buttonResegment.Size = new System.Drawing.Size(83, 22);
+			this._buttonResegment.Size = new System.Drawing.Size(83, 20);
 			this._buttonResegment.Text = "Segment...";
 			this._buttonResegment.ToolTipText = "Add, remove or move segment boundaries";
 			this._buttonResegment.Click += new System.EventHandler(this.HandleResegmentButtonClick);
@@ -243,7 +221,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this._buttonRecordings, "SessionsView.Transcription.TextAnnotationEditor.RecordButton");
 			this._buttonRecordings.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
 			this._buttonRecordings.Name = "_buttonRecordings";
-			this._buttonRecordings.Size = new System.Drawing.Size(158, 22);
+			this._buttonRecordings.Size = new System.Drawing.Size(158, 20);
 			this._buttonRecordings.Text = "Oral Annotations Tools";
 			this._buttonRecordings.ToolTipText = "Record audio annotations";
 			// 
@@ -281,7 +259,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this._buttonFonts, "SessionsView.Transcription.TextAnnotationEditor.FontsButton");
 			this._buttonFonts.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
 			this._buttonFonts.Name = "_buttonFonts";
-			this._buttonFonts.Size = new System.Drawing.Size(49, 22);
+			this._buttonFonts.Size = new System.Drawing.Size(49, 20);
 			this._buttonFonts.Text = "Fonts";
 			this._buttonFonts.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.HandleFontClick);
 			// 
@@ -303,73 +281,45 @@ namespace SayMore.Transcription.UI
 			this._buttonFreeTranslationFont.Size = new System.Drawing.Size(167, 22);
 			this._buttonFreeTranslationFont.Text = "Free Translation...";
 			// 
-			// _tableLayoutPlaybackSpeed
-			// 
-			this._tableLayoutPlaybackSpeed.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this._tableLayoutPlaybackSpeed.AutoSize = true;
-			this._tableLayoutPlaybackSpeed.ColumnCount = 2;
-			this._tableLayoutPlaybackSpeed.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayoutPlaybackSpeed.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayoutPlaybackSpeed.Controls.Add(this._comboPlaybackSpeed, 0, 0);
-			this._tableLayoutPlaybackSpeed.Location = new System.Drawing.Point(0, 2);
-			this._tableLayoutPlaybackSpeed.Margin = new System.Windows.Forms.Padding(0);
-			this._tableLayoutPlaybackSpeed.Name = "_tableLayoutPlaybackSpeed";
-			this._tableLayoutPlaybackSpeed.RowCount = 1;
-			this._tableLayoutPlaybackSpeed.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayoutPlaybackSpeed.Size = new System.Drawing.Size(52, 21);
-			this._tableLayoutPlaybackSpeed.TabIndex = 0;
-			// 
-			// _comboPlaybackSpeed
-			// 
-			this._comboPlaybackSpeed.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this._comboPlaybackSpeed.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(240)))), ((int)(((byte)(159)))));
-			this._comboPlaybackSpeed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this._comboPlaybackSpeed.DropDownWidth = 97;
-			this._comboPlaybackSpeed.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this._comboPlaybackSpeed.FormattingEnabled = true;
-			this.locExtender.SetLocalizableToolTip(this._comboPlaybackSpeed, null);
-			this.locExtender.SetLocalizationComment(this._comboPlaybackSpeed, null);
-			this.locExtender.SetLocalizationPriority(this._comboPlaybackSpeed, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._comboPlaybackSpeed, "Transcription.UI.TextAnnotationEditor._comboPlaybackSpeed");
-			this._comboPlaybackSpeed.Location = new System.Drawing.Point(3, 0);
-			this._comboPlaybackSpeed.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-			this._comboPlaybackSpeed.Name = "_comboPlaybackSpeed";
-			this._comboPlaybackSpeed.Size = new System.Drawing.Size(49, 21);
-			this._comboPlaybackSpeed.TabIndex = 1;
-			// 
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
+			// 
+			// _splitter
+			// 
+			this._splitter.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._splitter.Location = new System.Drawing.Point(12, 40);
+			this._splitter.Margin = new System.Windows.Forms.Padding(3, 21, 3, 3);
+			this._splitter.Name = "_splitter";
+			this._splitter.Size = new System.Drawing.Size(597, 312);
+			this._splitter.SplitterDistance = 192;
+			this._splitter.SplitterWidth = 8;
+			this._splitter.TabIndex = 3;
 			// 
 			// TextAnnotationEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this._tableLayout);
+			this.Controls.Add(this._splitter);
+			this.Controls.Add(this._toolStrip);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "Transcription.UI.TextAnnotationEditor.EditorBase");
 			this.Name = "TextAnnotationEditor";
 			this.Padding = new System.Windows.Forms.Padding(12, 6, 12, 12);
 			this.Size = new System.Drawing.Size(621, 364);
-			this._tableLayout.ResumeLayout(false);
-			this._tableLayout.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this._splitter)).EndInit();
-			this._splitter.ResumeLayout(false);
 			this._toolStrip.ResumeLayout(false);
 			this._toolStrip.PerformLayout();
-			this._tableLayoutPlaybackSpeed.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this._splitter)).EndInit();
+			this._splitter.ResumeLayout(false);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
 
-        private System.Windows.Forms.TableLayoutPanel _tableLayout;
-		private System.Windows.Forms.SplitContainer _splitter;
-        private System.Windows.Forms.TableLayoutPanel _tableLayoutPlaybackSpeed;
-		private System.Windows.Forms.ComboBox _comboPlaybackSpeed;
 		private System.Windows.Forms.ToolStrip _toolStrip;
 		private System.Windows.Forms.ToolStripDropDownButton _buttonRecordings;
 		private System.Windows.Forms.ToolStripMenuItem _buttonCarefulSpeech;
@@ -388,6 +338,8 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripMenuItem _csvExportMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem _exportElanMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem _toolboxInterlinearExportMenuItem;
+		private System.Windows.Forms.ToolStripComboBox _comboPlaybackSpeed;
+		private System.Windows.Forms.SplitContainer _splitter;
 
 
 	}

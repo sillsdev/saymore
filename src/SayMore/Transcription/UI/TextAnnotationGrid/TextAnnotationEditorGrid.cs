@@ -36,7 +36,6 @@ namespace SayMore.Transcription.UI
 		private readonly List<AnnotationPlaybackInfo> _mediaFileQueue = new List<AnnotationPlaybackInfo>();
 		private int _annotationPlaybackLoopCount;
 		private Action _playbackProgressReportingAction;
-		private System.ComponentModel.IContainer components;
 
 		private System.Threading.Timer _delayBeginRowPlayingTimer;
 

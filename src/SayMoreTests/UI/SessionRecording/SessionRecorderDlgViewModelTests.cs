@@ -1,5 +1,7 @@
+using System;
 using System.IO;
 using System.Threading;
+using System.Windows.Forms;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using Moq;
@@ -58,18 +60,28 @@ namespace SayMoreTests.UI
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void BeginRecording_AfterStopingPlayBack_PutsIntoRecordingState()
+		public void BeginRecording_AfterStoppingPlayBack_PutsIntoRecordingState()
 		{
 			_model.BeginRecording();
-			Thread.Sleep(200);
+			Wait(200);
 			_model.Stop();
+			Wait(220);
 			_model.BeginPlayback();
 			_model.Stop();
+			Wait(50);
 			_model.BeginRecording();
 			Assert.IsTrue(_model.IsRecording);
 			Assert.IsFalse(_model.IsPlaying);
 			Assert.IsFalse(_model.CanPlay);
 			Assert.IsFalse(_model.CanRecordNow);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void Wait(double howLong)
+		{
+			var stop = DateTime.Now.AddMilliseconds(howLong);
+			do Application.DoEvents();
+			while (stop > DateTime.Now);
 		}
 
 		[Test]

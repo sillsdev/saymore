@@ -188,7 +188,7 @@ namespace SayMore.Transcription.UI
 				return;
 
 			if (_grid.PlaybackInProgress)
-				_grid.Stop();
+				_grid.Pause();
 			else
 				_grid.Play();
 

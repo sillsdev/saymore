@@ -541,6 +541,16 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void Pause()
+		{
+			if (!PlaybackInProgress)
+				return;
+
+			DisableTimer();
+			PlayerViewModel.Pause();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleMediaPlaybackEnded(object sender, bool EndedBecauseEOF)
 		{
 			if (InvokeRequired)

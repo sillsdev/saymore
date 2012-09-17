@@ -797,6 +797,23 @@ namespace SayMore.Transcription.UI
 
 			if (segMouseOver >= 0)
 			{
+				if (PlayOrigButtonRectangle.Contains(e.Location))
+				{
+					var toolTipText = LocalizationManager.GetString(
+						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayOriginalToolTipMsg",
+						"Listen to this segment.");
+					if (ViewModel.CurrentUnannotatedSegment != null &&
+						ViewModel.GetSegment(segMouseOver) == ViewModel.CurrentUnannotatedSegment &&
+						_labelListenButton.Enabled)
+					{
+						toolTipText += " " + LocalizationManager.GetString(
+						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayOriginalShortcutToolTipHint",
+						"Keyboard shortcut: 'b'");
+					}
+					if (_tooltip.GetToolTip(_waveControl) != toolTipText)
+						_tooltip.SetToolTip(_waveControl, toolTipText);
+					return;
+				}
 				if (!ViewModel.GetDoesSegmentHaveAnnotationFile(segMouseOver))
 				{
 					var toolTipText = (ViewModel.GetIsSegmentIgnored(segMouseOver)) ?
@@ -1577,21 +1594,31 @@ namespace SayMore.Transcription.UI
 
 		#region Low level keyboard handling
 		/// ------------------------------------------------------------------------------------
+		protected override void OnKeyPress(KeyPressEventArgs e)
+		{
+			if (e.KeyChar == 'b' && _labelListenButton.Enabled &&
+				(ViewModel.CurrentUnannotatedSegment != null || ViewModel.GetHasNewSegment()) &&
+				!_waveControl.IsPlaying)
+			{
+				PlaySource(ViewModel.CurrentUnannotatedSegment);
+			}
+			base.OnKeyPress(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyDown(Keys key)
 		{
 			if (!ContainsFocus || _waveControl.IsBoundaryMovingInProgress)
 				return true;
 
-			if (key == Keys.Space || (key == Keys.B && _spaceBarMode == SpaceBarMode.Record && _labelListenButton.Enabled))
+			if (key == Keys.Space)
 			{
 				if (_shortcutKeyIsDown || IsBoundaryMovingInProgressUsingArrowKeys)
 					return true;
 
 				_shortcutKeyIsDown = true;
 
-				if (key == Keys.B)
-					PlaySource(ViewModel.CurrentUnannotatedSegment);
-				else if (_spaceBarMode == SpaceBarMode.Record && _labelRecordHint.Visible)
+				if (_spaceBarMode == SpaceBarMode.Record && _labelRecordHint.Visible)
 					HandleRecordAnnotationMouseDown(null, null);
 				else if (_labelListenHint.Visible && _spaceBarMode == SpaceBarMode.Listen)
 					HandleListenToSourceMouseDown(null, null);
@@ -1615,7 +1642,7 @@ namespace SayMore.Transcription.UI
 			if (!ContainsFocus)
 				return true;
 
-			if (key == Keys.Space || key == Keys.B)
+			if (key == Keys.Space)
 			{
 				if (!IsBoundaryMovingInProgressUsingArrowKeys && _shortcutKeyIsDown)
 				{
@@ -1628,8 +1655,6 @@ namespace SayMore.Transcription.UI
 					}
 					else if (!_reRecording && ViewModel.GetIsRecording())
 						FinishRecording(AdvanceOptionsAfterRecording.Advance);
-					else if (key == Keys.B)
-						base.StopAllMedia();
 				}
 
 				return true;

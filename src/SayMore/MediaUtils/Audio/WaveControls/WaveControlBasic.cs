@@ -677,12 +677,15 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandlePlaybackMetering(object sender, StreamVolumeEventArgs e)
 		{
-			// We're using a WaveSegmentStream which never gets a PlaybackStopped
-			// event on the WaveOut, so we have to force it here.
 			if (_playbackStream.CurrentTime == (_playbackRange.End > TimeSpan.Zero ? _playbackRange.End : WaveStream.TotalTime))
 			{
 				SetCursor(_playbackRange.End);
-				_waveOut.Stop();
+				if (_waveOut != null)
+				{
+					// We're using a WaveSegmentStream which never gets a PlaybackStopped
+					// event on the WaveOut, so we have to force it here.
+					_waveOut.Stop();
+				}
 				return;
 			}
 

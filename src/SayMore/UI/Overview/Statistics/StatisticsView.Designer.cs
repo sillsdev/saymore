@@ -31,20 +31,20 @@ namespace SayMore.UI.Overview.Statistics
 			this.components = new System.ComponentModel.Container();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this._webBrowser = new System.Windows.Forms.WebBrowser();
-			this._toolStripActions = new System.Windows.Forms.ToolStrip();
-			this._buttonRefresh = new System.Windows.Forms.ToolStripButton();
 			this._panelBrowser = new SilTools.Controls.SilPanel();
 			this._panelWorking = new SilTools.Controls.SilPanel();
 			this._tableLayoutWorking = new System.Windows.Forms.TableLayoutPanel();
 			this._labelWorking = new System.Windows.Forms.Label();
 			this._pictureWorking = new System.Windows.Forms.PictureBox();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this._toolStripActions.SuspendLayout();
+			this._toolStripActions = new SayMore.UI.LowLevelControls.ElementBar();
+			this._buttonRefresh = new System.Windows.Forms.ToolStripButton();
 			this._panelBrowser.SuspendLayout();
 			this._panelWorking.SuspendLayout();
 			this._tableLayoutWorking.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._pictureWorking)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
+			this._toolStripActions.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// timer1
@@ -65,38 +65,6 @@ namespace SayMore.UI.Overview.Statistics
 			this._webBrowser.Name = "_webBrowser";
 			this._webBrowser.Size = new System.Drawing.Size(502, 265);
 			this._webBrowser.TabIndex = 5;
-			// 
-			// _toolStripActions
-			// 
-			this._toolStripActions.BackColor = System.Drawing.SystemColors.Control;
-			this._toolStripActions.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-			this._toolStripActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._buttonRefresh});
-			this.locExtender.SetLocalizableToolTip(this._toolStripActions, null);
-			this.locExtender.SetLocalizationComment(this._toolStripActions, null);
-			this.locExtender.SetLocalizationPriority(this._toolStripActions, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._toolStripActions, "ProgressView._toolStripActions");
-			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
-			this._toolStripActions.Name = "_toolStripActions";
-			this._toolStripActions.Padding = new System.Windows.Forms.Padding(7, 0, 7, 2);
-			this._toolStripActions.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this._toolStripActions.Size = new System.Drawing.Size(504, 25);
-			this._toolStripActions.TabIndex = 8;
-			this._toolStripActions.Text = "toolStrip1";
-			// 
-			// _buttonRefresh
-			// 
-			this._buttonRefresh.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this._buttonRefresh.Image = global::SayMore.Properties.Resources.Refresh;
-			this._buttonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonRefresh, "Refresh View");
-			this.locExtender.SetLocalizationComment(this._buttonRefresh, null);
-			this.locExtender.SetLocalizingId(this._buttonRefresh, "ProgressView._buttonRefresh");
-			this._buttonRefresh.Name = "_buttonRefresh";
-			this._buttonRefresh.Size = new System.Drawing.Size(65, 20);
-			this._buttonRefresh.Text = "Refresh";
-			this._buttonRefresh.ToolTipText = "Refresh View";
-			this._buttonRefresh.Click += new System.EventHandler(this.HandleRefreshButtonClicked);
 			// 
 			// _panelBrowser
 			// 
@@ -130,7 +98,6 @@ namespace SayMore.UI.Overview.Statistics
 			this._panelWorking.AutoSize = true;
 			this._panelWorking.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._panelWorking.BackColor = System.Drawing.Color.White;
-			this._panelWorking.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(110)))), ((int)(((byte)(145)))));
 			this._panelWorking.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._panelWorking.ClipTextForChildControls = true;
 			this._panelWorking.ControlReceivingFocusOnMnemonic = null;
@@ -203,6 +170,41 @@ namespace SayMore.UI.Overview.Statistics
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
+			// _toolStripActions
+			// 
+			this._toolStripActions.BackColorBegin = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(150)))), ((int)(((byte)(100)))));
+			this._toolStripActions.BackColorEnd = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(66)))), ((int)(((byte)(0)))));
+			this._toolStripActions.GradientAngle = 0F;
+			this._toolStripActions.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this._toolStripActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._buttonRefresh});
+			this.locExtender.SetLocalizableToolTip(this._toolStripActions, null);
+			this.locExtender.SetLocalizationComment(this._toolStripActions, null);
+			this.locExtender.SetLocalizationPriority(this._toolStripActions, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._toolStripActions, "ProgressView._toolStripActions");
+			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
+			this._toolStripActions.Name = "_toolStripActions";
+			this._toolStripActions.Padding = new System.Windows.Forms.Padding(7, 0, 7, 2);
+			this._toolStripActions.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this._toolStripActions.Size = new System.Drawing.Size(504, 25);
+			this._toolStripActions.TabIndex = 8;
+			this._toolStripActions.Text = "toolStrip1";
+			// 
+			// _buttonRefresh
+			// 
+			this._buttonRefresh.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this._buttonRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this._buttonRefresh.Image = global::SayMore.Properties.Resources.Refresh;
+			this._buttonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._buttonRefresh, "Refresh View");
+			this.locExtender.SetLocalizationComment(this._buttonRefresh, null);
+			this.locExtender.SetLocalizingId(this._buttonRefresh, "ProgressView._buttonRefresh");
+			this._buttonRefresh.Name = "_buttonRefresh";
+			this._buttonRefresh.Size = new System.Drawing.Size(23, 20);
+			this._buttonRefresh.Text = "Refresh";
+			this._buttonRefresh.ToolTipText = "Refresh View";
+			this._buttonRefresh.Click += new System.EventHandler(this.HandleRefreshButtonClicked);
+			// 
 			// StatisticsView
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -215,8 +217,6 @@ namespace SayMore.UI.Overview.Statistics
 			this.locExtender.SetLocalizingId(this, "SayMore");
 			this.Name = "StatisticsView";
 			this.Size = new System.Drawing.Size(504, 292);
-			this._toolStripActions.ResumeLayout(false);
-			this._toolStripActions.PerformLayout();
 			this._panelBrowser.ResumeLayout(false);
 			this._panelBrowser.PerformLayout();
 			this._panelWorking.ResumeLayout(false);
@@ -225,6 +225,8 @@ namespace SayMore.UI.Overview.Statistics
 			this._tableLayoutWorking.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this._pictureWorking)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
+			this._toolStripActions.ResumeLayout(false);
+			this._toolStripActions.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -234,7 +236,7 @@ namespace SayMore.UI.Overview.Statistics
 
 		private System.Windows.Forms.Timer timer1;
 		private System.Windows.Forms.WebBrowser _webBrowser;
-		private System.Windows.Forms.ToolStrip _toolStripActions;
+		private SayMore.UI.LowLevelControls.ElementBar _toolStripActions;
 		private System.Windows.Forms.ToolStripButton _buttonRefresh;
 		private SilTools.Controls.SilPanel _panelBrowser;
 		private System.Windows.Forms.Label _labelWorking;

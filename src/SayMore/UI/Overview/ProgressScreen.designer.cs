@@ -72,11 +72,11 @@ namespace SayMore.UI.Overview
 			this.tsbTasks.Text = "Session Tasks";
 			this.tsbTasks.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			//
-			// OverviewScreen
+			// ProgressScreen
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Name = "OverviewScreen";
+			this.Name = "ProgressScreen";
 			this.Padding = new System.Windows.Forms.Padding(10, 5, 10, 10);
 			this.Size = new System.Drawing.Size(657, 351);
 			this.ResumeLayout(false);

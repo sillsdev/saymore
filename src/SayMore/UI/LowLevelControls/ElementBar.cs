@@ -32,8 +32,6 @@ namespace SayMore.UI.LowLevelControls
 		/// Gets the lighter color of the gradient bar color.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Color BackColorBegin
 		{
 			get { return _clrBegin; }
@@ -45,8 +43,6 @@ namespace SayMore.UI.LowLevelControls
 		/// Gets the darker color of the gradient bar color.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Color BackColorEnd
 		{
 			get { return _clrEnd; }

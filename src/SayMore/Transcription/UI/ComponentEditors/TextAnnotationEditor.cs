@@ -168,6 +168,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public override void Deactivated()
 		{
+			if (_grid != null)
+				_grid.Stop();
+
 			if (_file != null)
 			{
 				_file.BeforeSave -= HandleBeforeAnnotationFileSaved;

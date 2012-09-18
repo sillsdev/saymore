@@ -428,8 +428,19 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnEnter(e);
 
-			if (!PlayerViewModel.HasPlaybackStarted && !GetIgnoreStateForRow(CurrentCellAddress.Y))
+			if (Focused && !PlayerViewModel.HasPlaybackStarted &&
+				!GetIgnoreStateForRow(CurrentCellAddress.Y))
+			{
 				Play();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLeave(EventArgs e)
+		{
+			base.OnLeave(e);
+
+			DisableTimer();
 		}
 
 		/// ------------------------------------------------------------------------------------

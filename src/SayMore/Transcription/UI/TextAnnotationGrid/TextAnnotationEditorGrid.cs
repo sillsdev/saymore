@@ -26,7 +26,6 @@ namespace SayMore.Transcription.UI
 		public delegate bool PreProcessMouseClickHandler(int x, int y);
 		public event PreProcessMouseClickHandler PreProcessMouseClick;
 
-		public Func<Segment> SegmentProvider;
 		public Func<AudioRecordingType, IEnumerable<AnnotationPlaybackInfo>> AnnotationPlaybackInfoProvider;
 		public MediaPlayerViewModel PlayerViewModel { get; private set; }
 		public bool PlaybackInProgress { get; private set; }
@@ -641,6 +640,12 @@ namespace SayMore.Transcription.UI
 			else
 				_annotationFile.Tiers.MarkSegmentAsUnignored(CurrentCellAddress.Y);
 			InvalidateRow(CurrentCellAddress.Y);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeRange GetTimeRangeForRow(int rowIndex)
+		{
+			return _annotationFile.Tiers.GetTimeTier().Segments[rowIndex].TimeRange;
 		}
 		#endregion
 	}

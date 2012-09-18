@@ -16,22 +16,24 @@ namespace SayMore.Transcription.UI
 			base.OnDataGridViewChanged();
 
 			if (_grid != null)
-				HandleGridHandleDestoryed(null, null);
+				HandleGridHandleDestroyed(null, null);
 
 			_grid = DataGridView as TextAnnotationEditorGrid;
 
 			if (_grid != null)
 			{
 				_grid.CellMouseLeave += HandleGridCellMouseLeave;
-				_grid.HandleDestroyed += HandleGridHandleDestoryed;
+				_grid.HandleDestroyed += HandleGridHandleDestroyed;
+				if (RowIndex >= 0)
+					ToolTipText = _grid.GetTimeRangeForRow(RowIndex).ToString();
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleGridHandleDestoryed(object sender, EventArgs e)
+		void HandleGridHandleDestroyed(object sender, EventArgs e)
 		{
 			_grid.CellMouseLeave -= HandleGridCellMouseLeave;
-			_grid.HandleDestroyed -= HandleGridHandleDestoryed;
+			_grid.HandleDestroyed -= HandleGridHandleDestroyed;
 		}
 
 		/// ------------------------------------------------------------------------------------

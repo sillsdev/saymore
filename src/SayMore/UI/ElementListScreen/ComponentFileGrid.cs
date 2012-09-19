@@ -8,11 +8,13 @@ using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
 using Localization;
+using Localization.UI;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SilTools;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using GridSettings = Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings;
+using NoToolStripBorderRenderer = SilTools.NoToolStripBorderRenderer;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -84,6 +86,17 @@ namespace SayMore.UI.ElementListScreen
 			_grid.DefaultCellStyle.SelectionForeColor = _grid.DefaultCellStyle.ForeColor;
 
 			_menuDeleteFile.Click += ((s, e) => DeleteFile());
+
+			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleStringsLocalized()
+		{
+			if (_grid == null)
+				return;
+			_grid.AutoResizeColumnHeadersHeight();
+			_grid.ColumnHeadersHeight += 8;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -71,7 +71,7 @@ namespace SayMore.UI.SessionRecording
 				return;
 
 			_viewModel = viewModel;
-			_viewModel.UpdateAction = UpdateDisplay;
+			_viewModel.UpdateAction += delegate { UpdateDisplay(); };
 			_viewModel.Recorder.PeakLevelChanged += ((s, e) => _peakMeter.PeakLevel = e.Level);
 			_viewModel.Recorder.RecordingProgress += (s, e) =>
 				_labelRecLength.Text = string.Format(_recordedLengthLabelFormat,

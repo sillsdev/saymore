@@ -7,12 +7,13 @@ using Palaso.Media.Naudio;
 using Palaso.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Model;
+using SayMore.Properties;
 
 namespace SayMore.UI.SessionRecording
 {
 	public class SessionRecorderDlgViewModel : IDisposable
 	{
-		public Action UpdateAction { get; set; }
+		public event EventHandler UpdateAction;
 		public AudioRecorder Recorder { get; private set; }
 		private AudioPlayer _player;
 		private readonly string _path;
@@ -20,8 +21,6 @@ namespace SayMore.UI.SessionRecording
 		/// ------------------------------------------------------------------------------------
 		public SessionRecorderDlgViewModel()
 		{
-			UpdateAction = delegate {  };
-
 			// This code was used to do some testing of what NAudio returns. At some point,
 			// in general, it may prove to lead to something useful for getting the supported
 			// formats for a recording device.
@@ -35,8 +34,13 @@ namespace SayMore.UI.SessionRecording
 
 			Recorder = new AudioRecorder(60); // 1 hour
 			Recorder.SelectedDevice = RecordingDevice.Devices.First();
-			Recorder.Stopped += delegate { UpdateAction(); };
-
+			Recorder.BufferMilliseconds = Settings.Default.NAudioBufferMilliseconds;
+			Recorder.NumberOfBuffers = Settings.Default.NumberOfNAudioRecordingBuffers;
+			Recorder.Stopped += (sender, e) =>
+			{
+				if (UpdateAction != null)
+					UpdateAction(sender, e);
+			};
 			_path = Path.Combine(Path.GetTempPath(),
 				string.Format("SayMoreSessionRecording_{0}.wav",
 				DateTime.Now.ToString("yyyyMMdd_HHmmss")));
@@ -74,7 +78,12 @@ namespace SayMore.UI.SessionRecording
 				return;
 
 			_player = new AudioPlayer();
-			_player.Stopped += delegate { _player.Dispose(); _player = null; UpdateAction(); };
+			_player.Stopped += (sender, e) =>
+			{
+				_player.Dispose(); _player = null;
+				if (UpdateAction != null)
+					UpdateAction(sender, e);
+			};
 			_player.LoadFile(_path);
 			_player.Play();
 		}
@@ -122,8 +131,7 @@ namespace SayMore.UI.SessionRecording
 		{
 			get
 			{
-				return (Recorder != null && Recorder.RecordingState != RecordingState.Recording &&
-					!string.IsNullOrEmpty(_path) && File.Exists(_path));
+				return (Recorder != null && !IsRecording && !string.IsNullOrEmpty(_path) && File.Exists(_path));
 			}
 		}
 

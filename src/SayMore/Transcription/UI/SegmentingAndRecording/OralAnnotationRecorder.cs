@@ -12,15 +12,12 @@ namespace SayMore.Transcription.UI
 		private readonly PeakMeterCtrl _peakMeterCtrl;
 		private readonly Action<TimeSpan> _recordingProgressAction;
 		private bool _formerlyInErrorState;
-		private int _bufferSize = Settings.Default.NAudioBufferMilliseconds;
-		private int _bufferCount = Settings.Default.NumberOfNAudioRecordingBuffers;
-		private bool _waveInBuffersChanged;
 
 		/// ------------------------------------------------------------------------------------
 		public OralAnnotationRecorder(PeakMeterCtrl peakMeter, Action<TimeSpan> recordingProgressAction)
 			: base(20)
 		{
-			base.RecordingFormat = AudioUtils.GetDefaultWaveFormat(1);
+			RecordingFormat = AudioUtils.GetDefaultWaveFormat(1);
 			SelectedDevice = RecordingDevice.Devices.First();
 
 			_peakMeterCtrl = peakMeter;
@@ -35,46 +32,14 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void InitializeWaveIn()
-		{
-			base.InitializeWaveIn();
-			_waveIn.NumberOfBuffers = _bufferCount;
-			_waveIn.BufferMilliseconds = _bufferSize;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// Temporary code
-		public int NumberOfBuffers
-		{
-			set
-			{
-				_bufferCount = value;
-				_waveInBuffersChanged = true;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// Temporary code
-		public int BufferMilliseconds
-		{
-			set
-			{
-				_bufferSize = value;
-				_waveInBuffersChanged = true;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public bool BeginAnnotationRecording(string outputWaveFileName)
 		{
 			if (GetIsInErrorState())
 				return false;
 
-			if (_formerlyInErrorState || _waveInBuffersChanged)
+			if (_formerlyInErrorState)
 			{
-				_waveInBuffersChanged = false;
 				CloseWaveIn();
-				RecordingFormat = AudioUtils.GetDefaultWaveFormat(1);
 				SelectedDevice = RecordingDevice.Devices.First();
 				RecordingState = RecordingState.Stopped;
 				BeginMonitoring();
@@ -90,9 +55,6 @@ namespace SayMore.Transcription.UI
 		{
 			if (!GetIsInErrorState() && RecordingState == RecordingState.Recording)
 			{
-				//if (RecordingState != RecordingState.Recording)
-				//    throw new InvalidOperationException("Stop recording should not be called when recording was not initiated.");
-
 				base.Stop();
 				return;
 			}

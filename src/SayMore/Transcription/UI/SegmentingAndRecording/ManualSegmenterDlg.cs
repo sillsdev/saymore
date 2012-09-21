@@ -21,13 +21,13 @@ namespace SayMore.Transcription.UI
 		private bool _justStoppedusingSpace;
 
 		/// ------------------------------------------------------------------------------------
-		public static string ShowDialog(ComponentFile file, Control parent)
+		public static string ShowDialog(ComponentFile file, Control parent, int segmentToHighlight)
 		{
 			Exception error;
 			string msg;
 
 			using (var viewModel = new ManualSegmenterDlgViewModel(file))
-			using (var dlg = new ManualSegmenterDlg(viewModel))
+			using (var dlg = new ManualSegmenterDlg(viewModel, segmentToHighlight))
 			{
 				try
 				{
@@ -69,7 +69,8 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ManualSegmenterDlg(ManualSegmenterDlgViewModel viewModel) : base(viewModel)
+		public ManualSegmenterDlg(ManualSegmenterDlgViewModel viewModel, int segmentToHighlight)
+			: base(viewModel)
 		{
 			InitializeComponent();
 			_tableLayoutButtons.BackColor = Settings.Default.BarColorEnd;
@@ -121,6 +122,16 @@ namespace SayMore.Transcription.UI
 				_waveControl.Painter.RemoveIgnoredRegion(boundary);
 				UpdateDisplay();
 			};
+
+			if (segmentToHighlight > 0)
+			{
+				Shown += delegate {
+
+					var endOfPreviousSegment = ViewModel.GetEndOfSegment(segmentToHighlight - 1);
+					_waveControl.SetCursor(endOfPreviousSegment);
+					_waveControl.EnsureTimeIsVisible(endOfPreviousSegment);
+				};
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

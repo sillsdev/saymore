@@ -434,6 +434,12 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public TimeSpan GetEndOfSegment(int index)
+		{
+			return TimeTier.Segments[index].TimeRange.End;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan VirtualBoundaryBeyondLastSegment
 		{
 			get { return OrigWaveStream.TotalTime; }

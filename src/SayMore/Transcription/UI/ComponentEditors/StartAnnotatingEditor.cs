@@ -91,7 +91,7 @@ namespace SayMore.Transcription.UI
 			if (_radioButtonManual.Checked)
 			{
 				Settings.Default.DefaultSegmentationMethod = 0;
-				newAnnotationFile = ManualSegmenterDlg.ShowDialog(_file, this);
+				newAnnotationFile = ManualSegmenterDlg.ShowDialog(_file, this, -1);
 			}
 			else if (_radioButtonCarefulSpeech.Checked)
 			{

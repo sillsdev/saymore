@@ -323,7 +323,7 @@ namespace SayMore.Transcription.UI
 		{
 			HandleBeforeAnnotationFileSaved(null, null);
 
-			if (ManualSegmenterDlg.ShowDialog(AssociatedComponentFile, this) != null)
+			if (ManualSegmenterDlg.ShowDialog(AssociatedComponentFile, this, _grid.CurrentCellAddress.Y) != null)
 				SetComponentFile(_file);
 
 			HandleAfterAnnotationFileSaved(null, null);

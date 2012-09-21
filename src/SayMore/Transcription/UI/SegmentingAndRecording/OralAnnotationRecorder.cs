@@ -59,9 +59,7 @@ namespace SayMore.Transcription.UI
 				return;
 			}
 
-			RecordedTime = TimeSpan.Zero;
-			RecordingState = RecordingState.Monitoring;
-			CloseWriter();
+			AbortRecording();
 		}
 
 		/// ------------------------------------------------------------------------------------

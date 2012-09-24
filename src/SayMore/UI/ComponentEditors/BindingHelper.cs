@@ -82,7 +82,7 @@ namespace SayMore.UI.ComponentEditors
 			yield return typeof(TextBox);
 			yield return typeof(DatePicker);
 			yield return typeof(ComboBox);
-			yield return typeof(MultiValueComboBox);
+			yield return typeof(MultiValueDropDownBox);
 		}
 
 		#endregion

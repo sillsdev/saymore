@@ -40,7 +40,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSynopsis = new System.Windows.Forms.Label();
 			this._synopsis = new System.Windows.Forms.TextBox();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
-			this._participants = new SayMore.UI.LowLevelControls.MultiValueComboBox();
+			this._participants = new SayMore.UI.LowLevelControls.MultiValueDropDownBox();
 			this._panelGrid = new System.Windows.Forms.Panel();
 			this._labelCustomFields = new System.Windows.Forms.Label();
 			this._access = new System.Windows.Forms.TextBox();
@@ -240,8 +240,6 @@ namespace SayMore.UI.ComponentEditors
 			// _participants
 			// 
 			this._autoCompleteHelper.SetAutoCompleteKey(this._participants, "person");
-			this._participants.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-			this._participants.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._participants.BackColor = System.Drawing.SystemColors.Window;
 			this._participants.Dock = System.Windows.Forms.DockStyle.Top;
 			this._participants.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -256,8 +254,6 @@ namespace SayMore.UI.ComponentEditors
 			this._participants.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._participants.Name = "_participants";
 			this._participants.Padding = new System.Windows.Forms.Padding(2);
-			this._participants.SelectionLength = 0;
-			this._participants.SelectionStart = 0;
 			this._participants.Size = new System.Drawing.Size(202, 23);
 			this._participants.TabIndex = 11;
 			this._autoCompleteHelper.SetUpdateGatherer(this._participants, false);
@@ -532,7 +528,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Label _labelCustomFields;
 		private AutoCompleteHelper _autoCompleteHelper;
 		private System.Windows.Forms.Panel _panelGrid;
-		private SayMore.UI.LowLevelControls.MultiValueComboBox _participants;
+		private SayMore.UI.LowLevelControls.MultiValueDropDownBox _participants;
 		private System.Windows.Forms.Label _labelDate;
 		private Localization.UI.LocalizationExtender locExtender;
 	}

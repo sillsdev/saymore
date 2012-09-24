@@ -55,7 +55,7 @@ namespace SayMore.UI.ComponentEditors
 		public bool CanExtend(object extendee)
 		{
 			if ((extendee is ComboBox && ((ComboBox)extendee).DropDownStyle != ComboBoxStyle.DropDown) ||
-				!(extendee is TextBox || extendee is MultiValueComboBox))
+				!(extendee is TextBox || extendee is MultiValueDropDownBox))
 			{
 				return false;
 			}
@@ -143,10 +143,10 @@ namespace SayMore.UI.ComponentEditors
 				((ComboBox)control).AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 				((ComboBox)control).AutoCompleteSource = AutoCompleteSource.CustomSource;
 			}
-			else if (control is MultiValueComboBox)
+			else if (control is MultiValueAutoCompleteComboBox)
 			{
-				((MultiValueComboBox)control).AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-				((MultiValueComboBox)control).AutoCompleteSource = AutoCompleteSource.CustomSource;
+				((MultiValueAutoCompleteComboBox)control).AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+				((MultiValueAutoCompleteComboBox)control).AutoCompleteSource = AutoCompleteSource.CustomSource;
 			}
 		}
 
@@ -163,10 +163,10 @@ namespace SayMore.UI.ComponentEditors
 				((ComboBox)control).AutoCompleteMode = default(AutoCompleteMode);
 				((ComboBox)control).AutoCompleteSource = AutoCompleteSource.None;
 			}
-			else if (control is MultiValueComboBox)
+			else if (control is MultiValueAutoCompleteComboBox)
 			{
-				((MultiValueComboBox)control).AutoCompleteMode = default(AutoCompleteMode);
-				((MultiValueComboBox)control).AutoCompleteSource = AutoCompleteSource.None;
+				((MultiValueAutoCompleteComboBox)control).AutoCompleteMode = default(AutoCompleteMode);
+				((MultiValueAutoCompleteComboBox)control).AutoCompleteSource = AutoCompleteSource.None;
 			}
 
 			control.Validating -= HandleControlValidated;
@@ -218,8 +218,8 @@ namespace SayMore.UI.ComponentEditors
 					((TextBox)control).AutoCompleteCustomSource = newValues;
 				else if (control is ComboBox)
 					((ComboBox)control).AutoCompleteCustomSource = newValues;
-				//else if (control is MultiValueComboBox)
-				//    ((MultiValueComboBox)control).AutoCompleteCustomSource = newValues;
+				else if (control is MultiValueAutoCompleteComboBox)
+					((MultiValueAutoCompleteComboBox)control).AutoCompleteCustomSource = newValues;
 			}
 
 			SelectAllControlsText(control);
@@ -244,7 +244,7 @@ namespace SayMore.UI.ComponentEditors
 				((TextBox)control).SelectAll();
 			else if (control is ComboBox)
 				((ComboBox)control).SelectAll();
-			else if (control is MultiValueComboBox)
+			else if (control is MultiValueDropDownBox)
 				((MultiValueComboBox)control).SelectAll();
 		}
 	}

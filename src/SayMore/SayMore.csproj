@@ -447,6 +447,12 @@
     <Compile Include="UI\LowLevelControls\AutoCompleteTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\LowLevelControls\MultiValueAutoCompleteComboBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\MultiValueComboBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UI\SessionRecording\SessionRecorderDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -478,11 +484,11 @@
     <Compile Include="UI\LowLevelControls\PopupControl.Designer.cs">
       <DependentUpon>PopupControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\LowLevelControls\MultiValueComboBox.cs">
+    <Compile Include="UI\LowLevelControls\MultiValueDropDownBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\LowLevelControls\MultiValueComboBox.Designer.cs">
-      <DependentUpon>MultiValueComboBox.cs</DependentUpon>
+    <Compile Include="UI\LowLevelControls\MultiValueDropDownBox.Designer.cs">
+      <DependentUpon>MultiValueDropDownBox.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\LowLevelControls\MultiValuePickerPopup.cs">
       <SubType>UserControl</SubType>
@@ -862,8 +868,8 @@
     <EmbeddedResource Include="UI\LowLevelControls\DeleteMessageBox.resx">
       <DependentUpon>DeleteMessageBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\LowLevelControls\MultiValueComboBox.resx">
-      <DependentUpon>MultiValueComboBox.cs</DependentUpon>
+    <EmbeddedResource Include="UI\LowLevelControls\MultiValueDropDownBox.resx">
+      <DependentUpon>MultiValueDropDownBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LowLevelControls\MultiValuePickerPopup.resx">
       <DependentUpon>MultiValuePickerPopup.cs</DependentUpon>

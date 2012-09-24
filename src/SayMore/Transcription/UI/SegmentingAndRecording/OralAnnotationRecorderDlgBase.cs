@@ -108,17 +108,6 @@ namespace SayMore.Transcription.UI
 			InitializeTableLayouts();
 			SetupPeakMeterAndRecordingDeviceIndicator();
 
-			_tableLayoutButtons.SetRowSpan(_buttonOK, 2);
-			_tableLayoutButtons.SetRowSpan(_buttonCancel, 2);
-			_tableLayoutButtons.SetCellPosition(_buttonOK, new TableLayoutPanelCellPosition(2, 1));
-			_tableLayoutButtons.SetCellPosition(_buttonCancel, new TableLayoutPanelCellPosition(3, 1));
-			_tableLayoutButtons.Controls.Add(_bufferCount, 2, 0);
-			_tableLayoutButtons.Controls.Add(_bufferSize, 3, 0);
-			_bufferCount.Value = Settings.Default.NumberOfNAudioRecordingBuffers;
-			_bufferSize.Value = Settings.Default.NAudioBufferMilliseconds;
-			_bufferCount.ValueChanged += delegate { viewModel.Recorder.NumberOfBuffers = (int)_bufferCount.Value; };
-			_bufferSize.ValueChanged += delegate { viewModel.Recorder.BufferMilliseconds = (int)_bufferSize.Value; };
-
 			_spaceBarMode = viewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
 			viewModel.PlaybackErrorAction = HandlePlaybackError;
 			viewModel.RecordingErrorAction = HandleRecordingError;
@@ -277,9 +266,14 @@ namespace SayMore.Transcription.UI
 				_waveControl.Stop();
 
 			_playingBackUsingHoldDownButton = false;
-			if (ViewModel.GetSelectedSegmentIsLongEnough() && _userHasListenedToSelectedSegment)
-				_spaceBarMode = SpaceBarMode.Record;
-
+			if (ViewModel.GetSelectedSegmentIsLongEnough())
+			{
+				if (_userHasListenedToSelectedSegment || ViewModel.CurrentUnannotatedSegment == null)
+				{
+					_userHasListenedToSelectedSegment = true;
+					_spaceBarMode = SpaceBarMode.Record;
+				}
+			}
 			UpdateDisplay();
 		}
 
@@ -741,7 +735,8 @@ namespace SayMore.Transcription.UI
 				_waveControl.InvalidateIfNeeded(rc2);
 			}
 
-			if (end == ViewModel.GetSelectedTimeRange().End)
+			if (end == ViewModel.GetSelectedTimeRange().End &&
+				(ViewModel.CurrentUnannotatedSegment != null/* || ViewModel.GetSelectedSegmentIsLongEnough()*/))
 			{
 				InvalidateBottomReservedRectangleForCurrentUnannotatedSegment();
 				_userHasListenedToSelectedSegment = true;
@@ -1613,7 +1608,7 @@ namespace SayMore.Transcription.UI
 
 			if (key == Keys.Space)
 			{
-				if (_shortcutKeyIsDown || IsBoundaryMovingInProgressUsingArrowKeys)
+				 if (_shortcutKeyIsDown || IsBoundaryMovingInProgressUsingArrowKeys)
 					return true;
 
 				_shortcutKeyIsDown = true;

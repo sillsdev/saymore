@@ -34,8 +34,6 @@ namespace SayMore.UI.SessionRecording
 
 			Recorder = new AudioRecorder(60); // 1 hour
 			Recorder.SelectedDevice = RecordingDevice.Devices.First();
-			Recorder.BufferMilliseconds = Settings.Default.NAudioBufferMilliseconds;
-			Recorder.NumberOfBuffers = Settings.Default.NumberOfNAudioRecordingBuffers;
 			Recorder.Stopped += (sender, e) =>
 			{
 				if (UpdateAction != null)

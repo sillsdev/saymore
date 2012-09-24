@@ -416,11 +416,5 @@
     <Setting Name="DefaultAutoSegmenterMinimumSegmentLengthInMilliseconds" Description="The auto-segmenter will calculate the &quot;optimal&quot; segment length to be halfway between this value and AutoSegmenterMaximumSegmentLengthInMilliseconds." Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">1000</Value>
     </Setting>
-    <Setting Name="NumberOfNAudioRecordingBuffers" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">4</Value>
-    </Setting>
-    <Setting Name="NAudioBufferMilliseconds" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">200</Value>
-    </Setting>
   </Settings>
 </SettingsFile>

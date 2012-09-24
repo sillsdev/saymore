@@ -19,7 +19,6 @@ namespace SayMore.Transcription.UI
 		{
 			this.components = new System.ComponentModel.Container();
 			this._toolStrip = new System.Windows.Forms.ToolStrip();
-			this._comboPlaybackSpeed = new System.Windows.Forms.ToolStripComboBox();
 			this._buttonHelp = new System.Windows.Forms.ToolStripButton();
 			this._exportMenu = new System.Windows.Forms.ToolStripDropDownButton();
 			this._exportElanMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -33,9 +32,7 @@ namespace SayMore.Transcription.UI
 			this._buttonRecordings = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonCarefulSpeech = new System.Windows.Forms.ToolStripMenuItem();
 			this._buttonOralTranslation = new System.Windows.Forms.ToolStripMenuItem();
-			this._buttonFonts = new System.Windows.Forms.ToolStripDropDownButton();
-			this._buttonTranscriptionFont = new System.Windows.Forms.ToolStripMenuItem();
-			this._buttonFreeTranslationFont = new System.Windows.Forms.ToolStripMenuItem();
+			this._comboPlaybackSpeed = new System.Windows.Forms.ToolStripComboBox();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._splitter = new System.Windows.Forms.SplitContainer();
 			this._toolStrip.SuspendLayout();
@@ -49,12 +46,11 @@ namespace SayMore.Transcription.UI
 			this._toolStrip.BackColor = System.Drawing.Color.Transparent;
 			this._toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this._toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._comboPlaybackSpeed,
             this._buttonHelp,
             this._exportMenu,
             this._buttonResegment,
             this._buttonRecordings,
-            this._buttonFonts});
+            this._comboPlaybackSpeed});
 			this.locExtender.SetLocalizableToolTip(this._toolStrip, null);
 			this.locExtender.SetLocalizationComment(this._toolStrip, null);
 			this.locExtender.SetLocalizationPriority(this._toolStrip, Localization.LocalizationPriority.NotLocalizable);
@@ -64,20 +60,6 @@ namespace SayMore.Transcription.UI
 			this._toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 1, 11);
 			this._toolStrip.Size = new System.Drawing.Size(597, 34);
 			this._toolStrip.TabIndex = 1;
-			// 
-			// _comboPlaybackSpeed
-			// 
-			this._comboPlaybackSpeed.AutoSize = false;
-			this._comboPlaybackSpeed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this._comboPlaybackSpeed.DropDownWidth = 49;
-			this.locExtender.SetLocalizableToolTip(this._comboPlaybackSpeed, "Playback speed");
-			this.locExtender.SetLocalizationComment(this._comboPlaybackSpeed, null);
-			this.locExtender.SetLocalizationPriority(this._comboPlaybackSpeed, Localization.LocalizationPriority.Medium);
-			this.locExtender.SetLocalizingId(this._comboPlaybackSpeed, "Transcription.UI.TextAnnotationEditor._comboPlaybackSpeed");
-			this._comboPlaybackSpeed.Name = "_comboPlaybackSpeed";
-			this._comboPlaybackSpeed.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-			this._comboPlaybackSpeed.Size = new System.Drawing.Size(49, 23);
-			this._comboPlaybackSpeed.ToolTipText = "Playback speed";
 			// 
 			// _buttonHelp
 			// 
@@ -247,39 +229,21 @@ namespace SayMore.Transcription.UI
 			this._buttonOralTranslation.ToolTipText = "Record audio translations";
 			this._buttonOralTranslation.Click += new System.EventHandler(this.HandleRecordedAnnotationButtonClick);
 			// 
-			// _buttonFonts
+			// _comboPlaybackSpeed
 			// 
-			this._buttonFonts.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this._buttonFonts.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._buttonTranscriptionFont,
-            this._buttonFreeTranslationFont});
-			this._buttonFonts.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonFonts, null);
-			this.locExtender.SetLocalizationComment(this._buttonFonts, null);
-			this.locExtender.SetLocalizingId(this._buttonFonts, "SessionsView.Transcription.TextAnnotationEditor.FontsButton");
-			this._buttonFonts.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
-			this._buttonFonts.Name = "_buttonFonts";
-			this._buttonFonts.Size = new System.Drawing.Size(49, 20);
-			this._buttonFonts.Text = "Fonts";
-			this._buttonFonts.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.HandleFontClick);
-			// 
-			// _buttonTranscriptionFont
-			// 
-			this.locExtender.SetLocalizableToolTip(this._buttonTranscriptionFont, null);
-			this.locExtender.SetLocalizationComment(this._buttonTranscriptionFont, null);
-			this.locExtender.SetLocalizingId(this._buttonTranscriptionFont, "SessionsView.Transcription.TextAnnotationEditor.TranscriptionFontsButton");
-			this._buttonTranscriptionFont.Name = "_buttonTranscriptionFont";
-			this._buttonTranscriptionFont.Size = new System.Drawing.Size(167, 22);
-			this._buttonTranscriptionFont.Text = "&Transcription...";
-			// 
-			// _buttonFreeTranslationFont
-			// 
-			this.locExtender.SetLocalizableToolTip(this._buttonFreeTranslationFont, null);
-			this.locExtender.SetLocalizationComment(this._buttonFreeTranslationFont, null);
-			this.locExtender.SetLocalizingId(this._buttonFreeTranslationFont, "SessionsView.Transcription.TextAnnotationEditor.FreeTranslationFontsButton");
-			this._buttonFreeTranslationFont.Name = "_buttonFreeTranslationFont";
-			this._buttonFreeTranslationFont.Size = new System.Drawing.Size(167, 22);
-			this._buttonFreeTranslationFont.Text = "Free Translation...";
+			this._comboPlaybackSpeed.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this._comboPlaybackSpeed.AutoSize = false;
+			this._comboPlaybackSpeed.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(240)))), ((int)(((byte)(159)))));
+			this._comboPlaybackSpeed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this._comboPlaybackSpeed.DropDownWidth = 49;
+			this.locExtender.SetLocalizableToolTip(this._comboPlaybackSpeed, "Playback speed");
+			this.locExtender.SetLocalizationComment(this._comboPlaybackSpeed, null);
+			this.locExtender.SetLocalizationPriority(this._comboPlaybackSpeed, Localization.LocalizationPriority.Medium);
+			this.locExtender.SetLocalizingId(this._comboPlaybackSpeed, "Transcription.UI.TextAnnotationEditor._comboPlaybackSpeed");
+			this._comboPlaybackSpeed.Name = "_comboPlaybackSpeed";
+			this._comboPlaybackSpeed.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
+			this._comboPlaybackSpeed.Size = new System.Drawing.Size(49, 23);
+			this._comboPlaybackSpeed.ToolTipText = "Playback speed";
 			// 
 			// locExtender
 			// 
@@ -327,9 +291,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripButton _buttonHelp;
 		private System.Windows.Forms.ToolStripButton _buttonResegment;
 		private Localization.UI.LocalizationExtender locExtender;
-		private System.Windows.Forms.ToolStripDropDownButton _buttonFonts;
-		private System.Windows.Forms.ToolStripMenuItem _buttonTranscriptionFont;
-		private System.Windows.Forms.ToolStripMenuItem _buttonFreeTranslationFont;
 		private System.Windows.Forms.ToolStripDropDownButton _exportMenu;
 		private System.Windows.Forms.ToolStripMenuItem _plainTextExportMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem _flexInterlinearExportMenuItem;

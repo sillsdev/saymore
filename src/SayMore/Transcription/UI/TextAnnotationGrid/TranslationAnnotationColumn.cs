@@ -62,5 +62,12 @@ namespace SayMore.Transcription.UI
 
 			yield return menuItem;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void SetFont(System.Drawing.Font newFont)
+		{
+			base.SetFont(newFont);
+			_grid.TranscriptionFont = newFont;
+		}
 	}
 }

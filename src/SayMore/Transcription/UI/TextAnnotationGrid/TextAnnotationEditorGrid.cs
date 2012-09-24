@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -26,6 +27,10 @@ namespace SayMore.Transcription.UI
 		public delegate bool PreProcessMouseClickHandler(int x, int y);
 		public event PreProcessMouseClickHandler PreProcessMouseClick;
 
+		public delegate void FontChangedHandler(Font newFont);
+		public event FontChangedHandler TranscriptionFontChanged;
+		public event FontChangedHandler TranslationFontChanged;
+
 		public Func<AudioRecordingType, IEnumerable<AnnotationPlaybackInfo>> AnnotationPlaybackInfoProvider;
 		public MediaPlayerViewModel PlayerViewModel { get; private set; }
 		public bool PlaybackInProgress { get; private set; }
@@ -39,7 +44,7 @@ namespace SayMore.Transcription.UI
 		private System.Threading.Timer _delayBeginRowPlayingTimer;
 
 		/// ------------------------------------------------------------------------------------
-		public TextAnnotationEditorGrid()
+		public TextAnnotationEditorGrid(Font transcriptionFont, Font translationFont)
 		{
 			Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
 			Margin = new Padding(0);
@@ -63,6 +68,8 @@ namespace SayMore.Transcription.UI
 			PlayerViewModel.SetSpeed(Settings.Default.AnnotationEditorPlaybackSpeedIndex);
 
 			SetPlaybackProgressReportAction(null);
+
+			SetColumnFonts(transcriptionFont, translationFont);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -155,7 +162,29 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetFonts(Font transcriptionFont, Font freeTranslationFont)
+		public Font TranscriptionFont
+		{
+			set
+			{
+				if (TranscriptionFontChanged != null)
+					TranscriptionFontChanged(value);
+				Refresh();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Font TranlationFont
+		{
+			set
+			{
+				if (TranslationFontChanged != null)
+					TranslationFontChanged(value);
+				Refresh();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetColumnFonts(Font transcriptionFont, Font freeTranslationFont)
 		{
 			foreach (TextAnnotationColumn col in GetColumns().OfType<TextAnnotationColumn>())
 			{

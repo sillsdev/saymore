@@ -39,7 +39,12 @@ namespace SayMore.Transcription.UI
 			_comboPlaybackSpeed.Font = Program.DialogFont;
 
 			_project = project;
-			_grid = new TextAnnotationEditorGrid();
+			_grid = new TextAnnotationEditorGrid(project.TranscriptionFont, project.FreeTranslationFont);
+			_grid.TranscriptionFontChanged += font =>
+			{
+				_project.TranscriptionFont = font;
+				_project.Save();
+			};
 			_grid.Dock = DockStyle.Fill;
 			_splitter.Panel2.Controls.Add(_grid);
 
@@ -135,7 +140,7 @@ namespace SayMore.Transcription.UI
 			}
 
 			_grid.Load(annotationFile);
-			_grid.SetFonts(_project.TranscriptionFont, _project.FreeTranslationFont);
+			_grid.SetColumnFonts(_project.TranscriptionFont, _project.FreeTranslationFont);
 
 			_exportMenu.Enabled = (_grid.RowCount > 0);
 
@@ -286,7 +291,7 @@ namespace SayMore.Transcription.UI
 			{
 				_file.Load();
 				_grid.Load(_file as AnnotationComponentFile);
-				_grid.SetFonts(_project.TranscriptionFont, _project.FreeTranslationFont);
+				_grid.SetColumnFonts(_project.TranscriptionFont, _project.FreeTranslationFont);
 			}));
 		}
 
@@ -340,27 +345,6 @@ namespace SayMore.Transcription.UI
 				"SessionsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
 
 			base.HandleStringsLocalized();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleFontClick(object sender, ToolStripItemClickedEventArgs e)
-		{
-			using (var dlg = new FontDialog())
-			{
-				dlg.Font = (e.ClickedItem == _buttonTranscriptionFont ? _project.TranscriptionFont :
-					_project.FreeTranslationFont);
-				if (dlg.ShowDialog() != DialogResult.OK)
-					return;
-
-				if (e.ClickedItem == _buttonTranscriptionFont)
-					_project.TranscriptionFont = dlg.Font;
-				else
-					_project.FreeTranslationFont = dlg.Font;
-
-				_project.Save();
-				_grid.SetFonts(_project.TranscriptionFont, _project.FreeTranslationFont);
-				_grid.Refresh();
-			}
 		}
 
 		private void OnExportElanMenuItem_Click(object sender, EventArgs e)

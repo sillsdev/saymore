@@ -239,7 +239,6 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _participants
 			// 
-			this._participants.AutoCompleteCustomSource = null;
 			this._autoCompleteHelper.SetAutoCompleteKey(this._participants, "person");
 			this._participants.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._participants.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;

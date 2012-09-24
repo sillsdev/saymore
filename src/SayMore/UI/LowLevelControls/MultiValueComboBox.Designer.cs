@@ -28,7 +28,7 @@ namespace SayMore.UI.LowLevelControls
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this._textBox = new AutoCompleteTextBox();
+			this._textBox = new System.Windows.Forms.TextBox();
 			this._panelButton = new System.Windows.Forms.Panel();
 			this.SuspendLayout();
 			// 
@@ -36,7 +36,6 @@ namespace SayMore.UI.LowLevelControls
 			// 
 			this._textBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this._textBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._textBox.Location = new System.Drawing.Point(2, 0);
 			this._textBox.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._textBox.Name = "_textBox";
@@ -71,7 +70,7 @@ namespace SayMore.UI.LowLevelControls
 
 		#endregion
 
-		private AutoCompleteTextBox _textBox;
+		private System.Windows.Forms.TextBox _textBox;
 		private System.Windows.Forms.Panel _panelButton;
 	}
 }

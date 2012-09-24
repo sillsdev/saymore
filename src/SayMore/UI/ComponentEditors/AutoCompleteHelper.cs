@@ -218,8 +218,8 @@ namespace SayMore.UI.ComponentEditors
 					((TextBox)control).AutoCompleteCustomSource = newValues;
 				else if (control is ComboBox)
 					((ComboBox)control).AutoCompleteCustomSource = newValues;
-				else if (control is MultiValueComboBox)
-					((MultiValueComboBox)control).AutoCompleteCustomSource = newValues;
+				//else if (control is MultiValueComboBox)
+				//    ((MultiValueComboBox)control).AutoCompleteCustomSource = newValues;
 			}
 
 			SelectAllControlsText(control);

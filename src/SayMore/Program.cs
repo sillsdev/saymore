@@ -78,7 +78,8 @@ namespace SayMore
 			{
 				try
 				{
-					var x = Settings.Default.SegmentGrid; //we want this to throw if the last version used the SILGrid, and this one uses the BetterGrid
+					var x = Settings.Default.SessionsListGrid; //we want this to throw if the last version used the SILGrid, and this one uses the BetterGrid
+					x = Settings.Default.PersonListGrid;
 				}
 				catch (Exception)
 				{
@@ -99,7 +100,7 @@ namespace SayMore
 
 						//Application.Restart(); won't work, because the settings will still get saved
 
-						System.Environment.FailFast("SayMore quiting hard to prevent old settings from being saved again.");
+						System.Environment.FailFast("SayMore quitting hard to prevent old settings from being saved again.");
 					}
 					catch (Exception error)
 					{

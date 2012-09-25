@@ -80,23 +80,54 @@ namespace SayMore.Transcription.Model
 			if (timeTier == null || !timeTier.IsFullySegmented)
 				return false;
 
+			return GetCountOfContiguousAnnotatedSegments(type) == timeTier.Segments.Count;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsAdequatelyAnnotated(OralAnnotationType type)
+		{
+			var timeTier = GetTimeTier();
+			if (timeTier == null)
+				return false;
+
+			bool fullySegmented = timeTier.IsFullySegmented;
+			// If not fully segmented, you must have more than 1 segment per minute and be
+			// segmented to within the final 10 seconds of the recording.
+			if (!fullySegmented &&
+				(timeTier.Segments.Count <= timeTier.TotalTime.TotalSeconds / 60 ||
+				timeTier.EndOfLastSegment.TotalSeconds + 10 < timeTier.TotalTime.TotalSeconds))
+			{
+				return false;
+			}
+
+			// If fully segmented and last segment isn't annotated, that's okay (as long as
+			// there is more than 1 segment)
+			int requiredAnnotations = timeTier.Segments.Count;
+			if (fullySegmented && requiredAnnotations > 1)
+				requiredAnnotations--;
+			return GetCountOfContiguousAnnotatedSegments(type) >= requiredAnnotations;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private int GetCountOfContiguousAnnotatedSegments(OralAnnotationType type)
+		{
+			var timeTier = GetTimeTier();
 			var transcriptionTier = GetTranscriptionTier(false);
 			Segment transcriptionSegment;
 			Func<Segment, string> GetPathToAnnotationFile = (type == OralAnnotationType.CarefulSpeech) ?
 				(Func<Segment, string>)timeTier.GetFullPathToCarefulSpeechFile :
 				(Func<Segment, string>)timeTier.GetFullPathToOralTranslationFile;
 
-			for (int iSegment = 0; iSegment < timeTier.Segments.Count; iSegment++)
+			int iSegment = 0;
+			while (iSegment < timeTier.Segments.Count && ((transcriptionTier != null &&
+				transcriptionTier.TryGetSegment(iSegment, out transcriptionSegment) &&
+				SegmentIsIgnored(transcriptionSegment)) ||
+				File.Exists(GetPathToAnnotationFile(timeTier.Segments[iSegment]))))
 			{
-				if (!(transcriptionTier != null &&
-					transcriptionTier.TryGetSegment(iSegment, out transcriptionSegment) &&
-					SegmentIsIgnored(transcriptionSegment))
-					&& !File.Exists(GetPathToAnnotationFile(timeTier.Segments[iSegment])))
-				{
-					return false;
-				}
+				iSegment++;
 			}
-			return true;
+
+			return iSegment;
 		}
 
 		/// ------------------------------------------------------------------------------------

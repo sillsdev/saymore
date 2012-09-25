@@ -151,10 +151,10 @@ namespace SayMore.Model.Files
 			if (tier != null && tier.GetIsComplete())
 				yield return _componentRoles.Single(r => r.Id == ComponentRole.kFreeTranslationComponentRoleId);
 
-			if (Tiers.GetIsFullyAnnotated(OralAnnotationType.CarefulSpeech))
+			if (Tiers.GetIsAdequatelyAnnotated(OralAnnotationType.CarefulSpeech))
 				yield return _componentRoles.Single(r => r.Id == ComponentRole.kCarefulSpeechComponentRoleId);
 
-			if (Tiers.GetIsFullyAnnotated(OralAnnotationType.Translation))
+			if (Tiers.GetIsAdequatelyAnnotated(OralAnnotationType.Translation))
 				yield return _componentRoles.Single(r => r.Id == ComponentRole.kOralTranslationComponentRoleId);
 		}
 	}

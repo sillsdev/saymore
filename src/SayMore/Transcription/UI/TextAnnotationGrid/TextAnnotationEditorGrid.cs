@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
-using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -81,7 +80,7 @@ namespace SayMore.Transcription.UI
 			RowCount = 0;
 			Columns.Clear();
 
-			if (_annotationFile == null)
+			if (_annotationFile == null || !_annotationFile.Tiers.Any())
 				return;
 
 			int rowCount = 0;

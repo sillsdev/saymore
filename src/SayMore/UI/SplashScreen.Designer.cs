@@ -107,7 +107,7 @@ namespace SayMore.UI
 			this._labelVersionInfo.Name = "_labelVersionInfo";
 			this._labelVersionInfo.Size = new System.Drawing.Size(159, 13);
 			this._labelVersionInfo.TabIndex = 5;
-			this._labelVersionInfo.Text = "Version {0}.{1}.{2}    Built on {3}";
+			this._labelVersionInfo.Text = "Version {0}.{1}.{2} (Beta)    Built on {3}";
 			// 
 			// locExtender
 			// 

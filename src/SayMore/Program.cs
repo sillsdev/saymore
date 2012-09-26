@@ -384,7 +384,7 @@ namespace SayMore
 
 			LocalizationManager.Create(Settings.Default.UserInterfaceLanguage,
 				"SayMore", "SayMore", Application.ProductVersion,
-				installedStringFileFolder, AppDataFolder, Resources.SayMore, "SayMore");
+				installedStringFileFolder, AppDataFolder, "SayMore");
 
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 		}

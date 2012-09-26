@@ -100,7 +100,8 @@ namespace SayMore.Transcription.UI
 			// 
 			this.locExtender.SetLocalizableToolTip(this._exportElanMenuItem, null);
 			this.locExtender.SetLocalizationComment(this._exportElanMenuItem, null);
-			this.locExtender.SetLocalizingId(this._exportElanMenuItem, ".eLANFileToolStripMenuItem");
+			this.locExtender.SetLocalizationPriority(this._exportElanMenuItem, Localization.LocalizationPriority.Medium);
+			this.locExtender.SetLocalizingId(this._exportElanMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMenuItem");
 			this._exportElanMenuItem.Name = "_exportElanMenuItem";
 			this._exportElanMenuItem.Size = new System.Drawing.Size(236, 22);
 			this._exportElanMenuItem.Text = "ELAN File...";

@@ -6,13 +6,45 @@
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
   <body>
+    <tu tuid="CommonToMultipleViews.AudioUtils.NoPlaybackDevicesFoundMsg">
+      <tuv xml:lang="en">
+        <seg>Currently SayMore is unable to find any audio playback devices installed and enabled on this computer.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Actualmente SayMore es incapaz de encontrar un dispositivo de reproducción de audio instalado y habilitado en esta computadora.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.AudioUtils.NoRecordingDevicesFoundMsg">
+      <tuv xml:lang="en">
+        <seg>Currently audio recordings cannot be made because SayMore is unable to find any recording devices installed and enabled on this computer.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Actualmente no se puede grabar audio porque SayMore no encuentra un dispositivo de grabación instalado y habilitado en esta computadora.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.AudioUtils.UnexpectedAudioErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an unexpected audio error.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Hubo un error de audio inesperado.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.BindingHelper.AmbiguousDateNote">
+      <tuv xml:lang="en">
+        <seg>***This record had an ambiguous {0}, produced by a bug in an old version of SayMore. The date was "{1}". SayMore has attempted to interpret the date, but might have swapped the day and month. Please accept our apologies for this error. After you have fixed the date or confirmed that it is correct, please delete this message.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>*** Este record tuvo una ambigua {0}, producida por un error en una versión previa de SayMore. La fecha grabada era "{1}". SayMore ha intentado interpretar la fecha, pero posiblemente ha intercambiado el día y mes. Por favor, acepte nuestras disculpas por este error. Después de corregir la fecha o confirmar que es correcta, por favor borre esta nota.</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.ChangeIdFailureMsg">
       <note>Message displayed when attempt failed to change a session id or a person's name (i.e. id)</note>
       <tuv xml:lang="en">
         <seg>Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Algo es la celebración en esa carpeta o un archivo, por lo que no puede cambiarse. Intente reiniciar este programa, o reiniciar el equipo.</seg>
+        <seg>Un programa está accesando esa carpeta o uno de los archivos que ella contiene, por lo que no se puede cambiar el nombre. Intente reiniciar este programa, o reiniciar el equipo.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ContributorsEditor.MissingContributorNameMsg">
@@ -44,7 +76,7 @@
         <seg>Choose Columns</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Elija columnas</seg>
+        <seg>Elegir columnas</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ElementList.NewButtonText">
@@ -56,29 +88,13 @@
         <seg>&amp;Nuevo</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.SessionsMainMenu.NewMenuText">
-      <tuv xml:lang="en">
-        <seg>&amp;New</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>&amp;Nuevo</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView.PeopleMainMenu.NewMenuText">
-      <tuv xml:lang="en">
-        <seg>&amp;New</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>&amp;Nuevo</seg>
-      </tuv>
-    </tu>
     <tu tuid="CommonToMultipleViews.ElementList.OneColumnMustBeVisibleMsg">
-      <note>Displayed when user unchecks all columns for display in sessions or people list</note>
+      <note>Displayed when user clears all columns for display in sessions or people list</note>
       <tuv xml:lang="en">
         <seg>One column must be visible.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Una columna debe ser visible.</seg>
+        <seg>Al menos una columna debe ser visible.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Field">
@@ -182,7 +198,7 @@
         <seg>Do you want to delete the field '{0}' and its contents from the entire project?</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>¿Desea eliminar el campo '{0}' y su contenido de todo el proyecto?</seg>
+        <seg>¿Desea eliminar el campo '{0}' y su contenido en cada record del proyecto?</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.Caption">
@@ -217,12 +233,20 @@
         <seg>Agregue archivos adicionales relacionados con esta sesión\narrastrándolos aquí o haciendo clic en el botón 'Agregar archivos'.</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.FileList.CannotOpenFileInApplicationErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was a problem opening the file\n\n'{0}'\n\nMake sure there is an application associated with this type of file.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Hubo un problema al abrir el file\n\n'{0}'\n\nAsegúrese de que hay una aplicación asociada con este tipo de archivo.</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.FileList.CannotRenameFileErrorMsg">
       <tuv xml:lang="en">
         <seg>{0} could not rename the file to '{1}' because there is already a file with that name.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0} podría no cambiar el nombre del archivo a '{1}' porque ya existe un archivo con ese nombre.</seg>
+        <seg>{0} no pudo cambiar el nombre del archivo a '{1}' porque ya existe un archivo con ese nombre.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg">
@@ -230,7 +254,7 @@
         <seg>Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Lo sentimos, SayMore podría no cambiar el nombre que el archivo porque algo más (quizás otra parte de SayMore) está leyendo. Inténtalo de nuevo más tarde.</seg>
+        <seg>SayMore no pudo cambiar el nombre que el archivo porque un programa (quizás otro componente de SayMore mismo) lo está accesando. Inténtalo de nuevo más tarde.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg">
@@ -238,7 +262,7 @@
         <seg>{0} could not rename the meta data file to '{1}' because there is already a file with that name.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0} podría no cambiar el nombre del archivo de metadatos para '{1}' porque ya existe un archivo con ese nombre.</seg>
+        <seg>{0} no pudo cambiar el nombre del archivo de metadatos porque ya existe un archivo nombrado: '{1}'.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.ColumnHeadings.FileDate">
@@ -286,7 +310,7 @@
         <seg>Convert...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Convertir</seg>
+        <seg>Convertir...</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.Convert.ButtonText_ToolTip_">
@@ -297,31 +321,24 @@
         <seg>Convertir archivo seleccionado</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Convert.ConvertMenuText">
+      <tuv xml:lang="en">
+        <seg>Convert...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Convertir...</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText">
       <tuv xml:lang="en">
         <seg>Extract audio to mono mp3 audio file (low quality)</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Extraer Audio mono archivo MP3 (baja calidad)</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ConvertMediaDlg.ExtractStandardPcmFromVideoMenuText">
-    <tuv xml:lang="en">
-        <seg>Extract audio to standard WAV PCM audio file</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Extraer Audio a un archivo de onda WAV PCM</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SoundFileUtils.ConversionOutputFileAlreadyErrorMsg">
-      <tuv xml:lang="en">
-        <seg>Sorry, the file '{0}' already exists.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>El archivo '{0}' ya existe.</seg>
+        <seg>Extraer audio para grabar como mono MP3 (baja calidad)</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CreateAnnotationFileButtonText">
+      <prop type="x-nolongerused">true</prop>
       <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="es">
         <seg>Crear archivos de anotación...</seg>
@@ -334,11 +351,13 @@
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CreateAnnotationFileMenu">
       <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="es">
         <seg>Crear archivos de anotación...</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CustomRenameMenu">
+      <prop type="x-nolongerused">true</prop>
       <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Custom Rename...</seg>
@@ -352,7 +371,7 @@
         <seg>&amp;Delete File...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Eliminar archivo</seg>
+        <seg>Borrar archivo...</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.FileSizeBytes">
@@ -368,7 +387,7 @@
         <seg>{0} B</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0} b</seg>
+        <seg>{0} B</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.FileSizeGigabytes">
@@ -440,7 +459,7 @@
         <seg>Open in Program Associated with this File ...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Abierta en el programa asociado con este archivo...</seg>
+        <seg>Abrir con el programa asociado con este archivo...</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.Open.ShowInFileExplorerMenuText">
@@ -456,7 +475,7 @@
         <seg>Rename...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Cambiar el nombre</seg>
+        <seg>Cambiar el nombre...</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.RenameButtonText_ToolTip_">
@@ -468,6 +487,7 @@
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.RenameMenuTextFormatString">
+      <prop type="x-nolongerused">true</prop>
       <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Rename For {0}</seg>
@@ -481,7 +501,7 @@
         <seg>&lt;HTML&gt;&lt;BODY&gt;Click &lt;a href="file:///{0}"&gt;&lt;b&gt;here to open '{1}'&lt;/b&gt;&lt;/a&gt; in its associated program.&lt;/BODY&gt;&lt;/HTML&gt;</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&lt;html&gt;&lt;body&gt;Haga clic &lt;a href="file:///{0}"&gt;&lt;b&gt;aquí para abrir ' {1}'&lt;/b&gt;&lt;/a&gt; en su programa asociado.&lt;/body&gt;&lt;/html&gt;</seg>
+        <seg>&lt;html&gt;&lt;body&gt;Presione &lt;a href="file:///{0}"&gt;&lt;b&gt;aquí para abrir ' {1}'&lt;/b&gt;&lt;/a&gt; en su programa asociado.&lt;/body&gt;&lt;/html&gt;</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileNameMsg">
@@ -524,7 +544,16 @@
         <seg>Zoom</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.InvalidMediaFile">
+      <tuv xml:lang="en">
+        <seg>File does not appear to be a valid media file: {0}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivo no parece ser un archivo multimedia válido: {0}</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.MediaPlayer.LoadFileErrorMsg">
+      <prop type="x-nolongerused">true</prop>
       <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>There was a problem loading file '{0}' for playback. Perhaps another program has a lock on it.</seg>
@@ -538,7 +567,7 @@
         <seg>Media file not found: {0}</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Medios de archivo '{0}' no se encuentra.</seg>
+        <seg>Archivo multimedia no se encuentra: '{0}'</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.MediaPlayer.MediaFileNotSpecifiedMsg">
@@ -546,7 +575,7 @@
         <seg>Media player file name has not been specified.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>No se ha especificado el nombre de archivo del reproductor de medios de comunicación.</seg>
+        <seg>No se ha especificado el nombre de archivo que desea reproducir.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.MediaPlayer.PauseButton">
@@ -634,7 +663,7 @@
         <seg>Unable to start mplayer.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>No se ha podido iniciar mplayer.</seg>
+        <seg>No se pudo iniciar mplayer.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.MediaPlayer.VolumeButton">
@@ -651,6 +680,22 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Volumen</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPropertiesEditor.MoreInfoButton">
+      <tuv xml:lang="en">
+        <seg>More Information...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Más información...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPropertiesEditor.MoreInfoButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>More information about this file</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Más información sobre este archivo</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.MediaPropertiesEditor.PresetsButton">
@@ -677,6 +722,22 @@
         <seg>Propiedades</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.RetryAfterUnauthorizedAccessExceptionMsg">
+      <tuv xml:lang="en">
+        <seg>If you can determine which program is using this file, close it and click Retry.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Si usted puede determinar cuál programa está utilizando este archivo, ciérrelo y presione Reintentar.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ConvertMedia.FullConversionOutput">
+      <tuv xml:lang="en">
+        <seg>Full output from conversion:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Salida completa de conversión:</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.AboutDlg.WindowTitle">
       <tuv xml:lang="en">
         <seg>About SayMore</seg>
@@ -698,7 +759,7 @@
         <seg>Language Documentation Project Management</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Gestión de proyectos de documentación de idioma</seg>
+        <seg>Gestión de proyectos de documentación lingüística</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._labelVersionInfo">
@@ -706,7 +767,7 @@
         <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Versión {0}.{1}.{2} Construido en {3}</seg>
+        <seg>Versión {0}.{1}.{2} (Beta) Compilado: {3}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebSite">
@@ -714,7 +775,7 @@
         <seg>Visit the SayMore web site.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Visite el sitio web SayMore.</seg>
+        <seg>Visite el sitio web de SayMore.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebSite_LinkPortion">
@@ -731,7 +792,7 @@
         <seg>SayMore is brought to you by SIL International.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>SayMore es traído a usted por SIL International.</seg>
+        <seg>SayMore proporcionado por SIL International.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._linkSilWebSite_LinkPortion">
@@ -796,31 +857,21 @@
         <seg>There was a problem starting process to create zip file.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Hubo un proceso inicial de problema para crear el archivo zip.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.SessionElementName">
-      <prop type="x-nolongerused">true</prop>
-      <tuv xml:lang="en">
-        <seg>Session</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Sesión</seg>
+        <seg>Hubo un problema al intentar iniciar el proceso para crear el archivo zip.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg">
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>There are no contributors for this session.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>No hay colaboradores para esta sesión.</seg>
+        <seg>No hay ningún colaborador para esta sesión.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.OverviewText">
       <note>The first occurance of the word 'RAMP' will be made a hyperlink to the RAMP website. If the word 'RAMP' is not found, the text will not contain that hyperlink.</note>
       <tuv xml:lang="en">
-        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your SayMore sessions. It will gather up all the files and data related to a session and its contributors, then launch RAMP so that you can fill out more information and do the actual submission.</seg>
+        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your SayMore sessions. It will gather up all the files and data related to a session and its contributors, then launch RAMP so that you can fill out more information and do the actual submission. </seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>RAMP es una utilidad para introducir metadatos y subir información al archivo interno del SIL, REAP. Si tiene acceso a este archivo, esta herramienta le ayudará a utilizar RAMP para archivar sus sesiones de SayMore. Reunirá todos los archivos y datos relacionados con ua sesión y sus colaboradores, a continuación, ejecute RAMP para que usted pueda completar la información y subir la sesión.</seg>
@@ -866,6 +917,14 @@
         <seg>Buscando el programa RAMP...</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.SessionElementName">
+      <tuv xml:lang="en">
+        <seg>Session</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sesión</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.StartingRampErrorMsg">
       <tuv xml:lang="en">
         <seg>There was an error attempting to open the archive package in RAMP.</seg>
@@ -906,7 +965,374 @@
         <seg>&amp;2) Iniciar RAMP</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.GettingInfoErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error trying to get more information for the media file:\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Hubo un error al intentar obtener más información sobre el archivo multimedia:\n\n\n\n{0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg.FileAlreadyExistsMsg">
+      <tuv xml:lang="en">
+        <seg>A file by that name already exists or the name is invalid.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ya existe un archivo con ese nombre, o el nombre no es válido.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg.NewFileNameMsg">
+      <note>Displayed under the text box.</note>
+      <tuv xml:lang="en">
+        <seg>New file: {0}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nuevo archivo: {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Rename</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cambiar el nombre</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cancelar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._buttonRename">
+      <tuv xml:lang="en">
+        <seg>Rename</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cambiar el nombre</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._labelChangeNameTo">
+      <tuv xml:lang="en">
+        <seg>Change Name To:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cambiar el nombre a:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._labelNonSayMoreImportHint">
+      <tuv xml:lang="en">
+        <seg>Use the following only when you are importing annotations produced outside of SayMore</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Use las siguientes opciones solamente cuando está importando anotaciones producidas fuera de SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._labelReadAboutRenaming">
+      <tuv xml:lang="en">
+        <seg>Read About How SayMore Uses Names</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Lea sobre cómo SayMore utiliza nombres</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._labelShortcuts">
+      <tuv xml:lang="en">
+        <seg>Shortcuts</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Accesos directos</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._labelShortcutsHint">
+      <tuv xml:lang="en">
+        <seg>(hover over each link to read about how it is used)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>(pase el ratón sobre cada enlace para obtener información acerca de cómo se utiliza)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkCareful">
+      <tuv xml:lang="en">
+        <seg>Careful Speech</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Habla cuidadosa</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkCareful_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Careful Speech:\nSlow, careful speech re-speaking\nof the source recording.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cuidado Speech:
+lento y cuidadoso discurso re-speaking
+de la grabación de la fuente.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkConsent">
+      <tuv xml:lang="en">
+        <seg>Informed Consent</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Consentimiento informado</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkConsent_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Informed Consent:\nA scan or recording of consent covering\nthe use of this person's contribution.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Análisis de Consent:
+A informado o grabación de consentimiento covering
+el uso de la contribución de esta persona.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkOralTranslation">
+      <tuv xml:lang="en">
+        <seg>Oral Translation</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Traducción oral</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkOralTranslation_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Oral Translation:\nRecording of a translation\nof the source recording.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Oral Translation:
+grabación de un translation
+de la grabación de la fuente.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkSource">
+      <tuv xml:lang="en">
+        <seg>Source</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Original</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkSource_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Source:\nThe recording of the session. Used to satisfy\nthe 'Source Recording' stage of the session.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Source:
+la grabación de la sesión. Utilizado para satisfy
+la etapa de 'Grabación de fuente' de la sesión.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkTranscription">
+      <tuv xml:lang="en">
+        <seg>Transcription</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Transcripción</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkTranscription_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Transcription:\nWritten transcription of\nthe source recording.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Transcription:
+escrito transcripción of
+la grabación de la fuente.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation">
+      <tuv xml:lang="en">
+        <seg>Written Translation</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Traducción escrita</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Written Translation:\nWritten translation of\nthe source recording.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Escrito por escrito Translation:
+traducción of
+la grabación de la fuente.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.AvailableConversionsLabel">
+      <tuv xml:lang="en">
+        <seg>Available Conversions:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Conversiones disponibles:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.BeginConversionButton">
+      <tuv xml:lang="en">
+        <seg>Begin Conversion</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Comenzar la conversión</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.CancelButton">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cancelar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.CloseButton">
+      <tuv xml:lang="en">
+        <seg>Close</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cerrar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionCancelledMsg">
+      <tuv xml:lang="en">
+        <seg>Conversion Cancelled.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Conversión cancelada.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionFailedMsg">
+      <tuv xml:lang="en">
+        <seg>Conversion Failed.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Error de conversión.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionProgressStatusMsgFormat">
+      <tuv xml:lang="en">
+        <seg>{0} of {1} Converted...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>{0} de {1} convertido...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionSucceededMsg">
+      <tuv xml:lang="en">
+        <seg>Conversion Finished Successfully.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Conversión realizado.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConvertToMp4AndAACConversionName">
+      <tuv xml:lang="en">
+        <seg>Convert to H.263/MPEG-4 video with AAC Audio</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Convertir a video H.263/MPEG-4 con Audio AAC</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadButton">
+      <tuv xml:lang="en">
+        <seg>Download...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Descargar...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadNeededLabel">
+      <tuv xml:lang="en">
+        <seg>The selected conversion '{0}' requires FFmpeg which must be downloaded.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>La conversión seleccionada '{0}' requiere FFmpeg, que debe descargarse.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadingFailedDueToWebExceptionMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error getting a web response trying to download FFmpeg. Try pasting this Url in your browser to see if the file's location is available.\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Hubo un error al obtener una respuesta de la web intentando descargar FFmpeg. Trate de pegar esta URL en su navegador para ver si se encuentra el archivo.\n\n{0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadingGeneralFailureMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error attempting to download FFmpeg. Try pasting this Url in your browser to see if the file's location is available.\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Hubo un error al intentar descargar el programa FFmpeg. Trate de pegar esta URL en su navegador para ver si se encuentra el archivo.\n\n{0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadingProgressMsgFormat">
+      <note>The 'F2' in the parameters specifies displaying a number to 2 decimal places.</note>
+      <tuv xml:lang="en">
+        <seg>Downloaded {0:F2} MB of approximately {1:F2} MB</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Descargado {F2} MB de aproximadamente {1:F2} MB</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ExtractStandardPcmFromVideoMenuText">
+      <tuv xml:lang="en">
+        <seg>Extract audio to standard WAV PCM audio file</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Extraer audio a un archivo de onda WAV PCM</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.FileToConvertLabel">
+      <tuv xml:lang="en">
+        <seg>File to Convert:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivo a convertir:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.HideOutputButton">
+      <tuv xml:lang="en">
+        <seg>Hide Details</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ocultar detalles</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.OutputFileLabel">
+      <tuv xml:lang="en">
+        <seg>Output File:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivo de salida:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.OverviewLabel">
+      <tuv xml:lang="en">
+        <seg>To convert your media file to a different format, choose from one of the available conversions below and click 'Begin Conversion'. Your source media file will not be affected.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Para convertir el archivo multimedia en un formato diferente, elija una de las conversiones disponibles a continuación y presione 'Iniciar conversión'. El archivo original no será afectado.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ShowOutputButton">
+      <tuv xml:lang="en">
+        <seg>Show Details</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Mostrar detalles</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Convert Media</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Convertir archivo multimedia</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.CustomFileRenamingDlg.CancelButton">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Cancel</seg>
       </tuv>
@@ -915,12 +1341,14 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.CustomFileRenamingDlg.FileAlreadyExistsMsg">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="es">
         <seg>Ya existe un archivo con ese nombre o el nombre no es válido.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.CustomFileRenamingDlg.NewFileNameMsg">
       <note>Displayed under the text box.</note>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>New file: {0}</seg>
       </tuv>
@@ -949,7 +1377,145 @@
         <seg>Delete</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Eliminar</seg>
+        <seg>Borrar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.CancelButton">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cancelar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.CloseButton">
+      <tuv xml:lang="en">
+        <seg>Close</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cerrar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.DownloadCancelledMsg">
+      <tuv xml:lang="en">
+        <seg>Downloading and Installing Cancelled.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Descarga e instalación cancelado.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.DownloadCompleteMsg">
+      <tuv xml:lang="en">
+        <seg>Downloading and Installing Completed Successfully.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Descarga e instalación se realizaron.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallButton">
+      <tuv xml:lang="en">
+        <seg>Install...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Instalar...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallCompletedingMsg">
+      <tuv xml:lang="en">
+        <seg>Installed Successfully.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Instalado correctamente.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>The file '{0}'\n\neither does not contain ffmpeg or is not a valid zip file.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>El archivo o no contiene el programa FFmpeg o no es un archivo zip válido:\n\n{0} </seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileMsg">
+      <tuv xml:lang="en">
+        <seg>Installing...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Instalando...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.OrLabel">
+      <tuv xml:lang="en">
+        <seg>- OR -</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>-o-</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.OverviewLabel">
+      <tuv xml:lang="en">
+        <seg>You have two options for downloading FFmpeg.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Hay dos opciones para descargar FFmpeg.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.SelectDownloadedFFmpegFileDlg.Caption">
+      <note>This is the caption for the 'Open File' dialog box when specifying the manually downloaded FFmpeg zip file.</note>
+      <tuv xml:lang="en">
+        <seg>Select the Downloaded FFmpeg File</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Seleccione el archivo descargado de FFmpeg</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.SelectDownloadedFFmpegFileDlg.FileTypesString">
+      <tuv xml:lang="en">
+        <seg>Zip Archive (*.zip)|*.zip|All Files (*.*)|*.*</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>ZIP (*.zip)|*.zip|Todos los archivos (*.*)|*.*</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Download FFmpeg</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Descargar FFmpeg</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkAutoDownload">
+      <tuv xml:lang="en">
+        <seg>1) Click here and SayMore will automatically download and install FFmpeg in the proper location.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>1) Presione aquí y SayMore automáticamente descargará e instalará FFmpeg en la carpeta correcta.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkAutoDownload_LinkPortion">
+      <note>This is the portion of the text that is underlined, indicating the link to the download.</note>
+      <tuv xml:lang="en">
+        <seg>Click here and SayMore will automatically download</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Presione aquí y se descargará automáticamente SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkManualDownload">
+      <tuv xml:lang="en">
+        <seg>2) Click here to download FFmpeg manually and then click 'Install' to specify the location of the downloaded file for SayMore to install.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>2) Presione aquí para descargar FFmpeg manualmente y, a continuación, presione 'Instalar' para especificar la ubicación del archivo descargado para que SayMore lo instale.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.LoadingDlg.CancelLink">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cancelar</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.LoadingDlg._labelLoading">
@@ -960,12 +1526,127 @@
         <seg>Cargando...</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.MediaFileMoreInfoDlg.CloseButton">
+      <tuv xml:lang="en">
+        <seg>Close</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cerrar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MediaFileMoreInfoDlg.EvenMoreInfoButton">
+      <tuv xml:lang="en">
+        <seg>Even More Information</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Aún más información</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MediaFileMoreInfoDlg.LessInfoButton">
+      <tuv xml:lang="en">
+        <seg>Less Information</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Menos información</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MediaFileMoreInfoDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>More Information for Media File</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Más información del archivo multimedia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MissingFFmpegPopup.MessageLabel">
+      <tuv xml:lang="en">
+        <seg>If you install FFmpeg, SayMore can automatically report technical details of your media files, and offer some handy conversion functions.  FFmpeg is (free, open source).\n</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Si se instala FFmpeg, SayMore automáticamente puede informar detalles técnicos de sus archivos multimedios y ofrecer algunas funciones útiles de conversión.  FFmpeg es gratis (y de código abierto).\n</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MissingFFmpegPopup.SayMoreDownloadPageLink">
+      <tuv xml:lang="en">
+        <seg>Visit SayMore Download Page</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Visite la página de descarga de SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MissingFFmpegPopup.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Could not locate FFmpeg</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No se pudo localizar el programa FFmpeg</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg.InvalidPathMsg">
+      <note>This text is displayed under the project name when it is invalid.</note>
+      <tuv xml:lang="en">
+        <seg>Unable to create a new project by that name.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No se pudo crear un nuevo proyecto con ese nombre.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>New SayMore Project</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nuevo proyecto SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>&amp;Cancel</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Cancelar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg._buttonOK">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Aceptar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg._labelMessage">
+      <tuv xml:lang="en">
+        <seg>What would you like to call this project?</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>¿Cómo desea llamar este proyecto?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg._labelNewProjectPath">
+      <note>This text is displayed under the project name and includes where it will be created.</note>
+      <tuv xml:lang="en">
+        <seg>Project will be created in: {0}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Proyecto se creará in: {0}</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg.WindowTitle">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Making Sessions...</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Haciendo sesiones...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cancelar</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg._buttonOK">
@@ -974,14 +1655,6 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Aceptar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.SessionsAlreadyExistMsg">
-      <tuv xml:lang="en">
-        <seg>Sessions already exist for the following Ids. These will be skipped.\n\n{0}</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Ya existen sesiones para los siguientes identificadores. Estos se omitirán.\n\n{0}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.FilesSelectedCreateButtonText">
@@ -1010,6 +1683,14 @@
         <seg>Crear sesiones</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.SessionsAlreadyExistMsg">
+      <tuv xml:lang="en">
+        <seg>Sessions already exist for the following Ids. These will be skipped.\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ya existen sesiones para los siguientes identificadores. Estos se omitirán.\n\n{0}</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.WindowTitle">
       <tuv xml:lang="en">
         <seg>New Sessions From Device</seg>
@@ -1032,7 +1713,7 @@
         <seg>Create {0} Sessions</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Crear sesiones {0}</seg>
+        <seg>Crear {0} sesiones</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelIncomingFiles">
@@ -1041,6 +1722,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Archivos entrantes</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelInstructions">
+      <tuv xml:lang="en">
+        <seg>Mark each file which represents a source recording of a session. For each one, SayMore will create a new session and copy the file into it.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Seleccione cada archivo que representa una grabación original de una sesión. Para cada uno, SayMore creará una nueva sesión con una cópia del archivo.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelProgress">
@@ -1083,54 +1772,12 @@
         <seg>3) Parte de la ruta anterior ha cambiado (por ejemplo, el nombre de una carpeta).</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewProjectDlg.InvalidPathMsg">
-      <note>This text is displayed under the project name when it is invalid.</note>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.RecordButtonText">
       <tuv xml:lang="en">
-        <seg>Unable to create a new project by that name.</seg>
+        <seg>Record</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>No se puede crear un nuevo proyecto con el mismo nombre.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewProjectDlg.WindowTitle">
-      <tuv xml:lang="en">
-        <seg>New SayMore Project</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Nuevo proyecto SayMore</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewProjectDlg._buttonCancel">
-      <tuv xml:lang="en">
-        <seg>&amp;Cancel</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>&amp;Cancelar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewProjectDlg._buttonOK">
-      <tuv xml:lang="en">
-        <seg>&amp;OK</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Aceptar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewProjectDlg._labelMessage">
-      <tuv xml:lang="en">
-        <seg>What would you like to call this project?</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>¿Qué le gustaría llamar este proyecto?</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewProjectDlg._labelNewProjectPath">
-      <note>This text is displayed under the project name and includes where it will be created.</note>
-      <tuv xml:lang="en">
-        <seg>Project will be created in: {0}</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Proyecto se creará in: {0}</seg>
+        <seg>Grabar</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString">
@@ -1424,586 +2071,6 @@
         <seg>SIL International</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.SessionStatus.Finished">
-      <tuv xml:lang="en">
-        <seg>Finished</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Completado</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionStatus.InProgress">
-      <tuv xml:lang="en">
-        <seg>In Progress</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>En curso</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionStatus.Incoming">
-      <tuv xml:lang="en">
-        <seg>Incoming</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Nuevamente añadido</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionStatus.Skipped">
-      <tuv xml:lang="en">
-        <seg>Skipped</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Omitido</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionStatus.TooltipFormatText">
-      <tuv xml:lang="en">
-        <seg>Status: {0}</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Estado: {0}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.ClickNewButtonHelpPrompt">
-      <tuv xml:lang="en">
-        <seg>Click 'New' to add a new session.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Haga clic en 'Nuevo' para agregar una nueva sesión.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Date">
-      <tuv xml:lang="en">
-        <seg>Date</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Fecha</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Genre">
-      <tuv xml:lang="en">
-        <seg>Genre</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Género</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Id">
-      <tuv xml:lang="en">
-        <seg>Id</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>ID</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Location">
-      <tuv xml:lang="en">
-        <seg>Location</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Lugar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Stages">
-      <tuv xml:lang="en">
-        <seg>Stages</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Etapas</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Status">
-      <tuv xml:lang="en">
-        <seg>Status</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Estado</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Title">
-      <tuv xml:lang="en">
-        <seg>Title</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Título</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.NewFilesFromDeviceButtonText">
-      <tuv xml:lang="en">
-        <seg>New From De&amp;vice...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Crear sesión con archivos del dispositivo...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.RampArchiveMenuText">
-      <tuv xml:lang="en">
-        <seg>Archive with RAMP (SIL)...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Archivar con RAMP (SIL)...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.Stages.CarefulSpeech">
-      <tuv xml:lang="en">
-        <seg>Careful Speech</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Habla cuidadosa</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.Stages.CompleteToolTipText">
-      <tuv xml:lang="en">
-        <seg>Complete</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Completar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.Stages.IncompleteToolTipText">
-      <tuv xml:lang="en">
-        <seg>Incomplete</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Incompleto</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.Stages.InformedConsent">
-      <tuv xml:lang="en">
-        <seg>Informed Consent</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Consentimiento informado</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.Stages.OralTranslation">
-      <tuv xml:lang="en">
-        <seg>Oral Translation</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Traducción oral</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.Stages.SourceRecording">
-      <tuv xml:lang="en">
-        <seg>Source Recording</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Grabación Original</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.Stages.Transcription">
-      <tuv xml:lang="en">
-        <seg>Transcription</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Transcripción</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.SessionsList.Stages.WrittenTranslation">
-      <tuv xml:lang="en">
-        <seg>Written Translation</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Traducción escrita</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.FileList.AddSessionsButtonToolTip">
-      <tuv xml:lang="en">
-        <seg>Add Files to the Session</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Agregar archivos a la sesión</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.GeneratedOralAnnotationView.CarefulLabel">
-      <tuv xml:lang="en">
-        <seg>Careful</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Cuidadoso</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.GeneratedOralAnnotationView.SourceLabel">
-      <tuv xml:lang="en">
-        <seg>Source</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Original</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.GeneratedOralAnnotationView.TranslationLabel">
-      <tuv xml:lang="en">
-        <seg>Translation</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Traducción</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor.TabText">
-      <tuv xml:lang="en">
-        <seg>Session</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Sesión</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor.UnknownGenre">
-      <note>Unknown genre displayed in the genre drop-down list.</note>
-      <tuv xml:lang="en">
-        <seg>&lt;Unknown&gt;</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>&lt;Desconocido&gt;</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor._labelAbstract">
-      <tuv xml:lang="en">
-        <seg>Abstract</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Resumen</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor._labelAccess">
-      <tuv xml:lang="en">
-        <seg>Access</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Acceso</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor._labelCustomFields">
-      <tuv xml:lang="en">
-        <seg>Custom Fields</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Campos definidos por el usuario</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor._labelDate">
-      <tuv xml:lang="en">
-        <seg>Date</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Fecha</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor._labelGenre">
-      <tuv xml:lang="en">
-        <seg>Genre</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Género</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor._labelId">
-      <tuv xml:lang="en">
-        <seg>Id</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>ID</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor._labelLocation">
-      <tuv xml:lang="en">
-        <seg>Location</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Lugar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor._labelParticipants">
-      <tuv xml:lang="en">
-        <seg>People</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Personas</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor._labelSetting">
-      <tuv xml:lang="en">
-        <seg>Setting</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Escena</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor._labelSituation">
-      <tuv xml:lang="en">
-        <seg>Situation</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Situación</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.StatusAndStagesEditor._labelStatus">
-      <tuv xml:lang="en">
-        <seg>Status</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Estado</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor._labelTitle">
-      <tuv xml:lang="en">
-        <seg>Title</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Título</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Miscellaneous.SessionAlreadyExistsSaveFailureMessage">
-      <tuv xml:lang="en">
-        <seg>Could not rename from {0} to {1} because there is already a session by that name.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>No se pudo cambiar el nombre de {0} a {1} porque existe una sesión con el mismo nombre.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Miscellaneous.NewSessionNamePrefix">
-      <tuv xml:lang="en">
-        <seg>New Session</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Nueva Sesión</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Miscellaneous.NoIdSaveFailureMessage">
-      <tuv xml:lang="en">
-        <seg>You must specify a session id.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Debe especificar un ID para la sesión.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.BadAnnotationFileMsg">
-      <tuv xml:lang="en">
-        <seg>File '{0}' is not a SayMore annotation file. It is possibly corrupt.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>El archivo '{0}' no es un archivo de anotación de SayMore. Posiblemente es dañado.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.AnnotationFileNotFoundMsg">
-      <tuv xml:lang="en">
-        <seg>File not found: '{0}'</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Archivo no encontrado: '{0}'</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg">
-      <tuv xml:lang="en">
-        <seg>Generating Oral Annotation file...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Generando archivo para anotacion oral...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton">
-      <tuv xml:lang="en">
-        <seg>Help</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Ayuda</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton_ToolTip_">
-      <tuv xml:lang="en">
-        <seg>Help</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Ayuda</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton">
-      <tuv xml:lang="en">
-        <seg>Play</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Reproducir</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton_ToolTip_">
-      <tuv xml:lang="en">
-        <seg>Playback Oral Annotation Audio File</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Reproducir archivo para anotacion oral</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.ProcessingAnnotationFileErrorMsg">
-      <note>The parameter is the annotation type (i.e. careful, translation).</note>
-      <tuv xml:lang="en">
-        <seg>There was an error processing a {0} annotation file.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Ocurrió un error al procesar un archivo de anotación {0}.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.ProcessingSourceRecordingErrorMsg">
-      <tuv xml:lang="en">
-        <seg>There was an error processing the source recording.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Ocurrió un error al procesar la grabación original.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.RegenerateButton">
-      <tuv xml:lang="en">
-        <seg>Regenerate</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Regenerar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.StopButton">
-      <tuv xml:lang="en">
-        <seg>Stop</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Parar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.StopButton_ToolTip_">
-      <tuv xml:lang="en">
-        <seg>Stop Playback</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Para Reproducción</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.TabText">
-      <tuv xml:lang="en">
-        <seg>Generated Audio</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Audio Generado</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">
-      <tuv xml:lang="en">
-        <seg>&amp;Careful Speech...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Habla &amp;Cuidadosa...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CopyColumnTextToClipboardMenuText">
-      <note>Parameter is column (i.e. tier) name</note>
-      <tuv xml:lang="en">
-        <seg>Copy {0} to clipboard</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>{0} Copiar al portapapeles</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.HelpButton">
-      <tuv xml:lang="en">
-        <seg>Help</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Ayuda</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.HelpButton_ToolTip_">
-      <tuv xml:lang="en">
-        <seg>Help</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Ayuda</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg">
-      <tuv xml:lang="en">
-        <seg>There was an error loading the annotation file '{0}'.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Ocurrió un error al intentar de cargar el archivo de anotación '{0}'.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg">
-      <note>Parameter is file name.</note>
-      <tuv xml:lang="en">
-        <seg>There are no transcription annotations found in\n'{0}'</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>No se encuentran anotaciones de transcripción en\n'{0}'</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.OralTranslationMenu">
-      <tuv xml:lang="en">
-        <seg>&amp;Oral Translation...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Traducción &amp;Oral...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.SessionRecorderDlg.RecordButtonText">
-      <tuv xml:lang="en">
-        <seg>Record</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Grabar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.RecordButton_ToolTip_">
-      <tuv xml:lang="en">
-        <seg>Record Oral Annotations</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Grabar anotaciones orales</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ResegmentButton">
-      <tuv xml:lang="en">
-        <seg>Segment...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Segmentar...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ResegmentButton_ToolTip_">
-      <tuv xml:lang="en">
-        <seg>Add, remove or move segment boundaries</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Añadir, eliminar o mover divisiones de segmentos</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TabText">
-      <tuv xml:lang="en">
-        <seg>Annotations</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Anotaciones</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TierDisplayNames.Transcription">
-      <tuv xml:lang="en">
-        <seg>Transcription</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Transcripción</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TierDisplayNames.FreeTranslation">
-      <tuv xml:lang="en">
-        <seg>Free Translation</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Traducción Libre</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.ViewTabText">
-      <tuv xml:lang="en">
-        <seg>Sessions</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Sesiones</seg>
-      </tuv>
-    </tu>
     <tu tuid="MainWindow.DeleteMultipleItemsMsg">
       <note>For deleting sessions and people items</note>
       <tuv xml:lang="en">
@@ -2126,20 +2193,20 @@
         <seg>Salir</seg>
       </tuv>
     </tu>
-    <tu tuid="MainWindow._menuExportSessions">
-      <tuv xml:lang="en">
-        <seg>Export Sessions...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Exportar Sesiones...</seg>
-      </tuv>
-    </tu>
     <tu tuid="MainWindow._menuExportPeople">
       <tuv xml:lang="en">
         <seg>Export People...</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Exportar Información de Personas...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuExportSessions">
+      <tuv xml:lang="en">
+        <seg>Export Sessions...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Exportar Sesiones...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._menuHelp">
@@ -2502,6 +2569,14 @@
         <seg>ID</seg>
       </tuv>
     </tu>
+    <tu tuid="PeopleView.PeopleMainMenu.NewMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;New</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Nuevo</seg>
+      </tuv>
+    </tu>
     <tu tuid="PeopleView.ViewTabText">
       <tuv xml:lang="en">
         <seg>People</seg>
@@ -2532,14 +2607,6 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>&amp;Copiar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProgressView.SessionsLabel">
-      <tuv xml:lang="en">
-        <seg>Sessions:</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Sesiones:</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.HeadingText">
@@ -2589,6 +2656,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Guardar...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.SessionsLabel">
+      <tuv xml:lang="en">
+        <seg>Sessions:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sesiones:</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.SummaryTotalsTextForOneBar">
@@ -2645,6 +2720,594 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Trabajando...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.FileList.AddSessionsButtonToolTip">
+      <tuv xml:lang="en">
+        <seg>Add Files to the Session</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Agregar archivos a la sesión</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.GeneratedOralAnnotationView.CarefulLabel">
+      <tuv xml:lang="en">
+        <seg>Careful</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cuidadoso</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.GeneratedOralAnnotationView.SourceLabel">
+      <tuv xml:lang="en">
+        <seg>Source</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Original</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.GeneratedOralAnnotationView.TranslationLabel">
+      <tuv xml:lang="en">
+        <seg>Translation</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Traducción</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Session</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sesión</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.UnknownGenre">
+      <note>Unknown genre displayed in the genre drop-down list.</note>
+      <tuv xml:lang="en">
+        <seg>&lt;Unknown&gt;</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&lt;Desconocido&gt;</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelAbstract">
+      <tuv xml:lang="en">
+        <seg>Abstract</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Resumen</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelAccess">
+      <tuv xml:lang="en">
+        <seg>Access</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Acceso</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelCustomFields">
+      <tuv xml:lang="en">
+        <seg>Custom Fields</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Campos definidos por el usuario</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelDate">
+      <tuv xml:lang="en">
+        <seg>Date</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Fecha</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelGenre">
+      <tuv xml:lang="en">
+        <seg>Genre</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Género</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelId">
+      <tuv xml:lang="en">
+        <seg>Id</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>ID</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelLocation">
+      <tuv xml:lang="en">
+        <seg>Location</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Lugar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelParticipants">
+      <tuv xml:lang="en">
+        <seg>People</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Personas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelSetting">
+      <tuv xml:lang="en">
+        <seg>Setting</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Escena</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelSituation">
+      <tuv xml:lang="en">
+        <seg>Situation</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Situación</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelTitle">
+      <tuv xml:lang="en">
+        <seg>Title</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Título</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Miscellaneous.NewSessionNamePrefix">
+      <tuv xml:lang="en">
+        <seg>New Session</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nueva Sesión</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Miscellaneous.NoIdSaveFailureMessage">
+      <tuv xml:lang="en">
+        <seg>You must specify a session id.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Debe especificar un ID para la sesión.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Miscellaneous.SessionAlreadyExistsSaveFailureMessage">
+      <tuv xml:lang="en">
+        <seg>Could not rename from {0} to {1} because there is already a session by that name.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No se pudo cambiar el nombre de {0} a {1} porque existe una sesión con el mismo nombre.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionStatus.Finished">
+      <tuv xml:lang="en">
+        <seg>Finished</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Completado</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionStatus.InProgress">
+      <tuv xml:lang="en">
+        <seg>In Progress</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>En curso</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionStatus.Incoming">
+      <tuv xml:lang="en">
+        <seg>Incoming</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nuevamente añadido</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionStatus.Skipped">
+      <tuv xml:lang="en">
+        <seg>Skipped</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Omitido</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionStatus.TooltipFormatText">
+      <tuv xml:lang="en">
+        <seg>Status: {0}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Estado: {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.ClickNewButtonHelpPrompt">
+      <tuv xml:lang="en">
+        <seg>Click 'New' to add a new session.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Haga clic en 'Nuevo' para agregar una nueva sesión.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Date">
+      <tuv xml:lang="en">
+        <seg>Date</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Fecha</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Genre">
+      <tuv xml:lang="en">
+        <seg>Genre</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Género</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Id">
+      <tuv xml:lang="en">
+        <seg>Id</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>ID</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Location">
+      <tuv xml:lang="en">
+        <seg>Location</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Lugar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Stages">
+      <tuv xml:lang="en">
+        <seg>Stages</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Etapas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Status">
+      <tuv xml:lang="en">
+        <seg>Status</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Estado</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Title">
+      <tuv xml:lang="en">
+        <seg>Title</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Título</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.NewFilesFromDeviceButtonText">
+      <tuv xml:lang="en">
+        <seg>New From De&amp;vice...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Crear sesión con archivos del dispositivo...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.RampArchiveMenuText">
+      <tuv xml:lang="en">
+        <seg>Archive with RAMP (SIL)...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivar con RAMP (SIL)...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.CarefulSpeech">
+      <tuv xml:lang="en">
+        <seg>Careful Speech</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Habla cuidadosa</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.CompleteToolTipText">
+      <tuv xml:lang="en">
+        <seg>Complete</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Completar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.IncompleteToolTipText">
+      <tuv xml:lang="en">
+        <seg>Incomplete</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Incompleto</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.InformedConsent">
+      <tuv xml:lang="en">
+        <seg>Informed Consent</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Consentimiento informado</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.OralTranslation">
+      <tuv xml:lang="en">
+        <seg>Oral Translation</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Traducción oral</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.SourceRecording">
+      <tuv xml:lang="en">
+        <seg>Source Recording</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Grabación Original</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.Transcription">
+      <tuv xml:lang="en">
+        <seg>Transcription</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Transcripción</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.WrittenTranslation">
+      <tuv xml:lang="en">
+        <seg>Written Translation</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Traducción escrita</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsMainMenu.NewMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;New</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Nuevo</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelStatus">
+      <tuv xml:lang="en">
+        <seg>Status</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Estado</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.AnnotationFileNotFoundMsg">
+      <tuv xml:lang="en">
+        <seg>File not found: '{0}'</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivo no encontrado: '{0}'</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.BadAnnotationFileMsg">
+      <tuv xml:lang="en">
+        <seg>File '{0}' is not a SayMore annotation file. It is possibly corrupt.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>El archivo '{0}' no es un archivo de anotación de SayMore. Posiblemente es dañado.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg">
+      <tuv xml:lang="en">
+        <seg>Generating Oral Annotation file...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Generando archivo para anotacion oral...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ayuda</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ayuda</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton">
+      <tuv xml:lang="en">
+        <seg>Play</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Reproducir</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Playback Oral Annotation Audio File</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Reproducir archivo para anotacion oral</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.ProcessingAnnotationFileErrorMsg">
+      <note>The parameter is the annotation type (i.e. careful, translation).</note>
+      <tuv xml:lang="en">
+        <seg>There was an error processing a {0} annotation file.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ocurrió un error al procesar un archivo de anotación {0}.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.ProcessingSourceRecordingErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error processing the source recording.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ocurrió un error al procesar la grabación original.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.RegenerateButton">
+      <tuv xml:lang="en">
+        <seg>Regenerate</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Regenerar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.StopButton">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Parar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.StopButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Stop Playback</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Para Reproducción</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.TabText">
+      <tuv xml:lang="en">
+        <seg>Generated Audio</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Audio Generado</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Careful Speech...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Habla &amp;Cuidadosa...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CopyColumnTextToClipboardMenuText">
+      <note>Parameter is column (i.e. tier) name</note>
+      <tuv xml:lang="en">
+        <seg>Copy {0} to clipboard</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>{0} Copiar al portapapeles</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.HelpButton">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ayuda</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.HelpButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ayuda</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error loading the annotation file '{0}'.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ocurrió un error al intentar de cargar el archivo de anotación '{0}'.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg">
+      <note>Parameter is file name.</note>
+      <tuv xml:lang="en">
+        <seg>There are no transcription annotations found in\n'{0}'</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No se encuentran anotaciones de transcripción en\n'{0}'</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.OralTranslationMenu">
+      <tuv xml:lang="en">
+        <seg>&amp;Oral Translation...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Traducción &amp;Oral...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.RecordButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Record Oral Annotations</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Grabar anotaciones orales</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ResegmentButton">
+      <tuv xml:lang="en">
+        <seg>Segment...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Segmentar...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ResegmentButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Add, remove or move segment boundaries</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Añadir, eliminar o mover divisiones de segmentos</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Annotations</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Anotaciones</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TierDisplayNames.FreeTranslation">
+      <tuv xml:lang="en">
+        <seg>Free Translation</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Traducción Libre</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TierDisplayNames.Transcription">
+      <tuv xml:lang="en">
+        <seg>Transcription</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Transcripción</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.ViewTabText">
+      <tuv xml:lang="en">
+        <seg>Sessions</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sesiones</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ConversionOutputFileAlreadyErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Sorry, the file '{0}' already exists.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>El archivo '{0}' ya existe.</seg>
       </tuv>
     </tu>
     <tu tuid="SoundFileUtils.ErrorFindingPcmAudioDriverMsg">

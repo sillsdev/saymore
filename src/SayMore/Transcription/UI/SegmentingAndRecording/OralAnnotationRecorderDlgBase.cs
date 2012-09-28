@@ -817,7 +817,7 @@ namespace SayMore.Transcription.UI
 							"This segment was skipped.") :
 						LocalizationManager.GetString(
 							"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.NoAnnotationToolTipMsg",
-							"This segment does not have a recorded annotaton.");
+							"This segment does not have a recorded annotation.");
 
 					if (_tooltip.GetToolTip(_waveControl) != toolTipText)
 						_tooltip.SetToolTip(_waveControl, toolTipText);
@@ -829,7 +829,7 @@ namespace SayMore.Transcription.UI
 					{
 						_tooltip.SetToolTip(_waveControl, LocalizationManager.GetString(
 						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RerecordAnnotationToolTipMsg",
-						"To erase the recorded annotaton for this segment and record a new one, press and hold this button."));
+						"To erase the recorded annotation for this segment and record a new one, press and hold this button."));
 					}
 					return;
 				}

@@ -179,10 +179,17 @@ namespace SayMore.UI.NewSessionsFromFiles
 
 				_buttonCreateSessions.Text = text;
 			}
+			else if (selectedCount == 1)
+			{
+				var fmt = LocalizationManager.GetString("DialogBoxes.NewSessionsFromFilesDlg.OneFileSelectedCreateButtonText",
+					"Create 1 Session", "Text in create button when one file is selected.");
+
+				_buttonCreateSessions.Text = string.Format(fmt, selectedCount);
+			}
 			else
 			{
-				var fmt = LocalizationManager.GetString("DialogBoxes.NewSessionsFromFilesDlg.FilesSelectedCreateButtonText",
-					"Create {0} Sessions", "Format text in create button when one or more files are selected.");
+				var fmt = LocalizationManager.GetString("DialogBoxes.NewSessionsFromFilesDlg._buttonCreateSessions",
+					"Create {0} Sessions", "Format text in create button when more than one file is selected. Parameter is the number of sessions to be created.");
 
 				_buttonCreateSessions.Text = string.Format(fmt, selectedCount);
 			}

@@ -78,7 +78,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._buttonCreateSessions.AutoSize = true;
 			this._buttonCreateSessions.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.locExtender.SetLocalizableToolTip(this._buttonCreateSessions, null);
-			this.locExtender.SetLocalizationComment(this._buttonCreateSessions, "Parameter is for the number of sessions that will be created.");
+			this.locExtender.SetLocalizationComment(this._buttonCreateSessions, "Format text in create button when more than one file is selected. Parameter is the number of sessions to be created.");
 			this.locExtender.SetLocalizingId(this._buttonCreateSessions, "DialogBoxes.NewSessionsFromFilesDlg._buttonCreateSessions");
 			this._buttonCreateSessions.Location = new System.Drawing.Point(0, 0);
 			this._buttonCreateSessions.Margin = new System.Windows.Forms.Padding(0);

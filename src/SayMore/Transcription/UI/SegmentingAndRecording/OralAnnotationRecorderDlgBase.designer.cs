@@ -189,7 +189,7 @@ namespace SayMore.Transcription.UI
 			this._labelListenHint.Name = "_labelListenHint";
 			this._labelListenHint.Size = new System.Drawing.Size(381, 13);
 			this._labelListenHint.TabIndex = 10;
-			this._labelListenHint.Text = "To listen to the original recording, press and hold the SPACE BAR";
+			this._labelListenHint.Text = "To listen to the source recording, press and hold the SPACE BAR";
 			//
 			// _labelFinishedHint
 			//

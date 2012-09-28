@@ -1562,15 +1562,6 @@ l'enregistrement de la source.</seg>
         <seg>Création de Sessions</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.FilesSelectedCreateButtonText">
-      <note>Format text in create button when one or more files are selected.</note>
-      <tuv xml:lang="en">
-        <seg>Create {0} Sessions</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Créer des Sessions {0}</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.FolderBrowserDlgDescription">
       <tuv xml:lang="en">
         <seg>Choose a Folder of Media Files.</seg>
@@ -1619,6 +1610,15 @@ l'enregistrement de la source.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Créer {0} sessions</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.OneFileSelectedCreateButtonText">
+      <note>Text in create button when one file is selected.</note>
+      <tuv xml:lang="en">
+        <seg>Create 1 Session</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Créer 1 session</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelIncomingFiles">
@@ -2089,10 +2089,10 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.NoAnnotationToolTipMsg">
       <tuv xml:lang="en">
-        <seg>This segment does not have a recorded annotaton.</seg>
+        <seg>This segment does not have a recorded annotation.</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Ce segment n'a pas un annotaton enregistré.</seg>
+        <seg>Ce segment n'a pas une annotation enregistré.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordButton">
@@ -2137,10 +2137,10 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RerecordAnnotationToolTipMsg">
       <tuv xml:lang="en">
-        <seg>To erase the recorded annotaton for this segment and record a new one, press and hold this button.</seg>
+        <seg>To erase the recorded annotation for this segment and record a new one, press and hold this button.</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Pour effacer l'annotaton enregistré pour ce segment et enregistrer un nouveau, appuyez et maintenez ce bouton enfoncé.</seg>
+        <seg>Pour effacer l'annotation enregistré pour ce segment et enregistrer un nouveau, appuyez et maintenez ce bouton enfoncé.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.SkippedSegmentToolTipMsg">
@@ -2177,7 +2177,7 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint">
       <tuv xml:lang="en">
-        <seg>To listen to the original recording, press and hold the SPACE BAR</seg>
+        <seg>To listen to the source recording, press and hold the SPACE BAR</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Pour écouter l'enregistrement original, appuyez et la barre d'espace</seg>

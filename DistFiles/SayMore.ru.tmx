@@ -1042,6 +1042,15 @@
         <seg>Создать событие {0}</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.OneFileSelectedCreateButtonText">
+      <note>Text in create button when one file is selected.</note>
+      <tuv xml:lang="en">
+        <seg>Create 1 Session</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создать событие 1</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelIncomingFiles">
       <tuv xml:lang="en">
         <seg>Incoming &amp;Files</seg>
@@ -1080,15 +1089,6 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Для следующего идентификатора события уже существуют. Они будут пропущены.\n\n{0}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.FilesSelectedCreateButtonText">
-      <note>Format text in create button when one or more files are selected.</note>
-      <tuv xml:lang="en">
-        <seg>Create {0} Sessions</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Создать события {0}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.FolderBrowserDlgDescription">

@@ -3403,7 +3403,7 @@ l'enregistrement de la source.</seg>
         <seg>Titre</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.Miscellaneous.NewEventNamePrefix">
+    <tu tuid="SessionsView.Miscellaneous.NewSessionNamePrefix">
       <tuv xml:lang="en">
         <seg>New Session</seg>
       </tuv>

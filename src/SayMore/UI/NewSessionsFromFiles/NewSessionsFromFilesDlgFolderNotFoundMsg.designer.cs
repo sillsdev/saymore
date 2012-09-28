@@ -138,7 +138,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._labelPossibleProblemsMsg2.Name = "_labelPossibleProblemsMsg2";
 			this._labelPossibleProblemsMsg2.Size = new System.Drawing.Size(390, 30);
 			this._labelPossibleProblemsMsg2.TabIndex = 7;
-			this._labelPossibleProblemsMsg2.Text = "2) The device is plugged in, but is currently assigned a different drive letter f" +
+			this._labelPossibleProblemsMsg2.Text = "2) The device is plugged in but is currently assigned a different drive letter f" +
 	"rom \'{0}\'.";
 			//
 			// _labelPossibleProblemsMsg3
@@ -157,7 +157,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._labelPossibleProblemsMsg3.Name = "_labelPossibleProblemsMsg3";
 			this._labelPossibleProblemsMsg3.Size = new System.Drawing.Size(390, 30);
 			this._labelPossibleProblemsMsg3.TabIndex = 5;
-			this._labelPossibleProblemsMsg3.Text = "3) Some part of the above path has  changed (e.g. a folder name).";
+			this._labelPossibleProblemsMsg3.Text = "3) Some part of the above path has changed (e.g. a folder name).";
 			//
 			// locExtender
 			//

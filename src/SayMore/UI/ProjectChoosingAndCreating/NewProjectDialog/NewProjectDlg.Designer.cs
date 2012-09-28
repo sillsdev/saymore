@@ -60,7 +60,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			this._buttonOK.Name = "_buttonOK";
 			this._buttonOK.Size = new System.Drawing.Size(80, 26);
 			this._buttonOK.TabIndex = 3;
-			this._buttonOK.Text = "&OK";
+			this._buttonOK.Text = "OK";
 			this._buttonOK.UseVisualStyleBackColor = true;
 			// 
 			// _buttonCancel

@@ -31,8 +31,8 @@ namespace SayMore.UI
 			this.components = new System.ComponentModel.Container();
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._buttonCancel = new System.Windows.Forms.Button();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -53,7 +53,7 @@ namespace SayMore.UI
 			this._buttonOK.Name = "_buttonOK";
 			this._buttonOK.Size = new System.Drawing.Size(75, 26);
 			this._buttonOK.TabIndex = 0;
-			this._buttonOK.Text = "&OK";
+			this._buttonOK.Text = "OK";
 			this._buttonOK.UseVisualStyleBackColor = true;
 			// 
 			// _tableLayout
@@ -73,15 +73,12 @@ namespace SayMore.UI
 			this._tableLayout.Size = new System.Drawing.Size(360, 108);
 			this._tableLayout.TabIndex = 1;
 			// 
-			// locExtender
-			// 
-			this.locExtender.LocalizationManagerId = "SayMore";
-			// 
 			// _buttonCancel
 			// 
 			this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonCancel.AutoSize = true;
 			this._buttonCancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
 			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.NewSessionsFromFileProgressDlg._buttonCancel");
@@ -95,11 +92,16 @@ namespace SayMore.UI
 			this._buttonCancel.UseVisualStyleBackColor = true;
 			this._buttonCancel.Visible = false;
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationManagerId = "SayMore";
+			// 
 			// ProgressDlg
 			// 
 			this.AcceptButton = this._buttonOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this._buttonCancel;
 			this.ClientSize = new System.Drawing.Size(390, 143);
 			this.ControlBox = false;
 			this.Controls.Add(this._tableLayout);

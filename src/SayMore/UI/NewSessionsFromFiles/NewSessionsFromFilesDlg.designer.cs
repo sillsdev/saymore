@@ -155,7 +155,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._labelInstructions.Name = "_labelInstructions";
 			this._labelInstructions.Size = new System.Drawing.Size(419, 26);
 			this._labelInstructions.TabIndex = 2;
-			this._labelInstructions.Text = "Mark each file which represents an source recording of an session. For each one, " +
+			this._labelInstructions.Text = "Mark each file which represents a source recording of a session. For each one, " +
 	"SayMore will create a new session and copy the file into it.";
 			//
 			// _mediaPlayerPanel

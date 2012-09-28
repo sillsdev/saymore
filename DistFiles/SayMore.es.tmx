@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.0.4370.25820" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
-    <prop type="x-appversion">1.1.1.1</prop>
+  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4653.22612" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+    <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
   <body>
     <tu tuid="CommonToMultipleViews.ChangeIdFailureMsg">
-      <note>Message displayed when attempt failed to change an event id or a person's name (i.e. id)</note>
+      <note>Message displayed when attempt failed to change a session id or a person's name (i.e. id)</note>
       <tuv xml:lang="en">
         <seg>Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.</seg>
       </tuv>
@@ -47,17 +47,24 @@
         <seg>Elija columnas</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.ElementList.DeleteButtonText">
-      <note>Button for deleting events and people</note>
+    <tu tuid="CommonToMultipleViews.ElementList.NewButtonText">
+      <note>Button for adding new sessions and people</note>
       <tuv xml:lang="en">
-        <seg>&amp;Delete</seg>
+        <seg>&amp;New</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Borrar</seg>
+        <seg>&amp;Nuevo</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.ElementList.NewButtonText">
-      <note>Button for adding new events and people</note>
+    <tu tuid="SessionsView.SessionsMainMenu.NewMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;New</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Nuevo</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.PeopleMainMenu.NewMenuText">
       <tuv xml:lang="en">
         <seg>&amp;New</seg>
       </tuv>
@@ -66,7 +73,7 @@
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ElementList.OneColumnMustBeVisibleMsg">
-      <note>Displayed when user unchecks all columns for display in events or people list</note>
+      <note>Displayed when user unchecks all columns for display in sessions or people list</note>
       <tuv xml:lang="en">
         <seg>One column must be visible.</seg>
       </tuv>
@@ -204,23 +211,32 @@
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFilesPrompt">
       <tuv xml:lang="en">
-        <seg>Add additional files related to this event by\ndragging them here or clicking the 'Add Files' button.</seg>
+        <seg>Add additional files related to this session by\ndragging them here or clicking the 'Add Files' button.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Agregue archivos adicionales relacionados con este evento by\narrastrándolos aquí o haciendo clic en el botón 'Agregar archivos'.</seg>
+        <seg>Agregue archivos adicionales relacionados con esta sesión\narrastrándolos aquí o haciendo clic en el botón 'Agregar archivos'.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CannotRenameFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>{0} could not rename the file to '{1}' because there is already a file with that name.</seg>
+      </tuv>
       <tuv xml:lang="es">
         <seg>{0} podría no cambiar el nombre del archivo a '{1}' porque ya existe un archivo con ese nombre.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.</seg>
+      </tuv>
       <tuv xml:lang="es">
         <seg>Lo sentimos, SayMore podría no cambiar el nombre que el archivo porque algo más (quizás otra parte de SayMore) está leyendo. Inténtalo de nuevo más tarde.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>{0} could not rename the meta data file to '{1}' because there is already a file with that name.</seg>
+      </tuv>
       <tuv xml:lang="es">
         <seg>{0} podría no cambiar el nombre del archivo de metadatos para '{1}' porque ya existe un archivo con ese nombre.</seg>
       </tuv>
@@ -267,7 +283,7 @@
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.Convert.ButtonText">
       <tuv xml:lang="en">
-        <seg>Convert</seg>
+        <seg>Convert...</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Convertir</seg>
@@ -283,45 +299,30 @@
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText">
       <tuv xml:lang="en">
-        <seg>Extract Audio to mono MP3 File (low quality)</seg>
+        <seg>Extract audio to mono mp3 audio file (low quality)</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Extraer Audio mono archivo MP3 (baja calidad)</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.FileList.Convert.ExtractWavAudioMenuText">
-      <tuv xml:lang="en">
-        <seg>Extract Audio to Wave File</seg>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ExtractStandardPcmFromVideoMenuText">
+    <tuv xml:lang="en">
+        <seg>Extract audio to standard WAV PCM audio file</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Extraer Audio a archivo de onda</seg>
+        <seg>Extraer Audio a un archivo de onda WAV PCM</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.FileList.Convert.FailureMsg">
-      <tuv xml:lang="en">
-        <seg>Something didn't work out. FFmpeg said (start reading from the end): {0}\n\n</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Algo funcionó. FFmpeg dijo (Inicio leer el final): {0}\n(-999)</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CommonToMultipleViews.FileList.Convert.FFmpegMissingErrorMsg">
-      <tuv xml:lang="en">
-        <seg>SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>SayMore no pudo encontrar el FFmpeg adecuada en este equipo. FFmpeg es necesario para realizar la conversión.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CommonToMultipleViews.FileList.Convert.FileAlreadyExistsDuringConversionErrorMsg">
+    <tu tuid="SoundFileUtils.ConversionOutputFileAlreadyErrorMsg">
       <tuv xml:lang="en">
         <seg>Sorry, the file '{0}' already exists.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Lo sentimos, que el archivo '{0}' ya existe.</seg>
+        <seg>El archivo '{0}' ya existe.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CreateAnnotationFileButtonText">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="es">
         <seg>Crear archivos de anotación...</seg>
       </tuv>
@@ -332,11 +333,13 @@
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CreateAnnotationFileMenu">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="es">
         <seg>Crear archivos de anotación...</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CustomRenameMenu">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Custom Rename...</seg>
       </tuv>
@@ -346,7 +349,7 @@
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.DeleteFileMenuText">
       <tuv xml:lang="en">
-        <seg>Delete File</seg>
+        <seg>&amp;Delete File...</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Eliminar archivo</seg>
@@ -450,7 +453,7 @@
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.RenameButtonText">
       <tuv xml:lang="en">
-        <seg>Rename</seg>
+        <seg>Rename...</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Cambiar el nombre</seg>
@@ -465,6 +468,7 @@
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.RenameMenuTextFormatString">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Rename For {0}</seg>
       </tuv>
@@ -497,6 +501,9 @@
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ImageViewer.OpeningPictureFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Could not open that picture</seg>
+      </tuv>
       <tuv xml:lang="es">
         <seg>No se pudo abrir la imagen</seg>
       </tuv>
@@ -518,6 +525,7 @@
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.MediaPlayer.LoadFileErrorMsg">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>There was a problem loading file '{0}' for playback. Perhaps another program has a lock on it.</seg>
       </tuv>
@@ -527,7 +535,7 @@
     </tu>
     <tu tuid="CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg">
       <tuv xml:lang="en">
-        <seg>Media file '{0}' not found.</seg>
+        <seg>Media file not found: {0}</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Medios de archivo '{0}' no se encuentra.</seg>
@@ -662,8 +670,19 @@
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.PropertiesEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Properties</seg>
+      </tuv>
       <tuv xml:lang="es">
         <seg>Propiedades</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.AboutDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>About SayMore</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Acerca de SayMore</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._buttonOK">
@@ -671,7 +690,7 @@
         <seg>OK</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Vale</seg>
+        <seg>Aceptar</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._labelSubTitle">
@@ -684,7 +703,7 @@
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._labelVersionInfo">
       <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2}    Built on {3}</seg>
+        <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Versión {0}.{1}.{2} Construido en {3}</seg>
@@ -724,12 +743,143 @@
         <seg>SIL International</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.AboutDlg.WindowTitle">
+    <tu tuid="DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg">
       <tuv xml:lang="en">
-        <seg>About SayMore</seg>
+        <seg>Adding Files for Contributor '{0}'</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Acerca de SayMore</seg>
+        <seg>Agregando archivos al colaborador '{0}'</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Adding Files for Session '{0}'</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Agregando archivos a la sesión '{0}'</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.CancellingMsg">
+      <tuv xml:lang="en">
+        <seg>Canceling...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cancelando...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ContributorElementName">
+      <tuv xml:lang="en">
+        <seg>Contributor</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Colaborador</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error attempting to create an archive for the session '{0}'.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Hubo un error al intentar crear un archivo para la sesión '{0}'.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.CreatingInternalReapMetsFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error attempting to create a RAMP/REAP mets file for the session '{0}'.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Hubo un error al intentar crear un archivo de mets RAMP/REAP para la sesión '{0}'.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.CreatingZipFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was a problem starting process to create zip file.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Hubo un proceso inicial de problema para crear el archivo zip.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.SessionElementName">
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>Session</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sesión</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg">
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>There are no contributors for this session.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No hay colaboradores para esta sesión.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.OverviewText">
+      <note>The first occurance of the word 'RAMP' will be made a hyperlink to the RAMP website. If the word 'RAMP' is not found, the text will not contain that hyperlink.</note>
+      <tuv xml:lang="en">
+        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your SayMore sessions. It will gather up all the files and data related to a session and its contributors, then launch RAMP so that you can fill out more information and do the actual submission.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>RAMP es una utilidad para introducir metadatos y subir información al archivo interno del SIL, REAP. Si tiene acceso a este archivo, esta herramienta le ayudará a utilizar RAMP para archivar sus sesiones de SayMore. Reunirá todos los archivos y datos relacionados con ua sesión y sus colaboradores, a continuación, ejecute RAMP para que usted pueda completar la información y subir la sesión.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1">
+      <tuv xml:lang="en">
+        <seg>The following session and contributor files will be added to your archive.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Los siguientes archivos de sesión y colaborador se agregarán a la colección permanente de archivos.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2">
+      <tuv xml:lang="en">
+        <seg>The following session files will be added to your archive.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Los siguientes archivos de sesión se agregará a la colección permanente de archivos.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.RampNotFoundMsg">
+      <tuv xml:lang="en">
+        <seg>The RAMP program cannot be found!</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No se encuentra el pograma RAMP.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ReadyToCallRampMsg">
+      <tuv xml:lang="en">
+        <seg>Ready to hand the package to RAMP</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Listo para transferir el paquete a RAMP</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.SearchingForRampMsg">
+      <tuv xml:lang="en">
+        <seg>Searching for the RAMP program...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Buscando el programa RAMP...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.StartingRampErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error attempting to open the archive package in RAMP.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Hubo un error al intentar abrir el paquete de archivo en RAMP.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>SayMore: Archive with RAMP (SIL Only)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>SayMore: Archivar con RAMP (sólo SIL)</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg._buttonCancel">
@@ -756,139 +906,6 @@
         <seg>&amp;2) Iniciar RAMP</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg">
-      <tuv xml:lang="en">
-        <seg>Adding Files for Contributor '{0}'</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Adición de archivos de Contributor '{0}'</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.AddingEventFilesProgressMsg">
-      <tuv xml:lang="en">
-        <seg>Adding Files for Event '{0}'</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Adición de archivos para el evento '{0}'</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.CancellingMsg">
-      <tuv xml:lang="en">
-        <seg>Canceling...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Cancelando...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.ContributorElementName">
-      <tuv xml:lang="en">
-        <seg>Contributor</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Colaborador</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg">
-      <tuv xml:lang="en">
-        <seg>There was an error attempting to create an archive for the event '{0}'.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Hubo un error al intentar crear un archivo para el evento '{0}'.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.CreatingInternalReapMetsFileErrorMsg">
-      <tuv xml:lang="en">
-        <seg>There was an error attempting to create a RAMP/REAP mets file for the event '{0}'.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Hubo un error al intentar crear un archivo de mets rampa/REAP para el evento '{0}'.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.CreatingZipFileErrorMsg">
-      <tuv xml:lang="en">
-        <seg>There was a problem starting process to create zip file.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Hubo un proceso inicial de problema para crear el archivo zip.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.EventElementName">
-      <tuv xml:lang="en">
-        <seg>Event</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Evento</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.NoContributorsForEventMsg">
-      <tuv xml:lang="en">
-        <seg>There are no contributors for this event.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>No hay ningún colaboradores para este evento.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.OverviewText">
-      <tuv xml:lang="es">
-        <seg>RAMPA es una utilidad para introducir metadatos y subir las presentaciones al archivo interno del SIL, REAP. Si tiene acceso a este archivo, esta herramienta le ayudará a utilizar rampa para archivar sus eventos SayMore. Reunirá todos los archivos y datos relacionados con un evento y sus colaboradores, a continuación, ejecute rampa para que puedan llenar más información y hacer la presentación real.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1">
-      <tuv xml:lang="en">
-        <seg>The following event and contributor files will be added to your archive.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Los siguientes archivos de evento y colaborador se agregará a su archivo.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2">
-      <tuv xml:lang="en">
-        <seg>The following event files will be added to your archive.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Los siguientes archivos de evento se agregará a su archivo.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.RampNotFoundMsg">
-      <tuv xml:lang="en">
-        <seg>The RAMP pogram cannot be found!</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>No se encuentra la rampa pogram!</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.ReadyToCallRampMsg">
-      <tuv xml:lang="en">
-        <seg>Ready to hand the package to RAMP</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Dispuestos a entregar el paquete a la rampa</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.SearchingForRampMsg">
-      <tuv xml:lang="en">
-        <seg>Searching for the RAMP program...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Buscando el programa rampa...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.StartingRampErrorMsg">
-      <tuv xml:lang="en">
-        <seg>There was an error attempting to open the archive package in RAMP.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Hubo un error al intentar abrir el paquete de archivo en rampa.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.WindowTitle">
-      <tuv xml:lang="en">
-        <seg>SayMore: Archive with RAMP (SIL Only)</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>SayMore: Archivo con rampa (sólo SIL)</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.CustomFileRenamingDlg.CancelButton">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
@@ -911,20 +928,12 @@
         <seg>Nueva local: {0}</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.CustomFileRenamingDlg.OKButton">
+    <tu tuid="DialogBoxes.DeleteMessageBox.WindowTitle">
       <tuv xml:lang="en">
-        <seg>OK</seg>
+        <seg>Confirm Delete</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Vale</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.CustomFileRenamingDlg.WindowTitle">
-      <tuv xml:lang="en">
-        <seg>Rename</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Cambiar el nombre</seg>
+        <seg>Confirmar la eliminación</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.DeleteMessageBox._buttonCancel">
@@ -943,14 +952,6 @@
         <seg>Eliminar</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.DeleteMessageBox.WindowTitle">
-      <tuv xml:lang="en">
-        <seg>Confirm Delete</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Confirmar la eliminación</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.LoadingDlg._labelLoading">
       <tuv xml:lang="en">
         <seg>Loading...</seg>
@@ -959,20 +960,65 @@
         <seg>Cargando...</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFileProgressDlg._buttonOK">
+    <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg.WindowTitle">
       <tuv xml:lang="en">
-        <seg>&amp;OK</seg>
+        <seg>Making Sessions...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&amp;Vale</seg>
+        <seg>Haciendo sesiones...</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFileProgressDlg.WindowTitle">
+    <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg._buttonOK">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
       <tuv xml:lang="es">
-        <seg>Hacer eventos...</seg>
+        <seg>Aceptar</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._buttonCancel">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.SessionsAlreadyExistMsg">
+      <tuv xml:lang="en">
+        <seg>Sessions already exist for the following Ids. These will be skipped.\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ya existen sesiones para los siguientes identificadores. Estos se omitirán.\n\n{0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.FilesSelectedCreateButtonText">
+      <note>Format text in create button when one or more files are selected.</note>
+      <tuv xml:lang="en">
+        <seg>Create {0} Sessions</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Crear {0} sesiones</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.FolderBrowserDlgDescription">
+      <tuv xml:lang="en">
+        <seg>Choose a Folder of Media Files.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Elija una carpeta de archivos mediales.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.NoFilesSelectedCreateButtonText">
+      <note>Text in create button when no files are selected.</note>
+      <tuv xml:lang="en">
+        <seg>Create Sessions</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Crear sesiones</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>New Sessions From Device</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nuevas sesiones de dispositivo</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._buttonCancel">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
       </tuv>
@@ -980,16 +1026,16 @@
         <seg>Cancelar</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._buttonCreateEvents">
-      <note>Parameter is for the number of events that will be created.</note>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._buttonCreateSessions">
+      <note>Parameter is for the number of sessions that will be created.</note>
       <tuv xml:lang="en">
-        <seg>Create {0} Events</seg>
+        <seg>Create {0} Sessions</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Crear eventos {0}</seg>
+        <seg>Crear sesiones {0}</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._labelIncomingFiles">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelIncomingFiles">
       <tuv xml:lang="en">
         <seg>Incoming &amp;Files</seg>
       </tuv>
@@ -997,7 +1043,7 @@
         <seg>Archivos entrantes</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._labelProgress">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelProgress">
       <tuv xml:lang="en">
         <seg>Reading Files...</seg>
       </tuv>
@@ -1005,7 +1051,7 @@
         <seg>Leyendo archivos...</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._linkFindFiles">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._linkFindFiles">
       <tuv xml:lang="en">
         <seg>Find Files on Recorder/Card...</seg>
       </tuv>
@@ -1013,49 +1059,7 @@
         <seg>Buscar archivos en grabadora/tarjeta...</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg.EventsAlreadyExistMsg">
-      <tuv xml:lang="en">
-        <seg>Events already exist for the following Ids. These will be skipped.\n\n{0}</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Ya existen eventos para los siguientes identificadores. Estos se omitirá.\n\n{0}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg.FilesSelectedCreateButtonText">
-      <note>Format text in create button when one or more files are selected.</note>
-      <tuv xml:lang="en">
-        <seg>Create {0} Events</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Crear eventos {0}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg.FolderBrowserDlgDescription">
-      <tuv xml:lang="en">
-        <seg>Choose a Folder of Medial Files.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Elija una carpeta de archivos mediales.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg.NoFilesSelectedCreateButtonText">
-      <note>Text in create button when no files are selected.</note>
-      <tuv xml:lang="en">
-        <seg>Create Events</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Crear eventos</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg.WindowTitle">
-      <tuv xml:lang="en">
-        <seg>New Events From Device</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Nuevos eventos de dispositivo</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel1">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel1">
       <tuv xml:lang="en">
         <seg>1) The device is not yet plugged in.</seg>
       </tuv>
@@ -1063,53 +1067,20 @@
         <seg>1) El dispositivo no está conectado todavía.</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel2">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel2">
       <tuv xml:lang="en">
-        <seg>2) The device is plugged in, but is currently assigned a different drive letter from '{0}'.</seg>
+        <seg>2) The device is plugged in but is currently assigned a different drive letter from '{0}'.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>2) El dispositivo está conectado, pero actualmente está asignado a una unidad diferente letra f</seg>
+        <seg>2) El dispositivo está conectado pero actualmente está asignado a una unidad diferente letra f</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel3">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel3">
       <tuv xml:lang="en">
-        <seg>3) Some part of the above path has  changed (e.g. a folder name).</seg>
+        <seg>3) Some part of the above path has changed (e.g. a folder name).</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>3) Parte de la ruta anterior ha cambiado (por ejemplo, el nombre de una carpeta).</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewProjectDlg._buttonCancel">
-      <tuv xml:lang="en">
-        <seg>&amp;Cancel</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>&amp;Cancelar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewProjectDlg._buttonOK">
-      <tuv xml:lang="en">
-        <seg>&amp;OK</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>&amp;Vale</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewProjectDlg._labelMessage">
-      <tuv xml:lang="en">
-        <seg>What would you like to call this project?</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>¿Qué le gustaría llamar este proyecto?</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewProjectDlg._labelNewProjectPath">
-      <note>This text is displayed under the project name and includes where it will be created.</note>
-      <tuv xml:lang="en">
-        <seg>Project will be created in: {0}</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Proyecto se creará in: {0}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewProjectDlg.InvalidPathMsg">
@@ -1129,22 +1100,45 @@
         <seg>Nuevo proyecto SayMore</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>&amp;Cancel</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Cancelar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg._buttonOK">
+      <tuv xml:lang="en">
+        <seg>&amp;OK</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Aceptar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg._labelMessage">
+      <tuv xml:lang="en">
+        <seg>What would you like to call this project?</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>¿Qué le gustaría llamar este proyecto?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg._labelNewProjectPath">
+      <note>This text is displayed under the project name and includes where it will be created.</note>
+      <tuv xml:lang="en">
+        <seg>Project will be created in: {0}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Proyecto se creará in: {0}</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString">
       <tuv xml:lang="en">
         <seg>All Files (*.*)|*.*</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Todos los archivos (*. *) | *. *</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AnnoatationTypeLabel1">
-      <tuv xml:lang="es">
-        <seg>· Transcripción</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AnnoatationTypeLabel2">
-      <tuv xml:lang="es">
-        <seg>· Traducción</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.Caption">
@@ -1163,32 +1157,12 @@
         <seg>Archivo de etiquetas de audacia (*.txt) | * .txt</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityOverviewLabel">
-      <tuv xml:lang="es">
-        <seg>Anotación requiere que la transmisión primero ser segmentado en trozos pequeños. Actualmente, es necesario utilizar otro programa para especificar los límites del segmento. La forma más sencilla es usar Audacity. Abrir sus medios de archivo, seleccione "pistas: crear nueva: etiqueta pista". En cada punto donde desea un segmento, elija "pistas: agregar la etiqueta en la selección". Finalmente, elija "File:Export etiquetas...", a continuación, haga clic en este botón y seleccione el archivo que creó.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.CancelButton">
-      <tuv xml:lang="es">
-        <seg>Cancelar</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanFileTypeString">
       <tuv xml:lang="en">
         <seg>ELAN File (*.eaf)|*.eaf</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>ELAN archivo (*.eaf) | * .eaf</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadAudacityLabelFileButtonText">
-      <tuv xml:lang="es">
-        <seg>Archivo de pista de lectura Audacity etiqueta...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadELANFileButtonText">
-      <tuv xml:lang="es">
-        <seg>Copiar un archivo ELAN...</seg>
+        <seg>ELAN archivo (*.eaf)|*.eaf</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadSegmentFileDlgCaption">
@@ -1197,11 +1171,6 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Seleccione archivo de segmento</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.WindowTitle">
-      <tuv xml:lang="es">
-        <seg>Crear archivos de anotación</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CancelButton">
@@ -1247,7 +1216,7 @@
     </tu>
     <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.FileTypeString">
       <tuv xml:lang="en">
-        <seg>FLEx Interlinear XML (*.xml)|*.xml|All Files (*.*)|*.*</seg>
+        <seg>FLEx Interlinear (*.flextext)|*.flextext|All Files (*.*)|*.*</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>FLEx Interlinear XML (*.xml) | *. xml|Todos los archivos (*. *) | *. *</seg>
@@ -1293,81 +1262,6 @@
         <seg>Anotaciones de exportación para trabajos de campo interlineares</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.CloseButtonText">
-      <tuv xml:lang="es">
-        <seg>Cerrar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.EraseAnnotationButton">
-      <tuv xml:lang="es">
-        <seg>Borrar anotaciones</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.ErasingAnnotationSegmentErrorMsg">
-      <tuv xml:lang="es">
-        <seg>No se pudo quitar esa anotación. Si el problema persiste, intente reiniciar el equipo.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.PlayAnnotationButton.WhenPlaying">
-      <tuv xml:lang="es">
-        <seg>Audio Grabación Sonando...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.PlayAnnotationButton.WhenStopped">
-      <tuv xml:lang="es">
-        <seg>Anotación de verificación</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.PlayOriginalButton.WhenPlaying">
-      <tuv xml:lang="es">
-        <seg>Audio Grabación Sonando...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.PlayOriginalButton.WhenStopped">
-      <tuv xml:lang="es">
-        <seg>Escuchar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordButton.WhenRecording">
-      <tuv xml:lang="es">
-        <seg>Grabando...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordButton.WhenRecordingTooShort">
-      <tuv xml:lang="es">
-        <seg>Hurras. Debe mantener pulsada la barra espaciadora o el botón del ratón mientras hablaba.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordButton.WhenStopped">
-      <tuv xml:lang="es">
-        <seg>Presione la barra espaciadora y hablar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordingFormatLabel">
-      <tuv xml:lang="es">
-        <seg>Admitido: {0} bits, {1} Hz</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordingType.OralTranslationLabel">
-      <tuv xml:lang="es">
-        <seg>Anotación oral</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordingTypeLabel.CarefulSpeech">
-      <tuv xml:lang="es">
-        <seg>Discurso cuidadoso</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.SegmentNumberLabel">
-      <tuv xml:lang="es">
-        <seg>{0} y {1}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.WindowTitle">
-      <tuv xml:lang="es">
-        <seg>Registro</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.CancelButton">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
@@ -1405,7 +1299,7 @@
         <seg>OK</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Vale</seg>
+        <seg>Aceptar</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.WindowTitle">
@@ -1414,6 +1308,30 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Idomas de interfaz de usuario</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg.OpenFileDlgCaption">
+      <tuv xml:lang="en">
+        <seg>Open SayMore Project</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Proyecto abierto de SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg.ProjectFileType">
+      <tuv xml:lang="en">
+        <seg>SayMore Project</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Proyecto SayMore (*.sprj)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>SayMore</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>SayMore</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._buttonBrowse">
@@ -1474,7 +1392,7 @@
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._labelVersionInfo">
       <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2}    Built on {3}</seg>
+        <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Versión {0}.{1}.{2} Construido en {3}</seg>
@@ -1506,180 +1424,7 @@
         <seg>SIL International</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.WelcomeDlg.OpenFileDlgCaption">
-      <tuv xml:lang="en">
-        <seg>Open SayMore Project</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Proyecto abierto de SayMore</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.WelcomeDlg.ProjectFileType">
-      <tuv xml:lang="en">
-        <seg>SayMore Project (*.sprj)</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Proyecto SayMore (*.sprj)</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.WelcomeDlg.WindowTitle">
-      <tuv xml:lang="en">
-        <seg>SayMore</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>SayMore</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.ClickNewButtonHelpPrompt">
-      <tuv xml:lang="en">
-        <seg>Click 'New' to add a new event.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Haga clic en 'Nuevo' para agregar un nuevo evento.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.ColumnHeadings.Date">
-      <tuv xml:lang="en">
-        <seg>Date</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Fecha</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.ColumnHeadings.Genre">
-      <tuv xml:lang="en">
-        <seg>Genre</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Género</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.ColumnHeadings.Id">
-      <tuv xml:lang="en">
-        <seg>Id</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>ID</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.ColumnHeadings.Location">
-      <tuv xml:lang="en">
-        <seg>Location</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Lugar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.ColumnHeadings.Stages">
-      <tuv xml:lang="en">
-        <seg>Stages</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Etapas</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.ColumnHeadings.Status">
-      <tuv xml:lang="en">
-        <seg>Status</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Estado</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.ColumnHeadings.Title">
-      <tuv xml:lang="en">
-        <seg>Title</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Título</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.NewFilesFromDeviceButtonText">
-      <tuv xml:lang="en">
-        <seg>Ne&amp;w From Device...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Crear evento con archivos del dispositivo...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.RampArchiveMenuText">
-      <tuv xml:lang="en">
-        <seg>Archive with RAMP (SIL)...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Archivar con RAMP (SIL)...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.Stages.CarefulSpeech">
-      <tuv xml:lang="en">
-        <seg>Careful Speech</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Habla cuidadosa</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.Stages.CompleteToolTipText">
-      <tuv xml:lang="en">
-        <seg>Complete</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Completar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.Stages.IncompleteToolTipText">
-      <tuv xml:lang="en">
-        <seg>Incomplete</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Incompleto</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.Stages.InformedConsent">
-      <tuv xml:lang="en">
-        <seg>Informed Consent</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Consentimiento informado</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.Stages.OralTranslation">
-      <tuv xml:lang="en">
-        <seg>Oral Translation</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Traducción oral</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.Stages.OriginalRecording">
-      <tuv xml:lang="en">
-        <seg>Original Recording</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Grabación original</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.Stages.Transcription">
-      <tuv xml:lang="en">
-        <seg>Transcription</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Transcripción</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsList.Stages.WrittenTranslation">
-      <tuv xml:lang="en">
-        <seg>Written Translation</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Traducción escrita</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventsMainMenuText">
-      <tuv xml:lang="es">
-        <seg>E&amp;vento</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventStatus.Finished">
+    <tu tuid="SessionsView.SessionStatus.Finished">
       <tuv xml:lang="en">
         <seg>Finished</seg>
       </tuv>
@@ -1687,15 +1432,7 @@
         <seg>Completado</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventStatus.Incoming">
-      <tuv xml:lang="en">
-        <seg>Incoming</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Nuevamente añadido</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventStatus.InProgress">
+    <tu tuid="SessionsView.SessionStatus.InProgress">
       <tuv xml:lang="en">
         <seg>In Progress</seg>
       </tuv>
@@ -1703,7 +1440,15 @@
         <seg>En curso</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventStatus.Skipped">
+    <tu tuid="SessionsView.SessionStatus.Incoming">
+      <tuv xml:lang="en">
+        <seg>Incoming</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nuevamente añadido</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionStatus.Skipped">
       <tuv xml:lang="en">
         <seg>Skipped</seg>
       </tuv>
@@ -1711,7 +1456,7 @@
         <seg>Omitido</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventStatus.TooltipFormatText">
+    <tu tuid="SessionsView.SessionStatus.TooltipFormatText">
       <tuv xml:lang="en">
         <seg>Status: {0}</seg>
       </tuv>
@@ -1719,60 +1464,15 @@
         <seg>Estado: {0}</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.FileList.AddEventsButtonToolTip">
-      <tuv xml:lang="es">
-        <seg>Agregar archivos al evento</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.GeneratedOralAnnotationView.CarefulLabel">
+    <tu tuid="SessionsView.SessionsList.ClickNewButtonHelpPrompt">
       <tuv xml:lang="en">
-        <seg>Careful</seg>
+        <seg>Click 'New' to add a new session.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Cuidadoso</seg>
+        <seg>Haga clic en 'Nuevo' para agregar una nueva sesión.</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.GeneratedOralAnnotationView.OriginalLabel">
-      <tuv xml:lang="en">
-        <seg>Original</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Original</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.GeneratedOralAnnotationView.TranslationLabel">
-      <tuv xml:lang="en">
-        <seg>Translation</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Traducción</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.MetadataEditor._labelAbstract">
-      <tuv xml:lang="en">
-        <seg>Abstract</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Resumen</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.MetadataEditor._labelAccess">
-      <tuv xml:lang="en">
-        <seg>Access</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Acceso</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.MetadataEditor._labelCustomFields">
-      <tuv xml:lang="en">
-        <seg>Custom Fields</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Campos definidos por el usuario</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.MetadataEditor._labelDate">
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Date">
       <tuv xml:lang="en">
         <seg>Date</seg>
       </tuv>
@@ -1780,7 +1480,7 @@
         <seg>Fecha</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelGenre">
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Genre">
       <tuv xml:lang="en">
         <seg>Genre</seg>
       </tuv>
@@ -1788,7 +1488,7 @@
         <seg>Género</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelId">
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Id">
       <tuv xml:lang="en">
         <seg>Id</seg>
       </tuv>
@@ -1796,7 +1496,7 @@
         <seg>ID</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelLocation">
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Location">
       <tuv xml:lang="en">
         <seg>Location</seg>
       </tuv>
@@ -1804,31 +1504,15 @@
         <seg>Lugar</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelParticipants">
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Stages">
       <tuv xml:lang="en">
-        <seg>People</seg>
+        <seg>Stages</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Personas</seg>
+        <seg>Etapas</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelSetting">
-      <tuv xml:lang="en">
-        <seg>Setting</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Escena</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.MetadataEditor._labelSituation">
-      <tuv xml:lang="en">
-        <seg>Situation</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Situación</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.MetadataEditor._labelStatus">
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Status">
       <tuv xml:lang="en">
         <seg>Status</seg>
       </tuv>
@@ -1836,7 +1520,7 @@
         <seg>Estado</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelTitle">
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Title">
       <tuv xml:lang="en">
         <seg>Title</seg>
       </tuv>
@@ -1844,15 +1528,127 @@
         <seg>Título</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor.TabText">
+    <tu tuid="SessionsView.SessionsList.NewFilesFromDeviceButtonText">
       <tuv xml:lang="en">
-        <seg>Event</seg>
+        <seg>New From De&amp;vice...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Evento</seg>
+        <seg>Crear sesión con archivos del dispositivo...</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor.UnknownGenre">
+    <tu tuid="SessionsView.SessionsList.RampArchiveMenuText">
+      <tuv xml:lang="en">
+        <seg>Archive with RAMP (SIL)...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivar con RAMP (SIL)...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.CarefulSpeech">
+      <tuv xml:lang="en">
+        <seg>Careful Speech</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Habla cuidadosa</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.CompleteToolTipText">
+      <tuv xml:lang="en">
+        <seg>Complete</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Completar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.IncompleteToolTipText">
+      <tuv xml:lang="en">
+        <seg>Incomplete</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Incompleto</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.InformedConsent">
+      <tuv xml:lang="en">
+        <seg>Informed Consent</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Consentimiento informado</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.OralTranslation">
+      <tuv xml:lang="en">
+        <seg>Oral Translation</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Traducción oral</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.SourceRecording">
+      <tuv xml:lang="en">
+        <seg>Source Recording</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Grabación Original</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.Transcription">
+      <tuv xml:lang="en">
+        <seg>Transcription</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Transcripción</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.WrittenTranslation">
+      <tuv xml:lang="en">
+        <seg>Written Translation</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Traducción escrita</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.FileList.AddSessionsButtonToolTip">
+      <tuv xml:lang="en">
+        <seg>Add Files to the Session</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Agregar archivos a la sesión</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.GeneratedOralAnnotationView.CarefulLabel">
+      <tuv xml:lang="en">
+        <seg>Careful</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cuidadoso</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.GeneratedOralAnnotationView.SourceLabel">
+      <tuv xml:lang="en">
+        <seg>Source</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Original</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.GeneratedOralAnnotationView.TranslationLabel">
+      <tuv xml:lang="en">
+        <seg>Translation</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Traducción</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Session</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sesión</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.UnknownGenre">
       <note>Unknown genre displayed in the genre drop-down list.</note>
       <tuv xml:lang="en">
         <seg>&lt;Unknown&gt;</seg>
@@ -1861,31 +1657,127 @@
         <seg>&lt;Desconocido&gt;</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Miscellaneous.EventAlreadyExistsSaveFailureMessage">
+    <tu tuid="SessionsView.MetadataEditor._labelAbstract">
       <tuv xml:lang="en">
-        <seg>Could not rename from {0} to {1} because there is already a event by that name.</seg>
+        <seg>Abstract</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>No se pudo cambiar el nombre de {0} a {1} porque existe un evento con el mismo nombre.</seg>
+        <seg>Resumen</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Miscellaneous.NewEventNamePrefix">
+    <tu tuid="SessionsView.MetadataEditor._labelAccess">
       <tuv xml:lang="en">
-        <seg>New Event</seg>
+        <seg>Access</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Nuevo Evento</seg>
+        <seg>Acceso</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Miscellaneous.NoIdSaveFailureMessage">
+    <tu tuid="SessionsView.MetadataEditor._labelCustomFields">
       <tuv xml:lang="en">
-        <seg>You must specify an event id.</seg>
+        <seg>Custom Fields</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Debe especificar un ID para el evento.</seg>
+        <seg>Campos definidos por el usuario</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.AnnotationFileHelper.BadAnnotationFileMsg">
+    <tu tuid="SessionsView.MetadataEditor._labelDate">
+      <tuv xml:lang="en">
+        <seg>Date</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Fecha</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelGenre">
+      <tuv xml:lang="en">
+        <seg>Genre</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Género</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelId">
+      <tuv xml:lang="en">
+        <seg>Id</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>ID</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelLocation">
+      <tuv xml:lang="en">
+        <seg>Location</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Lugar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelParticipants">
+      <tuv xml:lang="en">
+        <seg>People</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Personas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelSetting">
+      <tuv xml:lang="en">
+        <seg>Setting</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Escena</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelSituation">
+      <tuv xml:lang="en">
+        <seg>Situation</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Situación</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelStatus">
+      <tuv xml:lang="en">
+        <seg>Status</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Estado</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelTitle">
+      <tuv xml:lang="en">
+        <seg>Title</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Título</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Miscellaneous.SessionAlreadyExistsSaveFailureMessage">
+      <tuv xml:lang="en">
+        <seg>Could not rename from {0} to {1} because there is already a session by that name.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No se pudo cambiar el nombre de {0} a {1} porque existe una sesión con el mismo nombre.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Miscellaneous.NewSessionNamePrefix">
+      <tuv xml:lang="en">
+        <seg>New Session</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nueva Sesión</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Miscellaneous.NoIdSaveFailureMessage">
+      <tuv xml:lang="en">
+        <seg>You must specify a session id.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Debe especificar un ID para la sesión.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.BadAnnotationFileMsg">
       <tuv xml:lang="en">
         <seg>File '{0}' is not a SayMore annotation file. It is possibly corrupt.</seg>
       </tuv>
@@ -1893,7 +1785,7 @@
         <seg>El archivo '{0}' no es un archivo de anotación de SayMore. Posiblemente es dañado.</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.AnnotationFileNotFoundMsg">
+    <tu tuid="SessionsView.Transcription.AnnotationFileNotFoundMsg">
       <tuv xml:lang="en">
         <seg>File not found: '{0}'</seg>
       </tuv>
@@ -1901,15 +1793,7 @@
         <seg>Archivo no encontrado: '{0}'</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.ErrorLabel">
-      <tuv xml:lang="en">
-        <seg>There was an error reading generated annotation file.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Ocurrió un error al leer el archivo de anotación generado.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg">
       <tuv xml:lang="en">
         <seg>Generating Oral Annotation file...</seg>
       </tuv>
@@ -1917,7 +1801,7 @@
         <seg>Generando archivo para anotacion oral...</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.HelpButton">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton">
       <tuv xml:lang="en">
         <seg>Help</seg>
       </tuv>
@@ -1925,7 +1809,7 @@
         <seg>Ayuda</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.HelpButton_ToolTip_">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton_ToolTip_">
       <tuv xml:lang="en">
         <seg>Help</seg>
       </tuv>
@@ -1933,7 +1817,7 @@
         <seg>Ayuda</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.PlayButton">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton">
       <tuv xml:lang="en">
         <seg>Play</seg>
       </tuv>
@@ -1941,15 +1825,15 @@
         <seg>Reproducir</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.PlayButton_ToolTip_">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton_ToolTip_">
       <tuv xml:lang="en">
-        <seg>Play</seg>
+        <seg>Playback Oral Annotation Audio File</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Reproducir</seg>
+        <seg>Reproducir archivo para anotacion oral</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.ProcessingAnnotationFileErrorMsg">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.ProcessingAnnotationFileErrorMsg">
       <note>The parameter is the annotation type (i.e. careful, translation).</note>
       <tuv xml:lang="en">
         <seg>There was an error processing a {0} annotation file.</seg>
@@ -1958,23 +1842,23 @@
         <seg>Ocurrió un error al procesar un archivo de anotación {0}.</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.ProcessingOriginalRecordingErrorMsg">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.ProcessingSourceRecordingErrorMsg">
       <tuv xml:lang="en">
-        <seg>There was an error processing the original recording.</seg>
+        <seg>There was an error processing the source recording.</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Ocurrió un error al procesar la grabación original.</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.RegenerateButton">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.RegenerateButton">
       <tuv xml:lang="en">
-        <seg>Regenerate File</seg>
+        <seg>Regenerate</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Regenerar Archivo</seg>
+        <seg>Regenerar</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.StopButton">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.StopButton">
       <tuv xml:lang="en">
         <seg>Stop</seg>
       </tuv>
@@ -1982,15 +1866,15 @@
         <seg>Parar</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.StopButton_ToolTip_">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.StopButton_ToolTip_">
       <tuv xml:lang="en">
-        <seg>Stop</seg>
+        <seg>Stop Playback</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Para</seg>
+        <seg>Para Reproducción</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.TabText">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.TabText">
       <tuv xml:lang="en">
         <seg>Generated Audio</seg>
       </tuv>
@@ -1998,7 +1882,7 @@
         <seg>Audio Generado</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">
       <tuv xml:lang="en">
         <seg>&amp;Careful Speech...</seg>
       </tuv>
@@ -2006,7 +1890,7 @@
         <seg>Habla &amp;Cuidadosa...</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.CopyColumnTextToClipboardMenuText">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CopyColumnTextToClipboardMenuText">
       <note>Parameter is column (i.e. tier) name</note>
       <tuv xml:lang="en">
         <seg>Copy {0} to clipboard</seg>
@@ -2015,23 +1899,7 @@
         <seg>{0} Copiar al portapapeles</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.ExportButton">
-      <tuv xml:lang="en">
-        <seg>Export...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Exportar...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.ExportButton_ToolTip_">
-      <tuv xml:lang="en">
-        <seg>Export to FieldWorks Interlinear</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Exportar al interlineal de FLEx...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.HelpButton">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.HelpButton">
       <tuv xml:lang="en">
         <seg>Help</seg>
       </tuv>
@@ -2039,7 +1907,7 @@
         <seg>Ayuda</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.HelpButton_ToolTip_">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.HelpButton_ToolTip_">
       <tuv xml:lang="en">
         <seg>Help</seg>
       </tuv>
@@ -2047,7 +1915,7 @@
         <seg>Ayuda</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg">
       <tuv xml:lang="en">
         <seg>There was an error loading the annotation file '{0}'.</seg>
       </tuv>
@@ -2055,7 +1923,7 @@
         <seg>Ocurrió un error al intentar de cargar el archivo de anotación '{0}'.</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg">
       <note>Parameter is file name.</note>
       <tuv xml:lang="en">
         <seg>There are no transcription annotations found in\n'{0}'</seg>
@@ -2064,7 +1932,7 @@
         <seg>No se encuentran anotaciones de transcripción en\n'{0}'</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.OralTranslationMenu">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.OralTranslationMenu">
       <tuv xml:lang="en">
         <seg>&amp;Oral Translation...</seg>
       </tuv>
@@ -2072,15 +1940,7 @@
         <seg>Traducción &amp;Oral...</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeedLabel">
-      <tuv xml:lang="en">
-        <seg>Playback &amp;Speed:</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Velocidad de reproducción:</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.RecordButton">
+    <tu tuid="DialogBoxes.SessionRecorderDlg.RecordButtonText">
       <tuv xml:lang="en">
         <seg>Record</seg>
       </tuv>
@@ -2088,7 +1948,7 @@
         <seg>Grabar</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.RecordButton_ToolTip_">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.RecordButton_ToolTip_">
       <tuv xml:lang="en">
         <seg>Record Oral Annotations</seg>
       </tuv>
@@ -2096,28 +1956,23 @@
         <seg>Grabar anotaciones orales</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarning.Message">
-      <tuv xml:lang="es">
-        <seg>Regeneración de segmentos hará que todas las anotaciones escritas y orales se pierdan.\n\n¿Está seguro de que desea continuar?</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.ResegmentButton">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ResegmentButton">
       <tuv xml:lang="en">
-        <seg>Resegment...</seg>
+        <seg>Segment...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Resegmentar...</seg>
+        <seg>Segmentar...</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.ResegmentButton_ToolTip_">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ResegmentButton_ToolTip_">
       <tuv xml:lang="en">
-        <seg>Regenerate Segments</seg>
+        <seg>Add, remove or move segment boundaries</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Regenerar los segmentos</seg>
+        <seg>Añadir, eliminar o mover divisiones de segmentos</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.TabText">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TabText">
       <tuv xml:lang="en">
         <seg>Annotations</seg>
       </tuv>
@@ -2125,114 +1980,32 @@
         <seg>Anotaciones</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TierNames.FreeTranslation">
+    <tu tuid="SessionsView.Transcription.TierDisplayNames.Transcription">
+      <tuv xml:lang="en">
+        <seg>Transcription</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Transcripción</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TierDisplayNames.FreeTranslation">
+      <tuv xml:lang="en">
+        <seg>Free Translation</seg>
+      </tuv>
       <tuv xml:lang="es">
         <seg>Traducción Libre</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TierNames.OriginalRecording">
-      <tuv xml:lang="es">
-        <seg>Original</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.ViewTabText">
+    <tu tuid="SessionsView.ViewTabText">
       <tuv xml:lang="en">
-        <seg>Events</seg>
+        <seg>Sessions</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Eventos</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MainWindow._mainMenuHelp">
-      <tuv xml:lang="en">
-        <seg>&amp;Help</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Ayuda</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MainWindow._menuAbout">
-      <tuv xml:lang="en">
-        <seg>&amp;About...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>&amp;Acerca de...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MainWindow._menuChangeUILanguage">
-      <tuv xml:lang="en">
-        <seg>Change User Interface Language...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Cambiar el idioma de la interfaz de usuario...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MainWindow._menuExit">
-      <tuv xml:lang="en">
-        <seg>E&amp;xit</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Salir</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MainWindow._menuExportEvents">
-      <tuv xml:lang="en">
-        <seg>Export Events...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Exportar Eventos...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MainWindow._menuExportPeople">
-      <tuv xml:lang="en">
-        <seg>Export People...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Exportar Información de Personas...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MainWindow._menuHelp">
-      <tuv xml:lang="en">
-        <seg>&amp;Help...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Ayuda...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MainWindow._menuOpenProject">
-      <tuv xml:lang="en">
-        <seg>&amp;Open Project...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Abrir Proyecto...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MainWindow._menuProject">
-      <tuv xml:lang="en">
-        <seg>&amp;Project</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>&amp;Proyecto</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MainWindow._menuReleaseNotes">
-      <tuv xml:lang="en">
-        <seg>Release Notes...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Ver Notas de la Versión...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MainWindow.DeleteElementMenuText">
-      <tuv xml:lang="en">
-        <seg>Delete</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Eliminar</seg>
+        <seg>Sesiones</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.DeleteMultipleItemsMsg">
-      <note>For deleting events and people items</note>
+      <note>For deleting sessions and people items</note>
       <tuv xml:lang="en">
         <seg>{0} items</seg>
       </tuv>
@@ -2241,7 +2014,7 @@
       </tuv>
     </tu>
     <tu tuid="MainWindow.DeleteOneItemMsg">
-      <note>For deleting events and people items</note>
+      <note>For deleting sessions and people items</note>
       <tuv xml:lang="en">
         <seg>{0}</seg>
       </tuv>
@@ -2265,20 +2038,20 @@
         <seg>Ocurrió un error en la exportación.</seg>
       </tuv>
     </tu>
-    <tu tuid="MainWindow.Export.ExportFileSaveFileDlg.Caption">
-      <tuv xml:lang="en">
-        <seg>Export Data</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Exportar Datos</seg>
-      </tuv>
-    </tu>
     <tu tuid="MainWindow.Export.ExportFileSaveFileDlg.CSVFileTypeText">
       <tuv xml:lang="en">
         <seg>CSV (Comma delimited) (*.csv)|*.csv</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>CSV (delimitado por comas) (*.csv) | * .csv</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.Export.ExportFileSaveFileDlg.Caption">
+      <tuv xml:lang="en">
+        <seg>Export Data</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Exportar Datos</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.LoadingProjectErrorMsg">
@@ -2315,34 +2088,90 @@
     </tu>
     <tu tuid="MainWindow.WindowTitleWithProject">
       <tuv xml:lang="en">
-        <seg>{0} - SayMore {1}.{2}.{3}</seg>
+        <seg>{0} - SayMore {1}.{2}.{3} (Beta)</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>{0} - SayMore {1}.{2}.{3}</seg>
       </tuv>
     </tu>
-    <tu tuid="Miscellaneous.AudioRecorder.CantBeginMonitoringMsg">
+    <tu tuid="MainWindow._mainMenuHelp">
       <tuv xml:lang="en">
-        <seg>Can't begin monitoring while we are in this state: {0}</seg>
+        <seg>&amp;Help</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>No se puede comenzar a monitorear mientras estamos en este state: {0}</seg>
+        <seg>Ayuda</seg>
       </tuv>
     </tu>
-    <tu tuid="Miscellaneous.AudioRecorder.CantBeginRecordingMsg">
+    <tu tuid="MainWindow._menuAbout">
       <tuv xml:lang="en">
-        <seg>Can't begin recording while we are in this state: {0}</seg>
+        <seg>&amp;About...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>No se puede empezar a grabar mientras estamos en este state: {0}</seg>
+        <seg>&amp;Acerca de...</seg>
       </tuv>
     </tu>
-    <tu tuid="Miscellaneous.AudioRecorder.MonitoringErrorMsg">
+    <tu tuid="MainWindow._menuChangeUILanguage">
       <tuv xml:lang="en">
-        <seg>There was a problem starting up volume monitoring.</seg>
+        <seg>Change User Interface Language...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Hubo un problema al iniciar el control de volumen.</seg>
+        <seg>Cambiar el idioma de la interfaz de usuario...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuExit">
+      <tuv xml:lang="en">
+        <seg>E&amp;xit</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Salir</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuExportSessions">
+      <tuv xml:lang="en">
+        <seg>Export Sessions...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Exportar Sesiones...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuExportPeople">
+      <tuv xml:lang="en">
+        <seg>Export People...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Exportar Información de Personas...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuHelp">
+      <tuv xml:lang="en">
+        <seg>&amp;Help...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ayuda...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuOpenProject">
+      <tuv xml:lang="en">
+        <seg>&amp;Open/Create Project...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Abrir Proyecto...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuProject">
+      <tuv xml:lang="en">
+        <seg>&amp;Project</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Proyecto</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuReleaseNotes">
+      <tuv xml:lang="en">
+        <seg>Release Notes...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ver Notas de la Versión...</seg>
       </tuv>
     </tu>
     <tu tuid="Miscellaneous.CopyFilesControl.CopyFailedMsg">
@@ -2351,6 +2180,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Copiar servidor: {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.CopyFilesControl.CopyWaitingMsg">
+      <tuv xml:lang="en">
+        <seg>Waiting to start...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>A la espera de comenzar...</seg>
       </tuv>
     </tu>
     <tu tuid="Miscellaneous.CopyFilesControl.CopyingFinishedMsg">
@@ -2369,14 +2206,6 @@
         <seg>Copiar {0} de {1} archivos, ({2} de {3} Megabytes)</seg>
       </tuv>
     </tu>
-    <tu tuid="Miscellaneous.CopyFilesControl.CopyWaitingMsg">
-      <tuv xml:lang="en">
-        <seg>Waiting to start...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>A la espera de comenzar...</seg>
-      </tuv>
-    </tu>
     <tu tuid="Miscellaneous.CopyFilesControl.FileExistsMsg">
       <tuv xml:lang="en">
         <seg>The file '{0}' already exists</seg>
@@ -2386,6 +2215,9 @@
       </tuv>
     </tu>
     <tu tuid="Miscellaneous.CopyFilesControl.NoFilesToCopyMsg">
+      <tuv xml:lang="en">
+        <seg>No Files To Copy</seg>
+      </tuv>
       <tuv xml:lang="es">
         <seg>Hay archivos que copia</seg>
       </tuv>
@@ -2407,6 +2239,9 @@
       </tuv>
     </tu>
     <tu tuid="PeopleView.FileList.AddPersonButtonToolTip">
+      <tuv xml:lang="en">
+        <seg>Add Files for the Person</seg>
+      </tuv>
       <tuv xml:lang="es">
         <seg>Añadir archivos para la persona</seg>
       </tuv>
@@ -2441,94 +2276,6 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Consentimiento informado está escrito</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView.MetadataEditor._labelBirthYear">
-      <tuv xml:lang="en">
-        <seg>&amp;Birth Year</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Año de Nacimiento</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView.MetadataEditor._labelCustomFields">
-      <tuv xml:lang="en">
-        <seg>&amp;Custom Fields</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>&amp;Campos Definidos por el Usario</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView.MetadataEditor._labelEducation">
-      <tuv xml:lang="en">
-        <seg>&amp;Education</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>&amp;Educación</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView.MetadataEditor._labelFullName">
-      <tuv xml:lang="en">
-        <seg>&amp;Full Name</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Nombre Completo</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView.MetadataEditor._labelgender">
-      <tuv xml:lang="en">
-        <seg>&amp;Gender</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>&amp;Género</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView.MetadataEditor._labelHowToContact">
-      <tuv xml:lang="en">
-        <seg>&amp;How to Contact</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Información de Contacto</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView.MetadataEditor._labelOtherLanguages">
-      <tuv xml:lang="en">
-        <seg>Other L&amp;anguages</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Otros Idiomas</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView.MetadataEditor._labelPrimaryLanguage">
-      <tuv xml:lang="en">
-        <seg>Primary &amp;Language</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Idioma principa&amp;l</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView.MetadataEditor._labelPrimaryLanguageLearnedIn">
-      <tuv xml:lang="en">
-        <seg>Learned &amp;In:</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Lugar de Aprend&amp;izaje:</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView.MetadataEditor._labelPrimaryOccupation">
-      <tuv xml:lang="en">
-        <seg>Primary &amp;Occupation</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>&amp;Ocupación principal</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView.MetadataEditor._personsPicture_ToolTip_">
-      <tuv xml:lang="en">
-        <seg>Click to Change Picture</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Haga clic para cambiar la imagen</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor.ChangePictureDlgCaption">
@@ -2619,6 +2366,94 @@
         <seg>Persona</seg>
       </tuv>
     </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelBirthYear">
+      <tuv xml:lang="en">
+        <seg>&amp;Birth Year</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Año de Nacimiento</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelCustomFields">
+      <tuv xml:lang="en">
+        <seg>&amp;Custom Fields</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Campos Definidos por el Usario</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelEducation">
+      <tuv xml:lang="en">
+        <seg>&amp;Education</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Educación</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelFullName">
+      <tuv xml:lang="en">
+        <seg>&amp;Full Name</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nombre Completo</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelHowToContact">
+      <tuv xml:lang="en">
+        <seg>&amp;How to Contact</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Información de Contacto</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelOtherLanguages">
+      <tuv xml:lang="en">
+        <seg>Other L&amp;anguages</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Otros Idiomas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelPrimaryLanguage">
+      <tuv xml:lang="en">
+        <seg>Primary &amp;Language</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Idioma principa&amp;l</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelPrimaryLanguageLearnedIn">
+      <tuv xml:lang="en">
+        <seg>Learned &amp;In:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Lugar de Aprend&amp;izaje:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelPrimaryOccupation">
+      <tuv xml:lang="en">
+        <seg>Primary &amp;Occupation</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Ocupación principal</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelgender">
+      <tuv xml:lang="en">
+        <seg>&amp;Gender</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Género</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._personsPicture_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Click to Change Picture</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Haga clic para cambiar la imagen</seg>
+      </tuv>
+    </tu>
     <tu tuid="PeopleView.Miscellaneous.AlreadyExistsSaveFailureMessage">
       <tuv xml:lang="en">
         <seg>Could not rename from {0} to {1} because there is already a person by that name.</seg>
@@ -2675,30 +2510,6 @@
         <seg>Personas</seg>
       </tuv>
     </tu>
-    <tu tuid="ProgressView._buttonRefresh">
-      <tuv xml:lang="en">
-        <seg>Refresh</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Actualizar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProgressView._buttonRefresh_ToolTip_">
-      <tuv xml:lang="en">
-        <seg>Refresh View</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Actualizar la vista</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProgressView._labelWorking">
-      <tuv xml:lang="en">
-        <seg>Working...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Trabajando...</seg>
-      </tuv>
-    </tu>
     <tu tuid="ProgressView.ByGenreHeadingText">
       <tuv xml:lang="en">
         <seg>By Genre</seg>
@@ -2716,16 +2527,19 @@
       </tuv>
     </tu>
     <tu tuid="ProgressView.CopyMenuItemText">
+      <tuv xml:lang="en">
+        <seg>&amp;Copy</seg>
+      </tuv>
       <tuv xml:lang="es">
         <seg>&amp;Copiar</seg>
       </tuv>
     </tu>
-    <tu tuid="ProgressView.EventsLabel">
+    <tu tuid="ProgressView.SessionsLabel">
       <tuv xml:lang="en">
-        <seg>Events:</seg>
+        <seg>Sessions:</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Eventos:</seg>
+        <seg>Sesiones:</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.HeadingText">
@@ -2754,42 +2568,51 @@
       </tuv>
     </tu>
     <tu tuid="ProgressView.PrintMenuItemText">
+      <tuv xml:lang="en">
+        <seg>&amp;Print...</seg>
+      </tuv>
       <tuv xml:lang="es">
         <seg>Im&amp;primir...</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.ProgressMainMenuItemText">
+      <tuv xml:lang="en">
+        <seg>Pr&amp;ogress</seg>
+      </tuv>
       <tuv xml:lang="es">
         <seg>Pr&amp;ogreso</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.SaveMenuItemText">
+      <tuv xml:lang="en">
+        <seg>&amp;Save...</seg>
+      </tuv>
       <tuv xml:lang="es">
         <seg>Guardar...</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.SummaryTotalsTextForOneBar">
       <tuv xml:lang="en">
-        <seg>{0} events totaling {1} minutes</seg>
+        <seg>{0} sessions totaling {1} minutes</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0} eventos que duran un total de {1} minutos</seg>
+        <seg>{0} sesiones que duran un total de {1} minutos</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.SummaryTotalsTextForSegment1">
       <tuv xml:lang="en">
-        <seg>{0}{1} events totaling {2} minutes</seg>
+        <seg>{0}{1} sessions totaling {2} minutes</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0}{1} eventos que duran un total de {2} minutos</seg>
+        <seg>{0}{1} sesiones que duran un total de {2} minutos</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.SummaryTotalsTextForSegment2">
       <tuv xml:lang="en">
-        <seg>{0}: {1} events totaling {2} minutes</seg>
+        <seg>{0}: {1} sessions totaling {2} minutes</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0}: {1} eventos que duran un total de {2} minutos</seg>
+        <seg>{0}: {1} sesiones que duran un total de {2} minutos</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.TabText">
@@ -2798,6 +2621,30 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Progreso</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView._buttonRefresh">
+      <tuv xml:lang="en">
+        <seg>Refresh</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Actualizar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView._buttonRefresh_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Refresh View</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Actualizar la vista</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView._labelWorking">
+      <tuv xml:lang="en">
+        <seg>Working...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Trabajando...</seg>
       </tuv>
     </tu>
     <tu tuid="SoundFileUtils.ErrorFindingPcmAudioDriverMsg">
@@ -2816,12 +2663,28 @@
         <seg>Hubo un error al intentar encontrar capacidades de conversión audio PCM en este equipo. Asegúrese de que tiene un controlador de sonido PCM instalado.</seg>
       </tuv>
     </tu>
+    <tu tuid="SoundFileUtils.FileMayNotBeValidAudioError">
+      <tuv xml:lang="en">
+        <seg>No audio track could be found in the specified file. Verify that the file is a valid audio file.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No se puede encontrar ninguna pista de audio en el archivo especificado. Compruebe que el archivo es un archivo válido de audio.</seg>
+      </tuv>
+    </tu>
     <tu tuid="SoundFileUtils.MediaFileDoesNotExistErrorMsg">
       <tuv xml:lang="en">
         <seg>Media file does not exist.</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>No existe el archivo multimedia.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor._comboPlaybackSpeed_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Playback speed</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Velocidad de reproducción</seg>
       </tuv>
     </tu>
   </body>

@@ -83,7 +83,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public override string DefaultElementNamePrefix
 		{
-			get { return LocalizationManager.GetString("SessionsView.Miscellaneous.NewEventNamePrefix", "New Session"); }
+			get { return LocalizationManager.GetString("SessionsView.Miscellaneous.NewSessionNamePrefix", "New Session"); }
 		}
 
 		/// ------------------------------------------------------------------------------------

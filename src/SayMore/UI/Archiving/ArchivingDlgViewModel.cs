@@ -92,7 +92,7 @@ namespace SayMore.UI.Utilities
 			if (_rampProgramPath == null)
 			{
 				text = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.RampNotFoundMsg",
-					"The RAMP pogram cannot be found!");
+					"The RAMP program cannot be found!");
 
 				LogBox.WriteMessageWithColor("Red", text + Environment.NewLine);
 			}

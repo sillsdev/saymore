@@ -196,7 +196,7 @@ namespace SayMore.UI.ComponentEditors
 			{
 				return LocalizationManager.GetString(
 					"SessionsView.StatusAndStagesEditor.StatusToolTips.Skipped",
-					"I've decided to not develop\nthis event at this time.");
+					"I've decided to not develop\nthis session at this time.");
 			}
 
 			return null;

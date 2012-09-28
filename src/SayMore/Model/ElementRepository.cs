@@ -74,7 +74,7 @@ namespace SayMore.Model
 			var folders = new HashSet<string>(Directory.GetDirectories(_rootFolder));
 
 			// Go through the existing sessions we have and remove
-			// any that no longer have an sessions folder.
+			// any that no longer have a sessions folder.
 			for (int i = _items.Count() - 1; i >= 0; i--)
 			{
 				if (!folders.Contains(_items[i].FolderPath))

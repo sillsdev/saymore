@@ -7,7 +7,7 @@
   </header>
   <body>
     <tu tuid="CommonToMultipleViews.ChangeIdFailureMsg">
-      <note>Message displayed when attempt failed to change an event id or a person's name (i.e. id)</note>
+      <note>Message displayed when attempt failed to change a session id or a person's name (i.e. id)</note>
       <tuv xml:lang="en">
         <seg>Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.</seg>
       </tuv>
@@ -47,17 +47,24 @@
         <seg>Выбор столбцов</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.ElementList.DeleteButtonText">
-      <note>Button for deleting events and people</note>
+    <tu tuid="CommonToMultipleViews.ElementList.NewButtonText">
+      <note>Button for adding new sessions and people</note>
       <tuv xml:lang="en">
-        <seg>&amp;Delete</seg>
+        <seg>&amp;New</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Удалить</seg>
+        <seg>Создать</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.ElementList.NewButtonText">
-      <note>Button for adding new events and people</note>
+    <tu tuid="SessionsView.SessionsMainMenu.NewMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;New</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.PeopleMainMenu.NewMenuText">
       <tuv xml:lang="en">
         <seg>&amp;New</seg>
       </tuv>
@@ -66,7 +73,7 @@
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ElementList.OneColumnMustBeVisibleMsg">
-      <note>Displayed when user unchecks all columns for display in events or people list</note>
+      <note>Displayed when user clears all columns for display in sessions or people list</note>
       <tuv xml:lang="en">
         <seg>One column must be visible.</seg>
       </tuv>
@@ -204,23 +211,32 @@
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFilesPrompt">
       <tuv xml:lang="en">
-        <seg>Add additional files related to this event by\ndragging them here or clicking the 'Add Files' button.</seg>
+        <seg>Add additional files related to this session by\ndragging them here or clicking the 'Add Files' button.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Добавьте дополнительные файлы, относящиеся к \nэтому событию перетаскивая их здесь или нажав кнопку «Добавление файлов».</seg>
+        <seg>Добавьте дополнительные файлы, относящиеся к\nэтому событию перетаскивая их здесь или нажав кнопку «Добавление файлов».</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CannotRenameFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>{0} could not rename the file to '{1}' because there is already a file with that name.</seg>
+      </tuv>
       <tuv xml:lang="ru">
         <seg>{0} не смог переименовать файл «{1}» потому, что файл с таким именем уже существует.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.</seg>
+      </tuv>
       <tuv xml:lang="ru">
         <seg>К сожалению SayMore не может переименовать файл, потому что другая программа (или другая часть SayMore) читает его. Пожалуйста, попробуйте еще раз позже.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>{0} could not rename the meta data file to '{1}' because there is already a file with that name.</seg>
+      </tuv>
       <tuv xml:lang="ru">
         <seg>{0} не может переименовать метаданных файла «{1}», потому что файл с таким именем уже существует.</seg>
       </tuv>
@@ -319,11 +335,6 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Извините, файл «{0}» уже существует.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CommonToMultipleViews.FileList.CreateAnnotationFileButtonText">
-      <tuv xml:lang="ru">
-        <seg>Создайте файл аннотации...</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CreateAnnotationFileButtonText_ToolTip_">
@@ -497,6 +508,9 @@
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ImageViewer.OpeningPictureFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Could not open that picture</seg>
+      </tuv>
       <tuv xml:lang="ru">
         <seg>Не удалось открыть это изображение</seg>
       </tuv>
@@ -764,16 +778,16 @@
         <seg>Добавление файлов от составителя «{0}»</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.AddingEventFilesProgressMsg">
+    <tu tuid="DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg">
       <tuv xml:lang="en">
-        <seg>Adding Files for Event '{0}'</seg>
+        <seg>Adding Files for Session '{0}'</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Добавление файлов для события «{0}»</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.ArchivingProgressMsg">
-      <note>The first parameter (in English, that is) is 'Event' or 'Contributor'. The second parameter is the even or contributor name.</note>
+      <note>The first parameter is 'Session' or 'Contributor'. The second parameter is the session or contributor name.</note>
       <tuv xml:lang="en">
         <seg>     {0}: {1}</seg>
       </tuv>
@@ -799,7 +813,7 @@
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg">
       <tuv xml:lang="en">
-        <seg>There was an error attempting to create an archive for the event '{0}'.</seg>
+        <seg>There was an error attempting to create an archive for the session '{0}'.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Произошла ошибка при попытке создания архива для события «{0}».</seg>
@@ -807,7 +821,7 @@
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.CreatingInternalReapMetsFileErrorMsg">
       <tuv xml:lang="en">
-        <seg>There was an error attempting to create a RAMP/REAP mets file for the event '{0}'.</seg>
+        <seg>There was an error attempting to create a RAMP/REAP mets file for the session '{0}'.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Произошла ошибка при попытке создания файла метаданных RAMP/REAP для события «{0}».</seg>
@@ -821,30 +835,33 @@
         <seg>Существует проблема c созданием zip-файла.</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.EventElementName">
+    <tu tuid="DialogBoxes.ArchivingDlg.SessionElementName">
       <tuv xml:lang="en">
-        <seg>Event</seg>
+        <seg>Session</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Событие</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.NoContributorsForEventMsg">
+    <tu tuid="DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg">
       <tuv xml:lang="en">
-        <seg>There are no contributors for this event.</seg>
+        <seg>There are no contributors for this session.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Не существуют составители этого события.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.OverviewText">
+      <tuv xml:lang="en">
+        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your SayMore sessions. It will gather up all the files and data related to a session and its contributors, then launch RAMP so that you can fill out more information and do the actual submission. The first occurance of the word 'RAMP' will be made a hyperlink to the RAMP website. If the word 'RAMP' is not found, the text will not contain that hyperlink.</seg>
+      </tuv>
       <tuv xml:lang="ru">
         <seg>RAMP - утилита для ввода метаданных и их загрузки в внутренний архив SIL, REAP. Если у вас есть доступ к этому архиву, этот инструмент поможет вам использовать RAMP для архивирования вашего проекта SayMore. Эта утилита будет собирать все файлы и данные, связанные с событием и его составителями, затем запустит RAMP чтобы вы могли добавить более подробную информацию и загрузить данные.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1">
       <tuv xml:lang="en">
-        <seg>The following event and contributor files will be added to your archive.</seg>
+        <seg>The following session and contributor files will be added to your archive.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Следующие события и файлы составителей будут добавлены в ваш архив.</seg>
@@ -852,7 +869,7 @@
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2">
       <tuv xml:lang="en">
-        <seg>The following event files will be added to your archive.</seg>
+        <seg>The following session files will be added to your archive.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Следующие файлы событий будут добавлены в ваш архив.</seg>
@@ -992,20 +1009,23 @@
         <seg>Не удалось найти FFmpeg</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFileProgressDlg._buttonOK">
+    <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg._buttonOK">
       <tuv xml:lang="en">
-        <seg>&amp;OK</seg>
+        <seg>OK</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>OK</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFileProgressDlg.WindowTitle">
+    <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Making Sessions...</seg>
+      </tuv>
       <tuv xml:lang="ru">
         <seg>Создаются события...</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._buttonCancel">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._buttonCancel">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
       </tuv>
@@ -1013,16 +1033,16 @@
         <seg>Отмена</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._buttonCreateEvents">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._buttonCreateSessions">
       <note>Parameter is for the number of events that will be created.</note>
       <tuv xml:lang="en">
-        <seg>Create {0} Events</seg>
+        <seg>Create {0} Sessions</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Создать событие {0}</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._labelIncomingFiles">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelIncomingFiles">
       <tuv xml:lang="en">
         <seg>Incoming &amp;Files</seg>
       </tuv>
@@ -1030,15 +1050,15 @@
         <seg>Входящие файлы</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._labelInstructions">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelInstructions">
       <tuv xml:lang="en">
-        <seg>Mark each file which represents an original recording of an event. For each one, SayMore will create a new event and copy the file into it.</seg>
+        <seg>Mark each file which represents a source recording of a session. For each one, SayMore will create a new session and copy the file into it.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Отметь каждый файл, который представляет оригинальную запись событии. Для каждого из них SayMore создаст новое событие, копируя туда ваш файл.</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._labelProgress">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelProgress">
       <tuv xml:lang="en">
         <seg>Reading Files...</seg>
       </tuv>
@@ -1046,7 +1066,7 @@
         <seg>Чтение файлов...</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._linkFindFiles">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._linkFindFiles">
       <tuv xml:lang="en">
         <seg>Find Files on Recorder/Card...</seg>
       </tuv>
@@ -1054,49 +1074,49 @@
         <seg>Поиск файлов на устройсве/карте...</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg.EventsAlreadyExistMsg">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.SessionsAlreadyExistMsg">
       <tuv xml:lang="en">
-        <seg>Events already exist for the following Ids. These will be skipped.\n\n{0}</seg>
+        <seg>Sessions already exist for the following Ids. These will be skipped.\n\n{0}</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Для следующего идентификатора события уже существуют. Они будут пропущены.\n\n{0}</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg.FilesSelectedCreateButtonText">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.FilesSelectedCreateButtonText">
       <note>Format text in create button when one or more files are selected.</note>
       <tuv xml:lang="en">
-        <seg>Create {0} Events</seg>
+        <seg>Create {0} Sessions</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Создать события {0}</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg.FolderBrowserDlgDescription">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.FolderBrowserDlgDescription">
       <tuv xml:lang="en">
-        <seg>Choose a Folder of Medial Files.</seg>
+        <seg>Choose a Folder of Media Files.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Выберите папку с мультимедийными файлами.</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg.NoFilesSelectedCreateButtonText">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.NoFilesSelectedCreateButtonText">
       <note>Text in create button when no files are selected.</note>
       <tuv xml:lang="en">
-        <seg>Create Events</seg>
+        <seg>Create Sessions</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Создать события</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlg.WindowTitle">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.WindowTitle">
       <tuv xml:lang="en">
-        <seg>New Events From Device</seg>
+        <seg>New Sessions From Device</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Создать новое событие с устройства</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.DriveLetterHintMsgLabel">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.DriveLetterHintMsgLabel">
       <tuv xml:lang="en">
         <seg>In Windows, if you assign the device to a letter closer to 'z', it is more likely to use that letter each time.</seg>
       </tuv>
@@ -1104,7 +1124,7 @@
         <seg>В Windows если назначить устройству букву ближе «z», более вероятно, что она будет использоваться каждый раз. </seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel1">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel1">
       <tuv xml:lang="en">
         <seg>1) The device is not yet plugged in.</seg>
       </tuv>
@@ -1112,23 +1132,23 @@
         <seg>1) Устройство еще не подключено.</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel2">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel2">
       <tuv xml:lang="en">
-        <seg>2) The device is plugged in, but is currently assigned a different drive letter from '{0}'.</seg>
+        <seg>2) The device is plugged in but is currently assigned a different drive letter from '{0}'.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>2) Устройство подключено, но в настоящее время получило другую букву диска f</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel3">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel3">
       <tuv xml:lang="en">
-        <seg>3) Some part of the above path has  changed (e.g. a folder name).</seg>
+        <seg>3) Some part of the above path has changed (e.g. a folder name).</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>3) Часть выше указаной пути была изменена (например название папки).</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.ProblemOverviewMsgLabel">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.ProblemOverviewMsgLabel">
       <tuv xml:lang="en">
         <seg>SayMore cannot reach the folder where your files were last time. One of the following may be true:</seg>
       </tuv>
@@ -1146,7 +1166,7 @@
     </tu>
     <tu tuid="DialogBoxes.NewProjectDlg._buttonOK">
       <tuv xml:lang="en">
-        <seg>&amp;OK</seg>
+        <seg>OK</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>OK</seg>
@@ -1210,16 +1230,6 @@
         <seg>Все файлы (*. *) | *. *</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AnnoatationTypeLabel1">
-      <tuv xml:lang="ru">
-        <seg>· Транскрипция</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AnnoatationTypeLabel2">
-      <tuv xml:lang="ru">
-        <seg>· Перевод</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.Caption">
       <tuv xml:lang="en">
         <seg>Select Audacity Label File</seg>
@@ -1233,17 +1243,7 @@
         <seg>Audacity Label File (*.txt)|*.txt</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Файл Audacity с заметками (*.txt) | * .txt</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityOverviewLabel">
-      <tuv xml:lang="ru">
-        <seg>Аннотация требует, чтобы сначала поделить поток данных на более мелкие куски. Вам нужно использовать другую программу, чтобы это сделать. Проще всего использовать Audacity. Откройте ваш звуковой файл в Audacity , выберите "Проект: Создать новую дорожку для заметок". В каждой точке, где вы хотите сделать раздел выберите "Проект: добавить заметку к выделению". Потом выберите "Файл: экспортировать заметки...», а затем нажмите эту кнопку и выберите файл, который вы создали.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.CancelButton">
-      <tuv xml:lang="ru">
-        <seg>Отмена</seg>
+        <seg>Файл Audacity с заметками (*.txt)|*.txt</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanFileTypeString">
@@ -1251,22 +1251,12 @@
         <seg>ELAN File (*.eaf)|*.eaf</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>ELAN файл (*.eaf) | * .eaf</seg>
+        <seg>ELAN файл (*.eaf)|*.eaf</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanOverviewLabel">
       <tuv xml:lang="ru">
         <seg>Кроме того, можно добавить файл «.eaf» ELAN, который уже содержит разделы и аннотации к этому мультимедийному файлу. </seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadAudacityLabelFileButtonText">
-      <tuv xml:lang="ru">
-        <seg>Чтение файла Audacity с заметками...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadELANFileButtonText">
-      <tuv xml:lang="ru">
-        <seg>Скопируйте файл, ELAN...</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadSegmentFileDlgCaption">
@@ -1275,16 +1265,6 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Выберите файл с разделами</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.OverviewLabel">
-      <tuv xml:lang="ru">
-        <seg>Это создаст файл для хранения аннотации мультимедийного файла «{0}». SayMore в данный момент поддерживает аннотации следующих видов:</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.WindowTitle">
-      <tuv xml:lang="ru">
-        <seg>Создайте файл аннотации</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CancelButton">
@@ -1374,81 +1354,6 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Экспорт аннотации в FieldWorks Interlinear</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.CloseButtonText">
-      <tuv xml:lang="ru">
-        <seg>Закрыть</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.EraseAnnotationButton">
-      <tuv xml:lang="ru">
-        <seg>Стереть аннотацию.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.ErasingAnnotationSegmentErrorMsg">
-      <tuv xml:lang="ru">
-        <seg>Не удалось удалить эту аннотацию. Если неполадка продолжается, попробуйте перезагрузить ваш компьютер.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.PlayAnnotationButton.WhenPlaying">
-      <tuv xml:lang="ru">
-        <seg>Воспроизводит...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.PlayAnnotationButton.WhenStopped">
-      <tuv xml:lang="ru">
-        <seg>Проверьте аннотацию</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.PlayOriginalButton.WhenPlaying">
-      <tuv xml:lang="ru">
-        <seg>Воспроизводит...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.PlayOriginalButton.WhenStopped">
-      <tuv xml:lang="ru">
-        <seg>Слушать</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordButton.WhenRecording">
-      <tuv xml:lang="ru">
-        <seg>Запись...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordButton.WhenRecordingTooShort">
-      <tuv xml:lang="ru">
-        <seg>Вам нужно удерживайть пробел или кнопку мыши во время записи.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordButton.WhenStopped">
-      <tuv xml:lang="ru">
-        <seg>Удерживайте пробел и говорите</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordingFormatLabel">
-      <tuv xml:lang="ru">
-        <seg>Формат: {0} {1} битов, Гц</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordingType.OralTranslationLabel">
-      <tuv xml:lang="ru">
-        <seg>Устная аннотация</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordingTypeLabel.CarefulSpeech">
-      <tuv xml:lang="ru">
-        <seg>Аккуратная речь</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.SegmentNumberLabel">
-      <tuv xml:lang="ru">
-        <seg>{0} / {1}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.WindowTitle">
-      <tuv xml:lang="ru">
-        <seg>Запись</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.CancelButton">
@@ -1613,15 +1518,15 @@
         <seg>SayMore</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.ClickNewButtonHelpPrompt">
+    <tu tuid="SessionsView.SessionsList.ClickNewButtonHelpPrompt">
       <tuv xml:lang="en">
-        <seg>Click 'New' to add a new event.</seg>
+        <seg>Click 'New' to add a new session.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Нажмите кнопку «Создать», чтобы добавить новое событие.</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.ColumnHeadings.Date">
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Date">
       <tuv xml:lang="en">
         <seg>Date</seg>
       </tuv>
@@ -1629,7 +1534,7 @@
         <seg>Число</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.ColumnHeadings.Genre">
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Genre">
       <tuv xml:lang="en">
         <seg>Genre</seg>
       </tuv>
@@ -1637,7 +1542,7 @@
         <seg>Жанр</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.ColumnHeadings.Id">
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Id">
       <tuv xml:lang="en">
         <seg>Id</seg>
       </tuv>
@@ -1645,7 +1550,7 @@
         <seg>ID</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.ColumnHeadings.Location">
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Location">
       <tuv xml:lang="en">
         <seg>Location</seg>
       </tuv>
@@ -1653,7 +1558,7 @@
         <seg>Местонахождение</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.ColumnHeadings.Stages">
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Stages">
       <tuv xml:lang="en">
         <seg>Stages</seg>
       </tuv>
@@ -1661,7 +1566,7 @@
         <seg>Этапы</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.ColumnHeadings.Status">
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Status">
       <tuv xml:lang="en">
         <seg>Status</seg>
       </tuv>
@@ -1669,7 +1574,7 @@
         <seg>Статус</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.ColumnHeadings.Title">
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Title">
       <tuv xml:lang="en">
         <seg>Title</seg>
       </tuv>
@@ -1677,15 +1582,23 @@
         <seg>Название</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.NewFilesFromDeviceButtonText">
+    <tu tuid="SessionsView.SessionsList.NewFilesFromDeviceButtonText">
       <tuv xml:lang="en">
-        <seg>Ne&amp;w From Device...</seg>
+        <seg>New From De&amp;vice...</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Создать с устройства...</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.RampArchiveMenuText">
+    <tu tuid="SessionsView.SessionsMainMenu.NewFromDeviceMenuText">
+      <tuv xml:lang="en">
+        <seg>New From De&amp;vice...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создать с устройства...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.RampArchiveMenuText">
       <tuv xml:lang="en">
         <seg>Archive with RAMP (SIL)...</seg>
       </tuv>
@@ -1693,7 +1606,7 @@
         <seg>Архивировать с помощью RAMP (SIL)...</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.Stages.CarefulSpeech">
+    <tu tuid="SessionsView.SessionsList.Stages.CarefulSpeech">
       <tuv xml:lang="en">
         <seg>Careful Speech</seg>
       </tuv>
@@ -1701,7 +1614,7 @@
         <seg>Аккуратная речь</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.Stages.CompleteToolTipText">
+    <tu tuid="SessionsView.SessionsList.Stages.CompleteToolTipText">
       <tuv xml:lang="en">
         <seg>Complete</seg>
       </tuv>
@@ -1709,7 +1622,7 @@
         <seg>Завершенный</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.Stages.IncompleteToolTipText">
+    <tu tuid="SessionsView.SessionsList.Stages.IncompleteToolTipText">
       <tuv xml:lang="en">
         <seg>Incomplete</seg>
       </tuv>
@@ -1717,7 +1630,7 @@
         <seg>Незавершенный</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.Stages.InformedConsent">
+    <tu tuid="SessionsView.SessionsList.Stages.InformedConsent">
       <tuv xml:lang="en">
         <seg>Informed Consent</seg>
       </tuv>
@@ -1725,7 +1638,7 @@
         <seg>Писменное согласие</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.Stages.OralTranslation">
+    <tu tuid="SessionsView.SessionsList.Stages.OralTranslation">
       <tuv xml:lang="en">
         <seg>Oral Translation</seg>
       </tuv>
@@ -1733,7 +1646,7 @@
         <seg>Устный перевод</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.Stages.OriginalRecording">
+    <tu tuid="SessionsView.SessionsList.Stages.OriginalRecording">
       <tuv xml:lang="en">
         <seg>Original Recording</seg>
       </tuv>
@@ -1741,7 +1654,7 @@
         <seg>Оригинальная запись</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.Stages.Transcription">
+    <tu tuid="SessionsView.SessionsList.Stages.Transcription">
       <tuv xml:lang="en">
         <seg>Transcription</seg>
       </tuv>
@@ -1749,7 +1662,7 @@
         <seg>Транскрипция</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsList.Stages.WrittenTranslation">
+    <tu tuid="SessionsView.SessionsList.Stages.WrittenTranslation">
       <tuv xml:lang="en">
         <seg>Written Translation</seg>
       </tuv>
@@ -1757,12 +1670,7 @@
         <seg>Письменный перевод</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventsMainMenuText">
-      <tuv xml:lang="ru">
-        <seg>События</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.EventStatus.Finished">
+    <tu tuid="SessionsView.SessionStatus.Finished">
       <tuv xml:lang="en">
         <seg>Finished</seg>
       </tuv>
@@ -1770,7 +1678,7 @@
         <seg>Закончил</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventStatus.Incoming">
+    <tu tuid="SessionsView.SessionStatus.Incoming">
       <tuv xml:lang="en">
         <seg>Incoming</seg>
       </tuv>
@@ -1778,7 +1686,7 @@
         <seg>Входящие</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventStatus.InProgress">
+    <tu tuid="SessionsView.SessionStatus.InProgress">
       <tuv xml:lang="en">
         <seg>In Progress</seg>
       </tuv>
@@ -1786,7 +1694,7 @@
         <seg>Обрабатывается</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventStatus.Skipped">
+    <tu tuid="SessionsView.SessionStatus.Skipped">
       <tuv xml:lang="en">
         <seg>Skipped</seg>
       </tuv>
@@ -1794,7 +1702,7 @@
         <seg>Пропущен</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.EventStatus.TooltipFormatText">
+    <tu tuid="SessionsView.SessionStatus.TooltipFormatText">
       <tuv xml:lang="en">
         <seg>Status: {0}</seg>
       </tuv>
@@ -1802,7 +1710,10 @@
         <seg>Состояние: {0}</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.FileList.AddEventsButtonToolTip">
+    <tu tuid="SessionsView.FileList.AddSessionsButtonToolTip">
+      <tuv xml:lang="en">
+        <seg>Add Files to the Session</seg>
+      </tuv>
       <tuv xml:lang="ru">
         <seg>Добавление файлов к событию</seg>
       </tuv>
@@ -1831,7 +1742,7 @@
         <seg>Перевод</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelAbstract">
+    <tu tuid="SessionsView.MetadataEditor._labelAbstract">
       <tuv xml:lang="en">
         <seg>Abstract</seg>
       </tuv>
@@ -1839,7 +1750,7 @@
         <seg>Краткий обзор</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelAccess">
+    <tu tuid="SessionsView.MetadataEditor._labelAccess">
       <tuv xml:lang="en">
         <seg>Access</seg>
       </tuv>
@@ -1847,7 +1758,7 @@
         <seg>Доступ</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelCustomFields">
+    <tu tuid="SessionsView.MetadataEditor._labelCustomFields">
       <tuv xml:lang="en">
         <seg>Custom Fields</seg>
       </tuv>
@@ -1855,7 +1766,7 @@
         <seg>Настраиваемые поля</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelDate">
+    <tu tuid="SessionsView.MetadataEditor._labelDate">
       <tuv xml:lang="en">
         <seg>Date</seg>
       </tuv>
@@ -1863,7 +1774,7 @@
         <seg>Число</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelGenre">
+    <tu tuid="SessionsView.MetadataEditor._labelGenre">
       <tuv xml:lang="en">
         <seg>Genre</seg>
       </tuv>
@@ -1871,7 +1782,7 @@
         <seg>Жанр</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelId">
+    <tu tuid="SessionsView.MetadataEditor._labelId">
       <tuv xml:lang="en">
         <seg>Id</seg>
       </tuv>
@@ -1879,7 +1790,7 @@
         <seg>ID</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelLocation">
+    <tu tuid="SessionsView.MetadataEditor._labelLocation">
       <tuv xml:lang="en">
         <seg>Location</seg>
       </tuv>
@@ -1887,7 +1798,7 @@
         <seg>Местонахoждение</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelParticipants">
+    <tu tuid="SessionsView.MetadataEditor._labelParticipants">
       <tuv xml:lang="en">
         <seg>People</seg>
       </tuv>
@@ -1895,7 +1806,7 @@
         <seg>Участники</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelSetting">
+    <tu tuid="SessionsView.MetadataEditor._labelSetting">
       <tuv xml:lang="en">
         <seg>Setting</seg>
       </tuv>
@@ -1903,7 +1814,7 @@
         <seg>Обстановка</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelSituation">
+    <tu tuid="SessionsView.MetadataEditor._labelSituation">
       <tuv xml:lang="en">
         <seg>Situation</seg>
       </tuv>
@@ -1911,7 +1822,7 @@
         <seg>Ситуация</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelStatus">
+    <tu tuid="SessionsView.MetadataEditor._labelStatus">
       <tuv xml:lang="en">
         <seg>Status</seg>
       </tuv>
@@ -1919,7 +1830,7 @@
         <seg>Состаяние</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor._labelTitle">
+    <tu tuid="SessionsView.MetadataEditor._labelTitle">
       <tuv xml:lang="en">
         <seg>Title</seg>
       </tuv>
@@ -1927,15 +1838,15 @@
         <seg>Название</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor.TabText">
+    <tu tuid="SessionsView.MetadataEditor.TabText">
       <tuv xml:lang="en">
-        <seg>Event</seg>
+        <seg>Session</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Событие</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.MetadataEditor.UnknownGenre">
+    <tu tuid="SessionsView.MetadataEditor.UnknownGenre">
       <note>Unknown genre displayed in the genre drop-down list.</note>
       <tuv xml:lang="en">
         <seg>&lt;Unknown&gt;</seg>
@@ -1944,31 +1855,31 @@
         <seg>&lt;Неизвестный&gt;</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Miscellaneous.EventAlreadyExistsSaveFailureMessage">
+    <tu tuid="SessionsView.Miscellaneous.SessionAlreadyExistsSaveFailureMessage">
       <tuv xml:lang="en">
-        <seg>Could not rename from {0} to {1} because there is already a event by that name.</seg>
+        <seg>Could not rename from {0} to {1} because there is already a session by that name.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Не возможна переименовать из {0} в {1}, поскольку событие с указанным именем уже существует.</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Miscellaneous.NewEventNamePrefix">
+    <tu tuid="SessionsView.Miscellaneous.NewSessionNamePrefix">
       <tuv xml:lang="en">
-        <seg>New Event</seg>
+        <seg>New Session</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Новое событие</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Miscellaneous.NoIdSaveFailureMessage">
+    <tu tuid="SessionsView.Miscellaneous.NoIdSaveFailureMessage">
       <tuv xml:lang="en">
-        <seg>You must specify an event id.</seg>
+        <seg>You must specify a session id.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Необходимо указать идентификатор (ID) события.</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.AnnotationFileHelper.BadAnnotationFileMsg">
+    <tu tuid="SessionsView.Transcription.BadAnnotationFileMsg">
       <tuv xml:lang="en">
         <seg>File '{0}' is not a SayMore annotation file. It is possibly corrupt.</seg>
       </tuv>
@@ -1976,7 +1887,7 @@
         <seg>Файл «{0}» не является файлом аннотации SayMore. Возможно файл поврежден.</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.AnnotationFileNotFoundMsg">
+    <tu tuid="SessionsView.Transcription.AnnotationFileNotFoundMsg">
       <tuv xml:lang="en">
         <seg>File not found: '{0}'</seg>
       </tuv>
@@ -1984,15 +1895,7 @@
         <seg>Файл не найден: «{0}»</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.ErrorLabel">
-      <tuv xml:lang="en">
-        <seg>There was an error reading generated annotation file.</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Произошла ошибка чтения файла аннотации.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg">
       <tuv xml:lang="en">
         <seg>Generating Oral Annotation file...</seg>
       </tuv>
@@ -2000,7 +1903,7 @@
         <seg>Создание файла устной аннотации...</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.HelpButton">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton">
       <tuv xml:lang="en">
         <seg>Help</seg>
       </tuv>
@@ -2008,7 +1911,7 @@
         <seg>Справка</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.HelpButton_ToolTip_">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton_ToolTip_">
       <tuv xml:lang="en">
         <seg>Help</seg>
       </tuv>
@@ -2016,7 +1919,7 @@
         <seg>Справка</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.PlayButton">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton">
       <tuv xml:lang="en">
         <seg>Play</seg>
       </tuv>
@@ -2024,15 +1927,15 @@
         <seg>Воспроизвести</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.PlayButton_ToolTip_">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton_ToolTip_">
       <tuv xml:lang="en">
-        <seg>Play</seg>
+        <seg>Playback Oral Annotation Audio File</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Воспроизвести</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.ProcessingAnnotationFileErrorMsg">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.ProcessingAnnotationFileErrorMsg">
       <note>The parameter is the annotation type (i.e. careful, translation).</note>
       <tuv xml:lang="en">
         <seg>There was an error processing a {0} annotation file.</seg>
@@ -2041,23 +1944,23 @@
         <seg>Произошла ошибка при обработке файла аннотации {0}.</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.ProcessingOriginalRecordingErrorMsg">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.ProcessingSourceRecordingErrorMsg">
       <tuv xml:lang="en">
-        <seg>There was an error processing the original recording.</seg>
+        <seg>There was an error processing the source recording.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Произошла ошибка при обработке оригинальной записи.</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.RegenerateButton">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.RegenerateButton">
       <tuv xml:lang="en">
-        <seg>Regenerate File</seg>
+        <seg>Regenerate</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Востанавить файл</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.StopButton">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.StopButton">
       <tuv xml:lang="en">
         <seg>Stop</seg>
       </tuv>
@@ -2065,7 +1968,7 @@
         <seg>Остановить</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.StopButton_ToolTip_">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.StopButton_ToolTip_">
       <tuv xml:lang="en">
         <seg>Stop</seg>
       </tuv>
@@ -2073,7 +1976,7 @@
         <seg>Остановить</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.TabText">
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.TabText">
       <tuv xml:lang="en">
         <seg>Generated Audio</seg>
       </tuv>
@@ -2081,7 +1984,7 @@
         <seg>Созданный аудио файл</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">
       <tuv xml:lang="en">
         <seg>&amp;Careful Speech...</seg>
       </tuv>
@@ -2089,7 +1992,7 @@
         <seg>Аккуратная речь...</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.CopyColumnTextToClipboardMenuText">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CopyColumnTextToClipboardMenuText">
       <note>Parameter is column (i.e. tier) name</note>
       <tuv xml:lang="en">
         <seg>Copy {0} to clipboard</seg>
@@ -2098,23 +2001,7 @@
         <seg>Скопировать {0} в буфер обмена</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.ExportButton">
-      <tuv xml:lang="en">
-        <seg>Export...</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Экспортировать...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.ExportButton_ToolTip_">
-      <tuv xml:lang="en">
-        <seg>Export to FieldWorks Interlinear</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Экспортировать в FieldWorks Interlinear</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.HelpButton">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.HelpButton">
       <tuv xml:lang="en">
         <seg>Help</seg>
       </tuv>
@@ -2122,7 +2009,7 @@
         <seg>Справка</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.HelpButton_ToolTip_">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.HelpButton_ToolTip_">
       <tuv xml:lang="en">
         <seg>Help</seg>
       </tuv>
@@ -2130,7 +2017,7 @@
         <seg>Справка</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg">
       <tuv xml:lang="en">
         <seg>There was an error loading the annotation file '{0}'.</seg>
       </tuv>
@@ -2138,7 +2025,7 @@
         <seg>Возникла ошибка при загрузке файла аннотации «{0}».</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg">
       <note>Parameter is file name.</note>
       <tuv xml:lang="en">
         <seg>There are no transcription annotations found in\n'{0}'</seg>
@@ -2147,7 +2034,7 @@
         <seg>В «{0}» не существует никаких транскрипции аннотаций</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.OralTranslationMenu">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.OralTranslationMenu">
       <tuv xml:lang="en">
         <seg>&amp;Oral Translation...</seg>
       </tuv>
@@ -2155,15 +2042,7 @@
         <seg>Устный перевод...</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeedLabel">
-      <tuv xml:lang="en">
-        <seg>Playback &amp;Speed:</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Скорость воспроизведения:</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct">
       <tuv xml:lang="en">
         <seg>100% (Normal)</seg>
       </tuv>
@@ -2171,7 +2050,7 @@
         <seg>100% (Нормальный)</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.10Pct">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.10Pct">
       <tuv xml:lang="en">
         <seg>10%</seg>
       </tuv>
@@ -2179,7 +2058,7 @@
         <seg>10 %</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.20Pct">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.20Pct">
       <tuv xml:lang="en">
         <seg>20%</seg>
       </tuv>
@@ -2187,7 +2066,7 @@
         <seg>20 %</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.30Pct">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.30Pct">
       <tuv xml:lang="en">
         <seg>30%</seg>
       </tuv>
@@ -2195,7 +2074,7 @@
         <seg>30 %</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.40Pct">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.40Pct">
       <tuv xml:lang="en">
         <seg>40%</seg>
       </tuv>
@@ -2203,7 +2082,7 @@
         <seg>40 %</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.50Pct">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.50Pct">
       <tuv xml:lang="en">
         <seg>50%</seg>
       </tuv>
@@ -2211,7 +2090,7 @@
         <seg>50 %</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.60Pct">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.60Pct">
       <tuv xml:lang="en">
         <seg>60%</seg>
       </tuv>
@@ -2219,7 +2098,7 @@
         <seg>60 %</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.70Pct">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.70Pct">
       <tuv xml:lang="en">
         <seg>70%</seg>
       </tuv>
@@ -2227,7 +2106,7 @@
         <seg>70 %</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.80Pct">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.80Pct">
       <tuv xml:lang="en">
         <seg>80%</seg>
       </tuv>
@@ -2235,7 +2114,7 @@
         <seg>80 %</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct">
       <tuv xml:lang="en">
         <seg>90%</seg>
       </tuv>
@@ -2243,7 +2122,7 @@
         <seg>90 %</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.RecordButton">
+    <tu tuid="DialogBoxes.SessionRecorderDlg.RecordButtonText">
       <tuv xml:lang="en">
         <seg>Record</seg>
       </tuv>
@@ -2251,7 +2130,7 @@
         <seg>Записать</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.RecordButton_ToolTip_">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.RecordButton_ToolTip_">
       <tuv xml:lang="en">
         <seg>Record Oral Annotations</seg>
       </tuv>
@@ -2259,33 +2138,15 @@
         <seg>Запись устных аннотации</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarning.Caption">
-      <tuv xml:lang="ru">
-        <seg>Повторное создание разделов</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarning.Message">
-      <tuv xml:lang="ru">
-        <seg>Пересоздание разделов приведет к тому, что все устные и письменные аннотации будут потеряны.\n\nВы уверены, что хотите продолжить?</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.ResegmentButton">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ResegmentButton">
       <tuv xml:lang="en">
-        <seg>Resegment...</seg>
+        <seg>Segment...</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Пересоздание разделов...</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.ResegmentButton_ToolTip_">
-      <tuv xml:lang="en">
-        <seg>Regenerate Segments</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Повторное создание разделов</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.TabText">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TabText">
       <tuv xml:lang="en">
         <seg>Annotations</seg>
       </tuv>
@@ -2293,19 +2154,17 @@
         <seg>Аннотации</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TierNames.FreeTranslation">
+    <tu tuid="SessionsView.Transcription.TierDisplayNames.FreeTranslation">
+      <tuv xml:lang="en">
+        <seg>Free Translation</seg>
+      </tuv>
       <tuv xml:lang="ru">
         <seg>Свободный перевод</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TierNames.OriginalRecording">
-      <tuv xml:lang="ru">
-        <seg>Исходный текст</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView.ViewTabText">
+    <tu tuid="SessionsView.ViewTabText">
       <tuv xml:lang="en">
-        <seg>Events</seg>
+        <seg>Sessions</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>События</seg>
@@ -2343,9 +2202,9 @@
         <seg>Выход</seg>
       </tuv>
     </tu>
-    <tu tuid="MainWindow._menuExportEvents">
+    <tu tuid="MainWindow._menuExportSessions">
       <tuv xml:lang="en">
-        <seg>Export Events...</seg>
+        <seg>Export Sessions...</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Экспортировать события...</seg>
@@ -2400,7 +2259,7 @@
       </tuv>
     </tu>
     <tu tuid="MainWindow.DeleteMultipleItemsMsg">
-      <note>For deleting events and people items</note>
+      <note>For deleting sessions and people items</note>
       <tuv xml:lang="en">
         <seg>{0} items</seg>
       </tuv>
@@ -2409,7 +2268,7 @@
       </tuv>
     </tu>
     <tu tuid="MainWindow.DeleteOneItemMsg">
-      <note>For deleting events and people items</note>
+      <note>For deleting sessions and people items</note>
       <tuv xml:lang="en">
         <seg>{0}</seg>
       </tuv>
@@ -2884,13 +2743,16 @@
       </tuv>
     </tu>
     <tu tuid="ProgressView.CopyMenuItemText">
+      <tuv xml:lang="en">
+        <seg>Copy</seg>
+      </tuv>
       <tuv xml:lang="ru">
         <seg>Скопировать</seg>
       </tuv>
     </tu>
-    <tu tuid="ProgressView.EventsLabel">
+    <tu tuid="ProgressView.SessionsLabel">
       <tuv xml:lang="en">
-        <seg>Events:</seg>
+        <seg>Sessions:</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>События:</seg>
@@ -2922,23 +2784,32 @@
       </tuv>
     </tu>
     <tu tuid="ProgressView.PrintMenuItemText">
+      <tuv xml:lang="en">
+        <seg>&amp;Print...</seg>
+      </tuv>
       <tuv xml:lang="ru">
         <seg>Печать...</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.ProgressMainMenuItemText">
+      <tuv xml:lang="en">
+        <seg>Pr&amp;ogress</seg>
+      </tuv>
       <tuv xml:lang="ru">
         <seg>Прогресс</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.SaveMenuItemText">
+      <tuv xml:lang="en">
+        <seg>&amp;Save...</seg>
+      </tuv>
       <tuv xml:lang="ru">
         <seg>Сохраните...</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.SummaryTotalsTextForOneBar">
       <tuv xml:lang="en">
-        <seg>{0} events totaling {1} minutes</seg>
+        <seg>{0} sessions totaling {1} minutes</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>{0} события, общей продолжительности {1} мин.</seg>
@@ -2946,7 +2817,7 @@
     </tu>
     <tu tuid="ProgressView.SummaryTotalsTextForSegment1">
       <tuv xml:lang="en">
-        <seg>{0}{1} events totaling {2} minutes</seg>
+        <seg>{0}{1} sessions totaling {2} minutes</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>{0} {1} событии, общей продолжительности {2} мин.</seg>
@@ -2954,7 +2825,7 @@
     </tu>
     <tu tuid="ProgressView.SummaryTotalsTextForSegment2">
       <tuv xml:lang="en">
-        <seg>{0}: {1} events totaling {2} minutes</seg>
+        <seg>{0}: {1} sessions totaling {2} minutes</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>{0}: {1} события общей продолжительности {2} мин.</seg>

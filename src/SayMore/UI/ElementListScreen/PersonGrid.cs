@@ -25,7 +25,7 @@ namespace SayMore.UI.ElementListScreen
 			if (DeleteAction != null)
 			{
 				var menu = new ToolStripMenuItem(string.Empty, null, (s, e) => DeleteAction());
-				menu.Text = LocalizationManager.GetString("MainWindow.DeletePersonMenuText", "&Delete Person...", null, menu);
+				menu.Text = LocalizationManager.GetString("MainWindow.DeletePersonMenuText", "&Delete Person...");
 				yield return menu;
 			}
 		}

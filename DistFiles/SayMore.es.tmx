@@ -338,47 +338,6 @@
         <seg>Extraer audio para grabar como mono MP3 (baja calidad)</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.FileList.CreateAnnotationFileButtonText">
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <tuv xml:lang="es">
-        <seg>Crear archivos de anotación...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CommonToMultipleViews.FileList.CreateAnnotationFileButtonText_ToolTip_">
-      <tuv xml:lang="es">
-        <seg>Crear un archivo de anotación</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CommonToMultipleViews.FileList.CreateAnnotationFileMenu">
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <tuv xml:lang="es">
-        <seg>Crear archivos de anotación...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CommonToMultipleViews.FileList.CustomRenameMenu">
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <tuv xml:lang="en">
-        <seg>Custom Rename...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Escoger otro nombre...</seg>
-      </tuv>
-    </tu>
     <tu tuid="CommonToMultipleViews.FileList.DeleteFileMenuText">
       <tuv xml:lang="en">
         <seg>&amp;Delete File...</seg>
@@ -499,18 +458,6 @@
         <seg>Cambiar el nombre de archivo seleccionado</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.FileList.RenameMenuTextFormatString">
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <tuv xml:lang="en">
-        <seg>Rename For {0}</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Guardar como {0}</seg>
-      </tuv>
-    </tu>
     <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileLinkMsg">
       <tuv xml:lang="en">
         <seg>&lt;HTML&gt;&lt;BODY&gt;Click &lt;a href="file:///{0}"&gt;&lt;b&gt;here to open '{1}'&lt;/b&gt;&lt;/a&gt; in its associated program.&lt;/BODY&gt;&lt;/HTML&gt;</seg>
@@ -565,18 +512,6 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Archivo no parece ser un archivo multimedia válido: {0}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CommonToMultipleViews.MediaPlayer.LoadFileErrorMsg">
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <tuv xml:lang="en">
-        <seg>There was a problem loading file '{0}' for playback. Perhaps another program has a lock on it.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Hubo un problema cargando el archivo '{0}' para la reproducción. Tal vez otro programa tiene un bloqueo.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg">
@@ -1348,33 +1283,16 @@ la grabación de la fuente.</seg>
         <seg>Convertir archivo multimedia</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.CustomFileRenamingDlg.CancelButton">
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg.FileAlreadyExistsMsg">
       <tuv xml:lang="en">
-        <seg>Cancel</seg>
+        <seg>A file by that name already exists or the name is invalid.</seg>
       </tuv>
-      <tuv xml:lang="es">
-        <seg>Cancelar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.CustomFileRenamingDlg.FileAlreadyExistsMsg">
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="es">
         <seg>Ya existe un archivo con ese nombre o el nombre no es válido.</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.CustomFileRenamingDlg.NewFileNameMsg">
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg.NewFileNameMsg">
       <note>Displayed under the text box.</note>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>New file: {0}</seg>
       </tuv>
@@ -1659,9 +1577,6 @@ la grabación de la fuente.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg.WindowTitle">
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Making Sessions...</seg>
       </tuv>
@@ -1710,6 +1625,15 @@ la grabación de la fuente.</seg>
         <seg>Crear sesiones</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.OneFileSelectedCreateButtonText">
+      <note>Text in create button when one file is selected.</note>
+      <tuv xml:lang="en">
+        <seg>Create 1 Session</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Crear 1 sesión</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.SessionsAlreadyExistMsg">
       <tuv xml:lang="en">
         <seg>Sessions already exist for the following Ids. These will be skipped.\n\n{0}</seg>
@@ -1741,15 +1665,6 @@ la grabación de la fuente.</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Crear {0} sesiones</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.OneFileSelectedCreateButtonText">
-      <note>Text in create button when one file is selected.</note>
-      <tuv xml:lang="en">
-        <seg>Create 1 Session</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Crear 1 sesión</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelIncomingFiles">
@@ -1789,7 +1704,7 @@ la grabación de la fuente.</seg>
         <seg>1) The device is not yet plugged in.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>1) El dispositivo no está conectado todavía.</seg>
+        <seg>1) El dispositivo todavía no está conectado.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel2">
@@ -1797,7 +1712,7 @@ la grabación de la fuente.</seg>
         <seg>2) The device is plugged in but is currently assigned a different drive letter from '{0}'.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>2) El dispositivo está conectado pero actualmente está asignado a una unidad diferente letra f</seg>
+        <seg>2) El dispositivo está conectado pero actualmente está asignado a otra letra de unidad en vez de '{0}'.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel3">
@@ -1805,7 +1720,47 @@ la grabación de la fuente.</seg>
         <seg>3) Some part of the above path has changed (e.g. a folder name).</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>3) Parte de la ruta anterior ha cambiado (por ejemplo, el nombre de una carpeta).</seg>
+        <seg>3) Parte de la ruta carpeta anterior ha cambiado (por ejemplo, el nombre de una carpeta).</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.ProblemOverviewMsgLabel">
+      <tuv xml:lang="en">
+        <seg>SayMore cannot reach the folder where your files were last time. One of the following may be true:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>SayMore no puede llegar a la carpeta donde los archivos se encontraban anteriormente. Uno de los siguientes puede ser la causa:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.CancelButtonText">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cancelar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.ErrorMovingRecordingToSessionFolder">
+      <tuv xml:lang="en">
+        <seg>There was an error moving your recording to the session folder for '{0}'.\n\nUnexpectedly, SayMore has probably kept a lock on the file; therefore, the recording will not be deleted and it may be copied from your temporary folder after closing SayMore.\n\nThe file is:\n\n{1}.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ocurrió un error al migrar la grabación a la carpeta de sesión para '{0}'.\n\nInesperadamente, SayMore probablemente ha mantenido un bloqueo en el archivo. Por lo tanto, no se borrará la grabación. Después de cerrar SayMore, usted lo puede copiar desde la carpeta temporal .\n\nNombre del archivo:\n\n{1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.OKButtonText">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Aceptar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.PlaybackButtonText">
+      <tuv xml:lang="en">
+        <seg>Playback Recording</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Reproducir Grabación</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.RecordButtonText">
@@ -1865,6 +1820,7 @@ la grabación de la fuente.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg1">
+      <note>The parameter is a folder path</note>
       <tuv xml:lang="en">
         <seg>In order to export, we need to find a writing system ID that FLEx will accept. SayMore tried to find a list of writing systems which FLEx knows about by looking in {0}, but it doesn't exist. We recommend that you let the code be 'en' (English), then change it inside of FLEx.</seg>
       </tuv>
@@ -2443,6 +2399,22 @@ a la grabación original</seg>
         <seg>{0}</seg>
       </tuv>
     </tu>
+    <tu tuid="MainWindow.DeletePersonMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Delete Person...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Borrar Persona...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.DeleteSessionMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Delete Session...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Borrar Sesión...</seg>
+      </tuv>
+    </tu>
     <tu tuid="MainWindow.ElementNoLongerExistsMsg">
       <tuv xml:lang="en">
         <seg>'{0}' doesn't exist in elements collection.</seg>
@@ -2480,7 +2452,15 @@ a la grabación original</seg>
         <seg>{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0} tuvo un problema al cargar el proyecto {1}. Por favor comunica este problema a los programadores haciendo clic en 'Detalles' a continuación.</seg>
+        <seg>{0} tuvo un problema al cargar el proyecto {1}. Favor de comunicar este problema a los programadores presionando 'Detalles' a continuación.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.RemovedElementsErrorMsg">
+      <tuv xml:lang="en">
+        <seg>The folders for the following elements have been removed from your computer.\nTherefore, SayMore will remove them from the list.\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Las carpetas de los siguientes elementos ya no existen.\nPor lo tanto, SayMore les eliminará de la lista.\n\n{0}</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.ViewTabsScrollLeftToolTipText">
@@ -2501,10 +2481,10 @@ a la grabación original</seg>
     </tu>
     <tu tuid="MainWindow.WindowTitle">
       <tuv xml:lang="en">
-        <seg>{0} - SayMore {1}.{2}.{3}</seg>
+        <seg>{0} - SayMore {1}.{2}.{3} (Beta)</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0} - SayMore {1}.{2}.{3}</seg>
+        <seg>{0} - SayMore {1}.{2}.{3} (Beta)</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.WindowTitleWithProject">
@@ -2512,7 +2492,7 @@ a la grabación original</seg>
         <seg>{0} - SayMore {1}.{2}.{3} (Beta)</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0} - SayMore {1}.{2}.{3}</seg>
+        <seg>{0} - SayMore {1}.{2}.{3} (Beta)</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._mainMenuHelp">
@@ -2640,7 +2620,7 @@ a la grabación original</seg>
         <seg>No Files To Copy</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Hay archivos que copia</seg>
+        <seg>No hay archivos que copiar</seg>
       </tuv>
     </tu>
     <tu tuid="Miscellaneous.CopyFilesControl.UnchangedFileMsg">
@@ -2656,7 +2636,7 @@ a la grabación original</seg>
         <seg>No presets yet</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Sin embargo no preestablecidos</seg>
+        <seg>Todavía no hay ajustes preestablecidos</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.FileList.AddPersonButtonToolTip">

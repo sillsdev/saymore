@@ -163,7 +163,7 @@ namespace SayMore.UI.SessionRecording
 				var msg = LocalizationManager.GetString(
 					"DialogBoxes.SessionRecorderDlg.ErrorMovingRecordingToSessionFolder",
 					"There was an error moving your recording to the session folder for '{0}'.\r\n\r\n" +
-					"Unexpectedly, SayMore has probably kept a lock on the file, therefore the recording will not " +
+					"Unexpectedly, SayMore has probably kept a lock on the file; therefore, the recording will not " +
 					"be deleted and it may be copied from your temporary folder after closing " +
 					"SayMore.\r\n\r\nThe file is:\r\n\r\n{1}.");
 

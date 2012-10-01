@@ -236,7 +236,7 @@ namespace SayMore.UI.ProjectWindow
 			this.MainMenuStrip = this._mainMenuStrip;
 			this.MinimumSize = new System.Drawing.Size(600, 450);
 			this.Name = "ProjectWindow";
-			this.Text = "{0} - SayMore {1}.{2}.{3}";
+			this.Text = "{0} - SayMore {1}.{2}.{3} (Beta)";
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this._mainMenuStrip.ResumeLayout(false);
 			this._mainMenuStrip.PerformLayout();

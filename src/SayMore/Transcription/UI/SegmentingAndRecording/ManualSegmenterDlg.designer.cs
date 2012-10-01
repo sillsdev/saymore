@@ -103,7 +103,7 @@ namespace SayMore.Transcription.UI
 			this._buttonStopOriginal.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.locExtender.SetLocalizableToolTip(this._buttonStopOriginal, null);
 			this.locExtender.SetLocalizationComment(this._buttonStopOriginal, null);
-			this.locExtender.SetLocalizingId(this._buttonStopOriginal, "ManualSegmenterDlg._buttonStopOriginal");
+			this.locExtender.SetLocalizingId(this._buttonStopOriginal, "DialogBoxes.Transcription.ManualSegmenterDlg._buttonStopOriginal");
 			this._buttonStopOriginal.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._buttonStopOriginal.Name = "_buttonStopOriginal";
 			this._buttonStopOriginal.Size = new System.Drawing.Size(253, 24);

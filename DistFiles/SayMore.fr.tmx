@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="fr" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4589.39542" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
-    <prop type="x-appversion">1.6.53.1</prop>
+  <header srclang="fr" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4653.22612" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+    <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -90,7 +90,7 @@
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ElementList.OneColumnMustBeVisibleMsg">
-      <note>Displayed when user unchecks all columns for display in sessions or people list</note>
+      <note>Displayed when user clears all columns for display in sessions or people list</note>
       <tuv xml:lang="en">
         <seg>One column must be visible.</seg>
       </tuv>
@@ -716,7 +716,7 @@
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._labelVersionInfo">
       <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2}    Built on {3}</seg>
+        <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Version {0}.{1}.{2} Construit sur {3}</seg>
@@ -731,6 +731,7 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebSite_LinkPortion">
+      <note>This is the portion of the text that is underlined, indicating the link to the application's web site.</note>
       <tuv xml:lang="en">
         <seg>SayMore web site</seg>
       </tuv>
@@ -772,6 +773,7 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.ArchivingProgressMsg">
+      <note>The first parameter is 'Session' or 'Contributor'. The second parameter is the session or contributor name.</note>
       <tuv xml:lang="en">
         <seg>     {0}: {1}</seg>
       </tuv>
@@ -828,8 +830,9 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.OverviewText">
+      <note>The first occurance of the word 'RAMP' will be made a hyperlink to the RAMP website. If the word 'RAMP' is not found, the text will not contain that hyperlink.</note>
       <tuv xml:lang="en">
-        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your SayMore sessions. It will gather up all the files and data related to a session and its contributors, then launch RAMP so that you can fill out more information and do the actual submission.</seg>
+        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your SayMore sessions. It will gather up all the files and data related to a session and its contributors, then launch RAMP so that you can fill out more information and do the actual submission. </seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>RAMP est un utilitaire permettant d'entrer des métadonnées et le téléchargement des présentations aux archives internes du SIL, appelées REAP. Si vous avez accès à ces archives, cet outil vous aidera à utiliser le RAMP pour archiver vos sessions de SayMore. Il se réuniront à tous les fichiers et les données reliées à une session et ses collaborateurs, puis lancer RAMP afin que vous puissiez remplir plus d'informations et faire la présentation réelle.</seg>
@@ -853,7 +856,7 @@
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.RampNotFoundMsg">
       <tuv xml:lang="en">
-        <seg>The RAMP pogram cannot be found!</seg>
+        <seg>The RAMP program cannot be found!</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Impossible de trouver le programme RAMP !</seg>
@@ -940,6 +943,7 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg.NewFileNameMsg">
+      <note>Displayed under the text box.</note>
       <tuv xml:lang="en">
         <seg>New file: {0}</seg>
       </tuv>
@@ -1401,6 +1405,7 @@ l'enregistrement de la source.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkAutoDownload_LinkPortion">
+      <note>This is the portion of the text that is underlined, indicating the link to the download.</note>
       <tuv xml:lang="en">
         <seg>Click here and SayMore will automatically download</seg>
       </tuv>
@@ -1515,7 +1520,7 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="DialogBoxes.NewProjectDlg._buttonOK">
       <tuv xml:lang="en">
-        <seg>&amp;OK</seg>
+        <seg>OK</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>O&amp;K</seg>
@@ -1548,7 +1553,7 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg._buttonOK">
       <tuv xml:lang="en">
-        <seg>&amp;OK</seg>
+        <seg>OK</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>&amp;OK</seg>
@@ -1579,6 +1584,15 @@ l'enregistrement de la source.</seg>
         <seg>Créer des Sessions</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.OneFileSelectedCreateButtonText">
+      <note>Text in create button when one file is selected.</note>
+      <tuv xml:lang="en">
+        <seg>Create 1 Session</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Créer 1 session</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.SessionsAlreadyExistMsg">
       <tuv xml:lang="en">
         <seg>Sessions already exist for the following Ids. These will be skipped.\n\n{0}</seg>
@@ -1604,21 +1618,12 @@ l'enregistrement de la source.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._buttonCreateSessions">
-      <note>Parameter is for the number of sessions that will be created.</note>
+      <note>Format text in create button when more than one file is selected. Parameter is the number of sessions to be created.</note>
       <tuv xml:lang="en">
         <seg>Create {0} Sessions</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Créer {0} sessions</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.OneFileSelectedCreateButtonText">
-      <note>Text in create button when one file is selected.</note>
-      <tuv xml:lang="en">
-        <seg>Create 1 Session</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Créer 1 session</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelIncomingFiles">
@@ -1631,7 +1636,7 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelInstructions">
       <tuv xml:lang="en">
-        <seg>Mark each file which represents an source recording of an session. For each one, SayMore will create a new session and copy the file into it.</seg>
+        <seg>Mark each file which represents a source recording of a session. For each one, SayMore will create a new session and copy the file into it.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Marquer chaque fichier qui représente un enregistrement de la source d'une session. Pour chacun d'eux, SayMore va créer une nouvelle session et copiez-y le fichier.</seg>
@@ -1671,7 +1676,7 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel2">
       <tuv xml:lang="en">
-        <seg>2) The device is plugged in, but is currently assigned a different drive letter from '{0}'.</seg>
+        <seg>2) The device is plugged in but is currently assigned a different drive letter from '{0}'.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>2) Le dispositif est branché, mais est actuellement assigné une lettre de lecteur différente de '{0}'.</seg>
@@ -1679,7 +1684,7 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel3">
       <tuv xml:lang="en">
-        <seg>3) Some part of the above path has  changed (e.g. a folder name).</seg>
+        <seg>3) Some part of the above path has changed (e.g. a folder name).</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>3) Une partie du chemin ci-dessus a changé (par exemple un nom de dossier).</seg>
@@ -1703,7 +1708,7 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.ErrorMovingRecordingToSessionFolder">
       <tuv xml:lang="en">
-        <seg>There was an error moving your recording to the session folder for '{0}'.\n\nUnexpectedly, SayMore has probably kept a lock on the file, therefore the recording will not be deleted and it may be copied from your temporary folder after closing SayMore.\n\nThe file is:\n\n{1}.</seg>
+        <seg>There was an error moving your recording to the session folder for '{0}'.\n\nUnexpectedly, SayMore has probably kept a lock on the file; therefore, the recording will not be deleted and it may be copied from your temporary folder after closing SayMore.\n\nThe file is:\n\n{1}.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Il y avait une erreur en déplaçant votre enregistrement dans le dossier de la session pour '{0}'.\n\nDe façon inattendue, SayMore a probablement conservé un verrou sur le fichier, donc l'enregistrement ne sera pas supprimé et il peut être copié dans votre dossier temporaire après la fermeture de SayMore.\n\nLe fichier is:\n\n{1}.</seg>
@@ -1791,7 +1796,7 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="DialogBoxes.SplashScreen.VersionInfoLabel">
       <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2}    Built on {3}</seg>
+        <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Version {0}.{1}.{2} Construit sur {3}</seg>
@@ -2036,6 +2041,14 @@ l'enregistrement de la source.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Supprimer la limite choisie (press DELETE)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonStopOriginal">
+      <tuv xml:lang="en">
+        <seg>Stop (press the SPACE BAR)</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Arrêter (pressez la BARRE D'ESPACE)</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlgBase._buttonListenToOriginal">
@@ -2503,7 +2516,7 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._labelVersionInfo">
       <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2}    Built on {3}</seg>
+        <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Version {0}.{1}.{2} construit sur {3}</seg>
@@ -2625,22 +2638,6 @@ l'enregistrement de la source.</seg>
         <seg>Défiler ver la droite</seg>
       </tuv>
     </tu>
-    <tu tuid="MainWindow.WindowTitle">
-      <tuv xml:lang="en">
-        <seg>{0} - SayMore {1}.{2}.{3}</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>{0} - SayMore {1}.{2}.{3}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MainWindow.WindowTitleWithProject">
-      <tuv xml:lang="en">
-        <seg>{0} - SayMore {1}.{2}.{3}</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>{0} - SayMore {1}.{2}.{3}</seg>
-      </tuv>
-    </tu>
     <tu tuid="MainWindow._mainMenuHelp">
       <tuv xml:lang="en">
         <seg>&amp;Help</seg>
@@ -2719,14 +2716,6 @@ l'enregistrement de la source.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Notes de version...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ManualSegmenterDlg._buttonStopOriginal">
-      <tuv xml:lang="en">
-        <seg>Stop (press the SPACE BAR)</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Arrêter (pressez la BARRE D'ESPACE)</seg>
       </tuv>
     </tu>
     <tu tuid="Miscellaneous.CopyFilesControl.CopyFailedMsg">
@@ -3685,7 +3674,7 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="SessionsView.StatusAndStagesEditor.StatusToolTips.Skipped">
       <tuv xml:lang="en">
-        <seg>I've decided to not develop\nthis event at this time.</seg>
+        <seg>I've decided to not develop\nthis session at this time.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>J'ai décidé de ne pas develop\ner\ncet événement maintenant.</seg>
@@ -4125,14 +4114,6 @@ l'enregistrement de la source.</seg>
         <seg>Exporter...</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.FontsButton">
-      <tuv xml:lang="en">
-        <seg>Fonts</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Fonts</seg>
-      </tuv>
-    </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Both">
       <tuv xml:lang="en">
         <seg>Playback Both Recordings</seg>
@@ -4155,14 +4136,6 @@ l'enregistrement de la source.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Lecteur d'enregistrement de source</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.FreeTranslationFontsButton">
-      <tuv xml:lang="en">
-        <seg>Free Translation...</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Traduction libre...</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.HelpButton">
@@ -4198,6 +4171,7 @@ l'enregistrement de la source.</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg">
+      <note>Parameter is file name.</note>
       <tuv xml:lang="en">
         <seg>There are no transcription annotations found in\n'{0}'</seg>
       </tuv>
@@ -4357,14 +4331,6 @@ l'enregistrement de la source.</seg>
         <seg>Lecteur d'enregistrement de source</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TranscriptionFontsButton">
-      <tuv xml:lang="en">
-        <seg>&amp;Transcription...</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>&amp;Transcription...</seg>
-      </tuv>
-    </tu>
     <tu tuid="SessionsView.Transcription.TierDisplayNames.FreeTranslation">
       <tuv xml:lang="en">
         <seg>Free Translation</seg>
@@ -4438,6 +4404,7 @@ l'enregistrement de la source.</seg>
       </tuv>
     </tu>
     <tu tuid="SoundFileUtils.ExtractingAudioError">
+      <note>Second parameter is the error message.</note>
       <tuv xml:lang="en">
         <seg>There was an error extracting audio from the media file '{0}'\n\n{1}</seg>
       </tuv>

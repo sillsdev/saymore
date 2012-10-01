@@ -36,7 +36,7 @@ namespace SayMore.UI.Utilities
 				"RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, " +
 				"REAP. If you have access to this archive, this tool will help you use RAMP to archive your " +
 				"SayMore sessions. It will gather up all the files and data related to a session and its " +
-				"contributors, then launch RAMP so that you can fill out more information and do the actual submission. ",
+				"contributors, then launch RAMP so that you can fill out more information and do the actual submission.",
 				"The first occurance of the word 'RAMP' will be made a hyperlink to the RAMP website. " +
 				"If the word 'RAMP' is not found, the text will not contain that hyperlink.",
 				null, null, _linkOverview);

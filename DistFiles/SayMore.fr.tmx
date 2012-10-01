@@ -832,7 +832,7 @@
     <tu tuid="DialogBoxes.ArchivingDlg.OverviewText">
       <note>The first occurance of the word 'RAMP' will be made a hyperlink to the RAMP website. If the word 'RAMP' is not found, the text will not contain that hyperlink.</note>
       <tuv xml:lang="en">
-        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your SayMore sessions. It will gather up all the files and data related to a session and its contributors, then launch RAMP so that you can fill out more information and do the actual submission. </seg>
+        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your SayMore sessions. It will gather up all the files and data related to a session and its contributors, then launch RAMP so that you can fill out more information and do the actual submission.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>RAMP est un utilitaire permettant d'entrer des métadonnées et le téléchargement des présentations aux archives internes du SIL, appelées REAP. Si vous avez accès à ces archives, cet outil vous aidera à utiliser le RAMP pour archiver vos sessions de SayMore. Il se réuniront à tous les fichiers et les données reliées à une session et ses collaborateurs, puis lancer RAMP afin que vous puissiez remplir plus d'informations et faire la présentation réelle.</seg>

@@ -124,10 +124,12 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private void ClosePopup()
 		{
-			var cancel = new CancelEventArgs();
-			OnValidating(cancel);
-			if (!cancel.Cancel)
-				Popup.ClosePopup();
+			//Review: I think this should now be properly handled in OnPopupClosing method in
+			// base class.
+			//var cancel = new CancelEventArgs();
+			//OnValidating(cancel);
+			//if (!cancel.Cancel)
+			Popup.ClosePopup();
 		}
 
 		/// ------------------------------------------------------------------------------------

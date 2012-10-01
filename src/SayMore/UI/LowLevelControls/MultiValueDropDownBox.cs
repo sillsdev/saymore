@@ -26,6 +26,7 @@ namespace SayMore.UI.LowLevelControls
 		{
 			Popup = new MultiValuePickerPopup();
 			Popup.PopupOpening += OnDropDownOpening;
+			Popup.PopupClosing += OnPopupClosing;
 			Popup.ItemCheckChanged += HandleItemCheckChanged;
 
 			Font = Program.DialogFont;
@@ -36,6 +37,14 @@ namespace SayMore.UI.LowLevelControls
 
 			_panelButton.MouseEnter += delegate { _panelButton.Invalidate(); };
 			_panelButton.MouseLeave += delegate { _panelButton.Invalidate(); };
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void OnPopupClosing(object sender, ToolStripDropDownClosingEventArgs e)
+		{
+			var cancel = new CancelEventArgs();
+			OnValidating(cancel);
+			e.Cancel = cancel.Cancel;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -148,6 +157,8 @@ namespace SayMore.UI.LowLevelControls
 			Popup.AddRange(JITListAcquisition());
 			Popup.SetCheckedItemsFromDelimitedString(Text);
 			Text = Popup.GetCheckedItemsString();
+			var cancel = new CancelEventArgs();
+			OnValidating(cancel);
 			_textControl.Paint -= HandleTextBoxPaint;
 			_textControl.Invalidate();
 			_popupShowing = false;

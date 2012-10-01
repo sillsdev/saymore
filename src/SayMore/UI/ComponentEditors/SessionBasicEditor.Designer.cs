@@ -249,7 +249,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._participants, null);
 			this.locExtender.SetLocalizationComment(this._participants, null);
 			this.locExtender.SetLocalizationPriority(this._participants, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._participants, "SessionBasicEditor.MultiValueComboBox");
+			this.locExtender.SetLocalizingId(this._participants, "SessionBasicEditor._participants");
 			this._participants.Location = new System.Drawing.Point(0, 108);
 			this._participants.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._participants.Name = "_participants";

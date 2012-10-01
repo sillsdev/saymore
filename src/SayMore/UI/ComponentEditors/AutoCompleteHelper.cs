@@ -244,7 +244,7 @@ namespace SayMore.UI.ComponentEditors
 				((TextBox)control).SelectAll();
 			else if (control is ComboBox)
 				((ComboBox)control).SelectAll();
-			else if (control is MultiValueDropDownBox)
+			else if (control is MultiValueComboBox)
 				((MultiValueComboBox)control).SelectAll();
 		}
 	}

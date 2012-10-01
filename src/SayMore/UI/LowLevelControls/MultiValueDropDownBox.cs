@@ -16,6 +16,8 @@ namespace SayMore.UI.LowLevelControls
 
 		public MultiValuePickerPopup Popup { get; private set; }
 
+		private bool _popupShowing = false;
+
 		protected Control _textControl;
 
 		#region Constructor and Initialization
@@ -52,6 +54,7 @@ namespace SayMore.UI.LowLevelControls
 			_textControl.Name = "_textControl";
 			_textControl.TabIndex = 0;
 			_textControl.KeyDown += HandleTextBoxKeyDown;
+			_textControl.MouseClick += HandleMouseClickOnDropDownButton;
 		}
 		#endregion
 
@@ -133,6 +136,8 @@ namespace SayMore.UI.LowLevelControls
 		{
 			base.OnEnter(e);
 			_textControl.Focus();
+			_textControl.Paint += HandleTextBoxPaint;
+			_textControl.Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -143,6 +148,9 @@ namespace SayMore.UI.LowLevelControls
 			Popup.AddRange(JITListAcquisition());
 			Popup.SetCheckedItemsFromDelimitedString(Text);
 			Text = Popup.GetCheckedItemsString();
+			_textControl.Paint -= HandleTextBoxPaint;
+			_textControl.Invalidate();
+			_popupShowing = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -157,6 +165,14 @@ namespace SayMore.UI.LowLevelControls
 				var renderer = new VisualStyleRenderer(GetVisualStyleTextBox());
 				renderer.DrawBackground(e.Graphics, ClientRectangle);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleTextBoxPaint(object sender, PaintEventArgs e)
+		{
+			TextRenderer.DrawText(e.Graphics, TextControl.Text, TextControl.Font,
+				_textControl.ClientRectangle, SystemColors.HighlightText,
+				SystemColors.Highlight, TextFormatFlags.Left);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -252,7 +268,10 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private void HandleMouseClickOnDropDownButton(object sender, MouseEventArgs e)
 		{
-			ShowPopup();
+			if (_popupShowing)
+				_popupShowing = false;
+			else
+				ShowPopup();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -267,6 +286,7 @@ namespace SayMore.UI.LowLevelControls
 			Popup.Width = Width;
 			var pt = PointToScreen(new Point(0, Height));
 			Popup.ShowPopup(pt);
+			_popupShowing = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -276,7 +296,10 @@ namespace SayMore.UI.LowLevelControls
 				DropDownOpening(this, e);
 
 			if (!e.Cancel)
+			{
 				Popup.SetCheckedItemsFromDelimitedString(Text);
+			//	_textControl.Invalidate();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

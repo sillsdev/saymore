@@ -392,7 +392,8 @@ namespace SayMore.Media.Audio
 		{
 			return LocalizationManager.GetString(
 				"SoundFileUtils.ConvertToStandardWavPcmAudioErrorMsg",
-				"There was an error trying to create a standard audio file from:\r\n\r\n{0}");
+				"There was an error trying to create a standard audio file from:\r\n\r\n{0}",
+				"Parameter is the file name of the media file used as the basis for the attempted conversion.");
 		}
 
 		#endregion

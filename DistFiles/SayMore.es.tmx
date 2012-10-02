@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4653.22612" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4658.26245" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
@@ -86,7 +86,7 @@
         <seg>&amp;New</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&amp;Nuevo</seg>
+        <seg>&amp;Nueva</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ElementList.OneColumnMustBeVisibleMsg">
@@ -906,7 +906,7 @@
         <seg>&amp;1) Create Package</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&amp;1) Crear Paquete</seg>
+        <seg>&amp;1) Crear paquete</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg._buttonLaunchRamp">
@@ -1091,9 +1091,8 @@ la etapa de 'Grabación de fuente' de la sesión.</seg>
         <seg>Transcription:\nWritten transcription of\nthe source recording.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Transcription:
-escrito transcripción of
-la grabación de la fuente.</seg>
+        <seg>Transcription:\ntranscripción de
+la grabación original.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation">
@@ -1109,9 +1108,9 @@ la grabación de la fuente.</seg>
         <seg>Written Translation:\nWritten translation of\nthe source recording.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Escrito por escrito Translation:
-traducción of
-la grabación de la fuente.</seg>
+        <seg>Translation escrita:\n
+traducción de
+la grabación original</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.AvailableConversionsLabel">
@@ -1567,22 +1566,6 @@ la grabación de la fuente.</seg>
         <seg>Creando sesiones</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ProgressDlg._buttonCancel">
-      <tuv xml:lang="en">
-        <seg>Cancel</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Cancelar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ProgressDlg._buttonOK">
-      <tuv xml:lang="en">
-        <seg>OK</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Aceptar</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.FolderBrowserDlgDescription">
       <tuv xml:lang="en">
         <seg>Choose a Folder of Media Files.</seg>
@@ -1706,6 +1689,22 @@ la grabación de la fuente.</seg>
         <seg>SayMore no puede llegar a la carpeta donde los archivos se encontraban anteriormente. Uno de los siguientes puede ser la causa:</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ProgressDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cancelar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ProgressDlg._buttonOK">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Aceptar</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.CancelButtonText">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
@@ -1746,12 +1745,132 @@ la grabación de la fuente.</seg>
         <seg>Grabar</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.RecordedLengthLabel">
+      <tuv xml:lang="en">
+        <seg>Recorded Length: {0} sec.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Duración: {0} seg.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.RecordingFormatLabel">
+      <tuv xml:lang="en">
+        <seg>Format: {0} bits, {1} Hz</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Formato: {0} bits, {1} Hz</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.StopButtonText">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Parar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.StopButtonText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Parar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.UnableToStartRecording">
+      <tuv xml:lang="en">
+        <seg>Unable to start recording.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No se pudo empezar a grabar.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Session Recorder</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Grabadora de Sesión</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SplashScreen.LoadingLabel">
+      <tuv xml:lang="en">
+        <seg>Loading...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cargando...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SplashScreen.VersionInfoLabel">
+      <tuv xml:lang="en">
+        <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Versión {0}.{1}.{2} (Beta) compilado {3}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CarefulSpeechRecorderDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Careful Speech Recorder</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Grabación de habla cuidadosa</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CarefulSpeechRecorderDlg._labelCarefulSpeech">
+      <tuv xml:lang="en">
+        <seg>Careful Speech</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Habla cuidadosa</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cancelar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonClose">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Aceptar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelOriginalRecording">
+      <tuv xml:lang="en">
+        <seg>Source Audio</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Audio original</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelZoom">
+      <tuv xml:lang="en">
+        <seg>&amp;Zoom:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Zoom:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._undoToolStripMenuItem">
+      <tuv xml:lang="en">
+        <seg>Undo</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Deshacer</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString">
       <tuv xml:lang="en">
         <seg>All Files (*.*)|*.*</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Todos los archivos (*. *) | *. *</seg>
+        <seg>Todos los archivos (*.*)|*.*</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.Caption">
@@ -1767,7 +1886,7 @@ la grabación de la fuente.</seg>
         <seg>Audacity Label File (*.txt)|*.txt</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Archivo de etiquetas de audacia (*.txt) | * .txt</seg>
+        <seg>Archivo de etiquetas de Audacity (*.txt)|*.txt</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanFileTypeString">
@@ -1775,7 +1894,7 @@ la grabación de la fuente.</seg>
         <seg>ELAN File (*.eaf)|*.eaf</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>ELAN archivo (*.eaf)|*.eaf</seg>
+        <seg>Archivo ELAN (*.eaf)|*.eaf</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadSegmentFileDlgCaption">
@@ -1783,7 +1902,7 @@ la grabación de la fuente.</seg>
         <seg>Select Segment File</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Seleccione archivo de segmento</seg>
+        <seg>Seleccione archivo de segmentos</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CancelButton">
@@ -1832,7 +1951,7 @@ la grabación de la fuente.</seg>
         <seg>FLEx Interlinear (*.flextext)|*.flextext|All Files (*.*)|*.*</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>FLEx Interlinear XML (*.xml) | *. xml|Todos los archivos (*. *) | *. *</seg>
+        <seg>FLEx Interlineal (*.flextext)|*.flextext|Todos los archivos (*.*)|*.*</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationLabel">
@@ -1848,7 +1967,7 @@ la grabación de la fuente.</seg>
         <seg>Sorry, the writing system {0} does not conform to current standards. Please first upgrade to FLEx 7.1 or greater.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Lo sentimos, que el sistema de escritura {0} no se ajusta a las normas actuales. Por favor, primero actualice a FLEx 7.1 o superior.</seg>
+        <seg>El sistema de escritura {0} no se ajusta a los estándares actuales. Favor de actualizarse a FLEx 7.1 o superior.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.OverviewLabel">
@@ -1856,7 +1975,7 @@ la grabación de la fuente.</seg>
         <seg>Specify the writing systems for the transcriptions and free translations.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Especificar los sistemas de escritura para las transcripciones y Traducciones gratuitas.</seg>
+        <seg>Especificar los sistemas de escritura para las transcripciones y traducciones libres.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.TranscriptionLabel">
@@ -1872,7 +1991,7 @@ la grabación de la fuente.</seg>
         <seg>Export Annotations For FieldWorks Interlinear</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Anotaciones de exportación para trabajos de campo interlineares</seg>
+        <seg>Exportación de anotaciones a FieldWorks interlineal</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.ButtonTextWhenSegmentTooShort">
@@ -1880,7 +1999,7 @@ la grabación de la fuente.</seg>
         <seg>Whoops! The segment will be too short. Continue listening.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>El segmento será demasiado corto. Sigue escuchando.</seg>
+        <seg>El segmento será demasiado corto. Siga escuchando.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.GeneralSegmentingErrorMsg">
@@ -1888,7 +2007,7 @@ la grabación de la fuente.</seg>
         <seg>There was an error segmenting the file '{0}'.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Hubo un error en la segmentación del archivo '{0}'.</seg>
+        <seg>Ocurrió un error en la segmentación del archivo '{0}'.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.SavingSegmentsErrorMsg">
@@ -1896,7 +2015,7 @@ la grabación de la fuente.</seg>
         <seg>There was an error while trying to save segments for the file '{0}'.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Hubo un error al intentar grabar los segmentos para el archivo '{0}'.</seg>
+        <seg>Ocurrió un error al intentar grabar los segmentos para el archivo '{0}'.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.WindowTitle">
@@ -1923,12 +2042,20 @@ la grabación de la fuente.</seg>
         <seg>Borrar la división seleccionado (presione Supr)</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonStopOriginal">
+      <tuv xml:lang="en">
+        <seg>Stop (press the SPACE BAR)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Parar (presione la barra espaciadora)</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlgBase._buttonListenToOriginal">
       <tuv xml:lang="en">
         <seg>Listen (press the SPACE BAR)</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Escuchar (presionar la barra espaciadora)</seg>
+        <seg>Escuchar (presione la barra espaciadora)</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.CannotRecordErrorMsg">
@@ -1952,8 +2079,7 @@ la grabación de la fuente.</seg>
         <seg>Hold button down to listen\nto original recording</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Botón HOLD hasta listen
-a la grabación original</seg>
+        <seg>Mantenga el botón presionado para\nreproducir la grabación original</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortHoldingSpace">
@@ -2255,7 +2381,7 @@ a la grabación original</seg>
         <seg>SayMore Project</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Proyecto SayMore (*.sprj)</seg>
+        <seg>Proyecto SayMore</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg.WindowTitle">
@@ -2327,7 +2453,7 @@ a la grabación original</seg>
         <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Versión {0}.{1}.{2} Construido en {3}</seg>
+        <seg>Versión {0}.{1}.{2} Compilado {3}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._linkWebSites">
@@ -2379,7 +2505,7 @@ a la grabación original</seg>
         <seg>&amp;Delete Person...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Borrar Persona...</seg>
+        <seg>Borrar persona...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.DeleteSessionMenuText">
@@ -2387,7 +2513,7 @@ a la grabación original</seg>
         <seg>&amp;Delete Session...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Borrar Sesión...</seg>
+        <seg>Borrar sesión...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.ElementNoLongerExistsMsg">
@@ -2475,7 +2601,7 @@ a la grabación original</seg>
         <seg>&amp;Help</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Ayuda</seg>
+        <seg>&amp;Ayuda</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._menuAbout">
@@ -2523,7 +2649,7 @@ a la grabación original</seg>
         <seg>&amp;Help...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Ayuda...</seg>
+        <seg>&amp;Ayuda...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._menuOpenProject">
@@ -2531,7 +2657,7 @@ a la grabación original</seg>
         <seg>&amp;Open/Create Project...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Abrir Proyecto...</seg>
+        <seg>Abrir o crear proyecto...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._menuProject">
@@ -2747,7 +2873,7 @@ a la grabación original</seg>
         <seg>&amp;Birth Year</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Año de Nacimiento</seg>
+        <seg>Año de nacimiento</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelCustomFields">
@@ -2755,7 +2881,7 @@ a la grabación original</seg>
         <seg>&amp;Custom Fields</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&amp;Campos Definidos por el Usario</seg>
+        <seg>&amp;Campos definidos por el usario</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelEducation">
@@ -2771,7 +2897,7 @@ a la grabación original</seg>
         <seg>&amp;Full Name</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Nombre Completo</seg>
+        <seg>Nombre completo</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelHowToContact">
@@ -2779,7 +2905,7 @@ a la grabación original</seg>
         <seg>&amp;How to Contact</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Información de Contacto</seg>
+        <seg>Información de contacto</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelOtherLanguages">
@@ -2787,7 +2913,7 @@ a la grabación original</seg>
         <seg>Other L&amp;anguages</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Otros Idiomas</seg>
+        <seg>Otros idiomas</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelPrimaryLanguage">
@@ -2803,7 +2929,7 @@ a la grabación original</seg>
         <seg>Learned &amp;In:</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Lugar de Aprend&amp;izaje:</seg>
+        <seg>Lugar de aprend&amp;izaje:</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelPrimaryOccupation">
@@ -2859,7 +2985,7 @@ a la grabación original</seg>
         <seg>Click 'New' to add a new person.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Haga clic en 'Nueva' para añadir a una nueva persona.</seg>
+        <seg>Presione 'Nueva' para añadir a una nueva persona.</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.PeopleList.ColumnHeadings.Consent">
@@ -2899,7 +3025,7 @@ a la grabación original</seg>
         <seg>&amp;Person</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&amp;Persona</seg>
+        <seg>P&amp;ersona</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.ViewTabText">
@@ -2996,7 +3122,7 @@ a la grabación original</seg>
         <seg>{0} sessions totaling {1} minutes</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0} sesiones que duran un total de {1} minutos</seg>
+        <seg>{0} sesiones con duración total de {1} minutos</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.SummaryTotalsTextForSegment1">
@@ -3004,7 +3130,7 @@ a la grabación original</seg>
         <seg>{0}{1} sessions totaling {2} minutes</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0}{1} sesiones que duran un total de {2} minutos</seg>
+        <seg>{0}{1} sesiones con duración total de {2} minutos</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.SummaryTotalsTextForSegment2">
@@ -3012,7 +3138,7 @@ a la grabación original</seg>
         <seg>{0}: {1} sessions totaling {2} minutes</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0}: {1} sesiones que duran un total de {2} minutos</seg>
+        <seg>{0}: {1} sesiones con duración total de {2} minutos</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.TabText">
@@ -3341,7 +3467,7 @@ a la grabación original</seg>
         <seg>Archive with RAMP (SIL)...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Archivar con RAMP (ILV)...</seg>
+        <seg>&amp;Archivar con RAMP (ILV)...</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsList.Stages.CarefulSpeech">
@@ -3641,6 +3767,14 @@ a la grabación original</seg>
         <seg>Regenerar</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.RegenerateButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Regenerate Oral Annotation Audio File</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Regenerar archivo de anotación oral</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.StopButton">
       <tuv xml:lang="en">
         <seg>Stop</seg>
@@ -3654,7 +3788,7 @@ a la grabación original</seg>
         <seg>Stop Playback</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Para Reproducción</seg>
+        <seg>Parar reproducción</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.TabText">
@@ -3662,7 +3796,7 @@ a la grabación original</seg>
         <seg>Generated Audio</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Audio Generado</seg>
+        <seg>Audio generado</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._buttonConvert">
@@ -3687,6 +3821,38 @@ a la grabación original</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>El formato de este archivo de audio es '{0}'. Para anotarlo, SayMore necesita convertirlo a WAV PCM, un formato estándar que es una buena opción para archivo permanente. Durante el proceso de conversión, un nuevo archivo audio será creado y agregado a la lista de archivos de la sesión. El nombre del nuevo archivo de audio será igual a la de la fuente pero con la extensión "{1}". El archivo original no se modificará y permanecerá en la lista de archivos de la sesión.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForVideo">
+      <tuv xml:lang="en">
+        <seg>In order to annotate, SayMore needs to convert this video to WAV PCM audio. During the conversion process, a standard audio file will be created from the source and added to the session's file list. The name of the new audio file will be the same as the name of the source with the suffix "{0}" added to the end. The source file will remain unchanged in the session's file list.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Para anotar, SayMore necesita convertir este vídeo a audio WAV PCM. Durante el proceso de conversión, un nuevo archivo audio será creado y agregado a la lista de archivos de la sesión. El nombre del nuevo archivo de audio será igual a la de la fuente pero con la extensión "{0}". El archivo original no se modificará y permanecerá en la lista de archivos de la sesión.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelSourceFileName">
+      <tuv xml:lang="en">
+        <seg>Name of source media file:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nombre del archivo multimedia original:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelStandardAudioFileName">
+      <tuv xml:lang="en">
+        <seg>Name of new, standard audio file:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nombre del nuevo archivo de audio estándar:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.TabText">
+      <tuv xml:lang="en">
+        <seg>Start Annotating</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Empezar a anotar</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.StartAnnotatingTab._buttonGetStarted">
@@ -3761,6 +3927,86 @@ a la grabación original</seg>
         <seg>Usar la cuadro de diálogo de segmentación manual</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu">
+      <tuv xml:lang="en">
+        <seg>Export</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Exportar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMenuItem">
+      <tuv xml:lang="en">
+        <seg>ELAN File...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivo ELAN...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.FLExTextExport">
+      <tuv xml:lang="en">
+        <seg>FLEx Interlinear Text...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>FLEx Interlineal...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.ToolboxExport">
+      <tuv xml:lang="en">
+        <seg>Toolbox File...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivo de Toolbox...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.commaSeparatedValueExport">
+      <tuv xml:lang="en">
+        <seg>Spreadsheet (CSV) File...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivo de hoja de cálculo (CSV)...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.plainTextExport">
+      <tuv xml:lang="en">
+        <seg>Plain Text...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Texto...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtFreeTranslationSubtitlesExport">
+      <tuv xml:lang="en">
+        <seg>Free Translation Subtitles File...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivo de subtítulos de traducción libre...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtFreeTranslationSubtitlesExport.freeTranslationFilenameSuffix">
+      <tuv xml:lang="en">
+        <seg>freeTranslation_subtitle</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>subtitulo_traduccion</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtVernacularSubtitlesExport">
+      <tuv xml:lang="en">
+        <seg>Vernacular Subtitles File...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivo de subtítulos vernáculos...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtVernacularSubtitlesExport.transcriptionFilenameSuffix">
+      <tuv xml:lang="en">
+        <seg>vernacular_subtitle</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>subtitulo_vernaculo</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">
       <tuv xml:lang="en">
         <seg>&amp;Careful Speech...</seg>
@@ -3775,7 +4021,55 @@ a la grabación original</seg>
         <seg>Copy {0} to clipboard</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0} Copiar al portapapeles</seg>
+        <seg>Copiar {0} al portapapeles</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.Caption">
+      <tuv xml:lang="en">
+        <seg>Exporting to FLEx Interlinear</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Exportación a FLEx Interlineal</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.FinsihedMsg">
+      <tuv xml:lang="en">
+        <seg>Finished Exporting</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Exportación finalizado</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.ProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Exporting...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Exportando...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Both">
+      <tuv xml:lang="en">
+        <seg>Playback Both Recordings</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Reproducir ambas grabaciones</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.OralTranslation">
+      <tuv xml:lang="en">
+        <seg>Playback Oral Translation Recording</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Reproducir grabación de traducción oral</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Source">
+      <tuv xml:lang="en">
+        <seg>Playback Source Recording</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Reproducir grabación original</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.HelpButton">
@@ -3792,6 +4086,22 @@ a la grabación original</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Ayuda</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.IgnoredMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Ignored</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ignorado</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.IgnoredSegmentIndicator">
+      <tuv xml:lang="en">
+        <seg>Ignored</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ignorado</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg">
@@ -3817,6 +4127,14 @@ a la grabación original</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Traducción &amp;Oral...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.RecordButton">
+      <tuv xml:lang="en">
+        <seg>Oral Annotations Tools</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Herramientas de anotacion oral</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.RecordButton_ToolTip_">
@@ -3851,12 +4169,44 @@ a la grabación original</seg>
         <seg>Anotaciones</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TranscriptionColumnPlaybackMenuOptions.Both">
+      <tuv xml:lang="en">
+        <seg>Playback Both Recordings</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Reproducir ambas grabaciones</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TranscriptionColumnPlaybackMenuOptions.CarefulSpeech">
+      <tuv xml:lang="en">
+        <seg>Playback Careful Speech Recording</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Reproducir grabación de habla cuidadosa</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TranscriptionColumnPlaybackMenuOptions.Source">
+      <tuv xml:lang="en">
+        <seg>Playback Source Recording</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Reproducir grabación original</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor._comboPlaybackSpeed_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Playback speed</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Velocidad de reproducción</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.TierDisplayNames.FreeTranslation">
       <tuv xml:lang="en">
         <seg>Free Translation</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Traducción Libre</seg>
+        <seg>Traducción libre</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TierDisplayNames.Transcription">
@@ -3883,12 +4233,29 @@ a la grabación original</seg>
         <seg>El archivo '{0}' ya existe.</seg>
       </tuv>
     </tu>
+    <tu tuid="SoundFileUtils.ConvertToStandardWavPcmAudioErrorMsg">
+      <note>Parameter is the file name of the media file used as the basis for the attempted conversion.</note>
+      <tuv xml:lang="en">
+        <seg>There was an error trying to create a standard audio file from:\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ocurrió un error al intentar crear un archivo de audio estándar usando este archivo como fuente:\n\n{0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ConvertToStandardWavPcmAudioMsg">
+      <tuv xml:lang="en">
+        <seg>Converting...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Convertiendo...</seg>
+      </tuv>
+    </tu>
     <tu tuid="SoundFileUtils.ErrorFindingPcmAudioDriverMsg">
       <tuv xml:lang="en">
         <seg>There was an error trying to find a PCM audio driver on this computer. Ensure that you have a PCM sound driver installed.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Hubo un error al intentar encontrar un controlador de audio PCM en este equipo. Asegúrese de que tiene un controlador de sonido PCM instalado.</seg>
+        <seg>Ocurrió un error al intentar encontrar un controlador de audio PCM en este equipo. Asegúrese de que tiene un controlador de sonido PCM instalado.</seg>
       </tuv>
     </tu>
     <tu tuid="SoundFileUtils.ErrorFindingPcmConversionCapabilitiesMsg">
@@ -3896,7 +4263,16 @@ a la grabación original</seg>
         <seg>There was an error trying to find PCM audio conversion capabilities on this computer. Ensure that you have a PCM sound driver installed.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Hubo un error al intentar encontrar capacidades de conversión audio PCM en este equipo. Asegúrese de que tiene un controlador de sonido PCM instalado.</seg>
+        <seg>Ocurrió un error al intentar encontrar capacidades de conversión audio PCM en este equipo. Asegúrese de que tiene un controlador de sonido PCM instalado.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ExtractingAudioError">
+      <note>Second parameter is the error message.</note>
+      <tuv xml:lang="en">
+        <seg>There was an error extracting audio from the media file '{0}'\n\n{1}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Hubo un error al extraer audio de archivo multimedia '{0}'\n\n{1}</seg>
       </tuv>
     </tu>
     <tu tuid="SoundFileUtils.FileMayNotBeValidAudioError">
@@ -3913,14 +4289,6 @@ a la grabación original</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>No existe el archivo multimedia.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor._comboPlaybackSpeed_ToolTip_">
-      <tuv xml:lang="en">
-        <seg>Playback speed</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Velocidad de reproducción</seg>
       </tuv>
     </tu>
   </body>

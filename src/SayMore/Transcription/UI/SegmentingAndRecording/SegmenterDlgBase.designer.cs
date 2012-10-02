@@ -91,7 +91,7 @@ namespace SayMore.Transcription.UI
 			this._undoToolStripMenuItem.Image = global::SayMore.Properties.Resources.undo;
 			this.locExtender.SetLocalizableToolTip(this._undoToolStripMenuItem, null);
 			this.locExtender.SetLocalizationComment(this._undoToolStripMenuItem, null);
-			this.locExtender.SetLocalizingId(this._undoToolStripMenuItem, "OralAnnotationRecorderBaseDlg._undoToolStripMenuItem");
+			this.locExtender.SetLocalizingId(this._undoToolStripMenuItem, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._undoToolStripMenuItem");
 			this._undoToolStripMenuItem.Name = "_undoToolStripMenuItem";
 			this._undoToolStripMenuItem.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
 			this._undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
@@ -185,7 +185,7 @@ namespace SayMore.Transcription.UI
 			this._labelSourceRecording.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelSourceRecording, null);
 			this.locExtender.SetLocalizationComment(this._labelSourceRecording, null);
-			this.locExtender.SetLocalizingId(this._labelSourceRecording, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlgDlg._labelOriginalRecording" +
+			this.locExtender.SetLocalizingId(this._labelSourceRecording, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelOriginalRecording" +
 					"");
 			this._labelSourceRecording.Location = new System.Drawing.Point(0, 5);
 			this._labelSourceRecording.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);

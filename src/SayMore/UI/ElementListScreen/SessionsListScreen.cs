@@ -115,7 +115,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			var tab = viewTabGroup.AddTab(this);
 			tab.Name = "SessionsViewTab"; // for tests
-			tab.Text = LocalizationManager.GetString("SessionsView.ViewTabText", "Sessions", null, "Sessions View", null, tab);
+			tab.Text = LocalizationManager.GetString("SessionsView.ViewTabText", "Sessions", null, null, null, tab);
 			Text = tab.Text;
 		}
 

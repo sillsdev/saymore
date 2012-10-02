@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using Localization;
 using Localization.UI;
+using Palaso.Media.Naudio;
 using Palaso.Media.Naudio.UI;
 using Palaso.Reporting;
 using SayMore.Media.Audio;
@@ -73,14 +74,27 @@ namespace SayMore.UI.SessionRecording
 			_viewModel = viewModel;
 			_viewModel.UpdateAction += delegate { UpdateDisplay(); };
 			_viewModel.Recorder.PeakLevelChanged += ((s, e) => _peakMeter.PeakLevel = e.Level);
-			_viewModel.Recorder.RecordingProgress += (s, e) =>
-				_labelRecLength.Text = string.Format(_recordedLengthLabelFormat,
-					MediaPlayerViewModel.MakeTimeString((float)e.RecordedLength.TotalSeconds));
+			_viewModel.Recorder.RecordingProgress += HandleRecorderProgress;
 
 			_peakMeter = AudioUtils.CreatePeakMeterControl(_panelPeakMeter);
 			SetupRecordingDeviceButton();
 
 			LocalizeItemDlg.StringsLocalized += delegate { _recordedLengthLabelFormat = _labelRecLength.Text; };
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleRecorderProgress(object sender, RecordingProgressEventArgs e)
+		{
+			if (InvokeRequired)
+				Invoke((Action)(() => UpdateRecordingDuration(e.RecordedLength)));
+			UpdateRecordingDuration(e.RecordedLength);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateRecordingDuration(TimeSpan duration)
+		{
+			_labelRecLength.Text = string.Format(_recordedLengthLabelFormat,
+				MediaPlayerViewModel.MakeTimeString((float)duration.TotalSeconds));
 		}
 
 		/// ------------------------------------------------------------------------------------

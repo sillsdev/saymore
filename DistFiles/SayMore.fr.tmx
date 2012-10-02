@@ -1543,7 +1543,7 @@ l'enregistrement de la source.</seg>
         <seg>Projet sera créé dans: {0}</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg._buttonCancel">
+    <tu tuid="DialogBoxes.ProgressDlg._buttonCancel">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
       </tuv>
@@ -1551,7 +1551,7 @@ l'enregistrement de la source.</seg>
         <seg>Annuler</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg._buttonOK">
+    <tu tuid="DialogBoxes.ProgressDlg._buttonOK">
       <tuv xml:lang="en">
         <seg>OK</seg>
       </tuv>
@@ -3879,14 +3879,6 @@ l'enregistrement de la source.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Conversion des fichiers requise</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction">
-      <tuv xml:lang="en">
-        <seg>#</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>#</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForAudio">

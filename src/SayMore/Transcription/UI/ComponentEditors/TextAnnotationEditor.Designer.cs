@@ -240,7 +240,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._comboPlaybackSpeed, "Playback speed");
 			this.locExtender.SetLocalizationComment(this._comboPlaybackSpeed, null);
 			this.locExtender.SetLocalizationPriority(this._comboPlaybackSpeed, Localization.LocalizationPriority.Medium);
-			this.locExtender.SetLocalizingId(this._comboPlaybackSpeed, "Transcription.UI.TextAnnotationEditor._comboPlaybackSpeed");
+			this.locExtender.SetLocalizingId(this._comboPlaybackSpeed, "SessionsView.Transcription.TextAnnotationEditor._comboPlaybackSpeed");
 			this._comboPlaybackSpeed.Name = "_comboPlaybackSpeed";
 			this._comboPlaybackSpeed.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
 			this._comboPlaybackSpeed.Size = new System.Drawing.Size(55, 23);

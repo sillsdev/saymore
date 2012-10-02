@@ -90,6 +90,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutConvert.SetColumnSpan(this._labelConvertIntroduction, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelConvertIntroduction, null);
 			this.locExtender.SetLocalizationComment(this._labelConvertIntroduction, null);
+			this.locExtender.SetLocalizationPriority(this._labelConvertIntroduction, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelConvertIntroduction, "SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduc" +
         "tion");
 			this._labelConvertIntroduction.Location = new System.Drawing.Point(15, 70);

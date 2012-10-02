@@ -327,8 +327,14 @@ namespace SayMore.UI.ComponentEditors
 			TabText = LocalizationManager.GetString("SessionsView.StatusAndStagesEditor.TabText", "Status && Stages");
 			if (_statusRadioButtons != null)
 			{
-				foreach (var radioButton in _statusRadioButtons)
-					radioButton.Text = Session.GetLocalizedStatus(radioButton.Tag.ToString());
+				foreach (var radioButton in _statusRadioButtons.Where(b => b.Tag is Session.Status))
+				{
+					var status = (Session.Status)radioButton.Tag;
+					radioButton.Text = Session.GetLocalizedStatus(status.ToString());
+					var toolTip = GetStatusToolTip(status);
+					if (toolTip != null)
+						_toolTip.SetToolTip(radioButton, toolTip);
+				}
 			}
 
 			base.HandleStringsLocalized();

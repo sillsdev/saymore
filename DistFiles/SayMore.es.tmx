@@ -1283,23 +1283,6 @@ la grabación de la fuente.</seg>
         <seg>Convertir archivo multimedia</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ComponentFileRenamingDlg.FileAlreadyExistsMsg">
-      <tuv xml:lang="en">
-        <seg>A file by that name already exists or the name is invalid.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Ya existe un archivo con ese nombre o el nombre no es válido.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ComponentFileRenamingDlg.NewFileNameMsg">
-      <note>Displayed under the text box.</note>
-      <tuv xml:lang="en">
-        <seg>New file: {0}</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Nueva local: {0}</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.DeleteMessageBox.WindowTitle">
       <tuv xml:lang="en">
         <seg>Confirm Delete</seg>
@@ -1576,15 +1559,15 @@ la grabación de la fuente.</seg>
         <seg>Proyecto se creará in: {0}</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg.WindowTitle">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.CreatingSessions.ProgressDlg.Caption">
       <tuv xml:lang="en">
-        <seg>Making Sessions...</seg>
+        <seg>Creating Sessions</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Haciendo sesiones...</seg>
+        <seg>Creando sesiones</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg._buttonCancel">
+    <tu tuid="DialogBoxes.ProgressDlg._buttonCancel">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
       </tuv>
@@ -1592,20 +1575,12 @@ la grabación de la fuente.</seg>
         <seg>Cancelar</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg._buttonOK">
+    <tu tuid="DialogBoxes.ProgressDlg._buttonOK">
       <tuv xml:lang="en">
         <seg>OK</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Aceptar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.CreatingSessions.ProgressDlg.Caption">
-      <tuv xml:lang="en">
-        <seg>Creating Sessions</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Creación de sesiones</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.FolderBrowserDlgDescription">
@@ -2652,7 +2627,7 @@ a la grabación original</seg>
         <seg>Informed Consent is Audio File</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>El consentimiento informado es en forma de audio grabación</seg>
+        <seg>El consentimiento informado está grabada en audio</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.InformedConsentTypes.None">
@@ -2668,7 +2643,7 @@ a la grabación original</seg>
         <seg>Informed Consent is Video File</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>El consentimiento informado es en forma de vídeo</seg>
+        <seg>El consentimiento informado está grabada en vídeo</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.InformedConsentTypes.Written">
@@ -2684,7 +2659,7 @@ a la grabación original</seg>
         <seg>Change Picture</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Cambiar imagen</seg>
+        <seg>Cambiar imágen</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor.ErrorChangingPersonsPhotoMsg">
@@ -2708,7 +2683,7 @@ a la grabación original</seg>
         <seg>Click to indicate this is the father's primary language</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Haga clic aquí para indicar que esto es el idioma principal del padre</seg>
+        <seg>Presione aquí para indicar que esto es el idioma principal del padre</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor.FatherSelectorToolTip.WhenSelected">
@@ -2748,7 +2723,7 @@ a la grabación original</seg>
         <seg>Click to indicate this is the mother's primary language</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Haga clic aquí para indicar que esto es el idioma principal de la madre</seg>
+        <seg>Presione aquí para indicar que esto es el idioma principal de la madre</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor.MotherSelectorToolTip.WhenSelected">
@@ -2852,7 +2827,7 @@ a la grabación original</seg>
         <seg>Click to Change Picture</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Haga clic para cambiar la imagen</seg>
+        <seg>Presione para cambiar la imagen</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.Miscellaneous.AlreadyExistsSaveFailureMessage">
@@ -2903,12 +2878,28 @@ a la grabación original</seg>
         <seg>ID</seg>
       </tuv>
     </tu>
+    <tu tuid="PeopleView.PeopleList.HeadingText">
+      <tuv xml:lang="en">
+        <seg>People</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Personas</seg>
+      </tuv>
+    </tu>
     <tu tuid="PeopleView.PeopleMainMenu.NewMenuText">
       <tuv xml:lang="en">
         <seg>&amp;New</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&amp;Nuevo</seg>
+        <seg>&amp;Nueva</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.PeopleMainMenu.TopLevelMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Person</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Persona</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.ViewTabText">
@@ -3206,7 +3197,7 @@ a la grabación original</seg>
         <seg>You must specify a session id.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Debe especificar un ID para la sesión.</seg>
+        <seg>Debe especificarse un ID para la sesión.</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Miscellaneous.SessionAlreadyExistsSaveFailureMessage">
@@ -3262,7 +3253,7 @@ a la grabación original</seg>
         <seg>Click 'New' to add a new session.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Haga clic en 'Nuevo' para agregar una nueva sesión.</seg>
+        <seg>Presione 'Nueva' para agregar una nueva sesión.</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsList.ColumnHeadings.Date">
@@ -3321,6 +3312,14 @@ a la grabación original</seg>
         <seg>Título</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.SessionsList.HeadingText">
+      <tuv xml:lang="en">
+        <seg>Sessions</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sesiones</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.SessionsList.NewFilesFromDeviceButtonText">
       <tuv xml:lang="en">
         <seg>New From De&amp;vice...</seg>
@@ -3329,12 +3328,20 @@ a la grabación original</seg>
         <seg>Crear sesión con archivos del dispositivo...</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.SessionsList.NewFilesFromRecordingButtonText">
+      <tuv xml:lang="en">
+        <seg>New From &amp;Recording...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Crear sesión de una nueva grabación...</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.SessionsList.RampArchiveMenuText">
       <tuv xml:lang="en">
         <seg>Archive with RAMP (SIL)...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Archivar con RAMP (SIL)...</seg>
+        <seg>Archivar con RAMP (ILV)...</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsList.Stages.CarefulSpeech">
@@ -3350,7 +3357,7 @@ a la grabación original</seg>
         <seg>Complete</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Completar</seg>
+        <seg>Completo</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsList.Stages.IncompleteToolTipText">
@@ -3401,12 +3408,116 @@ a la grabación original</seg>
         <seg>Traducción escrita</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.SessionsMainMenu.NewFromDeviceMenuText">
+      <tuv xml:lang="en">
+        <seg>New From De&amp;vice...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Crear sesión con archi&amp;vos del dispositivo...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsMainMenu.NewFromRecordingMenuText">
+      <tuv xml:lang="en">
+        <seg>New From &amp;Recording...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>C&amp;rear sesión de una nueva grabación...</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.SessionsMainMenu.NewMenuText">
       <tuv xml:lang="en">
         <seg>&amp;New</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&amp;Nuevo</seg>
+        <seg>&amp;Nueva</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsMainMenu.TopLevelMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Session</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Sesión</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.StageNameDisplayFormat">
+      <tuv xml:lang="en">
+        <seg>{0} (on auto-pilot)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>{0} (automático)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.StatusToolTips.Finished">
+      <tuv xml:lang="en">
+        <seg>I'm done working on it.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No hay más trabajo que hacer en esta sesión.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.StatusToolTips.In_Progress">
+      <tuv xml:lang="en">
+        <seg>I'm working on it.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Trabajo en esta sesión está en curso.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.StatusToolTips.Incoming">
+      <tuv xml:lang="en">
+        <seg>I am gathering the recording and meta\ndata and may or may not take it further.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Todavía se están reuniendo las grabaciones y metadatos para\nesta sesión, con la posibilidad de ampliarse en el futuro.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.StatusToolTips.Skipped">
+      <tuv xml:lang="en">
+        <seg>I've decided to not develop\nthis session at this time.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Por el momento, no hay intenciones de seguir desarollando esta sesión.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Status &amp;&amp; Stages</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Estado y etapas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelReadAboutStages">
+      <tuv xml:lang="en">
+        <seg>Read About SayMore Stages</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Lea sobre las etapas en SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelReadAboutStatus">
+      <tuv xml:lang="en">
+        <seg>Read About SayMore Status Indicators</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Lea sobre indicadores de estado en SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelStages">
+      <tuv xml:lang="en">
+        <seg>Stages</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Etapas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelStagesHint">
+      <tuv xml:lang="en">
+        <seg>Stages are normally automatic indicators of what  has been done, based on file names and annotation work you've done. Click any item to take control of this indicator.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Las etapas normalmente indican automáticamente el progreso realizado. SayMore usa los nombres de los archivos y la presecia de anotaciones para determinar cuales etapas se han completado. Presione cualquier elemento para tomar el control manual de este indicador.</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.StatusAndStagesEditor._labelStatus">
@@ -3415,6 +3526,14 @@ a la grabación original</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Estado</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelStatusHint">
+      <tuv xml:lang="en">
+        <seg>Use the status to mark the big picture of this session.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Indique el estado general de esta sesión.</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.AnnotationFileNotFoundMsg">
@@ -3430,7 +3549,31 @@ a la grabación original</seg>
         <seg>File '{0}' is not a SayMore annotation file. It is possibly corrupt.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>El archivo '{0}' no es un archivo de anotación de SayMore. Posiblemente es dañado.</seg>
+        <seg>El archivo '{0}' no es un archivo de anotación de SayMore. Posiblemente está dañado.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.FontsMenu">
+      <tuv xml:lang="en">
+        <seg>&amp;Fonts...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Fuentes...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileDetails">
+      <tuv xml:lang="en">
+        <seg>Attempting to generate file:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Intentando generar el archivo:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileGenericErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error generating the oral annotation file.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ocurrió un error al generar el archivo de anotación oral.</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg">
@@ -3438,7 +3581,7 @@ a la grabación original</seg>
         <seg>Generating Oral Annotation file...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Generando archivo para anotacion oral...</seg>
+        <seg>Generando el archivo de anotacion oral...</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton">
@@ -3520,6 +3663,102 @@ a la grabación original</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Audio Generado</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._buttonConvert">
+      <tuv xml:lang="en">
+        <seg>Convert</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Convertir</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelHeading">
+      <tuv xml:lang="en">
+        <seg>File Conversion Required</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Conversión de archivo necesario</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForAudio">
+      <tuv xml:lang="en">
+        <seg>The format of this audio file is '{0}'. In order to annotate, SayMore needs to convert it to WAV PCM, which is a good, standard choice for archiving. During the conversion process, a standard audio file will be created from the source and added to the session's file list. The name of the new audio file will be the same as the source with the suffix "{1}" added to the end. The source file will remain unchanged in the session's file list.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>El formato de este archivo de audio es '{0}'. Para anotarlo, SayMore necesita convertirlo a WAV PCM, un formato estándar que es una buena opción para archivo permanente. Durante el proceso de conversión, un nuevo archivo audio será creado y agregado a la lista de archivos de la sesión. El nombre del nuevo archivo de audio será igual a la de la fuente pero con la extensión "{1}". El archivo original no se modificará y permanecerá en la lista de archivos de la sesión.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._buttonGetStarted">
+      <tuv xml:lang="en">
+        <seg>Get Started...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Empezar...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._labelIntroduction">
+      <tuv xml:lang="en">
+        <seg>You can add transcription, translation, careful speech and audio translation to this media file. But first...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Puede agregarse audio traducción, traducción escrita, discurso cuidadoso y transcripción a este archivo multimedia. Pero primero...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethod">
+      <tuv xml:lang="en">
+        <seg>Segmentation Method</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Método de segmentación</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethodQuestion">
+      <tuv xml:lang="en">
+        <seg>Each annotation will be linked to a single time segment of media. How would you like to identify those segments?</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cada anotación se vinculará a un segmento único de la multimedia original. ¿Cómo le gustaría delimitar aquellos segmentos?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonAudacity">
+      <tuv xml:lang="en">
+        <seg>Read an Audacity Label file</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Leer un archivo de Audacity con etiquetas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonAutoSegmenter">
+      <tuv xml:lang="en">
+        <seg>Use auto segmenter (experimental)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Usar el auto segmentador (experimental)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonCarefulSpeech">
+      <tuv xml:lang="en">
+        <seg>Use Careful Speech Tool</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Usar el cuadro de diálogo para grabar el habla cuidadosa</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonElan">
+      <tuv xml:lang="en">
+        <seg>Copy an existing ELAN file</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Copiar un archivo existente de ELAN</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonManual">
+      <tuv xml:lang="en">
+        <seg>Use Manual Segmentation Tool</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Usar la cuadro de diálogo de segmentación manual</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">
@@ -3676,7 +3915,7 @@ a la grabación original</seg>
         <seg>No existe el archivo multimedia.</seg>
       </tuv>
     </tu>
-    <tu tuid="Transcription.UI.TextAnnotationEditor._comboPlaybackSpeed_ToolTip_">
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor._comboPlaybackSpeed_ToolTip_">
       <tuv xml:lang="en">
         <seg>Playback speed</seg>
       </tuv>

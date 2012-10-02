@@ -46,7 +46,7 @@ namespace SayMore.UI
 			this._buttonOK.Enabled = false;
 			this.locExtender.SetLocalizableToolTip(this._buttonOK, null);
 			this.locExtender.SetLocalizationComment(this._buttonOK, null);
-			this.locExtender.SetLocalizingId(this._buttonOK, "DialogBoxes.NewSessionsFromFileProgressDlg._buttonOK");
+			this.locExtender.SetLocalizingId(this._buttonOK, "DialogBoxes.ProgressDlg._buttonOK");
 			this._buttonOK.Location = new System.Drawing.Point(207, 82);
 			this._buttonOK.Margin = new System.Windows.Forms.Padding(3, 8, 0, 0);
 			this._buttonOK.MinimumSize = new System.Drawing.Size(75, 26);
@@ -81,7 +81,7 @@ namespace SayMore.UI
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
-			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.NewSessionsFromFileProgressDlg._buttonCancel");
+			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.ProgressDlg._buttonCancel");
 			this._buttonCancel.Location = new System.Drawing.Point(285, 82);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(3, 8, 0, 0);
 			this._buttonCancel.MinimumSize = new System.Drawing.Size(75, 26);
@@ -108,13 +108,13 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this, "DialogBoxes.NewSessionsFromFileProgressDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.ProgressDlg.WindowTitle");
 			this.Name = "ProgressDlg";
 			this.Padding = new System.Windows.Forms.Padding(15, 20, 15, 15);
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Making Sessions...";
+			this.Text = "#";
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();

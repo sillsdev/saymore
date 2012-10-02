@@ -289,22 +289,6 @@
         <seg>Извлечение аудио в формате моно MP3 (низкое качество)</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ConvertMediaDlg.ExtractStandardPcmFromVideoMenuText">
-      <tuv xml:lang="en">
-        <seg>Extract audio to standard WAV PCM audio file</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Извлечение аудио формате Wave</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SoundFileUtils.ConversionOutputFileAlreadyErrorMsg">
-      <tuv xml:lang="en">
-        <seg>Sorry, the file '{0}' already exists.</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Извините, файл «{0}» уже существует.</seg>
-      </tuv>
-    </tu>
     <tu tuid="CommonToMultipleViews.FileList.CreateAnnotationFileButtonText_ToolTip_">
       <tuv xml:lang="ru">
         <seg>Создание файла аннотации</seg>
@@ -875,6 +859,14 @@
         <seg>Переименовать</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ExtractStandardPcmFromVideoMenuText">
+      <tuv xml:lang="en">
+        <seg>Extract audio to standard WAV PCM audio file</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Извлечение аудио формате Wave</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.DeleteMessageBox.WindowTitle">
       <tuv xml:lang="en">
         <seg>Confirm Delete</seg>
@@ -981,20 +973,28 @@
         <seg>Проект будет создан в: {0}</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg.WindowTitle">
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.CreatingSessions.ProgressDlg.Caption">
       <tuv xml:lang="en">
-        <seg>Making Sessions...</seg>
+        <seg>Creating Sessions...</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Создаются события...</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.NewSessionsFromFileProgressDlg._buttonOK">
+    <tu tuid="DialogBoxes.ProgressDlg._buttonOK">
       <tuv xml:lang="en">
         <seg>OK</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>OK</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ProgressDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отмена</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.FolderBrowserDlgDescription">
@@ -1441,30 +1441,6 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>SIL International</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.GeneratedOralAnnotationView.CarefulLabel">
-      <tuv xml:lang="en">
-        <seg>Careful</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Точная заметка</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.GeneratedOralAnnotationView.SourceLabel">
-      <tuv xml:lang="en">
-        <seg>Source</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Исходный текст</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.GeneratedOralAnnotationView.TranslationLabel">
-      <tuv xml:lang="en">
-        <seg>Translation</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Перевод</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.DeleteMultipleItemsMsg">
@@ -2110,6 +2086,30 @@
         <seg>Добавление файлов к событию</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.GeneratedOralAnnotationView.CarefulLabel">
+      <tuv xml:lang="en">
+        <seg>Careful</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Точная заметка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.GeneratedOralAnnotationView.SourceLabel">
+      <tuv xml:lang="en">
+        <seg>Source</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Исходный текст</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.GeneratedOralAnnotationView.TranslationLabel">
+      <tuv xml:lang="en">
+        <seg>Translation</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Перевод</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.MetadataEditor.TabText">
       <tuv xml:lang="en">
         <seg>Session</seg>
@@ -2205,14 +2205,6 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Ситуация</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.StatusAndStagesEditor._labelStatus">
-      <tuv xml:lang="en">
-        <seg>Status</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Состаяние</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelTitle">
@@ -2445,6 +2437,14 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Создать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelStatus">
+      <tuv xml:lang="en">
+        <seg>Status</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Состаяние</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.AnnotationFileNotFoundMsg">
@@ -2728,6 +2728,14 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>События</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ConversionOutputFileAlreadyErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Sorry, the file '{0}' already exists.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Извините, файл «{0}» уже существует.</seg>
       </tuv>
     </tu>
     <tu tuid="SoundFileUtils.ErrorFindingPcmAudioDriverMsg">

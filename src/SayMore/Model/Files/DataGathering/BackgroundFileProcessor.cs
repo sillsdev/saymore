@@ -310,7 +310,7 @@ namespace SayMore.Model.Files.DataGathering
 			{
 				//Give a copy (a list) because if we just give an enumerator, we'll get
 				//an error if/when this collection is altered on another thread
-				return _fileToDataDictionary.Values.ToList();
+				return _fileToDataDictionary.Values.Where(v => v != null).ToList();
 			}
 		}
 

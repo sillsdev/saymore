@@ -207,7 +207,7 @@ namespace SayMore.UI.SessionRecording
 			this._buttonStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonStop.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this._buttonStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonStop, "Stop");
+			this.locExtender.SetLocalizableToolTip(this._buttonStop, null);
 			this.locExtender.SetLocalizationComment(this._buttonStop, null);
 			this.locExtender.SetLocalizingId(this._buttonStop, "DialogBoxes.SessionRecorderDlg.StopButtonText");
 			this._buttonStop.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);

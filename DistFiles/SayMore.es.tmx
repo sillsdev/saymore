@@ -86,7 +86,7 @@
         <seg>&amp;New</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&amp;Nueva</seg>
+        <seg>&amp;Añadir</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ElementList.OneColumnMustBeVisibleMsg">
@@ -1019,9 +1019,7 @@
         <seg>Careful Speech:\nSlow, careful speech re-speaking\nof the source recording.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Cuidado Speech:
-lento y cuidadoso discurso re-speaking
-de la grabación de la fuente.</seg>
+        <seg>Habla cuidadosa:\nGrabación de una reproduccón del discurso original en forma lenta y\ncuidadosa para ayudar al lingüista escuchar distintivamente cada palabra.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkConsent">
@@ -1037,9 +1035,7 @@ de la grabación de la fuente.</seg>
         <seg>Informed Consent:\nA scan or recording of consent covering\nthe use of this person's contribution.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Análisis de Consent:
-A informado o grabación de consentimiento covering
-el uso de la contribución de esta persona.</seg>
+        <seg>Consentimiento informado:\nEscaneo o grabación de consentimiento que indica permiso\npara el uso de la contribución de esta persona.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkOralTranslation">
@@ -1055,9 +1051,7 @@ el uso de la contribución de esta persona.</seg>
         <seg>Oral Translation:\nRecording of a translation\nof the source recording.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Oral Translation:
-grabación de un translation
-de la grabación de la fuente.</seg>
+        <seg>Traducción oral:\nGrabación de una traducción de la grabación\noriginal en el lengua de comunicación más amplia.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkSource">
@@ -1073,9 +1067,7 @@ de la grabación de la fuente.</seg>
         <seg>Source:\nThe recording of the session. Used to satisfy\nthe 'Source Recording' stage of the session.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Source:
-la grabación de la sesión. Utilizado para satisfy
-la etapa de 'Grabación de fuente' de la sesión.</seg>
+        <seg>Original:\nLa grabación de la sesión. La presencia de este archivo indica que\nse ha realizado la etapa de 'Grabación original' de la sesión.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkTranscription">
@@ -1091,8 +1083,7 @@ la etapa de 'Grabación de fuente' de la sesión.</seg>
         <seg>Transcription:\nWritten transcription of\nthe source recording.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Transcription:\ntranscripción de
-la grabación original.</seg>
+        <seg>Transcripción:\nTranscripción escrita de la grabación original.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation">
@@ -1108,9 +1099,7 @@ la grabación original.</seg>
         <seg>Written Translation:\nWritten translation of\nthe source recording.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Translation escrita:\n
-traducción de
-la grabación original</seg>
+        <seg>Traducción escrita:\nTraducción escrita de la grabación original en\nel lengua de comunicación más amplia.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.AvailableConversionsLabel">
@@ -1734,7 +1723,7 @@ la grabación original</seg>
         <seg>Playback Recording</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Reproducir Grabación</seg>
+        <seg>Reproducir grabación</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.RecordButtonText">
@@ -1769,14 +1758,6 @@ la grabación original</seg>
         <seg>Parar</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.SessionRecorderDlg.StopButtonText_ToolTip_">
-      <tuv xml:lang="en">
-        <seg>Stop</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Parar</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.UnableToStartRecording">
       <tuv xml:lang="en">
         <seg>Unable to start recording.</seg>
@@ -1790,7 +1771,7 @@ la grabación original</seg>
         <seg>Session Recorder</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Grabadora de Sesión</seg>
+        <seg>Grabadora de sesión</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.SplashScreen.LoadingLabel">
@@ -2545,7 +2526,7 @@ la grabación original</seg>
         <seg>Export Data</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Exportar Datos</seg>
+        <seg>Exportar datos</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.LoadingProjectErrorMsg">
@@ -2609,7 +2590,7 @@ la grabación original</seg>
         <seg>&amp;About...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&amp;Acerca de...</seg>
+        <seg>&amp;Acerca de SayMore...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._menuChangeUILanguage">
@@ -2633,7 +2614,7 @@ la grabación original</seg>
         <seg>Export People...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Exportar Información de Personas...</seg>
+        <seg>Exportar información de personas...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._menuExportSessions">
@@ -2641,7 +2622,7 @@ la grabación original</seg>
         <seg>Export Sessions...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Exportar Sesiones...</seg>
+        <seg>Exportar sesiones...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._menuHelp">
@@ -2673,7 +2654,7 @@ la grabación original</seg>
         <seg>Release Notes...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Ver Notas de la Versión...</seg>
+        <seg>Ver notas de la versión...</seg>
       </tuv>
     </tu>
     <tu tuid="Miscellaneous.CopyFilesControl.CopyFailedMsg">
@@ -2985,7 +2966,7 @@ la grabación original</seg>
         <seg>Click 'New' to add a new person.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Presione 'Nueva' para añadir a una nueva persona.</seg>
+        <seg>Presione 'Añadir' para agregar a una nueva persona.</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.PeopleList.ColumnHeadings.Consent">
@@ -3017,7 +2998,7 @@ la grabación original</seg>
         <seg>&amp;New</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&amp;Nueva</seg>
+        <seg>&amp;Añadir otra persona</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.PeopleMainMenu.TopLevelMenuText">
@@ -3379,7 +3360,7 @@ la grabación original</seg>
         <seg>Click 'New' to add a new session.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Presione 'Nueva' para agregar una nueva sesión.</seg>
+        <seg>Presione 'Añadir' para agregar una nueva sesión.</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsList.ColumnHeadings.Date">
@@ -3515,7 +3496,7 @@ la grabación original</seg>
         <seg>Source Recording</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Grabación Original</seg>
+        <seg>Grabación original</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsList.Stages.Transcription">
@@ -3555,7 +3536,7 @@ la grabación original</seg>
         <seg>&amp;New</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&amp;Nueva</seg>
+        <seg>&amp;Añadir una nueva sesión</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsMainMenu.TopLevelMenuText">
@@ -4029,7 +4010,7 @@ la grabación original</seg>
         <seg>Exporting to FLEx Interlinear</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Exportación a FLEx Interlineal</seg>
+        <seg>Exportación a FLEx interlineal</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.FinsihedMsg">

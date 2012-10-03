@@ -1762,14 +1762,6 @@ l'enregistrement de la source.</seg>
         <seg>Stop</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.SessionRecorderDlg.StopButtonText_ToolTip_">
-      <tuv xml:lang="en">
-        <seg>Stop</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Stop</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.UnableToStartRecording">
       <tuv xml:lang="en">
         <seg>Unable to start recording.</seg>

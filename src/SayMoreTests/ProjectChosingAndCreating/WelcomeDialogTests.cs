@@ -2,7 +2,7 @@ using NUnit.Framework;
 using SilTools;
 using SayMore.UI.ProjectChoosingAndCreating;
 
-namespace SayMoreTests.ProjectChosingAndCreating
+namespace SayMoreTests.ProjectChoosingAndCreating
 {
 	/// ----------------------------------------------------------------------------------------
 	[TestFixture]

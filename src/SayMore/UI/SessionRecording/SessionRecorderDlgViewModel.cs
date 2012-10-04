@@ -117,11 +117,7 @@ namespace SayMore.UI.SessionRecording
 		/// ------------------------------------------------------------------------------------
 		public bool IsRecording
 		{
-			get
-			{
-				return (Recorder.RecordingState == RecordingState.Recording ||
-					Recorder.RecordingState == RecordingState.RequestedStop);
-			}
+			get { return (Recorder.IsRecording); }
 		}
 
 		/// ------------------------------------------------------------------------------------

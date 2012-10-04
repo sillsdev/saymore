@@ -407,8 +407,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsRecording()
 		{
-			return (Recorder != null && !Recorder.GetIsInErrorState() &&
-				Recorder.RecordingState == RecordingState.Recording);
+			return (Recorder != null && !Recorder.GetIsInErrorState() && Recorder.IsRecording);
 		}
 
 		#endregion

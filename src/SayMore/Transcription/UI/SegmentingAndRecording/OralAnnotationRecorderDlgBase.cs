@@ -987,8 +987,8 @@ namespace SayMore.Transcription.UI
 		{
 			if (ViewModel.GetIsRecording())
 			{
-				FinishRecording(!_reRecording ? AdvanceOptionsAfterRecording.Advance :
-					AdvanceOptionsAfterRecording.DoNotAdvance);
+				FinishRecording(_reRecording ? AdvanceOptionsAfterRecording.DoNotAdvance:
+					AdvanceOptionsAfterRecording.Advance);
 			}
 			base.OnDeactivate(e);
 		}

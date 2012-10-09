@@ -77,6 +77,7 @@ namespace SayMore.Transcription.UI
 			_annotationFile = file;
 
 			Utils.SetWindowRedraw(this, false);
+			EndEdit();
 			RowCount = 0;
 			Columns.Clear();
 

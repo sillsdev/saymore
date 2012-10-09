@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
 using Palaso.IO;
 using Localization;
@@ -14,6 +15,15 @@ namespace SayMore.Media.MPlayer
 	/// ----------------------------------------------------------------------------------------
 	public static class MPlayerHelper
 	{
+		[Flags]
+		public enum ConversionResult
+		{
+			InProgress = 0,
+			ConversionFailed = 1,
+			FinishedConverting = 2,
+			PossibleError = 4,
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public static string MPlayerPath
 		{
@@ -95,12 +105,10 @@ namespace SayMore.Media.MPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static IEnumerable<string> GetArgumentsToCreatePcmAudio(string mediaInPath, string audioOutPath)
+		private static IEnumerable<string> GetArgumentsToCreatePcmAudio(MediaFileInfo info,
+			string audioOutPath)
 		{
-			mediaInPath = mediaInPath.Replace('\\', '/');
-			var info = MediaFileInfo.GetInfo(mediaInPath);
-
-			yield return "\"" + mediaInPath + "\"";
+			yield return "\"" + info.MediaFilePath + "\"";
 			yield return "-nofontconfig";
 			yield return "-nocorrect-pts";
 			yield return "-vo null";
@@ -125,24 +133,53 @@ namespace SayMore.Media.MPlayer
 		/// file (i.e. raw PCM).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool CreatePcmAudioFromMediaFile(string mediaInPath, string audioOutPath)
+		public static ConversionResult CreatePcmAudioFromMediaFile(string mediaInPath,
+			string audioOutPath, out string output)
 		{
-			var args = GetArgumentsToCreatePcmAudio(mediaInPath, audioOutPath);
+			output = null;
+
+			mediaInPath = mediaInPath.Replace('\\', '/');
+			var info = MediaFileInfo.GetInfo(mediaInPath);
+			if (info == null)
+				return ConversionResult.ConversionFailed;
+
+			var args = GetArgumentsToCreatePcmAudio(info, audioOutPath);
 			var finishedProcessing = false;
-			var error = false;
+			var result = ConversionResult.InProgress;
+			var outputBuilder = new StringBuilder();
 
 			var prs = StartProcessToMonitor(args,
-				(s, e) => finishedProcessing = (e.Data == "Exiting... (End of file)"),
-				(s, e) => error = (e.Data != null && (e.Data == "Seek failed" || e.Data.StartsWith("Failed to open"))));
+				(s, e) =>
+					{
+						if (e.Data != null)
+							outputBuilder.AppendLine(e.Data);
+						finishedProcessing = (e.Data == "Exiting... (End of file)");
+					},
+				(s, e) =>
+					{
+						if (e.Data != null)
+						{
+							outputBuilder.AppendLine(e.Data);
+							if (e.Data == "Seek failed")
+								result |= ConversionResult.PossibleError;
+							else if (e.Data.StartsWith("Failed to open"))
+								result = ConversionResult.ConversionFailed;
+						}
+					});
 
 			if (prs == null)
-				return false;
+				return ConversionResult.ConversionFailed;
 
-			while (!finishedProcessing && !error)
+			while (!finishedProcessing && result != ConversionResult.ConversionFailed)
 				Application.DoEvents();
 
 			prs.Dispose();
-			return !error;
+			if (result != ConversionResult.ConversionFailed)
+			{
+				result |= ConversionResult.FinishedConverting;
+				output = outputBuilder.ToString();
+			}
+			return result;
 		}
 
 		/// ------------------------------------------------------------------------------------

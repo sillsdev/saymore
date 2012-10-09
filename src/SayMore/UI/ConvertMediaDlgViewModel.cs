@@ -22,6 +22,7 @@ namespace SayMore.UI
 		ConversionCancelled = 4,
 		ConversionFailed = 8,
 		FinishedConverting = 16,
+		PossibleError = 32,
 		AllFinishedStates = ConversionCancelled | ConversionFailed | FinishedConverting
 	}
 
@@ -65,6 +66,12 @@ namespace SayMore.UI
 					LocalizationManager.GetString("ConvertMedia.FullConversionOutput", "Full output from conversion:") +
 					Environment.NewLine + _conversionOutput);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string ConversionOutput
+		{
+			get { return _conversionOutput.ToString(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -113,6 +120,12 @@ namespace SayMore.UI
 		public void BeginConversion(Action<TimeSpan, string> conversionReportingAction,
 			string outputFile = null)
 		{
+			if (MediaInfo == null)
+			{
+				ConversionState = ConvertMediaUIState.ConversionFailed;
+				return;
+			}
+
 			if (outputFile == null)
 				outputFile = GetNewOutputFileName(false);
 			var commandLine = BuildCommandLine(outputFile);
@@ -134,8 +147,15 @@ namespace SayMore.UI
 				Application.DoEvents();
 
 			if (ConversionState == ConvertMediaUIState.Converting)
-				ConversionState = File.Exists(outputFile) ?
-					ConvertMediaUIState.FinishedConverting : ConvertMediaUIState.ConversionFailed;
+			{
+				if (File.Exists(outputFile))
+				{
+					ConversionState ^= ConvertMediaUIState.Converting;
+					ConversionState |= ConvertMediaUIState.FinishedConverting;
+				}
+				else
+					ConversionState = ConvertMediaUIState.ConversionFailed;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -235,7 +255,7 @@ namespace SayMore.UI
 					ConversionState = ConvertMediaUIState.ConversionFailed;
 				}
 				else if (e.Data.ToLower().Contains("error"))
-					ConversionState = ConvertMediaUIState.ConversionFailed;
+					ConversionState |= ConvertMediaUIState.PossibleError;
 			}
 
 			if (_conversionReportingAction != null)

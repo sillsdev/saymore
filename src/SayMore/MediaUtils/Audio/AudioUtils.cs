@@ -329,31 +329,55 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		private static bool DoPcmConversion(string inputMediaFile, string outputAudioFile)
 		{
+			// TODO: Either figure out how to get FFmpeg to correctly extract PCM audio from Viji Snow.AVI, or else figure out how to detect this condition and use Mplayer.
 			// If ffmpeg is is available, then use it. Otherwise do the conversion using mplayer.
 			if (!FFmpegDownloadHelper.DoesFFmpegForSayMoreExist)
 			{
-				if (MPlayerHelper.CreatePcmAudioFromMediaFile(inputMediaFile, outputAudioFile))
-					return true;
+				string output;
+				var result = MPlayerHelper.CreatePcmAudioFromMediaFile(inputMediaFile,
+					outputAudioFile, out output);
+				if ((result & MPlayerHelper.ConversionResult.FinishedConverting) == 0)
+					return false;
+				if ((result & MPlayerHelper.ConversionResult.PossibleError) > 0)
+					ReportPossibleConversionProblem(output);
+				return true;
 			}
-			else
-			{
-				var _model = new ConvertMediaDlgViewModel(inputMediaFile,
+
+			var _model = new ConvertMediaDlgViewModel(inputMediaFile,
 					ConvertMediaDlg.GetFactoryExtractToStandardPcmConversionName());
 
-				_model.BeginConversion(null, outputAudioFile);
+			_model.BeginConversion(null, outputAudioFile);
 
-				if (_model.ConversionState == ConvertMediaUIState.FinishedConverting)
-					return File.Exists(outputAudioFile);
+			var finishedState = _model.ConversionState & ConvertMediaUIState.AllFinishedStates;
 
-				if (_model.ConversionState == ConvertMediaUIState.ConversionFailed)
-				{
-					var e = _model.ConversionException;
-					if (e != null)
-						throw e;
-				}
+			if (finishedState == ConvertMediaUIState.FinishedConverting)
+			{
+				if ((_model.ConversionState & ConvertMediaUIState.PossibleError) > 0)
+					ReportPossibleConversionProblem(_model.ConversionOutput);
+				return File.Exists(outputAudioFile);
+			}
+
+			if (finishedState == ConvertMediaUIState.ConversionFailed)
+			{
+				var e = _model.ConversionException;
+				if (e != null)
+					throw e;
 			}
 
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void ReportPossibleConversionProblem(string details)
+		{
+			var exception = new Exception(details);
+			ErrorReport.ReportNonFatalExceptionWithMessage(exception,
+			LocalizationManager.GetString("SoundFileUtils.PossibleConversionErrorMsg",
+				"Conversion completed, but with possible error(s). If the converted file " +
+				"does not appear to be usable, delete it and check the validity of the source " +
+				"file. After checking the source file and the conversion output details, " +
+				"if you believe this is a problem with SayMore, please include a copy of the " +
+				"source file with your error report."));
 		}
 
 		/// ------------------------------------------------------------------------------------

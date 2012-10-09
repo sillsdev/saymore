@@ -108,7 +108,7 @@ namespace SayMore.UI
 			Settings.Default.ShowFFmpegDetailsWhenConvertingMedia = _showOutput;
 			Program.ResumeBackgroundProcesses(true);
 
-			if (_viewModel.ConversionState == ConvertMediaUIState.FinishedConverting)
+			if ((_viewModel.ConversionState & ConvertMediaUIState.FinishedConverting) > 0)
 				DialogResult = DialogResult.OK;
 
 			base.OnClosing(e);
@@ -161,15 +161,15 @@ namespace SayMore.UI
 
 			_buttonBeginConversion.Enabled =
 				(_viewModel.ConversionState != ConvertMediaUIState.FFmpegDownloadNeeded &&
-				_viewModel.ConversionState != ConvertMediaUIState.Converting &&
-				_viewModel.ConversionState != ConvertMediaUIState.FinishedConverting &&
+				(_viewModel.ConversionState & ConvertMediaUIState.Converting) == 0 &&
+				(_viewModel.ConversionState & ConvertMediaUIState.FinishedConverting) == 0 &&
 				_comboAvailableConversions.SelectedItem != null);
 
 			_comboAvailableConversions.Enabled = _buttonBeginConversion.Enabled;
 			_tableLayoutFFmpegMissing.Visible = (_viewModel.ConversionState == ConvertMediaUIState.FFmpegDownloadNeeded);
-			_progressBar.Visible = (_viewModel.ConversionState == ConvertMediaUIState.Converting);
-			_buttonCancel.Visible = (_viewModel.ConversionState == ConvertMediaUIState.Converting);
-			_buttonClose.Visible = (_viewModel.ConversionState != ConvertMediaUIState.Converting);
+			_progressBar.Visible = (_viewModel.ConversionState & ConvertMediaUIState.Converting) > 0;
+			_buttonCancel.Visible = (_viewModel.ConversionState & ConvertMediaUIState.Converting) > 0;
+			_buttonClose.Visible = (_viewModel.ConversionState & ConvertMediaUIState.Converting) == 0;
 
 			_labelStatus.Visible =
 				(_viewModel.ConversionState != ConvertMediaUIState.FFmpegDownloadNeeded &&
@@ -193,9 +193,9 @@ namespace SayMore.UI
 		private void UpdateDisplayWhenConversionFinsihed()
 		{
 			_labelStatus.ForeColor =
-				(_viewModel.ConversionState == ConvertMediaUIState.FinishedConverting ? Color.Green : Color.Red);
+				((_viewModel.ConversionState & ConvertMediaUIState.FinishedConverting) > 0 ? Color.Green : Color.Red);
 
-			switch (_viewModel.ConversionState)
+			switch (_viewModel.ConversionState & ConvertMediaUIState.AllFinishedStates)
 			{
 				case ConvertMediaUIState.ConversionCancelled:
 					_viewModel.DeleteOutputFile();
@@ -212,9 +212,19 @@ namespace SayMore.UI
 					break;
 
 				case ConvertMediaUIState.FinishedConverting:
-					_labelStatus.Text = LocalizationManager.GetString(
-						"DialogBoxes.ConvertMediaDlg.ConversionSucceededMsg",
-						"Conversion Finished Successfully.");
+					if ((_viewModel.ConversionState & ConvertMediaUIState.PossibleError) > 0)
+					{
+						_labelStatus.ForeColor = Color.Orange;
+						_labelStatus.Text = LocalizationManager.GetString(
+							"DialogBoxes.ConvertMediaDlg.ConversionFinishedWithPossibleErrorsMsg",
+							"Conversion Finished, but with possible errors.");
+					}
+					else
+					{
+						_labelStatus.Text = LocalizationManager.GetString(
+							"DialogBoxes.ConvertMediaDlg.ConversionSucceededMsg",
+							"Conversion Finished Successfully.");
+					}
 					break;
 			}
 

@@ -146,7 +146,7 @@ namespace SayMore.UI
 			while (_workerThread.IsAlive)
 				Application.DoEvents();
 
-			if (ConversionState == ConvertMediaUIState.Converting)
+			if ((ConversionState & ConvertMediaUIState.Converting) > 0)
 			{
 				if (File.Exists(outputFile))
 				{

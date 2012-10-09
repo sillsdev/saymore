@@ -371,7 +371,7 @@ namespace SayMore.Media.Audio
 		private static void ReportPossibleConversionProblem(string details)
 		{
 			var exception = new Exception(details);
-			ErrorReport.ReportNonFatalExceptionWithMessage(exception,
+			ErrorReport.NotifyUserOfProblem(exception,
 			LocalizationManager.GetString("SoundFileUtils.PossibleConversionErrorMsg",
 				"Conversion completed, but with possible error(s). If the converted file " +
 				"does not appear to be usable, delete it and check the validity of the source " +

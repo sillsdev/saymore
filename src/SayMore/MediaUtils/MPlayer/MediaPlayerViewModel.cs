@@ -562,7 +562,7 @@ namespace SayMore.Media.MPlayer
 		private void EnsurePlaybackUntilEndOfMedia()
 		{
 			// This method is called when mplayer reports that it has come to the end of
-			// playing a media file. For some reason, mplayer sometimes reports that its
+			// playing a media file. For some reason, mplayer sometimes reports that it's
 			// at the end when there's actually a little bit remaining (e.g. by about one
 			// second). mplayer won't stop playing until the real end, however, so in
 			// order to avoid passing on the false report that we're at EOF (which will

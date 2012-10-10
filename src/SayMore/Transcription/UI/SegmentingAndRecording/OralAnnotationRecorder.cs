@@ -53,13 +53,13 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public override void Stop()
 		{
-			if (!GetIsInErrorState() && RecordingState == RecordingState.Recording)
+			lock (this)
 			{
-				base.Stop();
-				return;
+				if (GetIsInErrorState())
+					AbortRecording();
+				else if (RecordingState == RecordingState.Recording)
+					base.Stop();
 			}
-
-			AbortRecording();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -323,6 +323,7 @@ namespace SayMore.Transcription.UI
 			{
 				BackupOralAnnotationSegmentFile(path, true);
 				backupCreated = true;
+				CurrentUnannotatedSegment = TimeTier.Segments.FirstOrDefault(s => s.TimeRange == timeRange);
 			}
 			else
 			{

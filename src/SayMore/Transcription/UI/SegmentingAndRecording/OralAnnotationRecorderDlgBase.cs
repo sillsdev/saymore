@@ -1557,7 +1557,7 @@ namespace SayMore.Transcription.UI
 		{
 			_elapsedRecordingTime = elapsedRecordedTime;
 
-			Invoke((Action<Rectangle>)_waveControl.InvalidateIfNeeded,
+			BeginInvoke((Action<Rectangle>)_waveControl.InvalidateIfNeeded,
 				GetVisibleAnnotationRectangleForSegmentBeingRecorded());
 		}
 

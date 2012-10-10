@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="fr" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4658.26245" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="fr" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4659.19633" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
@@ -4403,6 +4403,14 @@ l'enregistrement de la source.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Fichier de média n'existe pas.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.PossibleConversionErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Conversion completed, but with possible error(s). If the converted file does not appear to be usable, delete it and check the validity of the source file. After checking the source file and the conversion output details, if you believe this is a problem with SayMore, please include a copy of the source file with your error report.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Conversion terminée, mais avec des erreur(s) possible(s). Si le fichier converti ne semble pas être utilisable, supprimez-le et vérifier la validité du fichier source. Après avoir vérifié le fichier source et les détails de sortie de conversion, si vous croyez que c'est un problème avec SayMore, s'il vous plaît inclure une copie du fichier source avec votre rapport d'erreur.</seg>
       </tuv>
     </tu>
   </body>

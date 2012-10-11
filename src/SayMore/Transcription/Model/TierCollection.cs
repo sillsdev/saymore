@@ -169,7 +169,7 @@ namespace SayMore.Transcription.Model
 		public bool GetIsSegmentIgnored(int segmentIndex)
 		{
 			var transcriptionTier = GetTranscriptionTier();
-			return transcriptionTier != null && segmentIndex > 0 &&
+			return transcriptionTier != null && segmentIndex >= 0 &&
 				segmentIndex < transcriptionTier.Segments.Count &&
 				SegmentIsIgnored(transcriptionTier.Segments[segmentIndex]);
 		}

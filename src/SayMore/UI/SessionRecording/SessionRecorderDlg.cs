@@ -72,7 +72,15 @@ namespace SayMore.UI.SessionRecording
 				return;
 
 			_viewModel = viewModel;
-			_viewModel.UpdateAction += delegate { UpdateDisplay(); };
+			_viewModel.UpdateAction += delegate
+			{
+				if (InvokeRequired)
+				{
+					BeginInvoke((Action)UpdateDisplay);
+					return;
+				}
+				UpdateDisplay();
+			};
 			_viewModel.Recorder.PeakLevelChanged += ((s, e) => _peakMeter.PeakLevel = e.Level);
 			_viewModel.Recorder.RecordingProgress += HandleRecorderProgress;
 
@@ -86,7 +94,10 @@ namespace SayMore.UI.SessionRecording
 		private void HandleRecorderProgress(object sender, RecordingProgressEventArgs e)
 		{
 			if (InvokeRequired)
-				Invoke((Action)(() => UpdateRecordingDuration(e.RecordedLength)));
+			{
+				BeginInvoke((Action)(() => UpdateRecordingDuration(e.RecordedLength)));
+				return;
+			}
 			UpdateRecordingDuration(e.RecordedLength);
 		}
 

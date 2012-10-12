@@ -3780,6 +3780,14 @@
         <seg>Audio generado</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.OptionsMenu">
+      <tuv xml:lang="en">
+        <seg>Options</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Opciones</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._buttonConvert">
       <tuv xml:lang="en">
         <seg>Convert</seg>

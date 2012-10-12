@@ -3857,6 +3857,14 @@ l'enregistrement de la source.</seg>
         <seg>Audio généré</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.OptionsMenu">
+      <tuv xml:lang="en">
+        <seg>Options</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Options</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._buttonConvert">
       <tuv xml:lang="en">
         <seg>Convert</seg>

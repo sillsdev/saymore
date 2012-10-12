@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using Localization;
 using SayMore.Transcription.Model;
 
@@ -12,7 +13,6 @@ namespace SayMore.Transcription.UI
 	public class TextAnnotationColumnWithMenu : TextAnnotationColumn
 	{
 		public AudioRecordingType PlaybackType { get; protected set; }
-		//public Action<OralAnnotationType> AnnotationPlaybackTypeChangedAction { get; set; }
 
 		private ContextMenuStrip _columnMenu;
 
@@ -20,6 +20,7 @@ namespace SayMore.Transcription.UI
 		public TextAnnotationColumnWithMenu(TierBase tier) : base(tier)
 		{
 			SortMode = DataGridViewColumnSortMode.Programmatic;
+			HeaderCell.Style.Font = new Font(DefaultCellStyle.Font, FontStyle.Bold);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -51,8 +52,11 @@ namespace SayMore.Transcription.UI
 			foreach (var menuItem in _columnMenu.Items.OfType<ToolStripMenuItem>().Where(m => m.Tag is AudioRecordingType))
 				menuItem.Checked = ((AudioRecordingType)menuItem.Tag == PlaybackType);
 
+			_columnMenu.PerformLayout();
+
 			var rc = _grid.GetCellDisplayRectangle(Index, -1, false);
-			var pt = _grid.PointToScreen(new Point(rc.Left, rc.Bottom));
+			var pt = _grid.PointToScreen(new Point(rc.Right - _columnMenu.Width, rc.Bottom));
+
 			_columnMenu.Show(pt);
 		}
 
@@ -73,11 +77,35 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleGridCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
 		{
-			if (DataGridView == null)
+			if (DataGridView == null || e.RowIndex >= 0 || e.ColumnIndex != Index)
 				return;
 
-			HeaderCell.SortGlyphDirection = SortOrder.Descending;
-			_grid.CellPainting -= HandleGridCellPainting;
+			var headerTextWidth = TextRenderer.MeasureText(e.Graphics, HeaderText, e.CellStyle.Font).Width;
+			//HeaderCell.SortGlyphDirection = SortOrder.Descending;
+			e.Paint(e.ClipBounds, DataGridViewPaintParts.All);
+
+			var rect = e.CellBounds;
+			rect.X += headerTextWidth;
+			rect.Width -= headerTextWidth;
+
+			var arrow = Properties.Resources.DropDownArrow;
+			var glyphWidth = arrow.Width;
+			if (rect.Width > glyphWidth)
+			{
+				e.Graphics.DrawImage(arrow, new Rectangle(rect.Right - glyphWidth - 1, rect.Top + (rect.Height - arrow.Height) / 2, glyphWidth, arrow.Height));
+				rect.Width -= (glyphWidth + 4);
+			}
+			using (var optionsFont = new Font(e.CellStyle.Font, FontStyle.Regular))
+			{
+				var optionsText = LocalizationManager.GetString("SessionsView.Transcription.OptionsMenu", "Options");
+				if (rect.Width > TextRenderer.MeasureText(e.Graphics, optionsText, optionsFont).Width)
+				{
+					rect.Height--;
+					TextRenderer.DrawText(e.Graphics, optionsText, optionsFont, rect,
+						e.CellStyle.ForeColor, TextFormatFlags.Right | TextFormatFlags.VerticalCenter);
+				}
+			}
+			e.Handled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------

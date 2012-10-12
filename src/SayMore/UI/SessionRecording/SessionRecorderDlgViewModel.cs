@@ -7,7 +7,7 @@ using Palaso.Media.Naudio;
 using Palaso.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Model;
-using SayMore.Properties;
+using SayMore.Model.Files;
 
 namespace SayMore.UI.SessionRecording
 {
@@ -152,7 +152,9 @@ namespace SayMore.UI.SessionRecording
 			try
 			{
 				CloseAll();
-				File.Move(_path, Path.Combine(session.FolderPath, session.Id + ".wav"));
+				var sourceRole = ApplicationContainer.ComponentRoles.First(r => r.Id == ComponentRole.kSourceComponentRoleId);
+				File.Move(_path, Path.Combine(session.FolderPath,
+					sourceRole.GetCanoncialName(session.Id, Path.GetFileName(_path))));
 			}
 			catch (Exception e)
 			{

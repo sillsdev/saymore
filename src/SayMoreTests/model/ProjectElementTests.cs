@@ -143,62 +143,65 @@ namespace SayMoreTests.Model
 		}
 
 		[Test][Category("SkipOnTeamCity")]
-		public void RemoveInvalidFilesFromProspectiveFilesToAdd_AllValid_RemovesNone()
+		public void GetFilesToCopy_AllValid_RemovesNone()
 		{
 			using (var fileToAdd1 = new TempFile())
 			using (var fileToAdd2 = new TempFile())
 			{
 				using (var person = CreatePerson())
 				{
-					var list = person.RemoveInvalidFilesFromProspectiveFilesToAdd(
-						new[] { fileToAdd1.Path, fileToAdd2.Path });
+					var list = person.GetValidFilesToCopy(
+						new[] { fileToAdd1.Path, fileToAdd2.Path }).ToArray();
 
 					Assert.That(list.Count(), Is.EqualTo(2));
 
-					Assert.That(list.Contains(fileToAdd1.Path), Is.True);
-					Assert.That(list.Contains(fileToAdd2.Path), Is.True);
+					var file1 = list.SingleOrDefault(kvp => kvp.Key == fileToAdd1.Path);
+					Assert.IsNotNull(file1);
+					Assert.AreEqual(Path.Combine(person.FolderPath, Path.GetFileName(fileToAdd1.Path)), file1.Value);
+					var file2 = list.SingleOrDefault(kvp => kvp.Key == fileToAdd2.Path);
+					Assert.IsNotNull(file2);
+					Assert.AreEqual(Path.Combine(person.FolderPath, Path.GetFileName(fileToAdd2.Path)), file2.Value);
 				}
 			}
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test]
+		[Category("SkipOnTeamCity")]
 		public void RemoveInvalidFilesFromProspectiveFilesToAdd_NullInput_ReturnsEmptyList()
 		{
 			using (var person = CreatePerson())
 			{
-				var list = person.RemoveInvalidFilesFromProspectiveFilesToAdd(null);
+				var list = person.GetValidFilesToCopy(null);
 				Assert.That(list.Count(), Is.EqualTo(0));
 			}
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test]
+		[Category("SkipOnTeamCity")]
 		public void RemoveInvalidFilesFromProspectiveFilesToAdd_EmptyListInput_ReturnsEmptyList()
 		{
 			using (var person = CreatePerson())
 			{
-				var list = person.RemoveInvalidFilesFromProspectiveFilesToAdd(new string[] { });
+				var list = person.GetValidFilesToCopy(new string[] { });
 				Assert.That(list.Count(), Is.EqualTo(0));
 			}
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test]
+		[Category("SkipOnTeamCity")]
 		public void RemoveInvalidFilesFromProspectiveFilesToAdd_SomeInvalid_RemovesThoseSome()
 		{
-			var invalidEndings = new StringCollection();
-			invalidEndings.AddRange(new[] { ".aaa", ".bbb" });
-
-			// This is a little brittle, but the generated property doesn't have a setter.
-			SayMore.Properties.Settings.Default["ComponentFileEndingsNotAllowed"] = invalidEndings;
-
 			using (var fileToAdd = new TempFile())
 			{
 				using (var person = CreatePerson())
 				{
-					var list = person.RemoveInvalidFilesFromProspectiveFilesToAdd(
-						new[] { "stupidFile.aaa", fileToAdd.Path, "reallyStupidFile.bbb" });
+					var list = person.GetValidFilesToCopy(
+						new[] { "stupidFile.meta", fileToAdd.Path, "reallyStupidFile.thumbs.db" }).ToArray();
 
 					Assert.That(list.Count(), Is.EqualTo(1));
-					Assert.That(list.Contains(fileToAdd.Path), Is.True);
+					var file1 = list.SingleOrDefault(kvp => kvp.Key == fileToAdd.Path);
+					Assert.IsNotNull(file1);
+					Assert.AreEqual(Path.Combine(person.FolderPath, Path.GetFileName(fileToAdd.Path)), file1.Value);
 				}
 			}
 		}

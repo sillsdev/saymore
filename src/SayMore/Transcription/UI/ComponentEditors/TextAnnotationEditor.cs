@@ -371,7 +371,7 @@ namespace SayMore.Transcription.UI
 			textTeir.AddTimeRangeData(timeTier);
 
 			var filter =  "SRT Subtitle File (*.srt)|*.srt";
-			var fileName =_file.ParentElement.Id + "_"+fileNameSuffix+".srt";
+			var fileName =_file.ParentElement.Id + ComponentRole.kFileSuffixSeparator + fileNameSuffix + ".srt";
 			var action = new Action<string>(path => SRTFormatSubTitleExporter.Export(path, textTeir));
 
 			DoSimpleExportDialog(".srt", filter, fileName, action);

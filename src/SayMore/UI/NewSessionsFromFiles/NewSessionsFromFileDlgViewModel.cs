@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
 using SayMore.Model;
+using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using Palaso.Extensions;
@@ -416,19 +417,23 @@ namespace SayMore.UI.NewSessionsFromFiles
 		public IEnumerable<KeyValuePair<string, string>> GetAllSourceAndDestinationPairs()
 		{
 			var sessionsPath = SessionPresentationModel.PathToSessionsFolder;
+			var sourceRole = ApplicationContainer.ComponentRoles.First(r => r.Id == ComponentRole.kSourceComponentRoleId);
 
-			return Files.Where(source => source.Selected).Select(source =>
+			foreach (var source in Files.Where(file => file.Selected))
 			{
 				var srcFile = source.PathToAnnotatedFile;
-				var destPath = Path.Combine(sessionsPath, Path.GetFileNameWithoutExtension(srcFile));
-				destPath = Path.Combine(destPath, Path.GetFileName(srcFile));
-				return new KeyValuePair<string, string>(srcFile, destPath);
-			});
+				var sessionName = Path.GetFileNameWithoutExtension(srcFile);
+				if (sessionName == null)
+					continue;
+				var destPath = Path.Combine(Path.Combine(sessionsPath, sessionName),
+					sourceRole.GetCanoncialName(sessionName, Path.GetFileName(srcFile)));
+				yield return new KeyValuePair<string, string>(srcFile, destPath);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a list sourc/destination file path pairs where the destination file is sure
+		/// Gets a list source/destination file path pairs where the destination file is sure
 		/// not to exist. If any of the destination files already exist, a message box will
 		/// be displayed, telling the user of that fact.
 		/// </summary>

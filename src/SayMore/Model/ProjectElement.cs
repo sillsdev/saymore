@@ -257,23 +257,22 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public bool AddComponentFiles(string[] filesToAdd)
 		{
-			filesToAdd = RemoveInvalidFilesFromProspectiveFilesToAdd(filesToAdd).ToArray();
-			if (filesToAdd.Length == 0)
+			var filesToCopy = GetValidFilesToCopy(filesToAdd).ToArray();
+			if (filesToCopy.Length == 0)
 				return false;
 
 			Program.SuspendBackgroundProcesses();
 
-			foreach (var srcFile in filesToAdd)
+			foreach (var kvp in filesToCopy)
 			{
 				try
 				{
-					var destFile = Path.Combine(FolderPath, Path.GetFileName(srcFile));
-					File.Copy(srcFile, destFile);
+					File.Copy(kvp.Key, kvp.Value);
 					if (_componentFiles != null)
 					{
 						lock (this)
 						{
-							_componentFiles.Add(_componentFileFactory(this, destFile));
+							_componentFiles.Add(_componentFileFactory(this, kvp.Value));
 						}
 					}
 				}
@@ -288,15 +287,27 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<string> RemoveInvalidFilesFromProspectiveFilesToAdd(string[] filesBeingAdded)
+		protected string GetDestinationFilename(string srcFile)
 		{
-			if (filesBeingAdded == null)
-				filesBeingAdded = new string[] { };
+			return Path.Combine(FolderPath, Path.GetFileName(srcFile));
+		}
 
-			foreach (var prospectiveFile in filesBeingAdded.Where(ComponentFile.GetIsValidComponentFile))
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<KeyValuePair<string, string>> GetValidFilesToCopy(string[] filesBeingAdded)
+		{
+			if (filesBeingAdded != null)
+				foreach (var kvp in GetFilesToCopy(filesBeingAdded.Where(ComponentFile.GetIsValidComponentFile)))
+					yield return kvp;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual IEnumerable<KeyValuePair<string, string>> GetFilesToCopy(IEnumerable<string> validComponentFilesToCopy)
+		{
+			foreach (var srcFile in validComponentFilesToCopy)
 			{
-				if (!File.Exists(Path.Combine(FolderPath, Path.GetFileName(prospectiveFile))))
-					yield return prospectiveFile;
+				var destFile = GetDestinationFilename(srcFile);
+				if (!File.Exists(destFile))
+					yield return new KeyValuePair<string, string>(srcFile, destFile);
 			}
 		}
 

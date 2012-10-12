@@ -168,8 +168,8 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private DragDropEffects HandleFilesBeingDraggedOverComponentGrid(string[] files)
 		{
-			var validFiles = _model.SelectedElement.RemoveInvalidFilesFromProspectiveFilesToAdd(files);
-			return (validFiles.All(File.Exists) ? DragDropEffects.Copy : DragDropEffects.None);
+			var validFiles = _model.SelectedElement.GetValidFilesToCopy(files);
+			return (validFiles.All(pair => File.Exists(pair.Key)) ? DragDropEffects.Copy : DragDropEffects.None);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -66,9 +66,9 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 
 			var pairs = _model.GetAllSourceAndDestinationPairs().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-			Assert.AreEqual(Path.Combine(_sessionsFolder, @"coke\coke.wav"), pairs[@"c:\newSessionSrc\coke.wav"]);
-			Assert.AreEqual(Path.Combine(_sessionsFolder, @"pepsi\pepsi.wmv"), pairs[@"c:\newSessionSrc\pepsi.wmv"]);
-			Assert.AreEqual(Path.Combine(_sessionsFolder, @"drpepper\drpepper.mpg"), pairs[@"c:\newSessionSrc\drpepper.mpg"]);
+			Assert.AreEqual(Path.Combine(_sessionsFolder, @"coke\coke_Source.wav"), pairs[@"c:\newSessionSrc\coke.wav"]);
+			Assert.AreEqual(Path.Combine(_sessionsFolder, @"pepsi\pepsi_Source.wmv"), pairs[@"c:\newSessionSrc\pepsi.wmv"]);
+			Assert.AreEqual(Path.Combine(_sessionsFolder, @"drpepper\drpepper_Source.mpg"), pairs[@"c:\newSessionSrc\drpepper.mpg"]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -162,9 +162,9 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 
 			var pairs = _model.GetUniqueSourceAndDestinationPairs().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-			Assert.AreEqual(Path.Combine(_sessionsFolder, @"coke\coke.wav"), pairs[@"c:\newSessionSrc\coke.wav"]);
-			Assert.AreEqual(Path.Combine(_sessionsFolder, @"pepsi\pepsi.wmv"), pairs[@"c:\newSessionSrc\pepsi.wmv"]);
-			Assert.AreEqual(Path.Combine(_sessionsFolder, @"drpepper\drpepper.mpg"), pairs[@"c:\newSessionSrc\drpepper.mpg"]);
+			Assert.AreEqual(Path.Combine(_sessionsFolder, @"coke\coke_Source.wav"), pairs[@"c:\newSessionSrc\coke.wav"]);
+			Assert.AreEqual(Path.Combine(_sessionsFolder, @"pepsi\pepsi_Source.wmv"), pairs[@"c:\newSessionSrc\pepsi.wmv"]);
+			Assert.AreEqual(Path.Combine(_sessionsFolder, @"drpepper\drpepper_Source.mpg"), pairs[@"c:\newSessionSrc\drpepper.mpg"]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -178,15 +178,16 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 			Directory.CreateDirectory(Path.Combine(_sessionsFolder, "coke"));
 			Directory.CreateDirectory(Path.Combine(_sessionsFolder, "drpepper"));
 			File.CreateText(Path.Combine(_sessionsFolder, @"coke\coke.wav")).Close();
-			File.CreateText(Path.Combine(_sessionsFolder, @"drpepper\drpepper.mpg")).Close();
+			File.CreateText(Path.Combine(_sessionsFolder, @"drpepper\drpepper_Source.mpg")).Close();
 
 			ErrorReport.IsOkToInteractWithUser = false;
 
 			using (new ErrorReport.NonFatalErrorReportExpected())
 			{
 				var pairs = _model.GetUniqueSourceAndDestinationPairs().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-				Assert.AreEqual(1, pairs.Count);
-				Assert.AreEqual(Path.Combine(_sessionsFolder, @"pepsi\pepsi.wmv"), pairs[@"c:\newSessionSrc\pepsi.wmv"]);
+				Assert.AreEqual(2, pairs.Count);
+				Assert.AreEqual(Path.Combine(_sessionsFolder, @"coke\coke_Source.wav"), pairs[@"c:\newSessionSrc\coke.wav"]);
+				Assert.AreEqual(Path.Combine(_sessionsFolder, @"pepsi\pepsi_Source.wmv"), pairs[@"c:\newSessionSrc\pepsi.wmv"]);
 			}
 		}
 	}

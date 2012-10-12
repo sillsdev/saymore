@@ -93,7 +93,7 @@ namespace SayMoreTests.UI
 			_model.Stop();
 			Assert.IsFalse(File.Exists(Path.Combine(_tempFolder.Path, "Tom.wav")));
 			_model.MoveRecordingToSessionFolder(_session.Object);
-			Assert.IsTrue(File.Exists(Path.Combine(_tempFolder.Path, "Tom.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tempFolder.Path, "Tom_Source.wav")));
 		}
 	}
 }

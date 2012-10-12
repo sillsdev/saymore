@@ -1,12 +1,15 @@
 using System;
 using System.Drawing;
+using System.IO;
 using Moq;
 using NUnit.Framework;
+using Palaso.IO;
 using Palaso.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
 using System.Linq;
 using System.Collections.Generic;
+using SayMore.Utilities;
 
 namespace SayMoreTests.Model
 {
@@ -61,6 +64,9 @@ namespace SayMoreTests.Model
 			var componentRoles = new List<ComponentRole>();
 			componentRoles.Add(new ComponentRole(null, ComponentRole.kConsentComponentRoleId, null,
 				ComponentRole.MeasurementTypes.None, null, null, Color.Empty, Color.Empty));
+			componentRoles.Add(new ComponentRole(null, ComponentRole.kSourceComponentRoleId, null,
+				ComponentRole.MeasurementTypes.Time, FileSystemUtils.GetIsAudioVideo,
+				ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Source", Color.Empty, Color.Empty));
 
 			return new Session(_parentFolder.Path, "dummyId", null,
 				new SessionFileType(() => null, () => null), componentFactory,
@@ -135,6 +141,53 @@ namespace SayMoreTests.Model
 			{
 				var stages = session.GetCompletedStages();
 				Assert.IsTrue(stages.Any(s => s.Id == ComponentRole.kConsentComponentRoleId));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetFilesToCopy_TwoMediaFilesToBeCopiedToSessionWithNoExistingSource_FirstOneRenamedAsSource()
+		{
+			using (var session = CreateSession(new string[] { }))
+			{
+				const string srcFile1 = @"c:\wherever\whatever.mov";
+				const string srcFile2 = @"c:\wherever\whatever.mp3";
+				var list = session.GetValidFilesToCopy(
+					new[] { srcFile1, srcFile2 }).ToArray();
+
+				Assert.That(list.Count(), Is.EqualTo(2));
+
+				var file1 = list.SingleOrDefault(kvp => kvp.Key == srcFile1);
+				Assert.IsNotNull(file1);
+				Assert.AreEqual(Path.Combine(session.FolderPath, "whatever_Source.mov"), file1.Value);
+				var file2 = list.SingleOrDefault(kvp => kvp.Key == srcFile2);
+				Assert.IsNotNull(file2);
+				Assert.AreEqual(Path.Combine(session.FolderPath, "whatever.mp3"), file2.Value);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetFilesToCopy_TwoMediaFilesToBeCopiedToSessionWithSourceMarkedComplete_FirstOneRenamedAsSource()
+		{
+			using (var session = CreateSession(new string[] { }))
+			{
+				const string srcFile1 = @"c:\wherever\whatever.mov";
+				const string srcFile2 = @"c:\wherever\whatever.mp3";
+				session.StageCompletedControlValues[ComponentRole.kSourceComponentRoleId] = StageCompleteType.Complete;
+				var list = session.GetValidFilesToCopy(
+					new[] { srcFile1, srcFile2 }).ToArray();
+
+				Assert.That(list.Count(), Is.EqualTo(2));
+
+				var file1 = list.SingleOrDefault(kvp => kvp.Key == srcFile1);
+				Assert.IsNotNull(file1);
+				Assert.AreEqual(Path.Combine(session.FolderPath, Path.GetFileName(srcFile1)), file1.Value);
+				var file2 = list.SingleOrDefault(kvp => kvp.Key == srcFile2);
+				Assert.IsNotNull(file2);
+				Assert.AreEqual(Path.Combine(session.FolderPath, Path.GetFileName(srcFile2)), file2.Value);
 			}
 		}
 	}

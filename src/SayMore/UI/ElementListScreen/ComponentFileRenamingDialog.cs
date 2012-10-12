@@ -38,7 +38,7 @@ namespace SayMore.UI.ElementListScreen
 			_componentFile = componentFile;
 			_componentRoles = componentRoles.ToArray();
 
-			_labelPrefix.Text = _componentFile.ParentElement.Id + "_";
+			_labelPrefix.Text = _componentFile.ParentElement.Id + ComponentRole.kFileSuffixSeparator;
 			_labelExtension.Text = Path.GetExtension(_componentFile.PathToAnnotatedFile);
 			HandleTextBoxTextChanged(null, null);
 			SetFonts();

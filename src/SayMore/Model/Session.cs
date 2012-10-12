@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using Localization;
@@ -191,6 +192,31 @@ namespace SayMore.Model
 
 			using (var dlg = new ArchivingDlg(helper))
 				dlg.ShowDialog();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override IEnumerable<KeyValuePair<string, string>> GetFilesToCopy(IEnumerable<string> validComponentFilesToCopy)
+		{
+			if (GetCompletedStages(true).Any(s => s.Id == ComponentRole.kSourceComponentRoleId))
+			{
+				foreach (var kvp in base.GetFilesToCopy(validComponentFilesToCopy))
+					yield return kvp;
+			}
+			else
+			{
+				var sourceRole = ComponentRoles.First(r => r.Id == ComponentRole.kSourceComponentRoleId);
+				bool foundSourceFile = false;
+				foreach (var srcFile in validComponentFilesToCopy)
+				{
+					var destFile = (foundSourceFile || !sourceRole.IsPotential(srcFile)) ? GetDestinationFilename(srcFile) :
+						Path.Combine(FolderPath, sourceRole.GetCanoncialName(Path.GetFileNameWithoutExtension(srcFile), Path.GetFileName(srcFile)));
+					if (!File.Exists(destFile))
+					{
+						yield return new KeyValuePair<string, string>(srcFile, destFile);
+						foundSourceFile = true;
+					}
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

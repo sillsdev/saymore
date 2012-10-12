@@ -19,6 +19,8 @@ namespace SayMore.Model.Files
 	/// </summary>
 	public class ComponentRole
 	{
+		public const string kElementIdToken = "$ElementId$";
+		public const string kFileSuffixSeparator = "_";
 		public const string kSourceComponentRoleId = "source";
 		public const string kConsentComponentRoleId = "consent";
 		public const string kCarefulSpeechComponentRoleId = "carefulSpeech";
@@ -59,7 +61,7 @@ namespace SayMore.Model.Files
 		public string GetRenamingTemplateSuffix(bool includeLeadingUnderscore = false)
 		{
 			return _renamingTemplate.Replace(includeLeadingUnderscore ?
-				"$ElementId$" : "$ElementId$_", string.Empty);
+				kElementIdToken : kElementIdToken + kFileSuffixSeparator, string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -108,7 +110,7 @@ namespace SayMore.Model.Files
 		public string GetCanoncialName(string sessionId, string path)
 		{
 			var dir = Path.GetDirectoryName(path);
-			var name = _renamingTemplate.Replace("$ElementId$", sessionId) + Path.GetExtension(path);
+			var name = _renamingTemplate.Replace(kElementIdToken, sessionId) + Path.GetExtension(path);
 			return (string.IsNullOrEmpty(dir) ? name : Path.Combine(dir, name));
 		}
 

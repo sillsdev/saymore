@@ -34,7 +34,6 @@ namespace SayMoreTests.UI.ProjectWindow
 			PortableSettingsProvider.SettingsFileFolder = _projectsFolder.Combine("Settings");
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			Settings.Default.DefaultFolderForNewProjects = _projectsFolder.Path;
-			Settings.Default.PreventDeleteElementSystemConfirmationMessage = true;
 
 			_applicationContainer = new ApplicationContainer();
 		}

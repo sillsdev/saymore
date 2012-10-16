@@ -979,7 +979,14 @@ namespace SayMore.Model.Files
 			if (!File.Exists(path))
 				return false;
 
-			if (askForConfirmation && !ConfirmRecycleDialog.JustConfirm(Path.GetFileName(path)))
+			var uiFileName = Path.GetFileName(path);
+			if (file.GetDoesHaveAnnotationFile())
+				uiFileName = String.Format(LocalizationManager.GetString(
+					"CommonToMultipleViews.FileList.DeleteSubordinateFilesFormat",
+					"{0} and subordinate files",
+					"Used to format a string that will indicate that subordinate files (i.e., annotation files)" +
+					" will also be moved to the recycle bin. Parameter is the name (without path) of the main file being deleted."), uiFileName);
+			if (askForConfirmation && !ConfirmRecycleDialog.JustConfirm(uiFileName))
 				return false;
 
 			if (file.PreDeleteAction != null)

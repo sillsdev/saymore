@@ -346,6 +346,15 @@
         <seg>Borrar archivo...</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.FileList.DeleteSubordinateFilesFormat">
+      <note>Used to format a string that will indicate that subordinate files (i.e., annotation files) will also be moved to the recycle bin. Parameter is the name (without path) of the main file being deleted.</note>
+      <tuv xml:lang="en">
+        <seg>{0} and subordinate files</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>{0} y archivos de anotación relacionados</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.FileList.FileSizeBytes">
       <tuv xml:lang="en">
         <seg>{0} Bytes</seg>

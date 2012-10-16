@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
 using Palaso.Extensions;
-using Palaso.Progress.LogBox;
+using Palaso.Progress;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.ClearShare;
 

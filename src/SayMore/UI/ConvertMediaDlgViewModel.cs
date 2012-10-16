@@ -23,6 +23,7 @@ namespace SayMore.UI
 		ConversionFailed = 8,
 		FinishedConverting = 16,
 		PossibleError = 32,
+		InvalidMediaFile = 64,
 		AllFinishedStates = ConversionCancelled | ConversionFailed | FinishedConverting
 	}
 
@@ -49,11 +50,16 @@ namespace SayMore.UI
 			InputFile = inputFile;
 
 			MediaInfo = MediaFileInfo.GetInfo(inputFile);
-			AvailableConversions = FFmpegConversionInfo.GetConversions(inputFile).OrderBy(c => c.Name).ToArray();
-			SelectedConversion = AvailableConversions.FirstOrDefault(c => c.Name == initialConversionName) ?? AvailableConversions[0];
+			if (MediaInfo == null)
+				ConversionState = ConvertMediaUIState.InvalidMediaFile;
+			else
+			{
+				AvailableConversions = FFmpegConversionInfo.GetConversions(inputFile).OrderBy(c => c.Name).ToArray();
+				SelectedConversion = AvailableConversions.FirstOrDefault(c => c.Name == initialConversionName) ?? AvailableConversions[0];
 
-			ConversionState = (FFmpegDownloadHelper.DoesFFmpegForSayMoreExist ?
-				ConvertMediaUIState.WaitingToConvert : ConvertMediaUIState.FFmpegDownloadNeeded);
+				ConversionState = (FFmpegDownloadHelper.DoesFFmpegForSayMoreExist ?
+					ConvertMediaUIState.WaitingToConvert : ConvertMediaUIState.FFmpegDownloadNeeded);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

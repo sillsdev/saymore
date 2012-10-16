@@ -155,6 +155,7 @@ namespace SayMore.Media.FFmpeg
 			_buttonInstall.Enabled = (_state != ProgressState.DownloadStarted && !FFmpegDownloadHelper.DoesFFmpegForSayMoreExist);
 			_buttonCancel.Visible = (_state == ProgressState.DownloadStarted);
 			_buttonClose.Visible = !_buttonCancel.Visible;
+			CancelButton = _buttonCancel.Visible ? _buttonCancel : _buttonClose;
 
 			if (!_buttonClose.Visible)
 			{

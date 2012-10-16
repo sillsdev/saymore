@@ -91,7 +91,7 @@ namespace SayMore.UI.SessionRecording
 			// _labelRecordingFormat
 			//
 			this._labelRecordingFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelRecordingFormat.AutoEllipsis = true;
 			this._labelRecordingFormat.AutoSize = true;
 			this._labelRecordingFormat.ForeColor = System.Drawing.Color.DarkRed;
@@ -110,6 +110,7 @@ namespace SayMore.UI.SessionRecording
 			this._buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this._buttonCancel.AutoSize = true;
 			this.tableLayoutPanel1.SetColumnSpan(this._buttonCancel, 2);
+			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
 			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.SessionRecorderDlg.CancelButtonText");
@@ -219,7 +220,7 @@ namespace SayMore.UI.SessionRecording
 			// _labelRecLength
 			//
 			this._labelRecLength.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelRecLength.AutoSize = true;
 			this.tableLayoutPanel1.SetColumnSpan(this._labelRecLength, 4);
 			this.locExtender.SetLocalizableToolTip(this._labelRecLength, null);
@@ -238,8 +239,10 @@ namespace SayMore.UI.SessionRecording
 			//
 			// SessionRecorderDlg
 			//
+			this.AcceptButton = this._buttonOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this._buttonCancel;
 			this.ClientSize = new System.Drawing.Size(378, 211);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.locExtender.SetLocalizableToolTip(this, null);

@@ -78,7 +78,8 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._buttonCreateSessions.AutoSize = true;
 			this._buttonCreateSessions.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.locExtender.SetLocalizableToolTip(this._buttonCreateSessions, null);
-			this.locExtender.SetLocalizationComment(this._buttonCreateSessions, "Format text in create button when more than one file is selected. Parameter is the number of sessions to be created.");
+			this.locExtender.SetLocalizationComment(this._buttonCreateSessions, "Format text in create button when more than one file is selected. Parameter is th" +
+		"e number of sessions to be created.");
 			this.locExtender.SetLocalizingId(this._buttonCreateSessions, "DialogBoxes.NewSessionsFromFilesDlg._buttonCreateSessions");
 			this._buttonCreateSessions.Location = new System.Drawing.Point(0, 0);
 			this._buttonCreateSessions.Margin = new System.Windows.Forms.Padding(0);
@@ -155,8 +156,8 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._labelInstructions.Name = "_labelInstructions";
 			this._labelInstructions.Size = new System.Drawing.Size(419, 26);
 			this._labelInstructions.TabIndex = 2;
-			this._labelInstructions.Text = "Mark each file which represents a source recording of a session. For each one, " +
-	"SayMore will create a new session and copy the file into it.";
+			this._labelInstructions.Text = "Mark each file which represents a source recording of a session. For each one, Sa" +
+	"yMore will create a new session and copy the file into it.";
 			//
 			// _mediaPlayerPanel
 			//
@@ -304,6 +305,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this._buttonCancel;
 			this.ClientSize = new System.Drawing.Size(719, 412);
 			this.Controls.Add(this._outerTableLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);

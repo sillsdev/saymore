@@ -1,24 +1,17 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using Palaso.IO;
-using Palaso.TestUtilities;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.Model.Exporters;
-using SayMore.Transcription.UI;
-using SilTools;
 
 namespace SayMoreTests.Transcription.Model
 {
 	[TestFixture]
 	public class SubTitleExporterTests
 	{
-		private TemporaryFolder _testFolder;
-
 		[SetUp]
 		public void TestSetup()
 		{

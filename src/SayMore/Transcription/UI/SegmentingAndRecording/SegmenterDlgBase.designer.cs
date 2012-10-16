@@ -50,8 +50,8 @@ namespace SayMore.Transcription.UI
 			// _panelWaveControl
 			//
 			this._panelWaveControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this._panelWaveControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._tableLayoutOuter.SetColumnSpan(this._panelWaveControl, 2);
 			this._panelWaveControl.Controls.Add(this._lastSegmentMenuStrip);
@@ -80,7 +80,7 @@ namespace SayMore.Transcription.UI
 			this._lastSegmentMenuStrip.Name = "_lastSegmentMenuStrip";
 			this._lastSegmentMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
 			this._lastSegmentMenuStrip.ShowItemToolTips = true;
-			this._lastSegmentMenuStrip.Size = new System.Drawing.Size(155, 24);
+			this._lastSegmentMenuStrip.Size = new System.Drawing.Size(63, 24);
 			this._lastSegmentMenuStrip.TabIndex = 16;
 			this._lastSegmentMenuStrip.Visible = false;
 			//
@@ -185,8 +185,7 @@ namespace SayMore.Transcription.UI
 			this._labelSourceRecording.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelSourceRecording, null);
 			this.locExtender.SetLocalizationComment(this._labelSourceRecording, null);
-			this.locExtender.SetLocalizingId(this._labelSourceRecording, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelOriginalRecording" +
-					"");
+			this.locExtender.SetLocalizingId(this._labelSourceRecording, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelOriginalRecording");
 			this._labelSourceRecording.Location = new System.Drawing.Point(0, 5);
 			this._labelSourceRecording.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._labelSourceRecording.Name = "_labelSourceRecording";
@@ -341,6 +340,7 @@ namespace SayMore.Transcription.UI
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Control;
+			this.CancelButton = this._buttonCancel;
 			this.ClientSize = new System.Drawing.Size(773, 429);
 			this.Controls.Add(this._tableLayoutOuter);
 			this.Controls.Add(this._tableLayoutButtons);

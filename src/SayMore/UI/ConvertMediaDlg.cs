@@ -36,6 +36,7 @@ namespace SayMore.UI
 		public ConvertMediaDlg(ConvertMediaDlgViewModel viewModel) : this()
 		{
 			_viewModel = viewModel;
+
 			_showOutput = Settings.Default.ShowFFmpegDetailsWhenConvertingMedia;
 
 			if (Settings.Default.ConvertMediaDlg == null)
@@ -46,25 +47,34 @@ namespace SayMore.UI
 
 			InitializeFonts();
 			_labelFileToConvertValue.Text = Path.GetFileName(_viewModel.InputFile);
-			_labelOutputFileValue.Text = _viewModel.GetNewOutputFileName(true);
-			_comboAvailableConversions.Items.AddRange(_viewModel.AvailableConversions);
-			_comboAvailableConversions.SelectedItem = _viewModel.SelectedConversion;
-			_comboAvailableConversions.SelectionChangeCommitted += delegate
+			if (_viewModel.MediaInfo == null)
 			{
-				_viewModel.SelectedConversion = _comboAvailableConversions.SelectedItem as FFmpegConversionInfo;
+				_labelStatus.Text = LocalizationManager.GetString("DialogBoxes.ConvertMediaDlg.InvalidMediaFile",
+					"File does not appear to be a valid media file.");
+				_labelStatus.ForeColor = Color.Red;
+			}
+			else
+			{
 				_labelOutputFileValue.Text = _viewModel.GetNewOutputFileName(true);
-				UpdateDisplay();
-			};
+				_comboAvailableConversions.Items.AddRange(_viewModel.AvailableConversions);
+				_comboAvailableConversions.SelectedItem = _viewModel.SelectedConversion;
+				_comboAvailableConversions.SelectionChangeCommitted += delegate
+				{
+					_viewModel.SelectedConversion = _comboAvailableConversions.SelectedItem as FFmpegConversionInfo;
+					_labelOutputFileValue.Text = _viewModel.GetNewOutputFileName(true);
+					UpdateDisplay();
+				};
 
-			_buttonClose.Click += delegate { Close(); };
-			_buttonBeginConversion.Click += HandleBeginConversionClick;
-			_buttonCancel.Click += delegate { _viewModel.Cancel(); };
-			_buttonCancel.MouseMove += delegate
-			{
-				// Not sure why both of these are necessary, but it seems to be the case.
-				_buttonCancel.UseWaitCursor = false;
-				_buttonCancel.Cursor = Cursors.Default;
-			};
+				_buttonBeginConversion.Click += HandleBeginConversionClick;
+				_buttonCancel.Click += delegate { _viewModel.Cancel(); };
+
+				_buttonCancel.MouseMove += delegate
+				{
+					// Not sure why both of these are necessary, but it seems to be the case.
+					_buttonCancel.UseWaitCursor = false;
+					_buttonCancel.Cursor = Cursors.Default;
+				};
+			}
 
 			_buttonDownload.Click += delegate
 			{
@@ -87,7 +97,6 @@ namespace SayMore.UI
 			_labelDownloadNeeded.Tag = _labelDownloadNeeded.Text;
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
 
-			UpdateDisplay();
 			Program.SuspendBackgroundProcesses();
 		}
 
@@ -103,6 +112,7 @@ namespace SayMore.UI
 		{
 			Settings.Default.ConvertMediaDlg.InitializeForm(this);
 			base.OnLoad(e);
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -164,6 +174,8 @@ namespace SayMore.UI
 			_labelDownloadNeeded.Text = String.Format(_labelDownloadNeeded.Tag as string,
 				_comboAvailableConversions.SelectedItem);
 
+			_labelOutputFile.Visible = _labelOutputFileValue.Visible = _viewModel.MediaInfo != null;
+
 			_buttonBeginConversion.Enabled =
 				(_viewModel.ConversionState != ConvertMediaUIState.FFmpegDownloadNeeded &&
 				(_viewModel.ConversionState & ConvertMediaUIState.Converting) == 0 &&
@@ -173,29 +185,35 @@ namespace SayMore.UI
 			_comboAvailableConversions.Enabled = _buttonBeginConversion.Enabled;
 			_tableLayoutFFmpegMissing.Visible = (_viewModel.ConversionState == ConvertMediaUIState.FFmpegDownloadNeeded);
 			_progressBar.Visible = (_viewModel.ConversionState & ConvertMediaUIState.Converting) > 0;
-			_buttonCancel.Visible = (_viewModel.ConversionState & ConvertMediaUIState.Converting) > 0;
-			_buttonClose.Visible = (_viewModel.ConversionState & ConvertMediaUIState.Converting) == 0;
+			_buttonClose.Visible = (_viewModel.ConversionState & ConvertMediaUIState.FinishedConverting) != 0;
+			_buttonCancel.Visible = !_buttonClose.Visible;
 
 			_labelStatus.Visible =
 				(_viewModel.ConversionState != ConvertMediaUIState.FFmpegDownloadNeeded &&
 				_viewModel.ConversionState != ConvertMediaUIState.WaitingToConvert);
 
-			_buttonShowOutput.Visible = (!_showOutput &&
-				(_viewModel.ConversionState != ConvertMediaUIState.FFmpegDownloadNeeded &&
-				_viewModel.ConversionState != ConvertMediaUIState.WaitingToConvert));
+			var outputAvailable = _viewModel.ConversionState != ConvertMediaUIState.FFmpegDownloadNeeded &&
+				_viewModel.ConversionState != ConvertMediaUIState.WaitingToConvert &&
+				_viewModel.ConversionState != ConvertMediaUIState.InvalidMediaFile;
 
-			_buttonHideOutput.Visible = (_showOutput &&
-				(_viewModel.ConversionState != ConvertMediaUIState.FFmpegDownloadNeeded &&
-				_viewModel.ConversionState != ConvertMediaUIState.WaitingToConvert));
+			_buttonShowOutput.Visible = (!_showOutput && outputAvailable);
+			_buttonHideOutput.Visible = (_showOutput && outputAvailable);
 
-			_textBoxOutput.Visible = _buttonHideOutput.Visible;
+			if (_textBoxOutput.Visible != _buttonHideOutput.Visible)
+			{
+				_textBoxOutput.Visible = _buttonHideOutput.Visible;
+				if (_textBoxOutput.Visible)
+					MinimumSize = new Size(MinimumSize.Width, MinimumSize.Height + 50);
+				else
+					MinimumSize = new Size(MinimumSize.Width, MinimumSize.Height - 50);
+			}
 
 			if ((_viewModel.ConversionState & ConvertMediaUIState.AllFinishedStates) > 0)
-				UpdateDisplayWhenConversionFinsihed();
+				UpdateDisplayWhenConversionFinished();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateDisplayWhenConversionFinsihed()
+		private void UpdateDisplayWhenConversionFinished()
 		{
 			_labelStatus.ForeColor =
 				((_viewModel.ConversionState & ConvertMediaUIState.FinishedConverting) > 0 ? Color.Green : Color.Red);

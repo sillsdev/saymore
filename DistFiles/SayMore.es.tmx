@@ -658,6 +658,14 @@
         <seg>Ajustes preestablecidos</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.MediaPropertiesEditor.PresetsButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Select presets for media file</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Seleccionar ajustes preestablecidos para archivo multimedio</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.NotesEditor.TabText">
       <tuv xml:lang="en">
         <seg>Notes</seg>
@@ -3017,6 +3025,14 @@
         <seg>Personas</seg>
       </tuv>
     </tu>
+    <tu tuid="PeopleView.ViewTabText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>People View</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Vista de personas</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProgressView.ByGenreHeadingText">
       <tuv xml:lang="en">
         <seg>By Genre</seg>
@@ -3039,6 +3055,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>&amp;Copiar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.CopyMenuItemText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Copy entire view to clipboard</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Copiar vista entera al Portapapeles</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.HeadingText">
@@ -3090,6 +3114,14 @@
         <seg>Guardar...</seg>
       </tuv>
     </tu>
+    <tu tuid="ProgressView.SaveMenuItemText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Save view to file</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Guardar reporte de progreso</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProgressView.SessionsLabel">
       <tuv xml:lang="en">
         <seg>Sessions:</seg>
@@ -3128,6 +3160,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Progreso</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.TabText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Progress View</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Vista de progreso</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView._buttonRefresh">

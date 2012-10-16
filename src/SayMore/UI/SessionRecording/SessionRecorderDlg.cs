@@ -87,7 +87,13 @@ namespace SayMore.UI.SessionRecording
 			_peakMeter = AudioUtils.CreatePeakMeterControl(_panelPeakMeter);
 			SetupRecordingDeviceButton();
 
-			LocalizeItemDlg.StringsLocalized += delegate { _recordedLengthLabelFormat = _labelRecLength.Text; };
+			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleStringsLocalized()
+		{
+			_recordedLengthLabelFormat = _labelRecLength.Text;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -138,6 +144,7 @@ namespace SayMore.UI.SessionRecording
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			_viewModel.CloseAll();
+			LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 			base.OnFormClosing(e);
 		}
 

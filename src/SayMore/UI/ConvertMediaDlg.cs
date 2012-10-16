@@ -85,14 +85,17 @@ namespace SayMore.UI
 			};
 
 			_labelDownloadNeeded.Tag = _labelDownloadNeeded.Text;
-			LocalizeItemDlg.StringsLocalized += delegate
-			{
-				_labelDownloadNeeded.Tag = _labelDownloadNeeded.Text;
-				UpdateDisplay();
-			};
+			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
 
 			UpdateDisplay();
 			Program.SuspendBackgroundProcesses();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleStringsLocalized()
+		{
+			_labelDownloadNeeded.Tag = _labelDownloadNeeded.Text;
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -112,6 +115,8 @@ namespace SayMore.UI
 				DialogResult = DialogResult.OK;
 
 			base.OnClosing(e);
+			if (!e.Cancel)
+				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------

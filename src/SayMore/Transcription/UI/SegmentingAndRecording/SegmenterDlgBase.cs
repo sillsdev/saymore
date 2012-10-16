@@ -65,11 +65,7 @@ namespace SayMore.Transcription.UI
 			_segmentXofYFormat = _labelSegmentXofY.Text;
 			_segmentNumberFormat = _labelSegmentNumber.Text;
 
-			LocalizeItemDlg.StringsLocalized += delegate
-			{
-				_segmentXofYFormat = _labelSegmentXofY.Text;
-				_segmentNumberFormat = _labelSegmentNumber.Text;
-			};
+			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -171,9 +167,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (components != null))
+			if (disposing)
 			{
-				components.Dispose();
+				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
+
+				if (components != null)
+					components.Dispose();
 			}
 
 			base.Dispose(disposing);
@@ -188,6 +187,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleStringsLocalized()
 		{
+			_segmentXofYFormat = _labelSegmentXofY.Text;
+			_segmentNumberFormat = _labelSegmentNumber.Text;
 		}
 
 		/// ------------------------------------------------------------------------------------

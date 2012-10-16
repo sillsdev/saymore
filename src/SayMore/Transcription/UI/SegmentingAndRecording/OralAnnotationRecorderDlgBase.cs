@@ -153,13 +153,13 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (components != null))
+			if (disposing)
 			{
-				components.Dispose();
+				if (components != null)
+					components.Dispose();
 				_annotationSegmentFont.Dispose();
 				_hotPlaySourceButton.Dispose();
 				_hotRecordAnnotationButton.Dispose();
-				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 				AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrown;
 			}
 

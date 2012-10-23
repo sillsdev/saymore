@@ -238,12 +238,13 @@ namespace SayMore.Transcription.Model
 						{
 							Invoke(() =>
 							{
-								if (MessageBox.Show(GetGenericErrorMsg() + Environment.NewLine + failureMsg,
+								var userMessage = GetGenericErrorMsg() + Environment.NewLine + failureMsg;
+								if (MessageBox.Show(userMessage,
 									Application.ProductName, MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
 								{
 									UsageReporter.ReportException(false,
 										"Cancelled by user after 1 automatic retry and " + (retry - 1) + "retries requested by the user",
-										failure);
+										failure, userMessage);
 									retry = 0;
 								}
 							});

@@ -175,7 +175,7 @@ namespace SayMore.UI.SessionRecording
 						{
 							UsageReporter.ReportException(false,
 								"Cancelled by user after 1 automatic retry and " + (retry - 1) + "retries requested by the user",
-								failure);
+								failure, failureMsg);
 							retry = 0;
 						}
 					}

@@ -11,7 +11,6 @@ using Palaso.Media;
 using Palaso.Media.Naudio;
 using Palaso.Media.Naudio.UI;
 using Palaso.Progress;
-using Palaso.Progress.LogBox;
 using Palaso.Reporting;
 using SayMore.Media.FFmpeg;
 using SayMore.Media.MPlayer;

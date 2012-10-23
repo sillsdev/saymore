@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using Localization;
 using Palaso.IO;
 using Palaso.Reporting;
+using Palaso.Xml;
 using SayMore.Media;
 using SayMore.Properties;
 
@@ -280,7 +281,7 @@ namespace SayMore.Transcription.Model
 					new XAttribute("ANNOTATION_ID", annotationId),
 					new XAttribute("TIME_SLOT_REF1", timeSlotRef1),
 					new XAttribute("TIME_SLOT_REF2", timeSlotRef2),
-					new XElement("ANNOTATION_VALUE", seg.Text))));
+					new XElement("ANNOTATION_VALUE", XmlUtils.SanitizeString(seg.Text)))));
 
 			return annotationId;
 		}
@@ -294,7 +295,7 @@ namespace SayMore.Transcription.Model
 				new XElement("REF_ANNOTATION",
 				new XAttribute("ANNOTATION_ID", newId),
 				new XAttribute("ANNOTATION_REF", parentAnnotationId),
-				new XElement("ANNOTATION_VALUE", text ?? string.Empty))));
+				new XElement("ANNOTATION_VALUE", text == null ? string.Empty : XmlUtils.SanitizeString(text)))));
 		}
 
 		#endregion

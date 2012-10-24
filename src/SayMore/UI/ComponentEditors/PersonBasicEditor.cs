@@ -234,6 +234,8 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void HandlePersonPictureMouseClick(object sender, MouseEventArgs args)
 		{
+			var previouslyActiveControl = ActiveControl;
+			_personsPicture.Focus();
 			using (var dlg = new OpenFileDialog())
 			{
 				var caption = LocalizationManager.GetString("PeopleView.MetadataEditor.ChangePictureDlgCaption", "Change Picture");
@@ -250,6 +252,7 @@ namespace SayMore.UI.ComponentEditors
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 					ChangePersonsPicture(dlg.FileName);
 			}
+			previouslyActiveControl.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4659.19633" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4681.22801" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
@@ -2339,7 +2339,7 @@
         <seg>I want to localize SayMore for another language...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Quiero localizar SayMore para otro idioma...</seg>
+        <seg>Localizar SayMore...</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.LanguageLabel">
@@ -2356,6 +2356,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Aceptar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.ViewLocalizationsLink">
+      <tuv xml:lang="en">
+        <seg>View SayMore localizations...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ver localizaciones de SayMore...</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.WindowTitle">

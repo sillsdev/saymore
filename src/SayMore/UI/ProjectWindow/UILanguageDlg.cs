@@ -16,6 +16,12 @@ namespace SayMore.UI.ProjectWindow
 
 			_labelLanguage.Font = Program.DialogFont;
 			_linkIWantToLocalize.Font = Program.DialogFont;
+			if (!Program.CanLocalize)
+			{
+				_linkIWantToLocalize.Text = LocalizationManager.GetString(
+					"DialogBoxes.UserInterfaceLanguageDlg.ViewLocalizationsLink",
+					"View SayMore localizations...");
+			}
 			_linkHelpOnLocalizing.Font = Program.DialogFont;
 			_comboUILanguage.Font = Program.DialogFont;
 			_comboUILanguage.SelectedItem = CultureInfo.GetCultureInfo(LocalizationManager.UILanguageId);

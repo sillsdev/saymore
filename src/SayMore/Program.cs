@@ -32,6 +32,7 @@ namespace SayMore
 		private static string _pathOfLoadedProjectFile;
 		private static ApplicationContainer _applicationContainer;
 		private static Font _dialogFont;
+		public static bool CanLocalize { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -382,9 +383,9 @@ namespace SayMore
 			var installedStringFileFolder = FileLocator.GetDirectoryDistributedWithApplication("mplayer");
 			installedStringFileFolder = Path.GetDirectoryName(installedStringFileFolder);
 
-			LocalizationManager.Create(Settings.Default.UserInterfaceLanguage,
+			CanLocalize = LocalizationManager.Create(Settings.Default.UserInterfaceLanguage,
 				"SayMore", "SayMore", Application.ProductVersion,
-				installedStringFileFolder, AppDataFolder, Resources.SayMore, "SayMore");
+				installedStringFileFolder, AppDataFolder, Resources.SayMore, "SayMore").CanCustomizeLocalizations;
 
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 		}

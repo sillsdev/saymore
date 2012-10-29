@@ -49,7 +49,6 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void InitializeMenus()
 		{
-			MainMenuItem = new ToolStripMenuItem();
 			MainMenuItem.Text = LocalizationManager.GetString(
 				"PeopleView.PeopleMainMenu.TopLevelMenuText", "&Person", null, MainMenuItem);
 
@@ -87,9 +86,6 @@ namespace SayMore.UI.ElementListScreen
 		{
 			get { return Resources.People; }
 		}
-
-		/// ------------------------------------------------------------------------------------
-		public ToolStripMenuItem MainMenuItem { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public string NameForUsageReporting

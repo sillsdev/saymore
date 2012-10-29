@@ -58,7 +58,6 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void InitializeMenus()
 		{
-			MainMenuItem = new ToolStripMenuItem();
 			MainMenuItem.Text = LocalizationManager.GetString(
 				"SessionsView.SessionsMainMenu.TopLevelMenuText", "&Session", null, MainMenuItem);
 
@@ -139,9 +138,6 @@ namespace SayMore.UI.ElementListScreen
 		{
 			get { return Resources.Sessions; }
 		}
-
-		/// ------------------------------------------------------------------------------------
-		public ToolStripMenuItem MainMenuItem { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		protected override Color ComponentEditorBackgroundColor

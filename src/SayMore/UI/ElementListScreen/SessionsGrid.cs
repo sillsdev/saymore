@@ -98,7 +98,7 @@ namespace SayMore.UI.ElementListScreen
 				});
 
 			menu.Text = LocalizationManager.GetString("SessionsView.SessionsList.RampArchiveMenuText",
-				"Archive with RAMP (SIL)...");
+				"Archive with RAMP (SIL)...", null, menu);
 
 			// Since this item isn't going to be added to an actual menu yet, we can't hook up the
 			// code to enable/disable it yet. When it is added to a menu, if that menu is a drop-down
@@ -115,7 +115,7 @@ namespace SayMore.UI.ElementListScreen
 			if (DeleteAction != null)
 			{
 				menu = new ToolStripMenuItem(string.Empty, null, (s, e) => DeleteAction());
-				menu.Text = LocalizationManager.GetString("MainWindow.DeleteSessionMenuText", "&Delete Session...");
+				menu.Text = LocalizationManager.GetString("MainWindow.DeleteSessionMenuText", "&Delete Session...", null, menu);
 				yield return menu;
 			}
 		}

@@ -47,9 +47,13 @@ namespace SayMore.UI.ElementListScreen
 			new Dictionary<string, ComponentEditorsTabControl>();
 
 		/// ------------------------------------------------------------------------------------
+		public ToolStripMenuItem MainMenuItem { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
 		public ElementListScreen(ElementListViewModel<T> presentationModel)
 		{
 			_model = presentationModel;
+			MainMenuItem = new ToolStripMenuItem();
 		}
 
 		/// ------------------------------------------------------------------------------------

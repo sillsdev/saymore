@@ -130,9 +130,14 @@ namespace SayMore.Transcription.UI
 			_labelSegmentXofY.Font = Program.DialogFont;
 			_labelSegmentNumber.Font = Program.DialogFont;
 			_labelTimeDisplay.Font = Program.DialogFont;
-			_labelSourceRecording.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
-			_undoToolStripMenuItem.Font = Program.DialogFont;
-			_ignoreToolStripMenuItem.Font = Program.DialogFont;
+			_labelSourceRecording.Font = _undoToolStripMenuItem.Font = _ignoreToolStripMenuItem.Font =
+				FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
+			_undoToolStripMenuItem.AutoSize = false;
+			_ignoreToolStripMenuItem.AutoSize = false;
+			_undoToolStripMenuItem.Width = _ignoreToolStripMenuItem.Width =
+				Math.Max(_ignoreToolStripMenuItem.Width, _undoToolStripMenuItem.Width);
+			_undoToolStripMenuItem.Height *= 2;
+			_ignoreToolStripMenuItem.Height = _undoToolStripMenuItem.Height;
 
 			// If we ever get zooming working again, remove the following two
 			// lines and uncomment the two below them.
@@ -478,9 +483,9 @@ namespace SayMore.Transcription.UI
 					{
 
 						if (rc.Width > _lastSegmentMenuStrip.Width + _currentSegmentMenuStrip.Width + 15)
-							currentSegmentMenuStripLocation.Offset(-(_lastSegmentMenuStrip.Width + 5), 0);
+							currentSegmentMenuStripLocation.Offset(-(_lastSegmentMenuStrip.Width + 5), 0); // shift left
 						else
-							currentSegmentMenuStripLocation.Offset(0, _lastSegmentMenuStrip.Height + 5);
+							currentSegmentMenuStripLocation.Offset(0, _lastSegmentMenuStrip.Height + 5); // shift down
 					}
 
 					_currentSegmentMenuStrip.Location = currentSegmentMenuStripLocation;
@@ -613,12 +618,15 @@ namespace SayMore.Transcription.UI
 				_lastSegmentMenuStrip.Visible = _undoToolStripMenuItem.Enabled = (undoableSegmentRange != null);
 				if (_lastSegmentMenuStrip.Visible)
 				{
-					_lastSegmentMenuStrip.Location = new Point(
-						_waveControl.Painter.ConvertTimeToXCoordinate(undoableSegmentRange.End) -
-						_lastSegmentMenuStrip.Width - 5, 5);
+					var rcUndoSegment = GetFullRectangleForTimeRange(undoableSegmentRange);
+					int x = (rcUndoSegment.Width > _lastSegmentMenuStrip.Width + 10) ?
+						rcUndoSegment.Right - _lastSegmentMenuStrip.Width - 5 :
+						rcUndoSegment.Right -
+						_lastSegmentMenuStrip.Width - Math.Min(5, (rcUndoSegment.Width - _lastSegmentMenuStrip.Width) / 2);
+					_lastSegmentMenuStrip.Location = new Point(x, 5);
 					_undoToolStripMenuItem.ToolTipText = String.Format(LocalizationManager.GetString(
 						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UndoToolTipMsg",
-						"Undo: {0} (Ctrl-Z)"), _viewModel.DescriptionForUndo);
+						"Undo: {0} (Ctrl-Z or Z)"), _viewModel.DescriptionForUndo);
 				}
 			}
 			UpdateStatusLabelsDisplay();
@@ -658,6 +666,14 @@ namespace SayMore.Transcription.UI
 				case Keys.Left:
 					OnAdjustBoundaryUsingArrowKey(-Settings.Default.MillisecondsToBackupSegmentBoundaryOnLeftArrow);
 					return true;
+
+				case Keys.Z:
+					if ((ModifierKeys & Keys.Control) == 0 && _undoToolStripMenuItem.Enabled)
+					{
+						_undoToolStripMenuItem.PerformClick();
+						return true;
+					}
+					break;
 			}
 
 			return false;

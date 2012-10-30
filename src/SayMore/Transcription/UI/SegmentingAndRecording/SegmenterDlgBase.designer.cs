@@ -80,13 +80,14 @@ namespace SayMore.Transcription.UI
 			this._lastSegmentMenuStrip.Name = "_lastSegmentMenuStrip";
 			this._lastSegmentMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
 			this._lastSegmentMenuStrip.ShowItemToolTips = true;
-			this._lastSegmentMenuStrip.Size = new System.Drawing.Size(63, 24);
+			this._lastSegmentMenuStrip.Size = new System.Drawing.Size(160, 24);
 			this._lastSegmentMenuStrip.TabIndex = 16;
 			this._lastSegmentMenuStrip.Visible = false;
 			//
 			// _undoToolStripMenuItem
 			//
 			this._undoToolStripMenuItem.BackColor = System.Drawing.Color.AliceBlue;
+			this._undoToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._undoToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
 			this._undoToolStripMenuItem.Image = global::SayMore.Properties.Resources.undo;
 			this.locExtender.SetLocalizableToolTip(this._undoToolStripMenuItem, null);
@@ -96,7 +97,7 @@ namespace SayMore.Transcription.UI
 			this._undoToolStripMenuItem.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
 			this._undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
 			this._undoToolStripMenuItem.ShowShortcutKeys = false;
-			this._undoToolStripMenuItem.Size = new System.Drawing.Size(60, 21);
+			this._undoToolStripMenuItem.Size = new System.Drawing.Size(65, 21);
 			this._undoToolStripMenuItem.Text = "Undo";
 			this._undoToolStripMenuItem.Click += new System.EventHandler(this.HandleUndoButtonClick);
 			//

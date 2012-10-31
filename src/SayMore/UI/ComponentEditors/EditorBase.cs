@@ -242,7 +242,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleControlLeave(object sender, EventArgs e)
 		{
-			if (_childControls.SingleOrDefault(c => c.Focused) == null)
+			if (ActiveControl == null)
 				OnEditorAndChildrenLostFocus();
 		}
 

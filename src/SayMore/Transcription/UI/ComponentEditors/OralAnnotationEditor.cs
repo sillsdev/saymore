@@ -131,6 +131,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRegenerateFileButtonClick(object sender, EventArgs e)
 		{
+			_oralAnnotationWaveViewer.Stop();
+
 			_buttonHelp.Enabled = false;
 			_buttonPlay.Enabled = false;
 			_buttonStop.Enabled = false;

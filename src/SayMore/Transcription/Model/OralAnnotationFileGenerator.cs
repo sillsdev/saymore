@@ -51,16 +51,15 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string Generate(TierCollection tierCollection, Control parentControlForDialog)
+		public static void Generate(TierCollection tierCollection, Control parentControlForDialog)
 		{
 			var timeTier = tierCollection.GetTimeTier();
 			if (!CanGenerate(timeTier))
-				return null;
+				return;
 
 			try
 			{
 				Program.SuspendBackgroundProcesses();
-				ExceptionHandler.AddDelegate(HandleOralAnnotationFileGeneratorException);
 
 				var msg = LocalizationManager.GetString(
 					"SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg",
@@ -86,22 +85,16 @@ namespace SayMore.Transcription.Model
 						Application.DoEvents();
 
 					dlg.Close();
-
-					return generator._outputFileName;
 				}
 			}
 			catch (Exception error)
 			{
-				HandleOralAnnotationFileGeneratorException(null,
-					new CancelExceptionHandlingEventArgs(error));
+				ErrorReport.NotifyUserOfProblem(error, GetGenericErrorMsg());
 			}
 			finally
 			{
 				Program.ResumeBackgroundProcesses(true);
-				ExceptionHandler.RemoveDelegate(HandleOralAnnotationFileGeneratorException);
 			}
-
-			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -110,14 +103,6 @@ namespace SayMore.Transcription.Model
 			return Directory.Exists(sourceRecodingTier.MediaFileName +
 				Settings.Default.OralAnnotationsFolderSuffix);
 		}
-
-		/// ------------------------------------------------------------------------------------
-		private static void HandleOralAnnotationFileGeneratorException(object sender,
-			CancelExceptionHandlingEventArgs e)
-		{
-			ErrorReport.NotifyUserOfProblem(e.Exception, GetGenericErrorMsg());
-		}
-
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -307,8 +292,11 @@ namespace SayMore.Transcription.Model
 					"There was an error processing a {0} annotation file.",
 					"The parameter is the annotation type (i.e. careful, translation).");
 
-				ErrorReport.NotifyUserOfProblem(_srcRecStreamProvider.Error, msg,
-					annotationType.ToString().ToLower());
+				var type = annotationType.ToString().ToLower();
+				if (_synchInvoke.InvokeRequired)
+					_synchInvoke.Invoke((Action)(() => ErrorReport.NotifyUserOfProblem(_srcRecStreamProvider.Error, msg, type)), null);
+				else
+					ErrorReport.NotifyUserOfProblem(_srcRecStreamProvider.Error, msg, type);
 			}
 
 			return provider;

@@ -68,6 +68,8 @@ namespace SayMore.Media.Audio
 			}
 			catch { }
 
+			// REVIEW: I (TomB) don't think we should ever get here. If we do, we're probably in
+			// trouble because this code does UI stuff but is not invoked on the UI thread.
 			_temporaryWavFile = Path.ChangeExtension(Path.GetTempFileName(), ".wav");
 
 			Exception error;

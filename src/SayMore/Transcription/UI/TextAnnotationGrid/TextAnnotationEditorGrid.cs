@@ -302,12 +302,10 @@ namespace SayMore.Transcription.UI
 			base.OnColumnWidthChanged(e);
 			BeginInvoke((Action)ResizeColumnHeaders);
 
-			if (ContainsFocus) // If this control doesn't have focus, the resize is not the result of the user dragging the column divider
-			{
+			// If this control doesn't have focus or all three standard columns have not yet
+			// been added, the resize is not the result of the user dragging the column divider.
+			if (ContainsFocus && ColumnCount >= 3)
 				Settings.Default.SegmentGrid = GridSettings.Create(this);
-				Debug.WriteLine("Column 1 FillWeight: " + Settings.Default.SegmentGrid.Columns[1].FillWeight);
-				Debug.WriteLine("Column 2 FillWeight: " + Settings.Default.SegmentGrid.Columns[2].FillWeight);
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------

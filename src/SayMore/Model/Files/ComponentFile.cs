@@ -713,17 +713,15 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GenerateOralAnnotationFile(TierCollection tiers, Control parentOfProgressPopup)
+		public void GenerateOralAnnotationFile(TierCollection tiers, Control parentOfProgressPopup)
 		{
 			if (PreGenerateOralAnnotationFileAction != null)
 				PreGenerateOralAnnotationFileAction();
 
-			var filename = OralAnnotationFileGenerator.Generate(tiers, parentOfProgressPopup);
+			OralAnnotationFileGenerator.Generate(tiers, parentOfProgressPopup);
 
 			if (PostGenerateOralAnnotationFileAction != null)
 				PostGenerateOralAnnotationFileAction();
-
-			return filename;
 		}
 
 		/// ------------------------------------------------------------------------------------

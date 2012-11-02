@@ -46,6 +46,7 @@
   &lt;string&gt;.wma&lt;/string&gt;
   &lt;string&gt;.acc&lt;/string&gt;
   &lt;string&gt;.ogg&lt;/string&gt;
+  &lt;string&gt;.flac&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="VideoFileExtensions" Type="System.Collections.Specialized.StringCollection" Scope="Application">

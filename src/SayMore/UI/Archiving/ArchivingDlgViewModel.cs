@@ -449,7 +449,7 @@ namespace SayMore.UI.Utilities
 					else if (file.ToLower().EndsWith(Settings.Default.MetadataFileExtension))
 						description = "SayMore File Metadata (XML)";
 
-					var fileName = Path.GetFileName(file).Replace(" ", "+");
+					var fileName = NormalizeFilenameForRAMP(Path.GetFileName(file));
 
 					yield return JSONUtils.MakeKeyValuePair(" ", fileName) + "," +
 						JSONUtils.MakeKeyValuePair("description", description) + "," +
@@ -458,6 +458,24 @@ namespace SayMore.UI.Utilities
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		private static string NormalizeFilenameForRAMP(string fileName)
+		{
+			StringBuilder bldr = new StringBuilder(fileName);
+			int prevPeriod = -1;
+			for (int i = 0; i < bldr.Length; i++)
+			{
+				if (bldr[i] == ' ')
+					bldr[i] = '+';
+				else if (bldr[i] == '.')
+				{
+					if (prevPeriod >= 0)
+						bldr[prevPeriod] = '#';
+					prevPeriod = i;
+				}
+			}
+			return bldr.ToString();
+		}
 		#endregion
 
 		#region Creating RAMP package (zip file) in background thread.
@@ -525,7 +543,7 @@ namespace SayMore.UI.Utilities
 					foreach (var file in list.Value)
 					{
 						string newFileName = Path.GetFileName(file);
-						newFileName = newFileName.Replace(" ", "+");
+						newFileName = NormalizeFilenameForRAMP(newFileName);
 						if (list.Key != string.Empty)
 							newFileName = "__Contributors__" + newFileName;
 						filesToCopyAndZip[file] = Path.Combine(_tempFolder, newFileName);
@@ -561,7 +579,7 @@ namespace SayMore.UI.Utilities
 						var mediaFileName = annotationFileHelper.MediaFileName;
 						if (mediaFileName != null && mediaFileName.Contains(" "))
 						{
-							annotationFileHelper.SetMediaFile(mediaFileName.Replace(" ", "+"));
+							annotationFileHelper.SetMediaFile(NormalizeFilenameForRAMP(mediaFileName));
 							annotationFileHelper.Root.Save(fileToCopy.Value);
 							continue;
 						}

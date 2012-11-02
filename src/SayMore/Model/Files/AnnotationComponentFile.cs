@@ -41,7 +41,7 @@ namespace SayMore.Model.Files
 		public string GetPathToAssociatedMediaFile()
 		{
 			return PathToAnnotatedFile.Substring(0,
-				PathToAnnotatedFile.Length - ".annotations.eaf".Length);
+				PathToAnnotatedFile.Length - AnnotationFileHelper.kAnnotationsEafFileSuffix.Length);
 		}
 
 		/// ------------------------------------------------------------------------------------

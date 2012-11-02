@@ -19,6 +19,7 @@ using Palaso.UI.WindowsForms.Progress;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.Transcription.Model;
 using SayMore.Utilities;
 using SilTools;
 using Timer = System.Threading.Timer;
@@ -40,6 +41,7 @@ namespace SayMore.UI.Utilities
 		private Session _session;
 		private PersonInformant _personInformant;
 		private string _metsFilePath;
+		private string _tempFolder;
 		private BackgroundWorker _worker;
 		private Timer _timer;
 		private bool _cancelProcess;
@@ -101,8 +103,9 @@ namespace SayMore.UI.Utilities
 			DisplayInitialSummary();
 			IsBusy = false;
 
-			// Add one for the mets.xml file.
-			maxProgBarValue = _fileLists.SelectMany(kvp => kvp.Value).Count() + 1;
+			// One for analyzing each list, one for copying each file, one for saving each file in the zip file
+			// and one for the mets.xml file.
+			maxProgBarValue = _fileLists.Count + 2 * _fileLists.SelectMany(kvp => kvp.Value).Count() + 1;
 
 			return (_rampProgramPath != null);
 		}
@@ -134,7 +137,6 @@ namespace SayMore.UI.Utilities
 				fileList[person.Id] = filesInDir.Where(IncludeFileInArchive);
 
 				msgKey = GetPathToContributorFileInArchive(person.Id, filesInDir[0]);
-				msgKey = Path.Combine(Path.Combine("Contributors", person.Id), Path.GetFileName(filesInDir[0]));
 
 				_progressMessages[msgKey] = string.Format(fmt, person.Id);
 			}
@@ -289,7 +291,9 @@ namespace SayMore.UI.Utilities
 				var jsonData = string.Format("{{{0}}}", bldr.ToString().TrimEnd(','));
 				jsonData = JSONUtils.EncodeData(jsonData);
 				var metsData = Resources.EmptyMets.Replace("<binData>", "<binData>" + jsonData);
-				_metsFilePath = Path.Combine(Path.GetTempPath(), "mets.xml");
+				_tempFolder = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+				Directory.CreateDirectory(_tempFolder);
+				_metsFilePath = Path.Combine(_tempFolder, "mets.xml");
 				File.WriteAllText(_metsFilePath, metsData);
 			}
 			catch (Exception e)
@@ -445,10 +449,9 @@ namespace SayMore.UI.Utilities
 					else if (file.ToLower().EndsWith(Settings.Default.MetadataFileExtension))
 						description = "SayMore File Metadata (XML)";
 
-					var filePath = (kvp.Key == string.Empty ? Path.GetFileName(file) :
-						GetPathToContributorFileInArchive(kvp.Key, file));
+					var fileName = Path.GetFileName(file).Replace(" ", "+");
 
-					yield return JSONUtils.MakeKeyValuePair(" ", filePath.Replace('\\', '/')) + "," +
+					yield return JSONUtils.MakeKeyValuePair(" ", fileName) + "," +
 						JSONUtils.MakeKeyValuePair("description", description) + "," +
 						JSONUtils.MakeKeyValuePair("relationship", "source");
 				}
@@ -492,7 +495,7 @@ namespace SayMore.UI.Utilities
 				_worker = null;
 			}
 
-			if(!File.Exists(RampPackagePath))
+			if (!File.Exists(RampPackagePath))
 			{
 				ErrorReport.NotifyUserOfProblem("Ack. SayMore failed to actually make the .ramp package.");
 				return false;
@@ -506,17 +509,74 @@ namespace SayMore.UI.Utilities
 		{
 			try
 			{
+				// Before adding the files to the RAMP (zip) file, we need to copy all the
+				// files to a temp folder, flattening out the directory structure and renaming
+				// the files as needed to comply with REAP guidelines.
+				// REVIEW: Are multiple periods and/or non-Roman script really a problem?
+
+				_worker.ReportProgress(0, LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PreparingFilesMsg",
+					"Analyzing component files"));
+
+				var filesToCopyAndZip = new Dictionary<string, string>();
+				foreach (var list in _fileLists)
+				{
+					_worker.ReportProgress(1 /* actual value ignored, progress just increments */,
+						string.IsNullOrEmpty(list.Key) ? _session.Id: list.Key);
+					foreach (var file in list.Value)
+					{
+						string newFileName = Path.GetFileName(file);
+						newFileName = newFileName.Replace(" ", "+");
+						if (list.Key != string.Empty)
+							newFileName = "__Contributors__" + newFileName;
+						filesToCopyAndZip[file] = Path.Combine(_tempFolder, newFileName);
+					}
+					if (_cancelProcess)
+						return;
+				}
+
+				_worker.ReportProgress(0, LocalizationManager.GetString("DialogBoxes.ArchivingDlg.CopyingFilesMsg",
+					"Copying files"));
+
+				foreach (var fileToCopy in filesToCopyAndZip)
+				{
+					if (_cancelProcess)
+						return;
+					_worker.ReportProgress(1 /* actual value ignored, progress just increments */,
+						Path.GetFileName(fileToCopy.Key));
+					// Don't use File.Copy because it's asynchronous.
+					if (fileToCopy.Key.EndsWith(AnnotationFileHelper.kAnnotationsEafFileSuffix))
+					{
+						// Fix EAF file to refer to modified name.
+						AnnotationFileHelper annotationFileHelper;
+						try
+						{
+							annotationFileHelper = AnnotationFileHelper.Load(fileToCopy.Key);
+						}
+						catch (Exception error)
+						{
+							ErrorReport.NotifyUserOfProblem(error, LocalizationManager.GetString(
+								"DialogBoxes.ArchivingDlg.FileExcludedFromRAMP", "File excluded from RAMP package."));
+							continue;
+						}
+						var mediaFileName = annotationFileHelper.MediaFileName;
+						if (mediaFileName != null && mediaFileName.Contains(" "))
+						{
+							annotationFileHelper.SetMediaFile(mediaFileName.Replace(" ", "+"));
+							annotationFileHelper.Root.Save(fileToCopy.Value);
+							continue;
+						}
+					}
+					CopyFile(fileToCopy.Key, fileToCopy.Value);
+				}
+
+				_worker.ReportProgress(0, LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SavingFilesInRAMPMsg",
+					"Saving files in RAMP package"));
+
 				using (var zip = new ZipFile())
 				{
 					// RAMP packages must not be compressed or RAMP can't read them.
 					zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None;
-
-					foreach (var list in _fileLists)
-					{
-						zip.AddFiles(list.Value, list.Key == string.Empty ?
-							string.Empty : "Contributors\\" + list.Key);
-					}
-
+					zip.AddFiles(filesToCopyAndZip.Values);
 					zip.AddFile(_metsFilePath, string.Empty);
 					zip.SaveProgress += HandleZipSaveProgress;
 					zip.Save(RampPackagePath);
@@ -536,6 +596,24 @@ namespace SayMore.UI.Utilities
 		}
 
 		/// ------------------------------------------------------------------------------------
+		const int CopyBufferSize = 64 * 1024;
+		static void CopyFile(string src, string dest)
+		{
+			using (var outputFile = File.OpenWrite(dest))
+			{
+				using (var inputFile = File.OpenRead(src))
+				{
+					var buffer = new byte[CopyBufferSize];
+					int bytesRead;
+					while ((bytesRead = inputFile.Read(buffer, 0, CopyBufferSize)) != 0)
+					{
+						outputFile.Write(buffer, 0, bytesRead);
+					}
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This is called by the Save method on the ZipFile class as the zip file is being
 		/// saved to the disk.
@@ -547,10 +625,10 @@ namespace SayMore.UI.Utilities
 				return;
 
 			string msg;
-			if (_progressMessages.TryGetValue(e.CurrentEntry.FileName.Replace('/', '\\'), out msg))
+			if (_progressMessages.TryGetValue(e.CurrentEntry.FileName, out msg))
 				LogBox.WriteMessage(Environment.NewLine + msg);
 
-			_worker.ReportProgress(e.EntriesSaved, Path.GetFileName(e.CurrentEntry.FileName));
+			_worker.ReportProgress(e.EntriesSaved + 1, Path.GetFileName(e.CurrentEntry.FileName));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -567,7 +645,15 @@ namespace SayMore.UI.Utilities
 			}
 
 			if (!string.IsNullOrEmpty(e.UserState as string))
+			{
+				if (e.ProgressPercentage == 0)
+				{
+					LogBox.WriteMessageWithColor(Color.DarkGreen, Environment.NewLine + e.UserState);
+					return;
+				}
+
 				LogBox.WriteMessageWithFontStyle(FontStyle.Regular, "\t" + e.UserState);
+			}
 
 			if (!_cancelProcess && _incrementProgressBarAction != null)
 				_incrementProgressBarAction();
@@ -609,7 +695,7 @@ namespace SayMore.UI.Utilities
 		/// ------------------------------------------------------------------------------------
 		public void CleanUp()
 		{
-			try { File.Delete(_metsFilePath); }
+			try { Directory.Delete(_tempFolder, true); }
 			catch { }
 
 			_session = null;

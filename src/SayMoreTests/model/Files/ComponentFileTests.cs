@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
+using SayMore.Transcription.Model;
 using SayMore.Utilities;
 using SayMoreTests.Transcription.Model;
 
@@ -430,7 +431,8 @@ namespace SayMoreTests.Model.Files
 				new FileType[] { new AudioFileType(null, null, null), new UnknownFileType(null, null) },
 				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
 
-			var annotationPath = Path.Combine(_parentFolder.Path, filename + ".annotations.eaf");
+			var annotationPath = Path.Combine(_parentFolder.Path,
+				AnnotationFileHelper.ComputeEafFileNameFromOralAnnotationFile(filename));
 			AnnotationFileHelperTests.CreateTestEaf(annotationPath);
 			var annotationFile = new AnnotationComponentFile(null, annotationPath,
 				null, new AnnotationFileType(null, null), null);
@@ -445,7 +447,8 @@ namespace SayMoreTests.Model.Files
 				new FileType[] { new VideoFileType(null, null, null), new UnknownFileType(null, null) },
 				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
 
-			var annotationPath = Path.Combine(_parentFolder.Path, filename + ".annotations.eaf");
+			var annotationPath = Path.Combine(_parentFolder.Path,
+				AnnotationFileHelper.ComputeEafFileNameFromOralAnnotationFile(filename));
 			AnnotationFileHelperTests.CreateTestEaf(annotationPath);
 			var annotationFile = new AnnotationComponentFile(null, annotationPath,
 				null, new AnnotationFileType(null, null), null);

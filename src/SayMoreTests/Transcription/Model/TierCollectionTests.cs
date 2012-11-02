@@ -333,7 +333,7 @@ namespace SayMoreTests.Transcription.Model
 		public void Save_CanReadSavedFile()
 		{
 			var mediafile = MediaFileInfoTests.GetShortTestAudioFile();
-			var expectedEafFile = mediafile + ".annotations.eaf";
+			var expectedEafFile = AnnotationFileHelper.ComputeEafFileNameFromOralAnnotationFile(mediafile);
 
 			try
 			{

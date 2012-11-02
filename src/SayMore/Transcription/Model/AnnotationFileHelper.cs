@@ -25,6 +25,8 @@ namespace SayMore.Transcription.Model
 		public string AnnotationFileName { get; private set; }
 		public XElement Root { get; private set; }
 
+		public const string kAnnotationsEafFileSuffix = ".annotations.eaf";
+
 		private string _mediaFileName;
 
 		#region Constructors and static methods for loading and verifying validity of file
@@ -157,23 +159,32 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public string GetFullPathToMediaFile()
 		{
-			if (_mediaFileName == null)
+			var mediaFileName = MediaFileName;
+			return (mediaFileName == null || Path.IsPathRooted(mediaFileName) ?
+				mediaFileName : Path.Combine(GetAnnotationFolderPath(), Path.GetFileName(mediaFileName)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string MediaFileName
+		{
+			get
 			{
-				var element = Root.Element("HEADER");
-				if (element == null)
-					return null;
+				if (_mediaFileName == null)
+				{
+					var element = Root.Element("HEADER");
+					if (element == null)
+						return null;
 
-				element = element.Element("MEDIA_DESCRIPTOR");
-				if (element == null)
-					return null;
+					element = element.Element("MEDIA_DESCRIPTOR");
+					if (element == null)
+						return null;
 
-				var mediaUrl = element.Attribute("MEDIA_URL");
-				if (mediaUrl != null)
-					_mediaFileName = mediaUrl.Value;
+					var mediaUrl = element.Attribute("MEDIA_URL");
+					if (mediaUrl != null)
+						_mediaFileName = mediaUrl.Value;
+				}
+				return _mediaFileName;
 			}
-
-			return (_mediaFileName == null || Path.IsPathRooted(_mediaFileName) ?
-				_mediaFileName : Path.Combine(GetAnnotationFolderPath(), Path.GetFileName(_mediaFileName)));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -609,9 +620,9 @@ namespace SayMore.Transcription.Model
 
 		#region Static methods for creating EAF file.
 		/// ------------------------------------------------------------------------------------
-		private static string ComputeEafFileNameFromOralAnnotationFile(string mediaFileName)
+		public static string ComputeEafFileNameFromOralAnnotationFile(string mediaFileName)
 		{
-			return mediaFileName + ".annotations.eaf";
+			return mediaFileName + kAnnotationsEafFileSuffix;
 		}
 
 		/// ------------------------------------------------------------------------------------

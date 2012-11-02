@@ -166,7 +166,7 @@ namespace SayMore.UI.SessionRecording
 						"Unable to start recording.") + Environment.NewLine +
 						failure.Message + Environment.NewLine +
 						LocalizationManager.GetString(
-						"CommonToMultipleViews.RetryAfterUnauthorizedAccessExceptionMsg",
+						"DialogBoxes.SessionRecorderDlg.RetryAfterUnauthorizedAccessExceptionMsg",
 						"If you can determine which program is using this file, close it and click Retry.");
 					if (retry++ > 0)
 					{

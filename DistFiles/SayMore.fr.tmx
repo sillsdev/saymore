@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="fr" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4681.22801" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="fr" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4682.28047" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
@@ -672,14 +672,6 @@
       </tuv>
       <tuv xml:lang="fr">
         <seg>Propriétés</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CommonToMultipleViews.RetryAfterUnauthorizedAccessExceptionMsg">
-      <tuv xml:lang="en">
-        <seg>If you can determine which program is using this file, close it and click Retry.</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Si vous pouvez déterminer quel programme a ouvert ce fichier, le fermer et cliquez sur recommencer.</seg>
       </tuv>
     </tu>
     <tu tuid="ConvertMedia.FullConversionOutput">
@@ -1682,6 +1674,14 @@ l'enregistrement de la source.</seg>
         <seg>SayMore ne peut pas atteindre le dossier où vos fichiers ont été la dernière fois. Une des conditions suivantes peut être vraie :</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ProgressDlg.CancellingMsg">
+      <tuv xml:lang="en">
+        <seg>Canceling...</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Annulant...</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ProgressDlg._buttonCancel">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
@@ -1752,6 +1752,14 @@ l'enregistrement de la source.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Format : {0} bits, {1} Hz</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.RetryAfterUnauthorizedAccessExceptionMsg">
+      <tuv xml:lang="en">
+        <seg>If you can determine which program is using this file, close it and click Retry.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Si vous pouvez déterminer quel programme a ouvert ce fichier, le fermer et cliquez sur recommencer.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.StopButtonText">
@@ -2166,10 +2174,10 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UndoToolTipMsg">
       <tuv xml:lang="en">
-        <seg>Undo: {0} (Ctrl-Z)</seg>
+        <seg>Undo: {0} (Ctrl-Z or Z)</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Annuler: {0} (Ctrl-Z)</seg>
+        <seg>Annuler: {0} (Ctrl-Z ou Z)</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UnexpectedErrorAttemptingToRecordMsg">

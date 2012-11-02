@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 using Localization;
 using NAudio.Wave;
@@ -51,6 +52,14 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private static string GetGeneratingMsg()
+		{
+			return LocalizationManager.GetString(
+				"SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg",
+				"Generating Oral Annotation file...");
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static void Generate(TierCollection tierCollection, Control parentControlForDialog)
 		{
 			var timeTier = tierCollection.GetTimeTier();
@@ -61,30 +70,16 @@ namespace SayMore.Transcription.Model
 			{
 				Program.SuspendBackgroundProcesses();
 
-				var msg = LocalizationManager.GetString(
-					"SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg",
-					"Generating Oral Annotation file...");
-
 				using (var generator = new OralAnnotationFileGenerator(timeTier,
 					tierCollection.GetIsSegmentIgnored, parentControlForDialog))
-				using (var dlg = new LoadingDlg(msg))
+				using (var dlg = new LoadingDlg(GetGeneratingMsg()))
 				{
-					if (parentControlForDialog != null)
-						dlg.Show(parentControlForDialog);
-					else
-					{
-						dlg.StartPosition = FormStartPosition.CenterScreen;
-						dlg.Show();
-					}
-
+					dlg.GenericErrorMessage = GetGenericErrorMsg();
 					var worker = new BackgroundWorker();
 					worker.DoWork += generator.CreateInterleavedAudioFile;
-					worker.RunWorkerAsync();
-
-					while (worker.IsBusy)
-						Application.DoEvents();
-
-					dlg.Close();
+					worker.WorkerSupportsCancellation = true;
+					dlg.BackgroundWorker = worker;
+					dlg.Show(parentControlForDialog);
 				}
 			}
 			catch (Exception error)
@@ -151,6 +146,9 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		private void CreateInterleavedAudioFile(object sender, DoWorkEventArgs e)
 		{
+			BackgroundWorker worker = (BackgroundWorker)sender;
+			var SetState = (Action<string, Exception>)e.Argument;
+
 			Action<Action> Invoke = actionToInvoke => {
 				if (_synchInvoke.InvokeRequired)
 					_synchInvoke.Invoke(actionToInvoke, null);
@@ -163,10 +161,7 @@ namespace SayMore.Transcription.Model
 				var msg = LocalizationManager.GetString(
 					"SessionsView.Transcription.GeneratedOralAnnotationView.ProcessingSourceRecordingErrorMsg",
 					"There was an error processing the source recording.");
-
-
-				Invoke(() => ErrorReport.NotifyUserOfProblem(msg, _srcRecStreamProvider.Error));
-				return;
+				throw new Exception(msg, _srcRecStreamProvider.Error);
 			}
 
 			_outputFileName = _srcRecordingTier.MediaFileName +
@@ -176,70 +171,62 @@ namespace SayMore.Transcription.Model
 
 			try
 			{
-				int retry = 0;
-				do
+				int retries = 0;
+				while (e.Result == null && !worker.CancellationPending && !e.Cancel)
 				{
-					// REVIEW: Not sure why this should have to be inside the do-loop, but in at least one of my tests,
+					// REVIEW: Not sure why this should have to be inside the while-loop, but in at least one of my tests,
 					// the temp file went AWOL.
-					if (retry == 0 || !File.Exists(tmpOutputFile))
+					if (retries == 0 || !File.Exists(tmpOutputFile))
 					{
+						if (retries > 0)
+							Invoke(() => SetState(GetGeneratingMsg(), null));
 
 						using (_audioFileWriter = new WaveFileWriter(tmpOutputFile, _outputAudioFormat))
 						{
 							foreach (var timeRange in _srcRecordingSegments)
+							{
+								if (worker.CancellationPending)
+									return;
 								InterleaveSegments(timeRange);
+							}
 						}
 					}
 
 					try
 					{
+						retries++;
+
 						if (File.Exists(_outputFileName))
 							File.Delete(_outputFileName);
 
 						File.Move(tmpOutputFile, _outputFileName);
-
-						retry = 0;
+						e.Result = _outputFileName;
 					}
 					catch (Exception failure)
 					{
+						var retriesMsg = string.Format(LocalizationManager.GetString(
+								"CommonToMultipleViews.AttemptedRetriesMsg",
+								"(Retries attempted: {0})",
+								"Parameter is the number of times SayMore has attempted to move the temp file to the permanent location."), retries);
+
 						string failureMsg;
-						if (failure is UnauthorizedAccessException)
+						if (failure is UnauthorizedAccessException || failure is IOException)
 						{
-							var retryMsg = LocalizationManager.GetString(
-								"CommonToMultipleViews.RetryAfterUnauthorizedAccessExceptionMsg",
-								"If you can determine which program is using this file, close it and click Retry.");
-							failureMsg = failure.Message + Environment.NewLine + retryMsg;
-						}
-						else if (failure is IOException)
-						{
-							var detailsMsg = LocalizationManager.GetString(
-								"SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileDetails",
-								"Attempting to generate file:");
-							failureMsg = failure.Message + Environment.NewLine + detailsMsg + Environment.NewLine + _outputFileName;
+							failureMsg = failure.Message;
+							if (!failureMsg.Contains(_outputFileName))
+							{
+								var detailsMsg = LocalizationManager.GetString(
+									"SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileDetails",
+									"Attempting to generate file:");
+								failureMsg += Environment.NewLine + detailsMsg + Environment.NewLine + _outputFileName;
+							}
 						}
 						else
 							throw;
-						if (retry++ > 0)
-						{
-							Invoke(() =>
-							{
-								var userMessage = GetGenericErrorMsg() + Environment.NewLine + failureMsg;
-								if (MessageBox.Show(userMessage,
-									Application.ProductName, MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
-								{
-									UsageReporter.ReportException(false,
-										"Cancelled by user after 1 automatic retry and " + (retry - 1) + "retries requested by the user",
-										failure, userMessage);
-									retry = 0;
-								}
-							});
-						}
+						Invoke(() => SetState(failureMsg + Environment.NewLine + retriesMsg, failure));
+						Thread.Sleep(1000);
 					}
-				} while (retry > 0);
-			}
-			catch (Exception error)
-			{
-				Invoke(() => ErrorReport.NotifyUserOfProblem(error, GetGenericErrorMsg()));
+				}
 			}
 			finally
 			{
@@ -249,6 +236,9 @@ namespace SayMore.Transcription.Model
 
 				if (File.Exists(tmpOutputFile))
 					File.Delete(tmpOutputFile);
+
+				if (worker.CancellationPending)
+					e.Cancel = true;
 			}
 		}
 

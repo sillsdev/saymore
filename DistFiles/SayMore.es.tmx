@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4681.22801" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4682.28047" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
   <body>
+    <tu tuid="CommonToMultipleViews.AttemptedRetriesMsg">
+      <note>Parameter is the number of times SayMore has attempted to move the temp file to the permanent location.</note>
+      <tuv xml:lang="en">
+        <seg>(Retries attempted: {0})</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>(Reintentos: {0})</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.AudioUtils.NoPlaybackDevicesFoundMsg">
       <tuv xml:lang="en">
         <seg>Currently SayMore is unable to find any audio playback devices installed and enabled on this computer.</seg>
@@ -689,14 +698,6 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Propiedades</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CommonToMultipleViews.RetryAfterUnauthorizedAccessExceptionMsg">
-      <tuv xml:lang="en">
-        <seg>If you can determine which program is using this file, close it and click Retry.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Si usted puede determinar cuál programa está utilizando este archivo, ciérrelo y presione Reintentar.</seg>
       </tuv>
     </tu>
     <tu tuid="ConvertMedia.FullConversionOutput">
@@ -1695,6 +1696,14 @@
         <seg>SayMore no puede llegar a la carpeta donde los archivos se encontraban anteriormente. Uno de los siguientes puede ser la causa:</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ProgressDlg.CancellingMsg">
+      <tuv xml:lang="en">
+        <seg>Canceling...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cancelando...</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ProgressDlg._buttonCancel">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
@@ -1765,6 +1774,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Formato: {0} bits, {1} Hz</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.RetryAfterUnauthorizedAccessExceptionMsg">
+      <tuv xml:lang="en">
+        <seg>If you can determine which program is using this file, close it and click Retry.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Si usted puede determinar cuál programa está utilizando este archivo, ciérrelo y presione Reintentar.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.StopButtonText">
@@ -2178,10 +2195,10 @@
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UndoToolTipMsg">
       <tuv xml:lang="en">
-        <seg>Undo: {0} (Ctrl-Z)</seg>
+        <seg>Undo: {0} (Ctrl-Z or Z)</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Deshacer: {0} (Ctrl-Z)</seg>
+        <seg>Deshacer: {0} (Ctrl-Z o Z)</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UnexpectedErrorAttemptingToRecordMsg">

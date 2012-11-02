@@ -1,13 +1,20 @@
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
+using Palaso.Reporting;
 using SayMore.Utilities;
 
 namespace SayMore.UI
 {
 	public partial class LoadingDlg : Form
 	{
-		public Action CancelClicked;
+		public BackgroundWorker BackgroundWorker { get; set; }
+		public string GenericErrorMessage { get; set; }
+		private Image _originalGif;
+
+		private Exception _exception;
 
 		/// ------------------------------------------------------------------------------------
 		public LoadingDlg()
@@ -19,30 +26,13 @@ namespace SayMore.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public LoadingDlg(string message) : this(message, false)
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public LoadingDlg(bool showCancel) : this(null, showCancel)
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public LoadingDlg(string message, bool showCancel) : this()
+		public LoadingDlg(string message) : this()
 		{
 			if (message != null)
 				_labelLoading.Text = message;
 
 			if (_labelLoading.Right - 20 > Right)
 				Width += ((_labelLoading.Right + 20) - Right);
-
-			_linkCancel.Visible = showCancel;
-			_linkCancel.LinkClicked += delegate
-			{
-				if (CancelClicked != null)
-					CancelClicked();
-			};
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -58,10 +48,59 @@ namespace SayMore.UI
 				pt.X += (parent.Width - Width) / 2;
 				pt.Y += (parent.Height - Height) / 2;
 				Location = pt;
+				_labelLoading.MaximumSize = new Size(parent.Height / 2 - (Height - _labelLoading.Height),
+					parent.Width / 2 - (Width - _labelLoading.Width));
 			}
 
-			Show();
-			Application.DoEvents();
+			if (BackgroundWorker != null)
+			{
+				if (BackgroundWorker.WorkerSupportsCancellation)
+				{
+					_linkCancel.Visible = true;
+					_linkCancel.LinkClicked += delegate
+					{
+						BackgroundWorker.CancelAsync();
+						_labelLoading.Text = LocalizationManager.GetString("DialogBoxes.ProgressDlg.CancellingMsg", "Canceling...");
+						_linkCancel.Hide();
+					};
+				}
+				_originalGif = _pictureLoading.Image;
+				BackgroundWorker.RunWorkerCompleted += HandleBackgroundWorkerCompleted;
+				BackgroundWorker.RunWorkerAsync((Action<string, Exception>)((msg, e) => {
+					_labelLoading.Text = msg;
+					_exception = e;
+					_pictureLoading.Image = (e == null ? _originalGif : Properties.Resources.kimidWarning);
+				}));
+
+				ShowDialog(parent);
+			}
+			else
+				Show();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleBackgroundWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			if (e.Cancelled)
+			{
+				DialogResult = DialogResult.Cancel;
+				UsageReporter.ReportException(false, GenericErrorMessage, _exception, _labelLoading.Text);
+			}
+			else if (e.Error != null)
+			{
+				ErrorReport.NotifyUserOfProblem(GenericErrorMessage, e.Error);
+				DialogResult = DialogResult.Abort;
+			}
+			else
+				DialogResult = DialogResult.OK;
+			Close();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+			Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------

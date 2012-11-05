@@ -259,7 +259,7 @@ namespace SayMore.UI.Utilities
 			IsBusy = true;
 			LogBox.Clear();
 
-			var	success = CreateMetsFile();
+			var	success = CreateMetsFile() != null;
 
 			if (success)
 				success = CreateRampPackage();
@@ -279,7 +279,7 @@ namespace SayMore.UI.Utilities
 
 		#region Methods for creating mets file.
 		/// ------------------------------------------------------------------------------------
-		public bool CreateMetsFile()
+		public string CreateMetsFile()
 		{
 			try
 			{
@@ -301,13 +301,13 @@ namespace SayMore.UI.Utilities
 				ReportError(e, LocalizationManager.GetString("DialogBoxes.ArchivingDlg.CreatingInternalReapMetsFileErrorMsg",
 					"There was an error attempting to create a RAMP/REAP mets file for the session '{0}'."));
 
-				return false;
+				return null;
 			}
 
 			if (_incrementProgressBarAction != null)
 				_incrementProgressBarAction();
 
-			return true;
+			return _metsFilePath;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -449,7 +449,7 @@ namespace SayMore.UI.Utilities
 					else if (file.ToLower().EndsWith(Settings.Default.MetadataFileExtension))
 						description = "SayMore File Metadata (XML)";
 
-					var fileName = NormalizeFilenameForRAMP(Path.GetFileName(file));
+					var fileName = NormalizeFilenameForRAMP(kvp.Key, Path.GetFileName(file));
 
 					yield return JSONUtils.MakeKeyValuePair(" ", fileName) + "," +
 						JSONUtils.MakeKeyValuePair("description", description) + "," +
@@ -459,7 +459,7 @@ namespace SayMore.UI.Utilities
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static string NormalizeFilenameForRAMP(string fileName)
+		private static string NormalizeFilenameForRAMP(string key, string fileName)
 		{
 			StringBuilder bldr = new StringBuilder(fileName);
 			int prevPeriod = -1;
@@ -474,6 +474,8 @@ namespace SayMore.UI.Utilities
 					prevPeriod = i;
 				}
 			}
+			if (key != string.Empty)
+				bldr.Insert(0, "__Contributors__");
 			return bldr.ToString();
 		}
 		#endregion
@@ -543,9 +545,7 @@ namespace SayMore.UI.Utilities
 					foreach (var file in list.Value)
 					{
 						string newFileName = Path.GetFileName(file);
-						newFileName = NormalizeFilenameForRAMP(newFileName);
-						if (list.Key != string.Empty)
-							newFileName = "__Contributors__" + newFileName;
+						newFileName = NormalizeFilenameForRAMP(list.Key, newFileName);
 						filesToCopyAndZip[file] = Path.Combine(_tempFolder, newFileName);
 					}
 					if (_cancelProcess)
@@ -577,11 +577,15 @@ namespace SayMore.UI.Utilities
 							continue;
 						}
 						var mediaFileName = annotationFileHelper.MediaFileName;
-						if (mediaFileName != null && mediaFileName.Contains(" "))
+						if (mediaFileName != null)
 						{
-							annotationFileHelper.SetMediaFile(NormalizeFilenameForRAMP(mediaFileName));
-							annotationFileHelper.Root.Save(fileToCopy.Value);
-							continue;
+							var normalizedName = NormalizeFilenameForRAMP(string.Empty, mediaFileName);
+							if (normalizedName != mediaFileName)
+							{
+								annotationFileHelper.SetMediaFile(normalizedName);
+								annotationFileHelper.Root.Save(fileToCopy.Value);
+								continue;
+							}
 						}
 					}
 					CopyFile(fileToCopy.Key, fileToCopy.Value);

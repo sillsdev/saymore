@@ -412,13 +412,13 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void GetSuggestedPathToStandardAudioFile_FileCanBeAnnotated_ReturnsCorrectPath()
 		{
-			foreach (var ext in new[] { "mp3", "wav", "wma","flac" })
+			foreach (var ext in new[] { "mp3", "wav", "wma", "flac" })
 			{
 				Assert.AreEqual("abc_StandardAudio.wav", Path.GetFileName(
 					CreateAudioComponentFile("abc." + ext).GetSuggestedPathToStandardAudioFile()));
 			}
 
-			foreach (var ext in new[] { "mov", "mpg", "wmv","flac" })
+			foreach (var ext in new[] { "mov", "mpg", "wmv" })
 			{
 				Assert.AreEqual("abc_StandardAudio.wav", Path.GetFileName(
 					CreateVideoComponentFile("abc." + ext).GetSuggestedPathToStandardAudioFile()));

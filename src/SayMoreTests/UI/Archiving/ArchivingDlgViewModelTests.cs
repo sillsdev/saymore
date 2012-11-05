@@ -140,8 +140,9 @@ namespace SayMoreTests.Utilities
 		[Test]
 		public void CreateMetsFile_CreatesFile()
 		{
-			Assert.IsTrue(_helper.CreateMetsFile());
-			Assert.IsTrue(File.Exists(Path.Combine(Path.GetTempPath(), "mets.xml")));
+			var metsPath = _helper.CreateMetsFile();
+			Assert.IsNotNull(metsPath);
+			Assert.IsTrue(File.Exists(metsPath));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -264,9 +265,9 @@ namespace SayMoreTests.Utilities
 		public void GetSourceFilesForMetsData_ListContainsGenericPersonFile_ReturnsCorrectMetsData()
 		{
 			var fileLists = new Dictionary<string, IEnumerable<string>>();
-			fileLists["person id"] = new[] { "blah.wav" };
+			fileLists["Carmen"] = new[] { "Carmen_blah.wav" };
 
-			var expected = "\" \":\"Contributors/person id/blah.wav\",\"description\":\"SayMore Contributor File\",\"relationship\":\"source\"";
+			var expected = "\" \":\"__Contributors__Carmen_blah.wav\",\"description\":\"SayMore Contributor File\",\"relationship\":\"source\"";
 			Assert.AreEqual(expected, _helper.GetSourceFilesForMetsData(fileLists).ElementAt(0));
 		}
 
@@ -275,22 +276,22 @@ namespace SayMoreTests.Utilities
 		public void GetSourceFilesForMetsData_ListMultipleFiles_ReturnsCorrectMetsData()
 		{
 			var fileLists = new Dictionary<string, IEnumerable<string>>();
-			fileLists[string.Empty] = new[] { "blah.session", "baa.wav" };
-			fileLists["person id"] = new[] { "blah.person", "baa.mpg", "baa.mpg.meta" };
+			fileLists[string.Empty] = new[] { "blah.session", "really cool.wav" };
+			fileLists["person id"] = new[] { "person id_blah.person", "person id_baa.mpg", "person id_baa.mpg.meta" };
 
 			Assert.AreEqual("\" \":\"blah.session\",\"description\":\"SayMore Session Metadata (XML)\",\"relationship\":\"source\"",
 				_helper.GetSourceFilesForMetsData(fileLists).ElementAt(0));
 
-			Assert.AreEqual("\" \":\"baa.wav\",\"description\":\"SayMore Session File\",\"relationship\":\"source\"",
+			Assert.AreEqual("\" \":\"really+cool.wav\",\"description\":\"SayMore Session File\",\"relationship\":\"source\"",
 				_helper.GetSourceFilesForMetsData(fileLists).ElementAt(1));
 
-			Assert.AreEqual("\" \":\"Contributors/person id/blah.person\",\"description\":\"SayMore Contributor Metadata (XML)\",\"relationship\":\"source\"",
+			Assert.AreEqual("\" \":\"__Contributors__person+id_blah.person\",\"description\":\"SayMore Contributor Metadata (XML)\",\"relationship\":\"source\"",
 				_helper.GetSourceFilesForMetsData(fileLists).ElementAt(2));
 
-			Assert.AreEqual("\" \":\"Contributors/person id/baa.mpg\",\"description\":\"SayMore Contributor File\",\"relationship\":\"source\"",
+			Assert.AreEqual("\" \":\"__Contributors__person+id_baa.mpg\",\"description\":\"SayMore Contributor File\",\"relationship\":\"source\"",
 				_helper.GetSourceFilesForMetsData(fileLists).ElementAt(3));
 
-			Assert.AreEqual("\" \":\"Contributors/person id/baa.mpg.meta\",\"description\":\"SayMore File Metadata (XML)\",\"relationship\":\"source\"",
+			Assert.AreEqual("\" \":\"__Contributors__person+id_baa#mpg.meta\",\"description\":\"SayMore File Metadata (XML)\",\"relationship\":\"source\"",
 				_helper.GetSourceFilesForMetsData(fileLists).ElementAt(4));
 		}
 	}

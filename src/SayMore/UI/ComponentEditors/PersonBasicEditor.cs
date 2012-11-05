@@ -252,7 +252,8 @@ namespace SayMore.UI.ComponentEditors
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 					ChangePersonsPicture(dlg.FileName);
 			}
-			previouslyActiveControl.Focus();
+			if (previouslyActiveControl != null)
+				previouslyActiveControl.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------

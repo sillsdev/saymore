@@ -224,7 +224,7 @@
         <seg>All Files (*.*)</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Todos los archivos (*. *)</seg>
+        <seg>Todos los archivos (*.*)</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFilesButtonText">
@@ -2198,7 +2198,7 @@
         <seg>Undo: {0} (Ctrl-Z or Z)</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Deshacer: {0} (Ctrl-Z o Z)</seg>
+        <seg>Deshacer: {0} (Ctrl-Z)</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UnexpectedErrorAttemptingToRecordMsg">
@@ -2560,7 +2560,7 @@
         <seg>CSV (Comma delimited) (*.csv)|*.csv</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>CSV (delimitado por comas) (*.csv) | * .csv</seg>
+        <seg>CSV (delimitado por comas) (*.csv)|*.csv</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.Export.ExportFileSaveFileDlg.Caption">
@@ -2864,7 +2864,7 @@
         <seg>JPEG Images (*.jpg)|*.jpg|GIF Images (*.gif)|*.gif|TIFF Images (*.tif)|*.tif|PNG Images (*.png)|*.png|Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Imágenes JPEG (*.jpg) | *. SVG|Imágenes GIF (*.gif) | *. gif|Imágenes TIFF (*.tif) | *. tif|Imágenes PNG (*.png) | *. png|Mapas de bits (*.bmp; *.dib) | * .bmp; *. dib|Todos los archivos (*. *) | *. *</seg>
+        <seg>Imágenes JPEG (*.jpg) |*.jpg|Imágenes GIF (*.gif)|*.gif|Imágenes TIFF (*.tif) |*.tif|Imágenes PNG (*.png)|*.png|Mapas de bits (*.bmp; *.dib) |*.bmp;*.dib|Todos los archivos (*.*)|*.*</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor.MotherSelectorToolTip.WhenNotSelected">

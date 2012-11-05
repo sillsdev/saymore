@@ -182,7 +182,7 @@
         <seg>All Files (*.*)</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Все файлы (*. *)</seg>
+        <seg>Все файлы (*.*)</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFilesButtonText">
@@ -1160,7 +1160,7 @@
         <seg>All Files (*.*)|*.*</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Все файлы (*. *) | *. *</seg>
+        <seg>Все файлы (*.*)|*.*</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.Caption">
@@ -1241,7 +1241,7 @@
         <seg>FLEx Interlinear (*.flextext)|*.flextext|All Files (*.*)|*.*</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>FLEx подстрочник XML (*.xml) | *. xml|Все файлы (*. *) | *. *</seg>
+        <seg>FLEx подстрочник XML (*.xml)|*.xml|Все файлы (*.*)|*.*</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationLabel">
@@ -1485,7 +1485,7 @@
         <seg>CSV (Comma delimited) (*.csv)|*.csv</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>CSV (разделен запятыми) (*.csv) | * .csv</seg>
+        <seg>CSV (разделен запятыми) (*.csv)|*.csv</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.Export.ExportFileSaveFileDlg.Caption">
@@ -1765,7 +1765,7 @@
         <seg>JPEG Images (*.jpg)|*.jpg|GIF Images (*.gif)|*.gif|TIFF Images (*.tif)|*.tif|PNG Images (*.png)|*.png|Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Изображения в формате JPEG (*.jpg) | *. jpg|Изображения в формате GIF (*.gif) | *. gif|Изображения TIFF (*.tif) | *. tif|Изображения PNG (*.png) | *. png|Растровые изображения (*.bmp; *.dib) | * .bmp; *. dib|Все файлы (*. *) | *. *</seg>
+        <seg>Изображения в формате JPEG (*.jpg)|*.jpg|Изображения в формате GIF (*.gif)|*.gif|Изображения TIFF (*.tif)|*.tif|Изображения PNG (*.png)|*.png|Растровые изображения (*.bmp; *.dib)|*.bmp; *.dib|Все файлы (*.*)|*.*</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor.MotherSelectorToolTip.WhenNotSelected">

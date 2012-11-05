@@ -215,7 +215,7 @@
         <seg>All Files (*.*)</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Tous les fichiers (*. *)</seg>
+        <seg>Tous les fichiers (*.*)</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFilesButtonText">
@@ -1879,7 +1879,7 @@ l'enregistrement de la source.</seg>
         <seg>All Files (*.*)|*.*</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Tous les fichiers (*. *) | *. *</seg>
+        <seg>Tous les fichiers (*.*)|*.*</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.Caption">
@@ -1895,7 +1895,7 @@ l'enregistrement de la source.</seg>
         <seg>Audacity Label File (*.txt)|*.txt</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Audace Label fichier (*.txt) | * .txt</seg>
+        <seg>Audace Label fichier (*.txt)|*.txt</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanFileTypeString">
@@ -1903,7 +1903,7 @@ l'enregistrement de la source.</seg>
         <seg>ELAN File (*.eaf)|*.eaf</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>ELAN fichier (*.eaf) | * .eaf</seg>
+        <seg>ELAN fichier (*.eaf)|*.eaf</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadSegmentFileDlgCaption">
@@ -1960,7 +1960,7 @@ l'enregistrement de la source.</seg>
         <seg>FLEx Interlinear (*.flextext)|*.flextext|All Files (*.*)|*.*</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>FLEx Interlinéaire (*.flextext) | *. flextext|Tous les fichiers (*. *) | *. *</seg>
+        <seg>FLEx Interlinéaire (*.flextext)|*.flextext|Tous les fichiers (*.*)|*.*</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationLabel">
@@ -2603,7 +2603,7 @@ l'enregistrement de la source.</seg>
         <seg>CSV (Comma delimited) (*.csv)|*.csv</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>CSV (Comma delimited) (*.csv) | * .csv</seg>
+        <seg>CSV (Comma delimited) (*.csv)|*.csv</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.Export.ExportFileSaveFileDlg.Caption">
@@ -2891,7 +2891,7 @@ l'enregistrement de la source.</seg>
         <seg>JPEG Images (*.jpg)|*.jpg|GIF Images (*.gif)|*.gif|TIFF Images (*.tif)|*.tif|PNG Images (*.png)|*.png|Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Images JPEG (*.jpg) | *. jpg|Images GIF (*.gif) | *. gif|Images TIFF (*.tif) | *. tif|Images PNG (*.png) | *. png|Images bitmap (*.bmp ; *.dib) | * .bmp; *. dib|Tous les fichiers (*. *) | *. *</seg>
+        <seg>Images JPEG (*.jpg)|*.jpg|Images GIF (*.gif)|*.gif|Images TIFF (*.tif)|*.tif|Images PNG (*.png)|*.png|Images bitmap (*.bmp; *.dib)|*.bmp;*.dib|Tous les fichiers (*.*)|*.*</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor.MotherSelectorToolTip.WhenNotSelected">

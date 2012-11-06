@@ -300,15 +300,20 @@ namespace SayMore.Media.MPlayer
 				ShutdownMPlayerProcess();
 
 			var videoWindowHandle = 0;
+			int bitsPerSample = 0;
 
 			// If the file is a video file and we don't have a window in which to play
 			// the video, then set the handle to -1 to indicate to the helper that we
 			// only want to play the audio from the video file.
-			if (MediaInfo != null && MediaInfo.IsVideo)
-				videoWindowHandle = (VideoWindowHandle > 0 ? VideoWindowHandle : -1);
+			if (MediaInfo != null)
+			{
+				if (MediaInfo.IsVideo)
+					videoWindowHandle = (VideoWindowHandle > 0 ? VideoWindowHandle : -1);
+				bitsPerSample = MediaInfo.BitsPerSample;
+			}
 
 			var args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition,
-				PlaybackLength, Volume, Speed, resampleToMono, videoWindowHandle);
+				PlaybackLength, Volume, Speed, resampleToMono, videoWindowHandle, bitsPerSample);
 
 			_mplayerProcess = MPlayerHelper.StartProcessToMonitor(args,
 				HandleErrorDataReceived, HandleErrorDataReceived);

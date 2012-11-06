@@ -43,14 +43,7 @@ namespace SayMore.Media.MPlayer
 		#region Methods for building MPlayer command-line arguments.
 		/// ------------------------------------------------------------------------------------
 		public static IEnumerable<string> GetPlaybackArguments(float startPosition, float duration,
-			float volume, int speed, int hwndVideo)
-		{
-			return GetPlaybackArguments(startPosition, duration, volume, speed, false, hwndVideo);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<string> GetPlaybackArguments(float startPosition, float duration,
-			float volume, int speed, bool resampleToMono, int hwndVideo)
+			float volume, int speed, bool resampleToMono, int hwndVideo, int bitsPerSample)
 		{
 			var mplayerConfigPath = Path.Combine(GetPathToThisAssembly(), "MPlayerSettings.conf");
 
@@ -95,11 +88,13 @@ namespace SayMore.Media.MPlayer
 					yield return string.Format("-wid {0}", hwndVideo);
 				}
 #if !__MonoCS__
-				else
+				else if (bitsPerSample > 16)
 				{
-					// This forces the use of the native windows audio driver, which seems to fix SP-403: playback truncation
-					yield return "-ao win32";
+					// Unfortunately, the windows audio driver apparently can't handle 24-bit audio.
+					yield return "-format u16le";
 				}
+				// This forces the use of the native windows audio driver, which seems to fix SP-403: playback truncation
+				yield return "-ao win32";
 #endif
 			}
 		}

@@ -39,9 +39,10 @@ users to install just the shortcut for your app, then demand-install the
 rest of the app the first time the icon is run.  If this is not behavior you
 are trying to support, you're better off using non-advertised shortcuts. "-->
 
+	<PropertyRef Id="NETFRAMEWORK40CLIENT" />
 	<PropertyRef Id="NETFRAMEWORK40FULL" />
 	<Condition Message="Before SayMore can install, you need to install Microsoft's free .NET Framework 4.0 Client Profile.  A full discussion of SayMore's requirements can be found at SayMore.palaso.org.">
-	  Installed OR NETFRAMEWORK40CLIENT OR NETFRAMEWORK40FULL
+	  <![CDATA[Installed OR (NETFRAMEWORK40CLIENT OR NETFRAMEWORK40FULL)]]>
 	</Condition>
 
 	<!--because of bug, this needs to be 1 -->

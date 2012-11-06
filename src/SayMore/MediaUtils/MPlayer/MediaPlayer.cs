@@ -246,11 +246,13 @@ namespace SayMore.Media.MPlayer
 			if (_sliderTime.IsDisposed)
 				return;
 
-			Invoke((Action)(() => _sliderTime.SetValueWithoutEvent(0)));
-			Invoke((Action)(() => _sliderTime.Maximum = _viewModel.GetTotalMediaDuration()));
-			Invoke((Action)(() => _sliderTime.Enabled = true));
-			Invoke((Action)(() => UpdateTimeDisplay(0)));
-			Invoke((Action)UpdateButtons);
+			Invoke((Action)(delegate {
+				_sliderTime.SetValueWithoutEvent(0);
+				_sliderTime.Maximum = _viewModel.GetTotalMediaDuration();
+				_sliderTime.Enabled = true;
+				UpdateTimeDisplay(0);
+				UpdateButtons();
+			}));
 		}
 
 		/// ------------------------------------------------------------------------------------

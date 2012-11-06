@@ -1,9 +1,11 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using NUnit.Framework;
 using SayMore.Media.MPlayer;
 using SayMoreTests.Model.Files;
+using SilTools;
 
 namespace SayMoreTests.Media.MPlayer
 {
@@ -233,6 +235,50 @@ namespace SayMoreTests.Media.MPlayer
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void LoadAndPlayFile_FileNameHasAsciiCharacter_Plays()
+		{
+			var pathname = MediaFileInfoTests.GetShortTestAudioFile();
+			_model.LoadFile(pathname);
+			_model.SetVolume(0.01f);
+			var logger = new DebugLogger();
+			ReflectionHelper.SetProperty(_model, "DebugOutput", logger);
+			_model.PlaybackEnded += delegate
+			{
+				_model = null;
+				File.Delete(pathname);
+			};
+			_model.Play();
+			while (_model != null)
+				Thread.Sleep(10);
+			Assert.IsTrue(logger.GetText().Contains("Starting playback..."));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void LoadAndPlayFile_FileNameHasNonAsciiCharacter_Plays()
+		{
+			var source = MediaFileInfoTests.GetShortTestAudioFile();
+			var pathname = Path.Combine(Path.GetTempPath(), "ф.wav");
+			if (File.Exists(pathname))
+				File.Delete(pathname);
+			File.Move(source, pathname);
+			_model.LoadFile(pathname);
+			_model.SetVolume(0.01f);
+			var logger = new DebugLogger();
+			ReflectionHelper.SetProperty(_model, "DebugOutput", logger);
+			_model.PlaybackEnded += delegate
+			{
+				_model = null;
+				File.Delete(pathname);
+			};
+			_model.Play();
+			while (_model != null)
+				Thread.Sleep(10);
+			Assert.IsTrue(logger.GetText().Contains("Starting playback..."));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		[Category("SkipOnTeamCity")]
 		public void LoadFile_Called_CallsQueuesMediaEvent()
 		{
@@ -312,6 +358,27 @@ namespace SayMoreTests.Media.MPlayer
 		private void VerifyStreamContent(string expected)
 		{
 			Assert.AreEqual(expected, Encoding.ASCII.GetString(_stream.ToArray()));
+		}
+	}
+
+	internal class DebugLogger : ILogger
+	{
+		private readonly StringBuilder _strBuilder = new StringBuilder();
+
+		public event EventHandler Disposed;
+
+		/// ------------------------------------------------------------------------------------
+		public string GetText()
+		{
+			if (Disposed != null)
+				Disposed(this, new EventArgs());
+			return _strBuilder.ToString();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void AddText(string text)
+		{
+			_strBuilder.AppendLine(text);
 		}
 	}
 }

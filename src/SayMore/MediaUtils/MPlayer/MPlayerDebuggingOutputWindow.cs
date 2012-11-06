@@ -5,7 +5,15 @@ using SilTools;
 
 namespace SayMore.Media.MPlayer
 {
-	public partial class MPlayerDebuggingOutputWindow : Form
+	public interface ILogger
+	{
+		event EventHandler Disposed;
+		string GetText();
+		void AddText(string text);
+	}
+
+
+	public partial class MPlayerDebuggingOutputWindow : Form, ILogger
 	{
 		/// ------------------------------------------------------------------------------------
 		public MPlayerDebuggingOutputWindow()

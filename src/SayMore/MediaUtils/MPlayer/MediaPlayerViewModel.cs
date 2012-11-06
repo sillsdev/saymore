@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Linq;
 using System.Threading;
@@ -31,7 +32,7 @@ namespace SayMore.Media.MPlayer
 		private StreamWriter _stdIn;
 		private float _prevPostion;
 		private MPlayerOutputLogForm _formMPlayerOutputLog;
-		private MPlayerDebuggingOutputWindow _outputDebuggingWindow;
+		private ILogger _outputDebuggingWindow;
 
 		private System.Threading.Timer _loopDelayTimer;
 
@@ -133,10 +134,21 @@ namespace SayMore.Media.MPlayer
 			LoadFile(filename, 0f, 0f);
 		}
 
+		[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+		static extern uint GetShortPathName(
+		   [MarshalAs(UnmanagedType.LPTStr)]string lpszLongPath,
+		   [MarshalAs(UnmanagedType.LPTStr)]StringBuilder lpszShortPath,
+		   uint cchBuffer);
+
 		/// ------------------------------------------------------------------------------------
 		public void LoadFile(string filename, float playbackStartPosition, float playbackLength)
 		{
 			ShutdownMPlayerProcess();
+
+			// Ensure 8.3 filename with no special characters
+			var shortBuilder = new StringBuilder(300);
+			GetShortPathName(filename, shortBuilder, (uint)shortBuilder.Capacity);
+			filename = shortBuilder.ToString();
 
 			if (string.IsNullOrEmpty(filename))
 			{
@@ -260,6 +272,19 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		public MediaFileInfo MediaInfo { get; private set; }
 
+		/// ------------------------------------------------------------------------------------
+		private ILogger DebugOutput
+		{
+			set
+			{
+				if (_outputDebuggingWindow == null)
+				{
+					_outputDebuggingWindow = value;
+					if (_outputDebuggingWindow != null)
+						_outputDebuggingWindow.Disposed += delegate { _outputDebuggingWindow = null; };
+				}
+			}
+		}
 		#endregion
 
 		#region Play/Pause/Seek methods
@@ -287,8 +312,7 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		private void StartPlayback(bool resampleToMono)
 		{
-			_outputDebuggingWindow = Application.OpenForms.Cast<Form>()
-				.FirstOrDefault(f => f is MPlayerDebuggingOutputWindow) as MPlayerDebuggingOutputWindow;
+			DebugOutput = Application.OpenForms.OfType<ILogger>().FirstOrDefault();
 
 			if (_loopDelayTimer != null)
 			{
@@ -316,7 +340,7 @@ namespace SayMore.Media.MPlayer
 				PlaybackLength, Volume, Speed, resampleToMono, videoWindowHandle, bitsPerSample);
 
 			_mplayerProcess = MPlayerHelper.StartProcessToMonitor(args,
-				HandleErrorDataReceived, HandleErrorDataReceived);
+				HandleDataReceived, HandleDataReceived);
 
 			if (_outputDebuggingWindow != null)
 			{
@@ -523,7 +547,7 @@ namespace SayMore.Media.MPlayer
 
 		#region Methods for processing output from MPlayer
 		/// ------------------------------------------------------------------------------------
-		private void HandleErrorDataReceived(object sender, DataReceivedEventArgs e)
+		private void HandleDataReceived(object sender, DataReceivedEventArgs e)
 		{
 			if (e.Data != null)
 				HandlePlayerOutput(e.Data);
@@ -544,7 +568,7 @@ namespace SayMore.Media.MPlayer
 			{
 				ProcessPlaybackPositionMessage(data);
 			}
-			else if (data.StartsWith("EOF code:"))
+			else if (data.StartsWith("EOF code:") || data.StartsWith("Failed to open"))
 			{
 				EnsurePlaybackUntilEndOfMedia();
 				OnMediaQueued();

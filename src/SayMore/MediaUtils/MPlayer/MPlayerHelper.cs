@@ -90,7 +90,9 @@ namespace SayMore.Media.MPlayer
 #if !__MonoCS__
 				else if (bitsPerSample > 16)
 				{
-					// Unfortunately, the windows audio driver apparently can't handle 24-bit audio.
+					// REVIEW: For some reason, 24-bit audio doesn't work correctly with the -ao win32 switch, unless the -format
+					// switch is also included. I can't come up with a logical explanation for this, especially since it doesn't
+					// seem to matter which format is used.
 					yield return "-format u16le";
 				}
 				// This forces the use of the native windows audio driver, which seems to fix SP-403: playback truncation

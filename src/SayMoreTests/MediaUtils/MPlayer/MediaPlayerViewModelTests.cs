@@ -234,7 +234,7 @@ namespace SayMoreTests.Media.MPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[Test]
+		[Test][Category("SkipOnTeamCity")]
 		public void LoadAndPlayFile_FileNameHasAsciiCharacter_Plays()
 		{
 			var pathname = MediaFileInfoTests.GetShortTestAudioFile();
@@ -254,7 +254,7 @@ namespace SayMoreTests.Media.MPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[Test]
+		[Test][Category("SkipOnTeamCity")]
 		public void LoadAndPlayFile_FileNameHasNonAsciiCharacter_Plays()
 		{
 			var source = MediaFileInfoTests.GetShortTestAudioFile();

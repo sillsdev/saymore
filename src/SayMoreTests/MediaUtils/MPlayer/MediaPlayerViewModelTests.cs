@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using NUnit.Framework;
+using Palaso.TestUtilities;
 using SayMore.Media.MPlayer;
 using SayMoreTests.Model.Files;
 using SilTools;
@@ -277,6 +278,35 @@ namespace SayMoreTests.Media.MPlayer
 			Assert.IsTrue(logger.GetText().Contains("Starting playback..."));
 		}
 
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void LoadAndPlayFile_FolderHasNonAsciiCharacter_Plays()
+		{
+			var source = MediaFileInfoTests.GetShortTestAudioFile();
+			using (var folder = new TemporaryFolder("ффSayMoreMediaModelTest"))
+			{
+				var pathname = Path.Combine(folder.Path, "normal.wav");
+
+				if (File.Exists(pathname))
+					File.Delete(pathname);
+				File.Move(source, pathname);
+				_model.LoadFile(pathname);
+				_model.SetVolume(0.01f);
+				var logger = new DebugLogger();
+				ReflectionHelper.SetProperty(_model, "DebugOutput", logger);
+				_model.PlaybackEnded += delegate
+				{
+					_model = null;
+					File.Delete(pathname);
+				};
+				_model.Play();
+				while (_model != null)
+					Thread.Sleep(10);
+				Assert.IsTrue(logger.GetText().Contains("Starting playback..."));
+			}
+		}
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[Category("SkipOnTeamCity")]

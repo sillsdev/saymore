@@ -145,7 +145,9 @@ namespace SayMore.Media.MPlayer
 		{
 			ShutdownMPlayerProcess();
 
-			// Ensure 8.3 filename with no special characters
+			// On Windows, We can't get unicode over the command-line barrier, so
+			// instead create 8.3 filename, which, happily, will have no non-english characters
+			// for any part of the path.
 			var shortBuilder = new StringBuilder(300);
 			GetShortPathName(filename, shortBuilder, (uint)shortBuilder.Capacity);
 			filename = shortBuilder.ToString();

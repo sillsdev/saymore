@@ -43,7 +43,6 @@ namespace SayMore.Transcription.UI
 			this._videoHelpMenuStrip.SuspendLayout();
 			this._tableLayoutRecordAnnotations.SuspendLayout();
 			this._tableLayoutMediaButtons.SuspendLayout();
-
 			this.SuspendLayout();
 			//
 			// _panelListen
@@ -187,7 +186,7 @@ namespace SayMore.Transcription.UI
 			this._labelListenHint.Location = new System.Drawing.Point(9, 272);
 			this._labelListenHint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this._labelListenHint.Name = "_labelListenHint";
-			this._labelListenHint.Size = new System.Drawing.Size(381, 13);
+			this._labelListenHint.Size = new System.Drawing.Size(378, 13);
 			this._labelListenHint.TabIndex = 10;
 			this._labelListenHint.Text = "To listen to the source recording, press and hold the SPACE BAR";
 			//
@@ -326,6 +325,7 @@ namespace SayMore.Transcription.UI
 			this.Controls.Add(this._labelErrorInfo);
 			this.Controls.Add(this._tableLayoutMediaButtons);
 			this.Cursor = System.Windows.Forms.Cursors.Default;
+			this.KeyPreview = true;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, "Localized in subclass");
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);

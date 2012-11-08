@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
@@ -79,14 +80,18 @@ namespace SayMore.Transcription.UI
 			}
 
 			base.SetComponentFile(file);
-			_oralAnnotationWaveViewer.LoadAnnotationAudioFile(file.PathToAnnotatedFile);
-			_buttonHelp.Enabled = _buttonPlay.Enabled = true;
 
 			AssociatedComponentFile.PreGenerateOralAnnotationFileAction = () =>
 				_oralAnnotationWaveViewer.CloseAudioStream();
-
 			AssociatedComponentFile.PostGenerateOralAnnotationFileAction = () =>
-				_oralAnnotationWaveViewer.LoadAnnotationAudioFile(file.PathToAnnotatedFile);
+				{
+					var finfo = new FileInfo(file.PathToAnnotatedFile);
+					if (finfo.Exists && finfo.Length > 0)
+						_oralAnnotationWaveViewer.LoadAnnotationAudioFile(file.PathToAnnotatedFile);
+				};
+			file.GenerateOralAnnotationFile(this, ComponentFile.GenerateOption.GenerateIfNeeded);
+
+			_buttonHelp.Enabled = _buttonPlay.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -140,9 +145,7 @@ namespace SayMore.Transcription.UI
 
 			_oralAnnotationWaveViewer.CloseAudioStream();
 
-			var oralAnnotationfile = (OralAnnotationComponentFile)_file;
-			var eafFile = oralAnnotationfile.AssociatedComponentFile.GetAnnotationFile();
-			oralAnnotationfile.AssociatedComponentFile.GenerateOralAnnotationFile(eafFile.Tiers, this);
+			_file.GenerateOralAnnotationFile(this, ComponentFile.GenerateOption.RegenerateNow);
 			SetComponentFile(_file);
 			_oralAnnotationWaveViewer.Invalidate(true);
 

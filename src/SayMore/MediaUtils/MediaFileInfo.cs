@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.IO;
 using System.Xml.Serialization;
 using Palaso.IO;
 using SayMore.Media.MPlayer;
@@ -51,8 +52,13 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public static MediaFileInfo GetInfo(string mediaFile)
 		{
+			var finfo = new FileInfo(mediaFile);
+			if (!finfo.Exists || finfo.Length == 0)
+				return null;
+
 			var info = new MediaInfo();
-			info.Open(mediaFile);
+			if (info.Open(mediaFile) == 0)
+				return null;
 			info.Option("Inform", s_templateData);
 			string output = info.Inform();
 			info.Close();

@@ -47,6 +47,15 @@ namespace SayMore.Model.Files
 #endif
 		#endregion
 
+		#region enum GenerateOption
+		public enum GenerateOption
+		{
+			RegenerateNow,
+			ClearAndRegenerateOnDemand,
+			GenerateIfNeeded,
+		}
+		#endregion
+
 		private static readonly Dictionary<string, string> s_fileTypes = new Dictionary<string, string>();
 		private static readonly Dictionary<string, Bitmap> s_smallFileIcons = new Dictionary<string, Bitmap>();
 
@@ -702,7 +711,7 @@ namespace SayMore.Model.Files
 					}
 
 					var eafFileName = viewModel.Tiers.Save(PathToAnnotatedFile);
-					GenerateOralAnnotationFile(viewModel.Tiers, frm);
+					GenerateOralAnnotationFile(viewModel.Tiers, frm, GenerateOption.ClearAndRegenerateOnDemand);
 					return eafFileName;
 				}
 			}
@@ -713,12 +722,23 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void GenerateOralAnnotationFile(TierCollection tiers, Control parentOfProgressPopup)
+		public virtual void GenerateOralAnnotationFile(Control parentOfProgressPopup, GenerateOption option)
+		{
+			GenerateOralAnnotationFile(GetAnnotationFile().Tiers, parentOfProgressPopup, option);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void GenerateOralAnnotationFile(TierCollection tiers, Control parentOfProgressPopup, GenerateOption option)
 		{
 			if (PreGenerateOralAnnotationFileAction != null)
 				PreGenerateOralAnnotationFileAction();
 
-			OralAnnotationFileGenerator.Generate(tiers, parentOfProgressPopup);
+			// subclass OralAnnotationComponentFile will handle the case of JIT generation
+			if (option != GenerateOption.GenerateIfNeeded)
+			{
+				OralAnnotationFileGenerator.Generate(tiers, parentOfProgressPopup,
+					option == GenerateOption.ClearAndRegenerateOnDemand);
+			}
 
 			if (PostGenerateOralAnnotationFileAction != null)
 				PostGenerateOralAnnotationFileAction();

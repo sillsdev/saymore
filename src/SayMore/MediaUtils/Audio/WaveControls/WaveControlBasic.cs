@@ -84,14 +84,14 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void Initialize(string audioFileName)
+		public void Initialize(string audioFileName)
 		{
 			_wasStreamCreatedHere = true;
 			Initialize(new WaveFileReader(audioFileName));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void Initialize(WaveFileReader stream)
+		public void Initialize(WaveFileReader stream)
 		{
 			if (Painter != null)
 				Painter.Dispose();
@@ -106,7 +106,7 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void Initialize(IEnumerable<float> samples, TimeSpan totalTime)
+		public void Initialize(IEnumerable<float> samples, TimeSpan totalTime)
 		{
 			if (Painter != null)
 				Painter.Dispose();
@@ -116,7 +116,7 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void InternalInitialize()
+		protected void InternalInitialize()
 		{
 			Painter.BottomReservedAreaHeight = _savedBottomReservedAreaHeight;
 			Painter.BottomReservedAreaColor = _bottomReservedAreaColor;
@@ -130,7 +130,7 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void CloseStream()
+		public void CloseStream()
 		{
 			KillSlideTimer();
 
@@ -229,9 +229,8 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public virtual bool AllowDrawing
+		public bool AllowDrawing
 		{
-			get { return _savedAllowDrawingValue; }
 			set
 			{
 				_savedAllowDrawingValue = value;

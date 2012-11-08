@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.IO;
+using System.Windows.Forms;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
+using SayMore.Transcription.Model;
 
 namespace SayMore.Model.Files
 {
@@ -49,6 +52,22 @@ namespace SayMore.Model.Files
 		public override bool CanBeCustomRenamed
 		{
 			get { return false; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void GenerateOralAnnotationFile(Control parentOfProgressPopup,
+			GenerateOption option)
+		{
+			var tiers = AssociatedComponentFile.GetAnnotationFile().Tiers;
+
+			if (option == GenerateOption.GenerateIfNeeded)
+			{
+				var oralAnnotationFilename = tiers.GetTimeTier().MediaFileName + Settings.Default.OralAnnotationGeneratedFileSuffix;
+				var finfo = new FileInfo(oralAnnotationFilename);
+				if (!finfo.Exists || finfo.Length == 0)
+					option = GenerateOption.RegenerateNow;
+			}
+			AssociatedComponentFile.GenerateOralAnnotationFile(tiers, parentOfProgressPopup, option);
 		}
 	}
 }

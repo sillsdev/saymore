@@ -60,7 +60,8 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static void Generate(TierCollection tierCollection, Control parentControlForDialog)
+		public static void Generate(TierCollection tierCollection, Control parentControlForDialog,
+			bool justClearFileContents)
 		{
 			var timeTier = tierCollection.GetTimeTier();
 			if (!CanGenerate(timeTier))
@@ -70,16 +71,23 @@ namespace SayMore.Transcription.Model
 			{
 				Program.SuspendBackgroundProcesses();
 
-				using (var generator = new OralAnnotationFileGenerator(timeTier,
-					tierCollection.GetIsSegmentIgnored, parentControlForDialog))
-				using (var dlg = new LoadingDlg(GetGeneratingMsg()))
+				if (justClearFileContents)
 				{
-					dlg.GenericErrorMessage = GetGenericErrorMsg();
-					var worker = new BackgroundWorker();
-					worker.DoWork += generator.CreateInterleavedAudioFile;
-					worker.WorkerSupportsCancellation = true;
-					dlg.BackgroundWorker = worker;
-					dlg.Show(parentControlForDialog);
+					File.Create(timeTier.MediaFileName + Settings.Default.OralAnnotationGeneratedFileSuffix);
+				}
+				else
+				{
+					using (var generator = new OralAnnotationFileGenerator(timeTier,
+						tierCollection.GetIsSegmentIgnored, parentControlForDialog))
+					using (var dlg = new LoadingDlg(GetGeneratingMsg()))
+					{
+						dlg.GenericErrorMessage = GetGenericErrorMsg();
+						var worker = new BackgroundWorker();
+						worker.DoWork += generator.CreateInterleavedAudioFile;
+						worker.WorkerSupportsCancellation = true;
+						dlg.BackgroundWorker = worker;
+						dlg.Show(parentControlForDialog);
+					}
 				}
 			}
 			catch (Exception error)

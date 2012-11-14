@@ -20,7 +20,7 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 
 	<Package  Compressed="yes" InstallerVersion="200" />
 
-	<MajorUpgrade   Schedule="afterInstallInitialize"
+	  <MajorUpgrade   Schedule="afterInstallInitialize"
 	  DowngradeErrorMessage="A later version of SayMore is already installed. If you really want to downgrade, first uninstall SayMore, then do this install again."/>
 
 	<Upgrade Id ="$(var.Property_UpgradeCode)" >
@@ -166,8 +166,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 				  Return="asyncNoWait"/>
 
 	<InstallExecuteSequence>
-	  <RemoveExistingProducts After="InstallInitialize" />
-
 	  <!--We need the condition here so that we only launch the executable when we make an installation but not when we remove the product-->
 		  <Custom Action='LaunchSayMore' After="InstallFinalize">NOT Installed</Custom>
 		</InstallExecuteSequence>

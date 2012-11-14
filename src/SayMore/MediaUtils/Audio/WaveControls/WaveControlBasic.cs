@@ -105,15 +105,15 @@ namespace SayMore.Media.Audio
 			InternalInitialize();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public void Initialize(IEnumerable<float> samples, TimeSpan totalTime)
-		{
-			if (Painter != null)
-				Painter.Dispose();
+		///// ------------------------------------------------------------------------------------
+		//public void Initialize(IEnumerable<float> samples, TimeSpan totalTime)
+		//{
+		//    if (Painter != null)
+		//        Painter.Dispose();
 
-			Painter = GetNewWavePainter(samples, totalTime);
-			InternalInitialize();
-		}
+		//    Painter = GetNewWavePainter(samples, totalTime);
+		//    InternalInitialize();
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		protected void InternalInitialize()
@@ -797,6 +797,9 @@ namespace SayMore.Media.Audio
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			base.OnMouseDown(e);
+
+			if (WaveStream == null)
+				return;
 
 			var boundaryMouseOver = GetBoundaryNearX(e.X);
 

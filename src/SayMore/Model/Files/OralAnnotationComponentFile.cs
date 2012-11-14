@@ -58,7 +58,10 @@ namespace SayMore.Model.Files
 		public override void GenerateOralAnnotationFile(Control parentOfProgressPopup,
 			GenerateOption option)
 		{
-			var tiers = AssociatedComponentFile.GetAnnotationFile().Tiers;
+			var eafFile = AssociatedComponentFile.GetAnnotationFile();
+			if (eafFile == null)
+				return; // nothing we can do.
+			var tiers = eafFile.Tiers;
 
 			if (option == GenerateOption.GenerateIfNeeded)
 			{

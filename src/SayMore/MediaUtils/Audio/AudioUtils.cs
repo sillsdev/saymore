@@ -12,6 +12,7 @@ using Palaso.Media.Naudio;
 using Palaso.Media.Naudio.UI;
 using Palaso.Progress;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms.Miscellaneous;
 using SayMore.Media.FFmpeg;
 using SayMore.Media.MPlayer;
 using SayMore.Properties;

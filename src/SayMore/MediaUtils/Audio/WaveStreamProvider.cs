@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using Localization;
 using NAudio.Wave;
-using Palaso.Progress;
+using Palaso.UI.WindowsForms.Miscellaneous;
 using SayMore.Transcription.Model;
 
 namespace SayMore.Media.Audio

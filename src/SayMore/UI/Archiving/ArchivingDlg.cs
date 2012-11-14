@@ -1,8 +1,7 @@
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using Localization;
-using Palaso.Progress;
+using Palaso.UI.WindowsForms.Miscellaneous;
 using SayMore.Properties;
 using SilTools;
 

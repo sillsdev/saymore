@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Specialized;
-using System.Configuration;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Diagnostics;
@@ -11,9 +9,8 @@ using System.Windows.Forms;
 using Localization;
 using Palaso.Extensions;
 using Palaso.IO;
-using Palaso.Progress;
 using Palaso.Reporting;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using Palaso.UI.WindowsForms.Miscellaneous;
 using SayMore.Media;
 using SayMore.Properties;
 using SayMore.UI.ProjectWindow;

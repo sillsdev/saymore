@@ -1,5 +1,5 @@
 using System.Windows.Forms;
-using Palaso.Reporting;
+using Palaso.UI.WindowsForms.Reporting;
 
 namespace SayMore.UI.LowLevelControls
 {

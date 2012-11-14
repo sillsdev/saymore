@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Palaso.Progress;
+using Palaso.UI.WindowsForms.Miscellaneous;
 using SayMore.Media.Audio;
 using SayMore.Model.Files;
-using SayMore.Properties;
 
 namespace SayMore.Transcription.Model
 {

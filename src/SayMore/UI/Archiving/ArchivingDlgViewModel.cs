@@ -14,7 +14,7 @@ using Localization;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.ClearShare;
 using Palaso.IO;
-using Palaso.Progress;
+using Palaso.UI.WindowsForms.Miscellaneous;
 using Palaso.UI.WindowsForms.Progress;
 using SayMore.Model;
 using SayMore.Model.Files;

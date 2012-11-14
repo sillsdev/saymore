@@ -604,7 +604,14 @@ namespace SayMore.Transcription.Model
 			if (!Directory.Exists(folder))
 				Directory.CreateDirectory(folder);
 
-			Root.Save(AnnotationFileName);
+			try
+			{
+				Root.Save(AnnotationFileName);
+			}
+			catch (Exception e)
+			{
+				ErrorReport.ReportNonFatalException(e);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

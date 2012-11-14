@@ -858,12 +858,7 @@ namespace SayMore.Transcription.UI
 
 			var segMouseOver = _waveControl.GetSegmentForX(e.X);
 
-			if (ViewModel.GetIsAnnotationPlaying())
-			{
-				ViewModel.StopAnnotationPlayback();
-				_lastAnnotationPlaybackPosition = TimeSpan.Zero;
-				_waveControl.InvalidateIfNeeded(GetAnnotationPlaybackRectangle());
-			}
+			StopAnnotationPlayBackIfNeeded();
 
 			var segment = ViewModel.GetSegment(segMouseOver);
 
@@ -891,6 +886,16 @@ namespace SayMore.Transcription.UI
 			}
 
 			UpdateDisplay();
+		}
+
+		private void StopAnnotationPlayBackIfNeeded()
+		{
+			if (ViewModel.GetIsAnnotationPlaying())
+			{
+				ViewModel.StopAnnotationPlayback();
+				_lastAnnotationPlaybackPosition = TimeSpan.Zero;
+				_waveControl.InvalidateIfNeeded(GetAnnotationPlaybackRectangle());
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1595,6 +1600,7 @@ namespace SayMore.Transcription.UI
 				(ViewModel.CurrentUnannotatedSegment != null || ViewModel.GetHasNewSegment()) &&
 				!_waveControl.IsPlaying)
 			{
+				StopAnnotationPlayBackIfNeeded();
 				PlaySource(ViewModel.CurrentUnannotatedSegment);
 			}
 			base.OnKeyPress(e);

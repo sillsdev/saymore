@@ -598,7 +598,7 @@ namespace SayMore.UI.Utilities
 				{
 					// RAMP packages must not be compressed or RAMP can't read them.
 					zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None;
-					zip.AddFiles(filesToCopyAndZip.Values);
+					zip.AddFiles(filesToCopyAndZip.Values, @"\");
 					zip.AddFile(_metsFilePath, string.Empty);
 					zip.SaveProgress += HandleZipSaveProgress;
 					zip.Save(RampPackagePath);

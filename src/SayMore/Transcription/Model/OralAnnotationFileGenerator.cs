@@ -155,14 +155,7 @@ namespace SayMore.Transcription.Model
 		private void CreateInterleavedAudioFile(object sender, DoWorkEventArgs e)
 		{
 			BackgroundWorker worker = (BackgroundWorker)sender;
-			var SetState = (Action<string, Exception>)e.Argument;
-
-			Action<Action> Invoke = actionToInvoke => {
-				if (_synchInvoke.InvokeRequired)
-					_synchInvoke.Invoke(actionToInvoke, null);
-				else
-					actionToInvoke();
-			};
+			var dlg = (LoadingDlg)e.Argument;
 
 			if (_srcRecStreamProvider.Error != null)
 			{
@@ -187,7 +180,7 @@ namespace SayMore.Transcription.Model
 					if (retries == 0 || !File.Exists(tmpOutputFile))
 					{
 						if (retries > 0)
-							Invoke(() => SetState(GetGeneratingMsg(), null));
+							dlg.SetState(GetGeneratingMsg(), null);
 
 						using (_audioFileWriter = new WaveFileWriter(tmpOutputFile, _outputAudioFormat))
 						{
@@ -208,7 +201,7 @@ namespace SayMore.Transcription.Model
 							File.Delete(_outputFileName);
 
 						File.Move(tmpOutputFile, _outputFileName);
-						e.Result = _outputFileName;
+						e.Result = true;
 					}
 					catch (Exception failure)
 					{
@@ -231,7 +224,7 @@ namespace SayMore.Transcription.Model
 						}
 						else
 							throw;
-						Invoke(() => SetState(failureMsg + Environment.NewLine + retriesMsg, failure));
+						dlg.SetState(failureMsg + Environment.NewLine + retriesMsg, failure);
 						Thread.Sleep(1000);
 					}
 				}

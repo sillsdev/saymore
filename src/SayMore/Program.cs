@@ -1,18 +1,22 @@
 using System;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Localization;
+using Palaso.Code;
 using Palaso.Extensions;
 using Palaso.IO;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Miscellaneous;
 using SayMore.Media;
 using SayMore.Properties;
+using SayMore.UI;
 using SayMore.UI.ProjectWindow;
 using SilTools;
 
@@ -25,6 +29,9 @@ namespace SayMore
 		/// properly dispose of various things when the project is closed.
 		/// </summary>
 		private static ProjectContext _projectContext;
+		private static Mutex _oneInstancePerProjectMutex;
+		private static string _mutexId;
+		private static bool _explicitUserChoice;
 
 		private static string _pathOfLoadedProjectFile;
 		private static ApplicationContainer _applicationContainer;
@@ -103,7 +110,7 @@ namespace SayMore
 					catch (Exception error)
 					{
 						ErrorReport.NotifyUserOfProblem(error,
-														"SayMore was unable to find or delete the settings file from the old version of SayMore. Normally, this would be found at " + path);
+							"SayMore was unable to find or delete the settings file from the old version of SayMore. Normally, this would be found at " + path);
 						Application.Exit();
 					}
 				}
@@ -140,12 +147,111 @@ namespace SayMore
 
 			StartUpShellBasedOnMostRecentUsedIfPossible();
 
-			Application.Run();
-			Settings.Default.Save();
+			try
+			{
+				Application.Run();
+				Settings.Default.Save();
 
-			SafelyDisposeProjectContext();
+				SafelyDisposeProjectContext();
+			}
+			finally
+			{
+				ReleaseMutexForThisProject();
+			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public static void ReleaseMutexForThisProject()
+		{
+			if (_oneInstancePerProjectMutex != null)
+			{
+				_oneInstancePerProjectMutex.ReleaseMutex();
+				_oneInstancePerProjectMutex = null;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// First, we try to get the mutex quickly and quitely. If that fails and this request
+		/// was an explicit user choice (as opposed to merely opening the last project), we put
+		/// up a dialog and wait 10 seconds, while we wait for the mutex to come free.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static bool ObtainTokenForThisProject(string pathToSayMoreProjectFile)
+		{
+			Guard.AgainstNull(pathToSayMoreProjectFile, "pathToSayMoreProjectFile");
+			var mutexIdBldr = new StringBuilder(pathToSayMoreProjectFile);
+			for (int i = 0; i < mutexIdBldr.Length; i++)
+			{
+				if (mutexIdBldr[i] == Path.DirectorySeparatorChar || mutexIdBldr[i] == Path.VolumeSeparatorChar)
+					mutexIdBldr[i] = '-';
+			}
+			_mutexId = mutexIdBldr.ToString();
+			try
+			{
+				_oneInstancePerProjectMutex = Mutex.OpenExisting(_mutexId);
+				if (_oneInstancePerProjectMutex.WaitOne(1500, false))
+					return true;
+			}
+			catch (Exception e)
+			{
+				if (e is WaitHandleCannotBeOpenedException || e is AbandonedMutexException)
+				{
+					bool thisThreadGrantedOwnership;
+					_oneInstancePerProjectMutex = new Mutex(true, _mutexId, out thisThreadGrantedOwnership);
+					if (thisThreadGrantedOwnership)
+						return true;
+				}
+				throw;
+			}
+
+			if (Application.MessageLoop)
+			{
+				using (var dlg = new LoadingDlg(LocalizationManager.GetString("MainWindow.WaitingForOtherSayMoreInstance",
+						"Waiting for other instance of SayMore to finish...")))
+				{
+					var worker = new BackgroundWorker();
+					worker.DoWork += WaitForProjectMutex;
+					worker.WorkerSupportsCancellation = true;
+					dlg.BackgroundWorker = worker;
+					dlg.Show(null);
+
+					if (dlg.DialogResult == DialogResult.OK)
+						return true;
+				}
+
+				ErrorReport.NotifyUserOfProblem(String.Format(
+					LocalizationManager.GetString("MainWindow.ProjectOpenInOtherSayMore",
+					"Another instance of SayMore is already open with this project:\r\n{0}\r\n\r\nIf you cannot find that instance of SayMore, restart your computer."),
+					pathToSayMoreProjectFile));
+			}
+
+			_oneInstancePerProjectMutex = null;
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void WaitForProjectMutex(object sender, DoWorkEventArgs e)
+		{
+			BackgroundWorker worker = (BackgroundWorker)sender;
+			var dlg = (LoadingDlg)e.Argument;
+
+			int attempts = 0;
+			while ((e.Result == null || ((bool)e.Result == false && attempts++ < 5)) && !worker.CancellationPending && !e.Cancel)
+			try
+			{
+				Thread.Sleep(2000);
+				dlg.Invoke(new Action(delegate {e.Result = _oneInstancePerProjectMutex.WaitOne(1, false); }));
+			}
+			catch (Exception error)
+			{
+				ErrorReport.NotifyUserOfProblem(error,
+					LocalizationManager.GetString("MainWindow.ProblemOpeningSayMoreProject",
+					"There was a problem opening the SayMore project which might require that you restart your computer."));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private static string MRULatestReminderFilePath
 		{
 			get
@@ -213,7 +319,10 @@ namespace SayMore
 
 			try
 			{
-				// Remove this call if we end only wanting to show the splash screen except
+				if (!ObtainTokenForThisProject(projectPath))
+					return false;
+
+				// Remove this call if we end only wanting to show the splash screen
 				// at app. startup. Right now it's shown whenever a project is loaded.
 				_applicationContainer.ShowSplashScreen();
 
@@ -313,6 +422,7 @@ namespace SayMore
 		static void HandleProjectWindowClosed(object sender, EventArgs e)
 		{
 			SafelyDisposeProjectContext();
+			ReleaseMutexForThisProject();
 
 			if (((ProjectWindow)sender).UserWantsToOpenADifferentProject)
 			{

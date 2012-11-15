@@ -66,16 +66,25 @@ namespace SayMore.UI
 				}
 				_originalGif = _pictureLoading.Image;
 				BackgroundWorker.RunWorkerCompleted += HandleBackgroundWorkerCompleted;
-				BackgroundWorker.RunWorkerAsync((Action<string, Exception>)((msg, e) => {
-					_labelLoading.Text = msg;
-					_exception = e;
-					_pictureLoading.Image = (e == null ? _originalGif : Properties.Resources.kimidWarning);
-				}));
+				BackgroundWorker.RunWorkerAsync(this);
 
 				ShowDialog(parent);
 			}
 			else
 				Show();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetState(string msg, Exception e)
+		{
+			if (InvokeRequired)
+				Invoke(new Action(() => SetState(msg, e)));
+			else
+			{
+				_labelLoading.Text = msg;
+				_exception = e;
+				_pictureLoading.Image = (e == null ? _originalGif : Properties.Resources.kimidWarning);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -91,6 +100,8 @@ namespace SayMore.UI
 				ErrorReport.NotifyUserOfProblem(GenericErrorMessage, e.Error);
 				DialogResult = DialogResult.Abort;
 			}
+			else if (e.Result == null || (e.Result is bool && !(bool)e.Result))
+				DialogResult = DialogResult.No;
 			else
 				DialogResult = DialogResult.OK;
 			Close();

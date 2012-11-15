@@ -2579,6 +2579,22 @@
         <seg>{0} tuvo un problema al cargar el proyecto {1}. Favor de comunicar este problema a los programadores presionando 'Detalles' a continuación.</seg>
       </tuv>
     </tu>
+    <tu tuid="MainWindow.ProblemOpeningSayMoreProject">
+      <tuv xml:lang="en">
+        <seg>There was a problem opening the SayMore project which might require that you restart your computer.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Hubo un problema al abrir el proyecto SayMore que podría requerir que se reinicie el equipo.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.ProjectOpenInOtherSayMore">
+      <tuv xml:lang="en">
+        <seg>Another instance of SayMore is already open with this project:\n{0}\n\nIf you cannot find that instance of SayMore, restart your computer.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Otra instancia de SayMore ya está abierto con este projecto:\n{0}\n\nSi usted no puede encontrar esa instancia de SayMore, reinicie el equipo.</seg>
+      </tuv>
+    </tu>
     <tu tuid="MainWindow.RemovedElementsErrorMsg">
       <tuv xml:lang="en">
         <seg>The folders for the following elements have been removed from your computer.\nTherefore, SayMore will remove them from the list.\n\n{0}</seg>
@@ -2601,6 +2617,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Desplazarse a la derecha</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.WaitingForOtherSayMoreInstance">
+      <tuv xml:lang="en">
+        <seg>Waiting for other instance of SayMore to finish...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Esperando que termine otra instancia de SayMore...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.WindowTitle">

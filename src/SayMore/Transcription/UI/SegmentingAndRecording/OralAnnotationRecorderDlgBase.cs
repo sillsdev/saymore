@@ -1627,12 +1627,12 @@ namespace SayMore.Transcription.UI
 				return true;
 			}
 
-			if ((key == Keys.Escape || key == Keys.End) && !_waveControl.IsPlaying)
-			{
-				_waveControl.SetCursor(ViewModel.GetEndOfLastSegment());
-				UpdateDisplay();
-				return true;
-			}
+			//if (key == Keys.End && !_waveControl.IsPlaying)
+			//{
+			//    _waveControl.SetCursor(ViewModel.GetEndOfLastSegment());
+			//    UpdateDisplay();
+			//    return true;
+			//}
 
 			return base.OnLowLevelKeyDown(key);
 		}

@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
@@ -13,8 +14,9 @@ namespace SayMore.UI
 		public BackgroundWorker BackgroundWorker { get; set; }
 		public string GenericErrorMessage { get; set; }
 		private Image _originalGif;
-
+		private Control _parent;
 		private Exception _exception;
+		private const int kMarginInParent = 36;
 
 		/// ------------------------------------------------------------------------------------
 		public LoadingDlg()
@@ -30,26 +32,19 @@ namespace SayMore.UI
 		{
 			if (message != null)
 				_labelLoading.Text = message;
-
-			if (_labelLoading.Right - 20 > Right)
-				Width += ((_labelLoading.Right + 20) - Right);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Show(Control parent)
 		{
-			if (parent == null || parent.Width < Width || parent.Height < Height)
+			_parent = parent;
+			if (parent == null || parent.Width < Width + kMarginInParent || parent.Height < Height + kMarginInParent)
 				StartPosition = FormStartPosition.CenterScreen;
 			else
 			{
-				// Center the loading dialog within the bounds of the specified control.
 				StartPosition = FormStartPosition.Manual;
-				var pt = parent.PointToScreen(new Point(0, 0));
-				pt.X += (parent.Width - Width) / 2;
-				pt.Y += (parent.Height - Height) / 2;
-				Location = pt;
-				_labelLoading.MaximumSize = new Size(parent.Height / 2 - (Height - _labelLoading.Height),
-					parent.Width / 2 - (Width - _labelLoading.Width));
+				_labelLoading.MaximumSize = new Size(parent.Width - kMarginInParent - (Width - _labelLoading.Width),
+					parent.Height - kMarginInParent - (Height - _labelLoading.Height));
 			}
 
 			if (BackgroundWorker != null)
@@ -71,7 +66,7 @@ namespace SayMore.UI
 				ShowDialog(parent);
 			}
 			else
-				Show();
+				Show(parent);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -81,6 +76,8 @@ namespace SayMore.UI
 				Invoke(new Action(() => SetState(msg, e)));
 			else
 			{
+				if (BackgroundWorker != null && BackgroundWorker.CancellationPending)
+					return;
 				_labelLoading.Text = msg;
 				_exception = e;
 				_pictureLoading.Image = (e == null ? _originalGif : Properties.Resources.kimidWarning);
@@ -125,6 +122,18 @@ namespace SayMore.UI
 
 			using (var pen = new Pen(AppColors.BarBorder))
 				e.Graphics.DrawRectangle(pen, rc);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void LoadingDlg_Resize(object sender, EventArgs e)
+		{
+			if (_parent == null || StartPosition == FormStartPosition.CenterScreen)
+				return;
+			// Center the loading dialog within the bounds of the parent.
+			var pt = _parent.PointToScreen(new Point(0, 0));
+			pt.X += (_parent.Width - Width) / 2;
+			pt.Y += (_parent.Height - Height) / 2;
+			Location = pt;
 		}
 	}
 }

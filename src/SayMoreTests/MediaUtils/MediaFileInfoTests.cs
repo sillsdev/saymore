@@ -61,8 +61,12 @@ namespace SayMoreTests.Model.Files
 		/// ------------------------------------------------------------------------------------
 		private static string GetMediaResourceFile(Stream stream, string mediaFileExtension)
 		{
-			var path = Path.GetTempFileName();
-			var mediaFilePath = Path.ChangeExtension(path, mediaFileExtension);
+			string path, mediaFilePath;
+			do
+			{
+				path = Path.GetTempFileName();
+				mediaFilePath = Path.ChangeExtension(path, mediaFileExtension);
+			} while (File.Exists(mediaFilePath));
 			File.Move(path, mediaFilePath);
 
 			var buffer = new byte[stream.Length];

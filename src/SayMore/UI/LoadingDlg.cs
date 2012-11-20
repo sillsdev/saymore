@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms.Miscellaneous;
 using SayMore.Utilities;
 
 namespace SayMore.UI
@@ -96,11 +97,12 @@ namespace SayMore.UI
 			if (e.Cancelled)
 			{
 				DialogResult = DialogResult.Cancel;
-				UsageReporter.ReportException(false, GenericErrorMessage, _exception, _labelLoading.Text);
+				UsageReporter.ReportException(false, "User cancelled operation", _exception, _labelLoading.Text);
 			}
 			else if (e.Error != null)
 			{
-				ErrorReport.NotifyUserOfProblem(GenericErrorMessage, e.Error);
+				WaitCursor.Hide();
+				ErrorReport.NotifyUserOfProblem(e.Error, GenericErrorMessage);
 				DialogResult = DialogResult.Abort;
 			}
 			else if (e.Result == null || (e.Result is bool && !(bool)e.Result))

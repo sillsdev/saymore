@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -16,12 +17,15 @@ namespace SayMoreTests.Model.Files
 	public class ComponentFileTests
 	{
 		private TemporaryFolder _parentFolder;
+		private List<FileType> _fileTypes;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void Setup()
 		{
 			_parentFolder = new TemporaryFolder("componentFileTest");
+			_fileTypes = new List<FileType>();
+			_fileTypes.Add(new AnnotationFileType(null, null));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -340,33 +344,25 @@ namespace SayMoreTests.Model.Files
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetSuggestedPathToOralAnnotationFile_FileCannotBeAnnotated_ReturnsNull()
-		{
-			var file = CreateAudioComponentFile("abc.pdf");
-			Assert.IsNull(file.GetSuggestedPathToOralAnnotationFile());
-		}
-
-		[Test]
-		[Category("SkipOnTeamCity")]
 		public void GetSuggestedPathToOralAnnotationFile_FileCanBeAnnotated_ReturnsCorrectPath()
 		{
 			Assert.AreEqual("abc.mp3.oralAnnotations.wav", Path.GetFileName(
-				CreateAudioComponentFile("abc.mp3").GetSuggestedPathToOralAnnotationFile()));
+				CreateAudioComponentFile("abc.mp3").GetAnnotationFile().GetSuggestedPathToOralAnnotationFile()));
 
 			Assert.AreEqual("abc.wav.oralAnnotations.wav", Path.GetFileName(
-				CreateAudioComponentFile("abc.wav").GetSuggestedPathToOralAnnotationFile()));
+				CreateAudioComponentFile("abc.wav").GetAnnotationFile().GetSuggestedPathToOralAnnotationFile()));
 
 			Assert.AreEqual("abc.wma.oralAnnotations.wav", Path.GetFileName(
-				CreateAudioComponentFile("abc.wma").GetSuggestedPathToOralAnnotationFile()));
+				CreateAudioComponentFile("abc.wma").GetAnnotationFile().GetSuggestedPathToOralAnnotationFile()));
 
 			Assert.AreEqual("abc.mov.oralAnnotations.wav", Path.GetFileName(
-				CreateVideoComponentFile("abc.mov").GetSuggestedPathToOralAnnotationFile()));
+				CreateVideoComponentFile("abc.mov").GetAnnotationFile().GetSuggestedPathToOralAnnotationFile()));
 
 			Assert.AreEqual("abc.mpg.oralAnnotations.wav", Path.GetFileName(
-				CreateVideoComponentFile("abc.mpg").GetSuggestedPathToOralAnnotationFile()));
+				CreateVideoComponentFile("abc.mpg").GetAnnotationFile().GetSuggestedPathToOralAnnotationFile()));
 
 			Assert.AreEqual("abc.wmv.oralAnnotations.wav", Path.GetFileName(
-				CreateVideoComponentFile("abc.wmv").GetSuggestedPathToOralAnnotationFile()));
+				CreateVideoComponentFile("abc.wmv").GetAnnotationFile().GetSuggestedPathToOralAnnotationFile()));
 		}
 
 		[Test]
@@ -435,7 +431,7 @@ namespace SayMoreTests.Model.Files
 				AnnotationFileHelper.ComputeEafFileNameFromOralAnnotationFile(filename));
 			AnnotationFileHelperTests.CreateTestEaf(annotationPath);
 			var annotationFile = new AnnotationComponentFile(null, annotationPath,
-				null, new AnnotationFileType(null, null), null);
+				file, _fileTypes, null);
 
 			file.SetAnnotationFile(annotationFile);
 			return file;
@@ -451,7 +447,7 @@ namespace SayMoreTests.Model.Files
 				AnnotationFileHelper.ComputeEafFileNameFromOralAnnotationFile(filename));
 			AnnotationFileHelperTests.CreateTestEaf(annotationPath);
 			var annotationFile = new AnnotationComponentFile(null, annotationPath,
-				null, new AnnotationFileType(null, null), null);
+				file, _fileTypes, null);
 
 			file.SetAnnotationFile(annotationFile);
 			return file;

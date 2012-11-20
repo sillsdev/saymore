@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
-using SayMore.Transcription.Model;
 
 namespace SayMore.Model.Files
 {
@@ -12,13 +10,12 @@ namespace SayMore.Model.Files
 		public ComponentFile AssociatedComponentFile { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public OralAnnotationComponentFile(ProjectElement parentElement, string pathtoAnnotatedFile,
+		public OralAnnotationComponentFile(ProjectElement parentElement, string pathToAnnotatedFile,
 			ComponentFile associatedComponentFile, IEnumerable<FileType> fileTypes,
-			IEnumerable<ComponentRole> componentRoles, FileSerializer fileSerializer,
-			IProvideAudioVideoFileStatistics statisticsProvider, PresetGatherer presetProvider,
-			FieldUpdater fieldUpdater) :
-			base(parentElement, pathtoAnnotatedFile, fileTypes, componentRoles,
-				fileSerializer, statisticsProvider, presetProvider, fieldUpdater)
+			IEnumerable<ComponentRole> componentRoles) :
+			base(parentElement, pathToAnnotatedFile, fileTypes, componentRoles,
+				associatedComponentFile.FileSerializer, associatedComponentFile.StatisticsProvider,
+				associatedComponentFile.PresetProvider, associatedComponentFile.FieldUpdater)
 		{
 			AssociatedComponentFile = associatedComponentFile;
 		}
@@ -33,7 +30,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override int DisplayIndentLevel
 		{
-			get { return 1; }
+			get { return 2; }
 		}
 
 		/// ------------------------------------------------------------------------------------

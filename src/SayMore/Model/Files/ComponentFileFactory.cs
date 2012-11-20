@@ -43,16 +43,7 @@ namespace SayMore.Model.Files
 			if (File.Exists(annotationFilePath))
 			{
 				newComponentFile.SetAnnotationFile(new AnnotationComponentFile(parentElement,
-					annotationFilePath, newComponentFile,
-					_fileTypes.Single(t => t is AnnotationFileType), _componentRoles));
-			}
-
-			annotationFilePath = newComponentFile.GetSuggestedPathToOralAnnotationFile();
-			if (File.Exists(annotationFilePath))
-			{
-				newComponentFile.SetOralAnnotationFile(new OralAnnotationComponentFile(parentElement,
-					annotationFilePath, newComponentFile, _fileTypes, _componentRoles,
-					_fileSerializer, _statisticsProvider, _presetProvider, _fieldUpdater));
+					annotationFilePath, newComponentFile, _fileTypes.ToList(), _componentRoles));
 			}
 
 			return newComponentFile;

@@ -67,10 +67,9 @@ namespace SayMore.Model.Files
 		public event EventHandler AfterSave;
 
 		private AnnotationComponentFile _annotationFile;
-		private OralAnnotationComponentFile _oralAnnotationFile;
 
 		protected IEnumerable<ComponentRole> _componentRoles;
-		protected FileSerializer _fileSerializer;
+		private readonly FileSerializer _fileSerializer;
 		private readonly IProvideAudioVideoFileStatistics _statisticsProvider;
 		private readonly PresetGatherer _presetProvider;
 		private readonly FieldUpdater _fieldUpdater;
@@ -149,6 +148,8 @@ namespace SayMore.Model.Files
 		{
 			RootElementName = rootElementName;
 			ParentElement = parentElement;
+			//The annotated file is the same as the annotation file; there isn't a pair of files for session/person
+			PathToAnnotatedFile = filePath;
 			FileType = fileType;
 			_fileSerializer = fileSerializer;
 			_metaDataPath = filePath;
@@ -159,7 +160,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void DetermineFileType(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes)
+		protected void DetermineFileType(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes)
 		{
 			var fTypes = fileTypes.ToArray();
 
@@ -229,19 +230,6 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the full path of to the component file's oral annotation file, even if the file
-		/// doesn't exist. If the component file is not of a type that can have an annotation
-		/// file, then null is returned.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public virtual string GetSuggestedPathToOralAnnotationFile()
-		{
-			return (!GetCanHaveAnnotationFile() ? null :
-				PathToAnnotatedFile + Settings.Default.OralAnnotationGeneratedFileSuffix);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets the full path to what the component file's standard audio file is or should
 		/// be. If the component file is not of a type that can have an annotation file, then
 		/// null is returned.
@@ -251,6 +239,12 @@ namespace SayMore.Model.Files
 		{
 			return !GetCanHaveAnnotationFile() ? null :
 				AudioVideoFileTypeBase.ComputeStandardPcmAudioFilePath(PathToAnnotatedFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual bool HasSubordinateFiles
+		{
+			get { return GetDoesHaveAnnotationFile(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -267,27 +261,18 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual OralAnnotationComponentFile GetOralAnnotationFile()
-		{
-			return (_oralAnnotationFile != null && File.Exists(_oralAnnotationFile.PathToAnnotatedFile) ?
-				_oralAnnotationFile : null);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public void SetAnnotationFile(AnnotationComponentFile annotationFile)
 		{
 			_annotationFile = (annotationFile != null &&
 				File.Exists(annotationFile.PathToAnnotatedFile) ? annotationFile : null);
 		}
-
-		/// ------------------------------------------------------------------------------------
-		public void SetOralAnnotationFile(OralAnnotationComponentFile oralAnnotationFile)
-		{
-			_oralAnnotationFile = (oralAnnotationFile != null &&
-				File.Exists(oralAnnotationFile.PathToAnnotatedFile) ? oralAnnotationFile : null);
-		}
-
 		#endregion
+
+		#region Public properties
+		public FileSerializer FileSerializer { get { return _fileSerializer; } }
+		public IProvideAudioVideoFileStatistics StatisticsProvider { get { return _statisticsProvider; } }
+		public PresetGatherer PresetProvider { get { return _presetProvider; } }
+		public FieldUpdater FieldUpdater { get { return _fieldUpdater; } }
 
 		/// ------------------------------------------------------------------------------------
 		public virtual int DisplayIndentLevel
@@ -300,10 +285,10 @@ namespace SayMore.Model.Files
 		{
 			get
 			{
-				if (_statisticsProvider == null)
+				if (StatisticsProvider == null)
 					return string.Empty;
 
-				var stats = _statisticsProvider.GetFileData(PathToAnnotatedFile);
+				var stats = StatisticsProvider.GetFileData(PathToAnnotatedFile);
 				if (stats == null || stats.Duration == default(TimeSpan))
 					return GetStringValue("Duration", string.Empty);
 
@@ -311,6 +296,7 @@ namespace SayMore.Model.Files
 				return TimeSpan.FromSeconds((int)stats.Duration.TotalSeconds).ToString();
 			}
 		}
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void Refresh()
@@ -335,11 +321,11 @@ namespace SayMore.Model.Files
 			var computedFieldInfo =
 				FileType.GetComputedFields().FirstOrDefault(computedField => computedField.Key == key);
 
-			if (computedFieldInfo != null && _statisticsProvider != null)
+			if (computedFieldInfo != null && StatisticsProvider != null)
 			{
 				// Get the computed value (if there is one).
 				computedValue = computedFieldInfo.GetFormatedStatProvider(
-					_statisticsProvider.GetFileData(PathToAnnotatedFile),
+					StatisticsProvider.GetFileData(PathToAnnotatedFile),
 					computedFieldInfo.DataItemChooser, computedFieldInfo.Suffix);
 			}
 
@@ -456,8 +442,8 @@ namespace SayMore.Model.Files
 			if (fieldValue != null)
 				fieldValue.FieldId = newId;
 
-			if (_fieldUpdater != null)
-				_fieldUpdater.RenameField(this, oldId, newId);
+			if (FieldUpdater != null)
+				FieldUpdater.RenameField(this, oldId, newId);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -471,8 +457,8 @@ namespace SayMore.Model.Files
 			if (existingValue != null)
 				MetaDataFieldValues.Remove(existingValue);
 
-			if (_fieldUpdater != null)
-				_fieldUpdater.DeleteField(this, idToRemove);
+			if (FieldUpdater != null)
+				FieldUpdater.DeleteField(this, idToRemove);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -486,7 +472,7 @@ namespace SayMore.Model.Files
 		{
 			_metaDataPath = path;
 			OnBeforeSave(this);
-			_fileSerializer.Save(MetaDataFieldValues, _metaDataPath, RootElementName);
+			FileSerializer.Save(MetaDataFieldValues, _metaDataPath, RootElementName);
 			OnAfterSave(this);
 		}
 
@@ -507,8 +493,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual void Load()
 		{
-			_fileSerializer.CreateIfMissing(_metaDataPath, RootElementName);
-			_fileSerializer.Load(/*TODO this.Work, */ MetaDataFieldValues,
+			FileSerializer.CreateIfMissing(_metaDataPath, RootElementName);
+			FileSerializer.Load(/*TODO this.Work, */ MetaDataFieldValues,
 				_metaDataPath, RootElementName, FileType);
 		}
 
@@ -807,9 +793,6 @@ namespace SayMore.Model.Files
 
 				if (_annotationFile != null)
 					_annotationFile.RenameAnnotatedFile(GetSuggestedPathToAnnotationFile());
-
-				if (_oralAnnotationFile != null)
-					_oralAnnotationFile.RenameAnnotatedFile(GetSuggestedPathToOralAnnotationFile());
 			}
 			catch (Exception e)
 			{
@@ -953,8 +936,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<KeyValuePair<string, Dictionary<string, string>>> GetPresetChoices()
 		{
-			Guard.AgainstNull(_presetProvider, "PresetProvider");
-			return _presetProvider.GetPresets();
+			Guard.AgainstNull(PresetProvider, "PresetProvider");
+			return PresetProvider.GetPresets();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -998,7 +981,7 @@ namespace SayMore.Model.Files
 				return false;
 
 			var uiFileName = Path.GetFileName(path);
-			if (file.GetDoesHaveAnnotationFile())
+			if (file.HasSubordinateFiles)
 				uiFileName = String.Format(LocalizationManager.GetString(
 					"CommonToMultipleViews.FileList.DeleteSubordinateFilesFormat",
 					"{0} and subordinate files",
@@ -1007,13 +990,20 @@ namespace SayMore.Model.Files
 			if (askForConfirmation && !ConfirmRecycleDialog.JustConfirm(uiFileName))
 				return false;
 
-			if (file.PreDeleteAction != null)
-				file.PreDeleteAction();
+			return file.Delete();
+		}
 
-			var annotationFile = file.GetAnnotationFile();
-			var oralAnnotationFile = file.GetOralAnnotationFile();
+		/// ------------------------------------------------------------------------------------
+		protected internal virtual bool Delete()
+		{
+			var annotationFile = GetAnnotationFile();
 
-			// Delete the file.
+			if (PreDeleteAction != null)
+				PreDeleteAction();
+
+			var path = PathToAnnotatedFile;
+
+			// Delete the underlying component file.
 			if (!ConfirmRecycleDialog.Recycle(path))
 				return false;
 
@@ -1024,9 +1014,6 @@ namespace SayMore.Model.Files
 
 			if (annotationFile != null)
 				annotationFile.Delete();
-
-			if (oralAnnotationFile != null)
-				ConfirmRecycleDialog.Recycle(oralAnnotationFile.PathToAnnotatedFile);
 
 			return true;
 		}

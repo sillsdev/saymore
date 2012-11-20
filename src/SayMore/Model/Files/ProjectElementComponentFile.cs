@@ -20,7 +20,6 @@ namespace SayMore.Model.Files
 			FileType fileType, FileSerializer fileSerializer, string rootElementName, FieldUpdater fieldUpdater)
 			: base(parentElement, parentElement.SettingsFilePath, fileType, rootElementName, fileSerializer, fieldUpdater)
 		{
-			PathToAnnotatedFile = parentElement.SettingsFilePath;//same thing, there isn't a pair of files for session/person
 			InitializeFileInfo();
 		}
 

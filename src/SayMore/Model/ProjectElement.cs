@@ -135,11 +135,14 @@ namespace SayMore.Model
 				var newComponentFile = _componentFileFactory(this, filename);
 				_componentFiles.Add(newComponentFile);
 
-				if (newComponentFile.GetAnnotationFile() != null)
-					_componentFiles.Add(newComponentFile.GetAnnotationFile());
+				var annotationFile = newComponentFile.GetAnnotationFile();
+				if (annotationFile != null)
+				{
+					_componentFiles.Add(annotationFile);
 
-				if (newComponentFile.GetOralAnnotationFile() != null)
-					_componentFiles.Add(newComponentFile.GetOralAnnotationFile());
+					if (annotationFile.OralAnnotationFile != null)
+						_componentFiles.Add(annotationFile.OralAnnotationFile);
+				}
 			}
 
 			_watcher = new FileSystemWatcher(FolderPath);

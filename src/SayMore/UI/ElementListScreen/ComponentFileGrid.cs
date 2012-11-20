@@ -200,18 +200,16 @@ namespace SayMore.UI.ElementListScreen
 			var file = _files.ElementAt(e.RowIndex);
 
 			if (e.ColumnIndex == 0)
-				DrawIconColumnCell(file.DisplayIndentLevel > 0, e);
+				DrawIconColumnCell(file.DisplayIndentLevel, e);
 			else if (file.DisplayIndentLevel > 0)
-				DrawIndentedFileName(file, e);
+				DrawIndentedFileName(file.DisplayIndentLevel, e);
 
 			_grid.DrawFocusRectangleIfFocused(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void DrawIndentedFileName(ComponentFile file, DataGridViewCellPaintingEventArgs e)
+		private void DrawIndentedFileName(int indentLevel, DataGridViewCellPaintingEventArgs e)
 		{
-			// TODO: Account for indent levels greater than 1 if we ever need to.
-
 			e.Handled = true;
 
 			var selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
@@ -222,21 +220,25 @@ namespace SayMore.UI.ElementListScreen
 			paintParts &= ~DataGridViewPaintParts.ContentForeground;
 			e.Paint(rc, paintParts);
 
+			if (indentLevel > 1)
+				ConnectIndentedRowToPrevious(indentLevel, e);
+
 			// Draw the icon.
 			var img = _grid[0, e.RowIndex].Value as Image;
 			if (img == null)
 				return;
 
-			rc.X += 8;
+			rc.X += 2 + (_grid.Columns[0].Width * (indentLevel - 1));
 			rc.Y += ((rc.Height - img.Height) / 2);
 			rc.Height = img.Height;
 			rc.Width = img.Width;
 			e.Graphics.DrawImage(img, rc);
+			var newLeftEdge = rc.Right + 4;
 
 			// Draw the file name, indented.
 			rc = e.CellBounds;
-			rc.X += (img.Width + 12);
-			rc.Width -= (img.Width + 12);
+			rc.Width -= (newLeftEdge - rc.X);
+			rc.X = newLeftEdge;
 			rc.Height--;
 
 			TextRenderer.DrawText(e.Graphics, e.Value as string, e.CellStyle.Font, rc,
@@ -244,19 +246,19 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void DrawIconColumnCell(bool drawConnectorLine, DataGridViewCellPaintingEventArgs e)
+		private void DrawIconColumnCell(int indentLevel, DataGridViewCellPaintingEventArgs e)
 		{
 			e.Handled = true;
 			var rc = e.CellBounds;
 			var paintParts = e.PaintParts;
 
-			if (drawConnectorLine)
+			// Don't draw the icon in this column if the row is indented
+			if (indentLevel > 0)
 				paintParts &= ~DataGridViewPaintParts.ContentForeground;
 
 			e.Paint(rc, paintParts);
 
 			var selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
-			var clrFore = (selected ? e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
 			var clrBack = (selected ? e.CellStyle.SelectionBackColor : e.CellStyle.BackColor);
 
 			// Don't paint the border on the right edge of the icon column.
@@ -266,8 +268,18 @@ namespace SayMore.UI.ElementListScreen
 					new Point(rc.Right - 1, rc.Bottom));
 			}
 
-			if (!drawConnectorLine)
-				return;
+			if (indentLevel == 1)
+				ConnectIndentedRowToPrevious(indentLevel, e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ConnectIndentedRowToPrevious(int indentLevel, DataGridViewCellPaintingEventArgs e)
+		{
+			var selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
+			var clrFore = (selected ? e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
+			var rc = e.CellBounds;
+			if (e.ColumnIndex > 0)
+				rc.Width = _grid.Columns[0].Width;
 
 			// Draw a dotted, right-angle line linking the row to the one above.
 			using (var pen = new Pen(ColorHelper.CalculateColor(Color.White, clrFore, 130)))
@@ -283,9 +295,9 @@ namespace SayMore.UI.ElementListScreen
 					new Point(rc.Right, dy)
 				});
 
-				// If the following row is also indented, then draw the connector so it spans
-				// the height of the cell, rather tha stop where the horizontal line starts.
-				if (e.RowIndex + 1 < _grid.RowCount && _files.ElementAt(e.RowIndex + 1).DisplayIndentLevel > 0)
+				// If the following row is also indented one level in, then draw the connector so it spans
+				// the height of the cell, rather than stop where the horizontal line starts.
+				if (e.RowIndex + 1 < _grid.RowCount && _files.ElementAt(e.RowIndex + 1).DisplayIndentLevel == indentLevel)
 					e.Graphics.DrawLine(pen, dx, rc.Y + 1, dx, rc.Y + rc.Height - 1);
 			}
 		}
@@ -590,8 +602,9 @@ namespace SayMore.UI.ElementListScreen
 			if (currFile == null || FileDeletionAction == null)
 				return;
 
-			var annotationFile = currFile.GetAnnotationFile();
-			var oralAnnotationFile = currFile.GetOralAnnotationFile();
+			var annotationFile = (currFile is AnnotationComponentFile) ?
+				(AnnotationComponentFile)currFile : currFile.GetAnnotationFile();
+			var oralAnnotationFile = (annotationFile != null) ? annotationFile.OralAnnotationFile : null;
 
 			if (!FileDeletionAction(currFile))
 				return;

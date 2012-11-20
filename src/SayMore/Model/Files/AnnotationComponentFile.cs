@@ -11,6 +11,7 @@ namespace SayMore.Model.Files
 	public class AnnotationComponentFile : ComponentFile
 	{
 		public ComponentFile AssociatedComponentFile { get; private set; }
+		private OralAnnotationComponentFile _oralAnnotationFile;
 
 		/// ------------------------------------------------------------------------------------
 		[Obsolete("For Mocking Only")]
@@ -19,19 +20,33 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public AnnotationComponentFile(ProjectElement parentElement,
 			string pathToAnnotationFile, ComponentFile associatedComponentFile,
-			FileType fileType, IEnumerable<ComponentRole> componentRoles)
-			: base(parentElement, pathToAnnotationFile, fileType, null, null, null)
+			List<FileType> fileTypes, IEnumerable<ComponentRole> componentRoles) :
+			base(parentElement, pathToAnnotationFile,
+			fileTypes.Single(t => t is AnnotationFileType), null, null, null)
 		{
 			Tiers = new TierCollection();
 
-			// The annotated file is the same as the annotation file.
-			PathToAnnotatedFile = pathToAnnotationFile;
 			AssociatedComponentFile = associatedComponentFile;
 			_componentRoles = componentRoles;
 			InitializeFileInfo();
 			Load();
 
 			SmallIcon = Resources.ElanIcon;
+
+			var oralAnnotationFilePath = GetSuggestedPathToOralAnnotationFile();
+			if (File.Exists(oralAnnotationFilePath))
+			{
+				OralAnnotationFile = new OralAnnotationComponentFile(parentElement,
+					oralAnnotationFilePath, associatedComponentFile, fileTypes, _componentRoles);
+			}
+			else
+			{
+				associatedComponentFile.PostGenerateOralAnnotationFileAction += delegate
+				{
+					OralAnnotationFile = new OralAnnotationComponentFile(parentElement,
+						oralAnnotationFilePath, associatedComponentFile, fileTypes, _componentRoles);
+				};
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -42,6 +57,21 @@ namespace SayMore.Model.Files
 		{
 			return PathToAnnotatedFile.Substring(0,
 				PathToAnnotatedFile.Length - AnnotationFileHelper.kAnnotationsEafFileSuffix.Length);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public OralAnnotationComponentFile OralAnnotationFile
+		{
+			get
+			{
+				return (_oralAnnotationFile != null && File.Exists(_oralAnnotationFile.PathToAnnotatedFile) ?
+					_oralAnnotationFile : null);
+			}
+			set
+			{
+				_oralAnnotationFile = (value != null &&
+					File.Exists(value.PathToAnnotatedFile) ? value : null);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -92,6 +122,18 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path of to the component file's oral annotation file, even if the file
+		/// doesn't exist. If the component file is not of a type that can have an annotation
+		/// file, then null is returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetSuggestedPathToOralAnnotationFile()
+		{
+			return AssociatedComponentFile.PathToAnnotatedFile + Settings.Default.OralAnnotationGeneratedFileSuffix;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override void RenameAnnotatedFile(string newPath)
 		{
 			var oldPfsxFile = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
@@ -103,18 +145,55 @@ namespace SayMore.Model.Files
 
 			var newPfsxFile = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
 			File.Move(oldPfsxFile, newPfsxFile);
+
+			if (_oralAnnotationFile != null)
+				_oralAnnotationFile.RenameAnnotatedFile(GetSuggestedPathToOralAnnotationFile());
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Delete()
+		protected internal override bool Delete()
 		{
 			// If the annotation file has an associated ELAN preference file, then delete it.
-			var path = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
-			if (File.Exists(path))
-				ConfirmRecycleDialog.Recycle(path);
+			var prefFilePath = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
+			var oralAnnotationFile = OralAnnotationFile;
 
-			// Delete this annotation file.
-			ConfirmRecycleDialog.Recycle(PathToAnnotatedFile);
+			if (!base.Delete())
+				return false;
+
+			if (File.Exists(prefFilePath))
+				ConfirmRecycleDialog.Recycle(prefFilePath);
+
+			if (oralAnnotationFile != null)
+			{
+				oralAnnotationFile.Delete();
+				_oralAnnotationFile = null;
+			}
+
+			var segmentAnnotationFileFolder = SegmentAnnotationFileFolder;
+			if (Directory.Exists(segmentAnnotationFileFolder))
+			{
+				try
+				{
+					Directory.Delete(segmentAnnotationFileFolder, true);
+				}
+				catch
+				{
+				}
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string SegmentAnnotationFileFolder
+		{
+			get { return AssociatedComponentFile + Settings.Default.OralAnnotationsFolderSuffix; ; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override bool HasSubordinateFiles
+		{
+			get { return _oralAnnotationFile != null || Directory.Exists(SegmentAnnotationFileFolder); }
 		}
 
 		/// ------------------------------------------------------------------------------------

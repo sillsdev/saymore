@@ -33,10 +33,10 @@ namespace SayMore.UI
 			this._linkCancel = new System.Windows.Forms.LinkLabel();
 			this._pictureLoading = new System.Windows.Forms.PictureBox();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this._tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			((System.ComponentModel.ISupportInitialize)(this._pictureLoading)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
-			this.tableLayoutPanel1.SuspendLayout();
+			this._tableLayoutPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _labelLoading
@@ -88,7 +88,6 @@ namespace SayMore.UI
 			this._pictureLoading.Location = new System.Drawing.Point(10, 15);
 			this._pictureLoading.Margin = new System.Windows.Forms.Padding(10);
 			this._pictureLoading.Name = "_pictureLoading";
-			this.tableLayoutPanel1.SetRowSpan(this._pictureLoading, 2);
 			this._pictureLoading.Size = new System.Drawing.Size(48, 48);
 			this._pictureLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
 			this._pictureLoading.TabIndex = 1;
@@ -98,24 +97,24 @@ namespace SayMore.UI
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
-			// tableLayoutPanel1
+			// _tableLayoutPanel
 			// 
-			this.tableLayoutPanel1.AutoSize = true;
-			this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tableLayoutPanel1.ColumnCount = 2;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Controls.Add(this._pictureLoading, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this._linkCancel, 1, 1);
-			this.tableLayoutPanel1.Controls.Add(this._labelLoading, 1, 0);
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(1, 1);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 2;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(243, 79);
-			this.tableLayoutPanel1.TabIndex = 4;
+			this._tableLayoutPanel.AutoSize = true;
+			this._tableLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this._tableLayoutPanel.ColumnCount = 2;
+			this._tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayoutPanel.Controls.Add(this._pictureLoading, 0, 0);
+			this._tableLayoutPanel.Controls.Add(this._linkCancel, 1, 1);
+			this._tableLayoutPanel.Controls.Add(this._labelLoading, 1, 0);
+			this._tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._tableLayoutPanel.Location = new System.Drawing.Point(1, 1);
+			this._tableLayoutPanel.Name = "_tableLayoutPanel";
+			this._tableLayoutPanel.RowCount = 2;
+			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutPanel.Size = new System.Drawing.Size(243, 79);
+			this._tableLayoutPanel.TabIndex = 4;
 			// 
 			// LoadingDlg
 			// 
@@ -125,7 +124,7 @@ namespace SayMore.UI
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.Color.LightGray;
 			this.ClientSize = new System.Drawing.Size(245, 81);
-			this.Controls.Add(this.tableLayoutPanel1);
+			this.Controls.Add(this._tableLayoutPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
@@ -143,8 +142,8 @@ namespace SayMore.UI
 			this.Resize += new System.EventHandler(this.LoadingDlg_Resize);
 			((System.ComponentModel.ISupportInitialize)(this._pictureLoading)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
-			this.tableLayoutPanel1.ResumeLayout(false);
-			this.tableLayoutPanel1.PerformLayout();
+			this._tableLayoutPanel.ResumeLayout(false);
+			this._tableLayoutPanel.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -156,6 +155,6 @@ namespace SayMore.UI
 		private System.Windows.Forms.PictureBox _pictureLoading;
 		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.LinkLabel _linkCancel;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.TableLayoutPanel _tableLayoutPanel;
 	}
 }

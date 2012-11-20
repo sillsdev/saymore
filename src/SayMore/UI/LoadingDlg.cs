@@ -59,6 +59,9 @@ namespace SayMore.UI
 						_linkCancel.Hide();
 					};
 				}
+				else
+					_tableLayoutPanel.SetColumnSpan(_labelLoading, 2);
+
 				_originalGif = _pictureLoading.Image;
 				BackgroundWorker.RunWorkerCompleted += HandleBackgroundWorkerCompleted;
 				BackgroundWorker.RunWorkerAsync(this);
@@ -66,7 +69,10 @@ namespace SayMore.UI
 				ShowDialog(parent);
 			}
 			else
-				Show(parent);
+			{
+				_tableLayoutPanel.SetRowSpan(_labelLoading, 2);
+				base.Show(parent);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

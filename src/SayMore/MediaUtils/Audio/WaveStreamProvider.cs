@@ -17,6 +17,9 @@ namespace SayMore.Media.Audio
 		public WaveStream Stream { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
+		/// Gets an object that can provide a stream for the given media file. If necessary,
+		/// the data will be up-sampled to meet the specs in the preferredOutputFormat.
+		/// ------------------------------------------------------------------------------------
 		public static WaveStreamProvider Create(WaveFormat preferredOutputFormat, string mediaFilename)
 		{
 			var provider = new WaveStreamProvider(preferredOutputFormat, mediaFilename);
@@ -58,23 +61,27 @@ namespace SayMore.Media.Audio
 
 			try
 			{
-				// First, just try to open the file as a wave file. If that fails, use
-				// mplayer in an attempt to get wave audio out of the file.
+				// First, just try to open the file as a wave file. If that fails or has a
+				// format that is not as good as we want, convert it.
 				if (AudioUtils.GetIsFileStandardPcm(mediaFile))
 				{
 					Stream = new WaveFileReader(mediaFile);
-					return;
+					var format = Stream.WaveFormat;
+					if (format.BitsPerSample >= PreferredOutputFormat.BitsPerSample &&
+						format.Channels >= PreferredOutputFormat.Channels &&
+						format.SampleRate >= PreferredOutputFormat.SampleRate)
+					{
+						return;
+					}
 				}
 			}
 			catch { }
 
-			// REVIEW: I (TomB) don't think we should ever get here. If we do, we're probably in
-			// trouble because this code does UI stuff but is not invoked on the UI thread.
 			_temporaryWavFile = Path.ChangeExtension(Path.GetTempFileName(), ".wav");
 
 			Exception error;
 			WaitCursor.Show();
-			Stream = AudioUtils.ConvertToStandardPcmStream(mediaFile, _temporaryWavFile, out error);
+			Stream = AudioUtils.ConvertToStandardPcmStream(mediaFile, _temporaryWavFile, PreferredOutputFormat, out error);
 			WaitCursor.Hide();
 			Error = error;
 		}

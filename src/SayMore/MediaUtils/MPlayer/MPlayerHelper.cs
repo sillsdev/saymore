@@ -6,6 +6,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using NAudio.Wave;
 using Palaso.IO;
 using Localization;
 
@@ -102,15 +103,16 @@ namespace SayMore.Media.MPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static IEnumerable<string> GetArgumentsToCreatePcmAudio(MediaFileInfo info,
-			string audioOutPath)
+		private static IEnumerable<string> GetArgumentsToCreatePcmAudio(string audioInPath,
+			string audioOutPath, WaveFormat preferredOutputFormat)
 		{
-			yield return "\"" + info.MediaFilePath + "\"";
+			yield return "\"" + audioInPath + "\"";
 			yield return "-nofontconfig";
 			yield return "-nocorrect-pts";
 			yield return "-vo null";
 			yield return "-vc null";
-			yield return string.Format("-af channels={0}", info.Audio.Channels);
+			yield return string.Format("-af channels={0}", preferredOutputFormat.Channels);
+			yield return string.Format("-srate {0}", preferredOutputFormat.SampleRate);
 			yield return string.Format("-ao pcm:fast:file=%{0}%\"{1}\"", audioOutPath.Length, audioOutPath);
 		}
 
@@ -131,16 +133,19 @@ namespace SayMore.Media.MPlayer
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static ConversionResult CreatePcmAudioFromMediaFile(string mediaInPath,
-			string audioOutPath, out string output)
+			string audioOutPath, WaveFormat preferredOutputFormat, out string output)
 		{
 			output = null;
 
 			mediaInPath = mediaInPath.Replace('\\', '/');
-			var info = MediaFileInfo.GetInfo(mediaInPath);
-			if (info == null)
-				return ConversionResult.ConversionFailed;
-
-			var args = GetArgumentsToCreatePcmAudio(info, audioOutPath);
+			if (preferredOutputFormat == null)
+			{
+				var info = MediaFileInfo.GetInfo(mediaInPath);
+				if (info == null)
+					return ConversionResult.ConversionFailed;
+				preferredOutputFormat = new WaveFormat(info.SamplesPerSecond, info.BitsPerSample, info.Channels);
+			}
+			var args = GetArgumentsToCreatePcmAudio(mediaInPath, audioOutPath, preferredOutputFormat);
 			var finishedProcessing = false;
 			var result = ConversionResult.InProgress;
 			var outputBuilder = new StringBuilder();

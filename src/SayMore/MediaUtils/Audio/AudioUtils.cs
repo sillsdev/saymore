@@ -109,7 +109,18 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		public static bool GetIsFileStandardPcm(string audioFilePath)
 		{
-			return (GetNAudioEncoding(audioFilePath) == WaveFormatEncoding.Pcm);
+			var waveFormat = GetNAudioWaveFormat(audioFilePath);
+			if (waveFormat == null || waveFormat.Encoding != WaveFormatEncoding.Pcm)
+				return false;
+			return true;
+			// ENHANCE (SP-646): Turns out that when we go to generate the oral annotation file,
+			// 8-bit audio is a problem. This has been fixed now, but it might make sense to
+			// force conversion here instead. See Jira issue for more details.
+			//switch (waveFormat.BitsPerSample)
+			//{
+			//    case 16: case 24: case 32: return true;
+			//    default: return false;
+			//}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -136,15 +147,27 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		public static WaveFormatEncoding GetNAudioEncoding(string audioFilePath)
 		{
+			var waveFormat = GetNAudioWaveFormat(audioFilePath);
+			return waveFormat == null ? WaveFormatEncoding.Unknown : waveFormat.Encoding;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The input file must be audio. If it is not or the format cannot be determined,
+		/// null is returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static WaveFormat GetNAudioWaveFormat(string audioFilePath)
+		{
 			WaveFileReader reader = null;
 
 			try
 			{
 				if (!GetDoesFileSeemToBeWave(audioFilePath))
-					return WaveFormatEncoding.Unknown;
+					return null;
 
 				reader = new WaveFileReader(audioFilePath);
-				return reader.WaveFormat.Encoding;
+				return reader.WaveFormat;
 			}
 			catch { }
 			finally
@@ -156,7 +179,7 @@ namespace SayMore.Media.Audio
 				}
 			}
 
-			return WaveFormatEncoding.Unknown;
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -260,7 +283,7 @@ namespace SayMore.Media.Audio
 
 			try
 			{
-				outputReader = ConvertToStandardPcmStream(inputMediaFile, outputMediaFile, out error);
+				outputReader = ConvertToStandardPcmStream(inputMediaFile, outputMediaFile, null, out error);
 				return error;
 			}
 			finally
@@ -296,16 +319,16 @@ namespace SayMore.Media.Audio
 
 		/// ------------------------------------------------------------------------------------
 		public static WaveFileReader ConvertToStandardPcmStream(string inputMediaFile,
-			string outputAudioFile, out Exception error)
+			string outputAudioFile, WaveFormat preferredOutputFormat, out Exception error)
 		{
 			try
 			{
 				error = null;
-				string errorMsg = null;
+				string errorMsg;
 
 				if (CheckConversionIsPossible(outputAudioFile, false, out errorMsg))
 				{
-					if (DoPcmConversion(inputMediaFile, outputAudioFile))
+					if (DoPcmConversion(inputMediaFile, outputAudioFile, preferredOutputFormat))
 						return new WaveFileReader(outputAudioFile);
 
 					errorMsg = LocalizationManager.GetString("SoundFileUtils.FileMayNotBeValidAudioError",
@@ -327,7 +350,8 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static bool DoPcmConversion(string inputMediaFile, string outputAudioFile)
+		private static bool DoPcmConversion(string inputMediaFile, string outputAudioFile,
+			WaveFormat preferredOutputFormat)
 		{
 			// TODO: Either figure out how to get FFmpeg to correctly extract PCM audio from Viji Snow.AVI, or else figure out how to detect this condition and use Mplayer.
 			// If ffmpeg is is available, then use it. Otherwise do the conversion using mplayer.
@@ -335,7 +359,7 @@ namespace SayMore.Media.Audio
 			{
 				string output;
 				var result = MPlayerHelper.CreatePcmAudioFromMediaFile(inputMediaFile,
-					outputAudioFile, out output);
+					outputAudioFile, preferredOutputFormat, out output);
 				if ((result & MPlayerHelper.ConversionResult.FinishedConverting) == 0)
 					return false;
 				if ((result & MPlayerHelper.ConversionResult.PossibleError) > 0)
@@ -346,7 +370,7 @@ namespace SayMore.Media.Audio
 			var _model = new ConvertMediaDlgViewModel(inputMediaFile,
 					ConvertMediaDlg.GetFactoryExtractToStandardPcmConversionName());
 
-			_model.BeginConversion(null, outputAudioFile);
+			_model.BeginConversion(null, outputAudioFile, preferredOutputFormat);
 
 			var finishedState = _model.ConversionState & ConvertMediaUIState.AllFinishedStates;
 

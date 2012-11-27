@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Localization;
+using NAudio.Wave;
 using SayMore.Media;
 using SayMore.Media.FFmpeg;
 using SayMore.Utilities;
@@ -124,7 +125,7 @@ namespace SayMore.UI
 
 		/// ------------------------------------------------------------------------------------
 		public void BeginConversion(Action<TimeSpan, string> conversionReportingAction,
-			string outputFile = null)
+			string outputFile = null, WaveFormat preferredOutputFormat = null)
 		{
 			if (MediaInfo == null)
 			{
@@ -134,7 +135,7 @@ namespace SayMore.UI
 
 			if (outputFile == null)
 				outputFile = GetNewOutputFileName(false);
-			var commandLine = BuildCommandLine(outputFile);
+			var commandLine = BuildCommandLine(outputFile, preferredOutputFormat);
 			ConversionState = ConvertMediaUIState.Converting;
 
 			_conversionReportingAction = conversionReportingAction;
@@ -165,12 +166,18 @@ namespace SayMore.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string BuildCommandLine(string outputFileName)
+		public string BuildCommandLine(string outputFileName, WaveFormat preferredOutputFormat)
 		{
 			OutputFileCreated = outputFileName;
 
 			var switches = (SelectedConversion.CommandLine != null ?
 				SelectedConversion.CommandLine.Trim() : string.Empty);
+
+			if (!switches.Contains(" -ar ") && preferredOutputFormat != null &&
+				preferredOutputFormat.SampleRate > 0 && preferredOutputFormat.SampleRate != MediaInfo.SamplesPerSecond)
+			{
+				switches += " -ar " + preferredOutputFormat.SampleRate;
+			}
 
 			var commandLine = string.Format("-i \"{0}\" {1} \"{2}\"",
 				InputFile, switches, OutputFileCreated);
@@ -180,11 +187,15 @@ namespace SayMore.UI
 
 			if (commandLine.Contains("{pcm}"))
 			{
-				switch (MediaInfo.BitsPerSample)
+				var bps = MediaInfo.BitsPerSample;
+				if (preferredOutputFormat != null && preferredOutputFormat.BitsPerSample > bps)
+					bps = preferredOutputFormat.BitsPerSample;
+				switch (bps)
 				{
 					case 32: commandLine = commandLine.Replace("{pcm}", "pcm_f32le"); break;
 					case 24: commandLine = commandLine.Replace("{pcm}", "pcm_s24le"); break;
-					case 8: commandLine = commandLine.Replace("{pcm}", "pcm_s8"); break;
+					// ffmpeg says: pcm_s8 codec not supported in WAVE format. Probably don't want this anyway.
+					//case 8: commandLine = commandLine.Replace("{pcm}", "pcm_s8"); break;
 					default: commandLine = commandLine.Replace("{pcm}", "pcm_s16le"); break;
 				}
 			}

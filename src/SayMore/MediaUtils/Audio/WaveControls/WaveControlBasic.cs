@@ -102,22 +102,7 @@ namespace SayMore.Media.Audio
 				WaveStream : PlaybackStreamProvider(WaveStream));
 
 			Painter = GetNewWavePainter(stream);
-			InternalInitialize();
-		}
 
-		///// ------------------------------------------------------------------------------------
-		//public void Initialize(IEnumerable<float> samples, TimeSpan totalTime)
-		//{
-		//    if (Painter != null)
-		//        Painter.Dispose();
-
-		//    Painter = GetNewWavePainter(samples, totalTime);
-		//    InternalInitialize();
-		//}
-
-		/// ------------------------------------------------------------------------------------
-		protected void InternalInitialize()
-		{
 			Painter.BottomReservedAreaHeight = _savedBottomReservedAreaHeight;
 			Painter.BottomReservedAreaColor = _bottomReservedAreaColor;
 			Painter.BottomReservedAreaBorderColor = _bottomReservedAreaBorderColor;
@@ -127,6 +112,9 @@ namespace SayMore.Media.Audio
 			Painter.BackColor = BackColor;
 			Painter.SetPixelsPerSecond(Settings.Default.SegmentingWaveViewPixelsPerSecond);
 			AutoScrollMinSize = new Size(Painter.VirtualWidth, 0);
+
+			if (Painter.AllowRedraw)
+				Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------

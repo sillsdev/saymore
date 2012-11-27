@@ -68,6 +68,10 @@ namespace SayMore.Transcription.UI
 			if (disposing && (components != null))
 			{
 				components.Dispose();
+
+				if (_waveControl != null)
+					_waveControl.Dispose();
+				_waveControl = null;
 			}
 
 			base.Dispose(disposing);

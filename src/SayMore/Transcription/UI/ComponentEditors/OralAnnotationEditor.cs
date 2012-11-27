@@ -81,6 +81,8 @@ namespace SayMore.Transcription.UI
 
 			base.SetComponentFile(file);
 
+			file.PreDeleteAction = () =>
+				_oralAnnotationWaveViewer.CloseAudioStream();
 			AssociatedComponentFile.PreGenerateOralAnnotationFileAction = () =>
 				_oralAnnotationWaveViewer.CloseAudioStream();
 			AssociatedComponentFile.PostGenerateOralAnnotationFileAction = () =>

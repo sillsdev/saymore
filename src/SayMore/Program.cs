@@ -137,6 +137,7 @@ namespace SayMore
 			SetUpErrorHandling();
 			SetUpReporting();
 
+			bool startedWithCommandLineProject = false;
 			var args = Environment.GetCommandLineArgs();
 			var firstTimeArg = args.FirstOrDefault(x => x.ToLower().StartsWith("-i"));
 			if (firstTimeArg != null)
@@ -144,8 +145,17 @@ namespace SayMore
 				using (var dlg = new FirstTimeRunDialog("put filename here"))
 					dlg.ShowDialog();
 			}
+			else if (args.Length > 1)
+			{
+				var possibleProjFile = args[1];
+				startedWithCommandLineProject =
+					possibleProjFile.EndsWith(Settings.Default.ProjectFileExtension) &&
+					File.Exists(possibleProjFile) &&
+					OpenProjectWindow(possibleProjFile);
+			}
 
-			StartUpShellBasedOnMostRecentUsedIfPossible();
+			if (!startedWithCommandLineProject)
+				StartUpShellBasedOnMostRecentUsedIfPossible();
 
 			try
 			{

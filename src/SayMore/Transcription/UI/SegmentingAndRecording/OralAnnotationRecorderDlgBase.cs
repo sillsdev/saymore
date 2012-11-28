@@ -160,6 +160,8 @@ namespace SayMore.Transcription.UI
 				_annotationSegmentFont.Dispose();
 				_hotPlaySourceButton.Dispose();
 				_hotRecordAnnotationButton.Dispose();
+				if (_waveControl != null)
+					_waveControl.Dispose();
 				AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrown;
 			}
 
@@ -805,6 +807,15 @@ namespace SayMore.Transcription.UI
 						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayOriginalShortcutToolTipHint",
 						"Keyboard shortcut: 'b'");
 					}
+					if (_tooltip.GetToolTip(_waveControl) != toolTipText)
+						_tooltip.SetToolTip(_waveControl, toolTipText);
+					return;
+				}
+				if (PlayAnnotationButtonRectangle.Contains(e.Location))
+				{
+					var toolTipText = LocalizationManager.GetString(
+						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayAnnotationToolTipMsg",
+						"Listen to this annotation.");
 					if (_tooltip.GetToolTip(_waveControl) != toolTipText)
 						_tooltip.SetToolTip(_waveControl, toolTipText);
 					return;

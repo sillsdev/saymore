@@ -166,7 +166,7 @@ namespace SayMore.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string BuildCommandLine(string outputFileName, WaveFormat preferredOutputFormat)
+		public string BuildCommandLine(string outputFileName, WaveFormat preferredOutputFormat = null)
 		{
 			OutputFileCreated = outputFileName;
 

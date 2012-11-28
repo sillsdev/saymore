@@ -80,7 +80,7 @@ namespace SayMore.Transcription.UI
 			this._lastSegmentMenuStrip.Name = "_lastSegmentMenuStrip";
 			this._lastSegmentMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
 			this._lastSegmentMenuStrip.ShowItemToolTips = true;
-			this._lastSegmentMenuStrip.Size = new System.Drawing.Size(160, 24);
+			this._lastSegmentMenuStrip.Size = new System.Drawing.Size(68, 24);
 			this._lastSegmentMenuStrip.TabIndex = 16;
 			this._lastSegmentMenuStrip.Visible = false;
 			//
@@ -116,7 +116,7 @@ namespace SayMore.Transcription.UI
 			this._currentSegmentMenuStrip.Name = "_currentSegmentMenuStrip";
 			this._currentSegmentMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
 			this._currentSegmentMenuStrip.ShowItemToolTips = true;
-			this._currentSegmentMenuStrip.Size = new System.Drawing.Size(68, 24);
+			this._currentSegmentMenuStrip.Size = new System.Drawing.Size(160, 24);
 			this._currentSegmentMenuStrip.TabIndex = 20;
 			this._currentSegmentMenuStrip.Visible = false;
 			//
@@ -129,9 +129,9 @@ namespace SayMore.Transcription.UI
 			this._ignoreToolStripMenuItem.Enabled = false;
 			this._ignoreToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
 			this._ignoreToolStripMenuItem.Image = global::SayMore.Properties.Resources.UncheckedBox;
-			this.locExtender.SetLocalizableToolTip(this._ignoreToolStripMenuItem, null);
+			this.locExtender.SetLocalizableToolTip(this._ignoreToolStripMenuItem, "Select Ignore to skip annotating this segment.");
 			this.locExtender.SetLocalizationComment(this._ignoreToolStripMenuItem, null);
-			this.locExtender.SetLocalizationPriority(this._ignoreToolStripMenuItem, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._ignoreToolStripMenuItem, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this._ignoreToolStripMenuItem, "OralAnnotationRecorderBaseDlg._skipToolStripMenuItem");
 			this._ignoreToolStripMenuItem.Name = "_ignoreToolStripMenuItem";
 			this._ignoreToolStripMenuItem.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);

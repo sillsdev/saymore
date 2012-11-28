@@ -97,6 +97,11 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Shortcut Id="startmenuShortcut"  Directory="SayMoreShortcutDir" Name="SayMore"
 				 WorkingDirectory="ProgramDir" Target="[!SayMore.exe]"  Icon ="SayMore.exe" />
 
+			<ProgId Id="SayMore.sprjfile" Description="SayMore project file">
+			  <Extension Id="sprj" ContentType="application/sprj">
+				<Verb Id="open" Command="Open" TargetFile="SayMore.exe" Argument="%1" />
+			  </Extension>
+			</ProgId>
 		  </Component>
 
 		  <Component Id="autofac.dll" Guid="{BB025B7C-B3CA-435e-9A4B-192373EE12DB}">
@@ -168,6 +173,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	<InstallExecuteSequence>
 	  <!--We need the condition here so that we only launch the executable when we make an installation but not when we remove the product-->
 		  <Custom Action='LaunchSayMore' After="InstallFinalize">NOT Installed</Custom>
-		</InstallExecuteSequence>
+	</InstallExecuteSequence>
   </Product>
 </Wix>

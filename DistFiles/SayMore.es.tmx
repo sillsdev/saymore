@@ -2121,6 +2121,14 @@
         <seg>Este segmento no tiene una anotación grabado.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayAnnotationToolTipMsg">
+      <tuv xml:lang="en">
+        <seg>Listen to this annotation.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Escuchar esta anotación.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayOriginalShortcutToolTipHint">
       <tuv xml:lang="en">
         <seg>Keyboard shortcut: 'b'</seg>

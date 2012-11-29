@@ -123,9 +123,7 @@ namespace SayMore.Transcription.UI
 			// _ignoreToolStripMenuItem
 			//
 			this._ignoreToolStripMenuItem.BackColor = System.Drawing.Color.AliceBlue;
-			this._ignoreToolStripMenuItem.Checked = true;
 			this._ignoreToolStripMenuItem.CheckOnClick = true;
-			this._ignoreToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this._ignoreToolStripMenuItem.Enabled = false;
 			this._ignoreToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
 			this._ignoreToolStripMenuItem.Image = global::SayMore.Properties.Resources.UncheckedBox;

@@ -170,6 +170,12 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public Segment GetSegmentHavingStartBoundary(float startBoundary)
+		{
+			return Segments.FirstOrDefault(s => s.StartsAt(startBoundary));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public Segment GetSegmentEnclosingTime(float time)
 		{
 			return Segments.FirstOrDefault(s => s.TimeRange.GetIsTimeInRange(time, false, true));

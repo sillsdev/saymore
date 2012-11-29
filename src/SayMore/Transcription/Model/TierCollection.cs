@@ -204,10 +204,14 @@ namespace SayMore.Transcription.Model
 				var newSeg = timeTier.GetSegmentHavingEndBoundary(boundary);
 				var i = timeTier.GetIndexOfSegment(newSeg);
 
+				// If this segment is ignored, then this is a split of an existing ignored segment.
+				var transcription = GetIsSegmentIgnored(i) ? kIgnoreSegment : string.Empty;
 				foreach (var tier in this.OfType<TextTier>())
-					tier.Segments.Insert(i, new Segment(tier, string.Empty));
+				{
+					tier.Segments.Insert(i, new Segment(tier,
+						(tier.TierType == TierType.Transcription) ? transcription : string.Empty));
+				}
 			}
-
 			return result;
 		}
 

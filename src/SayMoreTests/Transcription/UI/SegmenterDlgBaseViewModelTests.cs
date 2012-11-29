@@ -446,6 +446,55 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void DeleteBoundary_BetweenUnignoredAndIgnoredSegments_ResultsInUnignoredSegment()
+		{
+			AddTextSegmentsForAllTimeSegments();
+			_model.Tiers.MarkSegmentAsIgnored(1);
+
+			Assert.IsTrue(_model.DeleteBoundary(TimeSpan.FromSeconds(10)));
+
+			Assert.AreEqual(2, _model.Tiers[0].Segments.Count);
+			Assert.AreEqual(2, _model.Tiers[1].Segments.Count);
+			Assert.False(_model.GetIsSegmentIgnored(0));
+			Assert.AreEqual(0, _model.GetIgnoredSegmentRanges().Count());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void DeleteBoundary_BetweenIgnoredAndUnignoredSegments_ResultsInUnignoredSegment()
+		{
+			AddTextSegmentsForAllTimeSegments();
+			_model.Tiers.MarkSegmentAsIgnored(0);
+
+			Assert.IsTrue(_model.DeleteBoundary(TimeSpan.FromSeconds(10)));
+
+			Assert.AreEqual(2, _model.Tiers[0].Segments.Count);
+			Assert.AreEqual(2, _model.Tiers[1].Segments.Count);
+			Assert.False(_model.GetIsSegmentIgnored(0));
+			Assert.AreEqual(0, _model.GetIgnoredSegmentRanges().Count());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void DeleteBoundary_BetweenIgnoredSegments_ResultsInIgnoredSegment()
+		{
+			AddTextSegmentsForAllTimeSegments();
+			_model.Tiers.MarkSegmentAsIgnored(0);
+			_model.Tiers.MarkSegmentAsIgnored(1);
+
+			Assert.IsTrue(_model.DeleteBoundary(TimeSpan.FromSeconds(10)));
+
+			Assert.AreEqual(2, _model.Tiers[0].Segments.Count);
+			Assert.AreEqual(2, _model.Tiers[1].Segments.Count);
+			Assert.IsTrue(_model.GetIsSegmentIgnored(0));
+			var ignoredRanges = _model.GetIgnoredSegmentRanges();
+			Assert.AreEqual(1, ignoredRanges.Count());
+			Assert.AreEqual(0, ignoredRanges.First().StartSeconds);
+			Assert.AreEqual(20, ignoredRanges.First().EndSeconds);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void CanMoveBoundary_BoundaryNegative_ReturnsFalse()
 		{
 			Assert.IsFalse(_model.CanMoveBoundary(TimeSpan.FromSeconds(20).Negate(), 2000));
@@ -674,6 +723,25 @@ namespace SayMoreTests.Transcription.UI
 
 			_model.CreateMissingTextSegmentsToMatchTimeSegmentCount();
 			Assert.AreEqual(_model.Tiers[0].Segments.Count, _model.Tiers[1].Segments.Count);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void InsertNewBoundary_SplitIgnoredSegment_BothSegmentsAreIgnored()
+		{
+			AddTextSegmentsForAllTimeSegments();
+			var endOfInitialIgnoredSegment = TimeSpan.FromSeconds(40);
+			_model.AddIgnoredSegment(endOfInitialIgnoredSegment);
+			var startingSegmentCount = _model.GetSegmentCount();
+			Assert.IsTrue(_model.GetIsSegmentIgnored(startingSegmentCount - 1));
+
+			var endOfInsertedSegment = TimeSpan.FromSeconds(35);
+			_model.InsertNewBoundary(endOfInsertedSegment);
+
+			Assert.AreEqual(startingSegmentCount + 1, _model.GetSegmentCount());
+			Assert.AreEqual(endOfInitialIgnoredSegment, _model.GetEndOfLastSegment());
+			Assert.IsTrue(_model.GetIsSegmentIgnored(startingSegmentCount));
+			Assert.IsTrue(_model.GetIsSegmentIgnored(startingSegmentCount - 1));
 		}
 
 		/// ------------------------------------------------------------------------------------

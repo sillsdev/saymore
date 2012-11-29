@@ -50,9 +50,10 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this._buttonAddSegmentBoundary, "DialogBoxes.Transcription.ManualSegmenterDlg._buttonAddSegmentBoundary.Normal");
 			this._buttonAddSegmentBoundary.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._buttonAddSegmentBoundary.Name = "_buttonAddSegmentBoundary";
-			this._buttonAddSegmentBoundary.Size = new System.Drawing.Size(253, 24);
+			this._buttonAddSegmentBoundary.Size = new System.Drawing.Size(246, 24);
 			this._buttonAddSegmentBoundary.Text = "Add Segment Boundary (press ENTER)";
 			this._buttonAddSegmentBoundary.ToolTipText = "Add segment boundary";
+			this._buttonAddSegmentBoundary.Click += new System.EventHandler(this.HandleAddSegmentBoundaryClick);
 			//
 			// locExtender
 			//
@@ -76,9 +77,10 @@ namespace SayMore.Transcription.UI
 			this.toolStripButtons.Location = new System.Drawing.Point(0, 106);
 			this.toolStripButtons.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			this.toolStripButtons.Name = "toolStripButtons";
-			this.toolStripButtons.Size = new System.Drawing.Size(255, 122);
+			this.toolStripButtons.Size = new System.Drawing.Size(248, 141);
 			this.toolStripButtons.TabIndex = 7;
 			this.toolStripButtons.Text = "toolStrip1";
+			this.toolStripButtons.MouseEnter += new System.EventHandler(this.toolStripButtons_MouseEnter);
 			//
 			// _buttonListenToOriginal
 			//
@@ -92,9 +94,10 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this._buttonListenToOriginal, "DialogBoxes.Transcription.ManualSegmenterDlgBase._buttonListenToOriginal");
 			this._buttonListenToOriginal.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._buttonListenToOriginal.Name = "_buttonListenToOriginal";
-			this._buttonListenToOriginal.Size = new System.Drawing.Size(253, 24);
+			this._buttonListenToOriginal.Size = new System.Drawing.Size(246, 24);
 			this._buttonListenToOriginal.Text = "Listen (press the SPACE BAR)";
 			this._buttonListenToOriginal.ToolTipText = "Listen to source recording";
+			this._buttonListenToOriginal.Click += new System.EventHandler(this.HandleListenToOriginalClick);
 			//
 			// _buttonStopOriginal
 			//
@@ -106,7 +109,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this._buttonStopOriginal, "DialogBoxes.Transcription.ManualSegmenterDlg._buttonStopOriginal");
 			this._buttonStopOriginal.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._buttonStopOriginal.Name = "_buttonStopOriginal";
-			this._buttonStopOriginal.Size = new System.Drawing.Size(253, 24);
+			this._buttonStopOriginal.Size = new System.Drawing.Size(246, 24);
 			this._buttonStopOriginal.Text = "Stop (press the SPACE BAR)";
 			//
 			// _buttonDeleteSegment
@@ -120,8 +123,9 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this._buttonDeleteSegment, "DialogBoxes.Transcription.ManualSegmenterDlg._buttonDeleteBoundary");
 			this._buttonDeleteSegment.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._buttonDeleteSegment.Name = "_buttonDeleteSegment";
-			this._buttonDeleteSegment.Size = new System.Drawing.Size(253, 26);
+			this._buttonDeleteSegment.Size = new System.Drawing.Size(246, 26);
 			this._buttonDeleteSegment.Text = "Delete Selected Boundary (press DELETE)";
+			this._buttonDeleteSegment.Click += new System.EventHandler(this.HandleDeleteSegmentClick);
 			//
 			// _clearWarningMessageTimer
 			//

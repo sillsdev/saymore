@@ -469,7 +469,7 @@ namespace SayMore.Transcription.UI
 
 			for (int i = TimeTier.Segments.Count - 1; i >= 0; i--)
 			{
-				if (TimeTier.Segments[i].TimeRange.End < proposedEndTime)
+				if (TimeTier.Segments[i].TimeRange.End <= proposedEndTime)
 					return (proposedEndTime - TimeTier.Segments[i].TimeRange.End >= minSize);
 			}
 

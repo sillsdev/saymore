@@ -79,50 +79,11 @@ namespace SayMore.Transcription.UI
 
 			Controls.Remove(toolStripButtons);
 			_tableLayoutOuter.Controls.Add(toolStripButtons);
+			_tableLayoutOuter.Resize += HandleTableLayoutOuterResize;
 
 			_origAddSegBoundaryButtonText = _buttonAddSegmentBoundary.Text;
 
-			_buttonListenToOriginal.Click += delegate
-			{
-				if (!_waveControl.IsPlaying)
-				{
-					_waveControl.Play(_waveControl.GetCursorTime());
-					_newSegmentDefinedBy = SegmentDefinitionMode.Manual;
-				}
-			};
-
 			_buttonStopOriginal.Click += delegate { _waveControl.Stop(); };
-
-			_buttonAddSegmentBoundary.Click += delegate
-			{
-				if (_viewModel.GetIsSegmentLongEnough(_waveControl.GetCursorTime()))
-				{
-					_waveControl.SegmentBoundaries = ViewModel.InsertNewBoundary(_waveControl.GetCursorTime());
-					_waveControl.SetSelectedBoundary(_waveControl.GetCursorTime());
-				}
-				else
-				{
-					_newSegmentDefinedBy = _waveControl.IsPlaying ? SegmentDefinitionMode.AddButtonWhileListening : SegmentDefinitionMode.Manual;
-					StopAllMedia();
-					_buttonAddSegmentBoundary.ForeColor = Color.Red;
-					_buttonAddSegmentBoundary.Text = GetSegmentTooShortText();
-					_clearWarningMessageTimer.Tick += ResetAddSegmentButton;
-					_clearWarningMessageTimer.Start();
-				}
-			};
-
-			_buttonDeleteSegment.Click += delegate
-			{
-				_newSegmentDefinedBy = SegmentDefinitionMode.Manual;
-				var boundary = _waveControl.GetSelectedBoundary();
-				_waveControl.ClearSelectedBoundary();
-				if (!ViewModel.DeleteBoundary(boundary))
-					return;
-
-				_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
-				_waveControl.Painter.RemoveIgnoredRegion(boundary);
-				UpdateDisplay();
-			};
 
 			if (segmentToHighlight > 0)
 			{
@@ -133,6 +94,95 @@ namespace SayMore.Transcription.UI
 					_waveControl.EnsureTimeIsVisible(endOfPreviousSegment);
 				};
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleTableLayoutOuterResize(object sender, EventArgs e)
+		{
+			if (toolStripButtons.PreferredSize.Width + _toolStripStatus.PreferredSize.Width > _tableLayoutOuter.Width)
+			{
+				_tableLayoutOuter.ColumnStyles[0].SizeType = SizeType.AutoSize;
+				_tableLayoutOuter.ColumnStyles[1].SizeType = SizeType.Percent;
+				_tableLayoutOuter.ColumnStyles[1].Width = 100;
+			}
+			else
+			{
+				_tableLayoutOuter.ColumnStyles[0].SizeType = SizeType.Percent;
+				_tableLayoutOuter.ColumnStyles[0].Width = 100;
+				_tableLayoutOuter.ColumnStyles[1].SizeType = SizeType.AutoSize;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleListenToOriginalClick(object sender, EventArgs e)
+		{
+			if (!_waveControl.IsPlaying)
+			{
+				_waveControl.Play(_waveControl.GetCursorTime());
+				_newSegmentDefinedBy = SegmentDefinitionMode.Manual;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleAddSegmentBoundaryClick(object sender, EventArgs e)
+		{
+			var cursorTime = _waveControl.GetCursorTime();
+			if (_viewModel.GetIsSegmentLongEnough(cursorTime))
+			{
+				var newsegmentBoundaries = ViewModel.InsertNewBoundary(cursorTime);
+				_waveControl.SegmentBoundaries = newsegmentBoundaries;
+				int i = 0;
+				TimeSpan originalEnd = new TimeSpan();
+				foreach (var boundary in newsegmentBoundaries)
+				{
+					if (boundary > cursorTime)
+					{
+						originalEnd = boundary;
+						break;
+					}
+					i++;
+				}
+				if (originalEnd > cursorTime && ViewModel.GetIsSegmentIgnored(i))
+					_waveControl.Painter.AddIgnoredRegion(new TimeRange(cursorTime, originalEnd));
+
+				_waveControl.SetSelectedBoundary(_waveControl.GetCursorTime());
+				UpdateDisplay();
+			}
+			else
+			{
+				_newSegmentDefinedBy = _waveControl.IsPlaying ? SegmentDefinitionMode.AddButtonWhileListening : SegmentDefinitionMode.Manual;
+				StopAllMedia();
+				_buttonAddSegmentBoundary.ForeColor = Color.Red;
+				_buttonAddSegmentBoundary.Text = GetSegmentTooShortText();
+				_clearWarningMessageTimer.Tick += ResetAddSegmentButton;
+				_clearWarningMessageTimer.Start();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleDeleteSegmentClick(object sender, EventArgs e)
+		{
+			_newSegmentDefinedBy = SegmentDefinitionMode.Manual;
+			var boundary = _waveControl.GetSelectedBoundary();
+			float boundarySeconds = (float)boundary.TotalSeconds;
+			var ignoredBundaryToRemove = new TimeSpan();
+			if (!ViewModel.GetIsSegmentIgnored(ViewModel.TimeTier.GetSegmentHavingEndBoundary(boundarySeconds)))
+			{
+				var segmentFollowingDeletedBreak = ViewModel.TimeTier.GetSegmentHavingStartBoundary(boundarySeconds);
+				if (ViewModel.GetIsSegmentIgnored(segmentFollowingDeletedBreak))
+					ignoredBundaryToRemove = segmentFollowingDeletedBreak.TimeRange.End;
+			}
+
+			_waveControl.ClearSelectedBoundary();
+			if (!ViewModel.DeleteBoundary(boundary))
+				return;
+
+			_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
+			_waveControl.Painter.RemoveIgnoredRegion(boundary);
+			if (ignoredBundaryToRemove.Seconds > 0)
+				_waveControl.Painter.RemoveIgnoredRegion(ignoredBundaryToRemove);
+
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -218,7 +268,10 @@ namespace SayMore.Transcription.UI
 			{
 				var segmentContainingCursor = ViewModel.TimeTier.GetSegmentEnclosingTime((float)cursorTime.TotalSeconds);
 				if (segmentContainingCursor != null)
-					_buttonAddSegmentBoundary.Enabled = !segmentContainingCursor.GetHasAnyOralAnnotation();
+				{
+					_buttonAddSegmentBoundary.Enabled = segmentContainingCursor.TimeRange.End != cursorTime &&
+						!segmentContainingCursor.GetHasAnyOralAnnotation();
+				}
 			}
 			_buttonDeleteSegment.Enabled = _waveControl.GetSelectedBoundary() > TimeSpan.Zero &&
 				!ViewModel.IsBoundaryPermanent(_waveControl.GetSelectedBoundary());
@@ -333,5 +386,10 @@ namespace SayMore.Transcription.UI
 		}
 
 		#endregion
+
+		private void toolStripButtons_MouseEnter(object sender, EventArgs e)
+		{
+			_currentSegmentMenuStrip.Visible = false;
+		}
 	}
 }

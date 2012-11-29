@@ -99,7 +99,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 
 			<ProgId Id="SayMore.sprjfile" Description="SayMore project file">
 			  <Extension Id="sprj" ContentType="application/sprj">
-				<Verb Id="open" Command="Open" TargetFile="SayMore.exe" Argument="%1" />
+				<Verb Id="open" Command="Open" TargetFile="SayMore.exe" Argument="&quot;%1&quot;" />
 			  </Extension>
 			</ProgId>
 		  </Component>

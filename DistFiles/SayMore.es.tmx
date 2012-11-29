@@ -806,6 +806,14 @@
         <seg>Colaborador</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.CopyingFilesMsg">
+      <tuv xml:lang="en">
+        <seg>Copying files</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Copiando archivos</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg">
       <tuv xml:lang="en">
         <seg>There was an error attempting to create an archive for the session '{0}'.</seg>
@@ -828,6 +836,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Hubo un problema al intentar iniciar el proceso para crear el archivo zip.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.FileExcludedFromRAMP">
+      <tuv xml:lang="en">
+        <seg>File excluded from RAMP package.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivo excluido de paquete RAMP.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg">
@@ -863,6 +879,14 @@
         <seg>Los siguientes archivos de sesión se agregará a la colección permanente de archivos.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.PreparingFilesMsg">
+      <tuv xml:lang="en">
+        <seg>Analyzing component files</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Analizando archivos de componente</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.RampNotFoundMsg">
       <tuv xml:lang="en">
         <seg>The RAMP program cannot be found!</seg>
@@ -877,6 +901,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Listo para transferir el paquete a RAMP</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.SavingFilesInRAMPMsg">
+      <tuv xml:lang="en">
+        <seg>Saving files in RAMP package</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Guardando archivos en el paquete RAMP</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.SearchingForRampMsg">
@@ -1168,6 +1200,14 @@
         <seg>Error de conversión.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionFinishedWithPossibleErrorsMsg">
+      <tuv xml:lang="en">
+        <seg>Conversion Finished, but with possible errors.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>La conversión terminó, pero con posibles errores.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionProgressStatusMsgFormat">
       <tuv xml:lang="en">
         <seg>{0} of {1} Converted...</seg>
@@ -1255,6 +1295,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Ocultar detalles</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.InvalidMediaFile">
+      <tuv xml:lang="en">
+        <seg>File does not appear to be a valid media file.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivo no parece ser un archivo multimedia válido.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.OutputFileLabel">
@@ -2793,6 +2841,22 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Todavía no hay ajustes preestablecidos</seg>
+      </tuv>
+    </tu>
+    <tu tuid="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem">
+      <tuv xml:lang="en">
+        <seg>Ignore</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ignorar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Skip this segment</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Omitir este segmento</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.FileList.AddPersonButtonToolTip">

@@ -2116,6 +2116,22 @@ l'enregistrement de la source.</seg>
         <seg>Ce segment n'a pas une annotation enregistré.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayAnnotationToolTipMsg">
+      <tuv xml:lang="en">
+        <seg>Listen to this annotation.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Écouter cette annotation.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayOriginalToolTipMsg">
+      <tuv xml:lang="en">
+        <seg>Listen to this segment.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Écouter ce segment.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordButton">
       <tuv xml:lang="en">
         <seg>Speak</seg>

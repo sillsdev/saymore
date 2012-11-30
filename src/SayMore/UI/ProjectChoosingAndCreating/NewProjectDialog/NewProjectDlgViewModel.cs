@@ -11,6 +11,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 	{
 		private readonly ToolTip _tooltip;
 		private PathValidator _pathValidator;
+		private string _validPathMessage;
 
 		/// ------------------------------------------------------------------------------------
 		public NewProjectDlgViewModel()
@@ -28,15 +29,16 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 				"Unable to create a new project by that name.",
 				"This text is displayed under the project name when it is invalid.");
 
+			if (_validPathMessage == null)
+				_validPathMessage = newProjectPathLabel.Text;
+
 			if (_pathValidator == null)
 				_pathValidator = new PathValidator(newProjectPathLabel, _tooltip) { InvalidMessage = invalidPathMsg };
-
-			var validPathMsg = LocalizationManager.GetStringForObject(newProjectPathLabel, newProjectPathLabel.Text);
 
 			NewProjectName = newName;
 
 			return _pathValidator.IsPathValid(DefaultProjectsFolder,
-				newName, validPathMsg, invalidPathMsg);
+				newName, _validPathMessage, invalidPathMsg);
 		}
 
 		/// ------------------------------------------------------------------------------------

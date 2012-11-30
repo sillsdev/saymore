@@ -18,7 +18,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		{
 			InitializeComponent();
 			_buttonOK.Enabled = false;
-			_labelNewProjectPath.Text = string.Empty;
 			_labelNewProjectPath.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8f, GraphicsUnit.Point);
 		}
 

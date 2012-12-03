@@ -81,6 +81,8 @@ namespace SayMore.Transcription.UI
 
 			base.SetComponentFile(file);
 
+			_buttonPlay.Enabled = false;
+
 			file.PreDeleteAction = () =>
 				_oralAnnotationWaveViewer.CloseAudioStream();
 			AssociatedComponentFile.PreGenerateOralAnnotationFileAction = () =>
@@ -89,11 +91,14 @@ namespace SayMore.Transcription.UI
 				{
 					var finfo = new FileInfo(file.PathToAnnotatedFile);
 					if (finfo.Exists && finfo.Length > 0)
+					{
 						_oralAnnotationWaveViewer.LoadAnnotationAudioFile(file.PathToAnnotatedFile);
+						_buttonPlay.Enabled = true;
+					}
 				};
 			file.GenerateOralAnnotationFile(this, ComponentFile.GenerateOption.GenerateIfNeeded);
 
-			_buttonHelp.Enabled = _buttonPlay.Enabled = true;
+			_buttonHelp.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------

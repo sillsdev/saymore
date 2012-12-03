@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -42,29 +43,25 @@ namespace SayMore.UI.ProjectWindow
 		{
 			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text);
 
-			var entireSayMoreLink = _linkSayMoreWebSite.Text;
-			var entireSilLink = _linkSiLWebSite.Text;
+			_linkSiLWebSite.Text = String.Format(_linkSiLWebSite.Text, Application.CompanyName);
+			_linkSayMoreWebSite.Text = String.Format(_linkSayMoreWebSite.Text, Application.ProductName);
 
-			var silWebSiteUnderlinedPortion = LocalizationManager.GetString("DialogBoxes.AboutDlg._linkSilWebSite_LinkPortion",
-				"SIL International", "This is the portion of the text that is underlined, indicating the link to the SIL web site.");
-
-			var appWebSiteUnderlinedPortion = LocalizationManager.GetString("DialogBoxes.AboutDlg._linkSayMoreWebSite_LinkPortion",
-				"SayMore web site", "This is the portion of the text that is underlined, indicating the link to the application's web site.");
-
-			_linkSayMoreWebSite.Links.Clear();
 			_linkSiLWebSite.Links.Clear();
+			_linkSayMoreWebSite.Links.Clear();
 
-			int i = entireSayMoreLink.IndexOf(appWebSiteUnderlinedPortion);
+			// Add the underline and link for SIL's website.
+			int i = _linkSiLWebSite.Text.IndexOf(Application.CompanyName);
 			if (i >= 0)
-				_linkSayMoreWebSite.Links.Add(i, appWebSiteUnderlinedPortion.Length, Settings.Default.ProgramsWebSite);
+				_linkSiLWebSite.Links.Add(i, Application.CompanyName.Length, Settings.Default.SilWebSite);
 
-			i = entireSilLink.IndexOf(silWebSiteUnderlinedPortion);
+			// Add the underline and link for application's website.
+			i = _linkSayMoreWebSite.Text.IndexOf(Application.ProductName);
 			if (i >= 0)
-				_linkSiLWebSite.Links.Add(i, silWebSiteUnderlinedPortion.Length, Settings.Default.SilWebSite);
+				_linkSayMoreWebSite.Links.Add(i, Application.ProductName.Length, Settings.Default.ProgramsWebSite);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnLoad(System.EventArgs e)
+		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
 			UsageReporter.SendNavigationNotice("AboutBox");

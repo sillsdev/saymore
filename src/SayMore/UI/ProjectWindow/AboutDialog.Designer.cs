@@ -50,13 +50,13 @@ namespace SayMore.UI.ProjectWindow
 			this._linkSayMoreWebSite.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this._linkSayMoreWebSite.LinkArea = new System.Windows.Forms.LinkArea(28, 17);
 			this.locExtender.SetLocalizableToolTip(this._linkSayMoreWebSite, null);
-			this.locExtender.SetLocalizationComment(this._linkSayMoreWebSite, null);
-			this.locExtender.SetLocalizingId(this._linkSayMoreWebSite, "DialogBoxes.AboutDlg._linkSayMoreWebSite");
+			this.locExtender.SetLocalizationComment(this._linkSayMoreWebSite, "Parameter is the program name, \"SayMore\"");
+			this.locExtender.SetLocalizingId(this._linkSayMoreWebSite, "DialogBoxes.AboutDlg._linkSayMoreWebsite");
 			this._linkSayMoreWebSite.Location = new System.Drawing.Point(139, 146);
 			this._linkSayMoreWebSite.Name = "_linkSayMoreWebSite";
 			this._linkSayMoreWebSite.Size = new System.Drawing.Size(162, 21);
 			this._linkSayMoreWebSite.TabIndex = 2;
-			this._linkSayMoreWebSite.Text = "Visit the SayMore web site.";
+			this._linkSayMoreWebSite.Text = "Visit {0} on the Web.";
 			this._linkSayMoreWebSite.UseCompatibleTextRendering = true;
 			this._linkSayMoreWebSite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleWebSiteLinkClicked);
 			// 
@@ -120,13 +120,13 @@ namespace SayMore.UI.ProjectWindow
 			this._linkSiLWebSite.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this._linkSiLWebSite.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
 			this.locExtender.SetLocalizableToolTip(this._linkSiLWebSite, null);
-			this.locExtender.SetLocalizationComment(this._linkSiLWebSite, null);
-			this.locExtender.SetLocalizingId(this._linkSiLWebSite, "DialogBoxes.AboutDlg._linkSiLWebSite");
+			this.locExtender.SetLocalizationComment(this._linkSiLWebSite, "Parameter is the publisher of SayMore, \"SIL International\"");
+			this.locExtender.SetLocalizingId(this._linkSiLWebSite, "DialogBoxes.AboutDlg._linkSILWebsite");
 			this._linkSiLWebSite.Location = new System.Drawing.Point(12, 192);
 			this._linkSiLWebSite.Name = "_linkSiLWebSite";
 			this._linkSiLWebSite.Size = new System.Drawing.Size(227, 13);
 			this._linkSiLWebSite.TabIndex = 4;
-			this._linkSiLWebSite.Text = "SayMore is brought to you by SIL International.";
+			this._linkSiLWebSite.Text = "Publisher: {0}";
 			this._linkSiLWebSite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleWebSiteLinkClicked);
 			// 
 			// AboutDialog

@@ -85,7 +85,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Setups the link label with proper localizations. This method gets called from the
+		/// Sets up the link label with proper localizations. This method gets called from the
 		/// constructor and after strings are localized in the string localizing dialog box.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -93,25 +93,21 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		{
 			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text);
 
-			var entireLink = _linkWebSites.Text;
+			_linkSILWebsite.Text = String.Format(_linkSILWebsite.Text, Application.CompanyName);
+			_linkSayMoreWebsite.Text = String.Format(_linkSayMoreWebsite.Text, Application.ProductName);
 
-			var silPortion = LocalizationManager.GetString("DialogBoxes.WelcomeDlg._linkWebSites_SILPortion",
-				"SIL International", "This is the portion of the text that is underlined, indicating the link to the SIL web site.");
-
-			var appPortion = LocalizationManager.GetString("DialogBoxes.WelcomeDlg._linkWebSites_ApplicationPortion", "SayMore web site",
-				"This is the portion of the text that is underlined, indicating the link to the application's web site.");
-
-			_linkWebSites.Links.Clear();
+			_linkSILWebsite.Links.Clear();
+			_linkSayMoreWebsite.Links.Clear();
 
 			// Add the underline and link for SIL's website.
-			int i = entireLink.IndexOf(silPortion);
+			int i = _linkSILWebsite.Text.IndexOf(Application.CompanyName);
 			if (i >= 0)
-				_linkWebSites.Links.Add(i, silPortion.Length, Settings.Default.SilWebSite);
+				_linkSILWebsite.Links.Add(i, Application.CompanyName.Length, Settings.Default.SilWebSite);
 
 			// Add the underline and link for application's website.
-			i = entireLink.IndexOf(appPortion);
+			i = _linkSayMoreWebsite.Text.IndexOf(Application.ProductName);
 			if (i >= 0)
-				_linkWebSites.Links.Add(i, appPortion.Length, Settings.Default.ProgramsWebSite);
+				_linkSayMoreWebsite.Links.Add(i, Application.ProductName.Length, Settings.Default.ProgramsWebSite);
 		}
 
 		/// ------------------------------------------------------------------------------------

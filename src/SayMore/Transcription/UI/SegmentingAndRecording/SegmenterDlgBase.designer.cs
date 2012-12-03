@@ -127,7 +127,7 @@ namespace SayMore.Transcription.UI
 			this._ignoreToolStripMenuItem.Enabled = false;
 			this._ignoreToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
 			this._ignoreToolStripMenuItem.Image = global::SayMore.Properties.Resources.UncheckedBox;
-			this.locExtender.SetLocalizableToolTip(this._ignoreToolStripMenuItem, "Select Ignore to skip annotating this segment.");
+			this.locExtender.SetLocalizableToolTip(this._ignoreToolStripMenuItem, "Mark this segment as Ignored to skip annotating it.");
 			this.locExtender.SetLocalizationComment(this._ignoreToolStripMenuItem, null);
 			this.locExtender.SetLocalizationPriority(this._ignoreToolStripMenuItem, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this._ignoreToolStripMenuItem, "OralAnnotationRecorderBaseDlg._skipToolStripMenuItem");
@@ -135,7 +135,7 @@ namespace SayMore.Transcription.UI
 			this._ignoreToolStripMenuItem.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
 			this._ignoreToolStripMenuItem.ShowShortcutKeys = false;
 			this._ignoreToolStripMenuItem.Size = new System.Drawing.Size(65, 21);
-			this._ignoreToolStripMenuItem.Text = "Ignore";
+			this._ignoreToolStripMenuItem.Text = "Ignored";
 			this._ignoreToolStripMenuItem.CheckedChanged += new System.EventHandler(this.HandleIgnoreToolStripMenuItemCheckedChanged);
 			this._ignoreToolStripMenuItem.Click += new System.EventHandler(this.HandleIgnoreButtonClick);
 			//

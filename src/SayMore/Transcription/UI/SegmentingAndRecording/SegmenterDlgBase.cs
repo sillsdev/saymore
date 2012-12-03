@@ -470,8 +470,8 @@ namespace SayMore.Transcription.UI
 				{
 					enableIgnoreMenu = true;
 
-					var currentSegmentMenuStripLocation = new Point(rc.Right -
-						_currentSegmentMenuStrip.Width - Math.Min(5, (rc.Width - _currentSegmentMenuStrip.Width) / 2),
+					var currentSegmentMenuStripLocation = new Point(Math.Max(0, rc.Right -
+						_currentSegmentMenuStrip.Width - Math.Min(5, (rc.Width - _currentSegmentMenuStrip.Width) / 2)),
 						rc.Top + 5);
 
 					var hotSegment = HotSegment;
@@ -623,7 +623,7 @@ namespace SayMore.Transcription.UI
 						rcUndoSegment.Right - _lastSegmentMenuStrip.Width - 5 :
 						rcUndoSegment.Right -
 						_lastSegmentMenuStrip.Width - Math.Min(5, (rcUndoSegment.Width - _lastSegmentMenuStrip.Width) / 2);
-					_lastSegmentMenuStrip.Location = new Point(x, 5);
+					_lastSegmentMenuStrip.Location = new Point(Math.Max(0, x), 5);
 					_undoToolStripMenuItem.ToolTipText = String.Format(LocalizationManager.GetString(
 						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UndoToolTipMsg",
 						"Undo: {0} (Ctrl-Z or Z)"), _viewModel.DescriptionForUndo);

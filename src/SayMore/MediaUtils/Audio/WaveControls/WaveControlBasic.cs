@@ -87,7 +87,16 @@ namespace SayMore.Media.Audio
 		public void Initialize(string audioFileName)
 		{
 			_wasStreamCreatedHere = true;
-			Initialize(new WaveFileReader(audioFileName));
+			try
+			{
+				Initialize(new WaveFileReader(audioFileName));
+			}
+			catch
+			{
+				_wasStreamCreatedHere = true;
+				AllowDrawing = false;
+				throw;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

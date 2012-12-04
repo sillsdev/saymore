@@ -13,6 +13,7 @@ using Palaso.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.UI;
+using SayMore.Utilities;
 
 namespace SayMore.Transcription.Model
 {
@@ -60,12 +61,12 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static void Generate(TierCollection tierCollection, Control parentControlForDialog,
+		public static bool Generate(TierCollection tierCollection, Control parentControlForDialog,
 			bool justClearFileContents)
 		{
 			var timeTier = tierCollection.GetTimeTier();
 			if (!CanGenerate(timeTier))
-				return;
+				return false;
 
 			try
 			{
@@ -73,26 +74,30 @@ namespace SayMore.Transcription.Model
 
 				if (justClearFileContents)
 				{
-					File.Create(timeTier.MediaFileName + Settings.Default.OralAnnotationGeneratedFileSuffix);
+					var oralAnnotationFile = timeTier.MediaFileName +
+						Settings.Default.OralAnnotationGeneratedFileSuffix;
+					File.Create(oralAnnotationFile);
+					FileSystemUtils.WaitForFileRelease(oralAnnotationFile);
+					return true;
 				}
-				else
+
+				using (var generator = new OralAnnotationFileGenerator(timeTier,
+					tierCollection.GetIsSegmentIgnored, parentControlForDialog))
+				using (var dlg = new LoadingDlg(GetGeneratingMsg()))
 				{
-					using (var generator = new OralAnnotationFileGenerator(timeTier,
-						tierCollection.GetIsSegmentIgnored, parentControlForDialog))
-					using (var dlg = new LoadingDlg(GetGeneratingMsg()))
-					{
-						dlg.GenericErrorMessage = GetGenericErrorMsg();
-						var worker = new BackgroundWorker();
-						worker.DoWork += generator.CreateInterleavedAudioFile;
-						worker.WorkerSupportsCancellation = true;
-						dlg.BackgroundWorker = worker;
-						dlg.Show(parentControlForDialog);
-					}
+					dlg.GenericErrorMessage = GetGenericErrorMsg();
+					var worker = new BackgroundWorker();
+					worker.DoWork += generator.CreateInterleavedAudioFile;
+					worker.WorkerSupportsCancellation = true;
+					dlg.BackgroundWorker = worker;
+					dlg.Show(parentControlForDialog);
+					return (dlg.DialogResult == DialogResult.OK);
 				}
 			}
 			catch (Exception error)
 			{
 				ErrorReport.NotifyUserOfProblem(error, GetGenericErrorMsg());
+				return false;
 			}
 			finally
 			{

@@ -41,7 +41,7 @@ namespace SayMore.Model.Files
 			}
 			else
 			{
-				associatedComponentFile.PostGenerateOralAnnotationFileAction += delegate
+				associatedComponentFile.PostGenerateOralAnnotationFileAction += (generated) =>
 				{
 					OralAnnotationFile = new OralAnnotationComponentFile(parentElement,
 						oralAnnotationFilePath, associatedComponentFile, fileTypes, _componentRoles);

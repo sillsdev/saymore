@@ -89,7 +89,7 @@ namespace SayMore.Model.Files
 		public Action PostRenameAction;
 		public Action PreDeleteAction;
 		public Action PreGenerateOralAnnotationFileAction;
-		public Action PostGenerateOralAnnotationFileAction;
+		public Action<bool> PostGenerateOralAnnotationFileAction;
 
 		protected string _metaDataPath;
 
@@ -719,15 +719,16 @@ namespace SayMore.Model.Files
 			if (PreGenerateOralAnnotationFileAction != null)
 				PreGenerateOralAnnotationFileAction();
 
+			bool generated = false;
 			// subclass OralAnnotationComponentFile will handle the case of JIT generation
 			if (option != GenerateOption.GenerateIfNeeded)
 			{
-				OralAnnotationFileGenerator.Generate(tiers, parentOfProgressPopup,
+				generated = OralAnnotationFileGenerator.Generate(tiers, parentOfProgressPopup,
 					option == GenerateOption.ClearAndRegenerateOnDemand);
 			}
 
 			if (PostGenerateOralAnnotationFileAction != null)
-				PostGenerateOralAnnotationFileAction();
+				PostGenerateOralAnnotationFileAction(generated);
 		}
 
 		/// ------------------------------------------------------------------------------------

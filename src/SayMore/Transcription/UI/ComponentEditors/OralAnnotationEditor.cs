@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
+using Palaso.Reporting;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 using SayMore.Media.MPlayer;
@@ -87,18 +88,38 @@ namespace SayMore.Transcription.UI
 				_oralAnnotationWaveViewer.CloseAudioStream();
 			AssociatedComponentFile.PreGenerateOralAnnotationFileAction = () =>
 				_oralAnnotationWaveViewer.CloseAudioStream();
-			AssociatedComponentFile.PostGenerateOralAnnotationFileAction = () =>
-				{
-					var finfo = new FileInfo(file.PathToAnnotatedFile);
-					if (finfo.Exists && finfo.Length > 0)
-					{
-						_oralAnnotationWaveViewer.LoadAnnotationAudioFile(file.PathToAnnotatedFile);
-						_buttonPlay.Enabled = true;
-					}
-				};
+			AssociatedComponentFile.PostGenerateOralAnnotationFileAction = HandleOralAnnotationFileGenerated;
 			file.GenerateOralAnnotationFile(this, ComponentFile.GenerateOption.GenerateIfNeeded);
 
 			_buttonHelp.Enabled = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleOralAnnotationFileGenerated(bool generated)
+		{
+			var finfo = new FileInfo(_file.PathToAnnotatedFile);
+			if (finfo.Exists && finfo.Length > 0)
+			{
+				try
+				{
+					_oralAnnotationWaveViewer.LoadAnnotationAudioFile(_file.PathToAnnotatedFile);
+					_buttonPlay.Enabled = true;
+				}
+				catch (Exception failure)
+				{
+					if (failure is UnauthorizedAccessException || failure is IOException)
+					{
+						if (generated) // Successfully generated, but now some new problem has surfaced.
+						{
+							ErrorReport.NotifyUserOfProblem(failure, LocalizationManager.GetString(
+								"SessionsView.Transcription.GeneratedOralAnnotationView.OralAnnotationFileProblem",
+								"Problem occurred attempting to display generated oral annotation file."));
+						}
+					}
+					else
+						throw;
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

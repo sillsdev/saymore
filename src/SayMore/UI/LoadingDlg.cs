@@ -59,6 +59,7 @@ namespace SayMore.UI
 						_labelLoading.Text = LocalizationManager.GetString("DialogBoxes.ProgressDlg.CancellingMsg", "Canceling...");
 						_linkCancel.Hide();
 					};
+					CancelButton = _linkCancel;
 				}
 				else
 					_tableLayoutPanel.SetColumnSpan(_labelLoading, 2);

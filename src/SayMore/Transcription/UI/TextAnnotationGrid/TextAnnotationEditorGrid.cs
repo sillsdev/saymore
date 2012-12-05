@@ -677,7 +677,18 @@ namespace SayMore.Transcription.UI
 				_annotationFile.Tiers.MarkSegmentAsIgnored(CurrentCellAddress.Y);
 			else
 				_annotationFile.Tiers.MarkSegmentAsUnignored(CurrentCellAddress.Y);
+			IsDirty = true;
+			IgnoredColumn.HandleProgramaticValueChange();
 			InvalidateRow(CurrentCellAddress.Y);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private TextAnnotationColumn IgnoredColumn
+		{
+			get
+			{
+				return Columns.OfType<TextAnnotationColumn>().Single(c => c.Tier.TierType == TierType.Transcription);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

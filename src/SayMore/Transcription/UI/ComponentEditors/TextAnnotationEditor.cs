@@ -235,6 +235,7 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnEditorAndChildrenLostFocus();
 			_grid.Stop();
+			_grid.EndEdit();
 			_grid.Invalidate();
 		}
 
@@ -304,6 +305,10 @@ namespace SayMore.Transcription.UI
 				return;
 
 			_grid.PreventPlayback = true;
+			_grid.EndEdit();
+			HandleBeforeAnnotationFileSaved(null, null);
+
+			((AnnotationComponentFile)_file).Tiers.Save(AssociatedComponentFile.PathToAnnotatedFile);
 
 			try
 			{
@@ -320,13 +325,18 @@ namespace SayMore.Transcription.UI
 			finally
 			{
 				_grid.PreventPlayback = false;
+				HandleAfterAnnotationFileSaved(null, null);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleResegmentButtonClick(object sender, EventArgs e)
 		{
+			_grid.EndEdit();
+
 			HandleBeforeAnnotationFileSaved(null, null);
+
+			((AnnotationComponentFile)_file).Tiers.Save(AssociatedComponentFile.PathToAnnotatedFile);
 
 			if (ManualSegmenterDlg.ShowDialog(AssociatedComponentFile, this, _grid.CurrentCellAddress.Y) != null)
 				SetComponentFile(_file);

@@ -26,6 +26,13 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void HandleProgramaticValueChange()
+		{
+			if (SegmentChangedAction != null)
+				SegmentChangedAction();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void HandleGridCellValuePushed(object sender, DataGridViewCellValueEventArgs e)
 		{
 			Segment segment;

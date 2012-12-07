@@ -9,6 +9,7 @@ using Localization;
 using Palaso.Code;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.FileSystem;
+using Palaso.UI.WindowsForms.Miscellaneous;
 using SayMore.Media.Audio;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
@@ -697,6 +698,7 @@ namespace SayMore.Model.Files
 					}
 
 					var eafFileName = viewModel.Tiers.Save(PathToAnnotatedFile);
+					WaitCursor.Show();
 					GenerateOralAnnotationFile(viewModel.Tiers, frm, GenerateOption.ClearAndRegenerateOnDemand);
 					return eafFileName;
 				}
@@ -704,6 +706,7 @@ namespace SayMore.Model.Files
 			finally
 			{
 				Program.ResumeBackgroundProcesses(true);
+				WaitCursor.Hide();
 			}
 		}
 

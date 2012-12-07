@@ -70,7 +70,7 @@ namespace SayMore.Media.FFmpeg
 				"This is the portion of the text that is underlined, indicating the link to the download.");
 
 			var underlinedPortionOfManualLink = LocalizationManager.GetString(
-				"DialogBoxes.FFmpegDownloadDlg._linkAutoDownload_LinkPortion",
+				"DialogBoxes.FFmpegDownloadDlg._linkManualDownload_LinkPortion",
 				"Click here to download",
 				"This is the portion of the text that is underlined, indicating the link to the download.");
 

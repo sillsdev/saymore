@@ -2845,15 +2845,15 @@
     </tu>
     <tu tuid="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem">
       <tuv xml:lang="en">
-        <seg>Ignore</seg>
+        <seg>Ignored</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Ignorar</seg>
+        <seg>Ignorado</seg>
       </tuv>
     </tu>
     <tu tuid="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem_ToolTip_">
       <tuv xml:lang="en">
-        <seg>Skip this segment</seg>
+        <seg>Mark this segment as Ignored to skip annotating it.</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Omitir este segmento</seg>

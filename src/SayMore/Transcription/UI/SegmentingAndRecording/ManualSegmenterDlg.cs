@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms.Miscellaneous;
 using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -47,8 +48,16 @@ namespace SayMore.Transcription.UI
 					error = annotationFile.TryLoadAndReturnException();
 					if (error == null)
 					{
-						annotationFile.AssociatedComponentFile.GenerateOralAnnotationFile(viewModel.Tiers,
-							parent, ComponentFile.GenerateOption.ClearAndRegenerateOnDemand);
+						WaitCursor.Show();
+						try
+						{
+							annotationFile.AssociatedComponentFile.GenerateOralAnnotationFile(viewModel.Tiers,
+								parent, ComponentFile.GenerateOption.ClearAndRegenerateOnDemand);
+						}
+						finally
+						{
+							WaitCursor.Hide();
+						}
 						return eafFile;
 					}
 

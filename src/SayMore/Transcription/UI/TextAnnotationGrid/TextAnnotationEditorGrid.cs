@@ -430,6 +430,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void SchedulePlaybackForCell()
 		{
+			if (PreventPlayback)
+				return;
+
 			// Now that we're on a new row, wait a 1/4 of a second before beginning to
 			// play this row's media segment. Do this just in case the user is moving
 			// from row to row rapidly. Before the 1/4 sec. delay, the program's

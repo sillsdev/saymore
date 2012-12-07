@@ -299,18 +299,36 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
+		private void ShowSegmentationDialog(Action showDialog)
+		{
+			_grid.PreventPlayback = true;
+			try
+			{
+				_grid.EndEdit();
+				HandleBeforeAnnotationFileSaved(null, null);
+				try
+				{
+					((AnnotationComponentFile)_file).Tiers.Save(AssociatedComponentFile.PathToAnnotatedFile);
+					showDialog();
+				}
+				finally
+				{
+					HandleAfterAnnotationFileSaved(null, null);
+				}
+			}
+			finally
+			{
+				_grid.PreventPlayback = false;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleRecordedAnnotationButtonClick(object sender, EventArgs e)
 		{
 			if (!AudioUtils.GetCanRecordAudio())
 				return;
 
-			_grid.PreventPlayback = true;
-			_grid.EndEdit();
-			HandleBeforeAnnotationFileSaved(null, null);
-
-			((AnnotationComponentFile)_file).Tiers.Save(AssociatedComponentFile.PathToAnnotatedFile);
-
-			try
+			ShowSegmentationDialog(delegate
 			{
 				var annotationType = (sender == _buttonCarefulSpeech
 										? AudioRecordingType.Careful
@@ -321,27 +339,34 @@ namespace SayMore.Transcription.UI
 				{
 					ComponentFileListRefreshAction(_file.PathToAnnotatedFile, null);
 				}
-			}
-			finally
-			{
-				_grid.PreventPlayback = false;
-				HandleAfterAnnotationFileSaved(null, null);
-			}
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleResegmentButtonClick(object sender, EventArgs e)
 		{
-			_grid.EndEdit();
-
-			HandleBeforeAnnotationFileSaved(null, null);
-
-			((AnnotationComponentFile)_file).Tiers.Save(AssociatedComponentFile.PathToAnnotatedFile);
-
-			if (ManualSegmenterDlg.ShowDialog(AssociatedComponentFile, this, _grid.CurrentCellAddress.Y) != null)
-				SetComponentFile(_file);
-
-			HandleAfterAnnotationFileSaved(null, null);
+			var originallySelectedCell = _grid.CurrentCellAddress;
+			bool startPlayBackWhenFinished = false;
+			ShowSegmentationDialog(delegate
+				{
+					if (ManualSegmenterDlg.ShowDialog(AssociatedComponentFile, this, _grid.CurrentCellAddress.Y) != null)
+					{
+						if (originallySelectedCell != _grid.CurrentCellAddress)
+						{
+							// User has already selected a different cell, so go ahead and
+							// start playback after refreshing the grid.
+							originallySelectedCell = _grid.CurrentCellAddress;
+							startPlayBackWhenFinished = true;
+						}
+						SetComponentFile(_file);
+						if (_grid.RowCount > originallySelectedCell.Y && _grid.ColumnCount > originallySelectedCell.X)
+							_grid.CurrentCell = _grid.Rows[originallySelectedCell.Y].Cells[originallySelectedCell.X];
+						else
+							startPlayBackWhenFinished = false; // Oops, that cell is gone!
+					}
+				});
+			if (startPlayBackWhenFinished)
+				_grid.Play();
 		}
 
 		/// ------------------------------------------------------------------------------------

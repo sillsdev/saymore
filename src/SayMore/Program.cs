@@ -211,7 +211,6 @@ namespace SayMore
 					_oneInstancePerProjectMutex = new Mutex(true, _mutexId, out thisThreadGrantedOwnership);
 					if (thisThreadGrantedOwnership)
 						return true;
-					Debug.WriteLine("Got here");
 				}
 				else
 					throw;

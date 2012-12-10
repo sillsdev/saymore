@@ -31,7 +31,6 @@ namespace SayMore
 		private static ProjectContext _projectContext;
 		private static Mutex _oneInstancePerProjectMutex;
 		private static string _mutexId;
-		private static bool _explicitUserChoice;
 
 		private static string _pathOfLoadedProjectFile;
 		private static ApplicationContainer _applicationContainer;
@@ -182,13 +181,14 @@ namespace SayMore
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// First, we try to get the mutex quickly and quitely. If that fails and this request
+		/// First, we try to get the mutex quickly and quietly. If that fails and this request
 		/// was an explicit user choice (as opposed to merely opening the last project), we put
 		/// up a dialog and wait 10 seconds, while we wait for the mutex to come free.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static bool ObtainTokenForThisProject(string pathToSayMoreProjectFile)
 		{
+			ReleaseMutexForThisProject(); // Just to be sure.
 			Guard.AgainstNull(pathToSayMoreProjectFile, "pathToSayMoreProjectFile");
 			var mutexIdBldr = new StringBuilder(pathToSayMoreProjectFile);
 			for (int i = 0; i < mutexIdBldr.Length; i++)
@@ -211,8 +211,10 @@ namespace SayMore
 					_oneInstancePerProjectMutex = new Mutex(true, _mutexId, out thisThreadGrantedOwnership);
 					if (thisThreadGrantedOwnership)
 						return true;
+					Debug.WriteLine("Got here");
 				}
-				throw;
+				else
+					throw;
 			}
 
 			if (Application.MessageLoop)

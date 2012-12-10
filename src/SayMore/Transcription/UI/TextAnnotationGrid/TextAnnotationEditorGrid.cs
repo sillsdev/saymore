@@ -408,6 +408,11 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnCellEnter(e);
 
+			// Looks weird, but this solves an annoying problem where the wait cursor gets stuck
+			// on randomly after displaying one of the segmentation dialogs.
+			// See http://stackoverflow.com/questions/3008958/datagridview-retains-waitcursor-when-updated-from-thread/13808474#13808474
+			Cursor = Cursors.Default;
+
 			EditMode = (GetIgnoreStateForRow(CurrentCellAddress.Y)) ? DataGridViewEditMode.EditProgrammatically : DataGridViewEditMode.EditOnEnter;
 			if (e.ColumnIndex != 0 || CurrentCellAddress.Y < 0 || (!Focused && (EditingControl == null || !EditingControl.Focused)))
 			{
@@ -677,9 +682,17 @@ namespace SayMore.Transcription.UI
 		public void SetIgnoreStateForCurrentRow(bool ignored)
 		{
 			if (ignored)
+			{
 				_annotationFile.Tiers.MarkSegmentAsIgnored(CurrentCellAddress.Y);
+				Stop();
+				EditMode = DataGridViewEditMode.EditProgrammatically;
+				EndEdit();
+			}
 			else
+			{
 				_annotationFile.Tiers.MarkSegmentAsUnignored(CurrentCellAddress.Y);
+				BeginEdit(true);
+			}
 			IsDirty = true;
 			IgnoredColumn.HandleProgramaticValueChange();
 			InvalidateRow(CurrentCellAddress.Y);

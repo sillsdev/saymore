@@ -153,7 +153,10 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<FieldDefinition> FactoryFields
 		{
-			get { return new List<FieldDefinition>(0); }
+			get
+			{
+				yield return new FieldDefinition("notes");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -239,7 +242,10 @@ namespace SayMore.Model.Files
 		{
 			get
 			{
-				return from key in new []
+				foreach (var fieldDefinition in base.FactoryFields)
+					yield return fieldDefinition;
+
+				foreach (var fieldId in new[]
 				{
 					"id",
 					"primaryLanguage",
@@ -264,9 +270,8 @@ namespace SayMore.Model.Files
 					"education",
 					"primaryOccupation",
 					"picture",
-					"notes"
-				}
-				select new FieldDefinition(key);
+				})
+					yield return new FieldDefinition(fieldId);
 			}
 		}
 
@@ -369,7 +374,10 @@ namespace SayMore.Model.Files
 		{
 			get
 			{
-				return from key in new[]
+				foreach (var fieldDefinition in base.FactoryFields)
+					yield return fieldDefinition;
+
+				foreach (var fieldId in new[]
 				{
 					"status",
 					"stages",
@@ -383,9 +391,8 @@ namespace SayMore.Model.Files
 					"participants",
 					"title",
 					"contributions",
-					"notes"
-				}
-				select new FieldDefinition(key);
+				})
+					yield return new FieldDefinition(fieldId);
 			}
 		}
 
@@ -593,6 +600,20 @@ namespace SayMore.Model.Files
 		{
 			yield return new StartAnnotatingEditor(file, _project);
 			yield return new ConvertToStandardAudioEditor(file);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<FieldDefinition> FactoryFields
+		{
+			get
+			{
+				foreach (var fieldDef in base.FactoryFields)
+					yield return fieldDef;
+
+				yield return new FieldDefinition("Device");
+				yield return new FieldDefinition("Microphone");
+				yield return new FieldDefinition("contributions");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -834,7 +855,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FieldDefinition> FactoryFields
 		{
-			get { return AudioFields; }
+			get { return base.FactoryFields.Union(GetBaseAudioFields()); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -845,24 +866,6 @@ namespace SayMore.Model.Files
 			yield return new FieldDefinition("Bit_Depth") { ReadOnly = true };
 			yield return new FieldDefinition("Sample_Rate") { ReadOnly = true };
 			yield return new FieldDefinition("Audio_Bit_Rate") { ReadOnly = true };
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This is separated out so that video can reuse it.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal static IEnumerable<FieldDefinition> AudioFields
-		{
-			get
-			{
-				yield return new FieldDefinition("Device");
-				yield return new FieldDefinition("Microphone");
-				yield return new FieldDefinition("contributions");
-
-				foreach (var fld in GetBaseAudioFields())
-					yield return fld;
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -929,7 +932,7 @@ namespace SayMore.Model.Files
 		{
 			get
 			{
-				foreach (var field in AudioFileType.AudioFields)
+				foreach (var field in base.FactoryFields)
 					yield return field;
 
 				// Add video only fields

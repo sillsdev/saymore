@@ -93,10 +93,17 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleStringsLocalized()
 		{
-			if (_grid == null)
+			if (_grid == null || _grid.IsDisposed)
 				return;
-			_grid.AutoResizeColumnHeadersHeight();
-			_grid.ColumnHeadersHeight += 8;
+			try
+			{
+				_grid.AutoResizeColumnHeadersHeight();
+				_grid.ColumnHeadersHeight += 8;
+			}
+			catch (ObjectDisposedException)
+			{
+				// See SP-655, SP-657
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

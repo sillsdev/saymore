@@ -455,7 +455,7 @@
         <seg>Open {0} in its associated program.</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Ouvrir {0} dans son programme associé.</seg>
+        <seg>Ouvrir {0} dans le programme associé.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileNameMsg">
@@ -719,7 +719,7 @@
         <seg>This free software is published by {0}.</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>SayMore est apporté à vous par {0}.</seg>
+        <seg>SayMore vous est apporté gratuitement par {0}.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebsite">
@@ -727,7 +727,7 @@
         <seg>Visit {0} on the Web.</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Visitez le site web de {0}.</seg>
+        <seg>Visitez le site web {0}.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg">
@@ -2533,7 +2533,7 @@ l'enregistrement de la source.</seg>
         <seg>This free software is published by {0}.</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>SayMore est apporté à vous par {0}.</seg>
+        <seg>SayMore vous est apporté gratuitement par {0}.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._linkSayMoreWebsite">
@@ -2541,7 +2541,7 @@ l'enregistrement de la source.</seg>
         <seg>Visit {0} on the Web.</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Visitez le site web de {0}.</seg>
+        <seg>Visitez le site web {0}.</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.DeleteMultipleItemsMsg">

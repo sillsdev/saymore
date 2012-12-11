@@ -54,7 +54,7 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizingId(this._linkSayMoreWebSite, "DialogBoxes.AboutDlg._linkSayMoreWebsite");
 			this._linkSayMoreWebSite.Location = new System.Drawing.Point(139, 146);
 			this._linkSayMoreWebSite.Name = "_linkSayMoreWebSite";
-			this._linkSayMoreWebSite.Size = new System.Drawing.Size(162, 21);
+			this._linkSayMoreWebSite.Size = new System.Drawing.Size(124, 21);
 			this._linkSayMoreWebSite.TabIndex = 2;
 			this._linkSayMoreWebSite.Text = "Visit {0} on the Web.";
 			this._linkSayMoreWebSite.UseCompatibleTextRendering = true;
@@ -71,7 +71,7 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizingId(this._labelVersionInfo, "DialogBoxes.AboutDlg._labelVersionInfo");
 			this._labelVersionInfo.Location = new System.Drawing.Point(136, 108);
 			this._labelVersionInfo.Name = "_labelVersionInfo";
-			this._labelVersionInfo.Size = new System.Drawing.Size(167, 15);
+			this._labelVersionInfo.Size = new System.Drawing.Size(201, 15);
 			this._labelVersionInfo.TabIndex = 1;
 			this._labelVersionInfo.Text = "Version {0}.{1}.{2} (Beta)    Built on {3}";
 			// 
@@ -124,9 +124,9 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizingId(this._linkSiLWebSite, "DialogBoxes.AboutDlg._linkSILWebsite");
 			this._linkSiLWebSite.Location = new System.Drawing.Point(12, 192);
 			this._linkSiLWebSite.Name = "_linkSiLWebSite";
-			this._linkSiLWebSite.Size = new System.Drawing.Size(227, 13);
+			this._linkSiLWebSite.Size = new System.Drawing.Size(183, 13);
 			this._linkSiLWebSite.TabIndex = 4;
-			this._linkSiLWebSite.Text = "Publisher: {0}";
+			this._linkSiLWebSite.Text = "This free software is published by {0}.";
 			this._linkSiLWebSite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleWebSiteLinkClicked);
 			// 
 			// AboutDialog

@@ -104,12 +104,15 @@ namespace SayMore.UI.ComponentEditors
 		private void DisplayInfoForFileNotShownInBrowser(string filePath)
 		{
 			var msg = LocalizationManager.GetString("CommonToMultipleViews.GenericFileTypeViewer.FileLinkMsg",
-				"<HTML><BODY>Click <a href=\"file:///{0}\"><b>here to open '{1}'</b></a> in its associated program.</BODY></HTML>");
+				"Open {0} in its associated program.");
 			msg = msg.Replace("\n", "<br />");
+
+			var html = string.Format("<HTML><BODY>{0}</BODY></HTML>", msg);
+			html = string.Format(html, "<a href=\"file:///{0}\"><b>{1}</b></a>");
 
 			_browser.Tag = filePath;
 			_browser.DocumentCompleted += HandleDocumentCompleted;
-			_browser.DocumentText = string.Format(msg, filePath, Path.GetFileName(filePath));
+			_browser.DocumentText = string.Format(html, filePath, Path.GetFileName(filePath));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -150,6 +153,12 @@ namespace SayMore.UI.ComponentEditors
 		protected override void HandleStringsLocalized()
 		{
 			TabText = LocalizationManager.GetString("CommonToMultipleViews.GenericFileTypeViewer.TabText", "View");
+			if (_browser != null)
+			{
+				var filePath = _browser.Tag as string;
+				if (filePath != null)
+					DisplayFile(filePath);
+			}
 			base.HandleStringsLocalized();
 		}
 	}

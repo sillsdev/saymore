@@ -411,7 +411,7 @@
     </tu>
     <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileLinkMsg">
       <tuv xml:lang="en">
-        <seg>&lt;HTML&gt;&lt;BODY&gt;Click &lt;a href="file:///{0}"&gt;&lt;b&gt;here to open '{1}'&lt;/b&gt;&lt;/a&gt; in its associated program.&lt;/BODY&gt;&lt;/HTML&gt;</seg>
+        <seg>Open {0} in its associated program.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>&lt;html&gt;&lt;body&gt;Нажмите &lt;a href="file:///{0}"&gt;&lt;b&gt;здесь, чтобы открыть «{1}»&lt;/b&gt;&lt;/a&gt; в связанной с ним программе.&lt;/body&gt;&lt;/html&gt;</seg>
@@ -633,38 +633,12 @@
         <seg>Версия {0}.{1}.{2}, Построенный на {3}</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebSite">
+    <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebsite">
       <tuv xml:lang="en">
-        <seg>Visit the SayMore web site.</seg>
+        <seg>Visit {0} on the Web.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Посетите веб-сайт SayMore.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebSite_LinkPortion">
-      <note>This is the portion of the text that is underlined, indicating the link to the application's web site.</note>
-      <tuv xml:lang="en">
-        <seg>SayMore web site</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>SayMore веб-сайт</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._linkSiLWebSite">
-      <tuv xml:lang="en">
-        <seg>SayMore is brought to you by SIL International.</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>SayMore предоставлен вам SIL International.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._linkSilWebSite_LinkPortion">
-      <note>This is the portion of the text that is underlined, indicating the link to the SIL web site.</note>
-      <tuv xml:lang="en">
-        <seg>SIL International</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>SIL International</seg>
+        <seg>Посетите веб-сайт {0}.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg">
@@ -1420,30 +1394,12 @@
         <seg>Версия {0}.{1}.{2}, Построенный на {3}</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.WelcomeDlg._linkWebSites">
+    <tu tuid="DialogBoxes.WelcomeDlg._linkSayMoreWebsite">
       <tuv xml:lang="en">
-        <seg>SayMore is brought to you by SIL International.  Visit the SayMore web site.</seg>
+        <seg>Visit {0} on the Web.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>SayMore предоставлен вам SIL International.  Посетите веб-сайт SayMore.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.WelcomeDlg._linkWebSites_ApplicationPortion">
-      <note>This is the portion of the text that is underlined, indicating the link to the application's web site.</note>
-      <tuv xml:lang="en">
-        <seg>SayMore web site</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>SayMore веб-сайт</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.WelcomeDlg._linkWebSites_SILPortion">
-      <note>This is the portion of the text that is underlined, indicating the link to the SIL web site.</note>
-      <tuv xml:lang="en">
-        <seg>SIL International</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>SIL International</seg>
+        <seg>Посетите веб-сайт {0}.</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.DeleteMultipleItemsMsg">

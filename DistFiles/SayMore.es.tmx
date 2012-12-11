@@ -478,10 +478,10 @@
     </tu>
     <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileLinkMsg">
       <tuv xml:lang="en">
-        <seg>&lt;HTML&gt;&lt;BODY&gt;Click &lt;a href="file:///{0}"&gt;&lt;b&gt;here to open '{1}'&lt;/b&gt;&lt;/a&gt; in its associated program.&lt;/BODY&gt;&lt;/HTML&gt;</seg>
+        <seg>Open {0} in its associated program.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&lt;html&gt;&lt;body&gt;Presione &lt;a href="file:///{0}"&gt;&lt;b&gt;aquí para abrir ' {1}'&lt;/b&gt;&lt;/a&gt; en su programa asociado.&lt;/body&gt;&lt;/html&gt;</seg>
+        <seg>Abrir {0} en su programa asociado.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileNameMsg">
@@ -740,38 +740,20 @@
         <seg>Versión {0}.{1}.{2} (Beta) Compilado: {3}</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebSite">
+    <tu tuid="DialogBoxes.AboutDlg._linkSILWebsite">
       <tuv xml:lang="en">
-        <seg>Visit the SayMore web site.</seg>
+        <seg>This free software is published by {0}.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Visite el sitio web de SayMore.</seg>
+        <seg>Publicado por {0}.</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebSite_LinkPortion">
-      <note>This is the portion of the text that is underlined, indicating the link to the application's web site.</note>
+    <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebsite">
       <tuv xml:lang="en">
-        <seg>SayMore web site</seg>
+        <seg>Visit {0} on the Web.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Sitio web de SayMore</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._linkSiLWebSite">
-      <tuv xml:lang="en">
-        <seg>SayMore is brought to you by SIL International.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>SayMore es proporcionado por ILV Internacional.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._linkSilWebSite_LinkPortion">
-      <note>This is the portion of the text that is underlined, indicating the link to the SIL web site.</note>
-      <tuv xml:lang="en">
-        <seg>SIL International</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>ILV Internacional</seg>
+        <seg>Visite {0} en la Web.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg">
@@ -1165,7 +1147,7 @@
         <seg>Begin Conversion</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Comenzar la conversión</seg>
+        <seg>Iniciar conversión</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.CancelButton">
@@ -1318,7 +1300,7 @@
         <seg>To convert your media file to a different format, choose from one of the available conversions below and click 'Begin Conversion'. Your source media file will not be affected.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Para convertir el archivo multimedia en un formato diferente, elija una de las conversiones disponibles a continuación y presione 'Iniciar conversión'. El archivo original no será afectado.</seg>
+        <seg>Para convertir el archivo multimedia en un formato diferente, elija una de las conversiones disponibles a continuación y haga clic en 'Iniciar conversión'. El archivo original no será afectado.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.ShowOutputButton">
@@ -1471,7 +1453,7 @@
         <seg>1) Click here and SayMore will automatically download and install FFmpeg in the proper location.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>1) Presione aquí y SayMore automáticamente descargará e instalará FFmpeg en la carpeta correcta.</seg>
+        <seg>1) Haga clic aquí y SayMore automáticamente descargará e instalará FFmpeg en la carpeta correcta.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkAutoDownload_LinkPortion">
@@ -1480,7 +1462,7 @@
         <seg>Click here and SayMore will automatically download</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Presione aquí y se descargará automáticamente SayMore</seg>
+        <seg>Haga clic aquí y SayMore automáticamente descargará</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkManualDownload">
@@ -1488,7 +1470,7 @@
         <seg>2) Click here to download FFmpeg manually and then click 'Install' to specify the location of the downloaded file for SayMore to install.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>2) Presione aquí para descargar FFmpeg manualmente y, a continuación, presione 'Instalar' para especificar la ubicación del archivo descargado para que SayMore lo instale.</seg>
+        <seg>2) Haga clic aquí para descargar FFmpeg manualmente y, a continuación, haga clic en 'Instalar' para especificar la ubicación del archivo descargado para que SayMore lo instale.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.LoadingDlg.CancelLink">
@@ -1829,7 +1811,7 @@
         <seg>If you can determine which program is using this file, close it and click Retry.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Si usted puede determinar cuál programa está utilizando este archivo, ciérrelo y presione Reintentar.</seg>
+        <seg>Si usted puede determinar cuál programa está utilizando este archivo, ciérrelo y haga clic en Reintentar.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.StopButtonText">
@@ -2535,30 +2517,20 @@
         <seg>Versión {0}.{1}.{2} Compilado {3}</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.WelcomeDlg._linkWebSites">
+    <tu tuid="DialogBoxes.WelcomeDlg._linkSILWebsite">
       <tuv xml:lang="en">
-        <seg>SayMore is brought to you by SIL International.  Visit the SayMore web site.</seg>
+        <seg>This free software is published by {0}.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>SayMore es proporcionado por ILV Internacional.  Visite el sitio web de SayMore.</seg>
+        <seg>Publicado por {0}.</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.WelcomeDlg._linkWebSites_ApplicationPortion">
-      <note>This is the portion of the text that is underlined, indicating the link to the application's web site.</note>
+    <tu tuid="DialogBoxes.WelcomeDlg._linkSayMoreWebsite">
       <tuv xml:lang="en">
-        <seg>SayMore web site</seg>
+        <seg>Visit {0} on the Web.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Sitio web de SayMore</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.WelcomeDlg._linkWebSites_SILPortion">
-      <note>This is the portion of the text that is underlined, indicating the link to the SIL web site.</note>
-      <tuv xml:lang="en">
-        <seg>SIL International</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>ILV Internacional</seg>
+        <seg>Visite {0} en la Web.</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.DeleteMultipleItemsMsg">
@@ -2632,7 +2604,7 @@
         <seg>{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0} tuvo un problema al cargar el proyecto {1}. Favor de comunicar este problema a los programadores presionando 'Detalles' a continuación.</seg>
+        <seg>{0} tuvo un problema al cargar el proyecto {1}. Favor de comunicar este problema a los programadores haciendo click en 'Detalles'.</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.ProblemOpeningSayMoreProject">
@@ -2856,7 +2828,7 @@
         <seg>Mark this segment as Ignored to skip annotating it.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Omitir este segmento</seg>
+        <seg>Seleccionar Ignorado para no anotar este segmento.</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.FileList.AddPersonButtonToolTip">
@@ -2928,7 +2900,7 @@
         <seg>Click to indicate this is the father's primary language</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Presione aquí para indicar que esto es el idioma principal del padre</seg>
+        <seg>Seleccionar para indicar que esto es el idioma principal del padre</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor.FatherSelectorToolTip.WhenSelected">
@@ -2968,7 +2940,7 @@
         <seg>Click to indicate this is the mother's primary language</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Presione aquí para indicar que esto es el idioma principal de la madre</seg>
+        <seg>Seleccionar para indicar que esto es el idioma principal de la madre</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor.MotherSelectorToolTip.WhenSelected">
@@ -3072,7 +3044,7 @@
         <seg>Click to Change Picture</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Presione para cambiar la imagen</seg>
+        <seg>Hacer clic para cambiar la imagen</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.Miscellaneous.AlreadyExistsSaveFailureMessage">
@@ -3104,7 +3076,7 @@
         <seg>Click 'New' to add a new person.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Presione 'Añadir' para agregar a una nueva persona.</seg>
+        <seg>Haga clic en Añadir para agregar a una nueva persona.</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.PeopleList.ColumnHeadings.Consent">
@@ -3530,7 +3502,7 @@
         <seg>Click 'New' to add a new session.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Presione 'Añadir' para agregar una nueva sesión.</seg>
+        <seg>Haga clic en Añadir para agregar una nueva sesión.</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsList.ColumnHeadings.Date">

@@ -34,12 +34,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		{
 			this.components = new System.ComponentModel.Container();
 			this.pnlOptions = new System.Windows.Forms.Panel();
-			this._linkSILWebsite = new System.Windows.Forms.LinkLabel();
-			this._labelVersionInfo = new System.Windows.Forms.Label();
-			this._labelSubTitle = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-			this._linkSayMoreWebsite = new System.Windows.Forms.LinkLabel();
 			this.tsOptions = new SayMore.UI.LowLevelControls.ElementBar();
 			this._labelOpen = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -48,10 +42,16 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._labelCreate = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this._buttonCreate = new System.Windows.Forms.ToolStripButton();
+			this._linkSILWebsite = new System.Windows.Forms.LinkLabel();
+			this._labelVersionInfo = new System.Windows.Forms.Label();
+			this._labelSubTitle = new System.Windows.Forms.Label();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this._linkSayMoreWebsite = new System.Windows.Forms.LinkLabel();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.pnlOptions.SuspendLayout();
+			this.tsOptions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.flowLayoutPanel1.SuspendLayout();
-			this.tsOptions.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pnlOptions
@@ -65,90 +65,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this.pnlOptions.Name = "pnlOptions";
 			this.pnlOptions.Size = new System.Drawing.Size(418, 231);
 			this.pnlOptions.TabIndex = 17;
-			// 
-			// _linkSILWebsite
-			// 
-			this._linkSILWebsite.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-			this._linkSILWebsite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this._linkSILWebsite.AutoSize = true;
-			this._linkSILWebsite.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-			this._linkSILWebsite.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this._linkSILWebsite.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
-			this.locExtender.SetLocalizableToolTip(this._linkSILWebsite, null);
-			this.locExtender.SetLocalizationComment(this._linkSILWebsite, "Parameter is the publisher of SayMore, \"SIL International\"");
-			this.locExtender.SetLocalizingId(this._linkSILWebsite, "DialogBoxes.WelcomeDlg._linkSILWebsite");
-			this._linkSILWebsite.Location = new System.Drawing.Point(0, 0);
-			this._linkSILWebsite.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
-			this._linkSILWebsite.Name = "_linkSILWebsite";
-			this._linkSILWebsite.Size = new System.Drawing.Size(177, 13);
-			this._linkSILWebsite.TabIndex = 2;
-			this._linkSILWebsite.Text = "Publisher: {0}.";
-			this._linkSILWebsite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleWebSiteLinkClicked);
-			// 
-			// _labelVersionInfo
-			// 
-			this._labelVersionInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this._labelVersionInfo.AutoSize = true;
-			this._labelVersionInfo.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-			this._labelVersionInfo.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this._labelVersionInfo, null);
-			this.locExtender.SetLocalizationComment(this._labelVersionInfo, null);
-			this.locExtender.SetLocalizingId(this._labelVersionInfo, "DialogBoxes.WelcomeDlg._labelVersionInfo");
-			this._labelVersionInfo.Location = new System.Drawing.Point(31, 341);
-			this._labelVersionInfo.Name = "_labelVersionInfo";
-			this._labelVersionInfo.Size = new System.Drawing.Size(191, 13);
-			this._labelVersionInfo.TabIndex = 1;
-			this._labelVersionInfo.Text = "Version {0}.{1}.{2} (Beta)    Built on {3}";
-			// 
-			// _labelSubTitle
-			// 
-			this._labelSubTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this._labelSubTitle.AutoEllipsis = true;
-			this._labelSubTitle.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-			this._labelSubTitle.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this._labelSubTitle, null);
-			this.locExtender.SetLocalizationComment(this._labelSubTitle, null);
-			this.locExtender.SetLocalizingId(this._labelSubTitle, "DialogBoxes.WelcomeDlg._labelSubTitle");
-			this._labelSubTitle.Location = new System.Drawing.Point(141, 68);
-			this._labelSubTitle.Name = "_labelSubTitle";
-			this._labelSubTitle.Size = new System.Drawing.Size(307, 21);
-			this._labelSubTitle.TabIndex = 0;
-			this._labelSubTitle.Text = "Language Documentation Project Management";
-			// 
-			// locExtender
-			// 
-			this.locExtender.LocalizationManagerId = "SayMore";
-			// 
-			// flowLayoutPanel1
-			// 
-			this.flowLayoutPanel1.AutoSize = true;
-			this.flowLayoutPanel1.Controls.Add(this._linkSILWebsite);
-			this.flowLayoutPanel1.Controls.Add(this._linkSayMoreWebsite);
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(30, 357);
-			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(418, 20);
-			this.flowLayoutPanel1.TabIndex = 18;
-			// 
-			// _linkSayMoreWebsite
-			// 
-			this._linkSayMoreWebsite.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-			this._linkSayMoreWebsite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this._linkSayMoreWebsite.AutoSize = true;
-			this._linkSayMoreWebsite.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-			this._linkSayMoreWebsite.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this._linkSayMoreWebsite.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
-			this.locExtender.SetLocalizableToolTip(this._linkSayMoreWebsite, null);
-			this.locExtender.SetLocalizationComment(this._linkSayMoreWebsite, "Parameter is the program name, \"SayMore\"");
-			this.locExtender.SetLocalizingId(this._linkSayMoreWebsite, "DialogBoxes.WelcomeDlg._linkSayMoreWebsite");
-			this._linkSayMoreWebsite.Location = new System.Drawing.Point(180, 0);
-			this._linkSayMoreWebsite.Margin = new System.Windows.Forms.Padding(0);
-			this._linkSayMoreWebsite.Name = "_linkSayMoreWebsite";
-			this._linkSayMoreWebsite.Size = new System.Drawing.Size(111, 13);
-			this._linkSayMoreWebsite.TabIndex = 3;
-			this._linkSayMoreWebsite.Text = "Visit {0} on the Web.";
-			this._linkSayMoreWebsite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleWebSiteLinkClicked);
 			// 
 			// tsOptions
 			// 
@@ -259,6 +175,90 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._buttonCreate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonCreate.Click += new System.EventHandler(this.HandleCreateProjectClick);
 			// 
+			// _linkSILWebsite
+			// 
+			this._linkSILWebsite.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+			this._linkSILWebsite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this._linkSILWebsite.AutoSize = true;
+			this._linkSILWebsite.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+			this._linkSILWebsite.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this._linkSILWebsite.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
+			this.locExtender.SetLocalizableToolTip(this._linkSILWebsite, null);
+			this.locExtender.SetLocalizationComment(this._linkSILWebsite, "Parameter is the publisher of SayMore, \"SIL International\"");
+			this.locExtender.SetLocalizingId(this._linkSILWebsite, "DialogBoxes.WelcomeDlg._linkSILWebsite");
+			this._linkSILWebsite.Location = new System.Drawing.Point(0, 0);
+			this._linkSILWebsite.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
+			this._linkSILWebsite.Name = "_linkSILWebsite";
+			this._linkSILWebsite.Size = new System.Drawing.Size(197, 13);
+			this._linkSILWebsite.TabIndex = 2;
+			this._linkSILWebsite.Text = "This free software is published by {0}.";
+			this._linkSILWebsite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleWebSiteLinkClicked);
+			// 
+			// _labelVersionInfo
+			// 
+			this._labelVersionInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this._labelVersionInfo.AutoSize = true;
+			this._labelVersionInfo.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+			this._labelVersionInfo.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this._labelVersionInfo, null);
+			this.locExtender.SetLocalizationComment(this._labelVersionInfo, null);
+			this.locExtender.SetLocalizingId(this._labelVersionInfo, "DialogBoxes.WelcomeDlg._labelVersionInfo");
+			this._labelVersionInfo.Location = new System.Drawing.Point(31, 341);
+			this._labelVersionInfo.Name = "_labelVersionInfo";
+			this._labelVersionInfo.Size = new System.Drawing.Size(191, 13);
+			this._labelVersionInfo.TabIndex = 1;
+			this._labelVersionInfo.Text = "Version {0}.{1}.{2} (Beta)    Built on {3}";
+			// 
+			// _labelSubTitle
+			// 
+			this._labelSubTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelSubTitle.AutoEllipsis = true;
+			this._labelSubTitle.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+			this._labelSubTitle.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this._labelSubTitle, null);
+			this.locExtender.SetLocalizationComment(this._labelSubTitle, null);
+			this.locExtender.SetLocalizingId(this._labelSubTitle, "DialogBoxes.WelcomeDlg._labelSubTitle");
+			this._labelSubTitle.Location = new System.Drawing.Point(141, 68);
+			this._labelSubTitle.Name = "_labelSubTitle";
+			this._labelSubTitle.Size = new System.Drawing.Size(307, 21);
+			this._labelSubTitle.TabIndex = 0;
+			this._labelSubTitle.Text = "Language Documentation Project Management";
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationManagerId = "SayMore";
+			// 
+			// _linkSayMoreWebsite
+			// 
+			this._linkSayMoreWebsite.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+			this._linkSayMoreWebsite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this._linkSayMoreWebsite.AutoSize = true;
+			this._linkSayMoreWebsite.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+			this._linkSayMoreWebsite.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this._linkSayMoreWebsite.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
+			this.locExtender.SetLocalizableToolTip(this._linkSayMoreWebsite, null);
+			this.locExtender.SetLocalizationComment(this._linkSayMoreWebsite, "Parameter is the program name, \"SayMore\"");
+			this.locExtender.SetLocalizingId(this._linkSayMoreWebsite, "DialogBoxes.WelcomeDlg._linkSayMoreWebsite");
+			this._linkSayMoreWebsite.Location = new System.Drawing.Point(200, 0);
+			this._linkSayMoreWebsite.Margin = new System.Windows.Forms.Padding(0);
+			this._linkSayMoreWebsite.Name = "_linkSayMoreWebsite";
+			this._linkSayMoreWebsite.Size = new System.Drawing.Size(111, 13);
+			this._linkSayMoreWebsite.TabIndex = 3;
+			this._linkSayMoreWebsite.Text = "Visit {0} on the Web.";
+			this._linkSayMoreWebsite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleWebSiteLinkClicked);
+			// 
+			// flowLayoutPanel1
+			// 
+			this.flowLayoutPanel1.AutoSize = true;
+			this.flowLayoutPanel1.Controls.Add(this._linkSILWebsite);
+			this.flowLayoutPanel1.Controls.Add(this._linkSayMoreWebsite);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(30, 357);
+			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(418, 20);
+			this.flowLayoutPanel1.TabIndex = 18;
+			// 
 			// WelcomeDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -269,6 +269,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this.Controls.Add(this._labelSubTitle);
 			this.Controls.Add(this._labelVersionInfo);
 			this.Controls.Add(this.pnlOptions);
+			this.Cursor = System.Windows.Forms.Cursors.Default;
 			this.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
@@ -281,11 +282,11 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "SayMore";
 			this.pnlOptions.ResumeLayout(false);
+			this.tsOptions.ResumeLayout(false);
+			this.tsOptions.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.PerformLayout();
-			this.tsOptions.ResumeLayout(false);
-			this.tsOptions.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

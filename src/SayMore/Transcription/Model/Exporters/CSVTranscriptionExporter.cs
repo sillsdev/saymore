@@ -32,6 +32,9 @@ namespace SayMore.Transcription.Model.Exporters
 		}
 		public static string Escape(string s)
 		{
+			if (s == null) //I can't see how this would happen, but it's my only clue for SP-688
+				return string.Empty;
+
 			if (s.Contains(QUOTE))
 				s = s.Replace(QUOTE, ESCAPED_QUOTE);
 

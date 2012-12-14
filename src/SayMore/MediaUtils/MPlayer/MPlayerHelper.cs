@@ -89,7 +89,7 @@ namespace SayMore.Media.MPlayer
 					yield return string.Format("-wid {0}", hwndVideo);
 				}
 #if !__MonoCS__
-				else if (bitsPerSample > 16)
+				if (bitsPerSample > 16)
 				{
 					// REVIEW: For some reason, 24-bit audio doesn't work correctly with the -ao win32 switch, unless the -format
 					// switch is also included. I can't come up with a logical explanation for this, especially since it doesn't

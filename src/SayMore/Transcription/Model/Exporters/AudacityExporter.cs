@@ -21,7 +21,6 @@ namespace SayMore.Transcription.Model.Exporters
 					stream.WriteLine(start + "\t" + end+"\t"+(segment.Text ?? ""));
 					index++;
 				}
-				stream.WriteLine();
 			}
 		}
 	}

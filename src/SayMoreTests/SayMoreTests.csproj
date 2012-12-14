@@ -134,6 +134,7 @@
     <Compile Include="Transcription\Model\AnnotationFileHelperTests.cs" />
     <Compile Include="Transcription\Model\AudacityLabelHelperTests.cs" />
     <Compile Include="Transcription\Model\AutoSegmenterTests.cs" />
+    <Compile Include="Transcription\Model\AudacityExporterTests.cs" />
     <Compile Include="Transcription\Model\FLExTextExporterTests.cs" />
     <Compile Include="Transcription\Model\SegmentTests.cs" />
     <Compile Include="Transcription\Model\SubTitleExporterTests.cs" />

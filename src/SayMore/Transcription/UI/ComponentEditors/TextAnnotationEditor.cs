@@ -387,18 +387,18 @@ namespace SayMore.Transcription.UI
 			MessageBox.Show("Actually, SayMore already stores this information in ELAN format (.eaf). Simply double click the annotations file to edit it in ELAN.");
 		}
 
-		private void OnExportFreeTranslationSubtitlesMenuItem_Click(object sender, EventArgs e)
+		private void OnExportSubtitlesFreeTranslation(object sender, EventArgs e)
 		{
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var contentTier = ((AnnotationComponentFile) _file).Tiers.GetFreeTranslationTier();
-			DoExportSubtitleDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtFreeTranslationSubtitlesExport.freeTranslationFilenameSuffix","freeTranslation_subtitle"), timeTier, contentTier);
+			DoExportSubtitleDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix", "freeTranslation_subtitle"), timeTier, contentTier);
 		}
 
-		private void OnExportVernacularSubtitlesMenuItem_Click(object sender, EventArgs e)
+		private void OnExportSubtitlesVernacular(object sender, EventArgs e)
 		{
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var contentTier = ((AnnotationComponentFile)_file).Tiers.GetTranscriptionTier();
-			DoExportSubtitleDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtVernacularSubtitlesExport.transcriptionFilenameSuffix","vernacular_subtitle"), timeTier, contentTier);
+			DoExportSubtitleDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.transcriptionFilenameSuffix", "transcription_subtitle"), timeTier, contentTier);
 		}
 
 		private void DoExportSubtitleDialog(string fileNameSuffix, TimeTier timeTier, TextTier textTeir)
@@ -410,6 +410,34 @@ namespace SayMore.Transcription.UI
 			var action = new Action<string>(path => SRTFormatSubTitleExporter.Export(path, textTeir));
 
 			DoSimpleExportDialog(".srt", filter, fileName, action);
+		}
+
+
+		private void OnAudacityExportFreeTranslation(object sender, EventArgs e)
+		{
+			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
+			var textTeir = ((AnnotationComponentFile)_file).Tiers.GetFreeTranslationTier();
+			textTeir.AddTimeRangeData(timeTier);
+			var filter = "Text File (*.txt)|*.txt";
+			var suffix = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslationFilenameSuffix", "audacity_freeTranslation");
+			var fileName = _file.ParentElement.Id + "_" + suffix + ".txt";
+			var action = new Action<string>(path => AudacityExporter.Export(path, textTeir));
+
+			DoSimpleExportDialog(".txt", filter, fileName, action);
+		}
+
+		private void OnAudacityExportTranscription(object sender, EventArgs e)
+		{
+			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
+			var textTeir = ((AnnotationComponentFile)_file).Tiers.GetTranscriptionTier();
+			textTeir.AddTimeRangeData(timeTier);
+
+			var filter = "Text File (*.txt)|*.txt";
+			var suffix = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscriptionFilenameSuffix", "audacity_transcription");
+			var fileName = _file.ParentElement.Id + "_"+suffix+".txt";
+			var action = new Action<string>(path => AudacityExporter.Export(path, textTeir));
+
+			DoSimpleExportDialog(".txt", filter, fileName, action);
 		}
 
 		private void OnPlainTextExportMenuItem_Click(object sender, EventArgs e)
@@ -440,6 +468,8 @@ namespace SayMore.Transcription.UI
 			DoSimpleExportDialog(".txt", filter, fileName, action);
 		}
 
+
+
 		private static void DoSimpleExportDialog(string defaultExt, string filter, string fileName, Action<string> action)
 		{
 			try
@@ -467,5 +497,9 @@ namespace SayMore.Transcription.UI
 				ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
 			}
 		}
+
+
+
+
 	}
 }

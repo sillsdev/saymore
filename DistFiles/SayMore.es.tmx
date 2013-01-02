@@ -741,6 +741,7 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._linkSILWebsite">
+      <note>Parameter is the publisher of SayMore, "SIL International"</note>
       <tuv xml:lang="en">
         <seg>This free software is published by {0}.</seg>
       </tuv>
@@ -749,6 +750,7 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebsite">
+      <note>Parameter is the program name, "SayMore"</note>
       <tuv xml:lang="en">
         <seg>Visit {0} on the Web.</seg>
       </tuv>
@@ -2518,6 +2520,7 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._linkSILWebsite">
+      <note>Parameter is the publisher of SayMore, "SIL International"</note>
       <tuv xml:lang="en">
         <seg>This free software is published by {0}.</seg>
       </tuv>
@@ -2526,6 +2529,7 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._linkSayMoreWebsite">
+      <note>Parameter is the program name, "SayMore"</note>
       <tuv xml:lang="en">
         <seg>Visit {0} on the Web.</seg>
       </tuv>
@@ -3328,6 +3332,86 @@
         <seg>Traducción</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.drama">
+      <tuv xml:lang="en">
+        <seg>Drama</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Drama</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.formulaic_discourse">
+      <tuv xml:lang="en">
+        <seg>Formulaic Discourse</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Discurso de fórmula</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.interactive_discourse">
+      <tuv xml:lang="en">
+        <seg>Interactive Discourse</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Discurso interactivo</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.language_play">
+      <tuv xml:lang="en">
+        <seg>Language Play</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Lenguaje de Juego</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.narrative">
+      <tuv xml:lang="en">
+        <seg>Narrative</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Narrativa</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.oratory">
+      <tuv xml:lang="en">
+        <seg>Oratory</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Oratorio</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.procedural_discourse">
+      <tuv xml:lang="en">
+        <seg>Procedural Discourse</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Discurso de procedimiento</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.report">
+      <tuv xml:lang="en">
+        <seg>Report</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Informe</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.singing">
+      <tuv xml:lang="en">
+        <seg>Singing</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Canto</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.unintelligible_speech">
+      <tuv xml:lang="en">
+        <seg>Unintelligible Speech</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Habla ininteligible</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.MetadataEditor.TabText">
       <tuv xml:lang="en">
         <seg>Session</seg>
@@ -4106,15 +4190,15 @@
         <seg>Texto...</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtFreeTranslationSubtitlesExport">
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlestFreeTranslation">
       <tuv xml:lang="en">
-        <seg>Free Translation Subtitles File...</seg>
+        <seg>Subtitles File (Free Translation)...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Archivo de subtítulos de traducción libre...</seg>
+        <seg>Archivo de subtítulos (traducción libre)...</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtFreeTranslationSubtitlesExport.freeTranslationFilenameSuffix">
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix">
       <tuv xml:lang="en">
         <seg>freeTranslation_subtitle</seg>
       </tuv>
@@ -4122,20 +4206,20 @@
         <seg>subtitulo_traduccion</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtVernacularSubtitlesExport">
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscription">
       <tuv xml:lang="en">
-        <seg>Vernacular Subtitles File...</seg>
+        <seg>Subtitles File (Transcription)...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Archivo de subtítulos vernáculos...</seg>
+        <seg>Archivo de subtítulos (transcripción)...</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtVernacularSubtitlesExport.transcriptionFilenameSuffix">
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.transcriptionFilenameSuffix">
       <tuv xml:lang="en">
-        <seg>vernacular_subtitle</seg>
+        <seg>transcription_subtitle</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>subtitulo_vernaculo</seg>
+        <seg>subtitulo_transcripcion</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">

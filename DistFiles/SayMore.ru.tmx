@@ -634,6 +634,7 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebsite">
+      <note>Parameter is the program name, "SayMore"</note>
       <tuv xml:lang="en">
         <seg>Visit {0} on the Web.</seg>
       </tuv>
@@ -1395,6 +1396,7 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._linkSayMoreWebsite">
+      <note>Parameter is the program name, "SayMore"</note>
       <tuv xml:lang="en">
         <seg>Visit {0} on the Web.</seg>
       </tuv>

@@ -715,6 +715,7 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._linkSILWebsite">
+      <note>Parameter is the publisher of SayMore, "SIL International"</note>
       <tuv xml:lang="en">
         <seg>This free software is published by {0}.</seg>
       </tuv>
@@ -723,6 +724,7 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebsite">
+      <note>Parameter is the program name, "SayMore"</note>
       <tuv xml:lang="en">
         <seg>Visit {0} on the Web.</seg>
       </tuv>
@@ -2529,6 +2531,7 @@ l'enregistrement de la source.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._linkSILWebsite">
+      <note>Parameter is the publisher of SayMore, "SIL International"</note>
       <tuv xml:lang="en">
         <seg>This free software is published by {0}.</seg>
       </tuv>
@@ -2537,6 +2540,7 @@ l'enregistrement de la source.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._linkSayMoreWebsite">
+      <note>Parameter is the program name, "SayMore"</note>
       <tuv xml:lang="en">
         <seg>Visit {0} on the Web.</seg>
       </tuv>
@@ -4029,15 +4033,15 @@ l'enregistrement de la source.</seg>
         <seg>Texte en clair...</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtFreeTranslationSubtitlesExport">
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlestFreeTranslation">
       <tuv xml:lang="en">
-        <seg>Free Translation Subtitles File...</seg>
+        <seg>Subtitles File (Free Translation)...</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Fichier de sous-titres de traduction libre...</seg>
+        <seg>Fichier de sous-titres (traduction libre)...</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtFreeTranslationSubtitlesExport.freeTranslationFilenameSuffix">
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix">
       <tuv xml:lang="en">
         <seg>freeTranslation_subtitle</seg>
       </tuv>
@@ -4045,20 +4049,20 @@ l'enregistrement de la source.</seg>
         <seg>freeTranslation_subtitle</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtVernacularSubtitlesExport">
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscription">
       <tuv xml:lang="en">
-        <seg>Vernacular Subtitles File...</seg>
+        <seg>Subtitles File (Transcription)...</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Fichier de sous-titres vernaculaire...</seg>
+        <seg>Fichier de sous-titres (vernaculaire)...</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtVernacularSubtitlesExport.transcriptionFilenameSuffix">
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.transcriptionFilenameSuffix">
       <tuv xml:lang="en">
-        <seg>vernacular_subtitle</seg>
+        <seg>transcription_subtitle</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>vernacular_subtitle</seg>
+        <seg>transcription_subtitle</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">

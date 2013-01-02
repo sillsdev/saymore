@@ -62,7 +62,7 @@ namespace SayMore.UI.ComponentEditors
 				var valueLists = autoCompleteProvider.GetValueLists(false);
 				IEnumerable<string> list;
 				if (valueLists.TryGetValue("genre", out list))
-					genreList.AddRange(list.ToArray());
+					genreList.AddRange(GenreDefinition.GetGenreNameList(list));
 			}
 
 			// Add the rest of the factory defaults
@@ -146,6 +146,12 @@ namespace SayMore.UI.ComponentEditors
 		protected override void HandleStringsLocalized()
 		{
 			TabText = LocalizationManager.GetString("SessionsView.MetadataEditor.TabText", "Session");
+			if (_genre != null && !String.IsNullOrEmpty(_genre.Text))
+			{
+				var genreId = GenreDefinition.TranslateNameToId(_genre.Text);
+				if (genreId != _genre.Text)
+					_genre.Text = GenreDefinition.TranslateIdToName(genreId);
+			}
 			base.HandleStringsLocalized();
 		}
 

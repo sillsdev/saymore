@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 using Localization;
 using Palaso.IO;
@@ -12,12 +14,34 @@ namespace SayMore.Model.Fields
 	{
 		private static List<GenreDefinition> s_allTypes;
 		private static GenreDefinition s_unknownType;
+		private HashSet<string> _namesInDisplayedUiLanguages = new HashSet<string>();
 
 		[XmlAttribute("id")]
 		public string Id { get; set; }
 
+		private string m_name;
 		[XmlElement("name")]
-		public string Name { get; set; }
+		public string Name
+		{
+			get
+			{
+				if (Id == "unknown")
+					return m_name;
+				string name;
+				try
+				{
+					name = LocalizationManager.GetDynamicString("SayMore", "SessionsView.MetadataEditor.Genre." + Id, m_name, Definition);
+					_namesInDisplayedUiLanguages.Add(name);
+				}
+				catch (ArgumentException)
+				{
+					// This can happen when running unit tests
+					name = m_name;
+				}
+				return name;
+			}
+			set { m_name = value; }
+		}
 
 		[XmlElement("comments")]
 		public string Comments { get; set; }
@@ -81,6 +105,38 @@ namespace SayMore.Model.Fields
 		public override string ToString()
 		{
 			return Name;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string TranslateIdToName(string id)
+		{
+			// Previous versions made it possible for localized versions of these UI strings to
+			// get erroneously persisted in the meta data
+			if (id == "<Inconnu>" || id == "<Desconocido>" | id == "<Неизвестный>")
+				return UnknownType.Name;
+			var genreDefinition = FactoryGenreDefinitions.FirstOrDefault(d => d.Id == id);
+			return genreDefinition != null ? genreDefinition.Name : id;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string TranslateNameToId(string name)
+		{
+			var genreDefinition = FactoryGenreDefinitions.FirstOrDefault(d => d._namesInDisplayedUiLanguages.Contains(name));
+			return genreDefinition != null ? genreDefinition.Id : name;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// Incoming list could be a mix of UI names and ids. This method makes sure all are
+		/// actual IDs (though if they are user-defined, there is no distinction) and that there
+		/// are no duplicates.
+		/// ------------------------------------------------------------------------------------
+		public static HashSet<string> GetGenreNameList(IEnumerable<string> list)
+		{
+			var nameList = new HashSet<string>();
+			// Need to do a double-translation to ensure string is displayed in curreent UI language.
+			foreach (var nameOrId in list)
+				nameList.Add(TranslateIdToName(TranslateNameToId(nameOrId)));
+			return nameList;
 		}
 	}
 }

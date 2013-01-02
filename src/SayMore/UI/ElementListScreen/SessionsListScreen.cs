@@ -198,7 +198,7 @@ namespace SayMore.UI.ElementListScreen
 	/// <summary>
 	/// This class is used to overcome a limitation in the VS 2008 designer:
 	/// not only can it not design a generic class, but it cannot even design a class which
-	/// directly inhertis from a generic class! So we have this intermediate class.
+	/// directly inherits from a generic class! So we have this intermediate class.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class ConcreteSessionScreen : ElementListScreen<Session>

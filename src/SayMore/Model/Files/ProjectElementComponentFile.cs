@@ -1,4 +1,5 @@
 using System;
+using SayMore.Model.Fields;
 
 namespace SayMore.Model.Files
 {
@@ -34,6 +35,10 @@ namespace SayMore.Model.Files
 				var value = base.GetStringValue(key, ParentElement.DefaultStatusValue);
 				return value.Replace('_', ' ');
 			}
+			if (key == "genre")
+			{
+				return GenreDefinition.TranslateIdToName(base.GetStringValue(key, defaultValue));
+			}
 
 			return (key != "id" ? base.GetStringValue(key, defaultValue) : ParentElement.Id);
 		}
@@ -43,6 +48,8 @@ namespace SayMore.Model.Files
 		{
 			if (key == "status")
 				newValue = newValue.Replace(' ', '_');
+			else if (key == "genre")
+				newValue = GenreDefinition.TranslateNameToId(newValue);
 
 			return base.SetStringValue(key, newValue, out failureMessage);
 		}

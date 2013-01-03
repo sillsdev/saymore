@@ -468,8 +468,6 @@ namespace SayMore.Transcription.UI
 			DoSimpleExportDialog(".txt", filter, fileName, action);
 		}
 
-
-
 		private static void DoSimpleExportDialog(string defaultExt, string filter, string fileName, Action<string> action)
 		{
 			try
@@ -494,12 +492,12 @@ namespace SayMore.Transcription.UI
 			}
 			catch (Exception error)
 			{
+				// Got a null refeence somwhere in here on 12/12/12. Not sure where/why, but if it happens
+				// again, we want to be able to get a call stack so we can fix the problem.
+				if (error is NullReferenceException)
+					throw;
 				ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
 			}
 		}
-
-
-
-
 	}
 }

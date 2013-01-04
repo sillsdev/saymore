@@ -836,18 +836,39 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void InsertSegmentBoundary_NewBoundaryInsertedInMiddleOfExistingSegment_RenamesPrecedingSegmentFilesAndReturnsSuccess()
+		public void InsertSegmentBoundary_NewBoundaryInsertedInMiddleOfExistingSegmentDeletionsAllowed_ReturnsSuccess()
 		{
 			CreateAnnotationFilesForSegmentsCreatedInSetup();
 
-			Assert.AreEqual(BoundaryModificationResult.Success, _tier.InsertSegmentBoundary(25f));
+			Assert.AreEqual(BoundaryModificationResult.Success, _tier.InsertSegmentBoundary(25f, (s, b1, b2) => true));
+
+			// The time tier is no longer responsible for the deleting/renaming annotation files,
+			// so the pre-existing files should still be present.
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_25_Careful.wav")));
+
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_25_Translation.wav")));
+
+			// Verify the files for the next segment did not change
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void InsertSegmentBoundary_NewBoundaryInsertedInMiddleOfExistingSegmentDisallowed_ReturnsBlockedByOralAnnotations()
+		{
+			CreateAnnotationFilesForSegmentsCreatedInSetup();
+
+			Assert.AreEqual(BoundaryModificationResult.BlockedByOralAnnotations, _tier.InsertSegmentBoundary(25f, (s, b1, b2) => false));
 
 			// Check files for the segment whose end boundary changed by the insertion
-			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_25_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_25_Careful.wav")));
 
-			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_25_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_25_Translation.wav")));
 
 			// Verify the files for the next segment did not change
 			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));

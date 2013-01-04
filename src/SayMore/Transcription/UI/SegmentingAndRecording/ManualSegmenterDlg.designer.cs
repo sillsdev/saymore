@@ -34,8 +34,11 @@ namespace SayMore.Transcription.UI
 			this._buttonStopOriginal = new System.Windows.Forms.ToolStripButton();
 			this._buttonDeleteSegment = new System.Windows.Forms.ToolStripButton();
 			this._clearWarningMessageTimer = new System.Windows.Forms.Timer(this.components);
+			this._pictureIcon = new System.Windows.Forms.PictureBox();
+			this._labelInfo = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.toolStripButtons.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._pictureIcon)).BeginInit();
 			this.SuspendLayout();
 			//
 			// _buttonAddSegmentBoundary
@@ -77,7 +80,7 @@ namespace SayMore.Transcription.UI
 			this.toolStripButtons.Location = new System.Drawing.Point(0, 106);
 			this.toolStripButtons.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			this.toolStripButtons.Name = "toolStripButtons";
-			this.toolStripButtons.Size = new System.Drawing.Size(248, 141);
+			this.toolStripButtons.Size = new System.Drawing.Size(248, 122);
 			this.toolStripButtons.TabIndex = 7;
 			this.toolStripButtons.Text = "toolStrip1";
 			this.toolStripButtons.MouseEnter += new System.EventHandler(this.toolStripButtons_MouseEnter);
@@ -131,11 +134,49 @@ namespace SayMore.Transcription.UI
 			//
 			this._clearWarningMessageTimer.Interval = 4000;
 			//
+			// _pictureIcon
+			//
+			this._pictureIcon.BackColor = System.Drawing.Color.Transparent;
+			this._pictureIcon.Image = global::SayMore.Properties.Resources.Information_blue;
+			this.locExtender.SetLocalizableToolTip(this._pictureIcon, null);
+			this.locExtender.SetLocalizationComment(this._pictureIcon, null);
+			this.locExtender.SetLocalizationPriority(this._pictureIcon, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pictureIcon, "pictureBox1.pictureBox1");
+			this._pictureIcon.Location = new System.Drawing.Point(8, 316);
+			this._pictureIcon.Name = "_pictureIcon";
+			this._pictureIcon.Size = new System.Drawing.Size(30, 30);
+			this._pictureIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this._pictureIcon.TabIndex = 13;
+			this._pictureIcon.TabStop = false;
+			this._pictureIcon.Visible = false;
+			//
+			// _labelInfo
+			//
+			this._labelInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._labelInfo.AutoSize = true;
+			this._labelInfo.BackColor = System.Drawing.Color.Transparent;
+			this._labelInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._labelInfo.ForeColor = System.Drawing.Color.White;
+			this.locExtender.SetLocalizableToolTip(this._labelInfo, null);
+			this.locExtender.SetLocalizationComment(this._labelInfo, null);
+			this.locExtender.SetLocalizationPriority(this._labelInfo, Localization.LocalizationPriority.Medium);
+			this.locExtender.SetLocalizingId(this._labelInfo, "ManualSegmenterDlg._labelInfo");
+			this._labelInfo.Location = new System.Drawing.Point(41, 326);
+			this._labelInfo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this._labelInfo.Name = "_labelInfo";
+			this._labelInfo.Size = new System.Drawing.Size(482, 13);
+			this._labelInfo.TabIndex = 14;
+			this._labelInfo.Text = "One of the segments delineated by the selected break already has oral annotations" +
+	".";
+			this._labelInfo.Visible = false;
+			//
 			// ManualSegmenterDlg
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(703, 362);
+			this.Controls.Add(this._labelInfo);
+			this.Controls.Add(this._pictureIcon);
 			this.Controls.Add(this.toolStripButtons);
 			this.Cursor = System.Windows.Forms.Cursors.Default;
 			this.locExtender.SetLocalizableToolTip(this, null);
@@ -145,9 +186,12 @@ namespace SayMore.Transcription.UI
 			this.Opacity = 1D;
 			this.Text = "Manual Segmenter";
 			this.Controls.SetChildIndex(this.toolStripButtons, 0);
+			this.Controls.SetChildIndex(this._pictureIcon, 0);
+			this.Controls.SetChildIndex(this._labelInfo, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.toolStripButtons.ResumeLayout(false);
 			this.toolStripButtons.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this._pictureIcon)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -162,5 +206,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripButton _buttonStopOriginal;
 		private System.Windows.Forms.ToolStripButton _buttonDeleteSegment;
 		private System.Windows.Forms.Timer _clearWarningMessageTimer;
+		private System.Windows.Forms.PictureBox _pictureIcon;
+		private System.Windows.Forms.Label _labelInfo;
 	}
 }

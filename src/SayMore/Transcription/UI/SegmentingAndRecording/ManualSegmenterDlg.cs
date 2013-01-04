@@ -95,6 +95,14 @@ namespace SayMore.Transcription.UI
 			_tableLayoutOuter.Controls.Add(toolStripButtons);
 			_tableLayoutOuter.Resize += HandleTableLayoutOuterResize;
 
+			_tableLayoutButtons.Controls.Add(_pictureIcon, 0, 0);
+			_tableLayoutButtons.SetRowSpan(_pictureIcon, 3);
+			_pictureIcon.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			_tableLayoutButtons.Controls.Add(_labelInfo, 1, 0);
+			_tableLayoutButtons.SetRowSpan(_labelInfo, 3);
+			_tableLayoutButtons.ColumnStyles[0].SizeType = SizeType.AutoSize;
+			_tableLayoutButtons.ColumnStyles[1].SizeType = SizeType.Percent;
+
 			_origAddSegBoundaryButtonText = _buttonAddSegmentBoundary.Text;
 
 			_buttonStopOriginal.Click += delegate { _waveControl.Stop(); };
@@ -322,7 +330,8 @@ namespace SayMore.Transcription.UI
 			}
 			else
 			{
-				_buttonDeleteSegment.Enabled = !ViewModel.IsBoundaryPermanent(selectedBoundary);
+				_buttonDeleteSegment.Enabled = true;
+				_pictureIcon.Visible = _labelInfo.Visible = ViewModel.IsBoundaryPermanent(selectedBoundary);
 			}
 
 			base.UpdateDisplay();

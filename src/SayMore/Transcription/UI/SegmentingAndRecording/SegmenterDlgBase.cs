@@ -629,6 +629,8 @@ namespace SayMore.Transcription.UI
 						"Undo: {0} (Ctrl-Z or Z)"), _viewModel.DescriptionForUndo);
 				}
 			}
+			else
+				_undoToolStripMenuItem.Enabled = false;
 			UpdateStatusLabelsDisplay();
 		}
 

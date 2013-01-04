@@ -191,14 +191,15 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public BoundaryModificationResult InsertTierSegment(float boundary)
+		public BoundaryModificationResult InsertTierSegment(float boundary,
+			Func<Segment, bool, bool, bool> allowDeletionOfOralAnnotations = null)
 		{
 			var timeTier = GetTimeTier();
 
 			if (boundary <= 0f || timeTier == null || timeTier.GetSegmentHavingEndBoundary(boundary) != null)
 				return BoundaryModificationResult.SegmentWillBeTooShort;
 
-			var result = timeTier.InsertSegmentBoundary(boundary);
+			var result = timeTier.InsertSegmentBoundary(boundary, allowDeletionOfOralAnnotations);
 			if (result == BoundaryModificationResult.Success)
 			{
 				var newSeg = timeTier.GetSegmentHavingEndBoundary(boundary);

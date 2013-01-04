@@ -23,6 +23,7 @@ namespace SayMore.Transcription.UI
 			Deletion,
 			EndBoundaryMoved,
 			AnnotationAdded,
+			AnnotationDeleted,
 			Ignored,
 			Unignored,
 		}
@@ -70,6 +71,20 @@ namespace SayMore.Transcription.UI
 					UndoAction = c => { originalUndoAction(c); newChange.UndoAction(c); };
 					return true;
 				}
+				if (newChange.Type == SegmentChangeType.AnnotationDeleted && Type == SegmentChangeType.AnnotationDeleted &&
+					newChange.NewRange == OriginalRange)
+				{
+					Action<SegmentChange> originalUndoAction = UndoAction;
+					UndoAction = c => { originalUndoAction(c); newChange.UndoAction(c); };
+					return true;
+				}
+				if (newChange.Type == SegmentChangeType.Addition && Type == SegmentChangeType.AnnotationDeleted &&
+					newChange.NewRange.Start == OriginalRange.Start)
+				{
+					Action<SegmentChange> originalUndoAction = UndoAction;
+					UndoAction = c => { originalUndoAction(c); newChange.UndoAction(c); };
+					return true;
+				}
 
 				return false;
 			}
@@ -110,6 +125,12 @@ namespace SayMore.Transcription.UI
 							"Recording annotation for segment {0}",
 							"Parameter is time range of the segment for which the annotation was recorded.");
 						return String.Format(fmt, OriginalRange);
+					case SegmentChangeType.AnnotationDeleted:
+						fmt = LocalizationManager.GetString(
+							"DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.AnnotationDeleted",
+							"Deletion of annotation for segment {0}",
+							"Parameter is time range of the segment for which the annotation was deleted (This undo action is included for cmpleteness, but currently never gets displayed in UI).");
+						return String.Format(fmt, OriginalRange);
 					case SegmentChangeType.Ignored:
 						fmt = LocalizationManager.GetString(
 							"DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentIgnored",
@@ -140,7 +161,8 @@ namespace SayMore.Transcription.UI
 			/// ------------------------------------------------------------------------------------
 			public bool SegmentBoundariesChanged
 			{
-				get { return _undoStack.Any(c => c.Type != SegmentChangeType.AnnotationAdded); }
+				get { return _undoStack.Any(c => c.Type != SegmentChangeType.AnnotationAdded &&
+					c.Type != SegmentChangeType.AnnotationDeleted); }
 			}
 
 			/// ------------------------------------------------------------------------------------
@@ -200,6 +222,7 @@ namespace SayMore.Transcription.UI
 		public WaveStream OrigWaveStream { get; protected set; }
 		public bool HaveSegmentBoundaries { get; set; }
 		public Action UpdateDisplayProvider { get; set; }
+		public Func<bool, bool, bool> AllowDeletionOfOralAnnotations { get; set; }
 		public TierCollection Tiers { get; protected set; }
 		public TimeTier TimeTier { get; protected set; }
 		public HashSet<AudioFileHelper> SegmentsAnnotationSamplesToDraw { get; private set; }
@@ -210,6 +233,7 @@ namespace SayMore.Transcription.UI
 
 		protected List<string> _oralAnnotationFilesBeforeChanges = new List<string>();
 		protected readonly UndoStack _undoStack = new UndoStack();
+		private List<string> _oralAnnotationFilesToDelete;
 
 		#region Construction and disposal
 		/// ------------------------------------------------------------------------------------
@@ -518,14 +542,44 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<TimeSpan> InsertNewBoundary(TimeSpan newBoundary)
 		{
-			if (Tiers.InsertTierSegment((float)newBoundary.TotalSeconds) == BoundaryModificationResult.Success)
+			if (Tiers.InsertTierSegment((float)newBoundary.TotalSeconds, ConfirmDeletionOfOralAnnotations) == BoundaryModificationResult.Success)
 			{
+				Action<SegmentChange> undoAction = RevertNewSegment;
+				if (_oralAnnotationFilesToDelete != null)
+				{
+					foreach (var file in _oralAnnotationFilesToDelete)
+					{
+						BackupOralAnnotationSegmentFile(file, true);
+						Action<SegmentChange> undoActionOrig = undoAction;
+						undoAction = c => { undoActionOrig(c); RestorePreviousVersionOfAnnotation(file); };
+					}
+					_oralAnnotationFilesToDelete = null;
+				}
 				_undoStack.Push(new SegmentChange(TimeTier.Segments.First(s => s.TimeRange.End == newBoundary).TimeRange.Copy(),
-					RevertNewSegment));
+					undoAction));
 				OnSegmentBoundaryChanged();
 			}
 
 			return GetSegmentEndBoundaries();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool ConfirmDeletionOfOralAnnotations(Segment segment, bool hasCarefulSpeech, bool hasOralTranslation)
+		{
+			if (AllowDeletionOfOralAnnotations == null || !AllowDeletionOfOralAnnotations(hasCarefulSpeech, hasOralTranslation))
+				return false;
+
+			_oralAnnotationFilesToDelete = new List<string>(2);
+
+			var carefulSpeechAnnotationPath = segment.GetFullPathToCarefulSpeechFile();
+			if (carefulSpeechAnnotationPath != null && File.Exists(carefulSpeechAnnotationPath))
+				_oralAnnotationFilesToDelete.Add(carefulSpeechAnnotationPath);
+
+			var oralTranslationAnnotationPath = segment.GetFullPathToOralTranslationFile();
+			if (oralTranslationAnnotationPath != null && File.Exists(oralTranslationAnnotationPath))
+				_oralAnnotationFilesToDelete.Add(oralTranslationAnnotationPath);
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

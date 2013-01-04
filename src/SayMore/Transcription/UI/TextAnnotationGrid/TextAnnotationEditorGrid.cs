@@ -102,7 +102,7 @@ namespace SayMore.Transcription.UI
 			int segmentCount = _annotationFile.Tiers.GetTimeTier().Segments.Count;
 			while (targetRow < segmentCount && _annotationFile.Tiers.GetIsSegmentIgnored(targetRow))
 				targetRow++;
-			if (targetRow < segmentCount) // found a row that is not ignored.
+			if (targetRow < segmentCount && CurrentCellAddress.X >= 0) // found a row that is not ignored.
 				CurrentCell = Rows[targetRow].Cells[CurrentCellAddress.X];
 		}
 

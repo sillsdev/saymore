@@ -91,7 +91,7 @@ namespace SayMore.Transcription.UI
 			this._buttonListenToOriginal.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonListenToOriginal, null);
 			this.locExtender.SetLocalizationComment(this._buttonListenToOriginal, null);
-			this.locExtender.SetLocalizingId(this._buttonListenToOriginal, "DialogBoxes.Transcription.ManualSegmenterDlgBase._buttonListenToOriginal");
+			this.locExtender.SetLocalizingId(this._buttonListenToOriginal, "DialogBoxes.Transcription.ManualSegmenterDlg._buttonListenToOriginal");
 			this._buttonListenToOriginal.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._buttonListenToOriginal.Name = "_buttonListenToOriginal";
 			this._buttonListenToOriginal.Size = new System.Drawing.Size(246, 24);

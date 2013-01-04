@@ -2043,7 +2043,7 @@ l'enregistrement de la source.</seg>
         <seg>Arrêter (pressez la BARRE D'ESPACE)</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlgBase._buttonListenToOriginal">
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonListenToOriginal">
       <tuv xml:lang="en">
         <seg>Listen (press the SPACE BAR)</seg>
       </tuv>
@@ -4033,14 +4033,6 @@ l'enregistrement de la source.</seg>
         <seg>Texte en clair...</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlestFreeTranslation">
-      <tuv xml:lang="en">
-        <seg>Subtitles File (Free Translation)...</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Fichier de sous-titres (traduction libre)...</seg>
-      </tuv>
-    </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix">
       <tuv xml:lang="en">
         <seg>freeTranslation_subtitle</seg>
@@ -4063,6 +4055,14 @@ l'enregistrement de la source.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>transcription_subtitle</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlestFreeTranslation">
+      <tuv xml:lang="en">
+        <seg>Subtitles File (Free Translation)...</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Fichier de sous-titres (traduction libre)...</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">

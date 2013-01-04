@@ -351,18 +351,21 @@ namespace SayMore.Transcription.UI
 				{
 					if (ManualSegmenterDlg.ShowDialog(AssociatedComponentFile, this, _grid.CurrentCellAddress.Y) != null)
 					{
-						if (originallySelectedCell != _grid.CurrentCellAddress)
+						if (!_grid.IsDisposed)
 						{
-							// User has already selected a different cell, so go ahead and
-							// start playback after refreshing the grid.
-							originallySelectedCell = _grid.CurrentCellAddress;
-							startPlayBackWhenFinished = true;
+							if (originallySelectedCell != _grid.CurrentCellAddress)
+							{
+								// User has already selected a different cell, so go ahead and
+								// start playback after refreshing the grid.
+								originallySelectedCell = _grid.CurrentCellAddress;
+								startPlayBackWhenFinished = true;
+							}
+							SetComponentFile(_file);
+							if (_grid.RowCount > originallySelectedCell.Y && _grid.ColumnCount > originallySelectedCell.X)
+								_grid.CurrentCell = _grid.Rows[originallySelectedCell.Y].Cells[originallySelectedCell.X];
+							else
+								startPlayBackWhenFinished = false; // Oops, that cell is gone!
 						}
-						SetComponentFile(_file);
-						if (_grid.RowCount > originallySelectedCell.Y && _grid.ColumnCount > originallySelectedCell.X)
-							_grid.CurrentCell = _grid.Rows[originallySelectedCell.Y].Cells[originallySelectedCell.X];
-						else
-							startPlayBackWhenFinished = false; // Oops, that cell is gone!
 					}
 				});
 			if (startPlayBackWhenFinished)

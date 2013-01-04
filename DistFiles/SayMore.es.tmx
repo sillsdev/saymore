@@ -2049,12 +2049,38 @@
         <seg>El segmento será demasiado corto. Siga escuchando.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.CarefulSpeechAnnotation">
+      <note>Type of oral annotation listed in ConfirmDeletionOfOralAnnotations message</note>
+      <tuv xml:lang="en">
+        <seg>Careful Speech</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Discurso cuidado</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotations">
+      <tuv xml:lang="en">
+        <seg>Adding a segment break here would split a segment which has existing oral annotations of the following types:{0}Would you like to proceed with the addition of this segment break and delete the oral annotations?</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Añadir una división de segmento aquí dividirá un segmento que tiene anotaciones orales existentes de los siguientes tipos:{0}¿Desea continuar con la adición de esta segmento y eliminar las anotaciones orales?</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.GeneralSegmentingErrorMsg">
       <tuv xml:lang="en">
         <seg>There was an error segmenting the file '{0}'.</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Ocurrió un error en la segmentación del archivo '{0}'.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.OralTranslationAnnotation">
+      <note>Type of oral annotation listed in ConfirmDeletionOfOralAnnotations message</note>
+      <tuv xml:lang="en">
+        <seg>Oral Translation</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Traducción oral</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.SavingSegmentsErrorMsg">
@@ -2097,7 +2123,7 @@
         <seg>Parar (presione la barra espaciadora)</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlgBase._buttonListenToOriginal">
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonListenToOriginal">
       <tuv xml:lang="en">
         <seg>Listen (press the SPACE BAR)</seg>
       </tuv>
@@ -3333,6 +3359,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.drama">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Drama</seg>
       </tuv>
@@ -3341,6 +3368,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.formulaic_discourse">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Formulaic Discourse</seg>
       </tuv>
@@ -3349,6 +3377,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.interactive_discourse">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Interactive Discourse</seg>
       </tuv>
@@ -3357,6 +3386,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.language_play">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Language Play</seg>
       </tuv>
@@ -3365,6 +3395,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.narrative">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Narrative</seg>
       </tuv>
@@ -3373,6 +3404,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.oratory">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Oratory</seg>
       </tuv>
@@ -3381,6 +3413,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.procedural_discourse">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Procedural Discourse</seg>
       </tuv>
@@ -3389,6 +3422,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.report">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Report</seg>
       </tuv>
@@ -3397,6 +3431,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.singing">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Singing</seg>
       </tuv>
@@ -3405,6 +3440,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.unintelligible_speech">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Unintelligible Speech</seg>
       </tuv>
@@ -3933,6 +3969,14 @@
         <seg>Ayuda</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.OralAnnotationFileProblem">
+      <tuv xml:lang="en">
+        <seg>Problem occurred attempting to display generated oral annotation file.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ocurrió un error al intentar presentar el archivo de anotación oral.</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton">
       <tuv xml:lang="en">
         <seg>Play</seg>
@@ -4150,6 +4194,22 @@
         <seg>Exportar</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslation">
+      <tuv xml:lang="en">
+        <seg>Audacity Label File (Free Translation)...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivo de etiquetas de Audacity (traducción libre)...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscription">
+      <tuv xml:lang="en">
+        <seg>Audacity Label File (Transcription)...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivo de etiquetas de Audacity (transcripción)...</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMenuItem">
       <tuv xml:lang="en">
         <seg>ELAN File...</seg>
@@ -4190,14 +4250,6 @@
         <seg>Texto...</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlestFreeTranslation">
-      <tuv xml:lang="en">
-        <seg>Subtitles File (Free Translation)...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Archivo de subtítulos (traducción libre)...</seg>
-      </tuv>
-    </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix">
       <tuv xml:lang="en">
         <seg>freeTranslation_subtitle</seg>
@@ -4220,6 +4272,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>subtitulo_transcripcion</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlestFreeTranslation">
+      <tuv xml:lang="en">
+        <seg>Subtitles File (Free Translation)...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivo de subtítulos (traducción libre)...</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">

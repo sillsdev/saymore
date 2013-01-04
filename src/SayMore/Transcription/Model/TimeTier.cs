@@ -12,7 +12,8 @@ namespace SayMore.Transcription.Model
 		Success,
 		SegmentNotFound,
 		SegmentWillBeTooShort,
-		NextSegmentWillBeTooShort
+		NextSegmentWillBeTooShort,
+		BlockedByOralAnnotations,
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -278,7 +279,8 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public BoundaryModificationResult InsertSegmentBoundary(float newBoundary)
+		public BoundaryModificationResult InsertSegmentBoundary(float newBoundary,
+			Func<Segment, bool, bool, bool> allowDeletionOfOralAnnotations = null)
 		{
 			float newSegStart = 0f;
 			var segBeingSplit = Segments.FirstOrDefault(
@@ -302,7 +304,16 @@ namespace SayMore.Transcription.Model
 			if (!GetIsAcceptableSegmentLength(newBoundary, segBeingSplit.End))
 				return BoundaryModificationResult.NextSegmentWillBeTooShort;
 
-			RenameAnnotationSegmentFile(segBeingSplit, segBeingSplit.Start, newBoundary);
+			if (segBeingSplit.TimeRange.EndSeconds > newBoundary)
+			{
+				var hasCarefulSpeech = segBeingSplit.GetHasOralAnnotation(OralAnnotationType.CarefulSpeech);
+				var hasOralTranslation = segBeingSplit.GetHasOralAnnotation(OralAnnotationType.Translation);
+				if ((hasCarefulSpeech || hasOralTranslation) && (allowDeletionOfOralAnnotations == null ||
+					!allowDeletionOfOralAnnotations(segBeingSplit, hasCarefulSpeech, hasOralTranslation)))
+				{
+					return BoundaryModificationResult.BlockedByOralAnnotations;
+				}
+			}
 
 			float newSegEnd = segBeingSplit.End;
 			segBeingSplit.End = newBoundary;

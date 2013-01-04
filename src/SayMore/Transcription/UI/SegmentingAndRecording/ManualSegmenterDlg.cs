@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
@@ -86,6 +87,10 @@ namespace SayMore.Transcription.UI
 			_tableLayoutButtons.BackColor = Settings.Default.BarColorEnd;
 			Opacity = 0D;
 
+			viewModel.AllowDeletionOfOralAnnotations = AllowDeletionOfOralAnnotations;
+
+			viewModel.AllowDeletionOfOralAnnotations = AllowDeletionOfOralAnnotations;
+
 			Controls.Remove(toolStripButtons);
 			_tableLayoutOuter.Controls.Add(toolStripButtons);
 			_tableLayoutOuter.Resize += HandleTableLayoutOuterResize;
@@ -166,6 +171,41 @@ namespace SayMore.Transcription.UI
 				_clearWarningMessageTimer.Tick += ResetAddSegmentButton;
 				_clearWarningMessageTimer.Start();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool AllowDeletionOfOralAnnotations(bool hasCarefulSpeech, bool hasOralTranslation)
+		{
+			var msg = LocalizationManager.GetString(
+				"DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotations",
+				"Adding a segment break here would split a segment which has existing oral " +
+				"annotations of the following types:{0}" +
+				"Would you like to proceed with the addition of this segment break and delete" +
+				" the oral annotations?");
+
+			var parameter = new StringBuilder();
+			parameter.AppendLine();
+			parameter.AppendLine();
+			if (hasCarefulSpeech)
+			{
+				parameter.Append("     ");
+				parameter.AppendLine(LocalizationManager.GetString(
+					"DialogBoxes.Transcription.ManualSegmenterDlg.CarefulSpeechAnnotation",
+					"Careful Speech", "Type of oral annotation listed in ConfirmDeletionOfOralAnnotations message"));
+			}
+			if (hasOralTranslation)
+			{
+				parameter.Append("     ");
+				parameter.AppendLine(LocalizationManager.GetString(
+					"DialogBoxes.Transcription.ManualSegmenterDlg.OralTranslationAnnotation",
+					"Oral Translation", "Type of oral annotation listed in ConfirmDeletionOfOralAnnotations message"));
+			}
+			parameter.AppendLine();
+
+			msg = string.Format(msg, parameter);
+
+			return (MessageBox.Show(this, msg, Text, MessageBoxButtons.YesNo,
+				MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -273,17 +313,17 @@ namespace SayMore.Transcription.UI
 
 			var cursorTime = _waveControl.GetCursorTime();
 			_buttonAddSegmentBoundary.Enabled = cursorTime > TimeSpan.Zero;
-			if (_buttonAddSegmentBoundary.Enabled)
+
+			var selectedBoundary = _waveControl.GetSelectedBoundary();
+			if (_viewModel.TimeTier.GetSegmentHavingEndBoundary((float)selectedBoundary.TotalSeconds) == null)
 			{
-				var segmentContainingCursor = ViewModel.TimeTier.GetSegmentEnclosingTime((float)cursorTime.TotalSeconds);
-				if (segmentContainingCursor != null)
-				{
-					_buttonAddSegmentBoundary.Enabled = segmentContainingCursor.TimeRange.End != cursorTime &&
-						!segmentContainingCursor.GetHasAnyOralAnnotation();
-				}
+				_waveControl.ClearSelectedBoundary();
+				_buttonDeleteSegment.Enabled = false;
 			}
-			_buttonDeleteSegment.Enabled = _waveControl.GetSelectedBoundary() > TimeSpan.Zero &&
-				!ViewModel.IsBoundaryPermanent(_waveControl.GetSelectedBoundary());
+			else
+			{
+				_buttonDeleteSegment.Enabled = !ViewModel.IsBoundaryPermanent(selectedBoundary);
+			}
 
 			base.UpdateDisplay();
 		}

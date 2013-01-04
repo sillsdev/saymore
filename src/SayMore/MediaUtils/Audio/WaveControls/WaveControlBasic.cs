@@ -837,14 +837,6 @@ namespace SayMore.Media.Audio
 		{
 			SetCursor(timeAtMouseX, false);
 		}
-
-		/// ------------------------------------------------------------------------------------
-		public virtual void DrawBoundary(Graphics g, int x, int y, int height)
-		{
-			if (Painter != null)
-				Painter.DrawBoundary(g, x, y, height);
-		}
-
 		#endregion
 
 		#region Zooming property/methods

@@ -8,8 +8,7 @@ namespace SayMore.Media.Audio
 	{
 		public delegate bool BoundaryMovedHandler(WaveControlWithMovableBoundaries ctrl, TimeSpan oldTime, TimeSpan newTime);
 		public event BoundaryMovedHandler BoundaryMoved;
-		public delegate bool CanBoundaryBeMovedHandler(TimeSpan boundary);
-		public event CanBoundaryBeMovedHandler CanBoundaryBeMoved;
+		public Func<TimeSpan, bool> CanBoundaryBeMoved;
 
 		protected int _mouseXAtBeginningOfSegmentMove;
 		protected int _minXForBoundaryMove;

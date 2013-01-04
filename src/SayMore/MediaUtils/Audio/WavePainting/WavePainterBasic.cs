@@ -47,8 +47,8 @@ namespace SayMore.Media.Audio
 		protected TimeSpan _movedBoundarysOrigTime;
 		protected bool _allowDrawing = true;
 		protected Color _boundaryColor;
-		protected Pen _solidBorderPen;
-		protected Pen _translucentBorderPen;
+		protected List<Pen> _solidBorderPens;
+		protected List<Pen> _translucentBorderPens;
 
 		protected readonly List<TimeRange> _ignoredRegions = new List<TimeRange>();
 
@@ -114,16 +114,18 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		private void DisposeOfPens()
 		{
-			if (_translucentBorderPen != null)
+			if (_translucentBorderPens != null)
 			{
-				_translucentBorderPen.Dispose();
-				_translucentBorderPen = null;
+				foreach (var pen in _translucentBorderPens)
+					pen.Dispose();
+				_translucentBorderPens = null;
 			}
 
-			if (_solidBorderPen != null)
+			if (_solidBorderPens != null)
 			{
-				_solidBorderPen.Dispose();
-				_solidBorderPen = null;
+				foreach (var pen in _solidBorderPens)
+					pen.Dispose();
+				_solidBorderPens = null;
 			}
 		}
 
@@ -179,12 +181,23 @@ namespace SayMore.Media.Audio
 			set
 			{
 				_boundaryColor = value;
-				DisposeOfPens();
-				_solidBorderPen = new Pen(_boundaryColor);
-				_translucentBorderPen = new Pen(Color.FromArgb(60, _boundaryColor));
+				CreateBorderPens();
 				if (_allowDrawing && Control != null)
 					Control.Invalidate();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// When overriding, call base first.
+		/// ------------------------------------------------------------------------------------
+		protected virtual void CreateBorderPens()
+		{
+			DisposeOfPens();
+			_solidBorderPens = new List<Pen>();
+			_solidBorderPens.Add(new Pen(_boundaryColor));
+
+			_translucentBorderPens = new List<Pen>();
+			_translucentBorderPens.Add(new Pen(Color.FromArgb(60, _boundaryColor)));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -600,28 +613,17 @@ namespace SayMore.Media.Audio
 				return;
 
 			foreach (var boundary in _segmentBoundaries)
-				DrawBoundary(g, clientHeight, ConvertTimeToXCoordinate(boundary), boundary);
+				DrawBoundary(g, clientHeight, boundary);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void DrawBoundary(Graphics g, int clientHeight, int x, TimeSpan boundary)
+		protected virtual void DrawBoundary(Graphics g, int height, TimeSpan boundary, int penSelector = 0)
 		{
-			if (_movedBoundarysOrigTime > TimeSpan.Zero && _movedBoundarysOrigTime == boundary)
-			{
-				_solidBorderPen.DashStyle = DashStyle.Dot;
-				g.DrawLine(_solidBorderPen, x, 0, x, clientHeight);
-				_solidBorderPen.DashStyle = DashStyle.Solid;
-			}
-			else
-				DrawBoundary(g, x, 0, clientHeight);
-		}
+			var x = ConvertTimeToXCoordinate(boundary);
 
-		/// ------------------------------------------------------------------------------------
-		public virtual void DrawBoundary(Graphics g, int x, int y, int height)
-		{
-			g.DrawLine(_translucentBorderPen, x - 1, y, x - 1, y + height);
-			g.DrawLine(_solidBorderPen, x, y, x, y + height);
-			g.DrawLine(_translucentBorderPen, x + 1, y, x + 1, y + height);
+			g.DrawLine(_translucentBorderPens[penSelector], x - 1, 0, x - 1, height);
+			g.DrawLine(_solidBorderPens[penSelector], x, 0, x, height);
+			g.DrawLine(_translucentBorderPens[penSelector], x + 1, 0, x + 1, height);
 		}
 
 		/// ------------------------------------------------------------------------------------

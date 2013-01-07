@@ -166,7 +166,7 @@ namespace SayMore.Transcription.UI
 
 			var waveCtrl = _waveControl as WaveControlWithMovableBoundaries;
 			if (waveCtrl != null)
-				waveCtrl.CanBoundaryBeMoved = b => !_viewModel.IsBoundaryPermanent(b);
+				waveCtrl.CanBoundaryBeMoved = (b, disregardAnnotations) => !_viewModel.IsBoundaryPermanent(b, disregardAnnotations);
 		}
 
 		/// ------------------------------------------------------------------------------------

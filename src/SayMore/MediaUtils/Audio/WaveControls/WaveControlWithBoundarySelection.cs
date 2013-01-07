@@ -38,6 +38,12 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override bool AllowMovingBoundariesWithAdjacetAnnotations
+		{
+			get { return true; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override void IgnoreMouseProcessing(bool ignore)
 		{
 			base.IgnoreMouseProcessing(ignore);

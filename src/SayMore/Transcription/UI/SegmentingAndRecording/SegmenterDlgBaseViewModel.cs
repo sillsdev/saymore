@@ -697,13 +697,17 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Returns a value indicating whether the given boundary cannot be deleted or moved in
-		/// either direction. A boundary is "permanent" if the time tier has readonly ranges
-		/// or if it is adjacent to a segment that already has any kind of annotation (text or oral)
+		/// either direction. A boundary is absolutely "permanent" if the time tier has readonly
+		/// ranges. Typically it will also be considered permanent if it is adjacent to a
+		/// segment that already has an oral annotation (text annotations can also prevent moves
+		/// if PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent is set); however, the
+		/// caller can elect to disregard annotations when determining this.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool IsBoundaryPermanent(TimeSpan boundary)
+		public bool IsBoundaryPermanent(TimeSpan boundary, bool disregardAnnotations = false)
 		{
-			return (TimeTier.ReadOnlyTimeRanges || Tiers.HasAdjacentAnnotation((float)boundary.TotalSeconds));
+			return (TimeTier.ReadOnlyTimeRanges || (!disregardAnnotations &&
+				Tiers.HasAdjacentAnnotation((float)boundary.TotalSeconds)));
 		}
 
 		/// ------------------------------------------------------------------------------------

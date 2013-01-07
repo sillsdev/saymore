@@ -40,7 +40,7 @@ namespace SayMore.Media.Audio
 		{
 			BoundaryHighlightColor = Color.FromArgb(100, Color.DarkSlateBlue);
 			HighlightBoundaryWhenMouseIsNear = true;
-			CanBoundaryBeMoved = b => ctrl.CanBoundaryBeMoved(b);
+			CanBoundaryBeMoved = b => ctrl.CanBoundaryBeMoved(b, false);
 		}
 
 		/// ------------------------------------------------------------------------------------

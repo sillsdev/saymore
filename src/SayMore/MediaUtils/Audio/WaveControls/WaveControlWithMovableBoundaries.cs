@@ -8,7 +8,7 @@ namespace SayMore.Media.Audio
 	{
 		public delegate bool BoundaryMovedHandler(WaveControlWithMovableBoundaries ctrl, TimeSpan oldTime, TimeSpan newTime);
 		public event BoundaryMovedHandler BoundaryMoved;
-		public Func<TimeSpan, bool> CanBoundaryBeMoved;
+		public Func<TimeSpan, bool, bool> CanBoundaryBeMoved;
 
 		protected int _mouseXAtBeginningOfSegmentMove;
 		protected int _minXForBoundaryMove;
@@ -25,9 +25,15 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected virtual bool AllowMovingBoundariesWithAdjacetAnnotations
+		{
+			get { return false; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnInitiatiatingBoundaryMove(int mouseX, TimeSpan boundary)
 		{
-			if (CanBoundaryBeMoved != null && !CanBoundaryBeMoved(boundary))
+			if (CanBoundaryBeMoved != null && !CanBoundaryBeMoved(boundary, AllowMovingBoundariesWithAdjacetAnnotations))
 				return false;
 
 			_scrollCalculator = new WaveControlScrollCalculator(this);
@@ -78,7 +84,7 @@ namespace SayMore.Media.Audio
 			{
 				base.OnMouseMoveEx(e, boundaryMouseOver);
 				Cursor = boundaryMouseOver == default(TimeSpan) ||
-					(CanBoundaryBeMoved != null && !CanBoundaryBeMoved(boundaryMouseOver)) ?
+					(CanBoundaryBeMoved != null && !CanBoundaryBeMoved(boundaryMouseOver, AllowMovingBoundariesWithAdjacetAnnotations)) ?
 					Cursors.Default : Cursors.SizeWE;
 				return;
 			}

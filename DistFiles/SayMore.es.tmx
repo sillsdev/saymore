@@ -2050,7 +2050,7 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.CarefulSpeechAnnotation">
-      <note>Type of oral annotation listed in ConfirmDeletionOfOralAnnotations message</note>
+      <note>Type of oral annotation listed in message box to confirm deletion</note>
       <tuv xml:lang="en">
         <seg>Careful Speech</seg>
       </tuv>
@@ -2058,12 +2058,36 @@
         <seg>Discurso cuidado</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotations">
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotationsForAddedBreak">
       <tuv xml:lang="en">
         <seg>Adding a segment break here would split a segment which has existing oral annotations of the following types:{0}Would you like to proceed with the addition of this segment break and delete the oral annotations?</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Añadir una división de segmento aquí dividirá un segmento que tiene anotaciones orales existentes de los siguientes tipos:{0}¿Desea continuar con la adición de esta segmento y eliminar las anotaciones orales?</seg>
+        <seg>Añadir una división de segmento aquí dividiría un segmento que tiene anotaciones orales existentes de los siguientes tipos:{0}¿Desea continuar con la adición de esta división y borrarr las anotaciones orales?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotationsForDeletedBreak">
+      <tuv xml:lang="en">
+        <seg>Would you like to proceed with the deletion of this segment break and delete the oral annotations?</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>¿Desea borrar esta división y las anotaciones orales?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.DeletionOfBreakWillDeleteOralAnnotations">
+      <tuv xml:lang="en">
+        <seg>Deleting this segment break would delete a segment which has existing oral annotations:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Borrar la división seleccionado borraría un segmento que tiene anotaciones orales existentes:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.FollowingSegment">
+      <tuv xml:lang="en">
+        <seg>Following Segment ({0})</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Segmento posterior ({0})</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.GeneralSegmentingErrorMsg">
@@ -2074,13 +2098,29 @@
         <seg>Ocurrió un error en la segmentación del archivo '{0}'.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.JoinSegmentsWithOralAnnotations">
+      <tuv xml:lang="en">
+        <seg>Deleting this segment break would join segments which have existing oral annotations:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Borrar la división seleccionado uniría segmentos que tienen anotaciones orales existentes:</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.OralTranslationAnnotation">
-      <note>Type of oral annotation listed in ConfirmDeletionOfOralAnnotations message</note>
+      <note>Type of oral annotation listed in message box to confirm deletion</note>
       <tuv xml:lang="en">
         <seg>Oral Translation</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Traducción oral</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.PrecedingSegment">
+      <tuv xml:lang="en">
+        <seg>Preceding Segment ({0})</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Segmento anterior ({0})</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.SavingSegmentsErrorMsg">
@@ -2115,20 +2155,20 @@
         <seg>Borrar la división seleccionado (presione Supr)</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonStopOriginal">
-      <tuv xml:lang="en">
-        <seg>Stop (press the SPACE BAR)</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Parar (presione la barra espaciadora)</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonListenToOriginal">
       <tuv xml:lang="en">
         <seg>Listen (press the SPACE BAR)</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Escuchar (presione la barra espaciadora)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonStopOriginal">
+      <tuv xml:lang="en">
+        <seg>Stop (press the SPACE BAR)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Parar (presione la barra espaciadora)</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.CannotRecordErrorMsg">
@@ -3359,7 +3399,6 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.drama">
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Drama</seg>
       </tuv>
@@ -3368,7 +3407,6 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.formulaic_discourse">
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Formulaic Discourse</seg>
       </tuv>
@@ -3377,7 +3415,6 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.interactive_discourse">
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Interactive Discourse</seg>
       </tuv>
@@ -3386,7 +3423,6 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.language_play">
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Language Play</seg>
       </tuv>
@@ -3395,7 +3431,6 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.narrative">
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Narrative</seg>
       </tuv>
@@ -3404,7 +3439,6 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.oratory">
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Oratory</seg>
       </tuv>
@@ -3413,7 +3447,6 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.procedural_discourse">
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Procedural Discourse</seg>
       </tuv>
@@ -3422,7 +3455,6 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.report">
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Report</seg>
       </tuv>
@@ -3431,7 +3463,6 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.singing">
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Singing</seg>
       </tuv>
@@ -3440,7 +3471,6 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.unintelligible_speech">
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Unintelligible Speech</seg>
       </tuv>

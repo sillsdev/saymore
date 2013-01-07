@@ -185,7 +185,7 @@ namespace SayMore.Transcription.UI
 		protected bool AllowDeletionOfOralAnnotations(bool hasCarefulSpeech, bool hasOralTranslation)
 		{
 			var msg = LocalizationManager.GetString(
-				"DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotations",
+				"DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotationsForAddedBreak",
 				"Adding a segment break here would split a segment which has existing oral " +
 				"annotations of the following types:{0}" +
 				"Would you like to proceed with the addition of this segment break and delete" +
@@ -199,14 +199,14 @@ namespace SayMore.Transcription.UI
 				parameter.Append("     ");
 				parameter.AppendLine(LocalizationManager.GetString(
 					"DialogBoxes.Transcription.ManualSegmenterDlg.CarefulSpeechAnnotation",
-					"Careful Speech", "Type of oral annotation listed in ConfirmDeletionOfOralAnnotations message"));
+					"Careful Speech", "Type of oral annotation listed in message box to confirm deletion"));
 			}
 			if (hasOralTranslation)
 			{
 				parameter.Append("     ");
 				parameter.AppendLine(LocalizationManager.GetString(
 					"DialogBoxes.Transcription.ManualSegmenterDlg.OralTranslationAnnotation",
-					"Oral Translation", "Type of oral annotation listed in ConfirmDeletionOfOralAnnotations message"));
+					"Oral Translation", "Type of oral annotation listed in message box to confirm deletion"));
 			}
 			parameter.AppendLine();
 
@@ -222,10 +222,18 @@ namespace SayMore.Transcription.UI
 			_newSegmentDefinedBy = SegmentDefinitionMode.Manual;
 			var boundary = _waveControl.GetSelectedBoundary();
 			float boundarySeconds = (float)boundary.TotalSeconds;
-			var ignoredBundaryToRemove = new TimeSpan();
-			if (!ViewModel.GetIsSegmentIgnored(ViewModel.TimeTier.GetSegmentHavingEndBoundary(boundarySeconds)))
+			var segmentPrecedingDeletedBreak = ViewModel.TimeTier.GetSegmentHavingEndBoundary(boundarySeconds);
+			var segmentFollowingDeletedBreak = ViewModel.TimeTier.GetSegmentHavingStartBoundary(boundarySeconds);
+
+			if (ViewModel.IsBoundaryPermanent(boundary))
 			{
-				var segmentFollowingDeletedBreak = ViewModel.TimeTier.GetSegmentHavingStartBoundary(boundarySeconds);
+				if (!ConfirmOralAnnotationDeletion(segmentPrecedingDeletedBreak, segmentFollowingDeletedBreak))
+					return;
+			}
+
+			var ignoredBundaryToRemove = new TimeSpan();
+			if (!ViewModel.GetIsSegmentIgnored(segmentPrecedingDeletedBreak))
+			{
 				if (ViewModel.GetIsSegmentIgnored(segmentFollowingDeletedBreak))
 					ignoredBundaryToRemove = segmentFollowingDeletedBreak.TimeRange.End;
 			}
@@ -234,12 +242,118 @@ namespace SayMore.Transcription.UI
 			if (!ViewModel.DeleteBoundary(boundary))
 				return;
 
+			if (segmentFollowingDeletedBreak != null)
+				_viewModel.TimeTier.DeleteAnnotationSegmentFile(segmentFollowingDeletedBreak);
+
 			_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
 			_waveControl.Painter.RemoveIgnoredRegion(boundary);
 			if (ignoredBundaryToRemove.Seconds > 0)
 				_waveControl.Painter.RemoveIgnoredRegion(ignoredBundaryToRemove);
 
 			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool ConfirmOralAnnotationDeletion(Segment segmentPreceding, Segment segmentFollowing)
+		{
+			string msg;
+			if (segmentFollowing == null)
+			{
+				msg = LocalizationManager.GetString(
+				"DialogBoxes.Transcription.ManualSegmenterDlg.DeletionOfBreakWillDeleteOralAnnotations",
+				"Deleting this segment break would delete a segment which has existing oral " +
+				"annotations:");
+			}
+			else
+			{
+				msg = LocalizationManager.GetString(
+				"DialogBoxes.Transcription.ManualSegmenterDlg.JoinSegmentsWithOralAnnotations",
+				"Deleting this segment break would join segments which have existing oral " +
+				"annotations:");
+			}
+
+			var parameter = new StringBuilder();
+			parameter.AppendLine();
+			parameter.AppendLine();
+			bool displayPrecedingLabel = (segmentFollowing != null);
+			bool displayFollowingLabel = displayPrecedingLabel;
+			if (segmentPreceding.GetHasOralAnnotation(OralAnnotationType.CarefulSpeech))
+			{
+				parameter.Append("     ");
+				if (displayPrecedingLabel)
+				{
+					var str = LocalizationManager.GetString(
+						"DialogBoxes.Transcription.ManualSegmenterDlg.PrecedingSegment",
+						"Preceding Segment ({0})");
+					parameter.AppendLine(string.Format(str, segmentPreceding.TimeRange));
+					parameter.Append("          ");
+					displayPrecedingLabel = false;
+				}
+				parameter.AppendLine(LocalizationManager.GetString(
+					"DialogBoxes.Transcription.ManualSegmenterDlg.CarefulSpeechAnnotation",
+					"Careful Speech", "Type of oral annotation listed in message box to confirm deletion"));
+			}
+			if (segmentPreceding.GetHasOralAnnotation(OralAnnotationType.Translation))
+			{
+				parameter.Append("     ");
+				if (displayPrecedingLabel)
+				{
+					var str = LocalizationManager.GetString(
+						"DialogBoxes.Transcription.ManualSegmenterDlg.PrecedingSegment",
+						"Preceding Segment ({0})");
+					parameter.AppendLine(string.Format(str, segmentPreceding.TimeRange));
+					parameter.Append("          ");
+				}
+				else if (segmentFollowing != null)
+					parameter.Append("     ");
+
+				parameter.AppendLine(LocalizationManager.GetString(
+					"DialogBoxes.Transcription.ManualSegmenterDlg.OralTranslationAnnotation",
+					"Oral Translation", "Type of oral annotation listed in message box to confirm deletion"));
+			}
+			if (segmentFollowing != null)
+			{
+				if (segmentFollowing.GetHasOralAnnotation(OralAnnotationType.CarefulSpeech))
+				{
+					parameter.Append("     ");
+					var str = LocalizationManager.GetString(
+						"DialogBoxes.Transcription.ManualSegmenterDlg.FollowingSegment",
+						"Following Segment ({0})");
+					parameter.AppendLine(string.Format(str, segmentFollowing.TimeRange));
+					parameter.Append("          ");
+					displayFollowingLabel = false;
+					parameter.AppendLine(LocalizationManager.GetString(
+						"DialogBoxes.Transcription.ManualSegmenterDlg.CarefulSpeechAnnotation",
+						"Careful Speech", "Type of oral annotation listed in message box to confirm deletion"));
+				}
+				if (segmentFollowing.GetHasOralAnnotation(OralAnnotationType.Translation))
+				{
+					parameter.Append("     ");
+					if (displayFollowingLabel)
+					{
+						var str = LocalizationManager.GetString(
+							"DialogBoxes.Transcription.ManualSegmenterDlg.FollowingSegment",
+							"Following Segment ({0})");
+						parameter.AppendLine(string.Format(str, segmentFollowing.TimeRange));
+						parameter.Append("          ");
+					}
+					else
+						parameter.Append("     ");
+					parameter.AppendLine(LocalizationManager.GetString(
+						"DialogBoxes.Transcription.ManualSegmenterDlg.OralTranslationAnnotation",
+						"Oral Translation", "Type of oral annotation listed in message box to confirm deletion"));
+				}
+			}
+			parameter.AppendLine();
+
+			msg += parameter +
+				LocalizationManager.GetString(
+				"DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotationsForDeletedBreak",
+				"Would you like to proceed with the deletion of this segment break and delete" +
+				" the oral annotations?");
+
+			return (MessageBox.Show(this, msg, Text, MessageBoxButtons.YesNo,
+				MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -327,6 +441,7 @@ namespace SayMore.Transcription.UI
 			{
 				_waveControl.ClearSelectedBoundary();
 				_buttonDeleteSegment.Enabled = false;
+				_pictureIcon.Visible = _labelInfo.Visible = false;
 			}
 			else
 			{

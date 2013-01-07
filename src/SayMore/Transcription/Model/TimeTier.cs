@@ -365,7 +365,7 @@ namespace SayMore.Transcription.Model
 		{
 			try
 			{
-				var path = Path.Combine(SegmentFileFolder, ComputeFileNameForCarefulSpeechSegment(segment));
+				var path = GetFullPathToCarefulSpeechFile(segment);
 				if (File.Exists(path))
 				{
 					if (BackupOralAnnotationSegmentFileAction != null)
@@ -378,7 +378,7 @@ namespace SayMore.Transcription.Model
 
 			try
 			{
-				var path = Path.Combine(SegmentFileFolder, ComputeFileNameForOralTranslationSegment(segment));
+				var path = GetFullPathToOralTranslationFile(segment);
 				if (File.Exists(path))
 				{
 					if (BackupOralAnnotationSegmentFileAction != null)

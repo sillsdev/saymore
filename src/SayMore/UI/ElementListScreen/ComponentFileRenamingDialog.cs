@@ -48,7 +48,7 @@ namespace SayMore.UI.ElementListScreen
 			IntializeLink(_linkCareful, ComponentRole.kCarefulSpeechComponentRoleId);
 			IntializeLink(_linkOralTranslation, ComponentRole.kOralTranslationComponentRoleId);
 			IntializeLink(_linkTranscription, ComponentRole.kTranscriptionComponentRoleId);
-			IntializeLink(_linkWrittenTranslation, ComponentRole.kTranscriptionComponentRoleId);
+			IntializeLink(_linkWrittenTranslation, ComponentRole.kFreeTranslationComponentRoleId);
 
 			_textBox.ReadOnly = !_componentFile.CanBeCustomRenamed;
 		}

@@ -140,7 +140,7 @@ namespace SayMore
 					new ComponentRole(typeof(Session), ComponentRole.kTranscriptionComponentRoleId,
 						LocalizationManager.GetString("SessionsView.SessionsList.Stages.Transcription", "Transcription"),
 						ComponentRole.MeasurementTypes.Words,
-						FileSystemUtils.GetIsAudioVideo, ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Transcription",
+						FileSystemUtils.GetIsText, ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Transcription",
 						Settings.Default.WorkflowStageColor5,
 						Settings.Default.WorkflowStageTextColor5);
 

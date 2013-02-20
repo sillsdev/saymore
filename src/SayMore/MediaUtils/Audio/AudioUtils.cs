@@ -353,37 +353,38 @@ namespace SayMore.Media.Audio
 		private static bool DoPcmConversion(string inputMediaFile, string outputAudioFile,
 			WaveFormat preferredOutputFormat)
 		{
-			// TODO: Either figure out how to get FFmpeg to correctly extract PCM audio from Viji Snow.AVI, or else figure out how to detect this condition and use Mplayer.
-			// If ffmpeg is is available, then use it. Otherwise do the conversion using mplayer.
-			if (!FFmpegDownloadHelper.DoesFFmpegForSayMoreExist)
+			string output;
+			var result = MPlayerHelper.CreatePcmAudioFromMediaFile(inputMediaFile,
+				outputAudioFile, preferredOutputFormat, out output);
+			if ((result & MPlayerHelper.ConversionResult.FinishedConverting) != 0)
 			{
-				string output;
-				var result = MPlayerHelper.CreatePcmAudioFromMediaFile(inputMediaFile,
-					outputAudioFile, preferredOutputFormat, out output);
-				if ((result & MPlayerHelper.ConversionResult.FinishedConverting) == 0)
-					return false;
+				// Possibly succeeded
 				if ((result & MPlayerHelper.ConversionResult.PossibleError) > 0)
 					ReportPossibleConversionProblem(output);
 				return true;
 			}
 
-			var _model = new ConvertMediaDlgViewModel(inputMediaFile,
+			// If ffmpeg is available, then try it as a fallback, since Mplayer had problems.
+			if (!FFmpegDownloadHelper.DoesFFmpegForSayMoreExist)
+				return false;
+
+			var model = new ConvertMediaDlgViewModel(inputMediaFile,
 					ConvertMediaDlg.GetFactoryExtractToStandardPcmConversionName());
 
-			_model.BeginConversion(null, outputAudioFile, preferredOutputFormat);
+			model.BeginConversion(null, outputAudioFile, preferredOutputFormat);
 
-			var finishedState = _model.ConversionState & ConvertMediaUIState.AllFinishedStates;
+			var finishedState = model.ConversionState & ConvertMediaUIState.AllFinishedStates;
 
 			if (finishedState == ConvertMediaUIState.FinishedConverting)
 			{
-				if ((_model.ConversionState & ConvertMediaUIState.PossibleError) > 0)
-					ReportPossibleConversionProblem(_model.ConversionOutput);
+				if ((model.ConversionState & ConvertMediaUIState.PossibleError) > 0)
+					ReportPossibleConversionProblem(model.ConversionOutput);
 				return File.Exists(outputAudioFile);
 			}
 
 			if (finishedState == ConvertMediaUIState.ConversionFailed)
 			{
-				var e = _model.ConversionException;
+				var e = model.ConversionException;
 				if (e != null)
 					throw e;
 			}

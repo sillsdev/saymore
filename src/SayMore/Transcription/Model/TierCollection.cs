@@ -155,7 +155,7 @@ namespace SayMore.Transcription.Model
 			var timeTier = GetTimeTier();
 
 			var newSeg = timeTier.AppendSegment(boundary);
-			var i = timeTier.GetIndexOfSegment(newSeg);
+			//var i = timeTier.GetIndexOfSegment(newSeg);
 
 			var transcriptionTier = GetTranscriptionTier();
 			foreach (var tier in this.OfType<TextTier>())

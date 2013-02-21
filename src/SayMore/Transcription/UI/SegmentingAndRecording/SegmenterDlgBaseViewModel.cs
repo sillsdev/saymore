@@ -522,20 +522,22 @@ namespace SayMore.Transcription.UI
 		protected virtual bool UpdateSegmentBoundary(TimeSpan oldEndTime, TimeSpan newEndTime)
 		{
 			var seg = TimeTier.Segments.FirstOrDefault(s => s.TimeRange.End == oldEndTime);
-			if (seg == null)
-				return false;
+			return seg != null && UpdateSegmentBoundary(seg, newEndTime);
+		}
 
+		/// ------------------------------------------------------------------------------------
+		private bool UpdateSegmentBoundary(Segment seg, TimeSpan newEndTime)
+		{
 			var origTimeRange = seg.TimeRange.Copy();
 
-			var result = TimeTier.ChangeSegmentsEndBoundary(
-				(float)oldEndTime.TotalSeconds, (float)newEndTime.TotalSeconds);
-
-			if (result != BoundaryModificationResult.Success)
+			if (TimeTier.ChangeSegmentsEndBoundary(seg.TimeRange.EndSeconds, (float)newEndTime.TotalSeconds) !=
+				BoundaryModificationResult.Success)
+			{
 				return false;
+			}
 
 			_undoStack.Push(new SegmentChange(SegmentChangeType.EndBoundaryMoved, origTimeRange, seg.TimeRange.Copy(),
 				c => SegmentBoundaryMoved(c.NewRange.End, c.OriginalRange.End)));
-
 			return true;
 		}
 
@@ -743,6 +745,26 @@ namespace SayMore.Transcription.UI
 		{
 			if (UpdateDisplayProvider != null)
 				UpdateDisplayProvider();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// If not fully segmented and final segment is within 5 seconds of the end of the
+		/// source recording, either extend existing final segment to end of wavestream or add
+		/// a final ignored segment.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void AddFinalSegmentIfAlmostComplete()
+		{
+			var lastSegment = TimeTier.Segments.GetLast();
+			var endOfLastSegment = lastSegment.End;
+			var endOfWaveStream = (float)OrigWaveStream.TotalTime.TotalSeconds;
+			if (endOfLastSegment.Equals(endOfWaveStream) || endOfWaveStream - endOfLastSegment > 5)
+				return;
+			if ((endOfWaveStream - endOfLastSegment) * 1000 < Settings.Default.MinimumSegmentLengthInMilliseconds)
+				UpdateSegmentBoundary(lastSegment, OrigWaveStream.TotalTime);
+			else
+				AddIgnoredSegment(OrigWaveStream.TotalTime);
 		}
 	}
 }

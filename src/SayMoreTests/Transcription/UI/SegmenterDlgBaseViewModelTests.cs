@@ -945,5 +945,68 @@ namespace SayMoreTests.Transcription.UI
 			Assert.AreEqual("last segment", _model.Tiers.GetTranscriptionTier().Segments[startingSegmentCount - 1].Text);
 			Assert.IsFalse(_model.GetIsSegmentIgnored(startingSegmentCount - 1));
 		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AddFinalSegmentIfAlmostComplete_SixSecondsRemaining_DoesNothing()
+		{
+			AddTextSegmentsForAllTimeSegments();
+			_model.InsertNewBoundary(_model.OrigWaveStream.TotalTime.Add(TimeSpan.FromSeconds(-6)));
+			var initialTimeRangeForUndo = _model.TimeRangeForUndo;
+
+			var startingSegmentCount = _model.GetSegmentCount();
+			_model.AddFinalSegmentIfAlmostComplete();
+			Assert.AreEqual(startingSegmentCount, _model.GetSegmentCount());
+			Assert.IsFalse(_model.GetIsSegmentIgnored(startingSegmentCount));
+			Assert.AreEqual(initialTimeRangeForUndo, _model.TimeRangeForUndo);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AddFinalSegmentIfAlmostComplete_FiveSecondsRemaining_AddsFinalSegment()
+		{
+			AddTextSegmentsForAllTimeSegments();
+			_model.InsertNewBoundary(_model.OrigWaveStream.TotalTime.Add(TimeSpan.FromSeconds(-5)));
+			var initialTimeRangeForUndo = _model.TimeRangeForUndo;
+
+			var startingSegmentCount = _model.GetSegmentCount();
+			_model.AddFinalSegmentIfAlmostComplete();
+			Assert.AreEqual(startingSegmentCount + 1, _model.GetSegmentCount());
+			Assert.AreEqual(_model.OrigWaveStream.TotalTime, _model.GetEndOfLastSegment());
+			Assert.IsTrue(_model.GetIsSegmentIgnored(startingSegmentCount));
+			Assert.AreNotEqual(initialTimeRangeForUndo, _model.TimeRangeForUndo);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AddFinalSegmentIfAlmostComplete_LessThanMinimumSegmentLengthRemaining_ExtendsFinalSegment()
+		{
+			AddTextSegmentsForAllTimeSegments();
+			_model.InsertNewBoundary(_model.OrigWaveStream.TotalTime.Add(TimeSpan.FromSeconds(
+				-(Settings.Default.MinimumSegmentLengthInMilliseconds - 1) / 1000f)));
+			var initialTimeRangeForUndo = _model.TimeRangeForUndo;
+
+			var startingSegmentCount = _model.GetSegmentCount();
+			_model.AddFinalSegmentIfAlmostComplete();
+			Assert.AreEqual(startingSegmentCount, _model.GetSegmentCount());
+			Assert.AreEqual(_model.OrigWaveStream.TotalTime, _model.GetEndOfLastSegment());
+			Assert.IsFalse(_model.GetIsSegmentIgnored(startingSegmentCount));
+			Assert.AreNotEqual(initialTimeRangeForUndo, _model.TimeRangeForUndo);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AddFinalSegmentIfAlmostComplete_CompletelySegmented_DoesNothing()
+		{
+			AddTextSegmentsForAllTimeSegments();
+			_model.InsertNewBoundary(_model.OrigWaveStream.TotalTime);
+			var initialTimeRangeForUndo = _model.TimeRangeForUndo;
+
+			var startingSegmentCount = _model.GetSegmentCount();
+			_model.AddFinalSegmentIfAlmostComplete();
+			Assert.AreEqual(startingSegmentCount, _model.GetSegmentCount());
+			Assert.IsFalse(_model.GetIsSegmentIgnored(startingSegmentCount));
+			Assert.AreEqual(initialTimeRangeForUndo, _model.TimeRangeForUndo);
+		}
 	}
 }

@@ -386,7 +386,12 @@ namespace SayMore.Transcription.UI
 			e.Cancel = false;
 
 			if (DialogResult == DialogResult.OK)
+			{
+				// Create final segment if necessary to complete segmentation if last segment break is within 5
+				// seconds of the end of the recording.
+				_viewModel.AddFinalSegmentIfAlmostComplete();
 				_viewModel.CreateMissingTextSegmentsToMatchTimeSegmentCount();
+			}
 
 			base.OnFormClosing(e);
 		}

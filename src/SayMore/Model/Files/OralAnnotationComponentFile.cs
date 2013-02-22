@@ -58,16 +58,15 @@ namespace SayMore.Model.Files
 			var eafFile = AssociatedComponentFile.GetAnnotationFile();
 			if (eafFile == null)
 				return; // nothing we can do.
-			var tiers = eafFile.Tiers;
 
 			if (option == GenerateOption.GenerateIfNeeded)
 			{
-				var oralAnnotationFilename = tiers.GetTimeTier().MediaFileName + Settings.Default.OralAnnotationGeneratedFileSuffix;
+				var oralAnnotationFilename = GetPathToSourceMediaFile() + Settings.Default.OralAnnotationGeneratedFileSuffix;
 				var finfo = new FileInfo(oralAnnotationFilename);
 				if (!finfo.Exists || finfo.Length == 0)
 					option = GenerateOption.RegenerateNow;
 			}
-			AssociatedComponentFile.GenerateOralAnnotationFile(tiers, parentOfProgressPopup, option);
+			AssociatedComponentFile.GenerateOralAnnotationFile(eafFile.Tiers, parentOfProgressPopup, option);
 		}
 	}
 }

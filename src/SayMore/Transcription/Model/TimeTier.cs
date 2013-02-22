@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Linq;
+using Localization;
+using Palaso.Reporting;
 using SayMore.Media;
 using SayMore.Properties;
 using SayMore.Transcription.UI;
@@ -36,10 +38,21 @@ namespace SayMore.Transcription.Model
 		/// temp. location.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public TimeTier(string id, string filename) : base(id, tier => new AudioWaveFormColumn(tier))
+		public TimeTier(string id, string filename)
+			: base(id, tier => new AudioWaveFormColumn(tier))
 		{
 			MediaFileName = filename;
-			_totalTime = MediaFileInfo.GetInfo(filename).Duration;
+			try
+			{
+				_totalTime = MediaFileInfo.GetInfo(filename).Duration;
+			}
+			catch (Exception e)
+			{
+				var msg = LocalizationManager.GetString("SessionsView.Transcription.ErrorAccessingMediaFile",
+				"There was an error accessing media file to determine the duration: '{0}'");
+
+				ErrorReport.NotifyUserOfProblem(e, msg, filename);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

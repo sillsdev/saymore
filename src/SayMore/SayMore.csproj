@@ -331,6 +331,12 @@
     <Compile Include="UI\ComponentEditors\ContributorsEditor.designer.cs">
       <DependentUpon>ContributorsEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ComponentEditors\MissingMediaFileEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\MissingMediaFileEditor.designer.cs">
+      <DependentUpon>MissingMediaFileEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ComponentEditors\CustomFieldsValuesGridViewModel.cs" />
     <Compile Include="UI\ComponentEditors\EditorBase.cs">
       <SubType>UserControl</SubType>
@@ -695,6 +701,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\ContributorsEditor.resx">
       <DependentUpon>ContributorsEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\MissingMediaFileEditor.resx">
+      <DependentUpon>MissingMediaFileEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\ImageViewer.resx">
       <DependentUpon>ImageViewer.cs</DependentUpon>

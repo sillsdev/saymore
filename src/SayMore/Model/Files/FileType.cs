@@ -11,6 +11,7 @@ using SayMore.Media;
 using SayMore.Media.Audio;
 using SayMore.Model.Fields;
 using SayMore.Properties;
+using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
 using SayMore.UI;
 using SayMore.UI.ComponentEditors;
@@ -516,7 +517,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static bool GetIsAnAnnotationFile(string path)
 		{
-			var annotationSuffix = ".annotations" + Settings.Default.AnnotationFileExtension.ToLower();
+			var annotationSuffix = AnnotationFileHelper.kAnnotationsEafFileSuffix;
 
 			return (path.ToLower().EndsWith(annotationSuffix) &&
 				File.Exists(path.ToLower().Replace(annotationSuffix, string.Empty)));
@@ -528,6 +529,40 @@ namespace SayMore.Model.Files
 			yield return _textAnnotationEditorFactoryLazy()(file, "Annotation");
 			//yield return _contributorsEditorFactoryLazy()(file, null);
 			//yield return new NotesEditor(file);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string GetMetaFilePath(string pathToAnnotatedFile)
+		{
+			return pathToAnnotatedFile; //we are our own metadata file, there is no sidecar
+		}
+	}
+
+	#endregion
+
+	#region AnnotationFileWithMisingMediaFileType class
+	/// ----------------------------------------------------------------------------------------
+	public class AnnotationFileWithMisingMediaFileType : FileType
+	{
+		/// ------------------------------------------------------------------------------------
+		public AnnotationFileWithMisingMediaFileType()
+			: base("AnnotationsWithMissingMedia", GetIsAnAnnotationFileWithMissingMedia)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool GetIsAnAnnotationFileWithMissingMedia(string path)
+		{
+			var annotationSuffix = AnnotationFileHelper.kAnnotationsEafFileSuffix;
+
+			return (path.ToLower().EndsWith(annotationSuffix) &&
+				!File.Exists(path.ToLower().Replace(annotationSuffix, string.Empty)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
+		{
+			yield return new MissingMediaFileEditor(file, "/Concepts/ELAN.htm");
 		}
 
 		/// ------------------------------------------------------------------------------------

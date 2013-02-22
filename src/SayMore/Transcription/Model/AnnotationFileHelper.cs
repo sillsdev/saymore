@@ -25,7 +25,7 @@ namespace SayMore.Transcription.Model
 		public string AnnotationFileName { get; private set; }
 		public XElement Root { get; private set; }
 
-		public const string kAnnotationsEafFileSuffix = ".annotations.eaf";
+		public static string kAnnotationsEafFileSuffix = ".annotations" + Settings.Default.AnnotationFileExtension.ToLower();
 
 		private string _mediaFileName;
 

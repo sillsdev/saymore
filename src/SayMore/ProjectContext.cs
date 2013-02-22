@@ -88,6 +88,7 @@ namespace SayMore
 				builder.RegisterType<SessionFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<PersonFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<AnnotationFileType>().InstancePerLifetimeScope();
+				builder.RegisterType<AnnotationFileWithMisingMediaFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<OralAnnotationFileType>().InstancePerLifetimeScope();
 
 				//when something needs the list of filetypes, get them from this method
@@ -150,6 +151,7 @@ namespace SayMore
 				context.Resolve<AudioFileType>(),
 				context.Resolve<VideoFileType>(),
 				context.Resolve<ImageFileType>(),
+				context.Resolve<AnnotationFileWithMisingMediaFileType>(),
 				context.Resolve<UnknownFileType>(),
 			});
 		}

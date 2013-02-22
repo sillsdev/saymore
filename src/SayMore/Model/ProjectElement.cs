@@ -394,7 +394,7 @@ namespace SayMore.Model
 							// need to make sure the annotation file is updated internally so it's
 							// pointing to the renamed media file. This fixes SP-399.
 							var newMediaFileName = newFileName.Replace(
-								".annotations" + Settings.Default.AnnotationFileExtension, string.Empty);
+								AnnotationFileHelper.kAnnotationsEafFileSuffix, string.Empty);
 
 							AnnotationFileHelper.ChangeMediaFileName(newFileName, newMediaFileName);
 						}

@@ -225,7 +225,7 @@ namespace SayMore.Model.Files
 			if (!GetCanHaveAnnotationFile())
 				return null;
 
-			var template = "{0}.annotations" + Settings.Default.AnnotationFileExtension;
+			var template = "{0}" + AnnotationFileHelper.kAnnotationsEafFileSuffix;
 			return string.Format(template, PathToAnnotatedFile);
 		}
 

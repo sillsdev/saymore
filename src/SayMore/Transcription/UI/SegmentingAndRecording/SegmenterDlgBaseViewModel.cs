@@ -129,7 +129,7 @@ namespace SayMore.Transcription.UI
 						fmt = LocalizationManager.GetString(
 							"DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.AnnotationDeleted",
 							"Deletion of annotation for segment {0}",
-							"Parameter is time range of the segment for which the annotation was deleted (This undo action is included for cmpleteness, but currently never gets displayed in UI).");
+							"Parameter is time range of the segment for which the annotation was deleted (This undo action is included for completeness, but currently never gets displayed in UI).");
 						return String.Format(fmt, OriginalRange);
 					case SegmentChangeType.Ignored:
 						fmt = LocalizationManager.GetString(

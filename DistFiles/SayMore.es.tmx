@@ -2821,6 +2821,14 @@
         <seg>Ver notas de la versión...</seg>
       </tuv>
     </tu>
+    <tu tuid="ManualSegmenterDlg._labelInfo">
+      <tuv xml:lang="en">
+        <seg>One of the segments delineated by the selected break already has oral annotations.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Uno de los segmentos delineados por la división de segmentos seleccionada ya tiene anotaciones orales.</seg>
+      </tuv>
+    </tu>
     <tu tuid="Miscellaneous.CopyFilesControl.CopyFailedMsg">
       <tuv xml:lang="en">
         <seg>Copying failed: {0}</seg>
@@ -2883,6 +2891,16 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Todavía no hay ajustes preestablecidos</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MissingMediaFileEditor.linkHelpTopic">
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>Show Help topic for ELAN</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Mostrar el tema de ayuda para ELAN</seg>
       </tuv>
     </tu>
     <tu tuid="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem">
@@ -3399,6 +3417,10 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.drama">
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Drama</seg>
       </tuv>
@@ -3407,6 +3429,10 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.formulaic_discourse">
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Formulaic Discourse</seg>
       </tuv>
@@ -3415,6 +3441,10 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.interactive_discourse">
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Interactive Discourse</seg>
       </tuv>
@@ -3423,6 +3453,10 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.language_play">
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Language Play</seg>
       </tuv>
@@ -3431,6 +3465,10 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.narrative">
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Narrative</seg>
       </tuv>
@@ -3439,6 +3477,10 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.oratory">
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Oratory</seg>
       </tuv>
@@ -3447,6 +3489,10 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.procedural_discourse">
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Procedural Discourse</seg>
       </tuv>
@@ -3455,6 +3501,10 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.report">
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Report</seg>
       </tuv>
@@ -3463,6 +3513,10 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.singing">
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Singing</seg>
       </tuv>
@@ -3471,6 +3525,10 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.unintelligible_speech">
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Unintelligible Speech</seg>
       </tuv>
@@ -3605,6 +3663,38 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>No se pudo cambiar el nombre de {0} a {1} porque existe una sesión con el mismo nombre.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MissingMediaFileEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Missing Media File</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Falta el archivo multimedia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MissingMediaFileEditor.lblExplanation">
+      <tuv xml:lang="en">
+        <seg>This can happen if the media file is inadvertently deleted or renamed outside of SayMore. It could also happen if a properly named ELAN file is added to a SayMore session but internally refers to a media file that is not where SayMore expects to find it. If you have access to the media file and would like to be able to annotate it in SayMore, please copy it to the above location.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Esto puede ocurrir al eliminar o cambiar el nombre del archivo multimedia por error fuera de SayMore. También puede ocurrir si un archivo de ELAN se añade a una sesión en SayMore el cual se refiere internamente a un archivo multimedia que no está donde SayMore espera encontrarlo. Si usted tiene acceso al archivo multimedia y desea anotarlo en SayMore, favor de copiarlo en el lugar mencionado anteriormente.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MissingMediaFileEditor.lblMediaFileMissing">
+      <tuv xml:lang="en">
+        <seg>The media file for this ELAN file could not be found. SayMore expected to find it here:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No se encuentra el archivo multimedia para este archivo ELAN. SayMore espera encontrarlo aquí:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MissingMediaFileEditor.linkHelpTopic">
+      <tuv xml:lang="en">
+        <seg>Show Help topic for ELAN</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Mostrar el tema de ayuda para ELAN</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionStatus.Finished">

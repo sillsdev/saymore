@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -410,6 +411,8 @@ namespace SayMore.Transcription.Model
 
 			var freeTransAnnotations = GetFreeTranslationTierAnnotations();
 
+			EnsureMediaFileIsCorrect();
+
 			var timeOrderTier = new TimeTier(GetFullPathToMediaFile());
 			var transcriptionTier = new TextTier(TextTier.ElanTranscriptionTierId);
 			var freeTransTier = new TextTier(TextTier.ElanTranslationTierId);
@@ -434,6 +437,32 @@ namespace SayMore.Transcription.Model
 			timeOrderTier.ReadOnlyTimeRanges = GetDoesTranscriptionTierHaveDepedentTimeSubdivisionTier();
 
 			return collection;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void EnsureMediaFileIsCorrect()
+		{
+			var mediaFilePath = GetFullPathToMediaFile();
+			var sessionFolder = Path.GetDirectoryName(AnnotationFileName);
+			Debug.Assert(sessionFolder != null);
+			if (Path.GetDirectoryName(mediaFilePath) == sessionFolder &&
+				ComputeEafFileNameFromOralAnnotationFile(mediaFilePath) == AnnotationFileName)
+				return;
+
+			// REVIEW: Should we prompt the user before making this fix. This is a very unlikely
+			// scenario (see SP-698), and it's almost certainly the right thing to do, but is there
+			// possibly some situation when the user wouldn't want this?
+			var eafFileName = Path.GetFileName(AnnotationFileName);
+			Debug.Assert(eafFileName != null);
+			var mediaFileName = eafFileName.Remove(eafFileName.Length - kAnnotationsEafFileSuffix.Length);
+			if (File.Exists(Path.Combine(sessionFolder, mediaFileName)))
+			{
+				UsageReporter.SendEvent("AnnotationFileHelper", "EnsureMediaFileIsCorrect",
+					string.Format("Automatic repair of Media File URL ({0})in annotatios.eaf file: {1}",
+					_mediaFileName, AnnotationFileName), null, 0);
+				SetMediaFile(mediaFileName);
+				Save();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -451,7 +451,11 @@ namespace SayMore.Transcription.Model
 
 			// REVIEW: Should we prompt the user before making this fix. This is a very unlikely
 			// scenario (see SP-698), and it's almost certainly the right thing to do, but is there
-			// possibly some situation when the user wouldn't want this?
+			// possibly some situation when the user wouldn't want this? Specifically, do we need
+			// to consider the scenario where the EAF file points to a valid (existing) media file?
+			// In this situation, I don't think anything would crash, but the program could behave
+			// rather badly since it would assume that the information (duration, etc.) pulled from
+			// the media file refrenced in the EAF file applied to the media file in the session.
 			var eafFileName = Path.GetFileName(AnnotationFileName);
 			Debug.Assert(eafFileName != null);
 			var mediaFileName = eafFileName.Remove(eafFileName.Length - kAnnotationsEafFileSuffix.Length);

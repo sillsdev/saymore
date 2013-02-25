@@ -448,7 +448,8 @@ namespace SayMore.Transcription.Model
 			if (Path.GetDirectoryName(mediaFilePath) == sessionFolder &&
 				ComputeEafFileNameFromOralAnnotationFile(mediaFilePath) == AnnotationFileName)
 				return;
-
+			if (!AnnotationFileName.EndsWith(kAnnotationsEafFileSuffix))
+				return;
 			// REVIEW: Should we prompt the user before making this fix. This is a very unlikely
 			// scenario (see SP-698), and it's almost certainly the right thing to do, but is there
 			// possibly some situation when the user wouldn't want this? Specifically, do we need

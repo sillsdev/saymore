@@ -757,6 +757,8 @@ namespace SayMore.Transcription.UI
 		public void AddFinalSegmentIfAlmostComplete()
 		{
 			var lastSegment = TimeTier.Segments.GetLast();
+			if (lastSegment == null)
+				return;
 			var endOfLastSegment = lastSegment.End;
 			var endOfWaveStream = (float)OrigWaveStream.TotalTime.TotalSeconds;
 			if (endOfLastSegment.Equals(endOfWaveStream) || endOfWaveStream - endOfLastSegment > 5)

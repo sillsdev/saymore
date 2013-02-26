@@ -948,6 +948,16 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void AddFinalSegmentIfAlmostComplete_NoSegments_DoesNothing()
+		{
+			_model.TimeTier.Segments.Clear();
+			Assert.AreEqual(0, _model.GetSegmentCount());
+			_model.AddFinalSegmentIfAlmostComplete();
+			Assert.AreEqual(0, _model.GetSegmentCount());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void AddFinalSegmentIfAlmostComplete_SixSecondsRemaining_DoesNothing()
 		{
 			AddTextSegmentsForAllTimeSegments();

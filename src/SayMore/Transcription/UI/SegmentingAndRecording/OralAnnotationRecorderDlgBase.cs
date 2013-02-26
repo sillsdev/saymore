@@ -25,6 +25,7 @@ namespace SayMore.Transcription.UI
 			Listen,
 			Record,
 			Done,
+			Error,
 		}
 
 		private enum AdvanceOptionsAfterRecording
@@ -130,6 +131,8 @@ namespace SayMore.Transcription.UI
 		{
 			if (!AudioUtils.GetCanRecordAudio(true))
 			{
+				if (_spaceBarMode == SpaceBarMode.Record)
+					_spaceBarMode = SpaceBarMode.Error;
 				ViewModel.CloseAnnotationRecorder();
 				if (!_checkForRecordingDevice.Enabled)
 					_checkForRecordingDevice.Start();
@@ -145,6 +148,11 @@ namespace SayMore.Transcription.UI
 				_checkForRecordingDevice.Stop();
 				ViewModel.InitializeAnnotationRecorder(_peakMeter, _recDeviceButton,
 					HandleAnnotationRecordingProgress);
+				if (_spaceBarMode == SpaceBarMode.Error)
+				{
+					_spaceBarMode = _userHasListenedToSelectedSegment ? SpaceBarMode.Record :
+						SpaceBarMode.Listen;
+				}
 				_waveControl.Invalidate();
 				UpdateDisplay();
 			}
@@ -268,14 +276,13 @@ namespace SayMore.Transcription.UI
 				_waveControl.Stop();
 
 			_playingBackUsingHoldDownButton = false;
-			if (ViewModel.GetSelectedSegmentIsLongEnough())
+			if (ViewModel.GetSelectedSegmentIsLongEnough() &&
+				(_userHasListenedToSelectedSegment || ViewModel.CurrentUnannotatedSegment == null))
 			{
-				if (_userHasListenedToSelectedSegment || ViewModel.CurrentUnannotatedSegment == null)
-				{
-					_userHasListenedToSelectedSegment = true;
-					_spaceBarMode = SpaceBarMode.Record;
-				}
+				_userHasListenedToSelectedSegment = true;
+				_spaceBarMode = (AudioUtils.GetCanRecordAudio(true)) ? SpaceBarMode.Record : SpaceBarMode.Error;
 			}
+
 			UpdateDisplay();
 		}
 
@@ -742,7 +749,7 @@ namespace SayMore.Transcription.UI
 			{
 				InvalidateBottomReservedRectangleForCurrentUnannotatedSegment();
 				_userHasListenedToSelectedSegment = true;
-				_spaceBarMode = SpaceBarMode.Record;
+				_spaceBarMode = (AudioUtils.GetCanRecordAudio(true)) ? SpaceBarMode.Record : SpaceBarMode.Error;
 				UpdateDisplay();
 			}
 		}
@@ -1195,7 +1202,7 @@ namespace SayMore.Transcription.UI
 		private void HandleCursorBlinkTimerTick(object sender, EventArgs e)
 		{
 			var newSegmentCursorRect = GetNewSegmentCursorRectangle();
-			if ((_spaceBarMode == SpaceBarMode.Done ||
+			if ((_spaceBarMode == SpaceBarMode.Done || _spaceBarMode == SpaceBarMode.Error ||
 				(_spaceBarMode == SpaceBarMode.Listen && newSegmentCursorRect == Rectangle.Empty)) ||
 				_waveControl.IsPlaying ||
 				ViewModel.GetIsAnnotationPlaying() ||
@@ -1536,6 +1543,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRecordAnnotationMouseDown(object sender, MouseEventArgs e)
 		{
+			// SP-703: Presumably some sort of NAudio error got the Recorder to be set to null
+			// but the exact timing somehow still allowed us to get here. If we upgrade to
+			// NAudio 1.6 or later, we probably won't need this check.
+			if (ViewModel.Recorder == null)
+				return;
 			if (!ViewModel.Recorder.GetIsInErrorState(true))
 				BeginRecording(ViewModel.GetSelectedTimeRange());
 		}

@@ -1,0 +1,3068 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tmx version="1.4">
+  <header srclang="zh-Hans" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4682.28436" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+    <prop type="x-appversion">2.1.152.0</prop>
+    <prop type="x-hardlinebreakreplacement">\n</prop>
+    <prop type="x-hardlinebreakreplacement">\n</prop>
+  </header>
+  <body>
+    <tu tuid="CommonToMultipleViews.AttemptedRetriesMsg">
+      <note>Parameter is the number of times SayMore has attempted to move the temp file to the permanent location.</note>
+      <tuv xml:lang="en">
+        <seg>(Retries attempted: {0})</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>(再次尝试: {0})</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.AudioUtils.NoPlaybackDevicesFoundMsg">
+      <tuv xml:lang="en">
+        <seg>Currently SayMore is unable to find any audio playback devices installed and enabled on this computer.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>不能找到可用的播放设备。</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.AudioUtils.NoRecordingDevicesFoundMsg">
+      <tuv xml:lang="en">
+        <seg>Currently audio recordings cannot be made because SayMore is unable to find any recording devices installed and enabled on this computer.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>不能录音，当前电脑没有找到录音设备。</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.AudioUtils.UnexpectedAudioErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an unexpected audio error.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>出现不可预计的音频错误。</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ContributorsEditor.MissingContributorNameMsg">
+      <tuv xml:lang="en">
+        <seg>Enter a name.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>输入一个名字</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ContributorsEditor.MissingContributorRoleMsg">
+      <tuv xml:lang="en">
+        <seg>Choose a role.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>选择一个角色 </seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ContributorsEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Contributors</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>贡献者</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ElementList.ColumnChooserButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Choose Columns</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>选择栏</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ElementList.NewButtonText">
+      <note>Button for adding new sessions and people</note>
+      <tuv xml:lang="en">
+        <seg>&amp;New</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;新建</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ElementList.OneColumnMustBeVisibleMsg">
+      <note>Displayed when user clears all columns for display in sessions or people list</note>
+      <tuv xml:lang="en">
+        <seg>One column must be visible.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>一栏必须可见</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Field">
+      <tuv xml:lang="en">
+        <seg>Field</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>范围</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Value">
+      <tuv xml:lang="en">
+        <seg>Value</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>内容</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.AudioBitRate">
+      <tuv xml:lang="en">
+        <seg>Audio Bit Rate</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>音频比特率</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.BitDepth">
+      <tuv xml:lang="en">
+        <seg>Bit Depth</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>采样精度</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Channels">
+      <tuv xml:lang="en">
+        <seg>Channels</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>声道</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Device">
+      <tuv xml:lang="en">
+        <seg>Device</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>设备</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Duration">
+      <tuv xml:lang="en">
+        <seg>Duration</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>持续时间</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Microphone">
+      <tuv xml:lang="en">
+        <seg>Microphone</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>话筒</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Resolution">
+      <tuv xml:lang="en">
+        <seg>Resolution</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>解析度</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.SampleRate">
+      <tuv xml:lang="en">
+        <seg>Sample Rate</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>采样</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.VideoBitRate">
+      <tuv xml:lang="en">
+        <seg>Video Bit Rate</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>视频比特率</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.Caption">
+      <tuv xml:lang="en">
+        <seg>Add Files</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>添加文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.FileTypeString">
+      <tuv xml:lang="en">
+        <seg>All Files (*.*)</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>所有文件(*.*)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.AddFilesButtonText">
+      <tuv xml:lang="en">
+        <seg>Add Files...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>添加文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.CannotRenameFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>{0} could not rename the file to '{1}' because there is already a file with that name.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>名称重复，不能再命名</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.ColumnHeadings.FileDate">
+      <tuv xml:lang="en">
+        <seg>Date Modified</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>修改日期</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.ColumnHeadings.FileDuration">
+      <tuv xml:lang="en">
+        <seg>Duration</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>持续时间</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.ColumnHeadings.FileName">
+      <tuv xml:lang="en">
+        <seg>Name</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>名称</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.ColumnHeadings.FileSize">
+      <tuv xml:lang="en">
+        <seg>Size</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>大小</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.ColumnHeadings.FileType">
+      <tuv xml:lang="en">
+        <seg>Type</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>类型</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Convert.ButtonText">
+      <tuv xml:lang="en">
+        <seg>Convert...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>转换…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Convert.ButtonText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Convert Selected File</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>转换所选</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Convert.ConvertMenuText">
+      <tuv xml:lang="en">
+        <seg>Convert...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>转换…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText">
+      <tuv xml:lang="en">
+        <seg>Extract audio to mono mp3 audio file (low quality)</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>转为单声道MP3音频文件（低音质）</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.DeleteFileMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Delete File...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;删除文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeBytesAbbreviation">
+      <tuv xml:lang="en">
+        <seg>{0} B</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}B</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeGigabytesAbbreviation">
+      <tuv xml:lang="en">
+        <seg>{0} GB</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}GB</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeKilobytesAbbreviation">
+      <tuv xml:lang="en">
+        <seg>{0} KB</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}KB</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Open.ButtonText">
+      <tuv xml:lang="en">
+        <seg>Open</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>打开</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Open.ButtonText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Open Selected File</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>打开所选的文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Open.OpenInAssociatedProgramMenuText">
+      <tuv xml:lang="en">
+        <seg>Open in Program Associated with this File ...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>用关联程序打开这个文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Open.ShowInFileExplorerMenuText">
+      <tuv xml:lang="en">
+        <seg>Show in File Explorer...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>在文件浏览器显示</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.RenameButtonText">
+      <tuv xml:lang="en">
+        <seg>Rename...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>重命名</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.RenameButtonText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Rename Selected File</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>重命名选择的文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileLinkMsg">
+      <tuv xml:lang="en">
+        <seg>Open {0} in its associated program.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>在关联程序中打开</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.TabText">
+      <tuv xml:lang="en">
+        <seg>View</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>查看</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ImageViewer.OpeningPictureFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Could not open that picture</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>不能打开图片</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ImageViewer.TabText">
+      <tuv xml:lang="en">
+        <seg>Image</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>图像</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ImageViewer.ZoomLabel">
+      <tuv xml:lang="en">
+        <seg>Zoom</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>放大</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.InvalidMediaFile">
+      <tuv xml:lang="en">
+        <seg>File does not appear to be a valid media file: {0}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>无效媒体文件不能显示：｛0｝</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg">
+      <tuv xml:lang="en">
+        <seg>Media file not found: {0}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>媒体文件没有找到</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.PauseButton">
+      <tuv xml:lang="en">
+        <seg>Pause</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>暂停</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.PauseButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Pause</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>暂停</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.PlayButton">
+      <tuv xml:lang="en">
+        <seg>Play</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>播放</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.PlayButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Play</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>播放</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.StopButton">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>停止</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.StopButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>停止</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.TabText-Audio">
+      <tuv xml:lang="en">
+        <seg>Audio</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>音频</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.TabText-Video">
+      <tuv xml:lang="en">
+        <seg>Video</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>视频</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.UnableToStartMplayerProcessMsg">
+      <tuv xml:lang="en">
+        <seg>Unable to start mplayer.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>不能启动mplayer;</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.VolumeButton">
+      <tuv xml:lang="en">
+        <seg>Volume</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>音量</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.VolumeButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Volume</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>音量</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPropertiesEditor.MoreInfoButton">
+      <tuv xml:lang="en">
+        <seg>More Information...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>更多信息…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPropertiesEditor.MoreInfoButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>More information about this file</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>关于此文件的更多信息</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPropertiesEditor.PresetsButton">
+      <tuv xml:lang="en">
+        <seg>Presets</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>预置</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPropertiesEditor.PresetsButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Select presets for media file</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>选择预置</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.NotesEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Notes</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>注释</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.PropertiesEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Properties</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>属性</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ConvertMedia.FullConversionOutput">
+      <tuv xml:lang="en">
+        <seg>Full output from conversion:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>从转换完全输出</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.AboutDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>About SayMore</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>关于SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.AboutDlg._linkSILWebsite">
+      <note>Parameter is the publisher of SayMore, "SIL International"</note>
+      <tuv xml:lang="en">
+        <seg>This free software is published by {0}.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>这个免费软件由{0}发布。</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebsite">
+      <note>Parameter is the program name, "SayMore"</note>
+      <tuv xml:lang="en">
+        <seg>Visit {0} on the Web.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>简体中文汉化：湖南师范大学国际汉语文化学院 李 斌</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.CancellingMsg">
+      <tuv xml:lang="en">
+        <seg>Canceling...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>正在取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ContributorElementName">
+      <tuv xml:lang="en">
+        <seg>Contributor</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>贡献者</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.CopyingFilesMsg">
+      <tuv xml:lang="en">
+        <seg>Copying files</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>复制文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg">
+      <tuv xml:lang="en">
+        <seg>There are no contributors for this session.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>这个任务没有贡献者</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.PreparingFilesMsg">
+      <tuv xml:lang="en">
+        <seg>Analyzing component files</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>分析组成文件 </seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.RampNotFoundMsg">
+      <tuv xml:lang="en">
+        <seg>The RAMP program cannot be found!</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>RAMP程序找不到！</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ReadyToCallRampMsg">
+      <tuv xml:lang="en">
+        <seg>Ready to hand the package to RAMP</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>准备给RAMP递交文件包</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.SavingFilesInRAMPMsg">
+      <tuv xml:lang="en">
+        <seg>Saving files in RAMP package</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>保存文件到RAMP文件包中</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.SessionElementName">
+      <tuv xml:lang="en">
+        <seg>Session</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>任务</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg._buttonCreatePackage">
+      <tuv xml:lang="en">
+        <seg>&amp;1) Create Package</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;1）打包</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg._buttonLaunchRamp">
+      <tuv xml:lang="en">
+        <seg>&amp;2) Launch RAMP</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;2)启动 RAMP</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg.NewFileNameMsg">
+      <note>Displayed under the text box.</note>
+      <tuv xml:lang="en">
+        <seg>New file: {0}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>新文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Rename</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>重命名</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._buttonRename">
+      <tuv xml:lang="en">
+        <seg>Rename</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>重命名</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._labelChangeNameTo">
+      <tuv xml:lang="en">
+        <seg>Change Name To:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>更名为:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._labelShortcuts">
+      <tuv xml:lang="en">
+        <seg>Shortcuts</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>快捷键</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkOralTranslation">
+      <tuv xml:lang="en">
+        <seg>Oral Translation</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>口译</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkSource">
+      <tuv xml:lang="en">
+        <seg>Source</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>来源</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkTranscription">
+      <tuv xml:lang="en">
+        <seg>Transcription</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>转写</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation">
+      <tuv xml:lang="en">
+        <seg>Written Translation</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>笔译</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.AvailableConversionsLabel">
+      <tuv xml:lang="en">
+        <seg>Available Conversions:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>现有规则</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.BeginConversionButton">
+      <tuv xml:lang="en">
+        <seg>Begin Conversion</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>开始转换</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.CancelButton">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.CloseButton">
+      <tuv xml:lang="en">
+        <seg>Close</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>关闭</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionCancelledMsg">
+      <tuv xml:lang="en">
+        <seg>Conversion Cancelled.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>转换取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionFailedMsg">
+      <tuv xml:lang="en">
+        <seg>Conversion Failed.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>转换失败</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionFinishedWithPossibleErrorsMsg">
+      <tuv xml:lang="en">
+        <seg>Conversion Finished, but with possible errors.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>转换结束，但是可能存在错误</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionProgressStatusMsgFormat">
+      <tuv xml:lang="en">
+        <seg>{0} of {1} Converted...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>｛0｝of｛1｝已转换</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionSucceededMsg">
+      <tuv xml:lang="en">
+        <seg>Conversion Finished Successfully.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>成功转换</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConvertToMp4AndAACConversionName">
+      <tuv xml:lang="en">
+        <seg>Convert to H.263/MPEG-4 video with AAC Audio</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>把H.263/MPEG-4视频转换成AAC音频</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadButton">
+      <tuv xml:lang="en">
+        <seg>Download...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>下载…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ExtractStandardPcmFromVideoMenuText">
+      <tuv xml:lang="en">
+        <seg>Extract audio to standard WAV PCM audio file</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>提取音频为标准PCM WAV文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.FileToConvertLabel">
+      <tuv xml:lang="en">
+        <seg>File to Convert:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>要转换的文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.HideOutputButton">
+      <tuv xml:lang="en">
+        <seg>Hide Details</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>隐藏详情</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.OutputFileLabel">
+      <tuv xml:lang="en">
+        <seg>Output File:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>输出文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Convert Media</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>转换媒体</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.DeleteMessageBox.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Confirm Delete</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>确认删除</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.DeleteMessageBox._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.DeleteMessageBox._buttonDelete">
+      <tuv xml:lang="en">
+        <seg>Delete</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>删除</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.CancelButton">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.CloseButton">
+      <tuv xml:lang="en">
+        <seg>Close</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>关闭</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.DownloadCancelledMsg">
+      <tuv xml:lang="en">
+        <seg>Downloading and Installing Cancelled.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>下载和安装被取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.DownloadCompleteMsg">
+      <tuv xml:lang="en">
+        <seg>Downloading and Installing Completed Successfully.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>下载安装成功</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallButton">
+      <tuv xml:lang="en">
+        <seg>Install...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>安装</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallCompletedingMsg">
+      <tuv xml:lang="en">
+        <seg>Installed Successfully.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>安装成功</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileMsg">
+      <tuv xml:lang="en">
+        <seg>Installing...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>安装</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.OrLabel">
+      <tuv xml:lang="en">
+        <seg>- OR -</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>-或-</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Download FFmpeg</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>下载FFmpeg</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkManualDownload_LinkPortion">
+      <note>This is the portion of the text that is underlined, indicating the link to the download.</note>
+      <tuv xml:lang="en">
+        <seg>Click here to download</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>点击此处下载</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.LoadingDlg.CancelLink">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MediaFileMoreInfoDlg.CloseButton">
+      <tuv xml:lang="en">
+        <seg>Close</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>关闭</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MediaFileMoreInfoDlg.EvenMoreInfoButton">
+      <tuv xml:lang="en">
+        <seg>Even More Information</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>更多信息</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MissingFFmpegPopup.SayMoreDownloadPageLink">
+      <tuv xml:lang="en">
+        <seg>Visit SayMore Download Page</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>访问SayMore下载页</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MissingFFmpegPopup.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Could not locate FFmpeg</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>不能定位FFmpeg</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>New SayMore Project</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>新 SayMore 工程</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>&amp;Cancel</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg._labelMessage">
+      <tuv xml:lang="en">
+        <seg>What would you like to call this project?</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>你想给这个工程命名为？</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.CreatingSessions.ProgressDlg.Caption">
+      <tuv xml:lang="en">
+        <seg>Creating Sessions</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>创建任务</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.FolderBrowserDlgDescription">
+      <tuv xml:lang="en">
+        <seg>Choose a Folder of Media Files.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>选择媒体文件夹</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.NoFilesSelectedCreateButtonText">
+      <note>Text in create button when no files are selected.</note>
+      <tuv xml:lang="en">
+        <seg>Create Sessions</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>创建任务</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.OneFileSelectedCreateButtonText">
+      <note>Text in create button when one file is selected.</note>
+      <tuv xml:lang="en">
+        <seg>Create 1 Session</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>创建一个任务</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._buttonCreateSessions">
+      <note>Format text in create button when more than one file is selected. Parameter is the number of sessions to be created.</note>
+      <tuv xml:lang="en">
+        <seg>Create {0} Sessions</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>创建｛0｝任务</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelIncomingFiles">
+      <tuv xml:lang="en">
+        <seg>Incoming &amp;Files</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>新任务&amp;文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelProgress">
+      <tuv xml:lang="en">
+        <seg>Reading Files...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>读取文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._linkFindFiles">
+      <tuv xml:lang="en">
+        <seg>Find Files on Recorder/Card...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>在录音机或存储卡上寻找文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel1">
+      <tuv xml:lang="en">
+        <seg>1) The device is not yet plugged in.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>设备没有插入</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ProgressDlg.CancellingMsg">
+      <tuv xml:lang="en">
+        <seg>Canceling...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>正在取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ProgressDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.CancelButtonText">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.PlaybackButtonText">
+      <tuv xml:lang="en">
+        <seg>Playback Recording</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>回放录音</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.RecordButtonText">
+      <tuv xml:lang="en">
+        <seg>Record</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>录音</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.RecordedLengthLabel">
+      <tuv xml:lang="en">
+        <seg>Recorded Length: {0} sec.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>录音长度：{0}秒</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.StopButtonText">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>停止</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.UnableToStartRecording">
+      <tuv xml:lang="en">
+        <seg>Unable to start recording.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>不能启动录音</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SplashScreen.LoadingLabel">
+      <tuv xml:lang="en">
+        <seg>Loading...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>载入</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SplashScreen.VersionInfoLabel">
+      <tuv xml:lang="en">
+        <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>版本{0}.{1}.{2}(Beta) Built on{3}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonClose">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>OK</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelOriginalRecording">
+      <tuv xml:lang="en">
+        <seg>Source Audio</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>音源</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelZoom">
+      <tuv xml:lang="en">
+        <seg>&amp;Zoom:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>放大</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._undoToolStripMenuItem">
+      <tuv xml:lang="en">
+        <seg>Undo</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>撤销</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString">
+      <tuv xml:lang="en">
+        <seg>All Files (*.*)|*.*</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>所有文件(*.*)|(*.*)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.Caption">
+      <tuv xml:lang="en">
+        <seg>Select Audacity Label File</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>选择Audacity标签文件 </seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.FileTypeString">
+      <tuv xml:lang="en">
+        <seg>Audacity Label File (*.txt)|*.txt</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>Audacity标签文件(*.txt)|*.txt</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanFileTypeString">
+      <tuv xml:lang="en">
+        <seg>ELAN File (*.eaf)|*.eaf</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>Elan文件（*eaf)|*.eaf</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadSegmentFileDlgCaption">
+      <tuv xml:lang="en">
+        <seg>Select Segment File</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>选择断句文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CancelButton">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportButton">
+      <tuv xml:lang="en">
+        <seg>Export...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>导出</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.Caption">
+      <tuv xml:lang="en">
+        <seg>Export to File</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>输出文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.OralTranslationAnnotation">
+      <note>Type of oral annotation listed in message box to confirm deletion</note>
+      <tuv xml:lang="en">
+        <seg>Oral Translation</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>口头翻译</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Manual Segmenter</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>手工分段</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonAddSegmentBoundary.Normal">
+      <tuv xml:lang="en">
+        <seg>Add Segment Boundary (press ENTER)</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>断句（按Enter）</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonDeleteBoundary">
+      <tuv xml:lang="en">
+        <seg>Delete Selected Boundary (press DELETE)</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>删除选定的边界（按删除键）</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonListenToOriginal">
+      <tuv xml:lang="en">
+        <seg>Listen (press the SPACE BAR)</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>听（按空格键）</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonStopOriginal">
+      <tuv xml:lang="en">
+        <seg>Stop (press the SPACE BAR)</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>停止（按空格键）</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.CannotRecordErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Recording not working. Please make sure your microphone is plugged in.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>不能录音，请确认已插好话筒。</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ListenButton">
+      <tuv xml:lang="en">
+        <seg>Listen</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>听</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayOriginalShortcutToolTipHint">
+      <tuv xml:lang="en">
+        <seg>Keyboard shortcut: 'b'</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>键盘快捷键“b"</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordButton">
+      <tuv xml:lang="en">
+        <seg>Speak</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>说话</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Hold button down to record</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>按住按钮录音</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingAnnotationMsg">
+      <tuv xml:lang="en">
+        <seg>Recording...\nLength: {0}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>录音</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UndoToolTipMsg">
+      <tuv xml:lang="en">
+        <seg>Undo: {0} (Ctrl-Z or Z)</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>撤销:{0}(Ctrl-Z or Z)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelFinishedHint">
+      <tuv xml:lang="en">
+        <seg>Finished</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>结束</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint">
+      <tuv xml:lang="en">
+        <seg>To record, press and hold the SPACE BAR</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>录音,按住空格键</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralTranslationRecorderDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Oral Translation Recorder</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>口译录音机</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralTranslationRecorderDlg._labelOralTranslation">
+      <tuv xml:lang="en">
+        <seg>Oral Translation</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>口头翻译</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.SaveChangesQuestion">
+      <tuv xml:lang="en">
+        <seg>Would you like to save your changes?</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>你愿意保存这些变化吗?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.AnnotationRecording">
+      <note>Parameter is time range of the segment for which the annotation was recorded.</note>
+      <tuv xml:lang="en">
+        <seg>Recording annotation for segment {0}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>给句段录制标注</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentDeletion">
+      <note>Parameter is time range of deleted segment.</note>
+      <tuv xml:lang="en">
+        <seg>Deletion of segment {0}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>删除片断</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentIgnored">
+      <note>Parameter is time range of the segment that was ignored.</note>
+      <tuv xml:lang="en">
+        <seg>Ignoring segment {0}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>忽略选段</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.CancelButton">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.HelpOnLocalizingLink">
+      <tuv xml:lang="en">
+        <seg>Help on localization</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>本国语言翻译帮助 </seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.LanguageLabel">
+      <tuv xml:lang="en">
+        <seg>&amp;Language:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;语言；</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.ViewLocalizationsLink">
+      <tuv xml:lang="en">
+        <seg>View SayMore localizations...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>查看Saymore本地界面</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>User Interface Lanaguage</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>用户界面语言</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg.ProjectFileType">
+      <tuv xml:lang="en">
+        <seg>SayMore Project</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>Saymore工程</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>SayMore</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._buttonBrowse">
+      <tuv xml:lang="en">
+        <seg>Browse for project...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>浏览项目</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._buttonBrowse_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Browse the file system for a project</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>查看工程文件系统</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._buttonCreate">
+      <tuv xml:lang="en">
+        <seg>Create new, blank project...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>创建新空白项目</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._buttonCreate_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Create a blank project</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>创建一个空白工程</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._labelCreate">
+      <tuv xml:lang="en">
+        <seg>Create</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>创建</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._labelOpen">
+      <tuv xml:lang="en">
+        <seg>Open</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>打开</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.DeleteMultipleItemsMsg">
+      <note>For deleting sessions and people items</note>
+      <tuv xml:lang="en">
+        <seg>{0} items</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>项目</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.DeletePersonMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Delete Person...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;删除人员</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.DeleteSessionMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Delete Session...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;删除任务</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.Export.ExportFailureMsg">
+      <tuv xml:lang="en">
+        <seg>Something went wrong with the export.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>输出错误</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.Export.ExportFileSaveFileDlg.Caption">
+      <tuv xml:lang="en">
+        <seg>Export Data</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>输出数据</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._mainMenuHelp">
+      <tuv xml:lang="en">
+        <seg>&amp;Help</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;帮助</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuAbout">
+      <tuv xml:lang="en">
+        <seg>&amp;About...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;关于</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuChangeUILanguage">
+      <tuv xml:lang="en">
+        <seg>Change User Interface Language...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>更换软件界面语言</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuExit">
+      <tuv xml:lang="en">
+        <seg>E&amp;xit</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>退出</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuExportPeople">
+      <tuv xml:lang="en">
+        <seg>Export People...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>输出人员</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuExportSessions">
+      <tuv xml:lang="en">
+        <seg>Export Sessions...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>输出任务</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuHelp">
+      <tuv xml:lang="en">
+        <seg>&amp;Help...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;帮助…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuOpenProject">
+      <tuv xml:lang="en">
+        <seg>&amp;Open/Create Project...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;打开/创建新项目</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuProject">
+      <tuv xml:lang="en">
+        <seg>&amp;Project</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;项目</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuReleaseNotes">
+      <tuv xml:lang="en">
+        <seg>Release Notes...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>发布说明</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.CopyFilesControl.CopyFailedMsg">
+      <tuv xml:lang="en">
+        <seg>Copying failed: {0}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>复制失败：{0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.CopyFilesControl.CopyWaitingMsg">
+      <tuv xml:lang="en">
+        <seg>Waiting to start...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>等待开始…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.CopyFilesControl.CopyingFinishedMsg">
+      <tuv xml:lang="en">
+        <seg>Finished</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>结束</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.CopyFilesControl.FileExistsMsg">
+      <tuv xml:lang="en">
+        <seg>The file '{0}' already exists</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>文件'｛0｝'已经存在</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.CopyFilesControl.NoFilesToCopyMsg">
+      <tuv xml:lang="en">
+        <seg>No Files To Copy</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>没有文件复制</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.PresetGathererNoPresetsYetMsg">
+      <tuv xml:lang="en">
+        <seg>No presets yet</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>还没有预置</seg>
+      </tuv>
+    </tu>
+    <tu tuid="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem">
+      <tuv xml:lang="en">
+        <seg>Ignored</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>忽略</seg>
+      </tuv>
+    </tu>
+    <tu tuid="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Mark this segment as Ignored to skip annotating it.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>忽略此段</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.FileList.AddPersonButtonToolTip">
+      <tuv xml:lang="en">
+        <seg>Add Files for the Person</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>从人员来添加文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.ChangePictureDlgCaption">
+      <tuv xml:lang="en">
+        <seg>Change Picture</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>更换图片</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.GenderSelector.Female">
+      <tuv xml:lang="en">
+        <seg>Female</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>女性</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.GenderSelector.Male">
+      <tuv xml:lang="en">
+        <seg>Male</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>男性</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Person</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>人员</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelBirthYear">
+      <tuv xml:lang="en">
+        <seg>&amp;Birth Year</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;出生年月</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelCustomFields">
+      <tuv xml:lang="en">
+        <seg>&amp;Custom Fields</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;定义范围</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelEducation">
+      <tuv xml:lang="en">
+        <seg>&amp;Education</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;教育</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelFullName">
+      <tuv xml:lang="en">
+        <seg>&amp;Full Name</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;全名</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelHowToContact">
+      <tuv xml:lang="en">
+        <seg>&amp;How to Contact</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;怎么联系</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelOtherLanguages">
+      <tuv xml:lang="en">
+        <seg>Other L&amp;anguages</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>其他语言</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelPrimaryLanguage">
+      <tuv xml:lang="en">
+        <seg>Primary &amp;Language</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>第一&amp;语言</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelPrimaryOccupation">
+      <tuv xml:lang="en">
+        <seg>Primary &amp;Occupation</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>第一&amp;职业</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelgender">
+      <tuv xml:lang="en">
+        <seg>&amp;Gender</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;性别</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.Miscellaneous.AlreadyExistsSaveFailureMessage">
+      <tuv xml:lang="en">
+        <seg>Could not rename from {0} to {1} because there is already a person by that name.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>不能重命名，名字重复。</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.Miscellaneous.NewPersonNamePrefix">
+      <tuv xml:lang="en">
+        <seg>New Person</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>新人员</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.Miscellaneous.NoIdSaveFailureMessage">
+      <tuv xml:lang="en">
+        <seg>You must specify a name.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>你必须指定一个名字</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.PeopleList.ClickNewButtonHelpPrompt">
+      <tuv xml:lang="en">
+        <seg>Click 'New' to add a new person.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>点击“新加”增加一个一人员</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.PeopleList.ColumnHeadings.Consent">
+      <tuv xml:lang="en">
+        <seg>Consent</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>同意</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.PeopleList.ColumnHeadings.Id">
+      <tuv xml:lang="en">
+        <seg>Id</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>序号</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.PeopleList.HeadingText">
+      <tuv xml:lang="en">
+        <seg>People</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>人员</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.PeopleMainMenu.NewMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;New</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;新加</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.PeopleMainMenu.TopLevelMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Person</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;人员</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.ViewTabText">
+      <tuv xml:lang="en">
+        <seg>People</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>人员</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.ViewTabText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>People View</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>查看人员</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.ByGenreHeadingText">
+      <tuv xml:lang="en">
+        <seg>By Genre</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>根据性别</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.ByStagesHeadingText">
+      <tuv xml:lang="en">
+        <seg>By Stages</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>根据阶段</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.CopyMenuItemText">
+      <tuv xml:lang="en">
+        <seg>&amp;Copy</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;复制</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.CopyMenuItemText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Copy entire view to clipboard</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>复制完整视图到剪切板</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.HeadingText">
+      <note>Parameter is project name.</note>
+      <tuv xml:lang="en">
+        <seg>SayMore statistics for {0}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>SayMore 统计</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.OverviewHeadingText">
+      <tuv xml:lang="en">
+        <seg>Overview</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>概况</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.PeopleLabel">
+      <tuv xml:lang="en">
+        <seg>People:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>人员</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.PrintMenuItemText">
+      <tuv xml:lang="en">
+        <seg>&amp;Print...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;打印…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.ProgressMainMenuItemText">
+      <tuv xml:lang="en">
+        <seg>Pr&amp;ogress</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>进度</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.SaveMenuItemText">
+      <tuv xml:lang="en">
+        <seg>&amp;Save...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;保存…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.SaveMenuItemText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Save view to file</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>保存视图到文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.SessionsLabel">
+      <tuv xml:lang="en">
+        <seg>Sessions:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>任务 </seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.SummaryTotalsTextForOneBar">
+      <tuv xml:lang="en">
+        <seg>{0} sessions totaling {1} minutes</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}所有任务｛1｝分钟</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.SummaryTotalsTextForSegment1">
+      <tuv xml:lang="en">
+        <seg>{0}{1} sessions totaling {2} minutes</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}:{1}所有任务｛2｝分钟</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.SummaryTotalsTextForSegment2">
+      <tuv xml:lang="en">
+        <seg>{0}: {1} sessions totaling {2} minutes</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}:{1}所有任务｛2｝分钟</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.TabText">
+      <tuv xml:lang="en">
+        <seg>Progress</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>进度</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.TabText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Progress View</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>查看进度</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView._buttonRefresh">
+      <tuv xml:lang="en">
+        <seg>Refresh</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>刷新</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView._buttonRefresh_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Refresh View</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>查看刷新</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView._labelWorking">
+      <tuv xml:lang="en">
+        <seg>Working...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>正在工作…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.FileList.AddSessionsButtonToolTip">
+      <tuv xml:lang="en">
+        <seg>Add Files to the Session</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>添加文件到任务 </seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.GeneratedOralAnnotationView.SourceLabel">
+      <tuv xml:lang="en">
+        <seg>Source</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>来源</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.GeneratedOralAnnotationView.TranslationLabel">
+      <tuv xml:lang="en">
+        <seg>Translation</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>翻译</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Session</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>任务</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.UnknownGenre">
+      <note>Unknown genre displayed in the genre drop-down list.</note>
+      <tuv xml:lang="en">
+        <seg>&lt;Unknown&gt;</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&lt;未知&gt;</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelAbstract">
+      <tuv xml:lang="en">
+        <seg>Abstract</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>摘要</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelAccess">
+      <tuv xml:lang="en">
+        <seg>Access</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>授权</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelCustomFields">
+      <tuv xml:lang="en">
+        <seg>Custom Fields</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>设置范围</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelDate">
+      <tuv xml:lang="en">
+        <seg>Date</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>日期</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelGenre">
+      <tuv xml:lang="en">
+        <seg>Genre</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>类型</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelId">
+      <tuv xml:lang="en">
+        <seg>Id</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>序号</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelLocation">
+      <tuv xml:lang="en">
+        <seg>Location</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>地点</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelParticipants">
+      <tuv xml:lang="en">
+        <seg>People</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>人员</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelSetting">
+      <tuv xml:lang="en">
+        <seg>Setting</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>设置</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelSituation">
+      <tuv xml:lang="en">
+        <seg>Situation</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>位置</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelTitle">
+      <tuv xml:lang="en">
+        <seg>Title</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>标题</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Miscellaneous.NewSessionNamePrefix">
+      <tuv xml:lang="en">
+        <seg>New Session</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>新任务</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Miscellaneous.NoIdSaveFailureMessage">
+      <tuv xml:lang="en">
+        <seg>You must specify a session id.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>你必须指定一个任务序号.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MissingMediaFileEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Missing Media File</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>媒体文件丢失</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MissingMediaFileEditor.lblMediaFileMissing">
+      <tuv xml:lang="en">
+        <seg>The media file for this ELAN file could not be found. SayMore expected to find it here:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>Elan文件配套媒体找不到，可能在这儿。</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MissingMediaFileEditor.linkHelpTopic">
+      <tuv xml:lang="en">
+        <seg>Show Help topic for ELAN</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>为Elan显示帮助主题</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionStatus.Finished">
+      <tuv xml:lang="en">
+        <seg>Finished</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>结束</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionStatus.InProgress">
+      <tuv xml:lang="en">
+        <seg>In Progress</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>进行中</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionStatus.Incoming">
+      <tuv xml:lang="en">
+        <seg>Incoming</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>新任务</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionStatus.Skipped">
+      <tuv xml:lang="en">
+        <seg>Skipped</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>跳过</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionStatus.TooltipFormatText">
+      <tuv xml:lang="en">
+        <seg>Status: {0}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>状态</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Date">
+      <tuv xml:lang="en">
+        <seg>Date</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>日期</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Genre">
+      <tuv xml:lang="en">
+        <seg>Genre</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>类型</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Id">
+      <tuv xml:lang="en">
+        <seg>Id</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>序号</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Location">
+      <tuv xml:lang="en">
+        <seg>Location</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>地点</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Stages">
+      <tuv xml:lang="en">
+        <seg>Stages</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>进度</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Status">
+      <tuv xml:lang="en">
+        <seg>Status</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>状态</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.ColumnHeadings.Title">
+      <tuv xml:lang="en">
+        <seg>Title</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>标题</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.HeadingText">
+      <tuv xml:lang="en">
+        <seg>Sessions</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>任务</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.NewFilesFromDeviceButtonText">
+      <tuv xml:lang="en">
+        <seg>New From De&amp;vice...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>从设备文件新建</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.NewFilesFromRecordingButtonText">
+      <tuv xml:lang="en">
+        <seg>New From &amp;Recording...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>从录音新建</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.RampArchiveMenuText">
+      <tuv xml:lang="en">
+        <seg>Archive with RAMP (SIL)...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>用RAMP(SIL)存档</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.CompleteToolTipText">
+      <tuv xml:lang="en">
+        <seg>Complete</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>完成</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.IncompleteToolTipText">
+      <tuv xml:lang="en">
+        <seg>Incomplete</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>末完成的</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.InformedConsent">
+      <tuv xml:lang="en">
+        <seg>Informed Consent</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>知情同意</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.OralTranslation">
+      <tuv xml:lang="en">
+        <seg>Oral Translation</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>口头翻译</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.SourceRecording">
+      <tuv xml:lang="en">
+        <seg>Source Recording</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>来源录音</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.Transcription">
+      <tuv xml:lang="en">
+        <seg>Transcription</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>转写</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.Stages.WrittenTranslation">
+      <tuv xml:lang="en">
+        <seg>Written Translation</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>笔译</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsMainMenu.NewFromDeviceMenuText">
+      <tuv xml:lang="en">
+        <seg>New From De&amp;vice...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>从设备文件新建</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsMainMenu.NewFromRecordingMenuText">
+      <tuv xml:lang="en">
+        <seg>New From &amp;Recording...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>从录音新建</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsMainMenu.NewMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;New</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;新建</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsMainMenu.TopLevelMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Session</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;任务</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.StatusToolTips.Finished">
+      <tuv xml:lang="en">
+        <seg>I'm done working on it.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>工作完成</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.StatusToolTips.In_Progress">
+      <tuv xml:lang="en">
+        <seg>I'm working on it.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>正在工作</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Status &amp;&amp; Stages</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>状态&amp;&amp;进度</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelReadAboutStages">
+      <tuv xml:lang="en">
+        <seg>Read About SayMore Stages</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>读取SayMore进步</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelStages">
+      <tuv xml:lang="en">
+        <seg>Stages</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>进度</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelStatus">
+      <tuv xml:lang="en">
+        <seg>Status</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>状态</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.AnnotationFileNotFoundMsg">
+      <tuv xml:lang="en">
+        <seg>File not found: '{0}'</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>文件没有找到</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.FontsMenu">
+      <tuv xml:lang="en">
+        <seg>&amp;Fonts...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;字体</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileDetails">
+      <tuv xml:lang="en">
+        <seg>Attempting to generate file:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>尝试生成文件(SIL)…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg">
+      <tuv xml:lang="en">
+        <seg>Generating Oral Annotation file...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>生成口头标注文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>帮助 </seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton">
+      <tuv xml:lang="en">
+        <seg>Play</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>播放</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Playback Oral Annotation Audio File</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>播放口头标注文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.RegenerateButton">
+      <tuv xml:lang="en">
+        <seg>Regenerate</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>重新生成</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.RegenerateButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Regenerate Oral Annotation Audio File</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>重新生成</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.StopButton">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>停止</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.StopButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Stop Playback</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>停止回放</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.TabText">
+      <tuv xml:lang="en">
+        <seg>Generated Audio</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>生成音频</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.OptionsMenu">
+      <tuv xml:lang="en">
+        <seg>Options</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>选项</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._buttonConvert">
+      <tuv xml:lang="en">
+        <seg>Convert</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>转换</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelHeading">
+      <tuv xml:lang="en">
+        <seg>File Conversion Required</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>文件需要转换</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.TabText">
+      <tuv xml:lang="en">
+        <seg>Start Annotating</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>开始标注</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._buttonGetStarted">
+      <tuv xml:lang="en">
+        <seg>Get Started...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>开始</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethod">
+      <tuv xml:lang="en">
+        <seg>Segmentation Method</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>断句方法</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonAudacity">
+      <tuv xml:lang="en">
+        <seg>Read an Audacity Label file</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>读取Audacity标签文件 </seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonElan">
+      <tuv xml:lang="en">
+        <seg>Copy an existing ELAN file</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>复制一个已经存在的Elan文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu">
+      <tuv xml:lang="en">
+        <seg>Export</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>输出</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslation">
+      <tuv xml:lang="en">
+        <seg>Audacity Label File (Free Translation)...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>Audacity标签文件(自由翻译）…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslationFilenameSuffix">
+      <tuv xml:lang="en">
+        <seg>audacity_freeTranslation</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>Audacity_自由翻译</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscription">
+      <tuv xml:lang="en">
+        <seg>Audacity Label File (Transcription)...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>Audacity标签文件(转写）…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscriptionFilenameSuffix">
+      <tuv xml:lang="en">
+        <seg>audacity_transcription</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>Audacity_转写</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMenuItem">
+      <tuv xml:lang="en">
+        <seg>ELAN File...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>Elan File…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.ToolboxExport">
+      <tuv xml:lang="en">
+        <seg>Toolbox File...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>Toolbox 文件…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.plainTextExport">
+      <tuv xml:lang="en">
+        <seg>Plain Text...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>普通文本</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix">
+      <tuv xml:lang="en">
+        <seg>freeTranslation_subtitle</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>翻译_字幕</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CopyColumnTextToClipboardMenuText">
+      <note>Parameter is column (i.e. tier) name</note>
+      <tuv xml:lang="en">
+        <seg>Copy {0} to clipboard</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>复制{0}到剪贴板</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.FinsihedMsg">
+      <tuv xml:lang="en">
+        <seg>Finished Exporting</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>输出结束</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.ProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Exporting...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>输出…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Both">
+      <tuv xml:lang="en">
+        <seg>Playback Both Recordings</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>回放混合录音</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Source">
+      <tuv xml:lang="en">
+        <seg>Playback Source Recording</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>播放原始录音</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.HelpButton">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>帮助</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.IgnoredMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Ignored</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;忽略</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.IgnoredSegmentIndicator">
+      <tuv xml:lang="en">
+        <seg>Ignored</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>忽略</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.OralTranslationMenu">
+      <tuv xml:lang="en">
+        <seg>&amp;Oral Translation...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>&amp;口头翻译</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct">
+      <tuv xml:lang="en">
+        <seg>100%</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>100%</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.20Pct">
+      <tuv xml:lang="en">
+        <seg>20%</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>20%</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.30Pct">
+      <tuv xml:lang="en">
+        <seg>30%</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>30%</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.40Pct">
+      <tuv xml:lang="en">
+        <seg>40%</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>40%</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.50Pct">
+      <tuv xml:lang="en">
+        <seg>50%</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>50%</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.70Pct">
+      <tuv xml:lang="en">
+        <seg>70%</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>70%</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct">
+      <tuv xml:lang="en">
+        <seg>90%</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>90%</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.RecordButton">
+      <tuv xml:lang="en">
+        <seg>Oral Annotations Tools</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>口头标注</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.RecordButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Record Oral Annotations</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>录制口头标注</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ResegmentButton">
+      <tuv xml:lang="en">
+        <seg>Segment...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>断句</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ResegmentButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Add, remove or move segment boundaries</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>添加,移动,删除标记</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Annotations</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>标注</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TranscriptionColumnPlaybackMenuOptions.Both">
+      <tuv xml:lang="en">
+        <seg>Playback Both Recordings</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>回放混合录音</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TranscriptionColumnPlaybackMenuOptions.Source">
+      <tuv xml:lang="en">
+        <seg>Playback Source Recording</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>播放原始录音</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor._comboPlaybackSpeed_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Playback speed</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>回放速度</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TierDisplayNames.FreeTranslation">
+      <tuv xml:lang="en">
+        <seg>Free Translation</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>翻译</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TierDisplayNames.Transcription">
+      <tuv xml:lang="en">
+        <seg>Transcription</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>转写</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.ViewTabText">
+      <tuv xml:lang="en">
+        <seg>Sessions</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>任务</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ConversionOutputFileAlreadyErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Sorry, the file '{0}' already exists.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>对不起，文件已经存在。</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ConvertToStandardWavPcmAudioMsg">
+      <tuv xml:lang="en">
+        <seg>Converting...</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>正在转换…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.MediaFileDoesNotExistErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Media file does not exist.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>媒体文件不存在</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.PossibleConversionErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Conversion completed, but with possible error(s). If the converted file does not appear to be usable, delete it and check the validity of the source file. After checking the source file and the conversion output details, if you believe this is a problem with SayMore, please include a copy of the source file with your error report.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>转换结束，但是</seg>
+      </tuv>
+    </tu>
+  </body>
+</tmx>

@@ -162,7 +162,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public void HandlePostMenuCommandRefresh(string fileToSelectAfterRefresh)
 		{
-			_model.SelectedElement.RefreshComponentFiles();
+			_model.SelectedElement.ClearComponentFiles();
 			UpdateComponentFileList();
 			_componentFilesControl.TrySetComponent(fileToSelectAfterRefresh);
 			_componentFilesControl.Invalidate();
@@ -261,7 +261,7 @@ namespace SayMore.UI.ElementListScreen
 			_elementsGrid.SelectedElementChanged -= HandleSelectedElementChanged;
 			_elementsGrid.SelectElement(_model.SelectedElement);
 			_elementsGrid.SelectedElementChanged += HandleSelectedElementChanged;
-			_model.SelectedElement.RefreshComponentFiles();
+			_model.SelectedElement.ClearComponentFiles();
 			UpdateComponentFileList();
 		}
 
@@ -331,7 +331,7 @@ namespace SayMore.UI.ElementListScreen
 		private void ComponentFileListRefreshFromEditor(string fileToSelectAfterRefresh,
 			Type componentEditorTypeToSelect)
 		{
-			_model.SelectedElement.RefreshComponentFiles();
+			_model.SelectedElement.ClearComponentFiles();
 			UpdateComponentFileList();
 
 			if (fileToSelectAfterRefresh != null &&

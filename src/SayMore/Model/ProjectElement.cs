@@ -90,22 +90,24 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
-
-			if (_watcher != null)
-				_watcher.Dispose();
-			_componentFiles = null;
+			ClearComponentFiles();
 		}
 
 		[Obsolete("For Mocking Only")]
 		public ProjectElement(){}
 
 		/// ------------------------------------------------------------------------------------
-		public void RefreshComponentFiles()
+		public void ClearComponentFiles()
 		{
-			_componentFiles = null;
-
-			if (_watcher != null)
-				_watcher.Dispose();
+			lock (this)
+			{
+				if (_watcher != null)
+				{
+					_watcher.Dispose();
+					_watcher = null;
+				}
+				_componentFiles = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -117,46 +119,50 @@ namespace SayMore.Model
 				// on another thread (i.e., from the FileSystemWatcher)
 				if (_componentFiles != null)
 					return _componentFiles.ToArray();
-			}
 
-			_componentFiles = new HashSet<ComponentFile>();
+				_componentFiles = new HashSet<ComponentFile>();
 
-			// This is the actual person or session data
-			_componentFiles.Add(MetaDataFile);
+				// This is the actual person or session data
+				_componentFiles.Add(MetaDataFile);
 
-			// These are the other files we find in the folder
-			var otherFiles = from f in Directory.GetFiles(FolderPath, "*.*")
-							 where GetShowAsNormalComponentFile(f)
-							 orderby f
-							 select f;
+				// These are the other files we find in the folder
+				var otherFiles = from f in Directory.GetFiles(FolderPath, "*.*")
+								 where GetShowAsNormalComponentFile(f)
+								 orderby f
+								 select f;
 
-			foreach (var filename in otherFiles)
-			{
-				var newComponentFile = _componentFileFactory(this, filename);
-				_componentFiles.Add(newComponentFile);
-
-				var annotationFile = newComponentFile.GetAnnotationFile();
-				if (annotationFile != null)
+				foreach (var filename in otherFiles)
 				{
-					_componentFiles.Add(annotationFile);
+					var newComponentFile = _componentFileFactory(this, filename);
+					_componentFiles.Add(newComponentFile);
 
-					if (annotationFile.OralAnnotationFile != null)
-						_componentFiles.Add(annotationFile.OralAnnotationFile);
+					var annotationFile = newComponentFile.GetAnnotationFile();
+					if (annotationFile != null)
+					{
+						_componentFiles.Add(annotationFile);
+
+						if (annotationFile.OralAnnotationFile != null)
+							_componentFiles.Add(annotationFile.OralAnnotationFile);
+					}
 				}
+
+				_watcher = new FileSystemWatcher(FolderPath);
+				_watcher.EnableRaisingEvents = true;
+				_watcher.Changed += (s, e) =>
+				{
+					if (e.ChangeType != WatcherChangeTypes.Changed)
+						return;
+					ComponentFile file;
+					lock (this)
+					{
+						file = _componentFiles.FirstOrDefault(f => f.PathToAnnotatedFile == e.FullPath);
+					}
+					if (file != null)
+						file.Refresh();
+				};
+
+				return _componentFiles.ToArray();
 			}
-
-			_watcher = new FileSystemWatcher(FolderPath);
-			_watcher.EnableRaisingEvents = true;
-			_watcher.Changed += (s, e) =>
-			{
-				if (e.ChangeType != WatcherChangeTypes.Changed)
-					return;
-				var file = _componentFiles.FirstOrDefault(f => f.PathToAnnotatedFile == e.FullPath);
-				if (file != null)
-					file.Refresh();
-			};
-
-			return GetComponentFiles();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -165,7 +171,7 @@ namespace SayMore.Model
 			if (!ComponentFile.MoveToRecycleBin(file, askForConfirmation))
 				return false;
 
-			RefreshComponentFiles();
+			ClearComponentFiles();
 			return true;
 		}
 
@@ -271,12 +277,10 @@ namespace SayMore.Model
 				try
 				{
 					File.Copy(kvp.Key, kvp.Value);
-					if (_componentFiles != null)
+					lock (this)
 					{
-						lock (this)
-						{
+						if (_componentFiles != null)
 							_componentFiles.Add(_componentFileFactory(this, kvp.Value));
-						}
 					}
 				}
 				catch (Exception e)

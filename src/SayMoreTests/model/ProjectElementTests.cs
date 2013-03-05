@@ -255,7 +255,7 @@ namespace SayMoreTests.Model
 				using (var fileToAdd = new TempFile())
 				{
 					var fileName = Path.GetFileName(fileToAdd.Path);
-					person.RefreshComponentFiles();
+					person.ClearComponentFiles();
 					File.CreateText(Path.Combine(person.FolderPath, fileName)).Close();
 					Assert.AreEqual(2, person.GetComponentFiles().Count());
 					Assert.IsFalse(person.AddComponentFile(fileToAdd.Path));
@@ -277,7 +277,7 @@ namespace SayMoreTests.Model
 				{
 					var fileName = Path.GetFileName(fileToAdd1.Path);
 					File.CreateText(Path.Combine(person.FolderPath, fileName)).Close();
-					person.RefreshComponentFiles();
+					person.ClearComponentFiles();
 					Assert.AreEqual(2, person.GetComponentFiles().Count());
 
 					Assert.IsTrue(person.AddComponentFiles(new[] { fileToAdd1.Path, fileToAdd2.Path }));

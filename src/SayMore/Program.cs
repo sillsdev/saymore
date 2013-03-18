@@ -35,7 +35,6 @@ namespace SayMore
 		private static string _pathOfLoadedProjectFile;
 		private static ApplicationContainer _applicationContainer;
 		private static Font _dialogFont;
-		public static bool CanLocalize { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -132,7 +131,6 @@ namespace SayMore
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(false);
 
-			SetUpLocalization();
 			SetUpErrorHandling();
 			SetUpReporting();
 
@@ -495,18 +493,6 @@ namespace SayMore
 			UsageReporter.SendNavigationNotice("Help: " + topicLink);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public static void SetUpLocalization()
-		{
-			var installedStringFileFolder = FileLocator.GetDirectoryDistributedWithApplication("mplayer");
-			installedStringFileFolder = Path.GetDirectoryName(installedStringFileFolder);
-
-			CanLocalize = LocalizationManager.Create(Settings.Default.UserInterfaceLanguage,
-				"SayMore", "SayMore", Application.ProductVersion,
-				installedStringFileFolder, AppDataFolder, Resources.SayMore, "SayMore").CanCustomizeLocalizations;
-
-			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
-		}
 
 		/// ------------------------------------------------------------------------------------
 		private static void SetUpErrorHandling()

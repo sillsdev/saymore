@@ -29,6 +29,7 @@ namespace SayMore.UI.ProjectWindow
 
 		private readonly string _projectName;
 		private readonly IEnumerable<ICommand> _commands;
+		private readonly UILanguageDlg.Factory _uiLanguageDialogFactory;
 		private MPlayerDebuggingOutputWindow _outputDebuggingWindow;
 
 		public bool UserWantsToOpenADifferentProject { get; set; }
@@ -45,7 +46,7 @@ namespace SayMore.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectWindow(string projectPath, IEnumerable<ISayMoreView> views,
-			IEnumerable<ICommand> commands) : this()
+			IEnumerable<ICommand> commands, UILanguageDlg.Factory uiLanguageDialogFactory) : this()
 		{
 			if (Settings.Default.ProjectWindow == null)
 			{
@@ -58,6 +59,7 @@ namespace SayMore.UI.ProjectWindow
 
 			_projectName = Path.GetFileNameWithoutExtension(projectPath);
 			_commands = commands;
+			_uiLanguageDialogFactory = uiLanguageDialogFactory;
 
 			foreach (var vw in views)
 			{
@@ -171,7 +173,7 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void HandleChangeUILanguageMenuClick(object sender, EventArgs e)
 		{
-			using (var dlg = new UILanguageDlg())
+			using (var dlg = _uiLanguageDialogFactory())
 			{
 				if (dlg.ShowDialog(this) != DialogResult.OK)
 					return;

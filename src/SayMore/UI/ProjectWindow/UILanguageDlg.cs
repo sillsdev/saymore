@@ -7,16 +7,20 @@ namespace SayMore.UI.ProjectWindow
 {
 	public partial class UILanguageDlg : Form
 	{
+		private readonly LocalizationManager _localizationManager;
+
+		public delegate UILanguageDlg Factory(); //autofac uses this
 		public string UILanguage { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public UILanguageDlg()
+		public UILanguageDlg(LocalizationManager localizationManager)
 		{
+			_localizationManager = localizationManager;
 			InitializeComponent();
 
 			_labelLanguage.Font = Program.DialogFont;
 			_linkIWantToLocalize.Font = Program.DialogFont;
-			if (!Program.CanLocalize)
+			if (!localizationManager.CanCustomizeLocalizations)
 			{
 				_linkIWantToLocalize.Text = LocalizationManager.GetString(
 					"DialogBoxes.UserInterfaceLanguageDlg.ViewLocalizationsLink",
@@ -31,7 +35,7 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void HandleIWantToLocalizeLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			LocalizationManager.ShowLocalizationDialogBox();
+			_localizationManager.ShowLocalizationDialogBox(false);
 			_comboUILanguage.RefreshList();
 		}
 

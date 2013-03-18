@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows;
 using Autofac;
 using Localization;
+using Palaso.IO;
 using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -44,7 +46,10 @@ namespace SayMore
 				.As<ICommand>()
 				.Where(t => t.GetInterfaces().Contains(typeof(ICommand))).InstancePerLifetimeScope();
 
-//			var filesTypes = GetFilesTypes(parentContainer);
+			builder.RegisterInstance<LocalizationManager>(CreateLocalizationManager()).SingleInstance();
+
+
+			//			var filesTypes = GetFilesTypes(parentContainer);
 //			builder.RegisterInstance(filesTypes).As(typeof(IEnumerable<FileType>));
 
 			// When something needs the list of filetypes, get them from this method
@@ -153,6 +158,19 @@ namespace SayMore
 						Settings.Default.WorkflowStageTextColor6);
 			}
 		}
+
+		public  LocalizationManager CreateLocalizationManager()
+		{
+			var installedStringFileFolder = Path.GetDirectoryName(FileLocator.GetFileDistributedWithApplication("SayMore.es.tmx"));
+			var localizationManager = LocalizationManager.Create(Settings.Default.UserInterfaceLanguage, "SayMore", "SayMore", System.Windows.Forms.Application.ProductVersion, installedStringFileFolder, Program.AppDataFolder, Resources.SayMore, "SayMore");
+			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
+			return localizationManager;
+		}
+
+//        public LocalizationManager LocalizationManager
+//        {
+//            get { return _container.Resolve<LocalizationManager>(); }
+//        }
 
 		/// ------------------------------------------------------------------------------------
 		public static IDictionary<string, IXmlFieldSerializer> XmlFieldSerializers

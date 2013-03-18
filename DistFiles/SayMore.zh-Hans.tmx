@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="zh-Hans" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4682.28436" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
-    <prop type="x-appversion">2.1.152.0</prop>
+  <header srclang="zh-Hans" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4809.29561" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+    <prop type="x-appversion">2.1.154.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -37,6 +37,24 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>出现不可预计的音频错误。</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.BindingHelper.AmbiguousDateNote">
+      <note>Text appended to the note for an element with an ambigous date field value</note>
+      <tuv xml:lang="en">
+        <seg>***This record had an ambiguous {0}, produced by a bug in an old version of SayMore. The date was "{1}". SayMore has attempted to interpret the date, but might have swapped the day and month. Please accept our apologies for this error. After you have fixed the date or confirmed that it is correct, please delete this message.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>这条记录由旧版Saymore生成的，有一个不明确的{0}，日期是"{1}"。 SayMore尝试来解析这个日期，可能交换月份和日期。十分抱歉出现这个错误。如果你修改了日期，并确认是正确的，请删除这条信息。</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ChangeIdFailureMsg">
+      <note>Message displayed when attempt failed to change a session id or a person's name (i.e. id)</note>
+      <tuv xml:lang="en">
+        <seg>Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>文件夹被控制或文件夹内有文件，不能重命名，请重启SayMore或重启电脑。</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ContributorsEditor.MissingContributorNameMsg">
@@ -143,6 +161,14 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>持续时间</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.FrameRate">
+      <tuv xml:lang="en">
+        <seg>Frame Rate</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>帧速率</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Microphone">
@@ -489,6 +515,22 @@
         <seg>视频</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.TimeCurrentOfTotalDisplayFormat">
+      <tuv xml:lang="en">
+        <seg>{0} / {1}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}/{1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.TimeRangeDisplayFormat">
+      <tuv xml:lang="en">
+        <seg>{0} - {1}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}-{1}</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.MediaPlayer.UnableToStartMplayerProcessMsg">
       <tuv xml:lang="en">
         <seg>Unable to start mplayer.</seg>
@@ -575,6 +617,14 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>关于SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.AboutDlg._labelSubTitle">
+      <tuv xml:lang="en">
+        <seg>Language Documentation Project Management</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>语言纪录项目管理系统</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._linkSILWebsite">
@@ -849,7 +899,7 @@
         <seg>Source</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>来源</seg>
+        <seg>原始</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkTranscription">
@@ -1109,6 +1159,14 @@
         <seg>点击自动下载SayMore</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkManualDownload">
+      <tuv xml:lang="en">
+        <seg>2) Click here to download FFmpeg manually and then click 'Install' to specify the location of the downloaded file for SayMore to install.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>点击手动下载FFmpeg</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkManualDownload_LinkPortion">
       <note>This is the portion of the text that is underlined, indicating the link to the download.</note>
       <tuv xml:lang="en">
@@ -1320,6 +1378,14 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>取消</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ProgressDlg._buttonOK">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>ok</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.CancelButtonText">
@@ -1668,6 +1734,14 @@
         <seg>键盘快捷键“b"</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayOriginalToolTipMsg">
+      <tuv xml:lang="en">
+        <seg>Listen to this segment.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>听此段</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordButton">
       <tuv xml:lang="en">
         <seg>Speak</seg>
@@ -1866,6 +1940,38 @@
         <seg>200%</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.250Pct">
+      <tuv xml:lang="en">
+        <seg>250%</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>250%</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.300Pct">
+      <tuv xml:lang="en">
+        <seg>300%</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>300%</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.500Pct">
+      <tuv xml:lang="en">
+        <seg>500%</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>500%</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.750Pct">
+      <tuv xml:lang="en">
+        <seg>750%</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>750%</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.CancelButton">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
@@ -1978,6 +2084,23 @@
         <seg>打开</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._labelSubTitle">
+      <tuv xml:lang="en">
+        <seg>Language Documentation Project Management</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>语言纪录项目管理系统</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._linkSayMoreWebsite">
+      <note>Parameter is the program name, "SayMore"</note>
+      <tuv xml:lang="en">
+        <seg>Visit {0} on the Web.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>访问{0}网站</seg>
+      </tuv>
+    </tu>
     <tu tuid="MainWindow.DeleteMultipleItemsMsg">
       <note>For deleting sessions and people items</note>
       <tuv xml:lang="en">
@@ -2025,6 +2148,14 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>输出数据</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.ProblemOpeningSayMoreProject">
+      <tuv xml:lang="en">
+        <seg>There was a problem opening the SayMore project which might require that you restart your computer.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>打开SayMore出现问题</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.ViewTabsScrollLeftToolTipText">
@@ -2505,7 +2636,7 @@
         <seg>{0} sessions totaling {1} minutes</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>{0}所有任务｛1｝分钟</seg>
+        <seg>{0}个任务，共{1}分钟</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.SummaryTotalsTextForSegment1">
@@ -2513,7 +2644,7 @@
         <seg>{0}{1} sessions totaling {2} minutes</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>{0}:{1}所有任务｛2｝分钟</seg>
+        <seg>{0}:{1}个任务，共{2}分钟</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.SummaryTotalsTextForSegment2">
@@ -2521,7 +2652,7 @@
         <seg>{0}: {1} sessions totaling {2} minutes</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>{0}:{1}所有任务｛2｝分钟</seg>
+        <seg>{0}:{1}个任务，共{2}分钟</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.TabText">
@@ -2585,7 +2716,7 @@
         <seg>Source</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>来源</seg>
+        <seg>原始录音</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.GeneratedOralAnnotationView.TranslationLabel">
@@ -2593,7 +2724,7 @@
         <seg>Translation</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>翻译</seg>
+        <seg>口译录音</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.TabText">
@@ -2930,7 +3061,7 @@
         <seg>Source Recording</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>来源录音</seg>
+        <seg>原始录音</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsList.Stages.Transcription">
@@ -2979,6 +3110,14 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>&amp;任务</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.StageNameDisplayFormat">
+      <tuv xml:lang="en">
+        <seg>{0} (on auto-pilot)</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}(自动引导)</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.StatusAndStagesEditor.StatusToolTips.Finished">
@@ -3266,7 +3405,7 @@
         <seg>ELAN File...</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>Elan File…</seg>
+        <seg>Elan 文件…</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.FLExTextExport">

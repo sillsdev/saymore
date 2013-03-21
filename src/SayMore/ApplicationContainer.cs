@@ -162,7 +162,7 @@ namespace SayMore
 		public  LocalizationManager CreateLocalizationManager()
 		{
 			var installedStringFileFolder = Path.GetDirectoryName(FileLocator.GetFileDistributedWithApplication("SayMore.es.tmx"));
-			var localizationManager = LocalizationManager.Create(Settings.Default.UserInterfaceLanguage, "SayMore", "SayMore", System.Windows.Forms.Application.ProductVersion, installedStringFileFolder, Program.AppDataFolder, Resources.SayMore, "SayMore");
+			var localizationManager = LocalizationManager.Create(Settings.Default.UserInterfaceLanguage, "SayMore", "SayMore", System.Windows.Forms.Application.ProductVersion, installedStringFileFolder, Program.AppDataFolder, Resources.SayMore, "issues@saymore.palaso.org","SayMore");
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 			return localizationManager;
 		}

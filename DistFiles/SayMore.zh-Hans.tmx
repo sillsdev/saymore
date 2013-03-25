@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="zh-Hans" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4809.29561" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
-    <prop type="x-appversion">2.1.154.0</prop>
+  <header srclang="zh-Hans" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4827.29872" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+    <prop type="x-appversion">2.1.158.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -70,7 +70,7 @@
         <seg>Choose a role.</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>选择一个角色 </seg>
+        <seg>选择一个角色</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ContributorsEditor.TabText">
@@ -203,6 +203,14 @@
         <seg>视频比特率</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.VerifyDeleteFieldQuestion">
+      <tuv xml:lang="en">
+        <seg>Do you want to delete the field '{0}' and its contents from the entire project?</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>你想从整个项目中删除'{0}'及其所有内容吗?</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.Caption">
       <tuv xml:lang="en">
         <seg>Add Files</seg>
@@ -227,12 +235,36 @@
         <seg>添加文件</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.FileList.AddFilesPrompt">
+      <tuv xml:lang="en">
+        <seg>Add additional files related to this session by\ndragging them here or clicking the 'Add Files' button.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>拖入任务相关文件到这儿或点击“添加文件”按钮添加</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.FileList.CannotRenameFileErrorMsg">
       <tuv xml:lang="en">
         <seg>{0} could not rename the file to '{1}' because there is already a file with that name.</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>名称重复，不能再命名</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>对不起，文件被占用，不能重命名，请稍后再试。</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>{0} could not rename the meta data file to '{1}' because there is already a file with that name.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>这个文件名已经存在，{0} 不能重命名为 '{1}' </seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.ColumnHeadings.FileDate">
@@ -315,12 +347,37 @@
         <seg>&amp;删除文件</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.FileList.DeleteSubordinateFilesFormat">
+      <note>Used to format a string that will indicate that subordinate files (i.e., annotation files) will also be moved to the recycle bin. Parameter is the name (without path) of the main file being deleted.</note>
+      <tuv xml:lang="en">
+        <seg>{0} and subordinate files</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}和下级文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeBytes">
+      <tuv xml:lang="en">
+        <seg>{0} Bytes</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}比特</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.FileList.FileSizeBytesAbbreviation">
       <tuv xml:lang="en">
         <seg>{0} B</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>{0}B</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeGigabytes">
+      <tuv xml:lang="en">
+        <seg>{0} Gigabytes</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}GB</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.FileSizeGigabytesAbbreviation">
@@ -331,12 +388,36 @@
         <seg>{0}GB</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeKilobytes">
+      <tuv xml:lang="en">
+        <seg>{0} Kilobytes</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}KB</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.FileList.FileSizeKilobytesAbbreviation">
       <tuv xml:lang="en">
         <seg>{0} KB</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>{0}KB</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeMegabytes">
+      <tuv xml:lang="en">
+        <seg>{0} Megabytes</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}MB</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeMegabytesAbbreviation">
+      <tuv xml:lang="en">
+        <seg>{0} MB</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}MB</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.Open.ButtonText">
@@ -432,7 +513,7 @@
         <seg>File does not appear to be a valid media file: {0}</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>无效媒体文件不能显示：｛0｝</seg>
+        <seg>无效媒体文件不能显示：{0}</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg">
@@ -617,6 +698,14 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>关于SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.AboutDlg._buttonOK">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>OK</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._labelSubTitle">
@@ -899,7 +988,7 @@
         <seg>Source</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>原始</seg>
+        <seg>原始(录音）</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkTranscription">
@@ -1006,6 +1095,39 @@
         <seg>下载…</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadNeededLabel">
+      <tuv xml:lang="en">
+        <seg>The selected conversion '{0}' requires FFmpeg which must be downloaded.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>转换需要下载 FFmpeg</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadingFailedDueToWebExceptionMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error getting a web response trying to download FFmpeg. Try pasting this Url in your browser to see if the file's location is available.\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>下载FFmpeg出错，把下载地址粘贴到浏览器地址栏看文件位置是否有效。\n\n{0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadingGeneralFailureMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error attempting to download FFmpeg. Try pasting this Url in your browser to see if the file's location is available.\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>下载FFmpeg出错，把下载地址粘贴到浏览器地址栏看文件位置是否有效。\n\n{0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadingProgressMsgFormat">
+      <note>The 'F2' in the parameters specifies displaying a number to 2 decimal places.</note>
+      <tuv xml:lang="en">
+        <seg>Downloaded {0:F2} MB of approximately {1:F2} MB</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>已下载 {0:F2} MB 接近 {1:F2} MB</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.ExtractStandardPcmFromVideoMenuText">
       <tuv xml:lang="en">
         <seg>Extract audio to standard WAV PCM audio file</seg>
@@ -1044,6 +1166,22 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>输出文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.OverviewLabel">
+      <tuv xml:lang="en">
+        <seg>To convert your media file to a different format, choose from one of the available conversions below and click 'Begin Conversion'. Your source media file will not be affected.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>选择以下可用的媒体格式，点击“开始转换”进行转换。源媒体文件不会受影响。</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ShowOutputButton">
+      <tuv xml:lang="en">
+        <seg>Show Details</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>显示详情</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.WindowTitle">
@@ -1150,6 +1288,14 @@
         <seg>下载FFmpeg</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkAutoDownload">
+      <tuv xml:lang="en">
+        <seg>1) Click here and SayMore will automatically download and install FFmpeg in the proper location.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>点击这儿，Saymore将自动下载FFmpeg并安装</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkAutoDownload_LinkPortion">
       <note>This is the portion of the text that is underlined, indicating the link to the download.</note>
       <tuv xml:lang="en">
@@ -1208,6 +1354,14 @@
         <seg>更多信息</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.MediaFileMoreInfoDlg.LessInfoButton">
+      <tuv xml:lang="en">
+        <seg>Less Information</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>更少信息</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.MediaFileMoreInfoDlg.WindowTitle">
       <tuv xml:lang="en">
         <seg>More Information for Media File</seg>
@@ -1230,6 +1384,15 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>不能定位FFmpeg</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg.InvalidPathMsg">
+      <note>This text is displayed under the project name when it is invalid.</note>
+      <tuv xml:lang="en">
+        <seg>Unable to create a new project by that name.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>用这个名称不能创建新项目</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewProjectDlg.WindowTitle">
@@ -1428,6 +1591,14 @@
         <seg>录音长度：{0}秒</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.RecordingFormatLabel">
+      <tuv xml:lang="en">
+        <seg>Format: {0} bits, {1} Hz</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>格式: {0} bits, {1} Hz</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.StopButtonText">
       <tuv xml:lang="en">
         <seg>Stop</seg>
@@ -1450,14 +1621,6 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>载入</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.SplashScreen.VersionInfoLabel">
-      <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>版本{0}.{1}.{2}(Beta) Built on{3}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CarefulSpeechRecorderDlg.WindowTitle">
@@ -1497,7 +1660,7 @@
         <seg>Source Audio</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>音源</seg>
+        <seg>原始音频</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelSegmentNumber">
@@ -1586,6 +1749,22 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>输出文件</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationLabel">
+      <tuv xml:lang="en">
+        <seg>{0}:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.TranscriptionLabel">
+      <tuv xml:lang="en">
+        <seg>{0}:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}:</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.ButtonTextWhenSegmentTooShort">
@@ -1692,6 +1871,14 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>听</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ListenButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Hold button down to listen\nto original recording</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>按下按键听原始录音</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortHoldingSpace">
@@ -2004,6 +2191,14 @@
         <seg>&amp;语言；</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.OKButton">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>OK</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.ViewLocalizationsLink">
       <tuv xml:lang="en">
         <seg>View SayMore localizations...</seg>
@@ -2018,6 +2213,14 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>用户界面语言</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg.OpenFileDlgCaption">
+      <tuv xml:lang="en">
+        <seg>Open SayMore Project</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>打开Saymore项目</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg.ProjectFileType">
@@ -2092,6 +2295,15 @@
         <seg>语言纪录项目管理系统</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._linkSILWebsite">
+      <note>Parameter is the publisher of SayMore, "SIL International"</note>
+      <tuv xml:lang="en">
+        <seg>This free software is published by {0}.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>此免费软件由{0}发布</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._linkSayMoreWebsite">
       <note>Parameter is the program name, "SayMore"</note>
       <tuv xml:lang="en">
@@ -2108,6 +2320,15 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>项目</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.DeleteOneItemMsg">
+      <note>For deleting sessions and people items</note>
+      <tuv xml:lang="en">
+        <seg>{0}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>{0}</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.DeletePersonMenuText">
@@ -2148,6 +2369,14 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>输出数据</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.LoadingProjectErrorMsg">
+      <tuv xml:lang="en">
+        <seg>{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>载入项目出现一个问题，点击下面的“详情”给软件开发者反映这个问题。</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.ProblemOpeningSayMoreProject">
@@ -2342,6 +2571,38 @@
         <seg>更换图片</seg>
       </tuv>
     </tu>
+    <tu tuid="PeopleView.MetadataEditor.ErrorChangingPersonsPhotoMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error changing the person's photo.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>更换此人的照片出错</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.ErrorLoadingPersonsPhotoMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error loading the person's photo.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>引导此人的照片出错</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.FatherSelectorToolTip.WhenNotSelected">
+      <tuv xml:lang="en">
+        <seg>Click to indicate this is the father's primary language</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>点击指出父亲的第一语言</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.FatherSelectorToolTip.WhenSelected">
+      <tuv xml:lang="en">
+        <seg>Indicates this is the father's primary language</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>指出父亲的第一语言</seg>
+      </tuv>
+    </tu>
     <tu tuid="PeopleView.MetadataEditor.GenderSelector.Female">
       <tuv xml:lang="en">
         <seg>Female</seg>
@@ -2356,6 +2617,30 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>男性</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.ImageFileTypes">
+      <tuv xml:lang="en">
+        <seg>JPEG Images (*.jpg)|*.jpg|GIF Images (*.gif)|*.gif|TIFF Images (*.tif)|*.tif|PNG Images (*.png)|*.png|Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>JPEG 图像 (*.jpg)|*.jpg|GIF 图像 (*.gif)|*.gif|TIFF 图像 (*.tif)|*.tif|PNG 图像 (*.png)|*.png|Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|所有文件 (*.*)|*.*</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.MotherSelectorToolTip.WhenNotSelected">
+      <tuv xml:lang="en">
+        <seg>Click to indicate this is the mother's primary language</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>点击指出母亲的第一语言</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.MotherSelectorToolTip.WhenSelected">
+      <tuv xml:lang="en">
+        <seg>Indicates this is the mother's primary language</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>指出母亲的第一语言</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor.TabText">
@@ -2422,6 +2707,14 @@
         <seg>第一&amp;语言</seg>
       </tuv>
     </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelPrimaryLanguageLearnedIn">
+      <tuv xml:lang="en">
+        <seg>Learned &amp;In:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>学习 &amp;在:</seg>
+      </tuv>
+    </tu>
     <tu tuid="PeopleView.MetadataEditor._labelPrimaryOccupation">
       <tuv xml:lang="en">
         <seg>Primary &amp;Occupation</seg>
@@ -2475,7 +2768,7 @@
         <seg>Click 'New' to add a new person.</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>点击“添加”增加一个一人员</seg>
+        <seg>点击“新建”添加人员</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.PeopleList.ColumnHeadings.Consent">
@@ -3184,6 +3477,14 @@
         <seg>文件没有找到</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.BadAnnotationFileMsg">
+      <tuv xml:lang="en">
+        <seg>File '{0}' is not a SayMore annotation file. It is possibly corrupt.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>文件'{0}'不是SayMore标注文件，文件有可能被损坏。</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.FontsMenu">
       <tuv xml:lang="en">
         <seg>&amp;Fonts...</seg>
@@ -3214,6 +3515,14 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>帮助 </seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>帮助</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton">
@@ -3304,6 +3613,22 @@
         <seg>这个音频的格式是 '{0}'。SayMore需要把它转换成WAV PCM格式才能标注，哪个是好，用标准选择进行存档。在转换过程中，一个标准音频文件将根据原始文件创建，并添加加任务文件列表。转换的新音频文件名将添加一个后缀 "{1}"。原始文件依然保存在任务列表。</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelSourceFileName">
+      <tuv xml:lang="en">
+        <seg>Name of source media file:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>来源媒体文件名称</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelStandardAudioFileName">
+      <tuv xml:lang="en">
+        <seg>Name of new, standard audio file:</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>新名称,标准音频文件</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.StartAnnotatingTab.TabText">
       <tuv xml:lang="en">
         <seg>Start Annotating</seg>
@@ -3328,12 +3653,28 @@
         <seg>分段方法</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethodQuestion">
+      <tuv xml:lang="en">
+        <seg>Each annotation will be linked to a single time segment of media. How would you like to identify those segments?</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>每一个标注都将和媒体的一个时间段关联，你如何标识这些时间段？</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonAudacity">
       <tuv xml:lang="en">
         <seg>Read an Audacity Label file</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>读取Audacity标签文件 </seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonAutoSegmenter">
+      <tuv xml:lang="en">
+        <seg>Use auto segmenter (experimental)</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>使用自动分段(测试)</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonCarefulSpeech">
@@ -3489,6 +3830,14 @@
         <seg>复制{0}到剪贴板</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.Caption">
+      <tuv xml:lang="en">
+        <seg>Exporting to FLEx Interlinear</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>输出到FLEx Interlinear</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.FinsihedMsg">
       <tuv xml:lang="en">
         <seg>Finished Exporting</seg>
@@ -3530,6 +3879,14 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.HelpButton">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>帮助</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.HelpButton_ToolTip_">
       <tuv xml:lang="en">
         <seg>Help</seg>
       </tuv>
@@ -3626,12 +3983,28 @@
         <seg>50%</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.60Pct">
+      <tuv xml:lang="en">
+        <seg>60%</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>60%</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.70Pct">
       <tuv xml:lang="en">
         <seg>70%</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>70%</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.80Pct">
+      <tuv xml:lang="en">
+        <seg>80%</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>80%</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct">
@@ -3743,7 +4116,16 @@
         <seg>Sorry, the file '{0}' already exists.</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>对不起，文件已经存在。</seg>
+        <seg>对不起，文件 '{0}'已经存在</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ConvertToStandardWavPcmAudioErrorMsg">
+      <note>Parameter is the file name of the media file used as the basis for the attempted conversion.</note>
+      <tuv xml:lang="en">
+        <seg>There was an error trying to create a standard audio file from:\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>从:\n\n{0}创建标准音频出错</seg>
       </tuv>
     </tu>
     <tu tuid="SoundFileUtils.ConvertToStandardWavPcmAudioMsg">
@@ -3752,6 +4134,39 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>正在转换…</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ErrorFindingPcmAudioDriverMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error trying to find a PCM audio driver on this computer. Ensure that you have a PCM sound driver installed.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>找不到PCM声音驱动，请确认是否安装。</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ErrorFindingPcmConversionCapabilitiesMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error trying to find PCM audio conversion capabilities on this computer. Ensure that you have a PCM sound driver installed.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>转换PCM格式音频出错，请确认是否安装PCM声音驱动。</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ExtractingAudioError">
+      <note>Second parameter is the error message.</note>
+      <tuv xml:lang="en">
+        <seg>There was an error extracting audio from the media file '{0}'\n\n{1}</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>从媒体文件提取音频出错 '{0}'\n\n{1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.FileMayNotBeValidAudioError">
+      <tuv xml:lang="en">
+        <seg>No audio track could be found in the specified file. Verify that the file is a valid audio file.</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>指定文件中不能找到音轨。请确认是否是有效音频文件。</seg>
       </tuv>
     </tu>
     <tu tuid="SoundFileUtils.MediaFileDoesNotExistErrorMsg">

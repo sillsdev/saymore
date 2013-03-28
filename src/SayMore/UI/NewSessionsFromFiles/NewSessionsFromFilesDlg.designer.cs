@@ -46,7 +46,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
 			this._gridFiles = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._panelMetadata = new System.Windows.Forms.Panel();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._mediaPlayerPanel.SuspendLayout();
 			this._panelProgress.SuspendLayout();
 			this._outerTableLayout.SuspendLayout();
@@ -347,6 +347,6 @@ namespace SayMore.UI.NewSessionsFromFiles
 		private System.Windows.Forms.Panel _panelMetadata;
 		private SayMore.UI.ElementListScreen.ComponentFileGrid _gridFiles;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutButtons;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

@@ -37,7 +37,7 @@ namespace SayMore.Transcription.UI
             this._labelFreeTranslationColumnHeadingText = new System.Windows.Forms.Label();
             this._comboTranslationWs = new System.Windows.Forms.ComboBox();
             this._labelOverview = new System.Windows.Forms.Label();
-            this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+            this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
             this._tableLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
             this.SuspendLayout();
@@ -222,6 +222,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Label _labelFreeTranslationColumnHeadingText;
 		private System.Windows.Forms.ComboBox _comboTranslationWs;
 		private System.Windows.Forms.Label _labelOverview;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

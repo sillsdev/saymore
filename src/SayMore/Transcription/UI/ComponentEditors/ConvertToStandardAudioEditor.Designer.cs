@@ -32,7 +32,7 @@ namespace SayMore.Transcription.UI
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._pictureInfo = new System.Windows.Forms.PictureBox();
 			this._labelSourceFileName = new System.Windows.Forms.Label();
 			this._labelConvertIntroduction = new System.Windows.Forms.Label();
@@ -238,7 +238,7 @@ namespace SayMore.Transcription.UI
 
 		#endregion
 
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private TableLayoutPanel _tableLayoutConvert;
 		private PictureBox _pictureInfo;
 		private Label _labelSourceFileName;

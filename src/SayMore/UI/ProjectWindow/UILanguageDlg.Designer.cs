@@ -34,7 +34,7 @@ namespace SayMore.UI.ProjectWindow
 			this._labelLanguage = new System.Windows.Forms.Label();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._buttonOK = new System.Windows.Forms.Button();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._linkIWantToLocalize = new System.Windows.Forms.LinkLabel();
 			this._linkHelpOnLocalizing = new System.Windows.Forms.LinkLabel();
 			this._tableLayoutPanel.SuspendLayout();
@@ -204,7 +204,7 @@ namespace SayMore.UI.ProjectWindow
 		private System.Windows.Forms.Label _labelLanguage;
 		private System.Windows.Forms.Button _buttonCancel;
 		private System.Windows.Forms.Button _buttonOK;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.LinkLabel _linkIWantToLocalize;
 		private System.Windows.Forms.LinkLabel _linkHelpOnLocalizing;
 	}

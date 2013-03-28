@@ -27,7 +27,7 @@ namespace SayMore.UI.ElementListScreen
 		protected FileType _fileType;
 		protected IEnumerable<ProjectElement> _items = new ProjectElement[] { };
 		protected ContextMenuStrip _contextMenuStrip = new ContextMenuStrip();
-		protected readonly LocalizationExtender _locExtender;
+		protected readonly L10NSharpExtender _locExtender;
 
 		/// ------------------------------------------------------------------------------------
 		public ElementGrid()
@@ -53,7 +53,7 @@ namespace SayMore.UI.ElementListScreen
 			DefaultCellStyle.SelectionBackColor = clr;
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
 
-			_locExtender = new LocalizationExtender();
+			_locExtender = new L10NSharpExtender();
 			_locExtender.LocalizationManagerId = "SayMore";
 			_locExtender.SetLocalizingId(this, "ElementGrid");
 		}

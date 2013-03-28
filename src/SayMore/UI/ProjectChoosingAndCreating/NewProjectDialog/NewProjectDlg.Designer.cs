@@ -32,7 +32,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._textBoxName = new System.Windows.Forms.TextBox();
 			this._labelNewProjectPath = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -152,7 +152,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		protected System.Windows.Forms.Button _buttonCancel;
 		protected System.Windows.Forms.TextBox _textBoxName;
 		protected System.Windows.Forms.Label _labelNewProjectPath;
-		private LocalizationExtender locExtender;
+		private L10NSharpExtender locExtender;
 		private System.ComponentModel.IContainer components;
 	}
 }

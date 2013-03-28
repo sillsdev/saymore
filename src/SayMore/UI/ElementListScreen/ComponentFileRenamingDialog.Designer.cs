@@ -53,7 +53,7 @@ namespace SayMore.UI.ElementListScreen
 			this._messagePanel = new System.Windows.Forms.Panel();
 			this._warningIcon = new System.Windows.Forms.PictureBox();
 			this._labelMessage = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this._tableLayoutButtons.SuspendLayout();
 			this._tableLayoutTextBox.SuspendLayout();
@@ -511,7 +511,7 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.Label _labelPrefix;
 		private System.Windows.Forms.Label _labelMessage;
 		private System.Windows.Forms.Label _labelExtension;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Label _labelChangeNameTo;
 		private System.Windows.Forms.FlowLayoutPanel _flowLayoutShortcuts;
 		private System.Windows.Forms.Label _labelShortcuts;

@@ -32,7 +32,7 @@ namespace SayMore.UI
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._buttonCancel = new System.Windows.Forms.Button();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -126,7 +126,7 @@ namespace SayMore.UI
 
 		private System.Windows.Forms.Button _buttonOK;
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Button _buttonCancel;
 	}
 }

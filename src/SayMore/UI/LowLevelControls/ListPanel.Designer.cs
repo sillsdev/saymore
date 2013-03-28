@@ -21,7 +21,7 @@ namespace SayMore.UI.LowLevelControls
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListPanel));
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._outerPanel = new SilTools.Controls.SilPanel();
 			this._buttonsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this._buttonNew = new System.Windows.Forms.Button();
@@ -166,7 +166,7 @@ namespace SayMore.UI.LowLevelControls
 
 		private SilTools.Controls.SilPanel _outerPanel;
 		private HeaderLabel _headerLabel;
-		private LocalizationExtender locExtender;
+		private L10NSharpExtender locExtender;
 		public System.Windows.Forms.Button _buttonNew;
 		private System.Windows.Forms.FlowLayoutPanel _buttonsFlowLayoutPanel;
 		private ColumnChooserButton _buttonColChooser;

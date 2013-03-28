@@ -35,7 +35,7 @@ namespace SayMore.Transcription.UI
             this._buttonCarefulSpeech = new System.Windows.Forms.ToolStripMenuItem();
             this._buttonOralTranslation = new System.Windows.Forms.ToolStripMenuItem();
             this._comboPlaybackSpeed = new System.Windows.Forms.ToolStripComboBox();
-            this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+            this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
             this._splitter = new System.Windows.Forms.SplitContainer();
             this._toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -316,7 +316,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripMenuItem _buttonOralTranslation;
 		private System.Windows.Forms.ToolStripButton _buttonHelp;
 		private System.Windows.Forms.ToolStripButton _buttonResegment;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.ToolStripDropDownButton _exportMenu;
 		private System.Windows.Forms.ToolStripMenuItem _plainTextExportMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem _flexInterlinearExportMenuItem;

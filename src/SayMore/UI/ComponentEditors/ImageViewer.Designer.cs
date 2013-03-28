@@ -30,7 +30,7 @@ namespace SayMore.UI.ComponentEditors
 			this._zoomTrackBar = new System.Windows.Forms.TrackBar();
 			this._tableLayoutZoom = new System.Windows.Forms.TableLayoutPanel();
 			this._labelZoom = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this._zoomTrackBar)).BeginInit();
 			this._tableLayoutZoom.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -117,6 +117,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.TrackBar _zoomTrackBar;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutZoom;
 		private System.Windows.Forms.Label _labelZoom;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

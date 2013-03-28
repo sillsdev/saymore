@@ -36,7 +36,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._tableLayoutWorking = new System.Windows.Forms.TableLayoutPanel();
 			this._labelWorking = new System.Windows.Forms.Label();
 			this._pictureWorking = new System.Windows.Forms.PictureBox();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._toolStripActions = new SayMore.UI.LowLevelControls.ElementBar();
 			this._buttonRefresh = new System.Windows.Forms.ToolStripButton();
 			this._panelBrowser.SuspendLayout();
@@ -243,6 +243,6 @@ namespace SayMore.UI.Overview.Statistics
 		private SilTools.Controls.SilPanel _panelWorking;
 		private System.Windows.Forms.PictureBox _pictureWorking;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutWorking;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
     }
 }

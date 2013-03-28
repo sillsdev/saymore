@@ -70,7 +70,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
 			this._tooltip = new System.Windows.Forms.ToolTip(this.components);
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this._panelPicture.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._personsPicture)).BeginInit();
@@ -815,6 +815,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.ToolTip _tooltip;
 		private System.Windows.Forms.PictureBox _personsPicture;
 		private System.Windows.Forms.Panel _panelPicture;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

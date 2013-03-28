@@ -41,7 +41,7 @@ namespace SayMore.UI.SessionRecording
 			this._buttonPlayback = new System.Windows.Forms.ToolStripButton();
 			this._buttonStop = new System.Windows.Forms.ToolStripButton();
 			this._labelRecLength = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.tableLayoutPanel1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -270,7 +270,7 @@ namespace SayMore.UI.SessionRecording
 
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private System.Windows.Forms.Label _labelRecordingFormat;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.ToolStrip toolStrip1;
 		private System.Windows.Forms.ToolStripButton _buttonRecord;
 		private System.Windows.Forms.ToolStripButton _buttonPlayback;

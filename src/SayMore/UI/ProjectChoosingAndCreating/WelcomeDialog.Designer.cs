@@ -45,7 +45,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._linkSILWebsite = new System.Windows.Forms.LinkLabel();
 			this._labelVersionInfo = new System.Windows.Forms.Label();
 			this._labelSubTitle = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._linkSayMoreWebsite = new System.Windows.Forms.LinkLabel();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.pnlOptions.SuspendLayout();
@@ -306,7 +306,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		private System.Windows.Forms.LinkLabel _linkSILWebsite;
 		private System.Windows.Forms.Label _labelVersionInfo;
 		private System.Windows.Forms.Label _labelSubTitle;
-		private LocalizationExtender locExtender;
+		private L10NSharpExtender locExtender;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
 		private System.Windows.Forms.LinkLabel _linkSayMoreWebsite;
 	}

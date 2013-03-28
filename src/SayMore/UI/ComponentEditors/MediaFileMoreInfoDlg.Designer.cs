@@ -38,7 +38,7 @@ namespace SayMore.UI.ComponentEditors
 			this._flowLayoutButtons = new System.Windows.Forms.FlowLayoutPanel();
 			this._buttonEvenMoreInfo = new System.Windows.Forms.Button();
 			this._buttonLessInfo = new System.Windows.Forms.Button();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.tableLayoutPanel1.SuspendLayout();
 			this._panelBrowser.SuspendLayout();
 			this._flowLayoutButtons.SuspendLayout();
@@ -209,6 +209,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.WebBrowser _webBrowserInfo;
 		private SilPanel _panelBrowser;
 		private System.Windows.Forms.Button _buttonLessInfo;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

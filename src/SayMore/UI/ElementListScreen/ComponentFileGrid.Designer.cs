@@ -49,7 +49,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonRename = new System.Windows.Forms.ToolStripButton();
 			this._buttonConvert = new System.Windows.Forms.ToolStripButton();
 			this._buttonAddFiles = new System.Windows.Forms.ToolStripButton();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._contextMenuStrip.SuspendLayout();
 			this._panelOuter.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
@@ -333,7 +333,7 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDataModified;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDuration;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.ToolStripButton _buttonConvert;
 
 	}

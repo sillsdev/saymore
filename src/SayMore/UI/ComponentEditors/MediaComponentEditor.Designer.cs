@@ -34,7 +34,7 @@ namespace SayMore.UI.ComponentEditors
 			this._buttonPresets = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonMoreInfo = new System.Windows.Forms.ToolStripButton();
 			this._presetMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this._toolStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -135,7 +135,7 @@ namespace SayMore.UI.ComponentEditors
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		protected System.Windows.Forms.ContextMenuStrip _presetMenu;
 		private System.Windows.Forms.ToolStrip _toolStrip;
 		private System.Windows.Forms.ToolStripButton _buttonMoreInfo;

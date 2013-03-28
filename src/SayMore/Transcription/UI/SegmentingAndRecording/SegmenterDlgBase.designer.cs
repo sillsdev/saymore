@@ -35,7 +35,7 @@ namespace SayMore.Transcription.UI
 			this._labelSegmentNumber = new System.Windows.Forms.ToolStripLabel();
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._buttonCancel = new System.Windows.Forms.Button();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
 			this._panelWaveControl.SuspendLayout();
 			this._lastSegmentMenuStrip.SuspendLayout();
@@ -381,7 +381,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ComboBox _comboBoxZoom;
 		private System.Windows.Forms.Label _labelZoom;
 		protected System.Windows.Forms.Button _buttonOK;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
 		protected Panel _panelWaveControl;
 		private System.Windows.Forms.ToolStripLabel _labelTimeDisplay;

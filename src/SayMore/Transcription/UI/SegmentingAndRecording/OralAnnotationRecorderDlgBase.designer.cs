@@ -20,7 +20,7 @@ namespace SayMore.Transcription.UI
 			this.components = new System.ComponentModel.Container();
 			this._panelListen = new System.Windows.Forms.Panel();
 			this._labelListenButton = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._labelRecordButton = new System.Windows.Forms.Label();
 			this._pictureRecording = new System.Windows.Forms.PictureBox();
 			this._labelErrorInfo = new System.Windows.Forms.Label();
@@ -357,7 +357,7 @@ namespace SayMore.Transcription.UI
 
 		#endregion
 
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Timer _scrollTimer;
 		private System.Windows.Forms.Timer _cursorBlinkTimer;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutRecordAnnotations;

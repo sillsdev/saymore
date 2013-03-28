@@ -47,7 +47,7 @@ namespace SayMore.Transcription.UI
 			this._buttonAutoSegmenterHelp = new System.Windows.Forms.Button();
 			this._radioButtonAudacity = new System.Windows.Forms.RadioButton();
 			this._radioButtonAutoSegmenter = new System.Windows.Forms.RadioButton();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayoutGetStarted.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -378,7 +378,7 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutGetStarted;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Label _labelSegmentationMethodQuestion;
 		private System.Windows.Forms.Label _labelSegmentationMethod;
 		private System.Windows.Forms.Label _labelIntroduction;

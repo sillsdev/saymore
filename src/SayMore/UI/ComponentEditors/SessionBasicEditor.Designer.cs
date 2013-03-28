@@ -57,7 +57,7 @@ namespace SayMore.UI.ComponentEditors
 			this._date = new SayMore.UI.LowLevelControls.DatePicker();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -530,6 +530,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Panel _panelGrid;
 		private SayMore.UI.LowLevelControls.MultiValueDropDownBox _participants;
 		private System.Windows.Forms.Label _labelDate;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

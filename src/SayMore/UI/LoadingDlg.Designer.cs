@@ -32,7 +32,7 @@ namespace SayMore.UI
 			this._labelLoading = new System.Windows.Forms.Label();
 			this._linkCancel = new System.Windows.Forms.LinkLabel();
 			this._pictureLoading = new System.Windows.Forms.PictureBox();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			((System.ComponentModel.ISupportInitialize)(this._pictureLoading)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -153,7 +153,7 @@ namespace SayMore.UI
 
 		private System.Windows.Forms.Label _labelLoading;
 		private System.Windows.Forms.PictureBox _pictureLoading;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.LinkLabel _linkCancel;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutPanel;
 	}

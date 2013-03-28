@@ -36,7 +36,7 @@ namespace SayMore.UI.ComponentEditors
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.linkHelpTopic = new System.Windows.Forms.LinkLabel();
 			this.txtMissingMediaFilePath = new System.Windows.Forms.TextBox();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._panelBrowser.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -182,7 +182,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.LinkLabel linkHelpTopic;
 		private System.Windows.Forms.TextBox txtMissingMediaFilePath;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Label lblMediaFileMissing;
 		private System.Windows.Forms.Label lblExplanation;
 	}

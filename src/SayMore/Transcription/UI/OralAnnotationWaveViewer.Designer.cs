@@ -22,7 +22,7 @@ namespace SayMore.Transcription.UI
 			this._labelCareful = new System.Windows.Forms.Label();
 			this._labelSource = new System.Windows.Forms.Label();
 			this._waveControl = new SayMore.Media.Audio.WaveControlBasic();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this._panelLabels.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -153,7 +153,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Label _labelSource;
 		private System.Windows.Forms.Label _labelTranslation;
 		private System.Windows.Forms.Label _labelCareful;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Panel _panelLabels;
 	}
 }

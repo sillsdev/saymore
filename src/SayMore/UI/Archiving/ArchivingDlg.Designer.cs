@@ -35,7 +35,7 @@ namespace SayMore.UI.Utilities
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._linkOverview = new System.Windows.Forms.LinkLabel();
 			this._progressBar = new System.Windows.Forms.ProgressBar();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayoutPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -177,6 +177,6 @@ namespace SayMore.UI.Utilities
 		private System.Windows.Forms.Button _buttonCancel;
 		private System.Windows.Forms.LinkLabel _linkOverview;
 		private System.Windows.Forms.ProgressBar _progressBar;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

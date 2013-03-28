@@ -38,7 +38,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelReadAboutStages = new System.Windows.Forms.Label();
 			this._labelStagesHint = new System.Windows.Forms.Label();
 			this._buttonReadAboutStages = new System.Windows.Forms.Button();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this._tableLayoutOuter.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -253,7 +253,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Label _labelReadAboutStages;
 		private System.Windows.Forms.Label _labelStagesHint;
 		private System.Windows.Forms.Button _buttonReadAboutStages;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.ToolTip _toolTip;
 	}
 }

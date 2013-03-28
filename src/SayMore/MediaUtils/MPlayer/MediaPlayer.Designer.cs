@@ -35,7 +35,7 @@ namespace SayMore.Media.MPlayer
 			this._buttonStop = new System.Windows.Forms.ToolStripButton();
 			this._buttonVolume = new System.Windows.Forms.ToolStripSplitButton();
 			this._labelTime = new System.Windows.Forms.ToolStripLabel();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._videoPanel = new SayMore.Media.MPlayer.VideoPanel();
 			this._volumePopup = new SayMore.UI.LowLevelControls.VolumePopup();
 			this._sliderTime = new SayMore.UI.LowLevelControls.Slider();
@@ -242,6 +242,6 @@ namespace SayMore.Media.MPlayer
 		private Slider _sliderTime;
 		private System.Windows.Forms.ToolStripSplitButton _buttonVolume;
 		private VolumePopup _volumePopup;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

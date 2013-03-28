@@ -31,7 +31,7 @@ namespace SayMore.UI
 			this.components = new System.ComponentModel.Container();
 			this._labelLoading = new System.Windows.Forms.Label();
 			this._labelVersionInfo = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.m_panel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -145,7 +145,7 @@ namespace SayMore.UI
 
 		private System.Windows.Forms.Label _labelLoading;
 		private System.Windows.Forms.Label _labelVersionInfo;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 
 	}
 }

@@ -51,7 +51,7 @@ namespace SayMore.UI
 			this._textBoxOutput = new System.Windows.Forms.TextBox();
 			this._labelOutputFile = new System.Windows.Forms.Label();
 			this._labelOutputFileValue = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayoutOuter.SuspendLayout();
 			this._tableLayoutFFmpegMissing.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._pictureInformation)).BeginInit();
@@ -487,7 +487,7 @@ namespace SayMore.UI
 		private System.Windows.Forms.Button _buttonShowOutput;
 		private System.Windows.Forms.Button _buttonHideOutput;
 		private System.Windows.Forms.TextBox _textBoxOutput;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Label _labelOutputFile;
 		private System.Windows.Forms.Label _labelOutputFileValue;
 	}

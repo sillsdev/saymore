@@ -35,7 +35,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonDelete = new System.Windows.Forms.Button();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayoutMessage.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._pictureDeleteX)).BeginInit();
 			this._tableLayoutButtons.SuspendLayout();
@@ -194,6 +194,6 @@ namespace SayMore.UI.LowLevelControls
 		private System.Windows.Forms.Button _buttonCancel;
 		private SilTools.Controls.AutoHeightLabel _labelMessage;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutButtons;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

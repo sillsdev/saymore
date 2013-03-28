@@ -37,7 +37,7 @@ namespace SayMore.UI.ElementListScreen
 			this._componentsSplitter = new System.Windows.Forms.SplitContainer();
 			this._personComponentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._labelClickNewHelpPrompt = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._elementListSplitter.Panel1.SuspendLayout();
 			this._elementListSplitter.Panel2.SuspendLayout();
 			this._elementListSplitter.SuspendLayout();
@@ -171,6 +171,6 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.SplitContainer _componentsSplitter;
 		private ComponentFileGrid _personComponentFileGrid;
 		private System.Windows.Forms.Label _labelClickNewHelpPrompt;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

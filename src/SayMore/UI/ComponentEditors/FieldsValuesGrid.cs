@@ -18,12 +18,12 @@ namespace SayMore.UI.ComponentEditors
 		private readonly Font _factoryFieldFont;
 		private readonly Color _focusedSelectionBackColor;
 		private bool _adjustHeightToFitRows = true;
-		private readonly LocalizationExtender _locExtender;
+		private readonly L10NSharpExtender _locExtender;
 
 		/// ------------------------------------------------------------------------------------
 		public FieldsValuesGrid(FieldsValuesGridViewModel model)
 		{
-			_locExtender = new LocalizationExtender();
+			_locExtender = new L10NSharpExtender();
 			_locExtender.LocalizationManagerId = "SayMore";
 			_locExtender.SetLocalizingId(this, "FieldsAndValuesGrid");
 

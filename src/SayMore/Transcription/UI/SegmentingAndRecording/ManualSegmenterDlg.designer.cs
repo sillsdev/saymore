@@ -28,7 +28,7 @@ namespace SayMore.Transcription.UI
 		{
 			this.components = new System.ComponentModel.Container();
 			this._buttonAddSegmentBoundary = new System.Windows.Forms.ToolStripButton();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.toolStripButtons = new System.Windows.Forms.ToolStrip();
 			this._buttonListenToOriginal = new System.Windows.Forms.ToolStripButton();
 			this._buttonStopOriginal = new System.Windows.Forms.ToolStripButton();
@@ -200,7 +200,7 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		private System.Windows.Forms.ToolStripButton _buttonAddSegmentBoundary;
-		private L10NSharp.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.ToolStrip toolStripButtons;
 		private System.Windows.Forms.ToolStripButton _buttonListenToOriginal;
 		private System.Windows.Forms.ToolStripButton _buttonStopOriginal;

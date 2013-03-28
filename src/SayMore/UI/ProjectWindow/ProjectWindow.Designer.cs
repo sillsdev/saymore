@@ -18,7 +18,7 @@ namespace SayMore.UI.ProjectWindow
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._mainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this._menuProject = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuOpenProject = new System.Windows.Forms.ToolStripMenuItem();
@@ -247,7 +247,7 @@ namespace SayMore.UI.ProjectWindow
 
 		#endregion
 
-		private LocalizationExtender locExtender;
+		private L10NSharpExtender locExtender;
 		private System.Windows.Forms.MenuStrip _mainMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem _menuProject;
 		private System.Windows.Forms.ToolStripMenuItem _menuOpenProject;

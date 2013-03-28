@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using NAudio.Wave;
 using SayMore.Media;
 using SayMore.Media.FFmpeg;

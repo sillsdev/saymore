@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using Localization;
+using L10NSharp;
 using Palaso.IO;
 using Palaso.Reporting;
 using Palaso.Xml;

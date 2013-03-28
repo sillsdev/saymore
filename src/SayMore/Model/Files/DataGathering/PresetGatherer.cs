@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Localization;
+using L10NSharp;
 
 namespace SayMore.Model.Files.DataGathering
 {

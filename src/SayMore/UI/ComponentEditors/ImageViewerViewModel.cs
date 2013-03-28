@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Drawing;
-using Localization;
+using L10NSharp;
 
 namespace SayMore.UI.ComponentEditors
 {

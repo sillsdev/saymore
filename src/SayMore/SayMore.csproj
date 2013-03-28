@@ -64,9 +64,9 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\dotnet\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="LocalizationManager, Version=1.1.4517.29903, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="L10NSharp, Version=1.1.4835.17235, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\LocalizationManager.dll</HintPath>
+      <HintPath>..\..\lib\dotnet\L10NSharp.dll</HintPath>
     </Reference>
     <Reference Include="NAudio, Version=1.5.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

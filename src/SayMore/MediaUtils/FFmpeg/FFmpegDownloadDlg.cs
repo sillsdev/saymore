@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
 using SilTools;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SayMore.Model.Files;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 using SilTools;

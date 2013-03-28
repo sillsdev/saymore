@@ -35,7 +35,7 @@ namespace SayMore.Transcription.UI
 			this._labelSegmentNumber = new System.Windows.Forms.ToolStripLabel();
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._buttonCancel = new System.Windows.Forms.Button();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
 			this._panelWaveControl.SuspendLayout();
 			this._lastSegmentMenuStrip.SuspendLayout();
@@ -74,7 +74,7 @@ namespace SayMore.Transcription.UI
 			this._undoToolStripMenuItem});
 			this.locExtender.SetLocalizableToolTip(this._lastSegmentMenuStrip, null);
 			this.locExtender.SetLocalizationComment(this._lastSegmentMenuStrip, null);
-			this.locExtender.SetLocalizationPriority(this._lastSegmentMenuStrip, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._lastSegmentMenuStrip, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._lastSegmentMenuStrip, "OralAnnotationRecorderBaseDlg._lastSegmentMenuStrip");
 			this._lastSegmentMenuStrip.Location = new System.Drawing.Point(311, 11);
 			this._lastSegmentMenuStrip.Name = "_lastSegmentMenuStrip";
@@ -110,7 +110,7 @@ namespace SayMore.Transcription.UI
 			this._ignoreToolStripMenuItem});
 			this.locExtender.SetLocalizableToolTip(this._currentSegmentMenuStrip, null);
 			this.locExtender.SetLocalizationComment(this._currentSegmentMenuStrip, null);
-			this.locExtender.SetLocalizationPriority(this._currentSegmentMenuStrip, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._currentSegmentMenuStrip, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._currentSegmentMenuStrip, "OralAnnotationRecorderBaseDlg._lastSegmentMenuStrip");
 			this._currentSegmentMenuStrip.Location = new System.Drawing.Point(532, 86);
 			this._currentSegmentMenuStrip.Name = "_currentSegmentMenuStrip";
@@ -129,7 +129,7 @@ namespace SayMore.Transcription.UI
 			this._ignoreToolStripMenuItem.Image = global::SayMore.Properties.Resources.UncheckedBox;
 			this.locExtender.SetLocalizableToolTip(this._ignoreToolStripMenuItem, "Mark this segment as Ignored to skip annotating it.");
 			this.locExtender.SetLocalizationComment(this._ignoreToolStripMenuItem, null);
-			this.locExtender.SetLocalizationPriority(this._ignoreToolStripMenuItem, Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this._ignoreToolStripMenuItem, L10NSharp.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this._ignoreToolStripMenuItem, "OralAnnotationRecorderBaseDlg._skipToolStripMenuItem");
 			this._ignoreToolStripMenuItem.Name = "_ignoreToolStripMenuItem";
 			this._ignoreToolStripMenuItem.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
@@ -211,7 +211,7 @@ namespace SayMore.Transcription.UI
 			this._comboBoxZoom.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this._comboBoxZoom, null);
 			this.locExtender.SetLocalizationComment(this._comboBoxZoom, null);
-			this.locExtender.SetLocalizationPriority(this._comboBoxZoom, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._comboBoxZoom, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._comboBoxZoom, "ManualSegmenterDlg._comboBoxZoom");
 			this._comboBoxZoom.Location = new System.Drawing.Point(643, 0);
 			this._comboBoxZoom.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -236,7 +236,7 @@ namespace SayMore.Transcription.UI
 			this._toolStripStatus.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.locExtender.SetLocalizableToolTip(this._toolStripStatus, null);
 			this.locExtender.SetLocalizationComment(this._toolStripStatus, null);
-			this.locExtender.SetLocalizationPriority(this._toolStripStatus, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._toolStripStatus, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._toolStripStatus, "toolStrip1.toolStrip1");
 			this._toolStripStatus.Location = new System.Drawing.Point(506, 202);
 			this._toolStripStatus.Name = "_toolStripStatus";
@@ -249,7 +249,7 @@ namespace SayMore.Transcription.UI
 			this._labelTimeDisplay.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelTimeDisplay, null);
 			this.locExtender.SetLocalizationComment(this._labelTimeDisplay, null);
-			this.locExtender.SetLocalizationPriority(this._labelTimeDisplay, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelTimeDisplay, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelTimeDisplay, ".toolStripLabel1");
 			this._labelTimeDisplay.Margin = new System.Windows.Forms.Padding(35, 1, 0, 2);
 			this._labelTimeDisplay.Name = "_labelTimeDisplay";
@@ -345,7 +345,7 @@ namespace SayMore.Transcription.UI
 			this.Controls.Add(this._tableLayoutButtons);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -381,7 +381,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ComboBox _comboBoxZoom;
 		private System.Windows.Forms.Label _labelZoom;
 		protected System.Windows.Forms.Button _buttonOK;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
 		protected Panel _panelWaveControl;
 		private System.Windows.Forms.ToolStripLabel _labelTimeDisplay;

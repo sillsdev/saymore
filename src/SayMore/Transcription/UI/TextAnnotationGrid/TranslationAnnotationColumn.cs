@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 

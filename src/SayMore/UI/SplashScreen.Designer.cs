@@ -31,7 +31,7 @@ namespace SayMore.UI
 			this.components = new System.ComponentModel.Container();
 			this._labelLoading = new System.Windows.Forms.Label();
 			this._labelVersionInfo = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this.m_panel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -47,7 +47,7 @@ namespace SayMore.UI
 			// 
 			this.locExtender.SetLocalizableToolTip(this.pictureBox1, null);
 			this.locExtender.SetLocalizationComment(this.pictureBox1, null);
-			this.locExtender.SetLocalizationPriority(this.pictureBox1, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pictureBox1, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pictureBox1, "UI.SplashScreen.pictureBox1");
 			// 
 			// lblVersion
@@ -123,7 +123,7 @@ namespace SayMore.UI
 			this.Controls.Add(this._labelLoading);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.SplashScreen.WindowTitle");
 			this.Name = "SplashScreenForm";
 			this.Padding = new System.Windows.Forms.Padding(0);
@@ -145,7 +145,7 @@ namespace SayMore.UI
 
 		private System.Windows.Forms.Label _labelLoading;
 		private System.Windows.Forms.Label _labelVersionInfo;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 
 	}
 }

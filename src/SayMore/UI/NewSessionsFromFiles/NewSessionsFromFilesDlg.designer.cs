@@ -46,7 +46,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
 			this._gridFiles = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._panelMetadata = new System.Windows.Forms.Panel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._mediaPlayerPanel.SuspendLayout();
 			this._panelProgress.SuspendLayout();
 			this._outerTableLayout.SuspendLayout();
@@ -116,7 +116,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._outerTableLayout.SetColumnSpan(this._labelSourceFolder, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelSourceFolder, null);
 			this.locExtender.SetLocalizationComment(this._labelSourceFolder, null);
-			this.locExtender.SetLocalizationPriority(this._labelSourceFolder, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelSourceFolder, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelSourceFolder, "DialogBoxes.NewSessionsFromFilesDlg._labelSourceFolder");
 			this._labelSourceFolder.Location = new System.Drawing.Point(162, 10);
 			this._labelSourceFolder.Margin = new System.Windows.Forms.Padding(3, 10, 3, 20);
@@ -278,7 +278,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._gridFiles.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold);
 			this.locExtender.SetLocalizableToolTip(this._gridFiles, null);
 			this.locExtender.SetLocalizationComment(this._gridFiles, null);
-			this.locExtender.SetLocalizationPriority(this._gridFiles, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._gridFiles, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._gridFiles, "DialogBoxes.NewSessionsFromFilesDlg.ComponentFileGrid");
 			this._gridFiles.Location = new System.Drawing.Point(0, 61);
 			this._gridFiles.Margin = new System.Windows.Forms.Padding(0);
@@ -347,6 +347,6 @@ namespace SayMore.UI.NewSessionsFromFiles
 		private System.Windows.Forms.Panel _panelMetadata;
 		private SayMore.UI.ElementListScreen.ComponentFileGrid _gridFiles;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutButtons;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 	}
 }

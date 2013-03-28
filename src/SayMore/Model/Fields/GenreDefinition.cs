@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using Localization;
+using L10NSharp;
 using Palaso.IO;
 using SilTools;
 

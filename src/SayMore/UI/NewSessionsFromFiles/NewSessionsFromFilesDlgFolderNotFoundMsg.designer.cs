@@ -35,7 +35,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this._labelPossibleProblemsMsg2 = new SilTools.Controls.AutoHeightLabel();
 			this._labelPossibleProblemsMsg3 = new SilTools.Controls.AutoHeightLabel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._tableLayoutPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -187,6 +187,6 @@ namespace SayMore.UI.NewSessionsFromFiles
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutPanel;
 		private SilTools.Controls.AutoHeightLabel _labelPossibleProblemsMsg2;
 		private SilTools.Controls.AutoHeightLabel _labelPossibleProblemsMsg3;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 	}
 }

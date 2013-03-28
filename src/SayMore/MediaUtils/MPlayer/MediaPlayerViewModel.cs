@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Palaso.Reporting;
-using Localization;
+using L10NSharp;
 using SayMore.Utilities;
 
 namespace SayMore.Media.MPlayer

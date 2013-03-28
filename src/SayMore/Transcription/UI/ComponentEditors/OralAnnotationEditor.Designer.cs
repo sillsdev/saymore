@@ -40,7 +40,7 @@ namespace SayMore.Transcription.UI
 			this._panelOralAnnotationWaveViewer = new SilTools.Controls.SilPanel();
 			this._oralAnnotationWaveViewer = new SayMore.Transcription.UI.OralAnnotationWaveViewer();
 			this._labelCursorTime = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this._toolStrip.SuspendLayout();
 			this._panelOralAnnotationWaveViewer.SuspendLayout();
@@ -78,7 +78,7 @@ namespace SayMore.Transcription.UI
             this._buttonRegenerate});
 			this.locExtender.SetLocalizableToolTip(this._toolStrip, null);
 			this.locExtender.SetLocalizationComment(this._toolStrip, null);
-			this.locExtender.SetLocalizationPriority(this._toolStrip, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._toolStrip, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._toolStrip, "OralAnnotationEditor._toolStrip");
 			this._toolStrip.Location = new System.Drawing.Point(0, 0);
 			this._toolStrip.Name = "_toolStrip";
@@ -153,7 +153,7 @@ namespace SayMore.Transcription.UI
 			this._panelOralAnnotationWaveViewer.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._panelOralAnnotationWaveViewer, null);
 			this.locExtender.SetLocalizationComment(this._panelOralAnnotationWaveViewer, null);
-			this.locExtender.SetLocalizationPriority(this._panelOralAnnotationWaveViewer, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._panelOralAnnotationWaveViewer, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._panelOralAnnotationWaveViewer, "OralAnnotationEditor._panelOralAnnotationWaveViewer");
 			this._panelOralAnnotationWaveViewer.Location = new System.Drawing.Point(0, 33);
 			this._panelOralAnnotationWaveViewer.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
@@ -169,7 +169,7 @@ namespace SayMore.Transcription.UI
 			this._oralAnnotationWaveViewer.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.locExtender.SetLocalizableToolTip(this._oralAnnotationWaveViewer, null);
 			this.locExtender.SetLocalizationComment(this._oralAnnotationWaveViewer, null);
-			this.locExtender.SetLocalizationPriority(this._oralAnnotationWaveViewer, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._oralAnnotationWaveViewer, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._oralAnnotationWaveViewer, "OralAnnotationEditor.OralAnnotationWaveViewer");
 			this._oralAnnotationWaveViewer.Location = new System.Drawing.Point(0, 0);
 			this._oralAnnotationWaveViewer.Margin = new System.Windows.Forms.Padding(0);
@@ -185,7 +185,7 @@ namespace SayMore.Transcription.UI
 			this._labelCursorTime.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelCursorTime, null);
 			this.locExtender.SetLocalizationComment(this._labelCursorTime, null);
-			this.locExtender.SetLocalizationPriority(this._labelCursorTime, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelCursorTime, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelCursorTime, "label1.label1");
 			this._labelCursorTime.Location = new System.Drawing.Point(3, 333);
 			this._labelCursorTime.Margin = new System.Windows.Forms.Padding(3, 4, 0, 0);
@@ -229,7 +229,7 @@ namespace SayMore.Transcription.UI
 		private OralAnnotationWaveViewer _oralAnnotationWaveViewer;
 		private System.Windows.Forms.ToolStripButton _buttonPlay;
 		private System.Windows.Forms.ToolStripButton _buttonStop;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.ToolStripButton _buttonRegenerate;
 		private System.Windows.Forms.Label _labelCursorTime;
 

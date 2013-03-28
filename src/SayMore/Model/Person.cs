@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Localization;
+using L10NSharp;
 using SayMore.Model.Files;
 using SayMore.Properties;
 

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SayMore.Properties;
 
 namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog

@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using NAudio.Wave;
 using NAudio.Wave.Compression;
 using Palaso.Media;

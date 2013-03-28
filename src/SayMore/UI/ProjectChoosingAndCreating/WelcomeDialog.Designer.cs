@@ -1,5 +1,5 @@
-using Localization;
-using Localization.UI;
+using L10NSharp;
+using L10NSharp.UI;
 using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI.ProjectChoosingAndCreating
@@ -45,7 +45,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._linkSILWebsite = new System.Windows.Forms.LinkLabel();
 			this._labelVersionInfo = new System.Windows.Forms.Label();
 			this._labelSubTitle = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._linkSayMoreWebsite = new System.Windows.Forms.LinkLabel();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.pnlOptions.SuspendLayout();
@@ -117,7 +117,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._buttonMru0.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonMru0, null);
 			this.locExtender.SetLocalizationComment(this._buttonMru0, null);
-			this.locExtender.SetLocalizationPriority(this._buttonMru0, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._buttonMru0, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._buttonMru0, "DialogBoxes.WelcomeDlg._buttonMru0");
 			this._buttonMru0.Margin = new System.Windows.Forms.Padding(4, 1, 4, 2);
 			this._buttonMru0.Name = "_buttonMru0";

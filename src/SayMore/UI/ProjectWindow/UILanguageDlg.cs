@@ -1,7 +1,7 @@
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 
 namespace SayMore.UI.ProjectWindow
 {

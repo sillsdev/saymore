@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SayMore.Model.Fields;
 
 namespace SayMore.Model.Files

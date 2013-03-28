@@ -40,7 +40,7 @@ namespace SayMore.UI.ElementListScreen
 			this._componentsSplitter = new System.Windows.Forms.SplitContainer();
 			this._sessionComponentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._labelClickNewHelpPrompt = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._elementListSplitter.Panel1.SuspendLayout();
 			this._elementListSplitter.Panel2.SuspendLayout();
 			this._elementListSplitter.SuspendLayout();
@@ -154,7 +154,7 @@ namespace SayMore.UI.ElementListScreen
 			this._sessionComponentFileGrid.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold);
 			this.locExtender.SetLocalizableToolTip(this._sessionComponentFileGrid, null);
 			this.locExtender.SetLocalizationComment(this._sessionComponentFileGrid, null);
-			this.locExtender.SetLocalizationPriority(this._sessionComponentFileGrid, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._sessionComponentFileGrid, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._sessionComponentFileGrid, "UI.SessionsView.ComponentFileGrid");
 			this._sessionComponentFileGrid.Location = new System.Drawing.Point(0, 0);
 			this._sessionComponentFileGrid.Name = "_sessionComponentFileGrid";
@@ -188,7 +188,7 @@ namespace SayMore.UI.ElementListScreen
 			this.Controls.Add(this._elementListSplitter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "UI.SessionsView.SessionsListScreen");
 			this.Name = "SessionsListScreen";
 			this.Size = new System.Drawing.Size(503, 350);
@@ -212,7 +212,7 @@ namespace SayMore.UI.ElementListScreen
 		private ComponentFileGrid _sessionComponentFileGrid;
 		private System.Windows.Forms.Button _buttonNewFromFiles;
 		private System.Windows.Forms.Label _labelClickNewHelpPrompt;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.Button _buttonNewFromRecording;
 
 	    public string NameForUsageReporting

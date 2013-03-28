@@ -30,7 +30,7 @@ namespace SayMore.UI.ComponentEditors
 			this._zoomTrackBar = new System.Windows.Forms.TrackBar();
 			this._tableLayoutZoom = new System.Windows.Forms.TableLayoutPanel();
 			this._labelZoom = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this._zoomTrackBar)).BeginInit();
 			this._tableLayoutZoom.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -42,7 +42,7 @@ namespace SayMore.UI.ComponentEditors
 			this._zoomTrackBar.LargeChange = 25;
 			this.locExtender.SetLocalizableToolTip(this._zoomTrackBar, null);
 			this.locExtender.SetLocalizationComment(this._zoomTrackBar, null);
-			this.locExtender.SetLocalizationPriority(this._zoomTrackBar, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._zoomTrackBar, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._zoomTrackBar, "");
 			this._zoomTrackBar.Location = new System.Drawing.Point(1, 16);
 			this._zoomTrackBar.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
@@ -100,7 +100,7 @@ namespace SayMore.UI.ComponentEditors
 			this.Controls.Add(this._tableLayoutZoom);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "");
 			this.Name = "ImageViewer";
 			this.Size = new System.Drawing.Size(449, 279);
@@ -117,6 +117,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.TrackBar _zoomTrackBar;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutZoom;
 		private System.Windows.Forms.Label _labelZoom;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 	}
 }

@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using NAudio.Wave;
 using Palaso.IO;
-using Localization;
+using L10NSharp;
 
 namespace SayMore.Media.MPlayer
 {

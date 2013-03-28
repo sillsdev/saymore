@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Localization;
+using L10NSharp;
 using NAudio.Wave;
 using Palaso.Media.Naudio;
 using Palaso.Media.Naudio.UI;

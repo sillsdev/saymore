@@ -35,7 +35,7 @@ namespace SayMore.UI.Utilities
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._linkOverview = new System.Windows.Forms.LinkLabel();
 			this._progressBar = new System.Windows.Forms.ProgressBar();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._tableLayoutPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -118,7 +118,7 @@ namespace SayMore.UI.Utilities
 			this._linkOverview.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
 			this.locExtender.SetLocalizableToolTip(this._linkOverview, null);
 			this.locExtender.SetLocalizationComment(this._linkOverview, "");
-			this.locExtender.SetLocalizationPriority(this._linkOverview, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._linkOverview, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._linkOverview, "DialogBoxes.ArchivingDlg.OverviewText");
 			this._linkOverview.Location = new System.Drawing.Point(3, 0);
 			this._linkOverview.Name = "_linkOverview";
@@ -177,6 +177,6 @@ namespace SayMore.UI.Utilities
 		private System.Windows.Forms.Button _buttonCancel;
 		private System.Windows.Forms.LinkLabel _linkOverview;
 		private System.Windows.Forms.ProgressBar _progressBar;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 	}
 }

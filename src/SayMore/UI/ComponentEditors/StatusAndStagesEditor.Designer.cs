@@ -38,7 +38,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelReadAboutStages = new System.Windows.Forms.Label();
 			this._labelStagesHint = new System.Windows.Forms.Label();
 			this._buttonReadAboutStages = new System.Windows.Forms.Button();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this._tableLayoutOuter.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -123,7 +123,7 @@ namespace SayMore.UI.ComponentEditors
 			this._buttonReadAboutStatus.Image = global::SayMore.Properties.Resources.Help;
 			this.locExtender.SetLocalizableToolTip(this._buttonReadAboutStatus, null);
 			this.locExtender.SetLocalizationComment(this._buttonReadAboutStatus, null);
-			this.locExtender.SetLocalizationPriority(this._buttonReadAboutStatus, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._buttonReadAboutStatus, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._buttonReadAboutStatus, "StatusAndStagesEditor._buttonReadAboutStatus");
 			this._buttonReadAboutStatus.Location = new System.Drawing.Point(405, 77);
 			this._buttonReadAboutStatus.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
@@ -210,7 +210,7 @@ namespace SayMore.UI.ComponentEditors
 			this._buttonReadAboutStages.Image = global::SayMore.Properties.Resources.Help;
 			this.locExtender.SetLocalizableToolTip(this._buttonReadAboutStages, null);
 			this.locExtender.SetLocalizationComment(this._buttonReadAboutStages, null);
-			this.locExtender.SetLocalizationPriority(this._buttonReadAboutStages, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._buttonReadAboutStages, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._buttonReadAboutStages, "StatusAndStagesEditor._buttonReadAboutStages");
 			this._buttonReadAboutStages.Location = new System.Drawing.Point(406, 226);
 			this._buttonReadAboutStages.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
@@ -253,7 +253,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Label _labelReadAboutStages;
 		private System.Windows.Forms.Label _labelStagesHint;
 		private System.Windows.Forms.Button _buttonReadAboutStages;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.ToolTip _toolTip;
 	}
 }

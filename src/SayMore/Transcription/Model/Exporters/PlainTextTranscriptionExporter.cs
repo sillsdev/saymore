@@ -1,5 +1,5 @@
 using System.IO;
-using Localization;
+using L10NSharp;
 
 namespace SayMore.Transcription.Model.Exporters
 {

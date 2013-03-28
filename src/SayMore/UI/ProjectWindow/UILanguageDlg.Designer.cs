@@ -30,11 +30,11 @@ namespace SayMore.UI.ProjectWindow
 		{
 			this.components = new System.ComponentModel.Container();
 			this._tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-			this._comboUILanguage = new Localization.UI.UILanguageComboBox();
+			this._comboUILanguage = new L10NSharp.UI.UILanguageComboBox();
 			this._labelLanguage = new System.Windows.Forms.Label();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._buttonOK = new System.Windows.Forms.Button();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._linkIWantToLocalize = new System.Windows.Forms.LinkLabel();
 			this._linkHelpOnLocalizing = new System.Windows.Forms.LinkLabel();
 			this._tableLayoutPanel.SuspendLayout();
@@ -75,7 +75,7 @@ namespace SayMore.UI.ProjectWindow
 			this._comboUILanguage.IntegralHeight = false;
 			this.locExtender.SetLocalizableToolTip(this._comboUILanguage, null);
 			this.locExtender.SetLocalizationComment(this._comboUILanguage, null);
-			this.locExtender.SetLocalizationPriority(this._comboUILanguage, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._comboUILanguage, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._comboUILanguage, "UILanguageDlg._comboUILanguage");
 			this._comboUILanguage.Location = new System.Drawing.Point(63, 6);
 			this._comboUILanguage.Margin = new System.Windows.Forms.Padding(0);
@@ -200,11 +200,11 @@ namespace SayMore.UI.ProjectWindow
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutPanel;
-		private Localization.UI.UILanguageComboBox _comboUILanguage;
+		private L10NSharp.UI.UILanguageComboBox _comboUILanguage;
 		private System.Windows.Forms.Label _labelLanguage;
 		private System.Windows.Forms.Button _buttonCancel;
 		private System.Windows.Forms.Button _buttonOK;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.LinkLabel _linkIWantToLocalize;
 		private System.Windows.Forms.LinkLabel _linkHelpOnLocalizing;
 	}

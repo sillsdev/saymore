@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using System.Windows.Forms;
 using Ionic.Zip;
-using Localization;
+using L10NSharp;
 using Palaso.Reporting;
 using SayMore.UI.LowLevelControls;
 

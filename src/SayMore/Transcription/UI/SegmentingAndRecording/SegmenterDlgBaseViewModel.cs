@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
-using Localization;
+using L10NSharp;
 using NAudio.Wave;
 using Palaso.Reporting;
 using SayMore.Media.Audio;

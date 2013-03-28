@@ -47,7 +47,7 @@ namespace SayMore.Transcription.UI
 			this._buttonAutoSegmenterHelp = new System.Windows.Forms.Button();
 			this._radioButtonAudacity = new System.Windows.Forms.RadioButton();
 			this._radioButtonAutoSegmenter = new System.Windows.Forms.RadioButton();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._tableLayoutGetStarted.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -204,7 +204,7 @@ namespace SayMore.Transcription.UI
 			this._buttonELANFileHelp.Image = global::SayMore.Properties.Resources.Help;
 			this.locExtender.SetLocalizableToolTip(this._buttonELANFileHelp, null);
 			this.locExtender.SetLocalizationComment(this._buttonELANFileHelp, null);
-			this.locExtender.SetLocalizationPriority(this._buttonELANFileHelp, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._buttonELANFileHelp, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._buttonELANFileHelp, "SessionsView.Transcription.StartAnnotatingTab.ELANFileHelpButtonText");
 			this._buttonELANFileHelp.Location = new System.Drawing.Point(205, 163);
 			this._buttonELANFileHelp.Name = "_buttonELANFileHelp";
@@ -226,7 +226,7 @@ namespace SayMore.Transcription.UI
 			this._buttonCarefulSpeechToolHelp.Image = global::SayMore.Properties.Resources.Help;
 			this.locExtender.SetLocalizableToolTip(this._buttonCarefulSpeechToolHelp, null);
 			this.locExtender.SetLocalizationComment(this._buttonCarefulSpeechToolHelp, null);
-			this.locExtender.SetLocalizationPriority(this._buttonCarefulSpeechToolHelp, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._buttonCarefulSpeechToolHelp, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._buttonCarefulSpeechToolHelp, "SessionsView.Transcription.StartAnnotatingTab.ELANFileHelpButtonText");
 			this._buttonCarefulSpeechToolHelp.Location = new System.Drawing.Point(205, 135);
 			this._buttonCarefulSpeechToolHelp.Name = "_buttonCarefulSpeechToolHelp";
@@ -248,7 +248,7 @@ namespace SayMore.Transcription.UI
 			this._buttonManualSegmentationHelp.Image = global::SayMore.Properties.Resources.Help;
 			this.locExtender.SetLocalizableToolTip(this._buttonManualSegmentationHelp, null);
 			this.locExtender.SetLocalizationComment(this._buttonManualSegmentationHelp, null);
-			this.locExtender.SetLocalizationPriority(this._buttonManualSegmentationHelp, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._buttonManualSegmentationHelp, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._buttonManualSegmentationHelp, "SessionsView.Transcription.StartAnnotatingTab.ELANFileHelpButtonText");
 			this._buttonManualSegmentationHelp.Location = new System.Drawing.Point(205, 107);
 			this._buttonManualSegmentationHelp.Name = "_buttonManualSegmentationHelp";
@@ -288,7 +288,7 @@ namespace SayMore.Transcription.UI
 			this._buttonAudacityHelp.Image = global::SayMore.Properties.Resources.Help;
 			this.locExtender.SetLocalizableToolTip(this._buttonAudacityHelp, null);
 			this.locExtender.SetLocalizationComment(this._buttonAudacityHelp, null);
-			this.locExtender.SetLocalizationPriority(this._buttonAudacityHelp, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._buttonAudacityHelp, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._buttonAudacityHelp, "SessionsView.Transcription.StartAnnotatingTab.AudacityHelpButtonText");
 			this._buttonAudacityHelp.Location = new System.Drawing.Point(449, 107);
 			this._buttonAudacityHelp.Name = "_buttonAudacityHelp";
@@ -311,7 +311,7 @@ namespace SayMore.Transcription.UI
 			this._buttonAutoSegmenterHelp.Image = global::SayMore.Properties.Resources.Help;
 			this.locExtender.SetLocalizableToolTip(this._buttonAutoSegmenterHelp, null);
 			this.locExtender.SetLocalizationComment(this._buttonAutoSegmenterHelp, null);
-			this.locExtender.SetLocalizationPriority(this._buttonAutoSegmenterHelp, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._buttonAutoSegmenterHelp, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._buttonAutoSegmenterHelp, "SessionsView.Transcription.StartAnnotatingTab.ELANFileHelpButtonText");
 			this._buttonAutoSegmenterHelp.Location = new System.Drawing.Point(449, 135);
 			this._buttonAutoSegmenterHelp.Name = "_buttonAutoSegmenterHelp";
@@ -362,7 +362,7 @@ namespace SayMore.Transcription.UI
 			this.Controls.Add(this._tableLayoutGetStarted);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "SessionsView.Transcription.StartAnnotatingTab.EditorBase");
 			this.Name = "StartAnnotatingEditor";
 			this.Padding = new System.Windows.Forms.Padding(12, 6, 12, 12);
@@ -378,7 +378,7 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutGetStarted;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.Label _labelSegmentationMethodQuestion;
 		private System.Windows.Forms.Label _labelSegmentationMethod;
 		private System.Windows.Forms.Label _labelIntroduction;

@@ -1,4 +1,4 @@
-using Localization.UI;
+using L10NSharp.UI;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -18,7 +18,7 @@ namespace SayMore.UI.ProjectWindow
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._mainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this._menuProject = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuOpenProject = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,7 +51,7 @@ namespace SayMore.UI.ProjectWindow
             this._mainMenuHelp});
 			this.locExtender.SetLocalizableToolTip(this._mainMenuStrip, null);
 			this.locExtender.SetLocalizationComment(this._mainMenuStrip, null);
-			this.locExtender.SetLocalizationPriority(this._mainMenuStrip, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._mainMenuStrip, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._mainMenuStrip, "MainWindow._mainMenuStrip");
 			this._mainMenuStrip.Location = new System.Drawing.Point(0, 0);
 			this._mainMenuStrip.Name = "_mainMenuStrip";
@@ -137,7 +137,7 @@ namespace SayMore.UI.ProjectWindow
 			// 
 			this.locExtender.SetLocalizableToolTip(this._menuShowMPlayerDebugWindow, null);
 			this.locExtender.SetLocalizationComment(this._menuShowMPlayerDebugWindow, null);
-			this.locExtender.SetLocalizationPriority(this._menuShowMPlayerDebugWindow, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._menuShowMPlayerDebugWindow, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._menuShowMPlayerDebugWindow, "ProjectWindow.showMPlayerDebugWindowToolStripMenuItem");
 			this._menuShowMPlayerDebugWindow.Name = "_menuShowMPlayerDebugWindow";
 			this._menuShowMPlayerDebugWindow.Size = new System.Drawing.Size(254, 22);

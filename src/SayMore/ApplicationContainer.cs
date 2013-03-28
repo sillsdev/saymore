@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Autofac;
-using Localization;
+using L10NSharp;
 using Palaso.IO;
 using SayMore.Model;
 using SayMore.Model.Fields;

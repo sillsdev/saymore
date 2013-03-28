@@ -70,7 +70,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
 			this._tooltip = new System.Windows.Forms.ToolTip(this.components);
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this._panelPicture.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._personsPicture)).BeginInit();
@@ -102,7 +102,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._id, true);
 			this.locExtender.SetLocalizableToolTip(this._id, null);
 			this.locExtender.SetLocalizationComment(this._id, null);
-			this.locExtender.SetLocalizationPriority(this._id, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._id, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._id, "PersonBasicEditor._id");
 			this._id.Location = new System.Drawing.Point(0, 16);
 			this._id.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
@@ -133,7 +133,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._birthYear, false);
 			this.locExtender.SetLocalizableToolTip(this._birthYear, null);
 			this.locExtender.SetLocalizationComment(this._birthYear, null);
-			this.locExtender.SetLocalizationPriority(this._birthYear, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._birthYear, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._birthYear, "PersonBasicEditor._birthYear");
 			this._birthYear.Location = new System.Drawing.Point(252, 16);
 			this._birthYear.Margin = new System.Windows.Forms.Padding(7, 3, 3, 0);
@@ -218,7 +218,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother3.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._pbOtherLangMother3, null);
 			this.locExtender.SetLocalizationComment(this._pbOtherLangMother3, null);
-			this.locExtender.SetLocalizationPriority(this._pbOtherLangMother3, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangMother3, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pbOtherLangMother3, "PersonBasicEditor._pbOtherLangMother3");
 			this._pbOtherLangMother3.Location = new System.Drawing.Point(207, 211);
 			this._pbOtherLangMother3.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
@@ -241,7 +241,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._primaryLanguageLearnedIn, false);
 			this.locExtender.SetLocalizableToolTip(this._primaryLanguageLearnedIn, null);
 			this.locExtender.SetLocalizationComment(this._primaryLanguageLearnedIn, null);
-			this.locExtender.SetLocalizationPriority(this._primaryLanguageLearnedIn, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._primaryLanguageLearnedIn, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._primaryLanguageLearnedIn, "PersonBasicEditor._primaryLanguageLearnedIn");
 			this._primaryLanguageLearnedIn.Location = new System.Drawing.Point(64, 86);
 			this._primaryLanguageLearnedIn.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
@@ -268,7 +268,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother1.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._pbOtherLangMother1, null);
 			this.locExtender.SetLocalizationComment(this._pbOtherLangMother1, null);
-			this.locExtender.SetLocalizationPriority(this._pbOtherLangMother1, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangMother1, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pbOtherLangMother1, "PersonBasicEditor._pbOtherLangMother1");
 			this._pbOtherLangMother1.Location = new System.Drawing.Point(207, 155);
 			this._pbOtherLangMother1.Margin = new System.Windows.Forms.Padding(0, 1, 0, 3);
@@ -285,7 +285,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather3.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._pbOtherLangFather3, null);
 			this.locExtender.SetLocalizationComment(this._pbOtherLangFather3, null);
-			this.locExtender.SetLocalizationPriority(this._pbOtherLangFather3, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangFather3, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pbOtherLangFather3, "PersonBasicEditor._pbOtherLangFather3");
 			this._pbOtherLangFather3.Location = new System.Drawing.Point(183, 211);
 			this._pbOtherLangFather3.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
@@ -302,7 +302,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather2.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._pbOtherLangFather2, null);
 			this.locExtender.SetLocalizationComment(this._pbOtherLangFather2, null);
-			this.locExtender.SetLocalizationPriority(this._pbOtherLangFather2, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangFather2, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pbOtherLangFather2, "PersonBasicEditor._pbOtherLangFather2");
 			this._pbOtherLangFather2.Location = new System.Drawing.Point(183, 183);
 			this._pbOtherLangFather2.Margin = new System.Windows.Forms.Padding(0, 1, 0, 3);
@@ -319,7 +319,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather1.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._pbOtherLangFather1, null);
 			this.locExtender.SetLocalizationComment(this._pbOtherLangFather1, null);
-			this.locExtender.SetLocalizationPriority(this._pbOtherLangFather1, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangFather1, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pbOtherLangFather1, "PersonBasicEditor._pbOtherLangFather1");
 			this._pbOtherLangFather1.Location = new System.Drawing.Point(183, 155);
 			this._pbOtherLangFather1.Margin = new System.Windows.Forms.Padding(0, 1, 0, 3);
@@ -336,7 +336,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother0.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._pbOtherLangMother0, null);
 			this.locExtender.SetLocalizationComment(this._pbOtherLangMother0, null);
-			this.locExtender.SetLocalizationPriority(this._pbOtherLangMother0, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangMother0, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pbOtherLangMother0, "PersonBasicEditor._pbOtherLangMother0");
 			this._pbOtherLangMother0.Location = new System.Drawing.Point(207, 129);
 			this._pbOtherLangMother0.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
@@ -353,7 +353,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather0.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._pbOtherLangFather0, null);
 			this.locExtender.SetLocalizationComment(this._pbOtherLangFather0, null);
-			this.locExtender.SetLocalizationPriority(this._pbOtherLangFather0, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangFather0, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pbOtherLangFather0, "PersonBasicEditor._pbOtherLangFather0");
 			this._pbOtherLangFather0.Location = new System.Drawing.Point(183, 129);
 			this._pbOtherLangFather0.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
@@ -377,7 +377,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._otherLanguage3, false);
 			this.locExtender.SetLocalizableToolTip(this._otherLanguage3, null);
 			this.locExtender.SetLocalizationComment(this._otherLanguage3, null);
-			this.locExtender.SetLocalizationPriority(this._otherLanguage3, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._otherLanguage3, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._otherLanguage3, "PersonBasicEditor._otherLanguage3");
 			this._otherLanguage3.Location = new System.Drawing.Point(0, 213);
 			this._otherLanguage3.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
@@ -398,7 +398,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._otherLanguage0, false);
 			this.locExtender.SetLocalizableToolTip(this._otherLanguage0, null);
 			this.locExtender.SetLocalizationComment(this._otherLanguage0, null);
-			this.locExtender.SetLocalizationPriority(this._otherLanguage0, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._otherLanguage0, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._otherLanguage0, "PersonBasicEditor._otherLanguage0");
 			this._otherLanguage0.Location = new System.Drawing.Point(0, 131);
 			this._otherLanguage0.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
@@ -419,7 +419,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._otherLanguage1, false);
 			this.locExtender.SetLocalizableToolTip(this._otherLanguage1, null);
 			this.locExtender.SetLocalizationComment(this._otherLanguage1, null);
-			this.locExtender.SetLocalizationPriority(this._otherLanguage1, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._otherLanguage1, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._otherLanguage1, "PersonBasicEditor._otherLanguage1");
 			this._otherLanguage1.Location = new System.Drawing.Point(0, 157);
 			this._otherLanguage1.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
@@ -440,7 +440,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._otherLanguage2, false);
 			this.locExtender.SetLocalizableToolTip(this._otherLanguage2, null);
 			this.locExtender.SetLocalizationComment(this._otherLanguage2, null);
-			this.locExtender.SetLocalizationPriority(this._otherLanguage2, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._otherLanguage2, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._otherLanguage2, "PersonBasicEditor._otherLanguage2");
 			this._otherLanguage2.Location = new System.Drawing.Point(0, 185);
 			this._otherLanguage2.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
@@ -461,7 +461,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._primaryLanguage, false);
 			this.locExtender.SetLocalizableToolTip(this._primaryLanguage, null);
 			this.locExtender.SetLocalizationComment(this._primaryLanguage, null);
-			this.locExtender.SetLocalizationPriority(this._primaryLanguage, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._primaryLanguage, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._primaryLanguage, "PersonBasicEditor._primaryLanguage");
 			this._primaryLanguage.Location = new System.Drawing.Point(0, 60);
 			this._primaryLanguage.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
@@ -489,7 +489,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbPrimaryLangMother.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._pbPrimaryLangMother, null);
 			this.locExtender.SetLocalizationComment(this._pbPrimaryLangMother, null);
-			this.locExtender.SetLocalizationPriority(this._pbPrimaryLangMother, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pbPrimaryLangMother, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pbPrimaryLangMother, "PersonBasicEditor._pbPrimaryLangMother");
 			this._pbPrimaryLangMother.Location = new System.Drawing.Point(207, 58);
 			this._pbPrimaryLangMother.Margin = new System.Windows.Forms.Padding(0, 1, 14, 0);
@@ -505,7 +505,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbPrimaryLangFather.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._pbPrimaryLangFather, null);
 			this.locExtender.SetLocalizationComment(this._pbPrimaryLangFather, null);
-			this.locExtender.SetLocalizationPriority(this._pbPrimaryLangFather, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pbPrimaryLangFather, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pbPrimaryLangFather, "PersonBasicEditor._pbPrimaryLangFather");
 			this._pbPrimaryLangFather.Location = new System.Drawing.Point(183, 58);
 			this._pbPrimaryLangFather.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
@@ -537,7 +537,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother2.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._pbOtherLangMother2, null);
 			this.locExtender.SetLocalizationComment(this._pbOtherLangMother2, null);
-			this.locExtender.SetLocalizationPriority(this._pbOtherLangMother2, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangMother2, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pbOtherLangMother2, "PersonBasicEditor._pbOtherLangMother2");
 			this._pbOtherLangMother2.Location = new System.Drawing.Point(207, 183);
 			this._pbOtherLangMother2.Margin = new System.Windows.Forms.Padding(0, 1, 0, 3);
@@ -575,7 +575,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._education, false);
 			this.locExtender.SetLocalizableToolTip(this._education, null);
 			this.locExtender.SetLocalizationComment(this._education, null);
-			this.locExtender.SetLocalizationPriority(this._education, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._education, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._education, "PersonBasicEditor._education");
 			this._education.Location = new System.Drawing.Point(0, 257);
 			this._education.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
@@ -608,7 +608,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._primaryOccupation, false);
 			this.locExtender.SetLocalizableToolTip(this._primaryOccupation, null);
 			this.locExtender.SetLocalizationComment(this._primaryOccupation, null);
-			this.locExtender.SetLocalizationPriority(this._primaryOccupation, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._primaryOccupation, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._primaryOccupation, "PersonBasicEditor._primaryOccupation");
 			this._primaryOccupation.Location = new System.Drawing.Point(0, 301);
 			this._primaryOccupation.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
@@ -641,7 +641,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._gender, false);
 			this.locExtender.SetLocalizableToolTip(this._gender, null);
 			this.locExtender.SetLocalizationComment(this._gender, null);
-			this.locExtender.SetLocalizationPriority(this._gender, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._gender, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._gender, "PeopleView.MetadataEditor._genderDropDownList");
 			this._gender.Location = new System.Drawing.Point(252, 60);
 			this._gender.Margin = new System.Windows.Forms.Padding(7, 3, 3, 0);
@@ -672,7 +672,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._howToContact, false);
 			this.locExtender.SetLocalizableToolTip(this._howToContact, null);
 			this.locExtender.SetLocalizationComment(this._howToContact, null);
-			this.locExtender.SetLocalizationPriority(this._howToContact, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._howToContact, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._howToContact, "PersonBasicEditor._howToContact");
 			this._howToContact.Location = new System.Drawing.Point(252, 131);
 			this._howToContact.Margin = new System.Windows.Forms.Padding(7, 3, 0, 3);
@@ -760,7 +760,7 @@ namespace SayMore.UI.ComponentEditors
 			this.Controls.Add(this._tableLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "PersonBasicEditor.EditorBase");
 			this.Name = "PersonBasicEditor";
 			this.Size = new System.Drawing.Size(516, 347);
@@ -815,6 +815,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.ToolTip _tooltip;
 		private System.Windows.Forms.PictureBox _personsPicture;
 		private System.Windows.Forms.Panel _panelPicture;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 	}
 }

@@ -36,7 +36,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._tableLayoutWorking = new System.Windows.Forms.TableLayoutPanel();
 			this._labelWorking = new System.Windows.Forms.Label();
 			this._pictureWorking = new System.Windows.Forms.PictureBox();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._toolStripActions = new SayMore.UI.LowLevelControls.ElementBar();
 			this._buttonRefresh = new System.Windows.Forms.ToolStripButton();
 			this._panelBrowser.SuspendLayout();
@@ -58,7 +58,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.locExtender.SetLocalizableToolTip(this._webBrowser, null);
 			this.locExtender.SetLocalizationComment(this._webBrowser, null);
-			this.locExtender.SetLocalizationPriority(this._webBrowser, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._webBrowser, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._webBrowser, "ProgressView._webBrowser");
 			this._webBrowser.Location = new System.Drawing.Point(0, 0);
 			this._webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
@@ -82,7 +82,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._panelBrowser.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._panelBrowser, null);
 			this.locExtender.SetLocalizationComment(this._panelBrowser, null);
-			this.locExtender.SetLocalizationPriority(this._panelBrowser, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._panelBrowser, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._panelBrowser, "ProgressView._panelBrowser");
 			this._panelBrowser.Location = new System.Drawing.Point(0, 25);
 			this._panelBrowser.Margin = new System.Windows.Forms.Padding(0);
@@ -109,7 +109,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._panelWorking.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._panelWorking, null);
 			this.locExtender.SetLocalizationComment(this._panelWorking, null);
-			this.locExtender.SetLocalizationPriority(this._panelWorking, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._panelWorking, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._panelWorking, "ProgressView._panelWorking");
 			this._panelWorking.Location = new System.Drawing.Point(176, 104);
 			this._panelWorking.MnemonicGeneratesClick = false;
@@ -157,7 +157,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._pictureWorking.Image = global::SayMore.Properties.Resources.BusyWheelLarge;
 			this.locExtender.SetLocalizableToolTip(this._pictureWorking, null);
 			this.locExtender.SetLocalizationComment(this._pictureWorking, null);
-			this.locExtender.SetLocalizationPriority(this._pictureWorking, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pictureWorking, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pictureWorking, "ProgressView._pictureWorking");
 			this._pictureWorking.Location = new System.Drawing.Point(3, 3);
 			this._pictureWorking.Name = "_pictureWorking";
@@ -180,7 +180,7 @@ namespace SayMore.UI.Overview.Statistics
             this._buttonRefresh});
 			this.locExtender.SetLocalizableToolTip(this._toolStripActions, null);
 			this.locExtender.SetLocalizationComment(this._toolStripActions, null);
-			this.locExtender.SetLocalizationPriority(this._toolStripActions, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._toolStripActions, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._toolStripActions, "ProgressView._toolStripActions");
 			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
 			this._toolStripActions.Name = "_toolStripActions";
@@ -213,7 +213,7 @@ namespace SayMore.UI.Overview.Statistics
 			this.Controls.Add(this._toolStripActions);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "SayMore");
 			this.Name = "StatisticsView";
 			this.Size = new System.Drawing.Size(504, 292);
@@ -243,6 +243,6 @@ namespace SayMore.UI.Overview.Statistics
 		private SilTools.Controls.SilPanel _panelWorking;
 		private System.Windows.Forms.PictureBox _pictureWorking;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutWorking;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
     }
 }

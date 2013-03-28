@@ -22,7 +22,7 @@ namespace SayMore.Transcription.UI
 			this._labelCareful = new System.Windows.Forms.Label();
 			this._labelSource = new System.Windows.Forms.Label();
 			this._waveControl = new SayMore.Media.Audio.WaveControlBasic();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this._panelLabels.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -113,7 +113,7 @@ namespace SayMore.Transcription.UI
 			this._waveControl.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.locExtender.SetLocalizableToolTip(this._waveControl, null);
 			this.locExtender.SetLocalizationComment(this._waveControl, null);
-			this.locExtender.SetLocalizationPriority(this._waveControl, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._waveControl, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._waveControl, "_wavePanelOriginal");
 			this._waveControl.Location = new System.Drawing.Point(64, 0);
 			this._waveControl.Margin = new System.Windows.Forms.Padding(0);
@@ -133,7 +133,7 @@ namespace SayMore.Transcription.UI
 			this.Controls.Add(this._tableLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "Transcription.UI.OralAnnotationWaveViewer.OralAnnotationWaveViewer");
 			this.Name = "OralAnnotationWaveViewer";
 			this.Size = new System.Drawing.Size(383, 171);
@@ -153,7 +153,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Label _labelSource;
 		private System.Windows.Forms.Label _labelTranslation;
 		private System.Windows.Forms.Label _labelCareful;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.Panel _panelLabels;
 	}
 }

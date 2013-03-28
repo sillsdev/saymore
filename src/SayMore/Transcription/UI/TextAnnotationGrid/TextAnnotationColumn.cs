@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SayMore.Transcription.Model;
 
 namespace SayMore.Transcription.UI

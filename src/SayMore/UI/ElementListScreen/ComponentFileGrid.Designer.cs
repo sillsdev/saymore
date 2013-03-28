@@ -49,7 +49,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonRename = new System.Windows.Forms.ToolStripButton();
 			this._buttonConvert = new System.Windows.Forms.ToolStripButton();
 			this._buttonAddFiles = new System.Windows.Forms.ToolStripButton();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._contextMenuStrip.SuspendLayout();
 			this._panelOuter.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
@@ -63,7 +63,7 @@ namespace SayMore.UI.ElementListScreen
             this._menuDeleteFile});
 			this.locExtender.SetLocalizableToolTip(this._contextMenuStrip, null);
 			this.locExtender.SetLocalizationComment(this._contextMenuStrip, null);
-			this.locExtender.SetLocalizationPriority(this._contextMenuStrip, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._contextMenuStrip, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._contextMenuStrip, "CommonToMultipleViews.FileList._contextMenuStrip");
 			this._contextMenuStrip.Name = "_contextMenuStrip";
 			this._contextMenuStrip.Size = new System.Drawing.Size(129, 26);
@@ -94,7 +94,7 @@ namespace SayMore.UI.ElementListScreen
 			this._panelOuter.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._panelOuter, null);
 			this.locExtender.SetLocalizationComment(this._panelOuter, null);
-			this.locExtender.SetLocalizationPriority(this._panelOuter, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._panelOuter, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._panelOuter, "UI.ComponentFileList._panelOuter");
 			this._panelOuter.Location = new System.Drawing.Point(0, 0);
 			this._panelOuter.Margin = new System.Windows.Forms.Padding(0);
@@ -226,7 +226,7 @@ namespace SayMore.UI.ElementListScreen
             this._buttonAddFiles});
 			this.locExtender.SetLocalizableToolTip(this._toolStripActions, null);
 			this.locExtender.SetLocalizationComment(this._toolStripActions, null);
-			this.locExtender.SetLocalizationPriority(this._toolStripActions, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._toolStripActions, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._toolStripActions, "UI.ComponentFileList._toolStripActions");
 			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
 			this._toolStripActions.Name = "_toolStripActions";
@@ -302,7 +302,7 @@ namespace SayMore.UI.ElementListScreen
 			this.Controls.Add(this._panelOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "SayMore");
 			this.Name = "ComponentFileGrid";
 			this.Size = new System.Drawing.Size(470, 255);
@@ -333,7 +333,7 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDataModified;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDuration;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.ToolStripButton _buttonConvert;
 
 	}

@@ -1,5 +1,5 @@
-using Localization;
-using Localization.UI;
+using L10NSharp;
+using L10NSharp.UI;
 using SilTools.Controls;
 
 namespace SayMore.UI.LowLevelControls
@@ -21,7 +21,7 @@ namespace SayMore.UI.LowLevelControls
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListPanel));
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._outerPanel = new SilTools.Controls.SilPanel();
 			this._buttonsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this._buttonNew = new System.Windows.Forms.Button();
@@ -54,7 +54,7 @@ namespace SayMore.UI.LowLevelControls
 			this._outerPanel.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._outerPanel, null);
 			this.locExtender.SetLocalizationComment(this._outerPanel, null);
-			this.locExtender.SetLocalizationPriority(this._outerPanel, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._outerPanel, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._outerPanel, "UI.ListPanel._outerPanel");
 			this._outerPanel.Location = new System.Drawing.Point(0, 0);
 			this._outerPanel.MnemonicGeneratesClick = false;
@@ -107,7 +107,7 @@ namespace SayMore.UI.LowLevelControls
 			this._headerLabel.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._headerLabel, null);
 			this.locExtender.SetLocalizationComment(this._headerLabel, "Localized in controls that host this one.");
-			this.locExtender.SetLocalizationPriority(this._headerLabel, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._headerLabel, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._headerLabel, "UI.ListPanel._headerLabel");
 			this._headerLabel.Location = new System.Drawing.Point(0, 0);
 			this._headerLabel.MinimumSize = new System.Drawing.Size(165, 0);
@@ -147,7 +147,7 @@ namespace SayMore.UI.LowLevelControls
 			this.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "ListPanel.ListPanel");
 			this.MinimumSize = new System.Drawing.Size(125, 0);
 			this.Name = "ListPanel";

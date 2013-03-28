@@ -37,7 +37,7 @@ namespace SayMore.UI.ElementListScreen
 			this._componentsSplitter = new System.Windows.Forms.SplitContainer();
 			this._personComponentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._labelClickNewHelpPrompt = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._elementListSplitter.Panel1.SuspendLayout();
 			this._elementListSplitter.Panel2.SuspendLayout();
 			this._elementListSplitter.SuspendLayout();
@@ -77,7 +77,7 @@ namespace SayMore.UI.ElementListScreen
 			this._peopleListPanel.HeaderPanelBottomBorderColor = System.Drawing.SystemColors.ControlDark;
 			this.locExtender.SetLocalizableToolTip(this._peopleListPanel, null);
 			this.locExtender.SetLocalizationComment(this._peopleListPanel, null);
-			//this.locExtender.SetLocalizationPriority(this._peopleListPanel, Localization.LocalizationPriority.NotLocalizable);
+			//this.locExtender.SetLocalizationPriority(this._peopleListPanel, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._peopleListPanel, "PeopleView.PeopleList.HeadingText");
 			this._peopleListPanel.Location = new System.Drawing.Point(0, 0);
 			this._peopleListPanel.MinimumSize = new System.Drawing.Size(165, 0);
@@ -115,7 +115,7 @@ namespace SayMore.UI.ElementListScreen
 			this._personComponentFileGrid.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.locExtender.SetLocalizableToolTip(this._personComponentFileGrid, null);
 			this.locExtender.SetLocalizationComment(this._personComponentFileGrid, null);
-			this.locExtender.SetLocalizationPriority(this._personComponentFileGrid, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._personComponentFileGrid, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._personComponentFileGrid, "UI.PeopleView.ComponentFileGrid");
 			this._personComponentFileGrid.Location = new System.Drawing.Point(0, 0);
 			this._personComponentFileGrid.Name = "_personComponentFileGrid";
@@ -149,7 +149,7 @@ namespace SayMore.UI.ElementListScreen
 			this.Controls.Add(this._elementListSplitter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "UI.PeopleView.PersonListScreen");
 			this.Name = "PersonListScreen";
 			this.Size = new System.Drawing.Size(503, 350);
@@ -171,6 +171,6 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.SplitContainer _componentsSplitter;
 		private ComponentFileGrid _personComponentFileGrid;
 		private System.Windows.Forms.Label _labelClickNewHelpPrompt;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 	}
 }

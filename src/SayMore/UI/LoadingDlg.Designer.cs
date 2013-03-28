@@ -32,7 +32,7 @@ namespace SayMore.UI
 			this._labelLoading = new System.Windows.Forms.Label();
 			this._linkCancel = new System.Windows.Forms.LinkLabel();
 			this._pictureLoading = new System.Windows.Forms.PictureBox();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			((System.ComponentModel.ISupportInitialize)(this._pictureLoading)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -83,7 +83,7 @@ namespace SayMore.UI
 			this._pictureLoading.Image = global::SayMore.Properties.Resources.BusyWheelLarge;
 			this.locExtender.SetLocalizableToolTip(this._pictureLoading, null);
 			this.locExtender.SetLocalizationComment(this._pictureLoading, null);
-			this.locExtender.SetLocalizationPriority(this._pictureLoading, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pictureLoading, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pictureLoading, "DialogBoxes.LoadingDlg._pictureLoading");
 			this._pictureLoading.Location = new System.Drawing.Point(10, 15);
 			this._pictureLoading.Margin = new System.Windows.Forms.Padding(10);
@@ -128,7 +128,7 @@ namespace SayMore.UI
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.LoadingDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -153,7 +153,7 @@ namespace SayMore.UI
 
 		private System.Windows.Forms.Label _labelLoading;
 		private System.Windows.Forms.PictureBox _pictureLoading;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.LinkLabel _linkCancel;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutPanel;
 	}

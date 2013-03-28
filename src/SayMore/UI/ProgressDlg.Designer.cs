@@ -32,7 +32,7 @@ namespace SayMore.UI
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._buttonCancel = new System.Windows.Forms.Button();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -107,7 +107,7 @@ namespace SayMore.UI
 			this.Controls.Add(this._tableLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.ProgressDlg.WindowTitle");
 			this.Name = "ProgressDlg";
 			this.Padding = new System.Windows.Forms.Padding(15, 20, 15, 15);
@@ -126,7 +126,7 @@ namespace SayMore.UI
 
 		private System.Windows.Forms.Button _buttonOK;
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.Button _buttonCancel;
 	}
 }

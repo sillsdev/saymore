@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SayMore.Model.Files;
 
 namespace SayMore.UI.ElementListScreen

@@ -32,7 +32,7 @@ namespace SayMore.UI.ProjectWindow
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MissingFFmpegPopup));
 			this._linkSayMoreDownloadPage = new System.Windows.Forms.LinkLabel();
 			this._labelMessage = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -96,6 +96,6 @@ namespace SayMore.UI.ProjectWindow
 
 		private System.Windows.Forms.LinkLabel _linkSayMoreDownloadPage;
 		private System.Windows.Forms.Label _labelMessage;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 	}
 }

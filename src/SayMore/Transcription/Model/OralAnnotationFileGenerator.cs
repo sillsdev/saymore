@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using Palaso.Reporting;

@@ -5,7 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using Palaso.Code;
 using SayMore.UI.LowLevelControls;
 

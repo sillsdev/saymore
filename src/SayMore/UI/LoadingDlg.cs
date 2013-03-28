@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Miscellaneous;
 using SayMore.Utilities;

@@ -1,4 +1,4 @@
-using Localization.UI;
+using L10NSharp.UI;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -34,7 +34,7 @@ namespace SayMore.UI.ProjectWindow
 			this._linkSayMoreWebSite = new System.Windows.Forms.LinkLabel();
 			this._labelVersionInfo = new System.Windows.Forms.Label();
 			this._labelSubTitle = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._linkSiLWebSite = new System.Windows.Forms.LinkLabel();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();

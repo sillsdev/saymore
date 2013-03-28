@@ -1,6 +1,6 @@
 using System;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using Palaso.UI.WindowsForms.Miscellaneous;
 using SayMore.Properties;
 using SilTools;

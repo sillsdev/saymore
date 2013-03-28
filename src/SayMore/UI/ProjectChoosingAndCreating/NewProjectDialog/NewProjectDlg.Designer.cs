@@ -1,4 +1,4 @@
-using Localization.UI;
+using L10NSharp.UI;
 
 namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 {
@@ -32,7 +32,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._textBoxName = new System.Windows.Forms.TextBox();
 			this._labelNewProjectPath = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -84,7 +84,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			this._textBoxName.Font = new System.Drawing.Font("Segoe UI", 9F);
 			this.locExtender.SetLocalizableToolTip(this._textBoxName, null);
 			this.locExtender.SetLocalizationComment(this._textBoxName, null);
-			this.locExtender.SetLocalizationPriority(this._textBoxName, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._textBoxName, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._textBoxName, "DialogBoxes.NewProjectDlg._textBoxName");
 			this._textBoxName.Location = new System.Drawing.Point(12, 46);
 			this._textBoxName.Name = "_textBoxName";

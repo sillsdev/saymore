@@ -53,7 +53,7 @@ namespace SayMore.UI.ElementListScreen
 			this._messagePanel = new System.Windows.Forms.Panel();
 			this._warningIcon = new System.Windows.Forms.PictureBox();
 			this._labelMessage = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this._tableLayoutButtons.SuspendLayout();
 			this._tableLayoutTextBox.SuspendLayout();
@@ -151,7 +151,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonReadAboutRenaming.Image = global::SayMore.Properties.Resources.Help;
 			this.locExtender.SetLocalizableToolTip(this._buttonReadAboutRenaming, null);
 			this.locExtender.SetLocalizationComment(this._buttonReadAboutRenaming, null);
-			this.locExtender.SetLocalizationPriority(this._buttonReadAboutRenaming, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._buttonReadAboutRenaming, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._buttonReadAboutRenaming, "_buttonReadAboutRenaming");
 			this._buttonReadAboutRenaming.Location = new System.Drawing.Point(0, 2);
 			this._buttonReadAboutRenaming.Margin = new System.Windows.Forms.Padding(0);
@@ -262,7 +262,7 @@ namespace SayMore.UI.ElementListScreen
 			this._textBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.locExtender.SetLocalizableToolTip(this._textBox, null);
 			this.locExtender.SetLocalizationComment(this._textBox, null);
-			this.locExtender.SetLocalizationPriority(this._textBox, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._textBox, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._textBox, "_textBox");
 			this._textBox.Location = new System.Drawing.Point(38, 3);
 			this._textBox.Name = "_textBox";
@@ -276,7 +276,7 @@ namespace SayMore.UI.ElementListScreen
 			this._labelPrefix.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelPrefix, null);
 			this.locExtender.SetLocalizationComment(this._labelPrefix, null);
-			this.locExtender.SetLocalizationPriority(this._labelPrefix, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelPrefix, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelPrefix, "_labelPrefix");
 			this._labelPrefix.Location = new System.Drawing.Point(0, 6);
 			this._labelPrefix.Margin = new System.Windows.Forms.Padding(0);
@@ -291,7 +291,7 @@ namespace SayMore.UI.ElementListScreen
 			this._labelExtension.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelExtension, null);
 			this.locExtender.SetLocalizationComment(this._labelExtension, null);
-			this.locExtender.SetLocalizationPriority(this._labelExtension, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelExtension, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelExtension, "_labelExtension");
 			this._labelExtension.Location = new System.Drawing.Point(364, 6);
 			this._labelExtension.Margin = new System.Windows.Forms.Padding(0);
@@ -437,7 +437,7 @@ namespace SayMore.UI.ElementListScreen
 			this._warningIcon.Image = global::SayMore.Properties.Resources.kimidWarning;
 			this.locExtender.SetLocalizableToolTip(this._warningIcon, null);
 			this.locExtender.SetLocalizationComment(this._warningIcon, null);
-			this.locExtender.SetLocalizationPriority(this._warningIcon, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._warningIcon, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._warningIcon, "ComponentFileRenamingDialog._warningIcon");
 			this._warningIcon.Location = new System.Drawing.Point(0, 0);
 			this._warningIcon.Name = "_warningIcon";
@@ -452,7 +452,7 @@ namespace SayMore.UI.ElementListScreen
 			this._labelMessage.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.locExtender.SetLocalizableToolTip(this._labelMessage, null);
 			this.locExtender.SetLocalizationComment(this._labelMessage, null);
-			this.locExtender.SetLocalizationPriority(this._labelMessage, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelMessage, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelMessage, "_labelMessage");
 			this._labelMessage.Location = new System.Drawing.Point(32, 0);
 			this._labelMessage.Margin = new System.Windows.Forms.Padding(15, 15, 10, 0);
@@ -511,7 +511,7 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.Label _labelPrefix;
 		private System.Windows.Forms.Label _labelMessage;
 		private System.Windows.Forms.Label _labelExtension;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.Label _labelChangeNameTo;
 		private System.Windows.Forms.FlowLayoutPanel _flowLayoutShortcuts;
 		private System.Windows.Forms.Label _labelShortcuts;

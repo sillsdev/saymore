@@ -42,7 +42,7 @@ namespace SayMore.Media.FFmpeg
 			this._progressControl = new SayMore.UI.LowLevelControls.ProgressControl();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._labelStatus = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._tableLayoutPanel.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -198,7 +198,7 @@ namespace SayMore.Media.FFmpeg
 			this._tableLayoutPanel.SetColumnSpan(this._progressControl, 3);
 			this.locExtender.SetLocalizableToolTip(this._progressControl, null);
 			this.locExtender.SetLocalizationComment(this._progressControl, null);
-			this.locExtender.SetLocalizationPriority(this._progressControl, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._progressControl, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._progressControl, "FFmpegDownloadDlg.ProgressControl");
 			this._progressControl.Location = new System.Drawing.Point(0, 151);
 			this._progressControl.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
@@ -231,7 +231,7 @@ namespace SayMore.Media.FFmpeg
 			this._tableLayoutPanel.SetColumnSpan(this._labelStatus, 3);
 			this.locExtender.SetLocalizableToolTip(this._labelStatus, null);
 			this.locExtender.SetLocalizationComment(this._labelStatus, null);
-			this.locExtender.SetLocalizationPriority(this._labelStatus, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelStatus, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelStatus, "FFmpegDownloadDlg._labelStatus");
 			this._labelStatus.Location = new System.Drawing.Point(0, 138);
 			this._labelStatus.Margin = new System.Windows.Forms.Padding(0);
@@ -285,6 +285,6 @@ namespace SayMore.Media.FFmpeg
 		private ProgressControl _progressControl;
 		private System.Windows.Forms.Button _buttonCancel;
 		private System.Windows.Forms.Label _labelStatus;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 	}
 }

@@ -32,7 +32,7 @@ namespace SayMore.Transcription.UI
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._pictureInfo = new System.Windows.Forms.PictureBox();
 			this._labelSourceFileName = new System.Windows.Forms.Label();
 			this._labelConvertIntroduction = new System.Windows.Forms.Label();
@@ -56,7 +56,7 @@ namespace SayMore.Transcription.UI
 			this._pictureInfo.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._pictureInfo, null);
 			this.locExtender.SetLocalizationComment(this._pictureInfo, null);
-			this.locExtender.SetLocalizationPriority(this._pictureInfo, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pictureInfo, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pictureInfo, "pictureBox1.pictureBox1");
 			this._pictureInfo.Location = new System.Drawing.Point(15, 5);
 			this._pictureInfo.Margin = new System.Windows.Forms.Padding(15, 5, 0, 0);
@@ -90,7 +90,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutConvert.SetColumnSpan(this._labelConvertIntroduction, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelConvertIntroduction, null);
 			this.locExtender.SetLocalizationComment(this._labelConvertIntroduction, null);
-			this.locExtender.SetLocalizationPriority(this._labelConvertIntroduction, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelConvertIntroduction, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelConvertIntroduction, "SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduc" +
         "tion");
 			this._labelConvertIntroduction.Location = new System.Drawing.Point(15, 70);
@@ -121,7 +121,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutConvert.SetColumnSpan(this._labelSourceFileNameValue, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelSourceFileNameValue, null);
 			this.locExtender.SetLocalizationComment(this._labelSourceFileNameValue, null);
-			this.locExtender.SetLocalizationPriority(this._labelSourceFileNameValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelSourceFileNameValue, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelSourceFileNameValue, "SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethod");
 			this._labelSourceFileNameValue.Location = new System.Drawing.Point(32, 116);
 			this._labelSourceFileNameValue.Margin = new System.Windows.Forms.Padding(32, 5, 15, 0);
@@ -154,7 +154,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutConvert.SetColumnSpan(this._labelStandardAudioFileNameValue, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelStandardAudioFileNameValue, null);
 			this.locExtender.SetLocalizationComment(this._labelStandardAudioFileNameValue, null);
-			this.locExtender.SetLocalizationPriority(this._labelStandardAudioFileNameValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelStandardAudioFileNameValue, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelStandardAudioFileNameValue, "SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethod");
 			this._labelStandardAudioFileNameValue.Location = new System.Drawing.Point(32, 162);
 			this._labelStandardAudioFileNameValue.Margin = new System.Windows.Forms.Padding(32, 5, 15, 0);
@@ -222,7 +222,7 @@ namespace SayMore.Transcription.UI
 			this.Controls.Add(this._tableLayoutConvert);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "SessionsView.Transcription.StartAnnotatingTab.EditorBase");
 			this.Name = "ConvertToStandardAudioEditor";
 			this.Padding = new System.Windows.Forms.Padding(12, 6, 12, 12);
@@ -238,7 +238,7 @@ namespace SayMore.Transcription.UI
 
 		#endregion
 
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private TableLayoutPanel _tableLayoutConvert;
 		private PictureBox _pictureInfo;
 		private Label _labelSourceFileName;

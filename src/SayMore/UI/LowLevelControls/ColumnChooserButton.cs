@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Media;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using Palaso.UI.WindowsForms.ClearShare.WinFormsUI;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SilTools.Controls;

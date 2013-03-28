@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Localization;
+using L10NSharp;
 using Palaso.Code;
 using Palaso.Reporting;
 using SayMore.Model.Fields;

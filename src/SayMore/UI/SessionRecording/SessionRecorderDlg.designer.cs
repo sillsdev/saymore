@@ -41,7 +41,7 @@ namespace SayMore.UI.SessionRecording
 			this._buttonPlayback = new System.Windows.Forms.ToolStripButton();
 			this._buttonStop = new System.Windows.Forms.ToolStripButton();
 			this._labelRecLength = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this.tableLayoutPanel1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -138,7 +138,7 @@ namespace SayMore.UI.SessionRecording
 			this._panelPeakMeter.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._panelPeakMeter, null);
 			this.locExtender.SetLocalizationComment(this._panelPeakMeter, null);
-			this.locExtender.SetLocalizationPriority(this._panelPeakMeter, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._panelPeakMeter, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._panelPeakMeter, "SessionRecorderDlg.panel1");
 			this._panelPeakMeter.Location = new System.Drawing.Point(337, 0);
 			this._panelPeakMeter.Margin = new System.Windows.Forms.Padding(0);
@@ -162,7 +162,7 @@ namespace SayMore.UI.SessionRecording
 			this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
 			this.locExtender.SetLocalizableToolTip(this.toolStrip1, null);
 			this.locExtender.SetLocalizationComment(this.toolStrip1, null);
-			this.locExtender.SetLocalizationPriority(this.toolStrip1, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.toolStrip1, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.toolStrip1, "toolStrip1.toolStrip1");
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
@@ -270,7 +270,7 @@ namespace SayMore.UI.SessionRecording
 
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private System.Windows.Forms.Label _labelRecordingFormat;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.ToolStrip toolStrip1;
 		private System.Windows.Forms.ToolStripButton _buttonRecord;
 		private System.Windows.Forms.ToolStripButton _buttonPlayback;

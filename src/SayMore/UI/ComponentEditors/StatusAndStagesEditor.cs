@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using Localization;
+using L10NSharp;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SilTools;

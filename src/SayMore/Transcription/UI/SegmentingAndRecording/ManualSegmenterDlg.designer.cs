@@ -28,7 +28,7 @@ namespace SayMore.Transcription.UI
 		{
 			this.components = new System.ComponentModel.Container();
 			this._buttonAddSegmentBoundary = new System.Windows.Forms.ToolStripButton();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this.toolStripButtons = new System.Windows.Forms.ToolStrip();
 			this._buttonListenToOriginal = new System.Windows.Forms.ToolStripButton();
 			this._buttonStopOriginal = new System.Windows.Forms.ToolStripButton();
@@ -75,7 +75,7 @@ namespace SayMore.Transcription.UI
 			this.toolStripButtons.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
 			this.locExtender.SetLocalizableToolTip(this.toolStripButtons, null);
 			this.locExtender.SetLocalizationComment(this.toolStripButtons, null);
-			this.locExtender.SetLocalizationPriority(this.toolStripButtons, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.toolStripButtons, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.toolStripButtons, "toolStrip1.toolStrip1");
 			this.toolStripButtons.Location = new System.Drawing.Point(0, 106);
 			this.toolStripButtons.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
@@ -140,7 +140,7 @@ namespace SayMore.Transcription.UI
 			this._pictureIcon.Image = global::SayMore.Properties.Resources.Information_blue;
 			this.locExtender.SetLocalizableToolTip(this._pictureIcon, null);
 			this.locExtender.SetLocalizationComment(this._pictureIcon, null);
-			this.locExtender.SetLocalizationPriority(this._pictureIcon, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pictureIcon, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pictureIcon, "pictureBox1.pictureBox1");
 			this._pictureIcon.Location = new System.Drawing.Point(8, 316);
 			this._pictureIcon.Name = "_pictureIcon";
@@ -159,7 +159,7 @@ namespace SayMore.Transcription.UI
 			this._labelInfo.ForeColor = System.Drawing.Color.White;
 			this.locExtender.SetLocalizableToolTip(this._labelInfo, null);
 			this.locExtender.SetLocalizationComment(this._labelInfo, null);
-			this.locExtender.SetLocalizationPriority(this._labelInfo, Localization.LocalizationPriority.Medium);
+			this.locExtender.SetLocalizationPriority(this._labelInfo, L10NSharp.LocalizationPriority.Medium);
 			this.locExtender.SetLocalizingId(this._labelInfo, "ManualSegmenterDlg._labelInfo");
 			this._labelInfo.Location = new System.Drawing.Point(41, 326);
 			this._labelInfo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -200,7 +200,7 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		private System.Windows.Forms.ToolStripButton _buttonAddSegmentBoundary;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.ToolStrip toolStripButtons;
 		private System.Windows.Forms.ToolStripButton _buttonListenToOriginal;
 		private System.Windows.Forms.ToolStripButton _buttonStopOriginal;

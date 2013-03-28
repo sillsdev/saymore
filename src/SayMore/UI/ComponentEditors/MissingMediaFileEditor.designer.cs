@@ -36,7 +36,7 @@ namespace SayMore.UI.ComponentEditors
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.linkHelpTopic = new System.Windows.Forms.LinkLabel();
 			this.txtMissingMediaFilePath = new System.Windows.Forms.TextBox();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._panelBrowser.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -49,7 +49,7 @@ namespace SayMore.UI.ComponentEditors
 			this.lblMediaFileMissing.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this.lblMediaFileMissing, null);
 			this.locExtender.SetLocalizationComment(this.lblMediaFileMissing, null);
-			this.locExtender.SetLocalizationPriority(this.lblMediaFileMissing, Localization.LocalizationPriority.MediumLow);
+			this.locExtender.SetLocalizationPriority(this.lblMediaFileMissing, L10NSharp.LocalizationPriority.MediumLow);
 			this.locExtender.SetLocalizingId(this.lblMediaFileMissing, "SessionsView.MissingMediaFileEditor.lblMediaFileMissing");
 			this.lblMediaFileMissing.Location = new System.Drawing.Point(3, 8);
 			this.lblMediaFileMissing.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
@@ -66,7 +66,7 @@ namespace SayMore.UI.ComponentEditors
 			this.lblExplanation.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this.lblExplanation, null);
 			this.locExtender.SetLocalizationComment(this.lblExplanation, null);
-			this.locExtender.SetLocalizationPriority(this.lblExplanation, Localization.LocalizationPriority.MediumLow);
+			this.locExtender.SetLocalizationPriority(this.lblExplanation, L10NSharp.LocalizationPriority.MediumLow);
 			this.locExtender.SetLocalizingId(this.lblExplanation, "SessionsView.MissingMediaFileEditor.lblExplanation");
 			this.lblExplanation.Location = new System.Drawing.Point(3, 78);
 			this.lblExplanation.Name = "lblExplanation";
@@ -121,7 +121,7 @@ namespace SayMore.UI.ComponentEditors
 			this.linkHelpTopic.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this.linkHelpTopic, null);
 			this.locExtender.SetLocalizationComment(this.linkHelpTopic, null);
-			this.locExtender.SetLocalizationPriority(this.linkHelpTopic, Localization.LocalizationPriority.MediumLow);
+			this.locExtender.SetLocalizationPriority(this.linkHelpTopic, L10NSharp.LocalizationPriority.MediumLow);
 			this.locExtender.SetLocalizingId(this.linkHelpTopic, "SessionsView.MissingMediaFileEditor.linkHelpTopic");
 			this.linkHelpTopic.Location = new System.Drawing.Point(3, 165);
 			this.linkHelpTopic.Margin = new System.Windows.Forms.Padding(3, 12, 3, 0);
@@ -143,7 +143,7 @@ namespace SayMore.UI.ComponentEditors
 			this.txtMissingMediaFilePath.HideSelection = false;
 			this.locExtender.SetLocalizableToolTip(this.txtMissingMediaFilePath, null);
 			this.locExtender.SetLocalizationComment(this.txtMissingMediaFilePath, null);
-			this.locExtender.SetLocalizationPriority(this.txtMissingMediaFilePath, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtMissingMediaFilePath, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtMissingMediaFilePath, "SessionsView.MissingMediaFileEditor.txtMissingMediaFilePath");
 			this.txtMissingMediaFilePath.Location = new System.Drawing.Point(12, 50);
 			this.txtMissingMediaFilePath.Margin = new System.Windows.Forms.Padding(12, 12, 3, 12);
@@ -164,7 +164,7 @@ namespace SayMore.UI.ComponentEditors
 			this.Controls.Add(this._panelBrowser);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.MediumLow);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.MediumLow);
 			this.locExtender.SetLocalizingId(this, "SessionsView.MissingMediaFileEditor");
 			this.Name = "MissingMediaFileEditor";
 			this.Size = new System.Drawing.Size(449, 279);
@@ -182,7 +182,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.LinkLabel linkHelpTopic;
 		private System.Windows.Forms.TextBox txtMissingMediaFilePath;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.Label lblMediaFileMissing;
 		private System.Windows.Forms.Label lblExplanation;
 	}

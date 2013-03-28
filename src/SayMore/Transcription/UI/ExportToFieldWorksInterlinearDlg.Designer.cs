@@ -37,7 +37,7 @@ namespace SayMore.Transcription.UI
             this._labelFreeTranslationColumnHeadingText = new System.Windows.Forms.Label();
             this._comboTranslationWs = new System.Windows.Forms.ComboBox();
             this._labelOverview = new System.Windows.Forms.Label();
-            this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+            this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
             this._tableLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
             this.SuspendLayout();
@@ -123,7 +123,7 @@ namespace SayMore.Transcription.UI
             this._comboTranscriptionWs.FormattingEnabled = true;
             this.locExtender.SetLocalizableToolTip(this._comboTranscriptionWs, null);
             this.locExtender.SetLocalizationComment(this._comboTranscriptionWs, null);
-            this.locExtender.SetLocalizationPriority(this._comboTranscriptionWs, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._comboTranscriptionWs, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._comboTranscriptionWs, "_comboTranscriptionWs");
             this._comboTranscriptionWs.Location = new System.Drawing.Point(27, 41);
             this._comboTranscriptionWs.Margin = new System.Windows.Forms.Padding(3, 5, 0, 5);
@@ -154,7 +154,7 @@ namespace SayMore.Transcription.UI
             this._comboTranslationWs.FormattingEnabled = true;
             this.locExtender.SetLocalizableToolTip(this._comboTranslationWs, null);
             this.locExtender.SetLocalizationComment(this._comboTranslationWs, null);
-            this.locExtender.SetLocalizationPriority(this._comboTranslationWs, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._comboTranslationWs, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._comboTranslationWs, "_comboTranslationWs");
             this._comboTranslationWs.Location = new System.Drawing.Point(27, 72);
             this._comboTranslationWs.Margin = new System.Windows.Forms.Padding(3, 5, 0, 5);
@@ -222,6 +222,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Label _labelFreeTranslationColumnHeadingText;
 		private System.Windows.Forms.ComboBox _comboTranslationWs;
 		private System.Windows.Forms.Label _labelOverview;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 	}
 }

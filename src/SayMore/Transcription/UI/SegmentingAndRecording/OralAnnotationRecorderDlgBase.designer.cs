@@ -20,7 +20,7 @@ namespace SayMore.Transcription.UI
 			this.components = new System.ComponentModel.Container();
 			this._panelListen = new System.Windows.Forms.Panel();
 			this._labelListenButton = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._labelRecordButton = new System.Windows.Forms.Label();
 			this._pictureRecording = new System.Windows.Forms.PictureBox();
 			this._labelErrorInfo = new System.Windows.Forms.Label();
@@ -104,7 +104,7 @@ namespace SayMore.Transcription.UI
 			this._pictureRecording.Image = global::SayMore.Properties.Resources.BusyWheelSmall;
 			this.locExtender.SetLocalizableToolTip(this._pictureRecording, null);
 			this.locExtender.SetLocalizationComment(this._pictureRecording, null);
-			this.locExtender.SetLocalizationPriority(this._pictureRecording, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pictureRecording, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pictureRecording, "pictureBox1.pictureBox1");
 			this._pictureRecording.Location = new System.Drawing.Point(58, 5);
 			this._pictureRecording.Name = "_pictureRecording";
@@ -123,7 +123,7 @@ namespace SayMore.Transcription.UI
 			this._labelErrorInfo.ForeColor = System.Drawing.Color.White;
 			this.locExtender.SetLocalizableToolTip(this._labelErrorInfo, null);
 			this.locExtender.SetLocalizationComment(this._labelErrorInfo, null);
-			this.locExtender.SetLocalizationPriority(this._labelErrorInfo, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelErrorInfo, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelErrorInfo, "OralAnnotationRecorderBaseDlg._labelListenHint");
 			this._labelErrorInfo.Location = new System.Drawing.Point(8, 242);
 			this._labelErrorInfo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -213,7 +213,7 @@ namespace SayMore.Transcription.UI
 			this._pictureIcon.Image = global::SayMore.Properties.Resources.Information_blue;
 			this.locExtender.SetLocalizableToolTip(this._pictureIcon, null);
 			this.locExtender.SetLocalizationComment(this._pictureIcon, null);
-			this.locExtender.SetLocalizationPriority(this._pictureIcon, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pictureIcon, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pictureIcon, "pictureBox1.pictureBox1");
 			this._pictureIcon.Location = new System.Drawing.Point(12, 375);
 			this._pictureIcon.Name = "_pictureIcon";
@@ -232,7 +232,7 @@ namespace SayMore.Transcription.UI
 			this._videoHelpMenu});
 			this.locExtender.SetLocalizableToolTip(this._videoHelpMenuStrip, null);
 			this.locExtender.SetLocalizationComment(this._videoHelpMenuStrip, null);
-			this.locExtender.SetLocalizationPriority(this._videoHelpMenuStrip, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._videoHelpMenuStrip, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._videoHelpMenuStrip, "OralAnnotationRecorderBaseDlg._videoHelpMenuStrip");
 			this._videoHelpMenuStrip.Location = new System.Drawing.Point(50, 385);
 			this._videoHelpMenuStrip.Name = "_videoHelpMenuStrip";
@@ -250,7 +250,7 @@ namespace SayMore.Transcription.UI
 			this._videoHelpMenu.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.locExtender.SetLocalizableToolTip(this._videoHelpMenu, null);
 			this.locExtender.SetLocalizationComment(this._videoHelpMenu, null);
-			this.locExtender.SetLocalizationPriority(this._videoHelpMenu, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._videoHelpMenu, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._videoHelpMenu, "OralAnnotationRecorderBaseDlg._videoHelpMenu");
 			this._videoHelpMenu.Name = "_videoHelpMenu";
 			this._videoHelpMenu.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
@@ -328,7 +328,7 @@ namespace SayMore.Transcription.UI
 			this.KeyPreview = true;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, "Localized in subclass");
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CarefulSpeechAnnotationDlg.WindowTitle");
 			this.MinimumSize = new System.Drawing.Size(446, 526);
 			this.Name = "OralAnnotationRecorderBaseDlg";
@@ -357,7 +357,7 @@ namespace SayMore.Transcription.UI
 
 		#endregion
 
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.Timer _scrollTimer;
 		private System.Windows.Forms.Timer _cursorBlinkTimer;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutRecordAnnotations;

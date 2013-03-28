@@ -51,7 +51,7 @@ namespace SayMore.UI
 			this._textBoxOutput = new System.Windows.Forms.TextBox();
 			this._labelOutputFile = new System.Windows.Forms.Label();
 			this._labelOutputFileValue = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._tableLayoutOuter.SuspendLayout();
 			this._tableLayoutFFmpegMissing.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._pictureInformation)).BeginInit();
@@ -165,7 +165,7 @@ namespace SayMore.UI
 			this._pictureInformation.Image = global::SayMore.Properties.Resources.InfoBlue24x24;
 			this.locExtender.SetLocalizableToolTip(this._pictureInformation, null);
 			this.locExtender.SetLocalizationComment(this._pictureInformation, null);
-			this.locExtender.SetLocalizationPriority(this._pictureInformation, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pictureInformation, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pictureInformation, "ConvertMediaDlg._pictureInformation");
 			this._pictureInformation.Location = new System.Drawing.Point(0, 0);
 			this._pictureInformation.Margin = new System.Windows.Forms.Padding(0);
@@ -208,7 +208,7 @@ namespace SayMore.UI
 			this._labelFileToConvertValue.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelFileToConvertValue, null);
 			this.locExtender.SetLocalizationComment(this._labelFileToConvertValue, null);
-			this.locExtender.SetLocalizationPriority(this._labelFileToConvertValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelFileToConvertValue, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelFileToConvertValue, "ConvertMediaDlg._labelFileToConvertValue");
 			this._labelFileToConvertValue.Location = new System.Drawing.Point(119, 41);
 			this._labelFileToConvertValue.Margin = new System.Windows.Forms.Padding(0, 0, 0, 15);
@@ -224,7 +224,7 @@ namespace SayMore.UI
 			this._comboAvailableConversions.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this._comboAvailableConversions, null);
 			this.locExtender.SetLocalizationComment(this._comboAvailableConversions, null);
-			this.locExtender.SetLocalizationPriority(this._comboAvailableConversions, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._comboAvailableConversions, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._comboAvailableConversions, "ConvertMediaDlg._comboAvailableConversions");
 			this._comboAvailableConversions.Location = new System.Drawing.Point(119, 97);
 			this._comboAvailableConversions.Margin = new System.Windows.Forms.Padding(0, 0, 0, 15);
@@ -239,7 +239,7 @@ namespace SayMore.UI
 			this._tableLayoutOuter.SetColumnSpan(this._labelStatus, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelStatus, null);
 			this.locExtender.SetLocalizationComment(this._labelStatus, null);
-			this.locExtender.SetLocalizationPriority(this._labelStatus, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelStatus, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelStatus, "ConvertMediaDlg._labelStatus");
 			this._labelStatus.Location = new System.Drawing.Point(0, 159);
 			this._labelStatus.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
@@ -384,7 +384,7 @@ namespace SayMore.UI
 			this._tableLayoutOuter.SetColumnSpan(this._textBoxOutput, 2);
 			this.locExtender.SetLocalizableToolTip(this._textBoxOutput, null);
 			this.locExtender.SetLocalizationComment(this._textBoxOutput, null);
-			this.locExtender.SetLocalizationPriority(this._textBoxOutput, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._textBoxOutput, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._textBoxOutput, "ConvertMediaDlg._textBoxOutput");
 			this._textBoxOutput.Location = new System.Drawing.Point(0, 235);
 			this._textBoxOutput.Margin = new System.Windows.Forms.Padding(0);
@@ -418,7 +418,7 @@ namespace SayMore.UI
 			this._labelOutputFileValue.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelOutputFileValue, null);
 			this.locExtender.SetLocalizationComment(this._labelOutputFileValue, null);
-			this.locExtender.SetLocalizationPriority(this._labelOutputFileValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelOutputFileValue, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelOutputFileValue, "label1.label1");
 			this._labelOutputFileValue.Location = new System.Drawing.Point(119, 69);
 			this._labelOutputFileValue.Margin = new System.Windows.Forms.Padding(0, 0, 0, 15);
@@ -487,7 +487,7 @@ namespace SayMore.UI
 		private System.Windows.Forms.Button _buttonShowOutput;
 		private System.Windows.Forms.Button _buttonHideOutput;
 		private System.Windows.Forms.TextBox _textBoxOutput;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.Label _labelOutputFile;
 		private System.Windows.Forms.Label _labelOutputFileValue;
 	}

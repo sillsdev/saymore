@@ -35,7 +35,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonDelete = new System.Windows.Forms.Button();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._tableLayoutMessage.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._pictureDeleteX)).BeginInit();
 			this._tableLayoutButtons.SuspendLayout();
@@ -64,7 +64,7 @@ namespace SayMore.UI.LowLevelControls
 			this._pictureDeleteX.Image = global::SayMore.Properties.Resources.DeleteMessageBoxImage;
 			this.locExtender.SetLocalizableToolTip(this._pictureDeleteX, null);
 			this.locExtender.SetLocalizationComment(this._pictureDeleteX, null);
-			this.locExtender.SetLocalizationPriority(this._pictureDeleteX, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._pictureDeleteX, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pictureDeleteX, "DialogBoxes.DeleteMessageBox._pictureDeleteX");
 			this._pictureDeleteX.Location = new System.Drawing.Point(0, 0);
 			this._pictureDeleteX.Margin = new System.Windows.Forms.Padding(0, 0, 15, 3);
@@ -82,7 +82,7 @@ namespace SayMore.UI.LowLevelControls
 			this._labelMessage.Image = null;
 			this.locExtender.SetLocalizableToolTip(this._labelMessage, null);
 			this.locExtender.SetLocalizationComment(this._labelMessage, null);
-			this.locExtender.SetLocalizationPriority(this._labelMessage, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelMessage, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelMessage, "DialogBoxes.DeleteMessageBox._labelMessage");
 			this._labelMessage.Location = new System.Drawing.Point(39, 0);
 			this._labelMessage.Margin = new System.Windows.Forms.Padding(0);
@@ -194,6 +194,6 @@ namespace SayMore.UI.LowLevelControls
 		private System.Windows.Forms.Button _buttonCancel;
 		private SilTools.Controls.AutoHeightLabel _labelMessage;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutButtons;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 	}
 }

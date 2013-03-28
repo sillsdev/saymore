@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using Localization;
+using L10NSharp;
 using Palaso.Reporting;
 using SayMore.UI;
 using SayMore.UI.LowLevelControls;

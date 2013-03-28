@@ -35,7 +35,7 @@ namespace SayMore.Transcription.UI
             this._buttonCarefulSpeech = new System.Windows.Forms.ToolStripMenuItem();
             this._buttonOralTranslation = new System.Windows.Forms.ToolStripMenuItem();
             this._comboPlaybackSpeed = new System.Windows.Forms.ToolStripComboBox();
-            this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+            this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
             this._splitter = new System.Windows.Forms.SplitContainer();
             this._toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -55,7 +55,7 @@ namespace SayMore.Transcription.UI
             this._comboPlaybackSpeed});
             this.locExtender.SetLocalizableToolTip(this._toolStrip, null);
             this.locExtender.SetLocalizationComment(this._toolStrip, null);
-            this.locExtender.SetLocalizationPriority(this._toolStrip, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._toolStrip, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._toolStrip, "Transcription.UI.TextAnnotationEditor._toolStrip");
             this._toolStrip.Location = new System.Drawing.Point(12, 6);
             this._toolStrip.Name = "_toolStrip";
@@ -94,7 +94,7 @@ namespace SayMore.Transcription.UI
             this._exportMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.locExtender.SetLocalizableToolTip(this._exportMenu, null);
             this.locExtender.SetLocalizationComment(this._exportMenu, null);
-            this.locExtender.SetLocalizationPriority(this._exportMenu, Localization.LocalizationPriority.Medium);
+            this.locExtender.SetLocalizationPriority(this._exportMenu, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._exportMenu, "SessionsView.Transcription.TextAnnotation.ExportMenu");
             this._exportMenu.Name = "_exportMenu";
             this._exportMenu.Size = new System.Drawing.Size(69, 20);
@@ -104,7 +104,7 @@ namespace SayMore.Transcription.UI
             // 
             this.locExtender.SetLocalizableToolTip(this._audacityExportFreeTranslationMenuItem, null);
             this.locExtender.SetLocalizationComment(this._audacityExportFreeTranslationMenuItem, null);
-            this.locExtender.SetLocalizationPriority(this._audacityExportFreeTranslationMenuItem, Localization.LocalizationPriority.Medium);
+            this.locExtender.SetLocalizationPriority(this._audacityExportFreeTranslationMenuItem, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._audacityExportFreeTranslationMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslation");
             this._audacityExportFreeTranslationMenuItem.Name = "_audacityExportFreeTranslationMenuItem";
             this._audacityExportFreeTranslationMenuItem.Size = new System.Drawing.Size(277, 22);
@@ -115,7 +115,7 @@ namespace SayMore.Transcription.UI
             // 
             this.locExtender.SetLocalizableToolTip(this._audacityExportTranscription, null);
             this.locExtender.SetLocalizationComment(this._audacityExportTranscription, null);
-            this.locExtender.SetLocalizationPriority(this._audacityExportTranscription, Localization.LocalizationPriority.Medium);
+            this.locExtender.SetLocalizationPriority(this._audacityExportTranscription, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._audacityExportTranscription, "SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscription");
             this._audacityExportTranscription.Name = "_audacityExportTranscription";
             this._audacityExportTranscription.Size = new System.Drawing.Size(277, 22);
@@ -126,7 +126,7 @@ namespace SayMore.Transcription.UI
             // 
             this.locExtender.SetLocalizableToolTip(this._exportElanMenuItem, null);
             this.locExtender.SetLocalizationComment(this._exportElanMenuItem, null);
-            this.locExtender.SetLocalizationPriority(this._exportElanMenuItem, Localization.LocalizationPriority.Medium);
+            this.locExtender.SetLocalizationPriority(this._exportElanMenuItem, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._exportElanMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMenuItem");
             this._exportElanMenuItem.Name = "_exportElanMenuItem";
             this._exportElanMenuItem.Size = new System.Drawing.Size(277, 22);
@@ -137,7 +137,7 @@ namespace SayMore.Transcription.UI
             // 
             this.locExtender.SetLocalizableToolTip(this._flexInterlinearExportMenuItem, null);
             this.locExtender.SetLocalizationComment(this._flexInterlinearExportMenuItem, null);
-            this.locExtender.SetLocalizationPriority(this._flexInterlinearExportMenuItem, Localization.LocalizationPriority.Medium);
+            this.locExtender.SetLocalizationPriority(this._flexInterlinearExportMenuItem, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._flexInterlinearExportMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.FLExTextExport");
             this._flexInterlinearExportMenuItem.Name = "_flexInterlinearExportMenuItem";
             this._flexInterlinearExportMenuItem.Size = new System.Drawing.Size(277, 22);
@@ -148,7 +148,7 @@ namespace SayMore.Transcription.UI
             // 
             this.locExtender.SetLocalizableToolTip(this._plainTextExportMenuItem, null);
             this.locExtender.SetLocalizationComment(this._plainTextExportMenuItem, null);
-            this.locExtender.SetLocalizationPriority(this._plainTextExportMenuItem, Localization.LocalizationPriority.Medium);
+            this.locExtender.SetLocalizationPriority(this._plainTextExportMenuItem, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._plainTextExportMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.plainTextExport");
             this._plainTextExportMenuItem.Name = "_plainTextExportMenuItem";
             this._plainTextExportMenuItem.Size = new System.Drawing.Size(277, 22);
@@ -159,7 +159,7 @@ namespace SayMore.Transcription.UI
             // 
             this.locExtender.SetLocalizableToolTip(this._exportFreeTranslationSubtitlesMenuItem, null);
             this.locExtender.SetLocalizationComment(this._exportFreeTranslationSubtitlesMenuItem, null);
-            this.locExtender.SetLocalizationPriority(this._exportFreeTranslationSubtitlesMenuItem, Localization.LocalizationPriority.Medium);
+            this.locExtender.SetLocalizationPriority(this._exportFreeTranslationSubtitlesMenuItem, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._exportFreeTranslationSubtitlesMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlestFreeTranslation" +
         "");
             this._exportFreeTranslationSubtitlesMenuItem.Name = "_exportFreeTranslationSubtitlesMenuItem";
@@ -172,7 +172,7 @@ namespace SayMore.Transcription.UI
             // 
             this.locExtender.SetLocalizableToolTip(this._exportSubtitlesTranscription, null);
             this.locExtender.SetLocalizationComment(this._exportSubtitlesTranscription, null);
-            this.locExtender.SetLocalizationPriority(this._exportSubtitlesTranscription, Localization.LocalizationPriority.Medium);
+            this.locExtender.SetLocalizationPriority(this._exportSubtitlesTranscription, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._exportSubtitlesTranscription, "SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscription");
             this._exportSubtitlesTranscription.Name = "_exportSubtitlesTranscription";
             this._exportSubtitlesTranscription.Size = new System.Drawing.Size(277, 22);
@@ -264,7 +264,7 @@ namespace SayMore.Transcription.UI
             this._comboPlaybackSpeed.DropDownWidth = 49;
             this.locExtender.SetLocalizableToolTip(this._comboPlaybackSpeed, "Playback speed");
             this.locExtender.SetLocalizationComment(this._comboPlaybackSpeed, null);
-            this.locExtender.SetLocalizationPriority(this._comboPlaybackSpeed, Localization.LocalizationPriority.Medium);
+            this.locExtender.SetLocalizationPriority(this._comboPlaybackSpeed, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._comboPlaybackSpeed, "SessionsView.Transcription.TextAnnotationEditor._comboPlaybackSpeed");
             this._comboPlaybackSpeed.Name = "_comboPlaybackSpeed";
             this._comboPlaybackSpeed.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
@@ -316,7 +316,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripMenuItem _buttonOralTranslation;
 		private System.Windows.Forms.ToolStripButton _buttonHelp;
 		private System.Windows.Forms.ToolStripButton _buttonResegment;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.ToolStripDropDownButton _exportMenu;
 		private System.Windows.Forms.ToolStripMenuItem _plainTextExportMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem _flexInterlinearExportMenuItem;

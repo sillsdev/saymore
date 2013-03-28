@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
-using Localization;
+using L10NSharp;
 using System.Windows.Forms;
 using SayMore.Properties;
 using SayMore.UI.Overview.Statistics;

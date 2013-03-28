@@ -57,7 +57,7 @@ namespace SayMore.UI.ComponentEditors
 			this._date = new SayMore.UI.LowLevelControls.DatePicker();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -86,7 +86,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._id, true);
 			this.locExtender.SetLocalizableToolTip(this._id, null);
 			this.locExtender.SetLocalizationComment(this._id, null);
-			this.locExtender.SetLocalizationPriority(this._id, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._id, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._id, "SessionBasicEditor._id");
 			this._id.Location = new System.Drawing.Point(0, 16);
 			this._id.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
@@ -119,7 +119,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._title, false);
 			this.locExtender.SetLocalizableToolTip(this._title, null);
 			this.locExtender.SetLocalizationComment(this._title, null);
-			this.locExtender.SetLocalizationPriority(this._title, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._title, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._title, "SessionBasicEditor._title");
 			this._title.Location = new System.Drawing.Point(0, 62);
 			this._title.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
@@ -139,7 +139,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._situation, false);
 			this.locExtender.SetLocalizableToolTip(this._situation, null);
 			this.locExtender.SetLocalizationComment(this._situation, null);
-			this.locExtender.SetLocalizationPriority(this._situation, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._situation, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._situation, "SessionBasicEditor._situation");
 			this._situation.Location = new System.Drawing.Point(0, 201);
 			this._situation.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
@@ -176,7 +176,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._synopsis, false);
 			this.locExtender.SetLocalizableToolTip(this._synopsis, null);
 			this.locExtender.SetLocalizationComment(this._synopsis, null);
-			this.locExtender.SetLocalizationPriority(this._synopsis, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._synopsis, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._synopsis, "SessionBasicEditor._synopsis");
 			this._synopsis.Location = new System.Drawing.Point(212, 201);
 			this._synopsis.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
@@ -248,7 +248,7 @@ namespace SayMore.UI.ComponentEditors
 			this._participants.JITListAcquisition = null;
 			this.locExtender.SetLocalizableToolTip(this._participants, null);
 			this.locExtender.SetLocalizationComment(this._participants, null);
-			this.locExtender.SetLocalizationPriority(this._participants, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._participants, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._participants, "SessionBasicEditor._participants");
 			this._participants.Location = new System.Drawing.Point(0, 108);
 			this._participants.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
@@ -292,7 +292,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._access, false);
 			this.locExtender.SetLocalizableToolTip(this._access, null);
 			this.locExtender.SetLocalizationComment(this._access, null);
-			this.locExtender.SetLocalizationPriority(this._access, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._access, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._access, "SessionBasicEditor._access");
 			this._access.Location = new System.Drawing.Point(212, 155);
 			this._access.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
@@ -327,7 +327,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._genre, false);
 			this.locExtender.SetLocalizableToolTip(this._genre, null);
 			this.locExtender.SetLocalizationComment(this._genre, null);
-			this.locExtender.SetLocalizationPriority(this._genre, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._genre, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._genre, "SessionBasicEditor._genre");
 			this._genre.Location = new System.Drawing.Point(0, 155);
 			this._genre.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
@@ -360,7 +360,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._location, false);
 			this.locExtender.SetLocalizableToolTip(this._location, null);
 			this.locExtender.SetLocalizationComment(this._location, null);
-			this.locExtender.SetLocalizationPriority(this._location, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._location, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._location, "SessionBasicEditor._location");
 			this._location.Location = new System.Drawing.Point(212, 108);
 			this._location.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
@@ -423,7 +423,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._setting, false);
 			this.locExtender.SetLocalizableToolTip(this._setting, null);
 			this.locExtender.SetLocalizationComment(this._setting, null);
-			this.locExtender.SetLocalizationPriority(this._setting, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._setting, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._setting, "SessionBasicEditor._setting");
 			this._setting.Location = new System.Drawing.Point(212, 62);
 			this._setting.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
@@ -471,7 +471,7 @@ namespace SayMore.UI.ComponentEditors
 			this._binder.SetIsComponentFileId(this._date, false);
 			this.locExtender.SetLocalizableToolTip(this._date, null);
 			this.locExtender.SetLocalizationComment(this._date, null);
-			this.locExtender.SetLocalizationPriority(this._date, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._date, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._date, "SessionBasicEditor._date");
 			this._date.Location = new System.Drawing.Point(212, 16);
 			this._date.Margin = new System.Windows.Forms.Padding(5, 3, 2, 3);
@@ -490,7 +490,7 @@ namespace SayMore.UI.ComponentEditors
 			this.Controls.Add(this._tableLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "SessionBasicEditor.EditorBase");
 			this.Name = "SessionBasicEditor";
 			this.Size = new System.Drawing.Size(429, 400);
@@ -530,6 +530,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Panel _panelGrid;
 		private SayMore.UI.LowLevelControls.MultiValueDropDownBox _participants;
 		private System.Windows.Forms.Label _labelDate;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 	}
 }

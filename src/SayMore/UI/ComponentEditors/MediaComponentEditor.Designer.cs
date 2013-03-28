@@ -34,7 +34,7 @@ namespace SayMore.UI.ComponentEditors
 			this._buttonPresets = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonMoreInfo = new System.Windows.Forms.ToolStripButton();
 			this._presetMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this._toolStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -64,7 +64,7 @@ namespace SayMore.UI.ComponentEditors
 			this._toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.locExtender.SetLocalizableToolTip(this._toolStrip, null);
 			this.locExtender.SetLocalizationComment(this._toolStrip, null);
-			this.locExtender.SetLocalizationPriority(this._toolStrip, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._toolStrip, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._toolStrip, "Transcription.UI.TextAnnotationEditor._toolStrip");
 			this._toolStrip.Location = new System.Drawing.Point(0, 0);
 			this._toolStrip.Name = "_toolStrip";
@@ -102,7 +102,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this.locExtender.SetLocalizableToolTip(this._presetMenu, null);
 			this.locExtender.SetLocalizationComment(this._presetMenu, null);
-			this.locExtender.SetLocalizationPriority(this._presetMenu, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._presetMenu, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._presetMenu, "_presetMenu._presetMenu");
 			this._presetMenu.Name = "_presetMenu";
 			this._presetMenu.Size = new System.Drawing.Size(61, 4);
@@ -118,7 +118,7 @@ namespace SayMore.UI.ComponentEditors
 			this.Controls.Add(this._tableLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "MediaComponentEditor.EditorBase");
 			this.Name = "MediaComponentEditor";
 			this.Size = new System.Drawing.Size(449, 208);
@@ -135,7 +135,7 @@ namespace SayMore.UI.ComponentEditors
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.LocalizationExtender locExtender;
 		protected System.Windows.Forms.ContextMenuStrip _presetMenu;
 		private System.Windows.Forms.ToolStrip _toolStrip;
 		private System.Windows.Forms.ToolStripButton _buttonMoreInfo;

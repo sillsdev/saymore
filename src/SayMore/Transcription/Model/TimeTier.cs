@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
-using Localization;
+using L10NSharp;
 using Palaso.Reporting;
 using SayMore.Media;
 using SayMore.Properties;

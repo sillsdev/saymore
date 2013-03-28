@@ -113,8 +113,8 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		  <Component Id="Ionic.Zip.dll" Guid="{7F9026D4-188B-4C67-87E9-777FEE4A3E16}">
 			<File Id="Ionic.Zip.dll" Name="Ionic.Zip.dll" KeyPath="yes" Source="..\..\output\release\Ionic.Zip.dll" />
 		  </Component>
-		  <Component Id="LocalizationManager.dll" Guid="{92419CBC-BA15-4dfd-B57E-399BEC7FE926}">
-			<File Id="LocalizationManager.dll" Name="LocalizationManager.dll" KeyPath="yes" Source="..\..\output\release\LocalizationManager.dll" />
+		  <Component Id="L10NSharp.dll" Guid="{92419CBC-BA15-4dfd-B57E-399BEC7FE926}">
+			<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="yes" Source="..\..\output\release\L10NSharp.dll" />
 		  </Component>
 		  <Component Id="SilTools.dll" Guid="{29655098-6831-45BA-9B9A-5E8CDF2795FF}">
 			<File Id="SilTools.dll" Name="SilTools.dll" KeyPath="yes" Source="..\..\output\release\SilTools.dll" />
@@ -145,7 +145,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	  <ComponentRef Id="autofac.dll"/>
 	  <ComponentRef Id="NAudio.dll"/>
 	  <ComponentRef Id="Ionic.Zip.dll"/>
-	  <ComponentRef Id="LocalizationManager.dll"/>
+	  <ComponentRef Id="L10NSharp.dll"/>
 	  <ComponentRef Id="SilTools.dll"/>
 	  <ComponentRef Id="Palaso.dll"/>
 	  <ComponentRef Id="PalasoUIWindowsForms.dll" />

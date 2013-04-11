@@ -361,8 +361,11 @@ namespace SayMore.Transcription.UI
 								startPlayBackWhenFinished = true;
 							}
 							SetComponentFile(_file);
-							if (_grid.RowCount > originallySelectedCell.Y && _grid.ColumnCount > originallySelectedCell.X)
+							if (_grid.RowCount > originallySelectedCell.Y && originallySelectedCell.Y >= 0 &&
+								_grid.ColumnCount > originallySelectedCell.X && originallySelectedCell.X >= 0)
+							{
 								_grid.CurrentCell = _grid.Rows[originallySelectedCell.Y].Cells[originallySelectedCell.X];
+							}
 							else
 								startPlayBackWhenFinished = false; // Oops, that cell is gone!
 						}

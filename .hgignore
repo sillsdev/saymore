@@ -62,7 +62,7 @@ SayMore Lightning Talk (Conf. 2011).docx
 SayMore Presentation.docx
 DistFiles/mplayer/media/*
 artwork/layer1-9.png
-lib/dotnet/LocalizationManager.*
 DistFiles/SayMore.chw
 Thumbs.db
 src/AutoSegmenter/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+lib/dotnet/L10NSharp.*

@@ -108,8 +108,8 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		private static bool CanGenerate(TimeTier sourceRecodingTier)
 		{
-			return Directory.Exists(sourceRecodingTier.MediaFileName +
-				Settings.Default.OralAnnotationsFolderSuffix);
+			return sourceRecodingTier != null &&
+				Directory.Exists(sourceRecodingTier.MediaFileName + Settings.Default.OralAnnotationsFolderSuffix);
 		}
 		#endregion
 

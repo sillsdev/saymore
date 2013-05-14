@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
+using NAudio.FileFormats.Wav;
 using NAudio.Wave;
 using NAudio.Wave.Compression;
 using Palaso.Media;
@@ -194,26 +195,12 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		public static bool GetDoesFileSeemToBeWave(string mediaFilePath)
 		{
-			FileStream stream = null;
-
 			try
 			{
-				stream = File.OpenRead(mediaFilePath);
-				WaveFormat fmt;
-				long pos;
-				int len;
-				WaveFileReader.ReadWaveHeader(stream, out fmt, out pos, out len, new List<RiffChunk>());
-				return true;
+				using (FileStream stream = File.OpenRead(mediaFilePath))
+					return (new WaveFileReader(stream) != null);
 			}
 			catch { }
-			finally
-			{
-				if (stream != null)
-				{
-					stream.Close();
-					stream.Dispose();
-				}
-			}
 
 			return false;
 		}

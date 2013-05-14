@@ -83,7 +83,7 @@ namespace SayMore.UI.SessionRecording
 					UpdateAction(sender, e);
 			};
 			_player.LoadFile(_path);
-			_player.Play();
+			_player.StartPlaying();
 		}
 
 		/// ------------------------------------------------------------------------------------

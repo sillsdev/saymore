@@ -34,19 +34,25 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool BeginAnnotationRecording(string outputWaveFileName)
 		{
-			if (GetIsInErrorState())
-				return false;
-
-			if (_formerlyInErrorState)
+			lock (this)
 			{
-				CloseWaveIn();
-				SelectedDevice = RecordingDevice.Devices.First();
-				RecordingState = RecordingState.Stopped;
-				BeginMonitoring();
-				_formerlyInErrorState = false;
-			}
+				if (GetIsInErrorState())
+					return false;
 
-			BeginRecording(outputWaveFileName);
+				if (_formerlyInErrorState)
+				{
+					if (RecordingState == RecordingState.Stopped)
+					{
+						CloseWaveIn();
+						SelectedDevice = RecordingDevice.Devices.First();
+						RecordingState = RecordingState.Stopped;
+						BeginMonitoring();
+					}
+					_formerlyInErrorState = false;
+				}
+
+				BeginRecording(outputWaveFileName);
+			}
 			return true;
 		}
 
@@ -77,20 +83,25 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsInErrorState(bool displayErrorMsg)
 		{
-			try
+			lock (this)
 			{
-				// The goal here is just to reference something in the recorder that
-				// will throw an exception when something has gone wrong (e.g. the
-				// user unplugged or disabled their microphone).
-				if (_waveIn.GetMixerLine().Channels > 0)
-					return false;
+				try
+				{
+					// The goal here is just to reference something in the recorder that
+					// will throw an exception when something has gone wrong (e.g. the
+					// user unplugged or disabled their microphone).
+					if (_waveIn.GetMixerLine().Channels > 0)
+						return false;
+				}
+				catch
+				{
+				}
+
+				if (displayErrorMsg)
+					AudioUtils.DisplayNAudioError(null);
+
+				_formerlyInErrorState = true;
 			}
-			catch { }
-
-			if (displayErrorMsg)
-				AudioUtils.DisplayNAudioError(null);
-
-			_formerlyInErrorState = true;
 			return true;
 		}
 	}

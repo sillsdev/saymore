@@ -24,7 +24,7 @@ namespace SayMore.UI.SessionRecording
 		private string _recordedLengthLabelFormat;
 		private readonly bool _moreReliableDesignMode;
 		private PeakMeterCtrl _peakMeter;
-		private RecordingDeviceButton _recDeviceButton;
+		private RecordingDeviceIndicator _recDeviceIndicator;
 
 		/// ------------------------------------------------------------------------------------
 		public SessionRecorderDlg()
@@ -117,14 +117,14 @@ namespace SayMore.UI.SessionRecording
 		/// ------------------------------------------------------------------------------------
 		private void SetupRecordingDeviceButton()
 		{
-			_recDeviceButton = new RecordingDeviceButton();
-			_recDeviceButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-			_recDeviceButton.AutoSize = true;
-			_recDeviceButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-			_recDeviceButton.Margin = new Padding(0);
-			tableLayoutPanel1.Controls.Add(_recDeviceButton, 0, 3);
+			_recDeviceIndicator = new RecordingDeviceIndicator();
+			_recDeviceIndicator.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+			_recDeviceIndicator.AutoSize = true;
+			_recDeviceIndicator.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+			_recDeviceIndicator.Margin = new Padding(0);
+			tableLayoutPanel1.Controls.Add(_recDeviceIndicator, 0, 3);
 			tableLayoutPanel1.ColumnStyles[0].SizeType = SizeType.AutoSize;
-			_recDeviceButton.Recorder = _viewModel.Recorder;
+			_recDeviceIndicator.Recorder = _viewModel.Recorder;
 		}
 
 		/// ------------------------------------------------------------------------------------

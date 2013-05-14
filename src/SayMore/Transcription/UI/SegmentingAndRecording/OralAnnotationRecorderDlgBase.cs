@@ -37,8 +37,8 @@ namespace SayMore.Transcription.UI
 
 		private readonly ToolTip _tooltip = new ToolTip();
 		private PeakMeterCtrl _peakMeter;
-		private RecordingDeviceButton _recDeviceButton;
-		private Timer _recordingTooShortMsgTimer;
+		private RecordingDeviceIndicator _recDeviceIndicator;
+		private string _recordingErrorMessage;
 		private Image _hotPlayInSegmentButton;
 		private Image _hotPlaySourceButton;
 		private Image _hotRecordAnnotationButton;
@@ -54,7 +54,8 @@ namespace SayMore.Transcription.UI
 		private Segment _segmentWhoseAnnotationIsBeingPlayedBack;
 		private Font _annotationSegmentFont;
 		private TimeRange _segmentBeingRecorded;
-		private bool _shortcutKeyIsDown;
+		private bool _listeningOrRecordingUsingSpaceBar;
+		private bool _spaceBarIsDown;
 		private bool _playingBackUsingHoldDownButton;
 		private bool _reRecording;
 		private bool _userHasListenedToSelectedSegment;
@@ -64,6 +65,7 @@ namespace SayMore.Transcription.UI
 		private AdvanceOptionsAfterRecording _advanceOption;
 
 		protected WaveControlWithRangeSelection _waveControl;
+		private bool _needToShowRecordingAbortedMessage;
 
 		/// ------------------------------------------------------------------------------------
 		public static OralAnnotationRecorderBaseDlg Create(
@@ -113,6 +115,7 @@ namespace SayMore.Transcription.UI
 			viewModel.PlaybackErrorAction = HandlePlaybackError;
 			viewModel.RecordingErrorAction = HandleRecordingError;
 			viewModel.RecordingCompleted = RecordingCompleted;
+			viewModel.SelectedDeviceChanged += SelectedRecordingDeviceChanged;
 
 			SegmentIgnored += HandleSegmentIgnored;
 		}
@@ -120,6 +123,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		void HandleSegmentIgnored()
 		{
+			KillRecordingErrorMessage();
+
 			if (HotSegment == null || ViewModel.CurrentUnannotatedSegment == null || HotSegment == ViewModel.CurrentUnannotatedSegment)
 				GoToNextUnannotatedSegment();
 			else
@@ -146,7 +151,7 @@ namespace SayMore.Transcription.UI
 			if (AudioUtils.GetCanRecordAudio())
 			{
 				_checkForRecordingDevice.Stop();
-				ViewModel.InitializeAnnotationRecorder(_peakMeter, _recDeviceButton,
+				ViewModel.InitializeAnnotationRecorder(_peakMeter, _recDeviceIndicator,
 					HandleAnnotationRecordingProgress);
 				if (_spaceBarMode == SpaceBarMode.Error)
 				{
@@ -180,7 +185,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
-			ViewModel.InitializeAnnotationRecorder(_peakMeter, _recDeviceButton,
+			ViewModel.InitializeAnnotationRecorder(_peakMeter, _recDeviceIndicator,
 				HandleAnnotationRecordingProgress);
 			base.OnLoad(e);
 			InitializeTableLayoutButtonControls();
@@ -217,12 +222,12 @@ namespace SayMore.Transcription.UI
 			_tableLayoutRecordAnnotations.ColumnStyles[0].SizeType = SizeType.AutoSize;
 			_tableLayoutRecordAnnotations.ColumnStyles[1].SizeType = SizeType.Percent;
 
-			_recDeviceButton = new RecordingDeviceButton();
-			_recDeviceButton.Anchor = AnchorStyles.Top;
-			_recDeviceButton.AutoSize = true;
-			_recDeviceButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-			_recDeviceButton.Margin = new Padding(4, 3, 0, 3);
-			_tableLayoutRecordAnnotations.Controls.Add(_recDeviceButton, 0, 2);
+			_recDeviceIndicator = new RecordingDeviceIndicator();
+			_recDeviceIndicator.Anchor = AnchorStyles.Top;
+			_recDeviceIndicator.AutoSize = true;
+			_recDeviceIndicator.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+			_recDeviceIndicator.Margin = new Padding(4, 3, 0, 3);
+			_tableLayoutRecordAnnotations.Controls.Add(_recDeviceIndicator, 0, 2);
 
 			_panelPeakMeter.BorderColor = Settings.Default.BarColorBorder;
 			_panelPeakMeter.BackColor = Settings.Default.BarColorBegin;
@@ -266,7 +271,7 @@ namespace SayMore.Transcription.UI
 			};
 
 			_labelRecordButton.MouseDown += HandleRecordAnnotationMouseDown;
-			_labelRecordButton.MouseUp += delegate { FinishRecording(AdvanceOptionsAfterRecording.Advance); };
+			_labelRecordButton.MouseUp += delegate { StopRecording(AdvanceOptionsAfterRecording.Advance); };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -410,13 +415,13 @@ namespace SayMore.Transcription.UI
 			_waveControl.MouseClick += HandleWaveControlMouseClick;
 			_waveControl.MouseDown += HandleWaveControlMouseDown;
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
-			_waveControl.PlaybackStarted += delegate { KillSegTooShortMsgTimer(); };
+			_waveControl.PlaybackStarted += delegate { KillRecordingErrorMessage(); };
 			_waveControl.PlaybackErrorAction = HandlePlaybackError;
 
 			_waveControl.MouseUp += delegate
 			{
 				if (_reRecording)
-					FinishRecording(AdvanceOptionsAfterRecording.AdvanceOnlyToContiguousUnsegmentedAudio);
+					StopRecording(AdvanceOptionsAfterRecording.AdvanceOnlyToContiguousUnsegmentedAudio);
 			};
 
 			_waveControl.ClientSizeChanged += delegate
@@ -511,7 +516,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void UpdateDisplay()
 		{
-			_recDeviceButton.UpdateDisplay();
+			_recDeviceIndicator.UpdateDisplay();
 
 			_labelListenButton.Image = (_waveControl.IsPlaying && _playingBackUsingHoldDownButton ?
 				Resources.ListenToOriginalRecordingDown : Resources.ListenToOriginalRecording);
@@ -528,9 +533,9 @@ namespace SayMore.Transcription.UI
 				!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying());
 
 			_labelListenHint.Visible = _spaceBarMode == SpaceBarMode.Listen && _labelListenButton.Enabled;
-			_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record && _labelRecordButton.Enabled && !_reRecording;
+			_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record && _labelRecordButton.Enabled && !_reRecording && _recordingErrorMessage == null;
 
-			if (_spaceBarMode == SpaceBarMode.Done)
+			if (_spaceBarMode == SpaceBarMode.Done && _recordingErrorMessage == null)
 			{
 				if (!_labelFinishedHint.Visible)
 				{
@@ -545,7 +550,20 @@ namespace SayMore.Transcription.UI
 			{
 				UdateErrorMessageDisplay();
 
-				_pictureIcon.Image = (_labelErrorInfo.Visible) ? Resources.Information_red : Resources.Information_blue;
+				if (_labelErrorInfo.Visible)
+				{
+					_pictureIcon.Image = Resources.Information_red;
+					if (_labelFinishedHint.Visible)
+					{
+						_labelFinishedHint.Visible = false;
+						_tableLayoutButtons.Controls.Remove(_labelFinishedHint);
+					}
+					_labelRecordHint.Visible = false;
+				}
+				else
+				{
+					_pictureIcon.Image = Resources.Information_blue;
+				}
 
 				float percentage = (_labelErrorInfo.Visible) ? 50 : 100;
 				_tableLayoutButtons.RowStyles[0].Height = (_labelErrorInfo.Visible) ? percentage : 0;
@@ -573,20 +591,10 @@ namespace SayMore.Transcription.UI
 					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.CannotRecordErrorMsg",
 					"Recording not working. Please make sure your microphone is plugged in.");
 				}
-				else if (_recordingTooShortMsgTimer != null)
+				else if (_recordingErrorMessage != null)
 				{
 					_labelErrorInfo.Visible = true;
-
-					bool selectedSegmentHadRecordingThatWasTooShort =
-					(_recordingTooShortMsgTimer != null && ViewModel.GetSelectedTimeRange() == (TimeRange)_recordingTooShortMsgTimer.Tag);
-
-					_labelErrorInfo.Text = selectedSegmentHadRecordingThatWasTooShort ?
-						LocalizationManager.GetString(
-						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenSpaceOrMouseIsValid",
-						"Whoops. You need to hold down the SPACE BAR or mouse button while talking.")
-						: LocalizationManager.GetString(
-						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenOnlyMouseIsValid",
-						"Whoops. You need to hold down the mouse button while talking.");
+					_labelErrorInfo.Text = _recordingErrorMessage;
 				}
 			}
 		}
@@ -763,6 +771,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void UpdateDisplayForChangeInNewSegmentEndBoundary(Action action)
 		{
+			KillRecordingErrorMessage();
 			var origNewSegmentEndBoundary = ViewModel.NewSegmentEndBoundary;
 			var origNewSegmentCursorRectangle = GetNewSegmentCursorRectangle();
 			action();
@@ -892,7 +901,7 @@ namespace SayMore.Transcription.UI
 				_annotationPlaybackLength = ViewModel.SegmentsAnnotationSamplesToDraw.First(
 					h => h.AudioFilePath == path).AudioDuration;
 
-				KillSegTooShortMsgTimer();
+				KillRecordingErrorMessage();
 
 				ViewModel.StartAnnotationPlayback(segment, HandleAnnotationPlaybackProgress, () =>
 				{
@@ -998,7 +1007,10 @@ namespace SayMore.Transcription.UI
 				return;
 
 			if (ViewModel.Recorder.GetIsInErrorState(true))
+			{
+				UdateErrorMessageDisplay();
 				return;
+			}
 
 			var segMouseOver = HotSegment;
 			_reRecording = true;
@@ -1010,14 +1022,14 @@ namespace SayMore.Transcription.UI
 		{
 			if (ViewModel.GetIsRecording())
 			{
-				FinishRecording(_reRecording ? AdvanceOptionsAfterRecording.DoNotAdvance:
+				StopRecording(_reRecording ? AdvanceOptionsAfterRecording.DoNotAdvance :
 					AdvanceOptionsAfterRecording.Advance);
 			}
 			base.OnDeactivate(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void FinishRecording(AdvanceOptionsAfterRecording advanceOption)
+		private void UpdateDisplayForNotRecording(AdvanceOptionsAfterRecording advanceOption)
 		{
 			_pictureRecording.Visible = false;
 			_waveControl.SelectSegmentOnMouseOver = true;
@@ -1030,6 +1042,12 @@ namespace SayMore.Transcription.UI
 			}
 
 			_advanceOption = advanceOption;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void StopRecording(AdvanceOptionsAfterRecording advanceOption)
+		{
+			UpdateDisplayForNotRecording(advanceOption);
 			ViewModel.StopAnnotationRecording();
 		}
 
@@ -1038,9 +1056,15 @@ namespace SayMore.Transcription.UI
 		{
 			_waveControl.InvalidateIfNeeded(GetVisibleAnnotationRectangleForSegmentBeingRecorded());
 
-			if (stopResult == StopAnnotationRecordingResult.AnnotationTooShort)
+			if (stopResult != StopAnnotationRecordingResult.Normal)
 			{
-				DisplayRecordingTooShortMessage();
+				if (stopResult == StopAnnotationRecordingResult.AnnotationTooShort)
+					DisplayRecordingTooShortMessage();
+				else if (stopResult == StopAnnotationRecordingResult.RecordingAborted)
+				{
+					ShowRecordingInterruptedMessage();
+				}
+
 				_segmentBeingRecorded = null;
 				return;
 			}
@@ -1052,9 +1076,6 @@ namespace SayMore.Transcription.UI
 			}
 
 			_segmentBeingRecorded = null;
-
-			if (stopResult == StopAnnotationRecordingResult.RecordingError)
-				return;
 
 			if (ViewModel.CurrentUnannotatedSegment == null)
 			{
@@ -1083,13 +1104,38 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void KillSegTooShortMsgTimer()
+		private void ShowRecordingInterruptedMessage()
 		{
-			if (_recordingTooShortMsgTimer != null)
+			if (_spaceBarIsDown)
+				_needToShowRecordingAbortedMessage = true;
+			else
 			{
-				_recordingTooShortMsgTimer.Stop();
-				_recordingTooShortMsgTimer.Dispose();
-				_recordingTooShortMsgTimer = null;
+				MessageBox.Show(this, LocalizationManager.GetString(
+					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingAbortedMessage",
+					"The recording was interrupted by a change in the default recording device.\n" +
+					"This can happen if you turn off or disconnect the microphone.\n" +
+					"After you correct the problem, click OK, and then record again."),
+								LocalizationManager.GetString(
+									"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingAbortedCaption",
+									"Recording Failed"));
+				_needToShowRecordingAbortedMessage = false;
+				UpdateDisplay();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void SelectedRecordingDeviceChanged(object sender, EventArgs e)
+		{
+			KillRecordingErrorMessage();
+			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void KillRecordingErrorMessage()
+		{
+			if (_recordingErrorMessage != null)
+			{
+				_recordingErrorMessage = null;
 				UpdateDisplay();
 			}
 		}
@@ -1097,13 +1143,13 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void DisplayRecordingTooShortMessage()
 		{
-			KillSegTooShortMsgTimer();
-
-			_recordingTooShortMsgTimer = new Timer();
-			_recordingTooShortMsgTimer.Interval = Int32.MaxValue;
-			_recordingTooShortMsgTimer.Tag = _segmentBeingRecorded;
-			_recordingTooShortMsgTimer.Tick += delegate { KillSegTooShortMsgTimer(); };
-			_recordingTooShortMsgTimer.Start();
+			_recordingErrorMessage = (ViewModel.GetSelectedTimeRange() == _segmentBeingRecorded) ?
+				LocalizationManager.GetString(
+				"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenSpaceOrMouseIsValid",
+				"Whoops. You need to hold down the SPACE BAR or mouse button while talking.")
+				: LocalizationManager.GetString(
+				"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenOnlyMouseIsValid",
+				"Whoops. You need to hold down the mouse button while talking.");
 			UpdateDisplay();
 		}
 
@@ -1115,8 +1161,15 @@ namespace SayMore.Transcription.UI
 			if (newX != GetAnnotationPlaybackCursorX(_lastAnnotationPlaybackPosition))
 			{
 				_lastAnnotationPlaybackPosition = args.PlaybackPosition;
-				if (_waveControl.EnsureXIsVisible(newX))
-					Invoke((Action<Rectangle>)_waveControl.InvalidateIfNeeded, GetAnnotationPlaybackRectangle());
+				try
+				{
+					if (_waveControl.EnsureXIsVisible(newX))
+						Invoke((Action<Rectangle>)_waveControl.InvalidateIfNeeded, GetAnnotationPlaybackRectangle());
+				}
+				catch (ObjectDisposedException)
+				{
+					// This happened once. I haven't been able to reproduce it, but it's no big deal.
+				}
 			}
 		}
 
@@ -1238,7 +1291,7 @@ namespace SayMore.Transcription.UI
 
 			if (ViewModel.GetIsRecording())
 				DrawTextInAnnotationWaveCellWhileRecording(e.Graphics);
-			else if (ViewModel.GetIsRecorderInErrorState())
+			else if (ViewModel.Recorder.RecordingState == RecordingState.Stopped || ViewModel.GetIsRecorderInErrorState())
 				_pictureRecording.Visible = false;
 			else if (_spaceBarMode == SpaceBarMode.Record && (bool)_cursorBlinkTimer.Tag)
 			{
@@ -1525,8 +1578,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void HandleRecordingError(Exception e)
 		{
-			_shortcutKeyIsDown = false;
-			FinishRecording(AdvanceOptionsAfterRecording.DoNotAdvance);
+			_listeningOrRecordingUsingSpaceBar = false;
+			UpdateDisplayForNotRecording(AdvanceOptionsAfterRecording.DoNotAdvance);
 			_waveControl.Invalidate();
 			UpdateDisplay();
 		}
@@ -1534,7 +1587,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void HandlePlaybackError(Exception e)
 		{
-			_shortcutKeyIsDown = false;
+			_listeningOrRecordingUsingSpaceBar = false;
 			_waveControl.Stop();
 			_waveControl.Invalidate();
 			UpdateDisplay();
@@ -1546,9 +1599,13 @@ namespace SayMore.Transcription.UI
 			// SP-703: Presumably some sort of NAudio error got the Recorder to be set to null
 			// but the exact timing somehow still allowed us to get here. If we upgrade to
 			// NAudio 1.6 or later, we probably won't need this check.
+			// We've upgraded to 1.6, but I'm just going to leave this in here because I don't
+			// know if it's really fixed.
 			if (ViewModel.Recorder == null)
 				return;
-			if (!ViewModel.Recorder.GetIsInErrorState(true))
+			if (ViewModel.Recorder.GetIsInErrorState(true))
+				UdateErrorMessageDisplay();
+			else
 				BeginRecording(ViewModel.GetSelectedTimeRange());
 		}
 
@@ -1557,11 +1614,11 @@ namespace SayMore.Transcription.UI
 		{
 			if (!ViewModel.BeginAnnotationRecording(timeRangeOfSourceBeingAnnotated))
 			{
-				_shortcutKeyIsDown = false;
+				_listeningOrRecordingUsingSpaceBar = false;
 				return;
 			}
 
-			KillSegTooShortMsgTimer();
+			KillRecordingErrorMessage();
 
 			UpdateDisplay();
 
@@ -1632,15 +1689,18 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyDown(Keys key)
 		{
+			if (key == Keys.Space)
+				_spaceBarIsDown = true;
+
 			if (!ContainsFocus || _waveControl.IsBoundaryMovingInProgress)
 				return true;
 
 			if (key == Keys.Space)
 			{
-				 if (_shortcutKeyIsDown || IsBoundaryMovingInProgressUsingArrowKeys)
+				if (_listeningOrRecordingUsingSpaceBar || IsBoundaryMovingInProgressUsingArrowKeys)
 					return true;
 
-				_shortcutKeyIsDown = true;
+				_listeningOrRecordingUsingSpaceBar = true;
 
 				if (_spaceBarMode == SpaceBarMode.Record && _labelRecordHint.Visible)
 					HandleRecordAnnotationMouseDown(null, null);
@@ -1663,14 +1723,21 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyUp(Keys key)
 		{
+			if (key == Keys.Space)
+			{
+				_spaceBarIsDown = false;
+				if (_needToShowRecordingAbortedMessage)
+					ShowRecordingInterruptedMessage();
+			}
+
 			if (!ContainsFocus)
 				return true;
 
 			if (key == Keys.Space)
 			{
-				if (!IsBoundaryMovingInProgressUsingArrowKeys && _shortcutKeyIsDown)
+				if (!IsBoundaryMovingInProgressUsingArrowKeys && _listeningOrRecordingUsingSpaceBar)
 				{
-					_shortcutKeyIsDown = false;
+					_listeningOrRecordingUsingSpaceBar = false;
 
 					if (_playingBackUsingHoldDownButton)
 					{
@@ -1678,7 +1745,9 @@ namespace SayMore.Transcription.UI
 						FinishListeningUsingEarOrSpace();
 					}
 					else if (!_reRecording && ViewModel.GetIsRecording())
-						FinishRecording(AdvanceOptionsAfterRecording.Advance);
+					{
+						StopRecording(AdvanceOptionsAfterRecording.Advance);
+					}
 				}
 
 				return true;

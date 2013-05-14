@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using NAudio;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using SayMore.Properties;
@@ -642,12 +643,20 @@ namespace SayMore.Media.Audio
 
 			waveOutProvider.PreVolumeMeter += HandlePlaybackMetering;
 
-			_waveOut = new WaveOut();
-			_waveOut.DesiredLatency = 100;
-			_waveOut.Init(new SampleToWaveProvider(waveOutProvider));
-			_waveOut.PlaybackStopped += delegate { Stop(); };
-			_waveOut.Play();
-			OnPlaybackStarted(playbackStartTime, playbackEndTime);
+			try
+			{
+				_waveOut = new WaveOut();
+				_waveOut.DesiredLatency = 100;
+				_waveOut.Init(new SampleToWaveProvider(waveOutProvider));
+				_waveOut.PlaybackStopped += delegate { Stop(); };
+				_waveOut.Play();
+				OnPlaybackStarted(playbackStartTime, playbackEndTime);
+			}
+			catch (MmException)
+			{
+				_waveOut = null;
+				throw;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

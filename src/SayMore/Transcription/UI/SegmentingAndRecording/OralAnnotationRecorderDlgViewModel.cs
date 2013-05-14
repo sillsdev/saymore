@@ -21,9 +21,14 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public enum StopAnnotationRecordingResult
 	{
+		/// <summary>Successful recording</summary>
 		Normal,
+		/// <summary>User recorded an annotation that was not long enough</summary>
 		AnnotationTooShort,
-		RecordingError
+		/// <summary>NAudio threw and exception</summary>
+		RecordingError,
+		/// <summary>Recording was stopped prematurely (probably because microphone was removed)</summary>
+		RecordingAborted,
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -32,6 +37,7 @@ namespace SayMore.Transcription.UI
 		public Action<Exception> RecordingErrorAction { get; set; }
 		public Action<Exception> PlaybackErrorAction { get; set; }
 		public Action<StopAnnotationRecordingResult> RecordingCompleted;
+		public event EventHandler SelectedDeviceChanged;
 		public Segment CurrentUnannotatedSegment { get; private set; }
 		public OralAnnotationRecorder Recorder { get; private set; }
 		private AudioPlayer _annotationPlayer;
@@ -292,7 +298,7 @@ namespace SayMore.Transcription.UI
 		#region Annotation recording methods
 		/// ------------------------------------------------------------------------------------
 		public void InitializeAnnotationRecorder(PeakMeterCtrl peakMeter,
-			RecordingDeviceButton recordingDeviceBtn, Action<TimeSpan> recordingProgressAction)
+			RecordingDeviceIndicator recordingDeviceIndicator, Action<TimeSpan> recordingProgressAction)
 		{
 			try
 			{
@@ -302,14 +308,25 @@ namespace SayMore.Transcription.UI
 			{
 				return;
 			}
-			if (recordingDeviceBtn != null)
-				recordingDeviceBtn.Recorder = Recorder;
+			if (recordingDeviceIndicator != null)
+				recordingDeviceIndicator.Recorder = Recorder;
 			Recorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();
 			Recorder.Stopped += (sender, args) => {
-				AnnotationRecordingFinished();
+				if (args != null && RecordingErrorAction != null)
+				{
+					RecordingErrorAction(args.GetException());
+				}
+				AnnotationRecordingFinished(args != null);
 				InvokeUpdateDisplayAction();
 			};
+			Recorder.SelectedDeviceChanged += SelectedRecordingDeviceChanged;
 			Recorder.BeginMonitoring();
+		}
+
+		private void SelectedRecordingDeviceChanged(object sender, EventArgs e)
+		{
+			if (SelectedDeviceChanged != null)
+				SelectedDeviceChanged(this, e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -331,6 +348,7 @@ namespace SayMore.Transcription.UI
 			if (RecordingErrorAction != null)
 				RecordingErrorAction(exception);
 		}
+
 		/// ------------------------------------------------------------------------------------
 		public bool BeginAnnotationRecording(TimeRange timeRange)
 		{
@@ -395,16 +413,19 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void AnnotationRecordingFinished()
+		private void AnnotationRecordingFinished(bool recordingAborted)
 		{
 			TimeRange timeRange = _segmentBeingRecorded;
 			_segmentBeingRecorded = null;
 			var isRecorderInErrorState = Recorder.GetIsInErrorState();
 			var isRecordingTooShort = Recorder.GetIsRecordingTooShort() && !isRecorderInErrorState;
 
-			if (isRecordingTooShort || isRecorderInErrorState)
+			if (isRecordingTooShort || isRecorderInErrorState || recordingAborted)
 			{
 				RestorePreviousVersionOfAnnotation(timeRange);
+				var segment = TimeTier.Segments.FirstOrDefault(s => s.TimeRange.Equals(timeRange));
+				if (segment != null && segment == CurrentUnannotatedSegment && segment.GetHasOralAnnotation(AnnotationType))
+					CurrentUnannotatedSegment = null;
 			}
 			else
 			{
@@ -414,7 +435,9 @@ namespace SayMore.Transcription.UI
 
 			if (RecordingCompleted != null)
 			{
-				if (isRecorderInErrorState)
+				if (recordingAborted)
+					RecordingCompleted(StopAnnotationRecordingResult.RecordingAborted);
+				else if (isRecorderInErrorState)
 					RecordingCompleted(StopAnnotationRecordingResult.RecordingError);
 				else
 				{
@@ -428,7 +451,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsRecording()
 		{
-			return (Recorder != null && !Recorder.GetIsInErrorState() && Recorder.IsRecording);
+			return (Recorder != null && Recorder.IsRecording && !Recorder.GetIsInErrorState());
 		}
 
 		#endregion
@@ -496,7 +519,7 @@ namespace SayMore.Transcription.UI
 			{
 				_annotationPlayer.PlaybackProgress += (sender, args) => playbackProgressAction(args);
 				_annotationPlayer.Stopped += (sender, args) => playbackStoppedAction();
-				_annotationPlayer.Play();
+				_annotationPlayer.StartPlaying();
 			}
 
 			UsageReporter.SendNavigationNotice(ProgramAreaForUsageReporting + "/PlayAnnotation");

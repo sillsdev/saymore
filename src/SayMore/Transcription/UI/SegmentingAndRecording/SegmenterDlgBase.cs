@@ -511,13 +511,23 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleIgnoreButtonClick(object sender, EventArgs e)
 		{
+			var time = _waveControl.GetTimeFromX(((ToolStripMenuItem) sender).Owner.Location.X);
+			var hotSegment = _viewModel.TimeTier.Segments.FirstOrDefault(s => s.TimeRange.Start <= time && s.TimeRange.End >= time);
+			if (hotSegment == null)
+			{
+#if DEBUG
+				throw new Exception("How can this be null? It has happened twice, and it makes no sense! Now using above logic instead of HotSegment.");
+#endif
+				return;
+			}
+
 			var ignore = _ignoreToolStripMenuItem.Checked;
-			_viewModel.SetIgnoredFlagForSegment(HotSegment, ignore);
+			_viewModel.SetIgnoredFlagForSegment(hotSegment, ignore);
 			_waveControl.InvalidateIfNeeded(HotSegmentRectangle);
 			if (ignore)
-				_waveControl.Painter.AddIgnoredRegion(HotSegment.TimeRange);
+				_waveControl.Painter.AddIgnoredRegion(hotSegment.TimeRange);
 			else
-				_waveControl.Painter.RemoveIgnoredRegion(HotSegment.TimeRange.End);
+				_waveControl.Painter.RemoveIgnoredRegion(hotSegment.TimeRange.End);
 			if (SegmentIgnored != null)
 				SegmentIgnored();
 			HandleWaveControlMouseMove(_waveControl,

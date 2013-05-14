@@ -201,7 +201,8 @@ namespace SayMore.Transcription.Model
 		{
 			var startOfNewSegment = (float)EndOfLastSegment.TotalSeconds;
 			if (endOfNewSegment <= startOfNewSegment)
-				throw new ArgumentException("Cannot append a segment ending at " + endOfNewSegment + " because it is before the end of the last existing segment.");
+				throw new ArgumentException("Cannot append a segment ending at " + endOfNewSegment +
+					". Appended segment must be beyond the end of the last existing segment (" + startOfNewSegment + ".");
 			return AddSegment(startOfNewSegment, endOfNewSegment);
 		}
 

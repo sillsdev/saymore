@@ -136,8 +136,8 @@ namespace SayMore.UI.SessionRecording
 			if (_moreReliableDesignMode)
 				return;
 
-			UpdateDisplay();
 			_viewModel.Recorder.BeginMonitoring();
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------

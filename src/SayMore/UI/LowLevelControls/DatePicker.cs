@@ -47,19 +47,13 @@ namespace SayMore.UI.LowLevelControls
 			else
 			{
 				DateTime parsedDate;
-				// This will attempt to parse using the ISO8601 date format.
-				if (!DateTime.TryParseExact(_value, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate))
+				try
 				{
-					// SP-592: See if it is the local date format or one of the common non-ISO8601 formats.
-					if (!DateTime.TryParse(_value, out parsedDate))
-					{
-						var temp = _value.Replace("-", "/");
-						if (!DateTime.TryParseExact(temp, "M/d/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate) &&
-							!DateTime.TryParseExact(temp, "d/M/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate))
-						{
-							throw new FormatException("String was not recognized as a valid DateTime.");
-						}
-					}
+					parsedDate = DateTimeExtensions.ParseISO8601DateTime(_value);
+				}
+				catch (ApplicationException)
+				{
+					parsedDate = DateTimeExtensions.ParseDateTimePermissivelyWithException(_value);
 					if (parsedDate.Day <= 12 && parsedDate.Day != parsedDate.Month)
 					{
 						// The date was not in the ISO8601 format and cannot be unambiguously parsed, so we need to alert the caller.

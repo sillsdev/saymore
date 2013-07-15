@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
 using Palaso.Extensions;
 
@@ -49,12 +50,13 @@ namespace SayMore.UI.LowLevelControls
 				DateTime parsedDate;
 				try
 				{
+
 					parsedDate = DateTimeExtensions.ParseISO8601DateTime(_value);
 				}
 				catch (ApplicationException)
 				{
 					parsedDate = DateTimeExtensions.ParseDateTimePermissivelyWithException(_value);
-					if (parsedDate.Day <= 12 && parsedDate.Day != parsedDate.Month)
+					if (parsedDate.Day <= 12 && parsedDate.Day != parsedDate.Month && !(_value.Replace("AM", string.Empty).Replace("PM", string.Empty).Any(char.IsLetter)))
 					{
 						// The date was not in the ISO8601 format and cannot be unambiguously parsed, so we need to alert the caller.
 						Value = parsedDate;

@@ -513,17 +513,29 @@ namespace SayMore.Transcription.UI
 		{
 			var time = _waveControl.GetTimeFromX(((ToolStripMenuItem) sender).Owner.Location.X);
 			var hotSegment = _viewModel.TimeTier.Segments.FirstOrDefault(s => s.TimeRange.Start <= time && s.TimeRange.End >= time);
+			var ignore = _ignoreToolStripMenuItem.Checked;
 			if (hotSegment == null)
 			{
+				if (ignore)
+				{
+					_viewModel.SetIgnoredFlagForSegment(null, ignore);
+					hotSegment = _viewModel.TimeTier.Segments.Last();
+					_waveControl.InvalidateIfNeeded(GetFullRectangleForTimeRange(hotSegment.TimeRange));
+				}
+				else
+				{
 #if DEBUG
-				throw new Exception("How can this be null? It has happened twice, and it makes no sense! Now using above logic instead of HotSegment.");
+					throw new Exception(
+						"How can this be null? It has happened twice, and it makes no sense! Now using above logic instead of HotSegment.");
 #endif
-				return;
+					return;
+				}
 			}
-
-			var ignore = _ignoreToolStripMenuItem.Checked;
-			_viewModel.SetIgnoredFlagForSegment(hotSegment, ignore);
-			_waveControl.InvalidateIfNeeded(HotSegmentRectangle);
+			else
+			{
+				_viewModel.SetIgnoredFlagForSegment(hotSegment, ignore);
+				_waveControl.InvalidateIfNeeded(HotSegmentRectangle);
+			}
 			if (ignore)
 				_waveControl.Painter.AddIgnoredRegion(hotSegment.TimeRange);
 			else

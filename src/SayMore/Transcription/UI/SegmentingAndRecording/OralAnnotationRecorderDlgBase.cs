@@ -1702,10 +1702,15 @@ namespace SayMore.Transcription.UI
 
 				_listeningOrRecordingUsingSpaceBar = true;
 
-				if (_spaceBarMode == SpaceBarMode.Record && _labelRecordHint.Visible)
+				if (_spaceBarMode == SpaceBarMode.Record &&
+					(_labelRecordHint.Visible || (_labelErrorInfo.Visible && _labelErrorInfo.Text == _recordingErrorMessage)))
+				{
 					HandleRecordAnnotationMouseDown(null, null);
+				}
 				else if (_labelListenHint.Visible && _spaceBarMode == SpaceBarMode.Listen)
+				{
 					HandleListenToSourceMouseDown(null, null);
+				}
 
 				return true;
 			}

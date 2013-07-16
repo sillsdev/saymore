@@ -11,6 +11,7 @@ using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.UI.SegmentingAndRecording;
+using SayMore.UI.ComponentEditors;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -23,7 +24,7 @@ namespace SayMore.Transcription.UI
 		private bool _justStoppedusingSpace;
 
 		/// ------------------------------------------------------------------------------------
-		public static string ShowDialog(ComponentFile file, Control parent, int segmentToHighlight)
+		public static string ShowDialog(ComponentFile file, EditorBase parent, int segmentToHighlight)
 		{
 			Exception error;
 			string msg;
@@ -40,6 +41,16 @@ namespace SayMore.Transcription.UI
 					}
 
 					var annotationFile = file.GetAnnotationFile();
+
+					if (!viewModel.TimeTier.Segments.Any())
+					{
+						if (annotationFile != null)
+						{
+							annotationFile.Delete();
+							parent.RefreshComponentFiles(file.FileName, null);
+						}
+						return null;
+					}
 
 					var eafFile = AnnotationFileHelper.Save(file.PathToAnnotatedFile, viewModel.Tiers);
 
@@ -221,6 +232,8 @@ namespace SayMore.Transcription.UI
 		{
 			_newSegmentDefinedBy = SegmentDefinitionMode.Manual;
 			var boundary = _waveControl.GetSelectedBoundary();
+			if (boundary == TimeSpan.Zero)
+				return; // No real boundary. Delete button should be disabled, but maybe Delete key was pressed before it got disabled.
 			float boundarySeconds = (float)boundary.TotalSeconds;
 			var segmentPrecedingDeletedBreak = ViewModel.TimeTier.GetSegmentHavingEndBoundary(boundarySeconds);
 			var segmentFollowingDeletedBreak = ViewModel.TimeTier.GetSegmentHavingStartBoundary(boundarySeconds);
@@ -513,20 +526,15 @@ namespace SayMore.Transcription.UI
 				return true;
 
 			if (key == Keys.Delete)
-				_buttonDeleteSegment.PerformClick();
+			{
+				if (_buttonDeleteSegment.Enabled)
+					_buttonDeleteSegment.PerformClick();
+			}
 			else if (key == Keys.Space && _waveControl.IsPlaying)
 			{
 				_justStoppedusingSpace = true;
 				_buttonStopOriginal.PerformClick();
 			}
-			//else if (key == Keys.Left)
-			//{
-			//    if (_viewModel.MoveExistingSegmentBoundary(_waveControl.GetSelectedBoundary(),
-			//        Settings.Default.MillisecondsToBackupSegmentBoundaryOnLeftArrow))
-			//    {
-
-			//    }
-			//}
 
 			return base.OnLowLevelKeyDown(key);
 		}

@@ -74,6 +74,14 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void RefreshComponentFiles(string fileToSelectAfterRefresh,
+			Type componentEditorTypeToSelect)
+		{
+			if (ComponentFileListRefreshAction != null)
+				ComponentFileListRefreshAction(fileToSelectAfterRefresh, componentEditorTypeToSelect);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public virtual bool ComponentFileDeletionInitiated(ComponentFile file)
 		{
 			return true;

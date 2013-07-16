@@ -953,6 +953,8 @@ namespace SayMore.Transcription.UI
 			UpdateDisplayForChangeInNewSegmentEndBoundary(delegate
 			{
 				var timeRangeToInvalidate = ViewModel.TimeRangeForUndo;
+				int additionalPixelsToInvalidate = ViewModel.NextUndoItemIsAddition ? 2 : 0;
+
 				ViewModel.Undo();
 				_waveControl.Painter.SetIgnoredRegions(_viewModel.GetIgnoredSegmentRanges());
 				SetModeToListenOrFinished();
@@ -964,7 +966,7 @@ namespace SayMore.Transcription.UI
 
 				if (_spaceBarMode == SpaceBarMode.Listen)
 					ScrollInPreparationForListenOrRecord(_labelListenButton);
-				_waveControl.InvalidateRegionBetweenTimes(timeRangeToInvalidate);
+				_waveControl.InvalidateRegionBetweenTimes(timeRangeToInvalidate, additionalPixelsToInvalidate);
 			});
 		}
 

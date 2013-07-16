@@ -32,7 +32,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected class SegmentChange
 		{
-			private readonly SegmentChangeType _type;
+			private SegmentChangeType _type;
 			private readonly TimeRange _originalRange;
 
 			public SegmentChangeType Type { get { return _type; } }
@@ -67,6 +67,7 @@ namespace SayMore.Transcription.UI
 				if (newChange.Type == SegmentChangeType.Addition && Type == SegmentChangeType.AnnotationAdded &&
 					newChange.NewRange == OriginalRange)
 				{
+					_type = SegmentChangeType.Addition;
 					Action<SegmentChange> originalUndoAction = UndoAction;
 					UndoAction = c => { originalUndoAction(c); newChange.UndoAction(c); };
 					return true;
@@ -181,6 +182,12 @@ namespace SayMore.Transcription.UI
 			public string DescriptionForUndo
 			{
 				get { return (_undoStack.Count == 0) ? null : _undoStack.Peek().ToString(); }
+			}
+
+			/// ------------------------------------------------------------------------------------
+			public SegmentChangeType ChangeTypeToUndo
+			{
+				get { return _undoStack.Peek().Type; }
 			}
 
 			/// ------------------------------------------------------------------------------------
@@ -679,6 +686,12 @@ namespace SayMore.Transcription.UI
 		public void Undo()
 		{
 			_undoStack.Undo();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool NextUndoItemIsAddition
+		{
+			get { return !_undoStack.IsEmpty && _undoStack.ChangeTypeToUndo == SegmentChangeType.Addition; }
 		}
 
 		/// ------------------------------------------------------------------------------------

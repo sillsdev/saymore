@@ -318,13 +318,14 @@ namespace SayMore.Media.Audio
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		public void InvalidateRegionBetweenTimes(TimeRange timeRange)
+		public void InvalidateRegionBetweenTimes(TimeRange timeRange, int additionalPixelsToInvalidate)
 		{
 			if (TimeRange.IsNullOrZeroLength(timeRange))
 				return;
 
 			var x = Painter.ConvertTimeToXCoordinate(timeRange.Start);
-			var rc = new Rectangle(x, 0, Painter.ConvertTimeToXCoordinate(timeRange.End) - x,
+			var rc = new Rectangle(x, 0,
+				Painter.ConvertTimeToXCoordinate(timeRange.End) - x + additionalPixelsToInvalidate,
 				ClientSize.Height);
 			InvalidateIfNeeded(rc);
 		}

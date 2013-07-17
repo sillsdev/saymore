@@ -43,6 +43,7 @@ namespace SayMore.Transcription.UI
 		private AudioPlayer _annotationPlayer;
 		private TimeSpan _endBoundary;
 		private TimeRange _segmentBeingRecorded;
+		private RecordingDeviceIndicator _recordingDeviceIndicator;
 
 		/// ----------------------------------------------------------------------------------------
 		public static OralAnnotationRecorderDlgViewModel Create(ComponentFile file,
@@ -308,10 +309,12 @@ namespace SayMore.Transcription.UI
 			{
 				return;
 			}
-			if (recordingDeviceIndicator != null)
-				recordingDeviceIndicator.Recorder = Recorder;
+			_recordingDeviceIndicator = recordingDeviceIndicator;
+			if (_recordingDeviceIndicator != null)
+				_recordingDeviceIndicator.Recorder = Recorder;
 			Recorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();
-			Recorder.Stopped += (sender, args) => {
+			Recorder.Stopped += (sender, args) =>
+			{
 				if (args != null && RecordingErrorAction != null)
 				{
 					RecordingErrorAction(args.GetException());
@@ -323,6 +326,7 @@ namespace SayMore.Transcription.UI
 			Recorder.BeginMonitoring();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void SelectedRecordingDeviceChanged(object sender, EventArgs e)
 		{
 			if (SelectedDeviceChanged != null)
@@ -453,7 +457,6 @@ namespace SayMore.Transcription.UI
 		{
 			return (Recorder != null && Recorder.IsRecording && !Recorder.GetIsInErrorState());
 		}
-
 		#endregion
 
 		#region Annotation playback methods
@@ -560,6 +563,30 @@ namespace SayMore.Transcription.UI
 			base.EraseAnnotation(path);
 			if (CurrentUnannotatedSegment == null)
 				SetNextUnannotatedSegment();
+		}
+		#endregion
+
+		#region Source playback methods
+		/// ------------------------------------------------------------------------------------
+		public void PlaySource(WaveControlBasic waveControl, Action<WaveControlBasic> play)
+		{
+			waveControl.PlaybackStopped += OnPlaybackStopped;
+
+			if (_recordingDeviceIndicator != null)
+				_recordingDeviceIndicator.MicCheckingEnabled = false;
+
+			play(waveControl);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void OnPlaybackStopped(WaveControlBasic ctrl, TimeSpan start, TimeSpan end)
+		{
+			// Restore checking for recording device
+			if (_recordingDeviceIndicator != null)
+				_recordingDeviceIndicator.MicCheckingEnabled = false;
+
+			// Remove this handler
+			ctrl.PlaybackStopped -= OnPlaybackStopped;
 		}
 		#endregion
 	}

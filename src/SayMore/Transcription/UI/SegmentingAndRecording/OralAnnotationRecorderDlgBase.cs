@@ -495,7 +495,7 @@ namespace SayMore.Transcription.UI
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
 			ViewModel.CloseAnnotationPlayer();
-			ViewModel.CloseAnnotationRecorder();
+			//ViewModel.CloseAnnotationRecorder();
 			base.OnFormClosed(e);
 		}
 
@@ -928,10 +928,13 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void PlaySource(Segment segment)
 		{
-			if (segment == null) // Play the source recording for the new segment.
-				_waveControl.Play(ViewModel.GetEndOfLastSegment(), ViewModel.NewSegmentEndBoundary);
-			else
-				_waveControl.Play(segment.TimeRange);
+			ViewModel.PlaySource(_waveControl, ctrl =>
+				{
+					if (segment == null) // Play the source recording for the new segment.
+						ctrl.Play(ViewModel.GetEndOfLastSegment(), ViewModel.NewSegmentEndBoundary);
+					else
+						ctrl.Play(segment.TimeRange);
+				});
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1008,7 +1011,7 @@ namespace SayMore.Transcription.UI
 			if (!GetRerecordButtonRectangleForSegmentMouseIsOver().Contains(e.Location))
 				return;
 
-			if (ViewModel.Recorder.GetIsInErrorState(true))
+			if (ViewModel.Recorder == null || ViewModel.Recorder.GetIsInErrorState(true))
 			{
 				UdateErrorMessageDisplay();
 				return;
@@ -1293,7 +1296,7 @@ namespace SayMore.Transcription.UI
 
 			if (ViewModel.GetIsRecording())
 				DrawTextInAnnotationWaveCellWhileRecording(e.Graphics);
-			else if (ViewModel.Recorder.RecordingState == RecordingState.Stopped || ViewModel.GetIsRecorderInErrorState())
+			else if (ViewModel.Recorder == null || ViewModel.Recorder.RecordingState == RecordingState.Stopped || ViewModel.GetIsRecorderInErrorState())
 				_pictureRecording.Visible = false;
 			else if (_spaceBarMode == SpaceBarMode.Record && (bool)_cursorBlinkTimer.Tag)
 			{
@@ -1566,15 +1569,18 @@ namespace SayMore.Transcription.UI
 
 			_playingBackUsingHoldDownButton = true;
 
-			if (ViewModel.CurrentUnannotatedSegment == null)
-				_waveControl.Play(ViewModel.NewSegmentEndBoundary);
-			else
-			{
-				if (ViewModel.CurrentUnannotatedSegment.TimeRange.Contains(_waveControl.GetCursorTime()))
-					_waveControl.Play(_waveControl.GetCursorTime(), ViewModel.CurrentUnannotatedSegment.TimeRange.End);
-				else
-					_waveControl.Play(ViewModel.CurrentUnannotatedSegment.TimeRange);
-			}
+			ViewModel.PlaySource(_waveControl, ctrl =>
+				{
+					if (ViewModel.CurrentUnannotatedSegment == null)
+						_waveControl.Play(ViewModel.NewSegmentEndBoundary);
+					else
+					{
+						if (ViewModel.CurrentUnannotatedSegment.TimeRange.Contains(_waveControl.GetCursorTime()))
+							_waveControl.Play(_waveControl.GetCursorTime(), ViewModel.CurrentUnannotatedSegment.TimeRange.End);
+						else
+							_waveControl.Play(ViewModel.CurrentUnannotatedSegment.TimeRange);
+					}
+				});
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -240,7 +240,7 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public virtual Func<WaveFormat, string> FormatNotSupportedMessageProvider
+		public Func<WaveFormat, string> FormatNotSupportedMessageProvider
 		{
 			get { return (Painter == null ? null : Painter.FormatNotSupportedMessageProvider); }
 			set
@@ -253,7 +253,7 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public virtual bool IsPlaying
+		public bool IsPlaying
 		{
 			get { return _waveOut != null; }
 		}
@@ -349,7 +349,7 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void SetCursor(int cursorX)
+		public void SetCursor(int cursorX)
 		{
 			if (Painter == null)
 				return;
@@ -359,13 +359,13 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void SetCursor(TimeSpan cursorTime)
+		public void SetCursor(TimeSpan cursorTime)
 		{
 			SetCursor(cursorTime, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void SetCursor(TimeSpan cursorTime, bool ensureCursorIsVisible)
+		public void SetCursor(TimeSpan cursorTime, bool ensureCursorIsVisible)
 		{
 			OnCursorTimeChanged(cursorTime < TimeSpan.Zero ? TimeSpan.Zero : cursorTime);
 
@@ -374,7 +374,7 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void OnCursorTimeChanged(TimeSpan cursorTime)
+		protected void OnCursorTimeChanged(TimeSpan cursorTime)
 		{
 			if (Painter == null)
 				return;
@@ -386,13 +386,13 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual TimeSpan GetCursorTime()
+		public TimeSpan GetCursorTime()
 		{
 			return (Painter == null ? TimeSpan.Zero : Painter.CursorTime);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual TimeSpan GetTimeFromX(int dx)
+		public TimeSpan GetTimeFromX(int dx)
 		{
 			return (Painter == null ? TimeSpan.Zero : Painter.ConvertXCoordinateToTime(dx));
 		}
@@ -603,19 +603,19 @@ namespace SayMore.Media.Audio
 
 		#region Playback/stop methods
 		/// ------------------------------------------------------------------------------------
-		public virtual void Play(TimeSpan playbackStartTime)
+		public void Play(TimeSpan playbackStartTime)
 		{
 			Play(playbackStartTime, TimeSpan.Zero);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void Play(TimeRange timeRange)
+		public void Play(TimeRange timeRange)
 		{
 			Play(timeRange.Start, timeRange.End);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void Play(TimeSpan playbackStartTime, TimeSpan playbackEndTime)
+		public void Play(TimeSpan playbackStartTime, TimeSpan playbackEndTime)
 		{
 			if (_playbackStream == null || (_playbackStream.WaveFormat.BitsPerSample == 32 &&
 				_playbackStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat))
@@ -681,7 +681,7 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandlePlaybackMetering(object sender, StreamVolumeEventArgs e)
+		protected void HandlePlaybackMetering(object sender, StreamVolumeEventArgs e)
 		{
 			if (_playbackStream.CurrentTime == (_playbackRange.End > TimeSpan.Zero ? _playbackRange.End : WaveStream.TotalTime))
 			{
@@ -700,7 +700,7 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void OnInternalPlaybackUpdate(TimeSpan currentTimeInStream, TimeSpan streamLength)
+		protected void OnInternalPlaybackUpdate(TimeSpan currentTimeInStream, TimeSpan streamLength)
 		{
 			if (PlaybackUpdate != null)
 				PlaybackUpdate(this, currentTimeInStream, streamLength);

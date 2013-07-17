@@ -89,7 +89,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public override bool RemoveSegment(int index)
 		{
-			if (index >= 0 && index < Segments.Count - 1 && Segments.Count > 1)
+			if (index >= 0 && index < Segments.Count && Segments.Count > 1)
 			{
 				// If the segment being removed is the first, then join it with the
 				// next segment. Otherwise, join it with the preceding segment.
@@ -119,7 +119,7 @@ namespace SayMore.Transcription.Model
 			// Prevent doubling up "%ignore%" flag or combining an %ignore% with valid text.
 			if (fromText == TierCollection.kIgnoreSegment)
 				fromText = string.Empty;
-			else if (toText == TierCollection.kIgnoreSegment)
+			else if (toText == TierCollection.kIgnoreSegment && (fromText.Length > 0 || fromIndex != Segments.Count - 1))
 				toText = string.Empty;
 
 			toSeg.Text = (fromIndex < toIndex ?

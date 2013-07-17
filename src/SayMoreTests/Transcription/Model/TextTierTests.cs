@@ -293,8 +293,22 @@ namespace SayMoreTests.Transcription.Model
 			_tier.AddSegment("2");
 			_tier.AddSegment("3");
 			Assert.IsTrue(_tier.RemoveSegment(2));
+			Assert.AreEqual(2, _tier.Segments.Count);
 			Assert.AreEqual("1", _tier.Segments.ElementAt(0).Text);
 			Assert.AreEqual("2 3", _tier.Segments.ElementAt(1).Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_RemoveLastSegmentWithEmptyTextFollowingIgnoredSegment_LeavesIgnoredSegmentIgnored()
+		{
+			_tier.AddSegment("1");
+			_tier.AddSegment(TierCollection.kIgnoreSegment);
+			_tier.AddSegment(string.Empty);
+			Assert.IsTrue(_tier.RemoveSegment(2));
+			Assert.AreEqual(2, _tier.Segments.Count);
+			Assert.AreEqual("1", _tier.Segments.ElementAt(0).Text);
+			Assert.AreEqual(TierCollection.kIgnoreSegment, _tier.Segments.ElementAt(1).Text);
 		}
 
 		/// ------------------------------------------------------------------------------------

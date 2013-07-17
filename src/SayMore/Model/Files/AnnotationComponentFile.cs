@@ -170,10 +170,13 @@ namespace SayMore.Model.Files
 			}
 
 			var segmentAnnotationFileFolder = SegmentAnnotationFileFolder;
-			if (Directory.Exists(segmentAnnotationFileFolder))
+			DirectoryInfo dirInfo = new DirectoryInfo(segmentAnnotationFileFolder);
+			if (dirInfo.Exists)
 			{
 				try
 				{
+					foreach (FileInfo file in dirInfo.EnumerateFiles())
+						ConfirmRecycleDialog.Recycle(file.FullName);
 					Directory.Delete(segmentAnnotationFileFolder, true);
 				}
 				catch

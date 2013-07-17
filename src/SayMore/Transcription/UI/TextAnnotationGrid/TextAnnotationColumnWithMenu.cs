@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using L10NSharp;
+using Palaso.Reporting;
 using SayMore.Transcription.Model;
 
 namespace SayMore.Transcription.UI
@@ -129,8 +130,20 @@ namespace SayMore.Transcription.UI
 			using (var dlg = new FontDialog())
 			{
 				dlg.Font = (DefaultCellStyle.Font);
-				if (dlg.ShowDialog() != DialogResult.OK)
+
+				try //strange, but twice we've found situations where ShowDialog crashes on windows
+				{
+					if (DialogResult.OK != dlg.ShowDialog())
+					{
+						return;
+					}
+				}
+				catch (Exception)
+				{
+					ErrorReport.NotifyUserOfProblem(LocalizationManager.GetString("SessionsView.Transcription.FontDialogProblem",
+						"There was some problem with choosing that font. If you just installed it, you might try restarting the program or even your computer."));
 					return;
+				}
 
 				SetFont(dlg.Font);
 				if (_grid.EditingControl != null)

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4682.28047" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4881.16355" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
-    <prop type="x-hardlinebreakreplacement">\n</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
   <body>
@@ -2893,16 +2892,6 @@
         <seg>Todavía no hay ajustes preestablecidos</seg>
       </tuv>
     </tu>
-    <tu tuid="MissingMediaFileEditor.linkHelpTopic">
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <tuv xml:lang="en">
-        <seg>Show Help topic for ELAN</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Mostrar el tema de ayuda para ELAN</seg>
-      </tuv>
-    </tu>
     <tu tuid="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem">
       <tuv xml:lang="en">
         <seg>Ignored</seg>
@@ -3185,7 +3174,7 @@
     </tu>
     <tu tuid="PeopleView.PeopleList.HeadingText">
       <tuv xml:lang="en">
-        <seg>People</seg>
+        <seg>Items</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Personas</seg>
@@ -3418,9 +3407,6 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.drama">
       <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Drama</seg>
       </tuv>
@@ -3429,9 +3415,6 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.formulaic_discourse">
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
       <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Formulaic Discourse</seg>
@@ -3442,9 +3425,6 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.interactive_discourse">
       <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Interactive Discourse</seg>
       </tuv>
@@ -3453,9 +3433,6 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.language_play">
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
       <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Language Play</seg>
@@ -3466,9 +3443,6 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.narrative">
       <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Narrative</seg>
       </tuv>
@@ -3477,9 +3451,6 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.oratory">
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
       <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Oratory</seg>
@@ -3490,9 +3461,6 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.procedural_discourse">
       <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Procedural Discourse</seg>
       </tuv>
@@ -3501,9 +3469,6 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.report">
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
       <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Report</seg>
@@ -3514,9 +3479,6 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.singing">
       <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Singing</seg>
       </tuv>
@@ -3525,9 +3487,6 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.unintelligible_speech">
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
-      <prop type="x-nolongerused">true</prop>
       <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Unintelligible Speech</seg>
@@ -3803,7 +3762,7 @@
     </tu>
     <tu tuid="SessionsView.SessionsList.HeadingText">
       <tuv xml:lang="en">
-        <seg>Sessions</seg>
+        <seg>Items</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Sesiones</seg>
@@ -4039,6 +3998,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>El archivo '{0}' no es un archivo de anotación de SayMore. Posiblemente está dañado.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.FontDialogProblem">
+      <tuv xml:lang="en">
+        <seg>There was some problem with choosing that font. If you just installed it, you might try restarting the program or even your computer.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ocurrió un problema con la selección de esa fuente. Si usted la acaba de instalar, puede intentar reiniciar el programa o incluso la computadora, y luego volver a intentar seleccionar la fuente.</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.FontsMenu">

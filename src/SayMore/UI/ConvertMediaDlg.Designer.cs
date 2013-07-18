@@ -187,7 +187,7 @@ namespace SayMore.UI
 			this._labelDownloadNeeded.Name = "_labelDownloadNeeded";
 			this._labelDownloadNeeded.Size = new System.Drawing.Size(251, 26);
 			this._labelDownloadNeeded.TabIndex = 14;
-			this._labelDownloadNeeded.Text = "The selected conversion \'{0}\' requires FFmpeg which must be downloaded.";
+			this._labelDownloadNeeded.Text = "The selected conversion \'{0}\' requires FFmpeg which must be installed.";
 			// 
 			// _buttonDownload
 			// 

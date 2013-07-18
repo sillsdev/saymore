@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
 using SayMore.Properties;
@@ -16,10 +17,8 @@ namespace SayMore.Media.FFmpeg
 		{
 			NotStarted,
 			DownloadStarted,
-			DownloadedAndInstallSucceeded,
 			DownloadCanceled,
-			Installing,
-			Installed
+			Installing
 		}
 
 		private FFmpegDownloadHelper _downloadHelper;
@@ -37,16 +36,6 @@ namespace SayMore.Media.FFmpeg
 				Settings.Default.FFmpegDownloadDlg = FormSettings.Create(this);
 			}
 
-			_buttonClose.Click += delegate { Close(); };
-
-			_buttonCancel.Click += delegate
-			{
-				if (_downloadHelper == null)
-					Close();
-				else
-					_downloadHelper.Cancel();
-			};
-
 			_buttonCancel.MouseMove += delegate
 			{
 				// Not sure why both of these are necessary, but it seems to be the case.
@@ -55,37 +44,25 @@ namespace SayMore.Media.FFmpeg
 			};
 
 			_labelOverview.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
-			_labelOr.Font = _labelOverview.Font;
+			_labelFFmpegFolderLocation.Font = _labelOverview.Font;
 			_labelStatus.Font = _labelOverview.Font;
-			_linkAutoDownload.Font = Program.DialogFont;
 			_linkManualDownload.Font = Program.DialogFont;
+			_labelDownloadAndInstall.Font = Program.DialogFont;
+			_labelFinishedCopying.Font = Program.DialogFont;
+			_labelInstallFromZipFile1.Font = Program.DialogFont;
+			_labelInstallFromZipFile2.Font = Program.DialogFont;
+
+			_labelFFmpegFolderLocation.Text = FFmpegDownloadHelper.FFmpegForSayMoreFolder;
+			_linkManualDownload.Text = FFmpegDownloadHelper.FFmpegForSayMoreZipFileName;
+			_labelInstallFromZipFile2.Text = string.Format(_labelInstallFromZipFile2.Text,
+				_buttonInstallFromZipFile.Text.Replace("&", string.Empty).Replace("...", string.Empty));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void InitializeDownloadLinkLabel()
 		{
-			var underlinedPortionOfAutoLink = LocalizationManager.GetString(
-				"DialogBoxes.FFmpegDownloadDlg._linkAutoDownload_LinkPortion",
-				"Click here and SayMore will automatically download",
-				"This is the portion of the text that is underlined, indicating the link to the download.");
-
-			var underlinedPortionOfManualLink = LocalizationManager.GetString(
-				"DialogBoxes.FFmpegDownloadDlg._linkManualDownload_LinkPortion",
-				"Click here to download",
-				"This is the portion of the text that is underlined, indicating the link to the download.");
-
-			_linkAutoDownload.Links.Clear();
 			_linkManualDownload.Links.Clear();
-
-			int i = _linkAutoDownload.Text.IndexOf(underlinedPortionOfAutoLink);
-			if (i >= 0)
-				_linkAutoDownload.LinkArea = new LinkArea(i, underlinedPortionOfAutoLink.Length);
-
-			i = _linkManualDownload.Text.IndexOf(underlinedPortionOfManualLink);
-			if (i >= 0)
-				_linkManualDownload.LinkArea = new LinkArea(i, underlinedPortionOfManualLink.Length);
-
-			_linkAutoDownload.LinkClicked += HandleAutoDownloadLinkClicked;
+			_linkManualDownload.LinkArea = new LinkArea(0, _linkManualDownload.Text.Length);
 			_linkManualDownload.LinkClicked += HandleManualDownloadLinkClicked;
 		}
 
@@ -94,6 +71,8 @@ namespace SayMore.Media.FFmpeg
 		{
 			Settings.Default.FFmpegDownloadDlg.InitializeForm(this);
 			base.OnLoad(e);
+			_buttonOpenFolderLocation.Enabled = Directory.Exists(FFmpegDownloadHelper.FFmpegForSayMoreParentFolder);
+			_timerCheckForFFmpeg.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -109,10 +88,20 @@ namespace SayMore.Media.FFmpeg
 			_labelStatus.Visible = false;
 
 			if (_state == ProgressState.DownloadStarted)
+			{
 				_progressControl.Visible = true;
+				_buttonAbort.Visible = true;
+				_buttonCancel.Enabled = false;
+				_buttonDownloadAndInstall.Enabled = false;
+				_buttonInstallFromZipFile.Enabled = false;
+			}
 			else if (_state != ProgressState.NotStarted)
 			{
 				_progressControl.Visible = false;
+				_buttonAbort.Visible = false;
+				_buttonCancel.Enabled = true;
+				_labelStatus.Visible = true;
+				_buttonDownloadAndInstall.Enabled = _buttonInstallFromZipFile.Enabled = !FFmpegDownloadHelper.DoesFFmpegForSayMoreExist;
 
 				switch (_state)
 				{
@@ -121,15 +110,6 @@ namespace SayMore.Media.FFmpeg
 						_labelStatus.Text = LocalizationManager.GetString(
 							"DialogBoxes.FFmpegDownloadDlg.DownloadCancelledMsg",
 							"Downloading and Installing Cancelled.");
-
-						break;
-
-					case ProgressState.DownloadedAndInstallSucceeded:
-						_labelStatus.ForeColor = Color.Green;
-						_labelStatus.Text = LocalizationManager.GetString(
-							"DialogBoxes.FFmpegDownloadDlg.DownloadCompleteMsg",
-							"Downloading and Installing Completed Successfully.");
-
 						break;
 
 					case ProgressState.Installing:
@@ -137,40 +117,13 @@ namespace SayMore.Media.FFmpeg
 						_labelStatus.Text = LocalizationManager.GetString(
 							"DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileMsg",
 							"Installing...");
-
-						break;
-
-					case ProgressState.Installed:
-						_labelStatus.ForeColor = Color.Green;
-						_labelStatus.Text = LocalizationManager.GetString(
-							"DialogBoxes.FFmpegDownloadDlg.InstallCompletedingMsg",
-							"Installed Successfully.");
-
 						break;
 				}
-
-				_labelStatus.Visible = true;
-			}
-
-			_buttonInstall.Enabled = (_state != ProgressState.DownloadStarted && !FFmpegDownloadHelper.DoesFFmpegForSayMoreExist);
-			_buttonCancel.Visible = (_state == ProgressState.DownloadStarted);
-			_buttonClose.Visible = !_buttonCancel.Visible;
-			CancelButton = _buttonCancel.Visible ? _buttonCancel : _buttonClose;
-
-			if (!_buttonClose.Visible)
-			{
-				_tableLayoutPanel.SetColumn(_buttonClose, 0);
-				_tableLayoutPanel.SetColumn(_buttonCancel, 2);
-			}
-			else
-			{
-				_tableLayoutPanel.SetColumn(_buttonCancel, 1);
-				_tableLayoutPanel.SetColumn(_buttonClose, 2);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleAutoDownloadLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		private void HandleDownloadAndInstallClicked(object sender, EventArgs e)
 		{
 			if (_state != ProgressState.NotStarted && _state != ProgressState.DownloadCanceled)
 				return;
@@ -181,6 +134,7 @@ namespace SayMore.Media.FFmpeg
 			_progressControl.Initialize(_downloadHelper);
 
 			_state = ProgressState.DownloadStarted;
+			_timerCheckForFFmpeg.Enabled = false;
 			UpdateDisplay();
 			_downloadHelper.Start();
 		}
@@ -188,14 +142,29 @@ namespace SayMore.Media.FFmpeg
 		/// ------------------------------------------------------------------------------------
 		private void HandleDownloadProgressFinished(object sender, ProgressFinishedArgs e)
 		{
+			_buttonAbort.Visible = false;
+
 			if (e.ProgressCanceled)
 				_state = ProgressState.DownloadCanceled;
 			else if (InstallDownloadedFile(_downloadHelper.DownloadedZipFilePath))
-				_state = ProgressState.DownloadedAndInstallSucceeded;
+			{
+				MessageBox.Show(this, LocalizationManager.GetString(
+					"DialogBoxes.FFmpegDownloadDlg.DownloadCompleteMsg",
+					"Downloading and Installing Completed Successfully."), Text);
+				Close();
+				return;
+			}
 
+			_timerCheckForFFmpeg.Enabled = true;
 			_downloadHelper = null;
 			UpdateDisplay();
 			UseWaitCursor = false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleAbortButtonClick(object sender, EventArgs e)
+		{
+			_downloadHelper.Cancel();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -237,7 +206,13 @@ namespace SayMore.Media.FFmpeg
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleInstallClick(object sender, EventArgs e)
+		private void HandleOpenFolderLocationClick(object sender, EventArgs e)
+		{
+			Process.Start(FFmpegDownloadHelper.FFmpegForSayMoreParentFolder);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleInstallFromZipFileClick(object sender, EventArgs e)
 		{
 			var caption = LocalizationManager.GetString(
 				"DialogBoxes.FFmpegDownloadDlg.SelectDownloadedFFmpegFileDlg.Caption",
@@ -250,6 +225,7 @@ namespace SayMore.Media.FFmpeg
 				dlg.CheckFileExists = true;
 				dlg.CheckPathExists = true;
 				dlg.Multiselect = false;
+				dlg.FileName = FFmpegDownloadHelper.FFmpegForSayMoreZipFileName;
 				dlg.Filter = LocalizationManager.GetString(
 					"DialogBoxes.FFmpegDownloadDlg.SelectDownloadedFFmpegFileDlg.FileTypesString",
 					"Zip Archive (*.zip)|*.zip|All Files (*.*)|*.*");
@@ -259,12 +235,26 @@ namespace SayMore.Media.FFmpeg
 					_state = ProgressState.Installing;
 					UpdateDisplay();
 					Application.DoEvents();
-					_state = (InstallDownloadedFile(dlg.FileName) ?
-						ProgressState.Installed : ProgressState.NotStarted);
+					if (InstallDownloadedFile(dlg.FileName))
+					{
+						MessageBox.Show(this, LocalizationManager.GetString(
+							"DialogBoxes.FFmpegDownloadDlg.InstallCompletedingMsg",
+							"Installed Successfully."), Text);
+						Close();
+					}
+					_state = ProgressState.NotStarted;
 				}
 			}
 
 			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleCheckForFFmpegTimerTick(object sender, EventArgs e)
+		{
+			if (FFmpegDownloadHelper.DoesFFmpegForSayMoreExist)
+				Close();
+			_buttonOpenFolderLocation.Enabled = Directory.Exists(FFmpegDownloadHelper.FFmpegForSayMoreParentFolder);
 		}
 	}
 }

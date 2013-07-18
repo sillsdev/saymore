@@ -286,14 +286,15 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public static string SilCommonDataFolder
+		{
+			get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SIL"); }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static string AppDataFolder
 		{
-			get
-			{
-				var path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-				path = Path.Combine(path, "SIL");
-				return Path.Combine(path, Application.ProductName);
-			}
+			get { return Path.Combine(SilCommonDataFolder, Application.ProductName); }
 		}
 
 		/// ------------------------------------------------------------------------------------

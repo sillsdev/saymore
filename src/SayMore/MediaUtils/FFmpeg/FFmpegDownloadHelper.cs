@@ -44,26 +44,34 @@ namespace SayMore.Media.FFmpeg
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string GetFFmpegForSayMoreFolder()
+		public static string FFmpegForSayMoreFolder
 		{
-			var folder = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-			folder = Path.Combine(folder, "SIL");
-			return Path.Combine(folder, "SayMore");
+			get { return Path.Combine(FFmpegForSayMoreParentFolder, "FFmpegForSayMore"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string GetFullPathToFFmpegForSayMoreExe()
+		public static string FFmpegForSayMoreParentFolder
 		{
-			var path = Path.Combine(GetFFmpegForSayMoreFolder(), "FFmpegForSayMore");
-			return Path.Combine(path, "ffmpeg.exe");
+			get { return Program.AppDataFolder; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string FullPathToFFmpegForSayMoreExe
+		{
+			get { return Path.Combine(FFmpegForSayMoreFolder, "ffmpeg.exe"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static bool DoesFFmpegForSayMoreExist
 		{
-			get { return File.Exists(GetFullPathToFFmpegForSayMoreExe()); }
+			get { return File.Exists(FullPathToFFmpegForSayMoreExe); }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public static string FFmpegForSayMoreZipFileName
+		{
+			get { return "FFmpegForSayMore.zip"; }
+		}
 		#endregion
 
 		#region IProgressViewModel implementation
@@ -134,7 +142,7 @@ namespace SayMore.Media.FFmpeg
 		private void Download(object sender, DoWorkEventArgs e)
 		{
 			Stream downloadStream = null;
-			DownloadedZipFilePath = Path.Combine(Path.GetTempPath(), "FFmpegForSayMore.zip");
+			DownloadedZipFilePath = Path.Combine(Path.GetTempPath(), FFmpegForSayMoreZipFileName);
 
 			try
 			{
@@ -224,7 +232,7 @@ namespace SayMore.Media.FFmpeg
 		{
 			try
 			{
-				var tgtFolder = GetFFmpegForSayMoreFolder();
+				var tgtFolder = FFmpegForSayMoreParentFolder;
 
 				using (var zip = new ZipFile(pathToZipFile))
 					zip.ExtractAll(tgtFolder, ExtractExistingFileAction.OverwriteSilently);

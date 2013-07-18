@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4881.16355" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.3.0" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -1225,10 +1225,10 @@
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadNeededLabel">
       <tuv xml:lang="en">
-        <seg>The selected conversion '{0}' requires FFmpeg which must be downloaded.</seg>
+        <seg>The selected conversion '{0}' requires FFmpeg which must be installed.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>La conversión seleccionada '{0}' requiere FFmpeg, que debe descargarse.</seg>
+        <seg>La conversión seleccionada '{0}' requiere el programa FFmpeg, el cual debe ser instalado.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadingFailedDueToWebExceptionMsg">
@@ -1352,14 +1352,6 @@
         <seg>Cancelar</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg.CloseButton">
-      <tuv xml:lang="en">
-        <seg>Close</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Cerrar</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.DownloadCancelledMsg">
       <tuv xml:lang="en">
         <seg>Downloading and Installing Cancelled.</seg>
@@ -1378,10 +1370,10 @@
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallButton">
       <tuv xml:lang="en">
-        <seg>Install...</seg>
+        <seg>Install from Zip File...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Instalar...</seg>
+        <seg>Instalar desde archivo Zip...</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallCompletedingMsg">
@@ -1397,7 +1389,7 @@
         <seg>The file '{0}'\n\neither does not contain ffmpeg or is not a valid zip file.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>El archivo o no contiene el programa FFmpeg o no es un archivo zip válido:\n\n{0} </seg>
+        <seg>El archivo o no contiene el programa FFmpeg o no es un archivo zip válido:\n\n{0}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileMsg">
@@ -1409,6 +1401,7 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.OrLabel">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>- OR -</seg>
       </tuv>
@@ -1418,10 +1411,10 @@
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.OverviewLabel">
       <tuv xml:lang="en">
-        <seg>You have two options for downloading FFmpeg.</seg>
+        <seg>SayMore is looking for the FFmpeg program in this folder:</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Hay dos opciones para descargar FFmpeg.</seg>
+        <seg>SayMore busca el programa FFmpeg en esta carpeta:</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.SelectDownloadedFFmpegFileDlg.Caption">
@@ -1449,7 +1442,64 @@
         <seg>Descargar FFmpeg</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._buttonAbort">
+      <tuv xml:lang="en">
+        <seg>Abort</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Abortar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._buttonDownloadAndInstall">
+      <tuv xml:lang="en">
+        <seg>Download and Install</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Descargar e instalar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._buttonFinishedCopying">
+      <tuv xml:lang="en">
+        <seg>Open Folder Location</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Abrir la carpeta</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelDownloadAndInstall">
+      <tuv xml:lang="en">
+        <seg>SayMore can download and install FFmpeg automatically if this computer has a reliable Internet connection and can download a large file (about 20 MB).</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>SayMore puede descargar e instalar FFmpeg automáticamente si este equipo tiene una conexión confiable de Internet y puede descargar un archivo grande (aproximadamente 20 MB).</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelFinishedCopying">
+      <tuv xml:lang="en">
+        <seg>If you have access to FFmpeg for SayMore on another computer, manually copy the FFmpegForSayMore folder to this computer. Then this dialog box will close automatically.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Si tiene acceso a FFmpeg para SayMore en otra computadora, puede copiar manualmente la carpeta FFmpegForSayMore a este equipo. Entonces este cuadro de diálogo se cerrará automáticamente.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelInstallFromZipFile1">
+      <tuv xml:lang="en">
+        <seg>If you use a download utility to deal with an unreliable Internet connection, manually download this file:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Si utiliza una utilidad de descarga para hacer frente a una conexión de Internet poco fiable, descarga manualmente este archivo:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelInstallFromZipFile2">
+      <tuv xml:lang="en">
+        <seg>When the download is complete, click {0} to specify the location of the downloaded file for SayMore to install.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cuando la descarga haya finalizado, haga clic en {0} para especificar la ubicación del archivo descargado para que SayMore lo pueda instalar.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkAutoDownload">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>1) Click here and SayMore will automatically download and install FFmpeg in the proper location.</seg>
       </tuv>
@@ -1459,6 +1509,7 @@
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkAutoDownload_LinkPortion">
       <note>This is the portion of the text that is underlined, indicating the link to the download.</note>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Click here and SayMore will automatically download</seg>
       </tuv>
@@ -1467,6 +1518,7 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkManualDownload">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>2) Click here to download FFmpeg manually and then click 'Install' to specify the location of the downloaded file for SayMore to install.</seg>
       </tuv>
@@ -2256,6 +2308,22 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Mantenga pulsado el botón para grabar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingAbortedCaption">
+      <tuv xml:lang="en">
+        <seg>Recording Failed</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Error de grabación</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingAbortedMessage">
+      <tuv xml:lang="en">
+        <seg>The recording was interrupted by a change in the default recording device.\nThis can happen if you turn off or disconnect the microphone.\nAfter you correct the problem, click OK, and then record again.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>La grabación fue interrumpido por un cambio en el dispositivo de grabación predeterminado.\nEsto puede ocurrir si se apaga o se desconecta el micrófono.\nDespués de corregir el problema, haga clic en Aceptar y, a continuación, volver a grabar.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingAnnotationMsg">

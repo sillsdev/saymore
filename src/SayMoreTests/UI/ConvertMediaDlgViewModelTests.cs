@@ -48,7 +48,7 @@ namespace SayMoreTests.UI
 
 			throw new FileNotFoundException(string.Format(msg,
 				FFmpegDownloadHelper.GetFFmpegForSayMoreUrl(false),
-				FFmpegDownloadHelper.GetFFmpegForSayMoreFolder()));
+				FFmpegDownloadHelper.FFmpegForSayMoreParentFolder));
 		}
 
 		/// ------------------------------------------------------------------------------------

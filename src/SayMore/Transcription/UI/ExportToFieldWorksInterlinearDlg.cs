@@ -65,8 +65,7 @@ namespace SayMore.Transcription.UI
 			//TODO: someday, this may be safe to call. But not yet.
 			//return (new LdmlInFolderWritingSystemRepository()).AllWritingSystems;
 
-			var globalPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData).CombineForPath(
-				"SIL", "WritingSystemStore"); //NB: flex 7.1 is using this.  Palaso head has WritingSystemRepository/2 instead. Sigh...
+			var globalPath = Path.Combine(Program.SilCommonDataFolder, "WritingSystemStore"); //NB: flex 7.1 is using this. Palaso head has WritingSystemRepository/2 instead. Sigh...
 
 			if (!Directory.Exists(globalPath))
 			{

@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using NAudio.Wave;
+using Palaso.Reporting;
 using SayMore.Media;
 using SayMore.Media.FFmpeg;
 using SayMore.Utilities;
@@ -211,14 +212,22 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		private void DoConversion(object commandLine)
 		{
-			var exePath = FFmpegDownloadHelper.GetFullPathToFFmpegForSayMoreExe();
+			var exePath = FFmpegDownloadHelper.FullPathToFFmpegForSayMoreExe;
 			_conversionOutput = new StringBuilder(exePath);
 			_conversionOutput.Append(commandLine);
 
-			// ffmpeg always seems to write the output to standarderror.
-			// I don't understand why and that's wrong, but we'll deal with it.
-			_process = ExternalProcess.StartProcessToMonitor(exePath, commandLine as string,
-				HandleProcessDataReceived, HandleProcessDataReceived, null);
+			try
+			{
+				// ffmpeg always seems to write the output to standarderror.
+				// I don't understand why and that's wrong, but we'll deal with it.
+				_process = ExternalProcess.StartProcessToMonitor(exePath, commandLine as string,
+					HandleProcessDataReceived, HandleProcessDataReceived, null);
+			}
+			catch (Exception e)
+			{
+				ErrorReport.ReportNonFatalException(e);
+				return;
+			}
 
 			try
 			{

@@ -1,0 +1,26 @@
+<mockup version="1.0" skin="sketch" measuredW="778" measuredH="496" mockupW="718" mockupH="476">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::TabBar" x="60" y="20" w="718" h="476" measuredW="269" measuredH="100" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>0</selectedIndex>
+        <text>Project%2C%20Sessions%2C%20People</text>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::List" x="69" y="67" w="153" h="397" measuredW="100" measuredH="126" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>3</selectedIndex>
+        <text>About%20This%20Project%0AProgress%0AContributors%0AContributions%0ALocations</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::DataGrid" x="237" y="67" w="519" h="375" measuredW="343" measuredH="150" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Name%2C%20Session%2C%20Role%0AGiacomo%20Guilizzoni%2C%20Baseball%20Night%2C%20CarefulSpeech%0AGiacomo%20Guilizzoni%2C%20Baseball%20Night%2C%20Translation%0AGuido%20Jack%20Guilizzoni%2C%20Dead%20Fish%2C%20Translation%0AMarco%20Botton%5CrTuttofare%2C%20Dead%20Fish%2C%20Recordist</text>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::Link" x="700" y="448" w="-1" h="-1" measuredW="55" measuredH="22" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Export...</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

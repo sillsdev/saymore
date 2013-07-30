@@ -204,6 +204,7 @@ namespace SayMore.Transcription.UI
 				return;
 
 			_cursorBlinkTimer.Enabled = true;
+			_recDeviceIndicator.MicCheckingEnabled = true;
 
 			if (ViewModel.GetSegmentCount() > 0)
 			{
@@ -222,7 +223,7 @@ namespace SayMore.Transcription.UI
 			_tableLayoutRecordAnnotations.ColumnStyles[0].SizeType = SizeType.AutoSize;
 			_tableLayoutRecordAnnotations.ColumnStyles[1].SizeType = SizeType.Percent;
 
-			_recDeviceIndicator = new RecordingDeviceIndicator();
+			_recDeviceIndicator = new RecordingDeviceIndicator(1500, false);
 			_recDeviceIndicator.Anchor = AnchorStyles.Top;
 			_recDeviceIndicator.AutoSize = true;
 			_recDeviceIndicator.AutoSizeMode = AutoSizeMode.GrowAndShrink;

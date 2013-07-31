@@ -199,7 +199,7 @@ namespace SayMore.UI
 			this._buttonDownload.Name = "_buttonDownload";
 			this._buttonDownload.Size = new System.Drawing.Size(75, 26);
 			this._buttonDownload.TabIndex = 15;
-			this._buttonDownload.Text = "Download...";
+			this._buttonDownload.Text = "Install...";
 			this._buttonDownload.UseVisualStyleBackColor = true;
 			// 
 			// _labelFileToConvertValue
@@ -388,7 +388,7 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizingId(this._textBoxOutput, "ConvertMediaDlg._textBoxOutput");
 			this._textBoxOutput.Location = new System.Drawing.Point(0, 235);
 			this._textBoxOutput.Margin = new System.Windows.Forms.Padding(0);
-			this._textBoxOutput.MinimumSize = new System.Drawing.Size(0, 24);
+			this._textBoxOutput.MinimumSize = new System.Drawing.Size(4, 24);
 			this._textBoxOutput.Multiline = true;
 			this._textBoxOutput.Name = "_textBoxOutput";
 			this._textBoxOutput.ReadOnly = true;
@@ -430,6 +430,7 @@ namespace SayMore.UI
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
+			this.locExtender.PrefixForNewItems = "DialogBoxes.ConvertMediaDlg";
 			// 
 			// ConvertMediaDlg
 			// 

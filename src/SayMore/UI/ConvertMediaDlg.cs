@@ -78,7 +78,9 @@ namespace SayMore.UI
 
 			_buttonDownload.Click += delegate
 			{
-				_viewModel.DownloadFFmpeg();
+				using (var dlg = new FFmpegDownloadDlg())
+					dlg.ShowDialog(this);
+				_viewModel.SetConversionStateBasedOnPresenceOfFfmpegForSayMore();
 				UpdateDisplay();
 			};
 

@@ -59,8 +59,7 @@ namespace SayMore.UI
 				AvailableConversions = FFmpegConversionInfo.GetConversions(inputFile).OrderBy(c => c.Name).ToArray();
 				SelectedConversion = AvailableConversions.FirstOrDefault(c => c.Name == initialConversionName) ?? AvailableConversions[0];
 
-				ConversionState = (FFmpegDownloadHelper.DoesFFmpegForSayMoreExist ?
-					ConvertMediaUIState.WaitingToConvert : ConvertMediaUIState.FFmpegDownloadNeeded);
+				SetConversionStateBasedOnPresenceOfFfmpegForSayMore();
 			}
 		}
 
@@ -83,13 +82,10 @@ namespace SayMore.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void DownloadFFmpeg()
+		public void SetConversionStateBasedOnPresenceOfFfmpegForSayMore()
 		{
-			using (var dlg = new FFmpegDownloadDlg())
-				dlg.ShowDialog();
-
-			if (FFmpegDownloadHelper.DoesFFmpegForSayMoreExist)
-				ConversionState = ConvertMediaUIState.WaitingToConvert;
+			ConversionState = (FFmpegDownloadHelper.DoesFFmpegForSayMoreExist ?
+				ConvertMediaUIState.WaitingToConvert : ConvertMediaUIState.FFmpegDownloadNeeded);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -25,6 +25,8 @@ namespace SayMore.Media.FFmpeg
 		private const int kApproxDownloadSize = 20480000;
 		private string _downloadErrorMsg;
 		private Exception _downloadError;
+		public const string kFFmpegForSayMoreExeFilename = "ffmpeg.exe";
+		public const string kFFmpegForSayMoreFolderName = "FFmpegForSayMore";
 
 		/// ------------------------------------------------------------------------------------
 		public FFmpegDownloadHelper()
@@ -46,7 +48,7 @@ namespace SayMore.Media.FFmpeg
 		/// ------------------------------------------------------------------------------------
 		public static string FFmpegForSayMoreFolder
 		{
-			get { return Path.Combine(FFmpegForSayMoreParentFolder, "FFmpegForSayMore"); }
+			get { return Path.Combine(FFmpegForSayMoreParentFolder, kFFmpegForSayMoreFolderName); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -58,7 +60,7 @@ namespace SayMore.Media.FFmpeg
 		/// ------------------------------------------------------------------------------------
 		public static string FullPathToFFmpegForSayMoreExe
 		{
-			get { return Path.Combine(FFmpegForSayMoreFolder, "ffmpeg.exe"); }
+			get { return Path.Combine(FFmpegForSayMoreFolder, kFFmpegForSayMoreExeFilename); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -213,7 +215,7 @@ namespace SayMore.Media.FFmpeg
 			{
 				using (var zip = new ZipFile(pathToZipFile))
 				{
-					if (zip.EntryFileNames.Contains("FFmpegForSayMore/ffmpeg.exe"))
+					if (zip.EntryFileNames.Contains(kFFmpegForSayMoreFolderName + "/" + kFFmpegForSayMoreExeFilename))
 						return true;
 
 					ErrorReport.NotifyUserOfProblem(msgToDisplayIfError);

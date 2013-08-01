@@ -1217,10 +1217,10 @@
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadButton">
       <tuv xml:lang="en">
-        <seg>Download...</seg>
+        <seg>Install...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Descargar...</seg>
+        <seg>Instalar...</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadNeededLabel">
@@ -1352,6 +1352,14 @@
         <seg>Cancelar</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.CopyCompletedingMsg">
+      <tuv xml:lang="en">
+        <seg>Files Copied Successfully.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivos se copiarán con éxito.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.DownloadCancelledMsg">
       <tuv xml:lang="en">
         <seg>Downloading and Installing Cancelled.</seg>
@@ -1366,14 +1374,6 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Descarga e instalación se realizaron.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallButton">
-      <tuv xml:lang="en">
-        <seg>Install from Zip File...</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Instalar desde archivo Zip...</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallCompletedingMsg">
@@ -1400,21 +1400,20 @@
         <seg>Instalando...</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg.OrLabel">
-      <prop type="x-nolongerused">true</prop>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.NotAnFfmpegFolderMsg">
       <tuv xml:lang="en">
-        <seg>- OR -</seg>
+        <seg>The selected folder is not a valid "FFmpeg for SayMore" folder.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>-o-</seg>
+        <seg>La carpeta seleccionada no es una carpeta válida "FFmpeg para SayMore".</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.OverviewLabel">
       <tuv xml:lang="en">
-        <seg>SayMore is looking for the FFmpeg program in this folder:</seg>
+        <seg>You have three options for getting FFmpeg:</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>SayMore busca el programa FFmpeg en esta carpeta:</seg>
+        <seg>Hay tres opciones para obtener e instalar FFmpeg:</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.SelectDownloadedFFmpegFileDlg.Caption">
@@ -1434,12 +1433,21 @@
         <seg>ZIP (*.zip)|*.zip|Todos los archivos (*.*)|*.*</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg.WindowTitle">
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.SelectExistingFFmpegFolderDlg.Description">
+      <note>This is the descriptive text for the 'Open Folder' dialog box when specifying the location of an "FFmpeg for SayMore" folder on (or copied from) another computer.</note>
       <tuv xml:lang="en">
-        <seg>Download FFmpeg</seg>
+        <seg>Select the FFmpeg for SayMore folder from another computer</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Descargar FFmpeg</seg>
+        <seg>Seleccione el carpeta "FFmpeg para SayMore" de otra computadora</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Install FFmpeg</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Instalar FFmpeg</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._buttonAbort">
@@ -1450,80 +1458,77 @@
         <seg>Abortar</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg._buttonDownloadAndInstall">
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelCopyFromAnotherComputer">
+      <note>Parameter is the full path to the "FFmpeg for SayMore" folder on this computer.</note>
       <tuv xml:lang="en">
-        <seg>Download and Install</seg>
+        <seg>If you have the folder "FFmpeg for SayMore" from another computer (e.g., {0}), SayMore can copy it to the proper location on this computer:</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Descargar e instalar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg._buttonFinishedCopying">
-      <tuv xml:lang="en">
-        <seg>Open Folder Location</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Abrir la carpeta</seg>
+        <seg>Se se puede accesar la carpeta "FFmpeg For SayMore" de otra computadora, SayMore puede copiarlo a la carpeta "{0}" en este computadora:</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelDownloadAndInstall">
       <tuv xml:lang="en">
-        <seg>SayMore can download and install FFmpeg automatically if this computer has a reliable Internet connection and can download a large file (about 20 MB).</seg>
+        <seg>If you have a reliable Internet connection, you can let SayMore download and install FFmpeg automatically. The file is large (about 20 MB).</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>SayMore puede descargar e instalar FFmpeg automáticamente si este equipo tiene una conexión confiable de Internet y puede descargar un archivo grande (aproximadamente 20 MB).</seg>
+        <seg>Si su conexión de Internet es confiable, SayMore puede descargar e instalar FFmpeg automáticamente. El archivo es grande (unos 20 MB).</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelFinishedCopying">
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelInstallFromZipFile">
       <tuv xml:lang="en">
-        <seg>If you have access to FFmpeg for SayMore on another computer, manually copy the FFmpegForSayMore folder to this computer. Then this dialog box will close automatically.</seg>
+        <seg>If you use a download utility to deal with an unreliable Internet connection, follow these steps:</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Si tiene acceso a FFmpeg para SayMore en otra computadora, puede copiar manualmente la carpeta FFmpegForSayMore a este equipo. Entonces este cuadro de diálogo se cerrará automáticamente.</seg>
+        <seg>Si utiliza una utilidad de descarga para hacer frente a una conexión a Internet poco fiable, siga estos pasos:</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelInstallFromZipFile1">
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelOr1">
       <tuv xml:lang="en">
-        <seg>If you use a download utility to deal with an unreliable Internet connection, manually download this file:</seg>
+        <seg>OR</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Si utiliza una utilidad de descarga para hacer frente a una conexión de Internet poco fiable, descarga manualmente este archivo:</seg>
+        <seg>o</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelInstallFromZipFile2">
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelOr2">
       <tuv xml:lang="en">
-        <seg>When the download is complete, click {0} to specify the location of the downloaded file for SayMore to install.</seg>
+        <seg>OR</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Cuando la descarga haya finalizado, haga clic en {0} para especificar la ubicación del archivo descargado para que SayMore lo pueda instalar.</seg>
+        <seg>o</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkAutoDownload">
-      <prop type="x-nolongerused">true</prop>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkCopyFromFolder">
       <tuv xml:lang="en">
-        <seg>1) Click here and SayMore will automatically download and install FFmpeg in the proper location.</seg>
+        <seg>Show SayMore where to find the folder</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>1) Haga clic aquí y SayMore automáticamente descargará e instalará FFmpeg en la carpeta correcta.</seg>
+        <seg>Seleccione el carpeta "FFmpeg para SayMore" de otra computadora</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkAutoDownload_LinkPortion">
-      <note>This is the portion of the text that is underlined, indicating the link to the download.</note>
-      <prop type="x-nolongerused">true</prop>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkDownloadAndInstall">
       <tuv xml:lang="en">
-        <seg>Click here and SayMore will automatically download</seg>
+        <seg>Download and install FFmpeg</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Haga clic aquí y SayMore automáticamente descargará</seg>
+        <seg>Descargar e instalar FFmpeg</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkInstallFromZipFile">
+      <tuv xml:lang="en">
+        <seg>Show SayMore where you saved it</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Seleccione el archivo descargado de FFmpeg para que SayMore lo instale</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkManualDownload">
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
-        <seg>2) Click here to download FFmpeg manually and then click 'Install' to specify the location of the downloaded file for SayMore to install.</seg>
+        <seg>Open Internet browser to page containing FFmpegForSayMore.zip</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>2) Haga clic aquí para descargar FFmpeg manualmente y, a continuación, haga clic en 'Instalar' para especificar la ubicación del archivo descargado para que SayMore lo instale.</seg>
+        <seg>Descargar FFmpegForSayMore.zip manualmente</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.LoadingDlg.CancelLink">

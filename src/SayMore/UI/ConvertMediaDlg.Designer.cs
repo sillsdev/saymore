@@ -430,7 +430,7 @@ namespace SayMore.UI
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
-			this.locExtender.PrefixForNewItems = "DialogBoxes.ConvertMediaDlg";
+			this.locExtender.PrefixForNewItems = "DialogBoxes.";
 			// 
 			// ConvertMediaDlg
 			// 

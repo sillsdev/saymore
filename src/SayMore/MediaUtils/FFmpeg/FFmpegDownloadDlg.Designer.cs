@@ -35,10 +35,10 @@ namespace SayMore.Media.FFmpeg
 			this._labelInstallFromZipFile = new System.Windows.Forms.Label();
 			this._tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this._labelOr2 = new System.Windows.Forms.Label();
-			this._labelOr1 = new System.Windows.Forms.Label();
 			this._linkDownloadAndInstall = new System.Windows.Forms.LinkLabel();
+			this._labelOr2 = new System.Windows.Forms.Label();
 			this._labelOptionA = new System.Windows.Forms.Label();
+			this._labelOr1 = new System.Windows.Forms.Label();
 			this._labelOptionB = new System.Windows.Forms.Label();
 			this._labelCopyFromAnotherComputer = new System.Windows.Forms.Label();
 			this._labelOptionC = new System.Windows.Forms.Label();
@@ -153,6 +153,24 @@ namespace SayMore.Media.FFmpeg
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(478, 214);
 			this.tableLayoutPanel1.TabIndex = 15;
 			// 
+			// _linkDownloadAndInstall
+			// 
+			this._linkDownloadAndInstall.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._linkDownloadAndInstall.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._linkDownloadAndInstall, null);
+			this.locExtender.SetLocalizationComment(this._linkDownloadAndInstall, null);
+			this.locExtender.SetLocalizationPriority(this._linkDownloadAndInstall, L10NSharp.LocalizationPriority.MediumLow);
+			this.locExtender.SetLocalizingId(this._linkDownloadAndInstall, "DialogBoxes.FFmpegDownloadDlg._linkDownloadAndInstall");
+			this._linkDownloadAndInstall.Location = new System.Drawing.Point(20, 29);
+			this._linkDownloadAndInstall.Margin = new System.Windows.Forms.Padding(0);
+			this._linkDownloadAndInstall.Name = "_linkDownloadAndInstall";
+			this._linkDownloadAndInstall.Size = new System.Drawing.Size(458, 13);
+			this._linkDownloadAndInstall.TabIndex = 22;
+			this._linkDownloadAndInstall.TabStop = true;
+			this._linkDownloadAndInstall.Text = "Download and install FFmpeg";
+			this._linkDownloadAndInstall.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleDownloadAndInstallClicked);
+			// 
 			// _labelOr2
 			// 
 			this._labelOr2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -171,6 +189,20 @@ namespace SayMore.Media.FFmpeg
 			this._labelOr2.Text = "OR";
 			this._labelOr2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// _labelOptionA
+			// 
+			this._labelOptionA.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelOptionA, null);
+			this.locExtender.SetLocalizationComment(this._labelOptionA, null);
+			this.locExtender.SetLocalizationPriority(this._labelOptionA, L10NSharp.LocalizationPriority.Low);
+			this.locExtender.SetLocalizingId(this._labelOptionA, "DialogBoxes.FFmpegDownloadDlg._labelOptionA");
+			this._labelOptionA.Location = new System.Drawing.Point(0, 0);
+			this._labelOptionA.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
+			this._labelOptionA.Name = "_labelOptionA";
+			this._labelOptionA.Size = new System.Drawing.Size(17, 13);
+			this._labelOptionA.TabIndex = 25;
+			this._labelOptionA.Text = "A)";
+			// 
 			// _labelOr1
 			// 
 			this._labelOr1.AutoSize = true;
@@ -187,38 +219,6 @@ namespace SayMore.Media.FFmpeg
 			this._labelOr1.TabIndex = 23;
 			this._labelOr1.Text = "OR";
 			this._labelOr1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// _linkDownloadAndInstall
-			// 
-			this._linkDownloadAndInstall.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this._linkDownloadAndInstall.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._linkDownloadAndInstall, null);
-			this.locExtender.SetLocalizationComment(this._linkDownloadAndInstall, null);
-			this.locExtender.SetLocalizationPriority(this._linkDownloadAndInstall, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._linkDownloadAndInstall, "DialogBoxes.FFmpegDownloadDlg.FFmpegDownloadDlg._linkDownloadAndInstall");
-			this._linkDownloadAndInstall.Location = new System.Drawing.Point(20, 29);
-			this._linkDownloadAndInstall.Margin = new System.Windows.Forms.Padding(0);
-			this._linkDownloadAndInstall.Name = "_linkDownloadAndInstall";
-			this._linkDownloadAndInstall.Size = new System.Drawing.Size(458, 13);
-			this._linkDownloadAndInstall.TabIndex = 22;
-			this._linkDownloadAndInstall.TabStop = true;
-			this._linkDownloadAndInstall.Text = "Download and install FFmpeg";
-			this._linkDownloadAndInstall.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleDownloadAndInstallClicked);
-			// 
-			// _labelOptionA
-			// 
-			this._labelOptionA.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._labelOptionA, null);
-			this.locExtender.SetLocalizationComment(this._labelOptionA, null);
-			this.locExtender.SetLocalizationPriority(this._labelOptionA, L10NSharp.LocalizationPriority.Low);
-			this.locExtender.SetLocalizingId(this._labelOptionA, "DialogBoxes.FFmpegDownloadDlg._labelOptionA");
-			this._labelOptionA.Location = new System.Drawing.Point(0, 0);
-			this._labelOptionA.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
-			this._labelOptionA.Name = "_labelOptionA";
-			this._labelOptionA.Size = new System.Drawing.Size(17, 13);
-			this._labelOptionA.TabIndex = 25;
-			this._labelOptionA.Text = "A)";
 			// 
 			// _labelOptionB
 			// 
@@ -241,8 +241,8 @@ namespace SayMore.Media.FFmpeg
 			this._labelCopyFromAnotherComputer.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelCopyFromAnotherComputer, null);
 			this.locExtender.SetLocalizationComment(this._labelCopyFromAnotherComputer, "Parameter is the full path to the \"FFmpeg for SayMore\" folder on this computer.");
-			this.locExtender.SetLocalizationPriority(this._labelCopyFromAnotherComputer, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelCopyFromAnotherComputer, "DialogBoxes.FFmpegDownloadDlg.FFmpegDownloadDlg._labelCopyFromAnotherComputer");
+			this.locExtender.SetLocalizationPriority(this._labelCopyFromAnotherComputer, L10NSharp.LocalizationPriority.MediumLow);
+			this.locExtender.SetLocalizingId(this._labelCopyFromAnotherComputer, "DialogBoxes.FFmpegDownloadDlg._labelCopyFromAnotherComputer");
 			this._labelCopyFromAnotherComputer.Location = new System.Drawing.Point(20, 160);
 			this._labelCopyFromAnotherComputer.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this._labelCopyFromAnotherComputer.Name = "_labelCopyFromAnotherComputer";
@@ -332,8 +332,8 @@ namespace SayMore.Media.FFmpeg
 			this._linkInstallFromZipFile.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._linkInstallFromZipFile, null);
 			this.locExtender.SetLocalizationComment(this._linkInstallFromZipFile, null);
-			this.locExtender.SetLocalizationPriority(this._linkInstallFromZipFile, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._linkInstallFromZipFile, "DialogBoxes.FFmpegDownloadDlg.FFmpegDownloadDlg._linkInstallFromZipFile");
+			this.locExtender.SetLocalizationPriority(this._linkInstallFromZipFile, L10NSharp.LocalizationPriority.MediumLow);
+			this.locExtender.SetLocalizingId(this._linkInstallFromZipFile, "DialogBoxes.FFmpegDownloadDlg._linkInstallFromZipFile");
 			this._linkInstallFromZipFile.Location = new System.Drawing.Point(22, 17);
 			this._linkInstallFromZipFile.Margin = new System.Windows.Forms.Padding(0, 0, 3, 8);
 			this._linkInstallFromZipFile.Name = "_linkInstallFromZipFile";
@@ -367,6 +367,7 @@ namespace SayMore.Media.FFmpeg
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
+			this.locExtender.SetLocalizationPriority(this._buttonCancel, L10NSharp.LocalizationPriority.MediumLow);
 			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.FFmpegDownloadDlg.CancelButton");
 			this._buttonCancel.Location = new System.Drawing.Point(406, 379);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
@@ -383,6 +384,7 @@ namespace SayMore.Media.FFmpeg
 			this._tableLayoutPanel.SetColumnSpan(this._labelOverview, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelOverview, null);
 			this.locExtender.SetLocalizationComment(this._labelOverview, null);
+			this.locExtender.SetLocalizationPriority(this._labelOverview, L10NSharp.LocalizationPriority.MediumLow);
 			this.locExtender.SetLocalizingId(this._labelOverview, "DialogBoxes.FFmpegDownloadDlg.OverviewLabel");
 			this._labelOverview.Location = new System.Drawing.Point(0, 0);
 			this._labelOverview.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
@@ -395,6 +397,7 @@ namespace SayMore.Media.FFmpeg
 			// 
 			this.locExtender.SetLocalizableToolTip(this._buttonAbort, null);
 			this.locExtender.SetLocalizationComment(this._buttonAbort, null);
+			this.locExtender.SetLocalizationPriority(this._buttonAbort, L10NSharp.LocalizationPriority.MediumLow);
 			this.locExtender.SetLocalizingId(this._buttonAbort, "DialogBoxes.FFmpegDownloadDlg._buttonAbort");
 			this._buttonAbort.Location = new System.Drawing.Point(0, 269);
 			this._buttonAbort.Margin = new System.Windows.Forms.Padding(0, 0, 5, 15);
@@ -426,7 +429,7 @@ namespace SayMore.Media.FFmpeg
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
-			this.locExtender.PrefixForNewItems = "DialogBoxes.FFmpegDownloadDlg";
+			this.locExtender.PrefixForNewItems = "DialogBoxes";
 			// 
 			// _progressControl
 			// 

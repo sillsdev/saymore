@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="fr" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4682.28047" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="fr" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.3.0" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
-    <prop type="x-hardlinebreakreplacement">\n</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
   <body>
@@ -1173,18 +1172,18 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadButton">
       <tuv xml:lang="en">
-        <seg>Download...</seg>
+        <seg>Install...</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Télécharger...</seg>
+        <seg>Installer...</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadNeededLabel">
       <tuv xml:lang="en">
-        <seg>The selected conversion '{0}' requires FFmpeg which must be downloaded.</seg>
+        <seg>The selected conversion '{0}' requires FFmpeg which must be installed.</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>La conversion sélectionnée '{0}' exige FFmpeg qui doit être téléchargé.</seg>
+        <seg>La conversion sélectionnée '{0}' exige FFmpeg qui doit être installé.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadingFailedDueToWebExceptionMsg">
@@ -1300,14 +1299,6 @@ l'enregistrement de la source.</seg>
         <seg>Annuler</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg.CloseButton">
-      <tuv xml:lang="en">
-        <seg>Close</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Ferme</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.DownloadCancelledMsg">
       <tuv xml:lang="en">
         <seg>Downloading and Installing Cancelled.</seg>
@@ -1322,14 +1313,6 @@ l'enregistrement de la source.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Téléchargement et installation terminés avec réussite.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallButton">
-      <tuv xml:lang="en">
-        <seg>Install...</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Installer...</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallCompletedingMsg">
@@ -1356,45 +1339,44 @@ l'enregistrement de la source.</seg>
         <seg>Installation de...</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg.OrLabel">
-      <tuv xml:lang="en">
-        <seg>- OR -</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>- OU -</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.OverviewLabel">
       <tuv xml:lang="en">
-        <seg>You have two options for downloading FFmpeg.</seg>
+        <seg>You have three options for getting FFmpeg:</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Vous avez deux options pour télécharger FFmpeg.</seg>
+        <seg>Vous avez trois options pour obtenir et installer FFmpeg:</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkAutoDownload">
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.WindowTitle">
       <tuv xml:lang="en">
-        <seg>1) Click here and SayMore will automatically download and install FFmpeg in the proper location.</seg>
+        <seg>Install FFmpeg</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>1) Cliquez ici et SayMore automatiquement téléchargera et installera FFmpeg dans l'emplacement approprié.</seg>
+        <seg>Installer FFmpeg</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkAutoDownload_LinkPortion">
-      <note>This is the portion of the text that is underlined, indicating the link to the download.</note>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelOr1">
       <tuv xml:lang="en">
-        <seg>Click here and SayMore will automatically download</seg>
+        <seg>OR</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Cliquez ici et Saymore automatiquement téléchargera</seg>
+        <seg>OU</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelOr2">
+      <tuv xml:lang="en">
+        <seg>OR</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>OU</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkManualDownload">
       <tuv xml:lang="en">
-        <seg>2) Click here to download FFmpeg manually and then click 'Install' to specify the location of the downloaded file for SayMore to install.</seg>
+        <seg>Open Internet browser to page containing FFmpegForSayMore.zip</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>2) Cliquez ici pour télécharger FFmpeg manuellement et puis cliquez sur 'Installer' pour spécifier l'emplacement du fichier téléchargé afin que SayMore l'installe.</seg>
+        <seg>Ouvrez le navigateur Internet pour télécharger manuellement FFmpeg</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.LoadingDlg.CancelLink">
@@ -2035,20 +2017,20 @@ l'enregistrement de la source.</seg>
         <seg>Supprimer la limite choisie (press DELETE)</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonStopOriginal">
-      <tuv xml:lang="en">
-        <seg>Stop (press the SPACE BAR)</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Arrêter (pressez la BARRE D'ESPACE)</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonListenToOriginal">
       <tuv xml:lang="en">
         <seg>Listen (press the SPACE BAR)</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Écouter (presse la barre d'espace)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonStopOriginal">
+      <tuv xml:lang="en">
+        <seg>Stop (press the SPACE BAR)</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Arrêter (pressez la BARRE D'ESPACE)</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.CannotRecordErrorMsg">
@@ -3048,7 +3030,7 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="PeopleView.PeopleList.HeadingText">
       <tuv xml:lang="en">
-        <seg>People</seg>
+        <seg>Items</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Personnes</seg>
@@ -3514,7 +3496,7 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="SessionsView.SessionsList.HeadingText">
       <tuv xml:lang="en">
-        <seg>Sessions</seg>
+        <seg>Items</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Sessions</seg>

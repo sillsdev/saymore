@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="zh-Hans" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4827.29872" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
-    <prop type="x-appversion">2.1.158.0</prop>
-    <prop type="x-hardlinebreakreplacement">\n</prop>
+  <header srclang="zh-Hans" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.3.0" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+    <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
   <body>
@@ -1089,7 +1088,7 @@
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadButton">
       <tuv xml:lang="en">
-        <seg>Download...</seg>
+        <seg>Install...</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>下载…</seg>
@@ -1097,7 +1096,7 @@
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadNeededLabel">
       <tuv xml:lang="en">
-        <seg>The selected conversion '{0}' requires FFmpeg which must be downloaded.</seg>
+        <seg>The selected conversion '{0}' requires FFmpeg which must be installed.</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>转换需要下载 FFmpeg</seg>
@@ -1224,14 +1223,6 @@
         <seg>取消</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg.CloseButton">
-      <tuv xml:lang="en">
-        <seg>Close</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>关闭</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.DownloadCancelledMsg">
       <tuv xml:lang="en">
         <seg>Downloading and Installing Cancelled.</seg>
@@ -1246,14 +1237,6 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>下载安装成功</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallButton">
-      <tuv xml:lang="en">
-        <seg>Install...</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>安装</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallCompletedingMsg">
@@ -1272,54 +1255,52 @@
         <seg>安装</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg.OrLabel">
-      <tuv xml:lang="en">
-        <seg>- OR -</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>-或-</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.WindowTitle">
       <tuv xml:lang="en">
-        <seg>Download FFmpeg</seg>
+        <seg>Install FFmpeg</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>下载FFmpeg</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkAutoDownload">
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelOr1">
       <tuv xml:lang="en">
-        <seg>1) Click here and SayMore will automatically download and install FFmpeg in the proper location.</seg>
+        <seg>OR</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>或</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelOr2">
+      <tuv xml:lang="en">
+        <seg>OR</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>或</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkDownloadAndInstall">
+      <tuv xml:lang="en">
+        <seg>Download and install FFmpeg</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>点击这儿，Saymore将自动下载FFmpeg并安装</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkAutoDownload_LinkPortion">
-      <note>This is the portion of the text that is underlined, indicating the link to the download.</note>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkInstallFromZipFile">
       <tuv xml:lang="en">
-        <seg>Click here and SayMore will automatically download</seg>
+        <seg>Show SayMore where you saved it</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>点击自动下载SayMore</seg>
+        <seg>安装</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkManualDownload">
       <tuv xml:lang="en">
-        <seg>2) Click here to download FFmpeg manually and then click 'Install' to specify the location of the downloaded file for SayMore to install.</seg>
+        <seg>Open Internet browser to page containing FFmpegForSayMore.zip</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>点击手动下载FFmpeg</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkManualDownload_LinkPortion">
-      <note>This is the portion of the text that is underlined, indicating the link to the download.</note>
-      <tuv xml:lang="en">
-        <seg>Click here to download</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>点击此处下载</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.LoadingDlg.CancelLink">
@@ -2789,7 +2770,7 @@
     </tu>
     <tu tuid="PeopleView.PeopleList.HeadingText">
       <tuv xml:lang="en">
-        <seg>People</seg>
+        <seg>Items</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>人员</seg>
@@ -3279,7 +3260,7 @@
     </tu>
     <tu tuid="SessionsView.SessionsList.HeadingText">
       <tuv xml:lang="en">
-        <seg>Sessions</seg>
+        <seg>Items</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>任务</seg>

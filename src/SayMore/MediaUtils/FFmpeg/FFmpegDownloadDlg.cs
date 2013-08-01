@@ -206,7 +206,7 @@ namespace SayMore.Media.FFmpeg
 		{
 			var description = LocalizationManager.GetString(
 				"DialogBoxes.FFmpegDownloadDlg.SelectExistingFFmpegFolderDlg.Description",
-				"Select the FFmpeg for SayMore Folder from another computer",
+				"Select the FFmpeg for SayMore folder from another computer",
 				"This is the descriptive text for the 'Open Folder' dialog box when specifying the location of an \"FFmpeg for SayMore\" folder on (or copied from) another computer.");
 
 			using (var dlg = new FolderBrowserDialog())

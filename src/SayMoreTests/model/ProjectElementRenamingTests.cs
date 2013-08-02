@@ -32,7 +32,7 @@ namespace SayMoreTests.Model
 		private Session CreateSession()
 		{
 			return new Session(_parentFolder.Path, "xyz", null, new SessionFileType(() => null, () => null),
-				(parentElement, path) => null, new FileSerializer(null), (w, x, y, z) =>
+				(parentElement, path) => null, new XmlFileSerializer(null), (w, x, y, z) =>
 			{
 				return new ProjectElementComponentFile(w, x, y, z,
 					FieldUpdater.CreateMinimalFieldUpdaterForTests(null));

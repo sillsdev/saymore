@@ -70,7 +70,7 @@ namespace SayMoreTests.Model
 
 			return new Session(_parentFolder.Path, "dummyId", null,
 				new SessionFileType(() => null, () => null), componentFactory,
-				new FileSerializer(null), factory, componentRoles, personInformant.Object);
+				new XmlFileSerializer(null), factory, componentRoles, personInformant.Object);
 
 			//ComponentFile.CreateMinimalComponentFileForTests
 		}

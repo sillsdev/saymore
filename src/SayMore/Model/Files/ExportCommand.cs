@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -61,7 +62,10 @@ namespace SayMore.Model.Files
 				dlg.AutoUpgradeEnabled = true;
 				dlg.Filter = LocalizationManager.GetString("MainWindow.Export.ExportFileSaveFileDlg.CSVFileTypeText", "CSV (Comma delimited) (*.csv)|*.csv");
 				if (DialogResult.OK == dlg.ShowDialog())
+				{
 					DoExport(elements, dlg.FileName);
+					Process.Start("explorer.exe", "/select, \"" + dlg.FileName + "\"");
+				}
 			}
 		}
 
@@ -77,8 +81,58 @@ namespace SayMore.Model.Files
 					"Something went wrong with the export.");
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
 			}
+
+#if GenericCsvExperiment	//	See: https://trello.com/c/xb6dN2I9/193-more-complete-csv-export
+			//now output a file containing metadata for all the files each of those elements (e.g. all the files in the sessions, or all the files for each person)
+			try
+			{
+				var fileMetaDataPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + "-componentFiles.csv");
+				File.WriteAllText(fileMetaDataPath, GetCsvStringOfComponentFileMetadata(elements));
+			}
+			catch (Exception e)
+			{
+				var msg = LocalizationManager.GetString("MainWindow.Export.ExportFailureMsg",
+					"Something went wrong with the export.");
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
+			}
+#endif
 		}
 
+#if GenericCsvExperiment	//	See: https://trello.com/c/xb6dN2I9/193-more-complete-csv-export
+		//Get the meta data of the component files (e.g. sound, image, transcription) of a ProjectElement (i.e. session or person) as a CSV
+		private string GetCsvStringOfComponentFileMetadata(IEnumerable<ProjectElement> elements)
+		{
+			var builder = new StringBuilder();
+			foreach (var projectElement in elements)
+			{
+				foreach(var componentFile in projectElement.GetComponentFiles())
+				{
+					//review: this assumes that all the metadata we are interested in is available (and only available) via a sidecar xml file, rather than the original.
+
+					var sidecarFilePath = componentFile.FileType.GetMetaFilePath(componentFile.PathToAnnotatedFile);// componentFile.GetAnnotationFile());
+					if (!File.Exists(sidecarFilePath))
+						continue;
+
+					//Review. Doing this becuase if it's not a meta, this serializer thing isn't going to be able to read it
+					if (!sidecarFilePath.EndsWith(".meta"))
+						continue;
+
+					var metaDataFields = new List<FieldInstance>();
+					componentFile.XmlFileSerializer.Load(metaDataFields, sidecarFilePath, componentFile.RootElementName, componentFile.FileType);
+					builder.Append(componentFile.FileName + ", ");//first column is the name of the file
+					foreach (var field in metaDataFields)
+					{
+						builder.Append(field.ValueAsString+", ");
+					}
+					builder.AppendLine();
+				}
+				builder.AppendLine();//blank between project elements
+			}
+			return builder.ToString();
+		}
+#endif
+
+		//Get the data of the ProjectElement (i.e. session or person) as a CSV
 		public string GetFileString(IEnumerable<ProjectElement> elements)
 		{
 			return GetFileString(

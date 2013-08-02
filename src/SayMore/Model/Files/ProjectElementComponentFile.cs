@@ -12,14 +12,14 @@ namespace SayMore.Model.Files
 	public class ProjectElementComponentFile : ComponentFile
 	{
 		public delegate ProjectElementComponentFile Factory(ProjectElement parentElement,
-			FileType fileType, FileSerializer fileSerializer, string rootElementName);
+			FileType fileType, XmlFileSerializer xmlFileSerializer, string rootElementName);
 
 		//protected readonly ProjectElement _parentElement;
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectElementComponentFile(ProjectElement parentElement,
-			FileType fileType, FileSerializer fileSerializer, string rootElementName, FieldUpdater fieldUpdater)
-			: base(parentElement, parentElement.SettingsFilePath, fileType, rootElementName, fileSerializer, fieldUpdater)
+			FileType fileType, XmlFileSerializer xmlFileSerializer, string rootElementName, FieldUpdater fieldUpdater)
+			: base(parentElement, parentElement.SettingsFilePath, fileType, rootElementName, xmlFileSerializer, fieldUpdater)
 		{
 			InitializeFileInfo();
 		}

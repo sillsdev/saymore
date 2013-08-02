@@ -52,7 +52,7 @@ namespace SayMore.Model
 		/// <param name="id">e.g. "ETR007"</param>
 		/// <param name="idChangedNotificationReceiver"></param>
 		/// <param name="componentFileFactory"></param>
-		/// <param name="fileSerializer">used to load/save</param>
+		/// <param name="xmlFileSerializer">used to load/save</param>
 		/// <param name="fileType"></param>
 		/// <param name="prjElementComponentFileFactory"></param>
 		/// <param name="componentRoles"></param>
@@ -60,7 +60,7 @@ namespace SayMore.Model
 		protected ProjectElement(string parentElementFolder, string id,
 			Action<ProjectElement, string, string> idChangedNotificationReceiver, FileType fileType,
 			Func<ProjectElement, string, ComponentFile> componentFileFactory,
-			FileSerializer fileSerializer,
+			XmlFileSerializer xmlFileSerializer,
 			ProjectElementComponentFile.Factory prjElementComponentFileFactory,
 			IEnumerable<ComponentRole> componentRoles)
 		{
@@ -76,7 +76,7 @@ namespace SayMore.Model
 			_id = id ?? GetNewDefaultElementName();
 			IdChangedNotificationReceiver = idChangedNotificationReceiver;
 
-			MetaDataFile = prjElementComponentFileFactory(this, fileType, fileSerializer, RootElementName);
+			MetaDataFile = prjElementComponentFileFactory(this, fileType, xmlFileSerializer, RootElementName);
 
 			if (File.Exists(SettingsFilePath))
 				Load();

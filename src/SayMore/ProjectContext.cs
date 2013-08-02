@@ -124,7 +124,7 @@ namespace SayMore
 				builder.Register<ComponentFileFactory>(c => new ComponentFileFactory(
 					c.Resolve<IEnumerable<FileType>>(),
 					c.Resolve<IEnumerable<ComponentRole>>(),
-					c.Resolve<FileSerializer>(),
+					c.Resolve<XmlFileSerializer>(),
 					c.Resolve<IProvideAudioVideoFileStatistics>(),
 					c.Resolve<PresetGatherer>(),
 					c.Resolve<FieldUpdater>()));

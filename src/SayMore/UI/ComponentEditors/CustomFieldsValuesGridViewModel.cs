@@ -10,7 +10,7 @@ namespace SayMore.UI.ComponentEditors
 		public CustomFieldsValuesGridViewModel(ComponentFile file,
 			IMultiListDataProvider autoCompleteProvider, FieldGatherer fieldGatherer) :
 			base(file, autoCompleteProvider, fieldGatherer,
-			key => key.StartsWith(FileSerializer.kCustomFieldIdPrefix))
+			key => key.StartsWith(XmlFileSerializer.kCustomFieldIdPrefix))
 		{
 		}
 
@@ -19,14 +19,14 @@ namespace SayMore.UI.ComponentEditors
 		{
 			var id = GetIdForIndex(index);
 			if (id != null)
-				id = id.Substring(FileSerializer.kCustomFieldIdPrefix.Length).Replace('_', ' ');
+				id = id.Substring(XmlFileSerializer.kCustomFieldIdPrefix.Length).Replace('_', ' ');
 			return id;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string GetFieldNameToSerialize(string id)
 		{
-			return FileSerializer.kCustomFieldIdPrefix + base.GetFieldNameToSerialize(id);
+			return XmlFileSerializer.kCustomFieldIdPrefix + base.GetFieldNameToSerialize(id);
 		}
 	}
 }

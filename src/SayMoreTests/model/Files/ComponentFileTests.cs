@@ -71,7 +71,7 @@ namespace SayMoreTests.Model.Files
 
 			var cf = new ComponentFile(parentElement, parentFolder.Combine(fileName),
 				new[] { FileType.Create("Text", ".txt"), new UnknownFileType(null, null) },
-				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
+				new ComponentRole[] { }, new XmlFileSerializer(null), null, null, null);
 
 			cf.Save(); //creates the meta file path
 
@@ -425,7 +425,7 @@ namespace SayMoreTests.Model.Files
 		{
 			var file = new ComponentFile(null, _parentFolder.Combine(filename),
 				new FileType[] { new AudioFileType(null, null, null), new UnknownFileType(null, null) },
-				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
+				new ComponentRole[] { }, new XmlFileSerializer(null), null, null, null);
 
 			var annotationPath = Path.Combine(_parentFolder.Path,
 				AnnotationFileHelper.ComputeEafFileNameFromOralAnnotationFile(filename));
@@ -441,7 +441,7 @@ namespace SayMoreTests.Model.Files
 		{
 			var file = new ComponentFile(null, _parentFolder.Combine(filename),
 				new FileType[] { new VideoFileType(null, null, null), new UnknownFileType(null, null) },
-				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
+				new ComponentRole[] { }, new XmlFileSerializer(null), null, null, null);
 
 			var annotationPath = Path.Combine(_parentFolder.Path,
 				AnnotationFileHelper.ComputeEafFileNameFromOralAnnotationFile(filename));
@@ -484,7 +484,7 @@ namespace SayMoreTests.Model.Files
 			};
 
 			return new ComponentFile(parentElement, path, new[] { FileType.Create("Text", ".txt"), FileType.Create("Audio", ".avi"), },
-				componentRoles, new FileSerializer(null), null, null, null);
+				componentRoles, new XmlFileSerializer(null), null, null, null);
 		}
 
 		[Test]

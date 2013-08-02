@@ -52,7 +52,7 @@ namespace SayMoreTests.Model
 		public static Session CreateSession(string parentFolderPath, string name)
 		{
 			return new Session(parentFolderPath, name, null, new SessionFileType(() => null, () => null),
-				MakeComponent, new FileSerializer(null), (w, x, y, z) =>
+				MakeComponent, new XmlFileSerializer(null), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
 					ApplicationContainer.ComponentRoles, null);
 		}
@@ -65,7 +65,7 @@ namespace SayMoreTests.Model
 		public static Person CreatePerson(string parentFolderPath, string name)
 		{
 			return new Person(parentFolderPath, name, null, new PersonFileType(() => null),
-				MakeComponent, new FileSerializer(null), (w, x, y, z) =>
+				MakeComponent, new XmlFileSerializer(null), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
 				new ComponentRole[] {});
 		}

@@ -45,7 +45,7 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 		{
 			return new NewComponentFile(path,
 				new[] { FileType.Create("Text", ".txt"), new UnknownFileType(null, null) },
-				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
+				new ComponentRole[] { }, new XmlFileSerializer(null), null, null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -14,7 +14,7 @@ namespace SayMore.Model.Files
 			ComponentFile associatedComponentFile, IEnumerable<FileType> fileTypes,
 			IEnumerable<ComponentRole> componentRoles) :
 			base(parentElement, pathToAnnotatedFile, fileTypes, componentRoles,
-				associatedComponentFile.FileSerializer, associatedComponentFile.StatisticsProvider,
+				associatedComponentFile.XmlFileSerializer, associatedComponentFile.StatisticsProvider,
 				associatedComponentFile.PresetProvider, associatedComponentFile.FieldUpdater)
 		{
 			AssociatedComponentFile = associatedComponentFile;

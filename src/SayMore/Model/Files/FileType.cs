@@ -779,9 +779,9 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override void Migrate(ComponentFile file)
 		{
-			MigrateFieldToContribution(file, FileSerializer.kCustomFieldIdPrefix + "Recordist", "recorder");
-			MigrateFieldToContribution(file, FileSerializer.kCustomFieldIdPrefix + "Speaker", "speaker");
-			MigrateFieldToContribution(file, FileSerializer.kCustomFieldIdPrefix + "speaker", "speaker");
+			MigrateFieldToContribution(file, XmlFileSerializer.kCustomFieldIdPrefix + "Recordist", "recorder");
+			MigrateFieldToContribution(file, XmlFileSerializer.kCustomFieldIdPrefix + "Speaker", "speaker");
+			MigrateFieldToContribution(file, XmlFileSerializer.kCustomFieldIdPrefix + "speaker", "speaker");
 		}
 
 		/// ------------------------------------------------------------------------------------

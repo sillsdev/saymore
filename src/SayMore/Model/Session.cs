@@ -41,12 +41,12 @@ namespace SayMore.Model
 			Action<ProjectElement, string, string> idChangedNotificationReceiver,
 			SessionFileType sessionFileType,
 			Func<ProjectElement, string, ComponentFile> componentFileFactory,
-			FileSerializer fileSerializer,
+			XmlFileSerializer xmlFileSerializer,
 			ProjectElementComponentFile.Factory prjElementComponentFileFactory,
 			IEnumerable<ComponentRole> componentRoles,
 			PersonInformant personInformant)
 			: base(parentElementFolder, id, idChangedNotificationReceiver, sessionFileType,
-				componentFileFactory, fileSerializer, prjElementComponentFileFactory, componentRoles)
+				componentFileFactory, xmlFileSerializer, prjElementComponentFileFactory, componentRoles)
 		{
 			_personInformant = personInformant;
 

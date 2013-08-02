@@ -70,7 +70,7 @@ namespace SayMore.Model.Files
 		private AnnotationComponentFile _annotationFile;
 
 		protected IEnumerable<ComponentRole> _componentRoles;
-		private readonly FileSerializer _fileSerializer;
+		private readonly XmlFileSerializer _xmlFileSerializer;
 		private readonly IProvideAudioVideoFileStatistics _statisticsProvider;
 		private readonly PresetGatherer _presetProvider;
 		private readonly FieldUpdater _fieldUpdater;
@@ -99,7 +99,7 @@ namespace SayMore.Model.Files
 			string pathToAnnotatedFile,
 			IEnumerable<FileType> fileTypes,
 			IEnumerable<ComponentRole> componentRoles,
-			FileSerializer fileSerializer,
+			XmlFileSerializer xmlFileSerializer,
 			IProvideAudioVideoFileStatistics statisticsProvider,
 			PresetGatherer presetProvider,
 			FieldUpdater fieldUpdater)
@@ -107,7 +107,7 @@ namespace SayMore.Model.Files
 			ParentElement = parentElement;
 			PathToAnnotatedFile = pathToAnnotatedFile;
 			_componentRoles = componentRoles;
-			_fileSerializer = fileSerializer;
+			_xmlFileSerializer = xmlFileSerializer;
 			_statisticsProvider = statisticsProvider;
 			_presetProvider = presetProvider;
 			_fieldUpdater = fieldUpdater;
@@ -145,14 +145,14 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected ComponentFile(ProjectElement parentElement, string filePath,
 			FileType fileType, string rootElementName,
-			FileSerializer fileSerializer, FieldUpdater fieldUpdater)
+			XmlFileSerializer xmlFileSerializer, FieldUpdater fieldUpdater)
 		{
 			RootElementName = rootElementName;
 			ParentElement = parentElement;
 			//The annotated file is the same as the annotation file; there isn't a pair of files for session/person
 			PathToAnnotatedFile = filePath;
 			FileType = fileType;
-			_fileSerializer = fileSerializer;
+			_xmlFileSerializer = xmlFileSerializer;
 			_metaDataPath = filePath;
 			_fieldUpdater = fieldUpdater;
 			MetaDataFieldValues = new List<FieldInstance>();
@@ -270,7 +270,7 @@ namespace SayMore.Model.Files
 		#endregion
 
 		#region Public properties
-		public FileSerializer FileSerializer { get { return _fileSerializer; } }
+		public XmlFileSerializer XmlFileSerializer { get { return _xmlFileSerializer; } }
 		public IProvideAudioVideoFileStatistics StatisticsProvider { get { return _statisticsProvider; } }
 		public PresetGatherer PresetProvider { get { return _presetProvider; } }
 		public FieldUpdater FieldUpdater { get { return _fieldUpdater; } }
@@ -473,7 +473,7 @@ namespace SayMore.Model.Files
 		{
 			_metaDataPath = path;
 			OnBeforeSave(this);
-			FileSerializer.Save(MetaDataFieldValues, _metaDataPath, RootElementName);
+			XmlFileSerializer.Save(MetaDataFieldValues, _metaDataPath, RootElementName);
 			OnAfterSave(this);
 		}
 
@@ -494,8 +494,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual void Load()
 		{
-			FileSerializer.CreateIfMissing(_metaDataPath, RootElementName);
-			FileSerializer.Load(/*TODO this.Work, */ MetaDataFieldValues,
+			XmlFileSerializer.CreateIfMissing(_metaDataPath, RootElementName);
+			XmlFileSerializer.Load(/*TODO this.Work, */ MetaDataFieldValues,
 				_metaDataPath, RootElementName, FileType);
 		}
 
@@ -596,14 +596,14 @@ namespace SayMore.Model.Files
 		public static ComponentFile CreateMinimalComponentFileForTests(ProjectElement parentElement, string path)
 		{
 			return new ComponentFile(parentElement, path, new FileType[] { new UnknownFileType(null, null) },
-				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
+				new ComponentRole[] { }, new XmlFileSerializer(null), null, null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(string path, FileType fileType)
 		{
 			return new ComponentFile(null, path, new[] { fileType },
-				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
+				new ComponentRole[] { }, new XmlFileSerializer(null), null, null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------

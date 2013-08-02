@@ -13,17 +13,17 @@ namespace SayMore.Model.Files
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// This class lets us save and load objects which have a set of fields.
+	/// This class lets us save and load objects which have a set of fields to/from simple XML files.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class FileSerializer
+	public class XmlFileSerializer
 	{
 		public const string kCustomFieldIdPrefix = "custom_";
 		private const string kCustomFieldsElement = "CustomFields";
 		protected IDictionary<string, IXmlFieldSerializer> _xmlFieldSerializers;
 
 		/// ------------------------------------------------------------------------------------
-		public FileSerializer(IDictionary<string, IXmlFieldSerializer> xmlFieldSerializers)
+		public XmlFileSerializer(IDictionary<string, IXmlFieldSerializer> xmlFieldSerializers)
 		{
 			_xmlFieldSerializers = xmlFieldSerializers;
 		}

@@ -18,13 +18,13 @@ namespace SayMore.Model.Files
 	{
 		private string _rootProjectFolder;
 		private readonly FieldGatherer _fieldGatherer;
-		private readonly FileSerializer _fileSerializer;
+		private readonly XmlFileSerializer _xmlFileSerializer;
 
 		/// ------------------------------------------------------------------------------------
 		public FieldUpdater(FieldGatherer fieldGatherer,
 			IDictionary<string, IXmlFieldSerializer> fieldSerializers)
 		{
-			_fileSerializer = new FileSerializer(fieldSerializers);
+			_xmlFileSerializer = new XmlFileSerializer(fieldSerializers);
 			_fieldGatherer = fieldGatherer;
 
 			if (_fieldGatherer != null)
@@ -65,9 +65,11 @@ namespace SayMore.Model.Files
 			// Since the field being removed or renamed is *no longer* a factory field, it
 			// will be loaded as a custom field (having prefix "custom_", so if the caller
 			// passes the field name without that prefix, we need to add it.
-			if (!idOfFieldToFind.StartsWith(FileSerializer.kCustomFieldIdPrefix))
-				idOfFieldToFind = FileSerializer.kCustomFieldIdPrefix + idOfFieldToFind;
+			if (!idOfFieldToFind.StartsWith(XmlFileSerializer.kCustomFieldIdPrefix))
+				idOfFieldToFind = XmlFileSerializer.kCustomFieldIdPrefix + idOfFieldToFind;
 
+			//REVIEW (jh aug 2013): It's not clear to me here why we take a ComponentFile above, but then loop over every single matching file in the whole SayMore Project, here.
+			//Probably my question stems from not immediately seeing what this whole class is for.
 			var matchingFiles = GetMatchingFiles(file.FileType);
 
 			if (_fieldGatherer != null)
@@ -83,13 +85,13 @@ namespace SayMore.Model.Files
 					continue;
 
 				var metaDataFields = new List<FieldInstance>();
-				_fileSerializer.Load(metaDataFields, sidecarFilePath, file.RootElementName, file.FileType);
+				_xmlFileSerializer.Load(metaDataFields, sidecarFilePath, file.RootElementName, file.FileType);
 
 				var field = metaDataFields.Find(x => x.FieldId == idOfFieldToFind);
 				if (field != null)
 				{
 					updateAction(metaDataFields, field);
-					_fileSerializer.Save(metaDataFields, sidecarFilePath, file.RootElementName);
+					_xmlFileSerializer.Save(metaDataFields, sidecarFilePath, file.RootElementName);
 					if (_fieldGatherer != null)
 						_fieldGatherer.GatherFieldsForFileNow(sidecarFilePath);
 				}

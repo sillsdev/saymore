@@ -49,7 +49,7 @@ namespace SayMoreTests.Model.Files
 
 		private TemporaryFolder _parentFolder;
 		private List<FieldInstance> _fields;
-		private FileSerializer _serializer;
+		private XmlFileSerializer _serializer;
 		private TestFieldSerializer _testFieldSerializer;
 		private Mock<FileType> _fileType;
 
@@ -64,7 +64,7 @@ namespace SayMoreTests.Model.Files
 			var fieldSerializers = new Dictionary<string, IXmlFieldSerializer>();
 			fieldSerializers[_testFieldSerializer.ElementName] = _testFieldSerializer;
 
-			_serializer = new FileSerializer(fieldSerializers);
+			_serializer = new XmlFileSerializer(fieldSerializers);
 			_parentFolder = new TemporaryFolder("fileTypeTest");
 			_fields = new List<FieldInstance>();
 		}

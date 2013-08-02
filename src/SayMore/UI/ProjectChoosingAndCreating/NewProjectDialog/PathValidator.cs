@@ -38,16 +38,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		/// Validates the path entry.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool IsPathValid(string basePath, string newFolderName)
-		{
-			return IsPathValid(basePath, newFolderName, null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Validates the path entry.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool IsPathValid(string basePath, string newFolderName, string validMsg)
 		{
 			return IsPathValid(basePath, newFolderName, validMsg, null);
@@ -77,18 +67,15 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			}
 			else
 			{
-				var fullPath = Path.Combine(basePath, newFolderName);
-				string[] dirs = fullPath.Split(Path.DirectorySeparatorChar);
-				if (dirs.Length > 1)
-				{
-					string root = Path.Combine(dirs[dirs.Length - 3], dirs[dirs.Length - 2]);
-					root = Path.Combine(root, dirs[dirs.Length - 1]);
-					_message = string.Format(validMsg ?? string.Empty, root);
-					_foreColor = Color.Gray;
+				var newPath = Path.Combine(basePath, newFolderName);
+				if (_tooltip != null)
+					_tooltip.SetToolTip(_ctrlMessage, newPath);
+				string[] dirs = newPath.Split(Path.DirectorySeparatorChar);
 
-					if (_tooltip != null)
-						_tooltip.SetToolTip(_ctrlMessage, fullPath);
-				}
+				if (dirs.Length > 3) // Don't display leading portion of path if more than three folders deep
+					newPath = Path.Combine(dirs[dirs.Length - 3], dirs[dirs.Length - 2], dirs[dirs.Length - 1]);
+				_message = validMsg == null ? string.Empty : string.Format(validMsg, newPath);
+				_foreColor = Color.DarkSlateGray;
 			}
 
 			if (_ctrlMessage != null)

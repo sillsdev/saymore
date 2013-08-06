@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.IO;
 using Palaso.UI.WindowsForms.ClearShare;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Media;
@@ -871,7 +872,7 @@ namespace SayMore.Model.Files
 			Func<AudioComponentEditor.Factory> audioComponentEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
 			: base("Audio", project,
-				p => Settings.Default.AudioFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())),
+				p => FileUtils.AudioFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())),
 				contributorsEditorFactoryLazy)
 		{
 			_audioComponentEditorFactoryLazy = audioComponentEditorFactoryLazy;
@@ -946,7 +947,7 @@ namespace SayMore.Model.Files
 		public VideoFileType(Project project,
 			Func<VideoComponentEditor.Factory> videoComponentEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
-			: base("Video", project, p => Settings.Default.VideoFileExtensions.Cast<string>()
+			: base("Video", project, p => FileUtils.VideoFileExtensions.Cast<string>()
 				.Any(ext => p.ToLower().EndsWith(ext.ToLower())), contributorsEditorFactoryLazy)
 		{
 			_videoComponentEditorFactoryLazy = videoComponentEditorFactoryLazy;
@@ -1020,7 +1021,7 @@ namespace SayMore.Model.Files
 		public ImageFileType(
 			Func<BasicFieldGridEditor.Factory> basicFieldGridEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
-			: base("Image", p => Settings.Default.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())))
+			: base("Image", p => FileUtils.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())))
 		{
 			_basicFieldGridEditorFactoryLazy = basicFieldGridEditorFactoryLazy;
 			_contributorsEditorFactoryLazy = contributorsEditorFactoryLazy;

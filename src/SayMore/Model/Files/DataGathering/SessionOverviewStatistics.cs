@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Palaso.IO;
 using SayMore.Properties;
 
 namespace SayMore.Model.Files.DataGathering
@@ -31,8 +32,8 @@ namespace SayMore.Model.Files.DataGathering
 			_sessionFiles = Directory.GetFiles(sessionFolder, "*.*").Select(x => x.ToLowerInvariant());
 
 			_recordingFileExtensions = new List<string>();
-			_recordingFileExtensions.AddRange(Settings.Default.AudioFileExtensions.Cast<string>());
-			_recordingFileExtensions.AddRange(Settings.Default.VideoFileExtensions.Cast<string>());
+			_recordingFileExtensions.AddRange(FileUtils.AudioFileExtensions.Cast<string>());
+			_recordingFileExtensions.AddRange(FileUtils.VideoFileExtensions.Cast<string>());
 		}
 
 		/// ------------------------------------------------------------------------------------

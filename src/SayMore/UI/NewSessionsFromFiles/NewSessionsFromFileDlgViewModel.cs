@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.IO;
 using Palaso.Reporting;
 using SayMore.Model;
 using SayMore.Model.Files;
@@ -347,8 +348,8 @@ namespace SayMore.UI.NewSessionsFromFiles
 				return;
 
 			var validExtensions = new List<string>();
-			validExtensions.AddRange(Settings.Default.AudioFileExtensions.Cast<string>().Select(x => x.ToLower()));
-			validExtensions.AddRange(Settings.Default.VideoFileExtensions.Cast<string>().Select(x => x.ToLower()));
+			validExtensions.AddRange(FileUtils.AudioFileExtensions.Cast<string>().Select(x => x.ToLower()));
+			validExtensions.AddRange(FileUtils.VideoFileExtensions.Cast<string>().Select(x => x.ToLower()));
 
 			foreach (var file in fileList)
 			{

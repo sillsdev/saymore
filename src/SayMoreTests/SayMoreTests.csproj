@@ -143,6 +143,9 @@
     <Compile Include="Transcription\Model\TimeTierTests.cs" />
     <Compile Include="Transcription\UI\OralAnnotationRecorderDlgViewModelTests.cs" />
     <Compile Include="Transcription\UI\SegmenterDlgBaseViewModelTests.cs" />
+    <Compile Include="model\SessionArchivingTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="UI\Charts\ChartBarInfoTests.cs" />
     <Compile Include="UI\Charts\HTMLChartBuilderTests.cs" />
     <Compile Include="UI\ComponentEditors\EditorBaseTests.cs" />
@@ -158,8 +161,6 @@
     <Compile Include="UI\Overview\Statistics\StatisticsViewModelTests.cs" />
     <Compile Include="UI\ProjectWindow\AppSmokeTests.cs" />
     <Compile Include="UI\ProjectWindow\ReleaseNotesCommandTests.cs" />
-    <Compile Include="Utilities\FileSystemUtilsTests.cs" />
-    <Compile Include="UI\Archiving\ArchivingDlgViewModelTests.cs" />
     <Compile Include="Utilities\JSONUtilsTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Statistics\" />
+    <Folder Include="UI\Archiving\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\shortVideo.wmv" />

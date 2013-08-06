@@ -282,19 +282,22 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string DurationString
+		public virtual TimeSpan DurationSeconds
 		{
 			get
 			{
 				if (StatisticsProvider == null)
-					return string.Empty;
+					return TimeSpan.Zero;
 
 				var stats = StatisticsProvider.GetFileData(PathToAnnotatedFile);
 				if (stats == null || stats.Duration == default(TimeSpan))
-					return GetStringValue("Duration", string.Empty);
+				{
+					string duration = GetStringValue("Duration", string.Empty);
+					return string.IsNullOrEmpty(duration) ? TimeSpan.Zero : TimeSpan.Parse(duration);
+				}
 
 				//trim off the milliseconds so it doesn't get too geeky
-				return TimeSpan.FromSeconds((int)stats.Duration.TotalSeconds).ToString();
+				return TimeSpan.FromSeconds((int)stats.Duration.TotalSeconds);
 			}
 		}
 		#endregion

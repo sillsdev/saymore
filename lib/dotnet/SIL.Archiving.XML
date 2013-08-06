@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<doc>
+	<assembly>
+		<name>SIL.Archiving</name>
+	</assembly>
+	<members>
+		<member name="M:SIL.Archiving.JSONUtils.MakeKeyValuePair(System.String,System.String)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.JSONUtils.MakeKeyValuePair(System.String,System.String,System.Boolean)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.JSONUtils.MakeBracketedListFromValues(System.String,System.Collections.Generic.IEnumerable{System.String})">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.JSONUtils.MakeArrayFromValues(System.String,System.Collections.Generic.IEnumerable{System.String})">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.JSONUtils.EncodeData(System.String)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="T:SIL.Archiving.ArchivingDlg">
+			----------------------------------------------------------------------------------------
+		</member>
+		<member name="F:SIL.Archiving.ArchivingDlg.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlg.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlg.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlg.#ctor(SIL.Archiving.ArchivingDlgViewModel,System.Func{System.Collections.Generic.IDictionary{System.String,System.Tuple{System.Collections.Generic.IEnumerable{System.String},System.String}}},System.Drawing.Rectangle,System.Windows.Forms.FormWindowState)">
+			------------------------------------------------------------------------------------
+			<param name="model">View model</param>
+			<param name="getFilesToArchive">delegate to retrieve the lists of files of files to
+			archive, keyed and grouped according to whatever logical grouping makes sense in the
+			calling application. The key for each group will be supplied back to the calling app
+			for use in "normalizing" file names. For each group, in addition to the enumerated
+			files to include (in Item1 of the Tuple), the calling app can provide a progress
+			message (in Item2 of the Tuple) to be displayed when that group of files is being
+			zipped and added to the RAMP file.</param>
+			<param name="bounds">Location and size where the client would like the dialog box
+			to appear (at current DPI)</param>
+			<param name="state">Window state in which the client would like the dialog box to
+			appear</param>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlg.OnLoad(System.EventArgs)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlg.OnShown(System.EventArgs)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlg.HandleRampLinkClicked(System.Object,System.Windows.Forms.LinkLabelLinkClickedEventArgs)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="T:SIL.Archiving.Properties.Resources">
+			<summary>
+			  A strongly-typed resource class, for looking up localized strings, etc.
+			</summary>
+		</member>
+		<member name="P:SIL.Archiving.Properties.Resources.ResourceManager">
+			<summary>
+			  Returns the cached ResourceManager instance used by this class.
+			</summary>
+		</member>
+		<member name="P:SIL.Archiving.Properties.Resources.Culture">
+			<summary>
+			  Overrides the current thread's CurrentUICulture property for all
+			  resource lookups using this strongly typed resource class.
+			</summary>
+		</member>
+		<member name="P:SIL.Archiving.Properties.Resources.EmptyMets">
+			<summary>
+			  Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;&lt;mets ID=&quot;sort-mets_mets&quot; OBJID=&quot;sword-mets&quot; LABEL=&quot;DSpace SWORD Item&quot; PROFILE=&quot;DSpace SIL SIP Profile 1.0&quot; xmlns=&quot;http://www.loc.gov/METS/&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd&quot;&gt;
+			 &lt;metsHdr/&gt;
+			 &lt;dmdSec ID=&quot;ramp-mets-dmd-2&quot; GROUPID=&quot;ramp-mets-dmd-2_group-1&quot;&gt;
+			   &lt;mdWrap LABEL=&quot;RAMP Metadata&quot; MDTYPE=&quot;OTHER&quot; OTHERMDTYPE=&quot;S [rest of string was truncated]&quot;;.
+			</summary>
+		</member>
+		<member name="F:SIL.Archiving.ArchivingDlgViewModel.CopyBufferSize">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.#ctor(System.String,System.String,System.Drawing.Font,System.Func{System.Collections.Generic.IEnumerable{System.String}},System.Func{System.String,System.String,System.String},System.Func{SIL.Archiving.ArchivingDlgViewModel,System.String,System.String,System.Boolean},System.Action{System.String,System.String,System.Text.StringBuilder})">
+			------------------------------------------------------------------------------------
+			<summary>Constructor</summary>
+			<param name="title">Title of the submission</param>
+			<param name="id">Identifier (used as filename) for the package being created</param>
+			<param name="programDialogFont">The default dialog font used by the calling
+			application to ensure a consistent look in the UI</param>
+			<param name="getAppSpecificMetsPairs">Callback function for the application to
+			supply application-specific strings to be included in METS file. These need to be
+			formatted correctly as JSON key-value pairs.</param>
+			<param name="getFileDescription">Callback function to get a file description based
+			on the file-list key (param 1) and the filename (param 2)</param>
+			<param name="specialFileCopy">Callback function to allow the calling application to
+			modify the contents of a file rather than merely copying it. If application handles
+			the "copy" it should return true; otherwise, false.</param>
+			<param name="appSpecificFilenameNormalization">Callback to do application-specific
+			normalization of filenames to be added to archive based on the file-list key
+			(param 1) and the filename (param 2). The StringBuilder (param 3) has the normalized
+			name which the app can further alter as needed.</param>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.Initialize(System.Func{System.Collections.Generic.IDictionary{System.String,System.Tuple{System.Collections.Generic.IEnumerable{System.String},System.String}}},System.Int32@,System.Action)">
+			------------------------------------------------------------------------------------
+			<param name="getFilesToArchive">delegate to retrieve the lists of files of files to
+			archive, keyed and grouped according to whatever logical grouping makes sense in the
+			calling application. The key for each group will be supplied back to the calling app
+			for use in "normalizing" file names. For each group, in addition to the enumerated
+			files to include (in Item1 of the Tuple), the calling app can provide a progress
+			message (in Item2 of the Tuple) to be displayed when that group of files is being
+			zipped and added to the RAMP file.</param>
+			<param name="maxProgBarValue">Value calculated as the max value for the progress
+			bar so the dialog can set that correctly</param>
+			<param name="incrementProgressBarAction">Delegate to inform the dialog box that
+			the progress should be incremented</param>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.DisplayInitialSummary">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.CallRAMP">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.EnsureRampHasFocusAndWaitForPackageToUnlock">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.CheckIfPackageFileIsLocked(System.Object)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.CreatePackage">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.CreateMetsFile">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.GetMetsPairs">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.GetMode(System.Collections.Generic.IEnumerable{System.String})">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.GetSourceFilesForMetsData(System.Collections.Generic.IDictionary{System.String,System.Tuple{System.Collections.Generic.IEnumerable{System.String},System.String}})">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.NormalizeFilenameForRAMP(System.String,System.String)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.CreateRampPackage">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.CreateZipFileInWorkerThread(System.Object,System.ComponentModel.DoWorkEventArgs)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.HandleZipSaveProgress(System.Object,Ionic.Zip.SaveProgressEventArgs)">
+			------------------------------------------------------------------------------------
+			<summary>
+			This is called by the Save method on the ZipFile class as the zip file is being
+			saved to the disk.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.HandleBackgroundWorkerProgressChanged(System.Object,System.ComponentModel.ProgressChangedEventArgs)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.Cancel">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.ReportError(System.Exception,System.String)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.CleanUp">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SIL.Archiving.ArchivingDlgViewModel.CleanUpTempRampPackage">
+			------------------------------------------------------------------------------------
+		</member>
+	</members>
+</doc>

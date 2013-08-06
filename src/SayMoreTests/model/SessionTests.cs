@@ -34,15 +34,15 @@ namespace SayMoreTests.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private Session CreateSession(IEnumerable<string> particpants)
+		private Session CreateSession(IEnumerable<string> participants)
 		{
-			ProjectElementComponentFile.Factory factory = (parentElement, fileType, fileSerializer, ootElementName) =>
+			ProjectElementComponentFile.Factory factory = (parentElement, fileType, fileSerializer, rootElementName) =>
 			{
 			  var file = new Mock<ProjectElementComponentFile>();
 			  file.Setup(f => f.Save());
 			  file.Setup(
 				  f => f.GetStringValue("participants", string.Empty)).
-					Returns(particpants.Count() > 0 ? particpants.Aggregate((a,b)=>a+";"+b):string.Empty
+					Returns(participants.Count() > 0 ? participants.Aggregate((a,b)=>a+";"+b):string.Empty
 				  );
 			  return file.Object;
 			};
@@ -56,9 +56,9 @@ namespace SayMoreTests.Model
 			};
 
 			var personInformant = new Mock<PersonInformant>();
-			foreach (var particpant in particpants)
+			foreach (var participant in participants)
 			{
-				personInformant.Setup(i => i.GetHasInformedConsent(particpant)).Returns(particpant.Contains("Consent"));
+				personInformant.Setup(i => i.GetHasInformedConsent(participant)).Returns(participant.Contains("Consent"));
 			}
 
 			var componentRoles = new List<ComponentRole>();
@@ -188,6 +188,16 @@ namespace SayMoreTests.Model
 				var file2 = list.SingleOrDefault(kvp => kvp.Key == srcFile2);
 				Assert.IsNotNull(file2);
 				Assert.AreEqual(Path.Combine(session.FolderPath, Path.GetFileName(srcFile2)), file2.Value);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTotalDurationOfSourceMedia_SessionFileIsOnlyComponentFile_ReturnsZero()
+		{
+			using (var session = CreateSession(new string[] { }))
+			{
+				Assert.AreEqual(TimeSpan.Zero, session.GetTotalDurationOfSourceMedia());
 			}
 		}
 	}

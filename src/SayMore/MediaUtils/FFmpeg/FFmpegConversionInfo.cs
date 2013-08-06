@@ -23,9 +23,9 @@ namespace SayMore.Media.FFmpeg
 			var ffmpegConversions = new IniDocument(iniFile);
 			var typeToShow = string.Empty;
 
-			if (Settings.Default.AudioFileExtensions.Contains(Path.GetExtension(fileToConvert)))
+			if (FileUtils.AudioFileExtensions.Contains(Path.GetExtension(fileToConvert)))
 				typeToShow = "audio";
-			else if (Settings.Default.VideoFileExtensions.Contains(Path.GetExtension(fileToConvert)))
+			else if (FileUtils.VideoFileExtensions.Contains(Path.GetExtension(fileToConvert)))
 				typeToShow = "video";
 
 			for (int i = 0; i < ffmpegConversions.Sections.Count; i++)

@@ -66,3 +66,5 @@ DistFiles/SayMore.chw
 Thumbs.db
 src/AutoSegmenter/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 lib/dotnet/L10NSharp.*
+lib/dotnet/SilUtils.dll
+lib/dotnet/SIL.Archiving.*

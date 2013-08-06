@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using Palaso.IO;
 using SayMore.Properties;
 
 namespace SayMore.Utilities
@@ -10,40 +11,9 @@ namespace SayMore.Utilities
 	public class FileSystemUtils
 	{
 		/// ------------------------------------------------------------------------------------
-		public static bool GetIsText(string path)
-		{
-			return GetIsSpecifiedFileType(Settings.Default.TextFileExtensions, path);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public static bool GetIsAudioVideo(string path)
 		{
-			return (GetIsAudio(path) || GetIsVideo(path));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static bool GetIsAudio(string path)
-		{
-			return GetIsSpecifiedFileType(Settings.Default.AudioFileExtensions, path);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static bool GetIsVideo(string path)
-		{
-			return GetIsSpecifiedFileType(Settings.Default.VideoFileExtensions, path);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static bool GetIsImage(string path)
-		{
-			return GetIsSpecifiedFileType(Settings.Default.ImageFileExtensions, path);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static bool GetIsSpecifiedFileType(StringCollection extensions, string path)
-		{
-			var extension = Path.GetExtension(path);
-			return (extension != null) && extensions.Contains(extension.ToLower());
+			return (FileUtils.GetIsAudio(path) || FileUtils.GetIsVideo(path));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -91,30 +61,13 @@ namespace SayMore.Utilities
 			// Now wait until the process lets go of the file.
 			while (DateTime.Now < timeout)
 			{
-				if (!IsFileLocked(filePath))
+				if (!FileUtils.IsFileLocked(filePath))
 					return;
 
 				if (callingThread == Thread.CurrentThread)
 					Application.DoEvents();
 				else
 					Thread.Sleep(100);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static bool IsFileLocked(string filePath)
-		{
-			if (filePath == null || !File.Exists(filePath))
-				return false;
-
-			try
-			{
-				File.OpenWrite(filePath).Close();
-				return false;
-			}
-			catch
-			{
-				return true;
 			}
 		}
 

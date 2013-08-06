@@ -86,9 +86,15 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="SIL.Archiving">
+      <HintPath>..\..\lib\dotnet\SIL.Archiving.dll</HintPath>
+    </Reference>
     <Reference Include="SilTools, Version=2.0.4416.18215, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\SilTools.dll</HintPath>
+    </Reference>
+    <Reference Include="SilUtils">
+      <HintPath>..\..\lib\dotnet\SilUtils.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -284,12 +290,6 @@
     <Compile Include="Transcription\UI\TextAnnotationGrid\TierColumnBase.cs" />
     <Compile Include="Transcription\UI\TextAnnotationGrid\TranscriptionAnnotationColumn.cs" />
     <Compile Include="Transcription\UI\TextAnnotationGrid\TranslationAnnotationColumn.cs" />
-    <Compile Include="UI\Archiving\ArchivingDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Archiving\ArchivingDlg.Designer.cs">
-      <DependentUpon>ArchivingDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Charts\ChartBarInfo.cs" />
     <Compile Include="UI\Charts\HTMLChartBuilder.cs" />
     <Compile Include="UI\ComponentEditors\AudioComponentEditor.cs">
@@ -687,9 +687,6 @@
     <EmbeddedResource Include="Transcription\UI\TextAnnotationGrid\TextAnnotationEditorGrid.resx">
       <DependentUpon>TextAnnotationEditorGrid.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Archiving\ArchivingDlg.resx">
-      <DependentUpon>ArchivingDlg.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\AudioComponentEditor.resx">
       <DependentUpon>AudioComponentEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -823,7 +820,6 @@
     <Compile Include="UI\SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Archiving\ArchivingDlgViewModel.cs" />
     <Compile Include="Utilities\FileSystemUtils.cs" />
     <Compile Include="Utilities\IconHelper.cs" />
     <Compile Include="Utilities\AppColors.cs" />
@@ -1046,6 +1042,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\Archiving\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

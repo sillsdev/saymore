@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Palaso.IO;
 using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -83,7 +84,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsAnnotatingAudioFile()
 		{
-			return Settings.Default.AudioFileExtensions.Contains(
+			return FileUtils.AudioFileExtensions.Contains(
 				Path.GetExtension(GetPathToAssociatedMediaFile().ToLower()));
 		}
 

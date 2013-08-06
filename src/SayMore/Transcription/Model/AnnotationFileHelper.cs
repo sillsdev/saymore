@@ -139,7 +139,7 @@ namespace SayMore.Transcription.Model
 				case ".mpeg": return "video/mpeg";
 			}
 
-			return (Settings.Default.AudioFileExtensions.Contains(ext) ? "audio" : "video") + "/*";
+			return (FileUtils.AudioFileExtensions.Contains(ext) ? "audio" : "video") + "/*";
 		}
 
 		#endregion

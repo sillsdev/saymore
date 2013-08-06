@@ -145,7 +145,7 @@ namespace SayMore
 					new ComponentRole(typeof(Session), ComponentRole.kTranscriptionComponentRoleId,
 						LocalizationManager.GetString("SessionsView.SessionsList.Stages.Transcription", "Transcription"),
 						ComponentRole.MeasurementTypes.Words,
-						FileSystemUtils.GetIsText, ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Transcription",
+						FileUtils.GetIsText, ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Transcription",
 						Settings.Default.WorkflowStageColor5,
 						Settings.Default.WorkflowStageTextColor5);
 
@@ -153,7 +153,7 @@ namespace SayMore
 					new ComponentRole(typeof(Session), ComponentRole.kFreeTranslationComponentRoleId,
 						LocalizationManager.GetString("SessionsView.SessionsList.Stages.WrittenTranslation", "Written Translation"),
 						ComponentRole.MeasurementTypes.Words,
-						FileSystemUtils.GetIsText, ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Translation",
+						FileUtils.GetIsText, ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Translation",
 						Settings.Default.WorkflowStageColor6,
 						Settings.Default.WorkflowStageTextColor6);
 			}

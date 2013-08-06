@@ -469,12 +469,8 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan GetTotalMediaDuration()
 		{
-			var totalTime = new TimeSpan();
-
-			foreach (var file in GetComponentFiles().Where(f => !string.IsNullOrEmpty(f.DurationString)))
-				totalTime += TimeSpan.Parse(file.DurationString);
-
-			return totalTime;
+			var totalTime = TimeSpan.Zero;
+			return GetComponentFiles().Aggregate(totalTime, (current, file) => current + file.DurationSeconds);
 		}
 
 		/// ------------------------------------------------------------------------------------

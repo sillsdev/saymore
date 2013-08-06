@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using Palaso.IO;
 using SayMore.Utilities;
 
 namespace SayMore.Model.Files
@@ -103,7 +104,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static bool GetCanHaveWrittenTranslationRole(string path)
 		{
-			return (FileSystemUtils.GetIsText(path) || AnnotationFileType.GetIsAnAnnotationFile(path));
+			return (FileUtils.GetIsText(path) || AnnotationFileType.GetIsAnAnnotationFile(path));
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,12 +1,18 @@
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text;
+using System.Windows.Forms;
 using L10NSharp;
+using Palaso.Reporting;
+using Palaso.UI.WindowsForms.ClearShare;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.UI.Utilities;
+using SIL.Archiving;
+using SayMore.Transcription.Model;
 
 namespace SayMore.Model
 {
@@ -63,6 +69,12 @@ namespace SayMore.Model
 		}
 
 		#region Properties
+		/// ------------------------------------------------------------------------------------
+		protected string Title
+		{
+			get { return MetaDataFile.GetStringValue("title", null) ?? Id; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override string ExtensionWithoutPeriod
 		{
@@ -159,6 +171,22 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public TimeSpan GetTotalDurationOfSourceMedia()
+		{
+			var totalDuration = TimeSpan.Zero;
+
+			foreach (var duration in GetComponentFiles().Where(file =>
+				file.GetAssignedRoles().Any(r =>
+				r.Id == ComponentRole.kSourceComponentRoleId))
+				.Select(f => f.DurationSeconds))
+			{
+				totalDuration += duration;
+			}
+
+			return totalDuration;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// We get this message from the person informant when a person's name has changed.
 		/// When that happens, we need to make sure we update the participant field in case
@@ -175,7 +203,7 @@ namespace SayMore.Model
 				FieldInstance.GetTextFromMultipleValues(newNames), out failureMessage);
 
 			if (failureMessage != null)
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+				ErrorReport.NotifyUserOfProblem(failureMessage);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -185,13 +213,53 @@ namespace SayMore.Model
 			return FieldInstance.GetMultipleValuesFromText(allParticipants);
 		}
 
+		#region Archiving
 		/// ------------------------------------------------------------------------------------
 		public void CreateArchiveFile()
 		{
-			var helper = new ArchivingDlgViewModel(this, _personInformant);
+			var model = new ArchivingDlgViewModel(Title, Id, Program.DialogFont, GetMetsPairs,
+				GetFileDescription, FileCopySpecialHandler, CustomFilenameNormalization);
 
-			using (var dlg = new ArchivingDlg(helper))
+			var settings = Settings.Default.ArchivingDialog;
+			float currentDpi;
+			using (Form form = new Form())
+			{
+				using (Graphics graphics = form.CreateGraphics())
+					currentDpi = graphics.DpiX;
+			}
+			Rectangle bounds = settings != null && currentDpi.Equals(settings.DPI) ? settings.Bounds : new Rectangle();
+
+			using (var dlg = new ArchivingDlg(model, GetFilesToArchive, bounds, settings != null ? settings.State : FormWindowState.Normal))
 				dlg.ShowDialog();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IDictionary<string, Tuple<IEnumerable<string>, string>> GetFilesToArchive()
+		{
+			var fileList = new Dictionary<string, Tuple<IEnumerable<string>, string>>();
+
+			var filesInDir = Directory.GetFiles(FolderPath);
+
+			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg", "Adding Files for Session '{0}'");
+
+			fileList[string.Empty] = new Tuple<IEnumerable<string>, string>(filesInDir.Where(IncludeFileInArchive), string.Format(fmt, Title));
+
+			fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
+
+			foreach (var person in GetAllParticipants()
+				.Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
+			{
+				filesInDir = Directory.GetFiles(person.FolderPath);
+				fileList[person.Id] = new Tuple<IEnumerable<string>, string>(filesInDir.Where(IncludeFileInArchive), string.Format(fmt, person.Id));
+			}
+
+			return fileList;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool IncludeFileInArchive(string path)
+		{
+			return (Path.GetExtension(path).ToLower() != ".pfsx");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -218,6 +286,116 @@ namespace SayMore.Model
 				}
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		private IEnumerable<string> GetMetsPairs()
+		{
+			yield return JSONUtils.MakeKeyValuePair("broad_type", "wider_audience");
+			yield return JSONUtils.MakeKeyValuePair("dc.type.scholarlyWork", "Data set");
+			yield return JSONUtils.MakeKeyValuePair("dc.subject.silDomain", "LING:Linguistics", true);
+			yield return JSONUtils.MakeKeyValuePair("type.domainSubtype.LING", "language documentation (LING)", true);
+
+			var value = MetaDataFile.GetStringValue("date", null);
+			if (!string.IsNullOrEmpty(value))
+				yield return JSONUtils.MakeKeyValuePair("dc.date.created", value);
+
+			//// Return the session's situation as the the package's description.
+			//value = MetaDataFile.GetStringValue("situation", null);
+			//if (value != null)
+			//{
+			//    var desc = JSONUtils.MakeKeyValuePair(" ", value) + "," +
+			//        JSONUtils.MakeKeyValuePair("lang", string.Empty);
+
+			//    yield return JSONUtils.MakeArrayFromValues("dc.description", new[] { desc });
+			//}
+
+			// Return the session's note as the abstract portion of the package's description.
+			value = MetaDataFile.GetStringValue("synopsis", null);
+			if (!string.IsNullOrEmpty(value))
+			{
+				var abs = JSONUtils.MakeKeyValuePair(" ", value) + "," +
+					JSONUtils.MakeKeyValuePair("lang", string.Empty);
+
+				yield return JSONUtils.MakeArrayFromValues("dc.description.abstract", new[] { abs });
+			}
+
+			// Return JSON array of contributors
+			var contributions = MetaDataFile.GetValue("contributions", null) as ContributionCollection;
+			if (contributions != null && contributions.Count > 0)
+			{
+				yield return JSONUtils.MakeArrayFromValues("dc.contributor",
+					contributions.Select(GetContributorsMetsPair));
+			}
+
+			// Return total duration of source audio/video recordings.
+			TimeSpan totalDuration = GetTotalDurationOfSourceMedia();
+			if (totalDuration.Ticks > 0)
+			{
+				yield return JSONUtils.MakeKeyValuePair("format.extent.recording",
+					string.Format("Total Length of Source Recordings: {0}", totalDuration.ToString()));
+			}
+
+			//yield return JSONUtils.MakeKeyValuePair("relation.requires.has", "Y");
+			//yield return JSONUtils.MakeArrayFromValues("dc.relation.requires",
+			//    new[] { JSONUtils.MakeKeyValuePair(" ", "SayMore") });
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string GetContributorsMetsPair(Contribution contribution)
+		{
+			var roleCode = (contribution.Role != null &&
+				Settings.Default.RampContributorRoles.Contains(contribution.Role.Code) ?
+				contribution.Role.Code : string.Empty);
+
+			return JSONUtils.MakeKeyValuePair(" ", contribution.ContributorName) +
+				"," + JSONUtils.MakeKeyValuePair("role", roleCode);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string GetFileDescription(string key, string file)
+		{
+			var description = (key == string.Empty ? "SayMore Session File" : "SayMore Contributor File");
+
+			if (file.ToLower().EndsWith(Settings.Default.SessionFileExtension))
+				description = "SayMore Session Metadata (XML)";
+			else if (file.ToLower().EndsWith(Settings.Default.PersonFileExtension))
+				description = "SayMore Contributor Metadata (XML)";
+			else if (file.ToLower().EndsWith(Settings.Default.MetadataFileExtension))
+				description = "SayMore File Metadata (XML)";
+
+			return description;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool FileCopySpecialHandler(ArchivingDlgViewModel model, string source, string dest)
+		{
+			if (!source.EndsWith(AnnotationFileHelper.kAnnotationsEafFileSuffix))
+				return false;
+
+			// Fix EAF file to refer to modified name.
+			AnnotationFileHelper annotationFileHelper = AnnotationFileHelper.Load(source);
+
+			var mediaFileName = annotationFileHelper.MediaFileName;
+			if (mediaFileName != null)
+			{
+				var normalizedName = model.NormalizeFilenameForRAMP(string.Empty, mediaFileName);
+				if (normalizedName != mediaFileName)
+				{
+					annotationFileHelper.SetMediaFile(normalizedName);
+					annotationFileHelper.Root.Save(dest);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void CustomFilenameNormalization(string key, string file, StringBuilder bldr)
+		{
+			if (key != string.Empty)
+				bldr.Insert(0, "__Contributors__");
+		}
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		public override void Load()

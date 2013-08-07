@@ -7,19 +7,6 @@ namespace SayMore.UI
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
-
 		#region Windows Form Designer generated code
 
 		/// <summary>
@@ -28,6 +15,15 @@ namespace SayMore.UI
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SplashScreenForm));
+			this.m_panel = new System.Windows.Forms.Panel();
+			this.picLoadingWheel = new System.Windows.Forms.PictureBox();
+			this.lblBuildNumber = new System.Windows.Forms.Label();
+			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.lblVersion = new System.Windows.Forms.Label();
+			this.lblMessage = new System.Windows.Forms.Label();
+			this.lblCopyright = new System.Windows.Forms.Label();
+			this.lblProductName = new System.Windows.Forms.Label();
 			this.components = new System.ComponentModel.Container();
 			this._labelLoading = new System.Windows.Forms.Label();
 			this._labelVersionInfo = new System.Windows.Forms.Label();
@@ -39,12 +35,41 @@ namespace SayMore.UI
 			// 
 			// m_panel
 			// 
+			this.m_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.m_panel.Controls.Add(this.picLoadingWheel);
+			this.m_panel.Controls.Add(this.lblBuildNumber);
+			this.m_panel.Controls.Add(this.pictureBox1);
+			this.m_panel.Controls.Add(this.lblVersion);
+			this.m_panel.Controls.Add(this.lblMessage);
+			this.m_panel.Controls.Add(this.lblCopyright);
+			this.m_panel.Controls.Add(this.lblProductName);
+			resources.ApplyResources(this.m_panel, "m_panel");
+			this.m_panel.Name = "m_panel";
+			this.m_panel.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleBackgroundPanelPaint);
 			this.m_panel.Dock = System.Windows.Forms.DockStyle.None;
 			this.m_panel.Location = new System.Drawing.Point(14, 67);
 			this.m_panel.Size = new System.Drawing.Size(82, 74);
 			// 
+			// picLoadingWheel
+			// 
+			this.picLoadingWheel.BackColor = System.Drawing.Color.Transparent;
+			this.picLoadingWheel.Image = global::SayMore.Properties.Resources.LoadingWheel;
+			resources.ApplyResources(this.picLoadingWheel, "picLoadingWheel");
+			this.picLoadingWheel.Name = "picLoadingWheel";
+			this.picLoadingWheel.TabStop = false;
+			// 
+			// lblBuildNumber
+			// 
+			resources.ApplyResources(this.lblBuildNumber, "lblBuildNumber");
+			this.lblBuildNumber.BackColor = System.Drawing.Color.Transparent;
+			this.lblBuildNumber.Name = "lblBuildNumber";
+			// 
 			// pictureBox1
 			// 
+			resources.ApplyResources(this.pictureBox1, "pictureBox1");
+			this.pictureBox1.Image = global::SayMore.Properties.Resources.kimidSilLogo;
+			this.pictureBox1.Name = "pictureBox1";
+			this.pictureBox1.TabStop = false;
 			this.locExtender.SetLocalizableToolTip(this.pictureBox1, null);
 			this.locExtender.SetLocalizationComment(this.pictureBox1, null);
 			this.locExtender.SetLocalizationPriority(this.pictureBox1, L10NSharp.LocalizationPriority.NotLocalizable);
@@ -52,24 +77,42 @@ namespace SayMore.UI
 			// 
 			// lblVersion
 			// 
+			resources.ApplyResources(this.lblVersion, "lblVersion");
+			this.lblVersion.BackColor = System.Drawing.Color.Transparent;
+			this.lblVersion.Name = "lblVersion";
+			this.lblVersion.UseMnemonic = false;
 			this.locExtender.SetLocalizableToolTip(this.lblVersion, null);
 			this.locExtender.SetLocalizationComment(this.lblVersion, null);
 			this.locExtender.SetLocalizingId(this.lblVersion, "UI.SplashScreen.lblVersion");
 			// 
 			// lblMessage
 			// 
+			resources.ApplyResources(this.lblMessage, "lblMessage");
+			this.lblMessage.AutoEllipsis = true;
+			this.lblMessage.BackColor = System.Drawing.Color.Transparent;
+			this.lblMessage.ForeColor = System.Drawing.Color.Black;
+			this.lblMessage.Name = "lblMessage";
 			this.locExtender.SetLocalizableToolTip(this.lblMessage, null);
 			this.locExtender.SetLocalizationComment(this.lblMessage, null);
 			this.locExtender.SetLocalizingId(this.lblMessage, "UI.SplashScreen.lblMessage");
 			// 
 			// lblCopyright
 			// 
+			this.lblCopyright.BackColor = System.Drawing.Color.Transparent;
+			this.lblCopyright.ForeColor = System.Drawing.Color.Black;
+			resources.ApplyResources(this.lblCopyright, "lblCopyright");
+			this.lblCopyright.Name = "lblCopyright";
 			this.locExtender.SetLocalizableToolTip(this.lblCopyright, null);
 			this.locExtender.SetLocalizationComment(this.lblCopyright, null);
 			this.locExtender.SetLocalizingId(this.lblCopyright, "UI.SplashScreen.lblCopyright");
 			// 
 			// lblProductName
 			// 
+			resources.ApplyResources(this.lblProductName, "lblProductName");
+			this.lblProductName.BackColor = System.Drawing.Color.Transparent;
+			this.lblProductName.ForeColor = System.Drawing.Color.Black;
+			this.lblProductName.Name = "lblProductName";
+			this.lblProductName.UseMnemonic = false;
 			this.locExtender.SetLocalizableToolTip(this.lblProductName, null);
 			this.locExtender.SetLocalizationComment(this.lblProductName, null);
 			this.locExtender.SetLocalizingId(this.lblProductName, "UI.SplashScreen.lblProductName");
@@ -115,6 +158,19 @@ namespace SayMore.UI
 			// 
 			// SplashScreenForm
 			// 
+			resources.ApplyResources(this, "$this");
+			this.BackColor = System.Drawing.Color.White;
+			this.ControlBox = false;
+			this.Controls.Add(this.m_panel);
+			this.DoubleBuffered = true;
+			this.ForeColor = System.Drawing.Color.Black;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.Name = "SplashScreenForm";
+			this.Opacity = 0D;
+			this.ShowInTaskbar = false;
+			this.TopMost = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(209)))), ((int)(((byte)(227)))));

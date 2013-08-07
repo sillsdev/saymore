@@ -5,8 +5,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
-using SilTools;
-using SilTools.Controls;
+using Palaso.UI.WindowsForms;
+using Palaso.UI.WindowsForms.Extensions;
+using Palaso.UI.WindowsForms.Widgets;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -159,7 +160,7 @@ namespace SayMore.UI.ProjectWindow
 			int top = ((_panelHdrBand.Height - _panelHdrBand.Padding.Bottom - 18) / 2);
 
 			// Create a left scrolling button.
-			_buttonLeft = new XButton();
+			_buttonLeft = new Palaso.UI.WindowsForms.Widgets.XButton();
 			_buttonLeft.DrawLeftArrowButton = true;
 			_buttonLeft.Size = new Size(18, 18);
 			_buttonLeft.Anchor = AnchorStyles.Right | AnchorStyles.Top;
@@ -168,7 +169,7 @@ namespace SayMore.UI.ProjectWindow
 			_panelScroll.Controls.Add(_buttonLeft);
 
 			// Create a right scrolling button.
-			_buttonRight = new XButton();
+			_buttonRight = new Palaso.UI.WindowsForms.Widgets.XButton();
 			_buttonRight.DrawRightArrowButton = true;
 			_buttonRight.Size = new Size(18, 18);
 			_buttonRight.Anchor = AnchorStyles.Right | AnchorStyles.Top;
@@ -310,7 +311,7 @@ namespace SayMore.UI.ProjectWindow
 			if (tab == currTab)
 				return;
 
-			Utils.SetWindowRedraw(this, false);
+			this.SetWindowRedraw(false);
 
 			if (currTab != null)
 			{
@@ -321,7 +322,7 @@ namespace SayMore.UI.ProjectWindow
 				}
 				else
 				{
-					Utils.SetWindowRedraw(this, true);
+					this.SetWindowRedraw(true);
 					return;
 				}
 			}
@@ -332,7 +333,7 @@ namespace SayMore.UI.ProjectWindow
 			if (ViewActivated != null)
 				ViewActivated(this, tab);
 
-			Utils.SetWindowRedraw(this, true);
+			this.SetWindowRedraw(true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -493,7 +494,7 @@ namespace SayMore.UI.ProjectWindow
 						_panelTabs.Left += pixelsPerIncrement;
 				}
 
-				Utils.UpdateWindow(_panelTabs.Handle);
+				_panelTabs.UpdateWindow();
 			}
 
 			RefreshScrollButtonPanel();

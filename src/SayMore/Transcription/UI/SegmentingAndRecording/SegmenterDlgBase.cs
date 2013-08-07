@@ -7,14 +7,15 @@ using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
 using NAudio.Wave;
+using Palaso.UI.WindowsForms;
 using Palaso.UI.WindowsForms.Miscellaneous;
+using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.UI.LowLevelControls;
 using SayMore.Media.MPlayer;
 using SayMore.Utilities;
-using SilTools;
 using Timer = System.Windows.Forms.Timer;
 
 namespace SayMore.Transcription.UI
@@ -56,7 +57,7 @@ namespace SayMore.Transcription.UI
 
 			WaitCursor.Show();
 
-			_toolStripStatus.Renderer = new SilTools.NoToolStripBorderRenderer();
+			_toolStripStatus.Renderer = new Palaso.UI.WindowsForms.NoToolStripBorderRenderer();
 			_panelWaveControl.BackColor = Settings.Default.BarColorBorder;
 
 			_buttonCancel.Click += delegate { Close(); };
@@ -377,7 +378,7 @@ namespace SayMore.Transcription.UI
 					"DialogBoxes.Transcription.SegmenterDlgBase.SaveChangesQuestion",
 					"Would you like to save your changes?");
 
-				DialogResult = Utils.MsgBox(msg, MessageBoxButtons.YesNoCancel);
+				DialogResult = MessageBox.Show(this, msg, Application.ProductName, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 				if (DialogResult == DialogResult.Cancel)
 					return;
 				DialogResult = DialogResult.OK;

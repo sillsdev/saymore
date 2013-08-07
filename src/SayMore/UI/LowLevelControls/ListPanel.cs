@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using Palaso.UI.WindowsForms;
 using SayMore.Utilities;
-using SilTools;
 
 namespace SayMore.UI.LowLevelControls
 {

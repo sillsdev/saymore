@@ -10,11 +10,10 @@ using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
-using SilTools;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using GridSettings = Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings;
-using NoToolStripBorderRenderer = SilTools.NoToolStripBorderRenderer;
+using Palaso.UI.WindowsForms;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -49,7 +48,7 @@ namespace SayMore.UI.ElementListScreen
 
 			InitializeComponent();
 			Font = Program.DialogFont;
-			_toolStripActions.Renderer = new NoToolStripBorderRenderer();
+			_toolStripActions.Renderer = new Palaso.UI.WindowsForms.NoToolStripBorderRenderer();
 
 			try
 			{

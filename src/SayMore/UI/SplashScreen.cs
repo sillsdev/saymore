@@ -1,90 +1,389 @@
-using System.Drawing;
-using System.Drawing.Drawing2D;
+// --------------------------------------------------------------------------------------------
+#region // Copyright © 2002-2013, SIL International. All Rights Reserved.
+// <copyright from='2002' to='2013' company='SIL International'>
+//		Copyright © 2002-2013, SIL International. All Rights Reserved.
+//
+//		Distributable under the terms of either the Common Public License or the
+//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
+// </copyright>
+#endregion
+//
+// File: SplashScreen.cs
+// --------------------------------------------------------------------------------------------
+using System.Diagnostics;
+using System.Threading;
 using System.Windows.Forms;
-using SayMore.Properties;
-using SayMore.Utilities;
 
 namespace SayMore.UI
 {
-	/// ----------------------------------------------------------------------------------------
-	public partial class SplashScreenForm : SilTools.SplashScreenForm
+	public enum VersionType
 	{
-		private const int kLogoTextImageTop = 18;
-
-		private readonly int _logoTextLeft;
-
-		/// ------------------------------------------------------------------------------------
-		public SplashScreenForm()
-		{
-			InitializeComponent();
-
-			ShowStandardSILContent = false;
-
-			_logoTextLeft = Resources.LargeSayMoreLogo.Size.Width + 40;
-			_labelLoading.Location = new Point(_logoTextLeft, kLogoTextImageTop + Resources.SayMoreText.Height);
-
-			Width = Resources.LargeSayMoreLogo.Size.Width + Resources.SayMoreText.Width + 80;
-			Height = Resources.LargeSayMoreLogo.Size.Height + kLogoTextImageTop + 30;
-
-			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public override void SetMessage(string value)
-		{
-			_labelLoading.Text = string.Format("Loading: {0}...", value);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			base.OnPaint(e);
-
-			// Draw a gradient from top to bottom of window.
-			var rc = new Rectangle(0, 45, ClientSize.Width, ClientSize.Height - 45);
-			using (var br = new LinearGradientBrush(rc, Color.White, AppColors.BarBegin, 90f))
-				e.Graphics.FillRectangle(br, rc);
-
-			// Draw a line at the bottom of the gradient blue bar.
-			using (var pen = new Pen(AppColors.BarBorder))
-				e.Graphics.DrawLine(pen, 0, rc.Bottom, rc.Right, rc.Bottom);
-
-			rc = new Rectangle(0, 0, ClientSize.Width, 45);
-
-			// Draw the gradient blue bar.
-			using (var br = new LinearGradientBrush(rc, AppColors.BarBegin, AppColors.BarEnd, 0.0f))
-				e.Graphics.FillRectangle(br, rc);
-
-			// Draw a line at the bottom of the gradient blue bar.
-			using (var pen = new Pen(AppColors.BarBorder))
-				e.Graphics.DrawLine(pen, 0, rc.Bottom, rc.Right, rc.Bottom);
-
-			// Draw the application's logo image.
-			rc = new Rectangle(new Point(30, 0), Resources.LargeSayMoreLogo.Size);
-			e.Graphics.DrawImage(Resources.LargeSayMoreLogo, rc);
-
-			// Draw logo text.
-			rc = new Rectangle(new Point(_logoTextLeft, kLogoTextImageTop), Resources.SayMoreText.Size);
-			//rc = new Rectangle(new Point(_logoTextLeft, 18), Resources.SayMoreText.Size);
-			e.Graphics.DrawImage(Resources.SayMoreText, rc);
-
-			// Draw border around window.
-			rc = new Rectangle(0, 0, ClientSize.Width - 1, ClientSize.Height - 1);
-			using (var pen = new Pen(AppColors.BarBorder))
-				e.Graphics.DrawRectangle(pen, rc);
-		}
+		Alpha,
+		Beta,
+		Production
 	}
 
+	#region ISplashScreen interface
 	/// ----------------------------------------------------------------------------------------
-	public class SplashScreen : SilTools.SplashScreen
+	/// <summary>
+	/// Public interface (exported with COM wrapper) for the splash screen
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public interface ISplashScreen
 	{
-		private SplashScreenForm _splashScreenForm;
+		/// ----------------------------------------------------------------------------------------
+		void Show();
+
+		/// ----------------------------------------------------------------------------------------
+		void Show(bool showBuildDate, bool isBetaVersion);
+
+		/// ----------------------------------------------------------------------------------------
+		void ShowWithoutFade();
+
+		/// ----------------------------------------------------------------------------------------
+		/// <summary>
+		/// Activates (brings back to the top) the splash screen (assuming it is already visible
+		/// and the application showing it is the active application).
+		/// </summary>
+		/// ----------------------------------------------------------------------------------------
+		void Activate();
+
+		/// ----------------------------------------------------------------------------------------
+		void Close();
+
+		/// ----------------------------------------------------------------------------------------
+		void Refresh();
 
 		/// ------------------------------------------------------------------------------------
-		protected override SilTools.SplashScreenForm GetSplashScreenForm()
+		/// <summary>
+		/// The product version which appears in the App Version label on the splash screen
+		/// </summary>
+		/// <remarks>
+		/// .Net clients should not set this. It will be ignored.
+		/// </remarks>
+		/// ------------------------------------------------------------------------------------
+		string ProdVersion {set;}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The copyright info to display on the splash screen
+		/// </summary>
+		/// <remarks>
+		/// .Net clients should not set this. It will be ignored.
+		/// </remarks>
+		/// ------------------------------------------------------------------------------------
+		string Copyright { set;}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The message to display to indicate startup activity on the splash screen
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		string Message { set;}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the ISplashScreen's underlying form is
+		/// still available (i.e. non null).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		bool StillAlive { get;}
+	}
+
+	#endregion
+
+	#region SplashScreen implementation
+	/// ----------------------------------------------------------------------------------------
+	public class SplashScreen : ISplashScreen
+	{
+		#region Data members
+		private delegate void MethodWithStringDelegate(string value);
+
+		private bool m_useFading = true;
+		private Thread m_thread;
+		private SplashScreenForm _splashScreenForm;
+		internal EventWaitHandle m_waitHandle;
+		private bool m_showBuildNum;
+		private VersionType m_versionType;
+		#endregion
+
+		#region Constructor
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Default Constructor for SplashScreen
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SplashScreen()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SplashScreen(bool showBuildNum, VersionType versionType)
+		{
+			m_showBuildNum = showBuildNum;
+			m_versionType = versionType;
+		}
+
+		#endregion
+
+		#region Public Methods
+		/// ------------------------------------------------------------------------------------
+		void ISplashScreen.Show(bool showBuildDate, bool isBetaVersion)
+		{
+			m_showBuildNum = showBuildDate;
+			m_versionType = (isBetaVersion ? VersionType.Beta : VersionType.Production);
+			InternalShow();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Shows the splash screen
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void ISplashScreen.Show()
+		{
+			InternalShow();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Does the work of showing.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void InternalShow()
+		{
+			if (m_thread != null)
+				return;
+
+			m_waitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
+
+			if (Thread.CurrentThread.Name == null)
+				Thread.CurrentThread.Name = "Main";
+
+			// For some reason we have to specify a stack size, otherwise we get a stack overflow.
+			// The default stack size of 1MB works on WinXP. Needs to be 2MB on Win2K.
+			// Don't know what value it's using if we don't specify it.
+			m_thread = new Thread(StartSplashScreen, 0x200000);
+			m_thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
+			m_thread.IsBackground = true;
+			m_thread.SetApartmentState(ApartmentState.STA);
+			m_thread.Name = "SplashScreen";
+			m_thread.Start();
+			m_waitHandle.WaitOne();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Shows the splash screen
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void ISplashScreen.ShowWithoutFade()
+		{
+			m_useFading = false;
+			StartSplashScreen();
+
+			// Wait until the splash screen is actually up
+			while (_splashScreenForm == null || !_splashScreenForm.Visible)
+				Thread.Sleep(50);
+		}
+
+		/// ----------------------------------------------------------------------------------------
+		/// <summary>
+		/// Activates (brings back to the top) the splash screen (assuming it is already visible
+		/// and the application showing it is the active application).
+		/// </summary>
+		/// ----------------------------------------------------------------------------------------
+		void ISplashScreen.Activate()
+		{
+			if (!m_useFading)
+			{
+				_splashScreenForm.Activate();
+				Application.DoEvents();
+				return;
+			}
+
+			Debug.Assert(_splashScreenForm != null);
+			lock (_splashScreenForm)
+			{
+				_splashScreenForm.Invoke(new MethodInvoker(_splashScreenForm.Activate));
+			}
+		}
+
+		/// ----------------------------------------------------------------------------------------
+		/// <summary>
+		/// Closes the splash screen
+		/// </summary>
+		/// ----------------------------------------------------------------------------------------
+		void ISplashScreen.Close()
+		{
+			if (_splashScreenForm.Opacity < 1.0)
+			{
+				lock (_splashScreenForm)
+				{
+					_splashScreenForm.Invoke(new MethodInvoker(_splashScreenForm.MakeFullyOpaque));
+				}
+			}
+
+			if (_splashScreenForm == null)
+				return;
+
+			if (!m_useFading)
+			{
+				_splashScreenForm.Hide();
+				_splashScreenForm = null;
+				return;
+			}
+
+			lock (_splashScreenForm)
+			{
+				try
+				{
+					if (!_splashScreenForm.IsDisposed)
+						_splashScreenForm.Invoke(new MethodInvoker(_splashScreenForm.RealClose));
+				}
+				catch { }
+			}
+
+			try
+			{
+				m_thread.Join();
+				lock (_splashScreenForm)
+				{
+					_splashScreenForm.Dispose();
+				}
+			}
+			catch { }
+
+			_splashScreenForm = null;
+			m_thread = null;
+		}
+
+		/// ----------------------------------------------------------------------------------------
+		/// <summary>
+		/// Refreshes the display of the splash screen
+		/// </summary>
+		/// ----------------------------------------------------------------------------------------
+		void ISplashScreen.Refresh()
+		{
+			if (!m_useFading)
+			{
+				_splashScreenForm.Refresh();
+				Application.DoEvents();
+				return;
+			}
+
+			Debug.Assert(_splashScreenForm != null);
+			lock (_splashScreenForm)
+			{
+				_splashScreenForm.Invoke(new MethodInvoker(_splashScreenForm.Refresh));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the ISplashScreen's underlying form is
+		/// still available (i.e. non null).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		bool ISplashScreen.StillAlive
+		{
+			get {return _splashScreenForm != null; }
+		}
+
+		#endregion
+
+		#region Public Properties needed for all clients
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The message to display to indicate startup activity on the splash screen
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		string ISplashScreen.Message
+		{
+			set
+			{
+				Debug.Assert(_splashScreenForm != null);
+				lock (_splashScreenForm)
+				{
+					_splashScreenForm.Invoke(new MethodWithStringDelegate(_splashScreenForm.SetMessage), value);
+				}
+			}
+		}
+
+		#endregion
+
+		#region Public properties set automatically in constructor for .Net apps
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The product version which appears in the App Version label on the splash screen
+		/// </summary>
+		/// <remarks>
+		/// .Net clients should not set this. It will be ignored. They should set the
+		/// AssemblyFileVersion attribute in AssemblyInfo.cs of the executable.
+		/// </remarks>
+		/// ------------------------------------------------------------------------------------
+		string ISplashScreen.ProdVersion
+		{
+			set
+			{
+				Debug.Assert(_splashScreenForm != null);
+				lock (_splashScreenForm)
+				{
+					_splashScreenForm.Invoke(new MethodWithStringDelegate(_splashScreenForm.SetProdVersion), value);
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The copyright info which appears in the Copyright label on the splash screen
+		/// </summary>
+		/// <remarks>
+		/// .Net clients should not set this. It will be ignored. They should set the
+		/// AssemblyCopyrightAttribute attribute in AssemblyInfo.cs of the executable.
+		/// </remarks>
+		/// ------------------------------------------------------------------------------------
+		string ISplashScreen.Copyright
+		{
+			set
+			{
+				Debug.Assert(_splashScreenForm != null);
+				lock (_splashScreenForm)
+				{
+					_splashScreenForm.Invoke(new MethodWithStringDelegate(_splashScreenForm.SetCopyright), value);
+				}
+			}
+		}
+
+		#endregion
+
+		#region private/protected methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Starts the splash screen.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void StartSplashScreen()
+		{
+			_splashScreenForm = GetSplashScreenForm();
+			_splashScreenForm.RealShow(m_waitHandle, m_useFading);
+			if (m_useFading)
+				_splashScreenForm.ShowDialog();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual SplashScreenForm GetSplashScreenForm()
 		{
 			_splashScreenForm = new SplashScreenForm();
 			return _splashScreenForm;
 		}
+
+		#endregion
 	}
+
+	#endregion
 }

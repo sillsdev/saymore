@@ -339,6 +339,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidSilLogo {
+            get {
+                object obj = ResourceManager.GetObject("kimidSilLogo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidWarning {
             get {
                 object obj = ResourceManager.GetObject("kimidWarning", resourceCulture);
@@ -377,6 +384,13 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap ListenToSegmentsAnnotation {
             get {
                 object obj = ResourceManager.GetObject("ListenToSegmentsAnnotation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap LoadingWheel {
+            get {
+                object obj = ResourceManager.GetObject("LoadingWheel", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

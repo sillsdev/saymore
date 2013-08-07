@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms.Extensions;
 using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -12,8 +13,8 @@ using SayMore.Transcription.Model;
 using SayMore.Transcription.Model.Exporters;
 using SayMore.UI.ComponentEditors;
 using SayMore.Media.MPlayer;
-using SilTools;
 using SayMore.Model;
+using Palaso.UI.WindowsForms;
 
 namespace SayMore.Transcription.UI
 {
@@ -124,7 +125,7 @@ namespace SayMore.Transcription.UI
 		{
 			Deactivated();
 
-			Utils.SetWindowRedraw(this, false);
+			this.SetWindowRedraw(false);
 			base.SetComponentFile(file);
 
 			var annotationFile = file as AnnotationComponentFile;
@@ -145,7 +146,7 @@ namespace SayMore.Transcription.UI
 			_exportMenu.Enabled = (_grid.RowCount > 0);
 
 			SetupWatchingForFileChanges();
-			Utils.SetWindowRedraw(this, true);
+			this.SetWindowRedraw(true);
 			_videoPanel.ShowVideoThumbnailNow();
 		}
 
@@ -193,7 +194,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleSplitterPanel1ClientSizeChanged(object sender, EventArgs e)
 		{
-			Utils.SetWindowRedraw(this, false);
+			this.SetWindowRedraw(false);
 
 			_videoPanel.Size = new Size(_splitter.Panel1.ClientSize.Width,
 				(int)(_splitter.Panel1.ClientSize.Width * Settings.Default.AnnotationEditorVideoWindowYtoXRatio));
@@ -207,7 +208,7 @@ namespace SayMore.Transcription.UI
 			if (!_grid.PlayerViewModel.HasPlaybackStarted)
 				_videoPanel.ShowVideoThumbnailNow();
 
-			Utils.SetWindowRedraw(this, true);
+			this.SetWindowRedraw(true);
 		}
 
 		/// ------------------------------------------------------------------------------------

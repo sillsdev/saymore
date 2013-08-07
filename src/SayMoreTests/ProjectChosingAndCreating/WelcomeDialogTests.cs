@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using SilTools;
 using SayMore.UI.ProjectChoosingAndCreating;
 
 namespace SayMoreTests.ProjectChoosingAndCreating
@@ -15,7 +14,6 @@ namespace SayMoreTests.ProjectChoosingAndCreating
 		public void TestSetup()
 		{
 			_viewModel = new WelcomeDialogViewModel();
-			Utils.SuppressMsgBoxInteractions = true;
 			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 		}
 

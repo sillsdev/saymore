@@ -8,11 +8,12 @@ using L10NSharp.UI;
 using Palaso.Media.Naudio;
 using Palaso.Media.Naudio.UI;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms;
+using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Media.MPlayer;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SilTools;
 using Timer = System.Windows.Forms.Timer;
 
 namespace SayMore.Transcription.UI

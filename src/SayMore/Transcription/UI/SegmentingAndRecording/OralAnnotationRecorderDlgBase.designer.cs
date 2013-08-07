@@ -1,5 +1,3 @@
-using SilTools.Controls;
-
 namespace SayMore.Transcription.UI
 {
 	partial class OralAnnotationRecorderBaseDlg
@@ -25,7 +23,7 @@ namespace SayMore.Transcription.UI
 			this._pictureRecording = new System.Windows.Forms.PictureBox();
 			this._labelErrorInfo = new System.Windows.Forms.Label();
 			this._labelRecordHint = new System.Windows.Forms.Label();
-			this._panelPeakMeter = new SilTools.Controls.SilPanel();
+			this._panelPeakMeter = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
 			this._labelListenHint = new System.Windows.Forms.Label();
 			this._labelFinishedHint = new System.Windows.Forms.Label();
 			this._pictureIcon = new System.Windows.Forms.PictureBox();
@@ -367,7 +365,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.PictureBox _pictureRecording;
 		private System.Windows.Forms.Label _labelErrorInfo;
 		private System.Windows.Forms.Label _labelRecordHint;
-		private SilPanel _panelPeakMeter;
+		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _panelPeakMeter;
 		private System.Windows.Forms.Label _labelListenHint;
 		private System.Windows.Forms.Label _labelFinishedHint;
 		private System.Windows.Forms.Timer _checkForRecordingDevice;

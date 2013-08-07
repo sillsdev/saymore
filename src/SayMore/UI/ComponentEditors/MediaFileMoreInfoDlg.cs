@@ -7,10 +7,10 @@ using System.Xml;
 using System.Xml.Xsl;
 using L10NSharp;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Media;
 using SayMore.Properties;
 using SayMore.UI.Charts;
-using SilTools;
 
 namespace SayMore.UI.ComponentEditors
 {

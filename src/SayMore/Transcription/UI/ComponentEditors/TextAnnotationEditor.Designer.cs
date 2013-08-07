@@ -1,5 +1,3 @@
-using SilTools.Controls;
-
 namespace SayMore.Transcription.UI
 {
 	partial class TextAnnotationEditor

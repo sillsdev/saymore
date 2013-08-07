@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using SilTools;
+using Palaso.UI.WindowsForms.Extensions;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -142,7 +142,7 @@ namespace SayMore.UI.ProjectWindow
 			}
 
 			if (_toolStripOwner != null)
-				Utils.SetWindowRedraw(_toolStripOwner, false);
+				_toolStripOwner.SetWindowRedraw(false);
 
 			if (currbtn != null && _controls.ContainsKey(currbtn))
 			{
@@ -161,7 +161,7 @@ namespace SayMore.UI.ProjectWindow
 			}
 
 			if (_toolStripOwner != null)
-				Utils.SetWindowRedraw(_toolStripOwner, true);
+				_toolStripOwner.SetWindowRedraw(true);
 
 			if (newVw is ISayMoreView)
 			{

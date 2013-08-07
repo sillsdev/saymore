@@ -220,17 +220,11 @@ namespace SayMore.Model
 			var model = new ArchivingDlgViewModel(Title, Id, Program.DialogFont, GetMetsPairs,
 				GetFileDescription, FileCopySpecialHandler, CustomFilenameNormalization);
 
-			var settings = Settings.Default.ArchivingDialog;
-			float currentDpi;
-			using (Form form = new Form())
+			using (var dlg = new ArchivingDlg(model, GetFilesToArchive, Settings.Default.ArchivingDialog))
 			{
-				using (Graphics graphics = form.CreateGraphics())
-					currentDpi = graphics.DpiX;
-			}
-			Rectangle bounds = settings != null && currentDpi.Equals(settings.DPI) ? settings.Bounds : new Rectangle();
-
-			using (var dlg = new ArchivingDlg(model, GetFilesToArchive, bounds, settings != null ? settings.State : FormWindowState.Normal))
 				dlg.ShowDialog();
+				Settings.Default.ArchivingDialog = dlg.FormSettings;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -32,7 +32,7 @@ namespace SayMore.UI.ComponentEditors
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MissingMediaFileEditor));
 			this.lblMediaFileMissing = new System.Windows.Forms.Label();
 			this.lblExplanation = new System.Windows.Forms.Label();
-			this._panelBrowser = new SilTools.Controls.SilPanel();
+			this._panelBrowser = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.linkHelpTopic = new System.Windows.Forms.LinkLabel();
 			this.txtMissingMediaFilePath = new System.Windows.Forms.TextBox();
@@ -178,7 +178,7 @@ namespace SayMore.UI.ComponentEditors
 
 		#endregion
 
-		private SilTools.Controls.SilPanel _panelBrowser;
+		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _panelBrowser;
 		private System.Windows.Forms.LinkLabel linkHelpTopic;
 		private System.Windows.Forms.TextBox txtMissingMediaFilePath;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;

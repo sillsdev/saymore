@@ -89,13 +89,6 @@
     <Reference Include="SIL.Archiving">
       <HintPath>..\..\lib\dotnet\SIL.Archiving.dll</HintPath>
     </Reference>
-    <Reference Include="SilTools, Version=2.0.4416.18215, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\SilTools.dll</HintPath>
-    </Reference>
-    <Reference Include="SilUtils">
-      <HintPath>..\..\lib\dotnet\SilUtils.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -785,6 +778,9 @@
       <DependentUpon>ListPanel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\SplashScreenForm.resx">
+      <DependentUpon>SplashScreenForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
@@ -814,11 +810,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\SendReceive\SendReceiveScreen.cs" />
-    <Compile Include="UI\SplashScreen.cs">
+    <Compile Include="UI\SplashScreen.cs" />
+    <Compile Include="UI\SplashScreenForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\SplashScreen.Designer.cs">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
+    <Compile Include="UI\SplashScreenForm.Designer.cs">
+      <DependentUpon>SplashScreenForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\FileSystemUtils.cs" />
     <Compile Include="Utilities\IconHelper.cs" />
@@ -907,9 +904,6 @@
     <EmbeddedResource Include="UI\ProjectWindow\UILanguageDlg.resx">
       <DependentUpon>UILanguageDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SplashScreen.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Resources\Overview3.png" />
     <None Include="Resources\People3.png" />
     <None Include="Resources\SendReceive3.png" />
@@ -992,6 +986,8 @@
     <None Include="Resources\Information_blue.png" />
     <None Include="Resources\arrow_skip_right.png" />
     <None Include="Resources\CheckedBox.png" />
+    <None Include="Resources\LoadingWheel.gif" />
+    <None Include="Resources\kimidSilLogo.jpg" />
     <Content Include="Resources\MoreMediaInfoStyles.css" />
     <None Include="Resources\Presets.png" />
     <None Include="Resources\Green_check.png" />

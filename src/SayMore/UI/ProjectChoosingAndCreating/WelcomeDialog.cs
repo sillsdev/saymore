@@ -5,12 +5,11 @@ using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
+using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 using SayMore.Utilities;
-using SilTools;
-using NoToolStripBorderRenderer = SilTools.NoToolStripBorderRenderer;
 
 namespace SayMore.UI.ProjectChoosingAndCreating
 {
@@ -39,7 +38,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 				Settings.Default.WelcomeDialog = FormSettings.Create(this);
 			}
 
-			tsOptions.Renderer = new NoToolStripBorderRenderer();
+			tsOptions.Renderer = new Palaso.UI.WindowsForms.NoToolStripBorderRenderer();
 			tsOptions.BackColorBegin = Color.White;
 			tsOptions.BackColorEnd = Color.White;
 			DialogResult = DialogResult.Cancel;

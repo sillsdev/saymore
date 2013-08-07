@@ -1,5 +1,4 @@
 using System.Windows.Forms;
-using SilTools;
 
 namespace SayMore.UI.NewSessionsFromFiles
 {
@@ -38,7 +37,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._labelSourceFolder = new System.Windows.Forms.Label();
 			this._labelIncomingFiles = new System.Windows.Forms.Label();
 			this._labelInstructions = new System.Windows.Forms.Label();
-			this._mediaPlayerPanel = new SilTools.Controls.SilPanel();
+			this._mediaPlayerPanel = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
 			this._panelProgress = new System.Windows.Forms.Panel();
 			this._labelProgress = new System.Windows.Forms.Label();
 			this._progressBar = new System.Windows.Forms.ProgressBar();
@@ -339,7 +338,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 		private System.Windows.Forms.Label _labelSourceFolder;
 		private System.Windows.Forms.Label _labelIncomingFiles;
 		private System.Windows.Forms.Label _labelInstructions;
-		private SilTools.Controls.SilPanel _mediaPlayerPanel;
+		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _mediaPlayerPanel;
 		private System.Windows.Forms.Panel _panelProgress;
 		private System.Windows.Forms.TableLayoutPanel _outerTableLayout;
 		private System.Windows.Forms.Label _labelProgress;

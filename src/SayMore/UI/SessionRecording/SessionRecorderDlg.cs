@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
@@ -9,11 +8,10 @@ using L10NSharp.UI;
 using Palaso.Media.Naudio;
 using Palaso.Media.Naudio.UI;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
-using SilTools;
-using NoToolStripBorderRenderer = SilTools.NoToolStripBorderRenderer;
 
 namespace SayMore.UI.SessionRecording
 {

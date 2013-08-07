@@ -31,8 +31,8 @@ namespace SayMore.UI.Overview.Statistics
 			this.components = new System.ComponentModel.Container();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this._webBrowser = new System.Windows.Forms.WebBrowser();
-			this._panelBrowser = new SilTools.Controls.SilPanel();
-			this._panelWorking = new SilTools.Controls.SilPanel();
+			this._panelBrowser = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
+			this._panelWorking = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
 			this._tableLayoutWorking = new System.Windows.Forms.TableLayoutPanel();
 			this._labelWorking = new System.Windows.Forms.Label();
 			this._pictureWorking = new System.Windows.Forms.PictureBox();
@@ -238,9 +238,9 @@ namespace SayMore.UI.Overview.Statistics
 		private System.Windows.Forms.WebBrowser _webBrowser;
 		private SayMore.UI.LowLevelControls.ElementBar _toolStripActions;
 		private System.Windows.Forms.ToolStripButton _buttonRefresh;
-		private SilTools.Controls.SilPanel _panelBrowser;
+		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _panelBrowser;
 		private System.Windows.Forms.Label _labelWorking;
-		private SilTools.Controls.SilPanel _panelWorking;
+		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _panelWorking;
 		private System.Windows.Forms.PictureBox _pictureWorking;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutWorking;
 		private L10NSharp.UI.L10NSharpExtender locExtender;

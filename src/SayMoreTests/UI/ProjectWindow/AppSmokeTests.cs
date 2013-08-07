@@ -4,13 +4,13 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.LowLevelControls;
 using Palaso.TestUtilities;
-using SilTools;
 using NUnit.Extensions.Forms;
 using NUnit.Framework;
 

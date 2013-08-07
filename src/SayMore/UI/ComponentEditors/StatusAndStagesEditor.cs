@@ -5,9 +5,10 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using L10NSharp;
+using Palaso.UI.WindowsForms;
+using Palaso.UI.WindowsForms.Extensions;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SilTools;
 using Color = System.Drawing.Color;
 
 namespace SayMore.UI.ComponentEditors
@@ -270,7 +271,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void UpdateDisplay()
 		{
-			Utils.SetWindowRedraw(this, false);
+			this.SetWindowRedraw(false);
 
 			var status = _file.GetValue("status", Session.Status.Incoming.ToString()) as string;
 
@@ -284,7 +285,7 @@ namespace SayMore.UI.ComponentEditors
 				checkBox.CheckedChanged += HandleStageCheckBoxCheckChanged;
 			}
 
-			Utils.SetWindowRedraw(this, true);
+			this.SetWindowRedraw(true);
 		}
 
 		/// ------------------------------------------------------------------------------------

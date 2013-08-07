@@ -7,7 +7,7 @@ using L10NSharp.UI;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
-using ColorHelper = SilTools.ColorHelper;
+using Palaso.UI.WindowsForms;
 
 namespace SayMore.UI.ComponentEditors
 {

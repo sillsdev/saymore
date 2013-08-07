@@ -14,11 +14,11 @@ using Palaso.Extensions;
 using Palaso.IO;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Miscellaneous;
+using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Media;
 using SayMore.Properties;
 using SayMore.UI;
 using SayMore.UI.ProjectWindow;
-using SilTools;
 
 namespace SayMore
 {

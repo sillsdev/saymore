@@ -1,5 +1,3 @@
-using SilTools.Controls;
-
 namespace SayMore.Transcription.UI
 {
 	partial class OralAnnotationEditor
@@ -37,7 +35,7 @@ namespace SayMore.Transcription.UI
 			this._buttonPlay = new System.Windows.Forms.ToolStripButton();
 			this._buttonStop = new System.Windows.Forms.ToolStripButton();
 			this._buttonRegenerate = new System.Windows.Forms.ToolStripButton();
-			this._panelOralAnnotationWaveViewer = new SilTools.Controls.SilPanel();
+			this._panelOralAnnotationWaveViewer = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
 			this._oralAnnotationWaveViewer = new SayMore.Transcription.UI.OralAnnotationWaveViewer();
 			this._labelCursorTime = new System.Windows.Forms.Label();
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
@@ -225,7 +223,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
 		private System.Windows.Forms.ToolStrip _toolStrip;
 		private System.Windows.Forms.ToolStripButton _buttonHelp;
-		private SilPanel _panelOralAnnotationWaveViewer;
+		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _panelOralAnnotationWaveViewer;
 		private OralAnnotationWaveViewer _oralAnnotationWaveViewer;
 		private System.Windows.Forms.ToolStripButton _buttonPlay;
 		private System.Windows.Forms.ToolStripButton _buttonStop;

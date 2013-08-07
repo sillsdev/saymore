@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using SilTools;
+using Palaso.UI.WindowsForms.Extensions;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -73,7 +73,7 @@ namespace SayMore.UI.ComponentEditors
 					return;
 				}
 
-				Utils.SetWindowRedraw(this, false);
+				this.SetWindowRedraw(false);
 				TabPages.Clear();
 
 				foreach (var editor in EditorProviders.Where(ep => ep.IsOKToShow))
@@ -83,7 +83,7 @@ namespace SayMore.UI.ComponentEditors
 					editor.Control.UseWaitCursor = false;
 				}
 
-				Utils.SetWindowRedraw(this, true);
+				this.SetWindowRedraw(true);
 			}
 			catch (ObjectDisposedException)
 			{

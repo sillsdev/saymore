@@ -7,12 +7,13 @@ using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms;
+using Palaso.UI.WindowsForms.Extensions;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Media.MPlayer;
-using SilTools;
 using GridSettings = Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings;
 
 namespace SayMore.Transcription.UI
@@ -76,7 +77,7 @@ namespace SayMore.Transcription.UI
 		{
 			_annotationFile = file;
 
-			Utils.SetWindowRedraw(this, false);
+			this.SetWindowRedraw(false);
 			EndEdit();
 			RowCount = 0;
 			Columns.Clear();
@@ -91,7 +92,7 @@ namespace SayMore.Transcription.UI
 			RowCount = rowCount;
 			Font = Columns[0].DefaultCellStyle.Font;
 
-			Utils.SetWindowRedraw(this, true);
+			this.SetWindowRedraw(true);
 			Invalidate();
 
 			if (Settings.Default.SegmentGrid != null)

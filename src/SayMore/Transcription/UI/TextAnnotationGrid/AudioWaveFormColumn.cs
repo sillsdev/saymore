@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Palaso.UI.WindowsForms;
 using SayMore.Transcription.Model;
-using SilTools;
 
 namespace SayMore.Transcription.UI
 {

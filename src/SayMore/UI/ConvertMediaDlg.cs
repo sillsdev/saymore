@@ -5,9 +5,10 @@ using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
+using Palaso.UI.WindowsForms;
+using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Media.FFmpeg;
 using SayMore.Properties;
-using SilTools;
 
 namespace SayMore.UI
 {

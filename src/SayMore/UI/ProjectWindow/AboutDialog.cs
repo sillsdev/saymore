@@ -2,12 +2,11 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using L10NSharp;
 using L10NSharp.UI;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms;
 using SayMore.Properties;
 using SayMore.Utilities;
-using SilTools;
 
 namespace SayMore.UI.ProjectWindow
 {

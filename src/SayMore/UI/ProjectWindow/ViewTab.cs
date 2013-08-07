@@ -2,7 +2,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using SilTools;
+using Palaso.UI.WindowsForms;
+using Palaso.UI.WindowsForms.Extensions;
+using Palaso.Extensions;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -26,7 +28,7 @@ namespace SayMore.UI.ProjectWindow
 			base.AutoSize = false;
 			base.Font = owningTabControl.TabFont;
 			base.Dock = DockStyle.Left;
-			base.Text = Utils.RemoveAcceleratorPrefix(viewControl.Text);
+			base.Text = viewControl.Text.RemoveAcceleratorPrefix();
 			Name = base.Text.Replace(" ", string.Empty) + "ViewTab";
 			Text = "Set This Tab's Text";
 
@@ -118,7 +120,7 @@ namespace SayMore.UI.ProjectWindow
 
 				_selected = value;
 				Invalidate();
-				Utils.UpdateWindow(Handle);
+				this.UpdateWindow();
 
 				// Invalidate the tab to the left of this one in
 				// case it needs to redraw its etched right border.
@@ -126,7 +128,7 @@ namespace SayMore.UI.ProjectWindow
 				if (adjacentTab != null)
 				{
 					adjacentTab.Invalidate();
-					Utils.UpdateWindow(adjacentTab.Handle);
+					adjacentTab.UpdateWindow();
 				}
 			}
 		}

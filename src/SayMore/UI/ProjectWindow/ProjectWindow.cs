@@ -11,10 +11,10 @@ using L10NSharp;
 using L10NSharp.UI;
 using Palaso.IO;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
-using SilTools;
 
 namespace SayMore.UI.ProjectWindow
 {

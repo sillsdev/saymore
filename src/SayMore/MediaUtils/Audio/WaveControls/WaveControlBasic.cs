@@ -307,10 +307,10 @@ namespace SayMore.Media.Audio
 
 		//        if (_painter != null)
 		//        {
-		//            Utils.SetWindowRedraw(this, false);
+		//            this.SetWindowRedraw(false);
 		//            _painter.SetVirtualWidth(Math.Max(ClientSize.Width, value.Width));
 		//            Invalidate();
-		//            Utils.SetWindowRedraw(this, true);
+		//            this.SetWindowRedraw(true);
 		//        }
 		//    }
 		//}

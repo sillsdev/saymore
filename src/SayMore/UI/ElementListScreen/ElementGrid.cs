@@ -9,7 +9,7 @@ using Palaso.Extensions;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Model.Files;
-using ColorHelper = SilTools.ColorHelper;
+using Palaso.UI.WindowsForms;
 
 namespace SayMore.UI.ElementListScreen
 {

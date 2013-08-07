@@ -2,17 +2,17 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using Palaso.UI.WindowsForms.Widgets;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SilTools;
-using SilTools.Controls;
 
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class ImageViewer : EditorBase
 	{
-		private readonly SilPanel _panelImage;
+		private readonly EnhancedPanel _panelImage;
 		private ImageViewerViewModel _model;
 
 		/// ------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ namespace SayMore.UI.ComponentEditors
 			_labelZoom.Font = Program.DialogFont;
 			_zoomTrackBar.BackColor = BackColor;
 
-			_panelImage = new SilPanel();
+			_panelImage = new EnhancedPanel();
 			_panelImage.Dock = DockStyle.Fill;
 			_panelImage.AutoScroll = true;
 			_panelImage.Cursor = Cursors.Hand;

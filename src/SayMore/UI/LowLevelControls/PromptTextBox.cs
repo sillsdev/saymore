@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using SilTools;
+using Palaso.UI.WindowsForms;
 
 namespace SayMore.UI.LowLevelControls
 {

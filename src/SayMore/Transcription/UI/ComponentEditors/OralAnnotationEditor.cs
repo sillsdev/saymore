@@ -1,15 +1,12 @@
 using System;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Reporting;
 using SayMore.Model.Files;
-using SayMore.Transcription.Model;
 using SayMore.Media.MPlayer;
 using SayMore.UI.ComponentEditors;
-using SilTools;
+using Palaso.UI.WindowsForms;
 
 namespace SayMore.Transcription.UI
 {

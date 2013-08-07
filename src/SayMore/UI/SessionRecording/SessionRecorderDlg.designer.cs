@@ -1,4 +1,3 @@
-using SilTools.Controls;
 
 namespace SayMore.UI.SessionRecording
 {
@@ -35,7 +34,7 @@ namespace SayMore.UI.SessionRecording
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._labelRecordingFormat = new System.Windows.Forms.Label();
 			this._buttonCancel = new System.Windows.Forms.Button();
-			this._panelPeakMeter = new SilTools.Controls.SilPanel();
+			this._panelPeakMeter = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this._buttonRecord = new System.Windows.Forms.ToolStripButton();
 			this._buttonPlayback = new System.Windows.Forms.ToolStripButton();
@@ -275,7 +274,7 @@ namespace SayMore.UI.SessionRecording
 		private System.Windows.Forms.ToolStripButton _buttonRecord;
 		private System.Windows.Forms.ToolStripButton _buttonPlayback;
 		private System.Windows.Forms.Button _buttonCancel;
-		private SilPanel _panelPeakMeter;
+		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _panelPeakMeter;
 		private System.Windows.Forms.ToolStripButton _buttonStop;
 		private System.Windows.Forms.Button _buttonOK;
 		private System.Windows.Forms.Label _labelRecLength;

@@ -36,7 +36,7 @@ namespace SayMore.UI.ElementListScreen
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentFileGrid));
 			this._contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this._menuDeleteFile = new System.Windows.Forms.ToolStripMenuItem();
-			this._panelOuter = new SilTools.Controls.SilPanel();
+			this._panelOuter = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
 			this._grid = new SayMore.UI.ElementListScreen.InternalComponentFileGrid();
 			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
 			this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -321,7 +321,7 @@ namespace SayMore.UI.ElementListScreen
 
 		private InternalComponentFileGrid _grid;
 		private System.Windows.Forms.ContextMenuStrip _contextMenuStrip;
-		private SilTools.Controls.SilPanel _panelOuter;
+		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _panelOuter;
 		private System.Windows.Forms.ToolStrip _toolStripActions;
 		private System.Windows.Forms.ToolStripDropDownButton _buttonOpen;
 		private System.Windows.Forms.ToolStripButton _buttonRename;

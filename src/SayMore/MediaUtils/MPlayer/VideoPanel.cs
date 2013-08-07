@@ -1,12 +1,13 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using SilTools;
-using SilTools.Controls;
+using Palaso.UI.WindowsForms.Extensions;
+using Palaso.UI.WindowsForms.Widgets;
+
 
 namespace SayMore.Media.MPlayer
 {
-	public class VideoPanel : SilPanel
+	public class VideoPanel : EnhancedPanel
 	{
 		private readonly Panel _panelPlayingSurface;
 		private MediaPlayerViewModel _viewModel;
@@ -82,7 +83,7 @@ namespace SayMore.Media.MPlayer
 				return;
 			}
 
-			Utils.SetWindowRedraw(this, false);
+			this.SetWindowRedraw(false);
 			var rc = Rectangle.Empty;
 			var usableRatio = (float)ClientSize.Width / ClientSize.Height;
 			var videoRatio = _viewModel.MediaInfo.Video.AspectRatio;
@@ -106,7 +107,7 @@ namespace SayMore.Media.MPlayer
 			if (!_viewModel.Loop && !_viewModel.HasPlaybackStarted)
 				ShowVideoThumbnailNow();
 
-			Utils.SetWindowRedraw(this, true);
+			this.SetWindowRedraw(true);
 		}
 
 		/// ------------------------------------------------------------------------------------

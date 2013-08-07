@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Model;
 using SayMore.Properties;
-using SilTools;
 
 namespace SayMore.UI.ProjectChoosingAndCreating
 {

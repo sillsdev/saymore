@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using NAudio.Wave;
-using SilTools;
+using Palaso.UI.WindowsForms;
 
 namespace SayMore.Media.Audio
 {

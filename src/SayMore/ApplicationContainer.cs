@@ -11,9 +11,9 @@ using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.UI;
 using SayMore.UI.ProjectChoosingAndCreating;
 using SayMore.Utilities;
-using SilTools;
 
 namespace SayMore
 {

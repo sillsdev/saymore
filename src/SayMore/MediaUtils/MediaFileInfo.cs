@@ -3,10 +3,10 @@ using System.Drawing;
 using System.IO;
 using System.Xml.Serialization;
 using Palaso.IO;
+using Palaso.Xml;
 using SayMore.Media.MPlayer;
 using SayMore.Properties;
 using MediaInfoLib;
-using SilTools;
 
 namespace SayMore.Media
 {

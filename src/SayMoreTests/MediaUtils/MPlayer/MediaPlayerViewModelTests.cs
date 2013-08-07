@@ -4,9 +4,9 @@ using System.Text;
 using System.Threading;
 using NUnit.Framework;
 using Palaso.TestUtilities;
+using Palaso.UI.WindowsForms;
 using SayMore.Media.MPlayer;
 using SayMoreTests.Model.Files;
-using SilTools;
 
 namespace SayMoreTests.Media.MPlayer
 {

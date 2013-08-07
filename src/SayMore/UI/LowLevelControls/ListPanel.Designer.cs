@@ -1,6 +1,5 @@
 using L10NSharp;
 using L10NSharp.UI;
-using SilTools.Controls;
 
 namespace SayMore.UI.LowLevelControls
 {
@@ -22,10 +21,10 @@ namespace SayMore.UI.LowLevelControls
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListPanel));
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
-			this._outerPanel = new SilTools.Controls.SilPanel();
+			this._outerPanel = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
 			this._buttonsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this._buttonNew = new System.Windows.Forms.Button();
-			this._headerLabel = new SilTools.Controls.HeaderLabel();
+			this._headerLabel = new Palaso.UI.WindowsForms.Widgets.HeaderLabel();
 			this._buttonColChooser = new SayMore.UI.LowLevelControls.ColumnChooserButton();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._outerPanel.SuspendLayout();
@@ -36,11 +35,12 @@ namespace SayMore.UI.LowLevelControls
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
+			this.locExtender.PrefixForNewItems = null;
 			// 
 			// _outerPanel
 			// 
 			this._outerPanel.BackColor = System.Drawing.SystemColors.Window;
-			this._outerPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(166)))), ((int)(((byte)(170)))));
+			this._outerPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this._outerPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._outerPanel.ClipTextForChildControls = true;
 			this._outerPanel.ControlReceivingFocusOnMnemonic = null;
@@ -110,11 +110,11 @@ namespace SayMore.UI.LowLevelControls
 			this.locExtender.SetLocalizationPriority(this._headerLabel, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._headerLabel, "UI.ListPanel._headerLabel");
 			this._headerLabel.Location = new System.Drawing.Point(0, 0);
-			this._headerLabel.MinimumSize = new System.Drawing.Size(165, 0);
+			this._headerLabel.MinimumSize = new System.Drawing.Size(165, 2);
 			this._headerLabel.MnemonicGeneratesClick = false;
 			this._headerLabel.Name = "_headerLabel";
 			this._headerLabel.PaintExplorerBarBackground = false;
-			this._headerLabel.ShowWindowBackgroudOnTopAndRightEdge = false;
+			this._headerLabel.ShowWindowBackgroudOnTopAndRightEdge = true;
 			this._headerLabel.Size = new System.Drawing.Size(168, 23);
 			this._headerLabel.TabIndex = 0;
 			this._headerLabel.Text = "Items";
@@ -134,7 +134,7 @@ namespace SayMore.UI.LowLevelControls
 			this.locExtender.SetLocalizableToolTip(this._buttonColChooser, "Choose Columns");
 			this.locExtender.SetLocalizationComment(this._buttonColChooser, null);
 			this.locExtender.SetLocalizingId(this._buttonColChooser, "CommonToMultipleViews.ElementList.ColumnChooserButton");
-			this._buttonColChooser.Location = new System.Drawing.Point(147, 1);
+			this._buttonColChooser.Location = new System.Drawing.Point(149, 2);
 			this._buttonColChooser.Name = "_buttonColChooser";
 			this._buttonColChooser.Size = new System.Drawing.Size(20, 20);
 			this._buttonColChooser.TabIndex = 0;
@@ -164,8 +164,8 @@ namespace SayMore.UI.LowLevelControls
 
 		#endregion
 
-		private SilTools.Controls.SilPanel _outerPanel;
-		private HeaderLabel _headerLabel;
+		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _outerPanel;
+		private Palaso.UI.WindowsForms.Widgets.HeaderLabel _headerLabel;
 		private L10NSharpExtender locExtender;
 		public System.Windows.Forms.Button _buttonNew;
 		private System.Windows.Forms.FlowLayoutPanel _buttonsFlowLayoutPanel;

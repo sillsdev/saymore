@@ -4,12 +4,11 @@ using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms;
 using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
-using SilTools;
-
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------

@@ -5,10 +5,11 @@ using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Reporting;
-using SayMore.Model.Files;
+using Palaso.UI.WindowsForms.Extensions;
+using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
-using SilTools;
 
 namespace SayMore.UI.NewSessionsFromFiles
 {
@@ -113,7 +114,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// ------------------------------------------------------------------------------------
 		public void UpdateDisplay()
 		{
-			Utils.SetWindowRedraw(this, false);
+			this.SetWindowRedraw(false);
 
 			_gridFiles.Visible = !string.IsNullOrEmpty(_viewModel.SelectedFolder);
 
@@ -163,7 +164,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 				}
 			}
 
-			Utils.SetWindowRedraw(this, true);
+			this.SetWindowRedraw(true);
 		}
 
 		/// ------------------------------------------------------------------------------------

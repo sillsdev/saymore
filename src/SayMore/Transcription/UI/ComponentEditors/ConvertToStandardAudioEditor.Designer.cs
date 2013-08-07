@@ -1,6 +1,4 @@
 using System.Windows.Forms;
-using SilTools.Controls;
-
 namespace SayMore.Transcription.UI
 {
 	partial class ConvertToStandardAudioEditor

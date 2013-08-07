@@ -1,5 +1,3 @@
-using SilTools.Controls;
-
 namespace SayMore.UI.ComponentEditors
 {
 	partial class MediaFileMoreInfoDlg
@@ -33,7 +31,7 @@ namespace SayMore.UI.ComponentEditors
 			this.components = new System.ComponentModel.Container();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this._buttonClose = new System.Windows.Forms.Button();
-			this._panelBrowser = new SilTools.Controls.SilPanel();
+			this._panelBrowser = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
 			this._webBrowserInfo = new System.Windows.Forms.WebBrowser();
 			this._flowLayoutButtons = new System.Windows.Forms.FlowLayoutPanel();
 			this._buttonEvenMoreInfo = new System.Windows.Forms.Button();
@@ -207,7 +205,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Button _buttonClose;
 		private System.Windows.Forms.Button _buttonEvenMoreInfo;
 		private System.Windows.Forms.WebBrowser _webBrowserInfo;
-		private SilPanel _panelBrowser;
+		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _panelBrowser;
 		private System.Windows.Forms.Button _buttonLessInfo;
 		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}

@@ -6,13 +6,13 @@ using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Miscellaneous;
+using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.UI.SegmentingAndRecording;
 using SayMore.UI.ComponentEditors;
-using SilTools;
 
 namespace SayMore.Transcription.UI
 {

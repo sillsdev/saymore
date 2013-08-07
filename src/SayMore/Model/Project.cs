@@ -5,9 +5,9 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SilTools;
 
 namespace SayMore.Model
 {

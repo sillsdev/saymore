@@ -5,9 +5,9 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.UI.WindowsForms;
 using SayMore.Model.Files;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
-using SilTools;
 
 namespace SayMore.UI.ElementListScreen
 {

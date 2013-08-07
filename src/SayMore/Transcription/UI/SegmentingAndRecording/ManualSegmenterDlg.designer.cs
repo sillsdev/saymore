@@ -1,4 +1,3 @@
-using SilTools.Controls;
 
 namespace SayMore.Transcription.UI
 {

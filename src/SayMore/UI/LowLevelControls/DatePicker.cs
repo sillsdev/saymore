@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using Palaso.Extensions;
+using Palaso.UI.WindowsForms.Extensions;
 
 namespace SayMore.UI.LowLevelControls
 {
@@ -74,10 +75,10 @@ namespace SayMore.UI.LowLevelControls
 		private void SetBlankFormat()
 		{
 			_ignoreEvents = true;
-			SilTools.Utils.SetWindowRedraw(this, false);
+			this.SetWindowRedraw(false);
 			Format = DateTimePickerFormat.Custom;
 			CustomFormat = " ";
-			SilTools.Utils.SetWindowRedraw(this, true);
+			this.SetWindowRedraw(true);
 			_ignoreEvents = false;
 		}
 
@@ -85,10 +86,10 @@ namespace SayMore.UI.LowLevelControls
 		private void SetDefaultFormat()
 		{
 			_ignoreEvents = true;
-			SilTools.Utils.SetWindowRedraw(this, false);
+			this.SetWindowRedraw(false);
 			Format = DateTimePickerFormat.Short;
 			CustomFormat = string.Empty;
-			SilTools.Utils.SetWindowRedraw(this, true);
+			this.SetWindowRedraw(true);
 			_ignoreEvents = false;
 		}
 

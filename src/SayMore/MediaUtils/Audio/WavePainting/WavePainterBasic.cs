@@ -5,8 +5,8 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
+using Palaso.UI.WindowsForms;
 using SayMore.Transcription.Model;
-using SilTools;
 
 namespace SayMore.Media.Audio
 {

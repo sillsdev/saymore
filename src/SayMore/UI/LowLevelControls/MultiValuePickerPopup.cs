@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SayMore.Model.Fields;
-using SilTools;
+using Palaso.UI.WindowsForms;
 
 namespace SayMore.UI.LowLevelControls
 {

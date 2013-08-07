@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using L10NSharp;
 using Palaso.IO;
-using SilTools;
+using Palaso.Xml;
 
 namespace SayMore.Model.Fields
 {

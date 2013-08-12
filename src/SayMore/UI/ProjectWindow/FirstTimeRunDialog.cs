@@ -5,12 +5,12 @@ namespace SayMore.UI.ProjectWindow
 {
 	public partial class FirstTimeRunDialog : Form
 	{
-		public FirstTimeRunDialog(string fileToDiaplay)
+		public FirstTimeRunDialog(string fileToDisplay)
 		{
 			InitializeComponent();
 
-			if  (!string.IsNullOrEmpty(fileToDiaplay) && File.Exists(fileToDiaplay))
-				_browser.Navigate(fileToDiaplay);
+			if  (!string.IsNullOrEmpty(fileToDisplay) && File.Exists(fileToDisplay))
+				_browser.Navigate(fileToDisplay);
 			else
 				_browser.DocumentText = "<HTML><b>First Time Run Information</b></HTML>";
 		}

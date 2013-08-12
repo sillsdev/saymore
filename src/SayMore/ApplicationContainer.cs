@@ -25,6 +25,7 @@ namespace SayMore
 	{
 		private IContainer _container;
 		private ISplashScreen _splashScreen;
+		public const string kSayMoreLocalizationId = "SayMore";
 
 		/// ------------------------------------------------------------------------------------
 		public ApplicationContainer() : this(false)
@@ -162,7 +163,9 @@ namespace SayMore
 		public  LocalizationManager CreateLocalizationManager()
 		{
 			var installedStringFileFolder = Path.GetDirectoryName(FileLocator.GetFileDistributedWithApplication("SayMore.es.tmx"));
-			var localizationManager = LocalizationManager.Create(Settings.Default.UserInterfaceLanguage, "SayMore", "SayMore", System.Windows.Forms.Application.ProductVersion, installedStringFileFolder, Program.AppDataFolder, Resources.SayMore, "issues@saymore.palaso.org","SayMore");
+			var localizationManager = LocalizationManager.Create(Settings.Default.UserInterfaceLanguage, kSayMoreLocalizationId,
+				"SayMore", System.Windows.Forms.Application.ProductVersion, installedStringFileFolder, Program.AppDataFolder,
+				Resources.SayMore, "issues@saymore.palaso.org", "SayMore", "SIL.Archiving");
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 			return localizationManager;
 		}

@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.ClearShare;
+using Palaso.UI.WindowsForms.Progress;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -217,10 +218,20 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void CreateArchiveFile()
 		{
-			var model = new ArchivingDlgViewModel(Title, Id, Program.DialogFont, GetMetsPairs,
-				GetFileDescription, FileCopySpecialHandler, CustomFilenameNormalization);
+			var model = new ArchivingDlgViewModel(Application.ProductName, Title, Id, GetMetsPairs(),
+				GetFileDescription);
 
-			using (var dlg = new ArchivingDlg(model, GetFilesToArchive, Settings.Default.ArchivingDialog))
+			model.ProgramDialogFont = Program.DialogFont;
+			model.FileCopyOverride = FileCopySpecialHandler;
+			model.AppSpecificFilenameNormalization = CustomFilenameNormalization;
+			model.OverrideDisplayInitialSummary = DisplayInitialArchiveSummary;
+			model.HandleNonFatalError = (exception, s) => ErrorReport.NotifyUserOfProblem(exception, s);
+
+			using (var dlg = new ArchivingDlg(model, ApplicationContainer.kSayMoreLocalizationId,
+				LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingInfoDetails",
+				"It will gather up all the files and data related to a session and its contributors.",
+				"This sentence is inserted as parameter 1 in DialogBoxes.ArchivingDlg.OverviewText"),
+				GetFilesToArchive, Settings.Default.ArchivingDialog))
 			{
 				dlg.ShowDialog();
 				Settings.Default.ArchivingDialog = dlg.FormSettings;
@@ -248,6 +259,41 @@ namespace SayMore.Model
 			}
 
 			return fileList;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DisplayInitialArchiveSummary(IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists, LogBox logBox)
+		{
+			if (fileLists.Count > 1)
+			{
+				logBox.WriteMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1",
+					"The following session and contributor files will be added to your archive."));
+			}
+			else
+			{
+				logBox.WriteWarning(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg",
+					"There are no contributors for this session."));
+
+				logBox.WriteMessage(Environment.NewLine +
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2",
+						"The following session files will be added to your archive."));
+			}
+
+			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingProgressMsg", "     {0}: {1}",
+				"The first parameter is 'Session' or 'Contributor'. The second parameter is the session or contributor name.");
+
+			foreach (var kvp in fileLists)
+			{
+				var element = (kvp.Key == string.Empty ?
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Session") :
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor"));
+
+				logBox.WriteMessage(Environment.NewLine + string.Format(fmt, element,
+					(kvp.Key == string.Empty ? Title : kvp.Key)));
+
+				foreach (var file in kvp.Value.Item1)
+					logBox.WriteMessageWithFontStyle(FontStyle.Regular, "          \u00B7 {0}", Path.GetFileName(file));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

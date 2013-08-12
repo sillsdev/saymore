@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="zh-Hans" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.3.0" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="zh-Hans" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4972.16808" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -854,11 +854,12 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.WindowTitle">
+      <note>Parameter is application name</note>
       <tuv xml:lang="en">
-        <seg>SayMore: Archive with RAMP (SIL Only)</seg>
+        <seg>{0}: Archive with RAMP (SIL Only)</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>SayMore：用RAMP存档（SIL专用）</seg>
+        <seg>{0}：用RAMP存档（SIL专用）</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg._buttonCancel">
@@ -2520,7 +2521,7 @@
         <seg>还没有预置</seg>
       </tuv>
     </tu>
-    <tu tuid="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem">
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._ignoreToolStripMenuItem">
       <tuv xml:lang="en">
         <seg>Ignored</seg>
       </tuv>
@@ -2528,7 +2529,7 @@
         <seg>忽略</seg>
       </tuv>
     </tu>
-    <tu tuid="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem_ToolTip_">
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._ignoreToolStripMenuItem_ToolTip_">
       <tuv xml:lang="en">
         <seg>Mark this segment as Ignored to skip annotating it.</seg>
       </tuv>

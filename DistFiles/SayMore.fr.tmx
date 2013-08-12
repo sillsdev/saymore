@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="fr" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.3.0" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="fr" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4972.16808" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -747,6 +747,15 @@
         <seg>Ajoutant des fichiers pour la session '{0}'</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ArchivingInfoDetails">
+      <note>This sentence is inserted as parameter 1 in DialogBoxes.ArchivingDlg.OverviewText</note>
+      <tuv xml:lang="en">
+        <seg>It will gather up all the files and data related to a session and its contributors.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Il se réuniront à tous les fichiers et les données reliées à une session et ses collaborateurs</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.ArchivingProgressMsg">
       <note>The first parameter is 'Session' or 'Contributor'. The second parameter is the session or contributor name.</note>
       <tuv xml:lang="en">
@@ -774,18 +783,18 @@
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg">
       <tuv xml:lang="en">
-        <seg>There was an error attempting to create an archive for the session '{0}'.</seg>
+        <seg>There was an error attempting to create the RAMP file.</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Il y avait une erreur en essayant de créer une archive de la session '{0}'.</seg>
+        <seg>Il y avait une erreur en essayant de créer une archive RAMP.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.CreatingInternalReapMetsFileErrorMsg">
       <tuv xml:lang="en">
-        <seg>There was an error attempting to create a RAMP/REAP mets file for the session '{0}'.</seg>
+        <seg>There was an error attempting to create the RAMP/REAP mets file.</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Il y avait une erreur en essayant de créer un fichier de créer un fichier mets RAMP et REAP pour la session '{0}'.</seg>
+        <seg>Il y avait une erreur en essayant de créer un fichier de créer un fichier mets RAMP et REAP.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.CreatingZipFileErrorMsg">
@@ -807,10 +816,18 @@
     <tu tuid="DialogBoxes.ArchivingDlg.OverviewText">
       <note>The first occurance of the word 'RAMP' will be made a hyperlink to the RAMP website. If the word 'RAMP' is not found, the text will not contain that hyperlink.</note>
       <tuv xml:lang="en">
-        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your SayMore sessions. It will gather up all the files and data related to a session and its contributors, then launch RAMP so that you can fill out more information and do the actual submission.</seg>
+        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your {0} data. {1} When the RAMP package has been created, you can  launch RAMP and enter any additional information before doing the actual submission.</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>RAMP est un utilitaire permettant d'entrer des métadonnées et le téléchargement des présentations aux archives internes du SIL, appelées REAP. Si vous avez accès à ces archives, cet outil vous aidera à utiliser le RAMP pour archiver vos sessions de SayMore. Il se réuniront à tous les fichiers et les données reliées à une session et ses collaborateurs, puis lancer RAMP afin que vous puissiez remplir plus d'informations et faire la présentation réelle.</seg>
+        <seg>RAMP est un utilitaire permettant d'entrer des métadonnées et le téléchargement des présentations aux archives internes du SIL, appelées REAP. Si vous avez accès à ces archives, cet outil vous aidera à utiliser le RAMP pour archiver vos données {0}. {1} Ensuite, vous pouvez exécuter RAMP pour compléter toute information supplémentaire et envoyer le paquet.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg">
+      <tuv xml:lang="en">
+        <seg>The following files will be added to the archive:</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Les fichiers suivants seront ajoutés à l'archive:</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1">
@@ -829,12 +846,20 @@
         <seg>Les fichiers de session suivants seront ajoutés à vos archives.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.PreparingFilesMsg">
+      <tuv xml:lang="en">
+        <seg>Analyzing component files</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Analyse des fichiers de composants</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.RampNotFoundMsg">
       <tuv xml:lang="en">
         <seg>The RAMP program cannot be found!</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Impossible de trouver le programme RAMP !</seg>
+        <seg>Impossible de trouver le programme RAMP!</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.ReadyToCallRampMsg">
@@ -843,6 +868,14 @@
       </tuv>
       <tuv xml:lang="fr">
         <seg>Prêt à remettre le paquet à RAMP</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.SavingFilesInRAMPMsg">
+      <tuv xml:lang="en">
+        <seg>Saving files in RAMP package</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Enregistrement de fichiers dans le paquet de RAMP</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.SearchingForRampMsg">
@@ -870,11 +903,12 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.WindowTitle">
+      <note>Parameter is application name</note>
       <tuv xml:lang="en">
-        <seg>SayMore: Archive with RAMP (SIL Only)</seg>
+        <seg>{0}: Archive with RAMP (SIL Only)</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>SayMore : Archive avec RAMP (SIL seulement)</seg>
+        <seg>{0}: Archive avec RAMP (SIL seulement)</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg._buttonCancel">

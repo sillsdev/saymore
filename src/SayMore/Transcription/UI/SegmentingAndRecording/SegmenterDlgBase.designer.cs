@@ -74,7 +74,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._lastSegmentMenuStrip, null);
 			this.locExtender.SetLocalizationComment(this._lastSegmentMenuStrip, null);
 			this.locExtender.SetLocalizationPriority(this._lastSegmentMenuStrip, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._lastSegmentMenuStrip, "OralAnnotationRecorderBaseDlg._lastSegmentMenuStrip");
+			this.locExtender.SetLocalizingId(this._lastSegmentMenuStrip, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._lastSegmentMenuStrip");
 			this._lastSegmentMenuStrip.Location = new System.Drawing.Point(311, 11);
 			this._lastSegmentMenuStrip.Name = "_lastSegmentMenuStrip";
 			this._lastSegmentMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
@@ -110,12 +110,12 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._currentSegmentMenuStrip, null);
 			this.locExtender.SetLocalizationComment(this._currentSegmentMenuStrip, null);
 			this.locExtender.SetLocalizationPriority(this._currentSegmentMenuStrip, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._currentSegmentMenuStrip, "OralAnnotationRecorderBaseDlg._lastSegmentMenuStrip");
+			this.locExtender.SetLocalizingId(this._currentSegmentMenuStrip, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._lastSegmentMenuStrip");
 			this._currentSegmentMenuStrip.Location = new System.Drawing.Point(532, 86);
 			this._currentSegmentMenuStrip.Name = "_currentSegmentMenuStrip";
 			this._currentSegmentMenuStrip.Padding = new System.Windows.Forms.Padding(1, 1, 0, 2);
 			this._currentSegmentMenuStrip.ShowItemToolTips = true;
-			this._currentSegmentMenuStrip.Size = new System.Drawing.Size(160, 24);
+			this._currentSegmentMenuStrip.Size = new System.Drawing.Size(75, 24);
 			this._currentSegmentMenuStrip.TabIndex = 20;
 			this._currentSegmentMenuStrip.Visible = false;
 			//
@@ -129,11 +129,11 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._ignoreToolStripMenuItem, "Mark this segment as Ignored to skip annotating it.");
 			this.locExtender.SetLocalizationComment(this._ignoreToolStripMenuItem, null);
 			this.locExtender.SetLocalizationPriority(this._ignoreToolStripMenuItem, L10NSharp.LocalizationPriority.MediumHigh);
-			this.locExtender.SetLocalizingId(this._ignoreToolStripMenuItem, "OralAnnotationRecorderBaseDlg._skipToolStripMenuItem");
+			this.locExtender.SetLocalizingId(this._ignoreToolStripMenuItem, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._ignoreToolStripMenuItem");
 			this._ignoreToolStripMenuItem.Name = "_ignoreToolStripMenuItem";
 			this._ignoreToolStripMenuItem.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
 			this._ignoreToolStripMenuItem.ShowShortcutKeys = false;
-			this._ignoreToolStripMenuItem.Size = new System.Drawing.Size(65, 21);
+			this._ignoreToolStripMenuItem.Size = new System.Drawing.Size(72, 21);
 			this._ignoreToolStripMenuItem.Text = "Ignored";
 			this._ignoreToolStripMenuItem.CheckedChanged += new System.EventHandler(this.HandleIgnoreToolStripMenuItemCheckedChanged);
 			this._ignoreToolStripMenuItem.Click += new System.EventHandler(this.HandleIgnoreButtonClick);
@@ -312,6 +312,7 @@ namespace SayMore.Transcription.UI
 			// locExtender
 			//
 			this.locExtender.LocalizationManagerId = "SayMore";
+			this.locExtender.PrefixForNewItems = "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg";
 			//
 			// _tableLayoutButtons
 			//

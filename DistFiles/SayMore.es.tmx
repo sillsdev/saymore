@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.3.0" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4972.16808" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -773,6 +773,15 @@
         <seg>Agregando archivos a la sesión '{0}'</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ArchivingInfoDetails">
+      <note>This sentence is inserted as parameter 1 in DialogBoxes.ArchivingDlg.OverviewText</note>
+      <tuv xml:lang="en">
+        <seg>It will gather up all the files and data related to a session and its contributors.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Reunirá todos los archivos y datos relacionados con ua sesión y sus colaboradores.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.CancellingMsg">
       <tuv xml:lang="en">
         <seg>Canceling...</seg>
@@ -799,18 +808,18 @@
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg">
       <tuv xml:lang="en">
-        <seg>There was an error attempting to create an archive for the session '{0}'.</seg>
+        <seg>There was an error attempting to create the RAMP file.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Hubo un error al intentar crear un archivo para la sesión '{0}'.</seg>
+        <seg>Hubo un error al intentar crear el archivo de RAMP.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.CreatingInternalReapMetsFileErrorMsg">
       <tuv xml:lang="en">
-        <seg>There was an error attempting to create a RAMP/REAP mets file for the session '{0}'.</seg>
+        <seg>There was an error attempting to create the RAMP/REAP mets file.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Hubo un error al intentar crear un archivo de mets RAMP/REAP para la sesión '{0}'.</seg>
+        <seg>Hubo un error al intentar crear el archivo de mets RAMP/REAP.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.CreatingZipFileErrorMsg">
@@ -819,14 +828,6 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Hubo un problema al intentar iniciar el proceso para crear el archivo zip.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.FileExcludedFromRAMP">
-      <tuv xml:lang="en">
-        <seg>File excluded from RAMP package.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Archivo excluido de paquete RAMP.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg">
@@ -840,10 +841,10 @@
     <tu tuid="DialogBoxes.ArchivingDlg.OverviewText">
       <note>The first occurance of the word 'RAMP' will be made a hyperlink to the RAMP website. If the word 'RAMP' is not found, the text will not contain that hyperlink.</note>
       <tuv xml:lang="en">
-        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your SayMore sessions. It will gather up all the files and data related to a session and its contributors, then launch RAMP so that you can fill out more information and do the actual submission.</seg>
+        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your {0} data. {1} When the RAMP package has been created, you can  launch RAMP and enter any additional information before doing the actual submission.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>RAMP es una utilidad para introducir metadatos y subir información al archivo interno del SIL, REAP. Si tiene acceso a este archivo, esta herramienta le ayudará a utilizar RAMP para archivar sus sesiones de SayMore. Reunirá todos los archivos y datos relacionados con ua sesión y sus colaboradores, a continuación, ejecute RAMP para que usted pueda completar la información y subir la sesión.</seg>
+        <seg>RAMP es una utilidad para introducir metadatos y subir información al archivo interno del SIL, REAP. Si tiene acceso a este archivo, esta herramienta le ayudará a utilizar RAMP para archivar sus sesiones de {0}. {1}. A continuación, usted puede ejecutar RAMP para completar cualquier información adicional y subir el paquete.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1">
@@ -919,11 +920,12 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.WindowTitle">
+      <note>Parameter is application name</note>
       <tuv xml:lang="en">
-        <seg>SayMore: Archive with RAMP (SIL Only)</seg>
+        <seg>{0}: Archive with RAMP (SIL Only)</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>SayMore: Archivar con RAMP (sólo SIL)</seg>
+        <seg>{0}: Archivar con RAMP (sólo SIL)</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg._buttonCancel">
@@ -1944,6 +1946,22 @@
         <seg>Aceptar</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._ignoreToolStripMenuItem">
+      <tuv xml:lang="en">
+        <seg>Ignored</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ignorado</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._ignoreToolStripMenuItem_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Mark this segment as Ignored to skip annotating it.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Seleccionar Ignorado para no anotar este segmento.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelOriginalRecording">
       <tuv xml:lang="en">
         <seg>Source Audio</seg>
@@ -2225,6 +2243,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Parar (presione la barra espaciadora)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._labelInfo">
+      <tuv xml:lang="en">
+        <seg>One of the segments delineated by the selected break already has oral annotations.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Uno de los segmentos delineados por la división de segmentos seleccionada ya tiene anotaciones orales.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.CannotRecordErrorMsg">
@@ -2893,14 +2919,6 @@
         <seg>Ver notas de la versión...</seg>
       </tuv>
     </tu>
-    <tu tuid="ManualSegmenterDlg._labelInfo">
-      <tuv xml:lang="en">
-        <seg>One of the segments delineated by the selected break already has oral annotations.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Uno de los segmentos delineados por la división de segmentos seleccionada ya tiene anotaciones orales.</seg>
-      </tuv>
-    </tu>
     <tu tuid="Miscellaneous.CopyFilesControl.CopyFailedMsg">
       <tuv xml:lang="en">
         <seg>Copying failed: {0}</seg>
@@ -2963,14 +2981,6 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Todavía no hay ajustes preestablecidos</seg>
-      </tuv>
-    </tu>
-    <tu tuid="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem">
-      <tuv xml:lang="en">
-        <seg>Ignored</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Ignorado</seg>
       </tuv>
     </tu>
     <tu tuid="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem_ToolTip_">

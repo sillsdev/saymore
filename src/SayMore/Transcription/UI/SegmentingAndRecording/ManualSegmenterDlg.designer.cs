@@ -32,9 +32,9 @@ namespace SayMore.Transcription.UI
 			this._buttonListenToOriginal = new System.Windows.Forms.ToolStripButton();
 			this._buttonStopOriginal = new System.Windows.Forms.ToolStripButton();
 			this._buttonDeleteSegment = new System.Windows.Forms.ToolStripButton();
-			this._clearWarningMessageTimer = new System.Windows.Forms.Timer(this.components);
 			this._pictureIcon = new System.Windows.Forms.PictureBox();
 			this._labelInfo = new System.Windows.Forms.Label();
+			this._clearWarningMessageTimer = new System.Windows.Forms.Timer(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.toolStripButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._pictureIcon)).BeginInit();
@@ -60,6 +60,7 @@ namespace SayMore.Transcription.UI
 			// locExtender
 			//
 			this.locExtender.LocalizationManagerId = "SayMore";
+			this.locExtender.PrefixForNewItems = "DialogBoxes.Transcription";
 			//
 			// toolStripButtons
 			//
@@ -79,7 +80,7 @@ namespace SayMore.Transcription.UI
 			this.toolStripButtons.Location = new System.Drawing.Point(0, 106);
 			this.toolStripButtons.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			this.toolStripButtons.Name = "toolStripButtons";
-			this.toolStripButtons.Size = new System.Drawing.Size(248, 122);
+			this.toolStripButtons.Size = new System.Drawing.Size(248, 141);
 			this.toolStripButtons.TabIndex = 7;
 			this.toolStripButtons.Text = "toolStrip1";
 			this.toolStripButtons.MouseEnter += new System.EventHandler(this.toolStripButtons_MouseEnter);
@@ -129,10 +130,6 @@ namespace SayMore.Transcription.UI
 			this._buttonDeleteSegment.Text = "Delete Selected Boundary (press DELETE)";
 			this._buttonDeleteSegment.Click += new System.EventHandler(this.HandleDeleteSegmentClick);
 			//
-			// _clearWarningMessageTimer
-			//
-			this._clearWarningMessageTimer.Interval = 4000;
-			//
 			// _pictureIcon
 			//
 			this._pictureIcon.BackColor = System.Drawing.Color.Transparent;
@@ -159,7 +156,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelInfo, null);
 			this.locExtender.SetLocalizationComment(this._labelInfo, null);
 			this.locExtender.SetLocalizationPriority(this._labelInfo, L10NSharp.LocalizationPriority.Medium);
-			this.locExtender.SetLocalizingId(this._labelInfo, "ManualSegmenterDlg._labelInfo");
+			this.locExtender.SetLocalizingId(this._labelInfo, "DialogBoxes.Transcription.ManualSegmenterDlg._labelInfo");
 			this._labelInfo.Location = new System.Drawing.Point(41, 326);
 			this._labelInfo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this._labelInfo.Name = "_labelInfo";
@@ -168,6 +165,10 @@ namespace SayMore.Transcription.UI
 			this._labelInfo.Text = "One of the segments delineated by the selected break already has oral annotations" +
 	".";
 			this._labelInfo.Visible = false;
+			//
+			// _clearWarningMessageTimer
+			//
+			this._clearWarningMessageTimer.Interval = 4000;
 			//
 			// ManualSegmenterDlg
 			//

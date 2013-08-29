@@ -218,7 +218,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void CreateArchiveFile()
 		{
-			var model = new ArchivingDlgViewModel(Application.ProductName, Title, Id, GetMetsPairs(),
+			var model = new ArchivingDlgViewModel(Application.ProductName, Title, Id,
 				GetFileDescription);
 
 			model.ProgramDialogFont = Program.DialogFont;
@@ -226,6 +226,8 @@ namespace SayMore.Model
 			model.AppSpecificFilenameNormalization = CustomFilenameNormalization;
 			model.OverrideDisplayInitialSummary = DisplayInitialArchiveSummary;
 			model.HandleNonFatalError = (exception, s) => ErrorReport.NotifyUserOfProblem(exception, s);
+
+			AddMetsPairs(model);
 
 			using (var dlg = new ArchivingDlg(model, ApplicationContainer.kSayMoreLocalizationId,
 				LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingInfoDetails",
@@ -328,67 +330,31 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private IEnumerable<string> GetMetsPairs()
+		private void AddMetsPairs(ArchivingDlgViewModel model)
 		{
-			yield return JSONUtils.MakeKeyValuePair("broad_type", "wider_audience");
-			yield return JSONUtils.MakeKeyValuePair("dc.type.scholarlyWork", "Data set");
-			yield return JSONUtils.MakeKeyValuePair("dc.subject.silDomain", "LING:Linguistics", true);
-			yield return JSONUtils.MakeKeyValuePair("type.domainSubtype.LING", "language documentation (LING)", true);
+			model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
+			model.SetDomains(SilDomain.Ling_LanguageDocumentation);
 
 			var value = MetaDataFile.GetStringValue("date", null);
 			if (!string.IsNullOrEmpty(value))
-				yield return JSONUtils.MakeKeyValuePair("dc.date.created", value);
-
-			//// Return the session's situation as the the package's description.
-			//value = MetaDataFile.GetStringValue("situation", null);
-			//if (value != null)
-			//{
-			//    var desc = JSONUtils.MakeKeyValuePair(" ", value) + "," +
-			//        JSONUtils.MakeKeyValuePair("lang", string.Empty);
-
-			//    yield return JSONUtils.MakeArrayFromValues("dc.description", new[] { desc });
-			//}
+				model.SetCreationDate(value);
 
 			// Return the session's note as the abstract portion of the package's description.
 			value = MetaDataFile.GetStringValue("synopsis", null);
 			if (!string.IsNullOrEmpty(value))
-			{
-				var abs = JSONUtils.MakeKeyValuePair(" ", value) + "," +
-					JSONUtils.MakeKeyValuePair("lang", string.Empty);
+				model.SetAbstract(value, string.Empty);
 
-				yield return JSONUtils.MakeArrayFromValues("dc.description.abstract", new[] { abs });
-			}
-
-			// Return JSON array of contributors
+			// Set contributors
 			var contributions = MetaDataFile.GetValue("contributions", null) as ContributionCollection;
 			if (contributions != null && contributions.Count > 0)
-			{
-				yield return JSONUtils.MakeArrayFromValues("dc.contributor",
-					contributions.Select(GetContributorsMetsPair));
-			}
+				model.SetContributors(contributions);
 
 			// Return total duration of source audio/video recordings.
 			TimeSpan totalDuration = GetTotalDurationOfSourceMedia();
 			if (totalDuration.Ticks > 0)
-			{
-				yield return JSONUtils.MakeKeyValuePair("format.extent.recording",
-					string.Format("Total Length of Source Recordings: {0}", totalDuration.ToString()));
-			}
+				model.SetAudioVideoExtent(string.Format("Total Length of Source Recordings: {0}", totalDuration.ToString()));
 
-			//yield return JSONUtils.MakeKeyValuePair("relation.requires.has", "Y");
-			//yield return JSONUtils.MakeArrayFromValues("dc.relation.requires",
-			//    new[] { JSONUtils.MakeKeyValuePair(" ", "SayMore") });
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private string GetContributorsMetsPair(Contribution contribution)
-		{
-			var roleCode = (contribution.Role != null &&
-				Settings.Default.RampContributorRoles.Contains(contribution.Role.Code) ?
-				contribution.Role.Code : string.Empty);
-
-			return JSONUtils.MakeKeyValuePair(" ", contribution.ContributorName) +
-				"," + JSONUtils.MakeKeyValuePair("role", roleCode);
+			//model.SetSoftwareRequirements("SayMore");
 		}
 
 		/// ------------------------------------------------------------------------------------

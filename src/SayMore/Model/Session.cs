@@ -227,7 +227,7 @@ namespace SayMore.Model
 			model.OverrideDisplayInitialSummary = DisplayInitialArchiveSummary;
 			model.HandleNonFatalError = (exception, s) => ErrorReport.NotifyUserOfProblem(exception, s);
 
-			AddMetsPairs(model);
+			SetAdditionalMetsData(model);
 
 			using (var dlg = new ArchivingDlg(model, ApplicationContainer.kSayMoreLocalizationId,
 				LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingInfoDetails",
@@ -330,7 +330,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void AddMetsPairs(ArchivingDlgViewModel model)
+		private void SetAdditionalMetsData(ArchivingDlgViewModel model)
 		{
 			model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
 			model.SetDomains(SilDomain.Ling_LanguageDocumentation);

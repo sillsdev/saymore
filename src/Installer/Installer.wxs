@@ -116,9 +116,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		  <Component Id="L10NSharp.dll" Guid="{92419CBC-BA15-4dfd-B57E-399BEC7FE926}">
 			<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="yes" Source="..\..\output\release\L10NSharp.dll" />
 		  </Component>
-		  <Component Id="SilTools.dll" Guid="{29655098-6831-45BA-9B9A-5E8CDF2795FF}">
-			<File Id="SilTools.dll" Name="SilTools.dll" KeyPath="yes" Source="..\..\output\release\SilTools.dll" />
-		  </Component>
 		  <Component Id="Palaso.dll" Guid="{C46C492A-304B-47b8-A13A-7CE4896B5634}">
 			<File Id="Palaso.dll" Name="Palaso.dll" KeyPath="yes" Source="..\..\output\release\Palaso.dll" />
 		  </Component>
@@ -146,7 +143,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	  <ComponentRef Id="NAudio.dll"/>
 	  <ComponentRef Id="Ionic.Zip.dll"/>
 	  <ComponentRef Id="L10NSharp.dll"/>
-	  <ComponentRef Id="SilTools.dll"/>
 	  <ComponentRef Id="Palaso.dll"/>
 	  <ComponentRef Id="PalasoUIWindowsForms.dll" />
 	  <ComponentRef Id="Palaso.Media.dll" />

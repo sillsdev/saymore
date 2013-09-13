@@ -144,7 +144,7 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void HandleHelpAboutClick(object sender, EventArgs e)
 		{
-			using (var dlg = new AboutDialog())
+			using (var dlg = new Palaso.UI.WindowsForms.SIL.SILAboutBox(FileLocator.GetFileDistributedWithApplication("aboutbox.htm")))
 				dlg.ShowDialog();
 		}
 		/// ------------------------------------------------------------------------------------

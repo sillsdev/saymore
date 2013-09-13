@@ -465,9 +465,7 @@
     <Compile Include="UI\LoadingDlg.Designer.cs">
       <DependentUpon>LoadingDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\LowLevelControls\ColumnChooserButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="UI\LowLevelControls\ColumnChooserButton.cs" />
     <Compile Include="UI\LowLevelControls\DatePicker.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -535,9 +533,7 @@
     <Compile Include="MediaUtils\MPlayer\MPlayerHelper.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MediaUtils\MPlayer\VideoPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="MediaUtils\MPlayer\VideoPanel.cs" />
     <Compile Include="UI\ProgressDlg.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -235,9 +235,11 @@ namespace SayMore.Transcription.UI
 		protected override void OnEditorAndChildrenLostFocus()
 		{
 			base.OnEditorAndChildrenLostFocus();
+			bool fInvalidate = _grid.PlaybackInProgress || _grid.IsCurrentCellInEditMode;
 			_grid.Stop();
 			_grid.EndEdit();
-			_grid.Invalidate();
+			if (fInvalidate)
+				_grid.Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------

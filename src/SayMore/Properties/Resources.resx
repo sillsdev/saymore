@@ -124,17 +124,23 @@
   <data name="TechnicalTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TechnicalTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="DeleteMessageBoxButtonImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DeleteMessageBoxButtonImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Delete.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kimidWarning" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Warning.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Information_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Information_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="AddBoundary" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AddBoundary.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="StatusFinished" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Finsihed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Stop.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ElanIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ElanIcon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -142,8 +148,8 @@
   <data name="VSliderThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\VSliderThumb.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MuteVolume" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MuteVolume.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Save.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kimidNewProject" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NewProject.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -157,8 +163,8 @@
   <data name="RecordStart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RecordStart.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DeleteMessageBoxButtonImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DeleteMessageBoxButtonImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="kimidBrowseForProject" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BrowseForProject.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="StatisticsViewStyles" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\StatisticsViewStyles.css;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -166,16 +172,11 @@
   <data name="kimidMale_Selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Male_Selected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="wmpOcxState" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-			AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0yLjAuMC4w
-			LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACFTeXN0
-			ZW0uV2luZG93cy5Gb3Jtcy5BeEhvc3QrU3RhdGUBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAtwAAAAIB
-			AAAAAQAAAAAAAAAAAAAAAKIAAAAAAwAACAAAAAAABQAAAAAAAADwPwMAAAAAAAUAAAAAAAAAAAAIAAIA
-			AAAAAAMAAQAAAAsA//8DAAAAAAALAP//CAACAAAAAAADADIAAAALAAAACAAKAAAAZgB1AGwAbAAAAAsA
-			AAALAAAACwD//wsA//8LAAAACAACAAAAAAAIAAIAAAAAAAgAAgAAAAAACAACAAAAAAALAAAAXREAAP0L
-			AAAL
-		</value>
+  <data name="ShowVideoHelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ShowVideoHelp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StatusFinished" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Finsihed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RecordOralAnnotation" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RecordOralAnnotation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -189,8 +190,17 @@
   <data name="VSliderThumbDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\VSliderThumbDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="HSliderThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HSliderThumb.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MuteVolume" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MuteVolume.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="kimidFemale_Selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Female_Selected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="InterlinearExport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\InterlinearExport.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Progress" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Progress.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -198,14 +208,32 @@
   <data name="ImageFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ImageFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="MoreArrows" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MoreArrows.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MoreMediaInfoStyles" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MoreMediaInfoStyles.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="SayMore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SayMore.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="VideoInformedConsent" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\VideoInformedConsent.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CheckedBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CheckedBox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RecordErase" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RecordErase.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kimidChangePicture" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ChangePicture.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UncheckedBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UncheckedBox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LessArrows" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LessArrows.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Play" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Play.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -222,14 +250,23 @@
   <data name="kimidMoreAction" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\More_Action.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="undo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\undo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="HSliderThumbMousePressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\HSliderThumbMousePressed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Presets" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Presets.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="NotesTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NotesTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidBrowseForProject" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BrowseForProject.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Green_check" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Green_check.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="mediaFileInfoOutputTemplate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mediaFileInfoOutputTemplate.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="DropDownArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DropDownArrow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -237,11 +274,14 @@
   <data name="Segment" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Segment.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ListenToOriginalRecordingDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ListenToOriginalRecordingDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Volume" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Volume.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Save" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Save.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="LoadingWheel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LoadingWheel.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Copy.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -276,11 +316,11 @@
   <data name="CarefulSpeech" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CarefulSpeech.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Stop.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="kimidNoPhoto" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NoPhotoSilhouette.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BusyWheelSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Busy Wheel.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Finished" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\finished.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -288,14 +328,23 @@
   <data name="kimidSendReceive" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SendReceive.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RegenerateAnnotationFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RegenerateAnnotationFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="InfoBlue16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\InfoBlue16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="InfoBlue24x24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\InfoBlue24x24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Sessions" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sessions4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RecordingOralAnnotationInProgress" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RecordingOralAnnotationInProgress.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RecordStop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RecordStop.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="StopSegment" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\StopSegment.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="VSliderThumbPressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VSliderThumbPressed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RecordingPlayback" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RecordingPlayback.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -309,14 +358,11 @@
   <data name="ListenToOriginalRecording" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ListenToOriginalRecording.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SessionFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SessionFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Print" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Print.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="HSliderThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\HSliderThumb.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="StopSegment" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\StopSegment.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Pause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -327,20 +373,26 @@
   <data name="StatusIn_Progress" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\InProgress.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="kimidSilLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\kimidSilLogo.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="BusyWheelLarge" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Blue Wheel.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Sessions" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Sessions4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BusyWheelSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Busy Wheel.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SessionFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SessionFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LargeSayMoreLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SayMoreLogo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="SayMoreText" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SayMoreText.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="ComponentStageColorBlockTemplate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ComponentStageColorBlockTemplate.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RegenerateAnnotationFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RegenerateAnnotationFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RampIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ramp.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -354,11 +406,22 @@
   <data name="WrittenInformedConsent" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WrittenInformedConsent.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="VSliderThumbPressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\VSliderThumbPressed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="wmpOcxState" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+			AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0yLjAuMC4w
+			LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACFTeXN0
+			ZW0uV2luZG93cy5Gb3Jtcy5BeEhvc3QrU3RhdGUBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAtwAAAAIB
+			AAAAAQAAAAAAAAAAAAAAAKIAAAAAAwAACAAAAAAABQAAAAAAAADwPwMAAAAAAAUAAAAAAAAAAAAIAAIA
+			AAAAAAMAAQAAAAsA//8DAAAAAAALAP//CAACAAAAAAADADIAAAALAAAACAAKAAAAZgB1AGwAbAAAAAsA
+			AAALAAAACwD//wsA//8LAAAACAACAAAAAAAIAAIAAAAAAAgAAgAAAAAACAACAAAAAAALAAAAXREAAP0L
+			AAAL
+		</value>
   </data>
-  <data name="InterlinearExport" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\InterlinearExport.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="arrow_skip_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow_skip_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Information_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Information_blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PlaySegment" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PlaySegment.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -369,76 +432,16 @@
   <data name="StatusSkipped" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Skipped.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ListenToSegmentsAnnotation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ListenToSegmentsAnnotation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="AudioComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AudioComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RecordOralAnnotationSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RecordOralAnnotationSmall.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ListenToSegmentsAnnotation" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ListenToSegmentsAnnotation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ListenToOriginalRecordingDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ListenToOriginalRecordingDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RecordingOralAnnotationInProgress" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RecordingOralAnnotationInProgress.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mediaFileInfoOutputTemplate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mediaFileInfoOutputTemplate.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="LessArrows" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LessArrows.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MoreArrows" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MoreArrows.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MoreMediaInfoStyles" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MoreMediaInfoStyles.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="InfoBlue16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\InfoBlue16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="InfoBlue24x24" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\InfoBlue24x24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Presets" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Presets.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Green_check" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Green_check.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="undo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\undo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Information_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Information_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Information_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Information_blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ShowVideoHelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ShowVideoHelp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="arrow_skip_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrow_skip_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SayMore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SayMore.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CheckedBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CheckedBox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="UncheckedBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UncheckedBox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SayMoreText" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SayMoreText.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="kimidSilLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\kimidSilLogo.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="LoadingWheel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LoadingWheel.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SILInBlue76" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SILInBlue76.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

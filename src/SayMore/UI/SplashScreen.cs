@@ -1,10 +1,9 @@
 // --------------------------------------------------------------------------------------------
-#region // Copyright © 2002-2013, SIL International. All Rights Reserved.
-// <copyright from='2002' to='2013' company='SIL International'>
-//		Copyright © 2002-2013, SIL International. All Rights Reserved.
+#region // Copyright (c) 2013, SIL International. All Rights Reserved.
+// <copyright from='2012' to='2013' company='SIL International'>
+//		Copyright (c) 2013, SIL International. All Rights Reserved.
 //
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
+//		Distributable under the terms of the MIT License (http://sil.mit-license.org/)
 // </copyright>
 #endregion
 //

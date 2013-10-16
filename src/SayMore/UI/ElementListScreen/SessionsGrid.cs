@@ -94,7 +94,7 @@ namespace SayMore.UI.ElementListScreen
 				Resources.RampIcon, (s, e) => {
 					var session = (Session)GetCurrentElement();
 					if (session != null)
-						session.CreateArchiveFile();
+						session.CreateRampArchiveFile();
 				});
 
 			menu.Text = LocalizationManager.GetString("SessionsView.SessionsList.RampArchiveMenuText",

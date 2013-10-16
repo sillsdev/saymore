@@ -216,15 +216,14 @@ namespace SayMore.Model
 
 		#region Archiving
 		/// ------------------------------------------------------------------------------------
-		public void CreateArchiveFile()
+		public void CreateRampArchiveFile()
 		{
-			var model = new ArchivingDlgViewModel(Application.ProductName, Title, Id,
+			var model = new RampArchivingDlgViewModel(Application.ProductName, Title, Id,
 				GetFileDescription);
 
-			model.ProgramDialogFont = Program.DialogFont;
 			model.FileCopyOverride = FileCopySpecialHandler;
 			model.AppSpecificFilenameNormalization = CustomFilenameNormalization;
-			model.OverrideDisplayInitialSummary = DisplayInitialArchiveSummary;
+			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
 			model.HandleNonFatalError = (exception, s) => ErrorReport.NotifyUserOfProblem(exception, s);
 
 			SetAdditionalMetsData(model);
@@ -233,7 +232,7 @@ namespace SayMore.Model
 				LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingInfoDetails",
 				"It will gather up all the files and data related to a session and its contributors.",
 				"This sentence is inserted as parameter 1 in DialogBoxes.ArchivingDlg.OverviewText"),
-				GetFilesToArchive, Settings.Default.ArchivingDialog))
+				Program.DialogFont, GetFilesToArchive, Settings.Default.ArchivingDialog))
 			{
 				dlg.ShowDialog();
 				Settings.Default.ArchivingDialog = dlg.FormSettings;
@@ -264,21 +263,20 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void DisplayInitialArchiveSummary(IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists, LogBox logBox)
+		private void DisplayInitialArchiveSummary(IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists, ArchivingDlgViewModel model)
 		{
 			if (fileLists.Count > 1)
 			{
-				logBox.WriteMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1",
-					"The following session and contributor files will be added to your archive."));
+				model.DisplayMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1",
+					"The following session and contributor files will be added to your archive."), ArchivingDlgViewModel.MessageType.Normal);
 			}
 			else
 			{
-				logBox.WriteWarning(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg",
-					"There are no contributors for this session."));
+				model.DisplayMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg",
+					"There are no contributors for this session."), ArchivingDlgViewModel.MessageType.Warning);
 
-				logBox.WriteMessage(Environment.NewLine +
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2",
-						"The following session files will be added to your archive."));
+				model.DisplayMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2",
+					"The following session files will be added to your archive."), ArchivingDlgViewModel.MessageType.Progress);
 			}
 
 			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingProgressMsg", "     {0}: {1}",
@@ -290,11 +288,11 @@ namespace SayMore.Model
 					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Session") :
 					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor"));
 
-				logBox.WriteMessage(Environment.NewLine + string.Format(fmt, element,
-					(kvp.Key == string.Empty ? Title : kvp.Key)));
+				model.DisplayMessage(string.Format(fmt, element, (kvp.Key == string.Empty ? Title : kvp.Key)),
+					ArchivingDlgViewModel.MessageType.Progress);
 
 				foreach (var file in kvp.Value.Item1)
-					logBox.WriteMessageWithFontStyle(FontStyle.Regular, "          \u00B7 {0}", Path.GetFileName(file));
+					model.DisplayMessage(Path.GetFileName(file), ArchivingDlgViewModel.MessageType.Bullet);
 			}
 		}
 
@@ -330,7 +328,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void SetAdditionalMetsData(ArchivingDlgViewModel model)
+		private void SetAdditionalMetsData(RampArchivingDlgViewModel model)
 		{
 			model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
 			model.SetDomains(SilDomain.Ling_LanguageDocumentation);
@@ -384,7 +382,7 @@ namespace SayMore.Model
 			var mediaFileName = annotationFileHelper.MediaFileName;
 			if (mediaFileName != null)
 			{
-				var normalizedName = model.NormalizeFilenameForRAMP(string.Empty, mediaFileName);
+				var normalizedName = model.NormalizeFilename(string.Empty, mediaFileName);
 				if (normalizedName != mediaFileName)
 				{
 					annotationFileHelper.SetMediaFile(normalizedName);

@@ -13,6 +13,10 @@ copy /Y ..\palaso\output\debug\SIL.Archiving.dll lib\dotnet
 copy /Y ..\palaso\output\debug\SIL.Archiving.xml lib\dotnet
 copy /Y ..\palaso\output\debug\SIL.Archiving.pdb lib\dotnet
 
+copy /Y ..\L10NSharp\Output\Debug\L10NSharp.dll lib\dotnet
+copy /Y ..\L10NSharp\Output\Debug\L10NSharp.pdb lib\dotnet
+copy /Y ..\L10NSharp\Output\Debug\L10NSharp.xml lib\dotnet
+
 copy /Y ..\palaso\output\debug\Palaso.BuildTasks.dll build
 
 REM now copy all that stuff to the debug folder

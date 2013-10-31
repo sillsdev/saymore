@@ -7,7 +7,6 @@ using Palaso.Xml;
 using SayMore.Media.MPlayer;
 using SayMore.Properties;
 using MediaInfoLib;
-using System.Xml;
 
 namespace SayMore.Media
 {
@@ -63,16 +62,9 @@ namespace SayMore.Media
 			info.Option("Inform", s_templateData);
 			string output = info.Inform();
 			info.Close();
-			MediaFileInfo mediaInfo = null;
 			Exception error;
-			try
-			{
-				mediaInfo = XmlSerializationHelper.DeserializeFromString<MediaFileInfo>(output, out error);
-			}
-			catch (XmlException)
-			{
-				// Ingnore
-			}
+			var mediaInfo = XmlSerializationHelper.DeserializeFromString<MediaFileInfo>(output, out error);
+
 			if (mediaInfo == null || mediaInfo.Audio == null)
 				return null;
 

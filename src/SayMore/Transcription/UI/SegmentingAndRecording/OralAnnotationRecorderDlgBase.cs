@@ -186,6 +186,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
+			if (_moreReliableDesignMode)
+				return;
+
 			ViewModel.InitializeAnnotationRecorder(_peakMeter, _recDeviceIndicator,
 				HandleAnnotationRecordingProgress);
 			base.OnLoad(e);
@@ -1027,6 +1030,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnDeactivate(EventArgs e)
 		{
+			if (_moreReliableDesignMode)
+				return;
+
 			if (ViewModel.GetIsRecording())
 			{
 				StopRecording(_reRecording ? AdvanceOptionsAfterRecording.DoNotAdvance :

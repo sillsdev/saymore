@@ -327,7 +327,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, "Localized in subclass");
 			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CarefulSpeechAnnotationDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.WindowTitle");
 			this.MinimumSize = new System.Drawing.Size(446, 526);
 			this.Name = "OralAnnotationRecorderBaseDlg";
 			this.Opacity = 1D;

@@ -89,6 +89,9 @@
     <Reference Include="SIL.Archiving">
       <HintPath>..\..\lib\dotnet\SIL.Archiving.dll</HintPath>
     </Reference>
+    <Reference Include="SubtitleEdit">
+      <HintPath>..\..\lib\dotnet\SubtitleEdit.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">

@@ -188,11 +188,13 @@ namespace SayMore.Transcription.UI
             // Be sure to restart the pprogram whenever there is a new video added.
             this._exportFreeTranslationVideoMenuItem.Enabled = false;
             int index = _file.PathToAnnotatedFile.IndexOf(SayMore.Properties.Settings.Default.StandardAudioFileSuffix);
-            string sourceVideoPath = _file.PathToAnnotatedFile.Substring(0, index) + "_Source.mp4";
-            if (System.IO.File.Exists(sourceVideoPath))
-                this._exportFreeTranslationVideoMenuItem.Enabled = true;
-
-            // 
+			if (index > 0)
+			{
+				string sourceVideoPath = _file.PathToAnnotatedFile.Substring(0, index) + "_Source.mp4";
+				if (System.IO.File.Exists(sourceVideoPath))
+					this._exportFreeTranslationVideoMenuItem.Enabled = true;
+			}
+			// 
             // _exportVideoTranscription
             // 
             this.locExtender.SetLocalizableToolTip(this._exportVideoTranscription, null);

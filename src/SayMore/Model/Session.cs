@@ -219,7 +219,7 @@ namespace SayMore.Model
 		public void CreateRampArchiveFile()
 		{
 			var model = new RampArchivingDlgViewModel(Application.ProductName, Title, Id,
-				GetFileDescription);
+				SetFilesToArchive, GetFileDescription);
 
 			model.FileCopyOverride = FileCopySpecialHandler;
 			model.AppSpecificFilenameNormalization = CustomFilenameNormalization;
@@ -232,7 +232,7 @@ namespace SayMore.Model
 				LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingInfoDetails",
 				"It will gather up all the files and data related to a session and its contributors.",
 				"This sentence is inserted as parameter 1 in DialogBoxes.ArchivingDlg.OverviewText"),
-				Program.DialogFont, GetFilesToArchive, Settings.Default.ArchivingDialog))
+				Program.DialogFont, Settings.Default.ArchivingDialog))
 			{
 				dlg.ShowDialog();
 				Settings.Default.ArchivingDialog = dlg.FormSettings;
@@ -240,15 +240,13 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IDictionary<string, Tuple<IEnumerable<string>, string>> GetFilesToArchive()
+		public void SetFilesToArchive(ArchivingDlgViewModel model)
 		{
-			var fileList = new Dictionary<string, Tuple<IEnumerable<string>, string>>();
-
 			var filesInDir = Directory.GetFiles(FolderPath);
 
 			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg", "Adding Files for Session '{0}'");
 
-			fileList[string.Empty] = new Tuple<IEnumerable<string>, string>(filesInDir.Where(IncludeFileInArchive), string.Format(fmt, Title));
+			model.AddFileGroup(string.Empty, filesInDir.Where(IncludeFileInArchive), string.Format(fmt, Title));
 
 			fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
 
@@ -256,10 +254,8 @@ namespace SayMore.Model
 				.Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
 			{
 				filesInDir = Directory.GetFiles(person.FolderPath);
-				fileList[person.Id] = new Tuple<IEnumerable<string>, string>(filesInDir.Where(IncludeFileInArchive), string.Format(fmt, person.Id));
+				model.AddFileGroup(person.Id, filesInDir.Where(IncludeFileInArchive), string.Format(fmt, person.Id));
 			}
-
-			return fileList;
 		}
 
 		/// ------------------------------------------------------------------------------------

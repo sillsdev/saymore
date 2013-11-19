@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using Moq;
 using NUnit.Framework;
 using Palaso.Reporting;
@@ -9,6 +10,7 @@ using Palaso.TestUtilities;
 using SayMore;
 using SayMore.Model;
 using SayMore.Model.Files;
+using SIL.Archiving;
 
 namespace SayMoreTests.Utilities
 {
@@ -73,23 +75,28 @@ namespace SayMoreTests.Utilities
 		[Category("SkipOnTeamCity")]
 		public void GetFilesToArchive_GetsCorrectListSize()
 		{
-			var files = _session.GetFilesToArchive();
-			Assert.AreEqual(2, files.Count);
+			var model = new Mock<ArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", null);
+			model.Setup(s => s.AddFileGroup(string.Empty, It.Is<IEnumerable<string>>(e => e.Count() == 4), "Adding Files for Session 'StupidSession'"));
+			model.Setup(s => s.AddFileGroup("ddo-person", It.Is<IEnumerable<string>>(e => e.Count() == 2), "Adding Files for Contributor 'ddo-person'"));
+			_session.SetFilesToArchive(model.Object);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetFilesToArchive_GetsCorrectSessionFiles()
+		public void GetFilesToArchive_GetsCorrectSessionAndPersonFiles()
 		{
-			var files = _session.GetFilesToArchive();
-			Assert.AreEqual(4, files[string.Empty].Item1.Count());
+			var model = new Mock<ArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", null);
 
-			var list = files[string.Empty].Item1.Select(Path.GetFileName).ToList();
-			Assert.Contains("ddo.session", list);
-			Assert.Contains("ddo.mpg", list);
-			Assert.Contains("ddo.mp3", list);
-			Assert.Contains("ddo.pdf", list);
+			model.Setup(s => s.AddFileGroup(string.Empty,
+				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new [] {"ddo.session", "ddo.mpg", "ddo.mp3", "ddo.pdf"}).Count() == 4),
+				"Adding Files for Session 'StupidSession'"));
+
+			model.Setup(s => s.AddFileGroup("ddo-person",
+				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new[] { "ddoPic.jpg", "ddoVoice.wav" }).Count() == 2),
+				"Adding Files for Contributor 'ddo-person'"));
+
+			_session.SetFilesToArchive(model.Object);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -97,20 +104,9 @@ namespace SayMoreTests.Utilities
 		[Category("SkipOnTeamCity")]
 		public void GetFilesToArchive_ParticipantFileDoNotExist_DoesNotCrash()
 		{
+			var model = new Mock<ArchivingDlgViewModel>(MockBehavior.Loose, "SayMore", "ddo", "ddo-session", null);
 			_session._participants = new[] { "ddo-person", "non-existant-person" };
-			_session.GetFilesToArchive();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		[Category("SkipOnTeamCity")]
-		public void GetFilesToArchive_GetsCorrectPersonFiles()
-		{
-			var files = _session.GetFilesToArchive();
-			Assert.AreEqual(2, files["ddo-person"].Item1.Count());
-			var list = files["ddo-person"].Item1.Select(Path.GetFileName).ToList();
-			Assert.Contains("ddoPic.jpg", list);
-			Assert.Contains("ddoVoice.wav", list);
+			_session.SetFilesToArchive(model.Object);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -211,4 +207,6 @@ namespace SayMoreTests.Utilities
 			return ComponentFile.CreateMinimalComponentFileForTests(parentElement, pathtoannotatedfile);
 		}
 	}
+
+
 }

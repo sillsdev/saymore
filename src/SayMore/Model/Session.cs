@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
@@ -8,7 +7,6 @@ using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.ClearShare;
-using Palaso.UI.WindowsForms.Progress;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -409,6 +407,19 @@ namespace SayMore.Model
 			StageCompletedControlValues = ComponentRoles.ToDictionary(role => role.Id,
 				role => (StageCompleteType)Enum.Parse(typeof(StageCompleteType),
 					MetaDataFile.GetValue(SessionFileType.kStageFieldPrefix + role.Id, StageCompleteType.Auto.ToString()) as string));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetProjectName()
+		{
+			// Sessions directory
+			var dir = this.ParentFolderPath;
+
+			// Find the project file
+			var file = Directory.GetParent(dir).GetFiles("*" + Settings.Default.ProjectFileExtension).FirstOrDefault();
+
+			// The project name is the same as the project file name
+			return file != null ? Path.GetFileNameWithoutExtension(file.Name) : null;
 		}
 	}
 

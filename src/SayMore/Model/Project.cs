@@ -166,7 +166,7 @@ namespace SayMore.Model
 			// I'm not sure what I would do with a failure along the way.
 			var evnt = XElement.Load(oldFile);
 			var session = new XElement("Session", evnt.Nodes());
-			var newFile = Path.ChangeExtension(oldFile, "session");
+			var newFile = Path.ChangeExtension(oldFile, Settings.Default.SessionFileExtension);
 			session.Save(newFile);
 			File.Delete(oldFile);
 		}

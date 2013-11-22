@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.ClearShare;
-using Palaso.UI.WindowsForms.Progress;
+using SIL.Archiving.IMDI;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -216,10 +215,10 @@ namespace SayMore.Model
 
 		#region Archiving
 		/// ------------------------------------------------------------------------------------
-		public void CreateRampArchiveFile()
+		public void ArchiveUsingRAMP()
 		{
 			var model = new RampArchivingDlgViewModel(Application.ProductName, Title, Id,
-				SetFilesToArchive, GetFileDescription);
+				ArchiveInfoDetails, SetFilesToArchive, GetFileDescription);
 
 			model.FileCopyOverride = FileCopySpecialHandler;
 			model.AppSpecificFilenameNormalization = CustomFilenameNormalization;
@@ -229,13 +228,54 @@ namespace SayMore.Model
 			SetAdditionalMetsData(model);
 
 			using (var dlg = new ArchivingDlg(model, ApplicationContainer.kSayMoreLocalizationId,
-				LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingInfoDetails",
-				"It will gather up all the files and data related to a session and its contributors.",
-				"This sentence is inserted as parameter 1 in DialogBoxes.ArchivingDlg.OverviewText"),
 				Program.DialogFont, Settings.Default.ArchivingDialog))
 			{
 				dlg.ShowDialog();
 				Settings.Default.ArchivingDialog = dlg.FormSettings;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ArchiveUsingIMDI()
+		{
+			string destFolder;
+			using (var chooseFolder = new FolderBrowserDialog())
+			{
+				chooseFolder.Description = LocalizationManager.GetString(
+					"DialogBoxes.ArchivingDlg.ArchivingIMDILocationDescription",
+					"Select a base folder where the IMDI directory structure should be created.");
+				chooseFolder.ShowNewFolderButton = true;
+				chooseFolder.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+				if (chooseFolder.ShowDialog() == DialogResult.Cancel)
+					return;
+				destFolder = chooseFolder.SelectedPath;
+			}
+
+			var model = new IMDIArchivingDlgViewModel(Application.ProductName, Title, Id,
+				ArchiveInfoDetails, false, SetFilesToArchive, destFolder);
+
+			model.FileCopyOverride = FileCopySpecialHandler; //REVIEW: Do we need this (or something different?)?
+			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
+			model.HandleNonFatalError = (exception, s) => ErrorReport.NotifyUserOfProblem(exception, s);
+
+			SetAdditionalIMDIMetaData(model);
+
+			using (var dlg = new ArchivingDlg(model, ApplicationContainer.kSayMoreLocalizationId,
+				Program.DialogFont, Settings.Default.ArchivingDialog))
+			{
+				dlg.ShowDialog();
+				Settings.Default.ArchivingDialog = dlg.FormSettings;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected string ArchiveInfoDetails
+		{
+			get
+			{
+				return LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingInfoDetails",
+					"The archive package will include all required files and data related to a session and its contributors.",
+					"This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.xxxxOverviewText");
 			}
 		}
 
@@ -246,7 +286,7 @@ namespace SayMore.Model
 
 			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg", "Adding Files for Session '{0}'");
 
-			model.AddFileGroup(string.Empty, filesInDir.Where(IncludeFileInArchive), string.Format(fmt, Title));
+			model.AddFileGroup(string.Empty, filesInDir.Where(f => IncludeFileInArchive(f, model.GetType())), string.Format(fmt, Title));
 
 			fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
 
@@ -254,7 +294,7 @@ namespace SayMore.Model
 				.Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
 			{
 				filesInDir = Directory.GetFiles(person.FolderPath);
-				model.AddFileGroup(person.Id, filesInDir.Where(IncludeFileInArchive), string.Format(fmt, person.Id));
+				model.AddFileGroup(person.Id, filesInDir.Where(f => IncludeFileInArchive(f, model.GetType())), string.Format(fmt, person.Id));
 			}
 		}
 
@@ -293,9 +333,11 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool IncludeFileInArchive(string path)
+		private bool IncludeFileInArchive(string path, Type typeOfArchive)
 		{
-			return (Path.GetExtension(path).ToLower() != ".pfsx");
+			var ext = Path.GetExtension(path).ToLower();
+			bool imdi = typeOfArchive == typeof (IMDIArchivingDlgViewModel);
+			return (ext != ".pfsx" && (!imdi || (ext != Settings.Default.SessionFileExtension && ext != Settings.Default.PersonFileExtension)));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -347,6 +389,35 @@ namespace SayMore.Model
 			TimeSpan totalDuration = GetTotalDurationOfSourceMedia();
 			if (totalDuration.Ticks > 0)
 				model.SetAudioVideoExtent(string.Format("Total Length of Source Recordings: {0}", totalDuration.ToString()));
+
+			//model.SetSoftwareRequirements("SayMore");
+		}
+
+
+		/// ------------------------------------------------------------------------------------
+		private void SetAdditionalIMDIMetaData(IMDIArchivingDlgViewModel model)
+		{
+			//model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
+			//model.SetDomains(SilDomain.Ling_LanguageDocumentation);
+
+			//var value = MetaDataFile.GetStringValue("date", null);
+			//if (!string.IsNullOrEmpty(value))
+			//    model.SetCreationDate(value);
+
+			// Return the session's note as the abstract portion of the package's description.
+			var value = MetaDataFile.GetStringValue("synopsis", null);
+			if (!string.IsNullOrEmpty(value))
+				model.SetAbstract(value, string.Empty);
+
+			//// Set contributors
+			//var contributions = MetaDataFile.GetValue("contributions", null) as ContributionCollection;
+			//if (contributions != null && contributions.Count > 0)
+			//    model.SetContributors(contributions);
+
+			//// Return total duration of source audio/video recordings.
+			//TimeSpan totalDuration = GetTotalDurationOfSourceMedia();
+			//if (totalDuration.Ticks > 0)
+			//    model.SetAudioVideoExtent(string.Format("Total Length of Source Recordings: {0}", totalDuration.ToString()));
 
 			//model.SetSoftwareRequirements("SayMore");
 		}

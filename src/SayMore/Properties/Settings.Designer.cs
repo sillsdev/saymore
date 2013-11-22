@@ -151,8 +151,7 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		public global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings NewSessionsFromFilesDlg
-		{
+        public global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings NewSessionsFromFilesDlg {
             get {
                 return ((global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings)(this["NewSessionsFromFilesDlg"]));
             }
@@ -1286,6 +1285,18 @@ namespace SayMore.Properties {
         public int DefaultAutoSegmenterMinimumSegmentLengthInMilliseconds {
             get {
                 return ((int)(this["DefaultAutoSegmenterMinimumSegmentLengthInMilliseconds"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Arbil\\arbil-stable.exe")]
+        public string ProgramToLaunchForIMDIPackage {
+            get {
+                return ((string)(this["ProgramToLaunchForIMDIPackage"]));
+            }
+            set {
+                this["ProgramToLaunchForIMDIPackage"] = value;
             }
         }
     }

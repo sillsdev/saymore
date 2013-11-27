@@ -24,8 +24,10 @@ namespace SayMore.Model
 	/// the session.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class Session : ProjectElement
+	public class Session : ProjectElement, IIMDIArchivable
 	{
+		public static string kFolderName = "Sessions";
+
 		public enum Status
 		{
 			Incoming = 0,
@@ -70,7 +72,7 @@ namespace SayMore.Model
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		protected string Title
+		public string Title
 		{
 			get { return MetaDataFile.GetStringValue("title", null) ?? Id; }
 		}
@@ -238,38 +240,11 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void ArchiveUsingIMDI()
 		{
-			string destFolder;
-			using (var chooseFolder = new FolderBrowserDialog())
-			{
-				chooseFolder.Description = LocalizationManager.GetString(
-					"DialogBoxes.ArchivingDlg.ArchivingIMDILocationDescription",
-					"Select a base folder where the IMDI directory structure should be created.");
-				chooseFolder.ShowNewFolderButton = true;
-				chooseFolder.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-				if (chooseFolder.ShowDialog() == DialogResult.Cancel)
-					return;
-				destFolder = chooseFolder.SelectedPath;
-			}
-
-			var model = new IMDIArchivingDlgViewModel(Application.ProductName, Title, Id,
-				ArchiveInfoDetails, false, SetFilesToArchive, destFolder);
-
-			model.FileCopyOverride = FileCopySpecialHandler; //REVIEW: Do we need this (or something different?)?
-			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
-			model.HandleNonFatalError = (exception, s) => ErrorReport.NotifyUserOfProblem(exception, s);
-
-			SetAdditionalIMDIMetaData(model);
-
-			using (var dlg = new ArchivingDlg(model, ApplicationContainer.kSayMoreLocalizationId,
-				Program.DialogFont, Settings.Default.ArchivingDialog))
-			{
-				dlg.ShowDialog();
-				Settings.Default.ArchivingDialog = dlg.FormSettings;
-			}
+			ArchivingHelper.ArchiveUsingIMDI(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected string ArchiveInfoDetails
+		public string ArchiveInfoDetails
 		{
 			get
 			{
@@ -280,22 +255,52 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetFilesToArchive(ArchivingDlgViewModel model)
+		public IEnumerable<string> GetSessionFilesToArchive(Type typeOfArchive)
 		{
 			var filesInDir = Directory.GetFiles(FolderPath);
+			return filesInDir.Where(f => ArchivingHelper.IncludeFileInArchive(f, typeOfArchive, Settings.Default.SessionFileExtension));
+		}
 
-			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg", "Adding Files for Session '{0}'");
-
-			model.AddFileGroup(string.Empty, filesInDir.Where(f => IncludeFileInArchive(f, model.GetType())), string.Format(fmt, Title));
-
-			fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
-
-			foreach (var person in GetAllParticipants()
-				.Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
+		/// ------------------------------------------------------------------------------------
+		public string AddingSessionFilesProgressMsg
+		{
+			get
 			{
-				filesInDir = Directory.GetFiles(person.FolderPath);
-				model.AddFileGroup(person.Id, filesInDir.Where(f => IncludeFileInArchive(f, model.GetType())), string.Format(fmt, person.Id));
+				return string.Format(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg",
+					"Adding Files for Session '{0}'"), Title);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IDictionary<string, IEnumerable<string>> GetParticipantFilesToArchive(Type typeOfArchive)
+		{
+			Dictionary<string, IEnumerable<string>> d = new Dictionary<string, IEnumerable<string>>();
+
+			foreach (var person in GetAllParticipants().Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
+			{
+				var filesInDir = Directory.GetFiles(person.FolderPath);
+				d[person.Id] = filesInDir.Where(f => ArchivingHelper.IncludeFileInArchive(f, typeOfArchive, Settings.Default.PersonFileExtension));
+			}
+			return d;
+		}
+
+		public void InitializeModel(IMDIArchivingDlgViewModel model)
+		{
+			model.FileCopyOverride = FileCopySpecialHandler; //REVIEW: Do we need this (or something different?)?
+			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
+
+			SetAdditionalIMDIMetaData(model);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetFilesToArchive(ArchivingDlgViewModel model)
+		{
+			model.AddFileGroup(string.Empty, GetSessionFilesToArchive(model.GetType()), AddingSessionFilesProgressMsg);
+
+			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
+
+			foreach (var person in GetParticipantFilesToArchive(model.GetType()))
+				model.AddFileGroup(person.Key, person.Value, string.Format(fmt, person.Key));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -332,13 +337,7 @@ namespace SayMore.Model
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private bool IncludeFileInArchive(string path, Type typeOfArchive)
-		{
-			var ext = Path.GetExtension(path).ToLower();
-			bool imdi = typeOfArchive == typeof (IMDIArchivingDlgViewModel);
-			return (ext != ".pfsx" && (!imdi || (ext != Settings.Default.SessionFileExtension && ext != Settings.Default.PersonFileExtension)));
-		}
+
 
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<KeyValuePair<string, string>> GetFilesToCopy(IEnumerable<string> validComponentFilesToCopy)
@@ -392,7 +391,6 @@ namespace SayMore.Model
 
 			//model.SetSoftwareRequirements("SayMore");
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		private void SetAdditionalIMDIMetaData(IMDIArchivingDlgViewModel model)

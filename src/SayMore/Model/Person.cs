@@ -11,6 +11,8 @@ namespace SayMore.Model
 	/// ----------------------------------------------------------------------------------------
 	public class Person : ProjectElement
 	{
+		public static string kFolderName = "People";
+
 		public enum Status
 		{
 			Incoming = 0,

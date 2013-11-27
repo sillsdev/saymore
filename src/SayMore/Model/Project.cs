@@ -1,13 +1,19 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Drawing;
 using System.Linq;
+using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms;
+using SIL.Archiving;
+using SIL.Archiving.IMDI;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using SayMore.Model.Files;
 
 namespace SayMore.Model
 {
@@ -18,15 +24,12 @@ namespace SayMore.Model
 	/// people, and another of sessions.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class Project : IAutoSegmenterSettings
+	public class Project : IAutoSegmenterSettings, IIMDIArchivable
 	{
-		private const string SessionFolderName = "Sessions";
+		private readonly ElementRepository<Session>.Factory _sessionsRepoFactory;
+		private readonly SessionFileType _sessionFileType;
 
 		public delegate Project Factory(string desiredOrExistingFilePath);
-		//public delegate Project FactoryForNew(string parentDirectory, int x, string projectName);
-
-		public Session.Factory SessionFactory { get; set; }
-		public Func<Session, Session> SessionPropertyInjectionMethod { get; set; }
 
 		public string Name { get; protected set; }
 
@@ -43,8 +46,11 @@ namespace SayMore.Model
 		/// can be used whether the project exists already, or not
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Project(string desiredOrExistingSettingsFilePath)
+		public Project(string desiredOrExistingSettingsFilePath,
+			ElementRepository<Session>.Factory sessionsRepoFactory, SessionFileType sessionFileType)
 		{
+			_sessionsRepoFactory = sessionsRepoFactory;
+			_sessionFileType = sessionFileType;
 			SettingsFilePath = desiredOrExistingSettingsFilePath;
 			Name = Path.GetFileNameWithoutExtension(desiredOrExistingSettingsFilePath);
 			var projectDirectory = Path.GetDirectoryName(desiredOrExistingSettingsFilePath);
@@ -91,19 +97,6 @@ namespace SayMore.Model
 			}
 		}
 
-//		public Project(string parentDirectory,  string projectName)
-//		{
-//			RequireThat.Directory(parentDirectory).Exists();
-//
-//			var projectDirectory = Path.Combine(parentDirectory, projectName);
-//			RequireThat.Directory(projectDirectory).DoesNotExist();
-//			Directory.CreateDirectory(projectDirectory);
-//
-//			SettingsFilePath = Path.Combine(projectDirectory, projectName + "." + ProjectSettingsFileExtension);
-//			RequireThat.File(SettingsFilePath).DoesNotExist();
-//			Save();
-//		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Renames the project's Events folder to Sessions; rename's all its session files
@@ -120,7 +113,7 @@ namespace SayMore.Model
 				return;
 
 			var oldFolder = Path.Combine(projectDirectory, "Events");
-			var newFolder = Path.Combine(projectDirectory, "Sessions");
+			var newFolder = Path.Combine(projectDirectory, Session.kFolderName);
 
 			if (Directory.Exists(newFolder))
 			{
@@ -128,10 +121,11 @@ namespace SayMore.Model
 				{
 					var backupSessionsFolder = newFolder + " BAK";
 					Directory.Move(newFolder, backupSessionsFolder);
-					ErrorReport.NotifyUserOfProblem("In order to upgrade this project, SayMore renamed Events to Sessions. Because a Sessions" +
-						"folder already existed, SayMore renamed it to Sessions BAK." + Environment.NewLine +
+					ErrorReport.NotifyUserOfProblem("In order to upgrade this project, SayMore renamed Events to " + Session.kFolderName +
+						". Because a " + Session.kFolderName +
+						"folder already existed, SayMore renamed it to " + Path.GetDirectoryName(backupSessionsFolder) + "." + Environment.NewLine +
 						"Project path: " + projectDirectory + Environment.NewLine + Environment.NewLine +
-						"We recommend you request technical support to decide what to do with the contents of the Sessions BAK folder.");
+						"We recommend you request technical support to decide what to do with the contents of the folder: " + backupSessionsFolder);
 				}
 				else
 					Directory.Delete(newFolder);
@@ -184,29 +178,13 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the list of sorted session folders (including their full path) in the project.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public string[] SessionNames
-		{
-			get
-			{
-				return (from x in Directory.GetDirectories(SessionsFolder)
-						orderby x
-						select x).ToArray();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets the full path to the folder in which the project's session folders are stored.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public string SessionsFolder
 		{
-			get { return Path.Combine(ProjectFolder, SessionFolderName); }
+			get { return Path.Combine(ProjectFolder, Session.kFolderName); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -337,5 +315,68 @@ namespace SayMore.Model
 		{
 			return Directory.GetFiles(path, "*." + ProjectSettingsFileExtension, SearchOption.AllDirectories);
 		}
+
+		#region Archiving
+		/// ------------------------------------------------------------------------------------
+		public string ArchiveInfoDetails
+		{
+			get
+			{
+				return LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails",
+					"The archive corpus will include all required files and data related to this project.",
+					"This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.IMDIOverviewText");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string Title
+		{
+			get { return Name; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string Id
+		{
+			get { return Name; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void InitializeModel(IMDIArchivingDlgViewModel model)
+		{
+			//model.FileCopyOverride = FileCopySpecialHandler; //REVIEW: Do we need this (or something different?)?
+			//model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
+
+			//SetAdditionalIMDIMetaData(model);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal void ArchiveProjectUsingIMDI(Form parentForm)
+		{
+			ArchivingHelper.ArchiveUsingIMDI(this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetFilesToArchive(ArchivingDlgViewModel model)
+		{
+			var sessionRepo = _sessionsRepoFactory(Path.GetDirectoryName(SettingsFilePath), Session.kFolderName, _sessionFileType);
+			sessionRepo.RefreshItemList();
+
+			HashSet<string> contributorFiles = new HashSet<string>();
+			Type archiveType = model.GetType();
+			foreach (var session in sessionRepo.AllItems)
+			{
+				model.AddFileGroup(session.Id, session.GetSessionFilesToArchive(archiveType), session.AddingSessionFilesProgressMsg);
+				foreach (var file in session.GetParticipantFilesToArchive(archiveType).Values.SelectMany(fileGroup => fileGroup))
+					contributorFiles.Add(file);
+			}
+
+			if (contributorFiles.Any())
+			{
+				model.AddFileGroup(string.Empty, contributorFiles,
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesToIMDIArchiveProgressMsg",
+					"Adding Files for Contributors..."));
+			}
+		}
+		#endregion
 	}
 }

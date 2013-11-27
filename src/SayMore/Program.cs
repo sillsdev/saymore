@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Drawing;
@@ -19,6 +20,7 @@ using SayMore.Media;
 using SayMore.Properties;
 using SayMore.UI;
 using SayMore.UI.ProjectWindow;
+using SayMore.Model;
 
 namespace SayMore
 {
@@ -269,6 +271,12 @@ namespace SayMore
 				s = s.Substring(0, s.IndexOf("Local") + 5);
 				return s.CombineForPath("SayMore", "lastFilePath.txt");
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void ArchiveProjectUsingIMDI(Form parentForm)
+		{
+			_projectContext.Project.ArchiveProjectUsingIMDI(parentForm);
 		}
 
 		/// ------------------------------------------------------------------------------------

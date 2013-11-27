@@ -38,10 +38,10 @@ namespace SayMoreTests.UI.Overview.Statistics
 				p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta, Color.Black);
 
 			var personInformer = new PersonInformant(
-				new ElementRepository<Person>(_folder.Combine("people"), "People", null, null), null);
+				new ElementRepository<Person>(_folder.Combine("people"), Person.kFolderName, null, null), null);
 
 			var sessionInformer = new SessionWorkflowInformant(
-				new ElementRepository<Session>(_folder.Combine("sessions"), "Sessions", null, null),
+				new ElementRepository<Session>(_folder.Combine("sessions"), Session.kFolderName, null, null),
 				new[] { nullRole });
 
 			return new StatisticsViewModel(null, personInformer, sessionInformer, new[] { nullRole },

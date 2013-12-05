@@ -61,9 +61,9 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		public void AddTabToTabGroup(ViewTabGroup viewTabGroup)
 		{
-			var tab = viewTabGroup.AddTab(this);
-			tab.Text = LocalizationManager.GetString("ProgressView.TabText", "Progress", null, "Progress View", null, tab);
-			Text = tab.Text;
+			//var tab = viewTabGroup.AddTab(this);
+			//tab.Text = LocalizationManager.GetString("ProgressView.TabText", "Progress", null, "Progress View", null, tab);
+			//Text = tab.Text;
 		}
 
 		/// ------------------------------------------------------------------------------------

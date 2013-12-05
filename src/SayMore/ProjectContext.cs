@@ -62,9 +62,9 @@ namespace SayMore
 
 			var views = new ISayMoreView[]
 			{
+				_scope.Resolve<ProjectScreen>(),
 				_scope.Resolve<SessionsListScreen>(),
 				_scope.Resolve<PersonListScreen>(),
-				_scope.Resolve<ProgressScreen>()
 			};
 
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath, views);

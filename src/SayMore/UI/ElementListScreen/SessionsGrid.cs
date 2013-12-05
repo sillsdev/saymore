@@ -6,6 +6,7 @@ using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Model;
+using SayMore.Model.Files;
 using SayMore.Properties;
 using Palaso.Extensions;
 
@@ -35,16 +36,16 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected override object GetValueForField(ProjectElement element, string fieldName)
 		{
-			if (fieldName == "status")
+			if (fieldName == SessionFileType.kStatusFieldName)
 			{
 				var value = base.GetValueForField(element, fieldName);
-				return Resources.ResourceManager.GetObject("Status" + ((string)value).Replace(' ', '_'));
+				return Resources.ResourceManager.GetObject("Status" + Session.GetStatusAsEnumParsableString((string)value));
 			}
 
-			if (fieldName == "stages")
+			if (fieldName == SessionFileType.kStagesFieldName)
 				return _stagesDataProvider.CreateImageForComponentStage(element.GetCompletedStages());
 
-			if (fieldName == "date")
+			if (fieldName == SessionFileType.kDateFieldName)
 			{
 				var date = base.GetValueForField(element, fieldName);
 				return date;
@@ -56,17 +57,17 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected override object GetSortValueForField(ProjectElement element, string fieldName)
 		{
-			if (fieldName == "status")
+			if (fieldName == SessionFileType.kStatusFieldName)
 			{
 				var statusString = base.GetValueForField(element, fieldName) as string;
-				var status = (Session.Status)Enum.Parse(typeof(Session.Status), statusString.Replace(' ', '_'));
+				var status = (Session.Status)Enum.Parse(typeof(Session.Status), Session.GetStatusAsEnumParsableString(statusString));
 				return (int)status;
 			}
 
-			if (fieldName == "stages")
+			if (fieldName == SessionFileType.kStagesFieldName)
 				return _stagesDataProvider.GetCompletedRolesKey(element.GetCompletedStages());
 
-			if (fieldName == "date")
+			if (fieldName == SessionFileType.kDateFieldName)
 			{
 				var dateString = base.GetValueForField(element, fieldName) as string;
 
@@ -150,7 +151,7 @@ namespace SayMore.UI.ElementListScreen
 			base.OnCellMouseEnter(e);
 
 			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 &&
-				Columns[e.ColumnIndex].DataPropertyName == "stages")
+				Columns[e.ColumnIndex].DataPropertyName == SessionFileType.kStagesFieldName)
 			{
 				var element = _items.ElementAt(e.RowIndex);
 				var pt = MousePosition;
@@ -164,7 +165,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			base.OnCellMouseLeave(e);
 
-			if (Columns[e.ColumnIndex].DataPropertyName == "stages")
+			if (Columns[e.ColumnIndex].DataPropertyName == SessionFileType.kStagesFieldName)
 				_tooltip.Hide();
 		}
 
@@ -172,9 +173,9 @@ namespace SayMore.UI.ElementListScreen
 		protected override void OnCellToolTipTextNeeded(DataGridViewCellToolTipTextNeededEventArgs e)
 		{
 			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 &&
-				Columns[e.ColumnIndex].DataPropertyName == "status")
+				Columns[e.ColumnIndex].DataPropertyName == SessionFileType.kStatusFieldName)
 			{
-				var value = base.GetValueForField(_items.ElementAt(e.RowIndex), "status");
+				var value = base.GetValueForField(_items.ElementAt(e.RowIndex), SessionFileType.kStatusFieldName);
 				var statusText = Session.GetLocalizedStatus(value as string);
 
 				e.ToolTipText = string.Format(

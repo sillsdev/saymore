@@ -5,6 +5,7 @@ using System.Linq;
 using NUnit.Framework;
 using Moq;
 using SayMore.Model;
+using SayMore.Model.Files;
 using SayMore.UI.Charts;
 
 namespace SayMoreTests.UI.Charts
@@ -87,9 +88,9 @@ namespace SayMoreTests.UI.Charts
 		{
 			var list = new List<ChartBarSegmentInfo>
 			{
-				CreateBasicBarSegment("status", Session.Status.Finished.ToString()),
-				CreateBasicBarSegment("status", Session.Status.In_Progress.ToString()),
-				CreateBasicBarSegment("status", Session.Status.Incoming.ToString()),
+				CreateBasicBarSegment(SessionFileType.kStatusFieldName, Session.Status.Finished.ToString()),
+				CreateBasicBarSegment(SessionFileType.kStatusFieldName, Session.Status.In_Progress.ToString()),
+				CreateBasicBarSegment(SessionFileType.kStatusFieldName, Session.Status.Incoming.ToString()),
 			};
 
 			list.Sort();
@@ -105,9 +106,9 @@ namespace SayMoreTests.UI.Charts
 		{
 			var list = new List<ChartBarSegmentInfo>
 			{
-				CreateBasicBarSegment("status", Session.Status.Finished.ToString()),
-				CreateBasicBarSegment("status", Session.Status.Incoming.ToString()),
-				CreateBasicBarSegment("status", "In Progress"),
+				CreateBasicBarSegment(SessionFileType.kStatusFieldName, Session.Status.Finished.ToString()),
+				CreateBasicBarSegment(SessionFileType.kStatusFieldName, Session.Status.Incoming.ToString()),
+				CreateBasicBarSegment(SessionFileType.kStatusFieldName, "In Progress"),
 			};
 
 			list.Sort();
@@ -127,7 +128,7 @@ namespace SayMoreTests.UI.Charts
 			segs[Session.Status.In_Progress.ToString()] = _sessions;
 
 			var colors = segs.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
-			var barInfo = new ChartBarInfo("Narrative", "status", segs, colors, colors);
+			var barInfo = new ChartBarInfo("Narrative", SessionFileType.kStatusFieldName, segs, colors, colors);
 
 			Assert.AreEqual(2, barInfo.Segments.Count());
 			Assert.AreEqual(Session.Status.Incoming.ToString(), barInfo.Segments.ElementAt(0).FieldValue);

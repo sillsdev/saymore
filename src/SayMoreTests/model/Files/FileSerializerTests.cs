@@ -24,7 +24,7 @@ namespace SayMoreTests.Model.Files
 
 			public override object Deserialize(string xmlBlob)
 			{
-				var element = GetElementFromXml(xmlBlob).Element("date");
+				var element = GetElementFromXml(xmlBlob).Element(SessionFileType.kDateFieldName);
 				return new DateTime(
 					int.Parse(element.Element("year").Value),
 					int.Parse(element.Element("month").Value),
@@ -35,7 +35,7 @@ namespace SayMoreTests.Model.Files
 			{
 				return InternalSerialize(obj, typeof(DateTime), element =>
 				{
-					var e = new XElement("date");
+					var e = new XElement(SessionFileType.kDateFieldName);
 					e.Add(new XElement("year", ((DateTime)obj).Year));
 					e.Add(new XElement("month", ((DateTime)obj).Month));
 					e.Add(new XElement("day", ((DateTime)obj).Day));
@@ -114,7 +114,7 @@ namespace SayMoreTests.Model.Files
 			Assert.IsNotNull(elementName, e.Name.ToString());
 			Assert.IsFalse(custom);
 			Assert.AreEqual("xml", e.Attribute("type").Value);
-			var dateElement = e.Element("date");
+			var dateElement = e.Element(SessionFileType.kDateFieldName);
 
 			Assert.AreEqual(3, dateElement.Elements().Count());
 			Assert.AreEqual("1963", dateElement.Element("year").Value);

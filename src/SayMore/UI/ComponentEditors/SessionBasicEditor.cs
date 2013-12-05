@@ -61,7 +61,7 @@ namespace SayMore.UI.ComponentEditors
 				// Add the genres in use, factory or not.
 				var valueLists = autoCompleteProvider.GetValueLists(false);
 				IEnumerable<string> list;
-				if (valueLists.TryGetValue("genre", out list))
+				if (valueLists.TryGetValue(SessionFileType.kGenreFieldName, out list))
 					genreList.AddRange(GenreDefinition.GetGenreNameList(list));
 			}
 

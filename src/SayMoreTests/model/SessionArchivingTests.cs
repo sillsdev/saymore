@@ -199,7 +199,7 @@ namespace SayMoreTests.Utilities
 				_participants = new[] {"ddo-person"};
 			else
 				_participants = actors;
-			_metaFile.Setup(m => m.GetStringValue("title", null)).Returns(name);
+			_metaFile.Setup(m => m.GetStringValue(SessionFileType.kTitleFieldName, null)).Returns(name);
 		}
 
 		public override IEnumerable<string> GetAllParticipants()

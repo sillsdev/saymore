@@ -38,12 +38,12 @@ namespace SayMore.Model.Files.DataGathering
 			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage2", "language");
 			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage3", "language");
 			_mappingOfFieldsToAutoCompleteKey.Add("fullName", "person");
-			_mappingOfFieldsToAutoCompleteKey.Add("participants", "person");
+			_mappingOfFieldsToAutoCompleteKey.Add(SessionFileType.kParticipantsFieldName, "person");
 			_mappingOfFieldsToAutoCompleteKey.Add("recordist", "person");
 			_mappingOfFieldsToAutoCompleteKey.Add("contributions", "person");
 			_mappingOfFieldsToAutoCompleteKey.Add("education", "education");
 
-			_multiValueFields = new List<string>(new[] { "participants", "education", "contributions" });
+			_multiValueFields = new List<string>(new[] { SessionFileType.kParticipantsFieldName, "education", "contributions" });
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -156,7 +156,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		private static void AddFactoryChoices(Dictionary<string, IEnumerable<string>> keyToValuesDictionary)
 		{
-			keyToValuesDictionary.Add("genre", GenreDefinition.FactoryGenreDefinitions.Select(d => d.Name).ToList());
+			keyToValuesDictionary.Add(SessionFileType.kGenreFieldName, GenreDefinition.FactoryGenreDefinitions.Select(d => d.Name).ToList());
 		}
 
 		/// ------------------------------------------------------------------------------------

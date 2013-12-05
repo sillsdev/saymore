@@ -6,6 +6,7 @@ using Palaso.Reporting;
 using SIL.Archiving;
 using SIL.Archiving.IMDI;
 using SayMore.Properties;
+using SayMore.Transcription.Model;
 
 namespace SayMore.Model
 {
@@ -31,8 +32,8 @@ namespace SayMore.Model
 				element.ArchiveInfoDetails, element is Project, element.SetFilesToArchive, destFolder);
 
 			model.HandleNonFatalError = (exception, s) => ErrorReport.NotifyUserOfProblem(exception, s);
-
 			model.PathToProgramToLaunch = Settings.Default.ProgramToLaunchForIMDIPackage = GetProgramToLaunchForIMDIPackage();
+			model.FileCopyOverride = FileCopySpecialHandler;
 
 			element.InitializeModel(model);
 
@@ -93,6 +94,29 @@ namespace SayMore.Model
 			var ext = Path.GetExtension(path).ToLower();
 			bool imdi = typeof(IMDIArchivingDlgViewModel).IsAssignableFrom(typeOfArchive);
 			return (ext != ".pfsx" && (!imdi || (ext != metadataFileExtension)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		static internal bool FileCopySpecialHandler(ArchivingDlgViewModel model, string source, string dest)
+		{
+			if (!source.EndsWith(AnnotationFileHelper.kAnnotationsEafFileSuffix))
+				return false;
+
+			// Fix EAF file to refer to modified name.
+			AnnotationFileHelper annotationFileHelper = AnnotationFileHelper.Load(source);
+
+			var mediaFileName = annotationFileHelper.MediaFileName;
+			if (mediaFileName != null)
+			{
+				var normalizedName = model.NormalizeFilename(string.Empty, mediaFileName);
+				if (normalizedName != mediaFileName)
+				{
+					annotationFileHelper.SetMediaFile(normalizedName);
+					annotationFileHelper.Root.Save(dest);
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }

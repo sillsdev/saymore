@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using SayMore.Model.Fields;
 
 namespace SayMore.Model.Files
@@ -102,6 +104,13 @@ namespace SayMore.Model.Files
 		public override void HandleDoubleClick()
 		{
 			//don't do anything
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<FieldInstance> GetCustomFields()
+		{
+			return MetaDataFieldValues.Where(
+				val => val.FieldId.StartsWith(XmlFileSerializer.kCustomFieldIdPrefix));
 		}
 	}
 }

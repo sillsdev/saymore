@@ -215,6 +215,12 @@ namespace SayMore.Model
 			return FieldInstance.GetMultipleValuesFromText(allParticipants);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<Person> GetAllPersonsInSession()
+		{
+			return GetAllParticipants().Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null);
+		}
+
 		#region Archiving
 		/// ------------------------------------------------------------------------------------
 		public void ArchiveUsingRAMP()
@@ -289,7 +295,7 @@ namespace SayMore.Model
 			model.FileCopyOverride = FileCopySpecialHandler; //REVIEW: Do we need this (or something different?)?
 			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
 
-			SetAdditionalIMDIMetaData(model);
+			ArchivingHelper.SetIMDIMetadataToArchive(this, model);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -388,34 +394,6 @@ namespace SayMore.Model
 			TimeSpan totalDuration = GetTotalDurationOfSourceMedia();
 			if (totalDuration.Ticks > 0)
 				model.SetAudioVideoExtent(string.Format("Total Length of Source Recordings: {0}", totalDuration.ToString()));
-
-			//model.SetSoftwareRequirements("SayMore");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void SetAdditionalIMDIMetaData(IMDIArchivingDlgViewModel model)
-		{
-			//model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
-			//model.SetDomains(SilDomain.Ling_LanguageDocumentation);
-
-			//var value = MetaDataFile.GetStringValue("date", null);
-			//if (!string.IsNullOrEmpty(value))
-			//    model.SetCreationDate(value);
-
-			// Return the session's note as the abstract portion of the package's description.
-			var value = MetaDataFile.GetStringValue("synopsis", null);
-			if (!string.IsNullOrEmpty(value))
-				model.SetAbstract(value, string.Empty);
-
-			//// Set contributors
-			//var contributions = MetaDataFile.GetValue("contributions", null) as ContributionCollection;
-			//if (contributions != null && contributions.Count > 0)
-			//    model.SetContributors(contributions);
-
-			//// Return total duration of source audio/video recordings.
-			//TimeSpan totalDuration = GetTotalDurationOfSourceMedia();
-			//if (totalDuration.Ticks > 0)
-			//    model.SetAudioVideoExtent(string.Format("Total Length of Source Recordings: {0}", totalDuration.ToString()));
 
 			//model.SetSoftwareRequirements("SayMore");
 		}

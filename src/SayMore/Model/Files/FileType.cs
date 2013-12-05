@@ -329,6 +329,17 @@ namespace SayMore.Model.Files
 	public class SessionFileType : FileType
 	{
 		public const string kStageFieldPrefix = "stage_";
+
+		public const string kStatusFieldName = "status";
+		public const string kStagesFieldName = "stages";
+		public const string kDateFieldName = "date";
+		public const string kSynopsisFieldName = "synopsis";
+		public const string kAccessFieldName = "access";
+		public const string kLocationFieldName = "location";
+		public const string kGenreFieldName = "genre";
+		public const string kParticipantsFieldName = "participants";
+		public const string kTitleFieldName = "title";
+
 		private readonly Func<SessionBasicEditor.Factory> _sessionBasicEditorFactoryLazy;
 		private readonly Func<StatusAndStagesEditor.Factory> _statusAndStagesEditorFactoryLazy;
 
@@ -381,17 +392,17 @@ namespace SayMore.Model.Files
 
 				foreach (var fieldId in new[]
 				{
-					"status",
-					"stages",
-					"date",
-					"synopsis",
-					"access",
-					"location",
+					kStatusFieldName,
+					kStagesFieldName,
+					kDateFieldName,
+					kSynopsisFieldName,
+					kAccessFieldName,
+					kLocationFieldName,
 					"setting",
 					"situation",
-					"genre",
-					"participants",
-					"title",
+					kGenreFieldName,
+					kParticipantsFieldName,
+					kTitleFieldName,
 					"contributions",
 				})
 					yield return new FieldDefinition(fieldId);
@@ -408,46 +419,46 @@ namespace SayMore.Model.Files
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = BetterGrid.CreateTextBoxColumn("title");
+			col = BetterGrid.CreateTextBoxColumn(kTitleFieldName);
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Title!Title";
-			col.DataPropertyName = "title";
+			col.DataPropertyName = kTitleFieldName;
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = BetterGrid.CreateImageColumn("stages");
+			col = BetterGrid.CreateImageColumn(kStagesFieldName);
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Stages!Stages";
-			col.DataPropertyName = "stages";
+			col.DataPropertyName = kStagesFieldName;
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = BetterGrid.CreateImageColumn("status");
+			col = BetterGrid.CreateImageColumn(kStatusFieldName);
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Status!Status";
-			col.DataPropertyName = "status";
+			col.DataPropertyName = kStatusFieldName;
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = BetterGrid.CreateTextBoxColumn("date");
+			col = BetterGrid.CreateTextBoxColumn(kDateFieldName);
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Date!Date";
-			col.DataPropertyName = "date";
+			col.DataPropertyName = kDateFieldName;
 			col.ReadOnly = true;
 			col.Visible = false;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = BetterGrid.CreateTextBoxColumn("genre");
+			col = BetterGrid.CreateTextBoxColumn(kGenreFieldName);
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Genre!Genre";
-			col.DataPropertyName = "genre";
+			col.DataPropertyName = kGenreFieldName;
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			col.Visible = false;
 			yield return col;
 
-			col = BetterGrid.CreateTextBoxColumn("location");
+			col = BetterGrid.CreateTextBoxColumn(kLocationFieldName);
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Location!Location";
-			col.DataPropertyName = "location";
+			col.DataPropertyName = kLocationFieldName;
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			col.Visible = false;

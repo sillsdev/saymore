@@ -52,7 +52,7 @@ namespace SayMore.UI.Charts
 			var backColors = GetStatusSegmentColors();
 			var textColors = backColors.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
 			text = LocalizationManager.GetString("ProgressView.ByGenreHeadingText", "By Genre");
-			WriteChartByFieldPair(text, "genre", "status", backColors, textColors);
+			WriteChartByFieldPair(text, SessionFileType.kGenreFieldName, SessionFileType.kStatusFieldName, backColors, textColors);
 
 			CloseBody();
 			CloseHtml();
@@ -81,7 +81,7 @@ namespace SayMore.UI.Charts
 
 			foreach (var statusName in Enum.GetNames(typeof(Session.Status)).Where(x => x != Session.Status.Skipped.ToString()))
 			{
-				statusColors[statusName.Replace('_', ' ')] =
+				statusColors[Session.GetStatusAsHumanReadableString(statusName)] =
 					(Color)Properties.Settings.Default[statusName + "StatusColor"];
 			}
 
@@ -226,7 +226,7 @@ namespace SayMore.UI.Charts
 				foreach (var kvp in colors)
 				{
 					WriteTableCell("legendblock", 0, kvp.Value, null);
-					WriteTableCell("legendtext", kvp.Key.Replace('_', ' '));
+					WriteTableCell("legendtext", Session.GetStatusAsHumanReadableString(kvp.Key));
 				}
 
 				CloseTableRow();

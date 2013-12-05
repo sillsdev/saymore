@@ -41,7 +41,7 @@ namespace SayMoreTests.Model
 			  var file = new Mock<ProjectElementComponentFile>();
 			  file.Setup(f => f.Save());
 			  file.Setup(
-				  f => f.GetStringValue("participants", string.Empty)).
+				  f => f.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty)).
 					Returns(participants.Count() > 0 ? participants.Aggregate((a,b)=>a+";"+b):string.Empty
 				  );
 			  return file.Object;

@@ -10,6 +10,7 @@ using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms;
 using SIL.Archiving;
+using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -343,10 +344,8 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void InitializeModel(IMDIArchivingDlgViewModel model)
 		{
-			//model.FileCopyOverride = FileCopySpecialHandler; //REVIEW: Do we need this (or something different?)?
-			//model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
-
-			//SetAdditionalIMDIMetaData(model);
+			//Set project metadata here.
+			model.SetAbstract("TODO: Project description goes here", string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -358,7 +357,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void SetFilesToArchive(ArchivingDlgViewModel model)
 		{
-			var sessionRepo = _sessionsRepoFactory(Path.GetDirectoryName(SettingsFilePath), Session.kFolderName, _sessionFileType);
+			ElementRepository<Session> sessionRepo = _sessionsRepoFactory(Path.GetDirectoryName(SettingsFilePath), Session.kFolderName, _sessionFileType);
 			sessionRepo.RefreshItemList();
 
 			HashSet<string> contributorFiles = new HashSet<string>();
@@ -368,6 +367,10 @@ namespace SayMore.Model
 				model.AddFileGroup(session.Id, session.GetSessionFilesToArchive(archiveType), session.AddingSessionFilesProgressMsg);
 				foreach (var file in session.GetParticipantFilesToArchive(archiveType).Values.SelectMany(fileGroup => fileGroup))
 					contributorFiles.Add(file);
+
+				IArchivingSession s = model.AddSession(session.Id);
+				s.Location.Address = session.MetaDataFile.GetStringValue(SessionFileType.kLocationFieldName, string.Empty);
+				s.Title = session.Title;
 			}
 
 			if (contributorFiles.Any())

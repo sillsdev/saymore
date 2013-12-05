@@ -67,8 +67,8 @@ namespace SayMoreTests.Model
 			{
 				GetMockedSession(new[] {
 					new KeyValuePair<string, string>("id", "01"),
-					new KeyValuePair<string, string>("genre", "discourse"),
-					new KeyValuePair<string, string>("status", "Incoming") },
+					new KeyValuePair<string, string>(SessionFileType.kGenreFieldName, "discourse"),
+					new KeyValuePair<string, string>(SessionFileType.kStatusFieldName, "Incoming") },
 					new[] {
 						s_componentRoles.ElementAt(0),
 						s_componentRoles.ElementAt(1),
@@ -76,8 +76,8 @@ namespace SayMoreTests.Model
 
 				GetMockedSession(new[] {
 					new KeyValuePair<string, string>("id", "02"),
-					new KeyValuePair<string, string>("genre", "discourse"),
-					new KeyValuePair<string, string>("status", "Incoming") },
+					new KeyValuePair<string, string>(SessionFileType.kGenreFieldName, "discourse"),
+					new KeyValuePair<string, string>(SessionFileType.kStatusFieldName, "Incoming") },
 					new[] {
 						s_componentRoles.ElementAt(2),
 						s_componentRoles.ElementAt(3)
@@ -85,20 +85,20 @@ namespace SayMoreTests.Model
 
 				GetMockedSession(new[] {
 					new KeyValuePair<string, string>("id", "03"),
-					new KeyValuePair<string, string>("genre", "singing"),
-					new KeyValuePair<string, string>("status", "In Progress") },
+					new KeyValuePair<string, string>(SessionFileType.kGenreFieldName, "singing"),
+					new KeyValuePair<string, string>(SessionFileType.kStatusFieldName, "In Progress") },
 					new[] { s_componentRoles.ElementAt(0) }),
 
 				GetMockedSession(new[] {
 					new KeyValuePair<string, string>("id", "04"),
-					new KeyValuePair<string, string>("genre", "singing"),
-					new KeyValuePair<string, string>("status", "Incoming") },
+					new KeyValuePair<string, string>(SessionFileType.kGenreFieldName, "singing"),
+					new KeyValuePair<string, string>(SessionFileType.kStatusFieldName, "Incoming") },
 					new[] { s_componentRoles.ElementAt(1) }),
 
 				GetMockedSession(new[] {
 					new KeyValuePair<string, string>("id", "05"),
-					new KeyValuePair<string, string>("genre", "singing"),
-					new KeyValuePair<string, string>("status", "Finished") },
+					new KeyValuePair<string, string>(SessionFileType.kGenreFieldName, "singing"),
+					new KeyValuePair<string, string>(SessionFileType.kStatusFieldName, "Finished") },
 					new[] { s_componentRoles.ElementAt(0) }),
 			});
 
@@ -116,7 +116,7 @@ namespace SayMoreTests.Model
 		[Test]
 		public void GetSessionsHavingFieldValue_PassDiscourseGenre_ReturnsThem()
 		{
-			var list = _informant.GetSessionsHavingFieldValue("genre", "discourse");
+			var list = _informant.GetSessionsHavingFieldValue(SessionFileType.kGenreFieldName, "discourse");
 			Assert.AreEqual(2, list.Count());
 		}
 
@@ -125,7 +125,7 @@ namespace SayMoreTests.Model
 		public void GetSessionsFromListHavingFieldValue_FromSpecifiedList_ReturnsThem()
 		{
 			var inList = _sessionRepo.AllItems.Where(x => x.Id != "01");
-			var outList = SessionWorkflowInformant.GetSessionsFromListHavingFieldValue(inList, "genre", "discourse");
+			var outList = SessionWorkflowInformant.GetSessionsFromListHavingFieldValue(inList, SessionFileType.kGenreFieldName, "discourse");
 			Assert.AreEqual(1, outList.Count());
 		}
 
@@ -133,7 +133,7 @@ namespace SayMoreTests.Model
 		[Test]
 		public void GetCategorizedSessionsByField_PassGenre_ReturnsTwoLists()
 		{
-			var lists = _informant.GetCategorizedSessionsByField("genre");
+			var lists = _informant.GetCategorizedSessionsByField(SessionFileType.kGenreFieldName);
 			Assert.AreEqual(2, lists.Count);
 			Assert.AreEqual(2, lists["discourse"].Count());
 			Assert.AreEqual(3, lists["singing"].Count());
@@ -144,7 +144,7 @@ namespace SayMoreTests.Model
 		public void GetCategorizedSessionsFromListByField_FromSpecifiedList_ReturnsTwoLists()
 		{
 			var inList = _sessionRepo.AllItems.Where(x => x.Id != "04");
-			var lists = SessionWorkflowInformant.GetCategorizedSessionsFromListByField(inList, "genre");
+			var lists = SessionWorkflowInformant.GetCategorizedSessionsFromListByField(inList, SessionFileType.kGenreFieldName);
 			Assert.AreEqual(2, lists.Count);
 			Assert.AreEqual(2, lists["discourse"].Count());
 			Assert.AreEqual(2, lists["singing"].Count());
@@ -154,7 +154,7 @@ namespace SayMoreTests.Model
 		[Test]
 		public void GetCategorizedSessionsFromDoubleKey_PassGenreAndStatus_Return()
 		{
-			var genrelist = _informant.GetCategorizedSessionsFromDoubleKey("genre", "status");
+			var genrelist = _informant.GetCategorizedSessionsFromDoubleKey(SessionFileType.kGenreFieldName, SessionFileType.kStatusFieldName);
 
 			// A list for each genre
 			Assert.AreEqual(2, genrelist.Count);

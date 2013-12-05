@@ -31,13 +31,6 @@ namespace SayMore.Model
 			: base(parentElementFolder, id, idChangedNotificationReceiver, personFileType,
 				componentFileFactory, xmlFileSerializer, prjElementComponentFileFactory, componentRoles)
 		{
-			if (string.IsNullOrEmpty(MetaDataFile.GetStringValue("status", null)))
-			{
-				// REVIEW: Should we report anything if there's an error message returned?
-				string errMsg;
-				MetaDataFile.SetStringValue("status", Status.Incoming.ToString(), out errMsg);
-				Save();
-			}
 		}
 
 		[Obsolete("For Mocking Only")]
@@ -144,14 +137,5 @@ namespace SayMore.Model
 
 			return null;
 		}
-
-		#region Static methods
-		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<string> GetStatusNames()
-		{
-			return Enum.GetNames(typeof(Status)).Select(x => x.ToString().Replace('_', ' '));
-		}
-
-		#endregion
 	}
 }

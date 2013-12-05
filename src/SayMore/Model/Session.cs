@@ -12,7 +12,6 @@ using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SIL.Archiving;
-using SayMore.Transcription.Model;
 
 namespace SayMore.Model
 {
@@ -58,10 +57,10 @@ namespace SayMore.Model
 		{
 			_personInformant = personInformant;
 
-			if (string.IsNullOrEmpty(MetaDataFile.GetStringValue("genre", null)))
+			if (string.IsNullOrEmpty(MetaDataFile.GetStringValue(SessionFileType.kGenreFieldName, null)))
 			{
 				string failureMsg;
-				MetaDataFile.SetValue("genre", GenreDefinition.UnknownType.Name, out failureMsg);
+				MetaDataFile.SetValue(SessionFileType.kGenreFieldName, GenreDefinition.UnknownType.Name, out failureMsg);
 				if (failureMsg == null)
 					MetaDataFile.Save();
 			}
@@ -74,7 +73,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public string Title
 		{
-			get { return MetaDataFile.GetStringValue("title", null) ?? Id; }
+			get { return MetaDataFile.GetStringValue(SessionFileType.kTitleFieldName, null) ?? Id; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -126,9 +125,21 @@ namespace SayMore.Model
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
+		public static string GetStatusAsHumanReadableString(string statusAsText)
+		{
+			return statusAsText.Replace('_', ' ');
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetStatusAsEnumParsableString(string statusAsText)
+		{
+			return statusAsText.Replace(' ', '_');
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static string GetLocalizedStatus(string statusAsText)
 		{
-			statusAsText = statusAsText.Replace(' ', '_');
+			statusAsText = GetStatusAsEnumParsableString(statusAsText);
 
 			if (statusAsText == Status.Incoming.ToString())
 				return LocalizationManager.GetString("SessionsView.SessionStatus.Incoming", "Incoming");
@@ -164,7 +175,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		private bool GetShouldReportHaveConsent()
 		{
-			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
+			var allParticipants = MetaDataFile.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty);
 			var personNames = FieldInstance.GetMultipleValuesFromText(allParticipants).ToArray();
 			bool allParticipantsHaveConsent = personNames.Length > 0;
 
@@ -201,7 +212,7 @@ namespace SayMore.Model
 			var newNames = allParticipants.Select(name => (name == e.OldId ? e.NewId : name));
 
 			string failureMessage;
-			MetaDataFile.SetStringValue("participants",
+			MetaDataFile.SetStringValue(SessionFileType.kParticipantsFieldName,
 				FieldInstance.GetTextFromMultipleValues(newNames), out failureMessage);
 
 			if (failureMessage != null)
@@ -211,7 +222,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<string> GetAllParticipants()
 		{
-			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
+			var allParticipants = MetaDataFile.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty);
 			return FieldInstance.GetMultipleValuesFromText(allParticipants);
 		}
 
@@ -228,7 +239,7 @@ namespace SayMore.Model
 			var model = new RampArchivingDlgViewModel(Application.ProductName, Title, Id,
 				ArchiveInfoDetails, SetFilesToArchive, GetFileDescription);
 
-			model.FileCopyOverride = FileCopySpecialHandler;
+			model.FileCopyOverride = ArchivingHelper.FileCopySpecialHandler;
 			model.AppSpecificFilenameNormalization = CustomFilenameNormalization;
 			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
 			model.HandleNonFatalError = (exception, s) => ErrorReport.NotifyUserOfProblem(exception, s);
@@ -292,9 +303,7 @@ namespace SayMore.Model
 
 		public void InitializeModel(IMDIArchivingDlgViewModel model)
 		{
-			model.FileCopyOverride = FileCopySpecialHandler; //REVIEW: Do we need this (or something different?)?
 			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
-
 			ArchivingHelper.SetIMDIMetadataToArchive(this, model);
 		}
 
@@ -376,12 +385,12 @@ namespace SayMore.Model
 			model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
 			model.SetDomains(SilDomain.Ling_LanguageDocumentation);
 
-			var value = MetaDataFile.GetStringValue("date", null);
+			var value = MetaDataFile.GetStringValue(SessionFileType.kDateFieldName, null);
 			if (!string.IsNullOrEmpty(value))
 				model.SetCreationDate(value);
 
 			// Return the session's note as the abstract portion of the package's description.
-			value = MetaDataFile.GetStringValue("synopsis", null);
+			value = MetaDataFile.GetStringValue(SessionFileType.kSynopsisFieldName, null);
 			if (!string.IsNullOrEmpty(value))
 				model.SetAbstract(value, string.Empty);
 
@@ -411,29 +420,6 @@ namespace SayMore.Model
 				description = "SayMore File Metadata (XML)";
 
 			return description;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private bool FileCopySpecialHandler(ArchivingDlgViewModel model, string source, string dest)
-		{
-			if (!source.EndsWith(AnnotationFileHelper.kAnnotationsEafFileSuffix))
-				return false;
-
-			// Fix EAF file to refer to modified name.
-			AnnotationFileHelper annotationFileHelper = AnnotationFileHelper.Load(source);
-
-			var mediaFileName = annotationFileHelper.MediaFileName;
-			if (mediaFileName != null)
-			{
-				var normalizedName = model.NormalizeFilename(string.Empty, mediaFileName);
-				if (normalizedName != mediaFileName)
-				{
-					annotationFileHelper.SetMediaFile(normalizedName);
-					annotationFileHelper.Root.Save(dest);
-					return true;
-				}
-			}
-			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -473,17 +459,15 @@ namespace SayMore.Model
 			if (y == null)
 				return -1;
 
-			x = x.Replace(' ', '_');
-			y = y.Replace(' ', '_');
+			Session.Status xStatus, yStatus;
 
-			if (!Enum.GetNames(typeof(Session.Status)).Contains(x))
+			if (!Enum.TryParse(Session.GetStatusAsEnumParsableString(x), out xStatus))
 				return 1;
 
-			if (!Enum.GetNames(typeof(Session.Status)).Contains(y))
+			if (!Enum.TryParse(Session.GetStatusAsEnumParsableString(y), out yStatus))
 				return -1;
 
-			return (int)Enum.Parse(typeof(Session.Status), x) -
-				(int)Enum.Parse(typeof(Session.Status), y);
+			return (int)xStatus - (int)yStatus;
 		}
 	}
 }

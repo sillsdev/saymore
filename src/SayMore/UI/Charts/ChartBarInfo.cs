@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using SayMore.Model;
+using SayMore.Model.Files;
 using SayMore.Properties;
 
 namespace SayMore.UI.Charts
@@ -50,7 +51,7 @@ namespace SayMore.UI.Charts
 				FieldValue = FieldValue.Replace(" ", HTMLChartBuilder.kNonBreakingSpace);
 
 			Segments = (from kvp in segmentList
-						where (secondaryFieldName != "status" || kvp.Key != Session.Status.Skipped.ToString())
+						where (secondaryFieldName != SessionFileType.kStatusFieldName || kvp.Key != Session.Status.Skipped.ToString())
 						select new ChartBarSegmentInfo(secondaryFieldName, kvp.Key, kvp.Value,
 							backColors[kvp.Key], textColors[kvp.Key])).OrderBy(kvp => kvp).ToList();
 
@@ -110,20 +111,10 @@ namespace SayMore.UI.Charts
 			if (other == null)
 				return 1;
 
-			if (FieldName != "status")
+			if (FieldName != SessionFileType.kStatusFieldName)
 				return FieldValue.CompareTo(other.FieldValue);
 
-			var sx = FieldValue.Replace(' ', '_');
-			var sy = other.FieldValue.Replace(' ', '_');
-
-			if (!Enum.GetNames(typeof(Session.Status)).Contains(sx))
-				return 1;
-
-			if (!Enum.GetNames(typeof(Session.Status)).Contains(sy))
-				return -1;
-
-			return (int)Enum.Parse(typeof(Session.Status), sx) -
-				(int)Enum.Parse(typeof(Session.Status), sy);
+			return new SessionStatusComparer().Compare(FieldValue, other.FieldValue);
 		}
 	}
 }

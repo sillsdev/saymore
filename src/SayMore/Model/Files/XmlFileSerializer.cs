@@ -218,7 +218,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		private static string UpdateOldSpongeIds(string fieldId)
 		{
-			fieldId = fieldId.Replace("eventType", "genre");
+			fieldId = fieldId.Replace("eventType", SessionFileType.kGenreFieldName);
 			fieldId = fieldId.Replace("Langauge", "Language");
 			return fieldId.Replace("learnedLanguageIn", "primaryLanguageLearnedIn");
 		}

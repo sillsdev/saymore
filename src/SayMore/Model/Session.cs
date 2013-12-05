@@ -25,6 +25,7 @@ namespace SayMore.Model
 	/// ----------------------------------------------------------------------------------------
 	public class Session : ProjectElement, IIMDIArchivable
 	{
+// ReSharper disable once InconsistentNaming
 		public static string kFolderName = "Sessions";
 
 		public enum Status

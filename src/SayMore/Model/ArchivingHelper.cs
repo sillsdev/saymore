@@ -100,6 +100,29 @@ namespace SayMore.Model
 			return (ext != ".pfsx" && (!imdi || (ext != metadataFileExtension)));
 		}
 
+		/// ------------------------------------------------------------------------------------
+		static internal bool FileCopySpecialHandler(ArchivingDlgViewModel model, string source, string dest)
+		{
+			if (!source.EndsWith(AnnotationFileHelper.kAnnotationsEafFileSuffix))
+				return false;
+
+			// Fix EAF file to refer to modified name.
+			AnnotationFileHelper annotationFileHelper = AnnotationFileHelper.Load(source);
+
+			var mediaFileName = annotationFileHelper.MediaFileName;
+			if (mediaFileName != null)
+			{
+				var normalizedName = model.NormalizeFilename(string.Empty, mediaFileName);
+				if (normalizedName != mediaFileName)
+				{
+					annotationFileHelper.SetMediaFile(normalizedName);
+					annotationFileHelper.Root.Save(dest);
+					return true;
+				}
+			}
+			return false;
+		}
+
 		internal static void SetIMDIMetadataToArchive(IIMDIArchivable element, ArchivingDlgViewModel model)
 		{
 			if (element is Project)

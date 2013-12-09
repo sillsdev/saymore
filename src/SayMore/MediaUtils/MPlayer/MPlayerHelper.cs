@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
@@ -149,19 +150,26 @@ namespace SayMore.Media.MPlayer
 			var finishedProcessing = false;
 			var result = ConversionResult.InProgress;
 			var outputBuilder = new StringBuilder();
+			var debugOutput = Application.OpenForms.OfType<ILogger>().FirstOrDefault();
 
 			var prs = StartProcessToMonitor(args,
 				(s, e) =>
 					{
 						if (e.Data != null)
+						{
 							outputBuilder.AppendLine(e.Data);
-						finishedProcessing = (e.Data == "Exiting... (End of file)");
+							if (debugOutput != null)
+								debugOutput.AddText(e.Data);
+						}
+						finishedProcessing |= (e.Data == "Exiting... (End of file)"); // OR-equal (|=) prevents subsequent blank line from setting it back to false.
 					},
 				(s, e) =>
 					{
 						if (e.Data != null)
 						{
 							outputBuilder.AppendLine(e.Data);
+							if (debugOutput != null)
+								debugOutput.AddText(e.Data);
 							if (e.Data == "Seek failed")
 								result |= ConversionResult.PossibleError;
 							else if (e.Data.StartsWith("Failed to open"))

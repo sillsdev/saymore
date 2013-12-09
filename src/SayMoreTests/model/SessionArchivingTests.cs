@@ -11,12 +11,14 @@ using SayMore;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SIL.Archiving;
+using SayMore.Properties;
 
 namespace SayMoreTests.Utilities
 {
 	[TestFixture]
 	public class SessionArchivingTests
 	{
+		private string _dummyProjectName;
 		private TemporaryFolder _tmpFolder;
 		private DummySession _session;
 		private Mock<Person> _person;
@@ -28,7 +30,8 @@ namespace SayMoreTests.Utilities
 		{
 			ErrorReport.IsOkToInteractWithUser = false;
 
-			_tmpFolder = new TemporaryFolder("ArchiveHelperTestFolder");
+			_dummyProjectName = "ArchiveHelperTestFolder";
+			_tmpFolder = new TemporaryFolder(_dummyProjectName);
 
 			CreateSessionAndMockedPerson();
 		}
@@ -62,6 +65,10 @@ namespace SayMoreTests.Utilities
 			File.CreateText(Path.Combine(folder, "ddo.mp3")).Close();
 			File.CreateText(Path.Combine(folder, "ddo.pdf")).Close();
 			_session = new DummySession(parentFolder, "ddo", _personInformant.Object);
+
+			// create a project file
+			var projFileName = _dummyProjectName + Settings.Default.ProjectFileExtension;
+			File.CreateText(Path.Combine(_tmpFolder.Path, projFileName)).Close();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -182,6 +189,17 @@ namespace SayMoreTests.Utilities
 			_session._mediaFiles = new[] { sourceMediaFile1.Object, sourceMediaFile2.Object, sourceMediaFile3.Object };
 			Assert.AreEqual(new TimeSpan(4, 10, 13), _session.GetTotalDurationOfSourceMedia());
 		}
+
+		#region IMDI Archiving Tests
+
+		[Test]
+		public void GetProjectName_ReturnsCorrectProjectName()
+		{
+			var projname = _session.GetProjectName();
+			Assert.AreEqual(_dummyProjectName, projname);
+		}
+
+		#endregion
 	}
 
 	public class DummySession : Session

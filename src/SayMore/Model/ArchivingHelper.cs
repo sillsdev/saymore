@@ -125,9 +125,11 @@ namespace SayMore.Model
 
 		internal static void SetIMDIMetadataToArchive(IIMDIArchivable element, ArchivingDlgViewModel model)
 		{
-			if (element is Project)
+			var project = element as Project;
+			if (project != null)
 			{
-
+				foreach (var session in project.GetAllSessions())
+					AddIMDISession(session, model);
 			}
 			else
 			{

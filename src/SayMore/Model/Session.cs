@@ -440,6 +440,19 @@ namespace SayMore.Model
 				role => (StageCompleteType)Enum.Parse(typeof(StageCompleteType),
 					MetaDataFile.GetValue(SessionFileType.kStageFieldPrefix + role.Id, StageCompleteType.Auto.ToString()) as string));
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetProjectName()
+		{
+			// Sessions directory
+			var dir = this.ParentFolderPath;
+
+			// Find the project file
+			var file = Directory.GetParent(dir).GetFiles("*" + Settings.Default.ProjectFileExtension).FirstOrDefault();
+
+			// The project name is the same as the project file name
+			return file != null ? Path.GetFileNameWithoutExtension(file.Name) : null;
+		}
 	}
 
 	/// ----------------------------------------------------------------------------------------

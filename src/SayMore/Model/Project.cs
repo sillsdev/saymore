@@ -56,7 +56,7 @@ namespace SayMore.Model
 			SettingsFilePath = desiredOrExistingSettingsFilePath;
 			Name = Path.GetFileNameWithoutExtension(desiredOrExistingSettingsFilePath);
 			var projectDirectory = Path.GetDirectoryName(desiredOrExistingSettingsFilePath);
-
+			var saveNeeded = false;
 
 			if (File.Exists(desiredOrExistingSettingsFilePath))
 			{
@@ -75,7 +75,7 @@ namespace SayMore.Model
 						Directory.CreateDirectory(projectDirectory);
 				}
 
-				Save();
+				saveNeeded = true;
 			}
 
 			if (TranscriptionFont == null)
@@ -91,16 +91,16 @@ namespace SayMore.Model
 				AutoSegmenterPreferrerdPauseLengthInMilliseconds > AutoSegmenterMaximumSegmentLengthInMilliseconds ||
 				AutoSegmenterOptimumLengthClampingFactor <= 0)
 			{
-				var saveNeeded = AutoSegmenterMinimumSegmentLengthInMilliseconds != 0 || AutoSegmenterMaximumSegmentLengthInMilliseconds != 0 ||
-					AutoSegmenterPreferrerdPauseLengthInMilliseconds != 0 || !AutoSegmenterOptimumLengthClampingFactor.Equals(0);
+				saveNeeded = AutoSegmenterMinimumSegmentLengthInMilliseconds != 0 || AutoSegmenterMaximumSegmentLengthInMilliseconds != 0 ||
+					AutoSegmenterPreferrerdPauseLengthInMilliseconds != 0 || !AutoSegmenterOptimumLengthClampingFactor.Equals(0) || saveNeeded;
 
 				AutoSegmenterMinimumSegmentLengthInMilliseconds = Settings.Default.DefaultAutoSegmenterMinimumSegmentLengthInMilliseconds;
 				AutoSegmenterMaximumSegmentLengthInMilliseconds = Settings.Default.DefaultAutoSegmenterMaximumSegmentLengthInMilliseconds;
 				AutoSegmenterPreferrerdPauseLengthInMilliseconds = Settings.Default.DefaultAutoSegmenterPreferrerdPauseLengthInMilliseconds;
 				AutoSegmenterOptimumLengthClampingFactor = Settings.Default.DefaultAutoSegmenterOptimumLengthClampingFactor;
-				if (saveNeeded)
-					Save();
 			}
+
+			if (saveNeeded) Save();
 		}
 
 		/// ------------------------------------------------------------------------------------

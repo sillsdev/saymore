@@ -130,9 +130,9 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _situation
 			// 
-			this._situation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._situation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._autoCompleteHelper.SetAutoCompleteKey(this._situation, "");
 			this._situation.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._situation, true);
@@ -167,9 +167,9 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _synopsis
 			// 
-			this._synopsis.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._synopsis.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._autoCompleteHelper.SetAutoCompleteKey(this._synopsis, "");
 			this._synopsis.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._synopsis, true);
@@ -260,8 +260,8 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _panelGrid
 			// 
-			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._panelGrid.Location = new System.Drawing.Point(0, 321);
 			this._panelGrid.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._panelGrid.Name = "_panelGrid";
@@ -320,7 +320,6 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._genre.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._genre.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-			this._genre.CausesValidation = true;
 			this._genre.Dock = System.Windows.Forms.DockStyle.Top;
 			this._genre.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._genre, true);
@@ -482,6 +481,7 @@ namespace SayMore.UI.ComponentEditors
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
+			this.locExtender.PrefixForNewItems = null;
 			// 
 			// SessionBasicEditor
 			// 

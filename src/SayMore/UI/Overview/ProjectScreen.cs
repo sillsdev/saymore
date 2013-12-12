@@ -3,7 +3,6 @@ using System.Drawing;
 using L10NSharp;
 using System.Windows.Forms;
 using SayMore.Properties;
-using SayMore.UI.Overview.Statistics;
 using SayMore.UI.ProjectWindow;
 
 namespace SayMore.UI.Overview
@@ -11,10 +10,12 @@ namespace SayMore.UI.Overview
 	public partial class ProjectScreen : UserControl, ISayMoreView
 	{
 		private readonly ProgressScreen _progressView;
+		private readonly ProjectMetadataScreen _metadataView;
 
 		/// ------------------------------------------------------------------------------------
-		public ProjectScreen(ProgressScreen progressView)
+		public ProjectScreen(ProjectMetadataScreen metadataView, ProgressScreen progressView)
 		{
+			_metadataView = metadataView;
 			_progressView = progressView;
 			InitializeComponent();
 
@@ -79,8 +80,28 @@ namespace SayMore.UI.Overview
 
 		private void _projectPages_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			if (e.RowIndex == 2)
-				_splitter.Panel2.Controls.Add(_progressView);
+			switch (e.RowIndex)
+			{
+				case 0:
+					ShowControl(_metadataView);
+					break;
+
+				case 1:
+					ShowControl(null);
+					break;
+
+				case 2:
+					ShowControl(_progressView);
+					break;
+			}
+		}
+
+		private void ShowControl(Control control)
+		{
+			while (_splitter.Panel2.Controls.Count > 0)
+				_splitter.Panel2.Controls.RemoveAt(0);
+
+			_splitter.Panel2.Controls.Add(control);
 		}
 	}
 }

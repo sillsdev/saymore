@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using L10NSharp;
+using Palaso.Extensions;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms;
 using SIL.Archiving;
@@ -55,7 +56,7 @@ namespace SayMore.Model
 			SettingsFilePath = desiredOrExistingSettingsFilePath;
 			Name = Path.GetFileNameWithoutExtension(desiredOrExistingSettingsFilePath);
 			var projectDirectory = Path.GetDirectoryName(desiredOrExistingSettingsFilePath);
-			var parentDirectoryPath = Path.GetDirectoryName(projectDirectory);
+
 
 			if (File.Exists(desiredOrExistingSettingsFilePath))
 			{
@@ -64,11 +65,15 @@ namespace SayMore.Model
 			}
 			else
 			{
-				if (!Directory.Exists(parentDirectoryPath))
-					Directory.CreateDirectory(parentDirectoryPath);
+				var parentDirectoryPath = Path.GetDirectoryName(projectDirectory);
+				if (parentDirectoryPath != null)
+				{
+					if (!Directory.Exists(parentDirectoryPath))
+						Directory.CreateDirectory(parentDirectoryPath);
 
-				if (!Directory.Exists(projectDirectory))
-					Directory.CreateDirectory(projectDirectory);
+					if (!Directory.Exists(projectDirectory))
+						Directory.CreateDirectory(projectDirectory);
+				}
 
 				Save();
 			}
@@ -199,26 +204,47 @@ namespace SayMore.Model
 		public void Save()
 		{
 			var project = new XElement("Project");
-			project.Add(new XElement("Iso639Code", Iso639Code));
+			project.Add(new XElement("Iso639Code", Iso639Code.NullTrim()));
 
-			if (TranscriptionFont != Program.DialogFont)
-				project.Add(new XElement("transcriptionFont", FontHelper.FontToString(TranscriptionFont)));
+			project.Add(!TranscriptionFont.Equals(Program.DialogFont)
+				? new XElement("transcriptionFont", FontHelper.FontToString(TranscriptionFont))
+				: new XElement("transcriptionFont", null));
 
-			if (FreeTranslationFont != Program.DialogFont)
-				project.Add(new XElement("freeTranslationFont", FontHelper.FontToString(FreeTranslationFont)));
+			project.Add(!FreeTranslationFont.Equals(Program.DialogFont)
+				? new XElement("freeTranslationFont", FontHelper.FontToString(FreeTranslationFont))
+				: new XElement("freeTranslationFont", null));
+
+			var autoSegmenterSettings = new XElement("AutoSegmentersettings");
+			project.Add(autoSegmenterSettings);
 
 			if (AutoSegmenterMinimumSegmentLengthInMilliseconds != Settings.Default.DefaultAutoSegmenterMinimumSegmentLengthInMilliseconds ||
 				AutoSegmenterMaximumSegmentLengthInMilliseconds != Settings.Default.DefaultAutoSegmenterMaximumSegmentLengthInMilliseconds ||
 				AutoSegmenterPreferrerdPauseLengthInMilliseconds != Settings.Default.DefaultAutoSegmenterPreferrerdPauseLengthInMilliseconds ||
 				!AutoSegmenterOptimumLengthClampingFactor.Equals(Settings.Default.DefaultAutoSegmenterOptimumLengthClampingFactor))
 			{
-				var autoSegmenterSettings = new XElement("AutoSegmentersettings");
-				project.Add(autoSegmenterSettings);
 				autoSegmenterSettings.Add(new XAttribute("minSegmentLength", AutoSegmenterMinimumSegmentLengthInMilliseconds));
 				autoSegmenterSettings.Add(new XAttribute("maxSegmentLength", AutoSegmenterMaximumSegmentLengthInMilliseconds));
 				autoSegmenterSettings.Add(new XAttribute("preferrerdPauseLength", AutoSegmenterPreferrerdPauseLengthInMilliseconds));
 				autoSegmenterSettings.Add(new XAttribute("optimumLengthClampingFactor", AutoSegmenterOptimumLengthClampingFactor));
 			}
+			else
+			{
+				autoSegmenterSettings.Add(new XAttribute("minSegmentLength", "0"));
+				autoSegmenterSettings.Add(new XAttribute("maxSegmentLength", "0"));
+				autoSegmenterSettings.Add(new XAttribute("preferrerdPauseLength", "0"));
+				autoSegmenterSettings.Add(new XAttribute("optimumLengthClampingFactor", "0"));
+			}
+
+			// metadata for archiving
+			project.Add(new XElement("Title", Title.NullTrim()));
+			project.Add(new XElement("FundingProjectTitle", FundingProjectTitle.NullTrim()));
+			project.Add(new XElement("ProjectDescription", ProjectDescription.NullTrim()));
+			project.Add(new XElement("VernacularISO3CodeAndName", VernacularISO3CodeAndName.NullTrim()));
+			project.Add(new XElement("Location", Location.NullTrim()));
+			project.Add(new XElement("Country", Country.NullTrim() ?? "Unspecified"));
+			project.Add(new XElement("Continent", Continent.NullTrim() ?? "Unspecified"));
+			project.Add(new XElement("ContactPerson", ContactPerson.NullTrim()));
+			project.Add(new XElement("AccessProtocol", AccessProtocol.NullTrim()));
 
 			project.Save(SettingsFilePath);
 		}
@@ -227,20 +253,22 @@ namespace SayMore.Model
 		public void Load()
 		{
 			var project = XElement.Load(SettingsFilePath);
-			var elements = project.Descendants("Iso639Code").ToArray();
 
-			if (elements.Length == 0)
-				elements = project.Descendants("IsoCode").ToArray(); //old value when we were called "Sponge"
+			var settingValue = GetStringSettingValue(project, "Iso639Code", null);
 
-			Iso639Code = elements.First().Value;
+			if (string.IsNullOrEmpty(settingValue))
+				settingValue = GetStringSettingValue(project, "IsoCode", null); //old value when we were called "Sponge"
 
-			elements = project.Descendants("transcriptionFont").ToArray();
-			if (elements.Length > 0)
-				TranscriptionFont = FontHelper.MakeFont(elements.First().Value);
+			if (!string.IsNullOrEmpty(settingValue))
+				Iso639Code = settingValue;
 
-			elements = project.Descendants("freeTranslationFont").ToArray();
-			if (elements.Length > 0)
-				FreeTranslationFont = FontHelper.MakeFont(elements.First().Value);
+			settingValue = GetStringSettingValue(project, "transcriptionFont", null);
+			if (!string.IsNullOrEmpty(settingValue))
+				TranscriptionFont = FontHelper.MakeFont(settingValue);
+
+			settingValue = GetStringSettingValue(project, "freeTranslationFont", null);
+			if (!string.IsNullOrEmpty(settingValue))
+				FreeTranslationFont = FontHelper.MakeFont(settingValue);
 
 			var autoSegmenterSettings = project.Element("AutoSegmentersettings");
 			if (autoSegmenterSettings != null)
@@ -254,6 +282,23 @@ namespace SayMore.Model
 				AutoSegmenterOptimumLengthClampingFactor = GetDoubleAttributeValue(autoSegmenterSettings,
 					"optimumLengthClampingFactor");
 			}
+
+			Title = GetStringSettingValue(project, "Title", string.Empty);
+			FundingProjectTitle = GetStringSettingValue(project, "FundingProjectTitle", string.Empty);
+			ProjectDescription = GetStringSettingValue(project, "ProjectDescription", string.Empty);
+			VernacularISO3CodeAndName = GetStringSettingValue(project, "VernacularISO3CodeAndName", string.Empty);
+			Location = GetStringSettingValue(project, "Location", string.Empty);
+			Country = GetStringSettingValue(project, "Country", "Unspecified");
+			Continent = GetStringSettingValue(project, "Continent", "Unspecified");
+			ContactPerson = GetStringSettingValue(project, "ContactPerson", string.Empty);
+			AccessProtocol = GetStringSettingValue(project, "AccessProtocol", string.Empty);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string GetStringSettingValue(XElement project, string elementName, string defaultValue)
+		{
+			var element = project.Element(elementName);
+			return element == null ? defaultValue : element.Value;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -338,10 +383,31 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string Title
-		{
-			get { return Name; }
-		}
+		public string Title { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string FundingProjectTitle { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string ProjectDescription { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string VernacularISO3CodeAndName { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string Location { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string Country { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string Continent { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string ContactPerson { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string AccessProtocol { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public string Id

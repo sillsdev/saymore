@@ -532,5 +532,23 @@ namespace SayMore
 #endif
 );
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string ProjectSettingsFile
+		{
+			get
+			{
+				return _projectContext.Project.SettingsFilePath;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Project CurrentProject
+		{
+			get
+			{
+				return _projectContext == null ? null : _projectContext.Project;
+			}
+		}
 	}
 }

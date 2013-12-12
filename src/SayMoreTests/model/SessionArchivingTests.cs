@@ -97,7 +97,7 @@ namespace SayMoreTests.Utilities
 		public void SetFilesToArchive_IMDI_GetsCorrectListSizeExcludingSessionFile()
 		{
 			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo",
-				"ddo-session", "whatever", false, null, @"c:\blahDblah");
+				"ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
 			model.Setup(s => s.AddFileGroup(string.Empty, It.Is<IEnumerable<string>>(e => e.Count() == 3), "Adding Files for Session 'ddo'"));
 			model.Setup(s => s.AddFileGroup("ddo-person", It.Is<IEnumerable<string>>(e => e.Count() == 2), "Adding Files for Contributor 'ddo-person'"));
 			_session.SetFilesToArchive(model.Object);
@@ -109,7 +109,7 @@ namespace SayMoreTests.Utilities
 		[Category("SkipOnTeamCity")]
 		public void SetFilesToArchive_GetsCorrectSessionAndPersonFiles()
 		{
-			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"c:\blahDblah");
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
 
 			model.Setup(s => s.AddFileGroup(string.Empty,
 				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new [] {"ddo.session", "ddo.mpg", "ddo.mp3", "ddo.pdf"}).Count() == 4),
@@ -128,7 +128,7 @@ namespace SayMoreTests.Utilities
 		[Category("SkipOnTeamCity")]
 		public void SetFilesToArchive_ParticipantFileDoesNotExist_DoesNotCrash()
 		{
-			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"c:\blahDblah");
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
 			_session._participants = new[] { "ddo-person", "non-existant-person" };
 
 			model.Setup(s => s.AddFileGroup(string.Empty,

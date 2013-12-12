@@ -11,12 +11,14 @@ namespace SayMore.UI.Overview
 	{
 		private readonly ProgressScreen _progressView;
 		private readonly ProjectMetadataScreen _metadataView;
+		private readonly ProjectAccessScreen _accessView;
 
 		/// ------------------------------------------------------------------------------------
-		public ProjectScreen(ProjectMetadataScreen metadataView, ProgressScreen progressView)
+		public ProjectScreen(ProjectMetadataScreen metadataView, ProjectAccessScreen accessView, ProgressScreen progressView)
 		{
 			_metadataView = metadataView;
 			_progressView = progressView;
+			_accessView = accessView;
 			InitializeComponent();
 
 			_projectPages.AddRow(new object[] { Resources.Progress, LocalizationManager.GetString("ProjectView.ProgressViewTitle", "About This Project") });
@@ -87,7 +89,7 @@ namespace SayMore.UI.Overview
 					break;
 
 				case 1:
-					ShowControl(null);
+					ShowControl(_accessView);
 					break;
 
 				case 2:

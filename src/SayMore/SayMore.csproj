@@ -454,6 +454,12 @@
     <Compile Include="UI\LowLevelControls\MultiValueComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UI\Overview\ProjectAccessScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Overview\ProjectAccessScreen.Designer.cs">
+      <DependentUpon>ProjectAccessScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Overview\ProjectMetadataScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -748,6 +754,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ElementListScreen\ElementListScreen.resx">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Overview\ProjectAccessScreen.resx">
+      <DependentUpon>ProjectAccessScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Overview\ProjectMetadataScreen.resx">
       <DependentUpon>ProjectMetadataScreen.cs</DependentUpon>

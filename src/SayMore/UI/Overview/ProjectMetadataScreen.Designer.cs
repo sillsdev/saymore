@@ -100,7 +100,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._contactPerson, null);
 			this.locExtender.SetLocalizationComment(this._contactPerson, null);
 			this.locExtender.SetLocalizationPriority(this._contactPerson, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._contactPerson, "ProjectMetadataScreen.textBox8");
+			this.locExtender.SetLocalizingId(this._contactPerson, "ProjectMetadataScreen._contactPerson");
 			this._contactPerson.Location = new System.Drawing.Point(125, 223);
 			this._contactPerson.Name = "_contactPerson";
 			this._contactPerson.Size = new System.Drawing.Size(350, 22);
@@ -112,7 +112,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._location, null);
 			this.locExtender.SetLocalizationComment(this._location, null);
 			this.locExtender.SetLocalizationPriority(this._location, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._location, "ProjectMetadataScreen.textBox5");
+			this.locExtender.SetLocalizingId(this._location, "ProjectMetadataScreen._location");
 			this._location.Location = new System.Drawing.Point(125, 141);
 			this._location.Name = "_location";
 			this._location.Size = new System.Drawing.Size(350, 22);
@@ -124,7 +124,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._description, null);
 			this.locExtender.SetLocalizationComment(this._description, null);
 			this.locExtender.SetLocalizationPriority(this._description, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._description, "ProjectMetadataScreen.textBox3");
+			this.locExtender.SetLocalizingId(this._description, "ProjectMetadataScreen._description");
 			this._description.Location = new System.Drawing.Point(125, 62);
 			this._description.Multiline = true;
 			this._description.Name = "_description";
@@ -138,7 +138,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._fundingProjectTitle, null);
 			this.locExtender.SetLocalizationComment(this._fundingProjectTitle, null);
 			this.locExtender.SetLocalizationPriority(this._fundingProjectTitle, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._fundingProjectTitle, "ProjectMetadataScreen.textBox2");
+			this.locExtender.SetLocalizingId(this._fundingProjectTitle, "ProjectMetadataScreen._fundingProjectTitle");
 			this._fundingProjectTitle.Location = new System.Drawing.Point(125, 34);
 			this._fundingProjectTitle.Name = "_fundingProjectTitle";
 			this._fundingProjectTitle.Size = new System.Drawing.Size(350, 22);
@@ -270,7 +270,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._projectTitle, null);
 			this.locExtender.SetLocalizationComment(this._projectTitle, null);
 			this.locExtender.SetLocalizationPriority(this._projectTitle, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._projectTitle, "ProjectMetadataScreen.textBox1");
+			this.locExtender.SetLocalizingId(this._projectTitle, "ProjectMetadataScreen._projectTitle");
 			this._projectTitle.Location = new System.Drawing.Point(125, 6);
 			this._projectTitle.Name = "_projectTitle";
 			this._projectTitle.Size = new System.Drawing.Size(350, 22);

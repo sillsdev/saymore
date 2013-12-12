@@ -244,10 +244,22 @@ namespace SayMoreTests.Model
 			_dummySessions.Add(CreateDummySession("Why Rice Can't Fly", person1, person3));
 			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "foo",
 				"foo", "Ignore this message", true, null, @"c:\my_imdi_folder");
-			model.Setup(s => s.AddFileGroup(string.Empty, It.Is<IEnumerable<string>>(e => e.Count() == 3 * 2), "Adding Files for Actors in project 'foo'"));
+
+			// sessions
+			model.Setup(s => s.AddSession(_dummySessions[0].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[0].Id });
+			model.Setup(s => s.AddSession(_dummySessions[1].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[1].Id });
+			model.Setup(s => s.AddSession(_dummySessions[2].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[2].Id });
+
+			// session files
 			model.Setup(s => s.AddFileGroup(_dummySessions[0].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), "Adding Files for Session 'The Frog Dance'"));
 			model.Setup(s => s.AddFileGroup(_dummySessions[1].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), "Adding Files for Session 'Underwater Marriage'"));
 			model.Setup(s => s.AddFileGroup(_dummySessions[2].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), "Adding Files for Session 'Why Rice Can't Fly'"));
+
+			// contributor files
+			model.Setup(s => s.AddFileGroup("\n" + person1, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
+			model.Setup(s => s.AddFileGroup("\n" + person2, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
+			model.Setup(s => s.AddFileGroup("\n" + person3, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
+
 			prj.SetFilesToArchive(model.Object);
 			model.VerifyAll();
 		}
@@ -307,7 +319,7 @@ namespace SayMoreTests.Model
 			File.CreateText(Path.Combine(folder, name + "Voice.wav")).Close();
 
 			var person = new Mock<Person>();
-			person.Setup(p => p.FolderPath).Returns(Path.Combine(Path.Combine(_parentFolder.Path, Person.kFolderName), personName));
+			person.Setup(p => p.FolderPath).Returns(Path.Combine(Path.Combine(_parentFolder.Path, "foo", Person.kFolderName), personName));
 			person.Setup(p => p.Id).Returns(personName);
 
 			if (_personInformant == null)

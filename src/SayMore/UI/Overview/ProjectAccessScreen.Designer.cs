@@ -120,6 +120,7 @@ namespace SayMore.UI.Overview
 			this.Name = "ProjectAccessScreen";
 			this.Padding = new System.Windows.Forms.Padding(7);
 			this.Size = new System.Drawing.Size(376, 150);
+			this.Load += new System.EventHandler(this.ProjectAccessScreen_Load);
 			this.Leave += new System.EventHandler(this.ProjectAccessScreen_Leave);
 			this._layoutTable.ResumeLayout(false);
 			this._layoutTable.PerformLayout();

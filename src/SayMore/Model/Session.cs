@@ -58,14 +58,16 @@ namespace SayMore.Model
 		{
 			_personInformant = personInformant;
 
+// ReSharper disable DoNotCallOverridableMethodsInConstructor
 			if (string.IsNullOrEmpty(MetaDataFile.GetStringValue(SessionFileType.kGenreFieldName, null)))
+
 			{
 				string failureMsg;
 				MetaDataFile.SetValue(SessionFileType.kGenreFieldName, GenreDefinition.UnknownType.Name, out failureMsg);
 				if (failureMsg == null)
 					MetaDataFile.Save();
 			}
-
+// ReSharper restore DoNotCallOverridableMethodsInConstructor
 			if (_personInformant != null)
 				_personInformant.PersonNameChanged += HandlePersonsNameChanged;
 		}
@@ -445,7 +447,7 @@ namespace SayMore.Model
 		public string GetProjectName()
 		{
 			// Sessions directory
-			var dir = this.ParentFolderPath;
+			var dir = ParentFolderPath;
 
 			// Find the project file
 			var file = Directory.GetParent(dir).GetFiles("*" + Settings.Default.ProjectFileExtension).FirstOrDefault();

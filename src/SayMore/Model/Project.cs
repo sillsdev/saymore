@@ -10,6 +10,7 @@ using L10NSharp;
 using Palaso.Extensions;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms;
+using SayMore.UI.ComponentEditors;
 using SIL.Archiving;
 using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
@@ -30,6 +31,8 @@ namespace SayMore.Model
 	{
 		private readonly ElementRepository<Session>.Factory _sessionsRepoFactory;
 		private readonly SessionFileType _sessionFileType;
+		private string _accessProtocol;
+		private bool _accessProtocolChanged;
 
 		public delegate Project Factory(string desiredOrExistingFilePath);
 
@@ -247,6 +250,15 @@ namespace SayMore.Model
 			project.Add(new XElement("AccessProtocol", AccessProtocol.NullTrim()));
 
 			project.Save(SettingsFilePath);
+
+			if (_accessProtocolChanged)
+			{
+				foreach (var editor in Program.GetControlsOfType<SessionBasicEditor>(Program.ProjectWindow))
+					editor.SetAccessProtocol();
+
+				_accessProtocolChanged = false;
+			}
+
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -292,6 +304,7 @@ namespace SayMore.Model
 			Continent = GetStringSettingValue(project, "Continent", "Unspecified");
 			ContactPerson = GetStringSettingValue(project, "ContactPerson", string.Empty);
 			AccessProtocol = GetStringSettingValue(project, "AccessProtocol", string.Empty);
+			_accessProtocolChanged = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -407,7 +420,16 @@ namespace SayMore.Model
 		public string ContactPerson { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public string AccessProtocol { get; set; }
+		public string AccessProtocol
+		{
+			get { return _accessProtocol; }
+			set
+			{
+				if (value == _accessProtocol) return;
+				_accessProtocol = value;
+				_accessProtocolChanged = true;
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public string Id

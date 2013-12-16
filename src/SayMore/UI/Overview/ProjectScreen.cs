@@ -3,6 +3,7 @@ using System.Drawing;
 using L10NSharp;
 using System.Windows.Forms;
 using SayMore.Properties;
+using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;
 
 namespace SayMore.UI.Overview
@@ -52,6 +53,9 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		public void ViewActivated(bool firstTime)
 		{
+			// set the access code choices for sessions
+			foreach (var editor in Program.GetControlsOfType<SessionBasicEditor>(Program.ProjectWindow))
+				editor.SetAccessProtocol();
 		}
 
 		/// ------------------------------------------------------------------------------------

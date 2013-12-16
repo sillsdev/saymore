@@ -1,4 +1,5 @@
 
+using System.Linq;
 using System.Windows.Forms;
 using SIL.Archiving.Generic.AccessProtocol;
 
@@ -10,7 +11,7 @@ namespace SayMore.UI.Overview
 		{
 			InitializeComponent();
 
-			// acess protocol list
+			// access protocol list
 			var protocols = AccessProtocols.Load();
 			protocols.Insert(0, new ArchiveAccessProtocol { ProtocolName = "None" });
 			_projectAccess.DataSource = protocols;
@@ -53,6 +54,15 @@ namespace SayMore.UI.Overview
 			// save changes
 			project.AccessProtocol = _projectAccess.Text;
 			project.Save();
+		}
+
+		private void ProjectAccessScreen_Load(object sender, System.EventArgs e)
+		{
+			// show values from project file
+			var project = Program.CurrentProject;
+
+			foreach (var item in _projectAccess.Items.Cast<object>().Where(i => i.ToString() == project.AccessProtocol))
+				_projectAccess.SelectedItem = item;
 		}
 	}
 }

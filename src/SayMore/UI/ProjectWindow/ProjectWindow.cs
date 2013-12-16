@@ -12,6 +12,7 @@ using L10NSharp.UI;
 using Palaso.IO;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SayMore.UI.ElementListScreen;
 using SIL.Archiving;
 using SIL.Archiving.IMDI;
 using SayMore.Media.Audio;
@@ -33,6 +34,7 @@ namespace SayMore.UI.ProjectWindow
 		private readonly IEnumerable<ICommand> _commands;
 		private readonly UILanguageDlg.Factory _uiLanguageDialogFactory;
 		private MPlayerDebuggingOutputWindow _outputDebuggingWindow;
+		internal SessionsListScreen SessionsListScreen;
 
 		public bool UserWantsToOpenADifferentProject { get; set; }
 
@@ -72,6 +74,10 @@ namespace SayMore.UI.ProjectWindow
 			foreach (var vw in views)
 			{
 				vw.AddTabToTabGroup(_viewTabGroup);
+
+				if (vw is SessionsListScreen)
+					SessionsListScreen = (SessionsListScreen) vw;
+
 				if (vw.MainMenuItem != null)
 				{
 					vw.MainMenuItem.Enabled = false;

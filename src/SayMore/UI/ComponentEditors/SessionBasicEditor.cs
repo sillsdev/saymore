@@ -8,6 +8,7 @@ using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.UI.LowLevelControls;
+using SIL.Archiving.Generic.AccessProtocol;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -21,6 +22,7 @@ namespace SayMore.UI.ComponentEditors
 		private readonly PersonInformant _personInformant;
 		private readonly AutoCompleteValueGatherer _autoCompleteProvider;
 		private bool _genreFieldEntered;
+		private List<AccessOption> _accessOptions;
 
 		/// ------------------------------------------------------------------------------------
 		public SessionBasicEditor(ComponentFile file, string imageKey,
@@ -135,6 +137,9 @@ namespace SayMore.UI.ComponentEditors
 			if (_genre.Items.Count == 0)
 				LoadGenreList(_autoCompleteProvider, null);
 
+			if (_accessOptions != null)
+				SetAccessCodeListAndValue();
+
 			base.Activated();
 		}
 
@@ -169,6 +174,59 @@ namespace SayMore.UI.ComponentEditors
 		{
 			if (ActiveControl != _genre && (_genre.SelectionStart == 0 && _genre.SelectionLength > 0))
 				_genre.SelectionLength = 0;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetAccessProtocol()
+		{
+			if (Program.CurrentProject == null) return;
+
+			var accessProtocol = Program.CurrentProject.AccessProtocol;
+			var protocols = AccessProtocols.Load();
+			var protocol = protocols.FirstOrDefault(i => i.ProtocolName == accessProtocol);
+
+			// is "None" the selected protocol?
+			if ((accessProtocol == "None") || (protocol == null))
+			{
+				_access.DataSource = null;
+				_access.DropDownStyle = ComboBoxStyle.DropDown;
+				return;
+			}
+
+			// remember the list of possible choices
+			_accessOptions = protocol.Choices;
+			_access.DropDownStyle = ComboBoxStyle.DropDownList;
+
+			SetAccessCodeListAndValue();
+		}
+
+		/// <summary>do this in case the access protocol for the project changed and
+		/// the current value of "access" is no longer in the list</summary>
+		private void SetAccessCodeListAndValue()
+		{
+			var currentAccessCode = _file.GetStringValue("access", null);
+
+			if (_access.DropDownStyle == ComboBoxStyle.DropDown)
+			{
+				_access.Text = currentAccessCode;
+				return;
+			}
+
+			// is the selected item in the list
+			var choices = _accessOptions.ToList();
+			var found = choices.Any(i => i.ToString() == currentAccessCode);
+
+			if (!found)
+			{
+				choices.Insert(0, new AccessOption { OptionName = "-----" });
+				choices.Insert(0, new AccessOption { OptionName = currentAccessCode });
+			}
+
+			_access.DataSource = choices;
+
+			// select the current code
+			foreach (var item in _access.Items.Cast<object>().Where(i => i.ToString() == currentAccessCode))
+				_access.SelectedItem = item;
 		}
 	}
 }

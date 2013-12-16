@@ -19,6 +19,7 @@ using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Media;
 using SayMore.Properties;
 using SayMore.UI;
+using SayMore.UI.ElementListScreen;
 using SayMore.UI.ProjectWindow;
 using SayMore.Model;
 
@@ -549,6 +550,23 @@ namespace SayMore
 			{
 				return _projectContext == null ? null : _projectContext.Project;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static ProjectWindow ProjectWindow
+		{
+			get { return _projectContext.ProjectWindow; }
+		}
+
+		/// <summary>Gets all controls of the desired type</summary>
+		public static IEnumerable<T> GetControlsOfType<T>(Control root) where T : Control
+		{
+			var t = root as T;
+			if (t != null) yield return t;
+
+			if (!root.HasChildren) yield break;
+			foreach (var i in from Control c in root.Controls from i in GetControlsOfType<T>(c) select i)
+				yield return i;
 		}
 	}
 }

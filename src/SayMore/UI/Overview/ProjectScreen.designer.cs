@@ -25,8 +25,8 @@ namespace SayMore.UI.Overview
 			this.tsbTasks = new System.Windows.Forms.ToolStripButton();
 			this._sidebar = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
 			this._projectPages = new Palaso.UI.WindowsForms.Widgets.BetterGrid.BetterGrid();
-			this._splitter = new System.Windows.Forms.SplitContainer();
 			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
+			this._splitter = new System.Windows.Forms.SplitContainer();
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colPageNames = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._sidebar.SuspendLayout();
@@ -102,13 +102,14 @@ namespace SayMore.UI.Overview
 			this._sidebar.MnemonicGeneratesClick = false;
 			this._sidebar.Name = "_sidebar";
 			this._sidebar.PaintExplorerBarBackground = false;
-			this._sidebar.Size = new System.Drawing.Size(219, 351);
+			this._sidebar.Size = new System.Drawing.Size(175, 351);
 			this._sidebar.TabIndex = 2;
 			//
 			// _projectPages
 			//
 			this._projectPages.AllowUserToAddRows = false;
 			this._projectPages.AllowUserToDeleteRows = false;
+			this._projectPages.AllowUserToOrderColumns = true;
 			this._projectPages.AllowUserToResizeColumns = false;
 			this._projectPages.AllowUserToResizeRows = false;
 			this._projectPages.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
@@ -146,24 +147,11 @@ namespace SayMore.UI.Overview
 			this._projectPages.SelectedRowForeColor = System.Drawing.Color.Empty;
 			this._projectPages.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this._projectPages.ShowWaterMarkWhenDirty = false;
-			this._projectPages.Size = new System.Drawing.Size(217, 349);
+			this._projectPages.Size = new System.Drawing.Size(173, 349);
 			this._projectPages.TabIndex = 0;
 			this._projectPages.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this._projectPages.WaterMark = "!";
 			this._projectPages.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this._projectPages_RowEnter);
-			//
-			// _splitter
-			//
-			this._splitter.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._splitter.Location = new System.Drawing.Point(0, 0);
-			this._splitter.Name = "_splitter";
-			//
-			// _splitter.Panel1
-			//
-			this._splitter.Panel1.Controls.Add(this._sidebar);
-			this._splitter.Size = new System.Drawing.Size(657, 351);
-			this._splitter.SplitterDistance = 219;
-			this._splitter.TabIndex = 3;
 			//
 			// colIcon
 			//
@@ -173,6 +161,20 @@ namespace SayMore.UI.Overview
 			this.colIcon.Name = "colIcon";
 			this.colIcon.ReadOnly = true;
 			this.colIcon.Width = 26;
+			//
+			// _splitter
+			//
+			this._splitter.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._splitter.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+			this._splitter.Location = new System.Drawing.Point(0, 0);
+			this._splitter.Name = "_splitter";
+			//
+			// _splitter.Panel1
+			//
+			this._splitter.Panel1.Controls.Add(this._sidebar);
+			this._splitter.Size = new System.Drawing.Size(657, 351);
+			this._splitter.SplitterDistance = 175;
+			this._splitter.TabIndex = 3;
 			//
 			// dataGridViewTextBoxColumn1
 			//

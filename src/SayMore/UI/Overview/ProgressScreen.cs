@@ -10,20 +10,23 @@ namespace SayMore.UI.Overview
 {
 	public partial class ProgressScreen : UserControl, ISayMoreView
 	{
+// ReSharper disable InconsistentNaming
 		protected StatisticsView _statsView;
 		protected ToolStripMenuItem _mnuProgress;
+// ReSharper restore InconsistentNaming
 
 		/// ------------------------------------------------------------------------------------
 		public ProgressScreen(StatisticsViewModel statisticsModel)
 		{
 			InitializeComponent();
-			_statsView = new StatisticsView(statisticsModel);
-			_statsView.Dock = DockStyle.Fill;
+			_statsView = new StatisticsView(statisticsModel) {Dock = DockStyle.Fill};
 			Controls.Add(_statsView);
 
-			_mnuProgress = new ToolStripMenuItem();
-			_mnuProgress.Text = LocalizationManager.GetString("ProgressView.ProgressMainMenuItemText",
-				"Pr&ogress", null, MainMenuItem);
+			_mnuProgress = new ToolStripMenuItem
+			{
+				Text = LocalizationManager.GetString("ProgressView.ProgressMainMenuItemText",
+					"Pr&ogress", null, MainMenuItem)
+			};
 
 			var menu = new ToolStripMenuItem(null, Resources.Copy, _statsView.HandleCopyToClipboardClick);
 			menu.Text = LocalizationManager.GetString("ProgressView.CopyMenuItemText",

@@ -13,6 +13,7 @@ namespace SayMore.UI.Overview
 		private readonly ProgressScreen _progressView;
 		private readonly ProjectMetadataScreen _metadataView;
 		private readonly ProjectAccessScreen _accessView;
+		private bool _statsViewActivated;
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectScreen(ProjectMetadataScreen metadataView, ProjectAccessScreen accessView, ProgressScreen progressView)
@@ -81,6 +82,7 @@ namespace SayMore.UI.Overview
 			get { return Resources.project; }
 		}
 
+// ReSharper disable once UnusedAutoPropertyAccessor.Local
 		public ToolStripMenuItem MainMenuItem { get; private set; }
 		#endregion
 
@@ -98,6 +100,8 @@ namespace SayMore.UI.Overview
 
 				case 2:
 					ShowControl(_progressView);
+					_progressView.ViewActivated(!_statsViewActivated);
+					_statsViewActivated = true;
 					break;
 			}
 		}

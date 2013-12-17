@@ -182,7 +182,7 @@ namespace SayMore.UI.ComponentEditors
 			if (Program.CurrentProject == null) return;
 
 			var accessProtocol = Program.CurrentProject.AccessProtocol;
-			var protocols = AccessProtocols.Load();
+			var protocols = AccessProtocols.LoadStandardAndCustom();
 			var protocol = protocols.FirstOrDefault(i => i.ProtocolName == accessProtocol);
 
 			// is "None" the selected protocol?
@@ -208,9 +208,14 @@ namespace SayMore.UI.ComponentEditors
 
 			if (_access.DropDownStyle == ComboBoxStyle.DropDown)
 			{
-				_access.Text = currentAccessCode;
+				if (currentAccessCode == null)
+					_access.Text = string.Empty;
+				else
+					_access.Text = currentAccessCode;
 				return;
 			}
+
+			if (currentAccessCode == null) return;
 
 			// is the selected item in the list
 			var choices = _accessOptions.ToList();

@@ -108,6 +108,7 @@ namespace SayMore.UI.Overview
 				_splitter.Panel2.Controls.RemoveAt(0);
 
 			_splitter.Panel2.Controls.Add(control);
+			control.Dock = DockStyle.Fill;
 		}
 	}
 }

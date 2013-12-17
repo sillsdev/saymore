@@ -157,13 +157,13 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSynopsis.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelSynopsis, null);
 			this.locExtender.SetLocalizationComment(this._labelSynopsis, null);
-			this.locExtender.SetLocalizingId(this._labelSynopsis, "SessionsView.MetadataEditor._labelAbstract");
+			this.locExtender.SetLocalizingId(this._labelSynopsis, "SessionsView.MetadataEditor._labelDescription");
 			this._labelSynopsis.Location = new System.Drawing.Point(212, 184);
 			this._labelSynopsis.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelSynopsis.Name = "_labelSynopsis";
-			this._labelSynopsis.Size = new System.Drawing.Size(49, 13);
+			this._labelSynopsis.Size = new System.Drawing.Size(66, 13);
 			this._labelSynopsis.TabIndex = 20;
-			this._labelSynopsis.Text = "Abstract";
+			this._labelSynopsis.Text = "Description";
 			// 
 			// _synopsis
 			// 

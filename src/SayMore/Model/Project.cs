@@ -244,10 +244,17 @@ namespace SayMore.Model
 			project.Add(new XElement("ProjectDescription", ProjectDescription.NullTrim()));
 			project.Add(new XElement("VernacularISO3CodeAndName", VernacularISO3CodeAndName.NullTrim()));
 			project.Add(new XElement("Location", Location.NullTrim()));
+			project.Add(new XElement("Region", Region.NullTrim()));
 			project.Add(new XElement("Country", Country.NullTrim() ?? "Unspecified"));
 			project.Add(new XElement("Continent", Continent.NullTrim() ?? "Unspecified"));
 			project.Add(new XElement("ContactPerson", ContactPerson.NullTrim()));
 			project.Add(new XElement("AccessProtocol", AccessProtocol.NullTrim()));
+			project.Add(new XElement("ContentType", ContentType.NullTrim()));
+			project.Add(new XElement("Applications", Applications.NullTrim()));
+			project.Add(new XElement("DateAvailable", DateAvailable.NullTrim()));
+			project.Add(new XElement("RightsHolder", RightsHolder.NullTrim()));
+			project.Add(new XElement("Depositor", Depositor.NullTrim()));
+			project.Add(new XElement("RelatedPublications", RelatedPublications.NullTrim()));
 
 			project.Save(SettingsFilePath);
 
@@ -300,11 +307,19 @@ namespace SayMore.Model
 			ProjectDescription = GetStringSettingValue(project, "ProjectDescription", string.Empty);
 			VernacularISO3CodeAndName = GetStringSettingValue(project, "VernacularISO3CodeAndName", string.Empty);
 			Location = GetStringSettingValue(project, "Location", string.Empty);
+			Region = GetStringSettingValue(project, "Region", string.Empty);
 			Country = GetStringSettingValue(project, "Country", "Unspecified");
 			Continent = GetStringSettingValue(project, "Continent", "Unspecified");
 			ContactPerson = GetStringSettingValue(project, "ContactPerson", string.Empty);
 			AccessProtocol = GetStringSettingValue(project, "AccessProtocol", string.Empty);
 			_accessProtocolChanged = false;
+
+			ContentType = GetStringSettingValue(project, "ContentType", string.Empty);
+			Applications = GetStringSettingValue(project, "Applications", string.Empty);
+			DateAvailable = GetStringSettingValue(project, "DateAvailable", string.Empty);
+			RightsHolder = GetStringSettingValue(project, "RightsHolder", string.Empty);
+			Depositor = GetStringSettingValue(project, "Depositor", string.Empty);
+			RelatedPublications = GetStringSettingValue(project, "RelatedPublications", string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -411,6 +426,9 @@ namespace SayMore.Model
 		public string Location { get; set; }
 
 		/// ------------------------------------------------------------------------------------
+		public string Region { get; set; }
+
+		/// ------------------------------------------------------------------------------------
 		public string Country { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -418,6 +436,24 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		public string ContactPerson { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string ContentType { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string Applications { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string DateAvailable { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string RightsHolder { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string Depositor { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string RelatedPublications { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public string AccessProtocol

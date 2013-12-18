@@ -36,7 +36,6 @@ namespace SayMore.UI.Overview
 			_country.DataSource = countryList;
 			_country.DisplayMember = "Text";
 			_country.ValueMember = "Value";
-
 		}
 
 		#region ISayMoreView Members
@@ -100,9 +99,16 @@ namespace SayMore.UI.Overview
 				_description.Text != project.ProjectDescription ||
 				_labelSelectedVernacular.Text != project.VernacularISO3CodeAndName ||
 				_location.Text != project.Location ||
+				_region.Text != project.Region ||
 				_country.Text != project.Country ||
 				_continent.Text != project.Continent ||
-				_contactPerson.Text != project.ContactPerson
+				_contactPerson.Text != project.ContactPerson ||
+				_contentType.Text != project.ContentType ||
+				_applications.Text != project.Applications ||
+				_dateAvailable.Text != project.DateAvailable ||
+				_rightsHolder.Text != project.RightsHolder ||
+				_depositor.Text != project.Depositor ||
+				_relatedPublications.Text != project.RelatedPublications
 				)
 				changed = true;
 
@@ -114,9 +120,17 @@ namespace SayMore.UI.Overview
 			project.ProjectDescription = _description.Text;
 			project.VernacularISO3CodeAndName = _labelSelectedVernacular.Text;
 			project.Location = _location.Text;
+			project.Region = _region.Text;
 			project.Country = _country.Text;
 			project.Continent = _continent.Text;
 			project.ContactPerson = _contactPerson.Text;
+			project.ContentType = _contentType.Text;
+			project.Applications = _applications.Text;
+
+			project.DateAvailable = _dateAvailable.GetISO8601DateValueOrNull();
+			project.RightsHolder = _rightsHolder.Text;
+			project.Depositor = _depositor.Text;
+			project.RelatedPublications = _relatedPublications.Text;
 			project.Save();
 		}
 
@@ -129,11 +143,19 @@ namespace SayMore.UI.Overview
 			_description.Text = project.ProjectDescription;
 			_labelSelectedVernacular.Text = project.VernacularISO3CodeAndName;
 			_location.Text = project.Location;
+			_region.Text = project.Region;
 			_country.Text = project.Country;
-			_contactPerson.Text = project.ContactPerson;
 
 			foreach (var item in _continent.Items.Cast<object>().Where(i => i.ToString() == project.Continent))
 				_continent.SelectedItem = item;
+
+			_contactPerson.Text = project.ContactPerson;
+			_contentType.Text = project.ContentType;
+			_applications.Text = project.Applications;
+			_dateAvailable.SetValue(project.DateAvailable);
+			_rightsHolder.Text = project.RightsHolder;
+			_depositor.Text = project.Depositor;
+			_relatedPublications.Text = project.RelatedPublications;
 		}
 
 		private void SizeContinentComboBox(ComboBox comboBox)

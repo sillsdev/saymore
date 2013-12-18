@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.Extensions;
 using Palaso.Reporting;
 using SayMore.Transcription.Model;
 using SIL.Archiving;
@@ -128,6 +129,8 @@ namespace SayMore.Model
 			var project = element as Project;
 			if (project != null)
 			{
+				AddIMDIProjectData(project, model);
+
 				foreach (var session in project.GetAllSessions())
 					AddIMDISession(session, model);
 			}
@@ -225,6 +228,65 @@ namespace SayMore.Model
 			var files = saymoreSession.GetSessionFilesToArchive(model.GetType());
 			foreach (var file in files)
 				imdiSession.AddFile(CreateArchivingFile(file));
+		}
+
+		private static void AddIMDIProjectData(Project saymoreProject, ArchivingDlgViewModel model)
+		{
+			var package = (IMDIPackage) model.ArchivingPackage;
+
+			// location
+			package.Location = new ArchivingLocation
+			{
+				Address = saymoreProject.Location,
+				Region = saymoreProject.Region,
+				Country = saymoreProject.Country,
+				Continent = saymoreProject.Continent
+			};
+
+			// description
+			package.AddDescription(new LanguageString(saymoreProject.ProjectDescription, null));
+
+			// content type
+			package.ContentType = saymoreProject.ContentType;
+
+			// funding project
+			package.FundingProject = new ArchivingProject
+			{
+				Title = saymoreProject.FundingProjectTitle,
+				Name = saymoreProject.FundingProjectTitle
+			};
+
+			// athor
+			package.Author = saymoreProject.ContactPerson;
+
+			// applications
+			package.Applications = saymoreProject.Applications;
+
+			// access date
+			package.Access.DateAvailable = saymoreProject.DateAvailable;
+
+			// access owner
+			package.Access.Owner = saymoreProject.RightsHolder;
+
+			// publisher
+			package.Publisher = saymoreProject.Depositor;
+
+			// related publications
+			package.AddKeyValuePair("Related Publications", saymoreProject.RelatedPublications);
+
+			// subject language
+			if (!string.IsNullOrEmpty(saymoreProject.VernacularISO3CodeAndName))
+			{
+				var parts = saymoreProject.VernacularISO3CodeAndName.SplitTrimmed(':').ToArray();
+				if (parts.Length == 2)
+				{
+					var language = LanguageList.FindByISO3Code(parts[0]);
+					if (language == null)
+						package.ContentIso3Languages.Add(new ArchivingLanguage(parts[0], parts[1]));
+					else
+						package.ContentIso3Languages.Add(new ArchivingLanguage(language.Iso3Code, language.EnglishName));
+				}
+			}
 		}
 
 		private static ArchivingFile CreateArchivingFile(string fileName)

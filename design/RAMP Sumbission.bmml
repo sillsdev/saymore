@@ -1,4 +1,4 @@
-<mockup version="1.0" skin="sketch" measuredW="510" measuredH="497" mockupW="450" mockupH="477">
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1078" measuredH="512" mockupW="1018" mockupH="492">
   <controls>
     <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="60" y="20" w="450" h="477" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
@@ -14,25 +14,60 @@
         <verticalScrollbar>true</verticalScrollbar>
       </controlProperties>
     </control>
-    <control controlID="2" controlTypeID="com.balsamiq.mockups::Button" x="285" y="458" w="-1" h="-1" measuredW="128" measuredH="28" zOrder="2" locked="false" isInGroup="-1">
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::Button" x="285" y="458" w="-1" h="-1" measuredW="122" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
       <controlProperties>
         <state>disabled</state>
         <text>2%29%20Launch%20RAMP</text>
       </controlProperties>
     </control>
-    <control controlID="3" controlTypeID="com.balsamiq.mockups::Button" x="427" y="458" w="-1" h="-1" measuredW="68" measuredH="28" zOrder="3" locked="false" isInGroup="-1">
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Button" x="427" y="458" w="-1" h="-1" measuredW="64" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Cancel</text>
       </controlProperties>
     </control>
-    <control controlID="4" controlTypeID="com.balsamiq.mockups::Paragraph" x="75" y="61" w="420" h="121" measuredW="200" measuredH="140" zOrder="4" locked="false" isInGroup="-1">
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::Paragraph" x="75" y="61" w="420" h="121" measuredW="200" measuredH="80" zOrder="4" locked="false" isInGroup="-1">
       <controlProperties>
         <text>%5BRAMP%5D%20is%20a%20utility%20for%20entering%20metadata%20and%20uploading%20submissions%20to%20SIL%27s%20internal%20archive%2C%20REAP.%20%20If%20you%20have%20access%20to%20this%20archive%2C%20this%20tool%20will%20help%20you%20use%20RAMP%20to%20archive%20your%20SayMore%20events.%20%20It%20will%20gather%20up%20all%20the%20files%20and%20data%20related%20to%20an%20event%20and%20its%20participants%2C%20then%20launch%20RAMP%20so%20that%20you%20can%20fill%20out%20more%20information%20and%20do%20the%20actual%20submission.</text>
       </controlProperties>
     </control>
-    <control controlID="5" controlTypeID="com.balsamiq.mockups::Button" x="134" y="458" w="-1" h="-1" measuredW="140" measuredH="28" zOrder="5" locked="false" isInGroup="-1">
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Button" x="134" y="458" w="-1" h="-1" measuredW="130" measuredH="27" zOrder="5" locked="false" isInGroup="-1">
       <controlProperties>
         <text>1%29%20Create%20Package</text>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::TitleWindow" x="628" y="35" w="450" h="477" measuredW="450" measuredH="400" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bottomheight>1</bottomheight>
+        <close>true</close>
+        <text>SayMore%3A%20Archive%20using%20IMDI</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::TextArea" x="643" y="205" w="420" h="223" measuredW="200" measuredH="140" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>disabled</state>
+        <text/>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::Button" x="853" y="473" w="-1" h="-1" measuredW="122" measuredH="27" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>disabled</state>
+        <text>2%29%20Launch%20RAMP</text>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::Button" x="995" y="473" w="-1" h="-1" measuredW="64" measuredH="27" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Cancel</text>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::Button" x="702" y="473" w="-1" h="-1" measuredW="130" measuredH="27" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>1%29%20Create%20Package</text>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::Paragraph" x="649" y="220" w="378" h="194" measuredW="200" measuredH="80" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>An%20IMDI%20folder%20name%20%27foobar-_2013-12-18_001%22%20will%20be%20created%20at%20c%3A%5Cusers%5Cjoe%5Cdocuments%5Csomeplace%5C.%20%5BClick%20to%20change%20destination%5D.%0A%20%0ASayMore%20will%20then%20open%20%22Arbil%22%20so%20you%20can%20edit%20the%20archive.%20%5BClick%20to%20change%5D%0A%20%0ASayMore%20will%20not%20offer%20to%20run%20a%20program%20to%20edit%20the%20archive.%20%5BClick%20to%20select%20a%20program%5D%0A%20%0AThe%20following%20session%20files%20will%20be%20added%20to%20your%20archive.%0A%20%0AA%20%5Bparagraph%5D%20of%20*text*.%0AA%20_second_%20%26row%26%20of%20%7Etext%7E.</text>
       </controlProperties>
     </control>
   </controls>

@@ -340,6 +340,18 @@ namespace SayMore.Model.Files
 		public const string kParticipantsFieldName = "participants";
 		public const string kTitleFieldName = "title";
 
+		// additional fields
+		public const string kCountryFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Location_Country";
+		public const string kContinentFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Location_Continent";
+		public const string kRegionFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Location_Region";
+		public const string kAddressFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Location_Address";
+		public const string kSubGenreFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Sub-Genre";
+		public const string kInteractivityFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Interactivity";
+		public const string kPlanningTypeFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Planning_Type";
+		public const string kInvolvementFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Involvement";
+		public const string kSocialContextFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Social_Context";
+		public const string kTaskFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Task";
+
 		private readonly Func<SessionBasicEditor.Factory> _sessionBasicEditorFactoryLazy;
 		private readonly Func<StatusAndStagesEditor.Factory> _statusAndStagesEditorFactoryLazy;
 
@@ -404,6 +416,16 @@ namespace SayMore.Model.Files
 					kParticipantsFieldName,
 					kTitleFieldName,
 					"contributions",
+					kInteractivityFieldName,
+					kInvolvementFieldName,
+					kCountryFieldName,
+					kContinentFieldName,
+					kRegionFieldName,
+					kAddressFieldName,
+					kPlanningTypeFieldName,
+					kSubGenreFieldName,
+					kSocialContextFieldName,
+					kTaskFieldName
 				})
 					yield return new FieldDefinition(fieldId);
 			}

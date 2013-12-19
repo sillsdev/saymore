@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- edited with XML Spy v4.2 U (http://www.xmlspy.com) by Daan Broeder (Max-Planck Institute for Psycholinguistics) -->
+<imdi:VocabularyDef xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" Name="Content-Modalities" Date="2001-05-06" Link="http://www.mpi.nl/IMDI/Schema/Content-Modalities.xml">
+	<imdi:Description LanguageId="ISO639-2:eng">A list of values for the Modalities aspect of Content</imdi:Description>
+	<imdi:Entry Value="Unknown"/>
+	<imdi:Entry Value="Unspecified"/>
+	<imdi:Entry Value="speech"/>
+	<imdi:Entry Value="writing"/>
+	<imdi:Entry Value="gestures"/>
+	<imdi:Entry Value="pointing-gestures"/>
+	<imdi:Entry Value="signs"/>
+	<imdi:Entry Value="eye-gaze"/>
+	<imdi:Entry Value="facial-expressions"/>
+	<imdi:Entry Value="emotional-state"/>
+	<imdi:Entry Value="haptic"/>
+	<imdi:Entry Value="song"/>
+	<imdi:Entry Value="instrumental music"/>
+</imdi:VocabularyDef>

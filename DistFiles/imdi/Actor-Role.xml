@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<imdi:VocabularyDef 
+	xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" 
+	Name="Actor-Role" 
+	Date="2003-09-26" 
+	Link="http://www.mpi.nl/IMDI/Schema/Actor-Role.xml">
+	<imdi:Description LanguageId="ISO639-2:eng"></imdi:Description>
+	<imdi:Entry Value="Unknown"/>
+	<imdi:Entry Value="Unspecified"/>
+	<imdi:Entry Value="Annotator"/>
+	<imdi:Entry Value="Author"/>
+	<imdi:Entry Value="Collector"/>
+	<imdi:Entry Value="Consultant"/>
+	<imdi:Entry Value="Computer"/>
+	<imdi:Entry Value="Depositor"/>
+	<imdi:Entry Value="Editor"/>
+	<imdi:Entry Value="Filmer"/>
+	<imdi:Entry Value="Illustrator"/>
+	<imdi:Entry Value="Interviewer"/>
+	<imdi:Entry Value="Musician"/>
+	<imdi:Entry Value="Photographer"/>
+	<imdi:Entry Value="Publisher"/>
+	<imdi:Entry Value="Recorder"/>
+	<imdi:Entry Value="Referent"/>
+	<imdi:Entry Value="Researcher"/>
+	<imdi:Entry Value="Singer"/>
+	<imdi:Entry Value="Speaker/Signer"/>
+	<imdi:Entry Value="Translator"/>
+</imdi:VocabularyDef>

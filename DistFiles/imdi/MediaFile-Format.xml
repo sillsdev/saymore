@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- edited with XML Spy v4.2 U (http://www.xmlspy.com) by Daan Broeder (Max-Planck Institute for Psycholinguistics) -->
+<imdi:VocabularyDef xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" Name="MediaFile-Format" Date="2002-05-12" Link="http://www.mpi.nl/IMDI/Schema/MediaFile-Format.xml">
+	<imdi:Description LanguageId="ISO639-2:eng">Media formats</imdi:Description>
+	<imdi:Entry Value="application/pdf"/>
+	<imdi:Entry Value="application/smil+xml"/>
+	<imdi:Entry Value="audio/x-aiff"/>
+	<imdi:Entry Value="audio/mp4"/>
+	<imdi:Entry Value="audio/x-wav"/>	
+	<imdi:Entry Value="image/jpeg"/>
+	<imdi:Entry Value="image/png"/>
+	<imdi:Entry Value="image/tiff"/>
+	<imdi:Entry Value="image/gif"/>
+	<imdi:Entry Value="text/html"/>	
+	<imdi:Entry Value="video/x-mpeg1"/>
+	<imdi:Entry Value="video/x-mpeg2"/>
+	<imdi:Entry Value="video/mp4"/>
+	<imdi:Entry Value="video/quicktime"/>
+	<imdi:Entry Value="Unknown"/>
+	<imdi:Entry Value="Unspecified"/>	
+</imdi:VocabularyDef>

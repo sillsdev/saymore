@@ -25,7 +25,6 @@ namespace SayMore.UI.Overview
 			this.tsbTasks = new System.Windows.Forms.ToolStripButton();
 			this._sidebar = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
 			this._projectPages = new Palaso.UI.WindowsForms.Widgets.BetterGrid.BetterGrid();
-			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
 			this._splitter = new System.Windows.Forms.SplitContainer();
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colPageNames = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -127,7 +126,6 @@ namespace SayMore.UI.Overview
 			this._projectPages.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this._projectPages.ColumnHeadersVisible = false;
 			this._projectPages.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.colIcon,
 			this.colPageNames});
 			this._projectPages.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._projectPages.DrawTextBoxEditControlBorder = false;
@@ -152,15 +150,6 @@ namespace SayMore.UI.Overview
 			this._projectPages.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this._projectPages.WaterMark = "!";
 			this._projectPages.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this._projectPages_RowEnter);
-			//
-			// colIcon
-			//
-			this.colIcon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.colIcon.HeaderText = "";
-			this.colIcon.MinimumWidth = 26;
-			this.colIcon.Name = "colIcon";
-			this.colIcon.ReadOnly = true;
-			this.colIcon.Width = 26;
 			//
 			// _splitter
 			//
@@ -220,7 +209,6 @@ namespace SayMore.UI.Overview
 		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _sidebar;
 		private Palaso.UI.WindowsForms.Widgets.BetterGrid.BetterGrid _projectPages;
 		private System.Windows.Forms.SplitContainer _splitter;
-		private System.Windows.Forms.DataGridViewImageColumn colIcon;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colPageNames;
 
 		public string NameForUsageReporting

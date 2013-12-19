@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<imdi:VocabularyDef xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" Name="WrittenResource-SubType-Annotation" Date="2003-06-25" Link="http://www.mpi.nl/IMDI/Schema/WrittenResource-SubType-Annotation.xml">
+	<imdi:Description LanguageId="ISO639-2:eng"/>
+	<imdi:Entry Value="Unknown"/>
+	<imdi:Entry Value="Unspecified"/>
+	<imdi:Entry Value="Gesture"/>
+	<imdi:Entry Value="Orthography"/>
+	<imdi:Entry Value="Phonetic"/>
+	<imdi:Entry Value="Phonology"/>
+	<imdi:Entry Value="Morphology"/>
+	<imdi:Entry Value="Morphosyntax"/>
+	<imdi:Entry Value="Syntax"/>
+	<imdi:Entry Value="Semantics"/>
+	<imdi:Entry Value="Pragmatics"/>
+	<imdi:Entry Value="Typology"/>
+</imdi:VocabularyDef>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<imdi:VocabularyDef 
+	xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" 
+	Name="WrittenResource-ValidationType" 
+	Date="2003-06-25" 
+	Link="http://www.mpi.nl/IMDI/Schema/Validation-Type.xml">
+	<imdi:Description LanguageId="ISO639-2:eng"></imdi:Description>
+	<imdi:Entry Value="Unknown"/>
+	<imdi:Entry Value="Unspecified"/>
+	<imdi:Entry Value="None"/>
+	<imdi:Entry Value="Formal"/>
+	<imdi:Entry Value="Content"/>
+	<imdi:Entry Value="Formal/Content"/>
+</imdi:VocabularyDef>

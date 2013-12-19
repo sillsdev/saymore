@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- 
+edited with XML Spy v3.5 NT (http://www.xmlspy.com) by Daan Broeder (Max-Planck Institute for Psycholinguistics) -->
+
+<imdi:VocabularyDef 
+	xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" 
+	Name="WrittenResource-Derivation" 
+	Date="2003-06-25" 
+	Link="http://www.mpi.nl/IMDI/Schema/WrittenResource-Derivation.xml">
+
+    <imdi:Description LanguageID="ISO639-2:eng">A list of derivation types for written resources</imdi:Description>
+    <imdi:Entry Value="Unknown"></imdi:Entry>
+    <imdi:Entry Value="Unspecified"></imdi:Entry>
+    <imdi:Entry Value="Original"></imdi:Entry>
+    <imdi:Entry Value="Analysis"></imdi:Entry>
+    <imdi:Entry Value="Translation"></imdi:Entry>
+    <imdi:Entry Value="Commentary"></imdi:Entry>
+    <imdi:Entry Value="Criticism"></imdi:Entry>
+    <imdi:Entry Value="Annotation"></imdi:Entry>
+</imdi:VocabularyDef>
+	
+	
+	
+	
+	
+	
+	

@@ -9,6 +9,7 @@ using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.UI.LowLevelControls;
 using SIL.Archiving.Generic.AccessProtocol;
+using SIL.Archiving.IMDI.Lists;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -18,7 +19,9 @@ namespace SayMore.UI.ComponentEditors
 		public delegate SessionBasicEditor Factory(ComponentFile file, string imageKey);
 
 		private FieldsValuesGrid _gridCustomFields;
+		private FieldsValuesGrid _gridAdditionalFields;
 		private FieldsValuesGridViewModel _gridViewModel;
+		private FieldsValuesGridViewModel _additionalFieldsGridViewModel;
 		private readonly PersonInformant _personInformant;
 		private readonly AutoCompleteValueGatherer _autoCompleteProvider;
 		private bool _genreFieldEntered;
@@ -113,6 +116,51 @@ namespace SayMore.UI.ComponentEditors
 		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider,
 			FieldGatherer fieldGatherer)
 		{
+			// additional fields grid
+			_additionalFieldsGridViewModel = new AdditionalFieldsValuesGridViewModel(_file, autoCompleteProvider,
+				fieldGatherer);
+
+			_gridAdditionalFields = new FieldsValuesGrid(_additionalFieldsGridViewModel);
+			_gridAdditionalFields.Dock = DockStyle.Top;
+			_gridAdditionalFields.AllowUserToAddRows = false;
+			_panelAdditionalGrid.AutoSize = true;
+			_panelAdditionalGrid.Controls.Add(_gridAdditionalFields);
+
+			// set country dropdown
+			var countryList = ListConstructor.GetList(ListType.Countries);
+			countryList.Insert(0, new IMDIListItem(string.Empty, string.Empty)); // add a blank option
+			var countryVal = _gridAdditionalFields[1, 2].Value.ToString();
+			if (countryList.FindByValue(countryVal) == null)
+				countryVal = string.Empty;
+
+			var countryCell = new DataGridViewComboBoxCell
+			{
+				DataSource = countryList,
+				DisplayMember = "Text",
+				ValueMember = "Value",
+				Value = countryVal
+			};
+
+			_gridAdditionalFields[1, 2] = countryCell;
+
+			// set continent dropdown
+			var continentList = ListConstructor.GetList(ListType.Continents);
+			continentList.Insert(0, new IMDIListItem(string.Empty, string.Empty)); // add a blank option
+			var continentVal = _gridAdditionalFields[1, 3].Value.ToString();
+			if (continentList.FindByValue(continentVal) == null)
+				continentVal = string.Empty;
+
+			var continentCell = new DataGridViewComboBoxCell
+			{
+				DataSource = continentList,
+				DisplayMember = "Text",
+				ValueMember = "Value",
+				Value = continentVal
+			};
+
+			_gridAdditionalFields[1, 3] = continentCell;
+
+			// custom fields grid
 			_gridViewModel = new CustomFieldsValuesGridViewModel(_file, autoCompleteProvider,
 				fieldGatherer);
 
@@ -126,6 +174,9 @@ namespace SayMore.UI.ComponentEditors
 		public override void SetComponentFile(ComponentFile file)
 		{
 			base.SetComponentFile(file);
+
+			if (_additionalFieldsGridViewModel != null)
+				_additionalFieldsGridViewModel.SetComponentFile(file);
 
 			if (_gridViewModel != null)
 				_gridViewModel.SetComponentFile(file);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -314,7 +315,7 @@ namespace SayMore.Model.Files
 			// Initialize file's display size. File should only not exist during tests.
 			var fi = new FileInfo(PathToAnnotatedFile);
 			FileSize = (fi.Exists ? GetDisplayableFileSize(fi.Length) : "0 KB");
-			DateModified = (fi.Exists ? fi.LastWriteTime.ToString() : string.Empty);
+			DateModified = (fi.Exists ? fi.LastWriteTime.ToString(CultureInfo.InvariantCulture) : string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------

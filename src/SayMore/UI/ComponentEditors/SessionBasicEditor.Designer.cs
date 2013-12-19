@@ -42,8 +42,6 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._access = new System.Windows.Forms.ComboBox();
 			this._participants = new SayMore.UI.LowLevelControls.MultiValueDropDownBox();
-			this._panelGrid = new System.Windows.Forms.Panel();
-			this._labelCustomFields = new System.Windows.Forms.Label();
 			this._labelAccess = new System.Windows.Forms.Label();
 			this._genre = new System.Windows.Forms.ComboBox();
 			this._labelGenre = new System.Windows.Forms.Label();
@@ -55,9 +53,13 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSituation = new System.Windows.Forms.Label();
 			this._labelDate = new System.Windows.Forms.Label();
 			this._date = new SayMore.UI.LowLevelControls.DatePicker();
+			this._labelCustomFields = new System.Windows.Forms.Label();
+			this._panelGrid = new System.Windows.Forms.Panel();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this._panelAdditionalGrid = new System.Windows.Forms.Panel();
+			this._labelMoreFields = new System.Windows.Forms.Label();
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -194,10 +196,10 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.ColumnCount = 2;
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this._tableLayout.Controls.Add(this._labelMoreFields, 0, 10);
+			this._tableLayout.Controls.Add(this._panelAdditionalGrid, 0, 11);
 			this._tableLayout.Controls.Add(this._access, 1, 7);
 			this._tableLayout.Controls.Add(this._participants, 0, 5);
-			this._tableLayout.Controls.Add(this._panelGrid, 0, 11);
-			this._tableLayout.Controls.Add(this._labelCustomFields, 0, 10);
 			this._tableLayout.Controls.Add(this._synopsis, 1, 9);
 			this._tableLayout.Controls.Add(this._labelSynopsis, 1, 8);
 			this._tableLayout.Controls.Add(this._situation, 0, 9);
@@ -216,6 +218,8 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.Controls.Add(this._labelSituation, 0, 8);
 			this._tableLayout.Controls.Add(this._labelDate, 1, 0);
 			this._tableLayout.Controls.Add(this._date, 1, 1);
+			this._tableLayout.Controls.Add(this._labelCustomFields, 1, 10);
+			this._tableLayout.Controls.Add(this._panelGrid, 1, 11);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Top;
 			this._tableLayout.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._tableLayout.Location = new System.Drawing.Point(7, 7);
@@ -273,31 +277,6 @@ namespace SayMore.UI.ComponentEditors
 			this._participants.Size = new System.Drawing.Size(202, 23);
 			this._participants.TabIndex = 11;
 			this._autoCompleteHelper.SetUpdateGatherer(this._participants, false);
-			// 
-			// _panelGrid
-			// 
-			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this._panelGrid.Location = new System.Drawing.Point(0, 320);
-			this._panelGrid.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
-			this._panelGrid.Name = "_panelGrid";
-			this._panelGrid.Size = new System.Drawing.Size(202, 60);
-			this._panelGrid.TabIndex = 23;
-			// 
-			// _labelCustomFields
-			// 
-			this._labelCustomFields.AutoSize = true;
-			this._labelCustomFields.BackColor = System.Drawing.Color.Transparent;
-			this._labelCustomFields.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.locExtender.SetLocalizableToolTip(this._labelCustomFields, null);
-			this.locExtender.SetLocalizationComment(this._labelCustomFields, null);
-			this.locExtender.SetLocalizingId(this._labelCustomFields, "SessionsView.MetadataEditor._labelCustomFields");
-			this._labelCustomFields.Location = new System.Drawing.Point(0, 304);
-			this._labelCustomFields.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
-			this._labelCustomFields.Name = "_labelCustomFields";
-			this._labelCustomFields.Size = new System.Drawing.Size(79, 13);
-			this._labelCustomFields.TabIndex = 22;
-			this._labelCustomFields.Text = "Custom Fields";
 			// 
 			// _labelAccess
 			// 
@@ -476,16 +455,67 @@ namespace SayMore.UI.ComponentEditors
 			this._date.Size = new System.Drawing.Size(96, 22);
 			this._date.TabIndex = 3;
 			// 
+			// _labelCustomFields
+			// 
+			this._labelCustomFields.AutoSize = true;
+			this._labelCustomFields.BackColor = System.Drawing.Color.Transparent;
+			this._labelCustomFields.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.locExtender.SetLocalizableToolTip(this._labelCustomFields, null);
+			this.locExtender.SetLocalizationComment(this._labelCustomFields, null);
+			this.locExtender.SetLocalizingId(this._labelCustomFields, "SessionsView.MetadataEditor._labelCustomFields");
+			this._labelCustomFields.Location = new System.Drawing.Point(207, 304);
+			this._labelCustomFields.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
+			this._labelCustomFields.Name = "_labelCustomFields";
+			this._labelCustomFields.Size = new System.Drawing.Size(79, 13);
+			this._labelCustomFields.TabIndex = 22;
+			this._labelCustomFields.Text = "Custom Fields";
+			// 
+			// _panelGrid
+			// 
+			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._panelGrid.Location = new System.Drawing.Point(207, 320);
+			this._panelGrid.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
+			this._panelGrid.Name = "_panelGrid";
+			this._panelGrid.Size = new System.Drawing.Size(203, 60);
+			this._panelGrid.TabIndex = 24;
+			// 
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
 			this.locExtender.PrefixForNewItems = null;
+			// 
+			// _panelAdditionalGrid
+			// 
+			this._panelAdditionalGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._panelAdditionalGrid.Location = new System.Drawing.Point(0, 320);
+			this._panelAdditionalGrid.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
+			this._panelAdditionalGrid.Name = "_panelAdditionalGrid";
+			this._panelAdditionalGrid.Size = new System.Drawing.Size(202, 60);
+			this._panelAdditionalGrid.TabIndex = 23;
+			// 
+			// _labelMoreFields
+			// 
+			this._labelMoreFields.AutoSize = true;
+			this._labelMoreFields.BackColor = System.Drawing.Color.Transparent;
+			this._labelMoreFields.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.locExtender.SetLocalizableToolTip(this._labelMoreFields, null);
+			this.locExtender.SetLocalizationComment(this._labelMoreFields, null);
+			this.locExtender.SetLocalizingId(this._labelMoreFields, "SessionsView.MetadataEditor._labelMoreFields");
+			this._labelMoreFields.Location = new System.Drawing.Point(0, 304);
+			this._labelMoreFields.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
+			this._labelMoreFields.Name = "_labelMoreFields";
+			this._labelMoreFields.Size = new System.Drawing.Size(67, 13);
+			this._labelMoreFields.TabIndex = 25;
+			this._labelMoreFields.Text = "More Fields";
 			// 
 			// SessionBasicEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._tableLayout);
+			this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
@@ -529,5 +559,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Label _labelDate;
 		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.ComboBox _access;
+		private System.Windows.Forms.Label _labelMoreFields;
+		private System.Windows.Forms.Panel _panelAdditionalGrid;
 	}
 }

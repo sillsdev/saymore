@@ -206,6 +206,9 @@ namespace SayMore.UI.ComponentEditors
 
 			var txtBox = e.Control as TextBox;
 
+			// if not a text box, return now
+			if (txtBox == null) return;
+
 			if (CurrentCellAddress.X == 0)
 			{
 				txtBox.KeyPress += HandleCellEditBoxKeyPress;

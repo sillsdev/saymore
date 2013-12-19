@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<imdi:VocabularyDef 
+	xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" Name="WrittenResource-SubType.xml" Date="2001-05-06" Link="http://www.mpi.nl/IMDI/Schema/WrittenResource-SubType.xml">
+	<imdi:Description LanguageId="ISO639-2:eng"></imdi:Description>
+	<imdi:Entry Value="Unspecified"/>
+	<imdi:Entry Value="Unknown"/>
+</imdi:VocabularyDef>

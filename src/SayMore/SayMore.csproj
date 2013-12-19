@@ -287,6 +287,7 @@
     <Compile Include="Transcription\UI\TextAnnotationGrid\TranslationAnnotationColumn.cs" />
     <Compile Include="UI\Charts\ChartBarInfo.cs" />
     <Compile Include="UI\Charts\HTMLChartBuilder.cs" />
+    <Compile Include="UI\ComponentEditors\AdditionalFieldsValuesGridViewModel.cs" />
     <Compile Include="UI\ComponentEditors\AudioComponentEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by Daan Broeder (Max-Planck Institute for Psycholinguistics) -->
+
+<imdi:VocabularyDef 
+	xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" 
+	Name="Participant-Sex" 
+	Date="2001-05-06" 
+	Link="http://www.mpi.nl/IMDI/Schema/Actor-Sex.xml">
+
+    <imdi:Description LanguageID="ISO639-2:eng">A list of values for the sex of the Actor</imdi:Description>
+
+    <imdi:Entry Value="Unknown"></imdi:Entry>
+    <imdi:Entry Value="Unspecified"></imdi:Entry>
+    <imdi:Entry Value="NAP"></imdi:Entry>
+    <imdi:Entry Value="Female"></imdi:Entry>
+    <imdi:Entry Value="Male"></imdi:Entry>
+
+</imdi:VocabularyDef>
+
+
+	
+	
+	
+	
+	
+	
+	

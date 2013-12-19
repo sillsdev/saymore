@@ -23,9 +23,9 @@ namespace SayMore.UI.Overview
 			_accessView = accessView;
 			InitializeComponent();
 
-			_projectPages.AddRow(new object[] { Resources.Progress, LocalizationManager.GetString("ProjectView.ProgressViewTitle", "About This Project") });
-			_projectPages.AddRow(new object[] { Resources.Progress, LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Access Protocol") });
-			_projectPages.AddRow(new object[] { Resources.Progress, LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress") });
+			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.ProgressViewTitle", "About This Project") });
+			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Access Protocol") });
+			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress") });
 			_splitter.Panel2.BackColor = Color.FromArgb(230, 150, 100);
 		}
 

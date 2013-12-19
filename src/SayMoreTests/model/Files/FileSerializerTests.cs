@@ -83,7 +83,8 @@ namespace SayMoreTests.Model.Files
 		{
 			var fld = new FieldInstance("a", "invalid", "blah");
 			bool custom;
-			Assert.IsNull(_serializer.GetElementFromField(fld, out custom));
+			bool additional;
+			Assert.IsNull(_serializer.GetElementFromField(fld, out custom, out additional));
 			Assert.IsFalse(custom);
 		}
 
@@ -93,7 +94,8 @@ namespace SayMoreTests.Model.Files
 		{
 			var fld = new FieldInstance("a", FieldInstance.kStringType, "blah");
 			bool custom;
-			var e = _serializer.GetElementFromField(fld, out custom);
+			bool additional;
+			var e = _serializer.GetElementFromField(fld, out custom, out additional);
 
 			Assert.IsNotNull("a", e.Name.ToString());
 			Assert.IsFalse(custom);
@@ -109,7 +111,8 @@ namespace SayMoreTests.Model.Files
 
 			var fld = new FieldInstance(elementName, new DateTime(1963, 4, 19));
 			bool custom;
-			var e = _serializer.GetElementFromField(fld, out custom);
+			bool additional;
+			var e = _serializer.GetElementFromField(fld, out custom, out additional);
 
 			Assert.IsNotNull(elementName, e.Name.ToString());
 			Assert.IsFalse(custom);

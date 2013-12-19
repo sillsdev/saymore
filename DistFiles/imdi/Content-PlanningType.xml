@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- edited with XML Spy v4.2 U (http://www.xmlspy.com) by Daan Broeder (Max-Planck Institute for Psycholinguistics) -->
+<imdi:VocabularyDef xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" Name="Content-PlanningType" Date="2001-05-06" Link="http://www.mpi.nl/IMDI/Schema/Content-PlanningType.xml">
+	<imdi:Description LanguageId="ISO639-2:eng">A list of values for the PlanningType aspect of Content</imdi:Description>
+	<imdi:Entry Value="Unknown"/>
+	<imdi:Entry Value="Unspecified"/>
+	<imdi:Entry Value="spontaneous">Definition:	Unprompted speech/song.
+Comments:	Topic not determined from context or observers.</imdi:Entry>
+	<imdi:Entry Value="semi-spontaneous">Definition:	Prompted speech/song.
+Comments:	Topic directed in some way by an investigator or community member, but participants speak/sing freely within this context.</imdi:Entry>
+	<imdi:Entry Value="planned">Definition:	The speaker prepares in detail the structure and content of his/her "performance" in advance
+Comments:	This differs from 'Elicitation' (involvement), where the performer/consultant is given a framework but does not necessary plan his/her answer.</imdi:Entry>
+</imdi:VocabularyDef>

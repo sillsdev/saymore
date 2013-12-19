@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<imdi:VocabularyDef xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" Name="Quality" Date="2001-05-06" Link="http://www.mpi.nl/IMDI/Schema/Quality.xml">
+        <imdi:Description LanguageId="ISO639-2:eng">A list of values for the quality of a media file, 5 being the highest quality</imdi:Description>
+        <imdi:Entry Value="Unknown"/>
+        <imdi:Entry Value="1"/>
+        <imdi:Entry Value="2"/>
+        <imdi:Entry Value="3"/>
+        <imdi:Entry Value="4"/>
+        <imdi:Entry Value="5"/>
+        <imdi:Entry Value="Unspecified"/>
+</imdi:VocabularyDef>
+

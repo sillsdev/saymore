@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by Daan Broeder (Max-Planck Institute for Psycholinguistics) -->
+<imdi:VocabularyDef 
+	xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" 
+	Name="WrittenResource-Format" 
+	Date="2005-03-22" 
+	Link="http://www.mpi.nl/IMDI/Schema/WrittenResource-Format.xml">
+    <imdi:Description LanguageID="ISO639-2:eng">A list of formats for written resources</imdi:Description>
+    <imdi:Entry Value="application/pdf">Portable Document Format</imdi:Entry>
+    <imdi:Entry Value="text/html">Web page</imdi:Entry>
+    <imdi:Entry Value="text/plain">Plain text</imdi:Entry>
+    <imdi:Entry Value="text/xml">XML file</imdi:Entry>
+    <imdi:Entry Value="text/x-chat">Childes Annotation Format</imdi:Entry>
+    <imdi:Entry Value="text/x-cut">Childes Lexicon</imdi:Entry>    
+    <imdi:Entry Value="text/x-eaf+xml">Eudico Annotation Format</imdi:Entry>
+    <imdi:Entry Value="text/x-pfsx+xml">ELAN XML preference file </imdi:Entry>
+    <imdi:Entry Value="text/x-esf">Format used in European Science Foundation project on second language acquisition</imdi:Entry>
+    <imdi:Entry Value="text/x-lexus-config+xml">LEXUS Configuration</imdi:Entry>
+    <imdi:Entry Value="text/x-lexus-resource+xml">LEXUS Resource</imdi:Entry>
+    <imdi:Entry Value="text/x-lmf+xml">Lexical Markup Framework</imdi:Entry>
+    <imdi:Entry Value="text/x-shoebox-language">Shoebox Language</imdi:Entry>    
+    <imdi:Entry Value="text/x-shoebox-text">Shoebox Annotation</imdi:Entry>
+    <imdi:Entry Value="text/x-shoebox-type">Shoebox Type</imdi:Entry>   
+    <imdi:Entry Value="text/x-shoebox-lexicon">Shoebox Lexicon</imdi:Entry>
+    <imdi:Entry Value="text/x-toolbox-text">Toolbox Annotation</imdi:Entry>   
+    <imdi:Entry Value="text/x-toolbox-lexicon">Toolbox Lexicon</imdi:Entry>
+    <imdi:Entry Value="text/x-cgn-bpt+xml">CGN annotation bpt</imdi:Entry>
+    <imdi:Entry Value="text/x-cgn-lxk+xml">CGN annotation lxk</imdi:Entry>
+    <imdi:Entry Value="text/x-cgn-pri+xml">CGN annotation pri</imdi:Entry>
+    <imdi:Entry Value="text/x-cgn-prx+xml">CGN annotation prx</imdi:Entry>
+    <imdi:Entry Value="text/x-cgn-skp+xml">CGN annotation skp</imdi:Entry>
+    <imdi:Entry Value="text/x-cgn-tag+xml">CGN annotation tag</imdi:Entry>
+    <imdi:Entry Value="text/x-cgn-tig+xml">CGN annotation tig</imdi:Entry>
+    <imdi:Entry Value="text/praat-textgrid">TextGrid annotation</imdi:Entry>
+    <imdi:Entry Value="application/vnd.google-earth.kml+xml">Google Earth kml</imdi:Entry>
+    <imdi:Entry Value="AIF">ATLAS Interchange Format</imdi:Entry>
+    <imdi:Entry Value="BAS"></imdi:Entry>    
+    <imdi:Entry Value="MT">Media-Tagger format</imdi:Entry>    
+    <imdi:Entry Value="TRS"></imdi:Entry>
+    <imdi:Entry Value="Unknown"></imdi:Entry>
+    <imdi:Entry Value="Unspecified"></imdi:Entry>    
+    <!-- Specific NBL Group file types: -->
+    <imdi:Entry Value="text/x-brainvision-header">NBL Brain Vision Header File</imdi:Entry>
+    <imdi:Entry Value="text/x-brainvision-marker">NBL Brain Vision Marker File</imdi:Entry>
+    <imdi:Entry Value="application/x-nbl-img-hdr">NBL img metadata</imdi:Entry>
+    <imdi:Entry Value="application/x-nbl-img">Raw NBL IMG data</imdi:Entry>
+    <imdi:Entry Value="application/x-brainvision-data">Raw NBL Brain Vision EEG data</imdi:Entry>
+    <imdi:Entry Value="application/x-nbl-ehst">NBL History file</imdi:Entry>
+    <imdi:Entry Value="application/spss-sav">NBL SPSS / PSPP data file</imdi:Entry>    
+    <imdi:Entry Value="application/spss-spv">NBL SPSS 16+ result view</imdi:Entry>
+    <imdi:Entry Value="application/zip">Zip archive</imdi:Entry>
+<!--    <imdi:Entry Value="application/nbl-wksp">NBL Workspace file</imdi:Entry> -->
+    <imdi:Entry Value="application/x-nbl-ehtp">NBL ehtp file</imdi:Entry>
+    <imdi:Entry Value="application/x-matlab-data">NBL Matlab / Octave data file</imdi:Entry>
+    <imdi:Entry Value="application/dicom">DICOM file set member / image</imdi:Entry>
+    <imdi:Entry Value="text/x-nbl-hfinf">NBL History info file</imdi:Entry>
+    <imdi:Entry Value="text/x-matlab">Matlab script (NBL)</imdi:Entry>
+    <imdi:Entry Value="text/x-presentation-script">Other NBL PCL script</imdi:Entry>
+    <imdi:Entry Value="text/x-pcp-settings">NBL PCP Experiment Settings</imdi:Entry>
+    <imdi:Entry Value="text/praat-pitch">Praat Pitch data text file</imdi:Entry>
+    <!-- //end NBL Group file types -->
+</imdi:VocabularyDef>

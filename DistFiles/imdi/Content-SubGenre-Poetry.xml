@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<imdi:VocabularyDef xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" Name="Content-SubGenre-Poetry" Date="2003-06-25" Link="http://www.mpi.nl/IMDI/Schema/Content-SubGenre-Poetry.xml">
+	<imdi:Description LanguageId="ISO639-2:eng"/>
+	<imdi:Entry Value="Unknown"/>
+	<imdi:Entry Value="Unspecified"/>
+	<imdi:Entry Value="Epos"/>
+</imdi:VocabularyDef>

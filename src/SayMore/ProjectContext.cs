@@ -60,11 +60,15 @@ namespace SayMore
 			_audioVideoDataGatherer.Start();
 			_fieldGatherer.Start();
 
+			var view1 = _scope.Resolve<ProjectScreen>();
+			var view2 = _scope.Resolve<SessionsListScreen>();
+			var view3 = _scope.Resolve<PersonListScreen>();
+
 			var views = new ISayMoreView[]
 			{
-				_scope.Resolve<ProjectScreen>(),
-				_scope.Resolve<SessionsListScreen>(),
-				_scope.Resolve<PersonListScreen>(),
+				view1,
+				view2,
+				view3
 			};
 
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath, views);

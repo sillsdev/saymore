@@ -138,6 +138,9 @@ namespace SayMore.UI.Overview
 		{
 			// show values from project file
 			var project = Program.CurrentProject;
+
+			if (project == null) return;
+
 			_projectTitle.Text = project.Title;
 			_fundingProjectTitle.Text = project.FundingProjectTitle;
 			_description.Text = project.ProjectDescription;

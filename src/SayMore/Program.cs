@@ -555,12 +555,19 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public static ProjectWindow ProjectWindow
 		{
-			get { return _projectContext.ProjectWindow; }
+			get
+			{
+				if ((_projectContext == null) || (_projectContext.ProjectWindow == null))
+					return null;
+				return _projectContext.ProjectWindow;
+			}
 		}
 
 		/// <summary>Gets all controls of the desired type</summary>
 		public static IEnumerable<T> GetControlsOfType<T>(Control root) where T : Control
 		{
+			if (root == null) yield break;
+
 			var t = root as T;
 			if (t != null) yield return t;
 

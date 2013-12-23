@@ -63,44 +63,44 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		  <Directory Id="SILArchivingAppData" Name="Archiving">
 			<Directory Id="SILArchivingIMDIAppData" Name="IMDI">
 			  <Component Id="IMDILists" Guid="{68906F32-3D8B-4E98-8527-7B2117CE5D89}">
-				<File Id="ActorFamilySocialRole.xml" Name="Actor-FamilySocialRole.xml" KeyPath="yes" Source="..\..\DistFiles\imdi\Actor-FamilySocialRole.xml" />
-				<File Id="ActorRole.xml" Name="Actor-Role.xml" Source="..\..\DistFiles\imdi\Actor-Role.xml" />
-				<File Id="ActorSex.xml" Name="Actor-Sex.xml" Source="..\..\DistFiles\imdi\Actor-Sex.xml" />
-				<File Id="Boolean.xml" Name="Boolean.xml" Source="..\..\DistFiles\imdi\Boolean.xml" />
-				<File Id="ContentChannel.xml" Name="Content-Channel.xml" Source="..\..\DistFiles\imdi\Content-Channel.xml" />
-				<File Id="ContentEventStructure.xml" Name="Content-EventStructure.xml" Source="..\..\DistFiles\imdi\Content-EventStructure.xml" />
-				<File Id="ContentGenre.xml" Name="Content-Genre.xml" Source="..\..\DistFiles\imdi\Content-Genre.xml" />
-				<File Id="ContentInteractivity" Name="Content-Interactivity" Source="..\..\DistFiles\imdi\Content-Interactivity.xml" />
-				<File Id="ContentInvolvement.xml" Name="Content-Involvement.xml" Source="..\..\DistFiles\imdi\Content-Involvement.xml" />
-				<File Id="ContentModalities.xml" Name="Content-Modalities.xml" Source="..\..\DistFiles\imdi\Content-Modalities.xml" />
-				<File Id="ContentPlanningType.xml" Name="Content-PlanningType.xml" Source="..\..\DistFiles\imdi\Content-PlanningType.xml" />
-				<File Id="ContentSocialContext.xml" Name="Content-SocialContext.xml" Source="..\..\DistFiles\imdi\Content-SocialContext.xml" />
-				<File Id="ContentSubGenre.xml" Name="Content-SubGenre.xml" Source="..\..\DistFiles\imdi\Content-SubGenre.xml" />
-				<File Id="ContentSubGenreDiscourse.xml" Name="Content-SubGenre-Discourse.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Discourse.xml" />
-				<File Id="ContentSubGenreDrama.xml" Name="Content-SubGenre-Drama.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Drama.xml" />
-				<File Id="ContentSubGenreLiterature.xml" Name="Content-SubGenre-Literature.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Literature.xml" />
-				<File Id="ContentSubGenrePoetry.xml" Name="Content-SubGenre-Poetry.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Poetry.xml" />
-				<File Id="ContentSubGenreSinging.xml" Name="Content-SubGenre-Singing.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Singing.xml" />
-				<File Id="ContentSubGenreStimuli.xml" Name="Content-SubGenre-Stimuli.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Stimuli.xml" />
-				<File Id="ContentSubject.xml" Name="Content-Subject.xml" Source="..\..\DistFiles\imdi\Content-Subject.xml" />
-				<File Id="ContentTask.xml" Name="Content-Task.xml" Source="..\..\DistFiles\imdi\Content-Task.xml" />
-				<File Id="Continents.xml" Name="Continents.xml" Source="..\..\DistFiles\imdi\Continents.xml" />
-				<File Id="Countries.xml" Name="Countries.xml" Source="..\..\DistFiles\imdi\Countries.xml" />
-				<File Id="MediaFileFormat.xml" Name="MediaFile-Format.xml" Source="..\..\DistFiles\imdi\MediaFile-Format.xml" />
-				<File Id="MediaFileType.xml" Name="MediaFile-Type.xml" Source="..\..\DistFiles\imdi\MediaFile-Type.xml" />
-				<File Id="MPILanguages.xml" Name="MPI-Languages.xml" Source="..\..\DistFiles\imdi\MPI-Languages.xml" />
-				<File Id="Quality.xml" Name="Quality.xml" Source="..\..\DistFiles\imdi\Quality.xml" />
-				<File Id="ValidationMethodology.xml" Name="Validation-Methodology.xml" Source="..\..\DistFiles\imdi\Validation-Methodology.xml" />
-				<File Id="ValidationType.xml" Name="Validation-Type.xml" Source="..\..\DistFiles\imdi\Validation-Type.xml" />
-				<File Id="WrittenResourceDerivation.xml" Name="WrittenResource-Derivation.xml" Source="..\..\DistFiles\imdi\WrittenResource-Derivation.xml" />
-				<File Id="WrittenResourceFormat.xml" Name="WrittenResource-Format.xml" Source="..\..\DistFiles\imdi\WrittenResource-Format.xml" />
-				<File Id="WrittenResourceSubType.xml" Name="WrittenResource-SubType.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType.xml" />
-				<File Id="WrittenResourceSubTypeAnnotation.xml" Name="WrittenResource-SubType-Annotation.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType-Annotation.xml" />
-				<File Id="WrittenResourceSubTypeEthnography.xml" Name="WrittenResource-SubType-Ethnography.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType-Ethnography.xml" />
-				<File Id="WrittenResourceSubTypeLexicalAnalysis.xml" Name="WrittenResource-SubType-LexicalAnalysis.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType-LexicalAnalysis.xml" />
-				<File Id="WrittenResourceSubTypeOLACLS.xml" Name="WrittenResource-SubType-OLAC-LS.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType-OLAC-LS.xml" />
-				<File Id="WrittenResourceSubTypePrimaryText.xml" Name="WrittenResource-SubType-PrimaryText.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType-PrimaryText.xml" />
-				<File Id="WrittenResourceType.xml" Name="WrittenResource-Type.xml" Source="..\..\DistFiles\imdi\WrittenResource-Type.xml" />
+				<File Id="ActorFamilySocialRole.xml" Name="Actor-FamilySocialRole.xml" KeyPath="yes" Source=".\imdi\Actor-FamilySocialRole.xml" />
+				<File Id="ActorRole.xml" Name="Actor-Role.xml" Source=".\imdi\Actor-Role.xml" />
+				<File Id="ActorSex.xml" Name="Actor-Sex.xml" Source=".\imdi\Actor-Sex.xml" />
+				<File Id="Boolean.xml" Name="Boolean.xml" Source=".\imdi\Boolean.xml" />
+				<File Id="ContentChannel.xml" Name="Content-Channel.xml" Source=".\imdi\Content-Channel.xml" />
+				<File Id="ContentEventStructure.xml" Name="Content-EventStructure.xml" Source=".\imdi\Content-EventStructure.xml" />
+				<File Id="ContentGenre.xml" Name="Content-Genre.xml" Source=".\imdi\Content-Genre.xml" />
+				<File Id="ContentInteractivity" Name="Content-Interactivity" Source=".\imdi\Content-Interactivity.xml" />
+				<File Id="ContentInvolvement.xml" Name="Content-Involvement.xml" Source=".\imdi\Content-Involvement.xml" />
+				<File Id="ContentModalities.xml" Name="Content-Modalities.xml" Source=".\imdi\Content-Modalities.xml" />
+				<File Id="ContentPlanningType.xml" Name="Content-PlanningType.xml" Source=".\imdi\Content-PlanningType.xml" />
+				<File Id="ContentSocialContext.xml" Name="Content-SocialContext.xml" Source=".\imdi\Content-SocialContext.xml" />
+				<File Id="ContentSubGenre.xml" Name="Content-SubGenre.xml" Source=".\imdi\Content-SubGenre.xml" />
+				<File Id="ContentSubGenreDiscourse.xml" Name="Content-SubGenre-Discourse.xml" Source=".\imdi\Content-SubGenre-Discourse.xml" />
+				<File Id="ContentSubGenreDrama.xml" Name="Content-SubGenre-Drama.xml" Source=".\imdi\Content-SubGenre-Drama.xml" />
+				<File Id="ContentSubGenreLiterature.xml" Name="Content-SubGenre-Literature.xml" Source=".\imdi\Content-SubGenre-Literature.xml" />
+				<File Id="ContentSubGenrePoetry.xml" Name="Content-SubGenre-Poetry.xml" Source=".\imdi\Content-SubGenre-Poetry.xml" />
+				<File Id="ContentSubGenreSinging.xml" Name="Content-SubGenre-Singing.xml" Source=".\imdi\Content-SubGenre-Singing.xml" />
+				<File Id="ContentSubGenreStimuli.xml" Name="Content-SubGenre-Stimuli.xml" Source=".\imdi\Content-SubGenre-Stimuli.xml" />
+				<File Id="ContentSubject.xml" Name="Content-Subject.xml" Source=".\imdi\Content-Subject.xml" />
+				<File Id="ContentTask.xml" Name="Content-Task.xml" Source=".\imdi\Content-Task.xml" />
+				<File Id="Continents.xml" Name="Continents.xml" Source=".\imdi\Continents.xml" />
+				<File Id="Countries.xml" Name="Countries.xml" Source=".\imdi\Countries.xml" />
+				<File Id="MediaFileFormat.xml" Name="MediaFile-Format.xml" Source=".\imdi\MediaFile-Format.xml" />
+				<File Id="MediaFileType.xml" Name="MediaFile-Type.xml" Source=".\imdi\MediaFile-Type.xml" />
+				<File Id="MPILanguages.xml" Name="MPI-Languages.xml" Source=".\imdi\MPI-Languages.xml" />
+				<File Id="Quality.xml" Name="Quality.xml" Source=".\imdi\Quality.xml" />
+				<File Id="ValidationMethodology.xml" Name="Validation-Methodology.xml" Source=".\imdi\Validation-Methodology.xml" />
+				<File Id="ValidationType.xml" Name="Validation-Type.xml" Source=".\imdi\Validation-Type.xml" />
+				<File Id="WrittenResourceDerivation.xml" Name="WrittenResource-Derivation.xml" Source=".\imdi\WrittenResource-Derivation.xml" />
+				<File Id="WrittenResourceFormat.xml" Name="WrittenResource-Format.xml" Source=".\imdi\WrittenResource-Format.xml" />
+				<File Id="WrittenResourceSubType.xml" Name="WrittenResource-SubType.xml" Source=".\imdi\WrittenResource-SubType.xml" />
+				<File Id="WrittenResourceSubTypeAnnotation.xml" Name="WrittenResource-SubType-Annotation.xml" Source=".\imdi\WrittenResource-SubType-Annotation.xml" />
+				<File Id="WrittenResourceSubTypeEthnography.xml" Name="WrittenResource-SubType-Ethnography.xml" Source=".\imdi\WrittenResource-SubType-Ethnography.xml" />
+				<File Id="WrittenResourceSubTypeLexicalAnalysis.xml" Name="WrittenResource-SubType-LexicalAnalysis.xml" Source=".\imdi\WrittenResource-SubType-LexicalAnalysis.xml" />
+				<File Id="WrittenResourceSubTypeOLACLS.xml" Name="WrittenResource-SubType-OLAC-LS.xml" Source=".\imdi\WrittenResource-SubType-OLAC-LS.xml" />
+				<File Id="WrittenResourceSubTypePrimaryText.xml" Name="WrittenResource-SubType-PrimaryText.xml" Source=".\imdi\WrittenResource-SubType-PrimaryText.xml" />
+				<File Id="WrittenResourceType.xml" Name="WrittenResource-Type.xml" Source=".\imdi\WrittenResource-Type.xml" />
 			  </Component>
 			</Directory>
 		  </Directory>

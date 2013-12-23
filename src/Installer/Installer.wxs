@@ -63,44 +63,44 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		  <Directory Id="SILArchivingAppData" Name="Archiving">
 			<Directory Id="SILArchivingIMDIAppData" Name="IMDI">
 			  <Component Id="IMDILists" Guid="{68906F32-3D8B-4E98-8527-7B2117CE5D89}">
-				<File Id="autofac.dll" Name="Actor-FamilySocialRole.xml" KeyPath="yes" Source="..\..\DistFiles\imdi\Actor-FamilySocialRole.xml" />
-				<File Id="autofac.dll" Name="Actor-Role.xml" Source="..\..\DistFiles\imdi\Actor-Role.xml" />
-				<File Id="autofac.dll" Name="Actor-Sex.xml" Source="..\..\DistFiles\imdi\Actor-Sex.xml" />
-				<File Id="autofac.dll" Name="Boolean.xml" Source="..\..\DistFiles\imdi\Boolean.xml" />
-				<File Id="autofac.dll" Name="Content-Channel.xml" Source="..\..\DistFiles\imdi\Content-Channel.xml" />
-				<File Id="autofac.dll" Name="Content-EventStructure.xml" Source="..\..\DistFiles\imdi\Content-EventStructure.xml" />
-				<File Id="autofac.dll" Name="Content-Genre.xml" Source="..\..\DistFiles\imdi\Content-Genre.xml" />
-				<File Id="autofac.dll" Name="Content-Interactivity" Source="..\..\DistFiles\imdi\Content-Interactivity.xml" />
-				<File Id="autofac.dll" Name="Content-Involvement.xml" Source="..\..\DistFiles\imdi\Content-Involvement.xml" />
-				<File Id="autofac.dll" Name="Content-Modalities.xml" Source="..\..\DistFiles\imdi\Content-Modalities.xml" />
-				<File Id="autofac.dll" Name="Content-PlanningType.xml" Source="..\..\DistFiles\imdi\Content-PlanningType.xml" />
-				<File Id="autofac.dll" Name="Content-SocialContext.xml" Source="..\..\DistFiles\imdi\Content-SocialContext.xml" />
-				<File Id="autofac.dll" Name="Content-SubGenre.xml" Source="..\..\DistFiles\imdi\Content-SubGenre.xml" />
-				<File Id="autofac.dll" Name="Content-SubGenre-Discourse.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Discourse.xml" />
-				<File Id="autofac.dll" Name="Content-SubGenre-Drama.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Drama.xml" />
-				<File Id="autofac.dll" Name="Content-SubGenre-Literature.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Literature.xml" />
-				<File Id="autofac.dll" Name="Content-SubGenre-Poetry.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Poetry.xml" />
-				<File Id="autofac.dll" Name="Content-SubGenre-Singing.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Singing.xml" />
-				<File Id="autofac.dll" Name="Content-SubGenre-Stimuli.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Stimuli.xml" />
-				<File Id="autofac.dll" Name="Content-Subject.xml" Source="..\..\DistFiles\imdi\Content-Subject.xml" />
-				<File Id="autofac.dll" Name="Content-Task.xml" Source="..\..\DistFiles\imdi\Content-Task.xml" />
-				<File Id="autofac.dll" Name="Continents.xml" Source="..\..\DistFiles\imdi\Continents.xml" />
-				<File Id="autofac.dll" Name="Countries.xml" Source="..\..\DistFiles\imdi\Countries.xml" />
-				<File Id="autofac.dll" Name="MediaFile-Format.xml" Source="..\..\DistFiles\imdi\MediaFile-Format.xml" />
-				<File Id="autofac.dll" Name="MediaFile-Type.xml" Source="..\..\DistFiles\imdi\MediaFile-Type.xml" />
-				<File Id="autofac.dll" Name="MPI-Languages.xml" Source="..\..\DistFiles\imdi\MPI-Languages.xml" />
-				<File Id="autofac.dll" Name="Quality.xml" Source="..\..\DistFiles\imdi\Quality.xml" />
-				<File Id="autofac.dll" Name="Validation-Methodology.xml" Source="..\..\DistFiles\imdi\Validation-Methodology.xml" />
-				<File Id="autofac.dll" Name="Validation-Type.xml" Source="..\..\DistFiles\imdi\Validation-Type.xml" />
-				<File Id="autofac.dll" Name="WrittenResource-Derivation.xml" Source="..\..\DistFiles\imdi\WrittenResource-Derivation.xml" />
-				<File Id="autofac.dll" Name="WrittenResource-Format.xml" Source="..\..\DistFiles\imdi\WrittenResource-Format.xml" />
-				<File Id="autofac.dll" Name="WrittenResource-SubType.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType.xml" />
-				<File Id="autofac.dll" Name="WrittenResource-SubType-Annotation.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType-Annotation.xml" />
-				<File Id="autofac.dll" Name="WrittenResource-SubType-Ethnography.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType-Ethnography.xml" />
-				<File Id="autofac.dll" Name="WrittenResource-SubType-LexicalAnalysis.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType-LexicalAnalysis.xml" />
-				<File Id="autofac.dll" Name="WrittenResource-SubType-OLAC-LS.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType-OLAC-LS.xml" />
-				<File Id="autofac.dll" Name="WrittenResource-SubType-PrimaryText.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType-PrimaryText.xml" />
-				<File Id="autofac.dll" Name="WrittenResource-Type.xml" Source="..\..\DistFiles\imdi\WrittenResource-Type.xml" />
+				<File Id="Actor-FamilySocialRole.xml" Name="Actor-FamilySocialRole.xml" KeyPath="yes" Source="..\..\DistFiles\imdi\Actor-FamilySocialRole.xml" />
+				<File Id="Actor-Role.xml" Name="Actor-Role.xml" Source="..\..\DistFiles\imdi\Actor-Role.xml" />
+				<File Id="Actor-Sex.xml" Name="Actor-Sex.xml" Source="..\..\DistFiles\imdi\Actor-Sex.xml" />
+				<File Id="Boolean.xml" Name="Boolean.xml" Source="..\..\DistFiles\imdi\Boolean.xml" />
+				<File Id="Content-Channel.xml" Name="Content-Channel.xml" Source="..\..\DistFiles\imdi\Content-Channel.xml" />
+				<File Id="Content-EventStructure.xml" Name="Content-EventStructure.xml" Source="..\..\DistFiles\imdi\Content-EventStructure.xml" />
+				<File Id="Content-Genre.xml" Name="Content-Genre.xml" Source="..\..\DistFiles\imdi\Content-Genre.xml" />
+				<File Id="Content-Interactivity" Name="Content-Interactivity" Source="..\..\DistFiles\imdi\Content-Interactivity.xml" />
+				<File Id="Content-Involvement.xml" Name="Content-Involvement.xml" Source="..\..\DistFiles\imdi\Content-Involvement.xml" />
+				<File Id="Content-Modalities.xml" Name="Content-Modalities.xml" Source="..\..\DistFiles\imdi\Content-Modalities.xml" />
+				<File Id="Content-PlanningType.xml" Name="Content-PlanningType.xml" Source="..\..\DistFiles\imdi\Content-PlanningType.xml" />
+				<File Id="Content-SocialContext.xml" Name="Content-SocialContext.xml" Source="..\..\DistFiles\imdi\Content-SocialContext.xml" />
+				<File Id="Content-SubGenre.xml" Name="Content-SubGenre.xml" Source="..\..\DistFiles\imdi\Content-SubGenre.xml" />
+				<File Id="Content-SubGenre-Discourse.xml" Name="Content-SubGenre-Discourse.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Discourse.xml" />
+				<File Id="Content-SubGenre-Drama.xml" Name="Content-SubGenre-Drama.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Drama.xml" />
+				<File Id="Content-SubGenre-Literature.xml" Name="Content-SubGenre-Literature.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Literature.xml" />
+				<File Id="Content-SubGenre-Poetry.xml" Name="Content-SubGenre-Poetry.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Poetry.xml" />
+				<File Id="Content-SubGenre-Singing.xml" Name="Content-SubGenre-Singing.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Singing.xml" />
+				<File Id="Content-SubGenre-Stimuli.xml" Name="Content-SubGenre-Stimuli.xml" Source="..\..\DistFiles\imdi\Content-SubGenre-Stimuli.xml" />
+				<File Id="Content-Subject.xml" Name="Content-Subject.xml" Source="..\..\DistFiles\imdi\Content-Subject.xml" />
+				<File Id="Content-Task.xml" Name="Content-Task.xml" Source="..\..\DistFiles\imdi\Content-Task.xml" />
+				<File Id="Continents.xml" Name="Continents.xml" Source="..\..\DistFiles\imdi\Continents.xml" />
+				<File Id="Countries.xml" Name="Countries.xml" Source="..\..\DistFiles\imdi\Countries.xml" />
+				<File Id="MediaFile-Format.xml" Name="MediaFile-Format.xml" Source="..\..\DistFiles\imdi\MediaFile-Format.xml" />
+				<File Id="MediaFile-Type.xml" Name="MediaFile-Type.xml" Source="..\..\DistFiles\imdi\MediaFile-Type.xml" />
+				<File Id="MPI-Languages.xml" Name="MPI-Languages.xml" Source="..\..\DistFiles\imdi\MPI-Languages.xml" />
+				<File Id="Quality.xml" Name="Quality.xml" Source="..\..\DistFiles\imdi\Quality.xml" />
+				<File Id="Validation-Methodology.xml" Name="Validation-Methodology.xml" Source="..\..\DistFiles\imdi\Validation-Methodology.xml" />
+				<File Id="Validation-Type.xml" Name="Validation-Type.xml" Source="..\..\DistFiles\imdi\Validation-Type.xml" />
+				<File Id="WrittenResource-Derivation.xml" Name="WrittenResource-Derivation.xml" Source="..\..\DistFiles\imdi\WrittenResource-Derivation.xml" />
+				<File Id="WrittenResource-Format.xml" Name="WrittenResource-Format.xml" Source="..\..\DistFiles\imdi\WrittenResource-Format.xml" />
+				<File Id="WrittenResource-SubType.xml" Name="WrittenResource-SubType.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType.xml" />
+				<File Id="WrittenResource-SubType-Annotation.xml" Name="WrittenResource-SubType-Annotation.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType-Annotation.xml" />
+				<File Id="WrittenResource-SubType-Ethnography.xml" Name="WrittenResource-SubType-Ethnography.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType-Ethnography.xml" />
+				<File Id="WrittenResource-SubType-LexicalAnalysis.xml" Name="WrittenResource-SubType-LexicalAnalysis.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType-LexicalAnalysis.xml" />
+				<File Id="WrittenResource-SubType-OLAC-LS.xml" Name="WrittenResource-SubType-OLAC-LS.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType-OLAC-LS.xml" />
+				<File Id="WrittenResource-SubType-PrimaryText.xml" Name="WrittenResource-SubType-PrimaryText.xml" Source="..\..\DistFiles\imdi\WrittenResource-SubType-PrimaryText.xml" />
+				<File Id="WrittenResource-Type.xml" Name="WrittenResource-Type.xml" Source="..\..\DistFiles\imdi\WrittenResource-Type.xml" />
 			  </Component>
 			</Directory>
 		  </Directory>

@@ -251,9 +251,9 @@ namespace SayMoreTests.Model
 			model.Setup(s => s.AddSession(_dummySessions[2].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[2].Id });
 
 			// session files
-			model.Setup(s => s.AddFileGroup(_dummySessions[0].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), "Adding Files for Session 'The Frog Dance'"));
-			model.Setup(s => s.AddFileGroup(_dummySessions[1].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), "Adding Files for Session 'Underwater Marriage'"));
-			model.Setup(s => s.AddFileGroup(_dummySessions[2].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), "Adding Files for Session 'Why Rice Can't Fly'"));
+			model.Setup(s => s.AddFileGroup(_dummySessions[0].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[0].Id)));
+			model.Setup(s => s.AddFileGroup(_dummySessions[1].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[1].Id)));
+			model.Setup(s => s.AddFileGroup(_dummySessions[2].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[2].Id)));
 
 			// contributor files
 			model.Setup(s => s.AddFileGroup("\n" + person1, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
@@ -303,8 +303,9 @@ namespace SayMoreTests.Model
 
 		private Project CreateProject(TemporaryFolder parent)
 		{
-			return new Project(parent.Combine("foo", "foo." + Project.ProjectSettingsFileExtension),
-				GetSessionRepo, _projectContext.ResolveForTests<SessionFileType>());
+			return _projectContext.Project;
+			//return new Project(parent.Combine("foo", "foo." + Project.ProjectSettingsFileExtension),
+			//    GetSessionRepo, _projectContext.ResolveForTests<SessionFileType>());
 		}
 
 		/// ------------------------------------------------------------------------------------

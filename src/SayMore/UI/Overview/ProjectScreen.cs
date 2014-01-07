@@ -27,6 +27,9 @@ namespace SayMore.UI.Overview
 			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Access Protocol") });
 			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress") });
 			_splitter.Panel2.BackColor = Color.FromArgb(230, 150, 100);
+			_metadataView.BackColor = _splitter.Panel2.BackColor;
+			_progressView.BackColor = _splitter.Panel2.BackColor;
+			_accessView.BackColor = _splitter.Panel2.BackColor;
 		}
 
 		/// ------------------------------------------------------------------------------------

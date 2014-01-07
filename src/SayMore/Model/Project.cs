@@ -255,6 +255,7 @@ namespace SayMore.Model
 			project.Add(new XElement("RightsHolder", RightsHolder.NullTrim()));
 			project.Add(new XElement("Depositor", Depositor.NullTrim()));
 			project.Add(new XElement("RelatedPublications", RelatedPublications.NullTrim()));
+			project.Add(new XElement("IMDIOutputDirectory", IMDIOutputDirectory.NullTrim()));
 
 			project.Save(SettingsFilePath);
 
@@ -320,6 +321,8 @@ namespace SayMore.Model
 			RightsHolder = GetStringSettingValue(project, "RightsHolder", string.Empty);
 			Depositor = GetStringSettingValue(project, "Depositor", string.Empty);
 			RelatedPublications = GetStringSettingValue(project, "RelatedPublications", string.Empty);
+
+			IMDIOutputDirectory = GetStringSettingValue(project, "IMDIOutputDirectory", string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -454,6 +457,9 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		public string RelatedPublications { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string IMDIOutputDirectory { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public string AccessProtocol

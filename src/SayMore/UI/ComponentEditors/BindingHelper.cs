@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Extensions;
@@ -23,14 +22,16 @@ namespace SayMore.UI.ComponentEditors
 	[ProvideProperty("IsComponentFileId", typeof(Control))]
 	public class BindingHelper : Component, IExtenderProvider
 	{
-		private readonly Func<Control, string> MakeIdFromControlName = (ctrl => ctrl.Name.TrimStart('_'));
-		private readonly Func<string, string> MakeControlNameFromId = (id => "_" + id);
+		private readonly Func<Control, string> _makeIdFromControlName = (ctrl => ctrl.Name.TrimStart('_'));
+		private readonly Func<string, string> _makeControlNameFromId = (id => "_" + id);
 
 		public event EventHandler<TranslateBoundValueBeingSavedArgs> TranslateBoundValueBeingSaved;
 		public event EventHandler<TranslateBoundValueBeingRetrievedArgs> TranslateBoundValueBeingRetrieved;
 
 		public ComponentFile ComponentFile { get; private set; }
 
+// ReSharper disable once InconsistentNaming
+// ReSharper disable once NotAccessedField.Local
 		private Container components;
 		private readonly Dictionary<Control, bool> _extendedControls = new Dictionary<Control, bool>();
 		private List<Control> _boundControls;
@@ -83,6 +84,7 @@ namespace SayMore.UI.ComponentEditors
 			yield return typeof(DatePicker);
 			yield return typeof(ComboBox);
 			yield return typeof(MultiValueDropDownBox);
+			yield return typeof (CheckBox);
 		}
 
 		#endregion
@@ -228,7 +230,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void UpdateControlValueFromField(Control ctrl)
 		{
-			var key = MakeIdFromControlName(ctrl);
+			var key = _makeIdFromControlName(ctrl);
 			var stringValue = ComponentFile.GetStringValue(key, string.Empty);
 
 			try
@@ -243,7 +245,17 @@ namespace SayMore.UI.ComponentEditors
 					stringValue = (args.TranslatedValue ?? stringValue);
 				}
 
-				ctrl.Text = stringValue;
+				var box = ctrl as CheckBox;
+				if (box != null)
+				{
+					bool isChecked;
+					bool.TryParse(stringValue, out isChecked);
+					box.Checked = isChecked;
+				}
+				else
+				{
+					ctrl.Text = stringValue;
+				}
 			}
 			catch (Exception error)
 			{
@@ -281,7 +293,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private Control GetBoundControlFromKey(string key)
 		{
-			var ctrlName = MakeControlNameFromId(key);
+			var ctrlName = _makeControlNameFromId(key);
 			return _boundControls.FirstOrDefault(c => c.Name == ctrlName);
 		}
 
@@ -324,7 +336,8 @@ namespace SayMore.UI.ComponentEditors
 		private void HandleValidatingControl(object sender, CancelEventArgs e)
 		{
 			var ctrl = (Control)sender;
-			var key = MakeIdFromControlName(ctrl);
+			var key = _makeIdFromControlName(ctrl);
+			var box = ctrl as CheckBox;
 
 			string newValue = null;
 			var gotNewValueFromDelegate = false;
@@ -338,7 +351,9 @@ namespace SayMore.UI.ComponentEditors
 
 			if (!gotNewValueFromDelegate)
 			{
-				if (key != "date")
+				if (box != null)
+					newValue = box.Checked ? "true" : "false";
+				else if (key != "date")
 					newValue = ctrl.Text.Trim();
 				else
 				{
@@ -367,7 +382,7 @@ namespace SayMore.UI.ComponentEditors
 
 			ComponentFile.MetadataValueChanged += HandleValueChangedOutsideBinder;
 
-			if (!gotNewValueFromDelegate && key != "date")
+			if (!gotNewValueFromDelegate && key != "date" && box == null)
 				ctrl.Text = newValue;
 
 			if (failureMessage != null)

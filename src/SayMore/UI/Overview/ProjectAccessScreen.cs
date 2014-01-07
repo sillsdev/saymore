@@ -50,7 +50,7 @@ namespace SayMore.UI.Overview
 			}
 			else
 			{
-				_labelDescription.Text = item.DocumentationFile;
+				_webBrowser.Navigate(item.GetDocumentaionUri());
 			}
 
 		}
@@ -58,10 +58,12 @@ namespace SayMore.UI.Overview
 		private void SetForCustom()
 		{
 			var isCustom = _projectAccess.SelectedIndex == _projectAccess.Items.Count - 1;
+			var isNone = _projectAccess.SelectedIndex == 0;
+
 			_labelCustomAccess.Visible = isCustom;
 			_labelCustomInstructions.Visible = isCustom;
 			_customAccessChoices.Visible = isCustom;
-			_labelDescription.Visible = !isCustom;
+			_webBrowser.Visible = !isCustom && !isNone;
 		}
 
 		private void ProjectAccessScreen_Leave(object sender, System.EventArgs e)

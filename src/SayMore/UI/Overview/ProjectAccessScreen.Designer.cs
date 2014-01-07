@@ -32,11 +32,11 @@ namespace SayMore.UI.Overview
 			this._layoutTable = new System.Windows.Forms.TableLayoutPanel();
 			this._labelAccessProtocol = new System.Windows.Forms.Label();
 			this._projectAccess = new System.Windows.Forms.ComboBox();
-			this._labelDescription = new System.Windows.Forms.Label();
 			this._labelCustomAccess = new System.Windows.Forms.Label();
 			this._labelCustomInstructions = new System.Windows.Forms.Label();
 			this._customAccessChoices = new System.Windows.Forms.TextBox();
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this._webBrowser = new System.Windows.Forms.WebBrowser();
 			this._layoutTable.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -50,7 +50,6 @@ namespace SayMore.UI.Overview
 			this._layoutTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._layoutTable.Controls.Add(this._labelAccessProtocol, 0, 0);
 			this._layoutTable.Controls.Add(this._projectAccess, 1, 0);
-			this._layoutTable.Controls.Add(this._labelDescription, 1, 5);
 			this._layoutTable.Controls.Add(this._labelCustomAccess, 1, 2);
 			this._layoutTable.Controls.Add(this._labelCustomInstructions, 1, 3);
 			this._layoutTable.Controls.Add(this._customAccessChoices, 1, 4);
@@ -58,14 +57,14 @@ namespace SayMore.UI.Overview
 			this._layoutTable.Location = new System.Drawing.Point(7, 7);
 			this._layoutTable.Name = "_layoutTable";
 			this._layoutTable.Padding = new System.Windows.Forms.Padding(3);
-			this._layoutTable.RowCount = 6;
+			this._layoutTable.RowCount = 5;
 			this._layoutTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._layoutTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this._layoutTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._layoutTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._layoutTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._layoutTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._layoutTable.Size = new System.Drawing.Size(493, 122);
+			this._layoutTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this._layoutTable.Size = new System.Drawing.Size(493, 109);
 			this._layoutTable.TabIndex = 0;
 			// 
 			// _labelAccessProtocol
@@ -97,21 +96,6 @@ namespace SayMore.UI.Overview
 			this._projectAccess.Size = new System.Drawing.Size(121, 21);
 			this._projectAccess.TabIndex = 2;
 			this._projectAccess.SelectedIndexChanged += new System.EventHandler(this._projectAccess_SelectedIndexChanged);
-			// 
-			// _labelDescription
-			// 
-			this._labelDescription.AutoSize = true;
-			this._labelDescription.Dock = System.Windows.Forms.DockStyle.Left;
-			this.locExtender.SetLocalizableToolTip(this._labelDescription, null);
-			this.locExtender.SetLocalizationComment(this._labelDescription, null);
-			this.locExtender.SetLocalizationPriority(this._labelDescription, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelDescription, "ProjectAccessScreen._labelDescription");
-			this._labelDescription.Location = new System.Drawing.Point(128, 106);
-			this._labelDescription.Name = "_labelDescription";
-			this._labelDescription.Size = new System.Drawing.Size(133, 13);
-			this._labelDescription.TabIndex = 1;
-			this._labelDescription.Text = "Description will go here.";
-			this._labelDescription.Visible = false;
 			// 
 			// _labelCustomAccess
 			// 
@@ -163,11 +147,31 @@ namespace SayMore.UI.Overview
 			this.locExtender.LocalizationManagerId = "SayMore";
 			this.locExtender.PrefixForNewItems = null;
 			// 
+			// _webBrowser
+			// 
+			this._webBrowser.AllowWebBrowserDrop = false;
+			this._webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._webBrowser.IsWebBrowserContextMenuEnabled = false;
+			this.locExtender.SetLocalizableToolTip(this._webBrowser, null);
+			this.locExtender.SetLocalizationComment(this._webBrowser, null);
+			this.locExtender.SetLocalizationPriority(this._webBrowser, L10NSharp.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._webBrowser, "ProjectAccessScreen._webBrowser");
+			this._webBrowser.Location = new System.Drawing.Point(133, 50);
+			this._webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+			this._webBrowser.Name = "_webBrowser";
+			this._webBrowser.ScriptErrorsSuppressed = true;
+			this._webBrowser.ScrollBarsEnabled = false;
+			this._webBrowser.Size = new System.Drawing.Size(364, 146);
+			this._webBrowser.TabIndex = 1;
+			this._webBrowser.WebBrowserShortcutsEnabled = false;
+			// 
 			// ProjectAccessScreen
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.Transparent;
+			this.Controls.Add(this._webBrowser);
 			this.Controls.Add(this._layoutTable);
 			this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this, null);
@@ -175,7 +179,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizingId(this, "ProjectAccessScreen.ProjectAccessScreen");
 			this.Name = "ProjectAccessScreen";
 			this.Padding = new System.Windows.Forms.Padding(7);
-			this.Size = new System.Drawing.Size(507, 150);
+			this.Size = new System.Drawing.Size(507, 206);
 			this.Load += new System.EventHandler(this.ProjectAccessScreen_Load);
 			this.Leave += new System.EventHandler(this.ProjectAccessScreen_Leave);
 			this._layoutTable.ResumeLayout(false);
@@ -190,11 +194,11 @@ namespace SayMore.UI.Overview
 
 		private System.Windows.Forms.TableLayoutPanel _layoutTable;
 		private System.Windows.Forms.Label _labelAccessProtocol;
-		private System.Windows.Forms.Label _labelDescription;
 		private System.Windows.Forms.ComboBox _projectAccess;
 		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Label _labelCustomAccess;
 		private System.Windows.Forms.Label _labelCustomInstructions;
 		private System.Windows.Forms.TextBox _customAccessChoices;
+		private System.Windows.Forms.WebBrowser _webBrowser;
 	}
 }

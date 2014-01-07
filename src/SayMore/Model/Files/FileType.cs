@@ -272,6 +272,10 @@ namespace SayMore.Model.Files
 					"education",
 					"primaryOccupation",
 					"picture",
+					"privacyProtection",
+					"age",
+					"nickName",
+					"ethnicGroup"
 				})
 					yield return new FieldDefinition(fieldId);
 			}

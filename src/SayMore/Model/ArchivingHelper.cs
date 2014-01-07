@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using L10NSharp;
 using Palaso.Extensions;
 using Palaso.Reporting;
 using SayMore.Transcription.Model;
@@ -19,18 +18,9 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		internal static void ArchiveUsingIMDI(IIMDIArchivable element)
 		{
-			string destFolder;
-			using (var chooseFolder = new FolderBrowserDialog())
-			{
-				chooseFolder.Description = LocalizationManager.GetString(
-					"DialogBoxes.ArchivingDlg.ArchivingIMDILocationDescription",
-					"Select a base folder where the IMDI directory structure should be created.");
-				chooseFolder.ShowNewFolderButton = true;
-				chooseFolder.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-				if (chooseFolder.ShowDialog() == DialogResult.Cancel)
-					return;
-				destFolder = chooseFolder.SelectedPath;
-			}
+			var destFolder = Program.CurrentProject.IMDIOutputDirectory;
+			if (string.IsNullOrEmpty(destFolder))
+				destFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "IMDI Packages");
 
 			var model = new IMDIArchivingDlgViewModel(Application.ProductName, element.Title, element.Id,
 				element.ArchiveInfoDetails, element is Project, element.SetFilesToArchive, destFolder)
@@ -45,6 +35,13 @@ namespace SayMore.Model
 			{
 				dlg.ShowDialog();
 				Settings.Default.ArchivingDialog = dlg.FormSettings;
+
+				// remember choice for next time
+				if (model.OutputFolder != Program.CurrentProject.IMDIOutputDirectory)
+				{
+					Program.CurrentProject.IMDIOutputDirectory = model.OutputFolder;
+					Program.CurrentProject.Save();
+				}
 			}
 		}
 

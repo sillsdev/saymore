@@ -562,14 +562,13 @@ namespace SayMore.UI.Overview
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.Transparent;
 			this.Controls.Add(this._tableLayout);
 			this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "ProjectMetadataScreen.ProjectMetadataScreen");
 			this.Name = "ProjectMetadataScreen";
-			this.Size = new System.Drawing.Size(653, 524);
+			this.Size = new System.Drawing.Size(653, 485);
 			this.Load += new System.EventHandler(this.ProjectMetadataScreen_Load);
 			this.Leave += new System.EventHandler(this.ProjectMetadataScreen_Leave);
 			this._tableLayout.ResumeLayout(false);

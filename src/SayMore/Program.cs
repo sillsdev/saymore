@@ -19,7 +19,6 @@ using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Media;
 using SayMore.Properties;
 using SayMore.UI;
-using SayMore.UI.ElementListScreen;
 using SayMore.UI.ProjectWindow;
 using SayMore.Model;
 

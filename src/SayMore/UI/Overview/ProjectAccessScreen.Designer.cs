@@ -74,7 +74,7 @@ namespace SayMore.UI.Overview
 			this._labelAccessProtocol.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelAccessProtocol, null);
 			this.locExtender.SetLocalizationComment(this._labelAccessProtocol, null);
-			this.locExtender.SetLocalizingId(this._labelAccessProtocol, "ProjectAccessScreen._labelAccessProtocol");
+			this.locExtender.SetLocalizingId(this._labelAccessProtocol, "ProjectView.AccessScreen._labelAccessProtocol");
 			this._labelAccessProtocol.Location = new System.Drawing.Point(6, 6);
 			this._labelAccessProtocol.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this._labelAccessProtocol.Name = "_labelAccessProtocol";
@@ -90,7 +90,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._projectAccess, null);
 			this.locExtender.SetLocalizationComment(this._projectAccess, null);
 			this.locExtender.SetLocalizationPriority(this._projectAccess, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._projectAccess, "ProjectAccessScreen._projectAccess");
+			this.locExtender.SetLocalizingId(this._projectAccess, "ProjectView.AccessScreen._projectAccess");
 			this._projectAccess.Location = new System.Drawing.Point(128, 6);
 			this._projectAccess.Name = "_projectAccess";
 			this._projectAccess.Size = new System.Drawing.Size(121, 21);
@@ -105,7 +105,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._labelCustomAccess, null);
 			this.locExtender.SetLocalizationComment(this._labelCustomAccess, null);
 			this.locExtender.SetLocalizationPriority(this._labelCustomAccess, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelCustomAccess, "ProjectAccessScreen._labelDescription");
+			this.locExtender.SetLocalizingId(this._labelCustomAccess, "ProjectView.AccessScreen._labelDescription");
 			this._labelCustomAccess.Location = new System.Drawing.Point(128, 52);
 			this._labelCustomAccess.Name = "_labelCustomAccess";
 			this._labelCustomAccess.Size = new System.Drawing.Size(127, 13);
@@ -120,7 +120,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._labelCustomInstructions, null);
 			this.locExtender.SetLocalizationComment(this._labelCustomInstructions, null);
 			this.locExtender.SetLocalizationPriority(this._labelCustomInstructions, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelCustomInstructions, "ProjectAccessScreen._labelCustomAccessInstructions");
+			this.locExtender.SetLocalizingId(this._labelCustomInstructions, "ProjectView.AccessScreen._labelCustomAccessInstructions");
 			this._labelCustomInstructions.Location = new System.Drawing.Point(128, 65);
 			this._labelCustomInstructions.Name = "_labelCustomInstructions";
 			this._labelCustomInstructions.Size = new System.Drawing.Size(213, 13);
@@ -134,7 +134,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._customAccessChoices, null);
 			this.locExtender.SetLocalizationComment(this._customAccessChoices, null);
 			this.locExtender.SetLocalizationPriority(this._customAccessChoices, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._customAccessChoices, "ProjectAccessScreen._customAccessChoices");
+			this.locExtender.SetLocalizingId(this._customAccessChoices, "ProjectView.AccessScreen._customAccessChoices");
 			this._customAccessChoices.Location = new System.Drawing.Point(128, 81);
 			this._customAccessChoices.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
 			this._customAccessChoices.Name = "_customAccessChoices";
@@ -157,15 +157,16 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._webBrowser, null);
 			this.locExtender.SetLocalizationComment(this._webBrowser, null);
 			this.locExtender.SetLocalizationPriority(this._webBrowser, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._webBrowser, "ProjectAccessScreen._webBrowser");
-			this._webBrowser.Location = new System.Drawing.Point(133, 50);
+			this.locExtender.SetLocalizingId(this._webBrowser, "ProjectView.AccessScreen._webBrowser");
+			this._webBrowser.Location = new System.Drawing.Point(133, 59);
 			this._webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
 			this._webBrowser.Name = "_webBrowser";
 			this._webBrowser.ScriptErrorsSuppressed = true;
 			this._webBrowser.ScrollBarsEnabled = false;
-			this._webBrowser.Size = new System.Drawing.Size(364, 146);
+			this._webBrowser.Size = new System.Drawing.Size(364, 137);
 			this._webBrowser.TabIndex = 1;
 			this._webBrowser.WebBrowserShortcutsEnabled = false;
+			this._webBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this._webBrowser_Navigating);
 			// 
 			// ProjectAccessScreen
 			// 
@@ -176,7 +177,7 @@ namespace SayMore.UI.Overview
 			this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "ProjectAccessScreen.ProjectAccessScreen");
+			this.locExtender.SetLocalizingId(this, "ProjectView.AccessScreen");
 			this.Name = "ProjectAccessScreen";
 			this.Padding = new System.Windows.Forms.Padding(7);
 			this.Size = new System.Drawing.Size(507, 206);

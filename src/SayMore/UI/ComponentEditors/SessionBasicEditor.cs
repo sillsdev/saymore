@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
@@ -41,6 +42,8 @@ namespace SayMore.UI.ComponentEditors
 
 			_autoCompleteProvider = autoCompleteProvider;
 			_autoCompleteProvider.NewDataAvailable += LoadGenreList;
+
+			_binder.TranslateBoundValueBeingRetrieved += HandleBinderTranslateBoundValueBeingRetrieved;
 
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
@@ -283,6 +286,18 @@ namespace SayMore.UI.ComponentEditors
 			// select the current code
 			foreach (var item in _access.Items.Cast<object>().Where(i => i.ToString() == currentAccessCode))
 				_access.SelectedItem = item;
+		}
+
+		/// <summary>
+		/// Replace comma with correct delimiter in MultiValueDropDownBox
+		/// </summary>
+		private void HandleBinderTranslateBoundValueBeingRetrieved(object sender,
+			TranslateBoundValueBeingRetrievedArgs args)
+		{
+			if (!(args.BoundControl is MultiValueDropDownBox)) return;
+
+			if (args.ValueFromFile.Contains(","))
+				args.TranslatedValue = args.ValueFromFile.Replace(",", FieldInstance.kDefaultMultiValueDelimiter.ToString(CultureInfo.InvariantCulture));
 		}
 	}
 }

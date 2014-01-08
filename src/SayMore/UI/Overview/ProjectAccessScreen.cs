@@ -1,6 +1,5 @@
 
 using System.Linq;
-using System.Runtime.Remoting;
 using System.Windows.Forms;
 using SIL.Archiving.Generic.AccessProtocol;
 
@@ -9,6 +8,7 @@ namespace SayMore.UI.Overview
 	public partial class ProjectAccessScreen : UserControl
 	{
 		private bool _isLoaded;
+		private string _currentUri;
 
 		public ProjectAccessScreen()
 		{
@@ -50,7 +50,8 @@ namespace SayMore.UI.Overview
 			}
 			else
 			{
-				_webBrowser.Navigate(item.GetDocumentaionUri());
+				_currentUri = item.GetDocumentaionUri();
+				_webBrowser.Navigate(_currentUri);
 			}
 
 		}
@@ -105,6 +106,12 @@ namespace SayMore.UI.Overview
 			_isLoaded = true;
 
 			SetForCustom();
+		}
+
+		private void _webBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+		{
+			if (e.Url.AbsoluteUri != _currentUri)
+				e.Cancel = true;
 		}
 	}
 }

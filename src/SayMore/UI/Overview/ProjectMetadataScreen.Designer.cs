@@ -136,35 +136,35 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._contactPerson, null);
 			this.locExtender.SetLocalizationComment(this._contactPerson, null);
 			this.locExtender.SetLocalizationPriority(this._contactPerson, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._contactPerson, "ProjectMetadataScreen._contactPerson");
+			this.locExtender.SetLocalizingId(this._contactPerson, "ProjectView.MetadataScreen._contactPerson");
 			this._contactPerson.Location = new System.Drawing.Point(125, 251);
 			this._contactPerson.Name = "_contactPerson";
 			this._contactPerson.Size = new System.Drawing.Size(350, 22);
-			this._contactPerson.TabIndex = 8;
+			this._contactPerson.TabIndex = 17;
 			// 
 			// _description
 			// 
 			this.locExtender.SetLocalizableToolTip(this._description, null);
 			this.locExtender.SetLocalizationComment(this._description, null);
 			this.locExtender.SetLocalizationPriority(this._description, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._description, "ProjectMetadataScreen._description");
+			this.locExtender.SetLocalizingId(this._description, "ProjectView.MetadataScreen._description");
 			this._description.Location = new System.Drawing.Point(125, 62);
 			this._description.Multiline = true;
 			this._description.Name = "_description";
 			this._tableLayout.SetRowSpan(this._description, 2);
 			this._description.Size = new System.Drawing.Size(350, 60);
-			this._description.TabIndex = 2;
+			this._description.TabIndex = 5;
 			// 
 			// _fundingProjectTitle
 			// 
 			this.locExtender.SetLocalizableToolTip(this._fundingProjectTitle, null);
 			this.locExtender.SetLocalizationComment(this._fundingProjectTitle, null);
 			this.locExtender.SetLocalizationPriority(this._fundingProjectTitle, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._fundingProjectTitle, "ProjectMetadataScreen._fundingProjectTitle");
+			this.locExtender.SetLocalizingId(this._fundingProjectTitle, "ProjectView.MetadataScreen._fundingProjectTitle");
 			this._fundingProjectTitle.Location = new System.Drawing.Point(125, 34);
 			this._fundingProjectTitle.Name = "_fundingProjectTitle";
 			this._fundingProjectTitle.Size = new System.Drawing.Size(350, 22);
-			this._fundingProjectTitle.TabIndex = 1;
+			this._fundingProjectTitle.TabIndex = 3;
 			// 
 			// _labelProjectTitle
 			// 
@@ -172,7 +172,7 @@ namespace SayMore.UI.Overview
 			this._labelProjectTitle.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelProjectTitle, null);
 			this.locExtender.SetLocalizationComment(this._labelProjectTitle, null);
-			this.locExtender.SetLocalizingId(this._labelProjectTitle, "ProjectMetadataScreen._labelProjectTitle");
+			this.locExtender.SetLocalizingId(this._labelProjectTitle, "ProjectView.MetadataScreen._labelProjectTitle");
 			this._labelProjectTitle.Location = new System.Drawing.Point(91, 3);
 			this._labelProjectTitle.Name = "_labelProjectTitle";
 			this._labelProjectTitle.Size = new System.Drawing.Size(28, 28);
@@ -186,11 +186,11 @@ namespace SayMore.UI.Overview
 			this._labelFundingProject.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelFundingProject, null);
 			this.locExtender.SetLocalizationComment(this._labelFundingProject, null);
-			this.locExtender.SetLocalizingId(this._labelFundingProject, "ProjectMetadataScreen._labelFundingProject");
+			this.locExtender.SetLocalizingId(this._labelFundingProject, "ProjectView.MetadataScreen._labelFundingProject");
 			this._labelFundingProject.Location = new System.Drawing.Point(6, 31);
 			this._labelFundingProject.Name = "_labelFundingProject";
 			this._labelFundingProject.Size = new System.Drawing.Size(113, 28);
-			this._labelFundingProject.TabIndex = 1;
+			this._labelFundingProject.TabIndex = 2;
 			this._labelFundingProject.Text = "Funding Project Title";
 			this._labelFundingProject.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -200,11 +200,11 @@ namespace SayMore.UI.Overview
 			this._labelDescription.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelDescription, null);
 			this.locExtender.SetLocalizationComment(this._labelDescription, null);
-			this.locExtender.SetLocalizingId(this._labelDescription, "ProjectMetadataScreen._labelDescription");
+			this.locExtender.SetLocalizingId(this._labelDescription, "ProjectView.MetadataScreen._labelDescription");
 			this._labelDescription.Location = new System.Drawing.Point(53, 59);
 			this._labelDescription.Name = "_labelDescription";
 			this._labelDescription.Size = new System.Drawing.Size(66, 20);
-			this._labelDescription.TabIndex = 2;
+			this._labelDescription.TabIndex = 4;
 			this._labelDescription.Text = "Description";
 			this._labelDescription.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -214,11 +214,11 @@ namespace SayMore.UI.Overview
 			this._labelVernacular.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelVernacular, null);
 			this.locExtender.SetLocalizationComment(this._labelVernacular, null);
-			this.locExtender.SetLocalizingId(this._labelVernacular, "ProjectMetadataScreen._labelVernacular");
+			this.locExtender.SetLocalizingId(this._labelVernacular, "ProjectView.MetadataScreen._labelVernacular");
 			this._labelVernacular.Location = new System.Drawing.Point(57, 125);
 			this._labelVernacular.Name = "_labelVernacular";
 			this._labelVernacular.Size = new System.Drawing.Size(62, 13);
-			this._labelVernacular.TabIndex = 3;
+			this._labelVernacular.TabIndex = 6;
 			this._labelVernacular.Text = "Vernacular";
 			this._labelVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -228,11 +228,11 @@ namespace SayMore.UI.Overview
 			this._labelLocation.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelLocation, null);
 			this.locExtender.SetLocalizationComment(this._labelLocation, null);
-			this.locExtender.SetLocalizingId(this._labelLocation, "ProjectMetadataScreen._labelLocationAddress");
+			this.locExtender.SetLocalizingId(this._labelLocation, "ProjectView.MetadataScreen._labelLocationAddress");
 			this._labelLocation.Location = new System.Drawing.Point(23, 138);
 			this._labelLocation.Name = "_labelLocation";
 			this._labelLocation.Size = new System.Drawing.Size(96, 28);
-			this._labelLocation.TabIndex = 4;
+			this._labelLocation.TabIndex = 8;
 			this._labelLocation.Text = "Location/Address";
 			this._labelLocation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -242,11 +242,11 @@ namespace SayMore.UI.Overview
 			this._labelCountry.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelCountry, null);
 			this.locExtender.SetLocalizationComment(this._labelCountry, null);
-			this.locExtender.SetLocalizingId(this._labelCountry, "ProjectMetadataScreen._labelCountry");
+			this.locExtender.SetLocalizingId(this._labelCountry, "ProjectView.MetadataScreen._labelCountry");
 			this._labelCountry.Location = new System.Drawing.Point(71, 194);
 			this._labelCountry.Name = "_labelCountry";
 			this._labelCountry.Size = new System.Drawing.Size(48, 27);
-			this._labelCountry.TabIndex = 5;
+			this._labelCountry.TabIndex = 12;
 			this._labelCountry.Text = "Country";
 			this._labelCountry.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -256,11 +256,11 @@ namespace SayMore.UI.Overview
 			this._labelContinent.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelContinent, null);
 			this.locExtender.SetLocalizationComment(this._labelContinent, null);
-			this.locExtender.SetLocalizingId(this._labelContinent, "ProjectMetadataScreen._labelContinent");
+			this.locExtender.SetLocalizingId(this._labelContinent, "ProjectView.MetadataScreen._labelContinent");
 			this._labelContinent.Location = new System.Drawing.Point(60, 221);
 			this._labelContinent.Name = "_labelContinent";
 			this._labelContinent.Size = new System.Drawing.Size(59, 27);
-			this._labelContinent.TabIndex = 6;
+			this._labelContinent.TabIndex = 14;
 			this._labelContinent.Text = "Continent";
 			this._labelContinent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -270,11 +270,11 @@ namespace SayMore.UI.Overview
 			this._labelContact.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelContact, null);
 			this.locExtender.SetLocalizationComment(this._labelContact, null);
-			this.locExtender.SetLocalizingId(this._labelContact, "ProjectMetadataScreen._labelContact");
+			this.locExtender.SetLocalizingId(this._labelContact, "ProjectView.MetadataScreen._labelContact");
 			this._labelContact.Location = new System.Drawing.Point(34, 248);
 			this._labelContact.Name = "_labelContact";
 			this._labelContact.Size = new System.Drawing.Size(85, 28);
-			this._labelContact.TabIndex = 7;
+			this._labelContact.TabIndex = 16;
 			this._labelContact.Text = "Contact Person";
 			this._labelContact.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -283,11 +283,11 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._projectTitle, null);
 			this.locExtender.SetLocalizationComment(this._projectTitle, null);
 			this.locExtender.SetLocalizationPriority(this._projectTitle, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._projectTitle, "ProjectMetadataScreen._projectTitle");
+			this.locExtender.SetLocalizingId(this._projectTitle, "ProjectView.MetadataScreen._projectTitle");
 			this._projectTitle.Location = new System.Drawing.Point(125, 6);
 			this._projectTitle.Name = "_projectTitle";
 			this._projectTitle.Size = new System.Drawing.Size(350, 22);
-			this._projectTitle.TabIndex = 0;
+			this._projectTitle.TabIndex = 1;
 			// 
 			// _continent
 			// 
@@ -296,11 +296,11 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._continent, null);
 			this.locExtender.SetLocalizationComment(this._continent, null);
 			this.locExtender.SetLocalizationPriority(this._continent, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._continent, "ProjectMetadataScreen._comboContinent");
+			this.locExtender.SetLocalizingId(this._continent, "ProjectView.MetadataScreen._comboContinent");
 			this._continent.Location = new System.Drawing.Point(125, 224);
 			this._continent.Name = "_continent";
 			this._continent.Size = new System.Drawing.Size(169, 21);
-			this._continent.TabIndex = 7;
+			this._continent.TabIndex = 15;
 			// 
 			// _country
 			// 
@@ -308,11 +308,11 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._country, null);
 			this.locExtender.SetLocalizationComment(this._country, null);
 			this.locExtender.SetLocalizationPriority(this._country, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._country, "ProjectMetadataScreen._comboCountry");
+			this.locExtender.SetLocalizingId(this._country, "ProjectView.MetadataScreen._comboCountry");
 			this._country.Location = new System.Drawing.Point(125, 197);
 			this._country.Name = "_country";
 			this._country.Size = new System.Drawing.Size(350, 21);
-			this._country.TabIndex = 6;
+			this._country.TabIndex = 13;
 			// 
 			// tableLayoutPanel1
 			// 
@@ -337,7 +337,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._labelSelectedVernacular, null);
 			this.locExtender.SetLocalizationComment(this._labelSelectedVernacular, null);
 			this.locExtender.SetLocalizationPriority(this._labelSelectedVernacular, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelSelectedVernacular, "ProjectMetadataScreen._labelSelectedVernacular");
+			this.locExtender.SetLocalizingId(this._labelSelectedVernacular, "ProjectView.MetadataScreen._labelSelectedVernacular");
 			this._labelSelectedVernacular.Location = new System.Drawing.Point(3, 0);
 			this._labelSelectedVernacular.Name = "_labelSelectedVernacular";
 			this._labelSelectedVernacular.Size = new System.Drawing.Size(68, 13);
@@ -351,11 +351,11 @@ namespace SayMore.UI.Overview
 			this._linkSelectVernacular.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._linkSelectVernacular, null);
 			this.locExtender.SetLocalizationComment(this._linkSelectVernacular, null);
-			this.locExtender.SetLocalizingId(this._linkSelectVernacular, "ProjectMetadataScreen._linkSelectVernacular");
+			this.locExtender.SetLocalizingId(this._linkSelectVernacular, "ProjectView.MetadataScreen._linkSelectVernacular");
 			this._linkSelectVernacular.Location = new System.Drawing.Point(249, 0);
 			this._linkSelectVernacular.Name = "_linkSelectVernacular";
 			this._linkSelectVernacular.Size = new System.Drawing.Size(101, 13);
-			this._linkSelectVernacular.TabIndex = 3;
+			this._linkSelectVernacular.TabIndex = 7;
 			this._linkSelectVernacular.TabStop = true;
 			this._linkSelectVernacular.Text = "Change Language";
 			this._linkSelectVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -366,11 +366,11 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._location, null);
 			this.locExtender.SetLocalizationComment(this._location, null);
 			this.locExtender.SetLocalizationPriority(this._location, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._location, "ProjectMetadataScreen._location");
+			this.locExtender.SetLocalizingId(this._location, "ProjectView.MetadataScreen._location");
 			this._location.Location = new System.Drawing.Point(125, 141);
 			this._location.Name = "_location";
 			this._location.Size = new System.Drawing.Size(350, 22);
-			this._location.TabIndex = 4;
+			this._location.TabIndex = 9;
 			// 
 			// _labelRegion
 			// 
@@ -378,11 +378,11 @@ namespace SayMore.UI.Overview
 			this._labelRegion.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelRegion, null);
 			this.locExtender.SetLocalizationComment(this._labelRegion, null);
-			this.locExtender.SetLocalizingId(this._labelRegion, "ProjectMetadataScreen._labelLocationRegion");
+			this.locExtender.SetLocalizingId(this._labelRegion, "ProjectView.MetadataScreen._labelLocationRegion");
 			this._labelRegion.Location = new System.Drawing.Point(75, 166);
 			this._labelRegion.Name = "_labelRegion";
 			this._labelRegion.Size = new System.Drawing.Size(44, 28);
-			this._labelRegion.TabIndex = 20;
+			this._labelRegion.TabIndex = 10;
 			this._labelRegion.Text = "Region";
 			this._labelRegion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -391,11 +391,11 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._region, null);
 			this.locExtender.SetLocalizationComment(this._region, null);
 			this.locExtender.SetLocalizationPriority(this._region, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._region, "ProjectMetadataScreen._region");
+			this.locExtender.SetLocalizingId(this._region, "ProjectView.MetadataScreen._region");
 			this._region.Location = new System.Drawing.Point(125, 169);
 			this._region.Name = "_region";
 			this._region.Size = new System.Drawing.Size(350, 22);
-			this._region.TabIndex = 5;
+			this._region.TabIndex = 11;
 			// 
 			// _labelContentType
 			// 
@@ -403,11 +403,11 @@ namespace SayMore.UI.Overview
 			this._labelContentType.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelContentType, null);
 			this.locExtender.SetLocalizationComment(this._labelContentType, null);
-			this.locExtender.SetLocalizingId(this._labelContentType, "ProjectMetadataScreen._labelContentType");
+			this.locExtender.SetLocalizingId(this._labelContentType, "ProjectView.MetadataScreen._labelContentType");
 			this._labelContentType.Location = new System.Drawing.Point(44, 276);
 			this._labelContentType.Name = "_labelContentType";
 			this._labelContentType.Size = new System.Drawing.Size(75, 28);
-			this._labelContentType.TabIndex = 21;
+			this._labelContentType.TabIndex = 18;
 			this._labelContentType.Text = "Content Type";
 			this._labelContentType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -416,11 +416,11 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._contentType, null);
 			this.locExtender.SetLocalizationComment(this._contentType, null);
 			this.locExtender.SetLocalizationPriority(this._contentType, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._contentType, "ProjectMetadataScreen._contentType");
+			this.locExtender.SetLocalizingId(this._contentType, "ProjectView.MetadataScreen._contentType");
 			this._contentType.Location = new System.Drawing.Point(125, 279);
 			this._contentType.Name = "_contentType";
 			this._contentType.Size = new System.Drawing.Size(350, 22);
-			this._contentType.TabIndex = 9;
+			this._contentType.TabIndex = 19;
 			// 
 			// _labelApplications
 			// 
@@ -428,11 +428,11 @@ namespace SayMore.UI.Overview
 			this._labelApplications.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelApplications, null);
 			this.locExtender.SetLocalizationComment(this._labelApplications, null);
-			this.locExtender.SetLocalizingId(this._labelApplications, "ProjectMetadataScreen._labelApplications");
+			this.locExtender.SetLocalizingId(this._labelApplications, "ProjectView.MetadataScreen._labelApplications");
 			this._labelApplications.Location = new System.Drawing.Point(48, 304);
 			this._labelApplications.Name = "_labelApplications";
 			this._labelApplications.Size = new System.Drawing.Size(71, 28);
-			this._labelApplications.TabIndex = 22;
+			this._labelApplications.TabIndex = 20;
 			this._labelApplications.Text = "Applications";
 			this._labelApplications.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -441,11 +441,11 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._applications, null);
 			this.locExtender.SetLocalizationComment(this._applications, null);
 			this.locExtender.SetLocalizationPriority(this._applications, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._applications, "ProjectMetadataScreen._applications");
+			this.locExtender.SetLocalizingId(this._applications, "ProjectView.MetadataScreen._applications");
 			this._applications.Location = new System.Drawing.Point(125, 307);
 			this._applications.Name = "_applications";
 			this._applications.Size = new System.Drawing.Size(350, 22);
-			this._applications.TabIndex = 10;
+			this._applications.TabIndex = 21;
 			// 
 			// _labelDateAvailable
 			// 
@@ -453,11 +453,11 @@ namespace SayMore.UI.Overview
 			this._labelDateAvailable.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelDateAvailable, null);
 			this.locExtender.SetLocalizationComment(this._labelDateAvailable, null);
-			this.locExtender.SetLocalizingId(this._labelDateAvailable, "ProjectMetadataScreen._labelDateAvailable");
+			this.locExtender.SetLocalizingId(this._labelDateAvailable, "ProjectView.MetadataScreen._labelDateAvailable");
 			this._labelDateAvailable.Location = new System.Drawing.Point(39, 332);
 			this._labelDateAvailable.Name = "_labelDateAvailable";
 			this._labelDateAvailable.Size = new System.Drawing.Size(80, 28);
-			this._labelDateAvailable.TabIndex = 23;
+			this._labelDateAvailable.TabIndex = 22;
 			this._labelDateAvailable.Text = "Date Available";
 			this._labelDateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -467,7 +467,7 @@ namespace SayMore.UI.Overview
 			this._labelRightsHolder.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelRightsHolder, null);
 			this.locExtender.SetLocalizationComment(this._labelRightsHolder, null);
-			this.locExtender.SetLocalizingId(this._labelRightsHolder, "ProjectMetadataScreen._labelRightsHolder");
+			this.locExtender.SetLocalizingId(this._labelRightsHolder, "ProjectView.MetadataScreen._labelRightsHolder");
 			this._labelRightsHolder.Location = new System.Drawing.Point(41, 360);
 			this._labelRightsHolder.Name = "_labelRightsHolder";
 			this._labelRightsHolder.Size = new System.Drawing.Size(78, 28);
@@ -480,11 +480,11 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._rightsHolder, null);
 			this.locExtender.SetLocalizationComment(this._rightsHolder, null);
 			this.locExtender.SetLocalizationPriority(this._rightsHolder, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._rightsHolder, "ProjectMetadataScreen._rightsHolder");
+			this.locExtender.SetLocalizingId(this._rightsHolder, "ProjectView.MetadataScreen._rightsHolder");
 			this._rightsHolder.Location = new System.Drawing.Point(125, 363);
 			this._rightsHolder.Name = "_rightsHolder";
 			this._rightsHolder.Size = new System.Drawing.Size(350, 22);
-			this._rightsHolder.TabIndex = 12;
+			this._rightsHolder.TabIndex = 25;
 			// 
 			// _labelDepositor
 			// 
@@ -492,11 +492,11 @@ namespace SayMore.UI.Overview
 			this._labelDepositor.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelDepositor, null);
 			this.locExtender.SetLocalizationComment(this._labelDepositor, null);
-			this.locExtender.SetLocalizingId(this._labelDepositor, "ProjectMetadataScreen._labelDepositor");
+			this.locExtender.SetLocalizingId(this._labelDepositor, "ProjectView.MetadataScreen._labelDepositor");
 			this._labelDepositor.Location = new System.Drawing.Point(61, 388);
 			this._labelDepositor.Name = "_labelDepositor";
 			this._labelDepositor.Size = new System.Drawing.Size(58, 28);
-			this._labelDepositor.TabIndex = 25;
+			this._labelDepositor.TabIndex = 26;
 			this._labelDepositor.Text = "Depositor";
 			this._labelDepositor.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -505,11 +505,11 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._depositor, null);
 			this.locExtender.SetLocalizationComment(this._depositor, null);
 			this.locExtender.SetLocalizationPriority(this._depositor, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._depositor, "ProjectMetadataScreen._depositor");
+			this.locExtender.SetLocalizingId(this._depositor, "ProjectView.MetadataScreen._depositor");
 			this._depositor.Location = new System.Drawing.Point(125, 391);
 			this._depositor.Name = "_depositor";
 			this._depositor.Size = new System.Drawing.Size(350, 22);
-			this._depositor.TabIndex = 13;
+			this._depositor.TabIndex = 27;
 			// 
 			// _labelRelatedPublications
 			// 
@@ -517,11 +517,11 @@ namespace SayMore.UI.Overview
 			this._labelRelatedPublications.Dock = System.Windows.Forms.DockStyle.Right;
 			this.locExtender.SetLocalizableToolTip(this._labelRelatedPublications, null);
 			this.locExtender.SetLocalizationComment(this._labelRelatedPublications, null);
-			this.locExtender.SetLocalizingId(this._labelRelatedPublications, "ProjectMetadataScreen._labelRelatedPublications");
+			this.locExtender.SetLocalizingId(this._labelRelatedPublications, "ProjectView.MetadataScreen._labelRelatedPublications");
 			this._labelRelatedPublications.Location = new System.Drawing.Point(7, 416);
 			this._labelRelatedPublications.Name = "_labelRelatedPublications";
 			this._labelRelatedPublications.Size = new System.Drawing.Size(112, 28);
-			this._labelRelatedPublications.TabIndex = 26;
+			this._labelRelatedPublications.TabIndex = 28;
 			this._labelRelatedPublications.Text = "Related Publications";
 			this._labelRelatedPublications.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -530,11 +530,11 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._relatedPublications, null);
 			this.locExtender.SetLocalizationComment(this._relatedPublications, null);
 			this.locExtender.SetLocalizationPriority(this._relatedPublications, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._relatedPublications, "ProjectMetadataScreen._relatedPublications");
+			this.locExtender.SetLocalizingId(this._relatedPublications, "ProjectView.MetadataScreen._relatedPublications");
 			this._relatedPublications.Location = new System.Drawing.Point(125, 419);
 			this._relatedPublications.Name = "_relatedPublications";
 			this._relatedPublications.Size = new System.Drawing.Size(350, 22);
-			this._relatedPublications.TabIndex = 14;
+			this._relatedPublications.TabIndex = 29;
 			// 
 			// _dateAvailable
 			// 
@@ -544,12 +544,12 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._dateAvailable, null);
 			this.locExtender.SetLocalizationComment(this._dateAvailable, null);
 			this.locExtender.SetLocalizationPriority(this._dateAvailable, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._dateAvailable, "ProjectMetadataScreen._dateAvailable");
+			this.locExtender.SetLocalizingId(this._dateAvailable, "ProjectView.MetadataScreen._dateAvailable");
 			this._dateAvailable.Location = new System.Drawing.Point(127, 335);
 			this._dateAvailable.Margin = new System.Windows.Forms.Padding(5, 3, 2, 3);
 			this._dateAvailable.Name = "_dateAvailable";
 			this._dateAvailable.Size = new System.Drawing.Size(96, 22);
-			this._dateAvailable.TabIndex = 11;
+			this._dateAvailable.TabIndex = 23;
 			this._dateAvailable.UseWaitCursor = true;
 			this._dateAvailable.Value = new System.DateTime(2013, 12, 18, 9, 55, 23, 0);
 			// 
@@ -562,11 +562,12 @@ namespace SayMore.UI.Overview
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.SystemColors.Control;
 			this.Controls.Add(this._tableLayout);
 			this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "ProjectMetadataScreen.ProjectMetadataScreen");
+			this.locExtender.SetLocalizingId(this, "ProjectView.MetadataScreen");
 			this.Name = "ProjectMetadataScreen";
 			this.Size = new System.Drawing.Size(653, 485);
 			this.Load += new System.EventHandler(this.ProjectMetadataScreen_Load);

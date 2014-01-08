@@ -40,6 +40,8 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSynopsis = new System.Windows.Forms.Label();
 			this._synopsis = new System.Windows.Forms.TextBox();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
+			this._labelMoreFields = new System.Windows.Forms.Label();
+			this._panelAdditionalGrid = new System.Windows.Forms.Panel();
 			this._access = new System.Windows.Forms.ComboBox();
 			this._participants = new SayMore.UI.LowLevelControls.MultiValueDropDownBox();
 			this._labelAccess = new System.Windows.Forms.Label();
@@ -58,8 +60,6 @@ namespace SayMore.UI.ComponentEditors
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
-			this._panelAdditionalGrid = new System.Windows.Forms.Panel();
-			this._labelMoreFields = new System.Windows.Forms.Label();
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -109,7 +109,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelTitle.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelTitle.Name = "_labelTitle";
 			this._labelTitle.Size = new System.Drawing.Size(28, 13);
-			this._labelTitle.TabIndex = 6;
+			this._labelTitle.TabIndex = 4;
 			this._labelTitle.Text = "Title";
 			// 
 			// _title
@@ -127,7 +127,7 @@ namespace SayMore.UI.ComponentEditors
 			this._title.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._title.Name = "_title";
 			this._title.Size = new System.Drawing.Size(202, 22);
-			this._title.TabIndex = 7;
+			this._title.TabIndex = 5;
 			this._autoCompleteHelper.SetUpdateGatherer(this._title, false);
 			// 
 			// _situation
@@ -149,7 +149,7 @@ namespace SayMore.UI.ComponentEditors
 			this._situation.Name = "_situation";
 			this._situation.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this._situation.Size = new System.Drawing.Size(202, 96);
-			this._situation.TabIndex = 19;
+			this._situation.TabIndex = 17;
 			this._autoCompleteHelper.SetUpdateGatherer(this._situation, false);
 			// 
 			// _labelSynopsis
@@ -164,7 +164,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSynopsis.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelSynopsis.Name = "_labelSynopsis";
 			this._labelSynopsis.Size = new System.Drawing.Size(66, 13);
-			this._labelSynopsis.TabIndex = 20;
+			this._labelSynopsis.TabIndex = 18;
 			this._labelSynopsis.Text = "Description";
 			// 
 			// _synopsis
@@ -186,7 +186,7 @@ namespace SayMore.UI.ComponentEditors
 			this._synopsis.Name = "_synopsis";
 			this._synopsis.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this._synopsis.Size = new System.Drawing.Size(203, 96);
-			this._synopsis.TabIndex = 21;
+			this._synopsis.TabIndex = 19;
 			this._autoCompleteHelper.SetUpdateGatherer(this._synopsis, false);
 			// 
 			// _tableLayout
@@ -241,6 +241,31 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.TabIndex = 0;
 			this._tableLayout.TabStop = true;
 			// 
+			// _labelMoreFields
+			// 
+			this._labelMoreFields.AutoSize = true;
+			this._labelMoreFields.BackColor = System.Drawing.Color.Transparent;
+			this._labelMoreFields.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.locExtender.SetLocalizableToolTip(this._labelMoreFields, null);
+			this.locExtender.SetLocalizationComment(this._labelMoreFields, null);
+			this.locExtender.SetLocalizingId(this._labelMoreFields, "SessionsView.MetadataEditor._labelMoreFields");
+			this._labelMoreFields.Location = new System.Drawing.Point(0, 304);
+			this._labelMoreFields.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
+			this._labelMoreFields.Name = "_labelMoreFields";
+			this._labelMoreFields.Size = new System.Drawing.Size(67, 13);
+			this._labelMoreFields.TabIndex = 20;
+			this._labelMoreFields.Text = "More Fields";
+			// 
+			// _panelAdditionalGrid
+			// 
+			this._panelAdditionalGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._panelAdditionalGrid.Location = new System.Drawing.Point(0, 320);
+			this._panelAdditionalGrid.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
+			this._panelAdditionalGrid.Name = "_panelAdditionalGrid";
+			this._panelAdditionalGrid.Size = new System.Drawing.Size(202, 60);
+			this._panelAdditionalGrid.TabIndex = 21;
+			// 
 			// _access
 			// 
 			this._access.Dock = System.Windows.Forms.DockStyle.Top;
@@ -255,7 +280,7 @@ namespace SayMore.UI.ComponentEditors
 			this._access.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._access.Name = "_access";
 			this._access.Size = new System.Drawing.Size(203, 21);
-			this._access.TabIndex = 17;
+			this._access.TabIndex = 15;
 			// 
 			// _participants
 			// 
@@ -275,7 +300,7 @@ namespace SayMore.UI.ComponentEditors
 			this._participants.Name = "_participants";
 			this._participants.Padding = new System.Windows.Forms.Padding(2);
 			this._participants.Size = new System.Drawing.Size(202, 23);
-			this._participants.TabIndex = 11;
+			this._participants.TabIndex = 9;
 			this._autoCompleteHelper.SetUpdateGatherer(this._participants, false);
 			// 
 			// _labelAccess
@@ -290,7 +315,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelAccess.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelAccess.Name = "_labelAccess";
 			this._labelAccess.Size = new System.Drawing.Size(40, 13);
-			this._labelAccess.TabIndex = 16;
+			this._labelAccess.TabIndex = 14;
 			this._labelAccess.Text = "Access";
 			// 
 			// _genre
@@ -309,7 +334,7 @@ namespace SayMore.UI.ComponentEditors
 			this._genre.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._genre.Name = "_genre";
 			this._genre.Size = new System.Drawing.Size(202, 21);
-			this._genre.TabIndex = 15;
+			this._genre.TabIndex = 13;
 			this._genre.Leave += new System.EventHandler(this.HideTextSelection);
 			// 
 			// _labelGenre
@@ -324,7 +349,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelGenre.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelGenre.Name = "_labelGenre";
 			this._labelGenre.Size = new System.Drawing.Size(38, 13);
-			this._labelGenre.TabIndex = 14;
+			this._labelGenre.TabIndex = 12;
 			this._labelGenre.Text = "Genre";
 			// 
 			// _location
@@ -342,7 +367,7 @@ namespace SayMore.UI.ComponentEditors
 			this._location.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._location.Name = "_location";
 			this._location.Size = new System.Drawing.Size(203, 22);
-			this._location.TabIndex = 13;
+			this._location.TabIndex = 11;
 			this._autoCompleteHelper.SetUpdateGatherer(this._location, false);
 			// 
 			// _labelLocation
@@ -357,7 +382,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelLocation.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelLocation.Name = "_labelLocation";
 			this._labelLocation.Size = new System.Drawing.Size(51, 13);
-			this._labelLocation.TabIndex = 12;
+			this._labelLocation.TabIndex = 10;
 			this._labelLocation.Text = "Location";
 			// 
 			// _labelParticipants
@@ -372,7 +397,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelParticipants.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelParticipants.Name = "_labelParticipants";
 			this._labelParticipants.Size = new System.Drawing.Size(42, 13);
-			this._labelParticipants.TabIndex = 10;
+			this._labelParticipants.TabIndex = 8;
 			this._labelParticipants.Text = "People";
 			// 
 			// _labelSetting
@@ -387,7 +412,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSetting.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelSetting.Name = "_labelSetting";
 			this._labelSetting.Size = new System.Drawing.Size(44, 13);
-			this._labelSetting.TabIndex = 8;
+			this._labelSetting.TabIndex = 6;
 			this._labelSetting.Text = "Setting";
 			// 
 			// _setting
@@ -405,7 +430,7 @@ namespace SayMore.UI.ComponentEditors
 			this._setting.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._setting.Name = "_setting";
 			this._setting.Size = new System.Drawing.Size(203, 22);
-			this._setting.TabIndex = 9;
+			this._setting.TabIndex = 7;
 			this._autoCompleteHelper.SetUpdateGatherer(this._setting, false);
 			// 
 			// _labelSituation
@@ -420,7 +445,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSituation.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelSituation.Name = "_labelSituation";
 			this._labelSituation.Size = new System.Drawing.Size(54, 13);
-			this._labelSituation.TabIndex = 18;
+			this._labelSituation.TabIndex = 116;
 			this._labelSituation.Text = "Situation";
 			// 
 			// _labelDate
@@ -478,37 +503,12 @@ namespace SayMore.UI.ComponentEditors
 			this._panelGrid.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._panelGrid.Name = "_panelGrid";
 			this._panelGrid.Size = new System.Drawing.Size(203, 60);
-			this._panelGrid.TabIndex = 24;
+			this._panelGrid.TabIndex = 23;
 			// 
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
 			this.locExtender.PrefixForNewItems = null;
-			// 
-			// _panelAdditionalGrid
-			// 
-			this._panelAdditionalGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this._panelAdditionalGrid.Location = new System.Drawing.Point(0, 320);
-			this._panelAdditionalGrid.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
-			this._panelAdditionalGrid.Name = "_panelAdditionalGrid";
-			this._panelAdditionalGrid.Size = new System.Drawing.Size(202, 60);
-			this._panelAdditionalGrid.TabIndex = 23;
-			// 
-			// _labelMoreFields
-			// 
-			this._labelMoreFields.AutoSize = true;
-			this._labelMoreFields.BackColor = System.Drawing.Color.Transparent;
-			this._labelMoreFields.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.locExtender.SetLocalizableToolTip(this._labelMoreFields, null);
-			this.locExtender.SetLocalizationComment(this._labelMoreFields, null);
-			this.locExtender.SetLocalizingId(this._labelMoreFields, "SessionsView.MetadataEditor._labelMoreFields");
-			this._labelMoreFields.Location = new System.Drawing.Point(0, 304);
-			this._labelMoreFields.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
-			this._labelMoreFields.Name = "_labelMoreFields";
-			this._labelMoreFields.Size = new System.Drawing.Size(67, 13);
-			this._labelMoreFields.TabIndex = 25;
-			this._labelMoreFields.Text = "More Fields";
 			// 
 			// SessionBasicEditor
 			// 

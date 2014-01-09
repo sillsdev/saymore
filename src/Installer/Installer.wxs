@@ -70,7 +70,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 				<File Id="ContentChannel.xml" Name="Content-Channel.xml" Source=".\imdi\Content-Channel.xml" />
 				<File Id="ContentEventStructure.xml" Name="Content-EventStructure.xml" Source=".\imdi\Content-EventStructure.xml" />
 				<File Id="ContentGenre.xml" Name="Content-Genre.xml" Source=".\imdi\Content-Genre.xml" />
-				<File Id="ContentInteractivity" Name="Content-Interactivity" Source=".\imdi\Content-Interactivity.xml" />
+				<File Id="ContentInteractivity" Name="Content-Interactivity.xml" Source=".\imdi\Content-Interactivity.xml" />
 				<File Id="ContentInvolvement.xml" Name="Content-Involvement.xml" Source=".\imdi\Content-Involvement.xml" />
 				<File Id="ContentModalities.xml" Name="Content-Modalities.xml" Source=".\imdi\Content-Modalities.xml" />
 				<File Id="ContentPlanningType.xml" Name="Content-PlanningType.xml" Source=".\imdi\Content-PlanningType.xml" />

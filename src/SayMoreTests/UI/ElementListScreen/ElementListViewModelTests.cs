@@ -51,7 +51,7 @@ namespace SayMoreTests.UI.ElementListScreen
 				ComponentFileTests.CreateComponentFile(_tmpFolder, peter.Object, "marySong2.mp3"),
 			});
 
-			_repo = new ElementRepository<Person>(_tmpFolder.Path, Person.kFolderName, new PersonFileType(null),
+			_repo = new ElementRepository<Person>(_tmpFolder.Path, Person.kFolderName, new PersonFileType(null, null),
 				(folder, id, idChangedAction) =>
 				{
 					switch (id)

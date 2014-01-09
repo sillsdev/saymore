@@ -378,6 +378,12 @@
     <Compile Include="UI\ComponentEditors\DiagnosticsFileInfoControl.Designer.cs">
       <DependentUpon>DiagnosticsFileInfoControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ComponentEditors\PersonContributionEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\PersonContributionEditor.Designer.cs">
+      <DependentUpon>PersonContributionEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ComponentEditors\SessionBasicEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -731,6 +737,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\DiagnosticsFileInfoControl.resx">
       <DependentUpon>DiagnosticsFileInfoControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\PersonContributionEditor.resx">
+      <DependentUpon>PersonContributionEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\SessionBasicEditor.resx">
       <DependentUpon>SessionBasicEditor.cs</DependentUpon>

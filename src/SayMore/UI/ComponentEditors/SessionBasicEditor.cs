@@ -141,7 +141,8 @@ namespace SayMore.UI.ComponentEditors
 				DataSource = countryList,
 				DisplayMember = "Text",
 				ValueMember = "Value",
-				Value = countryVal
+				Value = countryVal,
+				FlatStyle = FlatStyle.Flat
 			};
 
 			_gridAdditionalFields[1, 2] = countryCell;
@@ -158,7 +159,8 @@ namespace SayMore.UI.ComponentEditors
 				DataSource = continentList,
 				DisplayMember = "Text",
 				ValueMember = "Value",
-				Value = continentVal
+				Value = continentVal,
+				FlatStyle = FlatStyle.Flat
 			};
 
 			_gridAdditionalFields[1, 3] = continentCell;

@@ -201,7 +201,7 @@ namespace SayMore.UI
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(159, 13);
 			this.label1.TabIndex = 7;
-			this.label1.Text = "© 2011-2013 SIL International";
+			this.label1.Text = "© 2011-2014 SIL International";
 			// 
 			// SplashScreenForm
 			// 

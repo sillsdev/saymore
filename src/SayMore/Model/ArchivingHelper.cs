@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Palaso.Extensions;
 using Palaso.Reporting;
+using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 using SIL.Archiving;
 using SIL.Archiving.Generic;
@@ -95,39 +96,45 @@ namespace SayMore.Model
 
 		private static void AddIMDISession(Session saymoreSession, ArchivingDlgViewModel model)
 		{
+			var sessionFile = saymoreSession.MetaDataFile;
+
 			// create IMDI session
 			var imdiSession = model.AddSession(saymoreSession.Id);
 			imdiSession.Title = saymoreSession.Title;
 
 			// session location
-			var location = saymoreSession.MetaDataFile.GetStringValue("location", null);
-			if (!string.IsNullOrEmpty(location))
-				imdiSession.Location = new ArchivingLocation { Address = location };
+			var address = saymoreSession.MetaDataFile.GetStringValue("additional_Location_Address", null);
+			var region = saymoreSession.MetaDataFile.GetStringValue("additional_Location_Region", null);
+			var country = saymoreSession.MetaDataFile.GetStringValue("additional_Location_Country", null);
+			var continent = saymoreSession.MetaDataFile.GetStringValue("additional_Location_Continent", null);
+			if (string.IsNullOrEmpty(address))
+				address = saymoreSession.MetaDataFile.GetStringValue("location", null);
+
+			imdiSession.Location = new ArchivingLocation { Address = address, Region = region, Country = country, Continent = continent };
 
 			// session description (synopsis)
-			var synopsis = saymoreSession.MetaDataFile.GetStringValue("synopsis", null);
-			if (!string.IsNullOrEmpty(synopsis))
-				imdiSession.AddDescription(new LanguageString { Value = synopsis });
+			var stringVal = saymoreSession.MetaDataFile.GetStringValue("synopsis", null);
+			if (!string.IsNullOrEmpty(stringVal))
+				imdiSession.AddDescription(new LanguageString { Value = stringVal });
 
 			// session date
-			var date = saymoreSession.MetaDataFile.GetStringValue("date", null);
-			if (!string.IsNullOrEmpty(date))
-				imdiSession.SetDate(date);
+			stringVal = saymoreSession.MetaDataFile.GetStringValue("date", null);
+			if (!string.IsNullOrEmpty(stringVal))
+				imdiSession.SetDate(DateTime.Parse(stringVal).ToISO8601DateOnlyString());
 
 			// session situation
-			var situation = saymoreSession.MetaDataFile.GetStringValue("situation", null);
-			if (!string.IsNullOrEmpty(date))
-				imdiSession.AddKeyValuePair("Situation", situation);
+			stringVal = saymoreSession.MetaDataFile.GetStringValue("situation", null);
+			if (!string.IsNullOrEmpty(stringVal))
+				imdiSession.AddKeyValuePair("Situation", stringVal);
 
-			// session genre
-			var genre = saymoreSession.MetaDataFile.GetStringValue("genre", null);
-			if (!string.IsNullOrEmpty(genre))
-				imdiSession.Genre = genre;
-
-			// session access
-			var access = saymoreSession.MetaDataFile.GetStringValue("access", null);
-			if (!string.IsNullOrEmpty(access))
-				imdiSession.AccessCode = access;
+			imdiSession.Genre = GetFieldValue(sessionFile, "genre");
+			imdiSession.SubGenre = GetFieldValue(sessionFile, "additional_Sub-Genre");
+			imdiSession.AccessCode = GetFieldValue(sessionFile, "access");
+			imdiSession.Interactivity = GetFieldValue(sessionFile, "additional_Interactivity");
+			imdiSession.Involvement = GetFieldValue(sessionFile, "additional_Involvement");
+			imdiSession.PlanningType = GetFieldValue(sessionFile, "additional_Planning_Type");
+			imdiSession.SocialContext = GetFieldValue(sessionFile, "additional_Social_Context");
+			imdiSession.Task = GetFieldValue(sessionFile, "additional_Task");
 
 			// custom session fields
 			foreach (var item in saymoreSession.MetaDataFile.GetCustomFields())
@@ -181,6 +188,12 @@ namespace SayMore.Model
 			var files = saymoreSession.GetSessionFilesToArchive(model.GetType());
 			foreach (var file in files)
 				imdiSession.AddFile(CreateArchivingFile(file));
+		}
+
+		private static string GetFieldValue(ComponentFile file, string valueName)
+		{
+			var stringVal = file.GetStringValue(valueName, null);
+			return string.IsNullOrEmpty(stringVal) ? null : stringVal;
 		}
 
 		private static void AddIMDIProjectData(Project saymoreProject, ArchivingDlgViewModel model)

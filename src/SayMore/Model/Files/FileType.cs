@@ -217,16 +217,20 @@ namespace SayMore.Model.Files
 	public class PersonFileType : FileType
 	{
 		private readonly Func<PersonBasicEditor.Factory> _personBasicEditorFactoryLazy;
+		private readonly Func<PersonContributionEditor.Factory> _personContributionEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
 		/// <param name="personBasicEditorFactoryLazy">This is to get us around a circular
 		/// dependency error in autofac.  NB: when we move to .net 4, this can be replaced by
 		/// Lazy<Func<PersonBasicEditor.Factory></param>
+		/// <param name="personRoleEditorFactoryLazy"></param>
 		/// ------------------------------------------------------------------------------------
-		public PersonFileType(Func<PersonBasicEditor.Factory> personBasicEditorFactoryLazy)
+		public PersonFileType(Func<PersonBasicEditor.Factory> personBasicEditorFactoryLazy,
+			Func<PersonContributionEditor.Factory> personRoleEditorFactoryLazy)
 			: base("Person", p => p.ToLower().EndsWith(".person"))
 		{
 			_personBasicEditorFactoryLazy = personBasicEditorFactoryLazy;
+			_personContributionEditorFactoryLazy = personRoleEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -309,6 +313,7 @@ namespace SayMore.Model.Files
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
 			yield return _personBasicEditorFactoryLazy()(file, "Person");
+			yield return _personContributionEditorFactoryLazy()(file, "Session");
 			yield return new NotesEditor(file);
 		}
 
@@ -366,6 +371,7 @@ namespace SayMore.Model.Files
 		/// <param name="sessionBasicEditorFactoryLazy">This is to get us around a circular
 		/// dependency error in autofac. NB: when we move to .net 4, this can be replaced by
 		/// Lazy<Func<SessionBasicEditor.Factory></param>
+		/// <param name="statusAndStagesEditorFactoryLazy"></param>
 		/// ------------------------------------------------------------------------------------
 		public SessionFileType(Func<SessionBasicEditor.Factory> sessionBasicEditorFactoryLazy,
 			Func<StatusAndStagesEditor.Factory> statusAndStagesEditorFactoryLazy)

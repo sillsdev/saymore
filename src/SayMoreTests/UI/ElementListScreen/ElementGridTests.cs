@@ -53,7 +53,7 @@ namespace SayMoreTests.UI.ElementListScreen
 		[Test]
 		public void SetFileType_UsingPersonType_CreatesCorrectColumns()
 		{
-			_grid.SetFileType(new PersonFileType(null));
+			_grid.SetFileType(new PersonFileType(null, null));
 
 			Assert.AreEqual(2, _grid.ColumnCount);
 			Assert.IsNotNull(_grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name.ToLower() == "id"));

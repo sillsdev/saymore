@@ -1,15 +1,19 @@
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SayMore.Media.FFmpeg;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SIL.Archiving.IMDI.Schema;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -60,11 +64,18 @@ namespace SayMore.UI.ComponentEditors
 
 		private void InitializeControls()
 		{
-			_grid = new BetterGrid {Dock = DockStyle.Top, RowHeadersVisible = false};
-			_grid.Columns.Add(new DataGridViewTextBoxColumn { ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.NameColumnTitle", "Name") });
-			_grid.Columns.Add(new DataGridViewTextBoxColumn { ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.RoleColumnTitle", "Role") });
-			_grid.Columns.Add(new DataGridViewTextBoxColumn { ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.DateColumnTitle", "Date") });
-			_grid.Columns.Add(new DataGridViewTextBoxColumn { ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.CommentColumnTitle", "Comments") });
+			_grid = new BetterGrid
+			{
+				Dock = DockStyle.Top,
+				RowHeadersVisible = false,
+				AllowUserToOrderColumns = false,
+				AllowUserToResizeRows = false,
+				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+			};
+			_grid.Columns.Add(new DataGridViewTextBoxColumn { SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.NameColumnTitle", "Name") });
+			_grid.Columns.Add(new DataGridViewTextBoxColumn { SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.RoleColumnTitle", "Role") });
+			_grid.Columns.Add(new DataGridViewTextBoxColumn { SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.DateColumnTitle", "Date") });
+			_grid.Columns.Add(new DataGridViewTextBoxColumn { SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.CommentColumnTitle", "Comments") });
 			Controls.Add(_grid);
 		}
 
@@ -85,7 +96,7 @@ namespace SayMore.UI.ComponentEditors
 				{
 					// add Participant row for this session
 					var sessionDescription = session.Id + " " + session.Title;
-					if (sessionDescription.Length > 30) sessionDescription = sessionDescription.Substring(0, 27) + "...";
+					//if (sessionDescription.Length > 30) sessionDescription = sessionDescription.Substring(0, 27) + "...";
 					var sessionRole = LocalizationManager.GetString("PeopleView.ContributionEditor.RoleParticipant", "Participant");
 					var sessionDate = session.MetaDataFile.GetStringValue("date", string.Empty);
 					if (!string.IsNullOrEmpty(sessionDate)) sessionDate = DateTime.Parse(sessionDate).ToShortDateString();
@@ -96,10 +107,42 @@ namespace SayMore.UI.ComponentEditors
 
 				// get the files for this session
 				var files = Directory.GetFiles(session.FolderPath, "*" + Settings.Default.MetadataFileExtension);
-				//Console.Out.WriteLine(files.Count());
+				var searchFor = "<name>" + _personId + "</name>";
+				foreach (var file in files)
+				{
+					var fileContents = File.ReadAllText(file);
+
+					// look for this person
+					var pos = fileContents.IndexOf(searchFor, StringComparison.InvariantCultureIgnoreCase);
+					while (pos > 0)
+					{
+						// remove everything before this person
+						fileContents = fileContents.Substring(pos + searchFor.Length);
+
+						// get the end of this contributor
+						var testString = fileContents.Substring(0, fileContents.IndexOf("</contributor>", StringComparison.InvariantCultureIgnoreCase));
+
+						var role = GetValueFromXmlString(testString, "role");
+						var date = GetValueFromXmlString(testString, "date");
+						if (!string.IsNullOrEmpty(date))
+							date = DateTime.Parse(date).ToShortDateString();
+						var note = GetValueFromXmlString(testString, "notes");
+						var fname = Path.GetFileName(file.Substring(0, file.Length - Settings.Default.MetadataFileExtension.Length));
+						_grid.AddRow(new object[] { Path.GetFileName(fname), role, date, note });
+
+						// look again
+						pos = fileContents.IndexOf(searchFor, StringComparison.InvariantCultureIgnoreCase);
+					}
+				}
 			}
+		}
 
+		private string GetValueFromXmlString(string xmlString, string valueName)
+		{
+			var pattern = string.Format("<{0}>(.*)</{0}>", valueName);
+			var match = Regex.Match(xmlString, pattern);
 
+			return match.Success ? match.Groups[1].Value : string.Empty;
 		}
 
 		protected override void HandleStringsLocalized()

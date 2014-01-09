@@ -23,8 +23,8 @@ namespace SayMore.UI.Overview
 			_accessView = accessView;
 			InitializeComponent();
 
-			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.ProgressViewTitle", "About This Project") });
-			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Access Protocol") });
+			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.AboutProjectViewTitle", "About This Project") });
+			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.AccessProtocolViewTitle", "Access Protocol") });
 			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress") });
 			_splitter.Panel2.BackColor = Color.FromArgb(230, 150, 100);
 			_metadataView.BackColor = _splitter.Panel2.BackColor;

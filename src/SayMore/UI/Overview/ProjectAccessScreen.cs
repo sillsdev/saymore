@@ -1,6 +1,8 @@
 
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Palaso.IO;
 using SIL.Archiving.Generic.AccessProtocol;
 
 namespace SayMore.UI.Overview
@@ -9,13 +11,16 @@ namespace SayMore.UI.Overview
 	{
 		private bool _isLoaded;
 		private string _currentUri;
+		private readonly string _archivingFileDirectoryName;
 
 		public ProjectAccessScreen()
 		{
 			InitializeComponent();
 
 			// access protocol list
-			var protocols = AccessProtocols.LoadStandardAndCustom();
+			var fileName = FileLocator.GetFileDistributedWithApplication("Archiving", "AccessProtocols.json");
+			_archivingFileDirectoryName = Path.GetDirectoryName(fileName);
+			var protocols = AccessProtocols.LoadStandardAndCustom(_archivingFileDirectoryName);
 			protocols.Insert(0, new ArchiveAccessProtocol { ProtocolName = "None" });
 			_projectAccess.DataSource = protocols;
 
@@ -50,7 +55,7 @@ namespace SayMore.UI.Overview
 			}
 			else
 			{
-				_currentUri = item.GetDocumentaionUri();
+				_currentUri = item.GetDocumentaionUri(_archivingFileDirectoryName);
 				_webBrowser.Navigate(_currentUri);
 			}
 

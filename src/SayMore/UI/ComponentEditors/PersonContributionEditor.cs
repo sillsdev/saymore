@@ -1,6 +1,5 @@
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -9,11 +8,10 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.UI.WindowsForms.ClearShare;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
-using SayMore.Media.FFmpeg;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SIL.Archiving.IMDI.Schema;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -23,6 +21,8 @@ namespace SayMore.UI.ComponentEditors
 
 		private BetterGrid _grid;
 		private string _personId;
+
+		private static readonly OlacSystem OlacSystem = new OlacSystem();
 
 		public PersonContributionEditor(ComponentFile file, string imageKey)
 			: base(file, null, imageKey)
@@ -122,7 +122,7 @@ namespace SayMore.UI.ComponentEditors
 						// get the end of this contributor
 						var testString = fileContents.Substring(0, fileContents.IndexOf("</contributor>", StringComparison.InvariantCultureIgnoreCase));
 
-						var role = GetValueFromXmlString(testString, "role");
+						var role = GetRoleFromOlacList(GetValueFromXmlString(testString, "role"));
 						var date = GetValueFromXmlString(testString, "date");
 						if (!string.IsNullOrEmpty(date))
 							date = DateTime.Parse(date).ToShortDateString();
@@ -137,7 +137,19 @@ namespace SayMore.UI.ComponentEditors
 			}
 		}
 
-		private string GetValueFromXmlString(string xmlString, string valueName)
+		private static string GetRoleFromOlacList(string savedRole)
+		{
+			Role role;
+			if (OlacSystem.TryGetRoleByCode(savedRole, out role))
+				return role.Name;
+
+			if (OlacSystem.TryGetRoleByName(savedRole, out role))
+				return role.Name;
+
+			return savedRole;
+		}
+
+		private static string GetValueFromXmlString(string xmlString, string valueName)
 		{
 			var pattern = string.Format("<{0}>(.*)</{0}>", valueName);
 			var match = Regex.Match(xmlString, pattern);

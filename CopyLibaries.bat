@@ -12,6 +12,7 @@ copy /Y ..\palaso\output\debug\Palaso.Media.pdb lib\dotnet
 copy /Y ..\palaso\output\debug\SIL.Archiving.dll lib\dotnet
 copy /Y ..\palaso\output\debug\SIL.Archiving.xml lib\dotnet
 copy /Y ..\palaso\output\debug\SIL.Archiving.pdb lib\dotnet
+copy /Y ..\palaso\output\debug\Ionic.Zip.dll lib\dotnet
 
 copy /Y ..\L10NSharp\Output\Debug\L10NSharp.dll lib\dotnet
 copy /Y ..\L10NSharp\Output\Debug\L10NSharp.pdb lib\dotnet

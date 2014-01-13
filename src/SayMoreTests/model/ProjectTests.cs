@@ -232,8 +232,7 @@ namespace SayMoreTests.Model
 		#region SetFilesToArchive Tests
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
-		public void SetFilesToArchive_GetsCorrectListSize()
+		public void SetFilesToArchive_GetsCorrectSessionAndPersonFiles()
 		{
 			var prj = CreateProject(_parentFolder);
 			string person1 = CreateMockedPerson("ddo");
@@ -251,9 +250,9 @@ namespace SayMoreTests.Model
 			model.Setup(s => s.AddSession(_dummySessions[2].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[2].Id });
 
 			// session files
-			model.Setup(s => s.AddFileGroup(_dummySessions[0].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[0].Id)));
-			model.Setup(s => s.AddFileGroup(_dummySessions[1].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[1].Id)));
-			model.Setup(s => s.AddFileGroup(_dummySessions[2].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[2].Id)));
+			model.Setup(s => s.AddFileGroup(_dummySessions[0].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[0].Title)));
+			model.Setup(s => s.AddFileGroup(_dummySessions[1].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[1].Title)));
+			model.Setup(s => s.AddFileGroup(_dummySessions[2].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[2].Title)));
 
 			// contributor files
 			model.Setup(s => s.AddFileGroup("\n" + person1, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
@@ -263,25 +262,6 @@ namespace SayMoreTests.Model
 			prj.SetFilesToArchive(model.Object);
 			model.VerifyAll();
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//[Category("SkipOnTeamCity")]
-		//public void SetFilesToArchive_GetsCorrectSessionAndPersonFiles()
-		//{
-		//    var model = new Mock<ArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", null);
-
-		//    model.Setup(s => s.AddFileGroup(string.Empty,
-		//        It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new[] { "ddo.session", "ddo.mpg", "ddo.mp3", "ddo.pdf" }).Count() == 4),
-		//        "Adding Files for Session 'StupidSession'"));
-
-		//    model.Setup(s => s.AddFileGroup("ddo-person",
-		//        It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new[] { "ddoPic.jpg", "ddoVoice.wav" }).Count() == 2),
-		//        "Adding Files for Contributor 'ddo-person'"));
-
-		//    _session.SetFilesToArchive(model.Object);
-		//	model.VerifyAll();
-		//}
 
 		///// ------------------------------------------------------------------------------------
 		//[Test]
@@ -303,9 +283,8 @@ namespace SayMoreTests.Model
 
 		private Project CreateProject(TemporaryFolder parent)
 		{
-			return _projectContext.Project;
-			//return new Project(parent.Combine("foo", "foo." + Project.ProjectSettingsFileExtension),
-			//    GetSessionRepo, _projectContext.ResolveForTests<SessionFileType>());
+			return new Project(parent.Combine("foo", "foo." + Project.ProjectSettingsFileExtension),
+				GetSessionRepo, _projectContext.ResolveForTests<SessionFileType>());
 		}
 
 		/// ------------------------------------------------------------------------------------

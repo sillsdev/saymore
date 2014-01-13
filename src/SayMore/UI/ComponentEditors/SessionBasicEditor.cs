@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.Extensions;
 using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -131,41 +132,23 @@ namespace SayMore.UI.ComponentEditors
 			_panelAdditionalGrid.AutoSize = true;
 			_panelAdditionalGrid.Controls.Add(_gridAdditionalFields);
 
+			// interactivity cell
+			AddDropdownCell(ListType.ContentInteractivity, 0);
+
+			// involvement cell
+			AddDropdownCell(ListType.ContentInvolvement, 1);
+
 			// set country dropdown
-			var countryList = ListConstructor.GetList(ListType.Countries);
-			countryList.Insert(0, new IMDIListItem(string.Empty, string.Empty)); // add a blank option
-			var countryVal = _gridAdditionalFields[1, 2].Value.ToString();
-			if (countryList.FindByValue(countryVal) == null)
-				countryVal = string.Empty;
-
-			var countryCell = new DataGridViewComboBoxCell
-			{
-				DataSource = countryList,
-				DisplayMember = "Text",
-				ValueMember = "Value",
-				Value = countryVal,
-				FlatStyle = FlatStyle.Flat
-			};
-
-			_gridAdditionalFields[1, 2] = countryCell;
+			AddDropdownCell(ListType.Countries, 2);
 
 			// set continent dropdown
-			var continentList = ListConstructor.GetList(ListType.Continents);
-			continentList.Insert(0, new IMDIListItem(string.Empty, string.Empty)); // add a blank option
-			var continentVal = _gridAdditionalFields[1, 3].Value.ToString();
-			if (continentList.FindByValue(continentVal) == null)
-				continentVal = string.Empty;
+			AddDropdownCell(ListType.Continents, 3);
 
-			var continentCell = new DataGridViewComboBoxCell
-			{
-				DataSource = continentList,
-				DisplayMember = "Text",
-				ValueMember = "Value",
-				Value = continentVal,
-				FlatStyle = FlatStyle.Flat
-			};
+			// planning type cell
+			AddDropdownCell(ListType.ContentPlanningType, 6);
 
-			_gridAdditionalFields[1, 3] = continentCell;
+			// social context cell
+			AddDropdownCell(ListType.ContentSocialContext, 8);
 
 			// custom fields grid
 			_gridViewModel = new CustomFieldsValuesGridViewModel(_file, autoCompleteProvider,
@@ -174,6 +157,38 @@ namespace SayMore.UI.ComponentEditors
 			_gridCustomFields = new FieldsValuesGrid(_gridViewModel) {Dock = DockStyle.Top};
 			_panelGrid.AutoSize = true;
 			_panelGrid.Controls.Add(_gridCustomFields);
+		}
+
+		private void AddDropdownCell(string listType, int row)
+		{
+			var list = ListConstructor.GetList(listType);
+			list.UpperCaseFirstCharacters();
+
+			list.Insert(0, new IMDIListItem(string.Empty, string.Empty)); // add a blank option
+
+			var currentValue = _gridAdditionalFields[1, row].Value.ToString();
+
+			if (list.FindByValue(currentValue) == null)
+			{
+				currentValue = string.Empty;
+				_gridAdditionalFields[1, row].Value = currentValue;
+			}
+
+
+			var cell = new DataGridViewComboBoxCell
+			{
+				DataSource = list,
+				DisplayMember = "Text",
+				ValueMember = "Value",
+				Value = currentValue,
+				FlatStyle = FlatStyle.Flat
+			};
+
+			_gridAdditionalFields[1, row] = cell;
+
+			// Added Application.DoEvents() because it was interferring with the background
+			// file processor if it needed to download the list files.
+			Application.DoEvents();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -237,7 +252,7 @@ namespace SayMore.UI.ComponentEditors
 				&& (!string.IsNullOrEmpty(_genre.Text))
 				&& (_genre.Text.Substring(0, 1) != _genre.Text.Substring(0, 1).ToUpper()))
 			{
-				_genre.Text = _genre.Text.First().ToString(CultureInfo.InvariantCulture).ToUpper() + String.Join("", _genre.Text.Skip(1));
+				_genre.Text = _genre.Text.ToUpperFirstLetter();
 			}
 		}
 

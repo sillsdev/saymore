@@ -123,9 +123,11 @@ namespace SayMore.UI.ComponentEditors
 			_additionalFieldsGridViewModel = new AdditionalFieldsValuesGridViewModel(_file, autoCompleteProvider,
 				fieldGatherer);
 
-			_gridAdditionalFields = new FieldsValuesGrid(_additionalFieldsGridViewModel);
-			_gridAdditionalFields.Dock = DockStyle.Top;
-			_gridAdditionalFields.AllowUserToAddRows = false;
+			_gridAdditionalFields = new FieldsValuesGrid(_additionalFieldsGridViewModel)
+			{
+				Dock = DockStyle.Top,
+				AllowUserToAddRows = false
+			};
 			_panelAdditionalGrid.AutoSize = true;
 			_panelAdditionalGrid.Controls.Add(_gridAdditionalFields);
 
@@ -169,8 +171,7 @@ namespace SayMore.UI.ComponentEditors
 			_gridViewModel = new CustomFieldsValuesGridViewModel(_file, autoCompleteProvider,
 				fieldGatherer);
 
-			_gridCustomFields = new FieldsValuesGrid(_gridViewModel);
-			_gridCustomFields.Dock = DockStyle.Top;
+			_gridCustomFields = new FieldsValuesGrid(_gridViewModel) {Dock = DockStyle.Top};
 			_panelGrid.AutoSize = true;
 			_panelGrid.Controls.Add(_gridCustomFields);
 		}
@@ -230,6 +231,14 @@ namespace SayMore.UI.ComponentEditors
 		{
 			if (ActiveControl != _genre && (_genre.SelectionStart == 0 && _genre.SelectionLength > 0))
 				_genre.SelectionLength = 0;
+
+			// All items in the list should be upper-case-initial.
+			if ((ActiveControl != _genre)
+				&& (!string.IsNullOrEmpty(_genre.Text))
+				&& (_genre.Text.Substring(0, 1) != _genre.Text.Substring(0, 1).ToUpper()))
+			{
+				_genre.Text = _genre.Text.First().ToString(CultureInfo.InvariantCulture).ToUpper() + String.Join("", _genre.Text.Skip(1));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -264,10 +273,7 @@ namespace SayMore.UI.ComponentEditors
 
 			if (_access.DropDownStyle == ComboBoxStyle.DropDown)
 			{
-				if (currentAccessCode == null)
-					_access.Text = string.Empty;
-				else
-					_access.Text = currentAccessCode;
+				_access.Text = currentAccessCode ?? string.Empty;
 				return;
 			}
 

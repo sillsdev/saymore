@@ -56,6 +56,13 @@ namespace SayMore.UI.ComponentEditors
 			_genre.Enter += delegate { _genreFieldEntered = true; };
 			_genre.Leave += delegate { _genreFieldEntered = false; };
 			_genre.KeyPress += HandleGenreKeyPress;
+
+			file.AfterSave += file_AfterSave;
+		}
+
+		static void file_AfterSave(object sender, EventArgs e)
+		{
+			Program.OnPersonDataChanged();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -314,7 +321,7 @@ namespace SayMore.UI.ComponentEditors
 		/// <summary>
 		/// Replace comma with correct delimiter in MultiValueDropDownBox
 		/// </summary>
-		private void HandleBinderTranslateBoundValueBeingRetrieved(object sender,
+		private static void HandleBinderTranslateBoundValueBeingRetrieved(object sender,
 			TranslateBoundValueBeingRetrievedArgs args)
 		{
 			if (!(args.BoundControl is MultiValueDropDownBox)) return;

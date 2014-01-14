@@ -35,6 +35,8 @@ namespace SayMore.UI.ComponentEditors
 
 			// do this to set the Associated Sessions the first time because the project might not be loaded yet
 			GetDataInBackground();
+
+
 		}
 
 		private void GetDataInBackground()
@@ -69,14 +71,44 @@ namespace SayMore.UI.ComponentEditors
 				Dock = DockStyle.Top,
 				RowHeadersVisible = false,
 				AllowUserToOrderColumns = false,
-				AllowUserToResizeRows = false,
-				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+				AllowUserToResizeRows = true,
+				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None,
+				Name = "PersonContributionGrid"
 			};
-			_grid.Columns.Add(new DataGridViewTextBoxColumn { SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.NameColumnTitle", "Name") });
-			_grid.Columns.Add(new DataGridViewTextBoxColumn { SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.RoleColumnTitle", "Role") });
-			_grid.Columns.Add(new DataGridViewTextBoxColumn { SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.DateColumnTitle", "Date") });
-			_grid.Columns.Add(new DataGridViewTextBoxColumn { SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.CommentColumnTitle", "Comments") });
+
+			// look for saved settings
+			var widths = Array.ConvertAll(Settings.Default.PersonContributionColumns.Split(new[] {','}), int.Parse).ToList();
+			while (widths.Count < 4)
+				widths.Add(200);
+
+			_grid.Columns.Add(new DataGridViewTextBoxColumn { Width = widths[0], SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.NameColumnTitle", "Name") });
+			_grid.Columns.Add(new DataGridViewTextBoxColumn { Width = widths[1], SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.RoleColumnTitle", "Role") });
+			_grid.Columns.Add(new DataGridViewTextBoxColumn { Width = widths[2], SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.DateColumnTitle", "Date") });
+			_grid.Columns.Add(new DataGridViewTextBoxColumn { Width = widths[3], SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.CommentColumnTitle", "Comments") });
 			Controls.Add(_grid);
+
+			_grid.ColumnWidthChanged += _grid_ColumnWidthChanged;
+
+			Program.PersonDataChanged += Program_PersonDataChanged;
+			Disposed += PersonContributionEditor_Disposed;
+		}
+
+		void PersonContributionEditor_Disposed(object sender, EventArgs e)
+		{
+			Program.PersonDataChanged -= Program_PersonDataChanged;
+		}
+
+		void Program_PersonDataChanged()
+		{
+			GetDataInBackground();
+		}
+
+		void _grid_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+		{
+			// save column widths (min width to save is 50)
+			var widths = (from DataGridViewColumn col in _grid.Columns select (col.Width < 50) ? 50 : col.Width).ToList();
+
+			Settings.Default.PersonContributionColumns = string.Join(",", widths);
 		}
 
 		private void LoadAssociatedSessionsAndFiles()

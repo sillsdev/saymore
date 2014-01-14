@@ -62,6 +62,7 @@ namespace SayMore.UI.ComponentEditors
 			_binder.TranslateBoundValueBeingSaved += HandleBinderTranslateBoundValueBeingSaved;
 			_binder.TranslateBoundValueBeingRetrieved += HandleBinderTranslateBoundValueBeingRetrieved;
 			_binder.SetComponentFile(file);
+
 			InitializeGrid(autoCompleteProvider, fieldGatherer);
 
 			// set custom handler to convert birthYear to age
@@ -80,18 +81,19 @@ namespace SayMore.UI.ComponentEditors
 			backgroundWorker.DoWork += _backgroundWorker_DoWork;
 			backgroundWorker.RunWorkerCompleted += _backgroundWorker_RunWorkerCompleted;
 			backgroundWorker.RunWorkerAsync();
+
 		}
 
 		void _binder_TranslateBoundValueBeingRetrieved(object sender, TranslateBoundValueBeingRetrievedArgs e)
 		{
 			if (e.BoundControl.Name == "_age" && string.IsNullOrEmpty(e.ValueFromFile))
 				_obsoleteBirthYear = ((BindingHelper) sender).ComponentFile.GetStringValue("birthYear", string.Empty);
-			//_obsoleteBirthYear = ((BindingHelper)sender).GetValue("birthYear");
 		}
 
 		void _backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			LoadAssociatedSessions();
+			// to convert birthYear to age
+			if (!string.IsNullOrEmpty(_obsoleteBirthYear)) ConvertBirthYearToAge();
 		}
 
 		void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -133,8 +135,7 @@ namespace SayMore.UI.ComponentEditors
 			_gridViewModel = new CustomFieldsValuesGridViewModel(_file, autoCompleteProvider,
 				fieldGatherer);
 
-			_gridCustomFields = new FieldsValuesGrid(_gridViewModel);
-			_gridCustomFields.Dock = DockStyle.Top;
+			_gridCustomFields = new FieldsValuesGrid(_gridViewModel) {Dock = DockStyle.Top};
 			_panelGrid.AutoSize = true;
 			_panelGrid.Controls.Add(_gridCustomFields);
 		}
@@ -157,38 +158,18 @@ namespace SayMore.UI.ComponentEditors
 
 			LoadPersonsPicture();
 			LoadParentLanguages();
-			LoadAssociatedSessions();
-		}
-
-		private void LoadAssociatedSessions()
-		{
-			var project = Program.CurrentProject;
-
-			if (project == null) return;
-
-			_sessionList.Items.Clear();
-
-			foreach (var session in project.GetAllSessions())
-			{
-				var person = session.GetAllPersonsInSession().FirstOrDefault(p => p.Id == _id.Text);
-
-				if (person != null)
-					_sessionList.Items.Add(session.Id);
-			}
-
-			// resize the list
-			var height = _sessionList.Items.Count * _sessionList.ItemHeight;
-			if (height == 0) height = _sessionList.ItemHeight;
-			_sessionList.Height = height + 5;
 
 			// to convert birthYear to age
-			if (!string.IsNullOrEmpty(_obsoleteBirthYear)) ConvertBirthYearToAge(project);
+			if (!string.IsNullOrEmpty(_obsoleteBirthYear)) ConvertBirthYearToAge();
 		}
 
 		/// <summary>to convert birthYear to age</summary>
-		private void ConvertBirthYearToAge(Model.Project project)
+		private void ConvertBirthYearToAge()
 		{
 			if (string.IsNullOrEmpty(_obsoleteBirthYear)) return;
+
+			var project = Program.CurrentProject;
+			if (project == null) return;
 
 			// get a session with a date
 			var session = project.GetAllSessions().FirstOrDefault(s => !string.IsNullOrEmpty(s.MetaDataFile.GetStringValue("date", string.Empty)));
@@ -209,6 +190,7 @@ namespace SayMore.UI.ComponentEditors
 			_binder.SetValue("birthYear", null);
 			_binder.SetValue("age", _age.Text);
 		}
+
 		/// ------------------------------------------------------------------------------------
 		public string PersonFolder
 		{

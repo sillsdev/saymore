@@ -30,13 +30,12 @@ namespace SayMore.UI.ComponentEditors
 		{
 			this.SuspendLayout();
 			// 
-			// PersonRoleEditor
+			// PersonContributionEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(207)))), ((int)(((byte)(219)))));
-			this.Name = "PersonRoleEditor";
-			this.Padding = new System.Windows.Forms.Padding(7);
+			this.Name = "PersonContributionEditor";
 			this.Size = new System.Drawing.Size(410, 319);
 			this.ResumeLayout(false);
 

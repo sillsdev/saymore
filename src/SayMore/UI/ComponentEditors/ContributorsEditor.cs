@@ -32,8 +32,14 @@ namespace SayMore.UI.ComponentEditors
 			_contributorsControl.ValidatingContributor += HandleValidatingContributor;
 			Controls.Add(_contributorsControl);
 
+			file.AfterSave += file_AfterSave;
 
 			SetComponentFile(file);
+		}
+
+		void file_AfterSave(object sender, System.EventArgs e)
+		{
+			Program.OnPersonDataChanged();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -71,8 +71,6 @@ namespace SayMore.UI.ComponentEditors
 			this._panelPicture = new System.Windows.Forms.Panel();
 			this._personsPicture = new System.Windows.Forms.PictureBox();
 			this._labelCustomFields = new System.Windows.Forms.Label();
-			this._labelSessions = new System.Windows.Forms.Label();
-			this._sessionList = new System.Windows.Forms.ListBox();
 			this._panelPrivacy = new System.Windows.Forms.FlowLayoutPanel();
 			this._labelPrivacy = new System.Windows.Forms.Label();
 			this._privacyProtection = new System.Windows.Forms.CheckBox();
@@ -203,8 +201,6 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.Controls.Add(this._panelGrid, 4, 17);
 			this._tableLayout.Controls.Add(this._panelPicture, 5, 0);
 			this._tableLayout.Controls.Add(this._labelCustomFields, 4, 16);
-			this._tableLayout.Controls.Add(this._labelSessions, 0, 16);
-			this._tableLayout.Controls.Add(this._sessionList, 0, 17);
 			this._tableLayout.Controls.Add(this._panelPrivacy, 4, 10);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Top;
 			this._tableLayout.Location = new System.Drawing.Point(7, 7);
@@ -838,33 +834,6 @@ namespace SayMore.UI.ComponentEditors
 			this._labelCustomFields.TabIndex = 39;
 			this._labelCustomFields.Text = "&Custom Fields";
 			// 
-			// _labelSessions
-			// 
-			this._labelSessions.AutoSize = true;
-			this._tableLayout.SetColumnSpan(this._labelSessions, 2);
-			this.locExtender.SetLocalizableToolTip(this._labelSessions, null);
-			this.locExtender.SetLocalizationComment(this._labelSessions, null);
-			this.locExtender.SetLocalizingId(this._labelSessions, "PeopleView.MetadataEditor._labelAssociatedSessions");
-			this._labelSessions.Location = new System.Drawing.Point(0, 383);
-			this._labelSessions.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
-			this._labelSessions.Name = "_labelSessions";
-			this._labelSessions.Size = new System.Drawing.Size(104, 13);
-			this._labelSessions.TabIndex = 37;
-			this._labelSessions.Text = "Associated Sessions";
-			// 
-			// _sessionList
-			// 
-			this._tableLayout.SetColumnSpan(this._sessionList, 2);
-			this._sessionList.Dock = System.Windows.Forms.DockStyle.Top;
-			this._sessionList.FormattingEnabled = true;
-			this._sessionList.IntegralHeight = false;
-			this._sessionList.Location = new System.Drawing.Point(0, 399);
-			this._sessionList.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
-			this._sessionList.MinimumSize = new System.Drawing.Size(4, 20);
-			this._sessionList.Name = "_sessionList";
-			this._sessionList.Size = new System.Drawing.Size(173, 20);
-			this._sessionList.TabIndex = 38;
-			// 
 			// _panelPrivacy
 			// 
 			this._panelPrivacy.AutoSize = true;
@@ -979,8 +948,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.PictureBox _personsPicture;
 		private System.Windows.Forms.Panel _panelPicture;
 		private L10NSharp.UI.L10NSharpExtender locExtender;
-		private System.Windows.Forms.Label _labelSessions;
-		private System.Windows.Forms.ListBox _sessionList;
 		private System.Windows.Forms.FlowLayoutPanel _panelPrivacy;
 		private System.Windows.Forms.Label _labelPrivacy;
 		private System.Windows.Forms.CheckBox _privacyProtection;

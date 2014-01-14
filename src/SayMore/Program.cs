@@ -38,6 +38,9 @@ namespace SayMore
 		private static ApplicationContainer _applicationContainer;
 		private static Font _dialogFont;
 
+		public delegate void PersonMetadataChangedHandler();
+		public static event PersonMetadataChangedHandler PersonDataChanged;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The main entry point for the application.
@@ -573,6 +576,13 @@ namespace SayMore
 			if (!root.HasChildren) yield break;
 			foreach (var i in from Control c in root.Controls from i in GetControlsOfType<T>(c) select i)
 				yield return i;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void OnPersonDataChanged()
+		{
+			var handler = PersonDataChanged;
+			if (handler != null) handler();
 		}
 	}
 }

@@ -510,8 +510,8 @@ namespace SayMore.Model
 			foreach (var kvp in fileLists)
 			{
 				var element = (kvp.Key.StartsWith("\n") ?
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Contributor") :
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Session"));
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor") :
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Session"));
 
 				model.DisplayMessage(string.Format(fmt, element, (kvp.Key.StartsWith("\n") ? kvp.Key.Substring(1) : kvp.Key)),
 					ArchivingDlgViewModel.MessageType.Progress);

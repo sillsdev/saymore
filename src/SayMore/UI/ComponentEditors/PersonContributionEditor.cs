@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.Extensions;
 using Palaso.UI.WindowsForms.ClearShare;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Model.Files;
@@ -128,10 +129,15 @@ namespace SayMore.UI.ComponentEditors
 				{
 					// add Participant row for this session
 					var sessionDescription = session.Id + " " + session.Title;
-					//if (sessionDescription.Length > 30) sessionDescription = sessionDescription.Substring(0, 27) + "...";
 					var sessionRole = LocalizationManager.GetString("PeopleView.ContributionEditor.RoleParticipant", "Participant");
 					var sessionDate = session.MetaDataFile.GetStringValue("date", string.Empty);
-					if (!string.IsNullOrEmpty(sessionDate)) sessionDate = DateTime.Parse(sessionDate).ToShortDateString();
+					if (!string.IsNullOrEmpty(sessionDate))
+					{
+						// older saymore date problem due to saving localized date string rather than ISO8601
+						sessionDate = sessionDate.IsISO8601Date()
+							? DateTime.Parse(sessionDate).ToShortDateString()
+							: DateTimeExtensions.ParseDateTimePermissivelyWithException(sessionDate).ToShortDateString();
+					}
 
 					var rowid = _grid.AddRow(new object[] { sessionDescription, sessionRole, sessionDate, string.Empty });
 					_grid.Rows[rowid].Cells[0].Style.Font = boldFont;

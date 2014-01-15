@@ -254,7 +254,15 @@ namespace SayMore.UI.ComponentEditors
 				}
 				else
 				{
-					ctrl.Text = stringValue;
+					var dtp = ctrl as DatePicker;
+					if (dtp != null)
+					{
+						ctrl.Text = stringValue;
+					}
+					else
+					{
+						ctrl.Text = stringValue;
+					}
 				}
 			}
 			catch (Exception error)

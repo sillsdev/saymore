@@ -103,6 +103,14 @@
 			<example>Chorus</example>
 		</examples>
 	</type>
+    <type id="instrumental_music">
+        <name>Instrumental Music</name>
+        <definition>Music intended to be performed by a musical instrument or group of instruments.</definition>
+        <comments></comments>
+        <examples>
+            <example></example>
+        </examples>
+    </type>
 	<type id="unintelligible_speech">
 		<name>Unintelligible Speech</name>
 		<definition>Utterances that are not intended to be interpretable as ordinary language.</definition>

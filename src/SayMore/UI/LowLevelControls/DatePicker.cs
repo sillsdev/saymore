@@ -51,7 +51,6 @@ namespace SayMore.UI.LowLevelControls
 				DateTime parsedDate;
 				try
 				{
-
 					parsedDate = DateTimeExtensions.ParseISO8601DateTime(_value);
 				}
 				catch (ApplicationException)
@@ -77,7 +76,7 @@ namespace SayMore.UI.LowLevelControls
 			_ignoreEvents = true;
 			this.SetWindowRedraw(false);
 			Format = DateTimePickerFormat.Custom;
-			CustomFormat = " ";
+			CustomFormat = @" ";
 			this.SetWindowRedraw(true);
 			_ignoreEvents = false;
 		}

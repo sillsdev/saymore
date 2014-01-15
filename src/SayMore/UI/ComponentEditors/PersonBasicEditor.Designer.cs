@@ -72,8 +72,8 @@ namespace SayMore.UI.ComponentEditors
 			this._personsPicture = new System.Windows.Forms.PictureBox();
 			this._labelCustomFields = new System.Windows.Forms.Label();
 			this._panelPrivacy = new System.Windows.Forms.FlowLayoutPanel();
-			this._labelPrivacy = new System.Windows.Forms.Label();
 			this._privacyProtection = new System.Windows.Forms.CheckBox();
+			this._labelPrivacy = new System.Windows.Forms.Label();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
 			this._tooltip = new System.Windows.Forms.ToolTip(this.components);
@@ -293,9 +293,9 @@ namespace SayMore.UI.ComponentEditors
 			this._labelNickName.Location = new System.Drawing.Point(0, 44);
 			this._labelNickName.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._labelNickName.Name = "_labelNickName";
-			this._labelNickName.Size = new System.Drawing.Size(60, 13);
+			this._labelNickName.Size = new System.Drawing.Size(55, 13);
 			this._labelNickName.TabIndex = 4;
-			this._labelNickName.Text = "Nick Name";
+			this._labelNickName.Text = "Nickname";
 			// 
 			// _pbOtherLangMother3
 			// 
@@ -839,27 +839,14 @@ namespace SayMore.UI.ComponentEditors
 			this._panelPrivacy.AutoSize = true;
 			this._panelPrivacy.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._tableLayout.SetColumnSpan(this._panelPrivacy, 2);
-			this._panelPrivacy.Controls.Add(this._labelPrivacy);
 			this._panelPrivacy.Controls.Add(this._privacyProtection);
+			this._panelPrivacy.Controls.Add(this._labelPrivacy);
 			this._panelPrivacy.Dock = System.Windows.Forms.DockStyle.Top;
 			this._panelPrivacy.Location = new System.Drawing.Point(245, 235);
 			this._panelPrivacy.Margin = new System.Windows.Forms.Padding(7, 3, 0, 3);
 			this._panelPrivacy.Name = "_panelPrivacy";
 			this._panelPrivacy.Size = new System.Drawing.Size(240, 22);
 			this._panelPrivacy.TabIndex = 36;
-			// 
-			// _labelPrivacy
-			// 
-			this._labelPrivacy.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._labelPrivacy, null);
-			this.locExtender.SetLocalizationComment(this._labelPrivacy, null);
-			this.locExtender.SetLocalizingId(this._labelPrivacy, "PeopleView.MetadataEditor._labelPrivacyProtection");
-			this._labelPrivacy.Location = new System.Drawing.Point(0, 5);
-			this._labelPrivacy.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
-			this._labelPrivacy.Name = "_labelPrivacy";
-			this._labelPrivacy.Size = new System.Drawing.Size(93, 13);
-			this._labelPrivacy.TabIndex = 29;
-			this._labelPrivacy.Text = "Privacy Protection";
 			// 
 			// _privacyProtection
 			// 
@@ -870,12 +857,25 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizationComment(this._privacyProtection, null);
 			this.locExtender.SetLocalizationPriority(this._privacyProtection, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._privacyProtection, "PeopleView.MetadataEditor.PrivacyProtection");
-			this._privacyProtection.Location = new System.Drawing.Point(99, 5);
+			this._privacyProtection.Location = new System.Drawing.Point(3, 5);
 			this._privacyProtection.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this._privacyProtection.Name = "_privacyProtection";
 			this._privacyProtection.Size = new System.Drawing.Size(15, 14);
 			this._privacyProtection.TabIndex = 30;
 			this._privacyProtection.UseVisualStyleBackColor = true;
+			// 
+			// _labelPrivacy
+			// 
+			this._labelPrivacy.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelPrivacy, null);
+			this.locExtender.SetLocalizationComment(this._labelPrivacy, null);
+			this.locExtender.SetLocalizingId(this._labelPrivacy, "PeopleView.MetadataEditor._labelPrivacyProtection");
+			this._labelPrivacy.Location = new System.Drawing.Point(21, 5);
+			this._labelPrivacy.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
+			this._labelPrivacy.Name = "_labelPrivacy";
+			this._labelPrivacy.Size = new System.Drawing.Size(193, 13);
+			this._labelPrivacy.TabIndex = 29;
+			this._labelPrivacy.Text = "Archive should keep this person private";
 			// 
 			// locExtender
 			// 

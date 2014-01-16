@@ -49,10 +49,13 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		private void HandleStringsLocalized()
 		{
+			var currentRow = _projectPages.CurrentCellAddress.Y;
 			_projectPages.RowCount = 0;
 			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.AboutProjectViewTitle", "About This Project") });
 			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.AccessProtocolViewTitle", "Access Protocol") });
 			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress") });
+			if (currentRow >= 0)
+				_projectPages.CurrentCell = _projectPages.Rows[currentRow].Cells[0];
 		}
 
 		#region ISayMoreView Members

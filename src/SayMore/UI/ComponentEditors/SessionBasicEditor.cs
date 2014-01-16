@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
@@ -136,6 +137,10 @@ namespace SayMore.UI.ComponentEditors
 				Dock = DockStyle.Top,
 				AllowUserToAddRows = false
 			};
+
+			// to get a more helpful exception output than the default DataGrid error message
+			_gridAdditionalFields.DataError += _gridAdditionalFields_DataError;
+
 			_panelAdditionalGrid.AutoSize = true;
 			_panelAdditionalGrid.Controls.Add(_gridAdditionalFields);
 
@@ -166,6 +171,13 @@ namespace SayMore.UI.ComponentEditors
 			_panelGrid.Controls.Add(_gridCustomFields);
 		}
 
+		/// <summary>This gives a more helpful exception output than the default DataGrid error message</summary>
+		void _gridAdditionalFields_DataError(object sender, DataGridViewDataErrorEventArgs e)
+		{
+			Debug.Print(e.Exception.Message);
+			throw new Exception(e.Exception.Message, e.Exception);
+		}
+
 		private void AddDropdownCell(string listType, int row)
 		{
 			var list = ListConstructor.GetList(listType);
@@ -185,8 +197,8 @@ namespace SayMore.UI.ComponentEditors
 			var cell = new DataGridViewComboBoxCell
 			{
 				DataSource = list,
-				DisplayMember = "Text",
-				ValueMember = "Value",
+				DisplayMember = "Value",
+				ValueMember = "Text",
 				Value = currentValue,
 				FlatStyle = FlatStyle.Flat
 			};

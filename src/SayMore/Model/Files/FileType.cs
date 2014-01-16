@@ -254,6 +254,8 @@ namespace SayMore.Model.Files
 				foreach (var fieldId in new[]
 				{
 					"id",
+					"personName",
+					"nickName",
 					"primaryLanguage",
 					"primaryLanguageLearnedIn",
 					"otherLanguage0",
@@ -278,7 +280,6 @@ namespace SayMore.Model.Files
 					"picture",
 					"privacyProtection",
 					"age",
-					"nickName",
 					"ethnicGroup"
 				})
 					yield return new FieldDefinition(fieldId);

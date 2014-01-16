@@ -94,6 +94,15 @@ namespace SayMoreTests.Model.Files.DataGathering
 			}
 		}
 
+		[Test]
+		public void ProcessAllFiles_AccessDenied_DoesNotThrowException()
+		{
+			using (var processor = CreateProcessor())
+			{
+				Assert.DoesNotThrow(() => processor.ProcessAllFilesInFolder(@"c:\System Volume Information"));
+			}
+		}
+
 		private string WriteTestWav(string contents)
 		{
 			var path = _folder.Combine("test.wav");

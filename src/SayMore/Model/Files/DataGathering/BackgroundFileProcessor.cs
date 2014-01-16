@@ -176,6 +176,7 @@ namespace SayMore.Model.Files.DataGathering
 								ProcessFileEvent(_pendingFileEvents.Dequeue());
 						}
 
+// ReSharper disable once ConditionIsAlwaysTrueOrFalse
 						if (!ShouldStop)
 							Thread.Sleep(100);
 					}
@@ -337,9 +338,10 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			Status = kWorkingStatus;
 
-			var paths = new List<string>();
-			paths.AddRange(Directory.GetFiles(topLevelFolder, "*.*",
-				searchSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly));
+			//var paths = new List<string>();
+			//paths.AddRange(Directory.GetFiles(topLevelFolder, "*.*",
+			//    searchSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly));
+			var paths = WalkDirectoryTree(topLevelFolder, (searchSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly));
 
 			for (int i = 0; i < paths.Count; i++)
 			{
@@ -373,6 +375,42 @@ namespace SayMore.Model.Files.DataGathering
 
 			if (FinishedProcessingAllFiles != null)
 				FinishedProcessingAllFiles(this, EventArgs.Empty);
+		}
+
+		private static List<string> WalkDirectoryTree(string topLevelFolder, SearchOption searchOption)
+		{
+			string[] files = null;
+			var returnVal = new List<string>();
+			// First, process all the files directly under this folder
+			try
+			{
+				//files = root.GetFiles("*.*");
+				files = Directory.GetFiles(topLevelFolder, "*.*");
+				returnVal.AddRange(files);
+			}
+			catch (UnauthorizedAccessException)
+			{
+				// You may decide to do something different here.
+				Debug.Print("Access denied: " + topLevelFolder);
+			}
+			catch (DirectoryNotFoundException)
+			{
+				// You may decide to do something different here.
+				Debug.Print("Directory not found: " + topLevelFolder);
+			}
+
+			if ((files != null) && (searchOption == SearchOption.AllDirectories))
+			{
+				// Now find all the subdirectories under this directory.
+				var dirs = Directory.GetDirectories(topLevelFolder);
+				foreach (var dir in dirs)
+				{
+					// Resursive call for each subdirectory.
+					returnVal.AddRange(WalkDirectoryTree(dir, searchOption));
+				}
+			}
+
+			return returnVal;
 		}
 
 		/// ------------------------------------------------------------------------------------

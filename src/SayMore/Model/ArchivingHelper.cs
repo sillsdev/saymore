@@ -34,7 +34,7 @@ namespace SayMore.Model
 			using (var dlg = new IMDIArchivingDlg(model, ApplicationContainer.kSayMoreLocalizationId,
 				Program.DialogFont, Settings.Default.ArchivingDialog))
 			{
-				dlg.ShowDialog();
+				dlg.ShowDialog(Program.ProjectWindow);
 				Settings.Default.ArchivingDialog = dlg.FormSettings;
 
 				// remember choice for next time

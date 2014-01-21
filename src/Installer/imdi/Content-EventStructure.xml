@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<imdi:VocabularyDef 
+	xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" 
+	Name="Content-EventStructure" 
+	Date="2003-06-25" 
+	Link="http://www.mpi.nl/IMDI/Schema/Content-EventStructure.xml">
+  <imdi:Description LanguageId="ISO639-2:eng">A list of values for CommunicationContext EventStructure </imdi:Description>
+  <imdi:Entry Value="Unknown"/>
+  <imdi:Entry Value="Unspecified"/>
+  <imdi:Entry Value="Monologue"/>
+  <imdi:Entry Value="Dialogue"/>
+  <imdi:Entry Value="Conversation"/>
+  <imdi:Entry Value="Not a natural format"/>
+</imdi:VocabularyDef>

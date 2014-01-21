@@ -217,16 +217,20 @@ namespace SayMore.Model.Files
 	public class PersonFileType : FileType
 	{
 		private readonly Func<PersonBasicEditor.Factory> _personBasicEditorFactoryLazy;
+		private readonly Func<PersonContributionEditor.Factory> _personContributionEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
 		/// <param name="personBasicEditorFactoryLazy">This is to get us around a circular
 		/// dependency error in autofac.  NB: when we move to .net 4, this can be replaced by
 		/// Lazy<Func<PersonBasicEditor.Factory></param>
+		/// <param name="personRoleEditorFactoryLazy"></param>
 		/// ------------------------------------------------------------------------------------
-		public PersonFileType(Func<PersonBasicEditor.Factory> personBasicEditorFactoryLazy)
+		public PersonFileType(Func<PersonBasicEditor.Factory> personBasicEditorFactoryLazy,
+			Func<PersonContributionEditor.Factory> personRoleEditorFactoryLazy)
 			: base("Person", p => p.ToLower().EndsWith(".person"))
 		{
 			_personBasicEditorFactoryLazy = personBasicEditorFactoryLazy;
+			_personContributionEditorFactoryLazy = personRoleEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -250,6 +254,8 @@ namespace SayMore.Model.Files
 				foreach (var fieldId in new[]
 				{
 					"id",
+					"personName",
+					"nickName",
 					"primaryLanguage",
 					"primaryLanguageLearnedIn",
 					"otherLanguage0",
@@ -272,6 +278,9 @@ namespace SayMore.Model.Files
 					"education",
 					"primaryOccupation",
 					"picture",
+					"privacyProtection",
+					"age",
+					"ethnicGroup"
 				})
 					yield return new FieldDefinition(fieldId);
 			}
@@ -305,6 +314,7 @@ namespace SayMore.Model.Files
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
 			yield return _personBasicEditorFactoryLazy()(file, "Person");
+			yield return _personContributionEditorFactoryLazy()(file, "Session");
 			yield return new NotesEditor(file);
 		}
 
@@ -329,6 +339,29 @@ namespace SayMore.Model.Files
 	public class SessionFileType : FileType
 	{
 		public const string kStageFieldPrefix = "stage_";
+
+		public const string kStatusFieldName = "status";
+		public const string kStagesFieldName = "stages";
+		public const string kDateFieldName = "date";
+		public const string kSynopsisFieldName = "synopsis";
+		public const string kAccessFieldName = "access";
+		public const string kLocationFieldName = "location";
+		public const string kGenreFieldName = "genre";
+		public const string kParticipantsFieldName = "participants";
+		public const string kTitleFieldName = "title";
+
+		// additional fields
+		public const string kCountryFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Location_Country";
+		public const string kContinentFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Location_Continent";
+		public const string kRegionFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Location_Region";
+		public const string kAddressFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Location_Address";
+		public const string kSubGenreFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Sub-Genre";
+		public const string kInteractivityFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Interactivity";
+		public const string kPlanningTypeFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Planning_Type";
+		public const string kInvolvementFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Involvement";
+		public const string kSocialContextFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Social_Context";
+		public const string kTaskFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Task";
+
 		private readonly Func<SessionBasicEditor.Factory> _sessionBasicEditorFactoryLazy;
 		private readonly Func<StatusAndStagesEditor.Factory> _statusAndStagesEditorFactoryLazy;
 
@@ -339,6 +372,7 @@ namespace SayMore.Model.Files
 		/// <param name="sessionBasicEditorFactoryLazy">This is to get us around a circular
 		/// dependency error in autofac. NB: when we move to .net 4, this can be replaced by
 		/// Lazy<Func<SessionBasicEditor.Factory></param>
+		/// <param name="statusAndStagesEditorFactoryLazy"></param>
 		/// ------------------------------------------------------------------------------------
 		public SessionFileType(Func<SessionBasicEditor.Factory> sessionBasicEditorFactoryLazy,
 			Func<StatusAndStagesEditor.Factory> statusAndStagesEditorFactoryLazy)
@@ -381,18 +415,28 @@ namespace SayMore.Model.Files
 
 				foreach (var fieldId in new[]
 				{
-					"status",
-					"stages",
-					"date",
-					"synopsis",
-					"access",
-					"location",
+					kStatusFieldName,
+					kStagesFieldName,
+					kDateFieldName,
+					kSynopsisFieldName,
+					kAccessFieldName,
+					kLocationFieldName,
 					"setting",
 					"situation",
-					"genre",
-					"participants",
-					"title",
+					kGenreFieldName,
+					kParticipantsFieldName,
+					kTitleFieldName,
 					"contributions",
+					kInteractivityFieldName,
+					kInvolvementFieldName,
+					kCountryFieldName,
+					kContinentFieldName,
+					kRegionFieldName,
+					kAddressFieldName,
+					kPlanningTypeFieldName,
+					kSubGenreFieldName,
+					kSocialContextFieldName,
+					kTaskFieldName
 				})
 					yield return new FieldDefinition(fieldId);
 			}
@@ -408,46 +452,46 @@ namespace SayMore.Model.Files
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = BetterGrid.CreateTextBoxColumn("title");
+			col = BetterGrid.CreateTextBoxColumn(kTitleFieldName);
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Title!Title";
-			col.DataPropertyName = "title";
+			col.DataPropertyName = kTitleFieldName;
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = BetterGrid.CreateImageColumn("stages");
+			col = BetterGrid.CreateImageColumn(kStagesFieldName);
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Stages!Stages";
-			col.DataPropertyName = "stages";
+			col.DataPropertyName = kStagesFieldName;
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = BetterGrid.CreateImageColumn("status");
+			col = BetterGrid.CreateImageColumn(kStatusFieldName);
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Status!Status";
-			col.DataPropertyName = "status";
+			col.DataPropertyName = kStatusFieldName;
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = BetterGrid.CreateTextBoxColumn("date");
+			col = BetterGrid.CreateTextBoxColumn(kDateFieldName);
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Date!Date";
-			col.DataPropertyName = "date";
+			col.DataPropertyName = kDateFieldName;
 			col.ReadOnly = true;
 			col.Visible = false;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = BetterGrid.CreateTextBoxColumn("genre");
+			col = BetterGrid.CreateTextBoxColumn(kGenreFieldName);
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Genre!Genre";
-			col.DataPropertyName = "genre";
+			col.DataPropertyName = kGenreFieldName;
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			col.Visible = false;
 			yield return col;
 
-			col = BetterGrid.CreateTextBoxColumn("location");
+			col = BetterGrid.CreateTextBoxColumn(kLocationFieldName);
 			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Location!Location";
-			col.DataPropertyName = "location";
+			col.DataPropertyName = kLocationFieldName;
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			col.Visible = false;

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<imdi:VocabularyDef xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" Name="WrittenResource-SubType-OLAC-LS" Date="2004-08-19" Link="http://www.mpi.nl/IMDI/Schema/WrittenResource-SubType-OLAC-LS.xml">
+	<imdi:Description LanguageId="ISO639-2:eng"/>
+	<imdi:Entry Value="Unknown"/>
+	<imdi:Entry Value="Unspecified"/>
+	<imdi:Entry Value="anthropological_linguistics"/>
+	<imdi:Entry Value="applied_linguistics"/>
+	<imdi:Entry Value="cognitive_science"/>
+	<imdi:Entry Value="computational_linguistics"/>
+	<imdi:Entry Value="discourse_analysis"/>
+	<imdi:Entry Value="forensic_linguistics"/>
+	<imdi:Entry Value="general_linguistics"/>
+	<imdi:Entry Value="historical_linguistics"/> 
+	<imdi:Entry Value="history_of_linguistics"/>
+	<imdi:Entry Value="language_acquisition"/>
+	<imdi:Entry Value="language_documentation"/>
+	<imdi:Entry Value="lexicography"/>
+	<imdi:Entry Value="linguistics_and_literature"/>
+	<imdi:Entry Value="linguistic_theories"/>
+	<imdi:Entry Value="mathematical_linguistics"/>
+	<imdi:Entry Value="morphology"/>
+	<imdi:Entry Value="neurolinguistics"/>
+	<imdi:Entry Value="philosophy_of_language"/>
+	<imdi:Entry Value="phonetics"/>
+	<imdi:Entry Value="phonology"/>
+	<imdi:Entry Value="pragmatics"/>
+	<imdi:Entry Value="psycholinguistics"/>
+	<imdi:Entry Value="semantics"/>
+	<imdi:Entry Value="sociolinguistics"/>
+	<imdi:Entry Value="syntax"/>
+	<imdi:Entry Value="text_and_corpus_linguistics"/>
+	<imdi:Entry Value="translating_and_interpreting"/>
+	<imdi:Entry Value="typology"/>
+	<imdi:Entry Value="writing_systems"/>
+</imdi:VocabularyDef>

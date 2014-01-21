@@ -35,6 +35,7 @@ namespace SayMore.UI.ProjectWindow
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuAbout = new System.Windows.Forms.ToolStripMenuItem();
+			this.archiveIMDIProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._viewTabGroup = new SayMore.UI.ProjectWindow.ViewTabGroup();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._mainMenuStrip.SuspendLayout();
@@ -43,6 +44,7 @@ namespace SayMore.UI.ProjectWindow
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
+			this.locExtender.PrefixForNewItems = null;
 			// 
 			// _mainMenuStrip
 			// 
@@ -67,6 +69,7 @@ namespace SayMore.UI.ProjectWindow
             this._toolStripSeparator0,
             this._menuExportSessions,
             this._menuExportPeople,
+            this.archiveIMDIProjectToolStripMenuItem,
             this._toolStripSeparator1,
             this._menuChangeUILanguage,
             this._menuShowMPlayerDebugWindow,
@@ -209,6 +212,16 @@ namespace SayMore.UI.ProjectWindow
 			this._menuAbout.Text = "&About...";
 			this._menuAbout.Click += new System.EventHandler(this.HandleHelpAboutClick);
 			// 
+			// archiveIMDIProjectToolStripMenuItem
+			// 
+			this.locExtender.SetLocalizableToolTip(this.archiveIMDIProjectToolStripMenuItem, null);
+			this.locExtender.SetLocalizationComment(this.archiveIMDIProjectToolStripMenuItem, null);
+			this.locExtender.SetLocalizingId(this.archiveIMDIProjectToolStripMenuItem, "ProjectWindow.archiveUsingIMDIToolStripMenuItem");
+			this.archiveIMDIProjectToolStripMenuItem.Name = "archiveIMDIProjectToolStripMenuItem";
+			this.archiveIMDIProjectToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+			this.archiveIMDIProjectToolStripMenuItem.Text = "&Archive using IMDI...";
+			this.archiveIMDIProjectToolStripMenuItem.Click += new System.EventHandler(this.HandleArchiveProjectMenuItemClick);
+			// 
 			// _viewTabGroup
 			// 
 			this._viewTabGroup.BackColor = System.Drawing.SystemColors.Control;
@@ -256,7 +269,7 @@ namespace SayMore.UI.ProjectWindow
 		private System.Windows.Forms.ToolStripMenuItem _menuExportSessions;
 	    private System.Windows.Forms.ToolStripMenuItem _menuExportPeople;
         private System.Windows.Forms.ToolStripSeparator _toolStripSeparator1;
-		private ViewTabGroup _viewTabGroup;
+		private SayMore.UI.ProjectWindow.ViewTabGroup _viewTabGroup;
 		private System.Windows.Forms.ToolStripMenuItem _mainMenuHelp;
 		private System.Windows.Forms.ToolStripMenuItem _menuAbout;
 		private System.Windows.Forms.ToolStripMenuItem _menuReleaseNotes;
@@ -265,6 +278,7 @@ namespace SayMore.UI.ProjectWindow
 		private System.Windows.Forms.ToolStripMenuItem _menuChangeUILanguage;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem _menuShowMPlayerDebugWindow;
+		private System.Windows.Forms.ToolStripMenuItem archiveIMDIProjectToolStripMenuItem;
 	}
 }
 

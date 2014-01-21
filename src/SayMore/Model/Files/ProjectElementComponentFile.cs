@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using SayMore.Model.Fields;
 
 namespace SayMore.Model.Files
@@ -30,12 +32,12 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override string GetStringValue(string key, string defaultValue)
 		{
-			if (key == "status")
+			if (key == SessionFileType.kStatusFieldName)
 			{
 				var value = base.GetStringValue(key, ParentElement.DefaultStatusValue);
-				return value.Replace('_', ' ');
+				return Session.GetStatusAsHumanReadableString(value);
 			}
-			if (key == "genre")
+			if (key == SessionFileType.kGenreFieldName)
 			{
 				return GenreDefinition.TranslateIdToName(base.GetStringValue(key, defaultValue));
 			}
@@ -46,9 +48,9 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override string SetStringValue(string key, string newValue, out string failureMessage)
 		{
-			if (key == "status")
-				newValue = newValue.Replace(' ', '_');
-			else if (key == "genre")
+			if (key == SessionFileType.kStatusFieldName)
+				newValue = Session.GetStatusAsEnumParsableString(newValue);
+			else if (key == SessionFileType.kGenreFieldName)
 				newValue = GenreDefinition.TranslateNameToId(newValue);
 
 			return base.SetStringValue(key, newValue, out failureMessage);
@@ -102,6 +104,13 @@ namespace SayMore.Model.Files
 		public override void HandleDoubleClick()
 		{
 			//don't do anything
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<FieldInstance> GetCustomFields()
+		{
+			return MetaDataFieldValues.Where(
+				val => val.FieldId.StartsWith(XmlFileSerializer.kCustomFieldIdPrefix));
 		}
 	}
 }

@@ -12,6 +12,9 @@ using L10NSharp.UI;
 using Palaso.IO;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SayMore.UI.ElementListScreen;
+using SIL.Archiving;
+using SIL.Archiving.IMDI;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
@@ -27,12 +30,19 @@ namespace SayMore.UI.ProjectWindow
 	{
 		public delegate ProjectWindow Factory(string projectPath, IEnumerable<ISayMoreView> views); //autofac uses this
 
-		private readonly string _projectName;
+		private readonly string _projectPath;
 		private readonly IEnumerable<ICommand> _commands;
 		private readonly UILanguageDlg.Factory _uiLanguageDialogFactory;
 		private MPlayerDebuggingOutputWindow _outputDebuggingWindow;
+		internal SessionsListScreen SessionsListScreen;
 
 		public bool UserWantsToOpenADifferentProject { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		private string ProjectName
+		{
+			get { return Path.GetFileNameWithoutExtension(_projectPath); }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		private ProjectWindow()
@@ -57,13 +67,17 @@ namespace SayMore.UI.ProjectWindow
 			var asm = Assembly.GetExecutingAssembly();
 			Icon = new Icon (asm.GetManifestResourceStream("SayMore.SayMore.ico"));
 
-			_projectName = Path.GetFileNameWithoutExtension(projectPath);
+			_projectPath = projectPath;
 			_commands = commands;
 			_uiLanguageDialogFactory = uiLanguageDialogFactory;
 
 			foreach (var vw in views)
 			{
 				vw.AddTabToTabGroup(_viewTabGroup);
+
+				if (vw is SessionsListScreen)
+					SessionsListScreen = (SessionsListScreen) vw;
+
 				if (vw.MainMenuItem != null)
 				{
 					vw.MainMenuItem.Enabled = false;
@@ -96,7 +110,7 @@ namespace SayMore.UI.ProjectWindow
 		{
 			var ver = Assembly.GetExecutingAssembly().GetName().Version;
 			var fmt = LocalizationManager.GetString("MainWindow.WindowTitleWithProject", "{0} - SayMore {1}.{2}.{3} (Beta)");
-			Text = string.Format(fmt, _projectName, ver.Major, ver.Minor, ver.Build);
+			Text = string.Format(fmt, ProjectName, ver.Major, ver.Minor, ver.Build);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -168,6 +182,12 @@ namespace SayMore.UI.ProjectWindow
 		{
 			var handler = _commands.First(c => c.Id == (string)((ToolStripMenuItem)sender).Tag);
 			handler.Execute();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleArchiveProjectMenuItemClick(object sender, EventArgs e)
+		{
+			Program.ArchiveProjectUsingIMDI(this);
 		}
 
 		/// ------------------------------------------------------------------------------------

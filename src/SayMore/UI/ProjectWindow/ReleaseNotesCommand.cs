@@ -1,5 +1,7 @@
+using System.Windows.Forms;
 using Palaso.IO;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms.ReleaseNotes;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -22,11 +24,9 @@ namespace SayMore.UI.ProjectWindow
 
 		public override void Execute()
 		{
-			using (var dlg = new ShowHtmlDialog())
+			var path = FileLocator.GetFileDistributedWithApplication("ReleaseNotes.md");
+			using (var dlg = new ShowReleaseNotesDialog(System.Windows.Forms.Application.OpenForms[0].Icon, path))
 			{
-				UsageReporter.SendNavigationNotice("ReleaseNotes");
-				dlg.Text = @"Release Notes...";
-				dlg.Path = FileLocator.GetFileDistributedWithApplication("releaseNotes.htm");
 				dlg.ShowDialog();
 			}
 		}

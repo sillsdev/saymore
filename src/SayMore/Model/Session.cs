@@ -7,11 +7,11 @@ using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.ClearShare;
+using SIL.Archiving.IMDI;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SIL.Archiving;
-using SayMore.Transcription.Model;
 
 namespace SayMore.Model
 {
@@ -23,8 +23,11 @@ namespace SayMore.Model
 	/// the session.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class Session : ProjectElement
+	public class Session : ProjectElement, IIMDIArchivable
 	{
+// ReSharper disable once InconsistentNaming
+		public static string kFolderName = "Sessions";
+
 		public enum Status
 		{
 			Incoming = 0,
@@ -55,23 +58,25 @@ namespace SayMore.Model
 		{
 			_personInformant = personInformant;
 
-			if (string.IsNullOrEmpty(MetaDataFile.GetStringValue("genre", null)))
+// ReSharper disable DoNotCallOverridableMethodsInConstructor
+			if (string.IsNullOrEmpty(MetaDataFile.GetStringValue(SessionFileType.kGenreFieldName, null)))
+
 			{
 				string failureMsg;
-				MetaDataFile.SetValue("genre", GenreDefinition.UnknownType.Name, out failureMsg);
+				MetaDataFile.SetValue(SessionFileType.kGenreFieldName, GenreDefinition.UnknownType.Name, out failureMsg);
 				if (failureMsg == null)
 					MetaDataFile.Save();
 			}
-
+// ReSharper restore DoNotCallOverridableMethodsInConstructor
 			if (_personInformant != null)
 				_personInformant.PersonNameChanged += HandlePersonsNameChanged;
 		}
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		protected string Title
+		public string Title
 		{
-			get { return MetaDataFile.GetStringValue("title", null) ?? Id; }
+			get { return MetaDataFile.GetStringValue(SessionFileType.kTitleFieldName, null) ?? Id; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -123,9 +128,21 @@ namespace SayMore.Model
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
+		public static string GetStatusAsHumanReadableString(string statusAsText)
+		{
+			return statusAsText.Replace('_', ' ');
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetStatusAsEnumParsableString(string statusAsText)
+		{
+			return statusAsText.Replace(' ', '_');
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static string GetLocalizedStatus(string statusAsText)
 		{
-			statusAsText = statusAsText.Replace(' ', '_');
+			statusAsText = GetStatusAsEnumParsableString(statusAsText);
 
 			if (statusAsText == Status.Incoming.ToString())
 				return LocalizationManager.GetString("SessionsView.SessionStatus.Incoming", "Incoming");
@@ -161,7 +178,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		private bool GetShouldReportHaveConsent()
 		{
-			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
+			var allParticipants = MetaDataFile.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty);
 			var personNames = FieldInstance.GetMultipleValuesFromText(allParticipants).ToArray();
 			bool allParticipantsHaveConsent = personNames.Length > 0;
 
@@ -198,7 +215,7 @@ namespace SayMore.Model
 			var newNames = allParticipants.Select(name => (name == e.OldId ? e.NewId : name));
 
 			string failureMessage;
-			MetaDataFile.SetStringValue("participants",
+			MetaDataFile.SetStringValue(SessionFileType.kParticipantsFieldName,
 				FieldInstance.GetTextFromMultipleValues(newNames), out failureMessage);
 
 			if (failureMessage != null)
@@ -208,18 +225,24 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<string> GetAllParticipants()
 		{
-			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
+			var allParticipants = MetaDataFile.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty);
 			return FieldInstance.GetMultipleValuesFromText(allParticipants);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<Person> GetAllPersonsInSession()
+		{
+			return GetAllParticipants().Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null);
 		}
 
 		#region Archiving
 		/// ------------------------------------------------------------------------------------
-		public void CreateRampArchiveFile()
+		public void ArchiveUsingRAMP()
 		{
 			var model = new RampArchivingDlgViewModel(Application.ProductName, Title, Id,
-				GetFileDescription);
+				ArchiveInfoDetails, SetFilesToArchive, GetFileDescription);
 
-			model.FileCopyOverride = FileCopySpecialHandler;
+			model.FileCopyOverride = ArchivingHelper.FileCopySpecialHandler;
 			model.AppSpecificFilenameNormalization = CustomFilenameNormalization;
 			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
 			model.HandleNonFatalError = (exception, s) => ErrorReport.NotifyUserOfProblem(exception, s);
@@ -227,10 +250,7 @@ namespace SayMore.Model
 			SetAdditionalMetsData(model);
 
 			using (var dlg = new ArchivingDlg(model, ApplicationContainer.kSayMoreLocalizationId,
-				LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingInfoDetails",
-				"It will gather up all the files and data related to a session and its contributors.",
-				"This sentence is inserted as parameter 1 in DialogBoxes.ArchivingDlg.OverviewText"),
-				Program.DialogFont, GetFilesToArchive, Settings.Default.ArchivingDialog))
+				Program.DialogFont, Settings.Default.ArchivingDialog))
 			{
 				dlg.ShowDialog();
 				Settings.Default.ArchivingDialog = dlg.FormSettings;
@@ -238,26 +258,67 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IDictionary<string, Tuple<IEnumerable<string>, string>> GetFilesToArchive()
+		public void ArchiveUsingIMDI()
 		{
-			var fileList = new Dictionary<string, Tuple<IEnumerable<string>, string>>();
+			ArchivingHelper.ArchiveUsingIMDI(this);
+		}
 
-			var filesInDir = Directory.GetFiles(FolderPath);
-
-			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg", "Adding Files for Session '{0}'");
-
-			fileList[string.Empty] = new Tuple<IEnumerable<string>, string>(filesInDir.Where(IncludeFileInArchive), string.Format(fmt, Title));
-
-			fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
-
-			foreach (var person in GetAllParticipants()
-				.Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
+		/// ------------------------------------------------------------------------------------
+		public string ArchiveInfoDetails
+		{
+			get
 			{
-				filesInDir = Directory.GetFiles(person.FolderPath);
-				fileList[person.Id] = new Tuple<IEnumerable<string>, string>(filesInDir.Where(IncludeFileInArchive), string.Format(fmt, person.Id));
+				return LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingInfoDetails",
+					"The archive package will include all required files and data related to a session and its contributors.",
+					"This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.xxxxOverviewText");
 			}
+		}
 
-			return fileList;
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<string> GetSessionFilesToArchive(Type typeOfArchive)
+		{
+			var filesInDir = Directory.GetFiles(FolderPath);
+			return filesInDir.Where(f => ArchivingHelper.IncludeFileInArchive(f, typeOfArchive, Settings.Default.SessionFileExtension));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string AddingSessionFilesProgressMsg
+		{
+			get
+			{
+				return string.Format(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg",
+					"Adding Files for Session '{0}'"), Title);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IDictionary<string, IEnumerable<string>> GetParticipantFilesToArchive(Type typeOfArchive)
+		{
+			Dictionary<string, IEnumerable<string>> d = new Dictionary<string, IEnumerable<string>>();
+
+			foreach (var person in GetAllParticipants().Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
+			{
+				var filesInDir = Directory.GetFiles(person.FolderPath);
+				d[person.Id] = filesInDir.Where(f => ArchivingHelper.IncludeFileInArchive(f, typeOfArchive, Settings.Default.PersonFileExtension));
+			}
+			return d;
+		}
+
+		public void InitializeModel(IMDIArchivingDlgViewModel model)
+		{
+			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
+			ArchivingHelper.SetIMDIMetadataToArchive(this, model);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetFilesToArchive(ArchivingDlgViewModel model)
+		{
+			model.AddFileGroup(string.Empty, GetSessionFilesToArchive(model.GetType()), AddingSessionFilesProgressMsg);
+
+			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
+
+			foreach (var person in GetParticipantFilesToArchive(model.GetType()))
+				model.AddFileGroup(person.Key, person.Value, string.Format(fmt, person.Key));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -294,11 +355,7 @@ namespace SayMore.Model
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private bool IncludeFileInArchive(string path)
-		{
-			return (Path.GetExtension(path).ToLower() != ".pfsx");
-		}
+
 
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<KeyValuePair<string, string>> GetFilesToCopy(IEnumerable<string> validComponentFilesToCopy)
@@ -331,12 +388,12 @@ namespace SayMore.Model
 			model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
 			model.SetDomains(SilDomain.Ling_LanguageDocumentation);
 
-			var value = MetaDataFile.GetStringValue("date", null);
+			var value = MetaDataFile.GetStringValue(SessionFileType.kDateFieldName, null);
 			if (!string.IsNullOrEmpty(value))
 				model.SetCreationDate(value);
 
 			// Return the session's note as the abstract portion of the package's description.
-			value = MetaDataFile.GetStringValue("synopsis", null);
+			value = MetaDataFile.GetStringValue(SessionFileType.kSynopsisFieldName, null);
 			if (!string.IsNullOrEmpty(value))
 				model.SetAbstract(value, string.Empty);
 
@@ -369,29 +426,6 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool FileCopySpecialHandler(ArchivingDlgViewModel model, string source, string dest)
-		{
-			if (!source.EndsWith(AnnotationFileHelper.kAnnotationsEafFileSuffix))
-				return false;
-
-			// Fix EAF file to refer to modified name.
-			AnnotationFileHelper annotationFileHelper = AnnotationFileHelper.Load(source);
-
-			var mediaFileName = annotationFileHelper.MediaFileName;
-			if (mediaFileName != null)
-			{
-				var normalizedName = model.NormalizeFilename(string.Empty, mediaFileName);
-				if (normalizedName != mediaFileName)
-				{
-					annotationFileHelper.SetMediaFile(normalizedName);
-					annotationFileHelper.Root.Save(dest);
-					return true;
-				}
-			}
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void CustomFilenameNormalization(string key, string file, StringBuilder bldr)
 		{
 			if (key != string.Empty)
@@ -413,7 +447,7 @@ namespace SayMore.Model
 		public string GetProjectName()
 		{
 			// Sessions directory
-			var dir = this.ParentFolderPath;
+			var dir = ParentFolderPath;
 
 			// Find the project file
 			var file = Directory.GetParent(dir).GetFiles("*" + Settings.Default.ProjectFileExtension).FirstOrDefault();
@@ -441,17 +475,15 @@ namespace SayMore.Model
 			if (y == null)
 				return -1;
 
-			x = x.Replace(' ', '_');
-			y = y.Replace(' ', '_');
+			Session.Status xStatus, yStatus;
 
-			if (!Enum.GetNames(typeof(Session.Status)).Contains(x))
+			if (!Enum.TryParse(Session.GetStatusAsEnumParsableString(x), out xStatus))
 				return 1;
 
-			if (!Enum.GetNames(typeof(Session.Status)).Contains(y))
+			if (!Enum.TryParse(Session.GetStatusAsEnumParsableString(y), out yStatus))
 				return -1;
 
-			return (int)Enum.Parse(typeof(Session.Status), x) -
-				(int)Enum.Parse(typeof(Session.Status), y);
+			return (int)xStatus - (int)yStatus;
 		}
 	}
 }

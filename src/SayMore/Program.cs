@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Drawing;
@@ -19,6 +20,7 @@ using SayMore.Media;
 using SayMore.Properties;
 using SayMore.UI;
 using SayMore.UI.ProjectWindow;
+using SayMore.Model;
 
 namespace SayMore
 {
@@ -35,6 +37,9 @@ namespace SayMore
 		private static string _pathOfLoadedProjectFile;
 		private static ApplicationContainer _applicationContainer;
 		private static Font _dialogFont;
+
+		public delegate void PersonMetadataChangedHandler();
+		public static event PersonMetadataChangedHandler PersonDataChanged;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -269,6 +274,12 @@ namespace SayMore
 				s = s.Substring(0, s.IndexOf("Local") + 5);
 				return s.CombineForPath("SayMore", "lastFilePath.txt");
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void ArchiveProjectUsingIMDI(Form parentForm)
+		{
+			_projectContext.Project.ArchiveProjectUsingIMDI(parentForm);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -523,6 +534,55 @@ namespace SayMore
 				false
 #endif
 );
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string ProjectSettingsFile
+		{
+			get
+			{
+				return _projectContext.Project.SettingsFilePath;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Project CurrentProject
+		{
+			get
+			{
+				return _projectContext == null ? null : _projectContext.Project;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static ProjectWindow ProjectWindow
+		{
+			get
+			{
+				if ((_projectContext == null) || (_projectContext.ProjectWindow == null))
+					return null;
+				return _projectContext.ProjectWindow;
+			}
+		}
+
+		/// <summary>Gets all controls of the desired type</summary>
+		public static IEnumerable<T> GetControlsOfType<T>(Control root) where T : Control
+		{
+			if (root == null) yield break;
+
+			var t = root as T;
+			if (t != null) yield return t;
+
+			if (!root.HasChildren) yield break;
+			foreach (var i in from Control c in root.Controls from i in GetControlsOfType<T>(c) select i)
+				yield return i;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void OnPersonDataChanged()
+		{
+			var handler = PersonDataChanged;
+			if (handler != null) handler();
 		}
 	}
 }

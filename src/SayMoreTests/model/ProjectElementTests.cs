@@ -64,7 +64,7 @@ namespace SayMoreTests.Model
 
 		public static Person CreatePerson(string parentFolderPath, string name)
 		{
-			return new Person(parentFolderPath, name, null, new PersonFileType(() => null),
+			return new Person(parentFolderPath, name, null, new PersonFileType(() => null, () => null),
 				MakeComponent, new XmlFileSerializer(null), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
 				new ComponentRole[] {});

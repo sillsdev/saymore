@@ -135,7 +135,12 @@ namespace SayMoreTests.UI.ProjectWindow
 		private void WalkThroughElements(string editorName, string listPanelName,
 			string componentGridName, string screenName)
 		{
-			var idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._id", "ProjectWindow");
+			TextBoxTester idTextBoxTester;
+			if (editorName == "PersonEditor")
+				idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._tableID._id", "ProjectWindow");
+			else
+				idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._id", "ProjectWindow");
+
 			var listPanel = _projectContext.ProjectWindow.Controls.Find(listPanelName, true)[0] as ListPanel;
 			var list = listPanel.ListControl as ElementGrid;
 
@@ -296,7 +301,13 @@ namespace SayMoreTests.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private TextBoxTester AddItem(string editorName, string listPanelName)
 		{
-			var idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._id", "ProjectWindow");
+			TextBoxTester idTextBoxTester;
+			if (editorName == "PersonEditor")
+				idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._tableID._id", "ProjectWindow");
+			else
+				idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._id", "ProjectWindow");
+
+
 			var listPanel = GetListPanelByName(listPanelName);
 			var list = listPanel.ListControl as ElementGrid;
 			var origCount = list.RowCount;

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<imdi:VocabularyDef 
+	xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" 
+	Name="Boolean" 
+	Date="2009-04-17" 
+	Link="http://www.mpi.nl/IMDI/Schema/Boolean.xml">
+	<imdi:Description LanguageId="ISO639-2:eng"></imdi:Description>
+	<imdi:Entry Value="Unknown"/>
+	<imdi:Entry Value="Unspecified"/>
+	<imdi:Entry Value="true"/>
+	<imdi:Entry Value="false"/>
+</imdi:VocabularyDef>

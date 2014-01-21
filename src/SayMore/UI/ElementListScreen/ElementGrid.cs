@@ -336,7 +336,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			var value = element.MetaDataFile.GetStringValue(fieldName, string.Empty);
 
-			if (fieldName != "date" || string.IsNullOrEmpty(value))
+			if (fieldName != SessionFileType.kDateFieldName || string.IsNullOrEmpty(value))
 				return value;
 
 			try

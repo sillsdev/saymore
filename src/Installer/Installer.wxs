@@ -53,14 +53,59 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 
 	<Directory Id="TARGETDIR" Name="SourceDir">
 
-		<Directory Id="CommonAppDataFolder">
-		  <Directory Id="SILCommonAppData" Name="SIL">
-			<Directory Id="SayMoreCommonAppData" Name="SayMore">
-			  <Directory Id="SampleDataDir" Name="Samples">
-			  </Directory>
+	  <Directory Id="CommonAppDataFolder">
+		<Directory Id="SILCommonAppData" Name="SIL">
+		  <Directory Id="SayMoreCommonAppData" Name="SayMore">
+			<Directory Id="SampleDataDir" Name="Samples">
 			</Directory>
+		  </Directory>
+
+		  <Directory Id="SILArchivingAppData" Name="Archiving">
+			<Directory Id="SILArchivingIMDIAppData" Name="IMDI">
+			  <Component Id="IMDILists" Guid="{68906F32-3D8B-4E98-8527-7B2117CE5D89}">
+				<File Id="ActorFamilySocialRole.xml" Name="Actor-FamilySocialRole.xml" KeyPath="yes" Source=".\imdi\Actor-FamilySocialRole.xml" />
+				<File Id="ActorRole.xml" Name="Actor-Role.xml" Source=".\imdi\Actor-Role.xml" />
+				<File Id="ActorSex.xml" Name="Actor-Sex.xml" Source=".\imdi\Actor-Sex.xml" />
+				<File Id="Boolean.xml" Name="Boolean.xml" Source=".\imdi\Boolean.xml" />
+				<File Id="ContentChannel.xml" Name="Content-Channel.xml" Source=".\imdi\Content-Channel.xml" />
+				<File Id="ContentEventStructure.xml" Name="Content-EventStructure.xml" Source=".\imdi\Content-EventStructure.xml" />
+				<File Id="ContentGenre.xml" Name="Content-Genre.xml" Source=".\imdi\Content-Genre.xml" />
+				<File Id="ContentInteractivity" Name="Content-Interactivity.xml" Source=".\imdi\Content-Interactivity.xml" />
+				<File Id="ContentInvolvement.xml" Name="Content-Involvement.xml" Source=".\imdi\Content-Involvement.xml" />
+				<File Id="ContentModalities.xml" Name="Content-Modalities.xml" Source=".\imdi\Content-Modalities.xml" />
+				<File Id="ContentPlanningType.xml" Name="Content-PlanningType.xml" Source=".\imdi\Content-PlanningType.xml" />
+				<File Id="ContentSocialContext.xml" Name="Content-SocialContext.xml" Source=".\imdi\Content-SocialContext.xml" />
+				<File Id="ContentSubGenre.xml" Name="Content-SubGenre.xml" Source=".\imdi\Content-SubGenre.xml" />
+				<File Id="ContentSubGenreDiscourse.xml" Name="Content-SubGenre-Discourse.xml" Source=".\imdi\Content-SubGenre-Discourse.xml" />
+				<File Id="ContentSubGenreDrama.xml" Name="Content-SubGenre-Drama.xml" Source=".\imdi\Content-SubGenre-Drama.xml" />
+				<File Id="ContentSubGenreLiterature.xml" Name="Content-SubGenre-Literature.xml" Source=".\imdi\Content-SubGenre-Literature.xml" />
+				<File Id="ContentSubGenrePoetry.xml" Name="Content-SubGenre-Poetry.xml" Source=".\imdi\Content-SubGenre-Poetry.xml" />
+				<File Id="ContentSubGenreSinging.xml" Name="Content-SubGenre-Singing.xml" Source=".\imdi\Content-SubGenre-Singing.xml" />
+				<File Id="ContentSubGenreStimuli.xml" Name="Content-SubGenre-Stimuli.xml" Source=".\imdi\Content-SubGenre-Stimuli.xml" />
+				<File Id="ContentSubject.xml" Name="Content-Subject.xml" Source=".\imdi\Content-Subject.xml" />
+				<File Id="ContentTask.xml" Name="Content-Task.xml" Source=".\imdi\Content-Task.xml" />
+				<File Id="Continents.xml" Name="Continents.xml" Source=".\imdi\Continents.xml" />
+				<File Id="Countries.xml" Name="Countries.xml" Source=".\imdi\Countries.xml" />
+				<File Id="MediaFileFormat.xml" Name="MediaFile-Format.xml" Source=".\imdi\MediaFile-Format.xml" />
+				<File Id="MediaFileType.xml" Name="MediaFile-Type.xml" Source=".\imdi\MediaFile-Type.xml" />
+				<File Id="MPILanguages.xml" Name="MPI-Languages.xml" Source=".\imdi\MPI-Languages.xml" />
+				<File Id="Quality.xml" Name="Quality.xml" Source=".\imdi\Quality.xml" />
+				<File Id="ValidationMethodology.xml" Name="Validation-Methodology.xml" Source=".\imdi\Validation-Methodology.xml" />
+				<File Id="ValidationType.xml" Name="Validation-Type.xml" Source=".\imdi\Validation-Type.xml" />
+				<File Id="WrittenResourceDerivation.xml" Name="WrittenResource-Derivation.xml" Source=".\imdi\WrittenResource-Derivation.xml" />
+				<File Id="WrittenResourceFormat.xml" Name="WrittenResource-Format.xml" Source=".\imdi\WrittenResource-Format.xml" />
+				<File Id="WrittenResourceSubType.xml" Name="WrittenResource-SubType.xml" Source=".\imdi\WrittenResource-SubType.xml" />
+				<File Id="WrittenResourceSubTypeAnnotation.xml" Name="WrittenResource-SubType-Annotation.xml" Source=".\imdi\WrittenResource-SubType-Annotation.xml" />
+				<File Id="WrittenResourceSubTypeEthnography.xml" Name="WrittenResource-SubType-Ethnography.xml" Source=".\imdi\WrittenResource-SubType-Ethnography.xml" />
+				<File Id="WrittenResourceSubTypeLexicalAnalysis.xml" Name="WrittenResource-SubType-LexicalAnalysis.xml" Source=".\imdi\WrittenResource-SubType-LexicalAnalysis.xml" />
+				<File Id="WrittenResourceSubTypeOLACLS.xml" Name="WrittenResource-SubType-OLAC-LS.xml" Source=".\imdi\WrittenResource-SubType-OLAC-LS.xml" />
+				<File Id="WrittenResourceSubTypePrimaryText.xml" Name="WrittenResource-SubType-PrimaryText.xml" Source=".\imdi\WrittenResource-SubType-PrimaryText.xml" />
+				<File Id="WrittenResourceType.xml" Name="WrittenResource-Type.xml" Source=".\imdi\WrittenResource-Type.xml" />
+			  </Component>
 			</Directory>
+		  </Directory>
 		</Directory>
+	  </Directory>
 
 	  <Directory Id='ProgramMenuFolder' Name='Programs'>
 		<Directory Id='SayMoreShortcutDir' Name='SayMore'>
@@ -119,6 +164,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		  <Component Id="Palaso.dll" Guid="{C46C492A-304B-47b8-A13A-7CE4896B5634}">
 			<File Id="Palaso.dll" Name="Palaso.dll" KeyPath="yes" Source="..\..\output\release\Palaso.dll" />
 		  </Component>
+		  <Component Id="SIL.Archiving.dll" Guid="{B8A59AC6-8B9E-4117-8330-D48A24DAFD13}">
+			<File Id="SIL.Archiving.dll" Name="SIL.Archiving.dll" KeyPath="yes" Source="..\..\output\release\SIL.Archiving.dll" />
+		  </Component>
 		  <Component Id="PalasoUIWindowsForms.dll" Guid="{47046B6E-668C-4a4d-A866-719922C142B5}">
 			<File Id="PalasoUIWindowsForms.dll" Name="PalasoUIWindowsForms.dll" KeyPath="yes" Source="..\..\output\release\PalasoUIWindowsForms.dll" />
 		  </Component>
@@ -128,9 +176,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		  <Component Id="SayMore.exe.config" Guid="{ECCD0940-AC00-4f18-91DD-5223878373BB}">
 			 <File Id="SayMore.exe.config" Name="SayMore.exe.config" KeyPath="yes" Source="..\..\output\release\SayMore.exe.config" />
 		  </Component>
-				<Component Id="MediaInfo.dll" Guid="B87CF78F-0226-4F5B-B7DC-C13899E934E5">
-					<File Id="MediaInfo.dll" Name="MediaInfo.dll" KeyPath="yes" Source="..\..\lib\MediaInfo.dll" />
-				</Component>
+		  <Component Id="MediaInfo.dll" Guid="B87CF78F-0226-4F5B-B7DC-C13899E934E5">
+			<File Id="MediaInfo.dll" Name="MediaInfo.dll" KeyPath="yes" Source="..\..\lib\MediaInfo.dll" />
+		  </Component>
 		</Directory>
 	  </Directory>
 	</Directory>
@@ -146,9 +194,13 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	  <ComponentRef Id="Palaso.dll"/>
 	  <ComponentRef Id="PalasoUIWindowsForms.dll" />
 	  <ComponentRef Id="Palaso.Media.dll" />
+	  <ComponentRef Id="SIL.Archiving.dll" />
 	  <ComponentRef Id="MediaInfo.dll" />
 	  <ComponentRef Id="SayMore.exe" />
 	  <ComponentRef Id="SayMore.exe.config" />
+	  <ComponentRef Id="IMDILists" />
+
+
 
 	  <ComponentGroupRef Id ="DistFiles"/>
 	  <ComponentGroupRef Id ="SampleData"/>
@@ -157,6 +209,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	<Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
 	<Icon Id="SayMore.exe" SourceFile ="..\..\output\release\SayMore.exe" />
 	<Property Id="ARPPRODUCTICON" Value="SayMore.exe" />
+
 	<!-- what you see in add/remove programs control panel -->
 
 

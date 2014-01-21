@@ -51,7 +51,7 @@ namespace SayMoreTests.UI.ElementListScreen
 				ComponentFileTests.CreateComponentFile(_tmpFolder, peter.Object, "marySong2.mp3"),
 			});
 
-			_repo = new ElementRepository<Person>(_tmpFolder.Path, "People", new PersonFileType(null),
+			_repo = new ElementRepository<Person>(_tmpFolder.Path, Person.kFolderName, new PersonFileType(null, null),
 				(folder, id, idChangedAction) =>
 				{
 					switch (id)
@@ -64,13 +64,13 @@ namespace SayMoreTests.UI.ElementListScreen
 					return null;
 				});
 
-			Directory.CreateDirectory(_tmpFolder.Combine("People", "peter"));
-			Directory.CreateDirectory(_tmpFolder.Combine("People", "paul"));
-			Directory.CreateDirectory(_tmpFolder.Combine("People", "mary"));
+			Directory.CreateDirectory(_tmpFolder.Combine(Person.kFolderName, "peter"));
+			Directory.CreateDirectory(_tmpFolder.Combine(Person.kFolderName, "paul"));
+			Directory.CreateDirectory(_tmpFolder.Combine(Person.kFolderName, "mary"));
 
-			peter.Setup(p => p.FolderPath).Returns(_tmpFolder.Combine("People", "peter"));
-			paul.Setup(p => p.FolderPath).Returns(_tmpFolder.Combine("People", "paul"));
-			mary.Setup(p => p.FolderPath).Returns(_tmpFolder.Combine("People", "mary"));
+			peter.Setup(p => p.FolderPath).Returns(_tmpFolder.Combine(Person.kFolderName, "peter"));
+			paul.Setup(p => p.FolderPath).Returns(_tmpFolder.Combine(Person.kFolderName, "paul"));
+			mary.Setup(p => p.FolderPath).Returns(_tmpFolder.Combine(Person.kFolderName, "mary"));
 
 			_repo.CreateNew("peter");
 			_repo.CreateNew("paul");
@@ -232,7 +232,7 @@ namespace SayMoreTests.UI.ElementListScreen
 		{
 			using (new Palaso.Reporting.ErrorReport.NonFatalErrorReportExpected())
 			{
-				Directory.Delete(_tmpFolder.Combine("People", "paul"));
+				Directory.Delete(_tmpFolder.Combine(Person.kFolderName, "paul"));
 				Assert.IsFalse(_model.VerifyAllElementsStillExist());
 			}
 		}

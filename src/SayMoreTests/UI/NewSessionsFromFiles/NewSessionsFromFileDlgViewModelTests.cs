@@ -29,7 +29,7 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 			_tmpFolder = new TemporaryFolder("NewSessionsFromFilesTests");
 
 			_srcFolder = _tmpFolder.Combine("source");
-			_sessionsFolder = _tmpFolder.Combine("Sessions");
+			_sessionsFolder = _tmpFolder.Combine(Session.kFolderName);
 
 			Directory.CreateDirectory(_srcFolder);
 

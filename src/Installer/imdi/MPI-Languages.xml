@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<imdi:VocabularyDef xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" Name="MPI-Languages" Date="2009-04-20" Link="http://www.mpi.nl/IMDI/Schema/MPI-Languages.xml">
+	<!--
+2 june 2003, Freddy Offenga:
+replaced "ISO639-2:" with "RFC1766:x-sil-"
+checked codes with SIL-list, found one conflict:
+	CHN (SIL) = chi, zho (ISO639-2)
+	chn (ISO639) = CRW (SIL)
+
+[edited by Daan Broeder 27 may 2003; added NNR, NRN, WBP, CHN ]
+[edited by Daan Broeder 25 june 2003; added AMG, MPH, GUP,TIW,UMR,MSR,IBD, CTN, PUM]
+[edited by Daan Broeder 4 july 2003; added ILG, WUR, ZNG, NMN]
+[edited by Daan Broeder 9 july 2003; again added WIC, was lost ???, added WIN]
+[edited by Daan Broeder 13 oct 2003; added LAC]
+[edited by Daan Broeder 15 oct 2003; added AWE]
+[edited by Daan Broeder 17 mar 2004; added KIM,TUN,MZO]
+[edited by Daan Broeder 2 june 2004; added KUI]
+[edited by Daan Broeder 29 june 2004; added ABV,RIF,SHI]
+[edited by Daan Broeder 09 july 2004; added ARQ,ARZ]
+[edited by Daan Broeder 23 aug 2004; found UBY, UDI, AVR and others are not present :( ]
+[edited by Daan Broeder 28 sept 2004; added NEP, BAP]
+[edited by Daan Broeder 21 oct 2004; added SUY]
+[edited by Daan Broeder 24 nov 2004; added HGM]
+[edited by Daan Broeder 02 dec 2004; added BEA]
+[edited by Daan Broeder 12 dec 2004; added CRP, SLA]
+[edited by Daan Broeder 16 feb 2005; added PAE, TIO]
+[edited by Daan Broeder 17 feb 2005; added SRC, GRI, ROP, KAYNGT, PIS, SWL, PDG, DJD,BHO, QUZ, VIE, KIA, SVS, CSL, CSE]
+[edited by Daan Broeder 21 feb 2005; added MWW, YAW, WAU,CJS,PAC,LTN,NBJ,KDR,KVK,GUG,RUM]
+[edited by Daan Broeder 23 feb 2005; added NLG, ORY, SLV, LGR, BGT, SUD, MVO, adapted KUI, KOQ,KFE]
+[edited by Daan Broeder 22 mar 2005; added INL]
+[edited by Daan Broeder 24 - 03 -2005 Yawalapiti -> Yawalapipt�]
+[edited by Daan Broeder 4 - 04 -2005 SRN, WAY, CBD, KBB, YAW, MMH, QMS, MAV, AKO, TGO]
+[edited by Daan Broeder 19 - 04 -2005 added THT, TIC, HIX, TCR, RSL, ADX, TXI, MJG]
+[edited by Daan Broeder 25 - 04 -2005 added Unknown, Unspecified]
+[edited by Daan Broeder 19 - 05 -2005 added KAN, IRU,TAM(Bettu Kurumba), TAM(Tamil), removed TCV(Tamil) ERROR, KEN, PNY, IGR, KRI, IFE, LIR, YOR, BAA]
+[edited by Jakub Dabrowski 13 - 06 -2005 added MOC, MTE, COF, WAW, BZC, VIL]
+[edited by Freddy Offenga 4 july 2005 added Tsafiki,COF]
+[edited by Freddy Offenga 27 july 2005 added TPJ(Tapiet�), AFR(Afrikaans), NDO(Ndonga), changed BZC->BAN, PNJ->PAN]	
+[edited by Daan Broeder 6 sept 2005 added alternative names 'N|ohan and !Xoon for NMN]
+[edited by Freddy Offenga 22 sept 2005 corrected spelling "Arabic, Moroccan Spoken" and "Arabic, Standard"]
+[edited by Freddy Offenga 18 oct 2005 added Balaesang (bls), Birao (brr), Bugis (bug), Buol (blf), Dampelas (dms), Dondo (dok), Gorontalo (gor)]
+[edited by Freddy Offenga 18 oct 2005 added Lauje (law), Makasar (mak), Mandar (mdr), Pendau (ums), Taje (pee), Tajio (tdj), Tomini (txm), Totoli (txe).]
+[edited by Freddy Offenga 18 oct 2005 corrected code for Indonesian inz to ind]
+[edited by Freddy Offenga 24 oct 2005 added Petapa, alternative name for Taje]	
+[edited by Freddy Offenga 25 oct 2005 added Boano (BZL), "Kaili, Da'a" (KZF), "Kaili, Ledo" (LEW), "Kaili, Unde" (UNZ)]
+[edited by Freddy Offenga 31 oct 2005 added Greek (ELL), Bulgarian (BUL), Serbian (SRP), removed error Serbo-Croatian]	
+[edited by Daan Broeder 02 feb 2006 added KJG with names Kammu and Khmu]	
+[edited by Freddy Offenga 21 feb 2006 changed code "Bali" (BZC), added code "Katang" (KGD), "Tzeltal, Tenejapa" (TZH)]
+[edited by Freddy Offenga 21 feb 2006 added "Brazilian Sign Language" (BZS), Indonesian Sign Language (INL), "Venezuelan Sign Language" (VSL)]
+[edited by Daan Broeder 18 dec 2006 added "Cashinahua (CBS)]
+[edited by Daan Broeder 13 aug 2007 added "Tima (TMS), Movima (MZP)]
+[edited by Micha Hulsbosch 20 apr 2009 added "Arabic" (ara), "=/Kx'au//'ein" (aue), "Awadhi" (awa), "Bhojpuri" (bho), "Edo" (bin), "Banjar" (bjn), "Bosnian" (bos), "Butuanon" (btw), "Chipaya" (cap), "Carib, Galibi" (car), "Chatino, Tataltepec" (cta), "Chatino, Western Highland" (ctp), "Welsh" (cym), "Chatino, Zenzontepec" (czn), "Dhanwar (Nepal)" (dhw), "Darai" (dry), "Sorbian, Lower" (dsb), "Efik" (efi), "Enets, Forest" (enf), "Persian" (fas), "Fanagalo" (fng), "Greek, Ancient (to 1453)" (grc), "Guarani" (grn), "Gurinji" (gue), "Creole English, Guyanese" (gyn), "Hebrew, Ancient" (hbo), "Herero" (her), "Hindustani, Caribbean" (hns), "Sorbian, Upper" (hsb), "Hungarian" (hun), "Ibibio" (ibb), "Javanese" (jav), "Jordanian Sign Language" (jos), "Kazakh" (kaz), "Koyo" (koh), "Komi-Zyrian" (kpv), "Ju/'hoan" (ktz), "Maori" (mri), "Nama (Namibia)" (naq), "Chirip�" (nhd), "Naro" (nhr), "Nungali" (nug), "Ocaina" (oca), "Punjabi" (pan), "Polish Sign Language" (pso), "Quechua, South Bolivian" (quh), "Res�garo" (rgr), "Creole Malay, Sri Lankan" (sci), "Sinhalese" (sin), "Sami, Kildin" (sjd), "Sami, Pite" (sje), "Sami, Ter" (sjt), "Slovak" (slk), "Sami, Northern" (sme), "Sami, Skolt" (sms), "Sranan Tongo" (srn), "Spanish Sign Language" (ssp), "Sudest" (tgo), "Thai" (tha), "Toba" (tob), "Tswana" (tsn), "Ukrainian" (ukr), "Urdu" (urd), "Yuracare" (yuz)]
+[edited by Jacquelijn Ringersma 20 apr 2009, checked Micha's modifications and changed: "Fulfulde Fuuta Jalon (fuf)",  "Zapotec, Petapa (zpe)", removed 2 language from actif code "Amurdak" and "Mongour", both without entries in DB and without ID in ethnologue]
+[edited by Micha Hulsbosch 21 apr 2009 restored "Amurdak" (amg) and "Monguor" (mjg) and added "Tu" (mjg)]
+[edited by Alexander Koenig 04 feb 2010; added "Dakaka" (bpa) and "Bislama" (bis) ]
+[edited by Rob Klein Hofmeijer 07 oct 2010; fixed corrupted language names Awetí, Chiripá, Hixkaryána, Hocák, Ifè, Kamayurá, Kaxuiâna, Kuikúro-Kalapálo, Lacandón, Margu, Maya Mopán, Maya, Yucatán, Mehináku, Mocoví, Resígaro, Sateré-mawé, Suyá, Tapieté, Trumai, Waurá, Yawalapití. Added "Huitoto, Minica" (hto),"Huitoto, Murui" (huu), "Huitoto, Nüpode" (hux), "Nonuya" (noj), "Tonga" (tnz) and "Thai, Southern" (tha) 
+[edited by Alexander Koenig 13 oct 2010; changed name for tnz to Maniq]
+[edited by Rob Klein Hofmeijer 18 nov 2010; converted to Unix format]
+[edited by Rob Klein Hofmeijer 26 nov 2010; converted to UTF-8 without BOM, replaced spaces in front of Maniq with tab]
+[edited by Alexander Koenig 04 jan 2011; changed name for bpa from Dakaka to Daa Kaka]
+[edited by Alexander Koenig 05 april 2011; added Akkala Saami (sia)]
+[edited by Alexander Koenig 23 nov 2011; added Komi-Permyak (koi); renamed Akkala Saami to Sami, Akkala]
+
+
+	NOTE: Currently the basis for the language codes is the Ethnologue list 15th edition 	
+-->
+	<imdi:Description LanguageId="ISO639-3:eng">
+Lists of languages and language abbreviations used at the
+Max-Planck Institute for Psycholinguistics. This appendix 
+lists some of the language names and identifiers (as they 
+are used in the Ethnologue).  Please use these standardized 
+names and identifiers in all those fields of the IMDI Editor 
+that ask for the name/identifier of a language.  When a 
+language name and identifier that you need is not in this 
+list, please look it up under www.ethnologue.com/web.asp.
+
+	</imdi:Description>
+	<imdi:Entry Value="Abaza">ISO639-3:abq</imdi:Entry>
+	<imdi:Entry Value="Abkhaz">ISO639-3:abk</imdi:Entry>
+	<imdi:Entry Value="Adyghe">ISO639-3:ady</imdi:Entry>
+	<imdi:Entry Value="Afrikaans">ISO639-3:afr</imdi:Entry>
+	<imdi:Entry Value="Aghul">ISO639-3:agx</imdi:Entry>
+	<imdi:Entry Value="Akhvakh">ISO639-3:akv</imdi:Entry>
+        <imdi:Entry Value="Akurio">ISO639-3:ako</imdi:Entry>
+	<imdi:Entry Value="Amurdak">ISO639-3:amg</imdi:Entry>
+	<imdi:Entry Value="American Sign Language">ISO639-3:ase</imdi:Entry>
+	<imdi:Entry Value="Andi">ISO639-3:ani</imdi:Entry>
+	<imdi:Entry Value="Arabic, Algerian">ISO639-3:arq</imdi:Entry>
+	<imdi:Entry Value="Arabic, Egyptian">ISO639-3:arz</imdi:Entry>
+	<imdi:Entry Value="Arabic">ISO639-3:ara</imdi:Entry>
+	<imdi:Entry Value="Arabic, Moroccan Spoken">ISO639-3:ary</imdi:Entry>
+	<imdi:Entry Value="Arabic, Standard">ISO639-3:arb</imdi:Entry>
+	<imdi:Entry Value="Archi">ISO639-3:aqc</imdi:Entry>
+	<imdi:Entry Value="Arrernte, Eastern">ISO639-3:aer</imdi:Entry>
+	<imdi:Entry Value="Avar">ISO639-3:ava</imdi:Entry>
+	<imdi:Entry Value="Awadhi">ISO639-3:awa</imdi:Entry>
+	<imdi:Entry Value="Awetí">ISO639-3:awe</imdi:Entry>
+	<imdi:Entry Value="Bagvalal">ISO639-3:kva</imdi:Entry>
+	<imdi:Entry Value="Balaesang">ISO639-3:bls</imdi:Entry>
+	<imdi:Entry Value="Bali">ISO639-3:ban</imdi:Entry>
+	<imdi:Entry Value="Banjar">ISO639-3:bjn</imdi:Entry>
+	<imdi:Entry Value="Bantawa">ISO639-3:bap</imdi:Entry>
+	<imdi:Entry Value="Basaa">ISO639-3:bas</imdi:Entry>
+	<imdi:Entry Value="Basque">ISO639-3:eus</imdi:Entry>
+	<imdi:Entry Value="Beaver">ISO639-3:bea</imdi:Entry>
+	<imdi:Entry Value="Belhariya">ISO639-3:byw</imdi:Entry>
+	<imdi:Entry Value="Bezhta">ISO639-3:kap</imdi:Entry>
+	<imdi:Entry Value="Bhojpuri">ISO639-3:bho</imdi:Entry>
+	<imdi:Entry Value="Bininj Kun-Wok">ISO639-3:gup</imdi:Entry>
+	<imdi:Entry Value="Birao">ISO639-3:brr</imdi:Entry>
+	<imdi:Entry Value="Bislama">ISO639-3:bis</imdi:Entry>
+	<imdi:Entry Value="Boano">ISO639-3:bzl</imdi:Entry>
+	<imdi:Entry Value="Bora">ISO639-3:boa</imdi:Entry>
+	<imdi:Entry Value="Bosnian">ISO639-3:bos</imdi:Entry>
+	<imdi:Entry Value="Botlikh">ISO639-3:bph</imdi:Entry>
+	<imdi:Entry Value="Brazilian Sign Language">ISO639-3:bzs</imdi:Entry>	
+	<imdi:Entry Value="British Sign Language">ISO639-3:bfi</imdi:Entry>
+	<imdi:Entry Value="Budukh">ISO639-3:bdk</imdi:Entry>
+	<imdi:Entry Value="Bughotu">ISO639-3:bgt</imdi:Entry>
+	<imdi:Entry Value="Bugis">ISO639-3:bug</imdi:Entry>
+	<imdi:Entry Value="Bulgarian">ISO639-3:bul</imdi:Entry>	
+	<imdi:Entry Value="Buol">ISO639-3:blf</imdi:Entry>	
+	<imdi:Entry Value="Butuanon">ISO639-3:btw</imdi:Entry>
+	<imdi:Entry Value="Carib, Galibi">ISO639-3:car</imdi:Entry>
+	<imdi:Entry Value="Carijona">ISO639-3:cbd</imdi:Entry>
+	<imdi:Entry Value="Cashinahua">ISO639-3:cbs</imdi:Entry>
+	<imdi:Entry Value="Chamalal">ISO639-3:cji</imdi:Entry>
+	<imdi:Entry Value="Chatino, Tataltepec">ISO639-3:cta</imdi:Entry>
+	<imdi:Entry Value="Chatino, Western Highland">ISO639-3:ctp</imdi:Entry>
+	<imdi:Entry Value="Chatino, Zenzontepec">ISO639-3:czn</imdi:Entry>
+	<imdi:Entry Value="Chechen">ISO639-3:che</imdi:Entry>
+	<imdi:Entry Value="Chhintang">ISO639-3:ctn</imdi:Entry>
+	<imdi:Entry Value="Chinese Sign Language">ISO639-3:csl</imdi:Entry>
+	<imdi:Entry Value="Chipaya">ISO639-3:cap</imdi:Entry>
+	<imdi:Entry Value="Chiripá">ISO639-3:nhd</imdi:Entry>
+	<imdi:Entry Value="Chontal de Oaxaca - Costa">ISO639-3:clo</imdi:Entry>
+	<imdi:Entry Value="Colorado">ISO639-3:cof</imdi:Entry>
+	<imdi:Entry Value="Cree, Plains">ISO639-3:crk</imdi:Entry>
+	<imdi:Entry Value="Creole English, Guyanese">ISO639-3:gyn</imdi:Entry>
+	<imdi:Entry Value="Creole Malay, Sri Lankan">ISO639-3:sci</imdi:Entry>
+	<imdi:Entry Value="Czech">ISO639-3:ces</imdi:Entry>
+	<imdi:Entry Value="Czech Sign Language">ISO639-3:cse</imdi:Entry>
+	<imdi:Entry Value="Daa Kaka">ISO639-3:bpa</imdi:Entry>
+	<imdi:Entry Value="Dalabon">ISO639-3:ngk</imdi:Entry>
+	<imdi:Entry Value="Dampelas">ISO639-3:dms</imdi:Entry>	
+	<imdi:Entry Value="Darai">ISO639-3:dry</imdi:Entry>
+	<imdi:Entry Value="Dargwa">ISO639-3:dar</imdi:Entry>
+	<imdi:Entry Value="Dhanwar (Nepal)">ISO639-3:dhw</imdi:Entry>
+	<imdi:Entry Value="Dido">ISO639-3:ddo</imdi:Entry>
+	<imdi:Entry Value="Djamindjung">ISO639-3:djd</imdi:Entry>
+	<imdi:Entry Value="Djinang">ISO630-3:dji</imdi:Entry>
+	<imdi:Entry Value="Dondo">ISO639-3:dok</imdi:Entry>	
+	<imdi:Entry Value="Dutch">ISO639-3:nld</imdi:Entry>
+	<imdi:Entry Value="Dutch Sign Language">ISO639-3:dse</imdi:Entry>
+	<imdi:Entry Value="Edo">ISO639-3:bin</imdi:Entry>
+	<imdi:Entry Value="Efik">ISO639-3:efi</imdi:Entry>
+	<imdi:Entry Value="Enets, Forest">ISO639-3:enf</imdi:Entry>
+	<imdi:Entry Value="English">ISO639-3:eng</imdi:Entry>
+	<imdi:Entry Value="Estonian">ISO639-3:est</imdi:Entry>
+	<imdi:Entry Value="Ewe">ISO639-3:ewe</imdi:Entry>
+	<imdi:Entry Value="Fanagalo">ISO639-3:fng</imdi:Entry>
+	<imdi:Entry Value="Farsi, Western">ISO639-3:pes</imdi:Entry>
+	<imdi:Entry Value="Finnish">ISO639-3:fin</imdi:Entry>
+	<imdi:Entry Value="French">ISO639-3:fra</imdi:Entry>
+	<imdi:Entry Value="Fulfulde Fuuta Jalon">RFC1766:x-sil-fuf</imdi:Entry>
+	<imdi:Entry Value="Galician">ISO639-3:glg</imdi:Entry>
+	<imdi:Entry Value="Galoli">ISO639-3:gal</imdi:Entry>
+	<imdi:Entry Value="Garig-Ilgar">ISO639-3:ilg</imdi:Entry>
+	<imdi:Entry Value="Gela">ISO639-3:nlg</imdi:Entry>
+	<imdi:Entry Value="Georgian">ISO639-3:kat</imdi:Entry>
+	<imdi:Entry Value="German">ISO639-3:deu</imdi:Entry>
+	<imdi:Entry Value="German Sign Language">ISO639-3:gsg</imdi:Entry>
+	<imdi:Entry Value="Ghari">ISO639-3:gri</imdi:Entry>
+	<imdi:Entry Value="Ghodoberi">ISO639-3:gdo</imdi:Entry>
+	<imdi:Entry Value="Goemai">ISO639-3:ank</imdi:Entry>
+	<imdi:Entry Value="Gorontalo">ISO639-3:gor</imdi:Entry>
+	<imdi:Entry Value="Greek, Ancient (to 1453)">ISO639-3:grc</imdi:Entry>
+	<imdi:Entry Value="Greek">ISO639-3:ell</imdi:Entry>	
+	<imdi:Entry Value="Guarani">ISO639-3:grn</imdi:Entry>
+	<imdi:Entry Value="Guarani, Paraguayan">ISO639-3:gug</imdi:Entry>
+	<imdi:Entry Value="Guguyimidjir">ISO639-3:kky</imdi:Entry>
+	<imdi:Entry Value="Gunwinggu">ISO639-3:gup</imdi:Entry>
+	<imdi:Entry Value="Gurinji">ISO639-3:gue</imdi:Entry>
+	<imdi:Entry Value="Hai//om">ISO639-3:hgm</imdi:Entry>
+	<imdi:Entry Value="Hausa">ISO639-3:hau</imdi:Entry>
+	<imdi:Entry Value="Hebrew, Ancient">ISO639-3:hbo</imdi:Entry>
+	<imdi:Entry Value="Hebrew">ISO639-3:heb</imdi:Entry>
+	<imdi:Entry Value="Herero">ISO639-3:her</imdi:Entry>
+	<imdi:Entry Value="Hindi">ISO639-3:hin</imdi:Entry>
+	<imdi:Entry Value="Hindustani, Caribbean">ISO639-3:hns</imdi:Entry>
+	<imdi:Entry Value="Hinukh">ISO639-3:gin</imdi:Entry>
+	<imdi:Entry Value="Hixkaryána">ISO639-3:hix</imdi:Entry>
+	<imdi:Entry Value="Hmong Daw">ISO639-3:mww</imdi:Entry>
+	<imdi:Entry Value="Hoocąk">ISO639-3:win</imdi:Entry>
+	<imdi:Entry Value="Huitoto, Minica">ISO639-3:hto</imdi:Entry>
+	<imdi:Entry Value="Huitoto, Murui">ISO639-3:huu</imdi:Entry>
+	<imdi:Entry Value="Huitoto, Nüpode">ISO639-3:hux</imdi:Entry>
+	<imdi:Entry Value="Hungarian">ISO639-3:hun</imdi:Entry>
+	<imdi:Entry Value="Hunzib">ISO639-3:huz</imdi:Entry>
+	<imdi:Entry Value="Ibibio">ISO639-3:ibb</imdi:Entry>
+	<imdi:Entry Value="Ifè">ISO639-3:ife</imdi:Entry>
+	<imdi:Entry Value="Igbo">ISO639-3:ibo</imdi:Entry>
+	<imdi:Entry Value="Ikpeng">ISO639-3:txi</imdi:Entry>
+	<imdi:Entry Value="Indian Sign Language">ISO639-3:ins</imdi:Entry>
+	<imdi:Entry Value="Indonesian">ISO639-3:ind</imdi:Entry>	
+	<imdi:Entry Value="Indonesian Sign Language">ISO639-3:inl</imdi:Entry>
+	<imdi:Entry Value="Ingush">ISO639-3:inh</imdi:Entry>
+	<imdi:Entry Value="Inuktitut, Eastern Canadian">ISO639-3:ike</imdi:Entry>
+	<imdi:Entry Value="Inuktitut, Greenlandic">ISO639-3:kal</imdi:Entry>
+	<imdi:Entry Value="Irula">ISO639-3:iru</imdi:Entry>
+	<imdi:Entry Value="Italian">ISO639-3:ita</imdi:Entry>
+	<imdi:Entry Value="Iwaidja">ISO639-3:ibd</imdi:Entry>
+	<imdi:Entry Value="Japanese">ISO639-3:jpn</imdi:Entry>
+	<imdi:Entry Value="Javanese">ISO639-3:jav</imdi:Entry>
+	<imdi:Entry Value="Jordanian Sign Language">ISO639-3:jos</imdi:Entry>
+	<imdi:Entry Value="Ju/'hoan">ISO639-3:ktz</imdi:Entry>
+	<imdi:Entry Value="Kabardian">ISO639-3:kbd</imdi:Entry>
+	<imdi:Entry Value="Kaili, Da'a">ISO639-3:kzf</imdi:Entry>
+	<imdi:Entry Value="Kaili, Ledo">ISO639-3:lew</imdi:Entry>
+	<imdi:Entry Value="Kaili, Unde">ISO639-3:unz</imdi:Entry>	
+	<imdi:Entry Value="Kairui-Midiki">ISO639-3:krd</imdi:Entry>
+	<imdi:Entry Value="Kamayurá">ISO639-3:kay</imdi:Entry>
+	<imdi:Entry Value="Kammu">ISO639-3:kjg</imdi:Entry>
+	<imdi:Entry Value="Kannada">ISO639-3:kan</imdi:Entry>
+	<imdi:Entry Value="Karagas">ISO639-3:kim</imdi:Entry>
+	<imdi:Entry Value="Karaim">ISO639-3:kdr</imdi:Entry>
+	<imdi:Entry Value="Karata">ISO639-3:kpt</imdi:Entry>
+	<imdi:Entry Value="Katang">ISO639-3:kgd</imdi:Entry>
+	<imdi:Entry Value="Kavalan">ISO639-3:ckv</imdi:Entry>
+	<imdi:Entry Value="Kaxuiâna">ISO639-3:kbb</imdi:Entry>
+	<imdi:Entry Value="Kazakh">ISO639-3:kaz</imdi:Entry>
+	<imdi:Entry Value="Kenyang">ISO639-3:ken</imdi:Entry>
+	<imdi:Entry Value="Kgalagadi">ISO639-3:xkv</imdi:Entry>
+	<imdi:Entry Value="Khinalugh">ISO639-3:kjj</imdi:Entry>
+	<imdi:Entry Value="Khmer, Central">ISO639-3:khm</imdi:Entry>
+	<imdi:Entry Value="Khmu">ISO639-3:kjg</imdi:Entry>
+	<imdi:Entry Value="Khvarshi">ISO639-3:khv</imdi:Entry>
+	<imdi:Entry Value="Kilivila">ISO639-3:kij</imdi:Entry>
+	<imdi:Entry Value="Kim">ISO639-3:kia</imdi:Entry>
+	<imdi:Entry Value="Komi-Permyak">ISO639-3:koi</imdi:Entry>
+	<imdi:Entry Value="Komi-Zyrian">ISO639-3:kpv</imdi:Entry>
+	<imdi:Entry Value="Korean">ISO639-3:kor</imdi:Entry>
+	<imdi:Entry Value="Korean Sign Language">ISO639-3:kvk</imdi:Entry>
+	<imdi:Entry Value="Kota, Gabon">ISO639-3:koq</imdi:Entry>
+	<imdi:Entry Value="Kota, India">ISO639-3:kfe</imdi:Entry>
+	<imdi:Entry Value="Koyo">ISO639-3:koh</imdi:Entry>
+	<imdi:Entry Value="Krio">ISO639-3:kri</imdi:Entry>
+	<imdi:Entry Value="Kriol">ISO639-3:rop</imdi:Entry>
+	<imdi:Entry Value="Kryts">ISO639-3:kry</imdi:Entry>
+	<imdi:Entry Value="Kuikúro-Kalapálo">ISO639-3:kui</imdi:Entry>
+	<imdi:Entry Value="Kunbarlang">ISO639-3:wlg</imdi:Entry>
+	<imdi:Entry Value="Kurumba, Betta">ISO639-3:xub</imdi:Entry>
+	<imdi:Entry Value="=/Kx'au//'ein">ISO639-3:aue</imdi:Entry>
+	<imdi:Entry Value="Lacandón">ISO639-3:lac</imdi:Entry>
+	<imdi:Entry Value="Lak">ISO639-3:lbe</imdi:Entry>
+	<imdi:Entry Value="Lao">ISO639-3:lao</imdi:Entry>
+	<imdi:Entry Value="Latin">ISO639-3:lat</imdi:Entry>
+	<imdi:Entry Value="Lauje">ISO639-3:law</imdi:Entry>	
+	<imdi:Entry Value="Laz">ISO639-3:lzz</imdi:Entry>
+	<imdi:Entry Value="Lengo">ISO639-3:lgr</imdi:Entry>
+	<imdi:Entry Value="Lezgi">ISO639-3:lez</imdi:Entry>
+	<imdi:Entry Value="Liberian English">ISO639-3:lir</imdi:Entry>
+	<imdi:Entry Value="Longgu">ISO639-3:lgu</imdi:Entry>
+	<imdi:Entry Value="Makasai">ISO639-3:mkz</imdi:Entry>
+	<imdi:Entry Value="Makasar">ISO639-3:mak</imdi:Entry>
+	<imdi:Entry Value="Makassar">ISO639-3:mak</imdi:Entry>
+	<imdi:Entry Value="Maku'a">ISO639-3:lva</imdi:Entry>
+	<imdi:Entry Value="Manangkari">ISO639-3:znk</imdi:Entry>
+	<imdi:Entry Value="Mandarin">ISO639-3:cmn</imdi:Entry>
+	<imdi:Entry Value="Mandar">ISO639-3:mdr</imdi:Entry>	
+	<imdi:Entry Value="Maniq">ISO639-3:tnz</imdi:Entry>
+	<imdi:Entry Value="Maori">ISO639-3:mri</imdi:Entry>
+	<imdi:Entry Value="Margu">ISO639-3:mhg</imdi:Entry>
+	<imdi:Entry Value="Marovo">ISO639-3:mvo</imdi:Entry>
+	<imdi:Entry Value="Marquesan, North">ISO639-3:mrq</imdi:Entry>
+	<imdi:Entry Value="Marquesan, South">ISO639-3:mqm</imdi:Entry>
+	<imdi:Entry Value="Matipuhy">ISO639-3:mzo</imdi:Entry>
+	<imdi:Entry Value="Maung">ISO639-3:mph</imdi:Entry>
+	<imdi:Entry Value="Maya Mopán">ISO639-3:mop</imdi:Entry>
+	<imdi:Entry Value="Maya, Yucatán">ISO639-3:yua</imdi:Entry>
+	<imdi:Entry Value="Mehináku">ISO639-3:mmh</imdi:Entry>
+	<imdi:Entry Value="Mingrelian">ISO639-3:xmf</imdi:Entry>
+	<imdi:Entry Value="Mocoví">ISO639-3:moc</imdi:Entry>
+	<imdi:Entry Value="Monguor">ISO639-3:mjg</imdi:Entry>
+	<imdi:Entry Value="Mono">ISO639-3:mte</imdi:Entry>
+	<imdi:Entry Value="Movima">ISO639-3:mzp</imdi:Entry>
+	<imdi:Entry Value="Nama (Namibia)">ISO639-3:naq</imdi:Entry>
+	<imdi:Entry Value="Naro">ISO639-3:nhr</imdi:Entry>
+	<imdi:Entry Value="Nauete">ISO639-3:nxa</imdi:Entry>
+	<imdi:Entry Value="Ndonga">ISO639-3:ndo</imdi:Entry>	
+	<imdi:Entry Value="Nepali">ISO639-3:nep</imdi:Entry>
+	<imdi:Entry Value="Ngarinman">ISO639-3:nbj</imdi:Entry>
+	<imdi:Entry Value="Ngeq">ISO639-3:ngt</imdi:Entry>
+	<imdi:Entry Value="Nicaraguan Sign Language">ISO639-3:ncs</imdi:Entry>
+	<imdi:Entry Value="'N|ohan">ISO639-3:nmn</imdi:Entry>
+	<imdi:Entry Value="Nonuya">ISO639-3:noj</imdi:Entry>
+	<imdi:Entry Value="Norwegian, Bokmal">ISO639-3:nob</imdi:Entry>
+	<imdi:Entry Value="Norwegian, Nynorsk">ISO639-3:nno</imdi:Entry>
+	<imdi:Entry Value="Nungali">ISO639-3:nug</imdi:Entry>
+	<imdi:Entry Value="Ocaina">ISO639-3:oca</imdi:Entry>
+	<imdi:Entry Value="Oriya">ISO639-3:ori</imdi:Entry>
+	<imdi:Entry Value="Pacoh">ISO639-3:pac</imdi:Entry>
+	<imdi:Entry Value="Papiamentu">ISO639-3:pap</imdi:Entry>
+	<imdi:Entry Value="Pendau">ISO639-3:ums</imdi:Entry>	
+	<imdi:Entry Value="Persian">ISO639-3:fas</imdi:Entry>
+	<imdi:Entry Value="Pijin">ISO639-3:pis</imdi:Entry>
+	<imdi:Entry Value="Pinyin">ISO639-3:pny</imdi:Entry>
+	<imdi:Entry Value="Polish">ISO639-3:pol</imdi:Entry>
+	<imdi:Entry Value="Polish Sign Language">ISO639-3:pso</imdi:Entry>
+	<imdi:Entry Value="Popoluca, Oluta">ISO639-3:plo</imdi:Entry>
+	<imdi:Entry Value="Portuguese">ISO639-3:por</imdi:Entry>
+	<imdi:Entry Value="Puma">ISO639-3:pum</imdi:Entry>
+	<imdi:Entry Value="Punjabi">ISO639-3:pan</imdi:Entry>
+	<imdi:Entry Value="Quechua, Cuzco">ISO639-3:quz</imdi:Entry>
+	<imdi:Entry Value="Quechua, South Bolivian">ISO639-3:quh</imdi:Entry>
+	<imdi:Entry Value="Rembarrnga">ISO639-3:rmb</imdi:Entry>
+	<imdi:Entry Value="Resígaro">ISO639-3:rgr</imdi:Entry>
+	<imdi:Entry Value="Romanian">ISO639-3:ron</imdi:Entry>
+	<imdi:Entry Value="Russian">ISO639-3:rus</imdi:Entry>
+	<imdi:Entry Value="Russian Sign Language">ISO639-3:rsl</imdi:Entry>
+	<imdi:Entry Value="Saliba">ISO639-3:sbe</imdi:Entry>
+	<imdi:Entry Value="Sami, Akkala">ISO639-3:sia</imdi:Entry>
+	<imdi:Entry Value="Sami, Inari">ISO639-3:smn</imdi:Entry>
+	<imdi:Entry Value="Sami, Kildin">ISO639-3:sjd</imdi:Entry>
+	<imdi:Entry Value="Sami, Northern">ISO639-3:sme</imdi:Entry>
+	<imdi:Entry Value="Sami, Pite">ISO639-3:sje</imdi:Entry>
+	<imdi:Entry Value="Sami, Skolt">ISO639-3:sms</imdi:Entry>
+	<imdi:Entry Value="Sami, Ter">ISO639-3:sjt</imdi:Entry>
+	<imdi:Entry Value="Samoan">ISO639-3:smo</imdi:Entry>
+	<imdi:Entry Value="Sateré-mawé">ISO639-3:mav</imdi:Entry>
+	<imdi:Entry Value="Savosavo">ISO639-3:svs</imdi:Entry>
+	<imdi:Entry Value="Sekpele">ISO639-3:lip</imdi:Entry>
+	<imdi:Entry Value="Serbian">ISO639-3:srp</imdi:Entry>
+	<imdi:Entry Value="Shor">ISO639-3:cjs</imdi:Entry>
+	<imdi:Entry Value="Sinhalese">ISO639-3:sin</imdi:Entry>
+	<imdi:Entry Value="Slavey, South">ISO639-3:xsl</imdi:Entry>
+	<imdi:Entry Value="Slovak">ISO639-3:slk</imdi:Entry>
+	<imdi:Entry Value="Slovenian">ISO639-3:slv</imdi:Entry>
+	<imdi:Entry Value="Sorbian, Lower">ISO639-3:dsb</imdi:Entry>
+	<imdi:Entry Value="Sorbian, Upper">ISO639-3:hsb</imdi:Entry>
+	<imdi:Entry Value="Spanish">ISO639-3:spa</imdi:Entry>
+	<imdi:Entry Value="Spanish Sign Language">ISO639-3:ssp</imdi:Entry>
+	<imdi:Entry Value="Sranan">ISO639-3:srn</imdi:Entry>
+	<imdi:Entry Value="Sranan Tongo">ISO639-3:srn</imdi:Entry>
+	<imdi:Entry Value="Sudest">ISO639-3:tgo</imdi:Entry>
+	<imdi:Entry Value="Susu">ISO639-3:sus</imdi:Entry>
+	<imdi:Entry Value="Suyá">ISO639-3:suy</imdi:Entry>
+	<imdi:Entry Value="Swedish">ISO639-3:swe</imdi:Entry>
+	<imdi:Entry Value="Swedish Sign Language">ISO639-3:swl</imdi:Entry>
+	<imdi:Entry Value="Tabassaran">ISO639-3:tab</imdi:Entry>
+	<imdi:Entry Value="Tahitian">ISO639-3:tah</imdi:Entry>
+	<imdi:Entry Value="Taje">ISO639-3:pee</imdi:Entry>
+	<imdi:Entry Value="Tajio">ISO639-3:tdj</imdi:Entry>	
+	<imdi:Entry Value="Tamil">ISO639-3:tam</imdi:Entry>
+	<imdi:Entry Value="Tapieté">ISO639-3:tpj</imdi:Entry>
+	<imdi:Entry Value="Tarifit">ISO639-3:rif</imdi:Entry>
+	<imdi:Entry Value="Tashelhit">ISO639-3:shi</imdi:Entry>
+	<imdi:Entry Value="Teop">ISO639-3:tio</imdi:Entry>
+	<imdi:Entry Value="Tetum Prasa">ISO639-3:tdt</imdi:Entry>
+	<imdi:Entry Value="Tetun">ISO639-3:tet</imdi:Entry>
+	<imdi:Entry Value="Thai">ISO639-3:tha</imdi:Entry>
+	<imdi:Entry Value="Thai, Southern">ISO639-3:sou</imdi:Entry>
+	<imdi:Entry Value="Tibetan, Amdo">ISO639-3:adx</imdi:Entry>
+	<imdi:Entry Value="Tibetan">ISO639-3:bod</imdi:Entry>
+	<imdi:Entry Value="Tidore">ISO639-3:tvo</imdi:Entry>
+	<imdi:Entry Value="Tima">ISO639-3:tms</imdi:Entry>
+	<imdi:Entry Value="Tindi">ISO639-3:tin</imdi:Entry>
+	<imdi:Entry Value="Tirio">ISO639-3:aup</imdi:Entry>
+	<imdi:Entry Value="Tiwi">ISO639-3:tiw</imdi:Entry>
+	<imdi:Entry Value="Toba">ISO639-3:tob</imdi:Entry>
+	<imdi:Entry Value="Tok Pisin">ISO639-3:tpi</imdi:Entry>
+	<imdi:Entry Value="Tomini">ISO639-3:txm</imdi:Entry>	
+	<imdi:Entry Value="Tongan">ISO639-3:ton</imdi:Entry>
+	<imdi:Entry Value="Totoli">ISO639-3:txe</imdi:Entry>	
+	<imdi:Entry Value="Totonaca, Papantla">ISO639-3:top</imdi:Entry>
+	<imdi:Entry Value="Trumai">ISO639-3:tpy</imdi:Entry>
+	<imdi:Entry Value="Tsafiki">ISO639-3:cof</imdi:Entry>    
+	<imdi:Entry Value="Tsakhur">ISO639-3:tkr</imdi:Entry>
+	<imdi:Entry Value="Tswana">ISO639-3:tsn</imdi:Entry>
+	<imdi:Entry Value="Tu">ISO639-3:mjg</imdi:Entry>
+	<imdi:Entry Value="Turkish">ISO639-3:tur</imdi:Entry>
+	<imdi:Entry Value="Turkish Sign Language">ISO639-3:tsm</imdi:Entry>
+	<imdi:Entry Value="Tuvin">ISO639-3:tyv</imdi:Entry>
+	<imdi:Entry Value="Tzeltal, Oxchuc">ISO639-3:tzh</imdi:Entry>
+	<imdi:Entry Value="Tzeltal, Tenejapa">ISO639-3:tzh</imdi:Entry>
+	<imdi:Entry Value="Tzotzil, Zinacantán">ISO639-3:tzz</imdi:Entry>
+	<imdi:Entry Value="Ubykh">ISO639-3:uby</imdi:Entry>
+	<imdi:Entry Value="Udi">ISO639-3:udi</imdi:Entry>
+	<imdi:Entry Value="Ukrainian">ISO639-3:ukr</imdi:Entry>
+	<imdi:Entry Value="Umbugarla">ISO639-3:umr</imdi:Entry>
+	<imdi:Entry Value="Urdu">ISO639-3:urd</imdi:Entry>
+	<imdi:Entry Value="Venezuelan Sign Language">ISO639-3:vsl</imdi:Entry>	
+	<imdi:Entry Value="Vietnamese">ISO639-3:vie</imdi:Entry>
+	<imdi:Entry Value="Vilela">ISO639-3:vil</imdi:Entry>
+	<imdi:Entry Value="Waima'a">ISO639-3:wmh</imdi:Entry>
+	<imdi:Entry Value="Waiwai">ISO639-3:waw</imdi:Entry>
+	<imdi:Entry Value="Warlpiri">ISO639-3:wbp</imdi:Entry>
+	<imdi:Entry Value="Waurá">ISO639-3:wau</imdi:Entry>
+	<imdi:Entry Value="Wayana">ISO639-3:way</imdi:Entry>
+	<imdi:Entry Value="Welsh">ISO639-3:cym</imdi:Entry>
+	<imdi:Entry Value="Wichita">ISO639-3:wic</imdi:Entry>
+	<imdi:Entry Value="Wurrugu">ISO639-3:wur</imdi:Entry>
+	<imdi:Entry Value="!Xoo">ISO639-3:nmn</imdi:Entry>
+	<imdi:Entry Value="!Xoon">ISO639-3:nmn</imdi:Entry>
+	<imdi:Entry Value="Yalunka">ISO639-3:yal</imdi:Entry>
+	<imdi:Entry Value="Yawalapití">ISO639-3:yaw</imdi:Entry>
+	<imdi:Entry Value="Yele">ISO639-3:yle</imdi:Entry>
+	<imdi:Entry Value="Yoruba">ISO639-3:yor</imdi:Entry>
+	<imdi:Entry Value="Yuracare">ISO639-3:yuz</imdi:Entry>
+	<imdi:Entry Value="Zapotec, Petapa">ISO639-3:zpe</imdi:Entry>	
+	<imdi:Entry Value="Zapotec, Zoogocho">ISO639-3:zpq</imdi:Entry>
+	<imdi:Entry Value="Unspecified">Unspecified</imdi:Entry>
+	<imdi:Entry Value="Unknown">Unknown</imdi:Entry>
+</imdi:VocabularyDef>

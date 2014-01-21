@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- edited with XML Spy v4.2 U (http://www.xmlspy.com) by Daan Broeder (Max-Planck Institute for Psycholinguistics) -->
+<imdi:VocabularyDef 
+xmlns:imdi="http://www.mpi.nl/IMDI/Schema/IMDI" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.mpi.nl/IMDI/Schema/IMDI ./IMDI_3.0.xsd" 
+Name="Content-Genre" 
+Date="2003-09-23" 
+Link="http://www.mpi.nl/IMDI/Schema/Content-Genre.xml">
+	<imdi:Description LanguageId="ISO639-2:eng">A list of values for the genre aspect</imdi:Description>
+	<imdi:Entry Value="Unknown"/>
+	<imdi:Entry Value="Unspecified"/>
+	<imdi:Entry Value="Discourse" FollowUp="./Content-SubGenre-Discourse.xml" />
+	<imdi:Entry Value="Ritual/religious texts"/>
+	<imdi:Entry Value="Fiction"/>
+	<imdi:Entry Value="Newspaper article"/>
+	<imdi:Entry Value="Radio/TV feature"/>
+	<imdi:Entry Value="Drama" FollowUp="./Content-SubGenre-Drama.xml"/>
+	<imdi:Entry Value="Singing" FollowUp="./Content-SubGenre-Singing.xml" />
+	<imdi:Entry Value="Instrumental music"/>
+	<imdi:Entry Value="Poetry" FollowUp="./Content-SubGenre-Poetry.xml"/>
+	<imdi:Entry Value="Literature" FollowUp="./Content-SubGenre-Literature.xml"/>
+	<imdi:Entry Value="Secondary document"/>
+	<imdi:Entry Value="Personal notes"/>
+	<imdi:Entry Value="Stimuli" FollowUp="./Content-SubGenre-Stimuli.xml"/>
+</imdi:VocabularyDef>

@@ -6,7 +6,6 @@ using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
-using SayMore.UI.ComponentEditors;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
@@ -44,10 +43,10 @@ namespace SayMore
 			Project = _scope.Resolve<Func<string, Project>>()(projectSettingsPath);
 
 			var peopleRepoFactory = _scope.Resolve<ElementRepository<Person>.Factory>();
-			peopleRepoFactory(rootDirectoryPath, "People", _scope.Resolve<PersonFileType>());
+			peopleRepoFactory(rootDirectoryPath, Person.kFolderName, _scope.Resolve<PersonFileType>());
 
 			var sessionRepoFactory = _scope.Resolve<ElementRepository<Session>.Factory>();
-			sessionRepoFactory(rootDirectoryPath, "Sessions", _scope.Resolve<SessionFileType>());
+			sessionRepoFactory(rootDirectoryPath, Session.kFolderName, _scope.Resolve<SessionFileType>());
 
 			// Create background operations
 			_presetGatherer = _scope.Resolve<PresetGatherer>();
@@ -61,11 +60,15 @@ namespace SayMore
 			_audioVideoDataGatherer.Start();
 			_fieldGatherer.Start();
 
+			var view1 = _scope.Resolve<ProjectScreen>();
+			var view2 = _scope.Resolve<SessionsListScreen>();
+			var view3 = _scope.Resolve<PersonListScreen>();
+
 			var views = new ISayMoreView[]
 			{
-				_scope.Resolve<SessionsListScreen>(),
-				_scope.Resolve<PersonListScreen>(),
-				_scope.Resolve<ProgressScreen>()
+				view1,
+				view2,
+				view3
 			};
 
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath, views);

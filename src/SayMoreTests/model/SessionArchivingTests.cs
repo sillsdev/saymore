@@ -6,9 +6,11 @@ using Moq;
 using NUnit.Framework;
 using Palaso.Reporting;
 using Palaso.TestUtilities;
+using SIL.Archiving.IMDI;
 using SayMore;
 using SayMore.Model;
 using SayMore.Model.Files;
+using SIL.Archiving;
 using SayMore.Properties;
 
 namespace SayMoreTests.Utilities
@@ -38,22 +40,23 @@ namespace SayMoreTests.Utilities
 		private void CreateSessionAndMockedPerson()
 		{
 			// Create a person
-			var folder = Path.Combine(_tmpFolder.Path, "People");
+			var folder = Path.Combine(_tmpFolder.Path, Person.kFolderName);
 			Directory.CreateDirectory(folder);
 			folder = Path.Combine(folder, "ddo-person");
 			Directory.CreateDirectory(folder);
+			File.CreateText(Path.Combine(folder, "ddo-person.person")).Close();
 			File.CreateText(Path.Combine(folder, "ddoPic.jpg")).Close();
 			File.CreateText(Path.Combine(folder, "ddoVoice.wav")).Close();
 
 			_person = new Mock<Person>();
-			_person.Setup(p => p.FolderPath).Returns(Path.Combine(Path.Combine(_tmpFolder.Path, "People"), "ddo-person"));
+			_person.Setup(p => p.FolderPath).Returns(Path.Combine(Path.Combine(_tmpFolder.Path, Person.kFolderName), "ddo-person"));
 			_person.Setup(p => p.Id).Returns("ddo-person");
 
 			_personInformant = new Mock<PersonInformant>();
 			_personInformant.Setup(i => i.GetPersonByName("ddo-person")).Returns(_person.Object);
 
 			// Create a session
-			var parentFolder = Path.Combine(_tmpFolder.Path, "Sessions");
+			var parentFolder = Path.Combine(_tmpFolder.Path, Session.kFolderName);
 			Directory.CreateDirectory(parentFolder);
 			folder = Path.Combine(parentFolder, "ddo-session");
 			Directory.CreateDirectory(folder);
@@ -61,7 +64,7 @@ namespace SayMoreTests.Utilities
 			File.CreateText(Path.Combine(folder, "ddo.mpg")).Close();
 			File.CreateText(Path.Combine(folder, "ddo.mp3")).Close();
 			File.CreateText(Path.Combine(folder, "ddo.pdf")).Close();
-			_session = new DummySession(parentFolder, "ddo-session", _personInformant.Object);
+			_session = new DummySession(parentFolder, "ddo", _personInformant.Object);
 
 			// create a project file
 			var projFileName = _dummyProjectName + Settings.Default.ProjectFileExtension;
@@ -78,46 +81,66 @@ namespace SayMoreTests.Utilities
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetFilesToArchive_GetsCorrectListSize()
+		public void SetFilesToArchive_RAMP_GetsCorrectListSizeIncludingSessionFile()
 		{
-			var files = _session.GetFilesToArchive();
-			Assert.AreEqual(2, files.Count);
+			var model = new Mock<RampArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo",
+				"ddo-session", "whatever", null, new Func<string, string, string>((a, b) =>a));
+			model.Setup(s => s.AddFileGroup(string.Empty, It.Is<IEnumerable<string>>(e => e.Count() == 4), "Adding Files for Session 'ddo'"));
+			model.Setup(s => s.AddFileGroup("ddo-person", It.Is<IEnumerable<string>>(e => e.Count() == 3), "Adding Files for Contributor 'ddo-person'"));
+			_session.SetFilesToArchive(model.Object);
+			model.VerifyAll();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetFilesToArchive_GetsCorrectSessionFiles()
+		public void SetFilesToArchive_IMDI_GetsCorrectListSizeExcludingSessionFile()
 		{
-			var files = _session.GetFilesToArchive();
-			Assert.AreEqual(4, files[string.Empty].Item1.Count());
-
-			var list = files[string.Empty].Item1.Select(Path.GetFileName).ToList();
-			Assert.Contains("ddo.session", list);
-			Assert.Contains("ddo.mpg", list);
-			Assert.Contains("ddo.mp3", list);
-			Assert.Contains("ddo.pdf", list);
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo",
+				"ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
+			model.Setup(s => s.AddFileGroup(string.Empty, It.Is<IEnumerable<string>>(e => e.Count() == 3), "Adding Files for Session 'ddo'"));
+			model.Setup(s => s.AddFileGroup("ddo-person", It.Is<IEnumerable<string>>(e => e.Count() == 2), "Adding Files for Contributor 'ddo-person'"));
+			_session.SetFilesToArchive(model.Object);
+			model.VerifyAll();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetFilesToArchive_ParticipantFileDoNotExist_DoesNotCrash()
+		public void SetFilesToArchive_GetsCorrectSessionAndPersonFiles()
 		{
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
+
+			model.Setup(s => s.AddFileGroup(string.Empty,
+				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new [] {"ddo.session", "ddo.mpg", "ddo.mp3", "ddo.pdf"}).Count() == 4),
+				"Adding Files for Session 'ddo'"));
+
+			model.Setup(s => s.AddFileGroup("ddo-person",
+				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new[] { "ddoPic.jpg", "ddoVoice.wav" }).Count() == 2),
+				"Adding Files for Contributor 'ddo-person'"));
+
+			_session.SetFilesToArchive(model.Object);
+			model.VerifyAll();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void SetFilesToArchive_ParticipantFileDoesNotExist_DoesNotCrash()
+		{
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
 			_session._participants = new[] { "ddo-person", "non-existant-person" };
-			_session.GetFilesToArchive();
-		}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		[Category("SkipOnTeamCity")]
-		public void GetFilesToArchive_GetsCorrectPersonFiles()
-		{
-			var files = _session.GetFilesToArchive();
-			Assert.AreEqual(2, files["ddo-person"].Item1.Count());
-			var list = files["ddo-person"].Item1.Select(Path.GetFileName).ToList();
-			Assert.Contains("ddoPic.jpg", list);
-			Assert.Contains("ddoVoice.wav", list);
+			model.Setup(s => s.AddFileGroup(string.Empty,
+				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new [] {"ddo.session", "ddo.mpg", "ddo.mp3", "ddo.pdf"}).Count() == 4),
+				"Adding Files for Session 'ddo'"));
+
+			model.Setup(s => s.AddFileGroup("ddo-person",
+				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new[] { "ddoPic.jpg", "ddoVoice.wav" }).Count() == 2),
+				"Adding Files for Contributor 'ddo-person'"));
+
+			_session.SetFilesToArchive(model.Object);
+			model.VerifyAll();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -185,13 +208,16 @@ namespace SayMoreTests.Utilities
 		private readonly Mock<ProjectElementComponentFile> _metaFile = new Mock<ProjectElementComponentFile>();
 		public ComponentFile[] _mediaFiles;
 
-		public DummySession(string parentFolder, string id, PersonInformant personInformant) : base(parentFolder, id, null, new SessionFileType(() => null, () => null),
+		public DummySession(string parentFolder, string name, PersonInformant personInformant, params string [] actors) : base(parentFolder, name + "-session", null, new SessionFileType(() => null, () => null),
 				MakeComponent, new XmlFileSerializer(null), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
 					ApplicationContainer.ComponentRoles, personInformant)
 		{
-			_participants = new[] {"ddo-person"};
-			_metaFile.Setup(m => m.GetStringValue("title", null)).Returns("StupidSession");
+			if (actors == null || actors.Length == 0)
+				_participants = new[] {"ddo-person"};
+			else
+				_participants = actors;
+			_metaFile.Setup(m => m.GetStringValue(SessionFileType.kTitleFieldName, null)).Returns(name);
 		}
 
 		public override IEnumerable<string> GetAllParticipants()
@@ -229,4 +255,6 @@ namespace SayMoreTests.Utilities
 			return ComponentFile.CreateMinimalComponentFileForTests(parentElement, pathtoannotatedfile);
 		}
 	}
+
+
 }

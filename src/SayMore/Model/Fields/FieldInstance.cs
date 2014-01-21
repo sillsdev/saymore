@@ -16,6 +16,7 @@ namespace SayMore.Model.Fields
 	public class FieldInstance : IEquatable<FieldInstance>
 	{
 		public const char kDefaultMultiValueDelimiter = ';';
+		public const char kAlternateMultiValueDelimiter = ',';
 		public const string kStringType = "string";
 
 		public string FieldId { get; set; }
@@ -200,7 +201,7 @@ namespace SayMore.Model.Fields
 			if (text == null)
 				text = string.Empty;
 
-			var list = text.Split(new[] { kDefaultMultiValueDelimiter },
+			var list = text.Split(new[] { kDefaultMultiValueDelimiter, kAlternateMultiValueDelimiter },
 				StringSplitOptions.RemoveEmptyEntries);
 
 			return (from val in list

@@ -149,6 +149,14 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// <summary>
+		/// Need this because the ignored flag is stored on the transcription and not the translation
+		/// </summary>
+		public bool GetIsComplete(TextTier transcriptionTier)
+		{
+			return !Segments.Where((t, i) => string.IsNullOrEmpty(t.Text) && transcriptionTier.Segments[i].Text != TierCollection.kIgnoreSegment).Any();
+		}
+
+		/// <summary>
 		/// The current design doles out segments with empty time ranges, making those objects have incorrect "TimeRange"/"Start"/"End"
 		/// properties. Perhaps that design can be changed? In the meantime, if you need your text segments to have actualy TimeRanges, call this.
 		/// </summary>

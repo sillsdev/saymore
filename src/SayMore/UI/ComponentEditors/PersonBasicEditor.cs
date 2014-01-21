@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using SayMore.Model.Files;
@@ -14,7 +16,7 @@ using SayMore.UI.LowLevelControls;
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class PersonBasicEditor : EditorBase
+	public sealed partial class PersonBasicEditor : EditorBase
 	{
 		public delegate PersonBasicEditor Factory(ComponentFile file, string imageKey);
 
@@ -24,6 +26,9 @@ namespace SayMore.UI.ComponentEditors
 		private FieldsValuesGrid _gridCustomFields;
 		private FieldsValuesGridViewModel _gridViewModel;
 		private readonly ImageFileType _imgFileType;
+
+		// to convert birthYear to age
+		private string _obsoleteBirthYear;
 
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file, string imageKey,
@@ -57,7 +62,11 @@ namespace SayMore.UI.ComponentEditors
 			_binder.TranslateBoundValueBeingSaved += HandleBinderTranslateBoundValueBeingSaved;
 			_binder.TranslateBoundValueBeingRetrieved += HandleBinderTranslateBoundValueBeingRetrieved;
 			_binder.SetComponentFile(file);
+
 			InitializeGrid(autoCompleteProvider, fieldGatherer);
+
+			// set custom handler to convert birthYear to age
+			_binder.TranslateBoundValueBeingRetrieved += _binder_TranslateBoundValueBeingRetrieved;
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
 
@@ -65,7 +74,44 @@ namespace SayMore.UI.ComponentEditors
 			LoadParentLanguages();
 
 			_id.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelFullName); };
-			_birthYear.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelBirthYear); };
+			_age.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelAge); };
+
+			// do this to set the Associated Sessions the first time
+			BackgroundWorker backgroundWorker = new BackgroundWorker();
+			backgroundWorker.DoWork += _backgroundWorker_DoWork;
+			backgroundWorker.RunWorkerCompleted += _backgroundWorker_RunWorkerCompleted;
+			backgroundWorker.RunWorkerAsync();
+
+		}
+
+		void _binder_TranslateBoundValueBeingRetrieved(object sender, TranslateBoundValueBeingRetrievedArgs e)
+		{
+			if (e.BoundControl.Name == "_age" && string.IsNullOrEmpty(e.ValueFromFile))
+				_obsoleteBirthYear = ((BindingHelper) sender).ComponentFile.GetStringValue("birthYear", string.Empty);
+		}
+
+		void _backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			// to convert birthYear to age
+			if (!string.IsNullOrEmpty(_obsoleteBirthYear)) ConvertBirthYearToAge();
+
+			// copy id to full name
+			if (string.IsNullOrEmpty(_binder.GetValue("personName")) && string.IsNullOrEmpty(_binder.GetValue("nickName")) & !string.IsNullOrEmpty(_id.Text))
+			{
+				_personName.Text = _id.Text;
+				_binder.SetValue("personName", _id.Text);
+			}
+
+		}
+
+		void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+		{
+			var count = 0;
+			while ((Program.CurrentProject == null) && (count < 50))
+			{
+				Thread.Sleep(100);
+				count++;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -76,8 +122,17 @@ namespace SayMore.UI.ComponentEditors
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
 			// Check that the person still exists.
-			if (Directory.Exists(Path.GetDirectoryName(_file.PathToAnnotatedFile)))
-				SaveParentLanguages();
+			if (_file.PathToAnnotatedFile != null)
+			{
+				var path = Path.GetDirectoryName(_file.PathToAnnotatedFile);
+				if (!string.IsNullOrEmpty(path))
+				{
+					if (Directory.Exists(path))
+					SaveParentLanguages();
+				}
+
+			}
+
 
 			base.OnHandleDestroyed(e);
 		}
@@ -88,8 +143,7 @@ namespace SayMore.UI.ComponentEditors
 			_gridViewModel = new CustomFieldsValuesGridViewModel(_file, autoCompleteProvider,
 				fieldGatherer);
 
-			_gridCustomFields = new FieldsValuesGrid(_gridViewModel);
-			_gridCustomFields.Dock = DockStyle.Top;
+			_gridCustomFields = new FieldsValuesGrid(_gridViewModel) {Dock = DockStyle.Top};
 			_panelGrid.AutoSize = true;
 			_panelGrid.Controls.Add(_gridCustomFields);
 		}
@@ -97,6 +151,8 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public override void SetComponentFile(ComponentFile file)
 		{
+			_obsoleteBirthYear = null;
+
 			if (_file != null && File.Exists(_file.PathToAnnotatedFile) &&
 				file.PathToAnnotatedFile != _file.PathToAnnotatedFile)
 			{
@@ -110,6 +166,45 @@ namespace SayMore.UI.ComponentEditors
 
 			LoadPersonsPicture();
 			LoadParentLanguages();
+
+			// to convert birthYear to age
+			if (!string.IsNullOrEmpty(_obsoleteBirthYear)) ConvertBirthYearToAge();
+
+			// copy id to full name
+			if (string.IsNullOrEmpty(_binder.GetValue("personName")) && string.IsNullOrEmpty(_binder.GetValue("nickName")) & !string.IsNullOrEmpty(_id.Text))
+			{
+				_personName.Text = _id.Text;
+				_binder.SetValue("personName", _id.Text);
+			}
+
+		}
+
+		/// <summary>to convert birthYear to age</summary>
+		private void ConvertBirthYearToAge()
+		{
+			if (string.IsNullOrEmpty(_obsoleteBirthYear)) return;
+
+			var project = Program.CurrentProject;
+			if (project == null) return;
+
+			// get a session with a date
+			var session = project.GetAllSessions().FirstOrDefault(s => !string.IsNullOrEmpty(s.MetaDataFile.GetStringValue("date", string.Empty)));
+			if (session == null) return;
+
+			// convert the date string to a DateTime object
+			var dateStr = session.MetaDataFile.GetStringValue("date", string.Empty);
+			DateTime sessionDate;
+			if (!DateTime.TryParse(dateStr, out sessionDate)) return;
+
+			// convert the birth year to an int
+			int birthYear;
+			if (!int.TryParse(_obsoleteBirthYear, out birthYear)) return;
+
+			_age.Text = (sessionDate.Year - birthYear).ToString(CultureInfo.InvariantCulture);
+
+			// remove birthYear from the metadata file
+			_binder.SetValue("birthYear", null);
+			_binder.SetValue("age", _age.Text);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -206,25 +301,30 @@ namespace SayMore.UI.ComponentEditors
 		{
 			var pb = sender as ParentButton;
 
-			if (pb.ParentType == ParentType.Father)
+			if (pb != null)
 			{
-				var tipSelected = LocalizationManager.GetString("PeopleView.MetadataEditor.FatherSelectorToolTip.WhenSelected",
-					"Indicates this is the father's primary language");
+				if (pb.ParentType == ParentType.Father)
+				{
+					var tipSelected = LocalizationManager.GetString("PeopleView.MetadataEditor.FatherSelectorToolTip.WhenSelected",
+						"Indicates this is the father's primary language");
 
-				var tipNotSelected = LocalizationManager.GetString("PeopleView.MetadataEditor.FatherSelectorToolTip.WhenNotSelected",
-					"Click to indicate this is the father's primary language");
+					var tipNotSelected =
+						LocalizationManager.GetString("PeopleView.MetadataEditor.FatherSelectorToolTip.WhenNotSelected",
+							"Click to indicate this is the father's primary language");
 
-				_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
-			}
-			else
-			{
-				var tipSelected = LocalizationManager.GetString("PeopleView.MetadataEditor.MotherSelectorToolTip.WhenSelected",
-					"Indicates this is the mother's primary language");
+					_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
+				}
+				else
+				{
+					var tipSelected = LocalizationManager.GetString("PeopleView.MetadataEditor.MotherSelectorToolTip.WhenSelected",
+						"Indicates this is the mother's primary language");
 
-				var tipNotSelected = LocalizationManager.GetString("PeopleView.MetadataEditor.MotherSelectorToolTip.WhenNotSelected",
-					"Click to indicate this is the mother's primary language");
+					var tipNotSelected =
+						LocalizationManager.GetString("PeopleView.MetadataEditor.MotherSelectorToolTip.WhenNotSelected",
+							"Click to indicate this is the mother's primary language");
 
-				_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
+					_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
+				}
 			}
 		}
 

@@ -480,8 +480,8 @@ namespace SayMore.UI.NewSessionsFromFiles
 
 			string msg;
 			var date = File.GetLastWriteTime(sourcePath);
-			newSession.MetaDataFile.SetStringValue("date", date.ToISO8601DateOnlyString(), out msg);
-			newSession.MetaDataFile.SetStringValue("status", Session.Status.Incoming.ToString(), out msg);
+			newSession.MetaDataFile.SetStringValue(SessionFileType.kDateFieldName, date.ToISO8601DateOnlyString(), out msg);
+			newSession.MetaDataFile.SetStringValue(SessionFileType.kStatusFieldName, Session.Status.Incoming.ToString(), out msg);
 			newSession.MetaDataFile.Save();
 
 			if (FirstNewSessionAdded == null)

@@ -42,7 +42,7 @@ namespace SayMore.Model.Files
 			}
 			else
 			{
-				associatedComponentFile.PostGenerateOralAnnotationFileAction += (generated) =>
+				associatedComponentFile.PostGenerateOralAnnotationFileAction += generated =>
 				{
 					OralAnnotationFile = new OralAnnotationComponentFile(parentElement,
 						oralAnnotationFilePath, associatedComponentFile, fileTypes, _componentRoles);
@@ -99,7 +99,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override void Load()
+		public sealed override void Load()
 		{
 			TryLoadAndReturnException();
 		}
@@ -180,6 +180,7 @@ namespace SayMore.Model.Files
 						ConfirmRecycleDialog.Recycle(file.FullName);
 					Directory.Delete(segmentAnnotationFileFolder, true);
 				}
+// ReSharper disable once EmptyGeneralCatchClause
 				catch
 				{
 				}
@@ -191,7 +192,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public string SegmentAnnotationFileFolder
 		{
-			get { return AssociatedComponentFile + Settings.Default.OralAnnotationsFolderSuffix; ; }
+			get { return AssociatedComponentFile + Settings.Default.OralAnnotationsFolderSuffix; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -226,12 +227,13 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<ComponentRole> GetAssignedRoles()
 		{
-			var tier = Tiers.GetTranscriptionTier();
-			if (tier != null && tier.GetIsComplete())
+			var transcriptionTier = Tiers.GetTranscriptionTier();
+			if (transcriptionTier != null && transcriptionTier.GetIsComplete())
 				yield return _componentRoles.Single(r => r.Id == ComponentRole.kTranscriptionComponentRoleId);
 
-			tier = Tiers.GetFreeTranslationTier();
-			if (tier != null && tier.GetIsComplete())
+			// Stage status (complete-incomplete) is not displaying the status for Written Translations correctly, if one or more segments are ignored.
+			var translationTier = Tiers.GetFreeTranslationTier();
+			if (translationTier != null && translationTier.GetIsComplete(transcriptionTier))
 				yield return _componentRoles.Single(r => r.Id == ComponentRole.kFreeTranslationComponentRoleId);
 
 			if (Tiers.GetIsAdequatelyAnnotated(OralAnnotationType.CarefulSpeech))

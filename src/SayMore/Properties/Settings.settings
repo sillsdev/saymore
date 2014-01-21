@@ -41,7 +41,7 @@
     <Setting Name="RedrawAsMainWndResizes" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="NewSessionsFromFilesDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="NewSessionsFromFilesDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="NewSessionsFromFilesDlgComponentGrid" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings" Scope="User">
@@ -68,10 +68,10 @@
     <Setting Name="SessionScreenComponentsSplitterPos" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="WelcomeDialog" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="WelcomeDialog" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ProjectWindow" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="ProjectWindow" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SessionScreenComponentGrid" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings" Scope="User">
@@ -239,7 +239,7 @@
     <Setting Name="RampContributorRoles" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">author;compiler;consultant;developer;editor;facilitator;illustrator;interviewer;photographer;recorder;researcher;signer;speaker;transcriber;translator</Value>
     </Setting>
-    <Setting Name="ArchivingDialog" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="ArchivingDialog" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SegmentGrid" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings" Scope="User">
@@ -263,7 +263,7 @@
     <Setting Name="FreeTranslationWsForFWInterlinearExport" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="OralAnnotationRecorderDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="OralAnnotationRecorderDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="OralAnnotationGeneratedFileSuffix" Type="System.String" Scope="Application">
@@ -299,7 +299,7 @@
     <Setting Name="ZoomPercentageInAnnotationRecordingDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.Single" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
-    <Setting Name="ManualSegmenterDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="ManualSegmenterDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ZoomPercentageInManualSegmenterDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.Single" Scope="User">
@@ -311,7 +311,7 @@
     <Setting Name="MinimumAnnotationSegmentLengthInMilliseconds" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">500</Value>
     </Setting>
-    <Setting Name="SessionRecorderDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="SessionRecorderDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TranscriptionPlaybackType" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.Int32" Scope="User">
@@ -320,7 +320,7 @@
     <Setting Name="TranslationPlaybackType" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">4</Value>
     </Setting>
-    <Setting Name="MPlayerDebuggingOutputWindow" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="MPlayerDebuggingOutputWindow" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="StandardAudioFileSuffix" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.String" Scope="Application">
@@ -335,16 +335,16 @@
     <Setting Name="MinimumSegmentLengthInMilliseconds" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">850</Value>
     </Setting>
-    <Setting Name="FFmpegDownloadDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="FFmpegDownloadDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ConvertMediaDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="ConvertMediaDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ShowFFmpegDetailsWhenConvertingMedia" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="MediaFileMoreInfoDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="MediaFileMoreInfoDlg" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DefaultAutoSegmenterMaximumSegmentLengthInMilliseconds" Description="The auto-segmenter will calculate the &quot;optimal&quot; segment length to be halfway between AutoSegmenterMinimumSegmentLengthInMilliseconds and this value." Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.Int32" Scope="Application">
@@ -358,6 +358,12 @@
     </Setting>
     <Setting Name="DefaultAutoSegmenterMinimumSegmentLengthInMilliseconds" Description="The auto-segmenter will calculate the &quot;optimal&quot; segment length to be halfway between this value and AutoSegmenterMaximumSegmentLengthInMilliseconds." Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="ProgramToLaunchForIMDIPackage" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Arbil\arbil-stable.exe</Value>
+    </Setting>
+    <Setting Name="PersonContributionColumns" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)">200,120,80,200</Value>
     </Setting>
   </Settings>
 </SettingsFile>

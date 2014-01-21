@@ -20,6 +20,8 @@ namespace SayMore.Model.Files
 	{
 		public const string kCustomFieldIdPrefix = "custom_";
 		private const string kCustomFieldsElement = "CustomFields";
+		public const string kAdditionalFieldIdPrefix = "additional_";
+		private const string kAdditionalFieldsElement = "AdditionalFields";
 		protected IDictionary<string, IXmlFieldSerializer> _xmlFieldSerializers;
 
 		/// ------------------------------------------------------------------------------------
@@ -34,10 +36,12 @@ namespace SayMore.Model.Files
 			var root = new XElement(rootElementName); // TODO: could use actual name
 
 			XElement customFieldsElement = null;
+			XElement additionalFieldsElement = null;
 			foreach (var fieldInstance in fields)
 			{
 				bool custom;
-				var element = GetElementFromField(fieldInstance, out custom);
+				bool additional;
+				var element = GetElementFromField(fieldInstance, out custom, out additional);
 				if (element == null)
 					continue;
 				if (custom)
@@ -48,6 +52,15 @@ namespace SayMore.Model.Files
 						root.Add(customFieldsElement);
 					}
 					customFieldsElement.Add(element);
+				}
+				else if (additional)
+				{
+					if (additionalFieldsElement == null)
+					{
+						additionalFieldsElement = new XElement(kAdditionalFieldsElement);
+						root.Add(additionalFieldsElement);
+					}
+					additionalFieldsElement.Add(element);
 				}
 				else
 					root.Add(element);
@@ -76,21 +89,27 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public XElement GetElementFromField(FieldInstance fld, out bool custom)
+		public XElement GetElementFromField(FieldInstance fld, out bool custom, out bool additional)
 		{
 			XElement element = null;
 
 			var id = fld.FieldId;
 			custom = false;
+			additional = false;
 			if (id.StartsWith(kCustomFieldIdPrefix))
 			{
 				id = id.Substring(kCustomFieldIdPrefix.Length);
 				custom = true;
 			}
+			else if (id.StartsWith(kAdditionalFieldIdPrefix))
+			{
+				id = id.Substring(kAdditionalFieldIdPrefix.Length);
+				additional = true;
+			}
 
 			IXmlFieldSerializer fldSerializer;
 
-			if (!custom && _xmlFieldSerializers != null && _xmlFieldSerializers.TryGetValue(id, out fldSerializer))
+			if (!custom && !additional && _xmlFieldSerializers != null && _xmlFieldSerializers.TryGetValue(id, out fldSerializer))
 			{
 				element = fldSerializer.Serialize(fld.Value);
 			}
@@ -163,6 +182,14 @@ namespace SayMore.Model.Files
 					.Select(node => new FieldInstance(kCustomFieldIdPrefix + node.Name, FieldInstance.kStringType,
 					CleanupLineBreaks(node.InnerText))));
 			}
+
+			var additionalFieldList = root.SelectSingleNode(kAdditionalFieldsElement);
+			if (additionalFieldList != null)
+			{
+				fields.AddRange(additionalFieldList.ChildNodes.Cast<XmlNode>()
+					.Select(node => new FieldInstance(kAdditionalFieldIdPrefix + node.Name, FieldInstance.kStringType,
+					CleanupLineBreaks(node.InnerText))));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -180,7 +207,7 @@ namespace SayMore.Model.Files
 			fieldId = UpdateOldSpongeIds(fieldId);
 
 			// We don't store fullName separately from the file name, anymore
-			if (fieldId == kCustomFieldsElement || fieldId == "fullName")
+			if (fieldId == kCustomFieldsElement || fieldId == kAdditionalFieldsElement || fieldId == "fullName")
 				return null;
 
 			// In SayMore, the type attribute is not optional, but it was in Sponge.
@@ -218,7 +245,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		private static string UpdateOldSpongeIds(string fieldId)
 		{
-			fieldId = fieldId.Replace("eventType", "genre");
+			fieldId = fieldId.Replace("eventType", SessionFileType.kGenreFieldName);
 			fieldId = fieldId.Replace("Langauge", "Language");
 			return fieldId.Replace("learnedLanguageIn", "primaryLanguageLearnedIn");
 		}

@@ -114,6 +114,8 @@
     </Compile>
     <Compile Include="MediaUtils\Audio\AudioUtils.cs" />
     <Compile Include="MediaUtils\Audio\WaveFileReaderWrapper.cs" />
+    <Compile Include="Model\ArchivingHelper.cs" />
+    <Compile Include="Model\IIMDIArchivable.cs" />
     <Compile Include="Transcription\Model\AutoSegmenter.cs" />
     <Compile Include="MediaUtils\Audio\OralAnnotationPlaybackWaveStream.cs" />
     <Compile Include="MediaUtils\Audio\WaveControls\WaveControlBasic.cs">
@@ -285,6 +287,7 @@
     <Compile Include="Transcription\UI\TextAnnotationGrid\TranslationAnnotationColumn.cs" />
     <Compile Include="UI\Charts\ChartBarInfo.cs" />
     <Compile Include="UI\Charts\HTMLChartBuilder.cs" />
+    <Compile Include="UI\ComponentEditors\AdditionalFieldsValuesGridViewModel.cs" />
     <Compile Include="UI\ComponentEditors\AudioComponentEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -375,6 +378,12 @@
     <Compile Include="UI\ComponentEditors\DiagnosticsFileInfoControl.Designer.cs">
       <DependentUpon>DiagnosticsFileInfoControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ComponentEditors\PersonContributionEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\PersonContributionEditor.Designer.cs">
+      <DependentUpon>PersonContributionEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ComponentEditors\SessionBasicEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -451,6 +460,24 @@
     </Compile>
     <Compile Include="UI\LowLevelControls\MultiValueComboBox.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Overview\ProjectAccessScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Overview\ProjectAccessScreen.Designer.cs">
+      <DependentUpon>ProjectAccessScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Overview\ProjectMetadataScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Overview\ProjectMetadataScreen.Designer.cs">
+      <DependentUpon>ProjectMetadataScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Overview\ProjectScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Overview\ProjectScreen.designer.cs">
+      <DependentUpon>ProjectScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SessionRecording\SessionRecorderDlg.cs">
       <SubType>Form</SubType>
@@ -711,6 +738,9 @@
     <EmbeddedResource Include="UI\ComponentEditors\DiagnosticsFileInfoControl.resx">
       <DependentUpon>DiagnosticsFileInfoControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\PersonContributionEditor.resx">
+      <DependentUpon>PersonContributionEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\SessionBasicEditor.resx">
       <DependentUpon>SessionBasicEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -734,6 +764,16 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ElementListScreen\ElementListScreen.resx">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Overview\ProjectAccessScreen.resx">
+      <DependentUpon>ProjectAccessScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Overview\ProjectMetadataScreen.resx">
+      <DependentUpon>ProjectMetadataScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Overview\ProjectScreen.resx">
+      <DependentUpon>ProjectScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SessionRecording\SessionRecorderDlg.resx">
       <DependentUpon>SessionRecorderDlg.cs</DependentUpon>
@@ -996,6 +1036,7 @@
     <None Include="Resources\SayMore.ico" />
     <None Include="Resources\UncheckedBox.png" />
     <None Include="Resources\SayMoreText.png" />
+    <None Include="Resources\project.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

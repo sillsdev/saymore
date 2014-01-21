@@ -161,7 +161,7 @@ namespace SayMore.UI.ComponentEditors
 			{
 				var radioButton = (RadioButton)s;
 				if (radioButton.Checked)
-					SaveFieldValue("status", radioButton.Tag.ToString());
+					SaveFieldValue(SessionFileType.kStatusFieldName, radioButton.Tag.ToString());
 			};
 
 			_tableLayoutOuter.Controls.Add(statusRadioButton, 1, row);
@@ -273,7 +273,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			this.SetWindowRedraw(false);
 
-			var status = _file.GetValue("status", Session.Status.Incoming.ToString()) as string;
+			var status = _file.GetValue(SessionFileType.kStatusFieldName, Session.Status.Incoming.ToString()) as string;
 
 			foreach (var radioButton in _statusRadioButtons.Where(r => r.Tag.ToString() == status))
 				radioButton.Checked = true;

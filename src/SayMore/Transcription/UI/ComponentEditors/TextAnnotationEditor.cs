@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
@@ -15,6 +16,7 @@ using SayMore.UI.ComponentEditors;
 using SayMore.Media.MPlayer;
 using SayMore.Model;
 using Palaso.UI.WindowsForms;
+using SayMore.Utilities;
 
 namespace SayMore.Transcription.UI
 {
@@ -88,26 +90,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void LoadPlaybackSpeedCombo()
 		{
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct", "100%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct", "90%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.80Pct", "80%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.70Pct", "70%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.60Pct", "60%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.50Pct", "50%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.40Pct", "40%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.30Pct", "30%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.20Pct", "20%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.10Pct", "10%"));
+			var pctFormatter = new PercentageFormatter();
+
+			for (int i = 10; i > 0; i--)
+				_comboPlaybackSpeed.Items.Add(pctFormatter.Format(i * 10));
 		}
 
 		/// ------------------------------------------------------------------------------------

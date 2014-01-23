@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using L10NSharp;
 
 namespace SayMore.UI.LowLevelControls
 {
@@ -15,6 +16,8 @@ namespace SayMore.UI.LowLevelControls
 		public VolumePopup()
 		{
 			InitializeComponent();
+			var pctFmt = LocalizationManager.GetString("CommonToMultipleViews.PercentFormat", "{0}%");
+			_sliderVolume.TooltipFormat = string.Format(pctFmt, "{0:F0}");
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using L10NSharp.UI;
 
 namespace SayMore.UI.Overview.Statistics
 {
@@ -17,6 +18,7 @@ namespace SayMore.UI.Overview.Statistics
 			_model = model;
 			InitializeComponent();
 			_panelWorking.BorderStyle = BorderStyle.None;
+			LocalizeItemDlg.StringsLocalized += UpdateDisplay;
 		}
 
 		/// ------------------------------------------------------------------------------------

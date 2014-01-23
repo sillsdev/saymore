@@ -1,3 +1,4 @@
+using L10NSharp;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 
@@ -18,7 +19,10 @@ namespace SayMore.UI.ComponentEditors
 		{
 			var id = GetIdForIndex(index);
 			if (id != null)
-				id = id.Substring(XmlFileSerializer.kAdditionalFieldIdPrefix.Length).Replace('_', ' ');
+			{
+				var name = id.Substring(XmlFileSerializer.kAdditionalFieldIdPrefix.Length).Replace('_', ' ');
+				return LocalizationManager.GetDynamicString("SayMore", "SessionsView.MetadataEditor.AdditionalFields." + name, name);
+			}
 			return id;
 		}
 

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using L10NSharp;
+using SayMore.Model.Fields;
 using SayMore.Model.Files;
 
 namespace SayMore.Model
@@ -77,8 +79,16 @@ namespace SayMore.Model
 			foreach (var session in sessionList)
 			{
 				var value = session.MetaDataFile.GetStringValue(field, null);
-				if (!string.IsNullOrEmpty(value) && !list.ContainsKey(value))
-					list[value] = GetSessionsFromListHavingFieldValue(sessionList, field, value);
+				if (!string.IsNullOrEmpty(value))
+				{
+					string uiValue;
+					if (field == SessionFileType.kGenreFieldName && value == "<Unknown>")
+						uiValue = GenreDefinition.UnknownType.Name;
+					else
+						uiValue = LocalizationManager.GetDynamicString("SayMore", "SessionsView.MetadataEditor.Genre." + value, value);
+					if (!list.ContainsKey(uiValue))
+						list[uiValue] = GetSessionsFromListHavingFieldValue(sessionList, field, value);
+				}
 			}
 
 			return list;

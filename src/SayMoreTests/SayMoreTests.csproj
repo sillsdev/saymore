@@ -162,6 +162,7 @@
     <Compile Include="UI\Overview\Statistics\StatisticsViewModelTests.cs" />
     <Compile Include="UI\ProjectWindow\AppSmokeTests.cs" />
     <Compile Include="UI\ProjectWindow\ReleaseNotesCommandTests.cs" />
+    <Compile Include="Utilities\PercentageFormatterTests.cs" />
     <Compile Include="Utilities\JSONUtilsTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -110,8 +110,8 @@ namespace SayMore.UI.ComponentEditors
 		private void HandleZoomTrackBarValueChanged(object sender, EventArgs e)
 		{
 			// REVIEW: Perhaps this information in a tooltip may be helpful.
-			//var fmt = LocalizationManager.LocalizeString("ImageViewer.ZoomValueFormat", "{0}%");
-			//_labelZoomPercent.Text = string.Format(fmt, _zoomTrackBar.Value);
+			//var pctFormatter = new PercentageFormatter();
+			//_labelZoomPercent.Text = pctFormatter.Format(_zoomTrackBar.Value);
 
 			_panelImage.AutoScrollMinSize = _model.GetScaledSize(_zoomTrackBar.Value);
 			_panelImage.Invalidate();

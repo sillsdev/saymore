@@ -141,11 +141,12 @@ namespace SayMore.Transcription.UI
 			_ignoreToolStripMenuItem.Height = _undoToolStripMenuItem.Height;
 
 			// If we ever get zooming working again, remove the following two
-			// lines and uncomment the two below them.
+			// lines and uncomment the three below them.
 			_labelZoom.Visible = false;
 			_comboBoxZoom.Visible = false;
 			//_waveControl.ZoomPercentage = 300; //ZoomPercentage;
-			//_comboBoxZoom.Text = string.Format("{0}%", ZoomPercentage);
+			// var pctFormatter = new PercentageFormatter();
+			//_comboBoxZoom.Text = pctFormatter.Format(ZoomPercentage);
 
 			HandleStringsLocalized();
 		}
@@ -200,26 +201,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void InitializeZoomComboItems()
 		{
-			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
-				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.100Pct", "100%"));
-			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
-				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.125Pct", "125%"));
-			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
-				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.150Pct", "150%"));
-			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
-				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.175Pct", "175%"));
-			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
-				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.200Pct", "200%"));
-			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
-				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.250Pct", "250%"));
-			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
-				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.300Pct", "300%"));
-			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
-				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.500Pct", "500%"));
-			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
-				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.750Pct", "750%"));
-			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
-				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.1000Pct", "1000%"));
+			var pctFormatter = new PercentageFormatter();
+			_comboBoxZoom.Items.AddRange((new [] {100, 125, 150, 175, 200, 250, 300, 500, 750, 1000})
+				.Select(pctFormatter.Format).Cast<Object>().ToArray());
 		}
 		#endregion
 
@@ -752,12 +736,16 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void SetZoom()
 		{
-			var text = _comboBoxZoom.Text.Replace("%", string.Empty).Trim();
-			float newValue;
-			if (float.TryParse(text, out newValue))
-				_waveControl.ZoomPercentage = newValue;
-
-			_comboBoxZoom.Text = string.Format("{0}%", _waveControl.ZoomPercentage);
+			var pctFormatter = new PercentageFormatter();
+			double newValue;
+			string formattedPercentage = pctFormatter.Format(_comboBoxZoom.Text, out newValue);
+			if (formattedPercentage != null)
+			{
+				_waveControl.ZoomPercentage = (float) newValue;
+				_comboBoxZoom.Text = formattedPercentage;
+			}
+			else
+				_comboBoxZoom.Text = pctFormatter.Format(_waveControl.ZoomPercentage);
 		}
 
 		#endregion

@@ -668,6 +668,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\PercentageFormatter.cs" />
     <EmbeddedResource Include="MediaUtils\FFmpeg\FFmpegDownloadDlg.resx">
       <DependentUpon>FFmpegDownloadDlg.cs</DependentUpon>
     </EmbeddedResource>

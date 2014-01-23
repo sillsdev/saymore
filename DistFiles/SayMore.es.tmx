@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4972.16808" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.5038.18887" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -351,7 +351,7 @@
         <seg>&amp;Delete File...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Borrar archivo...</seg>
+        <seg>&amp;Borrar archivo...</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.DeleteSubordinateFilesFormat">
@@ -691,6 +691,14 @@
         <seg>Notas</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.PercentFormat">
+      <tuv xml:lang="en">
+        <seg>{0}%</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>{0} %</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.PropertiesEditor.TabText">
       <tuv xml:lang="en">
         <seg>Properties</seg>
@@ -765,6 +773,14 @@
         <seg>Agregando archivos al colaborador '{0}'</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.AddingContributorFilesToIMDIArchiveProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Adding Files for Contributors...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Añadiendo los archivos de los contribuyentes...</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg">
       <tuv xml:lang="en">
         <seg>Adding Files for Session '{0}'</seg>
@@ -773,10 +789,18 @@
         <seg>Agregando archivos a la sesión '{0}'</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.ArchivingInfoDetails">
-      <note>This sentence is inserted as parameter 1 in DialogBoxes.ArchivingDlg.OverviewText</note>
+    <tu tuid="DialogBoxes.ArchivingDlg.AllFilesLabel">
       <tuv xml:lang="en">
-        <seg>It will gather up all the files and data related to a session and its contributors.</seg>
+        <seg>All Files</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Todos los archivos</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ArchivingInfoDetails">
+      <note>This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.xxxxOverviewText</note>
+      <tuv xml:lang="en">
+        <seg>The archive package will include all required files and data related to a session and its contributors.</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Reunirá todos los archivos y datos relacionados con ua sesión y sus colaboradores.</seg>
@@ -795,7 +819,7 @@
         <seg>Contributor</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Colaborador</seg>
+        <seg>Contribuyente</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.CopyingFilesMsg">
@@ -814,6 +838,14 @@
         <seg>Hubo un error al intentar crear el archivo de RAMP.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.CreatingIMDIPackageErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was a problem starting process to create IMDI package.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ocurrió un problema al iniciar el proceso para crear el paquete IMDI.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.CreatingInternalReapMetsFileErrorMsg">
       <tuv xml:lang="en">
         <seg>There was an error attempting to create the RAMP/REAP mets file.</seg>
@@ -830,6 +862,59 @@
         <seg>Hubo un problema al intentar iniciar el proceso para crear el archivo zip.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.FileExcludedFromPackage">
+      <note>Parameter is the type of archive (e.g., RAMP/IMDI)</note>
+      <tuv xml:lang="en">
+        <seg>File excluded from {0} package: </seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivo excluido del paquete {0}:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.IMDIActorsGroup">
+      <note>This is the heading displayed in the Archive Using IMDI dialog box for the files for the actors/participants</note>
+      <tuv xml:lang="en">
+        <seg>Actors</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Participantes</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.IMDIOverviewText">
+      <note>Parameter 0  is 'Isle Metadata Initiative' (the first occurrence will be turned into a hyperlink); Parameter 1 is 'IMDI'</note>
+      <tuv xml:lang="en">
+        <seg>{0} ({1}) is a metadata standard to describe multi-media and multi-modal language resources. The standard provides interoperability for browsable and searchable corpus structures and resource descriptions.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>{0} ({1}) es un estándar de metadatos para describir los recursos multimedia y multimodales de los idiomas. Este estándar facilita las búsquedas y la navegación de las estructuras del cuerpo de recursos y sus descripciones.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.IMDIProgramInfoText">
+      <note>Parameter 0 is the name of the program that will be launched to further prepare the IMDI data for submission; Parameter 1 is the name of the calling (host) program (SayMore, FLEx, etc.)</note>
+      <tuv xml:lang="en">
+        <seg>This tool will help you use {0} to archive your {1} data. When the {1} package has been created, you can launch {0} and enter any additional information before doing the actual submission.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Esta herramienta le ayudará a utilizar {0} para archivar sus datos {1}. Cuando el paquete {1} se ha creado, puede lanzar {0} y añadir información adicional antes de archivarlo.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ISO3CodeRequired">
+      <note>Message displayed when an invalid language code is given.</note>
+      <tuv xml:lang="en">
+        <seg>ISO 639-3 3-letter language code required.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Código ISO 639-3 (tres letras que identifiquen el idioma) requerido.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.InvalidLanguageCode">
+      <tuv xml:lang="en">
+        <seg>Invalid ISO 639-3 code: {0}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>El código ISO 639-3 es inválido: {0}</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg">
       <tuv xml:lang="en">
         <seg>There are no contributors for this session.</seg>
@@ -838,13 +923,21 @@
         <seg>No hay ningún colaborador para esta sesión.</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.OverviewText">
-      <note>The first occurrence of the word 'RAMP' will be made a hyperlink to the RAMP website. If the word 'RAMP' is not found, the text will not contain that hyperlink.</note>
+    <tu tuid="DialogBoxes.ArchivingDlg.NoIMDIProgramInfoText">
+      <note>Parameter 0 is 'IMDI'; Parameter 1 is the path where the package is created.</note>
       <tuv xml:lang="en">
-        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your {0} data. {1} When the RAMP package has been created, you can  launch RAMP and enter any additional information before doing the actual submission.</seg>
+        <seg>The {0} package will be created in {1}.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>RAMP es una utilidad para introducir metadatos y subir información al archivo interno del SIL, REAP. Si tiene acceso a este archivo, esta herramienta le ayudará a utilizar RAMP para archivar sus sesiones de {0}. {1}. A continuación, usted puede ejecutar RAMP para completar cualquier información adicional y subir el paquete.</seg>
+        <seg>Se creará el paquete {0} en {1}.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg">
+      <tuv xml:lang="en">
+        <seg>The following files will be added to the archive:</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Los siguientes archivos serán añadidos al archivo permanente:</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1">
@@ -871,12 +964,54 @@
         <seg>Analizando archivos de componente</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ProgramsFileTypeLabel">
+      <tuv xml:lang="en">
+        <seg>Programs</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Programas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails">
+      <note>This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.IMDIOverviewText</note>
+      <tuv xml:lang="en">
+        <seg>The archive corpus will include all required files and data related to this project.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>El archivo permanente incluirá todos los archivos requeridos y los datos relacionados con este proyecto.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.RAMPArchiveType">
+      <tuv xml:lang="en">
+        <seg>RAMP (SIL Only)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>RAMP (solamente para ILV)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.RAMPOverviewText">
+      <note>Parameter 0  is the word 'RAMP' (the first one will be turned into a hyperlink); Parameter 1 is the name of the calling (host) program (SayMore, FLEx, etc.); Parameter 2 is additional app-specifc information.</note>
+      <tuv xml:lang="en">
+        <seg>{0} is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use {0} to archive your {1} data. {2} When the {0} package has been created, you can  launch {0} and enter any additional information before doing the actual submission.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>{0} es una utilidad para introducir metadatos y subir paquetes de datos al archivo permanente interno del ILV, REAP. Si usted tiene acceso a este archivo, esta herramienta le ayudará a utilizar {0} para archivar sus datos de {1}. {2} Cuando el paquete {0} se ha creado, puede lanzar {0} añadir información adicional antes de archivarlo.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.RampNotFoundMsg">
       <tuv xml:lang="en">
         <seg>The RAMP program cannot be found!</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>No se encuentra el pograma RAMP.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ReadyToCallIMDIMsg">
+      <tuv xml:lang="en">
+        <seg>Ready to hand the package to IMDI program</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Listos para entregar el paquete al programa IMDI</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.ReadyToCallRampMsg">
@@ -887,12 +1022,13 @@
         <seg>Listo para transferir el paquete a RAMP</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.SavingFilesInRAMPMsg">
+    <tu tuid="DialogBoxes.ArchivingDlg.SavingFilesInPackageMsg">
+      <note>Parameter is the type of archive (e.g., RAMP/IMDI)</note>
       <tuv xml:lang="en">
-        <seg>Saving files in RAMP package</seg>
+        <seg>Saving files in {0} package</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Guardando archivos en el paquete RAMP</seg>
+        <seg>Guardando archivos en el paquete {0}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.SearchingForRampMsg">
@@ -911,9 +1047,17 @@
         <seg>Sesión</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.StartingIMDIErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error attempting to open the archive package in {0}.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ocurrió un error al intentar abrir el paquete en  {0}.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.StartingRampErrorMsg">
       <tuv xml:lang="en">
-        <seg>There was an error attempting to open the archive package in RAMP.</seg>
+        <seg>There was an error attempting to open the archive package in {0}.</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Hubo un error al intentar abrir el paquete de archivo en RAMP.</seg>
@@ -922,7 +1066,7 @@
     <tu tuid="DialogBoxes.ArchivingDlg.WindowTitle">
       <note>Parameter is application name</note>
       <tuv xml:lang="en">
-        <seg>{0}: Archive with RAMP (SIL Only)</seg>
+        <seg>{0}: Archive using {1}</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>{0}: Archivar con RAMP (sólo SIL)</seg>
@@ -946,7 +1090,7 @@
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg._buttonLaunchRamp">
       <tuv xml:lang="en">
-        <seg>&amp;2) Launch RAMP</seg>
+        <seg>&amp;2) Launch {0}</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>&amp;2) Iniciar RAMP</seg>
@@ -1533,6 +1677,38 @@
         <seg>Descargar FFmpegForSayMore.zip manualmente</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.IMDIArchivingDlg.ArchivingIMDILocationDescription">
+      <tuv xml:lang="en">
+        <seg>Select a base folder where the IMDI directory structure should be created.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Seleccione una carpeta base para crear la estructura de carpetas IMDI.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.IMDIArchivingDlg.ChangeDestinationFolder">
+      <tuv xml:lang="en">
+        <seg>Change Folder</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cambiar carpeta</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.IMDIArchivingDlg.ChangeProgramToLaunch">
+      <tuv xml:lang="en">
+        <seg>Change Program to Launch</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cambiar programa para abrir archivo</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.IMDIArchivingDlg.SelectIMDIProgram">
+      <tuv xml:lang="en">
+        <seg>Select the program to launch after IMDI package is created</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Seleccione el programa para lanzar después de crear el paquete IMDI</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.LoadingDlg.CancelLink">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
@@ -1970,6 +2146,14 @@
         <seg>Audio original</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelSegmentXofY">
+      <tuv xml:lang="en">
+        <seg>Segment {0} of {1}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Segmento {0} de {1}</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelZoom">
       <tuv xml:lang="en">
         <seg>&amp;Zoom:</seg>
@@ -2129,7 +2313,7 @@
         <seg>Careful Speech</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Discurso cuidado</seg>
+        <seg>Habla cuidadosa</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotationsForAddedBreak">
@@ -2568,7 +2752,7 @@
         <seg>&amp;Language:</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Idioma:</seg>
+        <seg>&amp;Idioma:</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.OKButton">
@@ -2724,7 +2908,7 @@
         <seg>&amp;Delete Person...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Borrar persona...</seg>
+        <seg>&amp;Borrar persona...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.DeleteSessionMenuText">
@@ -2732,7 +2916,7 @@
         <seg>&amp;Delete Session...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Borrar sesión...</seg>
+        <seg>&amp;Borrar sesión...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.ElementNoLongerExistsMsg">
@@ -2900,7 +3084,7 @@
         <seg>&amp;Open/Create Project...</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Abrir o crear proyecto...</seg>
+        <seg>&amp;Abrir o crear proyecto...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._menuProject">
@@ -2989,6 +3173,54 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Seleccionar Ignorado para no anotar este segmento.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.ContributionEditor.CommentColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Comments</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Notas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.ContributionEditor.DateColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Date</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Fecha</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.ContributionEditor.NameColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Name</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nombre</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.ContributionEditor.RoleColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Role</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Rol</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.ContributionEditor.RoleParticipant">
+      <tuv xml:lang="en">
+        <seg>Participant</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Participante</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.ContributionEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Contributions</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Contribuciones</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.FileList.AddPersonButtonToolTip">
@@ -3119,12 +3351,12 @@
         <seg>Persona</seg>
       </tuv>
     </tu>
-    <tu tuid="PeopleView.MetadataEditor._labelBirthYear">
+    <tu tuid="PeopleView.MetadataEditor._labelAge">
       <tuv xml:lang="en">
-        <seg>&amp;Birth Year</seg>
+        <seg>Age</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Año de nacimiento</seg>
+        <seg>Edad</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelCustomFields">
@@ -3143,12 +3375,20 @@
         <seg>&amp;Educación</seg>
       </tuv>
     </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelEthnicGroup">
+      <tuv xml:lang="en">
+        <seg>Ethnic Group</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Grupo étnico</seg>
+      </tuv>
+    </tu>
     <tu tuid="PeopleView.MetadataEditor._labelFullName">
       <tuv xml:lang="en">
         <seg>&amp;Full Name</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Nombre completo</seg>
+        <seg>&amp;Nombre completo</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelHowToContact">
@@ -3156,7 +3396,15 @@
         <seg>&amp;How to Contact</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Información de contacto</seg>
+        <seg>&amp;Información de contacto</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelNickName">
+      <tuv xml:lang="en">
+        <seg>Nick Name</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sobrenombre</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelOtherLanguages">
@@ -3189,6 +3437,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>&amp;Ocupación principal</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelPrivacyProtection">
+      <tuv xml:lang="en">
+        <seg>Privacy Protection</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Protección de la privacidad</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelgender">
@@ -3257,7 +3513,7 @@
     </tu>
     <tu tuid="PeopleView.PeopleList.HeadingText">
       <tuv xml:lang="en">
-        <seg>Items</seg>
+        <seg>People</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Personas</seg>
@@ -3416,28 +3672,12 @@
         <seg>{0}: {1} sesiones con duración total de {2} minutos</seg>
       </tuv>
     </tu>
-    <tu tuid="ProgressView.TabText">
-      <tuv xml:lang="en">
-        <seg>Progress</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Progreso</seg>
-      </tuv>
-    </tu>
     <tu tuid="ProgressView.TabText_ToolTip_">
       <tuv xml:lang="en">
         <seg>Progress View</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Vista de progreso</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProgressView._buttonRefresh">
-      <tuv xml:lang="en">
-        <seg>Refresh</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Actualizar</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView._buttonRefresh_ToolTip_">
@@ -3448,12 +3688,220 @@
         <seg>Actualizar la vista</seg>
       </tuv>
     </tu>
-    <tu tuid="ProgressView._labelWorking">
+    <tu tuid="ProjectView.AboutProjectViewTitle">
+      <tuv xml:lang="en">
+        <seg>About This Project</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Acerca de este proyecto</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.AccessProtocolViewTitle">
+      <tuv xml:lang="en">
+        <seg>Access Protocol</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Protocolo de acceso</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.AccessScreen._labelAccessProtocol">
+      <tuv xml:lang="en">
+        <seg>Access Protocol used\nby this project</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Protocolo de acceso usado\npor este proyecto</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelApplications">
+      <tuv xml:lang="en">
+        <seg>Applications</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Aplicaciones</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelContact">
+      <tuv xml:lang="en">
+        <seg>Contact Person</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Persona de contacto</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelContentType">
+      <tuv xml:lang="en">
+        <seg>Content Type</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Tipo de contenido</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelContinent">
+      <tuv xml:lang="en">
+        <seg>Continent</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Continente</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelCountry">
+      <tuv xml:lang="en">
+        <seg>Country</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>País</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelDateAvailable">
+      <tuv xml:lang="en">
+        <seg>Date Available</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Fecha disponible</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelDepositor">
+      <tuv xml:lang="en">
+        <seg>Depositor</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Depositante</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelDescription">
+      <tuv xml:lang="en">
+        <seg>Description</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Descripción</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelFundingProject">
+      <tuv xml:lang="en">
+        <seg>Funding Project Title</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Título del proyecto de financiación</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelLocationAddress">
+      <tuv xml:lang="en">
+        <seg>Location/Address</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ubicación/Dirección</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelLocationRegion">
+      <tuv xml:lang="en">
+        <seg>Region</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Región</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelProjectTitle">
+      <tuv xml:lang="en">
+        <seg>Title</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Título</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelRelatedPublications">
+      <tuv xml:lang="en">
+        <seg>Related Publications</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Publicaciones relacionadas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelRightsHolder">
+      <tuv xml:lang="en">
+        <seg>Rights Holder</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Titular de los derechos</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelVernacular">
+      <tuv xml:lang="en">
+        <seg>Vernacular</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Vernáculo</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._linkSelectVernacular">
+      <tuv xml:lang="en">
+        <seg>Change Language</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cambiar idioma</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProgressScreen._buttonCopy">
+      <tuv xml:lang="en">
+        <seg>Copy</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Copiar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProgressScreen._buttonPrint">
+      <tuv xml:lang="en">
+        <seg>Print</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Imprimir</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProgressScreen._buttonRefresh">
+      <tuv xml:lang="en">
+        <seg>Refresh</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Actualizar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProgressScreen._buttonSave">
+      <tuv xml:lang="en">
+        <seg>Save</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Guardar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProgressScreen._labelWorking">
       <tuv xml:lang="en">
         <seg>Working...</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Trabajando...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProgressViewTitle">
+      <tuv xml:lang="en">
+        <seg>Progress</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Progreso</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.TabText">
+      <tuv xml:lang="en">
+        <seg>Project</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Proyecto</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectWindow.archiveUsingIMDIToolStripMenuItem">
+      <tuv xml:lang="en">
+        <seg>&amp;Archive using IMDI...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&amp;Archivar con IMDI...</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.FileList.AddSessionsButtonToolTip">
@@ -3469,7 +3917,7 @@
         <seg>Careful</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Cuidadoso</seg>
+        <seg>Cuidadosa</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.GeneratedOralAnnotationView.SourceLabel">
@@ -3486,6 +3934,96 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Traducción</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Interactivity">
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>Interactivity</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Interactividad</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Involvement">
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>Involvement</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Participación</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Location Country">
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>Location Country</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>País</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Location Continent">
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>Location Continent</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Continente</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Location Region">
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>Location Region</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Región</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Location Address">
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>Location Address</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Dirección</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Planning Type">
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>Planning Type</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Tipo de planeamiento</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Sub-Genre">
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>Sub-Genre</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sub-género</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Social Context">
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>Social Context</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Contexto social</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Task">
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>Task</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Tarea</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.drama">
@@ -3595,14 +4133,6 @@
         <seg>&lt;Desconocido&gt;</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.MetadataEditor._labelAbstract">
-      <tuv xml:lang="en">
-        <seg>Abstract</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Resumen</seg>
-      </tuv>
-    </tu>
     <tu tuid="SessionsView.MetadataEditor._labelAccess">
       <tuv xml:lang="en">
         <seg>Access</seg>
@@ -3627,6 +4157,14 @@
         <seg>Fecha</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelDescription">
+      <tuv xml:lang="en">
+        <seg>Description</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Descripción</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.MetadataEditor._labelGenre">
       <tuv xml:lang="en">
         <seg>Genre</seg>
@@ -3649,6 +4187,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Lugar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelMoreFields">
+      <tuv xml:lang="en">
+        <seg>More Fields</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Más campos</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelParticipants">
@@ -3845,10 +4391,18 @@
     </tu>
     <tu tuid="SessionsView.SessionsList.HeadingText">
       <tuv xml:lang="en">
-        <seg>Items</seg>
+        <seg>Sessions</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Sesiones</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.SessionsList.IMDIArchiveMenuText">
+      <tuv xml:lang="en">
+        <seg>Archive using IMDI...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Archivar con IMDI...</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsList.NewFilesFromDeviceButtonText">
@@ -4016,7 +4570,7 @@
         <seg>Status &amp;&amp; Stages</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&amp;Estado y etapas</seg>
+        <seg>Estado y etapas</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.StatusAndStagesEditor._labelReadAboutStages">
@@ -4081,6 +4635,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>El archivo '{0}' no es un archivo de anotación de SayMore. Posiblemente está dañado.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.ErrorAccessingMediaFile">
+      <tuv xml:lang="en">
+        <seg>There was an error accessing media file to determine the duration: '{0}'</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ocurrió un error al intentar cargar el archivo multimedia para determinar la duración: '{0}'.</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.FontDialogProblem">
@@ -4538,7 +5100,7 @@
         <seg>&amp;Ignored</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Ignorado</seg>
+        <seg>&amp;Ignorado</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.IgnoredSegmentIndicator">
@@ -4554,7 +5116,7 @@
         <seg>There was an error loading the annotation file '{0}'.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Ocurrió un error al intentar de cargar el archivo de anotación '{0}'.</seg>
+        <seg>Ocurrió un error al intentar cargar el archivo de anotación '{0}'.</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg">

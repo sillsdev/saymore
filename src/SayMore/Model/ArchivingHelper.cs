@@ -248,10 +248,12 @@ namespace SayMore.Model
 				if (parts.Length == 2)
 				{
 					var language = LanguageList.FindByISO3Code(parts[0]);
-					if (language == null)
-						package.ContentIso3Languages.Add(new ArchivingLanguage(parts[0], parts[1]));
+
+					// SP-765:  Allow codes from Ethnologue that are not in the Arbil list
+					if ((language == null) || (string.IsNullOrEmpty(language.EnglishName)))
+						package.ContentIso3Languages.Add(new ArchivingLanguage(parts[0], parts[1], parts[1]));
 					else
-						package.ContentIso3Languages.Add(new ArchivingLanguage(language.Iso3Code, language.EnglishName));
+						package.ContentIso3Languages.Add(new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName));
 				}
 			}
 		}

@@ -197,7 +197,7 @@ namespace SayMore.UI.ComponentEditors
 			var cell = new DataGridViewComboBoxCell
 			{
 				DataSource = list,
-				DisplayMember = "Value",
+				DisplayMember = "Text",
 				ValueMember = "Text",
 				Value = currentValue,
 				FlatStyle = FlatStyle.Flat
@@ -294,6 +294,11 @@ namespace SayMore.UI.ComponentEditors
 
 			// remember the list of possible choices
 			_accessOptions = protocol.Choices;
+
+			// localize the list
+			foreach (var item in _accessOptions)
+				item.Description = LocalizationManager.GetDynamicString("SayMore", "SessionsView.MetadataEditor.AccessProtocol." + accessProtocol + "." + item.ValueMember, item.DisplayMember, null);
+
 			_access.DropDownStyle = ComboBoxStyle.DropDownList;
 
 			SetAccessCodeListAndValue();
@@ -313,8 +318,10 @@ namespace SayMore.UI.ComponentEditors
 
 			if (currentAccessCode == null) return;
 
+			// get the saved list
+			var choices = _accessOptions;
+
 			// is the selected item in the list
-			var choices = _accessOptions.ToList();
 			var found = choices.Any(i => i.ToString() == currentAccessCode);
 
 			if (!found)
@@ -324,9 +331,11 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			_access.DataSource = choices;
+			_access.DisplayMember = "DisplayMember";
+			_access.ValueMember = "ValueMember";
 
 			// select the current code
-			foreach (var item in _access.Items.Cast<object>().Where(i => i.ToString() == currentAccessCode))
+			foreach (var item in _access.Items.Cast<object>().Where(item => ((AccessOption)item).ValueMember == currentAccessCode))
 				_access.SelectedItem = item;
 		}
 

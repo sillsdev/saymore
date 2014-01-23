@@ -1,10 +1,8 @@
 using System;
 using System.Drawing;
 using System.Linq;
-using System.Media;
 using System.Windows.Forms;
 using Palaso.UI.WindowsForms.WritingSystems;
-using SayMore.Model.Files;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;
 using SIL.Archiving.IMDI.Lists;
@@ -83,7 +81,7 @@ namespace SayMore.UI.Overview
 			{
 				var result = dialog.ShowDialog();
 				if (result == DialogResult.OK)
-					_labelSelectedVernacular.Text = dialog.SelectedLanguage.Code + ": " + dialog.SelectedLanguage.DesiredName;
+					_labelSelectedVernacular.Text = dialog.SelectedLanguage.Code + @": " + dialog.SelectedLanguage.DesiredName;
 			}
 
 		}

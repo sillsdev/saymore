@@ -346,6 +346,7 @@ namespace SayMore.UI.ComponentEditors
 			var ctrl = (Control)sender;
 			var key = _makeIdFromControlName(ctrl);
 			var box = ctrl as CheckBox;
+			var combo = ctrl as ComboBox;
 
 			string newValue = null;
 			var gotNewValueFromDelegate = false;
@@ -361,6 +362,8 @@ namespace SayMore.UI.ComponentEditors
 			{
 				if (box != null)
 					newValue = box.Checked ? "true" : "false";
+				else if ((combo != null) && (combo.SelectedItem != null))
+					newValue = combo.SelectedValue.ToString();
 				else if (key != "date")
 					newValue = ctrl.Text.Trim();
 				else

@@ -205,9 +205,10 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._labelVernacular, null);
 			this.locExtender.SetLocalizationComment(this._labelVernacular, null);
 			this.locExtender.SetLocalizingId(this._labelVernacular, "ProjectView.MetadataScreen._labelVernacular");
-			this._labelVernacular.Location = new System.Drawing.Point(57, 97);
+			this._labelVernacular.Location = new System.Drawing.Point(57, 101);
+			this._labelVernacular.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this._labelVernacular.Name = "_labelVernacular";
-			this._labelVernacular.Size = new System.Drawing.Size(62, 21);
+			this._labelVernacular.Size = new System.Drawing.Size(62, 13);
 			this._labelVernacular.TabIndex = 4;
 			this._labelVernacular.Text = "Vernacular";
 			this._labelVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -312,12 +313,12 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel1.Controls.Add(this._labelSelectedVernacular, 0, 0);
 			this.tableLayoutPanel1.Controls.Add(this._linkSelectVernacular, 1, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(122, 101);
-			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0, 4, 0, 4);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(122, 97);
+			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 1;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(353, 13);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(353, 21);
 			this.tableLayoutPanel1.TabIndex = 19;
 			// 
 			// _labelSelectedVernacular
@@ -330,7 +331,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizingId(this._labelSelectedVernacular, "ProjectView.MetadataScreen._labelSelectedVernacular");
 			this._labelSelectedVernacular.Location = new System.Drawing.Point(3, 0);
 			this._labelSelectedVernacular.Name = "_labelSelectedVernacular";
-			this._labelSelectedVernacular.Size = new System.Drawing.Size(68, 13);
+			this._labelSelectedVernacular.Size = new System.Drawing.Size(68, 21);
 			this._labelSelectedVernacular.TabIndex = 0;
 			this._labelSelectedVernacular.Text = "Unspecified";
 			this._labelSelectedVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -344,7 +345,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizingId(this._linkSelectVernacular, "ProjectView.MetadataScreen._linkSelectVernacular");
 			this._linkSelectVernacular.Location = new System.Drawing.Point(249, 0);
 			this._linkSelectVernacular.Name = "_linkSelectVernacular";
-			this._linkSelectVernacular.Size = new System.Drawing.Size(101, 13);
+			this._linkSelectVernacular.Size = new System.Drawing.Size(101, 21);
 			this._linkSelectVernacular.TabIndex = 1;
 			this._linkSelectVernacular.TabStop = true;
 			this._linkSelectVernacular.Text = "Change Language";

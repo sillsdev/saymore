@@ -65,6 +65,10 @@ artwork/layer1-9.png
 DistFiles/SayMore.chw
 Thumbs.db
 src/AutoSegmenter/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
-lib/dotnet/L10NSharp.*
+lib/dotnet/L10NSharp*
 lib/dotnet/SilUtils.dll
 lib/dotnet/SIL.Archiving.*
+lib/dotnet/icu*
+lib/dotnet/Interop*
+lib/dotnet/Ionic*
+lib/dotnet/nunit*

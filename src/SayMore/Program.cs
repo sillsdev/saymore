@@ -21,6 +21,7 @@ using SayMore.Properties;
 using SayMore.UI;
 using SayMore.UI.ProjectWindow;
 using SayMore.Model;
+using SayMore.Utilities;
 
 namespace SayMore
 {
@@ -279,6 +280,15 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public static void ArchiveProjectUsingIMDI(Form parentForm)
 		{
+			// SP-767: some project changes not being saved before archiving
+			var views = _projectContext.ProjectWindow.Views;
+			foreach (var view in views)
+			{
+				var save = view.HasMethod("Save");
+				if (save != null)
+					save.Invoke(view, null);
+			}
+
 			_projectContext.Project.ArchiveProjectUsingIMDI(parentForm);
 		}
 

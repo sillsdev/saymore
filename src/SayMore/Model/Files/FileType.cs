@@ -16,6 +16,7 @@ using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
 using SayMore.UI;
 using SayMore.UI.ComponentEditors;
+using SayMore.UI.Overview;
 
 namespace SayMore.Model.Files
 {
@@ -227,7 +228,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public PersonFileType(Func<PersonBasicEditor.Factory> personBasicEditorFactoryLazy,
 			Func<PersonContributionEditor.Factory> personRoleEditorFactoryLazy)
-			: base("Person", p => p.ToLower().EndsWith(".person"))
+			: base("Person", p => p.ToLower().EndsWith(Settings.Default.PersonFileExtension.ToLower()))
 		{
 			_personBasicEditorFactoryLazy = personBasicEditorFactoryLazy;
 			_personContributionEditorFactoryLazy = personRoleEditorFactoryLazy;

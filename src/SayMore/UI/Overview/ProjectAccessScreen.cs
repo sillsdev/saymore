@@ -74,30 +74,7 @@ namespace SayMore.UI.Overview
 
 		private void ProjectAccessScreen_Leave(object sender, System.EventArgs e)
 		{
-			// check for changes
-			var changed = false;
-			var project = Program.CurrentProject;
-
-			if (_projectAccess.Text != project.AccessProtocol)
-				changed = true;
-
-			// check if custom access choices changed
-			ArchiveAccessProtocol custom = (ArchiveAccessProtocol) _projectAccess.Items[_projectAccess.Items.Count - 1];
-			if (_customAccessChoices.Text != custom.ChoicesToCsv())
-			{
-				var customs = AccessProtocols.LoadCustom();
-				var firstCustom = customs.First();
-				firstCustom.SetChoicesFromCsv(_customAccessChoices.Text);
-				_customAccessChoices.Text = firstCustom.ChoicesToCsv();
-				AccessProtocols.SaveCustom(customs);
-				changed = true;
-			}
-
-			if (!changed) return;
-
-			// save changes
-			project.AccessProtocol = _projectAccess.Text;
-			project.Save();
+			Save();
 		}
 
 		private void ProjectAccessScreen_Load(object sender, System.EventArgs e)
@@ -117,6 +94,34 @@ namespace SayMore.UI.Overview
 		{
 			if (e.Url.AbsoluteUri != _currentUri)
 				e.Cancel = true;
+		}
+
+		internal void Save()
+		{
+			// check for changes
+			var changed = false;
+			var project = Program.CurrentProject;
+
+			if (_projectAccess.Text != project.AccessProtocol)
+				changed = true;
+
+			// check if custom access choices changed
+			ArchiveAccessProtocol custom = (ArchiveAccessProtocol)_projectAccess.Items[_projectAccess.Items.Count - 1];
+			if (_customAccessChoices.Text != custom.ChoicesToCsv())
+			{
+				var customs = AccessProtocols.LoadCustom();
+				var firstCustom = customs.First();
+				firstCustom.SetChoicesFromCsv(_customAccessChoices.Text);
+				_customAccessChoices.Text = firstCustom.ChoicesToCsv();
+				AccessProtocols.SaveCustom(customs);
+				changed = true;
+			}
+
+			if (!changed) return;
+
+			// save changes
+			project.AccessProtocol = _projectAccess.Text;
+			project.Save();
 		}
 	}
 }

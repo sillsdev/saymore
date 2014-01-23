@@ -13,8 +13,6 @@ using Palaso.IO;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.UI.ElementListScreen;
-using SIL.Archiving;
-using SIL.Archiving.IMDI;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
@@ -87,6 +85,14 @@ namespace SayMore.UI.ProjectWindow
 
 			SetWindowText();
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
+		}
+
+		internal List<Control> Views
+		{
+			get
+			{
+				return _viewTabGroup.Tabs.Select(item => item.View).ToList();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -117,5 +117,11 @@ namespace SayMore.UI.Overview
 			_splitter.Panel2.Controls.Add(control);
 			control.Dock = DockStyle.Fill;
 		}
+
+		internal void Save()
+		{
+			_metadataView.Save();
+			_accessView.Save();
+		}
 	}
 }

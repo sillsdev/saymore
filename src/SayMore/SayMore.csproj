@@ -857,6 +857,7 @@
     <Compile Include="UI\SplashScreenForm.Designer.cs">
       <DependentUpon>SplashScreenForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\ExtensionMethods.cs" />
     <Compile Include="Utilities\FileSystemUtils.cs" />
     <Compile Include="Utilities\IconHelper.cs" />
     <Compile Include="Utilities\AppColors.cs" />

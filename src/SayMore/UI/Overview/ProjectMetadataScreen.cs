@@ -11,6 +11,7 @@ namespace SayMore.UI.Overview
 {
 	public partial class ProjectMetadataScreen : EditorBase, ISayMoreView
 	{
+
 		public ProjectMetadataScreen()
 		{
 			InitializeComponent();
@@ -88,6 +89,51 @@ namespace SayMore.UI.Overview
 
 		private void ProjectMetadataScreen_Leave(object sender, EventArgs e)
 		{
+			Save();
+		}
+
+		private void ProjectMetadataScreen_Load(object sender, EventArgs e)
+		{
+			// show values from project file
+			var project = Program.CurrentProject;
+
+			if (project == null) return;
+
+			_projectTitle.Text = project.Title;
+			_fundingProjectTitle.Text = project.FundingProjectTitle;
+			_description.Text = project.ProjectDescription;
+			_labelSelectedVernacular.Text = project.VernacularISO3CodeAndName;
+			_location.Text = project.Location;
+			_region.Text = project.Region;
+			_country.Text = project.Country;
+
+			foreach (var item in _continent.Items.Cast<object>().Where(i => i.ToString() == project.Continent))
+				_continent.SelectedItem = item;
+
+			_contactPerson.Text = project.ContactPerson;
+			_contentType.Text = project.ContentType;
+			_applications.Text = project.Applications;
+			_dateAvailable.SetValue(project.DateAvailable);
+			_rightsHolder.Text = project.RightsHolder;
+			_depositor.Text = project.Depositor;
+			_relatedPublications.Text = project.RelatedPublications;
+		}
+
+		private void SizeContinentComboBox(ComboBox comboBox)
+		{
+			var maxWidth = 0;
+			foreach (var item in comboBox.Items)
+			{
+				var itmWidth = TextRenderer.MeasureText(item.ToString(), comboBox.Font).Width;
+				if (itmWidth > maxWidth)
+					maxWidth = itmWidth;
+			}
+
+			comboBox.Width = maxWidth + 30;
+		}
+
+		internal void Save()
+		{
 			// check for changes
 			var changed = false;
 			var project = Program.CurrentProject;
@@ -130,46 +176,6 @@ namespace SayMore.UI.Overview
 			project.Depositor = _depositor.Text;
 			project.RelatedPublications = _relatedPublications.Text;
 			project.Save();
-		}
-
-		private void ProjectMetadataScreen_Load(object sender, EventArgs e)
-		{
-			// show values from project file
-			var project = Program.CurrentProject;
-
-			if (project == null) return;
-
-			_projectTitle.Text = project.Title;
-			_fundingProjectTitle.Text = project.FundingProjectTitle;
-			_description.Text = project.ProjectDescription;
-			_labelSelectedVernacular.Text = project.VernacularISO3CodeAndName;
-			_location.Text = project.Location;
-			_region.Text = project.Region;
-			_country.Text = project.Country;
-
-			foreach (var item in _continent.Items.Cast<object>().Where(i => i.ToString() == project.Continent))
-				_continent.SelectedItem = item;
-
-			_contactPerson.Text = project.ContactPerson;
-			_contentType.Text = project.ContentType;
-			_applications.Text = project.Applications;
-			_dateAvailable.SetValue(project.DateAvailable);
-			_rightsHolder.Text = project.RightsHolder;
-			_depositor.Text = project.Depositor;
-			_relatedPublications.Text = project.RelatedPublications;
-		}
-
-		private void SizeContinentComboBox(ComboBox comboBox)
-		{
-			var maxWidth = 0;
-			foreach (var item in comboBox.Items)
-			{
-				var itmWidth = TextRenderer.MeasureText(item.ToString(), comboBox.Font).Width;
-				if (itmWidth > maxWidth)
-					maxWidth = itmWidth;
-			}
-
-			comboBox.Width = maxWidth + 30;
 		}
 	}
 }

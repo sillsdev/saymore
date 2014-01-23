@@ -477,6 +477,37 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public static void SuspendAudioVideoBackgroundProcesses()
+		{
+			var localCopy = _projectContext;
+			if (localCopy == null)
+				return;
+
+			lock (localCopy)
+			{
+				localCopy.SuspendAudioVideoBackgroundProcesses();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void ResumeAudioVideoBackgroundProcesses(bool processAllPendingEventsNow)
+		{
+			var localCopy = _projectContext;
+			if (localCopy == null)
+				return;
+
+			lock (localCopy)
+			{
+				if (processAllPendingEventsNow)
+					WaitCursor.Show();
+
+				localCopy.ResumeAudioVideoBackgroundProcesses(processAllPendingEventsNow);
+			}
+			if (processAllPendingEventsNow)
+				WaitCursor.Hide();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static void SuspendBackgroundProcesses()
 		{
 			var localCopy = _projectContext;

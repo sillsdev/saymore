@@ -431,7 +431,7 @@ namespace SayMore.UI.ComponentEditors
 			if (_personsPicture == null)
 				return;
 
-			Program.SuspendBackgroundProcesses();
+			Program.SuspendAudioVideoBackgroundProcesses();
 
 			try
 			{
@@ -457,7 +457,7 @@ namespace SayMore.UI.ComponentEditors
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
 			}
 
-			Program.ResumeBackgroundProcesses(true);
+			Program.ResumeAudioVideoBackgroundProcesses(true);
 		}
 
 		/// ------------------------------------------------------------------------------------

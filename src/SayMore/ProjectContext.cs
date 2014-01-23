@@ -193,6 +193,20 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void SuspendAudioVideoBackgroundProcesses()
+		{
+			if (_audioVideoDataGatherer != null)
+				_audioVideoDataGatherer.SuspendProcessing();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ResumeAudioVideoBackgroundProcesses(bool processAllPendingEventsNow)
+		{
+			if (_audioVideoDataGatherer != null)
+				_audioVideoDataGatherer.ResumeProcessing(processAllPendingEventsNow);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void SuspendBackgroundProcesses()
 		{
 			if (_audioVideoDataGatherer != null)

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using L10NSharp;
 using System.Windows.Forms;
+using L10NSharp.UI;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;
@@ -23,13 +24,13 @@ namespace SayMore.UI.Overview
 			_accessView = accessView;
 			InitializeComponent();
 
-			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.AboutProjectViewTitle", "About This Project") });
-			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.AccessProtocolViewTitle", "Access Protocol") });
-			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress") });
+			HandleStringsLocalized();
 			_splitter.Panel2.BackColor = Color.FromArgb(230, 150, 100);
 			_metadataView.BackColor = _splitter.Panel2.BackColor;
 			_progressView.BackColor = _splitter.Panel2.BackColor;
 			_accessView.BackColor = _splitter.Panel2.BackColor;
+
+			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -43,6 +44,18 @@ namespace SayMore.UI.Overview
 				components.Dispose();
 
 			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleStringsLocalized()
+		{
+			var currentRow = _projectPages.CurrentCellAddress.Y;
+			_projectPages.RowCount = 0;
+			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.AboutProjectViewTitle", "About This Project") });
+			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.AccessProtocolViewTitle", "Access Protocol") });
+			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress") });
+			if (currentRow >= 0)
+				_projectPages.CurrentCell = _projectPages.Rows[currentRow].Cells[0];
 		}
 
 		#region ISayMoreView Members

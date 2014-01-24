@@ -1,7 +1,9 @@
-
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using L10NSharp;
+using L10NSharp.UI;
 using Palaso.IO;
 using SIL.Archiving.Generic.AccessProtocol;
 
@@ -11,15 +13,27 @@ namespace SayMore.UI.Overview
 	{
 		private bool _isLoaded;
 		private string _currentUri;
-		private readonly string _archivingFileDirectoryName;
+		private string _archivingFileDirectoryName;
 
+		/// ------------------------------------------------------------------------------------
 		public ProjectAccessScreen()
 		{
 			InitializeComponent();
 
 			// access protocol list
-			var fileName = FileLocator.GetFileDistributedWithApplication("Archiving", "AccessProtocols.json");
+			HandleStringsLocalized();
+			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleStringsLocalized()
+		{
+			var fileName = FileLocator.GetFileDistributedWithApplication("Archiving", AccessProtocols.kProtocolFileName);
 			_archivingFileDirectoryName = Path.GetDirectoryName(fileName);
+			Debug.Assert(_archivingFileDirectoryName != null);
+			if (LocalizationManager.UILanguageId != "en" && Directory.Exists(Path.Combine(_archivingFileDirectoryName, LocalizationManager.UILanguageId)))
+				_archivingFileDirectoryName = Path.Combine(_archivingFileDirectoryName, LocalizationManager.UILanguageId);
+
 			var protocols = AccessProtocols.LoadStandardAndCustom(_archivingFileDirectoryName);
 			protocols.Insert(0, new ArchiveAccessProtocol { ProtocolName = "None" });
 			_projectAccess.DataSource = protocols;
@@ -27,6 +41,7 @@ namespace SayMore.UI.Overview
 			SizeProtocolsComboBox(_projectAccess);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void SizeProtocolsComboBox(ComboBox comboBox)
 		{
 			var maxWidth = 0;
@@ -40,6 +55,7 @@ namespace SayMore.UI.Overview
 			comboBox.Width = maxWidth + 30;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void _projectAccess_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
 			if (_projectAccess.SelectedItem == null) return;
@@ -61,6 +77,7 @@ namespace SayMore.UI.Overview
 
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void SetForCustom()
 		{
 			var isCustom = _projectAccess.SelectedIndex == _projectAccess.Items.Count - 1;
@@ -72,6 +89,7 @@ namespace SayMore.UI.Overview
 			_webBrowser.Visible = !isCustom && !isNone;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void ProjectAccessScreen_Leave(object sender, System.EventArgs e)
 		{
 			// check for changes
@@ -100,6 +118,7 @@ namespace SayMore.UI.Overview
 			project.Save();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void ProjectAccessScreen_Load(object sender, System.EventArgs e)
 		{
 			// show values from project file
@@ -113,6 +132,7 @@ namespace SayMore.UI.Overview
 			SetForCustom();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void _webBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
 		{
 			if (e.Url.AbsoluteUri != _currentUri)

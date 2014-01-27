@@ -135,8 +135,8 @@ namespace SayMoreTests.Model
 		{
 			var lists = _informant.GetCategorizedSessionsByField(SessionFileType.kGenreFieldName);
 			Assert.AreEqual(2, lists.Count);
-			Assert.AreEqual(2, lists["discourse"].Count());
-			Assert.AreEqual(3, lists["singing"].Count());
+			Assert.AreEqual(2, lists["SessionsView.MetadataEditor.Genre.discourse"].Count());
+			Assert.AreEqual(3, lists["SessionsView.MetadataEditor.Genre.singing"].Count());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -146,8 +146,8 @@ namespace SayMoreTests.Model
 			var inList = _sessionRepo.AllItems.Where(x => x.Id != "04");
 			var lists = SessionWorkflowInformant.GetCategorizedSessionsFromListByField(inList, SessionFileType.kGenreFieldName);
 			Assert.AreEqual(2, lists.Count);
-			Assert.AreEqual(2, lists["discourse"].Count());
-			Assert.AreEqual(2, lists["singing"].Count());
+			Assert.AreEqual(2, lists["SessionsView.MetadataEditor.Genre.discourse"].Count());
+			Assert.AreEqual(2, lists["SessionsView.MetadataEditor.Genre.singing"].Count());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -159,14 +159,14 @@ namespace SayMoreTests.Model
 			// A list for each genre
 			Assert.AreEqual(2, genrelist.Count);
 
-			Assert.AreEqual(1, genrelist["discourse"].Count);
-			Assert.AreEqual(3, genrelist["singing"].Count);
+			Assert.AreEqual(1, genrelist["SessionsView.MetadataEditor.Genre.discourse"].Count);
+			Assert.AreEqual(3, genrelist["SessionsView.MetadataEditor.Genre.singing"].Count);
 
 			// A list of sessions for each status within each genre
-			Assert.AreEqual(2, genrelist["discourse"]["Incoming"].Count());
-			Assert.AreEqual(1, genrelist["singing"]["Incoming"].Count());
-			Assert.AreEqual(1, genrelist["singing"]["In Progress"].Count());
-			Assert.AreEqual(1, genrelist["singing"]["Finished"].Count());
+			Assert.AreEqual(2, genrelist["SessionsView.MetadataEditor.Genre.discourse"]["SessionsView.MetadataEditor.Genre.Incoming"].Count());
+			Assert.AreEqual(1, genrelist["SessionsView.MetadataEditor.Genre.singing"]["SessionsView.MetadataEditor.Genre.Incoming"].Count());
+			Assert.AreEqual(1, genrelist["SessionsView.MetadataEditor.Genre.singing"]["SessionsView.MetadataEditor.Genre.In Progress"].Count());
+			Assert.AreEqual(1, genrelist["SessionsView.MetadataEditor.Genre.singing"]["SessionsView.MetadataEditor.Genre.Finished"].Count());
 		}
 
 		/// ------------------------------------------------------------------------------------

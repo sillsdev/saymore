@@ -40,7 +40,6 @@ namespace SayMore.UI.ComponentEditors
 			Name = "SessionEditor";
 
 			_personInformant = personInformant;
-			InitializeGrid(autoCompleteProvider, fieldGatherer);
 
 			_autoCompleteProvider = autoCompleteProvider;
 			_autoCompleteProvider.NewDataAvailable += LoadGenreList;
@@ -57,6 +56,8 @@ namespace SayMore.UI.ComponentEditors
 			_genre.Enter += delegate { _genreFieldEntered = true; };
 			_genre.Leave += delegate { _genreFieldEntered = false; };
 			_genre.KeyPress += HandleGenreKeyPress;
+
+			InitializeGrid(autoCompleteProvider, fieldGatherer);
 
 			file.AfterSave += file_AfterSave;
 		}
@@ -185,7 +186,7 @@ namespace SayMore.UI.ComponentEditors
 
 			var currentValue = _gridAdditionalFields[1, row].Value.ToString();
 
-			if (list.FindByValue(currentValue) == null)
+			if (list.FindByText(currentValue) == null)
 			{
 				currentValue = string.Empty;
 				_gridAdditionalFields[1, row].Value = currentValue;

@@ -117,7 +117,12 @@ namespace SayMore.Model.Files
 			{
 				var value = (fld.ValueAsString ?? string.Empty);
 				if (value.Length > 0)
+				{
+					// SP-775: SayMore crash when attempting to use a Custom Field name that starts with a non-alpha character
+					if ((!Char.IsLetter(id[0])) && (id[0] != '_')) id = "_" + id;
+
 					element = new XElement(id, fld.ValueAsString);
+				}
 			}
 
 			if (element != null)

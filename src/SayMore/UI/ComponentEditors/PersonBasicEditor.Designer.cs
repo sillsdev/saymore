@@ -732,6 +732,7 @@ namespace SayMore.UI.ComponentEditors
 			this._howToContact.Multiline = true;
 			this._howToContact.Name = "_howToContact";
 			this._tableLayout.SetRowSpan(this._howToContact, 3);
+			this._howToContact.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this._howToContact.Size = new System.Drawing.Size(240, 76);
 			this._howToContact.TabIndex = 15;
 			this._autoCompleteHelper.SetUpdateGatherer(this._howToContact, false);

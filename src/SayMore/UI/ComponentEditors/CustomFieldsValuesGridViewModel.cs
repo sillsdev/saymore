@@ -18,9 +18,9 @@ namespace SayMore.UI.ComponentEditors
 		public override string GetDisplayableFieldName(int index)
 		{
 			var id = GetIdForIndex(index);
-			if (id != null)
-				id = id.Substring(XmlFileSerializer.kCustomFieldIdPrefix.Length).Replace('_', ' ');
-			return id;
+			if (id == null) return null;
+			id = id.Substring(XmlFileSerializer.kCustomFieldIdPrefix.Length).Replace('_', ' ');
+			return id.Trim();
 		}
 
 		/// ------------------------------------------------------------------------------------

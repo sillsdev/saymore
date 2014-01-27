@@ -175,7 +175,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			{
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
-					Model.SetRequestedPath(viewModel.ParentFolderPathForNewProject, viewModel.NewProjectName);
+					Model.SetRequestedPath(NewProjectDlgViewModel.ParentFolderPathForNewProject, viewModel.NewProjectName);
 					DialogResult = DialogResult.OK;
 					Close();
 				}

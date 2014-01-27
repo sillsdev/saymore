@@ -291,7 +291,7 @@ namespace SayMore.Model.Files
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
 			var col = BetterGrid.CreateTextBoxColumn("id");
-			col.HeaderText = "_L10N_:PeopleView.PeopleList.ColumnHeadings.Id!Id";
+			col.HeaderText = "_L10N_:PeopleView.PeopleList.ColumnHeadings.Person!Person";
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
 			col.Frozen = true;

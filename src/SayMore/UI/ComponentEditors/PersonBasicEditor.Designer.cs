@@ -116,10 +116,10 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizationComment(this._id, null);
 			this.locExtender.SetLocalizationPriority(this._id, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._id, "PersonBasicEditor._id");
-			this._id.Location = new System.Drawing.Point(116, 21);
+			this._id.Location = new System.Drawing.Point(107, 21);
 			this._id.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._id.Name = "_id";
-			this._id.Size = new System.Drawing.Size(57, 20);
+			this._id.Size = new System.Drawing.Size(66, 20);
 			this._id.TabIndex = 7;
 			this._autoCompleteHelper.SetUpdateGatherer(this._id, false);
 			// 
@@ -900,7 +900,7 @@ namespace SayMore.UI.ComponentEditors
 			this._nickName.Location = new System.Drawing.Point(0, 21);
 			this._nickName.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._nickName.Name = "_nickName";
-			this._nickName.Size = new System.Drawing.Size(113, 20);
+			this._nickName.Size = new System.Drawing.Size(104, 20);
 			this._nickName.TabIndex = 5;
 			this._autoCompleteHelper.SetUpdateGatherer(this._nickName, false);
 			// 
@@ -911,12 +911,12 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._labelID, null);
 			this.locExtender.SetLocalizationComment(this._labelID, null);
 			this.locExtender.SetLocalizingId(this._labelID, "PeopleView.MetadataEditor._labelID");
-			this._labelID.Location = new System.Drawing.Point(116, 5);
+			this._labelID.Location = new System.Drawing.Point(107, 5);
 			this._labelID.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
 			this._labelID.Name = "_labelID";
-			this._labelID.Size = new System.Drawing.Size(18, 13);
+			this._labelID.Size = new System.Drawing.Size(32, 13);
 			this._labelID.TabIndex = 6;
-			this._labelID.Text = "ID";
+			this._labelID.Text = "Code";
 			// 
 			// _personName
 			// 

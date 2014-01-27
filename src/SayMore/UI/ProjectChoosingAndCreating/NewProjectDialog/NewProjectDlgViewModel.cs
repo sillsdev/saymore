@@ -42,7 +42,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected string DefaultProjectsFolder
+		protected static string DefaultProjectsFolder
 		{
 			get
 			{
@@ -57,7 +57,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string ParentFolderPathForNewProject
+		public static string ParentFolderPathForNewProject
 		{
 			get { return DefaultProjectsFolder; }
 		}

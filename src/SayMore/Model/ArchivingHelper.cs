@@ -6,6 +6,7 @@ using Palaso.Extensions;
 using Palaso.Reporting;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
+using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 using SIL.Archiving;
 using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
@@ -20,8 +21,10 @@ namespace SayMore.Model
 		internal static void ArchiveUsingIMDI(IIMDIArchivable element)
 		{
 			var destFolder = Program.CurrentProject.IMDIOutputDirectory;
+
+			// Move IMDI export folder to be under the mydocs/saymore
 			if (string.IsNullOrEmpty(destFolder))
-				destFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "IMDI Packages");
+				destFolder = Path.Combine(NewProjectDlgViewModel.ParentFolderPathForNewProject, "IMDI Packages");
 
 			var model = new IMDIArchivingDlgViewModel(Application.ProductName, element.Title, element.Id,
 				element.ArchiveInfoDetails, element is Project, element.SetFilesToArchive, destFolder)

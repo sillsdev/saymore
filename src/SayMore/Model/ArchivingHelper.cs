@@ -144,14 +144,19 @@ namespace SayMore.Model
 			var persons = saymoreSession.GetAllPersonsInSession();
 			foreach (var person in persons)
 			{
+
+				// is this person protected
+				var protect = bool.Parse(person.MetaDataFile.GetStringValue("privacyProtection", "false"));
+
 				ArchivingActor actor = new ArchivingActor
 				{
-					FullName = person.MetaDataFile.GetStringValue("fullName", person.Id),
-					Name = person.Id,
-					BirthDate = person.MetaDataFile.GetStringValue("birthYear", string.Empty),
+					FullName = person.MetaDataFile.GetStringValue("personName", person.Id),
+					Name = person.MetaDataFile.GetStringValue("nickName", person.Id),
+					Age = person.MetaDataFile.GetStringValue("age", string.Empty),
 					Gender = person.MetaDataFile.GetStringValue("gender", null),
 					Education = person.MetaDataFile.GetStringValue("education", null),
-					Occupation = person.MetaDataFile.GetStringValue("primaryOccupation", null)
+					Occupation = person.MetaDataFile.GetStringValue("primaryOccupation", null),
+					Anonymize = protect
 				};
 
 				// do this to get the ISO3 codes for the languages because they are not in saymore

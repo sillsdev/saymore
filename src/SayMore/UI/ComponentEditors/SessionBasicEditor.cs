@@ -289,17 +289,19 @@ namespace SayMore.UI.ComponentEditors
 			{
 				_access.DataSource = null;
 				_access.DropDownStyle = ComboBoxStyle.DropDown;
-				return;
 			}
+			else
+			{
+				// remember the list of possible choices
+				_accessOptions = protocol.Choices;
 
-			// remember the list of possible choices
-			_accessOptions = protocol.Choices;
+				// localize the list
+				foreach (var item in _accessOptions)
+					item.Description = LocalizationManager.GetDynamicString("SayMore",
+						"SessionsView.MetadataEditor.AccessProtocol." + accessProtocol + "." + item.ValueMember, item.DisplayMember, null);
 
-			// localize the list
-			foreach (var item in _accessOptions)
-				item.Description = LocalizationManager.GetDynamicString("SayMore", "SessionsView.MetadataEditor.AccessProtocol." + accessProtocol + "." + item.ValueMember, item.DisplayMember, null);
-
-			_access.DropDownStyle = ComboBoxStyle.DropDownList;
+				_access.DropDownStyle = ComboBoxStyle.DropDownList;
+			}
 
 			SetAccessCodeListAndValue();
 		}
@@ -308,7 +310,7 @@ namespace SayMore.UI.ComponentEditors
 		/// the current value of "access" is no longer in the list</summary>
 		private void SetAccessCodeListAndValue()
 		{
-			var currentAccessCode = _file.GetStringValue("access", null);
+			var currentAccessCode = _file.GetStringValue("access", string.Empty);
 
 			if (_access.DropDownStyle == ComboBoxStyle.DropDown)
 			{
@@ -316,10 +318,8 @@ namespace SayMore.UI.ComponentEditors
 				return;
 			}
 
-			if (currentAccessCode == null) return;
-
-			// get the saved list
-			var choices = _accessOptions;
+			// get the saved list. use .ToList() to copy the list rather than modify the original
+			var choices = _accessOptions.ToList();
 
 			// is the selected item in the list
 			var found = choices.Any(i => i.ToString() == currentAccessCode);

@@ -183,8 +183,6 @@ namespace SayMore.UI.ComponentEditors
 			var list = ListConstructor.GetList(listType);
 			list.UpperCaseFirstCharacters();
 
-			list.Insert(0, new IMDIListItem(string.Empty, string.Empty)); // add a blank option
-
 			var currentValue = _gridAdditionalFields[1, row].Value.ToString();
 
 			if (list.FindByValue(currentValue) == null)
@@ -193,10 +191,13 @@ namespace SayMore.UI.ComponentEditors
 				_gridAdditionalFields[1, row].Value = currentValue;
 			}
 
+			// SP-771: Adding multiple blank lines if reopen the project
+			var list2 = list.ToList();
+			list2.Insert(0, new IMDIListItem(string.Empty, string.Empty)); // add a blank option
 
 			var cell = new DataGridViewComboBoxCell
 			{
-				DataSource = list,
+				DataSource = list2,
 				DisplayMember = "Text",
 				ValueMember = "Text",
 				Value = currentValue,

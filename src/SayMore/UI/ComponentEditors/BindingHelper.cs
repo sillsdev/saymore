@@ -363,7 +363,7 @@ namespace SayMore.UI.ComponentEditors
 				if (box != null)
 					newValue = box.Checked ? "true" : "false";
 				else if ((combo != null) && (combo.SelectedItem != null))
-					newValue = combo.SelectedValue.ToString();
+					newValue = combo.SelectedValue == null ? combo.SelectedItem.ToString() : combo.SelectedValue.ToString();
 				else if (key != "date")
 					newValue = ctrl.Text.Trim();
 				else

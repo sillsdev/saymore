@@ -76,7 +76,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelNickName = new System.Windows.Forms.Label();
 			this._nickName = new System.Windows.Forms.TextBox();
 			this._labelID = new System.Windows.Forms.Label();
-			this._personName = new System.Windows.Forms.TextBox();
+			this._code = new System.Windows.Forms.TextBox();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
 			this._tooltip = new System.Windows.Forms.ToolTip(this.components);
@@ -109,18 +109,18 @@ namespace SayMore.UI.ComponentEditors
 			this._id.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._autoCompleteHelper.SetAutoCompleteKey(this._id, "");
-			this._tableID.SetColumnSpan(this._id, 2);
+			this._tableLayout.SetColumnSpan(this._id, 2);
 			this._binder.SetIsBound(this._id, true);
 			this._binder.SetIsComponentFileId(this._id, true);
 			this.locExtender.SetLocalizableToolTip(this._id, null);
 			this.locExtender.SetLocalizationComment(this._id, null);
 			this.locExtender.SetLocalizationPriority(this._id, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._id, "PersonBasicEditor._id");
-			this._id.Location = new System.Drawing.Point(107, 21);
+			this._id.Location = new System.Drawing.Point(0, 16);
 			this._id.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._id.Name = "_id";
-			this._id.Size = new System.Drawing.Size(66, 20);
-			this._id.TabIndex = 7;
+			this._id.Size = new System.Drawing.Size(173, 20);
+			this._id.TabIndex = 1;
 			this._autoCompleteHelper.SetUpdateGatherer(this._id, false);
 			// 
 			// _labelAge
@@ -204,7 +204,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.Controls.Add(this._labelCustomFields, 4, 16);
 			this._tableLayout.Controls.Add(this._panelPrivacy, 4, 10);
 			this._tableLayout.Controls.Add(this._tableID, 0, 2);
-			this._tableLayout.Controls.Add(this._personName, 0, 1);
+			this._tableLayout.Controls.Add(this._id, 0, 1);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Top;
 			this._tableLayout.Location = new System.Drawing.Point(7, 7);
 			this._tableLayout.Name = "_tableLayout";
@@ -859,7 +859,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tableID.Controls.Add(this._labelNickName, 0, 0);
 			this._tableID.Controls.Add(this._nickName, 0, 1);
 			this._tableID.Controls.Add(this._labelID, 2, 0);
-			this._tableID.Controls.Add(this._id, 2, 1);
+			this._tableID.Controls.Add(this._code, 2, 1);
 			this._tableID.Dock = System.Windows.Forms.DockStyle.Top;
 			this._tableID.Location = new System.Drawing.Point(0, 39);
 			this._tableID.Margin = new System.Windows.Forms.Padding(0);
@@ -868,6 +868,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.SetRowSpan(this._tableID, 2);
 			this._tableID.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableID.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableID.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this._tableID.Size = new System.Drawing.Size(176, 44);
 			this._tableID.TabIndex = 41;
 			// 
@@ -918,24 +919,24 @@ namespace SayMore.UI.ComponentEditors
 			this._labelID.TabIndex = 6;
 			this._labelID.Text = "Code";
 			// 
-			// _personName
+			// _code
 			// 
-			this._personName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this._code.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this._autoCompleteHelper.SetAutoCompleteKey(this._personName, "");
-			this._tableLayout.SetColumnSpan(this._personName, 2);
-			this._binder.SetIsBound(this._personName, true);
-			this._binder.SetIsComponentFileId(this._personName, false);
-			this.locExtender.SetLocalizableToolTip(this._personName, null);
-			this.locExtender.SetLocalizationComment(this._personName, null);
-			this.locExtender.SetLocalizationPriority(this._personName, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._personName, "PersonBasicEditor._personName");
-			this._personName.Location = new System.Drawing.Point(0, 16);
-			this._personName.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
-			this._personName.Name = "_personName";
-			this._personName.Size = new System.Drawing.Size(173, 20);
-			this._personName.TabIndex = 1;
-			this._autoCompleteHelper.SetUpdateGatherer(this._personName, false);
+			this._autoCompleteHelper.SetAutoCompleteKey(this._code, "");
+			this._tableID.SetColumnSpan(this._code, 2);
+			this._binder.SetIsBound(this._code, true);
+			this._binder.SetIsComponentFileId(this._code, false);
+			this.locExtender.SetLocalizableToolTip(this._code, null);
+			this.locExtender.SetLocalizationComment(this._code, null);
+			this.locExtender.SetLocalizationPriority(this._code, L10NSharp.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._code, "PersonBasicEditor._code");
+			this._code.Location = new System.Drawing.Point(107, 21);
+			this._code.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
+			this._code.Name = "_code";
+			this._code.Size = new System.Drawing.Size(66, 20);
+			this._code.TabIndex = 6;
+			this._autoCompleteHelper.SetUpdateGatherer(this._code, false);
 			// 
 			// locExtender
 			// 
@@ -1019,6 +1020,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Label _labelEthnicGroup;
 		private System.Windows.Forms.TableLayoutPanel _tableID;
 		private System.Windows.Forms.Label _labelID;
-		private System.Windows.Forms.TextBox _personName;
+		private System.Windows.Forms.TextBox _code;
 	}
 }

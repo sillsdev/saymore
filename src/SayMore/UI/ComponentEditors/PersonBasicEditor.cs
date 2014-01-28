@@ -94,14 +94,6 @@ namespace SayMore.UI.ComponentEditors
 		{
 			// to convert birthYear to age
 			if (!string.IsNullOrEmpty(_obsoleteBirthYear)) ConvertBirthYearToAge();
-
-			// copy id to full name
-			if (string.IsNullOrEmpty(_binder.GetValue("personName")) && string.IsNullOrEmpty(_binder.GetValue("nickName")) & !string.IsNullOrEmpty(_id.Text))
-			{
-				_personName.Text = _id.Text;
-				_binder.SetValue("personName", _id.Text);
-			}
-
 		}
 
 		void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -169,14 +161,6 @@ namespace SayMore.UI.ComponentEditors
 
 			// to convert birthYear to age
 			if (!string.IsNullOrEmpty(_obsoleteBirthYear)) ConvertBirthYearToAge();
-
-			// copy id to full name
-			if (string.IsNullOrEmpty(_binder.GetValue("personName")) && string.IsNullOrEmpty(_binder.GetValue("nickName")) & !string.IsNullOrEmpty(_id.Text))
-			{
-				_personName.Text = _id.Text;
-				_binder.SetValue("personName", _id.Text);
-			}
-
 		}
 
 		/// <summary>to convert birthYear to age</summary>

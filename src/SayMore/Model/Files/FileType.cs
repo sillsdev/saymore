@@ -255,7 +255,7 @@ namespace SayMore.Model.Files
 				foreach (var fieldId in new[]
 				{
 					"id",
-					"personName",
+					"code",
 					"nickName",
 					"primaryLanguage",
 					"primaryLanguageLearnedIn",

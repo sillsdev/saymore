@@ -136,10 +136,7 @@ namespace SayMoreTests.UI.ProjectWindow
 			string componentGridName, string screenName)
 		{
 			TextBoxTester idTextBoxTester;
-			if (editorName == "PersonEditor")
-				idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._tableID._id", "ProjectWindow");
-			else
-				idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._id", "ProjectWindow");
+			idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._id", "ProjectWindow");
 
 			var listPanel = _projectContext.ProjectWindow.Controls.Find(listPanelName, true)[0] as ListPanel;
 			var list = listPanel.ListControl as ElementGrid;
@@ -302,11 +299,7 @@ namespace SayMoreTests.UI.ProjectWindow
 		private TextBoxTester AddItem(string editorName, string listPanelName)
 		{
 			TextBoxTester idTextBoxTester;
-			if (editorName == "PersonEditor")
-				idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._tableID._id", "ProjectWindow");
-			else
-				idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._id", "ProjectWindow");
-
+			idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._id", "ProjectWindow");
 
 			var listPanel = GetListPanelByName(listPanelName);
 			var list = listPanel.ListControl as ElementGrid;

@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using L10NSharp;
 using Palaso.UI.WindowsForms.WritingSystems;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;
@@ -24,17 +25,44 @@ namespace SayMore.UI.Overview
 			_tableLayout.RowStyles[4].Height = rowHeight;
 
 			// continent list
-			var continentList = ListConstructor.GetList(ListType.Continents);
+			var continentList = ListConstructor.GetClosedList(ListType.Continents);
 			_continent.DataSource = continentList;
 			_continent.DisplayMember = "Text";
 			_continent.ValueMember = "Value";
 			SizeContinentComboBox(_continent);
 
 			// country list
-			var countryList = ListConstructor.GetList(ListType.Countries);
+			var countryList = ListConstructor.GetList(ListType.Countries, false, Localize);
 			_country.DataSource = countryList;
 			_country.DisplayMember = "Text";
 			_country.ValueMember = "Value";
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleStringsLocalized()
+		{
+			base.HandleStringsLocalized();
+			IMDIItemList countryList = _country.DataSource as IMDIItemList;
+			if (countryList != null)
+				countryList.Localize(Localize);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a localized version of the string for an IMDI list item
+		/// </summary>
+		/// <param name="listName">the list name</param>
+		/// <param name="item">list item value (i.e., what gets stored in the meta-data if
+		/// this item is chosen)</param>
+		/// <param name="property">Which property </param>
+		/// <param name="defaultValue"></param>
+		/// 2) ;
+		/// 3) "Definition" or "Text"; 4) default (English) value.
+		private string Localize(string listName, string item, string property, string defaultValue)
+		{
+			return LocalizationManager.GetDynamicString("SayMore",
+				string.Format("ProjectView.MetadataScreen.{0}.{1}.{2}", listName, item, property),
+				defaultValue);
 		}
 
 		#region ISayMoreView Members

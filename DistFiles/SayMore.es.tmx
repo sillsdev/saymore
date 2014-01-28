@@ -3712,6 +3712,2481 @@
         <seg>Protocolo de acceso usado\npor este proyecto</seg>
       </tuv>
     </tu>
+  <tu tuid="ProjectView.MetadataScreen.Content-Interactivity.Unknown.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unknown</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Desconocida</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Content-Interactivity.Unspecified.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unspecified</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No especificada</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Content-Interactivity.Interactive.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Interactive</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Interactiva</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Content-Interactivity.Interactive.Definition">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Speech events consists of verbal interaction between at least two participants. Comments: The event may or may not include an investigator.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Evento comunicativo que consiste en la interacción verbal entre un mínimo de dos participantes. Nota: El evento puede o no incluir un investigador.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Content-Interactivity.Non-interactive.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Non-interactive</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No interactiva</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Content-Interactivity.Interactive.Definition">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Speech/song produced without expecting extended verbal responses from hearer(s). Comments: Corresponds often to monologue.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Habla / canción producida sin esperar respuestas verbales prolongados de los oyentes. Nota: Se corresponde con frecuencia a un monólogo.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Undetermined.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Undetermined</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No determinado</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Unknown.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unknown</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Desconocido</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Unspecified.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unspecified</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No especificado</seg>
+      </tuv>
+    </tu>
+  <tu tuid="ProjectView.MetadataScreen.Countries.Afghanistan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Afghanistan</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Afganistán</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Albania.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Albania</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Albania</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Algeria.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Algeria</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Argelia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.American Samoa.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>American Samoa</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Samoa Americana</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Andorra.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Andorra</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Andorra</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Angola.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Angola</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Angola</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Anguilla.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Anguilla</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Anguilla</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Antarctica.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Antarctica</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Antártida</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Antigua and Barbuda.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Antigua and Barbuda</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Antigua y Barbuda</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Arctic Ocean.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Arctic Ocean</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Océano Ártico</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Argentina.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Argentina</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Argentina</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Armenia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Armenia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Armenia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Aruba.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Aruba</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Aruba</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Ashmore and Cartier Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Ashmore and Cartier Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas Ashmore y Cartier</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Atlantic Ocean.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Atlantic Ocean</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Océano Atlántico</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Australia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Australia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Australia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Austria.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Austria</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Austria</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Azerbaijan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Azerbaijan</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Azerbaiyán</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Bahamas.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bahamas</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Bahamas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Bahrain.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bahrain</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Bahrein</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Baker Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Baker Island</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>La isla Baker</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Bangladesh.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bangladesh</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Bangladesh</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Barbados.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Barbados</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Barbados</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Bassas da India.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bassas da India</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Bassas da India</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Belarus.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Belarus</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Bielorrusia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Belgium.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Belgium</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Bélgica</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Belize.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Belize</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Belice</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Benin.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Benin</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Benín</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Bermuda.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bermuda</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Bermudas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Bhutan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bhutan</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Bután</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Bolivia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bolivia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Bolivia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Bosnia and Herzegovina.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bosnia and Herzegovina</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Bosnia-Herzegovina</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Botswana.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Botswana</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Botswana</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Bouvet Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bouvet Island</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>La isla Bouvet</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Brazil.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Brazil</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Brasil</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.British Indian Ocean Territory.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>British Indian Ocean Territory</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Territorio Británico del Océano Índico</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.British Virgin Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>British Virgin Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas Vírgenes Británicas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Brunei.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Brunei</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Brunéi</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Bulgaria.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bulgaria</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Bulgaria</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Burkina Faso.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Burkina Faso</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Burkina Faso</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Burma">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Burma</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Birmania (Myanmar)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Burundi.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Burundi</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Burundi</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Cambodia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cambodia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Camboya</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Cameroon.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cameroon</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Camerún</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Canada.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Canada</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Canadá</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Cape Verde.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cape Verde</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cabo Verde</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Cayman Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cayman Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas Caimán</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Central African Republic.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Central African Republic</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>República Centroafricana</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Chad.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Chad</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Chad</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Chile.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Chile</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Chile</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.China.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>China</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>China</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Christmas Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Christmas Island</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Isla De Navidad, Isla Christmas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Clipperton Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Clipperton Island</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>La Isla Clipperton</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Cocos (Keeling Islands).Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cocos (Keeling Islands)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas Cocos</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Colombia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Colombia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Colombia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Comoros.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Comoros</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Comores</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Congo, Democratic Republic of the.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Congo, Democratic Republic of the</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>República Democrática del Congo</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Congo Republic of the.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Congo Republic of the</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>República del Congo</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Cook Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cook Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas Cook</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Coral Sea Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Coral Sea Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas del Mar del Coral</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Costa Rica.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Costa Rica</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Costa Rica</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Cote D'Ivoire.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cote D'Ivoire</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Costa de Marfil</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Croatia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Croatia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Croacia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Cuba.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cuba</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cuba</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Cyprus.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cyprus</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Chipre</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Czech Republic.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Czech Republic</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>República Checa</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Denmark.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Denmark</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Dinamarca</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Djibouti.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Djibouti</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Djibouti, Yibuti</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Dominica.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Dominica</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Dominica</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Dominican Republic.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Dominican Republic</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Dominicana, República</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.East Timor.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>East Timor</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Timor Oriental</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Ecuador.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Ecuador</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ecuador</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Egypt.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Egypt</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Egipto</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.El Salvador.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>El Salvador</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>El Salvador</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Equatorial Guinea.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Equatorial Guinea</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Guinea Ecuatorial</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Eritrea.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Eritrea</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Eritrea</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Estonia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Estonia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Estonia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Ethiopia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Ethiopia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Etiopía</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Europa Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Europa Island</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Isla Europa</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Falkland Islands (Islas Malvinas).Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Falkland Islands (Islas Malvinas)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas Malvinas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Faroer Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Faroer Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas Feroe</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Fiji.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Fiji</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Fiyi</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Finland.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Finland</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Finlandia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.France.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>France</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Francia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.French Guiana.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>French Guiana</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Guayana Francesa</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.French Polynesia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>French Polynesia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Polinesia Francesa</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.French Southern and Antarctic Lands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>French Southern and Antarctic Lands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Tierras Australes y Antárticas Francesas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Gabon.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Gabon</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Gabón</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Gambia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Gambia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Gambia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.The Gaza Strip.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>The Gaza Strip</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>La Franja de Gaza</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Georgia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Georgia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Georgia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Germany.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Germany</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Alemania</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Ghana.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Ghana</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ghana</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Gibraltar.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Gibraltar</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Gibraltar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Glorioso Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Glorioso Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas Gloriosas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Greece.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Greece</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Grecia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Greenland.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Greenland</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Groenlandia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Grenada.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Grenada</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Granada</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Guadeloupe.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Guadeloupe</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Guadalupe</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Guam.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Guam</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Guam</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Guatemala.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Guatemala</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Guatemala</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Guernsey.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Guernsey</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>El Bailiazgo de Guernsey</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Guinea.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Guinea</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>República Guinea</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Guinea-Bissau.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Guinea-Bissau</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Guinea Bissau</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Guyana.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Guyana</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Guyana</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Haiti.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Haiti</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Haiti</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Heard and McDonald Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Heard and McDonald Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas Heard y McDonald</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Holy Seat (Vatican City).Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Holy Seat (Vatican City)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Santa Sede (Ciudad del Vaticano)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Honduras.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Honduras</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Honduras</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Hong Kong.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Hong Kong</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Hong Kong</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Howland Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Howland Island</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Isla Howland</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Hungary.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Hungary</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Hungría</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Iceland.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Iceland</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islandia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.India.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>India</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>India</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Indian Ocean.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Indian Ocean</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Océano Índico</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Indonesia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Indonesia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Indonesia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Iran (Islamic Republic of).Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Iran (Islamic Republic of)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Irán</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Iraq.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Iraq</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Iraq</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Ireland.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Ireland</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Irlanda</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Israel.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Israel</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Israel</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Italy.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Italy</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Italia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Jamaica.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Jamaica</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Jamaica</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Jan Mayen.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Jan Mayen</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Jan Mayen</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Japan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Japan</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Japón</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Jarvis Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Jarvis Island</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Isla Jarvis</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Jersey.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Jersey</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Bailiazgo de Jersey</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Johnston Atoll.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Johnston Atoll</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Atolón Johnston</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Jordan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Jordan</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Jordania</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Juan de Nova Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Juan de Nova Island</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Isla Juan de Nova</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Kazakhstan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Kazakhstan</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Kazajstán</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Kenya.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Kenya</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Kenia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Kingman Reef.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Kingman Reef</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Arrecife Kingman</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Kiribati.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Kiribati</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Kiribati</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Korea (North).Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Korea (North)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Corea del Norte</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Korea (South).Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Korea (South)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Corea del Sur</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Kuwait.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Kuwait</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Kuwait</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Kyrgyzstan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Kyrgyzstan</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Kirguistán</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Laos.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Laos</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Laos (República Democrática Popular Lao)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Latvia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Latvia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Letonia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Lebanon.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Lebanon</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Líbano</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Lesotho.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Lesotho</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Lesotho</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Liberia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Liberia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Liberia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Libya.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Libya</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Libia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Liechtenstein.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Liechtenstein</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Liechtenstein</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Lithuania.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Lithuania</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Lituania</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Luxembourg.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Luxembourg</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Luxemburgo</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Macau.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Macau</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Macao</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Macedonia, Rep. of.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Macedonia, Rep. of</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Macedonia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Madagascar.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Madagascar</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Madagascar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Malawi.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Malawi</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Malawi</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Malaysia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Malaysia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Malasia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Maldives.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Maldives</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Maldivas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Mali.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Mali</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Malí</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Malta.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Malta</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Malta</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Man Isle of.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Man Isle of</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Isla de Man</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Marshall Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Marshall Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas Marshall</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Martinique.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Martinique</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Martinica</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Mauritania.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Mauritania</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Mauritania</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Mauritius.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Mauritius</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Mauricio</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Mayotte.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Mayotte</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Mayotte</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Mexico.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Mexico</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>México</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Micronesia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Micronesia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Micronesia, Estados Federados de</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Moldova.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Moldova</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Moldavia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Monaco.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Monaco</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Mónaco</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Mongolia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Mongolia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Mongolia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Montserrat.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Montserrat</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Montserrat, Isla de</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Morocco.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Morocco</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Marruecos</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Mozambique.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Mozambique</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Mozambique</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Namibia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Namibia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Namibia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Nauru.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Nauru</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nauru</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Navassa Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Navassa Island</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Isla de Navaza</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Nepal.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Nepal</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nepal</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Netherlands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Netherlands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Países Bajos, Holanda</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Netherlands Antilles.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Netherlands Antilles</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Antillas Holandesas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.New Caledonia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>New Caledonia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nueva Caledonia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.New Zealand.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>New Zealand</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nueva Zelanda</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Nicaragua.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Nicaragua</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nicaragua</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Niger.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Niger</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Niger</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Nigeria.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Nigeria</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nigeria</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Niue.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Niue</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Niue</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Norfolk Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Norfolk Island</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Isla Norfolk</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Northern Mariana Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Northern Mariana Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Marianas del Norte</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Norway.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Norway</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Noruega</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Oman.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Oman</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Omán</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Pacific Ocean.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Pacific Ocean</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Océano Pacífico</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Pakistan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Pakistan</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Pakistán</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Palau.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Palau</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Palau</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Palmyra Atoll.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Palmyra Atoll</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Atolón Palmyra</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Panama.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Panama</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Panamá</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Papua New Guinea.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Papua New Guinea</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Papúa-Nueva Guinea</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Paracel Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Paracel Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas Paracelso</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Paraguay.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Paraguay</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Paraguay</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Peru.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Peru</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Perú</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Philippines.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Philippines</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Filipinas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Pitcairn Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Pitcairn Island</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Isla Pitcairn</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Poland.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Poland</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Polonia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Portugal.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Portugal</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Portugal</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Puerto Rico.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Puerto Rico</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Puerto Rico</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Qatar.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Qatar</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Qatar</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Reunion.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Reunion</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Reunión</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Romania.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Romania</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Rumanía</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Russian Federation.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Russian Federation</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Federación Rusa</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Rwanda.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Rwanda</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ruanda</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Saint Helena.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Saint Helena</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Santa Elena</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Saint Kitts and Nevis.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Saint Kitts and Nevis</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>San Cristobal y Nevis</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Saint Lucia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Saint Lucia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Santa Lucía</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Saint Pierre and Miquelon.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Saint Pierre and Miquelon</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>San Pedro y Miquelón</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Saint Vincent and the Grenadines.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Saint Vincent and the Grenadines</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>San Vincente y Granadinas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Samoa.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Samoa</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Samoa</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.San Marino.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>San Marino</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>San Marino</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Sao Tome and Principe.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Sao Tome and Principe</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Santo Tomé y Príncipe</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Saudi Arabia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Saudi Arabia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Arabia Saudita</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Senegal.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Senegal</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Senegal</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Serbia and Montenegro.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Serbia and Montenegro</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Serbia y Montenegro</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Seychelles.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Seychelles</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Seychelles</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Sierra Leone.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Sierra Leone</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sierra Leona</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Singapore.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Singapore</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Singapur</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Slovak Republic.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Slovak Republic</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Eslovaquia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Slovenia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Slovenia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Eslovenia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Solomon Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Solomon Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas Salomón</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Somalia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Somalia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Somalia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.South Africa.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>South Africa</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sudáfrica</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.South Georgia and the South Sandwich Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>South Georgia and the South Sandwich Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Georgia del Sur e Islas Sandwich del Sur</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Southern Ocean.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Southern Ocean</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Océano Austral</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Spain.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Spain</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>España</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Spratly Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Spratly Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas Spratly</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Sri Lanka.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Sri Lanka</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sri Lanka</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Sudan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Sudan</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sudán</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Suriname.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Suriname</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Surinam</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Svalbard.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Svalbard</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Svalbard</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Swaziland.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Swaziland</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Swazilandia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Sweden.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Sweden</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Suecia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Switzerland.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Switzerland</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Suiza</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Syria.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Syria</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Siria</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Taiwan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Taiwan</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Taiwan</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Tajikistan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Tajikistan</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Tadjikistan</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Tanzania.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Tanzania</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Tanzania</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Thailand.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Thailand</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Tailandia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Togo.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Togo</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Togo</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Tokelau.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Tokelau</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Tokelau</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Tonga.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Tonga</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Tonga</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Trinidad and Tobago.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Trinidad and Tobago</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Trinidad y Tobago</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Tromolin Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Tromolin Island</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Isla Tromelin</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Tunisia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Tunisia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Túnez</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Turkey.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Turkey</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Turquía</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Turkmenistan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Turkmenistan</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Turkmenistan</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Turks and Caicos Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Turks and Caicos Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas Turcas y Caicos</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Tuvalu.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Tuvalu</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Tuvalu</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Uganda.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Uganda</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Uganda</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Ukraine.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Ukraine</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ucrania</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.United Arab Emirates.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>United Arab Emirates</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Emiratos Árabes Unidos</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.United Kingdom.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>United Kingdom</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Reino Unido</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.United States.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>United States</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Estados Unidos</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Uruguay.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Uruguay</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Uruguay</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Uzbekistan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Uzbekistan</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Uzbekistán</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Vanuatu.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Vanuatu</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Vanuatu</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Venezuela.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Venezuela</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Venezuela</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Vietnam.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Vietnam</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Vietnam</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Virgin Islands (US).Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Virgin Islands (US)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Islas Virgenes Americanas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Wake Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Wake Island</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Isla Wake</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Wallis and Futuna Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Wallis and Futuna Islands</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Wallis y Futuna</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.West Bank.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>West Bank</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cisjordania (Ribera Occidental)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Western Sahara.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Western Sahara</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sáhara Occidental</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Yemen.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Yemen</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Yemen</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Zambia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Zambia</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Zambia</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen.Countries.Zimbabwe.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Zimbabwe</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Zimbabwe</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProjectView.MetadataScreen._labelApplications">
       <tuv xml:lang="en">
         <seg>Applications</seg>
@@ -3937,7 +6412,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Interactivity">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Interactivity</seg>
       </tuv>
@@ -3946,7 +6421,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Involvement">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Involvement</seg>
       </tuv>
@@ -3954,35 +6429,8 @@
         <seg>Participación</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Location Country">
-      <prop type="x-nolongerused">true</prop>
-      <tuv xml:lang="en">
-        <seg>Location Country</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>País</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Location Continent">
-      <prop type="x-nolongerused">true</prop>
-      <tuv xml:lang="en">
-        <seg>Location Continent</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Continente</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Location Region">
-      <prop type="x-nolongerused">true</prop>
-      <tuv xml:lang="en">
-        <seg>Location Region</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Región</seg>
-      </tuv>
-    </tu>
     <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Location Address">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Location Address</seg>
       </tuv>
@@ -3990,8 +6438,35 @@
         <seg>Dirección</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Location Continent">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Location Continent</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Continente</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Location Country">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Location Country</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>País</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Location Region">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Location Region</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Región</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Planning Type">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Planning Type</seg>
       </tuv>
@@ -3999,17 +6474,8 @@
         <seg>Tipo de planeamiento</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Sub-Genre">
-      <prop type="x-nolongerused">true</prop>
-      <tuv xml:lang="en">
-        <seg>Sub-Genre</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Sub-género</seg>
-      </tuv>
-    </tu>
     <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Social Context">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Social Context</seg>
       </tuv>
@@ -4017,8 +6483,17 @@
         <seg>Contexto social</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Sub-Genre">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Sub-Genre</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sub-género</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Task">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Task</seg>
       </tuv>
@@ -4027,7 +6502,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.drama">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Drama</seg>
       </tuv>
@@ -4036,7 +6511,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.formulaic_discourse">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Formulaic Discourse</seg>
       </tuv>
@@ -4044,8 +6519,17 @@
         <seg>Discurso de fórmula</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.instrumental_music">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Instrumental Music</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Música instrumental</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.interactive_discourse">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Interactive Discourse</seg>
       </tuv>
@@ -4054,7 +6538,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.language_play">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Language Play</seg>
       </tuv>
@@ -4063,7 +6547,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.narrative">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Narrative</seg>
       </tuv>
@@ -4072,7 +6556,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.oratory">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Oratory</seg>
       </tuv>
@@ -4081,7 +6565,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.procedural_discourse">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Procedural Discourse</seg>
       </tuv>
@@ -4090,7 +6574,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.report">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Report</seg>
       </tuv>
@@ -4099,7 +6583,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.singing">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Singing</seg>
       </tuv>
@@ -4108,7 +6592,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.Genre.unintelligible_speech">
-      <prop type="x-nolongerused">true</prop>
+      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
         <seg>Unintelligible Speech</seg>
       </tuv>

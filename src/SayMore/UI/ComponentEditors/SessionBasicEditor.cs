@@ -181,26 +181,21 @@ namespace SayMore.UI.ComponentEditors
 
 		private void AddDropdownCell(string listType, int row)
 		{
-			var list = ListConstructor.GetList(listType);
-			list.UpperCaseFirstCharacters();
+			var list = ListConstructor.GetList(listType, true, Localize);
 
 			var currentValue = _gridAdditionalFields[1, row].Value.ToString();
 
-			if (list.FindByText(currentValue) == null)
+			if (list.FindByValue(currentValue) == null)
 			{
 				currentValue = string.Empty;
 				_gridAdditionalFields[1, row].Value = currentValue;
 			}
 
-			// SP-771: Adding multiple blank lines if reopen the project
-			var list2 = list.ToList();
-			list2.Insert(0, new IMDIListItem(string.Empty, string.Empty)); // add a blank option
-
 			var cell = new DataGridViewComboBoxCell
 			{
-				DataSource = list2,
+				DataSource = list,
 				DisplayMember = "Text",
-				ValueMember = "Text",
+				ValueMember = "Value",
 				Value = currentValue,
 				FlatStyle = FlatStyle.Flat
 			};
@@ -210,6 +205,24 @@ namespace SayMore.UI.ComponentEditors
 			// Added Application.DoEvents() because it was interferring with the background
 			// file processor if it needed to download the list files.
 			Application.DoEvents();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a localized version of the string for an IMDI list item
+		/// </summary>
+		/// <param name="listName">the list name</param>
+		/// <param name="item">list item value (i.e., what gets stored in the meta-data if
+		/// this item is chosen)</param>
+		/// <param name="property">Which property </param>
+		/// <param name="defaultValue"></param>
+		/// 2) ;
+		/// 3) "Definition" or "Text"; 4) default (English) value.
+		private string Localize(string listName, string item, string property, string defaultValue)
+		{
+			return LocalizationManager.GetDynamicString("SayMore",
+				string.Format("SessionsView.MetadataEditor.{0}.{1}.{2}", listName, item, property),
+				defaultValue);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -249,6 +262,22 @@ namespace SayMore.UI.ComponentEditors
 				var genreId = GenreDefinition.TranslateNameToId(_genre.Text);
 				if (genreId != _genre.Text)
 					_genre.Text = GenreDefinition.TranslateIdToName(genreId);
+			}
+
+			if (_gridAdditionalFields != null)
+			{
+				for (int iRow = 0; iRow < _gridAdditionalFields.RowCount; iRow++)
+				{
+					DataGridViewComboBoxCell comboBoxCell = _gridAdditionalFields[1, iRow] as DataGridViewComboBoxCell;
+					if (comboBoxCell != null)
+					{
+						IMDIItemList list = comboBoxCell.DataSource as IMDIItemList;
+						if (list != null)
+						{
+							list.Localize(Localize);
+						}
+					}
+				}
 			}
 			base.HandleStringsLocalized();
 		}

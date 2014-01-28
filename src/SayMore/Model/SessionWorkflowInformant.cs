@@ -82,10 +82,13 @@ namespace SayMore.Model
 				if (!string.IsNullOrEmpty(value))
 				{
 					string uiValue;
-					if (field == SessionFileType.kGenreFieldName && value == "<Unknown>")
-						uiValue = GenreDefinition.UnknownType.Name;
+					if (field == SessionFileType.kGenreFieldName)
+					{
+						var genre = GenreDefinition.FactoryGenreDefinitions.FirstOrDefault(d => d.Id == value);
+						uiValue = genre != null ? genre.Name : value;
+					}
 					else
-						uiValue = LocalizationManager.GetDynamicString("SayMore", "SessionsView.MetadataEditor.Genre." + value, value);
+						uiValue = value;
 					if (!list.ContainsKey(uiValue))
 						list[uiValue] = GetSessionsFromListHavingFieldValue(sessionList, field, value);
 				}

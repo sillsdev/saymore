@@ -2,11 +2,13 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using L10NSharp;
 using Palaso.Extensions;
 using Palaso.Reporting;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
+using SayMore.Utilities;
 using SIL.Archiving;
 using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
@@ -151,11 +153,20 @@ namespace SayMore.Model
 				// is this person protected
 				var protect = bool.Parse(person.MetaDataFile.GetStringValue("privacyProtection", "false"));
 
+				// display message if the birth year is not valid
+				var birthYear = person.MetaDataFile.GetStringValue("birthYear", string.Empty).Trim();
+				if (!birthYear.IsValidBirthYear())
+				{
+					var msg = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.InvalidBirthYearMsg",
+						"The Birth Year for {0} should be either blank or a 4 digit number.");
+					model.AdditionalMessages[string.Format(msg, person.Id)] = ArchivingDlgViewModel.MessageType.Warning;
+				}
+
 				ArchivingActor actor = new ArchivingActor
 				{
 					FullName = person.Id,
 					Name = person.MetaDataFile.GetStringValue("nickName", person.Id),
-					Age = person.MetaDataFile.GetStringValue("age", string.Empty),
+					BirthDate = birthYear,
 					Gender = person.MetaDataFile.GetStringValue("gender", null),
 					Education = person.MetaDataFile.GetStringValue("education", null),
 					Occupation = person.MetaDataFile.GetStringValue("primaryOccupation", null),

@@ -1,17 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.ComponentModel;
-using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
+using SayMore.Utilities;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -26,9 +25,6 @@ namespace SayMore.UI.ComponentEditors
 		private FieldsValuesGrid _gridCustomFields;
 		private FieldsValuesGridViewModel _gridViewModel;
 		private readonly ImageFileType _imgFileType;
-
-		// to convert birthYear to age
-		private string _obsoleteBirthYear;
 
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file, string imageKey,
@@ -65,8 +61,6 @@ namespace SayMore.UI.ComponentEditors
 
 			InitializeGrid(autoCompleteProvider, fieldGatherer);
 
-			// set custom handler to convert birthYear to age
-			_binder.TranslateBoundValueBeingRetrieved += _binder_TranslateBoundValueBeingRetrieved;
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
 
@@ -74,36 +68,8 @@ namespace SayMore.UI.ComponentEditors
 			LoadParentLanguages();
 
 			_id.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelFullName); };
-			_age.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelAge); };
-
-			// do this to set the Associated Sessions the first time
-			BackgroundWorker backgroundWorker = new BackgroundWorker();
-			backgroundWorker.DoWork += _backgroundWorker_DoWork;
-			backgroundWorker.RunWorkerCompleted += _backgroundWorker_RunWorkerCompleted;
-			backgroundWorker.RunWorkerAsync();
-
-		}
-
-		void _binder_TranslateBoundValueBeingRetrieved(object sender, TranslateBoundValueBeingRetrievedArgs e)
-		{
-			if (e.BoundControl.Name == "_age" && string.IsNullOrEmpty(e.ValueFromFile))
-				_obsoleteBirthYear = ((BindingHelper) sender).ComponentFile.GetStringValue("birthYear", string.Empty);
-		}
-
-		void _backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			// to convert birthYear to age
-			if (!string.IsNullOrEmpty(_obsoleteBirthYear)) ConvertBirthYearToAge();
-		}
-
-		void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-		{
-			var count = 0;
-			while ((Program.CurrentProject == null) && (count < 50))
-			{
-				Thread.Sleep(100);
-				count++;
-			}
+			_birthYear.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelBirthYear); };
+			ValidateBirthYear();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -122,9 +88,7 @@ namespace SayMore.UI.ComponentEditors
 					if (Directory.Exists(path))
 					SaveParentLanguages();
 				}
-
 			}
-
 
 			base.OnHandleDestroyed(e);
 		}
@@ -143,8 +107,6 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public override void SetComponentFile(ComponentFile file)
 		{
-			_obsoleteBirthYear = null;
-
 			if (_file != null && File.Exists(_file.PathToAnnotatedFile) &&
 				file.PathToAnnotatedFile != _file.PathToAnnotatedFile)
 			{
@@ -158,37 +120,7 @@ namespace SayMore.UI.ComponentEditors
 
 			LoadPersonsPicture();
 			LoadParentLanguages();
-
-			// to convert birthYear to age
-			if (!string.IsNullOrEmpty(_obsoleteBirthYear)) ConvertBirthYearToAge();
-		}
-
-		/// <summary>to convert birthYear to age</summary>
-		private void ConvertBirthYearToAge()
-		{
-			if (string.IsNullOrEmpty(_obsoleteBirthYear)) return;
-
-			var project = Program.CurrentProject;
-			if (project == null) return;
-
-			// get a session with a date
-			var session = project.GetAllSessions().FirstOrDefault(s => !string.IsNullOrEmpty(s.MetaDataFile.GetStringValue("date", string.Empty)));
-			if (session == null) return;
-
-			// convert the date string to a DateTime object
-			var dateStr = session.MetaDataFile.GetStringValue("date", string.Empty);
-			DateTime sessionDate;
-			if (!DateTime.TryParse(dateStr, out sessionDate)) return;
-
-			// convert the birth year to an int
-			int birthYear;
-			if (!int.TryParse(_obsoleteBirthYear, out birthYear)) return;
-
-			_age.Text = (sessionDate.Year - birthYear).ToString(CultureInfo.InvariantCulture);
-
-			// remove birthYear from the metadata file
-			_binder.SetValue("birthYear", null);
-			_binder.SetValue("age", _age.Text);
+			ValidateBirthYear();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -604,5 +536,15 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		#endregion
+
+		private void _birthYear_Validating(object sender, CancelEventArgs e)
+		{
+			ValidateBirthYear();
+		}
+
+		private void ValidateBirthYear()
+		{
+			_birthYear.ForeColor = _birthYear.Text.IsValidBirthYear() ? _id.ForeColor : Color.Red;
+		}
 	}
 }

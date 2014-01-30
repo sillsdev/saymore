@@ -33,6 +33,12 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected override object GetValueForField(ProjectElement element, string fieldName)
 		{
+			if (fieldName == "display name")
+			{
+				var txt = base.GetValueForField(element, "code").ToString();
+				return string.IsNullOrEmpty(txt) ? base.GetValueForField(element, "id") : txt;
+			}
+
 			if (fieldName != "consent")
 				return base.GetValueForField(element, fieldName);
 

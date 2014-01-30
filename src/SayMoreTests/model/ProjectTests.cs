@@ -304,7 +304,7 @@ namespace SayMoreTests.Model
 
 			if (_personInformant == null)
 				_personInformant = new Mock<PersonInformant>(MockBehavior.Loose);
-			_personInformant.Setup(i => i.GetPersonByName(personName)).Returns(person.Object);
+			_personInformant.Setup(i => i.GetPersonByNameOrCode(personName)).Returns(person.Object);
 			return personName;
 		}
 

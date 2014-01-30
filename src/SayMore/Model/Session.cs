@@ -233,7 +233,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<Person> GetAllPersonsInSession()
 		{
-			return GetAllParticipants().Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null);
+			return GetAllParticipants().Select(n => _personInformant.GetPersonByNameOrCode(n)).Where(p => p != null);
 		}
 
 		#region Archiving
@@ -297,7 +297,7 @@ namespace SayMore.Model
 		{
 			Dictionary<string, IEnumerable<string>> d = new Dictionary<string, IEnumerable<string>>();
 
-			foreach (var person in GetAllParticipants().Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
+			foreach (var person in GetAllParticipants().Select(n => _personInformant.GetPersonByNameOrCode(n)).Where(p => p != null))
 			{
 				var filesInDir = Directory.GetFiles(person.FolderPath);
 				d[person.Id] = filesInDir.Where(f => ArchivingHelper.IncludeFileInArchive(f, typeOfArchive, Settings.Default.PersonFileExtension));
@@ -325,6 +325,9 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		private void DisplayInitialArchiveSummary(IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists, ArchivingDlgViewModel model)
 		{
+			foreach (var message in model.AdditionalMessages)
+				model.DisplayMessage(message.Key + "\n", message.Value);
+
 			if (fileLists.Count > 1)
 			{
 				model.DisplayMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1",

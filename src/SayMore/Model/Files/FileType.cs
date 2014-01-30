@@ -280,7 +280,7 @@ namespace SayMore.Model.Files
 					"primaryOccupation",
 					"picture",
 					"privacyProtection",
-					"age",
+					"birthYear",
 					"ethnicGroup"
 				})
 					yield return new FieldDefinition(fieldId);
@@ -292,7 +292,7 @@ namespace SayMore.Model.Files
 		{
 			var col = BetterGrid.CreateTextBoxColumn("id");
 			col.HeaderText = "_L10N_:PeopleView.PeopleList.ColumnHeadings.Person!Person";
-			col.DataPropertyName = "id";
+			col.DataPropertyName = "display name";
 			col.ReadOnly = true;
 			col.Frozen = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;

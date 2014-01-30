@@ -91,13 +91,15 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<string> GetPeopleNamesFromRepository()
 		{
-			return _peopleRepository.AllItems.Select(x => x.Id);
+			// if the code value is present, use it instead of the full name
+			//return _peopleRepository.AllItems.Select(x => x.Id);
+			return _peopleRepository.AllItems.Select(x => x.MetaDataFile.GetStringValue("code", null) ?? x.Id);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual Person GetPersonByName(string name)
+		public virtual Person GetPersonByNameOrCode(string nameOrCode)
 		{
-			return _peopleRepository.GetById(name);
+			return _peopleRepository.GetById(nameOrCode) ?? _peopleRepository.GetByField("code", nameOrCode);
 		}
 	}
 }

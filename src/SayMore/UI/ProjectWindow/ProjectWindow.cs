@@ -16,6 +16,7 @@ using SayMore.UI.ElementListScreen;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
+using SayMore.UI.Overview;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -63,18 +64,22 @@ namespace SayMore.UI.ProjectWindow
 			}
 
 			var asm = Assembly.GetExecutingAssembly();
-			Icon = new Icon (asm.GetManifestResourceStream("SayMore.SayMore.ico"));
+			var stream = asm.GetManifestResourceStream("SayMore.SayMore.ico");
+			if (stream != null) Icon = new Icon(stream);
 
 			_projectPath = projectPath;
 			_commands = commands;
 			_uiLanguageDialogFactory = uiLanguageDialogFactory;
 
+			_viewTabGroup.Visible = false;
+
 			foreach (var vw in views)
 			{
 				vw.AddTabToTabGroup(_viewTabGroup);
 
-				if (vw is SessionsListScreen)
-					SessionsListScreen = (SessionsListScreen) vw;
+				var screen = vw as SessionsListScreen;
+				if (screen != null)
+					SessionsListScreen = screen;
 
 				if (vw.MainMenuItem != null)
 				{
@@ -85,6 +90,12 @@ namespace SayMore.UI.ProjectWindow
 
 			SetWindowText();
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
+
+			foreach (var tab in _viewTabGroup.Tabs.Where(tab => tab.View is ProjectScreen))
+				_viewTabGroup.SetActiveView(tab);
+
+			Application.DoEvents();
+			_viewTabGroup.Visible = true;
 		}
 
 		internal List<Control> Views
@@ -176,9 +187,10 @@ namespace SayMore.UI.ProjectWindow
 			{
 				Process.Start(path);
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
 				//user cancelling a security warning here shouldn't lead to a crash
+				Debug.Print(ex.Message);
 			}
 			UsageReporter.SendNavigationNotice("Help");
 		}

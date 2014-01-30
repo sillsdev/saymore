@@ -106,7 +106,7 @@ namespace SayMore.UI.LowLevelControls
 				return;
 
 			_ignoreEvents = true;
-			base.Text = new DateTime(DateTime.Now.Year, 1, 1).ToShortDateString();
+			base.Text = DateTime.Today.ToShortDateString();
 			_ignoreEvents = false;
 		}
 

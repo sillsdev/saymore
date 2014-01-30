@@ -86,6 +86,9 @@ namespace SayMore.Transcription.UI
 			_waveControl.Initialize(filename);
 			_waveControl.AutoScrollPosition = new Point(0, AutoScrollPosition.Y);
 			_waveControl.SetCursor(0);
+
+			// SP-782: Audio Track labels not initialized properly after oral annotation created
+			ArrangeLabels();
 		}
 
 		/// ------------------------------------------------------------------------------------

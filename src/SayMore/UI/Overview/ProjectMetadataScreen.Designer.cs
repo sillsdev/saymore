@@ -497,7 +497,6 @@ namespace SayMore.UI.Overview
 			this._dateAvailable.Name = "_dateAvailable";
 			this._dateAvailable.Size = new System.Drawing.Size(96, 22);
 			this._dateAvailable.TabIndex = 18;
-			this._dateAvailable.UseWaitCursor = true;
 			this._dateAvailable.Value = new System.DateTime(2013, 12, 18, 9, 55, 23, 0);
 			// 
 			// _applications

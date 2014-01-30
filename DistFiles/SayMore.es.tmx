@@ -3697,6 +3697,14 @@
         <seg>Código ISO 639-3 (tres letras que identifiquen el idioma) requerido.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.InvalidBirthYearMsg">
+      <tuv xml:lang="en">
+        <seg>The Birth Year for {0} should be either blank or a 4-digit number.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>El año del nacimiento de {0} debe ser un número de 4 dígitos o dejarse en blanco.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.InvalidLanguageCode">
       <tuv xml:lang="en">
         <seg>Invalid ISO 639-3 code: {0}</seg>
@@ -6166,11 +6174,20 @@
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelAge">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Age</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Edad</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelBirthYear">
+      <tuv xml:lang="en">
+        <seg>Birth Year</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Año de nacimiento</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelCustomFields">

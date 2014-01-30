@@ -81,7 +81,7 @@ namespace SayMore.UI.Charts
 
 			foreach (var statusName in Enum.GetNames(typeof(Session.Status)).Where(x => x != Session.Status.Skipped.ToString()))
 			{
-				statusColors[Session.GetStatusAsHumanReadableString(statusName)] =
+				statusColors[Session.GetLocalizedStatus(statusName)] =
 					(Color)Properties.Settings.Default[statusName + "StatusColor"];
 			}
 
@@ -226,7 +226,7 @@ namespace SayMore.UI.Charts
 				foreach (var kvp in colors)
 				{
 					WriteTableCell("legendblock", 0, kvp.Value, null);
-					WriteTableCell("legendtext", Session.GetStatusAsHumanReadableString(kvp.Key));
+					WriteTableCell("legendtext", Session.GetLocalizedStatus(kvp.Key));
 				}
 
 				CloseTableRow();

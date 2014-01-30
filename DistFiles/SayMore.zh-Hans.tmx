@@ -1638,6 +1638,14 @@
         <seg>OK</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._ignoreToolStripMenuItem">
+      <tuv xml:lang="en">
+        <seg>Ignored</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>忽略</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelOriginalRecording">
       <tuv xml:lang="en">
         <seg>Source Audio</seg>
@@ -2442,14 +2450,6 @@
         <seg>还没有预置</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._ignoreToolStripMenuItem">
-      <tuv xml:lang="en">
-        <seg>Ignored</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>忽略</seg>
-      </tuv>
-    </tu>
     <tu tuid="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem_ToolTip_">
       <tuv xml:lang="en">
         <seg>Mark this segment as Ignored to skip annotating it.</seg>
@@ -2555,9 +2555,8 @@
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelBirthYear">
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
-        <seg>&amp;Birth Year</seg>
+        <seg>Birth Year</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>&amp;出生年月</seg>

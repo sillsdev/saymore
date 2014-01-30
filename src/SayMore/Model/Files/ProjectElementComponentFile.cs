@@ -35,7 +35,7 @@ namespace SayMore.Model.Files
 			if (key == SessionFileType.kStatusFieldName)
 			{
 				var value = base.GetStringValue(key, ParentElement.DefaultStatusValue);
-				return Session.GetStatusAsHumanReadableString(value);
+				return Session.GetLocalizedStatus(value);
 			}
 			if (key == SessionFileType.kGenreFieldName)
 			{

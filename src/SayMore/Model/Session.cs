@@ -128,13 +128,6 @@ namespace SayMore.Model
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		public static string GetStatusAsHumanReadableString(string statusAsText)
-		{
-			return LocalizationManager.GetDynamicString("SayMore", "SessionsView.SessionStatus." +
-				statusAsText.Replace("_", string.Empty), statusAsText.Replace('_', ' '));
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public static string GetStatusAsEnumParsableString(string statusAsText)
 		{
 			return statusAsText.Replace(' ', '_');

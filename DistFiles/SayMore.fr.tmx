@@ -813,15 +813,6 @@
         <seg>Il n'y a pas de contributeur pour cette session.</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.RAMPOverviewText">
-      <note>Parameter 0  is the word 'RAMP' (the first one will be turned into a hyperlink); Parameter 1 is the name of the calling (host) program (SayMore, FLEx, etc.); Parameter 2 is additional app-specifc information.</note>
-      <tuv xml:lang="en">
-        <seg>{0} is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use {0} to archive your {1} data. {2} When the {0} package has been created, you can  launch {0} and enter any additional information before doing the actual submission.</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>{0} est un utilitaire permettant d'entrer des métadonnées et le téléchargement des présentations aux archives internes du SIL, appelées REAP. Si vous avez accès à ces archives, cet outil vous aidera à utiliser le {0} pour archiver vos données {1}. {2} Ensuite, vous pouvez exécuter {0} pour compléter toute information supplémentaire et envoyer le paquet.</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg">
       <tuv xml:lang="en">
         <seg>The following files will be added to the archive:</seg>
@@ -852,6 +843,15 @@
       </tuv>
       <tuv xml:lang="fr">
         <seg>Analyse des fichiers de composants</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.RAMPOverviewText">
+      <note>Parameter 0  is the word 'RAMP' (the first one will be turned into a hyperlink); Parameter 1 is the name of the calling (host) program (SayMore, FLEx, etc.); Parameter 2 is additional app-specifc information.</note>
+      <tuv xml:lang="en">
+        <seg>{0} is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use {0} to archive your {1} data. {2} When the {0} package has been created, you can  launch {0} and enter any additional information before doing the actual submission.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>{0} est un utilitaire permettant d'entrer des métadonnées et le téléchargement des présentations aux archives internes du SIL, appelées REAP. Si vous avez accès à ces archives, cet outil vous aidera à utiliser le {0} pour archiver vos données {1}. {2} Ensuite, vous pouvez exécuter {0} pour compléter toute information supplémentaire et envoyer le paquet.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.RampNotFoundMsg">
@@ -2848,9 +2848,8 @@ l'enregistrement de la source.</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelBirthYear">
-      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
-        <seg>&amp;Birth Year</seg>
+        <seg>Birth Year</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Année de &amp;naissance</seg>

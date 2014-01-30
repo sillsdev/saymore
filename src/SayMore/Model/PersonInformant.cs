@@ -93,7 +93,7 @@ namespace SayMore.Model
 		{
 			// if the code value is present, use it instead of the full name
 			//return _peopleRepository.AllItems.Select(x => x.Id);
-			return _peopleRepository.AllItems.Select(x => x.MetaDataFile.GetStringValue("code", null) ?? x.Id);
+			return _peopleRepository.AllItems.Select(x => ((x.MetaDataFile != null) ? x.MetaDataFile.GetStringValue("code", null) : null) ?? x.Id);
 		}
 
 		/// ------------------------------------------------------------------------------------

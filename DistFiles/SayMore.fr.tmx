@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="fr" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4972.16808" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="fr" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.2.5141.16548" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -748,9 +748,9 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.ArchivingInfoDetails">
-      <note>This sentence is inserted as parameter 1 in DialogBoxes.ArchivingDlg.OverviewText</note>
+      <note>This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.xxxxOverviewText</note>
       <tuv xml:lang="en">
-        <seg>It will gather up all the files and data related to a session and its contributors.</seg>
+        <seg>The archive package will include all required files and data related to a session and its contributors.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Il se réuniront à tous les fichiers et les données reliées à une session et ses collaborateurs</seg>
@@ -813,13 +813,13 @@
         <seg>Il n'y a pas de contributeur pour cette session.</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.OverviewText">
-      <note>The first occurrence of the word 'RAMP' will be made a hyperlink to the RAMP website. If the word 'RAMP' is not found, the text will not contain that hyperlink.</note>
+    <tu tuid="DialogBoxes.ArchivingDlg.RAMPOverviewText">
+      <note>Parameter 0  is the word 'RAMP' (the first one will be turned into a hyperlink); Parameter 1 is the name of the calling (host) program (SayMore, FLEx, etc.); Parameter 2 is additional app-specifc information.</note>
       <tuv xml:lang="en">
-        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your {0} data. {1} When the RAMP package has been created, you can  launch RAMP and enter any additional information before doing the actual submission.</seg>
+        <seg>{0} is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use {0} to archive your {1} data. {2} When the {0} package has been created, you can  launch {0} and enter any additional information before doing the actual submission.</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>RAMP est un utilitaire permettant d'entrer des métadonnées et le téléchargement des présentations aux archives internes du SIL, appelées REAP. Si vous avez accès à ces archives, cet outil vous aidera à utiliser le RAMP pour archiver vos données {0}. {1} Ensuite, vous pouvez exécuter RAMP pour compléter toute information supplémentaire et envoyer le paquet.</seg>
+        <seg>{0} est un utilitaire permettant d'entrer des métadonnées et le téléchargement des présentations aux archives internes du SIL, appelées REAP. Si vous avez accès à ces archives, cet outil vous aidera à utiliser le {0} pour archiver vos données {1}. {2} Ensuite, vous pouvez exécuter {0} pour compléter toute information supplémentaire et envoyer le paquet.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg">
@@ -870,12 +870,13 @@
         <seg>Prêt à remettre le paquet à RAMP</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.SavingFilesInRAMPMsg">
+    <tu tuid="DialogBoxes.ArchivingDlg.SavingFilesInPackageMsg">
+      <note>Parameter is the type of archive (e.g., RAMP/IMDI)</note>
       <tuv xml:lang="en">
-        <seg>Saving files in RAMP package</seg>
+        <seg>Saving files in {0} package</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Enregistrement de fichiers dans le paquet de RAMP</seg>
+        <seg>Enregistrement de fichiers dans le paquet de {0}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.SearchingForRampMsg">
@@ -896,7 +897,7 @@
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.StartingRampErrorMsg">
       <tuv xml:lang="en">
-        <seg>There was an error attempting to open the archive package in RAMP.</seg>
+        <seg>There was an error attempting to open the archive package in {0}.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Il y avait une erreur en essayant d'ouvrir le paquet des archives dans le RAMP.</seg>
@@ -905,7 +906,7 @@
     <tu tuid="DialogBoxes.ArchivingDlg.WindowTitle">
       <note>Parameter is application name</note>
       <tuv xml:lang="en">
-        <seg>{0}: Archive with RAMP (SIL Only)</seg>
+        <seg>{0}: Archive using {1}</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>{0}: Archive avec RAMP (SIL seulement)</seg>
@@ -929,7 +930,7 @@
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg._buttonLaunchRamp">
       <tuv xml:lang="en">
-        <seg>&amp;2) Launch RAMP</seg>
+        <seg>&amp;2) Launch {0}</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>&amp;2 Lancer RAMP</seg>
@@ -2330,86 +2331,6 @@ l'enregistrement de la source.</seg>
         <seg>Marquant le segment {0} comme il est pertinent</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.1000Pct">
-      <tuv xml:lang="en">
-        <seg>1000%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>1000 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.100Pct">
-      <tuv xml:lang="en">
-        <seg>100%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>100 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.125Pct">
-      <tuv xml:lang="en">
-        <seg>125%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>125 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.150Pct">
-      <tuv xml:lang="en">
-        <seg>150%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>150 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.175Pct">
-      <tuv xml:lang="en">
-        <seg>175%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>175 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.200Pct">
-      <tuv xml:lang="en">
-        <seg>200%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>200 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.250Pct">
-      <tuv xml:lang="en">
-        <seg>250%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>250 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.300Pct">
-      <tuv xml:lang="en">
-        <seg>300%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>300 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.500Pct">
-      <tuv xml:lang="en">
-        <seg>500%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>500 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.750Pct">
-      <tuv xml:lang="en">
-        <seg>750%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>750 %</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.CancelButton">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
@@ -2452,7 +2373,7 @@ l'enregistrement de la source.</seg>
     </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.WindowTitle">
       <tuv xml:lang="en">
-        <seg>User Interface Lanaguage</seg>
+        <seg>User Interface Language</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Langue d'Interface utilisateur</seg>
@@ -2927,6 +2848,7 @@ l'enregistrement de la source.</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelBirthYear">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>&amp;Birth Year</seg>
       </tuv>
@@ -3052,14 +2974,6 @@ l'enregistrement de la source.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Consentement</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView.PeopleList.ColumnHeadings.Id">
-      <tuv xml:lang="en">
-        <seg>Id</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Identifiction de</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.PeopleList.HeadingText">
@@ -3223,28 +3137,12 @@ l'enregistrement de la source.</seg>
         <seg>{0}: {1} sessions totalisant {2} minutes</seg>
       </tuv>
     </tu>
-    <tu tuid="ProgressView.TabText">
-      <tuv xml:lang="en">
-        <seg>Progress</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Progrès</seg>
-      </tuv>
-    </tu>
     <tu tuid="ProgressView.TabText_ToolTip_">
       <tuv xml:lang="en">
         <seg>Progress View</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Avis du progrès</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProgressView._buttonRefresh">
-      <tuv xml:lang="en">
-        <seg>Refresh</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Rafraîshir</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView._buttonRefresh_ToolTip_">
@@ -3255,7 +3153,15 @@ l'enregistrement de la source.</seg>
         <seg>Rafraîshir la vue</seg>
       </tuv>
     </tu>
-    <tu tuid="ProgressView._labelWorking">
+    <tu tuid="ProjectView.ProgressScreen._buttonRefresh">
+      <tuv xml:lang="en">
+        <seg>Refresh</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Rafraîshir</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProgressScreen._labelWorking">
       <tuv xml:lang="en">
         <seg>Working...</seg>
       </tuv>
@@ -3310,14 +3216,6 @@ l'enregistrement de la source.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>&lt;Inconnu&gt;</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor._labelAbstract">
-      <tuv xml:lang="en">
-        <seg>Abstract</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Résumé</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelAccess">
@@ -3493,7 +3391,7 @@ l'enregistrement de la source.</seg>
         <seg>Id</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>ID</seg>
+        <seg>Identifiction de</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsList.ColumnHeadings.Location">
@@ -4193,86 +4091,6 @@ l'enregistrement de la source.</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Traduction &amp;orale...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct">
-      <tuv xml:lang="en">
-        <seg>100%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>100 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.10Pct">
-      <tuv xml:lang="en">
-        <seg>10%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>10 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.20Pct">
-      <tuv xml:lang="en">
-        <seg>20%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>20 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.30Pct">
-      <tuv xml:lang="en">
-        <seg>30%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>30 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.40Pct">
-      <tuv xml:lang="en">
-        <seg>40%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>40 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.50Pct">
-      <tuv xml:lang="en">
-        <seg>50%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>50 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.60Pct">
-      <tuv xml:lang="en">
-        <seg>60%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>60 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.70Pct">
-      <tuv xml:lang="en">
-        <seg>70%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>70 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.80Pct">
-      <tuv xml:lang="en">
-        <seg>80%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>80 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct">
-      <tuv xml:lang="en">
-        <seg>90%</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>90 %</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.RecordButton">

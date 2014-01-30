@@ -61,7 +61,7 @@ namespace SayMore.UI.Overview
 		private string Localize(string listName, string item, string property, string defaultValue)
 		{
 			return LocalizationManager.GetDynamicString("SayMore",
-				string.Format("ProjectView.MetadataScreen.{0}.{1}.{2}", listName, item, property),
+				string.Format("CommonToMultipleViews.ListItems.{0}.{1}.{2}", listName, item, property),
 				defaultValue);
 		}
 

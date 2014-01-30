@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="ru" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4972.16808" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="ru" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.2.5141.16548" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -714,13 +714,13 @@
         <seg>Не существуют составители этого события.</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.OverviewText">
-      <note>The first occurrence of the word 'RAMP' will be made a hyperlink to the RAMP website. If the word 'RAMP' is not found, the text will not contain that hyperlink.</note>
+    <tu tuid="DialogBoxes.ArchivingDlg.RAMPOverviewText">
+      <note>Parameter 0  is the word 'RAMP' (the first one will be turned into a hyperlink); Parameter 1 is the name of the calling (host) program (SayMore, FLEx, etc.); Parameter 2 is additional app-specifc information.</note>
       <tuv xml:lang="en">
-        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your {0} data. {1} When the RAMP package has been created, you can  launch RAMP and enter any additional information before doing the actual submission.</seg>
+        <seg>{0} is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use {0} to archive your {1} data. {2} When the {0} package has been created, you can  launch {0} and enter any additional information before doing the actual submission.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>RAMP - утилита для ввода метаданных и их загрузки в внутренний архив SIL, REAP. Если у вас есть доступ к этому архиву, этот инструмент поможет вам использовать RAMP для архивирования вашего проекта SayMore. Эта утилита будет собирать все файлы и данные, связанные с событием и его составителями, затем запустит RAMP чтобы вы могли добавить более подробную информацию и загрузить данные.</seg>
+        <seg>{0} - утилита для ввода метаданных и их загрузки в внутренний архив SIL, REAP. Если у вас есть доступ к этому архиву, этот инструмент поможет вам использовать {0} для архивирования вашего проекта {1}. {2} Эта утилита будет собирать все файлы и данные, связанные с событием и его составителями, затем запустит {0} чтобы вы могли добавить более подробную информацию и загрузить данные.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1">
@@ -773,7 +773,7 @@
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.StartingRampErrorMsg">
       <tuv xml:lang="en">
-        <seg>There was an error attempting to open the archive package in RAMP.</seg>
+        <seg>There was an error attempting to open the archive package in {0}.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Произошла ошибка при попытке открыть архив пакета в программе RAMP.</seg>
@@ -782,7 +782,7 @@
     <tu tuid="DialogBoxes.ArchivingDlg.WindowTitle">
       <note>Parameter is application name</note>
       <tuv xml:lang="en">
-        <seg>{0}: Archive with RAMP (SIL Only)</seg>
+        <seg>{0}: Archive using {1}</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>SayMore: Архивизировать программой RAMP (только SIL)</seg>
@@ -806,7 +806,7 @@
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg._buttonLaunchRamp">
       <tuv xml:lang="en">
-        <seg>&amp;2) Launch RAMP</seg>
+        <seg>&amp;2) Launch {0}</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>2) Загрузить программу RAMP</seg>
@@ -1301,7 +1301,7 @@
     </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.WindowTitle">
       <tuv xml:lang="en">
-        <seg>User Interface Lanaguage</seg>
+        <seg>User Interface Language</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Язык пользовательского интерфейса</seg>
@@ -1751,6 +1751,7 @@
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelBirthYear">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>&amp;Birth Year</seg>
       </tuv>
@@ -1878,14 +1879,6 @@
         <seg>Согласие</seg>
       </tuv>
     </tu>
-    <tu tuid="PeopleView.PeopleList.ColumnHeadings.Id">
-      <tuv xml:lang="en">
-        <seg>Id</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>ID</seg>
-      </tuv>
-    </tu>
     <tu tuid="PeopleView.PeopleMainMenu.NewMenuText">
       <tuv xml:lang="en">
         <seg>&amp;New</seg>
@@ -2007,22 +2000,6 @@
         <seg>{0}: {1} события общей продолжительности {2} мин.</seg>
       </tuv>
     </tu>
-    <tu tuid="ProgressView.TabText">
-      <tuv xml:lang="en">
-        <seg>Progress</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Прогресс</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProgressView._buttonRefresh">
-      <tuv xml:lang="en">
-        <seg>Refresh</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Обновить</seg>
-      </tuv>
-    </tu>
     <tu tuid="ProgressView._buttonRefresh_ToolTip_">
       <tuv xml:lang="en">
         <seg>Refresh View</seg>
@@ -2031,7 +2008,15 @@
         <seg>Обновить представление</seg>
       </tuv>
     </tu>
-    <tu tuid="ProgressView._labelWorking">
+    <tu tuid="ProjectView.ProgressScreen._buttonRefresh">
+      <tuv xml:lang="en">
+        <seg>Refresh</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Обновить</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProgressScreen._labelWorking">
       <tuv xml:lang="en">
         <seg>Working...</seg>
       </tuv>
@@ -2086,14 +2071,6 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>&lt;Неизвестный&gt;</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor._labelAbstract">
-      <tuv xml:lang="en">
-        <seg>Abstract</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Краткий обзор</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelAccess">
@@ -2569,86 +2546,6 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Устный перевод...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct">
-      <tuv xml:lang="en">
-        <seg>100%</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>100% (Нормальный)</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.10Pct">
-      <tuv xml:lang="en">
-        <seg>10%</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>10 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.20Pct">
-      <tuv xml:lang="en">
-        <seg>20%</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>20 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.30Pct">
-      <tuv xml:lang="en">
-        <seg>30%</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>30 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.40Pct">
-      <tuv xml:lang="en">
-        <seg>40%</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>40 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.50Pct">
-      <tuv xml:lang="en">
-        <seg>50%</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>50 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.60Pct">
-      <tuv xml:lang="en">
-        <seg>60%</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>60 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.70Pct">
-      <tuv xml:lang="en">
-        <seg>70%</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>70 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.80Pct">
-      <tuv xml:lang="en">
-        <seg>80%</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>80 %</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct">
-      <tuv xml:lang="en">
-        <seg>90%</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>90 %</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.RecordButton_ToolTip_">

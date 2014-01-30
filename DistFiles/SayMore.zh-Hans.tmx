@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="zh-Hans" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.1.4972.16808" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="zh-Hans" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.2.5141.16548" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -821,12 +821,13 @@
         <seg>准备给RAMP递交文件包</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.SavingFilesInRAMPMsg">
+    <tu tuid="DialogBoxes.ArchivingDlg.SavingFilesInPackageMsg">
+      <note>Parameter is the type of archive (e.g., RAMP/IMDI)</note>
       <tuv xml:lang="en">
-        <seg>Saving files in RAMP package</seg>
+        <seg>Saving files in {0} package</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>保存文件到RAMP文件包中</seg>
+        <seg>保存文件到{0}文件包中</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.SearchingForRampMsg">
@@ -847,7 +848,7 @@
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.StartingRampErrorMsg">
       <tuv xml:lang="en">
-        <seg>There was an error attempting to open the archive package in RAMP.</seg>
+        <seg>There was an error attempting to open the archive package in {0}.</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>在RAMP打开档案包出错</seg>
@@ -856,10 +857,10 @@
     <tu tuid="DialogBoxes.ArchivingDlg.WindowTitle">
       <note>Parameter is application name</note>
       <tuv xml:lang="en">
-        <seg>{0}: Archive with RAMP (SIL Only)</seg>
+        <seg>{0}: Archive using {1}</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>{0}：用RAMP存档（SIL专用）</seg>
+        <seg>SayMore：用RAMP存档（SIL专用）</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg._buttonCancel">
@@ -880,7 +881,7 @@
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg._buttonLaunchRamp">
       <tuv xml:lang="en">
-        <seg>&amp;2) Launch RAMP</seg>
+        <seg>&amp;2) Launch {0}</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>&amp;2)启动 RAMP</seg>
@@ -2061,86 +2062,6 @@
         <seg>标记片断{0}为相关</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.1000Pct">
-      <tuv xml:lang="en">
-        <seg>1000%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>1000%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.100Pct">
-      <tuv xml:lang="en">
-        <seg>100%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>100%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.125Pct">
-      <tuv xml:lang="en">
-        <seg>125%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>125%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.150Pct">
-      <tuv xml:lang="en">
-        <seg>150%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>150%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.175Pct">
-      <tuv xml:lang="en">
-        <seg>175%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>175%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.200Pct">
-      <tuv xml:lang="en">
-        <seg>200%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>200%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.250Pct">
-      <tuv xml:lang="en">
-        <seg>250%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>250%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.300Pct">
-      <tuv xml:lang="en">
-        <seg>300%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>300%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.500Pct">
-      <tuv xml:lang="en">
-        <seg>500%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>500%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.750Pct">
-      <tuv xml:lang="en">
-        <seg>750%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>750%</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.CancelButton">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
@@ -2191,7 +2112,7 @@
     </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.WindowTitle">
       <tuv xml:lang="en">
-        <seg>User Interface Lanaguage</seg>
+        <seg>User Interface Language</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>用户界面语言</seg>
@@ -2529,7 +2450,7 @@
         <seg>忽略</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._ignoreToolStripMenuItem_ToolTip_">
+    <tu tuid="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem_ToolTip_">
       <tuv xml:lang="en">
         <seg>Mark this segment as Ignored to skip annotating it.</seg>
       </tuv>
@@ -2634,6 +2555,7 @@
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelBirthYear">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>&amp;Birth Year</seg>
       </tuv>
@@ -2759,14 +2681,6 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>同意</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView.PeopleList.ColumnHeadings.Id">
-      <tuv xml:lang="en">
-        <seg>Id</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>序号</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.PeopleList.HeadingText">
@@ -2930,28 +2844,12 @@
         <seg>{0}:{1}个任务，共{2}分钟</seg>
       </tuv>
     </tu>
-    <tu tuid="ProgressView.TabText">
-      <tuv xml:lang="en">
-        <seg>Progress</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>进度</seg>
-      </tuv>
-    </tu>
     <tu tuid="ProgressView.TabText_ToolTip_">
       <tuv xml:lang="en">
         <seg>Progress View</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>查看进度</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProgressView._buttonRefresh">
-      <tuv xml:lang="en">
-        <seg>Refresh</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>刷新</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView._buttonRefresh_ToolTip_">
@@ -2962,7 +2860,15 @@
         <seg>查看刷新</seg>
       </tuv>
     </tu>
-    <tu tuid="ProgressView._labelWorking">
+    <tu tuid="ProjectView.ProgressScreen._buttonRefresh">
+      <tuv xml:lang="en">
+        <seg>Refresh</seg>
+      </tuv>
+      <tuv xml:lang="zh-Hans">
+        <seg>刷新</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProgressScreen._labelWorking">
       <tuv xml:lang="en">
         <seg>Working...</seg>
       </tuv>
@@ -3017,14 +2923,6 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>&lt;未知&gt;</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor._labelAbstract">
-      <tuv xml:lang="en">
-        <seg>Abstract</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>摘要</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelAccess">
@@ -3915,86 +3813,6 @@
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>&amp;口译</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct">
-      <tuv xml:lang="en">
-        <seg>100%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>100%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.10Pct">
-      <tuv xml:lang="en">
-        <seg>10%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>10%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.20Pct">
-      <tuv xml:lang="en">
-        <seg>20%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>20%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.30Pct">
-      <tuv xml:lang="en">
-        <seg>30%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>30%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.40Pct">
-      <tuv xml:lang="en">
-        <seg>40%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>40%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.50Pct">
-      <tuv xml:lang="en">
-        <seg>50%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>50%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.60Pct">
-      <tuv xml:lang="en">
-        <seg>60%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>60%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.70Pct">
-      <tuv xml:lang="en">
-        <seg>70%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>70%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.80Pct">
-      <tuv xml:lang="en">
-        <seg>80%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>80%</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct">
-      <tuv xml:lang="en">
-        <seg>90%</seg>
-      </tuv>
-      <tuv xml:lang="zh-Hans">
-        <seg>90%</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.RecordButton">

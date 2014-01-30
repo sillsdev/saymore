@@ -154,6 +154,12 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public virtual T GetByField(string fieldName, string fieldValue)
+		{
+			return _items.FirstOrDefault(x => x.MetaDataFile.GetStringValue(fieldName, null) == fieldValue);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected virtual void OnElementIdChanged(ProjectElement element, string oldId, string newId)
 		{
 			if (ElementIdChanged != null)

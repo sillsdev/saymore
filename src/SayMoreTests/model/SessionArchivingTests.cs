@@ -53,7 +53,7 @@ namespace SayMoreTests.Utilities
 			_person.Setup(p => p.Id).Returns("ddo-person");
 
 			_personInformant = new Mock<PersonInformant>();
-			_personInformant.Setup(i => i.GetPersonByName("ddo-person")).Returns(_person.Object);
+			_personInformant.Setup(i => i.GetPersonByNameOrCode("ddo-person")).Returns(_person.Object);
 
 			// Create a session
 			var parentFolder = Path.Combine(_tmpFolder.Path, Session.kFolderName);

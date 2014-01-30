@@ -18,7 +18,7 @@ namespace SayMoreTests.Model
 			var repo = new Mock<ElementRepository<Person>>();
 			repo.Setup(x => x.GetById("Joe")).Returns((Person)null);
 			var informant = new PersonInformant(repo.Object, null);
-			Assert.IsNull(informant.GetPersonByName("Joe"));
+			Assert.IsNull(informant.GetPersonByNameOrCode("Joe"));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ namespace SayMoreTests.Model
 
 			repo.Setup(x => x.GetById("Joe")).Returns(person.Object);
 			var informant = new PersonInformant(repo.Object, null);
-			Assert.AreEqual(person.Object, informant.GetPersonByName("Joe"));
+			Assert.AreEqual(person.Object, informant.GetPersonByNameOrCode("Joe"));
 		}
 
 		/// ------------------------------------------------------------------------------------

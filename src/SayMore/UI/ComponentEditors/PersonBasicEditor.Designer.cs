@@ -33,8 +33,8 @@ namespace SayMore.UI.ComponentEditors
 			this.components = new System.ComponentModel.Container();
 			this._labelFullName = new System.Windows.Forms.Label();
 			this._id = new System.Windows.Forms.TextBox();
-			this._labelAge = new System.Windows.Forms.Label();
-			this._age = new System.Windows.Forms.TextBox();
+			this._labelBirthYear = new System.Windows.Forms.Label();
+			this._birthYear = new System.Windows.Forms.TextBox();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._ethnicGroup = new System.Windows.Forms.TextBox();
 			this._labelEthnicGroup = new System.Windows.Forms.Label();
@@ -123,36 +123,37 @@ namespace SayMore.UI.ComponentEditors
 			this._id.TabIndex = 1;
 			this._autoCompleteHelper.SetUpdateGatherer(this._id, false);
 			// 
-			// _labelAge
+			// _labelBirthYear
 			// 
-			this._labelAge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this._labelAge.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._labelAge, null);
-			this.locExtender.SetLocalizationComment(this._labelAge, null);
-			this.locExtender.SetLocalizingId(this._labelAge, "PeopleView.MetadataEditor._labelAge");
-			this._labelAge.Location = new System.Drawing.Point(245, 0);
-			this._labelAge.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
-			this._labelAge.Name = "_labelAge";
-			this._labelAge.Size = new System.Drawing.Size(26, 13);
-			this._labelAge.TabIndex = 2;
-			this._labelAge.Text = "Age";
+			this._labelBirthYear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this._labelBirthYear.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelBirthYear, null);
+			this.locExtender.SetLocalizationComment(this._labelBirthYear, null);
+			this.locExtender.SetLocalizingId(this._labelBirthYear, "PeopleView.MetadataEditor._labelBirthYear");
+			this._labelBirthYear.Location = new System.Drawing.Point(245, 0);
+			this._labelBirthYear.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
+			this._labelBirthYear.Name = "_labelBirthYear";
+			this._labelBirthYear.Size = new System.Drawing.Size(53, 13);
+			this._labelBirthYear.TabIndex = 2;
+			this._labelBirthYear.Text = "Birth Year";
 			// 
-			// _age
+			// _birthYear
 			// 
-			this._autoCompleteHelper.SetAutoCompleteKey(this._age, "");
-			this._age.Dock = System.Windows.Forms.DockStyle.Top;
-			this._binder.SetIsBound(this._age, true);
-			this._binder.SetIsComponentFileId(this._age, false);
-			this.locExtender.SetLocalizableToolTip(this._age, null);
-			this.locExtender.SetLocalizationComment(this._age, null);
-			this.locExtender.SetLocalizationPriority(this._age, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._age, "PersonBasicEditor._birthYear");
-			this._age.Location = new System.Drawing.Point(245, 16);
-			this._age.Margin = new System.Windows.Forms.Padding(7, 3, 3, 0);
-			this._age.Name = "_age";
-			this._age.Size = new System.Drawing.Size(81, 20);
-			this._age.TabIndex = 3;
-			this._autoCompleteHelper.SetUpdateGatherer(this._age, false);
+			this._autoCompleteHelper.SetAutoCompleteKey(this._birthYear, "");
+			this._birthYear.Dock = System.Windows.Forms.DockStyle.Top;
+			this._binder.SetIsBound(this._birthYear, true);
+			this._binder.SetIsComponentFileId(this._birthYear, false);
+			this.locExtender.SetLocalizableToolTip(this._birthYear, null);
+			this.locExtender.SetLocalizationComment(this._birthYear, null);
+			this.locExtender.SetLocalizationPriority(this._birthYear, L10NSharp.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._birthYear, "PersonBasicEditor._birthYear");
+			this._birthYear.Location = new System.Drawing.Point(245, 16);
+			this._birthYear.Margin = new System.Windows.Forms.Padding(7, 3, 3, 0);
+			this._birthYear.Name = "_birthYear";
+			this._birthYear.Size = new System.Drawing.Size(81, 20);
+			this._birthYear.TabIndex = 3;
+			this._autoCompleteHelper.SetUpdateGatherer(this._birthYear, false);
+			this._birthYear.Validating += new System.ComponentModel.CancelEventHandler(this._birthYear_Validating);
 			// 
 			// _tableLayout
 			// 
@@ -193,8 +194,8 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.Controls.Add(this._education, 0, 14);
 			this._tableLayout.Controls.Add(this._labelPrimaryOccupation, 4, 13);
 			this._tableLayout.Controls.Add(this._primaryOccupation, 4, 14);
-			this._tableLayout.Controls.Add(this._labelAge, 4, 0);
-			this._tableLayout.Controls.Add(this._age, 4, 1);
+			this._tableLayout.Controls.Add(this._labelBirthYear, 4, 0);
+			this._tableLayout.Controls.Add(this._birthYear, 4, 1);
 			this._tableLayout.Controls.Add(this._labelgender, 4, 2);
 			this._tableLayout.Controls.Add(this._gender, 4, 3);
 			this._tableLayout.Controls.Add(this._labelHowToContact, 4, 5);
@@ -870,7 +871,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tableID.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableID.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this._tableID.Size = new System.Drawing.Size(176, 44);
-			this._tableID.TabIndex = 41;
+			this._tableID.TabIndex = 4;
 			// 
 			// _labelNickName
 			// 
@@ -883,7 +884,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelNickName.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
 			this._labelNickName.Name = "_labelNickName";
 			this._labelNickName.Size = new System.Drawing.Size(55, 13);
-			this._labelNickName.TabIndex = 4;
+			this._labelNickName.TabIndex = 0;
 			this._labelNickName.Text = "Nickname";
 			// 
 			// _nickName
@@ -902,7 +903,7 @@ namespace SayMore.UI.ComponentEditors
 			this._nickName.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._nickName.Name = "_nickName";
 			this._nickName.Size = new System.Drawing.Size(104, 20);
-			this._nickName.TabIndex = 5;
+			this._nickName.TabIndex = 1;
 			this._autoCompleteHelper.SetUpdateGatherer(this._nickName, false);
 			// 
 			// _labelID
@@ -916,7 +917,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelID.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
 			this._labelID.Name = "_labelID";
 			this._labelID.Size = new System.Drawing.Size(32, 13);
-			this._labelID.TabIndex = 6;
+			this._labelID.TabIndex = 2;
 			this._labelID.Text = "Code";
 			// 
 			// _code
@@ -935,7 +936,7 @@ namespace SayMore.UI.ComponentEditors
 			this._code.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._code.Name = "_code";
 			this._code.Size = new System.Drawing.Size(66, 20);
-			this._code.TabIndex = 6;
+			this._code.TabIndex = 3;
 			this._autoCompleteHelper.SetUpdateGatherer(this._code, false);
 			// 
 			// locExtender
@@ -975,7 +976,7 @@ namespace SayMore.UI.ComponentEditors
 		private AutoCompleteHelper _autoCompleteHelper;
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
 		private System.Windows.Forms.Label _labelFullName;
-		private System.Windows.Forms.Label _labelAge;
+		private System.Windows.Forms.Label _labelBirthYear;
 		private System.Windows.Forms.Label _labelgender;
 		private System.Windows.Forms.Label _labelHowToContact;
 		private System.Windows.Forms.Label _labelCustomFields;
@@ -983,7 +984,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Label _labelPrimaryOccupation;
 		private System.Windows.Forms.ComboBox _gender;
 		private System.Windows.Forms.TextBox _id;
-		private System.Windows.Forms.TextBox _age;
+		private System.Windows.Forms.TextBox _birthYear;
 		private System.Windows.Forms.TextBox _otherLanguage0;
 		private System.Windows.Forms.TextBox _otherLanguage1;
 		private System.Windows.Forms.TextBox _otherLanguage2;

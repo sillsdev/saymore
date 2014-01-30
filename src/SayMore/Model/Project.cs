@@ -490,6 +490,9 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		private void DisplayInitialArchiveSummary(IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists, ArchivingDlgViewModel model)
 		{
+			foreach (var message in model.AdditionalMessages)
+				model.DisplayMessage(message.Key + "\n", message.Value);
+
 			if (fileLists.Count > 1)
 			{
 				model.DisplayMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1",

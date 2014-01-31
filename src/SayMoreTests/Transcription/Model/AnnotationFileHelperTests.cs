@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -51,22 +52,30 @@ namespace SayMoreTests.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void LoadEafFile(bool loadBasicEafFile = true, bool setMediaFile = true)
+		private void LoadEafFile(bool loadBasicEafFile = true, bool setAudioFile = true, bool setVideoFile = false)
 		{
+			//Can't set just the video file.
+			Debug.Assert(setAudioFile || !setVideoFile);
 
-			if (!loadBasicEafFile)
-				_helper = AnnotationFileHelper.Load(CreateTestEaf());
-			else
+			if (loadBasicEafFile)
 			{
 				_root.Save(_basicEafFileName);
 				_helper = AnnotationFileHelper.Load(_basicEafFileName);
 			}
+			else
+				_helper = AnnotationFileHelper.Load(CreateTestEaf());
 
-			if (setMediaFile)
+			if (setAudioFile)
 			{
+				var tempAudioFile = _folder.Combine("dummy" + SayMore.Properties.Settings.Default.StandardAudioFileSuffix);
 				var mediaFilePath = MediaFileInfoTests.GetShortTestAudioFile();
-				File.Move(mediaFilePath, _folder.Combine("dummy.wav"));
-				_helper.SetMediaFile(_folder.Combine("dummy.wav"));
+				File.Move(mediaFilePath, tempAudioFile);
+				if (setVideoFile)
+				{
+					var videoFilePath = MediaFileInfoTests.GetTestVideoFile();
+					File.Move(videoFilePath, _folder.Combine("dummy.mpeg"));
+				}
+				_helper.SetMediaFile(tempAudioFile);
 			}
 
 			_root = _helper.Root;
@@ -217,20 +226,47 @@ namespace SayMoreTests.Transcription.Model
 		public void GetFullPathToMediaFile_NoMediaUrlAttribute_ReturnsNull()
 		{
 			_root.Add(_header);
+			_header.Add(_mediaDescriptor);
 			LoadEafFile(true, false);
 			Assert.IsNull(_helper.GetFullPathToMediaFile());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetFullPathToMediaFile_AllElementsAndAttributesPresent_ReturnsMediaFileName()
+		public void GetFullPathToMediaFile_AllElementsAndAttributesPresentForWavFile_ReturnsMediaFilePath()
 		{
+			// This header should get removed and replaced by the real one:
 			_mediaDescriptor.Add(_mediaUrl);
 			_header.Add(_mediaDescriptor);
 			_root.Add(_header);
 			LoadEafFile();
 			Assert.AreEqual(Path.Combine(_helper.GetAnnotationFolderPath(),
-				"dummy.wav"), _helper.GetFullPathToMediaFile());
+				"dummy" + SayMore.Properties.Settings.Default.StandardAudioFileSuffix), _helper.GetFullPathToMediaFile());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetFullPathToMediaFile_AllElementsAndAttributesPresentForWavFileExtractedFromVideo_ReturnsWavFilePath()
+		{
+			// This header should get removed and replaced by the real one:
+			_mediaDescriptor.Add(_mediaUrl);
+			_header.Add(_mediaDescriptor);
+			_root.Add(_header);
+			LoadEafFile(true, true, true);
+			Assert.AreEqual(Path.Combine(_helper.GetAnnotationFolderPath(),
+				"dummy" + SayMore.Properties.Settings.Default.StandardAudioFileSuffix), _helper.GetFullPathToMediaFile());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetFullPathToOriginalVideoFile_AllElementsAndAttributesPresentForWavFileExtractedFromVideo_ReturnsVideoFilePath()
+		{
+			// This header should get removed and replaced by the real one:
+			_mediaDescriptor.Add(_mediaUrl);
+			_header.Add(_mediaDescriptor);
+			_root.Add(_header);
+			LoadEafFile(true, true, true);
+			Assert.AreEqual(Path.Combine(_helper.GetAnnotationFolderPath(), "dummy.mpeg"), _helper.GetFullPathToVideoFile());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -239,8 +275,10 @@ namespace SayMoreTests.Transcription.Model
 		{
 			LoadEafFile(true, false);
 			Assert.IsNull(_helper.GetFullPathToMediaFile());
+			Assert.IsNull(_helper.GetFullPathToVideoFile());
 			_helper.SetMediaFile("BeaversAndDucks.mp3");
 			Assert.AreEqual(Path.Combine(_helper.GetAnnotationFolderPath(), "BeaversAndDucks.mp3"), _helper.GetFullPathToMediaFile());
+			Assert.IsNull(_helper.GetFullPathToVideoFile());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -281,15 +319,38 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void ChangeMediaFileName_ChangesMediaFileName()
+		public void ChangeMediaFileName_MPGFileWithCorrespondingMP4FilePresent_ChangesMediaFileNameIgnoringMP4File()
 		{
 			var testEafFile = CreateTestEaf();
 			_helper = AnnotationFileHelper.Load(testEafFile);
 			Assert.AreEqual(Path.Combine(_helper.GetAnnotationFolderPath(), "AmazingGrace.wav"), _helper.GetFullPathToMediaFile());
+			Assert.IsNull(_helper.GetFullPathToVideoFile());
+
+			File.Move(MediaFileInfoTests.GetTestVideoFile(), Path.Combine(_helper.GetAnnotationFolderPath(), "PiratesAndDawgs.mp4"));
 
 			AnnotationFileHelper.ChangeMediaFileName(testEafFile, "PiratesAndDawgs.mpg");
 			_helper = AnnotationFileHelper.Load(testEafFile);
 			Assert.AreEqual(Path.Combine(_helper.GetAnnotationFolderPath(), "PiratesAndDawgs.mpg"), _helper.GetFullPathToMediaFile());
+			Assert.AreEqual(_helper.GetFullPathToMediaFile(), _helper.GetFullPathToVideoFile());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ChangeMediaFileName_CorrespondingVideoPresent_ChangesAudioAndVideoFileNames()
+		{
+			var testEafFile = CreateTestEaf();
+			_helper = AnnotationFileHelper.Load(testEafFile);
+			Assert.AreEqual(Path.Combine(_helper.GetAnnotationFolderPath(), "AmazingGrace.wav"), _helper.GetFullPathToMediaFile());
+			Assert.IsNull(_helper.GetFullPathToVideoFile());
+
+			var correspondingVideoFile = Path.Combine(_helper.GetAnnotationFolderPath(), "PiratesAndDawgs.mp4");
+			File.Move(MediaFileInfoTests.GetTestVideoFile(), correspondingVideoFile);
+
+			var newWavFileName = "PiratesAndDawgs" + SayMore.Properties.Settings.Default.StandardAudioFileSuffix;
+			AnnotationFileHelper.ChangeMediaFileName(testEafFile, newWavFileName);
+			_helper = AnnotationFileHelper.Load(testEafFile);
+			Assert.AreEqual(Path.Combine(_helper.GetAnnotationFolderPath(), newWavFileName), _helper.GetFullPathToMediaFile());
+			Assert.AreEqual(correspondingVideoFile, _helper.GetFullPathToVideoFile());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -638,12 +699,41 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetOrCreateHeader_HeaderMissing_ReturnsHeader()
+		public void GetOrCreateHeader_HeaderMissingAudioFileOnly_ReturnsHeaderWithSingleMediaDescriptor()
 		{
 			LoadEafFile();
 			var element = _helper.GetOrCreateHeader();
 			Assert.AreEqual("HEADER", element.Name.LocalName);
+			Assert.AreEqual(1, element.Elements("MEDIA_DESCRIPTOR").Count());
 			Assert.IsNotNull(element.Element("MEDIA_DESCRIPTOR"));
+			Assert.IsNotNull(element.Attribute("MEDIA_FILE"));
+			Assert.IsNotNull(element.Attribute("TIME_UNITS"));
+			Assert.AreEqual(string.Empty, element.Attribute("MEDIA_FILE").Value);
+			Assert.AreEqual("milliseconds", element.Attribute("TIME_UNITS").Value);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetOrCreateHeader_HeaderMissingAudioAndVideoFilesPresent_ReturnsHeaderWithTwoMediaDescriptors()
+		{
+			LoadEafFile(true, true, true);
+			var element = _helper.GetOrCreateHeader();
+			Assert.AreEqual("HEADER", element.Name.LocalName);
+			var mediaDescriptors = element.Elements("MEDIA_DESCRIPTOR").ToList();
+			Assert.AreEqual(2, mediaDescriptors.Count);
+
+			var videoDescriptor = mediaDescriptors[0];
+			Assert.IsNotNull(videoDescriptor.Attribute("MEDIA_URL"));
+			Assert.IsNull(videoDescriptor.Attribute("EXTRACTED_FROM"));
+			Assert.AreEqual("video/mpeg", videoDescriptor.Attribute("MIME_TYPE").Value);
+
+			var audioDescriptor = mediaDescriptors[1];
+			Assert.IsNotNull(audioDescriptor.Attribute("MEDIA_URL"));
+			Assert.IsNotNull(audioDescriptor.Attribute("EXTRACTED_FROM"));
+			Assert.AreEqual("audio/x-wav", audioDescriptor.Attribute("MIME_TYPE").Value);
+
+			Assert.AreEqual(videoDescriptor.Attribute("MEDIA_URL").Value, audioDescriptor.Attribute("EXTRACTED_FROM").Value);
+
 			Assert.IsNotNull(element.Attribute("MEDIA_FILE"));
 			Assert.IsNotNull(element.Attribute("TIME_UNITS"));
 			Assert.AreEqual(string.Empty, element.Attribute("MEDIA_FILE").Value);
@@ -665,21 +755,30 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CreateMediaDescriptorElement_NullMediaFile_ReturnsBasicElement()
+		public void AddMediaDescriptorElements_NullMediaFile_AddsMediaDescriptorElementWithNoAttributes()
 		{
 			_root.Add(_header);
 			LoadEafFile(true, false);
-			var element = _helper.CreateMediaDescriptorElement();
+			_helper.AddMediaDescriptorElements(_header);
+			var descriptors = _header.Elements("MEDIA_DESCRIPTOR").ToList();
+			Assert.AreEqual(1, descriptors.Count());
+			var element = descriptors[0];
 			Assert.AreEqual("MEDIA_DESCRIPTOR", element.Name.LocalName);
-			Assert.IsNull(element.Attribute("MEDIA_URL"));
-			Assert.IsNull(element.Attribute("MIME_TYPE"));
+			Assert.AreEqual(0, element.Attributes().Count());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CreateMediaDescriptorElement_ValidMediaFile_ReturnsCorrectElementContent()
+		public void AddMediaDescriptorElements_WavFile_ReturnsCorrectElementContent()
 		{
-			var element = new AnnotationFileHelper(null, @"c:\My\Folk\Music\Alathea.wav").CreateMediaDescriptorElement();
+			var helper = new AnnotationFileHelper(null, @"c:\My\Folk\Music\Alathea.wav");
+			var header = new XElement("HEADER");
+			helper.AddMediaDescriptorElements(header);
+
+			var descriptors = header.Elements("MEDIA_DESCRIPTOR").ToList();
+			Assert.AreEqual(1, descriptors.Count());
+			var element = descriptors[0];
+
 			Assert.AreEqual("MEDIA_DESCRIPTOR", element.Name.LocalName);
 			Assert.AreEqual("Alathea.wav", element.Attribute("MEDIA_URL").Value);
 			Assert.AreEqual("audio/x-wav", element.Attribute("MIME_TYPE").Value);
@@ -689,32 +788,32 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void CreateMediaFileMimeType_WaveFile_ReturnsProperMimeType()
 		{
-			Assert.AreEqual("audio/x-wav", new AnnotationFileHelper(null, "Alathea.wav").CreateMediaFileMimeType());
+			Assert.AreEqual("audio/x-wav", new AnnotationFileHelper(null, "Alathea.wav").GetMediaFileMimeType());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void CreateMediaFileMimeType_NonWaveAudioFile_ReturnsProperMimeType()
 		{
-			Assert.AreEqual("audio/*", new AnnotationFileHelper(null, "Alathea.mp3").CreateMediaFileMimeType());
-			Assert.AreEqual("audio/*", new AnnotationFileHelper(null, "Alathea.wma").CreateMediaFileMimeType());
+			Assert.AreEqual("audio/*", new AnnotationFileHelper(null, "Alathea.mp3").GetMediaFileMimeType());
+			Assert.AreEqual("audio/*", new AnnotationFileHelper(null, "Alathea.wma").GetMediaFileMimeType());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void CreateMediaFileMimeType_MpgFile_ReturnsProperMimeType()
 		{
-			Assert.AreEqual("video/mpeg", new AnnotationFileHelper(null, "Alathea.mpg").CreateMediaFileMimeType());
-			Assert.AreEqual("video/mpeg", new AnnotationFileHelper(null, "Alathea.mpeg").CreateMediaFileMimeType());
+			Assert.AreEqual("video/mpeg", new AnnotationFileHelper(null, "Alathea.mpg").GetMediaFileMimeType());
+			Assert.AreEqual("video/mpeg", new AnnotationFileHelper(null, "Alathea.mpeg").GetMediaFileMimeType());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void CreateMediaFileMimeType_NonMpgVideoFile_ReturnsProperMimeType()
 		{
-			Assert.AreEqual("video/*", new AnnotationFileHelper(null, "Alathea.wmv").CreateMediaFileMimeType());
-			Assert.AreEqual("video/*", new AnnotationFileHelper(null, "Alathea.mov").CreateMediaFileMimeType());
-			Assert.AreEqual("video/*", new AnnotationFileHelper(null, "Alathea.avi").CreateMediaFileMimeType());
+			Assert.AreEqual("video/*", new AnnotationFileHelper(null, "Alathea.wmv").GetMediaFileMimeType());
+			Assert.AreEqual("video/*", new AnnotationFileHelper(null, "Alathea.mov").GetMediaFileMimeType());
+			Assert.AreEqual("video/*", new AnnotationFileHelper(null, "Alathea.avi").GetMediaFileMimeType());
 		}
 
 		/// ------------------------------------------------------------------------------------

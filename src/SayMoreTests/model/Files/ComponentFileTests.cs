@@ -410,13 +410,13 @@ namespace SayMoreTests.Model.Files
 		{
 			foreach (var ext in new[] { "mp3", "wav", "wma", "flac" })
 			{
-				Assert.AreEqual("abc_StandardAudio.wav", Path.GetFileName(
+				Assert.AreEqual("abc" + SayMore.Properties.Settings.Default.StandardAudioFileSuffix, Path.GetFileName(
 					CreateAudioComponentFile("abc." + ext).GetSuggestedPathToStandardAudioFile()));
 			}
 
 			foreach (var ext in new[] { "mov", "mpg", "wmv" })
 			{
-				Assert.AreEqual("abc_StandardAudio.wav", Path.GetFileName(
+				Assert.AreEqual("abc" + SayMore.Properties.Settings.Default.StandardAudioFileSuffix, Path.GetFileName(
 					CreateVideoComponentFile("abc." + ext).GetSuggestedPathToStandardAudioFile()));
 			}
 		}

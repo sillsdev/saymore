@@ -9,6 +9,7 @@ using Palaso.IO;
 using Palaso.Reporting;
 using Palaso.Xml;
 using SayMore.Media;
+using SayMore.Model.Files;
 using SayMore.Properties;
 
 namespace SayMore.Transcription.Model
@@ -29,6 +30,7 @@ namespace SayMore.Transcription.Model
 		public static string kAnnotationsEafFileSuffix = ".annotations" + Settings.Default.AnnotationFileExtension.ToLower();
 
 		private string _mediaFileName;
+		private string _videoFileName;
 
 		#region Constructors and static methods for loading and verifying validity of file
 		/// ------------------------------------------------------------------------------------
@@ -104,44 +106,71 @@ namespace SayMore.Transcription.Model
 			var header = Root.Element("HEADER");
 			if (header == null)
 			{
-				Root.Add(new XElement("HEADER",
+				header = new XElement("HEADER",
 					new XAttribute("MEDIA_FILE", string.Empty),
-					new XAttribute("TIME_UNITS", "milliseconds"),
-					CreateMediaDescriptorElement()));
+					new XAttribute("TIME_UNITS", "milliseconds"));
+				AddMediaDescriptorElements(header);
+				Root.Add(header);
 			}
-
-			return Root.Element("HEADER");
+			return header;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public XElement CreateMediaDescriptorElement()
+		public void AddMediaDescriptorElements(XElement header)
 		{
+			Debug.Assert(header.Element("MEDIA_DESCRIPTOR") == null);
+
+			var videoFileName = VideoFileName;
+
 			var element = new XElement("MEDIA_DESCRIPTOR");
 
-			if (_mediaFileName != null)
-			{
-				element.Add(new XAttribute("MEDIA_URL", Path.GetFileName(_mediaFileName)),
-					new XAttribute("MIME_TYPE", CreateMediaFileMimeType()));
-			}
+			if (videoFileName != null)
+				AddMediaInfoToDescriptorElement(element, videoFileName);
+			else if (_mediaFileName != null)
+				AddMediaInfoToDescriptorElement(element, _mediaFileName);
 
-			return element;
+			header.Add(element);
+
+			if (videoFileName != null && videoFileName != _mediaFileName)
+			{
+				element = new XElement("MEDIA_DESCRIPTOR");
+				element.Add(new XAttribute("EXTRACTED_FROM", videoFileName));
+				AddMediaInfoToDescriptorElement(element, _mediaFileName);
+				header.Add(element);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string CreateMediaFileMimeType()
+		private void AddMediaInfoToDescriptorElement(XElement element, string fileName)
 		{
-			var ext = Path.GetExtension(_mediaFileName).ToLower();
+			fileName = Path.GetFileName(fileName);
+			Debug.Assert(fileName != null);
+			element.Add(new XAttribute("MEDIA_URL", fileName),
+					new XAttribute("MIME_TYPE", GetMediaFileMimeType(fileName)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetMediaFileMimeType()
+		{
+			return GetMediaFileMimeType(_mediaFileName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string GetMediaFileMimeType(string mediaFileName)
+		{
+			var ext = Path.GetExtension(mediaFileName).ToLower();
 
 			switch (ext)
 			{
-				case ".wav": return "audio/x-wav";
+				case ".wav":
+					return "audio/x-wav";
 				case ".mpg":
-				case ".mpeg": return "video/mpeg";
+				case ".mpeg":
+					return "video/mpeg";
 			}
 
 			return (FileUtils.AudioFileExtensions.Contains(ext) ? "audio" : "video") + "/*";
 		}
-
 		#endregion
 
 		#region Methods for reading/writing media file information
@@ -166,6 +195,14 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public string GetFullPathToVideoFile()
+		{
+			var videoFileName = VideoFileName;
+			return (videoFileName == null || Path.IsPathRooted(videoFileName) ?
+				videoFileName : Path.Combine(GetAnnotationFolderPath(), Path.GetFileName(videoFileName)));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public string MediaFileName
 		{
 			get
@@ -176,9 +213,11 @@ namespace SayMore.Transcription.Model
 					if (element == null)
 						return null;
 
-					element = element.Element("MEDIA_DESCRIPTOR");
-					if (element == null)
+					var descriptors = element.Elements("MEDIA_DESCRIPTOR");
+					if (!descriptors.Any())
 						return null;
+
+					element = descriptors.FirstOrDefault(d => d.Attributes("EXTRACTED_FROM").Any()) ?? descriptors.First();
 
 					var mediaUrl = element.Attribute("MEDIA_URL");
 					if (mediaUrl != null)
@@ -189,16 +228,82 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public string VideoFileName
+		{
+			get
+			{
+				if (_videoFileName == null && MediaFileName != null)
+				{
+					var mediaFileExt = Path.GetExtension(_mediaFileName);
+					if (mediaFileExt != null)
+						mediaFileExt = mediaFileExt.ToLowerInvariant();
+					if (FileUtils.VideoFileExtensions.Contains(mediaFileExt))
+						_videoFileName = _mediaFileName;
+					else
+					{
+						// Media file is an audio file.
+
+						if (Root != null)
+						{
+							var header = Root.Element("HEADER");
+							if (header != null)
+							{
+								var extractedFromDescriptor = header.Elements("MEDIA_DESCRIPTOR")
+									.SingleOrDefault(e => e.Attribute("EXTRACTED_FROM") != null);
+								if (extractedFromDescriptor != null)
+								{
+									var mediaUrl = extractedFromDescriptor.Attribute("MEDIA_URL");
+									if (mediaUrl != null)
+									{
+										_videoFileName = mediaUrl.Value;
+										if (FileUtils.VideoFileExtensions.Contains(Path.GetExtension(_videoFileName)))
+											return _videoFileName;
+										_videoFileName = null;
+									}
+								}
+							}
+						}
+
+						// No video (MEDIA_DESCRIPTOR with EXTRACTED_FROM attribute) specified in
+						// the file. See if corresponding video file exists.
+						if (AudioVideoFileTypeBase.GetIsStandardPcmAudioFile(_mediaFileName))
+						{
+							string videoFilePath = GetFullPathToMediaFile();
+							videoFilePath = videoFilePath.Remove(videoFilePath.Length - Settings.Default.StandardAudioFileSuffix.Length) +
+								FileUtils.VideoFileExtensions[0];
+							foreach (var videoExt in FileUtils.VideoFileExtensions)
+							{
+								videoFilePath = Path.ChangeExtension(videoFilePath, videoExt);
+								if (File.Exists(videoFilePath))
+								{
+									_videoFileName = Path.GetFileName(videoFilePath);
+									break;
+								}
+							}
+						}
+					}
+				}
+				return _videoFileName;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void SetMediaFile(string mediaFileName)
 		{
 			_mediaFileName = mediaFileName;
 
-			var header = GetOrCreateHeader();
+			var header = Root.Element("HEADER");
+			if (header == null)
+			{
+				GetOrCreateHeader();
+				return;
+			}
 
-			if (header.Element("MEDIA_DESCRIPTOR") != null)
-				header.Element("MEDIA_DESCRIPTOR").Remove();
+			XElement descriptor;
+			while ((descriptor = header.Element("MEDIA_DESCRIPTOR")) != null)
+				descriptor.Remove();
 
-			header.Add(CreateMediaDescriptorElement());
+			AddMediaDescriptorElements(header);
 		}
 
 		#endregion

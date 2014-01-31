@@ -47,28 +47,29 @@ namespace SayMoreTests.Model.Files
 		[Test]
 		public void ComputeStandardPcmAudioFilePath_SourceHasStandardAudioSuffixAndExt_ReturnsOriginal()
 		{
-			Assert.AreEqual(@"c:\blah\dumb_StandardAudio.wav",
-				AudioVideoFileTypeBase.ComputeStandardPcmAudioFilePath(@"c:\blah\dumb_StandardAudio.wav"));
+			Assert.AreEqual(@"c:\blah\dumb" + SayMore.Properties.Settings.Default.StandardAudioFileSuffix,
+				AudioVideoFileTypeBase.ComputeStandardPcmAudioFilePath(@"c:\blah\dumb" + SayMore.Properties.Settings.Default.StandardAudioFileSuffix));
 		}
 
 		[Test]
 		public void ComputeStandardPcmAudioFilePath_SourceHasStandardAudioSuffixButNotExt_DoesNotDuplicateSuffix()
 		{
-			Assert.AreEqual(@"c:\blah\dumb_StandardAudio.wav",
+			Assert.AreEqual(@"c:\blah\dumb" + SayMore.Properties.Settings.Default.StandardAudioFileSuffix,
 				AudioVideoFileTypeBase.ComputeStandardPcmAudioFilePath(@"c:\blah\dumb_StandardAudio.mpg"));
 		}
 
 		[Test]
 		public void ComputeStandardPcmAudioFilePath_SourceDoesNotHaveStandardAudioSuffix_ReturnsCorrectPath()
 		{
-			Assert.AreEqual(@"c:\blah\dumb_StandardAudio.wav",
+			Assert.AreEqual(@"c:\blah\dumb" + SayMore.Properties.Settings.Default.StandardAudioFileSuffix,
 				AudioVideoFileTypeBase.ComputeStandardPcmAudioFilePath(@"c:\blah\dumb.mp3"));
 		}
 
 		[Test]
 		public void GetIsStandardPcmAudioFile_SourceHasStandardAudioSuffixAndExt_ReturnsTrue()
 		{
-			Assert.IsTrue(AudioVideoFileTypeBase.GetIsStandardPcmAudioFile(@"c:\blah\dumb_StandardAudio.wav"));
+			Assert.IsTrue(AudioVideoFileTypeBase.GetIsStandardPcmAudioFile(@"c:\blah\dumb" +
+				SayMore.Properties.Settings.Default.StandardAudioFileSuffix));
 		}
 
 		[Test]

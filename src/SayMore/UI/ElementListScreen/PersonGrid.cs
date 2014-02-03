@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,6 +12,23 @@ namespace SayMore.UI.ElementListScreen
 	public class PersonGrid : ElementGrid
 	{
 		public delegate PersonGrid Factory();  //autofac uses this
+
+		public PersonGrid()
+		{
+			Program.PersonDataChanged += Program_PersonDataChanged;
+		}
+
+		/// <summary>Update the list when the display name changes</summary>
+		private void Program_PersonDataChanged()
+		{
+			Application.DoEvents();
+			Refresh();
+		}
+
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			Program.PersonDataChanged -= Program_PersonDataChanged;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public override GridSettings GridSettings

@@ -45,7 +45,6 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.HeaderPanelBottomBorderColor = Settings.Default.PersonEditorsBorderColor;
 		}
 
-
 		/// ------------------------------------------------------------------------------------
 		private void InitializeMenus()
 		{
@@ -134,6 +133,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			Settings.Default.PersonScreenElementListSpiltterPos = _elementListSplitter.SplitterDistance;
 			Settings.Default.PersonScreenComponentsSplitterPos = _componentsSplitter.SplitterDistance;
+
 			base.OnHandleDestroyed(e);
 		}
 	}

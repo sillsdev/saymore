@@ -938,6 +938,7 @@ namespace SayMore.UI.ComponentEditors
 			this._code.Size = new System.Drawing.Size(66, 20);
 			this._code.TabIndex = 3;
 			this._autoCompleteHelper.SetUpdateGatherer(this._code, false);
+			this._code.Leave += new System.EventHandler(this._code_Leave);
 			// 
 			// locExtender
 			// 

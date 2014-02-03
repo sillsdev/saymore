@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -121,6 +122,8 @@ namespace SayMore.UI.ComponentEditors
 
 			_grid.Rows.Clear();
 
+			var personCode = _file.GetStringValue("code", null);
+
 			foreach (var session in project.GetAllSessions())
 			{
 				var person = session.GetAllPersonsInSession().FirstOrDefault(p => p.Id == _personId);
@@ -130,14 +133,7 @@ namespace SayMore.UI.ComponentEditors
 					// add Participant row for this session
 					var sessionDescription = session.Id + " " + session.Title;
 					var sessionRole = LocalizationManager.GetString("PeopleView.ContributionEditor.RoleParticipant", "Participant");
-					var sessionDate = session.MetaDataFile.GetStringValue("date", string.Empty);
-					if (!string.IsNullOrEmpty(sessionDate))
-					{
-						// older saymore date problem due to saving localized date string rather than ISO8601
-						sessionDate = sessionDate.IsISO8601Date()
-							? DateTime.Parse(sessionDate).ToShortDateString()
-							: DateTimeExtensions.ParseDateTimePermissivelyWithException(sessionDate).ToShortDateString();
-					}
+					var sessionDate = FormatParseDate(session.MetaDataFile.GetStringValue("date", string.Empty));
 
 					var rowid = _grid.AddRow(new object[] { sessionDescription, sessionRole, sessionDate, string.Empty });
 					_grid.Rows[rowid].Cells[0].Style.Font = boldFont;
@@ -145,34 +141,54 @@ namespace SayMore.UI.ComponentEditors
 
 				// get the files for this session
 				var files = Directory.GetFiles(session.FolderPath, "*" + Settings.Default.MetadataFileExtension);
-				var searchFor = "<name>" + _personId + "</name>";
+				var searchForId = "<name>" + _personId + "</name>";
+				var searchForCode = (string.IsNullOrEmpty(personCode) ? null : "<name>" + personCode + "</name>");
+
 				foreach (var file in files)
 				{
 					var fileContents = File.ReadAllText(file);
 
 					// look for this person
-					var pos = fileContents.IndexOf(searchFor, StringComparison.InvariantCultureIgnoreCase);
-					while (pos > 0)
-					{
-						// remove everything before this person
-						fileContents = fileContents.Substring(pos + searchFor.Length);
-
-						// get the end of this contributor
-						var testString = fileContents.Substring(0, fileContents.IndexOf("</contributor>", StringComparison.InvariantCultureIgnoreCase));
-
-						var role = GetRoleFromOlacList(GetValueFromXmlString(testString, "role"));
-						var date = GetValueFromXmlString(testString, "date");
-						if (!string.IsNullOrEmpty(date))
-							date = DateTime.Parse(date).ToShortDateString();
-						var note = GetValueFromXmlString(testString, "notes");
-						var fname = Path.GetFileName(file.Substring(0, file.Length - Settings.Default.MetadataFileExtension.Length));
-						_grid.AddRow(new object[] { Path.GetFileName(fname), role, date, note });
-
-						// look again
-						pos = fileContents.IndexOf(searchFor, StringComparison.InvariantCultureIgnoreCase);
-					}
+					SearchInFile(file, fileContents, searchForId);
+					if (searchForCode != null)
+						SearchInFile(file, fileContents, searchForCode);
 				}
 			}
+		}
+
+		private void SearchInFile(string fileName, string fileContents, string searchFor)
+		{
+			var pos = fileContents.IndexOf(searchFor, StringComparison.InvariantCultureIgnoreCase);
+			while (pos > 0)
+			{
+				// remove everything before this person
+				fileContents = fileContents.Substring(pos + searchFor.Length);
+
+				// get the end of this contributor
+				var testString = fileContents.Substring(0, fileContents.IndexOf("</contributor>", StringComparison.InvariantCultureIgnoreCase));
+
+				var role = GetRoleFromOlacList(GetValueFromXmlString(testString, "role"));
+				var date = FormatParseDate(GetValueFromXmlString(testString, "date"));
+				var note = GetValueFromXmlString(testString, "notes");
+				var fname = Path.GetFileName(fileName.Substring(0, fileName.Length - Settings.Default.MetadataFileExtension.Length));
+
+				_grid.AddRow(new object[] { Path.GetFileName(fname), role, date, note });
+
+				// look again
+				pos = fileContents.IndexOf(searchFor, StringComparison.InvariantCultureIgnoreCase);
+			}
+		}
+
+		private string FormatParseDate(string dateString)
+		{
+			if (string.IsNullOrEmpty(dateString)) return string.Empty;
+
+			// older saymore date problem due to saving localized date string rather than ISO8601
+			var date = dateString.IsISO8601Date()
+				? DateTime.Parse(dateString)
+				: DateTimeExtensions.ParseDateTimePermissivelyWithException(dateString);
+
+			return date == DateTime.MinValue ? string.Empty : date.ToShortDateString();
 		}
 
 		private static string GetRoleFromOlacList(string savedRole)

@@ -70,6 +70,13 @@ namespace SayMore.UI.ComponentEditors
 			_id.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelFullName); };
 			_birthYear.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelBirthYear); };
 			ValidateBirthYear();
+
+			_file.AfterSave += _file_AfterSave;
+		}
+
+		void _file_AfterSave(object sender, EventArgs e)
+		{
+			Program.OnPersonDataChanged();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -89,6 +96,8 @@ namespace SayMore.UI.ComponentEditors
 					SaveParentLanguages();
 				}
 			}
+
+			_file.AfterSave -= _file_AfterSave;
 
 			base.OnHandleDestroyed(e);
 		}
@@ -545,6 +554,11 @@ namespace SayMore.UI.ComponentEditors
 		private void ValidateBirthYear()
 		{
 			_birthYear.ForeColor = _birthYear.Text.IsValidBirthYear() ? _id.ForeColor : Color.Red;
+		}
+
+		private void _code_Leave(object sender, EventArgs e)
+		{
+			_file.Save();
 		}
 	}
 }

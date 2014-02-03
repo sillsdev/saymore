@@ -28,6 +28,9 @@ namespace SayMore.UI.ComponentEditors
 		public event EventHandler<TranslateBoundValueBeingSavedArgs> TranslateBoundValueBeingSaved;
 		public event EventHandler<TranslateBoundValueBeingRetrievedArgs> TranslateBoundValueBeingRetrieved;
 
+		public delegate void DataSavedHandler();
+		public event DataSavedHandler OnDataSaved;
+
 		public ComponentFile ComponentFile { get; private set; }
 
 // ReSharper disable once InconsistentNaming
@@ -323,7 +326,7 @@ namespace SayMore.UI.ComponentEditors
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
 
 			//enchance: don't save so often, leave it to some higher level
-			ComponentFile.Save();
+			SaveNow();
 
 			return modifiedValue;
 		}
@@ -401,7 +404,7 @@ namespace SayMore.UI.ComponentEditors
 
 			//enchance: don't save so often, leave it to some higher level
 			if (_componentFileIdControl != ctrl)
-				ComponentFile.Save();
+				SaveNow();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -417,6 +420,12 @@ namespace SayMore.UI.ComponentEditors
 			var ctrl = GetBoundControlFromKey(fieldId);
 			if (ctrl != null)
 				UpdateControlValueFromField(ctrl);
+		}
+
+		private void SaveNow()
+		{
+			ComponentFile.Save();
+			if (OnDataSaved != null) OnDataSaved();
 		}
 	}
 

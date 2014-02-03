@@ -40,8 +40,14 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (components != null))
-				components.Dispose();
+			if (disposing)
+			{
+				// SP-788: "Cannot access a disposed object" when changing UI language
+				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
+
+				if (components != null)
+					components.Dispose();
+			}
 
 			base.Dispose(disposing);
 		}
@@ -49,6 +55,7 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		private void HandleStringsLocalized()
 		{
+			// this._projectPages = new Palaso.UI.WindowsForms.Widgets.BetterGrid.BetterGrid();
 			var currentRow = _projectPages.CurrentCellAddress.Y;
 			_projectPages.RowCount = 0;
 			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.AboutProjectViewTitle", "About This Project") });

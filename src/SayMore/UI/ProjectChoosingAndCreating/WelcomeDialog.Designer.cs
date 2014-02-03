@@ -4,7 +4,7 @@ using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI.ProjectChoosingAndCreating
 {
-	partial class WelcomeDialog
+	sealed partial class WelcomeDialog
 	{
 		/// <summary>
 		/// Required designer variable.

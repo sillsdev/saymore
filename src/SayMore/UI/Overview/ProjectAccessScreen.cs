@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,13 @@ namespace SayMore.UI.Overview
 
 			// access protocol list
 			HandleStringsLocalized();
+			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+		}
+
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			base.OnHandleDestroyed(e);
+
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
 		}
 

@@ -50,7 +50,10 @@ namespace SayMore.UI.ComponentEditors
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			if (_webBrowserInfo.DocumentStream != null)
+			{
 				_webBrowserInfo.DocumentStream.Dispose();
+				_webBrowserInfo.DocumentStream = null;
+			}
 
 			base.OnFormClosing(e);
 		}
@@ -59,7 +62,10 @@ namespace SayMore.UI.ComponentEditors
 		private void LoadBrowserControl()
 		{
 			if (_webBrowserInfo.DocumentStream != null)
+			{
 				_webBrowserInfo.DocumentStream.Dispose();
+				_webBrowserInfo.DocumentStream = null;
+			}
 
 			var html = GetMediaInfo();
 

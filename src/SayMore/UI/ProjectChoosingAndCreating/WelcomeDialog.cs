@@ -19,7 +19,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 	/// existing projects via browsing the file systsem or by choosing a recently used project.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class WelcomeDialog : Form
+	public sealed partial class WelcomeDialog : Form
 	{
 		public WelcomeDialogViewModel Model { get; set; }
 
@@ -63,15 +63,17 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 					tsb = _buttonMru0;
 				else
 				{
-					tsb = new ToolStripButton(_buttonMru0.Image);
+					tsb = new ToolStripButton(_buttonMru0.Image)
+					{
+						DisplayStyle = ToolStripItemDisplayStyle.ImageAndText,
+						ImageAlign = _buttonMru0.ImageAlign,
+						TextAlign = _buttonMru0.TextAlign,
+						Font = _buttonMru0.Font,
+						Margin = _buttonMru0.Margin
+					};
 					//tsb.Name = "tsbMru" + i;
-					tsb.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
-					tsb.ImageAlign = _buttonMru0.ImageAlign;
-					tsb.TextAlign = _buttonMru0.TextAlign;
-					tsb.Font = _buttonMru0.Font;
-					tsb.Margin = _buttonMru0.Margin;
 					tsb.Click += HandleMruClick;
-					int index = tsOptions.Items.IndexOf(_buttonBrowse);
+					var index = tsOptions.Items.IndexOf(_buttonBrowse);
 					tsOptions.Items.Insert(index, tsb);
 				}
 
@@ -99,12 +101,12 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			_linkSayMoreWebsite.Links.Clear();
 
 			// Add the underline and link for SIL's website.
-			int i = _linkSILWebsite.Text.IndexOf(Application.CompanyName);
+			int i = _linkSILWebsite.Text.IndexOf(Application.CompanyName, StringComparison.Ordinal);
 			if (i >= 0)
 				_linkSILWebsite.Links.Add(i, Application.CompanyName.Length, Settings.Default.SilWebSite);
 
 			// Add the underline and link for application's website.
-			i = _linkSayMoreWebsite.Text.IndexOf(Application.ProductName);
+			i = _linkSayMoreWebsite.Text.IndexOf(Application.ProductName, StringComparison.Ordinal);
 			if (i >= 0)
 				_linkSayMoreWebsite.Links.Add(i, Application.ProductName.Length, Settings.Default.ProgramsWebSite);
 		}

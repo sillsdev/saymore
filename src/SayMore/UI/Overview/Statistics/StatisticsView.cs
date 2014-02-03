@@ -17,8 +17,29 @@ namespace SayMore.UI.Overview.Statistics
 		{
 			_model = model;
 			InitializeComponent();
+
 			_panelWorking.BorderStyle = BorderStyle.None;
 			LocalizeItemDlg.StringsLocalized += UpdateDisplay;
+		}
+
+		// SP-788: "Cannot access a disposed object" when changing UI language
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			base.OnHandleDestroyed(e);
+
+			LocalizeItemDlg.StringsLocalized -= UpdateDisplay;
+
+			if (timer1 != null)
+			{
+				timer1.Dispose();
+				timer1 = null;
+			}
+
+			if (_webBrowser != null)
+			{
+				_webBrowser.Dispose();
+				_webBrowser = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -44,9 +65,9 @@ namespace SayMore.UI.Overview.Statistics
 				_webBrowser.DocumentStream.Dispose();
 
 			_webBrowser.DocumentStream = new MemoryStream(Encoding.UTF8.GetBytes(_model.HTMLString));
-			_webBrowser.Document.Encoding = "utf-8";
-			UpdateStatusDisplay();
 
+			if (_webBrowser.Document != null) _webBrowser.Document.Encoding = "utf-8";
+			UpdateStatusDisplay();
 			_model.NewStatisticsAvailable -= HandleNewDataAvailable;
 			_model.NewStatisticsAvailable += HandleNewDataAvailable;
 		}
@@ -54,14 +75,9 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		private void UpdateStatusDisplay()
 		{
-			var showWorking = !_model.IsDataUpToDate;
-			var showRefreshButton = !showWorking;
-
-			if (showRefreshButton != _buttonRefresh.Visible)
-				_buttonRefresh.Visible = showRefreshButton;
-
-			if (_panelWorking.Visible != showWorking)
-				_panelWorking.Visible = showWorking;
+			var showRefreshButton = _model.IsDataUpToDate;
+			_buttonRefresh.Visible = showRefreshButton;
+			_panelWorking.Visible = !showRefreshButton;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -100,19 +116,19 @@ namespace SayMore.UI.Overview.Statistics
 
 			var regKey = Registry.CurrentUser.OpenSubKey(regKeyPath, true);
 			var isIEPageSetupSetToPrintingBkgndColor =
-				((string)regKey.GetValue("Print_Background", "no")).ToLowerInvariant() == "yes";
+				regKey != null && ((string)regKey.GetValue("Print_Background", "no")).ToLowerInvariant() == "yes";
 
 			if (!isIEPageSetupSetToPrintingBkgndColor)
-				regKey.SetValue("Print_Background", "yes", RegistryValueKind.String);
+				if (regKey != null) regKey.SetValue("Print_Background", "yes", RegistryValueKind.String);
 #endif
 
 			_webBrowser.ShowPrintDialog();
 
 #if !__MonoCS__
 			if (!isIEPageSetupSetToPrintingBkgndColor)
-				regKey.SetValue("Print_Background", "no", RegistryValueKind.String);
+				if (regKey != null) regKey.SetValue("Print_Background", "no", RegistryValueKind.String);
 
-			regKey.Close();
+			if (regKey != null) regKey.Close();
 #endif
 		}
 
@@ -127,7 +143,7 @@ namespace SayMore.UI.Overview.Statistics
 			using (var dlg = new System.Windows.Forms.SaveFileDialog())
 			{
 				dlg.DefaultExt = "html";
-				dlg.Filter = "HTML File (*.html)|*.html|All Files (*.*)|*.*";
+				dlg.Filter = @"HTML File (*.html)|*.html|All Files (*.*)|*.*";
 				dlg.FileName = Path.ChangeExtension(_webBrowser.DocumentTitle, "html");
 				dlg.OverwritePrompt = true;
 				if (dlg.ShowDialog() == DialogResult.OK)

@@ -177,6 +177,8 @@ namespace SayMore.Transcription.UI
 				if (_waveControl != null)
 					_waveControl.Dispose();
 				AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrown;
+
+				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 			}
 
 			base.Dispose(disposing);

@@ -54,8 +54,16 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (components != null))
-				components.Dispose();
+			if (disposing)
+			{
+				if (components != null)
+					components.Dispose();
+				if (_statsView != null)
+				{
+					_statsView.Dispose();
+					_statsView = null;
+				}
+			}
 
 			base.Dispose(disposing);
 		}

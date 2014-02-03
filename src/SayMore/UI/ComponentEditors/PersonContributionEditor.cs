@@ -1,6 +1,5 @@
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -23,6 +22,7 @@ namespace SayMore.UI.ComponentEditors
 
 		private BetterGrid _grid;
 		private string _personId;
+		private string _personCode;
 
 		private static readonly OlacSystem OlacSystem = new OlacSystem();
 
@@ -37,8 +37,6 @@ namespace SayMore.UI.ComponentEditors
 
 			// do this to set the Associated Sessions the first time because the project might not be loaded yet
 			GetDataInBackground();
-
-
 		}
 
 		private void GetDataInBackground()
@@ -102,7 +100,8 @@ namespace SayMore.UI.ComponentEditors
 
 		void Program_PersonDataChanged()
 		{
-			GetDataInBackground();
+			//GetDataInBackground();
+			LoadAssociatedSessionsAndFiles();
 		}
 
 		void _grid_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
@@ -122,8 +121,6 @@ namespace SayMore.UI.ComponentEditors
 
 			_grid.Rows.Clear();
 
-			var personCode = _file.GetStringValue("code", null);
-
 			foreach (var session in project.GetAllSessions())
 			{
 				var person = session.GetAllPersonsInSession().FirstOrDefault(p => p.Id == _personId);
@@ -142,7 +139,7 @@ namespace SayMore.UI.ComponentEditors
 				// get the files for this session
 				var files = Directory.GetFiles(session.FolderPath, "*" + Settings.Default.MetadataFileExtension);
 				var searchForId = "<name>" + _personId + "</name>";
-				var searchForCode = (string.IsNullOrEmpty(personCode) ? null : "<name>" + personCode + "</name>");
+				var searchForCode = (string.IsNullOrEmpty(_personCode) ? null : "<name>" + _personCode + "</name>");
 
 				foreach (var file in files)
 				{
@@ -226,6 +223,7 @@ namespace SayMore.UI.ComponentEditors
 		private void RememberPersonId(ComponentFile file)
 		{
 			_personId = file.FileName.Substring(0, file.FileName.Length - Settings.Default.PersonFileExtension.Length);
+			_personCode = file.GetStringValue("code", null);
 		}
 	}
 }

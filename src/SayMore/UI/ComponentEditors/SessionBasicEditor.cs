@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
@@ -29,6 +31,7 @@ namespace SayMore.UI.ComponentEditors
 		private readonly AutoCompleteValueGatherer _autoCompleteProvider;
 		private bool _genreFieldEntered;
 		private List<AccessOption> _accessOptions;
+		private DataGridViewComboBoxEditingControl _moreFieldsComboBox;
 
 		/// ------------------------------------------------------------------------------------
 		public SessionBasicEditor(ComponentFile file, string imageKey,
@@ -163,6 +166,7 @@ namespace SayMore.UI.ComponentEditors
 			// social context cell
 			AddDropdownCell(ListType.ContentSocialContext, 8);
 
+			_gridAdditionalFields.EditingControlShowing += _gridAdditionalFields_EditingControlShowing;
 			// custom fields grid
 			_gridViewModel = new CustomFieldsValuesGridViewModel(_file, autoCompleteProvider,
 				fieldGatherer);
@@ -171,6 +175,79 @@ namespace SayMore.UI.ComponentEditors
 			_panelGrid.AutoSize = true;
 			_panelGrid.Controls.Add(_gridCustomFields);
 		}
+
+		#region Methods to support display of tool-tips for long items in combo-boxes for "additional fields"
+		void _gridAdditionalFields_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+		{
+			_gridAdditionalFields.CurrentCell.ToolTipText = string.Empty;
+
+			if (_moreFieldsComboBox != null)
+			{
+				if (_moreFieldsToolTip.Active)
+					_moreFieldsToolTip.Hide(_moreFieldsComboBox);
+
+				if (_moreFieldsComboBox.IsDisposed)
+					_moreFieldsComboBox = null;
+				else
+				{
+					_moreFieldsComboBox.DrawItem -= HandleMoreFieldsComboDrawItem;
+					_moreFieldsComboBox.DropDown -= HandleMoreFieldsComboDropDown;
+				}
+			}
+
+			_moreFieldsComboBox = e.Control as DataGridViewComboBoxEditingControl;
+			if (_moreFieldsComboBox == null)
+				return;
+
+			bool hasDefinitions = _moreFieldsComboBox.Items.Cast<IMDIListItem>().Any(item => !string.IsNullOrEmpty(item.Definition));
+			if (!hasDefinitions)
+			{
+				_moreFieldsComboBox = null;
+				return;
+			}
+
+			_moreFieldsComboBox.DrawMode = DrawMode.OwnerDrawFixed;
+			_moreFieldsComboBox.DrawItem += HandleMoreFieldsComboDrawItem;
+			_moreFieldsComboBox.DropDown += HandleMoreFieldsComboDropDown;
+		}
+
+		void HandleMoreFieldsComboDropDownClosed(object sender, EventArgs e)
+		{
+			var selectedItem = _moreFieldsComboBox.SelectedItem as IMDIListItem;
+			if (selectedItem != null && selectedItem.Definition != selectedItem.Text)
+				_gridAdditionalFields.CurrentCell.ToolTipText = selectedItem.Definition;
+			_moreFieldsToolTip.Hide(_moreFieldsComboBox);
+			_moreFieldsComboBox.DropDownClosed -= HandleMoreFieldsComboDropDownClosed;
+		}
+
+		void HandleMoreFieldsComboDropDown(object sender, EventArgs e)
+		{
+			_moreFieldsComboBox.DropDownClosed += HandleMoreFieldsComboDropDownClosed;
+			_gridAdditionalFields.CurrentCell.ToolTipText = string.Empty;
+		}
+
+		void HandleMoreFieldsComboDrawItem(object sender, DrawItemEventArgs e)
+		{
+			e.DrawBackground();
+			string text = _moreFieldsComboBox.GetItemText(_moreFieldsComboBox.Items[e.Index]);
+			using (SolidBrush br = new SolidBrush(e.ForeColor))
+			{
+				e.Graphics.DrawString(text, e.Font, br, e.Bounds);
+			}
+			if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+			{
+				var toolTipText = ((IMDIListItem)_moreFieldsComboBox.Items[e.Index]).Definition;
+				if (toolTipText != text && _gridAdditionalFields.CurrentRow != null && _moreFieldsComboBox.DroppedDown)
+				{
+					_moreFieldsToolTip.Show(toolTipText, _moreFieldsComboBox, e.Bounds.Right,
+						e.Bounds.Bottom + _gridAdditionalFields.CurrentRow.Height + 5);
+				}
+				else
+					_moreFieldsToolTip.Hide(_moreFieldsComboBox);
+			}
+			e.DrawFocusRectangle();
+		}
+		#endregion
 
 		/// <summary>This gives a more helpful exception output than the default DataGrid error message</summary>
 		void _gridAdditionalFields_DataError(object sender, DataGridViewDataErrorEventArgs e)

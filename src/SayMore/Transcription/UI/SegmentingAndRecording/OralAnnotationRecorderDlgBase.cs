@@ -14,7 +14,6 @@ using SayMore.Media.Audio;
 using SayMore.Media.MPlayer;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using Timer = System.Windows.Forms.Timer;
 
 namespace SayMore.Transcription.UI
 {
@@ -36,14 +35,11 @@ namespace SayMore.Transcription.UI
 			DoNotAdvance,
 		}
 
-		private readonly ToolTip _tooltip = new ToolTip();
 		private PeakMeterCtrl _peakMeter;
 		private RecordingDeviceIndicator _recDeviceIndicator;
 		private string _recordingErrorMessage;
-		private Image _hotPlayInSegmentButton;
 		private Image _hotPlaySourceButton;
 		private Image _hotRecordAnnotationButton;
-		private Image _normalPlayInSegmentButton;
 		private Image _normalPlaySourceButton;
 		private Image _normalRecordAnnotationButton;
 		private Image _normalRerecordAnnotationButton;
@@ -62,7 +58,6 @@ namespace SayMore.Transcription.UI
 		private bool _userHasListenedToSelectedSegment;
 		private SpaceBarMode _spaceBarMode;
 		private readonly Color _selectedSegmentHighlighColor = Color.Moccasin;
-		private Size _playButtonSize = Resources.ListenToSegmentsAnnotation.Size;
 		private AdvanceOptionsAfterRecording _advanceOption;
 
 		protected WaveControlWithRangeSelection _waveControl;
@@ -329,11 +324,9 @@ namespace SayMore.Transcription.UI
 			if (_moreReliableDesignMode)
 				return;
 
-			_normalPlayInSegmentButton = Resources.ListenToSegmentsAnnotation;
 			_normalPlaySourceButton = _labelListenButton.Image;
 			_normalRecordAnnotationButton = _labelRecordButton.Image;
 			_normalRerecordAnnotationButton = Resources.RerecordOralAnnotation;
-			_hotPlayInSegmentButton = PaintingHelper.MakeHotImage(_normalPlayInSegmentButton);
 			_hotPlaySourceButton = PaintingHelper.MakeHotImage(_normalPlaySourceButton);
 			_hotRecordAnnotationButton = PaintingHelper.MakeHotImage(_normalRecordAnnotationButton);
 			_hotRerecordAnnotationButton = PaintingHelper.MakeHotImage(_normalRerecordAnnotationButton);
@@ -417,9 +410,6 @@ namespace SayMore.Transcription.UI
 			_waveControl.BottomReservedAreaColor = _tableLayoutRecordAnnotations.BackColor;
 
 			_waveControl.BottomReservedAreaPaintAction = HandlePaintingAnnotatedWaveArea;
-			_waveControl.PostPaintAction = HandleWaveControlPostPaint;
-			_waveControl.MouseLeave += HandleWaveControlMouseLeave;
-			_waveControl.MouseClick += HandleWaveControlMouseClick;
 			_waveControl.MouseDown += HandleWaveControlMouseDown;
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
 			_waveControl.PlaybackStarted += delegate { KillRecordingErrorMessage(); };
@@ -496,6 +486,18 @@ namespace SayMore.Transcription.UI
 			set { Settings.Default.ZoomPercentageInAnnotationRecordingDlg = value; }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>Overridden to allow play button and Ignore checkbox to be displayed in
+		/// the rectanlge for the segment being defined (not yet a real segment)</summary>
+		/// ------------------------------------------------------------------------------------
+		protected override Rectangle HotRectangleBeyondFinalSegment
+		{
+			get
+			{
+				var rc = GetRectangleForTimeRangeBeyondEndOfLastSegment(_viewModel.VirtualBoundaryBeyondLastSegment);
+				return rc.Contains(MousePositionInWaveControl) ? rc : base.HotRectangleBeyondFinalSegment;
+			}
+		}
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -807,81 +809,64 @@ namespace SayMore.Transcription.UI
 			if (ViewModel.GetIsRecording())
 				return;
 
-			base.HandleWaveControlMouseMove(sender, e);
-			_waveControl.InvalidateIfNeeded(PlayOrigButtonRectangle);
 			_waveControl.InvalidateIfNeeded(PlayAnnotationButtonRectangle);
-
 			_waveControl.InvalidateIfNeeded(GetRerecordButtonRectangleForSegmentMouseIsOver());
 
-			var segMouseOver = _waveControl.GetSegmentForX(e.X);
+			base.HandleWaveControlMouseMove(sender, e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override string GetWaveControlToolTip(Point mouseLocation)
+		{
+			var segMouseOver = _waveControl.GetSegmentForX(mouseLocation.X);
 
 			if (segMouseOver >= 0)
 			{
-				if (PlayOrigButtonRectangle.Contains(e.Location))
+				if (PlayOrigButtonRectangle.Contains(mouseLocation))
 				{
-					var toolTipText = LocalizationManager.GetString(
-						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayOriginalToolTipMsg",
-						"Listen to this segment.");
+					var toolTipText = base.GetWaveControlToolTip(mouseLocation);
 					if (ViewModel.CurrentUnannotatedSegment != null &&
 						ViewModel.GetSegment(segMouseOver) == ViewModel.CurrentUnannotatedSegment &&
 						_labelListenButton.Enabled)
 					{
 						toolTipText += " " + LocalizationManager.GetString(
-						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayOriginalShortcutToolTipHint",
-						"Keyboard shortcut: 'b'");
+							"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayOriginalShortcutToolTipHint",
+							"Keyboard shortcut: 'b'");
 					}
-					if (_tooltip.GetToolTip(_waveControl) != toolTipText)
-						_tooltip.SetToolTip(_waveControl, toolTipText);
-					return;
+					return toolTipText;
 				}
-				if (PlayAnnotationButtonRectangle.Contains(e.Location))
+				if (PlayAnnotationButtonRectangle.Contains(mouseLocation))
 				{
-					var toolTipText = LocalizationManager.GetString(
+					return LocalizationManager.GetString(
 						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayAnnotationToolTipMsg",
 						"Listen to this annotation.");
-					if (_tooltip.GetToolTip(_waveControl) != toolTipText)
-						_tooltip.SetToolTip(_waveControl, toolTipText);
-					return;
 				}
 				if (!ViewModel.GetDoesSegmentHaveAnnotationFile(segMouseOver))
 				{
-					var toolTipText = (ViewModel.GetIsSegmentIgnored(segMouseOver)) ?
+					return (ViewModel.GetIsSegmentIgnored(segMouseOver)) ?
 						LocalizationManager.GetString(
 							"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.SkippedSegmentToolTipMsg",
 							"This segment was skipped.") :
 						LocalizationManager.GetString(
 							"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.NoAnnotationToolTipMsg",
 							"This segment does not have a recorded annotation.");
-
-					if (_tooltip.GetToolTip(_waveControl) != toolTipText)
-						_tooltip.SetToolTip(_waveControl, toolTipText);
-					return;
 				}
-				if (GetRerecordButtonRectangleForSegmentMouseIsOver().Contains(e.Location))
+				if (GetRerecordButtonRectangleForSegmentMouseIsOver().Contains(mouseLocation))
 				{
-					if (_tooltip.GetToolTip(_waveControl) == string.Empty)
-					{
-						_tooltip.SetToolTip(_waveControl, LocalizationManager.GetString(
+					return LocalizationManager.GetString(
 						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RerecordAnnotationToolTipMsg",
-						"To erase the recorded annotation for this segment and record a new one, press and hold this button."));
-					}
-					return;
+						"To erase the recorded annotation for this segment and record a new one, press and hold this button.");
 				}
 			}
 
-			if (_tooltip.GetToolTip(_waveControl) != string.Empty)
-				_tooltip.SetToolTip(_waveControl, string.Empty);
+			return base.GetWaveControlToolTip(mouseLocation);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleWaveControlMouseLeave(object sender, EventArgs e)
+		protected override void HandleWaveControlMouseClick(object sender, MouseEventArgs e)
 		{
-			_tooltip.SetToolTip(_waveControl, string.Empty);
-		}
+			// Don't call base.
 
-		/// ------------------------------------------------------------------------------------
-		private void HandleWaveControlMouseClick(object sender, MouseEventArgs e)
-		{
 			if (ViewModel.GetIsRecording())
 				return;
 
@@ -933,7 +918,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void PlaySource(Segment segment)
+		protected override void PlaySource(Segment segment)
 		{
 			ViewModel.PlaySource(_waveControl, ctrl =>
 				{
@@ -999,6 +984,12 @@ namespace SayMore.Transcription.UI
 		private Rectangle GetBottomReservedRectangleForSegment(Segment segment)
 		{
 			return _waveControl.Painter.GetBottomReservedRectangleForTimeRange(segment.TimeRange);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override int MarginFromBottomOfPlayOrigButton
+		{
+			get { return base.MarginFromBottomOfPlayOrigButton + AnnotationAreaHeight; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1287,8 +1278,10 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleWaveControlPostPaint(PaintEventArgs e)
+		protected override void HandleWaveControlPostPaint(PaintEventArgs e)
 		{
+			// Don't call base.
+
 			if (!ViewModel.GetIsRecording())
 			{
 				DrawPlayButtonInSegment(e.Graphics, PlayOrigButtonRectangle);
@@ -1434,20 +1427,6 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void DrawPlayButtonInSegment(Graphics g, Rectangle rc)
-		{
-			if (rc == Rectangle.Empty)
-				return;
-
-			var img = _normalPlayInSegmentButton;
-
-			if (rc.Contains(MousePositionInWaveControl))
-				img = _hotPlayInSegmentButton;
-
-			g.DrawImage(img, rc);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void DrawRerecordButtonInSegment(Graphics g)
 		{
 			var rerecordButtonRect = GetRerecordButtonRectangleForSegmentMouseIsOver();
@@ -1458,12 +1437,6 @@ namespace SayMore.Transcription.UI
 				_hotRerecordAnnotationButton : _normalRerecordAnnotationButton;
 
 			g.DrawImage(img, rerecordButtonRect);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal Size PlayButtonSize
-		{
-			get { return _normalPlayInSegmentButton.Size; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1785,26 +1758,6 @@ namespace SayMore.Transcription.UI
 		protected override TimeRange CurrentTimeRange
 		{
 			get { return WavePainter.DefaultSelectedRange; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private Rectangle PlayOrigButtonRectangle
-		{
-			get
-			{
-				return GetPlayOrigButtonRectangleForSegment(HotSegmentRectangle);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private Rectangle GetPlayOrigButtonRectangleForSegment(Rectangle rc)
-		{
-			if (rc.IsEmpty || _playButtonSize.Width + 6 > rc.Width)
-				return Rectangle.Empty;
-
-			return new Rectangle(rc.X + 6,
-				rc.Bottom - AnnotationAreaHeight - 5 - _playButtonSize.Height,
-				_playButtonSize.Width, _playButtonSize.Height);
 		}
 
 		/// ------------------------------------------------------------------------------------

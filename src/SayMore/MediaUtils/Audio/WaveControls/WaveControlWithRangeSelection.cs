@@ -9,9 +9,6 @@ namespace SayMore.Media.Audio
 {
 	public class WaveControlWithRangeSelection : WaveControlWithMovableBoundaries
 	{
-		public delegate void SelectedRegionChangedHandler(
-			WaveControlWithRangeSelection wavCtrl, TimeRange newTimeRange);
-
 		public bool SelectSegmentOnMouseOver { get; set; }
 
 		private bool _saveStateOfSelectSegmentOnMouseOver;
@@ -44,24 +41,6 @@ namespace SayMore.Media.Audio
 
 			if (!TimeRange.IsNullOrZeroLength(timeRange))
 				base.Play(timeRange);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public int GetSegmentForX(int dx)
-		{
-			var timeAtX = GetTimeFromX(dx);
-
-			int segNumber = 0;
-
-			foreach (var boundary in SegmentBoundaries)
-			{
-				if (timeAtX <= boundary)
-					return segNumber;
-
-				segNumber++;
-			}
-
-			return -1;
 		}
 
 		/// ------------------------------------------------------------------------------------

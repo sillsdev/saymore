@@ -2125,7 +2125,7 @@ l'enregistrement de la source.</seg>
         <seg>Écouter cette annotation.</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayOriginalToolTipMsg">
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.PlayOriginalToolTipMsg">
       <tuv xml:lang="en">
         <seg>Listen to this segment.</seg>
       </tuv>

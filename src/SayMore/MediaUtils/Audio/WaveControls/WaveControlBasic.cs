@@ -526,6 +526,24 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public int GetSegmentForX(int dx)
+		{
+			var timeAtX = GetTimeFromX(dx);
+
+			int segNumber = 0;
+
+			foreach (var boundary in SegmentBoundaries)
+			{
+				if (timeAtX <= boundary)
+					return segNumber;
+
+				segNumber++;
+			}
+
+			return -1;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public IEnumerable<Rectangle> GetChannelDisplayRectangles()
 		{
 			return (Painter == null ? new Rectangle[0] :

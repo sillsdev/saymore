@@ -31,6 +31,7 @@ namespace SayMore.Transcription.UI
 			Manual,
 		}
 
+		protected readonly ToolTip _tooltip = new ToolTip();
 		protected readonly SegmenterDlgBaseViewModel _viewModel;
 		protected string _segmentNumberFormat;
 		protected string _segmentXofYFormat;
@@ -39,6 +40,11 @@ namespace SayMore.Transcription.UI
 		protected bool _moreReliableDesignMode;
 		private WaveControlBasic _waveControl;
 		protected SegmentDefinitionMode _newSegmentDefinedBy;
+
+		private Image _hotPlayInSegmentButton;
+		private Image _normalPlayInSegmentButton;
+		protected Size _playButtonSize = Resources.ListenToSegment.Size;
+		private Rectangle _lastPlayButtonRc;
 
 		public event Action SegmentIgnored;
 
@@ -103,6 +109,9 @@ namespace SayMore.Transcription.UI
 			_tableLayoutOuter.RowStyles.Add(new RowStyle(SizeType.Absolute, HeightOfTableLayoutButtonRow));
 			_tableLayoutOuter.RowStyles.Add(new RowStyle());
 
+			_normalPlayInSegmentButton = Resources.ListenToSegment;
+			_hotPlayInSegmentButton = PaintingHelper.MakeHotImage(_normalPlayInSegmentButton);
+
 			_waveControl = CreateWaveControl();
 			InitializeWaveControl();
 			_waveControl.Dock = DockStyle.Fill;
@@ -157,10 +166,13 @@ namespace SayMore.Transcription.UI
 			_waveControl.Initialize(_viewModel.OrigWaveStream as WaveFileReader);
 			_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
 			_waveControl.Painter.SetIgnoredRegions(_viewModel.GetIgnoredSegmentRanges());
+			_waveControl.PostPaintAction = HandleWaveControlPostPaint;
 			_waveControl.PlaybackStarted += OnPlaybackStarted;
 			_waveControl.PlaybackUpdate += OnPlayingback;
 			_waveControl.PlaybackStopped += OnPlaybackStopped;
 			_waveControl.MouseMove += HandleWaveControlMouseMove;
+			_waveControl.MouseLeave += HandleWaveControlMouseLeave;
+			_waveControl.MouseClick += HandleWaveControlMouseClick;
 			_waveControl.Controls.Add(_currentSegmentMenuStrip);
 			_currentSegmentMenuStrip.UseWaitCursor = false;
 			_waveControl.Controls.Add(_lastSegmentMenuStrip);
@@ -237,6 +249,33 @@ namespace SayMore.Transcription.UI
 			get { return 0; }
 		}
 
+
+		/// ------------------------------------------------------------------------------------
+		protected Rectangle PlayOrigButtonRectangle
+		{
+			get
+			{
+				return GetPlayOrigButtonRectangleForSegment(HotSegmentRectangle);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected Rectangle GetPlayOrigButtonRectangleForSegment(Rectangle rc)
+		{
+			if (rc.IsEmpty || _playButtonSize.Width + 6 > rc.Width)
+				return Rectangle.Empty;
+
+			return new Rectangle(rc.X + 6,
+				rc.Bottom - MarginFromBottomOfPlayOrigButton - _playButtonSize.Height,
+				_playButtonSize.Width, _playButtonSize.Height);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual int MarginFromBottomOfPlayOrigButton
+		{
+			get { return 5; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		internal Rectangle GetFullRectangleForTimeRange(TimeRange timeRange)
 		{
@@ -286,10 +325,16 @@ namespace SayMore.Transcription.UI
 				if (hotSegment != null)
 					return GetFullRectangleForTimeRange(hotSegment.TimeRange);
 
-				var rc = GetRectangleForTimeRangeBeyondEndOfLastSegment(_viewModel.VirtualBoundaryBeyondLastSegment);
-				return rc.Contains(MousePositionInWaveControl) ? rc : Rectangle.Empty;
+				return HotRectangleBeyondFinalSegment;
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual Rectangle HotRectangleBeyondFinalSegment
+		{
+			get { return Rectangle.Empty; }
+		}
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -450,19 +495,40 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleWaveControlPostPaint(PaintEventArgs e)
+		{
+			_lastPlayButtonRc = PlayOrigButtonRectangle;
+			DrawPlayButtonInSegment(e.Graphics, _lastPlayButtonRc);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void DrawPlayButtonInSegment(Graphics g, Rectangle rc)
+		{
+			if (rc == Rectangle.Empty)
+				return;
+
+			var img = _normalPlayInSegmentButton;
+
+			if (rc.Contains(MousePositionInWaveControl))
+				img = _hotPlayInSegmentButton;
+
+			g.DrawImage(img, rc);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleWaveControlMouseMove(object sender, MouseEventArgs e)
 		{
 			bool enableIgnoreMenu = false;
-			var rc = HotSegmentRectangle;
-			if (rc != Rectangle.Empty)
+			var rcHotSegment = HotSegmentRectangle;
+			if (rcHotSegment != Rectangle.Empty)
 			{
 				if (!_waveControl.IsPlaying)
 				{
 					enableIgnoreMenu = true;
 
-					var currentSegmentMenuStripLocation = new Point(Math.Max(0, rc.Right -
-						_currentSegmentMenuStrip.Width - Math.Min(5, (rc.Width - _currentSegmentMenuStrip.Width) / 2)),
-						rc.Top + 5);
+					var currentSegmentMenuStripLocation = new Point(Math.Max(0, rcHotSegment.Right -
+						_currentSegmentMenuStrip.Width - Math.Min(5, (rcHotSegment.Width - _currentSegmentMenuStrip.Width) / 2)),
+						rcHotSegment.Top + 5);
 
 					var hotSegment = HotSegment;
 
@@ -472,7 +538,7 @@ namespace SayMore.Transcription.UI
 						hotSegment != null && _viewModel.TimeRangeForUndo == hotSegment.TimeRange)
 					{
 
-						if (rc.Width > _lastSegmentMenuStrip.Width + _currentSegmentMenuStrip.Width + 15)
+						if (rcHotSegment.Width > _lastSegmentMenuStrip.Width + _currentSegmentMenuStrip.Width + 15)
 							currentSegmentMenuStripLocation.Offset(-(_lastSegmentMenuStrip.Width + 5), 0); // shift left
 						else
 							currentSegmentMenuStripLocation.Offset(0, _lastSegmentMenuStrip.Height + 5); // shift down
@@ -484,6 +550,65 @@ namespace SayMore.Transcription.UI
 				}
 			}
 			_currentSegmentMenuStrip.Visible = _ignoreToolStripMenuItem.Enabled = enableIgnoreMenu;
+			var rcPlayOrigButton = PlayOrigButtonRectangle;
+			if (rcPlayOrigButton != _lastPlayButtonRc)
+				_waveControl.InvalidateIfNeeded(_lastPlayButtonRc);
+			_waveControl.InvalidateIfNeeded(PlayOrigButtonRectangle);
+
+			var toolTipText = GetWaveControlToolTip(e.Location);
+			if (_tooltip.GetToolTip(_waveControl) != toolTipText)
+				_tooltip.SetToolTip(_waveControl, toolTipText);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual string GetWaveControlToolTip(Point mouseLocation)
+		{
+			var segMouseOver = _waveControl.GetSegmentForX(mouseLocation.X);
+
+			if (segMouseOver >= 0)
+			{
+				if (PlayOrigButtonRectangle.Contains(mouseLocation))
+				{
+					return LocalizationManager.GetString(
+						"DialogBoxes.Transcription.SegmenterDlgBase.PlayOriginalToolTipMsg",
+						"Listen to this segment.");
+				}
+			}
+
+			return string.Empty;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleWaveControlMouseLeave(object sender, EventArgs e)
+		{
+			_tooltip.SetToolTip(_waveControl, string.Empty);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleWaveControlMouseClick(object sender, MouseEventArgs e)
+		{
+			bool playSource = PlayOrigButtonRectangle.Contains(e.Location);
+			if (!playSource)
+				return;
+
+			int iSegment = _waveControl.GetSegmentForX(e.X);
+
+			if (iSegment >= 0)
+			{
+				var segment = _viewModel.GetSegment(iSegment);
+				PlaySource(segment);
+			}
+			else
+			{
+				_waveControl.Play(_viewModel.TimeTier.EndOfLastSegment);
+			}
+			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void PlaySource(Segment segment)
+		{
+			_waveControl.Play(segment.TimeRange);
 		}
 
 		/// ------------------------------------------------------------------------------------

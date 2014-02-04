@@ -166,7 +166,7 @@ namespace SayMore.UI.ElementListScreen
 			base.OnCellMouseLeave(e);
 
 			// because it is failing on TeamCity
-			if ((e.RowIndex < 0) || (e.RowIndex >= Columns.Count)) return;
+			if ((e.RowIndex < 0) || (e.RowIndex >= Rows.Count)) return;
 
 			if (Columns[e.ColumnIndex].DataPropertyName == SessionFileType.kStagesFieldName)
 				_tooltip.Hide();

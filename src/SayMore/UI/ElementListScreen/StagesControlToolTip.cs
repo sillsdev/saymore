@@ -120,6 +120,13 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnMouseEnter(EventArgs e)
+		{
+			Hide();
+			base.OnMouseEnter(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Draw a subtle border around the window.
 		/// </summary>

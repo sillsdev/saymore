@@ -30,19 +30,26 @@ namespace SayMore.Model.Files
 		public ProjectElementComponentFile(){}
 
 		/// ------------------------------------------------------------------------------------
-		public override string GetStringValue(string key, string defaultValue)
+		public string GetStringValue(string key, string defaultValue, bool localized)
 		{
 			if (key == SessionFileType.kStatusFieldName)
 			{
 				var value = base.GetStringValue(key, ParentElement.DefaultStatusValue);
-				return Session.GetLocalizedStatus(value);
+				return localized ? Session.GetLocalizedStatus(value) : value;
 			}
 			if (key == SessionFileType.kGenreFieldName)
 			{
-				return GenreDefinition.TranslateIdToName(base.GetStringValue(key, defaultValue));
+				var value = base.GetStringValue(key, defaultValue);
+				return localized ? GenreDefinition.TranslateIdToName(value) : value;
 			}
 
 			return (key != "id" ? base.GetStringValue(key, defaultValue) : ParentElement.Id);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string GetStringValue(string key, string defaultValue)
+		{
+			return GetStringValue(key, defaultValue, true);
 		}
 
 		/// ------------------------------------------------------------------------------------

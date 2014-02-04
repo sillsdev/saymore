@@ -38,8 +38,8 @@ namespace SayMore.UI.ElementListScreen
 		{
 			if (fieldName == SessionFileType.kStatusFieldName)
 			{
-				var value = base.GetValueForField(element, fieldName);
-				return Resources.ResourceManager.GetObject("Status" + Session.GetStatusAsEnumParsableString((string)value));
+				var value = element.MetaDataFile.GetStringValue(fieldName, string.Empty, false);
+				return Resources.ResourceManager.GetObject("Status" + Session.GetStatusAsEnumParsableString(value));
 			}
 
 			if (fieldName == SessionFileType.kStagesFieldName)
@@ -59,7 +59,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			if (fieldName == SessionFileType.kStatusFieldName)
 			{
-				var statusString = base.GetValueForField(element, fieldName) as string;
+				var statusString = element.MetaDataFile.GetStringValue(fieldName, string.Empty, false);
 				var status = (Session.Status)Enum.Parse(typeof(Session.Status), Session.GetStatusAsEnumParsableString(statusString));
 				return (int)status;
 			}
@@ -178,8 +178,7 @@ namespace SayMore.UI.ElementListScreen
 			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 &&
 				Columns[e.ColumnIndex].DataPropertyName == SessionFileType.kStatusFieldName)
 			{
-				var value = base.GetValueForField(_items.ElementAt(e.RowIndex), SessionFileType.kStatusFieldName);
-				var statusText = Session.GetLocalizedStatus(value as string);
+				var statusText = base.GetValueForField(_items.ElementAt(e.RowIndex), SessionFileType.kStatusFieldName);
 
 				e.ToolTipText = string.Format(
 					LocalizationManager.GetString("SessionsView.SessionStatus.TooltipFormatText", "Status: {0}"), statusText);

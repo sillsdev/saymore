@@ -381,9 +381,9 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap ListenToSegmentsAnnotation {
+        internal static System.Drawing.Bitmap ListenToSegment {
             get {
-                object obj = ResourceManager.GetObject("ListenToSegmentsAnnotation", resourceCulture);
+                object obj = ResourceManager.GetObject("ListenToSegment", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -452,6 +452,13 @@ namespace SayMore.Transcription.UI
 				new WaveFileReader(audioFilePath));
 		}
 
+		/// ----------------------------------------------------------------------------------------
+		public Segment GetSegment(int index)
+		{
+			return (index < 0 || index >= TimeTier.Segments.Count ?
+				null : TimeTier.Segments[index]);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<TimeSpan> GetSegmentEndBoundaries()
 		{

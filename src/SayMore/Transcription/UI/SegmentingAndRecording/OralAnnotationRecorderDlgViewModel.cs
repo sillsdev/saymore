@@ -119,13 +119,6 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		#region Segment-related methods
-		/// ----------------------------------------------------------------------------------------
-		public Segment GetSegment(int index)
-		{
-			return (index < 0 || index >= TimeTier.Segments.Count ?
-				null : TimeTier.Segments[index]);
-		}
-
 		/// ------------------------------------------------------------------------------------
 		protected override bool UpdateSegmentBoundary(TimeSpan oldEndTime, TimeSpan newEndTime)
 		{

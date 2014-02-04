@@ -5323,7 +5323,7 @@
         <seg>Método abreviado de teclado: 'b'</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayOriginalToolTipMsg">
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.PlayOriginalToolTipMsg">
       <tuv xml:lang="en">
         <seg>Listen to this segment.</seg>
       </tuv>
@@ -6171,15 +6171,6 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Persona</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView.MetadataEditor._labelAge">
-      <prop type="x-nolongerused">true</prop>
-      <tuv xml:lang="en">
-        <seg>Age</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Edad</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelBirthYear">

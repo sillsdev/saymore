@@ -37,7 +37,7 @@ namespace SayMoreTests.Model
 				return new ProjectElementComponentFile(w, x, y, z,
 					FieldUpdater.CreateMinimalFieldUpdaterForTests(null));
 
-			}, null,null);
+			}, null, null, null);
 		}
 
 		private void SaveAndChangeIdShouldSucceed(Session session)

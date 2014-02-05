@@ -211,7 +211,7 @@ namespace SayMoreTests.Utilities
 		public DummySession(string parentFolder, string name, PersonInformant personInformant, params string [] actors) : base(parentFolder, name + "-session", null, new SessionFileType(() => null, () => null),
 				MakeComponent, new XmlFileSerializer(null), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
-					ApplicationContainer.ComponentRoles, personInformant)
+					ApplicationContainer.ComponentRoles, personInformant, null)
 		{
 			if (actors == null || actors.Length == 0)
 				_participants = new[] {"ddo-person"};

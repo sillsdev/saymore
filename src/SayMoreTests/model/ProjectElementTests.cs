@@ -54,7 +54,7 @@ namespace SayMoreTests.Model
 			return new Session(parentFolderPath, name, null, new SessionFileType(() => null, () => null),
 				MakeComponent, new XmlFileSerializer(null), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
-					ApplicationContainer.ComponentRoles, null);
+					ApplicationContainer.ComponentRoles, null, null);
 		}
 
 		private Person CreatePerson()

@@ -53,6 +53,18 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>Sets the gievn string value and returns whether it was set exactly as
+		/// requested.</summary>
+		/// <returns><c>false</c> if the value is changed or the set operation fails</returns>
+		/// ------------------------------------------------------------------------------------
+		public virtual bool TrySetStringValue(string key, string newValue)
+		{
+			string failureMessage;
+			return (SetStringValue(key, newValue, out failureMessage) == newValue &&
+				string.IsNullOrEmpty(failureMessage));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override string SetStringValue(string key, string newValue, out string failureMessage)
 		{
 			if (key == SessionFileType.kStatusFieldName)

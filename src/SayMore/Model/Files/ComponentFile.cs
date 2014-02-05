@@ -189,7 +189,9 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public DateTime GetCreateDate()
+		/// <remarks>Virtual to support overload in mock for testing</remarks>
+		/// ------------------------------------------------------------------------------------
+		public virtual DateTime GetCreateDate()
 		{
 			var fi = new FileInfo(PathToAnnotatedFile);
 			return fi.CreationTime;

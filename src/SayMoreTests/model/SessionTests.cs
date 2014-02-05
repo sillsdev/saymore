@@ -3,9 +3,9 @@ using System.Drawing;
 using System.IO;
 using Moq;
 using NUnit.Framework;
-using Palaso.IO;
 using Palaso.TestUtilities;
 using SayMore.Model;
+using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using System.Linq;
 using System.Collections.Generic;
@@ -13,10 +13,14 @@ using SayMore.Utilities;
 
 namespace SayMoreTests.Model
 {
+	/// <summary>
+	/// NOTE: MUCH OF THE BEHAVIOR IS IN THE BASE CLASS, AND TESTED THERE
+	/// </summary>
 	[TestFixture]
 	public class SessionTests
 	{
 		private TemporaryFolder _parentFolder;
+		private Mock<ProjectElementComponentFile> _mockedSessionMetaDataFile;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
@@ -31,29 +35,38 @@ namespace SayMoreTests.Model
 		{
 			_parentFolder.Dispose();
 			_parentFolder = null;
+			_mockedSessionMetaDataFile = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private Session CreateSession(IEnumerable<string> participants)
+		private Session CreateSession(IEnumerable<string> participants,
+			Project project = null, Action<Mock<ProjectElementComponentFile>> additionalSetup = null)
 		{
 			ProjectElementComponentFile.Factory factory = (parentElement, fileType, fileSerializer, rootElementName) =>
-			{
-			  var file = new Mock<ProjectElementComponentFile>();
-			  file.Setup(f => f.Save());
-			  file.Setup(
-				  f => f.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty)).
-					Returns(participants.Count() > 0 ? participants.Aggregate((a,b)=>a+";"+b):string.Empty
-				  );
-			  return file.Object;
-			};
+				{
+					var file = new Mock<ProjectElementComponentFile>();
+					file.Setup(f => f.Save());
+					file.Setup(
+						f => f.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty)).
+						Returns(participants.Count() > 0 ? participants.Aggregate((a, b) => a + ";" + b) : string.Empty
+						);
+
+					if (additionalSetup != null)
+					{
+						additionalSetup(file);
+						_mockedSessionMetaDataFile = file;
+					}
+
+					return file.Object;
+				};
 
 			Func<ProjectElement, string, ComponentFile> componentFactory = (parentElement, path) =>
-			{
-				var file = new Mock<ComponentFile>();
-				//person.Setup(p => p.GetInformedConsentComponentFile()).Returns((ComponentFile)null);
-				file.Setup(p => p.Save());
-				return file.Object;
-			};
+				{
+					var file = new Mock<ComponentFile>();
+					//person.Setup(p => p.GetInformedConsentComponentFile()).Returns((ComponentFile)null);
+					file.Setup(p => p.Save());
+					return file.Object;
+				};
 
 			var personInformant = new Mock<PersonInformant>();
 			foreach (var participant in participants)
@@ -70,15 +83,41 @@ namespace SayMoreTests.Model
 
 			return new Session(_parentFolder.Path, "dummyId", null,
 				new SessionFileType(() => null, () => null), componentFactory,
-				new XmlFileSerializer(null), factory, componentRoles, personInformant.Object);
+				new XmlFileSerializer(null), factory, componentRoles, personInformant.Object, project);
 
 			//ComponentFile.CreateMinimalComponentFileForTests
 		}
 
-		/*
-		 * THIS IS MOSTLY EMPTY BECAUSE MOST OF THE BEHAVIOR THUS FAR IS IN THE BASE CLASS,
-		 * AND TESTED THERE, INSTEAD
-		 */
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Constructor_NewSession_PojectLocationInfoCopiedToSessionAndGenreSetToUnknown()
+		{
+			var project = new Project(_parentFolder.Combine("foo", "foo." + Project.ProjectSettingsFileExtension), null, null);
+			project.Country = "Fred";
+			project.Continent = "Ocean Floor";
+			project.Region = "Sideways";
+			project.Location = "Upstairs";
+
+			using (CreateSession(new string[] {}, project,
+				file =>
+					{
+						file.Setup(f => f.GetCreateDate()).Returns(DateTime.Now.AddSeconds(-57));
+						file.Setup(f => f.GetStringValue(SessionFileType.kCountryFieldName, null)).Returns((string) null);
+						file.Setup(f => f.GetStringValue(SessionFileType.kContinentFieldName, null)).Returns((string) null);
+						file.Setup(f => f.GetStringValue(SessionFileType.kRegionFieldName, null)).Returns((string) null);
+						file.Setup(f => f.GetStringValue(SessionFileType.kAddressFieldName, null)).Returns((string) null);
+						file.Setup(f => f.GetStringValue(SessionFileType.kGenreFieldName, null)).Returns((string) null);
+						file.Setup(f => f.Save(Path.Combine(_parentFolder.Path, "dummyId", "dummyId.session")));
+					}))
+			{
+				_mockedSessionMetaDataFile.Verify(f => f.TrySetStringValue(SessionFileType.kCountryFieldName, "Fred"));
+				_mockedSessionMetaDataFile.Verify(f => f.TrySetStringValue(SessionFileType.kContinentFieldName, "Ocean Floor"));
+				_mockedSessionMetaDataFile.Verify(f => f.TrySetStringValue(SessionFileType.kRegionFieldName, "Sideways"));
+				_mockedSessionMetaDataFile.Verify(f => f.TrySetStringValue(SessionFileType.kAddressFieldName, "Upstairs"));
+				_mockedSessionMetaDataFile.Verify(f => f.TrySetStringValue(SessionFileType.kGenreFieldName, GenreDefinition.UnknownType.Name));
+			}
+		}
+
 
 		/// ------------------------------------------------------------------------------------
 		[Test]

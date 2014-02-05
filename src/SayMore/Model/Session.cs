@@ -52,19 +52,36 @@ namespace SayMore.Model
 			XmlFileSerializer xmlFileSerializer,
 			ProjectElementComponentFile.Factory prjElementComponentFileFactory,
 			IEnumerable<ComponentRole> componentRoles,
-			PersonInformant personInformant)
+			PersonInformant personInformant, Project project)
 			: base(parentElementFolder, id, idChangedNotificationReceiver, sessionFileType,
 				componentFileFactory, xmlFileSerializer, prjElementComponentFileFactory, componentRoles)
 		{
 			_personInformant = personInformant;
 
 // ReSharper disable DoNotCallOverridableMethodsInConstructor
-			if (string.IsNullOrEmpty(MetaDataFile.GetStringValue(SessionFileType.kGenreFieldName, null)))
 
+			// Using a 1-minute fudge factor is a bit of a kludge, but when a session is created from an
+			// existing media file, it already has an ID, and there's no other way to tell it's "new".
+			if (project != null &&
+				(id == null || MetaDataFile.GetCreateDate().AddMinutes(1) > DateTime.Now) &&
+				MetaDataFile.GetStringValue(SessionFileType.kCountryFieldName, null) == null &&
+				MetaDataFile.GetStringValue(SessionFileType.kRegionFieldName, null) == null &&
+				MetaDataFile.GetStringValue(SessionFileType.kContinentFieldName, null) == null &&
+				MetaDataFile.GetStringValue(SessionFileType.kAddressFieldName, null) == null)
 			{
-				string failureMsg;
-				MetaDataFile.SetValue(SessionFileType.kGenreFieldName, GenreDefinition.UnknownType.Name, out failureMsg);
-				if (failureMsg == null)
+				if (!string.IsNullOrEmpty(project.Country))
+					MetaDataFile.TrySetStringValue(SessionFileType.kCountryFieldName, project.Country);
+				if (!string.IsNullOrEmpty(project.Region))
+					MetaDataFile.TrySetStringValue(SessionFileType.kRegionFieldName, project.Region);
+				if (!string.IsNullOrEmpty(project.Continent))
+					MetaDataFile.TrySetStringValue(SessionFileType.kContinentFieldName, project.Continent);
+				if (!string.IsNullOrEmpty(project.Location))
+					MetaDataFile.TrySetStringValue(SessionFileType.kAddressFieldName, project.Location);
+			}
+
+			if (string.IsNullOrEmpty(MetaDataFile.GetStringValue(SessionFileType.kGenreFieldName, null)))
+			{
+				if (MetaDataFile.TrySetStringValue(SessionFileType.kGenreFieldName, GenreDefinition.UnknownType.Name))
 					MetaDataFile.Save();
 			}
 // ReSharper restore DoNotCallOverridableMethodsInConstructor

@@ -184,7 +184,7 @@ namespace SayMore.UI.ComponentEditors
 			if (_moreFieldsComboBox != null)
 			{
 				if (_moreFieldsToolTip.Active)
-					_moreFieldsToolTip.Hide(_moreFieldsComboBox);
+					_moreFieldsToolTip.RemoveAll();
 
 				if (_moreFieldsComboBox.IsDisposed)
 					_moreFieldsComboBox = null;
@@ -216,7 +216,7 @@ namespace SayMore.UI.ComponentEditors
 			var selectedItem = _moreFieldsComboBox.SelectedItem as IMDIListItem;
 			if (selectedItem != null && selectedItem.Definition != selectedItem.Text)
 				_gridAdditionalFields.CurrentCell.ToolTipText = selectedItem.Definition;
-			_moreFieldsToolTip.Hide(_moreFieldsComboBox);
+			_moreFieldsToolTip.RemoveAll();
 			_moreFieldsComboBox.DropDownClosed -= HandleMoreFieldsComboDropDownClosed;
 		}
 
@@ -243,7 +243,7 @@ namespace SayMore.UI.ComponentEditors
 						e.Bounds.Bottom + _gridAdditionalFields.CurrentRow.Height + 5);
 				}
 				else
-					_moreFieldsToolTip.Hide(_moreFieldsComboBox);
+					_moreFieldsToolTip.RemoveAll();
 			}
 			e.DrawFocusRectangle();
 		}

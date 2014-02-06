@@ -22,7 +22,7 @@ SayMore 3 adds a "Project" tab for the first time, along with these Project-leve
 * Date Available
 * Rights Holder
 * Depositor
-* Releated Publications
+* Related Publications
 
 ##New Session Fields
 
@@ -39,10 +39,13 @@ SayMore 3 adds a "Project" tab for the first time, along with these Project-leve
  * Social Context
  * Task
 
+ * New "Oral Translation Speaker" role
+
 ##New Person Fields
 
  * Nickname
- * Code
+ * Code (for projects that wan to assign an alphanumeric id to each speaker)
+ * Ethnic Group
 
 ##New Person Tab: Contributions
 
@@ -57,6 +60,10 @@ In previous versions of SayMore, you could type whatever you like in the "Access
  1. You can set up a custom set of choices.
 
  1. Or you can still just let yourself type in whatever you want, as with version 2.
+
+##Manual Segmenter Dialog
+* Added a play button to individual segments
+* Can now zoom in for finer control
 
 ##Thanks
 Sarah Moeller and Tim Gaved served as consultants and _champions_ for this release.
@@ -102,20 +109,20 @@ In addition to the ELAN file compatibility, Audacity import, and FLEx export,  t
 ##MetaData
 As before, SayMore tries to figure out which recordings have gone through which  stages of the workflow. If it gets it wrong, then you can use the new "status  and Stages" tab can now manually take control of the stage for each session.
 
-### New features in version 1.5:
+# New features in version 1.5:
 
 Built-in "Careful Speech" and "Oral Translation" tools for those  doing BOLD (Basic Oral Language Documentation).
 
-### New features in version 1.3:
+# New features in version 1.3:
 
 Built-inTranscription, stored using ELAN's file format, with export for  FieldWorks Language Explorer (FLEx) interlinear.
 
-### New features in version 1.1:
+# New features in version 1.1:
 
 Built-in packaging for REAP, SIL's Corporate Archive
 
 
-### New features in version 0.9:
+## New features in version 0.9:
 
 Documentation.(thanks Marlon!)
 

@@ -1,12 +1,12 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Extensions;
 using Palaso.Reporting;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
+using SayMore.UI.Overview;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 using SayMore.Utilities;
 using SIL.Archiving;
@@ -14,6 +14,7 @@ using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
 using SayMore.Properties;
 using SIL.Archiving.IMDI.Lists;
+using Application = System.Windows.Forms.Application;
 
 namespace SayMore.Model
 {
@@ -28,7 +29,10 @@ namespace SayMore.Model
 			if (string.IsNullOrEmpty(destFolder))
 				destFolder = Path.Combine(NewProjectDlgViewModel.ParentFolderPathForNewProject, "IMDI Packages");
 
-			var model = new IMDIArchivingDlgViewModel(Application.ProductName, element.Title, element.Id,
+			// now that we added a separate title field for projects, make sure it's not empty
+			var title = string.IsNullOrEmpty(element.Title) ? element.Id : element.Title;
+
+			var model = new IMDIArchivingDlgViewModel(Application.ProductName, title, element.Id,
 				element.ArchiveInfoDetails, element is Project, element.SetFilesToArchive, destFolder)
 			{
 				HandleNonFatalError = (exception, s) => ErrorReport.NotifyUserOfProblem(exception, s)
@@ -275,24 +279,56 @@ namespace SayMore.Model
 						package.ContentIso3Languages.Add(new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName));
 				}
 			}
+
+			// project description documents
+			var docsPath = Path.Combine(saymoreProject.FolderPath, ProjectDescriptionDocsScreen.kFolderName);
+			if (Directory.Exists(docsPath))
+			{
+				var files = Directory.GetFiles(docsPath, "*.*", SearchOption.TopDirectoryOnly);
+
+				// the directory exists and contains files
+				if (files.Length > 0)
+					AddDocumentsSession(ProjectDescriptionDocsScreen.kArchiveSessionName, files, model);
+			}
+
+			// other project documents
+			docsPath = Path.Combine(saymoreProject.FolderPath, ProjectOtherDocsScreen.kFolderName);
+			if (Directory.Exists(docsPath))
+			{
+				var files = Directory.GetFiles(docsPath, "*.*", SearchOption.TopDirectoryOnly);
+
+				// the directory exists and contains files
+				if (files.Length > 0)
+					AddDocumentsSession(ProjectOtherDocsScreen.kArchiveSessionName, files, model);
+			}
 		}
 
 		private static ArchivingFile CreateArchivingFile(string fileName)
 		{
 			var annotationSuffix = AnnotationFileHelper.kAnnotationsEafFileSuffix;
-			const string metaFileSuffix = ".meta";
+			var metaFileSuffix = Settings.Default.MetadataFileExtension;
 
 			var arcFile = new ArchivingFile(fileName);
 
 			// is this an annotation file?
-			if (fileName.EndsWith(annotationSuffix) || fileName.EndsWith(metaFileSuffix))
+			if (fileName.EndsWith(annotationSuffix))
 				arcFile.DescribesAnotherFile = fileName.Substring(0, fileName.Length - annotationSuffix.Length);
 
-			// is this a meta file5555
+			// is this a meta file?
 			if (fileName.EndsWith(metaFileSuffix))
 				arcFile.DescribesAnotherFile = fileName.Substring(0, fileName.Length - metaFileSuffix.Length);
 
 			return arcFile;
+		}
+
+		private static void AddDocumentsSession(string sessionName, string[] sourceFiles, ArchivingDlgViewModel model)
+		{
+			// create IMDI session
+			var imdiSession = model.AddSession(sessionName);
+			imdiSession.Title = sessionName;
+
+			foreach (var file in sourceFiles)
+				imdiSession.AddFile(CreateArchivingFile(file));
 		}
 	}
 }

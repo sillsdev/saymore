@@ -1027,7 +1027,7 @@ namespace SayMore.Model.Files
 				return false;
 
 			// Delete the file's metadata file.
-			var metaPath = path + ".meta";
+			var metaPath = path + Settings.Default.MetadataFileExtension;
 			if (File.Exists(metaPath))
 				ConfirmRecycleDialog.Recycle(metaPath);
 

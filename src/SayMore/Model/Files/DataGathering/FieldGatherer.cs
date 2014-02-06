@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using SayMore.Model.Fields;
+using SayMore.Properties;
 
 namespace SayMore.Model.Files.DataGathering
 {
@@ -56,7 +57,7 @@ namespace SayMore.Model.Files.DataGathering
 		protected override bool GetDoIncludeFile(string path)
 		{
 			if (_typesOfFilesToProcess.Any(t => t.IsMatch(path)) ||
-				_typesOfFilesToProcess.Any(t => t.IsMatch(path.Replace(".meta", string.Empty))))
+				_typesOfFilesToProcess.Any(t => t.IsMatch(path.Replace(Settings.Default.MetadataFileExtension, string.Empty))))
 			{
 				var p = GetActualPath(path);
 				return File.Exists(p);
@@ -72,7 +73,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		protected override string GetActualPath(string path)
 		{
-			return (path.EndsWith(".meta") ? path.Substring(0, path.Length - 5) : path);
+			return (path.EndsWith(Settings.Default.MetadataFileExtension) ? path.Substring(0, path.Length - 5) : path);
 		}
 
 		/// ----------------------------------------------------------------------------------------

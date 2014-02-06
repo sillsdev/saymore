@@ -114,7 +114,7 @@ namespace SayMore.Model.Files
 						continue;
 
 					//Review. Doing this becuase if it's not a meta, this serializer thing isn't going to be able to read it
-					if (!sidecarFilePath.EndsWith(".meta"))
+					if (!sidecarFilePath.EndsWith(Settings.Default.MetadataFileExtension))
 						continue;
 
 					var metaDataFields = new List<FieldInstance>();

@@ -365,5 +365,14 @@
     <Setting Name="PersonContributionColumns" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">200,120,80,200</Value>
     </Setting>
+    <Setting Name="ProjectDescriptionDocumentsComponentGrid" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ProjectOtherDocumentsComponentGrid" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MetadataFileExtendion" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.meta</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

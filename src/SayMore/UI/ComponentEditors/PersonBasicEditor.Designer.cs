@@ -818,6 +818,7 @@ namespace SayMore.UI.ComponentEditors
 			this._panelPrivacy.Name = "_panelPrivacy";
 			this._panelPrivacy.Size = new System.Drawing.Size(240, 22);
 			this._panelPrivacy.TabIndex = 36;
+			this._panelPrivacy.Visible = false;
 			// 
 			// _privacyProtection
 			// 

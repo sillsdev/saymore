@@ -14,14 +14,19 @@ namespace SayMore.UI.Overview
 		private readonly ProgressScreen _progressView;
 		private readonly ProjectMetadataScreen _metadataView;
 		private readonly ProjectAccessScreen _accessView;
+		private readonly ProjectDocsScreen _descriptionDocsView;
+		private readonly ProjectOtherDocsScreen _otherDocsView;
 		private bool _statsViewActivated;
 
 		/// ------------------------------------------------------------------------------------
-		public ProjectScreen(ProjectMetadataScreen metadataView, ProjectAccessScreen accessView, ProgressScreen progressView)
+		public ProjectScreen(ProjectMetadataScreen metadataView, ProjectAccessScreen accessView, ProgressScreen progressView, ProjectDescriptionDocsScreen descriptionDocsView, ProjectOtherDocsScreen otherDocsView)
 		{
 			_metadataView = metadataView;
 			_progressView = progressView;
 			_accessView = accessView;
+			_descriptionDocsView = descriptionDocsView;
+			_otherDocsView = otherDocsView;
+
 			InitializeComponent();
 
 			HandleStringsLocalized();
@@ -29,6 +34,8 @@ namespace SayMore.UI.Overview
 			_metadataView.BackColor = _splitter.Panel2.BackColor;
 			_progressView.BackColor = _splitter.Panel2.BackColor;
 			_accessView.BackColor = _splitter.Panel2.BackColor;
+			_descriptionDocsView.BackColor = _splitter.Panel2.BackColor;
+			_otherDocsView.BackColor = _splitter.Panel2.BackColor;
 
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
 		}
@@ -55,12 +62,14 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		private void HandleStringsLocalized()
 		{
-			// this._projectPages = new Palaso.UI.WindowsForms.Widgets.BetterGrid.BetterGrid();
 			var currentRow = _projectPages.CurrentCellAddress.Y;
 			_projectPages.RowCount = 0;
 			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.AboutProjectViewTitle", "About This Project") });
 			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.AccessProtocolViewTitle", "Access Protocol") });
+			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.DescriptionDocumentsTitle", "Description Documents") });
+			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.OtherDocumentsTitle", "Other Documents") });
 			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress") });
+
 			if (currentRow >= 0)
 				_projectPages.CurrentCell = _projectPages.Rows[currentRow].Cells[0];
 		}
@@ -122,6 +131,14 @@ namespace SayMore.UI.Overview
 					break;
 
 				case 2:
+					ShowControl(_descriptionDocsView);
+					break;
+
+				case 3:
+					ShowControl(_otherDocsView);
+					break;
+
+				case 4:
 					ShowControl(_progressView);
 					_progressView.ViewActivated(!_statsViewActivated);
 					_statsViewActivated = true;

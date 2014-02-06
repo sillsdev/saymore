@@ -11,6 +11,7 @@ using Palaso.Extensions;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms;
 using SayMore.UI.ComponentEditors;
+using SayMore.UI.Overview;
 using SIL.Archiving;
 using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
@@ -550,6 +551,36 @@ namespace SayMore.Model
 				IArchivingSession s = model.AddSession(session.Id);
 				s.Location.Address = session.MetaDataFile.GetStringValue(SessionFileType.kLocationFieldName, string.Empty);
 				s.Title = session.Title;
+			}
+
+			// project description documents
+			var docsPath = Path.Combine(FolderPath, ProjectDescriptionDocsScreen.kFolderName);
+			if (Directory.Exists(docsPath))
+			{
+				var files = Directory.GetFiles(docsPath, "*.*", SearchOption.TopDirectoryOnly);
+
+				// the directory exists and contains files
+				if (files.Length > 0)
+				{
+					model.AddFileGroup(ProjectDescriptionDocsScreen.kArchiveSessionName, files,
+						LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingProjectDescriptionDocumentsToIMDIArchiveProgressMsg",
+							"Adding Project Description Documents..."));
+				}
+			}
+
+			// other project documents
+			docsPath = Path.Combine(FolderPath, ProjectOtherDocsScreen.kFolderName);
+			if (Directory.Exists(docsPath))
+			{
+				var files = Directory.GetFiles(docsPath, "*.*", SearchOption.TopDirectoryOnly);
+
+				// the directory exists and contains files
+				if (files.Length > 0)
+				{
+					model.AddFileGroup(ProjectOtherDocsScreen.kArchiveSessionName, files,
+						LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingOtherProjectDocumentsToIMDIArchiveProgressMsg",
+							"Adding Other Project Documents..."));
+				}
 			}
 
 			foreach (var key in contributorFiles.Keys)

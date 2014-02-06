@@ -372,7 +372,7 @@ namespace SayMore.Properties {
                 return ((string)(this["ProjectFileExtension"]));
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1311,6 +1311,30 @@ namespace SayMore.Properties {
             }
             set {
                 this["PersonContributionColumns"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings ProjectDescriptionDocumentsComponentGrid {
+            get {
+                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["ProjectDescriptionDocumentsComponentGrid"]));
+            }
+            set {
+                this["ProjectDescriptionDocumentsComponentGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings ProjectOtherDocumentsComponentGrid {
+            get {
+                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["ProjectOtherDocumentsComponentGrid"]));
+            }
+            set {
+                this["ProjectOtherDocumentsComponentGrid"] = value;
             }
         }
     }

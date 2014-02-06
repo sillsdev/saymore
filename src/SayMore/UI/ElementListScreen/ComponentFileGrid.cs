@@ -112,8 +112,11 @@ namespace SayMore.UI.ElementListScreen
 
 			_gridColSettingPrefix = settingPrefix;
 
-			if (Settings.Default[_gridColSettingPrefix + "ComponentGrid"] != null)
-				((GridSettings)Settings.Default[_gridColSettingPrefix + "ComponentGrid"]).InitializeGrid(_grid);
+			if (Settings.Default.Properties[_gridColSettingPrefix + "ComponentGrid"] != null)
+			{
+				if (Settings.Default[_gridColSettingPrefix + "ComponentGrid"] != null)
+					((GridSettings)Settings.Default[_gridColSettingPrefix + "ComponentGrid"]).InitializeGrid(_grid);
+			}
 
 			_grid.AutoResizeColumnHeadersHeight();
 			_grid.ColumnHeadersHeight += 8;
@@ -649,6 +652,16 @@ namespace SayMore.UI.ElementListScreen
 
 			var currFile = _files.ElementAt(_grid.CurrentCellAddress.Y);
 			return !(currFile is ProjectElementComponentFile);
+		}
+
+		public ComponentFile GetFileAt(int index)
+		{
+			return _files.ElementAt(index);
+		}
+
+		public bool HideDuration
+		{
+			set { colDuration.Visible = !value; }
 		}
 	}
 

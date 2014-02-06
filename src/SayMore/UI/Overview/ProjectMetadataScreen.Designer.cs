@@ -484,8 +484,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizationComment(this._dateAvailable, null);
 			this.locExtender.SetLocalizationPriority(this._dateAvailable, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._dateAvailable, "ProjectView.MetadataScreen._dateAvailable");
-			this._dateAvailable.Location = new System.Drawing.Point(127, 307);
-			this._dateAvailable.Margin = new System.Windows.Forms.Padding(5, 3, 2, 3);
+			this._dateAvailable.Location = new System.Drawing.Point(125, 307);
 			this._dateAvailable.Name = "_dateAvailable";
 			this._dateAvailable.Size = new System.Drawing.Size(96, 22);
 			this._dateAvailable.TabIndex = 18;

@@ -225,7 +225,7 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void SetPixelsPerSecond(int value)
+		public virtual void SetPixelsPerSecond(double value)
 		{
 			PixelPerMillisecond = value / 1000.0;
 			VirtualWidth = (int)(PixelPerMillisecond * _totalTime.TotalMilliseconds) + kRightDisplayPadding;

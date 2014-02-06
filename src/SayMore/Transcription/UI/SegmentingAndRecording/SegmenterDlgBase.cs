@@ -38,13 +38,15 @@ namespace SayMore.Transcription.UI
 		protected Timer _timer;
 		protected TimeSpan _timeAtBeginningOfBoundaryMove = TimeSpan.FromSeconds(1).Negate();
 		protected bool _moreReliableDesignMode;
-		private WaveControlBasic _waveControl;
+		private WaveControlWithMovableBoundaries _waveControl;
 		protected SegmentDefinitionMode _newSegmentDefinedBy;
 
 		private Image _hotPlayInSegmentButton;
 		private Image _normalPlayInSegmentButton;
 		protected Size _playButtonSize = Resources.ListenToSegment.Size;
 		private Rectangle _lastPlayButtonRc;
+
+		protected PercentageFormatter _pctFormatter = new PercentageFormatter();
 
 		public event Action SegmentIgnored;
 
@@ -133,9 +135,7 @@ namespace SayMore.Transcription.UI
 					waveFormat.BitsPerSample, waveFormat.Encoding);
 			};
 
-			InitializeZoomComboItems();
-			_comboBoxZoom.Text = _comboBoxZoom.Items[0] as string;
-			_comboBoxZoom.Font = Program.DialogFont;
+			InitializeZoomCombo();
 			_labelZoom.Font = Program.DialogFont;
 			_labelSegmentXofY.Font = Program.DialogFont;
 			_labelSegmentNumber.Font = Program.DialogFont;
@@ -148,14 +148,6 @@ namespace SayMore.Transcription.UI
 				Math.Max(_ignoreToolStripMenuItem.Width, _undoToolStripMenuItem.Width);
 			_undoToolStripMenuItem.Height *= 2;
 			_ignoreToolStripMenuItem.Height = _undoToolStripMenuItem.Height;
-
-			// If we ever get zooming working again, remove the following two
-			// lines and uncomment the three below them.
-			_labelZoom.Visible = false;
-			_comboBoxZoom.Visible = false;
-			//_waveControl.ZoomPercentage = 300; //ZoomPercentage;
-			// var pctFormatter = new PercentageFormatter();
-			//_comboBoxZoom.Text = pctFormatter.Format(ZoomPercentage);
 
 			HandleStringsLocalized();
 		}
@@ -177,10 +169,7 @@ namespace SayMore.Transcription.UI
 			_currentSegmentMenuStrip.UseWaitCursor = false;
 			_waveControl.Controls.Add(_lastSegmentMenuStrip);
 			_lastSegmentMenuStrip.UseWaitCursor = false;
-
-			var waveCtrl = _waveControl as WaveControlWithMovableBoundaries;
-			if (waveCtrl != null)
-				waveCtrl.CanBoundaryBeMoved = (b, disregardAnnotations) => !_viewModel.IsBoundaryPermanent(b, disregardAnnotations);
+			_waveControl.CanBoundaryBeMoved = CanBoundaryBeMoved;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -198,7 +187,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual WaveControlBasic CreateWaveControl()
+		protected virtual WaveControlWithMovableBoundaries CreateWaveControl()
 		{
 			throw new NotImplementedException();
 		}
@@ -211,11 +200,23 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializeZoomComboItems()
+		private void InitializeZoomCombo()
 		{
-			var pctFormatter = new PercentageFormatter();
 			_comboBoxZoom.Items.AddRange((new [] {100, 125, 150, 175, 200, 250, 300, 500, 750, 1000})
-				.Select(pctFormatter.Format).Cast<Object>().ToArray());
+				.Select(_pctFormatter.Format).Cast<Object>().ToArray());
+
+			_comboBoxZoom.Font = Program.DialogFont;
+			ZoomPercentage = DefaultZoomPercentage;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual float DefaultZoomPercentage
+		{
+			get
+			{
+				double value;
+				return _pctFormatter.Format(_comboBoxZoom.Items[0] as string, out value) != null ? (float)value : 100f;
+			}
 		}
 		#endregion
 
@@ -347,8 +348,15 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual float ZoomPercentage
 		{
-			get { throw new NotImplementedException(); }
-			set { throw new NotImplementedException(); }
+			get { return _waveControl.ZoomPercentage; }
+			set
+			{
+				if (!_waveControl.ZoomPercentage.Equals(value))
+				{
+					_waveControl.ZoomPercentage = value;
+					SetZoomTextInComboBox();
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -394,9 +402,6 @@ namespace SayMore.Transcription.UI
 			e.Cancel = true;
 			StopAllMedia();
 
-			if (!_moreReliableDesignMode)
-				ZoomPercentage = _waveControl.ZoomPercentage;
-
 			// Cancel means the user closed the form using the X or Alt+F4. In that
 			// case whether they want to save changes is ambiguous. So ask them.
 			if (DialogResult == DialogResult.Cancel && _viewModel.WereChangesMade)
@@ -429,14 +434,14 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleTableLayoutButtonsPaint(object sender, PaintEventArgs e)
 		{
-			//using (var br = new LinearGradientBrush(_tableLayoutButtons.ClientRectangle,
-			//    AppColors.BarEnd, AppColors.BarBegin, 0f))
-			//{
-			//        e.Graphics.FillRectangle(br, _tableLayoutButtons.ClientRectangle);
-			//}
-
 			using (var pen = new Pen(AppColors.BarBorder))
 				e.Graphics.DrawLine(pen, 0, 0, _tableLayoutButtons.Width, 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool CanBoundaryBeMoved(TimeSpan boundary, bool disregardAnnotations)
+		{
+			return !_viewModel.IsBoundaryPermanent(boundary, disregardAnnotations);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -791,25 +796,71 @@ namespace SayMore.Transcription.UI
 
 		#region Low level keyboard handling
 		/// ------------------------------------------------------------------------------------
+		protected bool ZoomComboIsActiveControl
+		{
+			get { return ActiveControl == _comboBoxZoom; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyDown(Keys key)
 		{
 			if (!ContainsFocus)
 				return true;
 
+			bool ctrlKeyPressed = (ModifierKeys & Keys.Control) != 0;
+
+			if (!ctrlKeyPressed && ZoomComboIsActiveControl)
+				return false;
+
 			switch (key)
 			{
 				case Keys.Right:
-					OnAdjustBoundaryUsingArrowKey(Settings.Default.MillisecondsToAdvanceSegmentBoundaryOnRightArrow);
-					return true;
+					if (ActiveControl == _waveControl)
+					{
+						OnAdjustBoundaryUsingArrowKey(Settings.Default.MillisecondsToAdvanceSegmentBoundaryOnRightArrow);
+						return true;
+					}
+					break;
 
 				case Keys.Left:
-					OnAdjustBoundaryUsingArrowKey(-Settings.Default.MillisecondsToBackupSegmentBoundaryOnLeftArrow);
-					return true;
+					if (ActiveControl == _waveControl)
+					{
+						OnAdjustBoundaryUsingArrowKey(-Settings.Default.MillisecondsToBackupSegmentBoundaryOnLeftArrow);
+						return true;
+					}
+					break;
 
-				case Keys.Z:
-					if ((ModifierKeys & Keys.Control) == 0 && _undoToolStripMenuItem.Enabled)
+				case Keys.Z: // For some reason, they want a plain Z to also function as an undo.
+					if (!ctrlKeyPressed && _undoToolStripMenuItem.Enabled)
 					{
 						_undoToolStripMenuItem.PerformClick();
+						return true;
+					}
+					break;
+
+				case Keys.D1:
+				case Keys.NumPad1:
+					if (ctrlKeyPressed)
+					{
+						ZoomPercentage += 10;
+						return true;
+					}
+					break;
+
+				case Keys.D2:
+				case Keys.NumPad2:
+					if (ctrlKeyPressed)
+					{
+						ZoomPercentage = 100f;
+						return true;
+					}
+					break;
+
+				case Keys.D3:
+				case Keys.NumPad3:
+					if (ctrlKeyPressed)
+					{
+						ZoomPercentage -= 10;
 						return true;
 					}
 					break;
@@ -827,6 +878,14 @@ namespace SayMore.Transcription.UI
 			{
 				FinalizeBoundaryMovedUsingArrowKeys();
 				_timeAtBeginningOfBoundaryMove = TimeSpan.FromSeconds(1).Negate();
+			}
+
+			if (key == Keys.Enter && ZoomComboIsActiveControl)
+			{
+				// By now, the new zoom value has been successfully applied, so activate the
+				// wave control. If we keep the zoom control focused, then SPACE and ENTER
+				// will get "eaten" by this control and won't behave as the user expects.
+				ActiveControl = _waveControl;
 			}
 
 			return result;
@@ -850,7 +909,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleZoomKeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.Enter)
+			if (e.KeyCode == Keys.Enter && !_comboBoxZoom.DroppedDown)
 			{
 				e.Handled = true;
 				e.SuppressKeyPress = true;
@@ -861,18 +920,18 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void SetZoom()
 		{
-			var pctFormatter = new PercentageFormatter();
 			double newValue;
-			string formattedPercentage = pctFormatter.Format(_comboBoxZoom.Text, out newValue);
-			if (formattedPercentage != null)
-			{
-				_waveControl.ZoomPercentage = (float) newValue;
-				_comboBoxZoom.Text = formattedPercentage;
-			}
+			if (_pctFormatter.Format(_comboBoxZoom.Text, out newValue) != null)
+				ZoomPercentage = (float) newValue;
 			else
-				_comboBoxZoom.Text = pctFormatter.Format(_waveControl.ZoomPercentage);
+				SetZoomTextInComboBox();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		protected void SetZoomTextInComboBox()
+		{
+			_comboBoxZoom.Text = _pctFormatter.Format(_waveControl.ZoomPercentage / 100f);
+		}
 		#endregion
 	}
 }

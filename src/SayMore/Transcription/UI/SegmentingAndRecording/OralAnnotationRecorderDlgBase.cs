@@ -403,7 +403,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override WaveControlBasic CreateWaveControl()
+		protected override WaveControlWithMovableBoundaries CreateWaveControl()
 		{
 			_waveControl = new WaveControlWithRangeSelection();
 			_waveControl.BottomReservedAreaBorderColor = Settings.Default.DataEntryPanelColorBorder;

@@ -175,7 +175,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutTop.RowCount = 1;
 			this._tableLayoutTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutTop.Size = new System.Drawing.Size(739, 24);
-			this._tableLayoutTop.TabIndex = 9;
+			this._tableLayoutTop.TabIndex = 0;
 			//
 			// _labelSourceRecording
 			//
@@ -201,7 +201,7 @@ namespace SayMore.Transcription.UI
 			this._labelZoom.Location = new System.Drawing.Point(600, 5);
 			this._labelZoom.Name = "_labelZoom";
 			this._labelZoom.Size = new System.Drawing.Size(37, 13);
-			this._labelZoom.TabIndex = 6;
+			this._labelZoom.TabIndex = 0;
 			this._labelZoom.Text = "&Zoom:";
 			//
 			// _comboBoxZoom
@@ -216,7 +216,7 @@ namespace SayMore.Transcription.UI
 			this._comboBoxZoom.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._comboBoxZoom.Name = "_comboBoxZoom";
 			this._comboBoxZoom.Size = new System.Drawing.Size(96, 21);
-			this._comboBoxZoom.TabIndex = 5;
+			this._comboBoxZoom.TabIndex = 1;
 			this._comboBoxZoom.SelectedIndexChanged += new System.EventHandler(this.HandleZoomSelectedIndexChanged);
 			this._comboBoxZoom.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleZoomKeyDown);
 			this._comboBoxZoom.Validating += new System.ComponentModel.CancelEventHandler(this.HandleZoomComboValidating);
@@ -241,7 +241,7 @@ namespace SayMore.Transcription.UI
 			this._toolStripStatus.Name = "_toolStripStatus";
 			this._toolStripStatus.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this._toolStripStatus.Size = new System.Drawing.Size(233, 25);
-			this._toolStripStatus.TabIndex = 10;
+			this._toolStripStatus.TabIndex = 2;
 			//
 			// _labelTimeDisplay
 			//
@@ -289,7 +289,7 @@ namespace SayMore.Transcription.UI
 			this._buttonOK.Name = "_buttonOK";
 			this._tableLayoutButtons.SetRowSpan(this._buttonOK, 3);
 			this._buttonOK.Size = new System.Drawing.Size(75, 26);
-			this._buttonOK.TabIndex = 7;
+			this._buttonOK.TabIndex = 0;
 			this._buttonOK.Text = "OK";
 			this._buttonOK.UseVisualStyleBackColor = true;
 			//
@@ -305,7 +305,7 @@ namespace SayMore.Transcription.UI
 			this._buttonCancel.Name = "_buttonCancel";
 			this._tableLayoutButtons.SetRowSpan(this._buttonCancel, 3);
 			this._buttonCancel.Size = new System.Drawing.Size(75, 26);
-			this._buttonCancel.TabIndex = 8;
+			this._buttonCancel.TabIndex = 1;
 			this._buttonCancel.Text = "Cancel";
 			this._buttonCancel.UseVisualStyleBackColor = true;
 			//
@@ -331,7 +331,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
 			this._tableLayoutButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
 			this._tableLayoutButtons.Size = new System.Drawing.Size(739, 60);
-			this._tableLayoutButtons.TabIndex = 7;
+			this._tableLayoutButtons.TabIndex = 0;
 			this._tableLayoutButtons.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleTableLayoutButtonsPaint);
 			//
 			// SegmenterDlgBase

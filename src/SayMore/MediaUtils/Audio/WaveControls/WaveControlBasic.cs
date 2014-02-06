@@ -35,7 +35,7 @@ namespace SayMore.Media.Audio
 		public virtual WavePainterBasic Painter { get; private set; }
 		public WaveStream WaveStream { get; private set; }
 
-		protected float _zoomPercentage;
+		protected float _zoomPercentage = 100f;
 		protected bool _wasStreamCreatedHere;
 		protected WaveStream _playbackStream;
 		protected WaveOut _waveOut;
@@ -65,7 +65,6 @@ namespace SayMore.Media.Audio
 			AutoScroll = true;
 			ForeColor = SystemColors.WindowText;
 			BackColor = SystemColors.Window;
-			_zoomPercentage = 100f;
 			_prevClientSize = ClientSize;
 		}
 
@@ -122,6 +121,8 @@ namespace SayMore.Media.Audio
 			Painter.BackColor = BackColor;
 			Painter.SetPixelsPerSecond(Settings.Default.SegmentingWaveViewPixelsPerSecond);
 			AutoScrollMinSize = new Size(Painter.VirtualWidth, 0);
+
+			SetZoom();
 
 			if (Painter.AllowRedraw)
 				Invalidate();
@@ -876,11 +877,8 @@ namespace SayMore.Media.Audio
 			get { return _zoomPercentage; }
 			set
 			{
-				if (value.Equals(_zoomPercentage) ||
-					(value < _zoomPercentage && AutoScrollMinSize.Width == ClientSize.Width))
-				{
+				if (value.Equals(_zoomPercentage) || value < 100f)
 					return;
-				}
 
 				_zoomPercentage = value;
 				SetZoom();
@@ -888,29 +886,18 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void ZoomIn()
-		{
-			ZoomPercentage += 10;
-			SetZoom();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void ZoomOut()
-		{
-			ZoomPercentage -= 10;
-			SetZoom();
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void SetZoom()
 		{
-			var width = Math.Max(ClientSize.Width, AutoScrollPosition.X);
+			if (_playbackStream == null)
+				return; // Too early - probably being set in Designer code.
 			var percentage = _zoomPercentage / 100;
-			var adjustedWidth = (int)(Math.Round(width * percentage, MidpointRounding.AwayFromZero));
-			AutoScrollMinSize = new Size(Math.Max(adjustedWidth, ClientSize.Width), ClientSize.Height);
-			//HandleResize(null, null);
+			var defaultWidth = _playbackStream.TotalTime.TotalSeconds * Settings.Default.SegmentingWaveViewPixelsPerSecond;
+			var adjustedWidth = (int)(Math.Round(defaultWidth * percentage, MidpointRounding.AwayFromZero));
+			adjustedWidth = Math.Max(adjustedWidth, ClientSize.Width);
+			AutoScrollMinSize = new Size(adjustedWidth, ClientSize.Height);
+			Painter.SetPixelsPerSecond(adjustedWidth / _playbackStream.TotalTime.TotalSeconds);
+			Invalidate();
 		}
-
 		#endregion
 	}
 }

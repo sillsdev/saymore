@@ -100,8 +100,6 @@ namespace SayMore.Transcription.UI
 
 			viewModel.AllowDeletionOfOralAnnotations = AllowDeletionOfOralAnnotations;
 
-			viewModel.AllowDeletionOfOralAnnotations = AllowDeletionOfOralAnnotations;
-
 			Controls.Remove(toolStripButtons);
 			_tableLayoutOuter.Controls.Add(toolStripButtons);
 			_tableLayoutOuter.Resize += HandleTableLayoutOuterResize;
@@ -127,6 +125,21 @@ namespace SayMore.Transcription.UI
 					_waveControl.EnsureTimeIsVisible(endOfPreviousSegment);
 				};
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override float DefaultZoomPercentage
+		{
+			get { return Settings.Default.ZoomPercentageInManualSegmenterDlg; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnFormClosing(FormClosingEventArgs e)
+		{
+			if (!_moreReliableDesignMode)
+				Settings.Default.ZoomPercentageInManualSegmenterDlg = ZoomPercentage;
+
+			base.OnFormClosing(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -195,6 +208,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool AllowDeletionOfOralAnnotations(bool hasCarefulSpeech, bool hasOralTranslation)
 		{
+			StopAllMedia();
 			var msg = LocalizationManager.GetString(
 				"DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotationsForAddedBreak",
 				"Adding a segment break here would split a segment which has existing oral " +
@@ -390,7 +404,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override WaveControlBasic CreateWaveControl()
+		protected override WaveControlWithMovableBoundaries CreateWaveControl()
 		{
 			_waveControl = new WaveControlWithBoundarySelection();
 
@@ -401,6 +415,7 @@ namespace SayMore.Transcription.UI
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
 			_waveControl.BoundaryMouseDown += delegate { UpdateDisplay(); };
 			_waveControl.CursorTimeChanged += delegate { UpdateDisplay(); };
+
 			return _waveControl;
 		}
 
@@ -409,13 +424,6 @@ namespace SayMore.Transcription.UI
 		{
 			get { return Settings.Default.ManualSegmenterDlg; }
 			set { Settings.Default.ManualSegmenterDlg = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override float ZoomPercentage
-		{
-			get { return Settings.Default.ZoomPercentageInManualSegmenterDlg; }
-			set { Settings.Default.ZoomPercentageInManualSegmenterDlg = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -470,6 +478,13 @@ namespace SayMore.Transcription.UI
 		{
 			return (_waveControl.GetCursorTime() == TimeSpan.Zero ?
 				_waveControl.GetSelectedBoundary() : base.GetCurrentTimeForTimeDisplay());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override bool CanBoundaryBeMoved(TimeSpan boundary, bool disregardAnnotations)
+		{
+			return (IsBoundaryMovingInProgressUsingArrowKeys && boundary == GetBoundaryToAdjustOnArrowKeys()) ||
+				base.CanBoundaryBeMoved(boundary, disregardAnnotations);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -542,25 +557,24 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyUp(Keys key)
 		{
-			if (!ContainsFocus)
-				return true;
-
-			if (key == Keys.Space)
+			if (ContainsFocus && !ZoomComboIsActiveControl)
 			{
-				if (_justStoppedusingSpace)
-					_justStoppedusingSpace = false;
-				else if (!_waveControl.IsPlaying)
+				if (key == Keys.Space)
 				{
-					_buttonListenToOriginal.PerformClick();
+					if (_justStoppedusingSpace)
+						_justStoppedusingSpace = false;
+					else if (!_waveControl.IsPlaying)
+					{
+						_buttonListenToOriginal.PerformClick();
+						return true;
+					}
+				}
+
+				if (key == Keys.Enter)
+				{
+					_buttonAddSegmentBoundary.PerformClick();
 					return true;
 				}
-				return false;
-			}
-
-			if (key == Keys.Enter)
-			{
-				_buttonAddSegmentBoundary.PerformClick();
-				return true;
 			}
 
 			return base.OnLowLevelKeyUp(key);

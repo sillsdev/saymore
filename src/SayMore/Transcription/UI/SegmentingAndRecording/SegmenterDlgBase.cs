@@ -47,6 +47,8 @@ namespace SayMore.Transcription.UI
 		private Rectangle _lastPlayButtonRc;
 
 		protected PercentageFormatter _pctFormatter = new PercentageFormatter();
+		private bool _changeActiveControlOnEnter;
+		private bool _inHandleZoomKeyDown;
 
 		public event Action SegmentIgnored;
 
@@ -880,12 +882,16 @@ namespace SayMore.Transcription.UI
 				_timeAtBeginningOfBoundaryMove = TimeSpan.FromSeconds(1).Negate();
 			}
 
-			if (key == Keys.Enter && ZoomComboIsActiveControl)
+			if (key == Keys.Enter && _changeActiveControlOnEnter)
 			{
-				// By now, the new zoom value has been successfully applied, so activate the
-				// wave control. If we keep the zoom control focused, then SPACE and ENTER
-				// will get "eaten" by this control and won't behave as the user expects.
-				ActiveControl = _waveControl;
+				if (ZoomComboIsActiveControl)
+				{
+					// By now, the new zoom value has been successfully applied, so activate the
+					// wave control. If we keep the zoom control focused, then SPACE and ENTER
+					// will get "eaten" by this control and won't behave as the user expects.
+					ActiveControl = _waveControl;
+				}
+				_changeActiveControlOnEnter = false;
 			}
 
 			return result;
@@ -897,34 +903,43 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleZoomComboValidating(object sender, CancelEventArgs e)
 		{
-			SetZoom();
+			e.Cancel = !SetZoom();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleZoomSelectedIndexChanged(object sender, EventArgs e)
 		{
+			if (_inHandleZoomKeyDown)
+				return;
 			SetZoom();
+			if (!_comboBoxZoom.DroppedDown)
+				ActiveControl = _waveControl;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleZoomKeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.Enter && !_comboBoxZoom.DroppedDown)
+			_inHandleZoomKeyDown = true;
+			if (e.KeyCode == Keys.Enter)
 			{
 				e.Handled = true;
 				e.SuppressKeyPress = true;
-				SetZoom();
+				_changeActiveControlOnEnter = SetZoom();
 			}
+			_inHandleZoomKeyDown = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void SetZoom()
+		private bool SetZoom()
 		{
 			double newValue;
 			if (_pctFormatter.Format(_comboBoxZoom.Text, out newValue) != null)
-				ZoomPercentage = (float) newValue;
-			else
-				SetZoomTextInComboBox();
+			{
+				ZoomPercentage = (float)newValue;
+				return ZoomPercentage.Equals((float)newValue);
+			}
+			SetZoomTextInComboBox();
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------

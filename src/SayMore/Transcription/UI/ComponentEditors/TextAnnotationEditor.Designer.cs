@@ -178,6 +178,41 @@ namespace SayMore.Transcription.UI
             this._exportSubtitlesTranscription.ToolTipText = "The SRT format can be used to create subtitle (captioned) video";
             this._exportSubtitlesTranscription.Click += new System.EventHandler(this.OnExportSubtitlesVernacular);
             // 
+            // _exportFreeTranslationVideoMenuItem
+            // 
+            this.locExtender.SetLocalizableToolTip(this._exportFreeTranslationVideoMenuItem, null);
+            this.locExtender.SetLocalizationComment(this._exportFreeTranslationVideoMenuItem, null);
+            this.locExtender.SetLocalizingId(this._exportFreeTranslationVideoMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.srtVideoFreeTranslation" +
+        "");
+            this._exportFreeTranslationVideoMenuItem.Name = "_exportFreeTranslationVideoMenuItem";
+            this._exportFreeTranslationVideoMenuItem.Size = new System.Drawing.Size(277, 22);
+            this._exportFreeTranslationVideoMenuItem.Text = "Video (Free Translation)...";
+            this._exportFreeTranslationVideoMenuItem.ToolTipText = "Video with free translation subtitle will be created";
+            this._exportFreeTranslationVideoMenuItem.Click += new System.EventHandler(this.OnExportVideoFreeTranslation);            // Once Enabled is set for this menu, it won't change until the program restarts.
+            // Be sure to restart the pprogram whenever there is a new video added.
+            this._exportFreeTranslationVideoMenuItem.Enabled = false;
+            int index = _file.PathToAnnotatedFile.IndexOf(SayMore.Properties.Settings.Default.StandardAudioFileSuffix);
+			if (index > 0)
+			{
+				string sourceVideoPath = _file.PathToAnnotatedFile.Substring(0, index) + "_Source.mp4";
+				if (System.IO.File.Exists(sourceVideoPath))
+					this._exportFreeTranslationVideoMenuItem.Enabled = true;
+			}
+			// 
+            // _exportVideoTranscription
+            // 
+            this.locExtender.SetLocalizableToolTip(this._exportVideoTranscription, null);
+            this.locExtender.SetLocalizationComment(this._exportVideoTranscription, null);
+            this.locExtender.SetLocalizingId(this._exportVideoTranscription, "SessionsView.Transcription.TextAnnotation.ExportMenu.srtVideoTranscription");
+            this._exportVideoTranscription.Name = "_exportVideoTranscription";
+            this._exportVideoTranscription.Size = new System.Drawing.Size(277, 22);
+            this._exportVideoTranscription.Text = "Video (Transcription)...";
+            this._exportVideoTranscription.ToolTipText = "Video with transcription subtitle will be created";
+            this._exportVideoTranscription.Click += new System.EventHandler(this.OnExportVideoTranscription);
+            // Sharing the value with this._exportFreeTranslationVideoMenuItem.Enabled
+            this._exportVideoTranscription.Enabled = this._exportFreeTranslationVideoMenuItem.Enabled;
+
+            // 
             // _csvExportMenuItem
             // 
             this.locExtender.SetLocalizableToolTip(this._csvExportMenuItem, null);
@@ -272,6 +307,7 @@ namespace SayMore.Transcription.UI
             // locExtender
             // 
             this.locExtender.LocalizationManagerId = "SayMore";
+            this.locExtender.PrefixForNewItems = null;
             // 
             // _splitter
             // 
@@ -321,6 +357,9 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripMenuItem _exportFreeTranslationSubtitlesMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem _exportSubtitlesTranscription;
 		private System.Windows.Forms.ToolStripMenuItem _csvExportMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem _exportFreeTranslationVideoMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem _exportVideoTranscription;
+        private System.Windows.Forms.ToolStripMenuItem _csvExportMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem _exportElanMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem _toolboxInterlinearExportMenuItem;
 		private System.Windows.Forms.ToolStripComboBox _comboPlaybackSpeed;
@@ -329,5 +368,7 @@ namespace SayMore.Transcription.UI
         private System.Windows.Forms.ToolStripMenuItem _audacityExportFreeTranslationMenuItem;
 
 
+        //private System.Windows.Forms.ToolStripMenuItem videoWithTranscriptionToolStripMenuItem;
+        //private System.Windows.Forms.ToolStripMenuItem videoWithTranslationToolStripMenuItem;
 	}
 }

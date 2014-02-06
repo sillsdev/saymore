@@ -372,7 +372,7 @@ namespace SayMore.Properties {
                 return ((string)(this["ProjectFileExtension"]));
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -804,10 +804,10 @@ namespace SayMore.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".doc;.odt;.ppt;.xls")]
-        public string FileTypesToAvoidLoadingInBrowserEditor {
+        [global::System.Configuration.DefaultSettingValueAttribute("htm;html;xml;txt;pdf;lift")]
+        public string FileTypesToAllowLoadingInBrowserEditor {
             get {
-                return ((string)(this["FileTypesToAvoidLoadingInBrowserEditor"]));
+                return ((string)(this["FileTypesToAllowLoadingInBrowserEditor"]));
             }
         }
         

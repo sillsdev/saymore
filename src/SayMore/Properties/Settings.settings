@@ -233,8 +233,8 @@
     <Setting Name="Reporting" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="Palaso.Reporting.ReportingSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FileTypesToAvoidLoadingInBrowserEditor" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">.doc;.odt;.ppt;.xls</Value>
+    <Setting Name="FileTypesToAllowLoadingInBrowserEditor" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">htm;html;xml;txt;pdf;lift</Value>
     </Setting>
     <Setting Name="RampContributorRoles" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">author;compiler;consultant;developer;editor;facilitator;illustrator;interviewer;photographer;recorder;researcher;signer;speaker;transcriber;translator</Value>
@@ -370,9 +370,6 @@
     </Setting>
     <Setting Name="ProjectOtherDocumentsComponentGrid" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings" Scope="User">
       <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="MetadataFileExtendion" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">.meta</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
@@ -23,9 +24,15 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static bool GetShouldAvoidShowingInBrowserControl(string filePath)
+		private static bool ShouldAllowShowingInBrowserControl(string filePath)
 		{
-			return (Settings.Default.FileTypesToAvoidLoadingInBrowserEditor).Contains(Path.GetExtension(filePath));
+			if (filePath == null) return false;
+
+			var ext = Path.GetExtension(filePath).Trim(new[] {'.'});
+			if (string.IsNullOrEmpty(ext)) return false;
+
+			var allowed = Settings.Default.FileTypesToAllowLoadingInBrowserEditor.Split(new[] {';'});
+			return allowed.Contains(ext);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -63,13 +70,10 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void DisplayFile(string filePath)
 		{
-			if (GetShouldAvoidShowingInBrowserControl(filePath))
-			{
+			if (ShouldAllowShowingInBrowserControl(filePath))
+				TryToDisplayFileInBrowser(filePath);
+			else
 				DisplayInfoForFileNotShownInBrowser(filePath);
-				return;
-			}
-
-			TryToDisplayFileInBrowser(filePath);
 		}
 
 		/// ------------------------------------------------------------------------------------

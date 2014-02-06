@@ -36,6 +36,9 @@ namespace SayMore.UI.Overview
 			_country.DataSource = countryList;
 			_country.DisplayMember = "Text";
 			_country.ValueMember = "Value";
+
+			_linkHelp.Click += (s, e) =>
+				Program.ShowHelpTopic("/User_Interface/Tabs/About_This_Project_User_Interface_terms.htm");
 		}
 
 		/// ------------------------------------------------------------------------------------

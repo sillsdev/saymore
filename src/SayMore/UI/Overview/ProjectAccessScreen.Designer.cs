@@ -37,8 +37,11 @@ namespace SayMore.UI.Overview
 			this._customAccessChoices = new System.Windows.Forms.TextBox();
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._webBrowser = new System.Windows.Forms.WebBrowser();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this._linkHelp = new System.Windows.Forms.LinkLabel();
 			this._layoutTable.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
+			this.flowLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _layoutTable
@@ -49,10 +52,10 @@ namespace SayMore.UI.Overview
 			this._layoutTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._layoutTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._layoutTable.Controls.Add(this._labelAccessProtocol, 0, 0);
-			this._layoutTable.Controls.Add(this._projectAccess, 1, 0);
 			this._layoutTable.Controls.Add(this._labelCustomAccess, 1, 2);
 			this._layoutTable.Controls.Add(this._labelCustomInstructions, 1, 3);
 			this._layoutTable.Controls.Add(this._customAccessChoices, 1, 4);
+			this._layoutTable.Controls.Add(this.flowLayoutPanel1, 1, 0);
 			this._layoutTable.Dock = System.Windows.Forms.DockStyle.Top;
 			this._layoutTable.Location = new System.Drawing.Point(7, 7);
 			this._layoutTable.Name = "_layoutTable";
@@ -91,7 +94,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizationComment(this._projectAccess, null);
 			this.locExtender.SetLocalizationPriority(this._projectAccess, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._projectAccess, "ProjectView.AccessScreen._projectAccess");
-			this._projectAccess.Location = new System.Drawing.Point(128, 6);
+			this._projectAccess.Location = new System.Drawing.Point(3, 3);
 			this._projectAccess.Name = "_projectAccess";
 			this._projectAccess.Size = new System.Drawing.Size(121, 21);
 			this._projectAccess.TabIndex = 2;
@@ -163,10 +166,37 @@ namespace SayMore.UI.Overview
 			this._webBrowser.Name = "_webBrowser";
 			this._webBrowser.ScriptErrorsSuppressed = true;
 			this._webBrowser.ScrollBarsEnabled = false;
-			this._webBrowser.Size = new System.Drawing.Size(364, 137);
+			this._webBrowser.Size = new System.Drawing.Size(364, 155);
 			this._webBrowser.TabIndex = 1;
 			this._webBrowser.WebBrowserShortcutsEnabled = false;
 			this._webBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this._webBrowser_Navigating);
+			// 
+			// flowLayoutPanel1
+			// 
+			this.flowLayoutPanel1.AutoSize = true;
+			this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.flowLayoutPanel1.Controls.Add(this._projectAccess);
+			this.flowLayoutPanel1.Controls.Add(this._linkHelp);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(125, 3);
+			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(269, 27);
+			this.flowLayoutPanel1.TabIndex = 6;
+			// 
+			// _linkHelp
+			// 
+			this._linkHelp.AutoSize = true;
+			this._linkHelp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.locExtender.SetLocalizableToolTip(this._linkHelp, null);
+			this.locExtender.SetLocalizationComment(this._linkHelp, null);
+			this.locExtender.SetLocalizingId(this._linkHelp, "ProjectView.AccessScreen._linkHelp");
+			this._linkHelp.Location = new System.Drawing.Point(130, 0);
+			this._linkHelp.Name = "_linkHelp";
+			this._linkHelp.Size = new System.Drawing.Size(136, 27);
+			this._linkHelp.TabIndex = 7;
+			this._linkHelp.TabStop = true;
+			this._linkHelp.Text = "Help for access protocols";
+			this._linkHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// ProjectAccessScreen
 			// 
@@ -180,12 +210,14 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizingId(this, "ProjectView.AccessScreen");
 			this.Name = "ProjectAccessScreen";
 			this.Padding = new System.Windows.Forms.Padding(7);
-			this.Size = new System.Drawing.Size(507, 206);
+			this.Size = new System.Drawing.Size(507, 224);
 			this.Load += new System.EventHandler(this.ProjectAccessScreen_Load);
 			this.Leave += new System.EventHandler(this.ProjectAccessScreen_Leave);
 			this._layoutTable.ResumeLayout(false);
 			this._layoutTable.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
+			this.flowLayoutPanel1.ResumeLayout(false);
+			this.flowLayoutPanel1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -201,5 +233,7 @@ namespace SayMore.UI.Overview
 		private System.Windows.Forms.Label _labelCustomInstructions;
 		private System.Windows.Forms.TextBox _customAccessChoices;
 		private System.Windows.Forms.WebBrowser _webBrowser;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+		private System.Windows.Forms.LinkLabel _linkHelp;
 	}
 }

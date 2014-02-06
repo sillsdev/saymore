@@ -40,7 +40,6 @@ namespace SayMore.UI.Overview
 			this._labelCountry = new System.Windows.Forms.Label();
 			this._labelContinent = new System.Windows.Forms.Label();
 			this._labelContact = new System.Windows.Forms.Label();
-			this._projectTitle = new System.Windows.Forms.TextBox();
 			this._continent = new System.Windows.Forms.ComboBox();
 			this._country = new System.Windows.Forms.ComboBox();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -62,9 +61,13 @@ namespace SayMore.UI.Overview
 			this._rightsHolder = new System.Windows.Forms.TextBox();
 			this._contentType = new System.Windows.Forms.TextBox();
 			this._fundingProjectTitle = new System.Windows.Forms.TextBox();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this._projectTitle = new System.Windows.Forms.TextBox();
+			this._linkHelp = new System.Windows.Forms.LinkLabel();
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
+			this.flowLayoutPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -85,7 +88,6 @@ namespace SayMore.UI.Overview
 			this._tableLayout.Controls.Add(this._labelCountry, 0, 6);
 			this._tableLayout.Controls.Add(this._labelContinent, 0, 7);
 			this._tableLayout.Controls.Add(this._labelContact, 0, 8);
-			this._tableLayout.Controls.Add(this._projectTitle, 1, 0);
 			this._tableLayout.Controls.Add(this._continent, 1, 7);
 			this._tableLayout.Controls.Add(this._country, 1, 6);
 			this._tableLayout.Controls.Add(this.tableLayoutPanel1, 1, 3);
@@ -105,6 +107,7 @@ namespace SayMore.UI.Overview
 			this._tableLayout.Controls.Add(this._rightsHolder, 1, 12);
 			this._tableLayout.Controls.Add(this._contentType, 1, 15);
 			this._tableLayout.Controls.Add(this._fundingProjectTitle, 1, 10);
+			this._tableLayout.Controls.Add(this.flowLayoutPanel1, 1, 0);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Top;
 			this._tableLayout.Location = new System.Drawing.Point(7, 7);
 			this._tableLayout.Name = "_tableLayout";
@@ -268,17 +271,6 @@ namespace SayMore.UI.Overview
 			this._labelContact.TabIndex = 13;
 			this._labelContact.Text = "Contact Person";
 			this._labelContact.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// _projectTitle
-			// 
-			this.locExtender.SetLocalizableToolTip(this._projectTitle, null);
-			this.locExtender.SetLocalizationComment(this._projectTitle, null);
-			this.locExtender.SetLocalizationPriority(this._projectTitle, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._projectTitle, "ProjectView.MetadataScreen._projectTitle");
-			this._projectTitle.Location = new System.Drawing.Point(125, 6);
-			this._projectTitle.Name = "_projectTitle";
-			this._projectTitle.Size = new System.Drawing.Size(350, 22);
-			this._projectTitle.TabIndex = 1;
 			// 
 			// _continent
 			// 
@@ -554,6 +546,44 @@ namespace SayMore.UI.Overview
 			this._fundingProjectTitle.Size = new System.Drawing.Size(350, 22);
 			this._fundingProjectTitle.TabIndex = 16;
 			// 
+			// flowLayoutPanel1
+			// 
+			this.flowLayoutPanel1.AutoSize = true;
+			this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.flowLayoutPanel1.Controls.Add(this._projectTitle);
+			this.flowLayoutPanel1.Controls.Add(this._linkHelp);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(122, 3);
+			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(473, 28);
+			this.flowLayoutPanel1.TabIndex = 1;
+			// 
+			// _projectTitle
+			// 
+			this.locExtender.SetLocalizableToolTip(this._projectTitle, null);
+			this.locExtender.SetLocalizationComment(this._projectTitle, null);
+			this.locExtender.SetLocalizationPriority(this._projectTitle, L10NSharp.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._projectTitle, "ProjectView.MetadataScreen._projectTitle");
+			this._projectTitle.Location = new System.Drawing.Point(3, 3);
+			this._projectTitle.Name = "_projectTitle";
+			this._projectTitle.Size = new System.Drawing.Size(350, 22);
+			this._projectTitle.TabIndex = 0;
+			// 
+			// _linkHelp
+			// 
+			this._linkHelp.AutoSize = true;
+			this._linkHelp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.locExtender.SetLocalizableToolTip(this._linkHelp, null);
+			this.locExtender.SetLocalizationComment(this._linkHelp, null);
+			this.locExtender.SetLocalizingId(this._linkHelp, "ProjectView.MetadataScreen._linkHelp");
+			this._linkHelp.Location = new System.Drawing.Point(359, 0);
+			this._linkHelp.Name = "_linkHelp";
+			this._linkHelp.Size = new System.Drawing.Size(111, 28);
+			this._linkHelp.TabIndex = 0;
+			this._linkHelp.TabStop = true;
+			this._linkHelp.Text = "Help for these fields";
+			this._linkHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
@@ -577,6 +607,8 @@ namespace SayMore.UI.Overview
 			this._tableLayout.PerformLayout();
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
+			this.flowLayoutPanel1.ResumeLayout(false);
+			this.flowLayoutPanel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -619,6 +651,8 @@ namespace SayMore.UI.Overview
 		private System.Windows.Forms.Label _labelRelatedPublications;
 		private System.Windows.Forms.TextBox _relatedPublications;
 		private LowLevelControls.DatePicker _dateAvailable;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+		private System.Windows.Forms.LinkLabel _linkHelp;
 
 	}
 }

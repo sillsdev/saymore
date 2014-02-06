@@ -24,6 +24,9 @@ namespace SayMore.UI.Overview
 			// access protocol list
 			HandleStringsLocalized();
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+
+			_linkHelp.Click += (s, e) =>
+				Program.ShowHelpTopic("/Using_Tools/Project_tab/Choose_Access_Protocol.htm");
 		}
 
 		protected override void OnHandleDestroyed(EventArgs e)

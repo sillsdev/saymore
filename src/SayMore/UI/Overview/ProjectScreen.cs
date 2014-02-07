@@ -118,6 +118,7 @@ namespace SayMore.UI.Overview
 		public ToolStripMenuItem MainMenuItem { get; private set; }
 		#endregion
 
+		/// ------------------------------------------------------------------------------------
 		private void _projectPages_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			switch (e.RowIndex)
@@ -146,6 +147,7 @@ namespace SayMore.UI.Overview
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void ShowControl(Control control)
 		{
 			while (_splitter.Panel2.Controls.Count > 0)
@@ -155,6 +157,7 @@ namespace SayMore.UI.Overview
 			control.Dock = DockStyle.Fill;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		internal void Save()
 		{
 			_metadataView.Save();

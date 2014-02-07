@@ -107,6 +107,7 @@ namespace SayMore.UI.Overview
 
 		#endregion
 
+		/// ------------------------------------------------------------------------------------
 		private void _linkSelectVernacular_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			using (var dialog = new LookupISOCodeDialog { Force3LetterCodes = true })
@@ -118,11 +119,13 @@ namespace SayMore.UI.Overview
 
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void ProjectMetadataScreen_Leave(object sender, EventArgs e)
 		{
 			Save();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void ProjectMetadataScreen_Load(object sender, EventArgs e)
 		{
 			// show values from project file
@@ -150,6 +153,7 @@ namespace SayMore.UI.Overview
 			_relatedPublications.Text = project.RelatedPublications;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void SizeContinentComboBox(ComboBox comboBox)
 		{
 			var maxWidth = 0;
@@ -163,13 +167,12 @@ namespace SayMore.UI.Overview
 			comboBox.Width = maxWidth + 30;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		internal void Save()
 		{
 			// check for changes
-			var changed = false;
 			var project = Program.CurrentProject;
-
-			if (_projectTitle.Text != project.Title ||
+			var changed = (_projectTitle.Text != project.Title ||
 				_fundingProjectTitle.Text != project.FundingProjectTitle ||
 				_description.Text != project.ProjectDescription ||
 				_labelSelectedVernacular.Text != project.VernacularISO3CodeAndName ||
@@ -184,8 +187,7 @@ namespace SayMore.UI.Overview
 				_rightsHolder.Text != project.RightsHolder ||
 				_depositor.Text != project.Depositor ||
 				_relatedPublications.Text != project.RelatedPublications
-				)
-				changed = true;
+				);
 
 			if (!changed) return;
 

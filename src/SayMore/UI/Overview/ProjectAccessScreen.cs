@@ -127,14 +127,13 @@ namespace SayMore.UI.Overview
 				e.Cancel = true;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		internal void Save()
 		{
 			// check for changes
-			var changed = false;
 			var project = Program.CurrentProject;
 
-			if (_projectAccess.Text != project.AccessProtocol)
-				changed = true;
+			var changed = (_projectAccess.Text != project.AccessProtocol);
 
 			// check if custom access choices changed
 			ArchiveAccessProtocol custom = (ArchiveAccessProtocol)_projectAccess.Items[_projectAccess.Items.Count - 1];

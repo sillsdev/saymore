@@ -15,7 +15,7 @@ namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// This is kind of an experiment at the moment...
+	/// Component for binding extensible key/value fields on a control to a ComponentFile.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[ProvideProperty("IsBound", typeof(Control))]

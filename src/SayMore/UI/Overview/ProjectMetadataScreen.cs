@@ -151,6 +151,11 @@ namespace SayMore.UI.Overview
 			_rightsHolder.Text = project.RightsHolder;
 			_depositor.Text = project.Depositor;
 			_relatedPublications.Text = project.RelatedPublications;
+
+			foreach (Control control in Controls)
+			{
+				control.Validated += delegate { Save(); };
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

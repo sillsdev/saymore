@@ -114,7 +114,7 @@ namespace SayMore.UI.Overview
 			this._tableLayout.Padding = new System.Windows.Forms.Padding(3);
 			this._tableLayout.RowCount = 19;
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -196,7 +196,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizingId(this._labelDescription, "ProjectView.MetadataScreen._labelDescription");
 			this._labelDescription.Location = new System.Drawing.Point(53, 31);
 			this._labelDescription.Name = "_labelDescription";
-			this._labelDescription.Size = new System.Drawing.Size(66, 20);
+			this._labelDescription.Size = new System.Drawing.Size(66, 28);
 			this._labelDescription.TabIndex = 2;
 			this._labelDescription.Text = "Description";
 			this._labelDescription.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

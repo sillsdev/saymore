@@ -4,7 +4,7 @@
 
 SayMore users contributing to archives can now export SayMore data to a folder that conforms to  [IMDI](http://tla.mpi.nl/imdi-metadata/) format. You can then open the folder in IMDI applications like [ARBIL](http://tla.mpi.nl/tools/tla-tools/arbil/) for further annotation and submission.
 
-##Project Level Metdata
+##Project Level Metadata
 
 SayMore 3 adds a "Project" tab for the first time, along with these Project-level fields:
 
@@ -41,8 +41,8 @@ SayMore 3 adds a "Project" tab for the first time, along with these Project-leve
 
 ##New Person Fields
 
- * Nick Name
- * Privacy Protection
+ * Nickname
+ * Code
 
 ##New Person Tab: Contributions
 

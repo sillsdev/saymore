@@ -234,7 +234,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="FileTypesToAllowLoadingInBrowserEditor" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">htm;html;xml;txt;pdf;lift</Value>
+      <Value Profile="(Default)">htm;html;xml;txt;pdf</Value>
     </Setting>
     <Setting Name="RampContributorRoles" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">author;compiler;consultant;developer;editor;facilitator;illustrator;interviewer;photographer;recorder;researcher;signer;speaker;transcriber;translator</Value>

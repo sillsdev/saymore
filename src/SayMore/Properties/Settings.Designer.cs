@@ -804,7 +804,7 @@ namespace SayMore.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("htm;html;xml;txt;pdf;lift")]
+        [global::System.Configuration.DefaultSettingValueAttribute("htm;html;xml;txt;pdf")]
         public string FileTypesToAllowLoadingInBrowserEditor {
             get {
                 return ((string)(this["FileTypesToAllowLoadingInBrowserEditor"]));

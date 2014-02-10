@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -214,6 +215,13 @@ namespace SayMore.UI.Overview
 			project.Depositor = _depositor.Text;
 			project.RelatedPublications = _relatedPublications.Text;
 			project.Save();
+		}
+
+		private void ProjectMetadataScreen_VisibleChanged(object sender, EventArgs e)
+		{
+			// In Project page, Country text should not be selected.
+			if (_country.SelectionLength > 0)
+				_country.SelectionLength = 0;
 		}
 	}
 }

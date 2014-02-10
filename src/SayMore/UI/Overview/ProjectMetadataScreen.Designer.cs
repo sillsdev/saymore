@@ -601,6 +601,7 @@ namespace SayMore.UI.Overview
 			this.Name = "ProjectMetadataScreen";
 			this.Size = new System.Drawing.Size(653, 608);
 			this.Load += new System.EventHandler(this.ProjectMetadataScreen_Load);
+			this.VisibleChanged += new System.EventHandler(this.ProjectMetadataScreen_VisibleChanged);
 			this.Leave += new System.EventHandler(this.ProjectMetadataScreen_Leave);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();

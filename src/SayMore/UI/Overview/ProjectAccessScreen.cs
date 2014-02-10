@@ -118,6 +118,10 @@ namespace SayMore.UI.Overview
 			_isLoaded = true;
 
 			SetForCustom();
+
+			foreach (Control control in Controls)
+				control.Validated += delegate { Save(); };
+
 		}
 
 		/// ------------------------------------------------------------------------------------

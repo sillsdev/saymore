@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using L10NSharp;
 using Palaso.Reporting;
 using SayMore.Transcription.Model;
 
+// ReSharper disable once CheckNamespace
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ namespace SayMore.Transcription.UI
 		protected virtual void HandlePlaybackTypeMenuItemClicked(object sender, EventArgs e)
 		{
 			var menuItem = sender as ToolStripMenuItem;
-			PlaybackType = (AudioRecordingType)menuItem.Tag;
+			if (menuItem != null) PlaybackType = (AudioRecordingType)menuItem.Tag;
 			_grid.Play();
 		}
 
@@ -112,8 +112,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public override void InitializeColumnContextMenu()
 		{
-			if (_columnMenu != null)
-				throw new InvalidOperationException("InitializeColumnContextMenu should only be called once");
+			// SP-755: Crash reloading file after editing it in an external editor
+			//if (_columnMenu != null)
+			//    throw new InvalidOperationException("InitializeColumnContextMenu should only be called once");
+			if (_columnMenu != null) return;
+
 			_columnMenu = new ContextMenuStrip();
 			var playbackOptionMenus = GetPlaybackOptionMenus();
 			_columnMenu.Items.AddRange(playbackOptionMenus.Cast<ToolStripItem>().ToArray());

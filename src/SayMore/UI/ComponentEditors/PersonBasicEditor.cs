@@ -26,6 +26,8 @@ namespace SayMore.UI.ComponentEditors
 		private FieldsValuesGridViewModel _gridViewModel;
 		private readonly ImageFileType _imgFileType;
 
+		private readonly bool _loaded;
+
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer,
@@ -72,6 +74,8 @@ namespace SayMore.UI.ComponentEditors
 			ValidateBirthYear();
 
 			_binder.OnDataSaved += _binder_OnDataSaved;
+
+			_loaded = true;
 		}
 
 		void _binder_OnDataSaved()
@@ -173,15 +177,22 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void LoadParentLanguages()
 		{
+			// SP-810:  Parent language data not saving correctly
 			var fathersLanguage = _binder.GetValue("fathersLanguage");
-			var pb = _fatherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == fathersLanguage);
-			if (pb != null)
-				pb.Selected = true;
+			if (!string.IsNullOrEmpty(fathersLanguage))
+			{
+				var pb = _fatherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == fathersLanguage);
+				if (pb != null)
+					pb.Selected = true;
+			}
 
 			var mothersLanguage = _binder.GetValue("mothersLanguage");
-			pb = _motherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == mothersLanguage);
-			if (pb != null)
-				pb.Selected = true;
+			if (!string.IsNullOrEmpty(mothersLanguage))
+			{
+				var pb = _motherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == mothersLanguage);
+				if (pb != null)
+					pb.Selected = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -194,6 +205,8 @@ namespace SayMore.UI.ComponentEditors
 			pb = _motherButtons.SingleOrDefault(x => x.Selected);
 			if (pb != null)
 				_binder.SetValue("mothersLanguage", ((TextBox)pb.Tag).Text.Trim());
+
+			_file.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -210,14 +223,23 @@ namespace SayMore.UI.ComponentEditors
 				HandleMothersLanguageChanging);
 		}
 
+		// SP-810:  Parent language data not saving correctly
+		void HandleParentLanguageSelectedChanged(object sender, EventArgs e)
+		{
+			if (!_loaded) return;
+			SaveParentLanguages();
+		}
+
 		/// ------------------------------------------------------------------------------------
-		private static void HandleParentLanguageChange(IEnumerable<ParentButton> buttons,
+		private void HandleParentLanguageChange(IEnumerable<ParentButton> buttons,
 			ParentButton selectedButton, CancelEventHandler changeHandler)
 		{
 			foreach (var pb in buttons.Where(x => x != selectedButton))
 			{
+				pb.SelectedChanged -= HandleParentLanguageSelectedChanged;
 				pb.SelectedChanging -= changeHandler;
 				pb.Selected = false;
+				pb.SelectedChanged += HandleParentLanguageSelectedChanged;
 				pb.SelectedChanging += changeHandler;
 			}
 		}

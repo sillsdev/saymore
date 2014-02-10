@@ -48,7 +48,12 @@ namespace SayMore.Media.FFmpeg
 		/// ------------------------------------------------------------------------------------
 		public static string FFmpegForSayMoreFolder
 		{
-			get { return Path.Combine(FFmpegForSayMoreParentFolder, kFFmpegForSayMoreFolderName); }
+			get
+			{
+				// check for a bin directory first
+				var dir = Path.Combine(FFmpegForSayMoreParentFolder, kFFmpegForSayMoreFolderName, "bin");
+				return Directory.Exists(dir) ? dir : Path.Combine(FFmpegForSayMoreParentFolder, kFFmpegForSayMoreFolderName);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,14 +1,14 @@
 using System;
-using System.Linq;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
-using System.Windows.Media;
 using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Extensions;
 using SayMore.Media.Audio;
+using SayMore.Media.FFmpeg;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -17,10 +17,7 @@ using SayMore.UI.ComponentEditors;
 using SayMore.Media.MPlayer;
 using SayMore.Model;
 using Palaso.UI.WindowsForms;
-using SayMore.Media;
-using SayMore.Media.FFmpeg;
-using System.Collections.Generic;
-using Color = System.Drawing.Color;
+using SayMore.Utilities;
 
 namespace SayMore.Transcription.UI
 {
@@ -71,10 +68,6 @@ namespace SayMore.Transcription.UI
 			{
 				Program.ShowHelpTopic("/Using_Tools/Sessions_tab/Annotations_tab/Working_with_annotations.htm");
 			};
-
-			// Be sure to restart the pprogram whenever there is a new video added.
-			_exportVideoTranscription.Enabled = !string.IsNullOrEmpty(GetVideoFilePath());
-			_exportFreeTranslationVideoMenuItem.Enabled = _exportVideoTranscription.Enabled;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -98,26 +91,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void LoadPlaybackSpeedCombo()
 		{
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct", "100%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct", "90%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.80Pct", "80%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.70Pct", "70%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.60Pct", "60%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.50Pct", "50%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.40Pct", "40%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.30Pct", "30%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.20Pct", "20%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.10Pct", "10%"));
+			var pctFormatter = new PercentageFormatter();
+
+			for (int i = 10; i > 0; i--)
+				_comboPlaybackSpeed.Items.Add(pctFormatter.Format(i * 10));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -420,20 +397,6 @@ namespace SayMore.Transcription.UI
 			DoExportSubtitleDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.transcriptionFilenameSuffix", "transcription_subtitle"), timeTier, contentTier);
 		}
 
-		private void OnExportVideoFreeTranslation(object sender, EventArgs e)
-		{
-			// The string has to be worked out
-			string fileNameSuffix = "freeTranslation";
-			DoExportVideoDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix", fileNameSuffix));
-		}
-
-		private void OnExportVideoTranscription(object sender, EventArgs e)
-		{
-			// The string has to be worked out
-			string fileNameSuffix = "transcription";
-			DoExportVideoDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.transcriptionFilenameSuffix", fileNameSuffix));
-		}
-
 		private void DoExportSubtitleDialog(string fileNameSuffix, TimeTier timeTier, TextTier textTeir)
 		{
 			textTeir.AddTimeRangeData(timeTier);
@@ -443,111 +406,8 @@ namespace SayMore.Transcription.UI
 			var action = new Action<string>(path => SRTFormatSubTitleExporter.Export(path, textTeir));
 
 			DoSimpleExportDialog(".srt", filter, fileName, action);
-			//DoSimpleExportDialog(".ass", filter, fileName, action);
 		}
 
-		private void DoExportVideoDialog(string fileNameSuffix)
-		{
-			// check whether FFmpeg is installed, if not, give a chance to install
-			// this routine can be potentially moved to an earlier spot
-			if (!FFmpegDownloadHelper.DoesFFmpegForSayMoreExist)
-			{
-				// TODO: Display an explanatory MessageBox
-				MessageBox.Show("FFMPEG is required to export video with subtitle. The software can be downloaded now.");
-				using (var dlg = new FFmpegDownloadDlg())
-					dlg.ShowDialog(this);
-				if (!FFmpegDownloadHelper.DoesFFmpegForSayMoreExist)
-					return;
-			}
-
-			// ffmpeg requires FONTCONFIG_PATH environment variable set.
-			// this routine can be potentially moved to an earlier spot
-			var fontConfigPath = Palaso.IO.FileLocator.GetDirectoryDistributedWithApplication("mplayer", "fonts");
-			Environment.SetEnvironmentVariable("FONTCONFIG_PATH ", fontConfigPath);
-
-			/*
-			Enumerate the video files in the session to try to
-			determine which one to add subtitles to. The assumption is that if there is exactly one
-			video in the session whose name matches the “base name” of the standard audio WAV file
-			being annotated, then we can just use it without prompting the user.
-			However, there are a couple edge cases I’m not sure about:
-
-			1) If there are two or more videos with the same name but having different
-			video formats (AVI, MP4, etc.), I’m assuming we need to ask the user which one to use?
-			Or is there one particular format that we can safely assume to be the preferred one?
-			(Presumably all the different videos would be the same content, so the end result will be essentially the same no matter which one we use, but the quality could be different.)
-
-			2) If there are no videos at all in the session, do we disable these menu commands, detect and
-			report that situation after they choose the command, or allow them to navigate to a video
-			anywhere on their computer to marry with the subtitles?
-
-			3) If there is exactly one video in the session, but it has a different name, do we use it without
-			prompting, or ask the user? (If the latter, do we give them the option of navigating to a
-			video somewhere else?)
-
-			4) If there are multiple videos in the session, but none has a matching name, do we display them
-			as a list and let the user choose? (Do we give them the option of navigating to a
-			video somewhere else?)
-
-			// Enumerate the video files in the session to try to determine which one to add subtitles to.
-			List<string> videoFiles = new List<string>();
-			foreach (var file in _file.ParentElement.GetComponentFiles())
-			{
-				var info = MediaFileInfo.GetInfo(file.PathToAnnotatedFile);
-				if (info != null && info.IsVideo)
-				{
-					videoFiles.Add(file.PathToAnnotatedFile);
-					//System.Console.Write(file.PathToAnnotatedFile);
-				}
-			}
-			// The assumption is that there is exactly one video file
-			if (videoFiles.Count != 1)
-			{
-				//TODO message
-				System.Console.Write("There are either no video or more than one video file");
-				return;
-			}
-			// compare against Settings.Default.StandardAudioFileSuffix;
-			if (!videoFiles[0].StartsWith(baseName))
-				return;
-			// the input video file to which the subtitle is added
-			string inVideoPath = videoFiles[0];
-			*/
-
-			// the input video file to which the subtitle is added
-			var inVideoPath = GetVideoFilePath();
-
-			// produce a subtitle file to be merged into a video
-			// this file will be created in a temp folder and later will be deleted
-			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
-			var contentTier = ((AnnotationComponentFile)_file).Tiers.GetFreeTranslationTier();
-			contentTier.AddTimeRangeData(timeTier);
-			var tempDir = Path.GetTempPath();
-			var subtitleFilePath = tempDir + "\\" + _file.ParentElement.Id + "_tmp.srt";
-			SRTFormatSubTitleExporter.Export(subtitleFilePath, contentTier);
-			// in the future, consider ass format for better quality subtitle
-
-			// the output video file
-			var outVideoPath = _file.ParentElement.Id + ComponentRole.kFileSuffixSeparator + fileNameSuffix;
-			var filter = "Video (*.mp4;*.mkv)|*.mp4;*mkv";
-
-			var action = new Action<string>(path => TestFormatVideoExporter.Export(path, inVideoPath, subtitleFilePath));
-			string extension = Path.GetExtension(inVideoPath);
-			DoSimpleVideoExportDialog(extension, filter, outVideoPath, action);
-
-			// delete the temporary subtitle file
-			File.Delete(subtitleFilePath);
-		}
-
-		private string GetVideoFilePath()
-		{
-			var index = _file.PathToAnnotatedFile.IndexOf(Settings.Default.StandardAudioFileSuffix, StringComparison.Ordinal);
-
-			if (index < 1) return null;
-
-			var inVideoPath = _file.PathToAnnotatedFile.Substring(0, index) + ".mp4";
-			return File.Exists(inVideoPath) ? inVideoPath : null;
-		}
 
 		private void OnAudacityExportFreeTranslation(object sender, EventArgs e)
 		{
@@ -618,6 +478,7 @@ namespace SayMore.Transcription.UI
 					dlg.FileName = fileName;
 					dlg.RestoreDirectory = true;
 					dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
 					if (DialogResult.OK != dlg.ShowDialog())
 						return;
 
@@ -633,6 +494,116 @@ namespace SayMore.Transcription.UI
 					throw;
 				ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
 			}
+		}
+
+		private void OnExportVideoFreeTranslation(object sender, EventArgs e)
+		{
+			// The string has to be worked out
+			string fileNameSuffix = "freeTranslation";
+			DoExportVideoDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix", fileNameSuffix));
+		}
+
+		private void OnExportVideoTranscription(object sender, EventArgs e)
+		{
+			// The string has to be worked out
+			string fileNameSuffix = "transcription";
+			DoExportVideoDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.transcriptionFilenameSuffix", fileNameSuffix));
+		}
+
+		private void DoExportVideoDialog(string fileNameSuffix)
+		{
+			// check whether FFmpeg is installed, if not, give a chance to install
+			// this routine can be potentially moved to an earlier spot
+			if (!FFmpegDownloadHelper.DoesFFmpegForSayMoreExist)
+			{
+				// TODO: Display an explanatory MessageBox
+				MessageBox.Show("FFMPEG is required to export video with subtitle. The software can be downloaded now.");
+				using (var dlg = new FFmpegDownloadDlg())
+					dlg.ShowDialog(this);
+				if (!FFmpegDownloadHelper.DoesFFmpegForSayMoreExist)
+					return;
+			}
+
+			// ffmpeg requires FONTCONFIG_PATH environment variable set.
+			// this routine can be potentially moved to an earlier spot
+			var fontConfigPath = Palaso.IO.FileLocator.GetDirectoryDistributedWithApplication("mplayer", "fonts");
+			System.Environment.SetEnvironmentVariable("FONTCONFIG_PATH ", fontConfigPath);
+
+			/*
+			Enumerate the video files in the session to try to
+			determine which one to add subtitles to. The assumption is that if there is exactly one
+			video in the session whose name matches the “base name” of the standard audio WAV file
+			being annotated, then we can just use it without prompting the user.
+			However, there are a couple edge cases I’m not sure about:
+
+			1) If there are two or more videos with the same name but having different
+			video formats (AVI, MP4, etc.), I’m assuming we need to ask the user which one to use?
+			Or is there one particular format that we can safely assume to be the preferred one?
+			(Presumably all the different videos would be the same content, so the end result will be essentially the same no matter which one we use, but the quality could be different.)
+
+			2) If there are no videos at all in the session, do we disable these menu commands, detect and
+			report that situation after they choose the command, or allow them to navigate to a video
+			anywhere on their computer to marry with the subtitles?
+
+			3) If there is exactly one video in the session, but it has a different name, do we use it without
+			prompting, or ask the user? (If the latter, do we give them the option of navigating to a
+			video somewhere else?)
+
+			4) If there are multiple videos in the session, but none has a matching name, do we display them
+			as a list and let the user choose? (Do we give them the option of navigating to a
+			video somewhere else?)
+
+			// Enumerate the video files in the session to try to determine which one to add subtitles to.
+			List<string> videoFiles = new List<string>();
+			foreach (var file in _file.ParentElement.GetComponentFiles())
+			{
+				var info = MediaFileInfo.GetInfo(file.PathToAnnotatedFile);
+				if (info != null && info.IsVideo)
+				{
+					videoFiles.Add(file.PathToAnnotatedFile);
+					//System.Console.Write(file.PathToAnnotatedFile);
+				}
+			}
+			// The assumption is that there is exactly one video file
+			if (videoFiles.Count != 1)
+			{
+				//TODO message
+				System.Console.Write("There are either no video or more than one video file");
+				return;
+			}
+			// compare against Settings.Default.StandardAudioFileSuffix;
+			if (!videoFiles[0].StartsWith(baseName))
+				return;
+			// the input video file to which the subtitle is added
+			string inVideoPath = videoFiles[0];
+			*/
+
+			// the input video file to which the subtitle is added
+			int index = _file.PathToAnnotatedFile.IndexOf(Settings.Default.StandardAudioFileSuffix);
+			string inVideoPath = _file.PathToAnnotatedFile.Substring(0, index) + "_Source.mp4";
+			if (!File.Exists(inVideoPath))
+				return;
+
+			// produce a subtitle file to be merged into a video
+			// this file will be created in a temp folder and later will be deleted
+			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
+			var contentTier = ((AnnotationComponentFile)_file).Tiers.GetFreeTranslationTier();
+			contentTier.AddTimeRangeData(timeTier);
+			var tempDir = Path.GetTempPath();
+			var subtitleFilePath = tempDir + "\\" + _file.ParentElement.Id + "_tmp.srt";
+			SRTFormatSubTitleExporter.Export(subtitleFilePath, contentTier);
+			// in the future, consider ass format for better quality subtitle
+
+			// the output video file
+			var outVideoPath = _file.ParentElement.Id + ComponentRole.kFileSuffixSeparator + fileNameSuffix;
+			var filter = "Video (*.mp4;*.mkv)|*.mp4;*mkv";
+
+			var action = new Action<string>(path => TestFormatVideoExporter.Export(path, inVideoPath, subtitleFilePath));
+			string extension = Path.GetExtension(inVideoPath);
+			DoSimpleVideoExportDialog(extension, filter, outVideoPath, action);
+
+			// delete the temporary subtitle file
+			File.Delete(subtitleFilePath);
 		}
 
 		private static void DoSimpleVideoExportDialog(string defaultExt, string filter, string fileName, Action<string> action)

@@ -191,6 +191,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Transcription\Model\Exporters\AudacityExporter.cs" />
+    <Compile Include="Transcription\Model\Exporters\TestFormatVideoExporter.cs" />
     <Compile Include="Transcription\Model\Exporters\ToolboxTranscriptionExporter.cs" />
     <Compile Include="Transcription\Model\Exporters\SRTFormatSubTitleExporter.cs" />
     <Compile Include="Transcription\Model\Exporters\PlainTextTranscriptionExporter.cs" />

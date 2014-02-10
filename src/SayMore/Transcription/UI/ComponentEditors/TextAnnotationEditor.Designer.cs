@@ -26,6 +26,8 @@ namespace SayMore.Transcription.UI
             this._plainTextExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._exportFreeTranslationSubtitlesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._exportSubtitlesTranscription = new System.Windows.Forms.ToolStripMenuItem();
+            this._exportFreeTranslationVideoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._exportVideoTranscription = new System.Windows.Forms.ToolStripMenuItem();
             this._csvExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._toolboxInterlinearExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._buttonResegment = new System.Windows.Forms.ToolStripButton();
@@ -87,12 +89,13 @@ namespace SayMore.Transcription.UI
             this._exportFreeTranslationSubtitlesMenuItem,
             this._exportSubtitlesTranscription,
             this._csvExportMenuItem,
-            this._toolboxInterlinearExportMenuItem});
+            this._toolboxInterlinearExportMenuItem,
+            this._exportFreeTranslationVideoMenuItem,
+            this._exportVideoTranscription});
             this._exportMenu.Image = global::SayMore.Properties.Resources.InterlinearExport;
             this._exportMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.locExtender.SetLocalizableToolTip(this._exportMenu, null);
             this.locExtender.SetLocalizationComment(this._exportMenu, null);
-            this.locExtender.SetLocalizationPriority(this._exportMenu, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._exportMenu, "SessionsView.Transcription.TextAnnotation.ExportMenu");
             this._exportMenu.Name = "_exportMenu";
             this._exportMenu.Size = new System.Drawing.Size(69, 20);
@@ -102,7 +105,6 @@ namespace SayMore.Transcription.UI
             // 
             this.locExtender.SetLocalizableToolTip(this._audacityExportFreeTranslationMenuItem, null);
             this.locExtender.SetLocalizationComment(this._audacityExportFreeTranslationMenuItem, null);
-            this.locExtender.SetLocalizationPriority(this._audacityExportFreeTranslationMenuItem, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._audacityExportFreeTranslationMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslation");
             this._audacityExportFreeTranslationMenuItem.Name = "_audacityExportFreeTranslationMenuItem";
             this._audacityExportFreeTranslationMenuItem.Size = new System.Drawing.Size(277, 22);
@@ -113,7 +115,6 @@ namespace SayMore.Transcription.UI
             // 
             this.locExtender.SetLocalizableToolTip(this._audacityExportTranscription, null);
             this.locExtender.SetLocalizationComment(this._audacityExportTranscription, null);
-            this.locExtender.SetLocalizationPriority(this._audacityExportTranscription, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._audacityExportTranscription, "SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscription");
             this._audacityExportTranscription.Name = "_audacityExportTranscription";
             this._audacityExportTranscription.Size = new System.Drawing.Size(277, 22);
@@ -124,7 +125,6 @@ namespace SayMore.Transcription.UI
             // 
             this.locExtender.SetLocalizableToolTip(this._exportElanMenuItem, null);
             this.locExtender.SetLocalizationComment(this._exportElanMenuItem, null);
-            this.locExtender.SetLocalizationPriority(this._exportElanMenuItem, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._exportElanMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMenuItem");
             this._exportElanMenuItem.Name = "_exportElanMenuItem";
             this._exportElanMenuItem.Size = new System.Drawing.Size(277, 22);
@@ -135,7 +135,6 @@ namespace SayMore.Transcription.UI
             // 
             this.locExtender.SetLocalizableToolTip(this._flexInterlinearExportMenuItem, null);
             this.locExtender.SetLocalizationComment(this._flexInterlinearExportMenuItem, null);
-            this.locExtender.SetLocalizationPriority(this._flexInterlinearExportMenuItem, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._flexInterlinearExportMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.FLExTextExport");
             this._flexInterlinearExportMenuItem.Name = "_flexInterlinearExportMenuItem";
             this._flexInterlinearExportMenuItem.Size = new System.Drawing.Size(277, 22);
@@ -146,7 +145,6 @@ namespace SayMore.Transcription.UI
             // 
             this.locExtender.SetLocalizableToolTip(this._plainTextExportMenuItem, null);
             this.locExtender.SetLocalizationComment(this._plainTextExportMenuItem, null);
-            this.locExtender.SetLocalizationPriority(this._plainTextExportMenuItem, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._plainTextExportMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.plainTextExport");
             this._plainTextExportMenuItem.Name = "_plainTextExportMenuItem";
             this._plainTextExportMenuItem.Size = new System.Drawing.Size(277, 22);
@@ -157,7 +155,6 @@ namespace SayMore.Transcription.UI
             // 
             this.locExtender.SetLocalizableToolTip(this._exportFreeTranslationSubtitlesMenuItem, null);
             this.locExtender.SetLocalizationComment(this._exportFreeTranslationSubtitlesMenuItem, null);
-            this.locExtender.SetLocalizationPriority(this._exportFreeTranslationSubtitlesMenuItem, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._exportFreeTranslationSubtitlesMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlestFreeTranslation" +
         "");
             this._exportFreeTranslationSubtitlesMenuItem.Name = "_exportFreeTranslationSubtitlesMenuItem";
@@ -170,7 +167,6 @@ namespace SayMore.Transcription.UI
             // 
             this.locExtender.SetLocalizableToolTip(this._exportSubtitlesTranscription, null);
             this.locExtender.SetLocalizationComment(this._exportSubtitlesTranscription, null);
-            this.locExtender.SetLocalizationPriority(this._exportSubtitlesTranscription, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._exportSubtitlesTranscription, "SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscription");
             this._exportSubtitlesTranscription.Name = "_exportSubtitlesTranscription";
             this._exportSubtitlesTranscription.Size = new System.Drawing.Size(277, 22);
@@ -189,16 +185,9 @@ namespace SayMore.Transcription.UI
             this._exportFreeTranslationVideoMenuItem.Text = "Video (Free Translation)...";
             this._exportFreeTranslationVideoMenuItem.ToolTipText = "Video with free translation subtitle will be created";
             this._exportFreeTranslationVideoMenuItem.Click += new System.EventHandler(this.OnExportVideoFreeTranslation);            // Once Enabled is set for this menu, it won't change until the program restarts.
-            // Be sure to restart the pprogram whenever there is a new video added.
-            this._exportFreeTranslationVideoMenuItem.Enabled = false;
-            int index = _file.PathToAnnotatedFile.IndexOf(SayMore.Properties.Settings.Default.StandardAudioFileSuffix);
-			if (index > 0)
-			{
-				string sourceVideoPath = _file.PathToAnnotatedFile.Substring(0, index) + "_Source.mp4";
-				if (System.IO.File.Exists(sourceVideoPath))
-					this._exportFreeTranslationVideoMenuItem.Enabled = true;
-			}
-			// 
+            
+
+            // 
             // _exportVideoTranscription
             // 
             this.locExtender.SetLocalizableToolTip(this._exportVideoTranscription, null);
@@ -297,7 +286,6 @@ namespace SayMore.Transcription.UI
             this._comboPlaybackSpeed.DropDownWidth = 49;
             this.locExtender.SetLocalizableToolTip(this._comboPlaybackSpeed, "Playback speed");
             this.locExtender.SetLocalizationComment(this._comboPlaybackSpeed, null);
-            this.locExtender.SetLocalizationPriority(this._comboPlaybackSpeed, L10NSharp.LocalizationPriority.Medium);
             this.locExtender.SetLocalizingId(this._comboPlaybackSpeed, "SessionsView.Transcription.TextAnnotationEditor._comboPlaybackSpeed");
             this._comboPlaybackSpeed.Name = "_comboPlaybackSpeed";
             this._comboPlaybackSpeed.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
@@ -356,7 +344,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripMenuItem _flexInterlinearExportMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem _exportFreeTranslationSubtitlesMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem _exportSubtitlesTranscription;
-		private System.Windows.Forms.ToolStripMenuItem _csvExportMenuItem;
         private System.Windows.Forms.ToolStripMenuItem _exportFreeTranslationVideoMenuItem;
         private System.Windows.Forms.ToolStripMenuItem _exportVideoTranscription;
         private System.Windows.Forms.ToolStripMenuItem _csvExportMenuItem;
@@ -366,8 +353,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.SplitContainer _splitter;
         private System.Windows.Forms.ToolStripMenuItem _audacityExportTranscription;
         private System.Windows.Forms.ToolStripMenuItem _audacityExportFreeTranslationMenuItem;
-
-
         //private System.Windows.Forms.ToolStripMenuItem videoWithTranscriptionToolStripMenuItem;
         //private System.Windows.Forms.ToolStripMenuItem videoWithTranslationToolStripMenuItem;
 	}

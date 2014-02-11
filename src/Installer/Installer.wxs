@@ -128,8 +128,8 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<File Id="SayMore.exe" Name="SayMore.exe"  Source="..\..\output\release\SayMore.exe" />
 
 			<!-- moved these 2 files here because they are not being installed during an upgrade from V2 to V3 -->
-			<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="yes" Source="..\..\output\release\L10NSharp.dll" />
-			<File Id="PalasoUIWindowsForms.dll" Name="PalasoUIWindowsForms.dll" KeyPath="yes" Source="..\..\output\release\PalasoUIWindowsForms.dll" />
+			<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="no" Source="..\..\output\release\L10NSharp.dll" />
+			<File Id="PalasoUIWindowsForms.dll" Name="PalasoUIWindowsForms.dll" KeyPath="no" Source="..\..\output\release\PalasoUIWindowsForms.dll" />
 
 			<!--- todo: icons for saymore files -->
 

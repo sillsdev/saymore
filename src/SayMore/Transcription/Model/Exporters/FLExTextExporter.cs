@@ -27,16 +27,31 @@ namespace SayMore.Transcription.Model.Exporters
 		private readonly string _outputFilePath;
 		private BackgroundWorker _worker;
 		private readonly int _segmentCount;
+		private int _currentSegment;
+		private readonly string _mediaFileGuid;
+		private readonly string _mediaFilePath;
+		private readonly string _sourceFileGuid;
+		private readonly string _sourceFilePath;
+
 
 		/// ------------------------------------------------------------------------------------
 		public FLExTextExporter(string outputFilePath, string title,
-			TierCollection tierCollection, string wsTranscriptionId, string wsFreeTranslationId)
+			TierCollection tierCollection, string wsTranscriptionId, string wsFreeTranslationId,
+			string mediaFilePath, string sourceFilePath)
 		{
 			_outputFilePath = outputFilePath;
 			_title = title;
 			_tierCollection = (tierCollection ?? new TierCollection());
 			_wsTranscriptionId = wsTranscriptionId;
 			_wsFreeTranslationId = wsFreeTranslationId;
+			_mediaFileGuid = Guid.NewGuid().ToString();
+			_mediaFilePath = mediaFilePath;
+			if (sourceFilePath != "")
+			{
+				_sourceFileGuid = Guid.NewGuid().ToString();
+				_sourceFilePath = sourceFilePath;
+			}
+			_currentSegment = 1;
 
 			var textTier = _tierCollection.GetTranscriptionTier();
 			if (textTier != null)
@@ -131,6 +146,13 @@ namespace SayMore.Transcription.Model.Exporters
 			rootElement.Element("interlinear-text").Add(CreateLanguagesElement(
 				new[] { _wsTranscriptionId, _wsFreeTranslationId }));
 
+			rootElement.Element("interlinear-text").Add(
+				new XElement("media-files", new XAttribute("offset-type", ""),
+					new XElement("media", new XAttribute("guid", _mediaFileGuid), new XAttribute("location", _mediaFilePath))));
+
+			if (_sourceFilePath != "") rootElement.Element("interlinear-text").Element("media-files").Add(
+				new XElement("media", new XAttribute("guid", _sourceFileGuid), new XAttribute("location", _sourceFilePath)));
+
 			return rootElement;
 		}
 
@@ -167,6 +189,11 @@ namespace SayMore.Transcription.Model.Exporters
 
 			var segmentList = transcriptionTier.Segments.ToArray();
 
+			var timeTier = _tierCollection.GetTimeTier();
+
+			var timeSegmentList = timeTier.Segments.ToArray();
+
+
 			for (int i = 0; i < segmentList.Length; i++)
 			{
 				// _worker will be null during tests.
@@ -174,30 +201,39 @@ namespace SayMore.Transcription.Model.Exporters
 					_worker.ReportProgress(i + 1);
 
 				Segment freeTranslationSegment;
+				int startTime = (int)Math.Round(timeSegmentList[i].Start * 1000);
+				int endTime = (int)Math.Round(timeSegmentList[i].End * 1000);
 				translationTier.TryGetSegment(i, out freeTranslationSegment);
 				yield return CreateSingleParagraphElement(segmentList[i].Text,
-					(freeTranslationSegment != null ? freeTranslationSegment.Text : null));
+					(freeTranslationSegment != null ? freeTranslationSegment.Text : null),
+					startTime.ToString(),
+					endTime.ToString()
+					);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public XElement CreateSingleParagraphElement(string transcription, string freeTranslation)
+		public XElement CreateSingleParagraphElement(string transcription, string freeTranslation, string start, string end)
 		{
-			var transcriptionElement = CreateSingleWordElement(transcription);
-			var phraseElement = new XElement("phrase", transcriptionElement);
-
+			//	var transcriptionElement = CreateSingleWordElement(transcription);
+			var phraseElement = new XElement("phrase",
+				new XAttribute("begin-time-offset", start), new XAttribute("end-time-offset", end), new XAttribute("media-file", _mediaFileGuid));
+			phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "segnum", _currentSegment++.ToString()));
+			phraseElement.Add(CreateItemElement(_wsTranscriptionId, "txt", transcription));
 			if (freeTranslation != null)
 				phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "gls", freeTranslation));
+
+			phraseElement.Add(new XElement("words", null));
 
 			return new XElement("paragraph", new XElement("phrases", phraseElement));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public XElement CreateSingleWordElement(string text)
-		{
-			return new XElement("words", new XElement("word",
-				CreateItemElement(_wsTranscriptionId, "txt", text)));
-		}
+		//public XElement CreateSingleWordElement(string text)
+		//{
+		//    return new XElement("words", new XElement("word",
+		//        CreateItemElement(_wsTranscriptionId, "txt", text)));
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		public XElement CreateItemElement(string langId, string type, string text)
@@ -208,10 +244,11 @@ namespace SayMore.Transcription.Model.Exporters
 
 		/// ------------------------------------------------------------------------------------
 		public static void Save(string outputFilePath, string title, TierCollection tierCollection,
-			string wsTranscriptionId, string wsFreeTranslationId)
+			string wsTranscriptionId, string wsFreeTranslationId,
+			string mediaFilePath, string sourceFilePath)
 		{
 			var helper = new FLExTextExporter(outputFilePath, title,
-				tierCollection, wsTranscriptionId, wsFreeTranslationId);
+				tierCollection, wsTranscriptionId, wsFreeTranslationId, mediaFilePath, sourceFilePath);
 
 			var caption = LocalizationManager.GetString(
 					"SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.Caption",

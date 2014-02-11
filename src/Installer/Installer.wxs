@@ -158,7 +158,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		  <Component Id="Ionic.Zip.dll" Guid="{7F9026D4-188B-4C67-87E9-777FEE4A3E16}">
 			<File Id="Ionic.Zip.dll" Name="Ionic.Zip.dll" KeyPath="yes" Source="..\..\output\release\Ionic.Zip.dll" />
 		  </Component>
-		  <Component Id="L10NSharp.dll" Guid="{92419CBC-BA15-4dfd-B57E-399BEC7FE926}">
+		  <Component Id="L10NSharp.dll" Guid="{46DD47A5-A2BA-4943-999B-22B8661D2896}">
 			<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="yes" Source="..\..\output\release\L10NSharp.dll" />
 		  </Component>
 		  <Component Id="Palaso.dll" Guid="{C46C492A-304B-47b8-A13A-7CE4896B5634}">
@@ -167,7 +167,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		  <Component Id="SIL.Archiving.dll" Guid="{B8A59AC6-8B9E-4117-8330-D48A24DAFD13}">
 			<File Id="SIL.Archiving.dll" Name="SIL.Archiving.dll" KeyPath="yes" Source="..\..\output\release\SIL.Archiving.dll" />
 		  </Component>
-		  <Component Id="PalasoUIWindowsForms.dll" Guid="{47046B6E-668C-4a4d-A866-719922C142B5}">
+		  <Component Id="PalasoUIWindowsForms.dll" Guid="{3EFA1167-0EBC-44AF-A34B-0679CE09FCAF}">
 			<File Id="PalasoUIWindowsForms.dll" Name="PalasoUIWindowsForms.dll" KeyPath="yes" Source="..\..\output\release\PalasoUIWindowsForms.dll" />
 		  </Component>
 		  <Component Id="Palaso.Media.dll" Guid="{742F2F76-3978-4d83-BC98-C7585B6F69D8}">

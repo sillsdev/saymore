@@ -149,7 +149,6 @@ namespace SayMore.UI.Overview
 			this._projectPages.TabIndex = 0;
 			this._projectPages.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this._projectPages.WaterMark = "!";
-			this._projectPages.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this._projectPages_RowEnter);
 			//
 			// _splitter
 			//

@@ -62,16 +62,31 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		private void HandleStringsLocalized()
 		{
-			var currentRow = _projectPages.CurrentCellAddress.Y;
-			_projectPages.RowCount = 0;
-			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.AboutProjectViewTitle", "About This Project") });
-			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.AccessProtocolViewTitle", "Access Protocol") });
-			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.DescriptionDocumentsTitle", "Description Documents") });
-			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.OtherDocumentsTitle", "Other Documents") });
-			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress") });
+			// Just to be safe and prevent re-entrant call.
+			_projectPages.RowEnter -= _projectPages_RowEnter;
 
-			if (currentRow >= 0)
-				_projectPages.CurrentCell = _projectPages.Rows[currentRow].Cells[0];
+			string[] viewNames = new []
+				{
+					LocalizationManager.GetString("ProjectView.AboutProjectViewTitle", "About This Project"),
+					LocalizationManager.GetString("ProjectView.AccessProtocolViewTitle", "Access Protocol"),
+					LocalizationManager.GetString("ProjectView.DescriptionDocumentsTitle", "Description Documents"),
+					LocalizationManager.GetString("ProjectView.OtherDocumentsTitle", "Other Documents"),
+					LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress"),
+				};
+
+			if (_projectPages.RowCount != viewNames.Length)
+			{
+				_projectPages.RowCount = 0;
+				foreach (string viewName in viewNames)
+					_projectPages.AddRow(new object[] {viewName});
+			}
+			else
+			{
+				for (int i = 0; i < viewNames.Length; i++)
+					_projectPages.Rows[i].Cells[0].Value = viewNames[i];
+			}
+
+			_projectPages.RowEnter += _projectPages_RowEnter;
 		}
 
 		#region ISayMoreView Members

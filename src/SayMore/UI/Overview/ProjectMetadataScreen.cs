@@ -13,6 +13,7 @@ namespace SayMore.UI.Overview
 {
 	public partial class ProjectMetadataScreen : EditorBase, ISayMoreView
 	{
+		private IMDIItemList _countryList;
 
 		public ProjectMetadataScreen()
 		{
@@ -32,11 +33,9 @@ namespace SayMore.UI.Overview
 			_continent.ValueMember = "Value";
 			SizeContinentComboBox(_continent);
 
-			// country list
-			var countryList = ListConstructor.GetList(ListType.Countries, false, Localize);
-			_country.DataSource = countryList;
-			_country.DisplayMember = "Text";
-			_country.ValueMember = "Value";
+			// Data-binding doesn't work correctly for country  because it is an open list.
+			// Items populated in HandleStringsLocalized.
+			_countryList = ListConstructor.GetList(ListType.Countries, false, Localize);
 
 			_linkHelp.Click += (s, e) =>
 				Program.ShowHelpTopic("/User_Interface/Tabs/About_This_Project_User_Interface_terms.htm");
@@ -46,9 +45,24 @@ namespace SayMore.UI.Overview
 		protected override void HandleStringsLocalized()
 		{
 			base.HandleStringsLocalized();
-			IMDIItemList countryList = _country.DataSource as IMDIItemList;
-			if (countryList != null)
-				countryList.Localize(Localize);
+
+			if (_country == null || _countryList == null)
+			{
+				Load += (o, args) => ResetCountryList();
+				return;
+			}
+			ResetCountryList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ResetCountryList()
+		{
+			int iCountry = _country.SelectedIndex;
+			_country.Items.Clear();
+			_countryList.Localize(Localize);
+			_country.Items.AddRange(_countryList.Select(c => c.Text).Cast<object>().ToArray());
+			if (iCountry >= 0)
+				_country.SelectedIndex = iCountry;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -140,7 +154,19 @@ namespace SayMore.UI.Overview
 			_labelSelectedVernacular.Text = project.VernacularISO3CodeAndName;
 			_location.Text = project.Location;
 			_region.Text = project.Region;
-			_country.Text = project.Country;
+			int iCountry = -1;
+			for (int i = 0; i < _countryList.Count; i++)
+			{
+				if (_countryList[i].Value == project.Country)
+				{
+					iCountry = i;
+					break;
+				}
+			}
+			if (iCountry >= 0)
+				_country.SelectedIndex = iCountry;
+			else
+				_country.Text = project.Country;
 
 			foreach (var item in _continent.Items.Cast<object>().Where(i => i.ToString() == project.Continent))
 				_continent.SelectedItem = item;
@@ -174,17 +200,31 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>The country value to persist in metadata</summary>
+		/// ------------------------------------------------------------------------------------
+		private string SelectedCountry
+		{
+			get
+			{
+				if (_country.SelectedIndex >= 0)
+					return _countryList[_country.SelectedIndex].Value;
+				return _country.Text;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		internal void Save()
 		{
 			// check for changes
 			var project = Program.CurrentProject;
+			string country = SelectedCountry;
 			var changed = (_projectTitle.Text != project.Title ||
 				_fundingProjectTitle.Text != project.FundingProjectTitle ||
 				_description.Text != project.ProjectDescription ||
 				_labelSelectedVernacular.Text != project.VernacularISO3CodeAndName ||
 				_location.Text != project.Location ||
 				_region.Text != project.Region ||
-				_country.Text != project.Country ||
+				country != project.Country ||
 				_continent.Text != project.Continent ||
 				_contactPerson.Text != project.ContactPerson ||
 				_contentType.Text != project.ContentType ||
@@ -204,7 +244,7 @@ namespace SayMore.UI.Overview
 			project.VernacularISO3CodeAndName = _labelSelectedVernacular.Text;
 			project.Location = _location.Text;
 			project.Region = _region.Text;
-			project.Country = _country.Text;
+			project.Country = country;
 			project.Continent = _continent.Text;
 			project.ContactPerson = _contactPerson.Text;
 			project.ContentType = _contentType.Text;

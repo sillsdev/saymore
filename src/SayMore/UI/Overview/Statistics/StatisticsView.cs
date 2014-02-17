@@ -19,10 +19,10 @@ namespace SayMore.UI.Overview.Statistics
 			InitializeComponent();
 
 			_panelWorking.BorderStyle = BorderStyle.None;
-			LocalizeItemDlg.StringsLocalized += UpdateDisplay;
 		}
 
 		// SP-788: "Cannot access a disposed object" when changing UI language
+		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
 			base.OnHandleDestroyed(e);
@@ -54,6 +54,8 @@ namespace SayMore.UI.Overview.Statistics
 				_model.NewStatisticsAvailable += HandleNewDataAvailable;
 				UpdateDisplay();
 			}
+
+			LocalizeItemDlg.StringsLocalized += UpdateDisplay;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -66,7 +68,9 @@ namespace SayMore.UI.Overview.Statistics
 
 			_webBrowser.DocumentStream = new MemoryStream(Encoding.UTF8.GetBytes(_model.HTMLString));
 
-			if (_webBrowser.Document != null) _webBrowser.Document.Encoding = "utf-8";
+			if (_webBrowser.Document != null)
+				_webBrowser.Document.Encoding = "utf-8";
+
 			UpdateStatusDisplay();
 			_model.NewStatisticsAvailable -= HandleNewDataAvailable;
 			_model.NewStatisticsAvailable += HandleNewDataAvailable;

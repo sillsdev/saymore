@@ -353,11 +353,14 @@ namespace SayMore.Transcription.UI
 			get { return _waveControl.ZoomPercentage; }
 			set
 			{
+				bool setZoomText = string.IsNullOrEmpty(_waveControl.Text);
 				if (!_waveControl.ZoomPercentage.Equals(value))
 				{
 					_waveControl.ZoomPercentage = value;
-					SetZoomTextInComboBox();
+					setZoomText = true;
 				}
+				if (setZoomText)
+					SetZoomTextInComboBox();
 			}
 		}
 

@@ -29,7 +29,15 @@ namespace SayMore.UI.ComponentEditors
 			_mediaPlayer.Dock = DockStyle.Fill;
 			Controls.Add(_mediaPlayer);
 
+			FinishInitializing(file);
+		}
+
+		private void FinishInitializing(ComponentFile file)
+		{
 			SetComponentFile(file);
+
+			// SP-831: tab is bsing localized before the file has been set in the base class
+			HandleStringsLocalized();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -57,6 +65,9 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
+			// SP-831: tab is bsing localized before the file has been set in the base class
+			if (_file == null) return;
+
 			TabText = (_file.FileType.IsVideo ?
 				LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.TabText-Video", "Video") :
 				LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.TabText-Audio", "Audio"));

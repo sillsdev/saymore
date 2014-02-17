@@ -56,6 +56,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	  <Directory Id="CommonAppDataFolder">
 		<Directory Id="SILCommonAppData" Name="SIL">
 		  <Directory Id="SayMoreCommonAppData" Name="SayMore">
+			<Component Id="DeleteL10NFiles" Guid="">
+			  <RemoveFile Id="L10NFiles" Name="*.tmx" On="both" />
+			</Component>
 			<Directory Id="SampleDataDir" Name="Samples">
 			</Directory>
 		  </Directory>
@@ -184,7 +187,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	  <ComponentRef Id="MediaInfo.dll" />
 	  <ComponentRef Id="SayMore.exe" />
 	  <ComponentRef Id="IMDILists" />
-
+	  <ComponentRef Id="DeleteL10NFiles" />
 	  <ComponentGroupRef Id ="DistFiles"/>
 	  <ComponentGroupRef Id ="SampleData"/>
 

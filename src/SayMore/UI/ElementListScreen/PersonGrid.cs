@@ -28,6 +28,7 @@ namespace SayMore.UI.ElementListScreen
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
 			Program.PersonDataChanged -= Program_PersonDataChanged;
+			base.OnHandleDestroyed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------

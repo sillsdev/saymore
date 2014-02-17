@@ -93,7 +93,24 @@ namespace SayMore.Model
 		{
 			// if the code value is present, use it instead of the full name
 			//return _peopleRepository.AllItems.Select(x => x.Id);
-			return _peopleRepository.AllItems.Select(x => ((x.MetaDataFile != null) ? x.MetaDataFile.GetStringValue("code", null) : null) ?? x.Id);
+
+			// SP-796: Session.People not updating correctly when Person.Code changes
+			//return _peopleRepository.AllItems.Select(x => ((x.MetaDataFile != null) ? x.MetaDataFile.GetStringValue("code", null) : null) ?? x.Id);
+			var names = new List<string>();
+			foreach (var person in _peopleRepository.AllItems)
+			{
+				if (person.MetaDataFile == null)
+				{
+					names.Add(person.Id);
+				}
+				else
+				{
+					var n = person.MetaDataFile.GetStringValue("code", null);
+					names.Add(!string.IsNullOrEmpty(n) ? n : person.Id);
+				}
+			}
+
+			return names;
 		}
 
 		/// ------------------------------------------------------------------------------------

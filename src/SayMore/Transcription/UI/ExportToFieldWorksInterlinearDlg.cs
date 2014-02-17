@@ -183,7 +183,7 @@ namespace SayMore.Transcription.UI
 			{
 				var msg = LocalizationManager.GetString("DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg2",
 					"SayMore was unable to find any Writing Systems on this computer. Make sure FLEx version 7.1 or greater is " +
-					"installed as has been run at least once. For now, you can export as English, and fix that up after you " +
+					"installed and has been run at least once. For now, you can export as English, and fix that up after you " +
 					"have imported into FLEx.");
 
 				ErrorReport.NotifyUserOfProblem(msg);

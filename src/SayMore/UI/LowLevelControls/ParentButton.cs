@@ -21,6 +21,9 @@ namespace SayMore.UI.LowLevelControls
 	{
 		public event CancelEventHandler SelectedChanging;
 
+		// SP-810:  Parent language data not saving correctly
+		public event EventHandler SelectedChanged;
+
 		private ParentType _parentType = ParentType.Father;
 		private bool _selected;
 
@@ -72,6 +75,11 @@ namespace SayMore.UI.LowLevelControls
 				}
 
 				_selected = value;
+
+				// SP-810:  Parent language data not saving correctly
+				if (SelectedChanged != null)
+					SelectedChanged(this, new EventArgs());
+
 				Invalidate();
 			}
 		}

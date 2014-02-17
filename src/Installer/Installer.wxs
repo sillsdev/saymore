@@ -126,6 +126,15 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Registry Root="HKCU" Key="SOFTWARE\SayMore\Components\SayMore.exe" KeyPath="yes" />
 
 			<File Id="SayMore.exe" Name="SayMore.exe"  Source="..\..\output\release\SayMore.exe" />
+
+			<!-- moved these files here because they are not being installed correctly during an upgrade from V2 to V3 -->
+			<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="no" Source="..\..\output\release\L10NSharp.dll" />
+			<File Id="PalasoUIWindowsForms.dll" Name="PalasoUIWindowsForms.dll" KeyPath="no" Source="..\..\output\release\PalasoUIWindowsForms.dll" />
+			<File Id="Palaso.dll" Name="Palaso.dll" KeyPath="no" Source="..\..\output\release\Palaso.dll" />
+			<File Id="Palaso.Media.dll" Name="Palaso.Media.dll" KeyPath="no" Source="..\..\output\release\Palaso.Media.dll" />
+			<File Id="SIL.Archiving.dll" Name="SIL.Archiving.dll" KeyPath="no" Source="..\..\output\release\SIL.Archiving.dll" />
+			<File Id="SayMore.exe.config" Name="SayMore.exe.config" KeyPath="no" Source="..\..\output\release\SayMore.exe.config" />
+
 			<!--- todo: icons for saymore files -->
 
 			<!--- connect file types to icons and program to launch -->
@@ -158,24 +167,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		  <Component Id="Ionic.Zip.dll" Guid="{7F9026D4-188B-4C67-87E9-777FEE4A3E16}">
 			<File Id="Ionic.Zip.dll" Name="Ionic.Zip.dll" KeyPath="yes" Source="..\..\output\release\Ionic.Zip.dll" />
 		  </Component>
-		  <Component Id="L10NSharp.dll" Guid="{92419CBC-BA15-4dfd-B57E-399BEC7FE926}">
-			<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="yes" Source="..\..\output\release\L10NSharp.dll" />
-		  </Component>
-		  <Component Id="Palaso.dll" Guid="{C46C492A-304B-47b8-A13A-7CE4896B5634}">
-			<File Id="Palaso.dll" Name="Palaso.dll" KeyPath="yes" Source="..\..\output\release\Palaso.dll" />
-		  </Component>
-		  <Component Id="SIL.Archiving.dll" Guid="{B8A59AC6-8B9E-4117-8330-D48A24DAFD13}">
-			<File Id="SIL.Archiving.dll" Name="SIL.Archiving.dll" KeyPath="yes" Source="..\..\output\release\SIL.Archiving.dll" />
-		  </Component>
-		  <Component Id="PalasoUIWindowsForms.dll" Guid="{47046B6E-668C-4a4d-A866-719922C142B5}">
-			<File Id="PalasoUIWindowsForms.dll" Name="PalasoUIWindowsForms.dll" KeyPath="yes" Source="..\..\output\release\PalasoUIWindowsForms.dll" />
-		  </Component>
-		  <Component Id="Palaso.Media.dll" Guid="{742F2F76-3978-4d83-BC98-C7585B6F69D8}">
-			<File Id="Palaso.Media.dll" Name="Palaso.Media.dll" KeyPath="yes" Source="..\..\output\release\Palaso.Media.dll" />
-		  </Component>
-		  <Component Id="SayMore.exe.config" Guid="{ECCD0940-AC00-4f18-91DD-5223878373BB}">
-			 <File Id="SayMore.exe.config" Name="SayMore.exe.config" KeyPath="yes" Source="..\..\output\release\SayMore.exe.config" />
-		  </Component>
 		  <Component Id="MediaInfo.dll" Guid="B87CF78F-0226-4F5B-B7DC-C13899E934E5">
 			<File Id="MediaInfo.dll" Name="MediaInfo.dll" KeyPath="yes" Source="..\..\lib\MediaInfo.dll" />
 		  </Component>
@@ -190,17 +181,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	  <ComponentRef Id="autofac.dll"/>
 	  <ComponentRef Id="NAudio.dll"/>
 	  <ComponentRef Id="Ionic.Zip.dll"/>
-	  <ComponentRef Id="L10NSharp.dll"/>
-	  <ComponentRef Id="Palaso.dll"/>
-	  <ComponentRef Id="PalasoUIWindowsForms.dll" />
-	  <ComponentRef Id="Palaso.Media.dll" />
-	  <ComponentRef Id="SIL.Archiving.dll" />
 	  <ComponentRef Id="MediaInfo.dll" />
 	  <ComponentRef Id="SayMore.exe" />
-	  <ComponentRef Id="SayMore.exe.config" />
 	  <ComponentRef Id="IMDILists" />
-
-
 
 	  <ComponentGroupRef Id ="DistFiles"/>
 	  <ComponentGroupRef Id ="SampleData"/>

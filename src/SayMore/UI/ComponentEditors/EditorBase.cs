@@ -55,6 +55,7 @@ namespace SayMore.UI.ComponentEditors
 			Layout += HandleLayout;
 
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+			HandleStringsLocalized();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -62,7 +63,6 @@ namespace SayMore.UI.ComponentEditors
 		{
 			_file = file;
 			Initialize(tabText, imageKey);
-			HandleStringsLocalized();
 		}
 
 		/// ------------------------------------------------------------------------------------

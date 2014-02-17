@@ -7,9 +7,15 @@ using L10NSharp;
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
-	public class ImageViewerViewModel
+	public class ImageViewerViewModel : IDisposable
 	{
-		public Image Image { get; private set; }
+		private Image _image;
+
+		public Image Image {
+			get { return _image;  }
+			private set { _image = value; }
+		}
+
 		public int[] ClickZoomPercentages { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -64,6 +70,15 @@ namespace SayMore.UI.ComponentEditors
 			return (referencePercent >= ClickZoomPercentages.Max() ?
 				ClickZoomPercentages.Min() :
 				ClickZoomPercentages.First(x => x > referencePercent));
+		}
+
+		public void Dispose()
+		{
+			if (_image != null)
+			{
+				_image.Dispose();
+				_image = null;
+			}
 		}
 	}
 }

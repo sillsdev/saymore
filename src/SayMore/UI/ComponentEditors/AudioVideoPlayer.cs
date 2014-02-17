@@ -36,7 +36,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			SetComponentFile(file);
 
-			// SP-831: tab is bsing localized before the file has been set in the base class
+			// SP-831: tab is being localized before the file has been set in the base class
 			HandleStringsLocalized();
 		}
 
@@ -65,7 +65,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			// SP-831: tab is bsing localized before the file has been set in the base class
+			// SP-831: tab is being localized before the file has been set in the base class
 			if (_file == null) return;
 
 			TabText = (_file.FileType.IsVideo ?

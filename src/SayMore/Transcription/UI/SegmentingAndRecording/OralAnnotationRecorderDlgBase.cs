@@ -618,6 +618,7 @@ namespace SayMore.Transcription.UI
 				return;
 
 			_labelSegmentNumber.Visible = false;
+			_tableLayoutZoom.Visible = false;
 			_labelSegmentXofY.Visible = true;
 			_labelSegmentXofY.Text = string.Format(_segmentXofYFormat,
 				ViewModel.TimeTier.GetIndexOfSegment(currentSegment) + 1, _viewModel.GetSegmentCount());

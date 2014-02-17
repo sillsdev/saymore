@@ -26,24 +26,28 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutTop = new System.Windows.Forms.TableLayoutPanel();
 			this._labelSourceRecording = new System.Windows.Forms.Label();
-			this._labelZoom = new System.Windows.Forms.Label();
-			this._comboBoxZoom = new System.Windows.Forms.ComboBox();
-			this._toolStripStatus = new System.Windows.Forms.ToolStrip();
-			this._labelTimeDisplay = new System.Windows.Forms.ToolStripLabel();
-			this._labelSegmentXofY = new System.Windows.Forms.ToolStripLabel();
-			this._labelSegmentNumber = new System.Windows.Forms.ToolStripLabel();
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
+			this._toolStripStatus = new System.Windows.Forms.ToolStrip();
+			this._labelTimeDisplay = new System.Windows.Forms.ToolStripLabel();
+			this._labelSegmentXofY = new System.Windows.Forms.ToolStripLabel();
+			this._labelSegmentNumber = new System.Windows.Forms.ToolStripLabel();
+			this._tableLayoutZoom = new System.Windows.Forms.TableLayoutPanel();
+			this._labelZoom = new System.Windows.Forms.Label();
+			this._comboBoxZoom = new System.Windows.Forms.ComboBox();
+			this._tableLayoutWaveDetails = new System.Windows.Forms.TableLayoutPanel();
 			this._panelWaveControl.SuspendLayout();
 			this._lastSegmentMenuStrip.SuspendLayout();
 			this._currentSegmentMenuStrip.SuspendLayout();
 			this._tableLayoutOuter.SuspendLayout();
 			this._tableLayoutTop.SuspendLayout();
-			this._toolStripStatus.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._tableLayoutButtons.SuspendLayout();
+			this._toolStripStatus.SuspendLayout();
+			this._tableLayoutZoom.SuspendLayout();
+			this._tableLayoutWaveDetails.SuspendLayout();
 			this.SuspendLayout();
 			//
 			// _panelWaveControl
@@ -143,10 +147,9 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutOuter.ColumnCount = 2;
 			this._tableLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this._tableLayoutOuter.Controls.Add(this._tableLayoutWaveDetails, 1, 2);
 			this._tableLayoutOuter.Controls.Add(this._panelWaveControl, 0, 1);
 			this._tableLayoutOuter.Controls.Add(this._tableLayoutTop, 0, 0);
-			this._tableLayoutOuter.Controls.Add(this._toolStripStatus, 1, 2);
 			this._tableLayoutOuter.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._tableLayoutOuter.Location = new System.Drawing.Point(17, 17);
 			this._tableLayoutOuter.Name = "_tableLayoutOuter";
@@ -167,8 +170,6 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this._tableLayoutTop.Controls.Add(this._labelSourceRecording, 0, 0);
-			this._tableLayoutTop.Controls.Add(this._labelZoom, 1, 0);
-			this._tableLayoutTop.Controls.Add(this._comboBoxZoom, 2, 0);
 			this._tableLayoutTop.Location = new System.Drawing.Point(0, 0);
 			this._tableLayoutTop.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this._tableLayoutTop.Name = "_tableLayoutTop";
@@ -190,90 +191,6 @@ namespace SayMore.Transcription.UI
 			this._labelSourceRecording.Size = new System.Drawing.Size(71, 13);
 			this._labelSourceRecording.TabIndex = 4;
 			this._labelSourceRecording.Text = "Source Audio";
-			//
-			// _labelZoom
-			//
-			this._labelZoom.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this._labelZoom.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._labelZoom, null);
-			this.locExtender.SetLocalizationComment(this._labelZoom, null);
-			this.locExtender.SetLocalizingId(this._labelZoom, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelZoom");
-			this._labelZoom.Location = new System.Drawing.Point(600, 5);
-			this._labelZoom.Name = "_labelZoom";
-			this._labelZoom.Size = new System.Drawing.Size(37, 13);
-			this._labelZoom.TabIndex = 0;
-			this._labelZoom.Text = "&Zoom:";
-			//
-			// _comboBoxZoom
-			//
-			this._comboBoxZoom.BackColor = System.Drawing.Color.White;
-			this._comboBoxZoom.FormattingEnabled = true;
-			this.locExtender.SetLocalizableToolTip(this._comboBoxZoom, null);
-			this.locExtender.SetLocalizationComment(this._comboBoxZoom, null);
-			this.locExtender.SetLocalizationPriority(this._comboBoxZoom, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._comboBoxZoom, "ManualSegmenterDlg._comboBoxZoom");
-			this._comboBoxZoom.Location = new System.Drawing.Point(643, 0);
-			this._comboBoxZoom.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-			this._comboBoxZoom.Name = "_comboBoxZoom";
-			this._comboBoxZoom.Size = new System.Drawing.Size(96, 21);
-			this._comboBoxZoom.TabIndex = 1;
-			this._comboBoxZoom.SelectedIndexChanged += new System.EventHandler(this.HandleZoomSelectedIndexChanged);
-			this._comboBoxZoom.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleZoomKeyDown);
-			this._comboBoxZoom.Validating += new System.ComponentModel.CancelEventHandler(this.HandleZoomComboValidating);
-			//
-			// _toolStripStatus
-			//
-			this._toolStripStatus.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this._toolStripStatus.BackColor = System.Drawing.SystemColors.Control;
-			this._toolStripStatus.CanOverflow = false;
-			this._toolStripStatus.Dock = System.Windows.Forms.DockStyle.None;
-			this._toolStripStatus.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-			this._toolStripStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this._labelTimeDisplay,
-			this._labelSegmentXofY,
-			this._labelSegmentNumber});
-			this._toolStripStatus.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-			this.locExtender.SetLocalizableToolTip(this._toolStripStatus, null);
-			this.locExtender.SetLocalizationComment(this._toolStripStatus, null);
-			this.locExtender.SetLocalizationPriority(this._toolStripStatus, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._toolStripStatus, "toolStrip1.toolStrip1");
-			this._toolStripStatus.Location = new System.Drawing.Point(506, 202);
-			this._toolStripStatus.Name = "_toolStripStatus";
-			this._toolStripStatus.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this._toolStripStatus.Size = new System.Drawing.Size(233, 25);
-			this._toolStripStatus.TabIndex = 2;
-			//
-			// _labelTimeDisplay
-			//
-			this._labelTimeDisplay.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.locExtender.SetLocalizableToolTip(this._labelTimeDisplay, null);
-			this.locExtender.SetLocalizationComment(this._labelTimeDisplay, null);
-			this.locExtender.SetLocalizationPriority(this._labelTimeDisplay, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelTimeDisplay, ".toolStripLabel1");
-			this._labelTimeDisplay.Margin = new System.Windows.Forms.Padding(35, 1, 0, 2);
-			this._labelTimeDisplay.Name = "_labelTimeDisplay";
-			this._labelTimeDisplay.Size = new System.Drawing.Size(14, 22);
-			this._labelTimeDisplay.Text = "#";
-			//
-			// _labelSegmentXofY
-			//
-			this._labelSegmentXofY.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.locExtender.SetLocalizableToolTip(this._labelSegmentXofY, null);
-			this.locExtender.SetLocalizationComment(this._labelSegmentXofY, null);
-			this.locExtender.SetLocalizingId(this._labelSegmentXofY, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelSegmentXofY");
-			this._labelSegmentXofY.Name = "_labelSegmentXofY";
-			this._labelSegmentXofY.Size = new System.Drawing.Size(102, 22);
-			this._labelSegmentXofY.Text = "Segment {0} of {1}";
-			//
-			// _labelSegmentNumber
-			//
-			this._labelSegmentNumber.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.locExtender.SetLocalizableToolTip(this._labelSegmentNumber, null);
-			this.locExtender.SetLocalizationComment(this._labelSegmentNumber, null);
-			this.locExtender.SetLocalizingId(this._labelSegmentNumber, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelSegmentNumber");
-			this._labelSegmentNumber.Name = "_labelSegmentNumber";
-			this._labelSegmentNumber.Size = new System.Drawing.Size(79, 22);
-			this._labelSegmentNumber.Text = "Segments: {0}";
 			//
 			// _buttonOK
 			//
@@ -334,6 +251,123 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutButtons.TabIndex = 0;
 			this._tableLayoutButtons.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleTableLayoutButtonsPaint);
 			//
+			// _toolStripStatus
+			//
+			this._toolStripStatus.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this._toolStripStatus.BackColor = System.Drawing.SystemColors.Control;
+			this._toolStripStatus.CanOverflow = false;
+			this._toolStripStatus.Dock = System.Windows.Forms.DockStyle.None;
+			this._toolStripStatus.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this._toolStripStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this._labelTimeDisplay,
+			this._labelSegmentXofY,
+			this._labelSegmentNumber});
+			this._toolStripStatus.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+			this.locExtender.SetLocalizableToolTip(this._toolStripStatus, null);
+			this.locExtender.SetLocalizationComment(this._toolStripStatus, null);
+			this.locExtender.SetLocalizationPriority(this._toolStripStatus, L10NSharp.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._toolStripStatus, "toolStrip1.toolStrip1");
+			this._toolStripStatus.Location = new System.Drawing.Point(0, 0);
+			this._toolStripStatus.Name = "_toolStripStatus";
+			this._toolStripStatus.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this._toolStripStatus.Size = new System.Drawing.Size(233, 25);
+			this._toolStripStatus.TabIndex = 2;
+			//
+			// _labelTimeDisplay
+			//
+			this._labelTimeDisplay.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.locExtender.SetLocalizableToolTip(this._labelTimeDisplay, null);
+			this.locExtender.SetLocalizationComment(this._labelTimeDisplay, null);
+			this.locExtender.SetLocalizationPriority(this._labelTimeDisplay, L10NSharp.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelTimeDisplay, ".toolStripLabel1");
+			this._labelTimeDisplay.Margin = new System.Windows.Forms.Padding(35, 1, 0, 2);
+			this._labelTimeDisplay.Name = "_labelTimeDisplay";
+			this._labelTimeDisplay.Size = new System.Drawing.Size(14, 22);
+			this._labelTimeDisplay.Text = "#";
+			//
+			// _labelSegmentXofY
+			//
+			this._labelSegmentXofY.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.locExtender.SetLocalizableToolTip(this._labelSegmentXofY, null);
+			this.locExtender.SetLocalizationComment(this._labelSegmentXofY, null);
+			this.locExtender.SetLocalizingId(this._labelSegmentXofY, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelSegmentXofY");
+			this._labelSegmentXofY.Name = "_labelSegmentXofY";
+			this._labelSegmentXofY.Size = new System.Drawing.Size(102, 22);
+			this._labelSegmentXofY.Text = "Segment {0} of {1}";
+			//
+			// _labelSegmentNumber
+			//
+			this._labelSegmentNumber.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.locExtender.SetLocalizableToolTip(this._labelSegmentNumber, null);
+			this.locExtender.SetLocalizationComment(this._labelSegmentNumber, null);
+			this.locExtender.SetLocalizingId(this._labelSegmentNumber, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelSegmentNumber");
+			this._labelSegmentNumber.Name = "_labelSegmentNumber";
+			this._labelSegmentNumber.Size = new System.Drawing.Size(79, 22);
+			this._labelSegmentNumber.Text = "Segments: {0}";
+			//
+			// _tableLayoutZoom
+			//
+			this._tableLayoutZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this._tableLayoutZoom.AutoSize = true;
+			this._tableLayoutZoom.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this._tableLayoutZoom.ColumnCount = 2;
+			this._tableLayoutZoom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayoutZoom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayoutZoom.Controls.Add(this._comboBoxZoom, 1, 0);
+			this._tableLayoutZoom.Controls.Add(this._labelZoom, 0, 0);
+			this._tableLayoutZoom.Location = new System.Drawing.Point(129, 30);
+			this._tableLayoutZoom.Name = "_tableLayoutZoom";
+			this._tableLayoutZoom.RowCount = 1;
+			this._tableLayoutZoom.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutZoom.Size = new System.Drawing.Size(101, 21);
+			this._tableLayoutZoom.TabIndex = 7;
+			//
+			// _labelZoom
+			//
+			this._labelZoom.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelZoom, null);
+			this.locExtender.SetLocalizationComment(this._labelZoom, null);
+			this.locExtender.SetLocalizingId(this._labelZoom, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelZoom");
+			this._labelZoom.Location = new System.Drawing.Point(3, 3);
+			this._labelZoom.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+			this._labelZoom.Name = "_labelZoom";
+			this._labelZoom.Size = new System.Drawing.Size(37, 13);
+			this._labelZoom.TabIndex = 0;
+			this._labelZoom.Text = "&Zoom:";
+			//
+			// _comboBoxZoom
+			//
+			this._comboBoxZoom.BackColor = System.Drawing.Color.White;
+			this._comboBoxZoom.FormattingEnabled = true;
+			this.locExtender.SetLocalizableToolTip(this._comboBoxZoom, null);
+			this.locExtender.SetLocalizationComment(this._comboBoxZoom, null);
+			this.locExtender.SetLocalizationPriority(this._comboBoxZoom, L10NSharp.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._comboBoxZoom, "ManualSegmenterDlg._comboBoxZoom");
+			this._comboBoxZoom.Location = new System.Drawing.Point(46, 0);
+			this._comboBoxZoom.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+			this._comboBoxZoom.MinimumSize = new System.Drawing.Size(55, 0);
+			this._comboBoxZoom.Name = "_comboBoxZoom";
+			this._comboBoxZoom.Size = new System.Drawing.Size(55, 21);
+			this._comboBoxZoom.TabIndex = 1;
+			this._comboBoxZoom.SelectedIndexChanged += new System.EventHandler(this.HandleZoomSelectedIndexChanged);
+			this._comboBoxZoom.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleZoomKeyDown);
+			this._comboBoxZoom.Validating += new System.ComponentModel.CancelEventHandler(this.HandleZoomComboValidating);
+			//
+			// _tableLayoutWaveDetails
+			//
+			this._tableLayoutWaveDetails.AutoSize = true;
+			this._tableLayoutWaveDetails.ColumnCount = 1;
+			this._tableLayoutWaveDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this._tableLayoutWaveDetails.Controls.Add(this._tableLayoutZoom, 0, 1);
+			this._tableLayoutWaveDetails.Controls.Add(this._toolStripStatus, 0, 0);
+			this._tableLayoutWaveDetails.Location = new System.Drawing.Point(503, 205);
+			this._tableLayoutWaveDetails.Name = "_tableLayoutWaveDetails";
+			this._tableLayoutWaveDetails.RowCount = 2;
+			this._tableLayoutWaveDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this._tableLayoutWaveDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this._tableLayoutWaveDetails.Size = new System.Drawing.Size(233, 54);
+			this._tableLayoutWaveDetails.TabIndex = 7;
+			//
 			// SegmenterDlgBase
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -367,34 +401,40 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutOuter.PerformLayout();
 			this._tableLayoutTop.ResumeLayout(false);
 			this._tableLayoutTop.PerformLayout();
-			this._toolStripStatus.ResumeLayout(false);
-			this._toolStripStatus.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this._tableLayoutButtons.ResumeLayout(false);
 			this._tableLayoutButtons.PerformLayout();
+			this._toolStripStatus.ResumeLayout(false);
+			this._toolStripStatus.PerformLayout();
+			this._tableLayoutZoom.ResumeLayout(false);
+			this._tableLayoutZoom.PerformLayout();
+			this._tableLayoutWaveDetails.ResumeLayout(false);
+			this._tableLayoutWaveDetails.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.ComboBox _comboBoxZoom;
-		private System.Windows.Forms.Label _labelZoom;
 		protected System.Windows.Forms.Button _buttonOK;
 		private L10NSharp.UI.L10NSharpExtender locExtender;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
 		protected Panel _panelWaveControl;
-		private System.Windows.Forms.ToolStripLabel _labelTimeDisplay;
-		protected System.Windows.Forms.ToolStripLabel _labelSegmentXofY;
-		protected System.Windows.Forms.ToolStripLabel _labelSegmentNumber;
 		protected System.Windows.Forms.Label _labelSourceRecording;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutTop;
 		protected TableLayoutPanel _tableLayoutButtons;
-		protected ToolStrip _toolStripStatus;
 		protected Button _buttonCancel;
 		protected MenuStrip _currentSegmentMenuStrip;
 		protected ToolStripMenuItem _ignoreToolStripMenuItem;
 		private MenuStrip _lastSegmentMenuStrip;
 		private ToolStripMenuItem _undoToolStripMenuItem;
+		private TableLayoutPanel _tableLayoutWaveDetails;
+		protected TableLayoutPanel _tableLayoutZoom;
+		private ComboBox _comboBoxZoom;
+		private Label _labelZoom;
+		protected ToolStrip _toolStripStatus;
+		private ToolStripLabel _labelTimeDisplay;
+		protected ToolStripLabel _labelSegmentXofY;
+		protected ToolStripLabel _labelSegmentNumber;
 	}
 }

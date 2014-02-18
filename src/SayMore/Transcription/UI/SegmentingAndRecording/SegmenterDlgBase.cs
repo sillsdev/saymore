@@ -198,7 +198,9 @@ namespace SayMore.Transcription.UI
 		{
 			_segmentXofYFormat = _labelSegmentXofY.Text;
 			_segmentNumberFormat = _labelSegmentNumber.Text;
-			_tooltip.SetToolTip(_comboBoxZoom, _tooltip.GetToolTip(_labelZoom));
+			var zoomToolTip = LocalizationManager.GetLocalizedToolTipForControl(_comboBoxZoom);
+			if (!string.IsNullOrEmpty(zoomToolTip))
+				_tooltip.SetToolTip(_labelZoom, zoomToolTip);
 		}
 
 		/// ------------------------------------------------------------------------------------

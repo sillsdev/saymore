@@ -197,9 +197,8 @@ namespace SayMore.Transcription.UI
 			//
 			this._comboBoxZoom.BackColor = System.Drawing.Color.White;
 			this._comboBoxZoom.FormattingEnabled = true;
-			this.locExtender.SetLocalizableToolTip(this._comboBoxZoom, null);
+			this.locExtender.SetLocalizableToolTip(this._comboBoxZoom, "Ctrl+1: In; Ctrl+2: 100%; Ctrl+3: Out");
 			this.locExtender.SetLocalizationComment(this._comboBoxZoom, null);
-			this.locExtender.SetLocalizationPriority(this._comboBoxZoom, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._comboBoxZoom, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._comboBoxZoom");
 			this._comboBoxZoom.Location = new System.Drawing.Point(46, 0);
 			this._comboBoxZoom.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -214,7 +213,7 @@ namespace SayMore.Transcription.UI
 			// _labelZoom
 			//
 			this._labelZoom.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._labelZoom, "Ctrl+1: In; Ctrl+2: 100%; Ctrl+3: Out");
+			this.locExtender.SetLocalizableToolTip(this._labelZoom, null);
 			this.locExtender.SetLocalizationComment(this._labelZoom, null);
 			this.locExtender.SetLocalizingId(this._labelZoom, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelZoom");
 			this._labelZoom.Location = new System.Drawing.Point(3, 3);
@@ -380,7 +379,7 @@ namespace SayMore.Transcription.UI
 			this.Controls.Add(this._tableLayoutButtons);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.High);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;

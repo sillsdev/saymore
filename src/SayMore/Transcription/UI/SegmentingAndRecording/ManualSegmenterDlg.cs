@@ -394,6 +394,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
+			base.HandleStringsLocalized();
 			UpdateDisplay();
 		}
 

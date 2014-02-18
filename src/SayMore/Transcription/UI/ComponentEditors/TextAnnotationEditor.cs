@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using System.Linq;
@@ -237,9 +236,8 @@ namespace SayMore.Transcription.UI
 			var mediaFileName = Path.GetFileName(fullMediaFileName);
 			var sourceFileName = file.ParentElement.GetComponentFiles().First(compfile =>
 				compfile.GetAssignedRoles().Any(r =>
-				r.Id == ComponentRole.kSourceComponentRoleId)).PathToAnnotatedFile.ToString();
+				r.Id == ComponentRole.kSourceComponentRoleId)).PathToAnnotatedFile;
 			if (sourceFileName == mediaFileName) sourceFileName = ""; // In case the media file is the source file we don't want two references to it.
-
 
 			using (var dlg = new ExportToFieldWorksInterlinearDlg(mediaFileName))
 			{

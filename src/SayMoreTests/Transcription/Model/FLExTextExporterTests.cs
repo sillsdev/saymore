@@ -1,8 +1,12 @@
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using NUnit.Framework;
+using Palaso.TestUtilities;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.Model.Exporters;
+using SayMoreTests.Model.Files;
 
 namespace SayMoreTests.Transcription.Model
 {
@@ -10,12 +14,30 @@ namespace SayMoreTests.Transcription.Model
 	public class FLExTextExporterTests
 	{
 		FLExTextExporter _helper;
+		private TemporaryFolder _tempFolder;
+		private string _mediaFile;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void Setup()
 		{
 			_helper = new FLExTextExporter(null, "Homer", null, "en", "fr", "filename1", "filename2");
+
+			var tempMediaPath = MediaFileInfoTests.GetLongerTestAudioFile();
+			_tempFolder = new TemporaryFolder("TierCollectionTests");
+			_mediaFile = Path.Combine(_tempFolder.Path, "mediaFile.wav");
+			File.Move(tempMediaPath, _mediaFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[TearDown]
+		public void TearDown()
+		{
+			if (_tempFolder != null)
+			{
+				_tempFolder.Dispose();
+				_tempFolder = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -175,7 +197,7 @@ namespace SayMoreTests.Transcription.Model
 		public void CreateSingleParagraphElement_NullFreeTranslation_CreatesCorrectElements()
 		{
 			CheckParagraphElement(_helper.CreateSingleParagraphElement("prairie dog", null, "10", "20"),
-				"prairie dog", null, "10", "20");
+				"prairie dog", null, "10", "20", 1);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -183,7 +205,7 @@ namespace SayMoreTests.Transcription.Model
 		public void CreateSingleParagraphElement_FreeTranslationPresent_CreatesCorrectElements()
 		{
 			CheckParagraphElement(_helper.CreateSingleParagraphElement("prairie dog", "squirrel", "10", "20"),
-				"prairie dog", "squirrel", "10", "20");
+				"prairie dog", "squirrel", "10", "20", 1);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -201,9 +223,9 @@ namespace SayMoreTests.Transcription.Model
 			CreateTestTier();
 			var elements = _helper.CreateParagraphElements().ToArray();
 
-			CheckParagraphElement(elements[0], "up", "in", "", "");
-			CheckParagraphElement(elements[1], "down", "around", "", "");
-			CheckParagraphElement(elements[2], "over", "through", "", "");
+			CheckParagraphElement(elements[0], "up", "in", "10000", "20000", 1);
+			CheckParagraphElement(elements[1], "down", "around", "20000", "30000", 2);
+			CheckParagraphElement(elements[2], "over", "through", "30000", "40000", 3);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -219,47 +241,56 @@ namespace SayMoreTests.Transcription.Model
 			dependentTier.AddSegment("around");
 			dependentTier.AddSegment("through");
 
-			// this test should really add some times now as well
+			var timeTier = new TimeTier("test tier", _mediaFile);
+			timeTier.AddSegment(10f, 20f);
+			timeTier.AddSegment(20f, 30f);
+			timeTier.AddSegment(30f, 40f);
 
-			_helper = new FLExTextExporter(null, "Homer", new TierCollection { tier, dependentTier }, "en", "fr", "filename1", "filename2");
+			_helper = new FLExTextExporter(null, "Homer", new TierCollection { tier, dependentTier, timeTier }, "en", "fr", "filename1", "filename2");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void CheckParagraphElement(XElement element, string expectedTranscription,
-			string expectedFreeTranslation, string expectedStartOffset, string expectedEndOffSet)
+			string expectedFreeTranslation, string expectedStartOffset, string expectedEndOffSet, int segmentNumber)
 		{
 			Assert.AreEqual("paragraph", element.Name.LocalName);
-			Assert.IsNotNull(element.Element("phrases"));
-			Assert.IsNotNull(element.Element("phrases").Element("phrase"));
-			Assert.IsNotNull(element.Element("phrases").Element("phrase").Element("item"));
-			Assert.IsNotNull(element.Element("phrases").Element("phrase").Element("words"));
 
-			var phraseElement = element.Element("phrases").Element("phrase");
-			Assert.AreEqual(expectedStartOffset, phraseElement.Attribute("start-time-offset").Value);
-			Assert.AreEqual(expectedEndOffSet, phraseElement.Attribute("end-time-offset").Value);
+			var phrases = element.Element("phrases");
+			Assert.IsNotNull(phrases);
 
-			var segnumElement = element.Element("phrases").Element("phrase").Element("item");
-			Assert.AreEqual("txt", segnumElement.Attribute("type").Value);
-			Assert.AreEqual("en", segnumElement.Attribute("lang").Value);
-			Assert.AreEqual(expectedTranscription, segnumElement.Value);
+			var phrase = phrases.Element("phrase");
+			Assert.IsNotNull(phrase);
 
-			var transcriptionElement = segnumElement.ElementsAfterSelf("item").First();
-			Assert.AreEqual("txt", transcriptionElement.Attribute("type").Value);
+			// phrase
+			Assert.IsNotNull(phrase.Element("item"));
+			Assert.IsNotNull(phrase.Element("words"));
+			Assert.AreEqual(expectedStartOffset, phrase.Attribute("begin-time-offset").Value);
+			Assert.AreEqual(expectedEndOffSet, phrase.Attribute("end-time-offset").Value);
+
+			var items = phrase.Elements().Where(e => e.Name.LocalName == "item").ToList();
+
+			// segnum
+			var segnumElement = items.FirstOrDefault(e => e.Attribute("type").Value == "segnum");
+			Assert.IsNotNull(segnumElement);
+			Assert.AreEqual("fr", segnumElement.Attribute("lang").Value);
+			Assert.AreEqual(segmentNumber.ToString(CultureInfo.InvariantCulture), segnumElement.Value);
+
+			// transcription
+			var transcriptionElement = items.FirstOrDefault(e => e.Attribute("type").Value == "txt");
+			Assert.IsNotNull(transcriptionElement);
 			Assert.AreEqual("en", transcriptionElement.Attribute("lang").Value);
 			Assert.AreEqual(expectedTranscription, transcriptionElement.Value);
-			Assert.AreEqual(expectedStartOffset, transcriptionElement.Attribute("start-time-offset").Value);
-			Assert.AreEqual(expectedEndOffSet, transcriptionElement.Attribute("end-time-offset").Value);
+
+			// translation
+			var freeTransElement = items.FirstOrDefault(e => e.Attribute("type").Value == "gls");
 
 			if (expectedFreeTranslation == null)
 			{
-				Assert.IsNull(transcriptionElement.ElementsAfterSelf("item").First());
+				Assert.IsNull(freeTransElement);
 				return;
 			}
 
-			Assert.IsNotNull(transcriptionElement.ElementsAfterSelf("item").First());
-
-			var freeTransElement = element.Element("phrases").Element("phrase").Element("item");
-			Assert.AreEqual("gls", freeTransElement.Attribute("type").Value);
+			Assert.IsNotNull(freeTransElement);
 			Assert.AreEqual("fr", freeTransElement.Attribute("lang").Value);
 			Assert.AreEqual(expectedFreeTranslation, freeTransElement.Value);
 		}

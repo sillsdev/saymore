@@ -46,7 +46,7 @@ namespace SayMore.Transcription.Model.Exporters
 			_wsFreeTranslationId = wsFreeTranslationId;
 			_mediaFileGuid = Guid.NewGuid().ToString();
 			_mediaFilePath = mediaFilePath;
-			if (sourceFilePath != "")
+			if (!string.IsNullOrEmpty(sourceFilePath))
 			{
 				_sourceFileGuid = Guid.NewGuid().ToString();
 				_sourceFilePath = sourceFilePath;
@@ -150,7 +150,7 @@ namespace SayMore.Transcription.Model.Exporters
 				new XElement("media-files", new XAttribute("offset-type", ""),
 					new XElement("media", new XAttribute("guid", _mediaFileGuid), new XAttribute("location", _mediaFilePath))));
 
-			if (_sourceFilePath != "") rootElement.Element("interlinear-text").Element("media-files").Add(
+			if (!string.IsNullOrEmpty(_sourceFilePath)) rootElement.Element("interlinear-text").Element("media-files").Add(
 				new XElement("media", new XAttribute("guid", _sourceFileGuid), new XAttribute("location", _sourceFilePath)));
 
 			return rootElement;
@@ -200,15 +200,19 @@ namespace SayMore.Transcription.Model.Exporters
 				if (_worker != null)
 					_worker.ReportProgress(i + 1);
 
-				Segment freeTranslationSegment;
 				int startTime = (int)Math.Round(timeSegmentList[i].Start * 1000);
 				int endTime = (int)Math.Round(timeSegmentList[i].End * 1000);
-				translationTier.TryGetSegment(i, out freeTranslationSegment);
-				yield return CreateSingleParagraphElement(segmentList[i].Text,
-					(freeTranslationSegment != null ? freeTranslationSegment.Text : null),
-					startTime.ToString(),
-					endTime.ToString()
-					);
+
+				if (translationTier != null)
+				{
+					Segment freeTranslationSegment;
+					translationTier.TryGetSegment(i, out freeTranslationSegment);
+					yield return CreateSingleParagraphElement(segmentList[i].Text,
+						(freeTranslationSegment != null ? freeTranslationSegment.Text : null),
+						startTime.ToString(),
+						endTime.ToString()
+						);
+				}
 			}
 		}
 
@@ -218,8 +222,10 @@ namespace SayMore.Transcription.Model.Exporters
 			//	var transcriptionElement = CreateSingleWordElement(transcription);
 			var phraseElement = new XElement("phrase",
 				new XAttribute("begin-time-offset", start), new XAttribute("end-time-offset", end), new XAttribute("media-file", _mediaFileGuid));
+
 			phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "segnum", _currentSegment++.ToString()));
 			phraseElement.Add(CreateItemElement(_wsTranscriptionId, "txt", transcription));
+
 			if (freeTranslation != null)
 				phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "gls", freeTranslation));
 

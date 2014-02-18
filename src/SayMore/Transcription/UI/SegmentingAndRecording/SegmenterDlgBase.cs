@@ -31,7 +31,6 @@ namespace SayMore.Transcription.UI
 			Manual,
 		}
 
-		protected readonly ToolTip _tooltip = new ToolTip();
 		protected readonly SegmenterDlgBaseViewModel _viewModel;
 		protected string _segmentNumberFormat;
 		protected string _segmentXofYFormat;
@@ -199,6 +198,7 @@ namespace SayMore.Transcription.UI
 		{
 			_segmentXofYFormat = _labelSegmentXofY.Text;
 			_segmentNumberFormat = _labelSegmentNumber.Text;
+			_tooltip.SetToolTip(_comboBoxZoom, _tooltip.GetToolTip(_labelZoom));
 		}
 
 		/// ------------------------------------------------------------------------------------

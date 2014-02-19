@@ -1,9 +1,9 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using System.Linq;
 using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Extensions;
@@ -232,7 +232,12 @@ namespace SayMore.Transcription.UI
 		private void OnFLexTextExportClick(object sender, EventArgs e)
 		{
 			var file = (AnnotationComponentFile)_file;
-			var mediaFileName = Path.GetFileName(file.GetPathToAssociatedMediaFile());
+			var fullMediaFileName = file.GetPathToAssociatedMediaFile();
+			var mediaFileName = Path.GetFileName(fullMediaFileName);
+			var sourceFileName = file.ParentElement.GetComponentFiles().First(compfile =>
+				compfile.GetAssignedRoles().Any(r =>
+				r.Id == ComponentRole.kSourceComponentRoleId)).PathToAnnotatedFile;
+			if (sourceFileName == mediaFileName) sourceFileName = ""; // In case the media file is the source file we don't want two references to it.
 
 			using (var dlg = new ExportToFieldWorksInterlinearDlg(mediaFileName))
 			{
@@ -240,7 +245,7 @@ namespace SayMore.Transcription.UI
 					return;
 
 				FLExTextExporter.Save(dlg.FileName, mediaFileName,
-					file.Tiers, dlg.TranscriptionWs.Id, dlg.FreeTranslationWs.Id);
+					file.Tiers, dlg.TranscriptionWs.Id, dlg.FreeTranslationWs.Id, fullMediaFileName, sourceFileName);
 			}
 		}
 

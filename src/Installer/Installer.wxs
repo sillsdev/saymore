@@ -57,7 +57,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<Directory Id="SILCommonAppData" Name="SIL">
 		  <Directory Id="SayMoreCommonAppData" Name="SayMore">
 			<Component Id="DeleteL10NFiles" Guid="">
-			  <RemoveFile Id="L10NFiles" Name="*.tmx" On="both" />
+			  <RemoveFile Id="EnglishTmx" Name="SayMore.en.tmx" On="both" />
 			</Component>
 			<Directory Id="SampleDataDir" Name="Samples">
 			</Directory>
@@ -203,6 +203,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	<CustomAction Id="LaunchSayMore"
 				  FileKey="SayMore.exe"
 				  ExeCommand=""
+				  Impersonate="no"
 				  Return="asyncNoWait"/>
 
 	<InstallExecuteSequence>

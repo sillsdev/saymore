@@ -167,11 +167,16 @@ namespace SayMore.Model.Files
 				{
 					if (DateTime.Now >= giveUpTime)
 					{
-						Logger.WriteEvent("IO Exception path: " + path ?? "null");
+						Logger.WriteEvent("IO Exception path: " + (path ?? "null"));
 						throw;
 					}
 
 					Thread.Sleep(100);
+				}
+				catch (XmlException xmlException)
+				{
+					// By default XmlExceptions (or at least some of them) don't contain the path name.
+					throw new XmlException("Failed to load XML file: " + (path ?? "null"), xmlException);
 				}
 			}
 

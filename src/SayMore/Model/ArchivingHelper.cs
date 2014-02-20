@@ -150,6 +150,7 @@ namespace SayMore.Model
 				imdiSession.AddKeyValuePair(item.FieldId, item.ValueAsString);
 
 			// actors
+			var actors = new ArchivingActorCollection();
 			var persons = saymoreSession.GetAllPersonsInSession();
 			foreach (var person in persons)
 			{
@@ -169,12 +170,13 @@ namespace SayMore.Model
 				ArchivingActor actor = new ArchivingActor
 				{
 					FullName = person.Id,
-					Name = person.MetaDataFile.GetStringValue("nickName", person.Id),
+					Name = person.MetaDataFile.GetStringValue("code", person.Id),
 					BirthDate = birthYear,
 					Gender = person.MetaDataFile.GetStringValue("gender", null),
 					Education = person.MetaDataFile.GetStringValue("education", null),
 					Occupation = person.MetaDataFile.GetStringValue("primaryOccupation", null),
-					Anonymize = protect
+					Anonymize = protect,
+					Role = "Participant"
 				};
 
 				// do this to get the ISO3 codes for the languages because they are not in saymore
@@ -205,8 +207,35 @@ namespace SayMore.Model
 					actor.Files.Add(CreateArchivingFile(file));
 
 				// add actor to imdi session
-				imdiSession.AddActor(actor);
+				actors.Add(actor);
 			}
+
+			// get contributors
+			foreach (var contributor in saymoreSession.GetAllContributorsInSession())
+			{
+				var actr = actors.FirstOrDefault(a => a.Name == contributor.Name);
+				if (actr == null)
+				{
+					actors.Add(contributor);
+				}
+				else
+				{
+					if (actr.Role == "Participant")
+					{
+						actr.Role = contributor.Role;
+					}
+					else
+					{
+						if (!actr.Role.Contains(contributor.Role))
+							actr.Role += ", " + contributor.Role;
+					}
+				}
+
+			}
+
+			// add actors to imdi session
+			foreach (var actr in actors)
+				imdiSession.AddActor(actr);
 
 			// session files
 			var files = saymoreSession.GetSessionFilesToArchive(model.GetType());

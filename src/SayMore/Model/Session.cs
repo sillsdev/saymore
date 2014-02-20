@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.ClearShare;
+using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -243,8 +245,31 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<Person> GetAllPersonsInSession()
 		{
-			return GetAllParticipants().Select(n => _personInformant.GetPersonByNameOrCode(n)).Where(p => p != null);
+			return GetAllParticipants().Select(n => _personInformant.GetPersonByNameOrCode(n)).Where(p => p != null).ToList();
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<ArchivingActor> GetAllContributorsInSession()
+		{
+			// files that might have contributors
+			foreach (var file in GetComponentFiles().Where(f => (f.FileType as FileTypeWithContributors) != null))
+			{
+				var values = file.MetaDataFieldValues.FirstOrDefault(v => v.FieldId == "contributions");
+				if (values == null) continue;
+
+				var contributions = values.Value as ContributionCollection;
+				if (contributions == null) continue;
+
+				foreach (var contribution in contributions)
+					yield return new ArchivingActor
+					{
+						FullName = contribution.ContributorName,
+						Name = contribution.ContributorName,
+						Role = contribution.Role.Name
+					};
+			}
+		}
+
 
 		#region Archiving
 		/// ------------------------------------------------------------------------------------

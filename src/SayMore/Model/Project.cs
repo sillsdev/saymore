@@ -79,6 +79,8 @@ namespace SayMore.Model
 						Directory.CreateDirectory(projectDirectory);
 				}
 
+				Title = Name;
+
 				saveNeeded = true;
 			}
 

@@ -13,6 +13,7 @@ using SayMore.UI.LowLevelControls;
 using Palaso.TestUtilities;
 using NUnit.Extensions.Forms;
 using NUnit.Framework;
+using SayMore.UI.ProjectWindow;
 
 namespace SayMoreTests.UI.ProjectWindow
 {
@@ -314,7 +315,26 @@ namespace SayMoreTests.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private ListPanel GetListPanelByName(string listPanelName)
 		{
-			return _projectContext.ProjectWindow.Controls.Find(listPanelName, true)[0] as ListPanel;
+			var pnl = _projectContext.ProjectWindow.Controls.Find(listPanelName, true)[0] as ListPanel;
+
+			if (pnl == null) return null;
+
+			// enable the tab so the button can be clicked
+			var parent = pnl.Parent;
+
+			while (!(parent is Form))
+			{
+				if (parent is ISayMoreView)
+				{
+					parent.Enabled = true;
+					break;
+				}
+
+				parent = parent.Parent;
+			}
+
+			// ISayMoreView
+			return pnl;
 		}
 	}
 }

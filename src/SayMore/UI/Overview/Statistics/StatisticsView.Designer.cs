@@ -210,7 +210,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._buttonRefresh.Name = "_buttonRefresh";
 			this._buttonRefresh.Padding = new System.Windows.Forms.Padding(1);
 			this._buttonRefresh.Size = new System.Drawing.Size(23, 22);
-			this._buttonRefresh.Text = "Refresh";
+			this._buttonRefresh.Text = "&Refresh";
 			this._buttonRefresh.ToolTipText = "Refresh View";
 			this._buttonRefresh.Click += new System.EventHandler(this.HandleRefreshButtonClicked);
 			// 
@@ -238,6 +238,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._buttonSave.Padding = new System.Windows.Forms.Padding(1);
 			this._buttonSave.Size = new System.Drawing.Size(37, 22);
 			this._buttonSave.Text = "Save";
+			this._buttonSave.ToolTipText = "Save";
 			this._buttonSave.Click += new System.EventHandler(this.HandleSaveButtonClicked);
 			// 
 			// _buttonPrint

@@ -144,7 +144,7 @@ namespace SayMore.UI.Overview
 			this._contactPerson.Location = new System.Drawing.Point(125, 231);
 			this._contactPerson.Name = "_contactPerson";
 			this._contactPerson.Size = new System.Drawing.Size(350, 22);
-			this._contactPerson.TabIndex = 14;
+			this._contactPerson.TabIndex = 15;
 			// 
 			// _description
 			// 
@@ -170,7 +170,7 @@ namespace SayMore.UI.Overview
 			this._labelProjectTitle.Name = "_labelProjectTitle";
 			this._labelProjectTitle.Size = new System.Drawing.Size(28, 28);
 			this._labelProjectTitle.TabIndex = 0;
-			this._labelProjectTitle.Text = "Title";
+			this._labelProjectTitle.Text = "&Title";
 			this._labelProjectTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// _labelFundingProject
@@ -183,8 +183,8 @@ namespace SayMore.UI.Overview
 			this._labelFundingProject.Location = new System.Drawing.Point(6, 276);
 			this._labelFundingProject.Name = "_labelFundingProject";
 			this._labelFundingProject.Size = new System.Drawing.Size(113, 28);
-			this._labelFundingProject.TabIndex = 15;
-			this._labelFundingProject.Text = "Funding Project Title";
+			this._labelFundingProject.TabIndex = 16;
+			this._labelFundingProject.Text = "&Funding Project Title";
 			this._labelFundingProject.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// _labelDescription
@@ -198,7 +198,7 @@ namespace SayMore.UI.Overview
 			this._labelDescription.Name = "_labelDescription";
 			this._labelDescription.Size = new System.Drawing.Size(66, 28);
 			this._labelDescription.TabIndex = 2;
-			this._labelDescription.Text = "Description";
+			this._labelDescription.Text = "Desc&ription";
 			this._labelDescription.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// _labelVernacular
@@ -213,7 +213,7 @@ namespace SayMore.UI.Overview
 			this._labelVernacular.Name = "_labelVernacular";
 			this._labelVernacular.Size = new System.Drawing.Size(62, 13);
 			this._labelVernacular.TabIndex = 4;
-			this._labelVernacular.Text = "Vernacular";
+			this._labelVernacular.Text = "&Vernacular";
 			this._labelVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// _labelLocation
@@ -226,8 +226,8 @@ namespace SayMore.UI.Overview
 			this._labelLocation.Location = new System.Drawing.Point(23, 118);
 			this._labelLocation.Name = "_labelLocation";
 			this._labelLocation.Size = new System.Drawing.Size(96, 28);
-			this._labelLocation.TabIndex = 5;
-			this._labelLocation.Text = "Location/Address";
+			this._labelLocation.TabIndex = 6;
+			this._labelLocation.Text = "&Location/Address";
 			this._labelLocation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// _labelCountry
@@ -240,8 +240,8 @@ namespace SayMore.UI.Overview
 			this._labelCountry.Location = new System.Drawing.Point(71, 174);
 			this._labelCountry.Name = "_labelCountry";
 			this._labelCountry.Size = new System.Drawing.Size(48, 27);
-			this._labelCountry.TabIndex = 9;
-			this._labelCountry.Text = "Country";
+			this._labelCountry.TabIndex = 10;
+			this._labelCountry.Text = "Countr&y";
 			this._labelCountry.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// _labelContinent
@@ -254,8 +254,8 @@ namespace SayMore.UI.Overview
 			this._labelContinent.Location = new System.Drawing.Point(60, 201);
 			this._labelContinent.Name = "_labelContinent";
 			this._labelContinent.Size = new System.Drawing.Size(59, 27);
-			this._labelContinent.TabIndex = 11;
-			this._labelContinent.Text = "Continent";
+			this._labelContinent.TabIndex = 12;
+			this._labelContinent.Text = "C&ontinent";
 			this._labelContinent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// _labelContact
@@ -268,8 +268,8 @@ namespace SayMore.UI.Overview
 			this._labelContact.Location = new System.Drawing.Point(34, 228);
 			this._labelContact.Name = "_labelContact";
 			this._labelContact.Size = new System.Drawing.Size(85, 28);
-			this._labelContact.TabIndex = 13;
-			this._labelContact.Text = "Contact Person";
+			this._labelContact.TabIndex = 14;
+			this._labelContact.Text = "Co&ntact Person";
 			this._labelContact.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// _continent
@@ -283,7 +283,7 @@ namespace SayMore.UI.Overview
 			this._continent.Location = new System.Drawing.Point(125, 204);
 			this._continent.Name = "_continent";
 			this._continent.Size = new System.Drawing.Size(169, 21);
-			this._continent.TabIndex = 12;
+			this._continent.TabIndex = 13;
 			// 
 			// _country
 			// 
@@ -295,7 +295,7 @@ namespace SayMore.UI.Overview
 			this._country.Location = new System.Drawing.Point(125, 177);
 			this._country.Name = "_country";
 			this._country.Size = new System.Drawing.Size(350, 21);
-			this._country.TabIndex = 10;
+			this._country.TabIndex = 11;
 			// 
 			// tableLayoutPanel1
 			// 
@@ -311,7 +311,7 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel1.RowCount = 1;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(353, 21);
-			this.tableLayoutPanel1.TabIndex = 19;
+			this.tableLayoutPanel1.TabIndex = 5;
 			// 
 			// _labelSelectedVernacular
 			// 
@@ -324,7 +324,7 @@ namespace SayMore.UI.Overview
 			this._labelSelectedVernacular.Location = new System.Drawing.Point(3, 0);
 			this._labelSelectedVernacular.Name = "_labelSelectedVernacular";
 			this._labelSelectedVernacular.Size = new System.Drawing.Size(68, 21);
-			this._labelSelectedVernacular.TabIndex = 0;
+			this._labelSelectedVernacular.TabIndex = 1;
 			this._labelSelectedVernacular.Text = "Unspecified";
 			this._labelSelectedVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -338,7 +338,7 @@ namespace SayMore.UI.Overview
 			this._linkSelectVernacular.Location = new System.Drawing.Point(249, 0);
 			this._linkSelectVernacular.Name = "_linkSelectVernacular";
 			this._linkSelectVernacular.Size = new System.Drawing.Size(101, 21);
-			this._linkSelectVernacular.TabIndex = 1;
+			this._linkSelectVernacular.TabIndex = 0;
 			this._linkSelectVernacular.TabStop = true;
 			this._linkSelectVernacular.Text = "Change Language";
 			this._linkSelectVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -353,7 +353,7 @@ namespace SayMore.UI.Overview
 			this._location.Location = new System.Drawing.Point(125, 121);
 			this._location.Name = "_location";
 			this._location.Size = new System.Drawing.Size(350, 22);
-			this._location.TabIndex = 6;
+			this._location.TabIndex = 7;
 			// 
 			// _labelRegion
 			// 
@@ -365,8 +365,8 @@ namespace SayMore.UI.Overview
 			this._labelRegion.Location = new System.Drawing.Point(75, 146);
 			this._labelRegion.Name = "_labelRegion";
 			this._labelRegion.Size = new System.Drawing.Size(44, 28);
-			this._labelRegion.TabIndex = 7;
-			this._labelRegion.Text = "Region";
+			this._labelRegion.TabIndex = 8;
+			this._labelRegion.Text = "Re&gion";
 			this._labelRegion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// _region
@@ -378,7 +378,7 @@ namespace SayMore.UI.Overview
 			this._region.Location = new System.Drawing.Point(125, 149);
 			this._region.Name = "_region";
 			this._region.Size = new System.Drawing.Size(350, 22);
-			this._region.TabIndex = 8;
+			this._region.TabIndex = 9;
 			// 
 			// _labelContentType
 			// 
@@ -390,8 +390,8 @@ namespace SayMore.UI.Overview
 			this._labelContentType.Location = new System.Drawing.Point(44, 408);
 			this._labelContentType.Name = "_labelContentType";
 			this._labelContentType.Size = new System.Drawing.Size(75, 28);
-			this._labelContentType.TabIndex = 23;
-			this._labelContentType.Text = "Content Type";
+			this._labelContentType.TabIndex = 24;
+			this._labelContentType.Text = "&Content Type";
 			this._labelContentType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// _labelApplications
@@ -404,8 +404,8 @@ namespace SayMore.UI.Overview
 			this._labelApplications.Location = new System.Drawing.Point(48, 436);
 			this._labelApplications.Name = "_labelApplications";
 			this._labelApplications.Size = new System.Drawing.Size(71, 28);
-			this._labelApplications.TabIndex = 25;
-			this._labelApplications.Text = "Applications";
+			this._labelApplications.TabIndex = 26;
+			this._labelApplications.Text = "&Applications";
 			this._labelApplications.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// _labelDateAvailable
@@ -418,8 +418,8 @@ namespace SayMore.UI.Overview
 			this._labelDateAvailable.Location = new System.Drawing.Point(39, 304);
 			this._labelDateAvailable.Name = "_labelDateAvailable";
 			this._labelDateAvailable.Size = new System.Drawing.Size(80, 28);
-			this._labelDateAvailable.TabIndex = 17;
-			this._labelDateAvailable.Text = "Date Available";
+			this._labelDateAvailable.TabIndex = 18;
+			this._labelDateAvailable.Text = "&Date Available";
 			this._labelDateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// _labelRightsHolder
@@ -432,8 +432,8 @@ namespace SayMore.UI.Overview
 			this._labelRightsHolder.Location = new System.Drawing.Point(41, 332);
 			this._labelRightsHolder.Name = "_labelRightsHolder";
 			this._labelRightsHolder.Size = new System.Drawing.Size(78, 28);
-			this._labelRightsHolder.TabIndex = 19;
-			this._labelRightsHolder.Text = "Rights Holder";
+			this._labelRightsHolder.TabIndex = 20;
+			this._labelRightsHolder.Text = "R&ights Holder";
 			this._labelRightsHolder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// _labelDepositor
@@ -446,8 +446,8 @@ namespace SayMore.UI.Overview
 			this._labelDepositor.Location = new System.Drawing.Point(61, 360);
 			this._labelDepositor.Name = "_labelDepositor";
 			this._labelDepositor.Size = new System.Drawing.Size(58, 28);
-			this._labelDepositor.TabIndex = 21;
-			this._labelDepositor.Text = "Depositor";
+			this._labelDepositor.TabIndex = 22;
+			this._labelDepositor.Text = "D&epositor";
 			this._labelDepositor.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// _labelRelatedPublications
@@ -460,8 +460,8 @@ namespace SayMore.UI.Overview
 			this._labelRelatedPublications.Location = new System.Drawing.Point(7, 464);
 			this._labelRelatedPublications.Name = "_labelRelatedPublications";
 			this._labelRelatedPublications.Size = new System.Drawing.Size(112, 28);
-			this._labelRelatedPublications.TabIndex = 27;
-			this._labelRelatedPublications.Text = "Related Publications";
+			this._labelRelatedPublications.TabIndex = 28;
+			this._labelRelatedPublications.Text = "Related P&ublications";
 			this._labelRelatedPublications.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// _relatedPublications
@@ -473,7 +473,7 @@ namespace SayMore.UI.Overview
 			this._relatedPublications.Location = new System.Drawing.Point(125, 467);
 			this._relatedPublications.Name = "_relatedPublications";
 			this._relatedPublications.Size = new System.Drawing.Size(350, 22);
-			this._relatedPublications.TabIndex = 28;
+			this._relatedPublications.TabIndex = 29;
 			// 
 			// _dateAvailable
 			// 
@@ -487,7 +487,7 @@ namespace SayMore.UI.Overview
 			this._dateAvailable.Location = new System.Drawing.Point(125, 307);
 			this._dateAvailable.Name = "_dateAvailable";
 			this._dateAvailable.Size = new System.Drawing.Size(96, 22);
-			this._dateAvailable.TabIndex = 18;
+			this._dateAvailable.TabIndex = 19;
 			this._dateAvailable.Value = new System.DateTime(2013, 12, 18, 9, 55, 23, 0);
 			// 
 			// _applications
@@ -499,7 +499,7 @@ namespace SayMore.UI.Overview
 			this._applications.Location = new System.Drawing.Point(125, 439);
 			this._applications.Name = "_applications";
 			this._applications.Size = new System.Drawing.Size(350, 22);
-			this._applications.TabIndex = 26;
+			this._applications.TabIndex = 27;
 			// 
 			// _depositor
 			// 
@@ -510,7 +510,7 @@ namespace SayMore.UI.Overview
 			this._depositor.Location = new System.Drawing.Point(125, 363);
 			this._depositor.Name = "_depositor";
 			this._depositor.Size = new System.Drawing.Size(350, 22);
-			this._depositor.TabIndex = 22;
+			this._depositor.TabIndex = 23;
 			// 
 			// _rightsHolder
 			// 
@@ -521,7 +521,7 @@ namespace SayMore.UI.Overview
 			this._rightsHolder.Location = new System.Drawing.Point(125, 335);
 			this._rightsHolder.Name = "_rightsHolder";
 			this._rightsHolder.Size = new System.Drawing.Size(350, 22);
-			this._rightsHolder.TabIndex = 20;
+			this._rightsHolder.TabIndex = 21;
 			// 
 			// _contentType
 			// 
@@ -532,7 +532,7 @@ namespace SayMore.UI.Overview
 			this._contentType.Location = new System.Drawing.Point(125, 411);
 			this._contentType.Name = "_contentType";
 			this._contentType.Size = new System.Drawing.Size(350, 22);
-			this._contentType.TabIndex = 24;
+			this._contentType.TabIndex = 25;
 			// 
 			// _fundingProjectTitle
 			// 
@@ -543,7 +543,7 @@ namespace SayMore.UI.Overview
 			this._fundingProjectTitle.Location = new System.Drawing.Point(125, 279);
 			this._fundingProjectTitle.Name = "_fundingProjectTitle";
 			this._fundingProjectTitle.Size = new System.Drawing.Size(350, 22);
-			this._fundingProjectTitle.TabIndex = 16;
+			this._fundingProjectTitle.TabIndex = 17;
 			// 
 			// flowLayoutPanel1
 			// 

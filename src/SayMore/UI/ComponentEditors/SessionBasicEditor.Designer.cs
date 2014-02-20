@@ -78,7 +78,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelId.Name = "_labelId";
 			this._labelId.Size = new System.Drawing.Size(17, 13);
 			this._labelId.TabIndex = 0;
-			this._labelId.Text = "Id";
+			this._labelId.Text = "&Id";
 			// 
 			// _id
 			// 
@@ -111,7 +111,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelTitle.Name = "_labelTitle";
 			this._labelTitle.Size = new System.Drawing.Size(28, 13);
 			this._labelTitle.TabIndex = 4;
-			this._labelTitle.Text = "Title";
+			this._labelTitle.Text = "&Title";
 			// 
 			// _title
 			// 
@@ -166,7 +166,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSynopsis.Name = "_labelSynopsis";
 			this._labelSynopsis.Size = new System.Drawing.Size(66, 13);
 			this._labelSynopsis.TabIndex = 18;
-			this._labelSynopsis.Text = "Description";
+			this._labelSynopsis.Text = "Desc&ription";
 			// 
 			// _synopsis
 			// 
@@ -255,7 +255,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelMoreFields.Name = "_labelMoreFields";
 			this._labelMoreFields.Size = new System.Drawing.Size(67, 13);
 			this._labelMoreFields.TabIndex = 20;
-			this._labelMoreFields.Text = "More Fields";
+			this._labelMoreFields.Text = "&More Fields";
 			// 
 			// _panelAdditionalGrid
 			// 
@@ -317,7 +317,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelAccess.Name = "_labelAccess";
 			this._labelAccess.Size = new System.Drawing.Size(40, 13);
 			this._labelAccess.TabIndex = 14;
-			this._labelAccess.Text = "Access";
+			this._labelAccess.Text = "&Access";
 			// 
 			// _genre
 			// 
@@ -351,7 +351,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelGenre.Name = "_labelGenre";
 			this._labelGenre.Size = new System.Drawing.Size(38, 13);
 			this._labelGenre.TabIndex = 12;
-			this._labelGenre.Text = "Genre";
+			this._labelGenre.Text = "&Genre";
 			// 
 			// _location
 			// 
@@ -384,7 +384,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelLocation.Name = "_labelLocation";
 			this._labelLocation.Size = new System.Drawing.Size(51, 13);
 			this._labelLocation.TabIndex = 10;
-			this._labelLocation.Text = "Location";
+			this._labelLocation.Text = "&Location";
 			// 
 			// _labelParticipants
 			// 
@@ -399,7 +399,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelParticipants.Name = "_labelParticipants";
 			this._labelParticipants.Size = new System.Drawing.Size(42, 13);
 			this._labelParticipants.TabIndex = 8;
-			this._labelParticipants.Text = "People";
+			this._labelParticipants.Text = "Pe&ople";
 			// 
 			// _labelSetting
 			// 
@@ -414,7 +414,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSetting.Name = "_labelSetting";
 			this._labelSetting.Size = new System.Drawing.Size(44, 13);
 			this._labelSetting.TabIndex = 6;
-			this._labelSetting.Text = "Setting";
+			this._labelSetting.Text = "S&etting";
 			// 
 			// _setting
 			// 
@@ -446,8 +446,8 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSituation.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelSituation.Name = "_labelSituation";
 			this._labelSituation.Size = new System.Drawing.Size(54, 13);
-			this._labelSituation.TabIndex = 116;
-			this._labelSituation.Text = "Situation";
+			this._labelSituation.TabIndex = 16;
+			this._labelSituation.Text = "Sit&uation";
 			// 
 			// _labelDate
 			// 
@@ -462,7 +462,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelDate.Name = "_labelDate";
 			this._labelDate.Size = new System.Drawing.Size(31, 13);
 			this._labelDate.TabIndex = 2;
-			this._labelDate.Text = "Date";
+			this._labelDate.Text = "&Date";
 			// 
 			// _date
 			// 
@@ -494,7 +494,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelCustomFields.Name = "_labelCustomFields";
 			this._labelCustomFields.Size = new System.Drawing.Size(79, 13);
 			this._labelCustomFields.TabIndex = 22;
-			this._labelCustomFields.Text = "Custom Fields";
+			this._labelCustomFields.Text = "&Custom Fields";
 			// 
 			// _panelGrid
 			// 

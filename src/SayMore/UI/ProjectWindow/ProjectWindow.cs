@@ -86,6 +86,13 @@ namespace SayMore.UI.ProjectWindow
 					vw.MainMenuItem.Enabled = false;
 					_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_mainMenuHelp), vw.MainMenuItem);
 				}
+
+				//------------------------------------------------------------------------------------
+				// 19 FEB 2014, Phil Hopper: Disable the hidden tabs because Alt+Key is activating
+				// buttons that are not on the active (visible) tab.  Use vw.ViewActivated() and
+				// vw.ViewDeactivated() to enable and disable tabs at the appropriate time.
+				//------------------------------------------------------------------------------------
+				((UserControl)vw).Enabled = false;
 			}
 
 			SetWindowText();

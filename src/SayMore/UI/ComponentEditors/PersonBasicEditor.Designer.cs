@@ -135,7 +135,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelBirthYear.Name = "_labelBirthYear";
 			this._labelBirthYear.Size = new System.Drawing.Size(53, 13);
 			this._labelBirthYear.TabIndex = 2;
-			this._labelBirthYear.Text = "Birth Year";
+			this._labelBirthYear.Text = "Birth &Year";
 			// 
 			// _birthYear
 			// 
@@ -245,12 +245,12 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._ethnicGroup, null);
 			this.locExtender.SetLocalizationComment(this._ethnicGroup, null);
 			this.locExtender.SetLocalizationPriority(this._ethnicGroup, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._ethnicGroup, "PersonBasicEditor._birthYear");
+			this.locExtender.SetLocalizingId(this._ethnicGroup, "PersonBasicEditor._ethnicGroup");
 			this._ethnicGroup.Location = new System.Drawing.Point(245, 291);
 			this._ethnicGroup.Margin = new System.Windows.Forms.Padding(7, 3, 0, 3);
 			this._ethnicGroup.Name = "_ethnicGroup";
 			this._ethnicGroup.Size = new System.Drawing.Size(240, 20);
-			this._ethnicGroup.TabIndex = 34;
+			this._ethnicGroup.TabIndex = 31;
 			this._autoCompleteHelper.SetUpdateGatherer(this._ethnicGroup, false);
 			// 
 			// _labelEthnicGroup
@@ -264,8 +264,8 @@ namespace SayMore.UI.ComponentEditors
 			this._labelEthnicGroup.Margin = new System.Windows.Forms.Padding(7, 5, 3, 0);
 			this._labelEthnicGroup.Name = "_labelEthnicGroup";
 			this._labelEthnicGroup.Size = new System.Drawing.Size(69, 13);
-			this._labelEthnicGroup.TabIndex = 33;
-			this._labelEthnicGroup.Text = "Ethnic Group";
+			this._labelEthnicGroup.TabIndex = 30;
+			this._labelEthnicGroup.Text = "Ethnic Gro&up";
 			// 
 			// _pbOtherLangMother3
 			// 
@@ -280,7 +280,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother3.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother3.Selected = false;
 			this._pbOtherLangMother3.Size = new System.Drawing.Size(24, 24);
-			this._pbOtherLangMother3.TabIndex = 30;
+			this._pbOtherLangMother3.TabIndex = 27;
 			this._pbOtherLangMother3.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleMothersLanguageChanging);
 			this._pbOtherLangMother3.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
@@ -301,7 +301,7 @@ namespace SayMore.UI.ComponentEditors
 			this._primaryLanguageLearnedIn.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
 			this._primaryLanguageLearnedIn.Name = "_primaryLanguageLearnedIn";
 			this._primaryLanguageLearnedIn.Size = new System.Drawing.Size(109, 20);
-			this._primaryLanguageLearnedIn.TabIndex = 17;
+			this._primaryLanguageLearnedIn.TabIndex = 14;
 			this._autoCompleteHelper.SetUpdateGatherer(this._primaryLanguageLearnedIn, false);
 			// 
 			// _labelPrimaryLanguageLearnedIn
@@ -314,7 +314,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelPrimaryLanguageLearnedIn.Margin = new System.Windows.Forms.Padding(0, 7, 3, 7);
 			this._labelPrimaryLanguageLearnedIn.Name = "_labelPrimaryLanguageLearnedIn";
 			this._labelPrimaryLanguageLearnedIn.Size = new System.Drawing.Size(61, 13);
-			this._labelPrimaryLanguageLearnedIn.TabIndex = 16;
+			this._labelPrimaryLanguageLearnedIn.TabIndex = 13;
 			this._labelPrimaryLanguageLearnedIn.Text = "Learned &In:";
 			// 
 			// _pbOtherLangMother1
@@ -330,7 +330,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother1.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother1.Selected = false;
 			this._pbOtherLangMother1.Size = new System.Drawing.Size(24, 24);
-			this._pbOtherLangMother1.TabIndex = 24;
+			this._pbOtherLangMother1.TabIndex = 21;
 			this._pbOtherLangMother1.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleMothersLanguageChanging);
 			this._pbOtherLangMother1.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
@@ -347,7 +347,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather3.ParentType = SayMore.UI.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather3.Selected = false;
 			this._pbOtherLangFather3.Size = new System.Drawing.Size(24, 24);
-			this._pbOtherLangFather3.TabIndex = 29;
+			this._pbOtherLangFather3.TabIndex = 26;
 			this._pbOtherLangFather3.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleFathersLanguageChanging);
 			this._pbOtherLangFather3.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
@@ -364,7 +364,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather2.ParentType = SayMore.UI.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather2.Selected = false;
 			this._pbOtherLangFather2.Size = new System.Drawing.Size(24, 24);
-			this._pbOtherLangFather2.TabIndex = 26;
+			this._pbOtherLangFather2.TabIndex = 23;
 			this._pbOtherLangFather2.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleFathersLanguageChanging);
 			this._pbOtherLangFather2.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
@@ -381,7 +381,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather1.ParentType = SayMore.UI.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather1.Selected = false;
 			this._pbOtherLangFather1.Size = new System.Drawing.Size(24, 24);
-			this._pbOtherLangFather1.TabIndex = 23;
+			this._pbOtherLangFather1.TabIndex = 20;
 			this._pbOtherLangFather1.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleFathersLanguageChanging);
 			this._pbOtherLangFather1.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
@@ -398,7 +398,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother0.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother0.Selected = false;
 			this._pbOtherLangMother0.Size = new System.Drawing.Size(24, 24);
-			this._pbOtherLangMother0.TabIndex = 21;
+			this._pbOtherLangMother0.TabIndex = 18;
 			this._pbOtherLangMother0.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleMothersLanguageChanging);
 			this._pbOtherLangMother0.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
@@ -415,7 +415,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather0.ParentType = SayMore.UI.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather0.Selected = false;
 			this._pbOtherLangFather0.Size = new System.Drawing.Size(24, 24);
-			this._pbOtherLangFather0.TabIndex = 20;
+			this._pbOtherLangFather0.TabIndex = 17;
 			this._pbOtherLangFather0.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleFathersLanguageChanging);
 			this._pbOtherLangFather0.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
@@ -437,7 +437,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage3.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage3.Name = "_otherLanguage3";
 			this._otherLanguage3.Size = new System.Drawing.Size(173, 20);
-			this._otherLanguage3.TabIndex = 28;
+			this._otherLanguage3.TabIndex = 25;
 			this._autoCompleteHelper.SetUpdateGatherer(this._otherLanguage3, false);
 			// 
 			// _otherLanguage0
@@ -458,7 +458,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage0.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage0.Name = "_otherLanguage0";
 			this._otherLanguage0.Size = new System.Drawing.Size(173, 20);
-			this._otherLanguage0.TabIndex = 19;
+			this._otherLanguage0.TabIndex = 16;
 			this._autoCompleteHelper.SetUpdateGatherer(this._otherLanguage0, false);
 			// 
 			// _otherLanguage1
@@ -479,7 +479,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage1.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage1.Name = "_otherLanguage1";
 			this._otherLanguage1.Size = new System.Drawing.Size(173, 20);
-			this._otherLanguage1.TabIndex = 22;
+			this._otherLanguage1.TabIndex = 19;
 			this._autoCompleteHelper.SetUpdateGatherer(this._otherLanguage1, false);
 			// 
 			// _otherLanguage2
@@ -500,7 +500,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage2.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage2.Name = "_otherLanguage2";
 			this._otherLanguage2.Size = new System.Drawing.Size(173, 20);
-			this._otherLanguage2.TabIndex = 25;
+			this._otherLanguage2.TabIndex = 22;
 			this._autoCompleteHelper.SetUpdateGatherer(this._otherLanguage2, false);
 			// 
 			// _primaryLanguage
@@ -521,7 +521,7 @@ namespace SayMore.UI.ComponentEditors
 			this._primaryLanguage.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._primaryLanguage.Name = "_primaryLanguage";
 			this._primaryLanguage.Size = new System.Drawing.Size(173, 20);
-			this._primaryLanguage.TabIndex = 11;
+			this._primaryLanguage.TabIndex = 8;
 			this._autoCompleteHelper.SetUpdateGatherer(this._primaryLanguage, false);
 			// 
 			// _labelPrimaryLanguage
@@ -535,7 +535,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelPrimaryLanguage.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
 			this._labelPrimaryLanguage.Name = "_labelPrimaryLanguage";
 			this._labelPrimaryLanguage.Size = new System.Drawing.Size(92, 13);
-			this._labelPrimaryLanguage.TabIndex = 10;
+			this._labelPrimaryLanguage.TabIndex = 7;
 			this._labelPrimaryLanguage.Text = "Primary &Language";
 			// 
 			// _pbPrimaryLangMother
@@ -551,7 +551,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbPrimaryLangMother.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
 			this._pbPrimaryLangMother.Selected = false;
 			this._pbPrimaryLangMother.Size = new System.Drawing.Size(24, 24);
-			this._pbPrimaryLangMother.TabIndex = 13;
+			this._pbPrimaryLangMother.TabIndex = 10;
 			this._pbPrimaryLangMother.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
 			// _pbPrimaryLangFather
@@ -567,7 +567,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbPrimaryLangFather.ParentType = SayMore.UI.LowLevelControls.ParentType.Father;
 			this._pbPrimaryLangFather.Selected = false;
 			this._pbPrimaryLangFather.Size = new System.Drawing.Size(24, 24);
-			this._pbPrimaryLangFather.TabIndex = 12;
+			this._pbPrimaryLangFather.TabIndex = 9;
 			this._pbPrimaryLangFather.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
 			// _labelOtherLanguages
@@ -582,7 +582,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelOtherLanguages.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
 			this._labelOtherLanguages.Name = "_labelOtherLanguages";
 			this._labelOtherLanguages.Size = new System.Drawing.Size(89, 13);
-			this._labelOtherLanguages.TabIndex = 18;
+			this._labelOtherLanguages.TabIndex = 15;
 			this._labelOtherLanguages.Text = "Other L&anguages";
 			// 
 			// _pbOtherLangMother2
@@ -599,7 +599,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother2.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother2.Selected = false;
 			this._pbOtherLangMother2.Size = new System.Drawing.Size(24, 24);
-			this._pbOtherLangMother2.TabIndex = 27;
+			this._pbOtherLangMother2.TabIndex = 24;
 			this._pbOtherLangMother2.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleMothersLanguageChanging);
 			this._pbOtherLangMother2.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
@@ -614,7 +614,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelEducation.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
 			this._labelEducation.Name = "_labelEducation";
 			this._labelEducation.Size = new System.Drawing.Size(55, 13);
-			this._labelEducation.TabIndex = 33;
+			this._labelEducation.TabIndex = 28;
 			this._labelEducation.Text = "&Education";
 			// 
 			// _education
@@ -635,7 +635,7 @@ namespace SayMore.UI.ComponentEditors
 			this._education.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._education.Name = "_education";
 			this._education.Size = new System.Drawing.Size(173, 20);
-			this._education.TabIndex = 34;
+			this._education.TabIndex = 29;
 			this._autoCompleteHelper.SetUpdateGatherer(this._education, false);
 			// 
 			// _labelPrimaryOccupation
@@ -649,7 +649,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelPrimaryOccupation.Margin = new System.Windows.Forms.Padding(7, 5, 3, 0);
 			this._labelPrimaryOccupation.Name = "_labelPrimaryOccupation";
 			this._labelPrimaryOccupation.Size = new System.Drawing.Size(99, 13);
-			this._labelPrimaryOccupation.TabIndex = 35;
+			this._labelPrimaryOccupation.TabIndex = 32;
 			this._labelPrimaryOccupation.Text = "Primary &Occupation";
 			// 
 			// _primaryOccupation
@@ -668,7 +668,7 @@ namespace SayMore.UI.ComponentEditors
 			this._primaryOccupation.Margin = new System.Windows.Forms.Padding(7, 3, 0, 3);
 			this._primaryOccupation.Name = "_primaryOccupation";
 			this._primaryOccupation.Size = new System.Drawing.Size(240, 20);
-			this._primaryOccupation.TabIndex = 36;
+			this._primaryOccupation.TabIndex = 33;
 			this._autoCompleteHelper.SetUpdateGatherer(this._primaryOccupation, false);
 			// 
 			// _labelgender
@@ -684,7 +684,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelgender.MinimumSize = new System.Drawing.Size(42, 0);
 			this._labelgender.Name = "_labelgender";
 			this._labelgender.Size = new System.Drawing.Size(42, 13);
-			this._labelgender.TabIndex = 8;
+			this._labelgender.TabIndex = 5;
 			this._labelgender.Text = "&Gender";
 			// 
 			// _gender
@@ -701,7 +701,7 @@ namespace SayMore.UI.ComponentEditors
 			this._gender.Margin = new System.Windows.Forms.Padding(7, 3, 3, 0);
 			this._gender.Name = "_gender";
 			this._gender.Size = new System.Drawing.Size(76, 21);
-			this._gender.TabIndex = 9;
+			this._gender.TabIndex = 6;
 			// 
 			// _labelHowToContact
 			// 
@@ -714,8 +714,8 @@ namespace SayMore.UI.ComponentEditors
 			this._labelHowToContact.Margin = new System.Windows.Forms.Padding(7, 5, 3, 0);
 			this._labelHowToContact.Name = "_labelHowToContact";
 			this._labelHowToContact.Size = new System.Drawing.Size(81, 13);
-			this._labelHowToContact.TabIndex = 14;
-			this._labelHowToContact.Text = "&How to Contact";
+			this._labelHowToContact.TabIndex = 11;
+			this._labelHowToContact.Text = "Ho&w to Contact";
 			// 
 			// _howToContact
 			// 
@@ -735,7 +735,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.SetRowSpan(this._howToContact, 3);
 			this._howToContact.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this._howToContact.Size = new System.Drawing.Size(240, 76);
-			this._howToContact.TabIndex = 15;
+			this._howToContact.TabIndex = 12;
 			this._autoCompleteHelper.SetUpdateGatherer(this._howToContact, false);
 			// 
 			// _panelGrid
@@ -750,7 +750,7 @@ namespace SayMore.UI.ComponentEditors
 			this._panelGrid.MinimumSize = new System.Drawing.Size(0, 20);
 			this._panelGrid.Name = "_panelGrid";
 			this._panelGrid.Size = new System.Drawing.Size(240, 20);
-			this._panelGrid.TabIndex = 38;
+			this._panelGrid.TabIndex = 35;
 			// 
 			// _panelPicture
 			// 
@@ -763,7 +763,7 @@ namespace SayMore.UI.ComponentEditors
 			this._panelPicture.Name = "_panelPicture";
 			this._tableLayout.SetRowSpan(this._panelPicture, 6);
 			this._panelPicture.Size = new System.Drawing.Size(142, 124);
-			this._panelPicture.TabIndex = 33;
+			this._panelPicture.TabIndex = 36;
 			this._panelPicture.DragDrop += new System.Windows.Forms.DragEventHandler(this.HandlePictureDragDrop);
 			this._panelPicture.DragEnter += new System.Windows.Forms.DragEventHandler(this.HandlePictureDragEnter);
 			this._panelPicture.DragLeave += new System.EventHandler(this.HandlePictureDragLeave);
@@ -802,7 +802,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelCustomFields.Margin = new System.Windows.Forms.Padding(7, 5, 3, 0);
 			this._labelCustomFields.Name = "_labelCustomFields";
 			this._labelCustomFields.Size = new System.Drawing.Size(72, 13);
-			this._labelCustomFields.TabIndex = 37;
+			this._labelCustomFields.TabIndex = 34;
 			this._labelCustomFields.Text = "&Custom Fields";
 			// 
 			// _panelPrivacy
@@ -886,7 +886,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelNickName.Name = "_labelNickName";
 			this._labelNickName.Size = new System.Drawing.Size(55, 13);
 			this._labelNickName.TabIndex = 0;
-			this._labelNickName.Text = "Nickname";
+			this._labelNickName.Text = "Nic&kname";
 			// 
 			// _nickName
 			// 
@@ -919,7 +919,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelID.Name = "_labelID";
 			this._labelID.Size = new System.Drawing.Size(32, 13);
 			this._labelID.TabIndex = 2;
-			this._labelID.Text = "Code";
+			this._labelID.Text = "Co&de";
 			// 
 			// _code
 			// 

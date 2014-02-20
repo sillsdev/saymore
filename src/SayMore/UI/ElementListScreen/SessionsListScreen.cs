@@ -123,6 +123,8 @@ namespace SayMore.UI.ElementListScreen
 		{
 			base.ViewActivated(firstTime);
 
+			Enabled = true;
+
 			if (firstTime)
 			{
 				if (Settings.Default.SessionScreenElementsListSplitterPos > 0)
@@ -131,6 +133,13 @@ namespace SayMore.UI.ElementListScreen
 				if (Settings.Default.SessionScreenComponentsSplitterPos > 0)
 					_componentsSplitter.SplitterDistance = Settings.Default.SessionScreenComponentsSplitterPos;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void ViewDeactivated()
+		{
+			base.ViewDeactivated();
+			Enabled = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -40,9 +40,11 @@ namespace SayMore.UI.ElementListScreen
 			this._sessionComponentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._labelClickNewHelpPrompt = new System.Windows.Forms.Label();
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			((System.ComponentModel.ISupportInitialize)(this._elementListSplitter)).BeginInit();
 			this._elementListSplitter.Panel1.SuspendLayout();
 			this._elementListSplitter.Panel2.SuspendLayout();
 			this._elementListSplitter.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._componentsSplitter)).BeginInit();
 			this._componentsSplitter.Panel1.SuspendLayout();
 			this._componentsSplitter.Panel2.SuspendLayout();
 			this._componentsSplitter.SuspendLayout();
@@ -179,6 +181,7 @@ namespace SayMore.UI.ElementListScreen
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
+			this.locExtender.PrefixForNewItems = null;
 			// 
 			// SessionsListScreen
 			// 
@@ -194,9 +197,11 @@ namespace SayMore.UI.ElementListScreen
 			this._elementListSplitter.Panel1.ResumeLayout(false);
 			this._elementListSplitter.Panel1.PerformLayout();
 			this._elementListSplitter.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this._elementListSplitter)).EndInit();
 			this._elementListSplitter.ResumeLayout(false);
 			this._componentsSplitter.Panel1.ResumeLayout(false);
 			this._componentsSplitter.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this._componentsSplitter)).EndInit();
 			this._componentsSplitter.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);

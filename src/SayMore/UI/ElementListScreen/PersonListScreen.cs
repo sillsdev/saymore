@@ -117,6 +117,7 @@ namespace SayMore.UI.ElementListScreen
 		public override void ViewActivated(bool firstTime)
 		{
 			base.ViewActivated(firstTime);
+			Enabled = true;
 
 			if (firstTime)
 			{
@@ -126,6 +127,12 @@ namespace SayMore.UI.ElementListScreen
 				if (Settings.Default.PersonScreenComponentsSplitterPos > 0)
 					_componentsSplitter.SplitterDistance = Settings.Default.PersonScreenComponentsSplitterPos;
 			}
+		}
+
+		public override void ViewDeactivated()
+		{
+			base.ViewDeactivated();
+			Enabled = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -137,6 +137,9 @@ namespace SayMore.UI.Overview
 			// check for changes
 			var project = Program.CurrentProject;
 
+			// happens during testing
+			if (project == null) return;
+
 			var changed = (_projectAccess.Text != project.AccessProtocol);
 
 			// check if custom access choices changed

@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Extensions;
@@ -319,8 +321,10 @@ namespace SayMore.UI.ComponentEditors
 			if (_genre.Items.Count == 0)
 				LoadGenreList(_autoCompleteProvider, null);
 
-			if (_accessOptions != null)
-				SetAccessCodeListAndValue();
+			if (_accessOptions == null)
+				SetAccessProtocol();
+
+			SetAccessCodeListAndValue();
 
 			base.Activated();
 		}
@@ -385,7 +389,11 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public void SetAccessProtocol()
 		{
-			if (Program.CurrentProject == null) return;
+			if (Program.CurrentProject == null)
+			{
+				GetDataInBackground();
+				return;
+			}
 
 			var accessProtocol = Program.CurrentProject.AccessProtocol;
 			var protocols = AccessProtocols.LoadStandardAndCustom();
@@ -411,6 +419,31 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			SetAccessCodeListAndValue();
+		}
+
+		private void GetDataInBackground()
+		{
+			using (BackgroundWorker backgroundWorker = new BackgroundWorker())
+			{
+				backgroundWorker.DoWork += backgroundWorker_DoWork;
+				backgroundWorker.RunWorkerCompleted += backgroundWorker_RunWorkerCompleted;
+				backgroundWorker.RunWorkerAsync();
+			}
+		}
+
+		void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			SetAccessProtocol();
+		}
+
+		void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+		{
+			var count = 0;
+			while ((Program.CurrentProject == null) && (count < 50))
+			{
+				Thread.Sleep(100);
+				count++;
+			}
 		}
 
 		/// <summary>do this in case the access protocol for the project changed and

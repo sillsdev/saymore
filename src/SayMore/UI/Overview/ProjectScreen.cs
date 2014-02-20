@@ -102,15 +102,17 @@ namespace SayMore.UI.Overview
 		public void ViewActivated(bool firstTime)
 		{
 			Enabled = true;
-
-			// set the access code choices for sessions
-			foreach (var editor in Program.GetControlsOfType<SessionBasicEditor>(Program.ProjectWindow))
-				editor.SetAccessProtocol();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void ViewDeactivated()
 		{
+			_accessView.Save();
+
+			// set the access code choices for sessions
+			foreach (var editor in Program.GetControlsOfType<SessionBasicEditor>(Program.ProjectWindow))
+				editor.SetAccessProtocol();
+
 			Enabled = false;
 		}
 

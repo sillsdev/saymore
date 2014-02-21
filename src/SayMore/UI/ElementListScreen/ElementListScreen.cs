@@ -84,7 +84,7 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.ListControl = _elementsGrid;
 
 			_componentFilesControl = componentGrid;
-			_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
+			_componentFilesControl.AfterComponentSelectionChanged = HandleAfterComponentFileSelected;
 			_componentFilesControl.FilesAdded = HandleFilesAddedToComponentGrid;
 			_componentFilesControl.FileDeletionAction = (file) => _model.DeleteComponentFile(file);
 			_componentFilesControl.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
@@ -144,19 +144,26 @@ namespace SayMore.UI.ElementListScreen
 			// problem. Disabling the component file grid prevents the user from being able
 			// to select another component file until we enable the grid again when we're
 			// done with everything we need to do in this method.
+			// REVIEW: This still doesn't seem to work!
 			_componentFilesControl.Enabled = false;
 
-			_model.DeactivateComponentEditors();
-			_model.SetSelectedComponentFile(index);
-			ShowSelectedComponentFileEditors();
-			_model.ActivateComponentEditors();
+			try
+			{
+				_model.DeactivateComponentEditors();
+				if (index < 0)
+					return;
+				_model.SetSelectedComponentFile(index);
+				ShowSelectedComponentFileEditors();
+				_model.ActivateComponentEditors();
 
-			if (AfterComponentFileSelected != null)
-				AfterComponentFileSelected(_model.SelectedComponentFile);
-
-			_componentFilesControl.Enabled = true;
-
-			WaitCursor.Hide();
+				if (AfterComponentFileSelected != null)
+					AfterComponentFileSelected(_model.SelectedComponentFile);
+			}
+			finally
+			{
+				_componentFilesControl.Enabled = true;
+				WaitCursor.Hide();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -222,7 +229,7 @@ namespace SayMore.UI.ElementListScreen
 		protected void UpdateComponentFileList()
 		{
 			var componentsOfSelectedElement = _model.GetComponentsOfSelectedElement().ToArray();
-			_componentFilesControl.AfterComponentSelected = null;
+			_componentFilesControl.AfterComponentSelectionChanged = null;
 			_componentFilesControl.UpdateComponentFileList(componentsOfSelectedElement);
 
 			foreach (var componentFile in componentsOfSelectedElement)
@@ -242,7 +249,7 @@ namespace SayMore.UI.ElementListScreen
 			}
 			else
 			{
-				_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
+				_componentFilesControl.AfterComponentSelectionChanged = HandleAfterComponentFileSelected;
 				_componentFilesControl.SelectComponent(0);
 				ShowSelectedComponentFileEditors();
 			}

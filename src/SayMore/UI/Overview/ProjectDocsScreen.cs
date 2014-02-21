@@ -73,7 +73,7 @@ namespace SayMore.UI.Overview
 
 		private void InitializeFileGrid()
 		{
-			_descriptionFileGrid.AfterComponentSelected = HandleAfterComponentFileSelected;
+			_descriptionFileGrid.AfterComponentSelectionChanged = HandleAfterComponentFileSelected;
 			_descriptionFileGrid.FilesAdded = HandleFilesAddedToComponentGrid;
 			_descriptionFileGrid.FileDeletionAction = file => ComponentFile.MoveToRecycleBin(file, true);
 			_descriptionFileGrid.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
@@ -169,6 +169,9 @@ namespace SayMore.UI.Overview
 					_tabCtrl.Dispose();
 					_tabCtrl = null;
 				}
+
+				if (index < 0)
+					return;
 
 				var file = _descriptionFileGrid.GetFileAt(index);
 				List<IEditorProvider> providers = new List<IEditorProvider>();

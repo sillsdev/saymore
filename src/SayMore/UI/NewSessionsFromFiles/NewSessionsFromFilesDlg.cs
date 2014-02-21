@@ -44,7 +44,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			_chkBoxColHdrHandler = new CheckBoxColumnHeaderHandler(selectedCol);
 
 			_gridFiles.InitializeGrid("NewSessionsFromFilesDlg", null);
-			_gridFiles.AfterComponentSelected = HandleComponentFileSelected;
+			_gridFiles.AfterComponentSelectionChanged = HandleComponentFileSelected;
 
 			Controls.Add(_panelProgress);
 

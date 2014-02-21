@@ -24,8 +24,8 @@ namespace SayMore.UI.ElementListScreen
 		private string _gridColSettingPrefix;
 		private bool _handlingForceRefresh;
 
-		/// <summary>When the user selects a different component, this is called</summary>
-		public Action<int> AfterComponentSelected;
+		/// <summary>When the user selects a different component (or no component is selected!), this is called</summary>
+		public Action<int> AfterComponentSelectionChanged;
 
 		/// <summary>
 		/// When the user chooses a menu command, this is called after the command is issued.
@@ -377,8 +377,8 @@ namespace SayMore.UI.ElementListScreen
 			_handlingForceRefresh = true;
 			BuildMenuCommands(_grid.CurrentCellAddress.Y);
 
-			if (null != AfterComponentSelected && _grid.CurrentCellAddress.Y >= 0)
-				AfterComponentSelected(_grid.CurrentCellAddress.Y);
+			if (null != AfterComponentSelectionChanged)
+				AfterComponentSelectionChanged(_grid.CurrentCellAddress.Y);
 
 			_handlingForceRefresh = false;
 		}
@@ -630,7 +630,7 @@ namespace SayMore.UI.ElementListScreen
 			if (index == newList.Count)
 				index--;
 
-			UpdateComponentFileList(newList, newList[index]);
+			UpdateComponentFileList(newList, index >= 0 ? newList[index] : null);
 			ForceRefresh();
 		}
 

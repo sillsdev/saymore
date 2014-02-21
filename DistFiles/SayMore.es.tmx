@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.2.5162.29541" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.2.5163.17851" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">3.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -8060,6 +8060,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Añadir, eliminar o mover divisiones de segmentos</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.SegmentTooltip">
+      <tuv xml:lang="en">
+        <seg>Segment range: {0}\nPress {1} to Play/Pause</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Gama del segmento: {0}\nPrensa {1} para reproducir/pausar</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TabText">

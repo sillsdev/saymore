@@ -40,6 +40,8 @@ namespace SayMore.Transcription.UI
 		private readonly List<AnnotationPlaybackInfo> _mediaFileQueue = new List<AnnotationPlaybackInfo>();
 		private int _annotationPlaybackLoopCount;
 		private Action _playbackProgressReportingAction;
+//		private ToolTip _toolTip = new ToolTip();
+//		private bool _paused = false;
 
 		private System.Threading.Timer _delayBeginRowPlayingTimer;
 
@@ -52,6 +54,7 @@ namespace SayMore.Transcription.UI
 			ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			AllowUserToResizeRows = false;
+			RowHeadersVisible = false;
 			EditMode = DataGridViewEditMode.EditOnEnter;
 			ClipboardCopyMode = DataGridViewClipboardCopyMode.Disable;
 			FullRowFocusRectangleColor = DefaultCellStyle.SelectionBackColor;
@@ -71,6 +74,38 @@ namespace SayMore.Transcription.UI
 
 			SetColumnFonts(transcriptionFont, translationFont);
 		}
+
+		///// ------------------------------------------------------------------------------------
+		//internal bool ShowF2ToolTip
+		//{
+		//    set
+		//    {
+		//        if (value)
+		//        {
+		//            ShowCellToolTips = false;
+		//            ToolTip = PlaybackInProgress && !_paused ?
+		//                LocalizationManager.GetString("SessionsView.Transcription.TextAnnotationEditor.F2ToPause",
+		//                    "F2: Pause") :
+		//                LocalizationManager.GetString("SessionsView.Transcription.TextAnnotationEditor.F2ToPlay",
+		//                    "F2: Play");
+		//        }
+		//        else
+		//        {
+		//            ShowCellToolTips = true;
+		//            ToolTip = string.Empty;
+		//        }
+		//    }
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		//private string ToolTip
+		//{
+		//    set
+		//    {
+		//        if (_toolTip.GetToolTip(this) != value)
+		//            _toolTip.SetToolTip(this, value);
+		//    }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		public void Load(AnnotationComponentFile file)
@@ -387,19 +422,6 @@ namespace SayMore.Transcription.UI
 			Stop();
 
 			base.OnEditingControlShowing(e);
-			//TextBox ec = EditingControl as TextBox;
-			//if (ec != null)
-			//{
-			//    int currentHeight = CurrentRow.Height;
-			//    int currentMinHeight = CurrentRow.MinimumHeight;
-			//    CurrentRow.MinimumHeight = currentHeight + 40;
-			//    ec.MinimumSize = new Size(0, ec.Height + 40);
-			//    CellEndEdit += delegate { CurrentRow.MinimumHeight = currentMinHeight; };
-			//    //ec.TextChanged += delegate
-			//    //{
-			//    //    Rows[CurrentRow.Index].Height = ec.TextLength / 2;
-			//    //};
-			//}
 
 			SchedulePlaybackForCell();
 		}
@@ -420,6 +442,8 @@ namespace SayMore.Transcription.UI
 				var minHeight = RowTemplate.Height * 3;
 				if (CurrentRow != null && CurrentRow.Height < minHeight)
 					CurrentRow.MinimumHeight = minHeight;
+
+				//ShowF2ToolTip = (Columns[e.ColumnIndex] is TextAnnotationColumn);
 				return;
 			}
 			SchedulePlaybackForCell();
@@ -549,6 +573,7 @@ namespace SayMore.Transcription.UI
 			PlayerViewModel.PlaybackStarted += HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded += HandleMediaPlaybackEnded;
 			PlayerViewModel.PlaybackPositionChanged = (pos => Invoke(_playbackProgressReportingAction));
+			//_paused = false;
 			PlayerViewModel.Play();
 			PlaybackInProgress = true;
 			return true;
@@ -572,6 +597,7 @@ namespace SayMore.Transcription.UI
 		public void Stop()
 		{
 			PlaybackInProgress = false;
+			//_paused = false;
 			_annotationPlaybackLoopCount = 0;
 
 			DisableTimer();
@@ -592,12 +618,15 @@ namespace SayMore.Transcription.UI
 				return;
 
 			DisableTimer();
+			//_paused = !_paused;
 			PlayerViewModel.Pause();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleMediaPlaybackEnded(object sender, bool EndedBecauseEOF)
 		{
+			//_paused = false;
+
 			if (InvokeRequired)
 				Invoke(_playbackProgressReportingAction);
 			else

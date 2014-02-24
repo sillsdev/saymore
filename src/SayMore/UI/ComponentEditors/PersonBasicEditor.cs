@@ -177,7 +177,15 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void LoadParentLanguages()
 		{
-			// SP-810:  Parent language data not saving correctly
+			// SP-824: Parent language flags not clearing correctly
+			foreach (var pb in _fatherButtons)
+				pb.Selected = false;
+
+			foreach (var pb in _motherButtons)
+				pb.Selected = false;
+
+
+			// SP-810: Parent language data not saving correctly
 			var fathersLanguage = _binder.GetValue("fathersLanguage");
 			if (!string.IsNullOrEmpty(fathersLanguage))
 			{

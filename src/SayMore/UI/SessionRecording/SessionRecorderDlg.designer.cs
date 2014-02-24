@@ -197,7 +197,7 @@ namespace SayMore.UI.SessionRecording
 			this._buttonPlayback.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this._buttonPlayback.Name = "_buttonPlayback";
 			this._buttonPlayback.Size = new System.Drawing.Size(225, 24);
-			this._buttonPlayback.Text = "Playback Recording";
+			this._buttonPlayback.Text = "Play Back Recording";
 			this._buttonPlayback.Click += new System.EventHandler(this.HandlePlaybackButtonClick);
 			//
 			// _buttonStop

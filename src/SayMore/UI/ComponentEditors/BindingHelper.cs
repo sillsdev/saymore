@@ -357,6 +357,7 @@ namespace SayMore.UI.ComponentEditors
 			if (TranslateBoundValueBeingSaved != null)
 			{
 				var args = new TranslateBoundValueBeingSavedArgs(ctrl);
+				TranslateBoundValueBeingSaved(this, args);
 				newValue = args.NewValue;
 				gotNewValueFromDelegate = (newValue != null);
 			}
@@ -425,7 +426,8 @@ namespace SayMore.UI.ComponentEditors
 		private void SaveNow()
 		{
 			ComponentFile.Save();
-			if (OnDataSaved != null) OnDataSaved();
+			if (OnDataSaved != null)
+				OnDataSaved();
 		}
 	}
 

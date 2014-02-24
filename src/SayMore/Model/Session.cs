@@ -231,6 +231,8 @@ namespace SayMore.Model
 			MetaDataFile.SetStringValue(SessionFileType.kParticipantsFieldName,
 				FieldInstance.GetTextFromMultipleValues(newNames), out failureMessage);
 
+			MetaDataFile.Save();
+
 			if (failureMessage != null)
 				ErrorReport.NotifyUserOfProblem(failureMessage);
 		}

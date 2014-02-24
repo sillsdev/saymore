@@ -223,7 +223,7 @@ namespace SayMore.UI.ComponentEditors
 		private void RememberPersonId(ComponentFile file)
 		{
 			_personId = file.FileName.Substring(0, file.FileName.Length - Settings.Default.PersonFileExtension.Length);
-			_personCode = file.GetStringValue("code", null);
+			_personCode = file.GetStringValue(PersonFileType.kCode, null);
 		}
 	}
 }

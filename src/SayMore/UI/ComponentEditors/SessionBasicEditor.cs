@@ -50,6 +50,7 @@ namespace SayMore.UI.ComponentEditors
 			_autoCompleteProvider.NewDataAvailable += LoadGenreList;
 
 			_binder.TranslateBoundValueBeingRetrieved += HandleBinderTranslateBoundValueBeingRetrieved;
+			_binder.TranslateBoundValueBeingSaved += HandleBinderTranslateBoundValueBeingSaved;
 
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
@@ -65,6 +66,23 @@ namespace SayMore.UI.ComponentEditors
 			InitializeGrid(autoCompleteProvider, fieldGatherer);
 
 			file.AfterSave += file_AfterSave;
+
+			if (_personInformant != null)
+				_personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// We get this message from the person informant when a person's UI ID has changed.
+		/// When that happens, we just need to update the Text in the participant control. No
+		/// change is needed (or desirable) in the underlying metadata.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandlePersonsUiIdChanged(object sender, ElementIdChangedArgs e)
+		{
+			var allParticipants = FieldInstance.GetMultipleValuesFromText(_participants.Text);
+			var newNames = allParticipants.Select(name => (name == e.OldId ? e.NewId : name));
+			_participants.Text = FieldInstance.GetTextFromMultipleValues(newNames);
 		}
 
 		static void file_AfterSave(object sender, EventArgs e)
@@ -203,6 +221,10 @@ namespace SayMore.UI.ComponentEditors
 			_moreFieldsComboBox = e.Control as DataGridViewComboBoxEditingControl;
 			if (_moreFieldsComboBox == null)
 				return;
+
+			// Fix the black background on the drop down menu
+			// http://nickstips.wordpress.com/2010/12/20/c-datagridviewcomboboxcolumn-drop-down-menu-appears-all-black/
+			e.CellStyle.BackColor = _gridAdditionalFields.DefaultCellStyle.BackColor;
 
 			bool hasDefinitions = _moreFieldsComboBox.Items.Cast<IMDIListItem>().Any(item => !string.IsNullOrEmpty(item.Definition));
 			if (!hasDefinitions)
@@ -525,16 +547,57 @@ namespace SayMore.UI.ComponentEditors
 				_access.SelectedItem = item;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Replace comma with correct delimiter in MultiValueDropDownBox
+		/// Replace comma with correct delimiter in MultiValueDropDownBox. Translate full names
+		/// of persons into strings acceptable to show in UI (use "code" instead of Full Name
+		/// when available).
 		/// </summary>
-		private static void HandleBinderTranslateBoundValueBeingRetrieved(object sender,
+		/// ------------------------------------------------------------------------------------
+		private void HandleBinderTranslateBoundValueBeingRetrieved(object sender,
 			TranslateBoundValueBeingRetrievedArgs args)
 		{
 			if (!(args.BoundControl is MultiValueDropDownBox)) return;
 
 			if (args.ValueFromFile.Contains(","))
 				args.TranslatedValue = args.ValueFromFile.Replace(",", FieldInstance.kDefaultMultiValueDelimiter.ToString(CultureInfo.InvariantCulture));
+
+			if (args.BoundControl == _participants)
+			{
+				var val = args.TranslatedValue ?? args.ValueFromFile;
+				if (!string.IsNullOrEmpty(val))
+				{
+					var participantNames = FieldInstance.GetMultipleValuesFromText(val).ToArray();
+					for (int index = 0; index < participantNames.Length; index++)
+						participantNames[index] = _personInformant.GetUiIdByName(participantNames[index]);
+
+					args.TranslatedValue = FieldInstance.GetTextFromMultipleValues(participantNames);
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// When the binding helper gets to writing field values to the metadata file, we need
+		/// to make sure the English values for male and female are written to the file, not
+		/// the localized values for male and female (which is what is in the gender combo box).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleBinderTranslateBoundValueBeingSaved(object sender,
+			TranslateBoundValueBeingSavedArgs args)
+		{
+			if (args.BoundControl == _participants)
+			{
+				var participantNames = FieldInstance.GetMultipleValuesFromText(_participants.Text).ToArray();
+				for (int index = 0; index < participantNames.Length; index++)
+				{
+					var person = _personInformant.GetPersonByNameOrCode(participantNames[index]);
+					if (person != null)
+						participantNames[index] = person.Id;
+				}
+
+				args.NewValue = FieldInstance.GetTextFromMultipleValues(participantNames);
+			}
 		}
 	}
 }

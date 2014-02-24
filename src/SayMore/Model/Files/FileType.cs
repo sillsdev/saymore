@@ -16,7 +16,6 @@ using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
 using SayMore.UI;
 using SayMore.UI.ComponentEditors;
-using SayMore.UI.Overview;
 
 namespace SayMore.Model.Files
 {
@@ -220,6 +219,8 @@ namespace SayMore.Model.Files
 		private readonly Func<PersonBasicEditor.Factory> _personBasicEditorFactoryLazy;
 		private readonly Func<PersonContributionEditor.Factory> _personContributionEditorFactoryLazy;
 
+		public const string kCode = "code";
+
 		/// ------------------------------------------------------------------------------------
 		/// <param name="personBasicEditorFactoryLazy">This is to get us around a circular
 		/// dependency error in autofac.  NB: when we move to .net 4, this can be replaced by
@@ -255,7 +256,7 @@ namespace SayMore.Model.Files
 				foreach (var fieldId in new[]
 				{
 					"id",
-					"code",
+					kCode,
 					"nickName",
 					"primaryLanguage",
 					"primaryLanguageLearnedIn",

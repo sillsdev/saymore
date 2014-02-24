@@ -98,7 +98,7 @@ namespace SayMore.Model.Files.DataGathering
 				if (file.FileType.GetType() == typeof(PersonFileType))
 				{
 					// if the code value is present, use it instead of the full name
-					dictionary.Add("person", file.GetStringValue("code", null) ?? Path.GetFileNameWithoutExtension(path));
+					dictionary.Add("person", file.GetStringValue(PersonFileType.kCode, null) ?? Path.GetFileNameWithoutExtension(path));
 				}
 
 				return dictionary;

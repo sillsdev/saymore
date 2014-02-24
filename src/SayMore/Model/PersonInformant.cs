@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 
 namespace SayMore.Model
@@ -12,6 +13,7 @@ namespace SayMore.Model
 	public class PersonInformant
 	{
 		public event EventHandler<ElementIdChangedArgs> PersonNameChanged;
+		public event EventHandler<ElementIdChangedArgs> PersonUiIdChanged;
 
 		private readonly ElementRepository<Person> _peopleRepository;
 		private readonly AutoCompleteValueGatherer _autoCompleteValueGatherer;
@@ -37,8 +39,18 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		protected void HandlePersonNameChanged(object sender, ElementIdChangedArgs args)
 		{
-			if (PersonNameChanged != null)
-				PersonNameChanged(this, args);
+			// If the new "ID" is the real underlying ID of a person, then this was an actual
+			// name change (or the "code"was removed and this can be treated as a legitimate name
+			// change).
+			var person = _peopleRepository.GetById(args.NewId);
+			if (person != null)
+			{
+				if (PersonNameChanged != null)
+					PersonNameChanged(this, args);
+			}
+
+			if (PersonUiIdChanged != null)
+				PersonUiIdChanged(this, args);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -95,7 +107,7 @@ namespace SayMore.Model
 			//return _peopleRepository.AllItems.Select(x => x.Id);
 
 			// SP-796: Session.People not updating correctly when Person.Code changes
-			//return _peopleRepository.AllItems.Select(x => ((x.MetaDataFile != null) ? x.MetaDataFile.GetStringValue("code", null) : null) ?? x.Id);
+			//return _peopleRepository.AllItems.Select(x => ((x.MetaDataFile != null) ? x.MetaDataFile.GetStringValue(PersonFileType.kCode, null) : null) ?? x.Id);
 			var names = new List<string>();
 			foreach (var person in _peopleRepository.AllItems)
 			{
@@ -105,7 +117,7 @@ namespace SayMore.Model
 				}
 				else
 				{
-					var n = person.MetaDataFile.GetStringValue("code", null);
+					var n = person.MetaDataFile.GetStringValue(PersonFileType.kCode, null);
 					names.Add(!string.IsNullOrEmpty(n) ? n : person.Id);
 				}
 			}
@@ -116,7 +128,14 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual Person GetPersonByNameOrCode(string nameOrCode)
 		{
-			return _peopleRepository.GetById(nameOrCode) ?? _peopleRepository.GetByField("code", nameOrCode);
+			return _peopleRepository.GetById(nameOrCode) ?? _peopleRepository.GetByField(PersonFileType.kCode, nameOrCode);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual string GetUiIdByName(string name)
+		{
+			var person = _peopleRepository.GetById(name);
+			return person != null ? person.UiId : name;
 		}
 	}
 }

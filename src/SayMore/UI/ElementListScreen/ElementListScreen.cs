@@ -415,9 +415,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			int itemCount = _elementsGrid.SelectedRows.Count;
 
-			var msg = (itemCount == 1 ?
-				LocalizationManager.GetString("MainWindow.DeleteOneItemMsg", "{0}", "For deleting sessions and people items") :
-				LocalizationManager.GetString("MainWindow.DeleteMultipleItemsMsg", "{0} items", "For deleting sessions and people items"));
+			var msg = LocalizationManager.GetString("MainWindow.DeleteOneItemMsg", "{0}", "For deleting sessions and people items");
 
 			msg = (itemCount > 1 ? string.Format(msg, itemCount) :
 				string.Format(msg, _elementsGrid.GetCurrentElement().Id));

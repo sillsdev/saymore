@@ -170,7 +170,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// ------------------------------------------------------------------------------------
 		private void UpdateCreateButton()
 		{
-			var selectedCount = _viewModel.NumberOfSelectedFiles;
+			var selectedCount = _viewModel.NumberOfNewSessions;
 			_buttonCreateSessions.Enabled = (selectedCount > 0 && !_panelProgress.Visible);
 
 			if (selectedCount == 0)

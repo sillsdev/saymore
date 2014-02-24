@@ -28,6 +28,9 @@ namespace SayMore.UI.ComponentEditors
 
 		private readonly bool _loaded;
 
+		// SP-846: Do not save parent languages while setting them
+		private bool _loadingLanguages = false;
+
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer,
@@ -177,6 +180,8 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void LoadParentLanguages()
 		{
+			_loadingLanguages = true;
+
 			// SP-824: Parent language flags not clearing correctly
 			foreach (var pb in _fatherButtons)
 				pb.Selected = false;
@@ -201,18 +206,20 @@ namespace SayMore.UI.ComponentEditors
 				if (pb != null)
 					pb.Selected = true;
 			}
+
+			_loadingLanguages = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void SaveParentLanguages()
 		{
+			if (_loadingLanguages) return;
+
 			var pb = _fatherButtons.SingleOrDefault(x => x.Selected);
-			if (pb != null)
-				_binder.SetValue("fathersLanguage", ((TextBox)pb.Tag).Text.Trim());
+			_binder.SetValue("fathersLanguage", pb == null ? null : ((TextBox) pb.Tag).Text.Trim());
 
 			pb = _motherButtons.SingleOrDefault(x => x.Selected);
-			if (pb != null)
-				_binder.SetValue("mothersLanguage", ((TextBox)pb.Tag).Text.Trim());
+			_binder.SetValue("mothersLanguage", pb == null ? null : ((TextBox)pb.Tag).Text.Trim());
 
 			_file.Save();
 		}

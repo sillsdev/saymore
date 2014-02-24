@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -129,9 +130,30 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// created.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public int NumberOfSelectedFiles
+		public int NumberOfNewSessions
 		{
-			get { return Files.Count(x => x.Selected); }
+			get
+			{
+				// SP-789: Do not add duplicate sessions
+				//return Files.Count(x => x.Selected);
+
+				var newCount = 0;
+				HashSet<string> sessions = new HashSet<string>();
+
+				foreach (var element in SessionPresentationModel.Elements)
+					sessions.Add(element.Id);
+
+				foreach (var sessName in Files.Where(f => f.Selected)
+					.Select(file => Path.GetFileNameWithoutExtension(file.FileName))
+					.Where(sessName => !string.IsNullOrEmpty(sessName))
+					.Where(sessName => !sessions.Contains(sessName)))
+				{
+					newCount++;
+					sessions.Add(sessName);
+				}
+
+				return newCount;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -476,6 +498,15 @@ namespace SayMore.UI.NewSessionsFromFiles
 		public void CreateSingleSession(string sourcePath)
 		{
 			var id = Path.GetFileNameWithoutExtension(sourcePath);
+
+			// SP-789: Do not add duplicate sessions
+			if (SessionPresentationModel.Elements.Any(e => e.Id == id))
+			{
+				// this is a duplicate
+				Debug.Print(id);
+				return;
+			}
+
 			var newSession = SessionPresentationModel.CreateNewElementWithId(id);
 
 			string msg;

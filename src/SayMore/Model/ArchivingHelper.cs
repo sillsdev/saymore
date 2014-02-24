@@ -170,7 +170,7 @@ namespace SayMore.Model
 				ArchivingActor actor = new ArchivingActor
 				{
 					FullName = person.Id,
-					Name = person.MetaDataFile.GetStringValue("code", person.Id),
+					Name = person.MetaDataFile.GetStringValue(PersonFileType.kCode, person.Id),
 					BirthDate = birthYear,
 					Gender = person.MetaDataFile.GetStringValue("gender", null),
 					Education = person.MetaDataFile.GetStringValue("education", null),

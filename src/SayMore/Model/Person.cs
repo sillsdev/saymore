@@ -20,6 +20,16 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override string UiId
+		{
+			get
+			{
+				var code = MetaDataFile.GetStringValue(PersonFileType.kCode, Id);
+				return string.IsNullOrEmpty(code) ? Id : code;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public Person(string parentElementFolder, string id,
 			Action<ProjectElement, string, string> idChangedNotificationReceiver,
 			PersonFileType personFileType,
@@ -136,6 +146,13 @@ namespace SayMore.Model
 			}
 
 			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void NotifyOtherElementsOfUiIdChange(string oldUiId)
+		{
+			if (IdChangedNotificationReceiver != null)
+				IdChangedNotificationReceiver(this, oldUiId, UiId);
 		}
 	}
 }

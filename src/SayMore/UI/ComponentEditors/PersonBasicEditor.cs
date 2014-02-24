@@ -83,7 +83,6 @@ namespace SayMore.UI.ComponentEditors
 			Program.OnPersonDataChanged();
 		}
 
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Set values for unbound controls that need special handling.

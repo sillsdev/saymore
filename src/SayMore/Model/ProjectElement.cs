@@ -45,6 +45,12 @@ namespace SayMore.Model
 		FileSystemWatcher _watcher;
 
 		/// ------------------------------------------------------------------------------------
+		public virtual string UiId
+		{
+			get { return Id; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Use this for creating new or existing elements
 		/// </summary>
@@ -426,6 +432,11 @@ namespace SayMore.Model
 				IdChangedNotificationReceiver(this, oldId, newId);
 
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void NotifyOtherElementsOfUiIdChange(string oldUiId)
+		{
 		}
 
 		/// ------------------------------------------------------------------------------------

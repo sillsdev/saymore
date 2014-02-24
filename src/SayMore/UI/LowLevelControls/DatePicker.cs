@@ -105,9 +105,10 @@ namespace SayMore.UI.LowLevelControls
 			if (_value != null)
 				return;
 
-			_ignoreEvents = true;
+			// SP-807: Date field will not keep today's date
+			//_ignoreEvents = true;
 			base.Text = DateTime.Today.ToShortDateString();
-			_ignoreEvents = false;
+			//_ignoreEvents = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

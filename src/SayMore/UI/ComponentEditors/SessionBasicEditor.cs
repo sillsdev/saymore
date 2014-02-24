@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
@@ -243,6 +244,48 @@ namespace SayMore.UI.ComponentEditors
 				var toolTipText = ((IMDIListItem)_moreFieldsComboBox.Items[e.Index]).Definition;
 				if (toolTipText != text && _gridAdditionalFields.CurrentRow != null && _moreFieldsComboBox.DroppedDown)
 				{
+					// SP-799:  Tooltip text too long for netbook screen
+					var form = FindForm();
+					if (form != null)
+					{
+						// get the number of segments
+						var screenWidth = Screen.FromHandle(form.Handle).WorkingArea.Width - 100;
+						var maxWidth = screenWidth < 600 ? screenWidth : 600;
+						var textWidth = e.Graphics.MeasureString(toolTipText, SystemFonts.DefaultFont).Width;
+						var segments = (int)(Math.Ceiling(textWidth / maxWidth));
+
+						if (segments > 1)
+						{
+							var shorterTip = new StringBuilder();
+							var testTip = string.Empty;
+							var words = toolTipText.Split(new[] {' '});
+
+							foreach (var word in words)
+							{
+								var testWidth = e.Graphics.MeasureString(testTip + " " + word, SystemFonts.DefaultFont).Width;
+
+								// if the new word makes it too long, start a new line
+								if (testWidth > maxWidth)
+								{
+									shorterTip.AppendLine(testTip);
+									testTip = string.Empty;
+								}
+
+								// add the new word to the test string
+								if (string.IsNullOrEmpty(testTip))
+									testTip = word;
+								else
+									testTip += " " + word;
+							}
+
+							// if there are any left overs, add them now
+							if (!string.IsNullOrEmpty(testTip))
+								shorterTip.AppendLine(testTip);
+
+							toolTipText = shorterTip.ToString();
+						}
+					}
+
 					_moreFieldsToolTip.Show(toolTipText, _moreFieldsComboBox, e.Bounds.Right,
 						e.Bounds.Bottom + _gridAdditionalFields.CurrentRow.Height + 5);
 				}

@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
@@ -27,7 +26,6 @@ namespace SayMore.Model
 	/// ----------------------------------------------------------------------------------------
 	public class Session : ProjectElement, IIMDIArchivable
 	{
-// ReSharper disable once InconsistentNaming
 		public static string kFolderName = "Sessions";
 
 		public enum Status
@@ -88,7 +86,21 @@ namespace SayMore.Model
 			}
 // ReSharper restore DoNotCallOverridableMethodsInConstructor
 			if (_personInformant != null)
+			{
 				_personInformant.PersonNameChanged += HandlePersonsNameChanged;
+				_personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void Dispose()
+		{
+			base.Dispose();
+			if (_personInformant != null)
+			{
+				_personInformant.PersonNameChanged -= HandlePersonsNameChanged;
+				_personInformant.PersonUiIdChanged -= HandlePersonsUiIdChanged;
+			}
 		}
 
 		#region Properties
@@ -231,10 +243,51 @@ namespace SayMore.Model
 			MetaDataFile.SetStringValue(SessionFileType.kParticipantsFieldName,
 				FieldInstance.GetTextFromMultipleValues(newNames), out failureMessage);
 
-			MetaDataFile.Save();
-
-			if (failureMessage != null)
+			if (failureMessage == null)
+				MetaDataFile.Save();
+			else
 				ErrorReport.NotifyUserOfProblem(failureMessage);
+
+			ProcessContributorNameChange(e);
+		}
+
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// We get this message from the person informant when a person's UI ID has changed.
+		/// When that happens, we need to update any matching contributors in any metadata files
+		/// for any of this session's media files.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandlePersonsUiIdChanged(object sender, ElementIdChangedArgs e)
+		{
+			ProcessContributorNameChange(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ProcessContributorNameChange(ElementIdChangedArgs e)
+		{
+			foreach (var file in GetComponentFiles().Where(f => (f.FileType as FileTypeWithContributors) != null))
+			{
+				var values = file.MetaDataFieldValues.FirstOrDefault(v => v.FieldId == "contributions");
+				if (values == null)
+					continue;
+
+				var contributions = values.Value as ContributionCollection;
+				if (contributions == null)
+					continue;
+
+				foreach (var contribution in contributions.Where(contribution => contribution.ContributorName == e.OldId))
+					contribution.ContributorName = e.NewId;
+
+				string failureMessage;
+				file.SetValue("contributions", contributions, out failureMessage);
+
+				if (failureMessage == null)
+					file.Save();
+				else
+					ErrorReport.NotifyUserOfProblem(failureMessage);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

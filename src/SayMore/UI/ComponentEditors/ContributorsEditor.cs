@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
 using Palaso.UI.WindowsForms.ClearShare;
 using Palaso.UI.WindowsForms.ClearShare.WinFormsUI;
+using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 
@@ -20,7 +22,8 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		public ContributorsEditor(ComponentFile file, string imageKey,
-			AutoCompleteValueGatherer autoCompleteProvider) : base(file, null, imageKey)
+			AutoCompleteValueGatherer autoCompleteProvider, PersonInformant personInformant) :
+			base(file, null, imageKey)
 		{
 			InitializeComponent();
 			Name = "Contributors";
@@ -35,6 +38,25 @@ namespace SayMore.UI.ComponentEditors
 			file.AfterSave += file_AfterSave;
 
 			SetComponentFile(file);
+
+			if (personInformant != null)
+				personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// We get this message from the person informant when a person's UI ID has changed.
+		/// When that happens, we just need to update the Text in the participant control. No
+		/// change is needed (or desirable) in the underlying metadata.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandlePersonsUiIdChanged(object sender, ElementIdChangedArgs e)
+		{
+			var contribs = _model.Contributions;
+			foreach (var c in contribs.Where(c => c.ContributorName == e.OldId))
+				c.ContributorName = e.NewId;
+
+			_model.SetContributionList(contribs);
 		}
 
 		void file_AfterSave(object sender, System.EventArgs e)

@@ -94,7 +94,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Dispose()
+		public virtual void Dispose()
 		{
 			ClearComponentFiles();
 		}

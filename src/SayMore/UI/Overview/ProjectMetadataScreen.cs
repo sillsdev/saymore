@@ -150,7 +150,11 @@ namespace SayMore.UI.Overview
 
 			_projectTitle.Text = project.Title;
 			_fundingProjectTitle.Text = project.FundingProjectTitle;
-			_description.Text = project.ProjectDescription;
+
+			// SP-815: Line breaks are not being displayed after reopening project
+			if (project.ProjectDescription == null) project.ProjectDescription = string.Empty;
+			_description.Text = project.ProjectDescription.Replace("\n", Environment.NewLine);
+
 			_labelSelectedVernacular.Text = project.VernacularISO3CodeAndName;
 			_location.Text = project.Location;
 			_region.Text = project.Region;

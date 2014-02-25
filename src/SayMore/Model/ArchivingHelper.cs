@@ -1,6 +1,9 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Extensions;
 using Palaso.Reporting;
@@ -29,6 +32,12 @@ namespace SayMore.Model
 			if (string.IsNullOrEmpty(destFolder))
 				destFolder = Path.Combine(NewProjectDlgViewModel.ParentFolderPathForNewProject, "IMDI Packages");
 
+			// SP-813: If project was moved, the stored IMDI path may not be valid, or not accessible
+			if (!CheckForAccessiblePath(destFolder))
+			{
+				destFolder = Path.Combine(NewProjectDlgViewModel.ParentFolderPathForNewProject, "IMDI Packages");
+			}
+
 			// now that we added a separate title field for projects, make sure it's not empty
 			var title = string.IsNullOrEmpty(element.Title) ? element.Id : element.Title;
 
@@ -53,6 +62,31 @@ namespace SayMore.Model
 					Program.CurrentProject.Save();
 				}
 			}
+		}
+
+		/// <remarks>SP-813: If project was moved, the stored IMDI path may not be valid, or not accessible</remarks>
+		static internal bool CheckForAccessiblePath(string directory)
+		{
+			try
+			{
+				if (!Directory.Exists(directory))
+					Directory.CreateDirectory(directory);
+
+				var file = Path.Combine(directory, "Export.imdi");
+
+				if (File.Exists(file)) File.Delete(file);
+
+				File.WriteAllText(file, @"Export.imdi");
+
+				if (File.Exists(file)) File.Delete(file);
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.Message);
+				return false;
+			}
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.ComponentModel;
+using System.Text;
 using System.Windows.Forms;
 using L10NSharp;
 using SayMore.Model.Files;
@@ -528,7 +529,15 @@ namespace SayMore.UI.ComponentEditors
 		{
 			if (args.BoundControl == _gender)
 			{
-				_gender.SelectedIndex = (args.ValueFromFile == "Male" ? 0 : 1);
+				// Because of a former bug (SP-847), gender metadata was saved as localized
+				// string instead of English, so when retrieving, recognize those versions of the
+				// values for "Male" as well.
+				string valueFromFile = args.ValueFromFile.Normalize(NormalizationForm.FormD);
+				_gender.SelectedIndex = (valueFromFile == "Male" ||
+					valueFromFile == "Macho" ||
+					valueFromFile == "Mâle".Normalize(NormalizationForm.FormD) ||
+					valueFromFile == "Мужской".Normalize(NormalizationForm.FormD) ||
+					valueFromFile == "男性".Normalize(NormalizationForm.FormD) ? 0 : 1);
 				args.Handled = true;
 			}
 		}

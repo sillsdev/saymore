@@ -206,9 +206,9 @@ namespace SayMore.Model
 					FullName = person.Id,
 					Name = person.MetaDataFile.GetStringValue(PersonFileType.kCode, person.Id),
 					BirthDate = birthYear,
-					Gender = person.MetaDataFile.GetStringValue("gender", null),
-					Education = person.MetaDataFile.GetStringValue("education", null),
-					Occupation = person.MetaDataFile.GetStringValue("primaryOccupation", null),
+					Gender = person.MetaDataFile.GetStringValue(PersonFileType.kGender, null),
+					Education = person.MetaDataFile.GetStringValue(PersonFileType.kEducation, null),
+					Occupation = person.MetaDataFile.GetStringValue(PersonFileType.kPrimaryOccupation, null),
 					Anonymize = protect,
 					Role = "Participant"
 				};

@@ -42,9 +42,9 @@ namespace SayMore.Model.Files.DataGathering
 			_mappingOfFieldsToAutoCompleteKey.Add(SessionFileType.kParticipantsFieldName, "person");
 			_mappingOfFieldsToAutoCompleteKey.Add("recordist", "person");
 			_mappingOfFieldsToAutoCompleteKey.Add("contributions", "person");
-			_mappingOfFieldsToAutoCompleteKey.Add("education", "education");
+			_mappingOfFieldsToAutoCompleteKey.Add(PersonFileType.kEducation, "education");
 
-			_multiValueFields = new List<string>(new[] { SessionFileType.kParticipantsFieldName, "education", "contributions" });
+			_multiValueFields = new List<string>(new[] { SessionFileType.kParticipantsFieldName, PersonFileType.kEducation, "contributions" });
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -220,6 +220,9 @@ namespace SayMore.Model.Files
 		private readonly Func<PersonContributionEditor.Factory> _personContributionEditorFactoryLazy;
 
 		public const string kCode = "code";
+		public const string kGender = "gender";
+		public const string kEducation = "education";
+		public const string kPrimaryOccupation = "primaryOccupation";
 
 		/// ------------------------------------------------------------------------------------
 		/// <param name="personBasicEditorFactoryLazy">This is to get us around a circular
@@ -275,10 +278,10 @@ namespace SayMore.Model.Files
 					"pbOtherLangMother2",
 					"pbOtherLangMother1",
 					"birthYear",
-					"gender",
+					kGender,
 					"howToContact",
-					"education",
-					"primaryOccupation",
+					kEducation,
+					kPrimaryOccupation,
 					"picture",
 					"privacyProtection",
 					"birthYear",

@@ -36,11 +36,16 @@ namespace SayMore.UI.Overview
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
 		}
 
+		private string GetBaseUriDirectory()
+		{
+			var fileName = FileLocator.GetFileDistributedWithApplication("Archiving", AccessProtocols.kProtocolFileName);
+			return Path.GetDirectoryName(fileName);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private void HandleStringsLocalized()
 		{
-			var fileName = FileLocator.GetFileDistributedWithApplication("Archiving", AccessProtocols.kProtocolFileName);
-			_archivingFileDirectoryName = Path.GetDirectoryName(fileName);
+			_archivingFileDirectoryName = GetBaseUriDirectory();
 			Debug.Assert(_archivingFileDirectoryName != null);
 			if (LocalizationManager.UILanguageId != "en" && Directory.Exists(Path.Combine(_archivingFileDirectoryName, LocalizationManager.UILanguageId)))
 				_archivingFileDirectoryName = Path.Combine(_archivingFileDirectoryName, LocalizationManager.UILanguageId);
@@ -67,7 +72,7 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void _projectAccess_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void _projectAccess_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (_projectAccess.SelectedItem == null) return;
 
@@ -82,10 +87,27 @@ namespace SayMore.UI.Overview
 			}
 			else
 			{
-				_currentUri = item.GetDocumentaionUri(_archivingFileDirectoryName);
+				_currentUri = GetDocumentationUri(item);
 				_webBrowser.Navigate(_currentUri);
 			}
 
+		}
+
+		/// <remarks>If the documentation has not been localized, return the English version</remarks>
+		private string GetDocumentationUri(ArchiveAccessProtocol item)
+		{
+			try
+			{
+				return item.GetDocumentaionUri(_archivingFileDirectoryName);
+			}
+			catch (DirectoryNotFoundException)
+			{
+				return item.GetDocumentaionUri(GetBaseUriDirectory());
+			}
+			catch (FileNotFoundException)
+			{
+				return item.GetDocumentaionUri(GetBaseUriDirectory());
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,13 +123,13 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void ProjectAccessScreen_Leave(object sender, System.EventArgs e)
+		private void ProjectAccessScreen_Leave(object sender, EventArgs e)
 		{
 			Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void ProjectAccessScreen_Load(object sender, System.EventArgs e)
+		private void ProjectAccessScreen_Load(object sender, EventArgs e)
 		{
 			// show values from project file
 			var project = Program.CurrentProject;

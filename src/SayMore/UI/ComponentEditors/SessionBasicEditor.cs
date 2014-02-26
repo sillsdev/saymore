@@ -364,9 +364,14 @@ namespace SayMore.UI.ComponentEditors
 		/// 3) "Definition" or "Text"; 4) default (English) value.
 		private string Localize(string listName, string item, string property, string defaultValue)
 		{
-			return LocalizationManager.GetDynamicString("SayMore",
+			// SP-844: List from Arbil contains "Holy Seat" rather than "Holy See"
+			var value = LocalizationManager.GetDynamicString("SayMore",
 				string.Format("CommonToMultipleViews.ListItems.{0}.{1}.{2}", listName, item, property),
 				defaultValue);
+
+			if (value.StartsWith("Holy Seat")) value = value.Replace("Holy Seat", "Holy See");
+
+			return value;
 		}
 
 		/// ------------------------------------------------------------------------------------

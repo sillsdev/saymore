@@ -1829,10 +1829,10 @@
         <seg>Îles Heard-et-MacDonald</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.ListItems.Countries.Holy Seat (Vatican City).Text">
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Holy See (Vatican City).Text">
       <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
-        <seg>Holy Seat (Vatican City)</seg>
+        <seg>Holy See (Vatican City)</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Saint Siège (Cité du Vatican)</seg>

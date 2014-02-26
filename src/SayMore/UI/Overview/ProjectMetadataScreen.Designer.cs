@@ -156,6 +156,7 @@ namespace SayMore.UI.Overview
 			this._description.Multiline = true;
 			this._description.Name = "_description";
 			this._tableLayout.SetRowSpan(this._description, 2);
+			this._description.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this._description.Size = new System.Drawing.Size(350, 60);
 			this._description.TabIndex = 3;
 			// 

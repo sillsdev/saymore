@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -57,12 +56,21 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		private void ResetCountryList()
 		{
-			int iCountry = _country.SelectedIndex;
-			_country.Items.Clear();
+			//int iCountry = _country.SelectedIndex;
+			var selectedCountry = _country.SelectedItem as IMDIListItem;
+
+			//_country.Items.Clear();
+			_country.DataSource = null;
 			_countryList.Localize(Localize);
-			_country.Items.AddRange(_countryList.Select(c => c.Text).Cast<object>().ToArray());
-			if (iCountry >= 0)
-				_country.SelectedIndex = iCountry;
+			_countryList.Sort();
+			//_country.Items.AddRange(_countryList.Select(c => c.Text).Cast<object>().ToArray());
+
+			_country.DataSource = _countryList;
+			_country.DisplayMember = "Text";
+			_country.ValueMember = "Value";
+
+			if (selectedCountry != null)
+				_country.SelectedItem = _countryList.FindByValue(selectedCountry.Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -78,9 +86,14 @@ namespace SayMore.UI.Overview
 		/// 3) "Definition" or "Text"; 4) default (English) value.
 		private string Localize(string listName, string item, string property, string defaultValue)
 		{
-			return LocalizationManager.GetDynamicString("SayMore",
+			// SP-844: List from Arbil contains "Holy Seat" rather than "Holy See"
+			var value = LocalizationManager.GetDynamicString("SayMore",
 				string.Format("CommonToMultipleViews.ListItems.{0}.{1}.{2}", listName, item, property),
 				defaultValue);
+
+			//if (value.StartsWith("Holy Seat")) value = value.Replace("Holy Seat", "Holy See");
+
+			return value;
 		}
 
 		#region ISayMoreView Members

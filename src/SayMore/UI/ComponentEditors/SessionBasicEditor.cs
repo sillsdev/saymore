@@ -222,9 +222,6 @@ namespace SayMore.UI.ComponentEditors
 			if (_moreFieldsComboBox == null)
 				return;
 
-			// Fix the black background on the drop down menu
-			// http://nickstips.wordpress.com/2010/12/20/c-datagridviewcomboboxcolumn-drop-down-menu-appears-all-black/
-			e.CellStyle.BackColor = _gridAdditionalFields.DefaultCellStyle.BackColor;
 
 			bool hasDefinitions = _moreFieldsComboBox.Items.Cast<IMDIListItem>().Any(item => !string.IsNullOrEmpty(item.Definition));
 			if (!hasDefinitions)

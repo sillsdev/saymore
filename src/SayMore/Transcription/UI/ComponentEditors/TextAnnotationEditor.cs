@@ -419,7 +419,8 @@ namespace SayMore.Transcription.UI
 			var textTeir = ((AnnotationComponentFile)_file).Tiers.GetFreeTranslationTier();
 			textTeir.AddTimeRangeData(timeTier);
 			var filter = "Text File (*.txt)|*.txt";
-			var suffix = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslationFilenameSuffix", "audacity_freeTranslation");
+			var suffix = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslationFilenameSuffix",
+				"audacity_freeTranslation", "Probably does not need to be localized");
 			var fileName = _file.ParentElement.Id + "_" + suffix + ".txt";
 			var action = new Action<string>(path => AudacityExporter.Export(path, textTeir));
 
@@ -433,7 +434,8 @@ namespace SayMore.Transcription.UI
 			textTeir.AddTimeRangeData(timeTier);
 
 			var filter = "Text File (*.txt)|*.txt";
-			var suffix = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscriptionFilenameSuffix", "audacity_transcription");
+			var suffix = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscriptionFilenameSuffix",
+				"audacity_transcription", "Probably does not need to be localized");
 			var fileName = _file.ParentElement.Id + "_"+suffix+".txt";
 			var action = new Action<string>(path => AudacityExporter.Export(path, textTeir));
 

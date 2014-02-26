@@ -325,13 +325,13 @@ namespace SayMore.Transcription.UI
 			this.Cursor = System.Windows.Forms.Cursors.Default;
 			this.KeyPreview = true;
 			this.locExtender.SetLocalizableToolTip(this, null);
-			this.locExtender.SetLocalizationComment(this, "Localized in subclass");
+			this.locExtender.SetLocalizationComment(this, "Do not translate - Localized in subclass");
 			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.High);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.WindowTitle");
 			this.MinimumSize = new System.Drawing.Size(446, 526);
 			this.Name = "OralAnnotationRecorderBaseDlg";
 			this.Opacity = 1D;
-			this.Text = "Change my text";
+			this.Text = "Change this text";
 			this.Controls.SetChildIndex(this._tableLayoutMediaButtons, 0);
 			this.Controls.SetChildIndex(this._labelErrorInfo, 0);
 			this.Controls.SetChildIndex(this._labelListenHint, 0);

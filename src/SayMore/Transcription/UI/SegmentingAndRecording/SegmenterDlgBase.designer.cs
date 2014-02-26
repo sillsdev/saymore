@@ -378,7 +378,7 @@ namespace SayMore.Transcription.UI
 			this.Controls.Add(this._tableLayoutOuter);
 			this.Controls.Add(this._tableLayoutButtons);
 			this.locExtender.SetLocalizableToolTip(this, null);
-			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationComment(this, "Do not translate - Localized in subclass");
 			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.High);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg.WindowTitle");
 			this.MaximizeBox = false;

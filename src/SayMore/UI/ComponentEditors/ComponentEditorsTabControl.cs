@@ -94,8 +94,12 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private bool GetAreAppropriateEditorsAlreadyVisible(ICollection<Type> desiredEditorTypes)
 		{
+			// SP-823: The editor is being replaced instead of being reused, resulting in incorrect control tab order
+			//return TabPages.Cast<TabPage>().All(tp =>
+			//    (from object ctrl in tp.Controls select desiredEditorTypes.Contains(ctrl)).FirstOrDefault());
+
 			return TabPages.Cast<TabPage>().All(tp =>
-				(from object ctrl in tp.Controls select desiredEditorTypes.Contains(ctrl)).FirstOrDefault());
+				(from object ctrl in tp.Controls select desiredEditorTypes.Contains(ctrl.GetType())).FirstOrDefault());
 		}
 	}
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -318,8 +317,10 @@ namespace SayMore.UI.ComponentEditors
 		/// <summary>This gives a more helpful exception output than the default DataGrid error message</summary>
 		void _gridAdditionalFields_DataError(object sender, DataGridViewDataErrorEventArgs e)
 		{
-			Debug.Print(e.Exception.Message);
-			throw new Exception(e.Exception.Message, e.Exception);
+			var frm = FindForm();
+			if (frm == null) return;
+			MessageBox.Show(frm, e.Exception.Message, frm.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			//throw new Exception(e.Exception.Message, e.Exception);
 		}
 
 		private void AddDropdownCell(string listType, int row)

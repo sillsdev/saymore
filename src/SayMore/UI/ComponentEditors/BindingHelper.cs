@@ -391,6 +391,9 @@ namespace SayMore.UI.ComponentEditors
 
 			ComponentFile.MetadataValueChanged -= HandleValueChangedOutsideBinder;
 
+			// SP-742: Save changes before renaming the file ("Could not find a part of the path 'C:\...\NameOf.session'.")
+			if (_componentFileIdControl == ctrl) SaveNow();
+
 			newValue = (_componentFileIdControl == ctrl ?
 				ComponentFile.TryChangeChangeId(newValue, out failureMessage) :
 				ComponentFile.SetStringValue(key, newValue, out failureMessage));

@@ -363,6 +363,14 @@
         <seg>{0} y archivos de anotación relacionados</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileAlreadyExistsMessage">
+      <tuv xml:lang="en">
+        <seg>There is already a file named {0} in this project. Do you want to replace the old one with this one?</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ya existe un archivo llamado {0} en este proyecto. ¿Desea reemplazarlo con éste?</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.FileList.FileSizeBytes">
       <tuv xml:lang="en">
         <seg>{0} Bytes</seg>
@@ -1837,10 +1845,10 @@
         <seg>Islas Heard y McDonald</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.ListItems.Countries.Holy See (Vatican City).Text">
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Holy Seat (Vatican City).Text">
       <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
-        <seg>Holy See (Vatican City)</seg>
+        <seg>Holy Seat (Vatican City)</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Santa Sede (Ciudad del Vaticano)</seg>
@@ -3621,9 +3629,8 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg">
-      <note>Parameter is the type of archive (e.g., IMDI)</note>
       <tuv xml:lang="en">
-        <seg>There was an error attempting to create the {0} package.</seg>
+        <seg>There was an error attempting to create the RAMP file.</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Hubo un error al intentar crear el archivo de RAMP.</seg>
@@ -3677,7 +3684,7 @@
         <seg>{0} ({1}) is a metadata standard to describe multi-media and multi-modal language resources. The standard provides interoperability for browsable and searchable corpus structures and resource descriptions.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0} ({1}) es un estándar de metadatos para describir los recursos multimedia y multimodales de los idiomas. Este estándar facilita las búsquedas y la navegación de las estructuras del cuerpo de recursos y sus descripciones.</seg>
+        <seg>{0} ({1}) es un estándar de metadatos para describir los recursos multimedia y multimodales de los idiomas. Este estándar facilita las búsquedas y la navegación de las estructuras del corpus de recursos y sus descripciones.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.IMDIProgramInfoText">
@@ -4827,7 +4834,7 @@
     </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.PlaybackButtonText">
       <tuv xml:lang="en">
-        <seg>Playback Recording</seg>
+        <seg>Play Back Recording</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Reproducir grabación</seg>
@@ -5718,6 +5725,7 @@
     </tu>
     <tu tuid="MainWindow.DeleteMultipleItemsMsg">
       <note>For deleting sessions and people items</note>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>{0} items</seg>
       </tuv>
@@ -5920,7 +5928,7 @@
     </tu>
     <tu tuid="MainWindow._menuProject">
       <tuv xml:lang="en">
-        <seg>&amp;Project</seg>
+        <seg>Pro&amp;ject</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>&amp;Proyecto</seg>
@@ -6184,7 +6192,7 @@
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelBirthYear">
       <tuv xml:lang="en">
-        <seg>Birth Year</seg>
+        <seg>Birth &amp;Year</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Año de nacimiento</seg>
@@ -6208,7 +6216,7 @@
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelEthnicGroup">
       <tuv xml:lang="en">
-        <seg>Ethnic Group</seg>
+        <seg>Ethnic Gro&amp;up</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Grupo étnico</seg>
@@ -6224,7 +6232,7 @@
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelHowToContact">
       <tuv xml:lang="en">
-        <seg>&amp;How to Contact</seg>
+        <seg>Ho&amp;w to Contact</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>&amp;Información de contacto</seg>
@@ -6232,7 +6240,7 @@
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelID">
       <tuv xml:lang="en">
-        <seg>Code</seg>
+        <seg>Co&amp;de</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Código ID</seg>
@@ -6240,7 +6248,7 @@
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelNickName">
       <tuv xml:lang="en">
-        <seg>Nickname</seg>
+        <seg>Nic&amp;kname</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Sobrenombre</seg>
@@ -6551,9 +6559,17 @@
         <seg>Protocolo de acceso usado\npor este proyecto</seg>
       </tuv>
     </tu>
+    <tu tuid="ProjectView.DescriptionDocumentsTitle">
+      <tuv xml:lang="en">
+        <seg>Description Documents</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Documentos descriptivos</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProjectView.MetadataScreen._labelApplications">
       <tuv xml:lang="en">
-        <seg>Applications</seg>
+        <seg>&amp;Applications</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Aplicaciones</seg>
@@ -6561,7 +6577,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelContact">
       <tuv xml:lang="en">
-        <seg>Contact Person</seg>
+        <seg>Co&amp;ntact Person</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Persona de contacto</seg>
@@ -6569,7 +6585,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelContentType">
       <tuv xml:lang="en">
-        <seg>Content Type</seg>
+        <seg>&amp;Content Type</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Tipo de contenido</seg>
@@ -6577,7 +6593,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelContinent">
       <tuv xml:lang="en">
-        <seg>Continent</seg>
+        <seg>C&amp;ontinent</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Continente</seg>
@@ -6585,7 +6601,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelCountry">
       <tuv xml:lang="en">
-        <seg>Country</seg>
+        <seg>Countr&amp;y</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>País</seg>
@@ -6593,7 +6609,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelDateAvailable">
       <tuv xml:lang="en">
-        <seg>Date Available</seg>
+        <seg>&amp;Date Available</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Fecha disponible</seg>
@@ -6601,7 +6617,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelDepositor">
       <tuv xml:lang="en">
-        <seg>Depositor</seg>
+        <seg>D&amp;epositor</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Depositante</seg>
@@ -6609,7 +6625,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelDescription">
       <tuv xml:lang="en">
-        <seg>Description</seg>
+        <seg>Desc&amp;ription</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Descripción</seg>
@@ -6617,7 +6633,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelFundingProject">
       <tuv xml:lang="en">
-        <seg>Funding Project Title</seg>
+        <seg>&amp;Funding Project Title</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Título del proyecto de financiación</seg>
@@ -6625,7 +6641,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelLocationAddress">
       <tuv xml:lang="en">
-        <seg>Location/Address</seg>
+        <seg>&amp;Location/Address</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Ubicación/Dirección</seg>
@@ -6633,7 +6649,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelLocationRegion">
       <tuv xml:lang="en">
-        <seg>Region</seg>
+        <seg>Re&amp;gion</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Región</seg>
@@ -6641,7 +6657,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelProjectTitle">
       <tuv xml:lang="en">
-        <seg>Title</seg>
+        <seg>&amp;Title</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Título</seg>
@@ -6649,7 +6665,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelRelatedPublications">
       <tuv xml:lang="en">
-        <seg>Related Publications</seg>
+        <seg>Related P&amp;ublications</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Publicaciones relacionadas</seg>
@@ -6657,7 +6673,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelRightsHolder">
       <tuv xml:lang="en">
-        <seg>Rights Holder</seg>
+        <seg>R&amp;ights Holder</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Titular de los derechos</seg>
@@ -6665,7 +6681,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelVernacular">
       <tuv xml:lang="en">
-        <seg>Vernacular</seg>
+        <seg>&amp;Vernacular</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Vernáculo</seg>
@@ -6697,7 +6713,7 @@
     </tu>
     <tu tuid="ProjectView.ProgressScreen._buttonRefresh">
       <tuv xml:lang="en">
-        <seg>Refresh</seg>
+        <seg>&amp;Refresh</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Actualizar</seg>
@@ -6725,6 +6741,38 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Progreso</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProjectDocuments.AddDescriptionFileToolTip">
+      <tuv xml:lang="en">
+        <seg>Add Description Documents to the Project</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Agregar documentos descriptivos al proyecto</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProjectDocuments.DescriptionDocumentsInformationLabel">
+      <tuv xml:lang="en">
+        <seg>Add documents here that describe the project and corpus.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Agregar aquí los documentos que describen el proyecto y el corpus.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProjectDocuments.HowArchivedMsg">
+      <tuv xml:lang="en">
+        <seg>In an IMDI project archive, these files will be exported in a special session named {0}</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Al archivar el proyecto a IMDI , estos archivos se exportarán en una sesión especial llamada {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProjectDocuments.OtherDocumentsInformationLabel">
+      <tuv xml:lang="en">
+        <seg>Add documents here that don't seem to fit anywhere else, for example about how the project was funded.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Agregar documentos aquí que no pertenecen en otro lugar (por ejemplo, documentos con información sobre el financiamiento del proyecto).</seg>
       </tuv>
     </tu>
     <tu tuid="ProjectView.TabText">
@@ -6773,6 +6821,15 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Traducción</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 2">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Password</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Contraseña</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.AccessProtocol.REAP.Entity">
@@ -7029,7 +7086,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelAccess">
       <tuv xml:lang="en">
-        <seg>Access</seg>
+        <seg>&amp;Access</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Acceso</seg>
@@ -7037,7 +7094,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelCustomFields">
       <tuv xml:lang="en">
-        <seg>Custom Fields</seg>
+        <seg>&amp;Custom Fields</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Campos definidos por el usuario</seg>
@@ -7045,7 +7102,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelDate">
       <tuv xml:lang="en">
-        <seg>Date</seg>
+        <seg>&amp;Date</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Fecha</seg>
@@ -7053,7 +7110,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelDescription">
       <tuv xml:lang="en">
-        <seg>Description</seg>
+        <seg>Desc&amp;ription</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Descripción</seg>
@@ -7061,7 +7118,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelGenre">
       <tuv xml:lang="en">
-        <seg>Genre</seg>
+        <seg>&amp;Genre</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Género</seg>
@@ -7069,7 +7126,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelId">
       <tuv xml:lang="en">
-        <seg>Id</seg>
+        <seg>&amp;Id</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>ID</seg>
@@ -7077,7 +7134,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelLocation">
       <tuv xml:lang="en">
-        <seg>Location</seg>
+        <seg>&amp;Location</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Lugar</seg>
@@ -7085,7 +7142,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelMoreFields">
       <tuv xml:lang="en">
-        <seg>More Fields</seg>
+        <seg>&amp;More Fields</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Más campos</seg>
@@ -7093,7 +7150,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelParticipants">
       <tuv xml:lang="en">
-        <seg>People</seg>
+        <seg>Pe&amp;ople</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Personas</seg>
@@ -7101,7 +7158,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelSetting">
       <tuv xml:lang="en">
-        <seg>Setting</seg>
+        <seg>S&amp;etting</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Escena</seg>
@@ -7109,7 +7166,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelSituation">
       <tuv xml:lang="en">
-        <seg>Situation</seg>
+        <seg>Sit&amp;uation</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Situación</seg>
@@ -7117,7 +7174,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelTitle">
       <tuv xml:lang="en">
-        <seg>Title</seg>
+        <seg>&amp;Title</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Título</seg>
@@ -8063,6 +8120,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.SegmentTooltip">
+      <note>First parameter is time range of the segment (e.g., 00.0-02.1); Second parameter is "F2"</note>
       <tuv xml:lang="en">
         <seg>Segment range: {0}\nPress {1} to Play/Pause</seg>
       </tuv>

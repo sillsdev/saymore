@@ -137,6 +137,7 @@ namespace SayMore
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(false);
 
+			Logger.Init();
 			SetUpErrorHandling();
 			SetUpReporting();
 
@@ -164,6 +165,7 @@ namespace SayMore
 			{
 				Application.Run();
 				Settings.Default.Save();
+				Logger.ShutDown();
 
 				SafelyDisposeProjectContext();
 			}

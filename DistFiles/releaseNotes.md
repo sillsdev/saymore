@@ -29,7 +29,13 @@ SayMore 3 adds a "Project" tab for the first time:
 
 In previous versions of SayMore, you could type whatever you like in the "Access" field. Now, you have three options:
 
- 1. You can choose from the [FURCS](http://www.elar-archive.org/using-elar/access-protocol.php) or "REAP" Access Protocols, and SayMore will restrict your choices to the their closed vocabulary.
+ 1. You can choose from a number of access protocols and SayMore will restrict your choices to the their closed vocabulary:
+- SIL REAP
+- [FURCS](http://www.elar-archive.org/using-elar/access-protocol.php) -  Endangered Languages Archive
+- TLA - The Language Archive
+- ANLA - Alaska Native Language Archive
+- AILLA - The Archive of the Indigenous Languages of Latin America
+- AILCA - The Archive of Indigenous Languages and Cultures of Asia
 
  1. You can set up a custom set of choices.
 

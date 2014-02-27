@@ -17,6 +17,7 @@ namespace SayMore.UI.ComponentEditors
 
 		public Action ComponentFileChanged;
 		public List<FieldInstance> RowData { get; private set; }
+		public bool AllowUserToAddRows = true;
 
 		private Dictionary<string, IEnumerable<string>> _autoCompleteLists = new Dictionary<string,IEnumerable<string>>();
 		private readonly IMultiListDataProvider _autoCompleteProvider;

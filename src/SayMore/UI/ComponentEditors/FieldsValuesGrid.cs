@@ -30,7 +30,7 @@ namespace SayMore.UI.ComponentEditors
 			VirtualMode = true;
 			Font = Program.DialogFont;
 			_factoryFieldFont = new Font(Font, FontStyle.Bold);
-			AllowUserToAddRows = true;
+
 			AllowUserToDeleteRows = true;
 			MultiSelect = false;
 			Margin = new Padding(0, Margin.Top, 0, Margin.Bottom);
@@ -46,8 +46,10 @@ namespace SayMore.UI.ComponentEditors
 
 			AddColumns();
 
-			// Add one for new row.
-			RowCount = _model.RowData.Count + 1;
+			RowCount = _model.RowData.Count;
+
+			// setting AllowUserToAddRows=True will add a blank line
+			AllowUserToAddRows = _model.AllowUserToAddRows;
 
 			AutoResizeRows();
 

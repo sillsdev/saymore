@@ -153,22 +153,15 @@ namespace SayMore.UI.ComponentEditors
 		{
 			// additional fields grid
 			_additionalFieldsGridViewModel = new AdditionalFieldsValuesGridViewModel(_file, autoCompleteProvider,
-				fieldGatherer);
+				fieldGatherer) {AllowUserToAddRows = false};
 
-			_gridAdditionalFields = new FieldsValuesGrid(_additionalFieldsGridViewModel)
-			{
-				Dock = DockStyle.Top,
-			};
+			_gridAdditionalFields = new FieldsValuesGrid(_additionalFieldsGridViewModel) { Dock = DockStyle.Top };
 
 			// to get a more helpful exception output than the default DataGrid error message
 			_gridAdditionalFields.DataError += _gridAdditionalFields_DataError;
 
 			_panelAdditionalGrid.AutoSize = true;
 			_panelAdditionalGrid.Controls.Add(_gridAdditionalFields);
-
-			// SP-840: There shouldn't be a blank line at the bottom of More fields
-			// This line cannot be in the object initializer because the base class overrides it in the constructor.
-			_gridAdditionalFields.AllowUserToAddRows = false;
 
 			// interactivity cell
 			AddDropdownCell(ListType.ContentInteractivity, 0);

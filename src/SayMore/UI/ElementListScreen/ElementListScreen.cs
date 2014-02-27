@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
+using L10NSharp.UI;
 using Palaso.UI.WindowsForms.FileSystem;
 using Palaso.UI.WindowsForms.Miscellaneous;
 using SayMore.Model.Files;
@@ -94,6 +95,26 @@ namespace SayMore.UI.ElementListScreen
 			_componentFilesControl.IsOKToDoFileOperation = GetIsOKToLeaveCurrentEditor;
 
 			LoadElementList();
+		}
+
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			HandleStringsLocalized();
+			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
+			base.OnHandleDestroyed(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleStringsLocalized()
+		{
+			// Overridden in derived classes
 		}
 
 		/// ------------------------------------------------------------------------------------

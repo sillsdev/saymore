@@ -3579,6 +3579,22 @@
         <seg>Añadiendo los archivos de los contribuyentes...</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.AddingOtherProjectDocumentsToIMDIArchiveProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Adding Other Project Documents...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Agregando otros documentos del proyecto...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.AddingProjectDescriptionDocumentsToIMDIArchiveProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Adding Project Description Documents...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Agregando documentos descriptivos de proyecto...</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg">
       <tuv xml:lang="en">
         <seg>Adding Files for Session '{0}'</seg>
@@ -6559,6 +6575,22 @@
         <seg>Protocolo de acceso usado\npor este proyecto</seg>
       </tuv>
     </tu>
+    <tu tuid="ProjectView.AccessScreen._linkHelp">
+      <tuv xml:lang="en">
+        <seg>Help for access protocols</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ayuda para los protocolos de acceso</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.DescriptionDocuments._linkHowArchived">
+      <tuv xml:lang="en">
+        <seg>How these are archived</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cómo son archivadas</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProjectView.DescriptionDocumentsTitle">
       <tuv xml:lang="en">
         <seg>Description Documents</seg>
@@ -6687,12 +6719,28 @@
         <seg>Vernáculo</seg>
       </tuv>
     </tu>
+    <tu tuid="ProjectView.MetadataScreen._linkHelp">
+      <tuv xml:lang="en">
+        <seg>Help for these fields</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ayuda para estos campos</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProjectView.MetadataScreen._linkSelectVernacular">
       <tuv xml:lang="en">
         <seg>Change Language</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Cambiar idioma</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.OtherDocumentsTitle">
+      <tuv xml:lang="en">
+        <seg>Other Documents</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Otros documentos</seg>
       </tuv>
     </tu>
     <tu tuid="ProjectView.ProgressScreen._buttonCopy">
@@ -6749,6 +6797,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Agregar documentos descriptivos al proyecto</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProjectDocuments.AddOtherFileToolTip">
+      <tuv xml:lang="en">
+        <seg>Add Other Documents to the Project</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Agregar al proyecto otros documentos</seg>
       </tuv>
     </tu>
     <tu tuid="ProjectView.ProjectDocuments.DescriptionDocumentsInformationLabel">
@@ -6823,6 +6879,69 @@
         <seg>Traducción</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>only the Depositor and delegate can access</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sólo el depositante o su delegado pueden acceder</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.C">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>only Community members are allowed access (normally requires application to Depositor)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sólo los miebros de la comunidad pueden acceder (generalmente requiere llenar una solicitud al depositante)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.F">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>access is Free to all</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>el acceso es libre para todos</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.RC">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Researchers and Community members are allowed access</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Los investigadores y los miebros de la comunidad pueden acceder</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.S">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>only Subscribers are allowed access (requires application to Depositor)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sólo los suscriptores pueden acceder (requiere llenar una solicitud al depositante)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.U">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>all Users can access (requires registration)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>todos los Usuarios pueden acceder (requiere inscripción)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 1">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Public Access</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Acceso público</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 2">
       <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
@@ -6830,6 +6949,70 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Contraseña</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 3">
+      <note>pueden acceder</note>
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Time limit</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Límite de tiempo</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 4">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Depositor control</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Bajo el control del depositante</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.C">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>only Community members are allowed access (normally requires application to Depositor)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sólo los miebros de la comunidad pueden acceder (generalmente requiere llenar una solicitud al depositante)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.R">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Researchers and Community members are allowed access</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Los investigadores y los miebros de la comunidad pueden acceder</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.S">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>only Subscribers are allowed access (requires application to Depositor)</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Sólo los suscriptores pueden acceder (requiere llenar una solicitud al depositante)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.U">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>all Users can access</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>todos los Usuarios pueden acceder</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.REAP.">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>&lt;unknown&gt;</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>&lt;desconocido&gt;</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.AccessProtocol.REAP.Entity">
@@ -7521,7 +7704,7 @@
         <seg>Status &amp;&amp; Stages</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Estado y etapas</seg>
+        <seg>Ayuda para los protocolos de acceso</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.StatusAndStagesEditor._labelReadAboutStages">

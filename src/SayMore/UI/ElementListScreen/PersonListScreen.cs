@@ -24,8 +24,7 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			Initialize(_componentsSplitter.Panel2, _personComponentFileGrid, _peopleListPanel);
-			_personComponentFileGrid.InitializeGrid("PersonScreen",
-				LocalizationManager.GetString("PeopleView.FileList.AddPersonButtonToolTip", "Add Files for the Person"));
+			_personComponentFileGrid.InitializeGrid("PersonScreen");
 
 			InitializeMenus();
 
@@ -43,6 +42,13 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.HeaderPanelBackColor1 = Settings.Default.PersonEditorsButtonBackgroundColor2;
 			_elementsListPanel.HeaderPanelBackColor2 = Settings.Default.PersonEditorsButtonBackgroundColor1;
 			_elementsListPanel.HeaderPanelBottomBorderColor = Settings.Default.PersonEditorsBorderColor;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleStringsLocalized()
+		{
+			_personComponentFileGrid.AddFileButtonTooltipText =
+				LocalizationManager.GetString("PeopleView.FileList.AddPersonButtonToolTip", "Add Files for the Person");
 		}
 
 		/// ------------------------------------------------------------------------------------

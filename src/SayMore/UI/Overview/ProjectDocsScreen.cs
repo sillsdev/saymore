@@ -15,8 +15,8 @@ namespace SayMore.UI.Overview
 {
 	public abstract partial class ProjectDocsScreen : EditorBase, ISayMoreView
 	{
-		protected string _folderName;
-		protected string _archiveSessionName;
+		protected abstract string FolderName { get; }
+		protected abstract string ArchiveSessionName { get; }
 
 		private readonly ImageList _tabControlImages = new ImageList();
 		private ComponentEditorsTabControl _tabCtrl;
@@ -81,16 +81,16 @@ namespace SayMore.UI.Overview
 			_descriptionFileGrid.PostMenuCommandRefreshAction = file => _descriptionFileGrid.UpdateComponentFileList(GetFiles());
 			_descriptionFileGrid.IsOKToSelectDifferentFile = GetIsOKToLeaveCurrentEditor;
 			_descriptionFileGrid.IsOKToDoFileOperation = GetIsOKToLeaveCurrentEditor;
-
-			Localize();
 		}
 
-		protected virtual void Localize()
+		protected override void HandleStringsLocalized()
 		{
+			base.HandleStringsLocalized();
+
 			_howTheseAreArchivedMsg = string.Format(
 				LocalizationManager.GetString("ProjectView.ProjectDocuments.HowArchivedMsg",
 				"In an IMDI project archive, these files will be exported in a special session named {0}"),
-				_archiveSessionName);
+				ArchiveSessionName);
 		}
 
 		private bool HandleFilesAddedToComponentGrid(string[] files)
@@ -98,7 +98,7 @@ namespace SayMore.UI.Overview
 			if (files.Length == 0) return false;
 
 			// make sure the directory exists
-			var dir = Path.Combine(Program.CurrentProject.FolderPath, _folderName);
+			var dir = Path.Combine(Program.CurrentProject.FolderPath, FolderName);
 			if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
 
 			// copy the selected files to the directory
@@ -129,7 +129,7 @@ namespace SayMore.UI.Overview
 
 		private IEnumerable<ComponentFile> GetFiles()
 		{
-			var dir = Path.Combine(Program.CurrentProject.FolderPath, _folderName);
+			var dir = Path.Combine(Program.CurrentProject.FolderPath, FolderName);
 			if (!Directory.Exists(dir)) yield break;
 
 			var unknownFileType = new FileType[]
@@ -217,52 +217,66 @@ namespace SayMore.UI.Overview
 
 	public class ProjectDescriptionDocsScreen : ProjectDocsScreen
 	{
-		public static string kFolderName = "DescriptionDocuments";
-		public static string kArchiveSessionName = "Project Description Documents";
+		internal static string kFolderName = "DescriptionDocuments";
+		internal static string kArchiveSessionName = "Project Description Documents";
 
 		public ProjectDescriptionDocsScreen()
 		{
-			_descriptionFileGrid.InitializeGrid("ProjectDescriptionDocuments", _toolTipText);
+			_descriptionFileGrid.InitializeGrid("ProjectDescriptionDocuments");
 		}
 
-		protected override void Localize()
+		protected override string FolderName
 		{
-			_folderName = kFolderName;
-			_archiveSessionName = kArchiveSessionName;
+			get { return kFolderName; }
+		}
 
-			_toolTipText = LocalizationManager.GetString("ProjectView.ProjectDocuments.AddDescriptionFileToolTip",
+		protected override string ArchiveSessionName
+		{
+			get { return kArchiveSessionName; }
+		}
+
+		protected override void HandleStringsLocalized()
+		{
+			_descriptionFileGrid.AddFileButtonTooltipText = LocalizationManager.GetString("ProjectView.ProjectDocuments.AddDescriptionFileToolTip",
 				"Add Description Documents to the Project");
 
 			_labelInformation.Text =
 				LocalizationManager.GetString("ProjectView.ProjectDocuments.DescriptionDocumentsInformationLabel",
 					"Add documents here that describe the project and corpus.");
 
-			base.Localize();
+			base.HandleStringsLocalized();
 		}
 	}
 
 	public class ProjectOtherDocsScreen : ProjectDocsScreen
 	{
-		public static string kFolderName = "OtherDocuments";
-		public static string kArchiveSessionName = "Other Project Documents";
+		internal static string kFolderName = "OtherDocuments";
+		internal static string kArchiveSessionName = "Other Project Documents";
 
 		public ProjectOtherDocsScreen()
 		{
-			_descriptionFileGrid.InitializeGrid("ProjectOtherDocuments", _toolTipText);
+			_descriptionFileGrid.InitializeGrid("ProjectOtherDocuments");
 		}
 
-		protected override void Localize()
+		protected override string FolderName
 		{
-			_folderName = kFolderName;
-			_archiveSessionName = kArchiveSessionName;
+			get { return kFolderName; }
+		}
 
-			_toolTipText = LocalizationManager.GetString("ProjectView.ProjectDocuments.AddOtherFileToolTip",
+		protected override string ArchiveSessionName
+		{
+			get { return kArchiveSessionName; }
+		}
+
+		protected override void HandleStringsLocalized()
+		{
+			base.HandleStringsLocalized();
+
+			_descriptionFileGrid.AddFileButtonTooltipText = LocalizationManager.GetString("ProjectView.ProjectDocuments.AddOtherFileToolTip",
 				"Add Other Documents to the Project");
 
 			_labelInformation.Text = LocalizationManager.GetString("ProjectView.ProjectDocuments.OtherDocumentsInformationLabel",
 				"Add documents here that don't seem to fit anywhere else, for example about how the project was funded.");
-
-			base.Localize();
 		}
 	}
 }

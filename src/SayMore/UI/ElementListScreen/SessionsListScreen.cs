@@ -31,8 +31,7 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			Initialize(_componentsSplitter.Panel2, _sessionComponentFileGrid, _sessionsListPanel);
-			_sessionComponentFileGrid.InitializeGrid("SessionScreen",
-				LocalizationManager.GetString("SessionsView.FileList.AddSessionsButtonToolTip", "Add Files to the Session"));
+			_sessionComponentFileGrid.InitializeGrid("SessionScreen");
 
 			_elementsListPanel.InsertButton(1, _buttonNewFromFiles);
 			_elementsListPanel.InsertButton(2, _buttonNewFromRecording);
@@ -53,6 +52,13 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.HeaderPanelBackColor1 = Settings.Default.SessionEditorsButtonBackgroundColor2;
 			_elementsListPanel.HeaderPanelBackColor2 = Settings.Default.SessionEditorsButtonBackgroundColor1;
 			_elementsListPanel.HeaderPanelBottomBorderColor = Settings.Default.SessionEditorsBorderColor;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleStringsLocalized()
+		{
+			_sessionComponentFileGrid.AddFileButtonTooltipText =
+				LocalizationManager.GetString("SessionsView.FileList.AddSessionsButtonToolTip", "Add Files to the Session");
 		}
 
 		/// ------------------------------------------------------------------------------------

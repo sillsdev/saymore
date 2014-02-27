@@ -112,7 +112,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			var saveAdjustHeightToFitRows = _adjustHeightToFitRows;
 			_adjustHeightToFitRows = false;
-			RowCount = _model.RowData.Count + 1;
+			RowCount = _model.RowData.Count + (AllowUserToAddRows ? 1 : 0);
 			CurrentCell = this[0, 0];
 			_adjustHeightToFitRows = saveAdjustHeightToFitRows;
 

@@ -31,10 +31,18 @@ namespace SayMore.UI.ComponentEditors
 				}
 
 			}
+			catch (OutOfMemoryException oomex)
+			{
+				var msg = LocalizationManager.GetString("CommonToMultipleViews.ImageViewer.OpeningPictureFileTooLargeMsg",
+					"Could not open that picture. The image size is too large for SayMore to open.");
+
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(oomex, msg);
+				Image = new Bitmap(100, 100);
+			}
 			catch (Exception e)
 			{
 				var msg = LocalizationManager.GetString("CommonToMultipleViews.ImageViewer.OpeningPictureFileErrorMsg",
-					"Could not open that picture");
+					"Could not open that picture.");
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
 				Image = new Bitmap(100, 100);

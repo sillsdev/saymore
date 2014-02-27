@@ -115,7 +115,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public FileTypeFields(string path, Func<ProjectElement, string, ComponentFile> componentFileFactory)
 		{
-			// this happens sometimes when a person file is renamed
+			// this happens sometimes when a component file is renamed
 			if (!File.Exists(path)) return;
 
 			var file = componentFileFactory(null, path);

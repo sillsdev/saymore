@@ -21,7 +21,6 @@ namespace SayMore.UI.Overview
 		private readonly ImageList _tabControlImages = new ImageList();
 		private ComponentEditorsTabControl _tabCtrl;
 		protected string _toolTipText;
-		protected string _howTheseAreArchivedMsg;
 
 		protected ProjectDocsScreen()
 		{
@@ -83,15 +82,23 @@ namespace SayMore.UI.Overview
 			_descriptionFileGrid.IsOKToDoFileOperation = GetIsOKToLeaveCurrentEditor;
 		}
 
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			// HandleStringsLocalized gets called from the constructor (in a base class), but it's too
+			// early for the classes that derive from this class to do someof their localization, so
+			// we have a special method to handle that.
+			LocalizeStrings();
+		}
+
 		protected override void HandleStringsLocalized()
 		{
 			base.HandleStringsLocalized();
-
-			_howTheseAreArchivedMsg = string.Format(
-				LocalizationManager.GetString("ProjectView.ProjectDocuments.HowArchivedMsg",
-				"In an IMDI project archive, these files will be exported in a special session named {0}"),
-				ArchiveSessionName);
+			if (_descriptionFileGrid != null)
+				LocalizeStrings();
 		}
+
+		protected abstract void LocalizeStrings();
 
 		private bool HandleFilesAddedToComponentGrid(string[] files)
 		{
@@ -211,7 +218,12 @@ namespace SayMore.UI.Overview
 
 		private void _linkHowArchived_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			MessageBox.Show(Program.ProjectWindow, _howTheseAreArchivedMsg, Program.ProjectWindow.Text);
+			string howTheseAreArchivedMsg = string.Format(
+				LocalizationManager.GetString("ProjectView.ProjectDocuments.HowArchivedMsg",
+					"In an IMDI project archive, these files will be exported in a special session named {0}"),
+				ArchiveSessionName);
+
+			MessageBox.Show(Program.ProjectWindow, howTheseAreArchivedMsg, Program.ProjectWindow.Text);
 		}
 	}
 
@@ -235,16 +247,15 @@ namespace SayMore.UI.Overview
 			get { return kArchiveSessionName; }
 		}
 
-		protected override void HandleStringsLocalized()
+		protected override void LocalizeStrings()
 		{
-			_descriptionFileGrid.AddFileButtonTooltipText = LocalizationManager.GetString("ProjectView.ProjectDocuments.AddDescriptionFileToolTip",
-				"Add Description Documents to the Project");
+			_descriptionFileGrid.AddFileButtonTooltipText =
+				LocalizationManager.GetString("ProjectView.ProjectDocuments.AddDescriptionFileToolTip",
+					"Add Description Documents to the Project");
 
 			_labelInformation.Text =
 				LocalizationManager.GetString("ProjectView.ProjectDocuments.DescriptionDocumentsInformationLabel",
 					"Add documents here that describe the project and corpus.");
-
-			base.HandleStringsLocalized();
 		}
 	}
 
@@ -268,10 +279,8 @@ namespace SayMore.UI.Overview
 			get { return kArchiveSessionName; }
 		}
 
-		protected override void HandleStringsLocalized()
+		protected override void LocalizeStrings()
 		{
-			base.HandleStringsLocalized();
-
 			_descriptionFileGrid.AddFileButtonTooltipText = LocalizationManager.GetString("ProjectView.ProjectDocuments.AddOtherFileToolTip",
 				"Add Other Documents to the Project");
 

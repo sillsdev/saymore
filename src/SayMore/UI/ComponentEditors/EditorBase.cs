@@ -55,12 +55,6 @@ namespace SayMore.UI.ComponentEditors
 			Layout += HandleLayout;
 
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleCreated(EventArgs e)
-		{
-			base.OnHandleCreated(e);
 			HandleStringsLocalized();
 		}
 

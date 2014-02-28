@@ -9,7 +9,9 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using L10NSharp;
+using Palaso;
 using Palaso.Code;
 using Palaso.Extensions;
 using Palaso.IO;
@@ -66,8 +68,12 @@ namespace SayMore
 			// See: http://benhollis.net/blog/2007/04/11/setting-the-correct-default-font-in-net-windows-forms-apps/
 			_dialogFont = new Font(SystemFonts.MessageBoxFont, FontStyle.Regular);
 
-			if (Control.ModifierKeys != Keys.Alt)
+			var NoVisualStyles = Path.Combine(Path.GetTempPath(), EntryAssembly.CompanyName, UsageReporter.AppNameToUseInReporting, "NoVisualStyles.txt");
+			if (!File.Exists(NoVisualStyles))
 				Application.EnableVisualStyles();
+			else
+				Application.VisualStyleState = VisualStyleState.NoneEnabled;
+
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			//bring in settings from any previous version
@@ -110,7 +116,7 @@ namespace SayMore
 
 						//Application.Restart(); won't work, because the settings will still get saved
 
-						System.Environment.FailFast("SayMore quitting hard to prevent old settings from being saved again.");
+						Environment.FailFast("SayMore quitting hard to prevent old settings from being saved again.");
 					}
 					catch (Exception error)
 					{

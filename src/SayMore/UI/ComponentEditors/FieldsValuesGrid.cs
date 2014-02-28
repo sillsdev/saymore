@@ -28,7 +28,7 @@ namespace SayMore.UI.ComponentEditors
 		public FieldsValuesGrid(FieldsValuesGridViewModel model, string name)
 		{
 			Name = name;
-			_log = (Name == "SessionBasicEditor._gridCustomFields");
+			_log = (Name == "SessionBasicEditor._gridAdditionalFields");
 			Log("Entering FieldValuesGrid Constructor: {0}", Name);
 			if (SystemColors.WindowText.IsKnownColor)
 				Log("    Window Text Color = {0}", SystemColors.WindowText.ToKnownColor());

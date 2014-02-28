@@ -155,7 +155,7 @@ namespace SayMore.UI.ComponentEditors
 			_additionalFieldsGridViewModel = new AdditionalFieldsValuesGridViewModel(_file, autoCompleteProvider,
 				fieldGatherer) {AllowUserToAddRows = false};
 
-			_gridAdditionalFields = new FieldsValuesGrid(_additionalFieldsGridViewModel) { Dock = DockStyle.Top };
+			_gridAdditionalFields = new FieldsValuesGrid(_additionalFieldsGridViewModel, "SessionBasicEditor._gridAdditionalFields") { Dock = DockStyle.Top };
 
 			// to get a more helpful exception output than the default DataGrid error message
 			_gridAdditionalFields.DataError += _gridAdditionalFields_DataError;
@@ -186,7 +186,7 @@ namespace SayMore.UI.ComponentEditors
 			_gridViewModel = new CustomFieldsValuesGridViewModel(_file, autoCompleteProvider,
 				fieldGatherer);
 
-			_gridCustomFields = new FieldsValuesGrid(_gridViewModel) {Dock = DockStyle.Top};
+			_gridCustomFields = new FieldsValuesGrid(_gridViewModel, "SessionBasicEditor._gridCustomFields") { Dock = DockStyle.Top };
 			_panelGrid.AutoSize = true;
 			_panelGrid.Controls.Add(_gridCustomFields);
 		}

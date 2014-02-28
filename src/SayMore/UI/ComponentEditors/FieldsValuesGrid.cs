@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using L10NSharp;
@@ -22,21 +24,22 @@ namespace SayMore.UI.ComponentEditors
 		private readonly L10NSharpExtender _locExtender;
 
 		/// ------------------------------------------------------------------------------------
-		public FieldsValuesGrid(FieldsValuesGridViewModel model)
+		public FieldsValuesGrid(FieldsValuesGridViewModel model, string name)
 		{
-			Logger.WriteEvent("Entering FieldValuesGrid Constructor");
+			Name = name;
+			Logger.WriteEvent("Entering FieldValuesGrid Constructor: {0}", Name);
 			if (SystemColors.WindowText.IsKnownColor)
 				Logger.WriteEvent("    Window Text Color = {0}", SystemColors.WindowText.ToKnownColor());
-			Logger.WriteEvent("    Window Text ColorARGB = {0}", string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", SystemColors.WindowText.A, SystemColors.WindowText.R, SystemColors.WindowText.G, SystemColors.WindowText.B));
-			if (SystemColors.WindowText.IsKnownColor)
+			Logger.WriteEvent("    Window Text Color ARGB = {0}", FormatColorAsString(SystemColors.WindowText));
+			if (SystemColors.Window.IsKnownColor)
 				Logger.WriteEvent("    Window Color = {0}", SystemColors.Window.ToKnownColor());
-			Logger.WriteEvent("    Window Text ColorARGB = {0}", string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", SystemColors.Window.A, SystemColors.Window.R, SystemColors.Window.G, SystemColors.Window.B));
+			Logger.WriteEvent("    Window Color ARGB = {0}", FormatColorAsString(SystemColors.Window));
 			if (SystemColors.HighlightText.IsKnownColor)
 				Logger.WriteEvent("    Highlight Text Color = {0}", SystemColors.HighlightText.ToKnownColor());
-			Logger.WriteEvent("    Highlight Text ColorARGB = {0}", string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", SystemColors.HighlightText.A, SystemColors.HighlightText.R, SystemColors.HighlightText.G, SystemColors.HighlightText.B));
-			if (SystemColors.HighlightText.IsKnownColor)
+			Logger.WriteEvent("    Highlight Text Color ARGB = {0}", FormatColorAsString(SystemColors.HighlightText));
+			if (SystemColors.Highlight.IsKnownColor)
 				Logger.WriteEvent("    Highlight Color = {0}", SystemColors.Highlight.ToKnownColor());
-			Logger.WriteEvent("    Highlight Text ColorARGB = {0}", string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", SystemColors.Highlight.A, SystemColors.Highlight.R, SystemColors.Highlight.G, SystemColors.Highlight.B));
+			Logger.WriteEvent("    Highlight Color ARGB = {0}", FormatColorAsString(SystemColors.Highlight));
 
 			_locExtender = new L10NSharpExtender();
 			_locExtender.LocalizationManagerId = "SayMore";
@@ -83,15 +86,32 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private string FormatColorAsString(Color color)
+		{
+			var argb = color.ToArgb();
+			var namedColor = GetNamedColors().FirstOrDefault(c => color.ToArgb() == c.ToArgb());
+			string knownColorName = namedColor == default(Color) ? (((uint)argb == 0xFF3399FF) ? "Blue highlight" : "????") : namedColor.Name;
+
+			return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2} ({4})", color.A, color.R, color.G, color.B, knownColorName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		static IEnumerable<Color> GetNamedColors()
+		{
+			Type type = typeof(Color);
+			return type.GetProperties().Where(info => info.PropertyType == type).Select(info => (Color)info.GetValue(null, null)).Where(c => !c.IsSystemColor);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void SetSelectionColors(bool hasFocus)
 		{
-			Logger.WriteEvent("Entering \"FieldValuesGrid.SetSelectionColors\"");
+			Logger.WriteEvent("Entering \"FieldValuesGrid.SetSelectionColors\" ({0})", Name);
 			Logger.WriteEvent("    hasFocus = {0}", hasFocus);
 			Logger.WriteEvent("    DefaultCellStyle.SelectionBackColor = {0}", DefaultCellStyle.SelectionBackColor);
 			Logger.WriteEvent("    DefaultCellStyle.SelectionForeColor = {0}", DefaultCellStyle.SelectionForeColor);
 			Logger.WriteEvent("    DefaultCellStyle.BackColor = {0}", DefaultCellStyle.BackColor);
 			Logger.WriteEvent("    DefaultCellStyle.ForeColor = {0}", DefaultCellStyle.ForeColor);
-			Logger.WriteEvent("    _focusedSelectionBackColor = {0}", _focusedSelectionBackColor);
+			Logger.WriteEvent("    _focusedSelectionBackColor = {0}", FormatColorAsString(_focusedSelectionBackColor));
 			Logger.WriteEvent("    Grid BackgroundColor = {0}", BackgroundColor);
 			Logger.WriteEvent("    Grid ForeColor = {0}", ForeColor);
 
@@ -110,6 +130,11 @@ namespace SayMore.UI.ComponentEditors
 		protected override void OnGotFocus(EventArgs e)
 		{
 			Logger.WriteEvent("In \"FieldValuesGrid.OnGotFocus\"");
+			if (CurrentCell == null)
+				Logger.WriteEvent("    CurrentCell is null");
+			else
+				Logger.WriteEvent("    CurrentCell: Row = {0}; Column = {1}; Value = {2}", CurrentCell.RowIndex, CurrentCell.ColumnIndex, CurrentCell.Value ?? "Null");
+
 			base.OnGotFocus(e);
 
 			// In addition to getting this event when coming from a control outside of the
@@ -120,18 +145,19 @@ namespace SayMore.UI.ComponentEditors
 				return;
 
 			SetSelectionColors(true);
-			Logger.WriteEvent("  About to set CurrentCell");
-			if (CurrentCell == null)
-				Logger.WriteEvent("    CurrentCell is null");
-			else
-				Logger.WriteEvent("    CurrentCell: Row = {0}; Column = {1}; Value = {2}", CurrentCell.RowIndex, CurrentCell.ColumnIndex, CurrentCell.Value ?? "Null");
+			var cell = CurrentCell;
 			CurrentCell = (_model.GetIdForIndex(0) == null ? this[0, 0] : this[1, 0]);
-			Logger.WriteEvent("  Finished setting CurrentCel");
-			if (CurrentCell == null)
-				Logger.WriteEvent("    CurrentCell is null");
+			if (cell == CurrentCell)
+				Logger.WriteEvent("  CurrentCell NOT changed");
 			else
-				Logger.WriteEvent("    CurrentCell: Row = {0}; Column = {1}; Value = {2}", CurrentCell.RowIndex, CurrentCell.ColumnIndex, CurrentCell.Value ?? "Null");
-
+			{
+				Logger.WriteEvent("  Finished setting CurrentCell");
+				if (CurrentCell == null)
+					Logger.WriteEvent("    CurrentCell is null");
+				else
+					Logger.WriteEvent("    CurrentCell: Row = {0}; Column = {1}; Value = {2}", CurrentCell.RowIndex,
+						CurrentCell.ColumnIndex, CurrentCell.Value ?? "Null");
+			}
 			// This prevents the grid from stealing focus at startup when it shouldn't.
 			// The problem arises in the following way: The OnCellFormatting gets called,
 			// even when the grid does not have focus. In the CellFormatting event, cells
@@ -214,18 +240,26 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
 		{
-			Logger.WriteEvent("Entering \"FieldValuesGrid.OnCellFormatting\"");
-			Logger.WriteEvent("    e.RowIndex = {0}; e.ColumnIndex = {1}; Value = {2}", e.RowIndex, e.ColumnIndex, this[e.ColumnIndex, e.RowIndex].Value ?? "Null");
-			Logger.WriteEvent("    e.CellStyle.BackColor = {0}", e.CellStyle.BackColor);
-			Logger.WriteEvent("    e.CellStyle.ForeColor = {0}", e.CellStyle.ForeColor);
-			Logger.WriteEvent("    e.CellStyle.SelectionBackColor = {0}", e.CellStyle.SelectionBackColor);
-			Logger.WriteEvent("    e.CellStyle.SelectionForeColor = {0}", e.CellStyle.SelectionForeColor);
-			if (e.ColumnIndex >= 0 && e.ColumnIndex < ColumnCount && e.RowIndex >= 0 && e.RowIndex < RowCount)
+			if (e.ColumnIndex == 1)
 			{
-				Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.BackColor = {0}", this[e.ColumnIndex, e.RowIndex].Style.BackColor);
-				Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.ForeColor = {0}", this[e.ColumnIndex, e.RowIndex].Style.ForeColor);
-				Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.SelectionBackColor = {0}", this[e.ColumnIndex, e.RowIndex].Style.SelectionBackColor);
-				Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.SelectionForeColor = {0}", this[e.ColumnIndex, e.RowIndex].Style.SelectionForeColor);
+				Logger.WriteEvent("Entering \"FieldValuesGrid.OnCellFormatting\" ({0})", Name);
+				Logger.WriteEvent("    e.RowIndex = {0}; e.ColumnIndex = {1}; Value = {2}", e.RowIndex, e.ColumnIndex,
+					this[e.ColumnIndex, e.RowIndex].Value ?? "Null");
+				Logger.WriteEvent("    e.CellStyle.BackColor = {0}", e.CellStyle.BackColor);
+				Logger.WriteEvent("    e.CellStyle.ForeColor = {0}", e.CellStyle.ForeColor);
+				Logger.WriteEvent("    e.CellStyle.SelectionBackColor = {0}", e.CellStyle.SelectionBackColor);
+				Logger.WriteEvent("    e.CellStyle.SelectionForeColor = {0}", e.CellStyle.SelectionForeColor);
+				if (e.ColumnIndex < ColumnCount && e.RowIndex >= 0 && e.RowIndex < RowCount)
+				{
+					Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.BackColor = {0}",
+						this[e.ColumnIndex, e.RowIndex].Style.BackColor);
+					Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.ForeColor = {0}",
+						this[e.ColumnIndex, e.RowIndex].Style.ForeColor);
+					Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.SelectionBackColor = {0}",
+						this[e.ColumnIndex, e.RowIndex].Style.SelectionBackColor);
+					Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.SelectionForeColor = {0}",
+						this[e.ColumnIndex, e.RowIndex].Style.SelectionForeColor);
+				}
 			}
 
 			// REVIEW: For some reason, when the grid does not have focus, sometimes
@@ -233,13 +267,16 @@ namespace SayMore.UI.ComponentEditors
 
 			if (_model != null)
 			{
-				Logger.WriteEvent("    Focused = {0}", Focused);
-				Logger.WriteEvent("    DefaultCellStyle.SelectionBackColor = {0}", DefaultCellStyle.SelectionBackColor);
-				Logger.WriteEvent("    DefaultCellStyle.SelectionForeColor = {0}", DefaultCellStyle.SelectionForeColor);
-				Logger.WriteEvent("    DefaultCellStyle.BackColor = {0}", DefaultCellStyle.BackColor);
-				Logger.WriteEvent("    DefaultCellStyle.ForeColor = {0}", DefaultCellStyle.ForeColor);
-				Logger.WriteEvent("    Grid BackgroundColor = {0}", BackgroundColor);
-				Logger.WriteEvent("    Grid ForeColor = {0}", ForeColor);
+				if (e.ColumnIndex == 1)
+				{
+					Logger.WriteEvent("    Focused = {0}", Focused);
+					Logger.WriteEvent("    DefaultCellStyle.SelectionBackColor = {0}", DefaultCellStyle.SelectionBackColor);
+					Logger.WriteEvent("    DefaultCellStyle.SelectionForeColor = {0}", DefaultCellStyle.SelectionForeColor);
+					Logger.WriteEvent("    DefaultCellStyle.BackColor = {0}", DefaultCellStyle.BackColor);
+					Logger.WriteEvent("    DefaultCellStyle.ForeColor = {0}", DefaultCellStyle.ForeColor);
+					Logger.WriteEvent("    Grid BackgroundColor = {0}", BackgroundColor);
+					Logger.WriteEvent("    Grid ForeColor = {0}", ForeColor);
+				}
 
 				var isReadOnly = _model.IsIndexForReadOnlyField(e.RowIndex);
 				var isCustom = _model.IsIndexForCustomField(e.RowIndex);
@@ -267,22 +304,29 @@ namespace SayMore.UI.ComponentEditors
 				}
 			}
 			base.OnCellFormatting(e);
-			Logger.WriteEvent("  After calling \"base.OnCellFormatting(e)\"");
-
-			if (e.ColumnIndex >= 0 && e.ColumnIndex < ColumnCount && e.RowIndex >= 0 && e.RowIndex < RowCount)
+			if (e.ColumnIndex == 1)
 			{
-				Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.BackColor = {0}", this[e.ColumnIndex, e.RowIndex].Style.BackColor);
-				Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.ForeColor = {0}", this[e.ColumnIndex, e.RowIndex].Style.ForeColor);
-				Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.SelectionBackColor = {0}", this[e.ColumnIndex, e.RowIndex].Style.SelectionBackColor);
-				Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.SelectionForeColor = {0}", this[e.ColumnIndex, e.RowIndex].Style.SelectionForeColor);
+				Logger.WriteEvent("  After calling \"base.OnCellFormatting(e)\"");
+
+				if (e.ColumnIndex < ColumnCount && e.RowIndex >= 0 && e.RowIndex < RowCount)
+				{
+					Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.BackColor = {0}",
+						this[e.ColumnIndex, e.RowIndex].Style.BackColor);
+					Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.ForeColor = {0}",
+						this[e.ColumnIndex, e.RowIndex].Style.ForeColor);
+					Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.SelectionBackColor = {0}",
+						this[e.ColumnIndex, e.RowIndex].Style.SelectionBackColor);
+					Logger.WriteEvent("    this[e.ColumnIndex, e.RowIndex].Style.SelectionForeColor = {0}",
+						this[e.ColumnIndex, e.RowIndex].Style.SelectionForeColor);
+				}
+				Logger.WriteEvent("< Leaving \"FieldValuesGrid.OnCellFormatting\"");
 			}
-			Logger.WriteEvent("< Leaving \"FieldValuesGrid.OnCellFormatting\"");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnEditingControlShowing(DataGridViewEditingControlShowingEventArgs e)
 		{
-			Logger.WriteEvent("Entering \"FieldValuesGrid.OnEditingControlShowing\"");
+			Logger.WriteEvent("Entering \"FieldValuesGrid.OnEditingControlShowing\" ({0})", Name);
 			Logger.WriteEvent("    Control Type = {0}, Name = {1}", e.Control.GetType().ToString(), e.Control.Name);
 			if (CurrentCell != null)
 			{

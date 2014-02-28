@@ -116,7 +116,7 @@ namespace SayMore.UI.ComponentEditors
 			_gridViewModel = new CustomFieldsValuesGridViewModel(_file, autoCompleteProvider,
 				fieldGatherer);
 
-			_gridCustomFields = new FieldsValuesGrid(_gridViewModel) {Dock = DockStyle.Top};
+			_gridCustomFields = new FieldsValuesGrid(_gridViewModel, "PersonBasicEditor._gridCustomFields") { Dock = DockStyle.Top };
 			_panelGrid.AutoSize = true;
 			_panelGrid.Controls.Add(_gridCustomFields);
 		}

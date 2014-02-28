@@ -66,7 +66,8 @@ namespace SayMore
 			// See: http://benhollis.net/blog/2007/04/11/setting-the-correct-default-font-in-net-windows-forms-apps/
 			_dialogFont = new Font(SystemFonts.MessageBoxFont, FontStyle.Regular);
 
-			Application.EnableVisualStyles();
+			if (Control.ModifierKeys != Keys.Alt)
+				Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			//bring in settings from any previous version
@@ -138,6 +139,7 @@ namespace SayMore
 			_applicationContainer = new ApplicationContainer(false);
 
 			Logger.Init();
+			Logger.WriteEvent("Visual Styles State: {0}", Application.VisualStyleState);
 			SetUpErrorHandling();
 			SetUpReporting();
 

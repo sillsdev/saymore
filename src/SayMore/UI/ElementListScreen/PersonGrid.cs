@@ -34,7 +34,17 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public override GridSettings GridSettings
 		{
-			get { return Settings.Default.PersonListGrid; }
+			get
+			{
+				try
+				{
+					return Settings.Default.PersonListGrid;
+				}
+				catch
+				{
+					return new GridSettings();
+				}
+			}
 			set { Settings.Default.PersonListGrid = value; }
 		}
 

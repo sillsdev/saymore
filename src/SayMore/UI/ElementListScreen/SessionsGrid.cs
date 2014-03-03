@@ -29,7 +29,17 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public override GridSettings GridSettings
 		{
-			get { return Settings.Default.SessionsListGrid; }
+			get
+			{
+				try
+				{
+					return Settings.Default.SessionsListGrid;
+				}
+				catch
+				{
+					return new GridSettings();
+				}
+			}
 			set { Settings.Default.SessionsListGrid = value; }
 		}
 

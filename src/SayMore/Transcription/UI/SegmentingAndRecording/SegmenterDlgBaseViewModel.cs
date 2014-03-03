@@ -12,6 +12,7 @@ using SayMore.Transcription.Model;
 using SayMore.UI.NewSessionsFromFiles;
 using SayMore.Utilities;
 
+// ReSharper disable once CheckNamespace
 namespace SayMore.Transcription.UI
 {
 	public class SegmenterDlgBaseViewModel : IDisposable
@@ -289,6 +290,7 @@ namespace SayMore.Transcription.UI
 			{
 				Directory.Delete(TempOralAnnotationsFolder, true);
 			}
+// ReSharper disable once EmptyGeneralCatchClause
 			catch { }
 		}
 
@@ -346,14 +348,22 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected void RestorePreviousVersionOfAnnotation(string dstFile)
 		{
-			var backupFile = Path.Combine(TempOralAnnotationsFolder, Path.GetFileName(dstFile));
+			var fileName = Path.GetFileName(dstFile);
+			if (fileName == null) return;
+
+			var backupFile = Path.Combine(TempOralAnnotationsFolder, fileName);
 			if (File.Exists(backupFile))
 			{
-				int versionNumber = GetLatestBackupNumberForFile(dstFile);
+				var versionNumber = GetLatestBackupNumberForFile(dstFile);
 				if (versionNumber > 0)
 					backupFile += kBackupVersionPrefix + versionNumber;
 				if (File.Exists(dstFile))
+				{
+					// SP-714: Access denied trying to delete file
+					FileSystemUtils.WaitForFileRelease(dstFile);
 					File.Delete(dstFile);
+				}
+
 				File.Move(backupFile, dstFile);
 			}
 			else
@@ -408,6 +418,7 @@ namespace SayMore.Transcription.UI
 			if (_oralAnnotationFilesBeforeChanges.Count == 0)
 				return;
 
+			// ReSharper disable once AssignNullToNotNullAttribute - Path.GetFileName(f)
 			var filesToRestore = (from f in _oralAnnotationFilesBeforeChanges
 								  let srcfile = Path.Combine(TempOralAnnotationsFolder, Path.GetFileName(f))
 								  where File.Exists(srcfile)
@@ -567,7 +578,8 @@ namespace SayMore.Transcription.UI
 					{
 						BackupOralAnnotationSegmentFile(file, true);
 						Action<SegmentChange> undoActionOrig = undoAction;
-						undoAction = c => { undoActionOrig(c); RestorePreviousVersionOfAnnotation(file); };
+						var file1 = file;
+						undoAction = c => { undoActionOrig(c); RestorePreviousVersionOfAnnotation(file1); };
 					}
 					_oralAnnotationFilesToDelete = null;
 				}

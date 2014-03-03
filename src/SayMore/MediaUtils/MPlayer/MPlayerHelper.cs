@@ -5,18 +5,30 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using NAudio.Wave;
 using Palaso.IO;
 using L10NSharp;
 
+// ReSharper disable once CheckNamespace
 namespace SayMore.Media.MPlayer
 {
 	#region MPlayerHelper class
 	/// ----------------------------------------------------------------------------------------
 	public static class MPlayerHelper
 	{
+		// used to prevent multi-threading exception on StringBuilder
+		// SP-725: Index was out of range. Must be non-negative and less than the size of the collection. Parameter name: chunkLength
+		private static readonly object LockToken = new object();
+
+		[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+		static extern uint GetShortPathName(
+		   [MarshalAs(UnmanagedType.LPTStr)]string lpszLongPath,
+		   [MarshalAs(UnmanagedType.LPTStr)]StringBuilder lpszShortPath,
+		   uint cchBuffer);
+
 		[Flags]
 		public enum ConversionResult
 		{
@@ -138,6 +150,14 @@ namespace SayMore.Media.MPlayer
 		{
 			output = null;
 
+			// problem with non-ascii characters, convert to 8.3 path
+			var shortBuilder = new StringBuilder(300);
+			GetShortPathName(mediaInPath, shortBuilder, (uint)shortBuilder.Capacity);
+			mediaInPath = shortBuilder.ToString();
+
+			// output to temp file, with 8.3 path
+			var tempFile = Path.GetTempFileName();
+
 			mediaInPath = mediaInPath.Replace('\\', '/');
 			if (preferredOutputFormat == null)
 			{
@@ -146,7 +166,7 @@ namespace SayMore.Media.MPlayer
 					return ConversionResult.ConversionFailed;
 				preferredOutputFormat = new WaveFormat(info.SamplesPerSecond, info.BitsPerSample, info.Channels);
 			}
-			var args = GetArgumentsToCreatePcmAudio(mediaInPath, audioOutPath, preferredOutputFormat);
+			var args = GetArgumentsToCreatePcmAudio(mediaInPath, tempFile, preferredOutputFormat);
 			var finishedProcessing = false;
 			var result = ConversionResult.InProgress;
 			var outputBuilder = new StringBuilder();
@@ -157,7 +177,10 @@ namespace SayMore.Media.MPlayer
 					{
 						if (e.Data != null)
 						{
-							outputBuilder.AppendLine(e.Data);
+							lock (LockToken)
+							{
+								outputBuilder.AppendLine(e.Data);
+							}
 							if (debugOutput != null)
 								debugOutput.AddText(e.Data);
 						}
@@ -167,7 +190,10 @@ namespace SayMore.Media.MPlayer
 					{
 						if (e.Data != null)
 						{
-							outputBuilder.AppendLine(e.Data);
+							lock (LockToken)
+							{
+								outputBuilder.AppendLine(e.Data);
+							}
 							if (debugOutput != null)
 								debugOutput.AddText(e.Data);
 							if (e.Data == "Seek failed")
@@ -186,9 +212,22 @@ namespace SayMore.Media.MPlayer
 			prs.Dispose();
 			if (result != ConversionResult.ConversionFailed)
 			{
+				// copy to requested file name
+				if (File.Exists(tempFile))
+					File.Copy(tempFile, audioOutPath);
+
 				result |= ConversionResult.FinishedConverting;
-				output = outputBuilder.ToString();
+
+				lock (LockToken)
+				{
+					output = outputBuilder.ToString();
+				}
 			}
+
+			// delete the temp file
+			if (File.Exists(tempFile))
+				File.Delete(tempFile);
+
 			return result;
 		}
 

@@ -1216,7 +1216,7 @@
         <seg>FLEx Interlinear (*.flextext)|*.flextext|All Files (*.*)|*.*</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>FLEx подстрочник XML (*.xml)|*.xml|Все файлы (*.*)|*.*</seg>
+        <seg>FLEx подстрочник (*.flextext)|*.flextext|Все файлы (*.*)|*.*</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationLabel">

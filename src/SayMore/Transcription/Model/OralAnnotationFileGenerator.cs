@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
@@ -76,6 +74,11 @@ namespace SayMore.Transcription.Model
 				{
 					var oralAnnotationFile = timeTier.MediaFileName +
 						Settings.Default.OralAnnotationGeneratedFileSuffix;
+
+					// SP-699: The process cannot access the file because it is being used by another process
+					if (File.Exists(oralAnnotationFile))
+						FileSystemUtils.WaitForFileRelease(oralAnnotationFile);
+
 					File.Create(oralAnnotationFile);
 					FileSystemUtils.WaitForFileRelease(oralAnnotationFile);
 					return true;

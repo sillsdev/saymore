@@ -11,6 +11,7 @@ using Palaso.Xml;
 using SayMore.Media;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.Utilities;
 
 namespace SayMore.Transcription.Model
 {
@@ -745,6 +746,8 @@ namespace SayMore.Transcription.Model
 
 			try
 			{
+				// SP-702: file is being used by another process
+				FileSystemUtils.WaitForFileRelease(AnnotationFileName);
 				Root.Save(AnnotationFileName);
 			}
 			catch (Exception e)

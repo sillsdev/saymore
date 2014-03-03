@@ -18,6 +18,7 @@ using SayMore.Model;
 using Palaso.UI.WindowsForms;
 using SayMore.Utilities;
 
+// ReSharper disable once CheckNamespace
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------
@@ -107,14 +108,14 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override void SetComponentFile(ComponentFile file)
+		public override sealed void SetComponentFile(ComponentFile file)
 		{
 			Deactivated();
 
 			this.SetWindowRedraw(false);
 			base.SetComponentFile(file);
 
-			var annotationFile = file as AnnotationComponentFile;
+			var annotationFile = (AnnotationComponentFile)file;
 			_splitter.Panel1Collapsed = annotationFile.GetIsAnnotatingAudioFile();
 
 			var exception = annotationFile.TryLoadAndReturnException();
@@ -253,9 +254,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		void SetupWatchingForFileChanges()
 		{
-			_watcher = new FileSystemWatcher(
-				Path.GetDirectoryName(_file.PathToAnnotatedFile),
-				Path.GetFileName(_file.PathToAnnotatedFile));
+			var dirName = Path.GetDirectoryName(_file.PathToAnnotatedFile);
+			if (dirName == null) return;
+
+			var fileName = Path.GetFileName(_file.PathToAnnotatedFile);
+
+			_watcher = new FileSystemWatcher(dirName, fileName);
 
 			_watcher.IncludeSubdirectories = false;
 			_watcher.EnableRaisingEvents = true;
@@ -384,7 +388,11 @@ namespace SayMore.Transcription.UI
 
 		private void OnExportElanMenuItem_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Actually, SayMore already stores this information in ELAN format (.eaf). Simply double click the annotations file to edit it in ELAN.");
+			var msg =
+				LocalizationManager.GetString(
+					"SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMessage",
+					"Actually, SayMore already stores this information in ELAN format (.eaf). Simply double click the annotations file to edit it in ELAN.");
+			MessageBox.Show(msg);
 		}
 
 		private void OnExportSubtitlesFreeTranslation(object sender, EventArgs e)

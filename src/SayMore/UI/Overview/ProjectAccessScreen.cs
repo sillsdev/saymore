@@ -52,9 +52,11 @@ namespace SayMore.UI.Overview
 
 			var protocols = AccessProtocols.LoadStandardAndCustom(_archivingFileDirectoryName);
 			protocols.Insert(0, new ArchiveAccessProtocol { ProtocolName = "None" });
+			var iSelectedProtocol = _projectAccess.SelectedIndex;
 			_projectAccess.DataSource = protocols;
-
 			SizeProtocolsComboBox(_projectAccess);
+			if (iSelectedProtocol >= 0)
+				_projectAccess.SelectedIndex = iSelectedProtocol;
 		}
 
 		/// ------------------------------------------------------------------------------------

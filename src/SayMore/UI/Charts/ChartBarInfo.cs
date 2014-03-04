@@ -51,7 +51,7 @@ namespace SayMore.UI.Charts
 				FieldValue = FieldValue.Replace(" ", HTMLChartBuilder.kNonBreakingSpace);
 
 			Segments = (from kvp in segmentList
-						where (secondaryFieldName != SessionFileType.kStatusFieldName || kvp.Key != Session.Status.Skipped.ToString())
+						where (secondaryFieldName != SessionFileType.kStatusFieldName || kvp.Key != Session.GetLocalizedStatus(Session.Status.Skipped))
 						select new ChartBarSegmentInfo(secondaryFieldName, kvp.Key, kvp.Value,
 							backColors[kvp.Key], textColors[kvp.Key])).OrderBy(kvp => kvp).ToList();
 

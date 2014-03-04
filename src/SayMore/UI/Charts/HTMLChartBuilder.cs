@@ -226,7 +226,7 @@ namespace SayMore.UI.Charts
 				foreach (var kvp in colors)
 				{
 					WriteTableCell("legendblock", 0, kvp.Value, null);
-					WriteTableCell("legendtext", Session.GetLocalizedStatus(kvp.Key));
+					WriteTableCell("legendtext", kvp.Key);
 				}
 
 				CloseTableRow();

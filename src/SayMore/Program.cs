@@ -68,12 +68,7 @@ namespace SayMore
 			// See: http://benhollis.net/blog/2007/04/11/setting-the-correct-default-font-in-net-windows-forms-apps/
 			_dialogFont = new Font(SystemFonts.MessageBoxFont, FontStyle.Regular);
 
-			var NoVisualStyles = Path.Combine(Path.GetTempPath(), EntryAssembly.CompanyName, UsageReporter.AppNameToUseInReporting, "NoVisualStyles.txt");
-			if (!File.Exists(NoVisualStyles))
-				Application.EnableVisualStyles();
-			else
-				Application.VisualStyleState = VisualStyleState.NoneEnabled;
-
+			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			//bring in settings from any previous version
@@ -144,7 +139,9 @@ namespace SayMore
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(false);
 
-			Logger.Init();
+			var log = Path.Combine(Path.GetTempPath(), EntryAssembly.CompanyName, UsageReporter.AppNameToUseInReporting, "createLogFile.txt");
+			if (File.Exists(log))
+				Logger.Init();
 			Logger.WriteEvent("Visual Styles State: {0}", Application.VisualStyleState);
 			SetUpErrorHandling();
 			SetUpReporting();

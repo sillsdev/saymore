@@ -169,16 +169,28 @@ namespace SayMore.Model
 		{
 			statusAsText = GetStatusAsEnumParsableString(statusAsText);
 
-			if (statusAsText == Status.Incoming.ToString())
-				return LocalizationManager.GetString("SessionsView.SessionStatus.Incoming", "Incoming");
+			Status status;
+			if (Enum.TryParse(statusAsText, out status))
+				return GetLocalizedStatus(status);
+			throw new ArgumentException(string.Format("Value {0} is not valid status.", statusAsText), "statusAsText");
+		}
 
-			if (statusAsText == Status.In_Progress.ToString())
-				return LocalizationManager.GetString("SessionsView.SessionStatus.InProgress", "In Progress");
-
-			if (statusAsText == Status.Finished.ToString())
-				return LocalizationManager.GetString("SessionsView.SessionStatus.Finished", "Finished");
-
-			return LocalizationManager.GetString("SessionsView.SessionStatus.Skipped", "Skipped");
+		/// ------------------------------------------------------------------------------------
+		public static string GetLocalizedStatus(Status status)
+		{
+			switch (status)
+			{
+				case Status.Incoming:
+					return LocalizationManager.GetString("SessionsView.SessionStatus.Incoming", "Incoming");
+				case Status.In_Progress:
+					return LocalizationManager.GetString("SessionsView.SessionStatus.InProgress", "In Progress");
+				case Status.Finished:
+					return LocalizationManager.GetString("SessionsView.SessionStatus.Finished", "Finished");
+				case Status.Skipped:
+					return LocalizationManager.GetString("SessionsView.SessionStatus.Skipped", "Skipped");
+				default:
+					throw new ArgumentException(string.Format("Value {0} is not valid status.", status), "status");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

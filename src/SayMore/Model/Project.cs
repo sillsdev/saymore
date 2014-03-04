@@ -252,12 +252,9 @@ namespace SayMore.Model
 			project.Add(new XElement("Continent", Continent.NullTrim() ?? "Unspecified"));
 			project.Add(new XElement("ContactPerson", ContactPerson.NullTrim()));
 			project.Add(new XElement("AccessProtocol", AccessProtocol.NullTrim()));
-			project.Add(new XElement("ContentType", ContentType.NullTrim()));
-			project.Add(new XElement("Applications", Applications.NullTrim()));
 			project.Add(new XElement("DateAvailable", DateAvailable.NullTrim()));
 			project.Add(new XElement("RightsHolder", RightsHolder.NullTrim()));
 			project.Add(new XElement("Depositor", Depositor.NullTrim()));
-			project.Add(new XElement("RelatedPublications", RelatedPublications.NullTrim()));
 			project.Add(new XElement("IMDIOutputDirectory", IMDIOutputDirectory.NullTrim()));
 
 			project.Save(SettingsFilePath);
@@ -318,12 +315,9 @@ namespace SayMore.Model
 			AccessProtocol = GetStringSettingValue(project, "AccessProtocol", string.Empty);
 			_accessProtocolChanged = false;
 
-			ContentType = GetStringSettingValue(project, "ContentType", string.Empty);
-			Applications = GetStringSettingValue(project, "Applications", string.Empty);
 			DateAvailable = GetStringSettingValue(project, "DateAvailable", string.Empty);
 			RightsHolder = GetStringSettingValue(project, "RightsHolder", string.Empty);
 			Depositor = GetStringSettingValue(project, "Depositor", string.Empty);
-			RelatedPublications = GetStringSettingValue(project, "RelatedPublications", string.Empty);
 
 			IMDIOutputDirectory = GetStringSettingValue(project, "IMDIOutputDirectory", string.Empty);
 		}
@@ -444,12 +438,6 @@ namespace SayMore.Model
 		public string ContactPerson { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public string ContentType { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		public string Applications { get; set; }
-
-		/// ------------------------------------------------------------------------------------
 		public string DateAvailable { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -457,9 +445,6 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		public string Depositor { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		public string RelatedPublications { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public string IMDIOutputDirectory { get; set; }

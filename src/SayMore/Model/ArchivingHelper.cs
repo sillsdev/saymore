@@ -1,8 +1,6 @@
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Extensions;
@@ -300,7 +298,7 @@ namespace SayMore.Model
 			package.AddDescription(new LanguageString(saymoreProject.ProjectDescription, null));
 
 			// content type
-			package.ContentType = saymoreProject.ContentType;
+			package.ContentType = null;
 
 			// funding project
 			package.FundingProject = new ArchivingProject
@@ -313,7 +311,7 @@ namespace SayMore.Model
 			package.Author = saymoreProject.ContactPerson;
 
 			// applications
-			package.Applications = saymoreProject.Applications;
+			package.Applications = null;
 
 			// access date
 			package.Access.DateAvailable = saymoreProject.DateAvailable;
@@ -323,9 +321,6 @@ namespace SayMore.Model
 
 			// publisher
 			package.Publisher = saymoreProject.Depositor;
-
-			// related publications
-			package.AddKeyValuePair("Related Publications", saymoreProject.RelatedPublications);
 
 			// subject language
 			if (!string.IsNullOrEmpty(saymoreProject.VernacularISO3CodeAndName))

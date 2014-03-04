@@ -291,7 +291,7 @@ namespace SayMore.UI.ComponentEditors
 
 				if (string.IsNullOrEmpty(_model.GetIdForIndex(e.RowIndex)) && ColumnCount > 1)
 					this[1, e.RowIndex].ReadOnly = true;
-				else if (e.RowIndex < NewRowIndex)
+				else if ((NewRowIndex < 0) || (e.RowIndex < NewRowIndex))
 				{
 					if (e.ColumnIndex == 0)
 					{

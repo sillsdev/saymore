@@ -5,6 +5,7 @@ using L10NSharp;
 using SayMore.Media.Audio;
 using SayMore.Model;
 using SayMore.Properties;
+using SayMore.UI.ComponentEditors;
 using SayMore.UI.SessionRecording;
 using SayMore.UI.NewSessionsFromFiles;
 using SayMore.UI.ProjectWindow;
@@ -185,7 +186,7 @@ namespace SayMore.UI.ElementListScreen
 				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
 					LoadElementList(viewModel.FirstNewSessionAdded);
 
-				FindForm().Focus();
+				SetFocusOnId();
 			}
 		}
 
@@ -204,8 +205,22 @@ namespace SayMore.UI.ElementListScreen
 				var newSession = _model.CreateNewElement();
 				viewModel.MoveRecordingToSessionFolder(newSession);
 				LoadElementList(newSession);
-				FindForm().Focus();
+
+				SetFocusOnId();
 			}
+		}
+
+		/// <summary>SP-55: Set focus to id field after creating a new session, and select the text</summary>
+		private void SetFocusOnId()
+		{
+			Application.DoEvents();
+			var frm = FindForm();
+			if (frm == null) return;
+			frm.Focus();
+
+			var editors = Program.GetControlsOfType<SessionBasicEditor>(frm);
+			foreach (var editor in editors)
+				editor.Focus();
 		}
 	}
 

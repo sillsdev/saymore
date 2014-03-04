@@ -73,6 +73,13 @@ namespace SayMore.Model.Files
 			{
 				try
 				{
+					// SP-692: Could not find a part of the path ... in mscorlib
+					// This can happen if the object was renamed, resulting in the directory being renamed.
+					GC.Collect();
+					var dir = Path.GetDirectoryName(path);
+					if (dir == null) return;
+					if (!Directory.Exists(dir)) return;
+
 					root.Save(path);
 					break;
 				}

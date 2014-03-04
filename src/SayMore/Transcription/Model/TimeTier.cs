@@ -6,6 +6,7 @@ using Palaso.Reporting;
 using SayMore.Media;
 using SayMore.Properties;
 using SayMore.Transcription.UI;
+using SayMore.Utilities;
 
 namespace SayMore.Transcription.Model
 {
@@ -44,7 +45,10 @@ namespace SayMore.Transcription.Model
 			MediaFileName = filename;
 			try
 			{
-				_totalTime = MediaFileInfo.GetInfo(filename).Duration;
+				// SP-835: There was an error accessing media file to determine the duration:
+				//  F:\Master\TsakhurProject\Corpus\TsakhurCultureAndLanguageProject\Sessions\TKR-Y-20130708-N03\TKR-Y-20130708-N03_Source.wav
+				var shortName = FileSystemUtils.GetShortName(filename);
+				_totalTime = MediaFileInfo.GetInfo(shortName).Duration;
 			}
 			catch (Exception e)
 			{

@@ -509,10 +509,10 @@
     </tu>
     <tu tuid="CommonToMultipleViews.ImageViewer.OpeningPictureFileErrorMsg">
       <tuv xml:lang="en">
-        <seg>Could not open that picture</seg>
+        <seg>Could not open that picture.</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>No se pudo abrir la imagen</seg>
+        <seg>No se pudo abrir la imagen.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ImageViewer.TabText">
@@ -6565,6 +6565,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Protocolo de acceso</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.AccessScreen.None">
+      <tuv xml:lang="en">
+        <seg>None</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Ninguno</seg>
       </tuv>
     </tu>
     <tu tuid="ProjectView.AccessScreen._labelAccessProtocol">

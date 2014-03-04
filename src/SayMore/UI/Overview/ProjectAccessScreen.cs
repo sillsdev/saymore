@@ -51,7 +51,7 @@ namespace SayMore.UI.Overview
 				_archivingFileDirectoryName = Path.Combine(_archivingFileDirectoryName, LocalizationManager.UILanguageId);
 
 			var protocols = AccessProtocols.LoadStandardAndCustom(_archivingFileDirectoryName);
-			protocols.Insert(0, new ArchiveAccessProtocol { ProtocolName = "None" });
+			protocols.Insert(0, new ArchiveAccessProtocol { ProtocolName = LocalizationManager.GetString("ProjectView.AccessScreen.None", "None") });
 			var iSelectedProtocol = _projectAccess.SelectedIndex;
 			_projectAccess.DataSource = protocols;
 			SizeProtocolsComboBox(_projectAccess);

@@ -5,12 +5,12 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using NAudio.Wave;
 using Palaso.IO;
 using L10NSharp;
+using SayMore.Utilities;
 
 // ReSharper disable once CheckNamespace
 namespace SayMore.Media.MPlayer
@@ -22,12 +22,6 @@ namespace SayMore.Media.MPlayer
 		// used to prevent multi-threading exception on StringBuilder
 		// SP-725: Index was out of range. Must be non-negative and less than the size of the collection. Parameter name: chunkLength
 		private static readonly object LockToken = new object();
-
-		[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-		static extern uint GetShortPathName(
-		   [MarshalAs(UnmanagedType.LPTStr)]string lpszLongPath,
-		   [MarshalAs(UnmanagedType.LPTStr)]StringBuilder lpszShortPath,
-		   uint cchBuffer);
 
 		[Flags]
 		public enum ConversionResult
@@ -151,9 +145,7 @@ namespace SayMore.Media.MPlayer
 			output = null;
 
 			// problem with non-ascii characters, convert to 8.3 path
-			var shortBuilder = new StringBuilder(300);
-			GetShortPathName(mediaInPath, shortBuilder, (uint)shortBuilder.Capacity);
-			mediaInPath = shortBuilder.ToString();
+			mediaInPath = FileSystemUtils.GetShortName(mediaInPath);
 
 			// output to temp file, with 8.3 path
 			var tempFile = Path.GetTempFileName();

@@ -1,15 +1,21 @@
 using System;
-using System.Collections.Specialized;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Palaso.IO;
-using SayMore.Properties;
 
 namespace SayMore.Utilities
 {
 	public class FileSystemUtils
 	{
+		[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+		static extern uint GetShortPathName(
+		   [MarshalAs(UnmanagedType.LPTStr)]string lpszLongPath,
+		   [MarshalAs(UnmanagedType.LPTStr)]StringBuilder lpszShortPath,
+		   uint cchBuffer);
+
 		/// ------------------------------------------------------------------------------------
 		public static bool GetIsAudioVideo(string path)
 		{
@@ -187,6 +193,13 @@ namespace SayMore.Utilities
 			}
 
 			return false;
+		}
+
+		public static string GetShortName(string path)
+		{
+			var shortBuilder = new StringBuilder(300);
+			GetShortPathName(path, shortBuilder, (uint)shortBuilder.Capacity);
+			return shortBuilder.ToString();
 		}
 	}
 }

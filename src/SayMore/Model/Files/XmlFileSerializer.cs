@@ -78,7 +78,7 @@ namespace SayMore.Model.Files
 					GC.Collect();
 					var dir = Path.GetDirectoryName(path);
 					if (dir == null) return;
-					if (!Directory.Exists(dir)) return;
+					if (!Directory.Exists(dir)) throw new DirectoryNotFoundException(dir);
 
 					root.Save(path);
 					break;

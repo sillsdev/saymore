@@ -48,18 +48,12 @@ namespace SayMore.UI.Overview
 			this._location = new System.Windows.Forms.TextBox();
 			this._labelRegion = new System.Windows.Forms.Label();
 			this._region = new System.Windows.Forms.TextBox();
-			this._labelContentType = new System.Windows.Forms.Label();
-			this._labelApplications = new System.Windows.Forms.Label();
 			this._labelDateAvailable = new System.Windows.Forms.Label();
 			this._labelRightsHolder = new System.Windows.Forms.Label();
 			this._labelDepositor = new System.Windows.Forms.Label();
-			this._labelRelatedPublications = new System.Windows.Forms.Label();
-			this._relatedPublications = new System.Windows.Forms.TextBox();
 			this._dateAvailable = new SayMore.UI.LowLevelControls.DatePicker();
-			this._applications = new System.Windows.Forms.TextBox();
 			this._depositor = new System.Windows.Forms.TextBox();
 			this._rightsHolder = new System.Windows.Forms.TextBox();
-			this._contentType = new System.Windows.Forms.TextBox();
 			this._fundingProjectTitle = new System.Windows.Forms.TextBox();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this._projectTitle = new System.Windows.Forms.TextBox();
@@ -94,25 +88,19 @@ namespace SayMore.UI.Overview
 			this._tableLayout.Controls.Add(this._location, 1, 4);
 			this._tableLayout.Controls.Add(this._labelRegion, 0, 5);
 			this._tableLayout.Controls.Add(this._region, 1, 5);
-			this._tableLayout.Controls.Add(this._labelContentType, 0, 15);
-			this._tableLayout.Controls.Add(this._labelApplications, 0, 16);
 			this._tableLayout.Controls.Add(this._labelDateAvailable, 0, 11);
 			this._tableLayout.Controls.Add(this._labelRightsHolder, 0, 12);
 			this._tableLayout.Controls.Add(this._labelDepositor, 0, 13);
-			this._tableLayout.Controls.Add(this._labelRelatedPublications, 0, 17);
-			this._tableLayout.Controls.Add(this._relatedPublications, 1, 17);
 			this._tableLayout.Controls.Add(this._dateAvailable, 1, 11);
-			this._tableLayout.Controls.Add(this._applications, 1, 16);
 			this._tableLayout.Controls.Add(this._depositor, 1, 13);
 			this._tableLayout.Controls.Add(this._rightsHolder, 1, 12);
-			this._tableLayout.Controls.Add(this._contentType, 1, 15);
 			this._tableLayout.Controls.Add(this._fundingProjectTitle, 1, 10);
 			this._tableLayout.Controls.Add(this.flowLayoutPanel1, 1, 0);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Top;
 			this._tableLayout.Location = new System.Drawing.Point(7, 7);
 			this._tableLayout.Name = "_tableLayout";
 			this._tableLayout.Padding = new System.Windows.Forms.Padding(3);
-			this._tableLayout.RowCount = 19;
+			this._tableLayout.RowCount = 15;
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -128,11 +116,8 @@ namespace SayMore.UI.Overview
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this._tableLayout.Size = new System.Drawing.Size(639, 515);
+			this._tableLayout.Size = new System.Drawing.Size(639, 411);
 			this._tableLayout.TabIndex = 0;
 			// 
 			// _contactPerson
@@ -381,34 +366,6 @@ namespace SayMore.UI.Overview
 			this._region.Size = new System.Drawing.Size(350, 22);
 			this._region.TabIndex = 9;
 			// 
-			// _labelContentType
-			// 
-			this._labelContentType.AutoSize = true;
-			this._labelContentType.Dock = System.Windows.Forms.DockStyle.Right;
-			this.locExtender.SetLocalizableToolTip(this._labelContentType, null);
-			this.locExtender.SetLocalizationComment(this._labelContentType, null);
-			this.locExtender.SetLocalizingId(this._labelContentType, "ProjectView.MetadataScreen._labelContentType");
-			this._labelContentType.Location = new System.Drawing.Point(44, 408);
-			this._labelContentType.Name = "_labelContentType";
-			this._labelContentType.Size = new System.Drawing.Size(75, 28);
-			this._labelContentType.TabIndex = 24;
-			this._labelContentType.Text = "&Content Type";
-			this._labelContentType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// _labelApplications
-			// 
-			this._labelApplications.AutoSize = true;
-			this._labelApplications.Dock = System.Windows.Forms.DockStyle.Right;
-			this.locExtender.SetLocalizableToolTip(this._labelApplications, null);
-			this.locExtender.SetLocalizationComment(this._labelApplications, null);
-			this.locExtender.SetLocalizingId(this._labelApplications, "ProjectView.MetadataScreen._labelApplications");
-			this._labelApplications.Location = new System.Drawing.Point(48, 436);
-			this._labelApplications.Name = "_labelApplications";
-			this._labelApplications.Size = new System.Drawing.Size(71, 28);
-			this._labelApplications.TabIndex = 26;
-			this._labelApplications.Text = "&Applications";
-			this._labelApplications.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
 			// _labelDateAvailable
 			// 
 			this._labelDateAvailable.AutoSize = true;
@@ -451,31 +408,6 @@ namespace SayMore.UI.Overview
 			this._labelDepositor.Text = "D&epositor";
 			this._labelDepositor.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// _labelRelatedPublications
-			// 
-			this._labelRelatedPublications.AutoSize = true;
-			this._labelRelatedPublications.Dock = System.Windows.Forms.DockStyle.Right;
-			this.locExtender.SetLocalizableToolTip(this._labelRelatedPublications, null);
-			this.locExtender.SetLocalizationComment(this._labelRelatedPublications, null);
-			this.locExtender.SetLocalizingId(this._labelRelatedPublications, "ProjectView.MetadataScreen._labelRelatedPublications");
-			this._labelRelatedPublications.Location = new System.Drawing.Point(7, 464);
-			this._labelRelatedPublications.Name = "_labelRelatedPublications";
-			this._labelRelatedPublications.Size = new System.Drawing.Size(112, 28);
-			this._labelRelatedPublications.TabIndex = 28;
-			this._labelRelatedPublications.Text = "Related P&ublications";
-			this._labelRelatedPublications.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// _relatedPublications
-			// 
-			this.locExtender.SetLocalizableToolTip(this._relatedPublications, null);
-			this.locExtender.SetLocalizationComment(this._relatedPublications, null);
-			this.locExtender.SetLocalizationPriority(this._relatedPublications, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._relatedPublications, "ProjectView.MetadataScreen._relatedPublications");
-			this._relatedPublications.Location = new System.Drawing.Point(125, 467);
-			this._relatedPublications.Name = "_relatedPublications";
-			this._relatedPublications.Size = new System.Drawing.Size(350, 22);
-			this._relatedPublications.TabIndex = 29;
-			// 
 			// _dateAvailable
 			// 
 			this._dateAvailable.CustomFormat = "";
@@ -490,17 +422,6 @@ namespace SayMore.UI.Overview
 			this._dateAvailable.Size = new System.Drawing.Size(96, 22);
 			this._dateAvailable.TabIndex = 19;
 			this._dateAvailable.Value = new System.DateTime(2013, 12, 18, 9, 55, 23, 0);
-			// 
-			// _applications
-			// 
-			this.locExtender.SetLocalizableToolTip(this._applications, null);
-			this.locExtender.SetLocalizationComment(this._applications, null);
-			this.locExtender.SetLocalizationPriority(this._applications, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._applications, "ProjectView.MetadataScreen._applications");
-			this._applications.Location = new System.Drawing.Point(125, 439);
-			this._applications.Name = "_applications";
-			this._applications.Size = new System.Drawing.Size(350, 22);
-			this._applications.TabIndex = 27;
 			// 
 			// _depositor
 			// 
@@ -523,17 +444,6 @@ namespace SayMore.UI.Overview
 			this._rightsHolder.Name = "_rightsHolder";
 			this._rightsHolder.Size = new System.Drawing.Size(350, 22);
 			this._rightsHolder.TabIndex = 21;
-			// 
-			// _contentType
-			// 
-			this.locExtender.SetLocalizableToolTip(this._contentType, null);
-			this.locExtender.SetLocalizationComment(this._contentType, null);
-			this.locExtender.SetLocalizationPriority(this._contentType, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._contentType, "ProjectView.MetadataScreen._contentType");
-			this._contentType.Location = new System.Drawing.Point(125, 411);
-			this._contentType.Name = "_contentType";
-			this._contentType.Size = new System.Drawing.Size(350, 22);
-			this._contentType.TabIndex = 25;
 			// 
 			// _fundingProjectTitle
 			// 
@@ -600,7 +510,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "ProjectView.MetadataScreen");
 			this.Name = "ProjectMetadataScreen";
-			this.Size = new System.Drawing.Size(653, 608);
+			this.Size = new System.Drawing.Size(653, 447);
 			this.Load += new System.EventHandler(this.ProjectMetadataScreen_Load);
 			this.VisibleChanged += new System.EventHandler(this.ProjectMetadataScreen_VisibleChanged);
 			this.Leave += new System.EventHandler(this.ProjectMetadataScreen_Leave);
@@ -640,17 +550,11 @@ namespace SayMore.UI.Overview
 		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Label _labelRegion;
 		private System.Windows.Forms.TextBox _region;
-		private System.Windows.Forms.Label _labelContentType;
-		private System.Windows.Forms.TextBox _contentType;
-		private System.Windows.Forms.Label _labelApplications;
-		private System.Windows.Forms.TextBox _applications;
 		private System.Windows.Forms.Label _labelDateAvailable;
 		private System.Windows.Forms.Label _labelRightsHolder;
 		private System.Windows.Forms.TextBox _rightsHolder;
 		private System.Windows.Forms.Label _labelDepositor;
 		private System.Windows.Forms.TextBox _depositor;
-		private System.Windows.Forms.Label _labelRelatedPublications;
-		private System.Windows.Forms.TextBox _relatedPublications;
 		private LowLevelControls.DatePicker _dateAvailable;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
 		private System.Windows.Forms.LinkLabel _linkHelp;

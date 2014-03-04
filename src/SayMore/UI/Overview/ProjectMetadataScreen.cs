@@ -189,12 +189,9 @@ namespace SayMore.UI.Overview
 				_continent.SelectedItem = item;
 
 			_contactPerson.Text = project.ContactPerson;
-			_contentType.Text = project.ContentType;
-			_applications.Text = project.Applications;
 			_dateAvailable.SetValue(project.DateAvailable);
 			_rightsHolder.Text = project.RightsHolder;
 			_depositor.Text = project.Depositor;
-			_relatedPublications.Text = project.RelatedPublications;
 
 			foreach (Control control in Controls)
 			{
@@ -244,12 +241,9 @@ namespace SayMore.UI.Overview
 				country != project.Country ||
 				_continent.Text != project.Continent ||
 				_contactPerson.Text != project.ContactPerson ||
-				_contentType.Text != project.ContentType ||
-				_applications.Text != project.Applications ||
 				_dateAvailable.Text != project.DateAvailable ||
 				_rightsHolder.Text != project.RightsHolder ||
-				_depositor.Text != project.Depositor ||
-				_relatedPublications.Text != project.RelatedPublications
+				_depositor.Text != project.Depositor
 				);
 
 			if (!changed) return;
@@ -264,13 +258,10 @@ namespace SayMore.UI.Overview
 			project.Country = country;
 			project.Continent = _continent.Text;
 			project.ContactPerson = _contactPerson.Text;
-			project.ContentType = _contentType.Text;
-			project.Applications = _applications.Text;
 
 			project.DateAvailable = _dateAvailable.GetISO8601DateValueOrNull();
 			project.RightsHolder = _rightsHolder.Text;
 			project.Depositor = _depositor.Text;
-			project.RelatedPublications = _relatedPublications.Text;
 			project.Save();
 		}
 

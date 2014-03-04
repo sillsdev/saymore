@@ -51,12 +51,16 @@ namespace SayMore.UI.Overview
 				_archivingFileDirectoryName = Path.Combine(_archivingFileDirectoryName, LocalizationManager.UILanguageId);
 
 			var protocols = AccessProtocols.LoadStandardAndCustom(_archivingFileDirectoryName);
+			if (protocols.Last().ProtocolName == "Custom")
+				protocols.Last().ProtocolName = LocalizationManager.GetString("ProjectView.AccessScreen.Custom", "Custom");
 			protocols.Insert(0, new ArchiveAccessProtocol { ProtocolName = LocalizationManager.GetString("ProjectView.AccessScreen.None", "None") });
 			var iSelectedProtocol = _projectAccess.SelectedIndex;
 			_projectAccess.DataSource = protocols;
 			SizeProtocolsComboBox(_projectAccess);
 			if (iSelectedProtocol >= 0)
 				_projectAccess.SelectedIndex = iSelectedProtocol;
+
+
 		}
 
 		/// ------------------------------------------------------------------------------------

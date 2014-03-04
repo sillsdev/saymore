@@ -107,7 +107,7 @@ namespace SayMore.UI.Overview
 			this._labelCustomAccess.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelCustomAccess, null);
 			this.locExtender.SetLocalizationComment(this._labelCustomAccess, null);
-			this.locExtender.SetLocalizationPriority(this._labelCustomAccess, L10NSharp.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelCustomAccess, L10NSharp.LocalizationPriority.Low);
 			this.locExtender.SetLocalizingId(this._labelCustomAccess, "ProjectView.AccessScreen._labelDescription");
 			this._labelCustomAccess.Location = new System.Drawing.Point(128, 52);
 			this._labelCustomAccess.Name = "_labelCustomAccess";
@@ -122,7 +122,7 @@ namespace SayMore.UI.Overview
 			this._labelCustomInstructions.Dock = System.Windows.Forms.DockStyle.Left;
 			this.locExtender.SetLocalizableToolTip(this._labelCustomInstructions, null);
 			this.locExtender.SetLocalizationComment(this._labelCustomInstructions, null);
-			this.locExtender.SetLocalizationPriority(this._labelCustomInstructions, L10NSharp.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelCustomInstructions, L10NSharp.LocalizationPriority.Low);
 			this.locExtender.SetLocalizingId(this._labelCustomInstructions, "ProjectView.AccessScreen._labelCustomAccessInstructions");
 			this._labelCustomInstructions.Location = new System.Drawing.Point(128, 65);
 			this._labelCustomInstructions.Name = "_labelCustomInstructions";

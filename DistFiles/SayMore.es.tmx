@@ -3513,56 +3513,6 @@
         <seg>Salida completa de conversión:</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.AboutDlg.WindowTitle">
-      <tuv xml:lang="en">
-        <seg>About SayMore</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Acerca de SayMore</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._buttonOK">
-      <tuv xml:lang="en">
-        <seg>OK</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Aceptar</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._labelSubTitle">
-      <tuv xml:lang="en">
-        <seg>Language Documentation Project Management</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Gestión de proyectos de documentación de idiomas</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._labelVersionInfo">
-      <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Versión {0}.{1}.{2} (Beta) Compilado: {3}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._linkSILWebsite">
-      <note>Parameter is the publisher of SayMore, "SIL International"</note>
-      <tuv xml:lang="en">
-        <seg>This free software is published by {0}.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Publicado por {0}.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebsite">
-      <note>Parameter is the program name, "SayMore"</note>
-      <tuv xml:lang="en">
-        <seg>Visit {0} on the Web.</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Visite {0} en la Web.</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg">
       <tuv xml:lang="en">
         <seg>Adding Files for Contributor '{0}'</seg>
@@ -3891,7 +3841,7 @@
         <seg>{0}: Archive using {1}</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>{0}: Archivar con RAMP (sólo SIL)</seg>
+        <seg>Acerca de SayMore</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg._buttonCancel">
@@ -5718,7 +5668,7 @@
         <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Versión {0}.{1}.{2} Compilado {3}</seg>
+        <seg>Versión {0}.{1}.{2} (Beta) Compilado: {3}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._linkSILWebsite">
@@ -6567,6 +6517,14 @@
         <seg>Protocolo de acceso</seg>
       </tuv>
     </tu>
+    <tu tuid="ProjectView.AccessScreen.Custom">
+      <tuv xml:lang="en">
+        <seg>Custom</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Personalizado</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProjectView.AccessScreen.None">
       <tuv xml:lang="en">
         <seg>None</seg>
@@ -6581,6 +6539,22 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Protocolo de acceso usado\npor este proyecto</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.AccessScreen._labelCustomAccessInstructions">
+      <tuv xml:lang="en">
+        <seg>Enter each choice, separated by commas</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Escriba las opciones separadas por comas.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.AccessScreen._labelDescription">
+      <tuv xml:lang="en">
+        <seg>Custom Access Choices</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Opciones de acceso personalizadas</seg>
       </tuv>
     </tu>
     <tu tuid="ProjectView.AccessScreen._linkHelp">
@@ -7712,7 +7686,7 @@
         <seg>Status &amp;&amp; Stages</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Ayuda para los protocolos de acceso</seg>
+        <seg>Estado y etapas</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.StatusAndStagesEditor._labelReadAboutStages">

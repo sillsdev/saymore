@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 using L10NSharp;
 using Palaso.IO;
@@ -14,33 +16,51 @@ namespace SayMore.Model.Fields
 	{
 		private static List<GenreDefinition> s_allTypes;
 		private static GenreDefinition s_unknownType;
-		private HashSet<string> _namesInDisplayedUiLanguages = new HashSet<string>();
+		private readonly HashSet<string> _namesInDisplayedUiLanguages = new HashSet<string>();
 
 		[XmlAttribute("id")]
 		public string Id { get; set; }
 
-		private string m_name;
+		private string _name;
+
 		[XmlElement("name")]
 		public string Name
 		{
 			get
 			{
 				if (Id == "unknown")
-					return m_name;
+					return _name;
 				string name;
 				try
 				{
-					name = LocalizationManager.GetDynamicString("SayMore", "SessionsView.MetadataEditor.Genre." + Id, m_name, Definition);
-					_namesInDisplayedUiLanguages.Add(name);
+					name = GetLocalizedName();
 				}
 				catch (ArgumentException)
 				{
 					// This can happen when running unit tests
-					name = m_name;
+					name = _name;
+				}
+				catch (InvalidOperationException)
+				{
+					// SP-865: This can happen if the the list is still loading, "Collection was modified; enumeration operation may not execute."
+					// Let the other thread continue and try again.
+					Application.DoEvents();
+					Thread.Sleep(0);
+
+					name = GetLocalizedName();
 				}
 				return name;
 			}
-			set { m_name = value; }
+			set { _name = value; }
+		}
+
+		private string GetLocalizedName()
+		{
+			var name = LocalizationManager.GetDynamicString("SayMore", "SessionsView.MetadataEditor.Genre." + Id, _name,
+						Definition);
+			_namesInDisplayedUiLanguages.Add(name);
+
+			return name;
 		}
 
 		[XmlElement("comments")]

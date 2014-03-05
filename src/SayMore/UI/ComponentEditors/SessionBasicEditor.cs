@@ -198,28 +198,34 @@ namespace SayMore.UI.ComponentEditors
 
 			//******************************************************************************************************
 			// SP-848: Testing
-			if (_gridAdditionalFields.CurrentRow != null)
-			{
-				var testcell = _gridAdditionalFields.CurrentRow.Cells[0];
+			//if (_gridAdditionalFields.CurrentRow != null)
+			//{
+			//    var testcell = _gridAdditionalFields.CurrentRow.Cells[0];
 
-				if (testcell.Style.BackColor == Color.Empty)
-					testcell.Style.BackColor = testcell.InheritedStyle.BackColor;
+			//    if (testcell.Style.BackColor == Color.Empty)
+			//        testcell.Style.BackColor = testcell.InheritedStyle.BackColor;
 
-				if (testcell.Style.ForeColor == Color.Empty)
-					testcell.Style.ForeColor = testcell.InheritedStyle.ForeColor;
-			}
+			//    if (testcell.Style.ForeColor == Color.Empty)
+			//        testcell.Style.ForeColor = testcell.InheritedStyle.ForeColor;
+			//}
 
-			if (_gridAdditionalFields.CurrentCell.Style.BackColor == Color.Empty)
-				_gridAdditionalFields.CurrentCell.Style.BackColor = _gridAdditionalFields.CurrentCell.InheritedStyle.BackColor;
+			//if (_gridAdditionalFields.CurrentCell.Style.BackColor == Color.Empty)
+			//    _gridAdditionalFields.CurrentCell.Style.BackColor = _gridAdditionalFields.CurrentCell.InheritedStyle.BackColor;
 
-			if (_gridAdditionalFields.CurrentCell.Style.ForeColor == Color.Empty)
-				_gridAdditionalFields.CurrentCell.Style.ForeColor = _gridAdditionalFields.CurrentCell.InheritedStyle.ForeColor;
+			//if (_gridAdditionalFields.CurrentCell.Style.ForeColor == Color.Empty)
+			//    _gridAdditionalFields.CurrentCell.Style.ForeColor = _gridAdditionalFields.CurrentCell.InheritedStyle.ForeColor;
 
-			if (e.Control != null)
-			{
-				e.Control.BackColor = _gridAdditionalFields.CurrentCell.InheritedStyle.BackColor;
-				e.Control.ForeColor = _gridAdditionalFields.CurrentCell.InheritedStyle.ForeColor;
-			}
+			//_gridAdditionalFields.CurrentCell.Style.BackColor = Color.FromArgb(255, 0, 0, 0);
+			//_gridAdditionalFields.CurrentCell.Style.ForeColor = Color.Blue;
+
+			//_gridAdditionalFields.CurrentCell.Style.SelectionBackColor = Color.CadetBlue;
+			//_gridAdditionalFields.CurrentCell.Style.SelectionForeColor = Color.BlueViolet;
+
+			//if (e.Control != null)
+			//{
+			//    e.Control.BackColor = Color.Green; // _gridAdditionalFields.CurrentCell.InheritedStyle.BackColor;
+			//    e.Control.ForeColor = Color.Red; // _gridAdditionalFields.CurrentCell.InheritedStyle.ForeColor;
+			//}
 			//******************************************************************************************************
 
 			if (_moreFieldsComboBox != null)
@@ -338,6 +344,10 @@ namespace SayMore.UI.ComponentEditors
 		{
 			var frm = FindForm();
 			if (frm == null) return;
+
+			// this happens if the cell value is not in the dropdown list
+			if (e.Exception is ArgumentException) return;
+
 			MessageBox.Show(frm, e.Exception.Message, frm.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			//throw new Exception(e.Exception.Message, e.Exception);
 		}

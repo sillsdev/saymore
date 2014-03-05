@@ -196,6 +196,32 @@ namespace SayMore.UI.ComponentEditors
 		{
 			_gridAdditionalFields.CurrentCell.ToolTipText = string.Empty;
 
+			//******************************************************************************************************
+			// SP-848: Testing
+			if (_gridAdditionalFields.CurrentRow != null)
+			{
+				var testcell = _gridAdditionalFields.CurrentRow.Cells[0];
+
+				if (testcell.Style.BackColor == Color.Empty)
+					testcell.Style.BackColor = testcell.InheritedStyle.BackColor;
+
+				if (testcell.Style.ForeColor == Color.Empty)
+					testcell.Style.ForeColor = testcell.InheritedStyle.ForeColor;
+			}
+
+			if (_gridAdditionalFields.CurrentCell.Style.BackColor == Color.Empty)
+				_gridAdditionalFields.CurrentCell.Style.BackColor = _gridAdditionalFields.CurrentCell.InheritedStyle.BackColor;
+
+			if (_gridAdditionalFields.CurrentCell.Style.ForeColor == Color.Empty)
+				_gridAdditionalFields.CurrentCell.Style.ForeColor = _gridAdditionalFields.CurrentCell.InheritedStyle.ForeColor;
+
+			if (e.Control != null)
+			{
+				e.Control.BackColor = _gridAdditionalFields.CurrentCell.InheritedStyle.BackColor;
+				e.Control.ForeColor = _gridAdditionalFields.CurrentCell.InheritedStyle.ForeColor;
+			}
+			//******************************************************************************************************
+
 			if (_moreFieldsComboBox != null)
 			{
 				if (_moreFieldsToolTip.Active)

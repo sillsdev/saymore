@@ -51,6 +51,7 @@ namespace SayMore.Model.Files.DataGathering
 		private readonly Queue<FileSystemEventArgs> _pendingFileEvents;
 		private volatile int _suspendEventProcessingCount;
 		private readonly object _lockObj = new object();
+		private readonly object _lockSuspendObj = new object();
 
 		public event EventHandler NewDataAvailable;
 		public event EventHandler FinishedProcessingAllFiles;
@@ -84,7 +85,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public virtual void SuspendProcessing()
 		{
-			lock (_lockObj)
+			lock (_lockSuspendObj)
 			{
 				_suspendEventProcessingCount++;
 			}
@@ -100,7 +101,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public virtual void ResumeProcessing(bool processAllPendingEventsNow)
 		{
-			lock (_lockObj)
+			lock (_lockSuspendObj)
 			{
 				if (_suspendEventProcessingCount > 0)
 					_suspendEventProcessingCount--;

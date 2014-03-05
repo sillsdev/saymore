@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
+using System.Windows.Forms;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -55,13 +57,23 @@ namespace SayMore.UI.Charts
 						select new ChartBarSegmentInfo(secondaryFieldName, kvp.Key, kvp.Value,
 							backColors[kvp.Key], textColors[kvp.Key])).OrderBy(kvp => kvp).ToList();
 
-			TotalSessions = Segments.Sum(s => s.Sessions.Count());
-			TotalTime = Segments.Sum(s => s.TotalTime);
-
-			foreach (var seg in Segments)
+			try
 			{
-				seg.SegmentSize = (int)Math.Round(((seg.TotalTime / (float)TotalTime) * 100),
-					MidpointRounding.AwayFromZero);
+				TotalSessions = Segments.Sum(s => s.Sessions.Count());
+				TotalTime = Segments.Sum(s => s.TotalTime);
+
+				foreach (var seg in Segments)
+				{
+					seg.SegmentSize = (int)Math.Round(((seg.TotalTime / (float)TotalTime) * 100),
+						MidpointRounding.AwayFromZero);
+				}
+			}
+			catch (InvalidOperationException)
+			{
+				// SP-854: This can happen if the the list is still loading, "Collection was modified; enumeration operation may not execute."
+				// Let the other thread continue and try again.
+				Application.DoEvents();
+				Thread.Sleep(0);
 			}
 		}
 
@@ -101,8 +113,24 @@ namespace SayMore.UI.Charts
 			BackColor = backColor;
 			TextColor = textColor;
 
-			var minutesInSegment = Sessions.Sum(x => x.GetTotalMediaDuration().TotalMinutes);
-			TotalTime = (int)Math.Ceiling(minutesInSegment);
+			try
+			{
+				var minutesInSegment = GetMinutesInSegment();
+				TotalTime = (int)Math.Ceiling(minutesInSegment);
+			}
+			catch (InvalidOperationException)
+			{
+				// SP-854: This can happen if the the list is still loading, "Collection was modified; enumeration operation may not execute."
+				// Let the other thread continue and try again.
+				Application.DoEvents();
+				Thread.Sleep(0);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private double GetMinutesInSegment()
+		{
+			return Sessions.Sum(x => x.GetTotalMediaDuration().TotalMinutes);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -112,7 +140,7 @@ namespace SayMore.UI.Charts
 				return 1;
 
 			if (FieldName != SessionFileType.kStatusFieldName)
-				return FieldValue.CompareTo(other.FieldValue);
+				return String.Compare(FieldValue, other.FieldValue, StringComparison.InvariantCulture);
 
 			return new SessionStatusComparer().Compare(FieldValue, other.FieldValue);
 		}

@@ -318,7 +318,7 @@ namespace SayMore.UI.ComponentEditors
 
 		private void AddDropdownCell(string listType, int row)
 		{
-			var list = ListConstructor.GetList(listType, true, Localize);
+			var list = ListConstructor.GetList(listType, true, Localize, ListConstructor.RemoveUnknown.RemoveAll);
 
 			var currentValue = _gridAdditionalFields[1, row].Value.ToString();
 

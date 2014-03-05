@@ -26,7 +26,7 @@ namespace SayMore.UI.Overview
 			_tableLayout.RowStyles[4].Height = rowHeight;
 
 			// continent list
-			var continentList = ListConstructor.GetClosedList(ListType.Continents);
+			var continentList = ListConstructor.GetClosedList(ListType.Continents, true, ListConstructor.RemoveUnknown.RemoveAll);
 			_continent.DataSource = continentList;
 			_continent.DisplayMember = "Text";
 			_continent.ValueMember = "Value";
@@ -34,7 +34,7 @@ namespace SayMore.UI.Overview
 
 			// Data-binding doesn't work correctly for country  because it is an open list.
 			// Items populated in HandleStringsLocalized.
-			_countryList = ListConstructor.GetList(ListType.Countries, false, Localize);
+			_countryList = ListConstructor.GetList(ListType.Countries, false, Localize, ListConstructor.RemoveUnknown.RemoveAll);
 
 			_linkHelp.Click += (s, e) =>
 				Program.ShowHelpTopic("/User_Interface/Tabs/About_This_Project_User_Interface_terms.htm");

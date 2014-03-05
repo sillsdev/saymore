@@ -87,6 +87,12 @@ namespace SayMore.UI.ComponentEditors
 			}
 		}
 
+		public override sealed Font Font
+		{
+			get { return base.Font; }
+			set { base.Font = value; }
+		}
+
 		private void Log(string message, params object[] args)
 		{
 			if (_log)
@@ -175,6 +181,7 @@ namespace SayMore.UI.ComponentEditors
 			// if the grid does not have focus, it thinks it should, because the editor
 			// just got shown. Therefore, the grid will steal the focus from another
 			// control at startup.
+			// ReSharper disable once RedundantCheckBeforeAssignment
 			if (EditMode != DataGridViewEditMode.EditOnEnter)
 				EditMode = DataGridViewEditMode.EditOnEnter;
 		}
@@ -206,13 +213,13 @@ namespace SayMore.UI.ComponentEditors
 		private void AddColumns()
 		{
 			var col = CreateTextBoxColumn("colField");
-			col.HeaderText = "_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Field!Field";
+			col.HeaderText = @"_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Field!Field";
 			col.Width = 125;
 			col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 			Columns.Add(col);
 
 			col = CreateTextBoxColumn("colValue");
-			col.HeaderText = "_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Value!Value";
+			col.HeaderText = @"_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Value!Value";
 			col.Width = 175;
 			col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 			Columns.Add(col);
@@ -334,33 +341,24 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void OnEditingControlShowing(DataGridViewEditingControlShowingEventArgs e)
 		{
-			Log("Entering \"FieldValuesGrid.OnEditingControlShowing\" ({0})", Name);
-			Log("    Control Type = {0}, Name = {1}", e.Control.GetType().ToString(), e.Control.Name);
-			if (CurrentCell != null)
-			{
-				Log("    CurrentCell.RowIndex = {0}; CurrentCell.ColumnIndex = {1}; Value = {2}", CurrentCell.RowIndex, CurrentCell.ColumnIndex, CurrentCell.Value ?? "Null");
-				Log("    CurrentCell.Style.BackColor = {0}", CurrentCell.Style.BackColor);
-				Log("    CurrentCell.Style.ForeColor = {0}", CurrentCell.Style.ForeColor);
-				Log("    CurrentCell.Style.SelectionBackColor = {0}", CurrentCell.Style.SelectionBackColor);
-				Log("    CurrentCell.Style.SelectionForeColor = {0}", CurrentCell.Style.SelectionForeColor);
-			}
-			Log("    e.CellStyle.BackColor = {0}", e.CellStyle.BackColor);
-			Log("    e.CellStyle.ForeColor = ", e.CellStyle.ForeColor);
-			Log("    e.CellStyle.SelectionBackColor = {0}", e.CellStyle.SelectionBackColor);
-			Log("    e.CellStyle.SelectionForeColor = {0}", e.CellStyle.SelectionForeColor);
-
-			if (e.Control != null)
-			{
-				Log("    e.Control.BackColor = {0}", e.Control.BackColor);
-				Log("    e.Control.ForeColor = {0}", e.Control.ForeColor);
-			}
-
 			base.OnEditingControlShowing(e);
 
-			var txtBox = e.Control as TextBox;
+			var txtBox = e.Control as DataGridViewTextBoxEditingControl;
 
 			// if not a text box, return now
 			if (txtBox == null) return;
+
+
+			//******************************************************************************************************
+			// SP-848: Testing
+			if ((CurrentCell != null) && (CurrentRow != null))
+			{
+				CurrentCell.DetachEditingControl();
+				CurrentCell.InitializeEditingControl(CurrentRow.Index, CurrentCell.FormattedValue, CurrentCell.Style);
+				txtBox = EditingControl as DataGridViewTextBoxEditingControl;
+				if (txtBox == null) return;
+			}
+			//******************************************************************************************************
 
 			if (CurrentCellAddress.X == 0)
 			{
@@ -374,24 +372,8 @@ namespace SayMore.UI.ComponentEditors
 				txtBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
 				txtBox.AutoCompleteCustomSource = _model.GetAutoCompleteListForIndex(CurrentCellAddress.Y);
 			}
-
-			Log("  Completed existing logic in \"FieldValuesGrid.OnEditingControlShowing\"");
-			if (CurrentCell != null)
-			{
-				Log("    CurrentCell.Style.BackColor = {0}", CurrentCell.Style.BackColor);
-				Log("    CurrentCell.Style.ForeColor = {0}", CurrentCell.Style.ForeColor);
-				Log("    CurrentCell.Style.SelectionBackColor = {0}", CurrentCell.Style.SelectionBackColor);
-				Log("    CurrentCell.Style.SelectionForeColor = {0}", CurrentCell.Style.SelectionForeColor);
-			}
-
-			if (e.Control != null && e.Control.ForeColor == e.Control.BackColor)
-			{
-				Log(">>>>>>>>>>>>> Forcing control colors to red and green!");
-				e.Control.BackColor = Color.Red;
-				e.Control.ForeColor = Color.GreenYellow;
-			}
-			Log("< Leaving \"FieldValuesGrid.OnEditingControlShowing\"");
 		}
+
 
 		/// ------------------------------------------------------------------------------------
 		private static void HandleCellEditBoxKeyPress(object sender, KeyPressEventArgs e)

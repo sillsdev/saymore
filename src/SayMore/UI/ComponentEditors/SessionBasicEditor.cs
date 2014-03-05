@@ -196,38 +196,6 @@ namespace SayMore.UI.ComponentEditors
 		{
 			_gridAdditionalFields.CurrentCell.ToolTipText = string.Empty;
 
-			//******************************************************************************************************
-			// SP-848: Testing
-			//if (_gridAdditionalFields.CurrentRow != null)
-			//{
-			//    var testcell = _gridAdditionalFields.CurrentRow.Cells[0];
-
-			//    if (testcell.Style.BackColor == Color.Empty)
-			//        testcell.Style.BackColor = testcell.InheritedStyle.BackColor;
-
-			//    if (testcell.Style.ForeColor == Color.Empty)
-			//        testcell.Style.ForeColor = testcell.InheritedStyle.ForeColor;
-			//}
-
-			//if (_gridAdditionalFields.CurrentCell.Style.BackColor == Color.Empty)
-			//    _gridAdditionalFields.CurrentCell.Style.BackColor = _gridAdditionalFields.CurrentCell.InheritedStyle.BackColor;
-
-			//if (_gridAdditionalFields.CurrentCell.Style.ForeColor == Color.Empty)
-			//    _gridAdditionalFields.CurrentCell.Style.ForeColor = _gridAdditionalFields.CurrentCell.InheritedStyle.ForeColor;
-
-			//_gridAdditionalFields.CurrentCell.Style.BackColor = Color.FromArgb(255, 0, 0, 0);
-			//_gridAdditionalFields.CurrentCell.Style.ForeColor = Color.Blue;
-
-			//_gridAdditionalFields.CurrentCell.Style.SelectionBackColor = Color.CadetBlue;
-			//_gridAdditionalFields.CurrentCell.Style.SelectionForeColor = Color.BlueViolet;
-
-			//if (e.Control != null)
-			//{
-			//    e.Control.BackColor = Color.Green; // _gridAdditionalFields.CurrentCell.InheritedStyle.BackColor;
-			//    e.Control.ForeColor = Color.Red; // _gridAdditionalFields.CurrentCell.InheritedStyle.ForeColor;
-			//}
-			//******************************************************************************************************
-
 			if (_moreFieldsComboBox != null)
 			{
 				if (_moreFieldsToolTip.Active)
@@ -245,7 +213,6 @@ namespace SayMore.UI.ComponentEditors
 			_moreFieldsComboBox = e.Control as DataGridViewComboBoxEditingControl;
 			if (_moreFieldsComboBox == null)
 				return;
-
 
 			bool hasDefinitions = _moreFieldsComboBox.Items.Cast<IMDIListItem>().Any(item => !string.IsNullOrEmpty(item.Definition));
 			if (!hasDefinitions)

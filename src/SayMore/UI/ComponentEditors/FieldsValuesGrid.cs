@@ -21,7 +21,7 @@ namespace SayMore.UI.ComponentEditors
 		private readonly Font _factoryFieldFont;
 		private readonly Color _focusedSelectionBackColor;
 		private bool _adjustHeightToFitRows = true;
-		private readonly L10NSharpExtender _locExtender;
+		protected readonly L10NSharpExtender _locExtender;
 		private readonly bool _log;
 
 		/// ------------------------------------------------------------------------------------
@@ -43,6 +43,7 @@ namespace SayMore.UI.ComponentEditors
 				Log("    Highlight Color = {0}", SystemColors.Highlight.ToKnownColor());
 			Log("    Highlight Color ARGB = {0}", FormatColorAsString(SystemColors.Highlight));
 
+			// ReSharper disable once UseObjectOrCollectionInitializer
 			_locExtender = new L10NSharpExtender();
 			_locExtender.LocalizationManagerId = "SayMore";
 			_locExtender.SetLocalizingId(this, "FieldsAndValuesGrid");
@@ -210,7 +211,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void AddColumns()
+		protected void AddColumns()
 		{
 			var col = CreateTextBoxColumn("colField");
 			col.HeaderText = @"_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Field!Field";
@@ -218,13 +219,26 @@ namespace SayMore.UI.ComponentEditors
 			col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 			Columns.Add(col);
 
-			col = CreateTextBoxColumn("colValue");
+			// SP-848: Testing another possible fix.
+			//col = CreateTextBoxColumn("colValue");
+			col = NewTextBoxColumn("colValue");
 			col.HeaderText = @"_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Value!Value";
 			col.Width = 175;
 			col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 			Columns.Add(col);
 
 			_locExtender.EndInit();
+		}
+
+		/// <summary>SP-848: Testing another possible fix.</summary>
+		private static DataGridViewColumn NewTextBoxColumn(string name)
+		{
+			var column = new CustomDataGridTextBoxColumn();
+			var cell = new CustomDataGridTextBoxCell();
+			column.CellTemplate = cell;
+			column.Name = name;
+			column.HeaderText = name;
+			return column;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -343,26 +357,15 @@ namespace SayMore.UI.ComponentEditors
 		{
 			base.OnEditingControlShowing(e);
 
-			var txtBox = e.Control as DataGridViewTextBoxEditingControl;
-
 			// if not a text box, return now
+			var txtBox = e.Control as TextBox;
 			if (txtBox == null) return;
-
-
-			//******************************************************************************************************
-			// SP-848: Testing
-			if ((CurrentCell != null) && (CurrentRow != null))
-			{
-				CurrentCell.DetachEditingControl();
-				CurrentCell.InitializeEditingControl(CurrentRow.Index, CurrentCell.FormattedValue, CurrentCell.Style);
-				txtBox = EditingControl as DataGridViewTextBoxEditingControl;
-				if (txtBox == null) return;
-			}
-			//******************************************************************************************************
 
 			if (CurrentCellAddress.X == 0)
 			{
+				txtBox.KeyPress -= HandleCellEditBoxKeyPress;
 				txtBox.KeyPress += HandleCellEditBoxKeyPress;
+				txtBox.HandleDestroyed -= HandleCellEditBoxHandleDestroyed;
 				txtBox.HandleDestroyed += HandleCellEditBoxHandleDestroyed;
 				txtBox.AutoCompleteMode = AutoCompleteMode.None;
 			}
@@ -373,7 +376,6 @@ namespace SayMore.UI.ComponentEditors
 				txtBox.AutoCompleteCustomSource = _model.GetAutoCompleteListForIndex(CurrentCellAddress.Y);
 			}
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		private static void HandleCellEditBoxKeyPress(object sender, KeyPressEventArgs e)

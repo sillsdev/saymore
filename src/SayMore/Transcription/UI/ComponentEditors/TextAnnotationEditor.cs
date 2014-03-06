@@ -235,10 +235,21 @@ namespace SayMore.Transcription.UI
 			var file = (AnnotationComponentFile)_file;
 			var fullMediaFileName = file.GetPathToAssociatedMediaFile();
 			var mediaFileName = Path.GetFileName(fullMediaFileName);
-			var sourceFileName = file.ParentElement.GetComponentFiles().First(compfile =>
-				compfile.GetAssignedRoles().Any(r =>
-				r.Id == ComponentRole.kSourceComponentRoleId)).PathToAnnotatedFile;
-			if (sourceFileName == mediaFileName) sourceFileName = ""; // In case the media file is the source file we don't want two references to it.
+			var sourceFileName = string.Empty;
+
+			if (mediaFileName == null) return;
+
+			// SP-869: "Sequence contains no matching element" if the source media file does not contain the text "source" in the name
+			var componentFile =
+				file.ParentElement.GetComponentFiles().FirstOrDefault(
+					compfile => compfile.GetAssignedRoles().Any(r => r.Id == ComponentRole.kSourceComponentRoleId));
+
+			if (componentFile != null)
+			{
+				// In case the media file is the source file we don't want two references to it.
+				if (componentFile.PathToAnnotatedFile != mediaFileName)
+					sourceFileName = componentFile.PathToAnnotatedFile;
+			}
 
 			using (var dlg = new ExportToFieldWorksInterlinearDlg(mediaFileName))
 			{

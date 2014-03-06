@@ -54,7 +54,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 
 			// If this is the first time the program has been run, then stuff
 			// the sample project(s) into the MRU list.
-			var path = Path.Combine(Program.AppDataFolder, "Samples");
+			var path = Path.Combine(Program.CommonAppDataFolder, "Samples");
 
 			if (Directory.Exists(path))
 			{

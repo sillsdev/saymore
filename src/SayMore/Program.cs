@@ -9,7 +9,6 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using L10NSharp;
 using Palaso;
 using Palaso.Code;
@@ -320,9 +319,15 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string AppDataFolder
+		public static string CommonAppDataFolder
 		{
 			get { return Path.Combine(SilCommonDataFolder, Application.ProductName); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string CustomizedLocalizationsFolder
+		{
+			get { return Path.Combine(CommonAppDataFolder, "Localization"); }
 		}
 
 		/// ------------------------------------------------------------------------------------

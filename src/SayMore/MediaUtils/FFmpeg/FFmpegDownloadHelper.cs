@@ -54,7 +54,7 @@ namespace SayMore.Media.FFmpeg
 		/// ------------------------------------------------------------------------------------
 		public static string FFmpegForSayMoreParentFolder
 		{
-			get { return Program.AppDataFolder; }
+			get { return Program.CommonAppDataFolder; }
 		}
 
 		/// ------------------------------------------------------------------------------------

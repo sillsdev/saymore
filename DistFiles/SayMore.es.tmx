@@ -6326,7 +6326,7 @@
     </tu>
     <tu tuid="PeopleView.PeopleList.HeadingText">
       <tuv xml:lang="en">
-        <seg>Items</seg>
+        <seg>People</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Personas</seg>
@@ -7507,7 +7507,7 @@
     </tu>
     <tu tuid="SessionsView.SessionsList.HeadingText">
       <tuv xml:lang="en">
-        <seg>Items</seg>
+        <seg>Sessions</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Sesiones</seg>

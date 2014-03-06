@@ -117,6 +117,7 @@ namespace SayMore.UI.ElementListScreen
 			this._sessionsListPanel.HeaderPanelBottomBorderColor = System.Drawing.SystemColors.ControlDark;
 			this.locExtender.SetLocalizableToolTip(this._sessionsListPanel, null);
 			this.locExtender.SetLocalizationComment(this._sessionsListPanel, null);
+			this.locExtender.SetLocalizationPriority(this._sessionsListPanel, L10NSharp.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this._sessionsListPanel, "SessionsView.SessionsList.HeadingText");
 			this._sessionsListPanel.Location = new System.Drawing.Point(0, 0);
 			this._sessionsListPanel.MinimumSize = new System.Drawing.Size(165, 0);

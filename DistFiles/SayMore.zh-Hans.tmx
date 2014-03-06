@@ -2684,7 +2684,7 @@
     </tu>
     <tu tuid="PeopleView.PeopleList.HeadingText">
       <tuv xml:lang="en">
-        <seg>Items</seg>
+        <seg>People</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>人员</seg>
@@ -3158,7 +3158,7 @@
     </tu>
     <tu tuid="SessionsView.SessionsList.HeadingText">
       <tuv xml:lang="en">
-        <seg>Items</seg>
+        <seg>Sessions</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>任务</seg>

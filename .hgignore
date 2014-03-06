@@ -72,3 +72,4 @@ lib/dotnet/icu*
 lib/dotnet/Interop*
 lib/dotnet/Ionic*
 lib/dotnet/nunit*
+DistFiles/SayMore.en.tmx

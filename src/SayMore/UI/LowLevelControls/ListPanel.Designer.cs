@@ -106,7 +106,7 @@ namespace SayMore.UI.LowLevelControls
 			this._headerLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this._headerLabel.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._headerLabel, null);
-			this.locExtender.SetLocalizationComment(this._headerLabel, "Localized in controls that host this one.");
+			this.locExtender.SetLocalizationComment(this._headerLabel, "Do not translate - Localized in subclass");
 			this.locExtender.SetLocalizationPriority(this._headerLabel, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._headerLabel, "UI.ListPanel._headerLabel");
 			this._headerLabel.Location = new System.Drawing.Point(0, 0);
@@ -117,7 +117,7 @@ namespace SayMore.UI.LowLevelControls
 			this._headerLabel.ShowWindowBackgroudOnTopAndRightEdge = true;
 			this._headerLabel.Size = new System.Drawing.Size(168, 23);
 			this._headerLabel.TabIndex = 0;
-			this._headerLabel.Text = "Items";
+			this._headerLabel.Text = "Change this text";
 			this._headerLabel.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleHeaderPanelPaint);
 			// 
 			// _buttonColChooser

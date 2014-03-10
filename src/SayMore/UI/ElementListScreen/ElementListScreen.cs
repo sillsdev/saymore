@@ -535,5 +535,18 @@ namespace SayMore.UI.ElementListScreen
 			var editor = SelectedComponentEditorsTabControl.CurrentEditor;
 			return (editor == null || editor.IsOKToLeaveEditor);
 		}
+
+		public new void Dispose()
+		{
+			_elementsGrid.SelectedElementChanged -= HandleSelectedElementChanged;
+			_elementsListPanel.NewButtonClicked -= HandleAddingNewElement;
+			_elementsListPanel.DeleteButtonClicked -= HandleDeletingSelectedElements;
+
+			var frm = FindForm();
+			if (frm != null)
+				frm.Activated += HandleParentFormActivated;
+
+			base.Dispose();
+		}
 	}
 }

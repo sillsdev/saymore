@@ -9,7 +9,6 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using L10NSharp;
 using Palaso;
 using Palaso.Code;
@@ -89,7 +88,9 @@ namespace SayMore
 			{
 				try
 				{
+					// ReSharper disable once NotAccessedVariable
 					var x = Settings.Default.SessionsListGrid; //we want this to throw if the last version used the SILGrid, and this one uses the BetterGrid
+					// ReSharper disable once RedundantAssignment
 					x = Settings.Default.PersonListGrid;
 				}
 				catch (Exception)
@@ -100,7 +101,7 @@ namespace SayMore
 						ErrorReport.NotifyUserOfProblem("We apologize for the inconvenience, but to complete this upgrade, SayMore needs to exit. Please run it again to complete the upgrade.");
 
 						var s = Application.LocalUserAppDataPath;
-						s = s.Substring(0, s.IndexOf("Local") + 5);
+						s = s.Substring(0, s.IndexOf("Local", StringComparison.InvariantCultureIgnoreCase) + 5);
 						path = s.CombineForPath("SayMore", "SayMore.Settings");
 						File.Delete(path);
 
@@ -135,6 +136,7 @@ namespace SayMore
 				}
 				File.Delete(MRULatestReminderFilePath);
 			}
+
 
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(false);
@@ -279,7 +281,7 @@ namespace SayMore
 			get
 			{
 				var s = Application.LocalUserAppDataPath;
-				s = s.Substring(0, s.IndexOf("Local") + 5);
+				s = s.Substring(0, s.IndexOf("Local", StringComparison.InvariantCultureIgnoreCase) + 5);
 				return s.CombineForPath("SayMore", "lastFilePath.txt");
 			}
 		}
@@ -382,6 +384,18 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private static bool OpenProject(string projectPath)
+		{
+			// SP-855: Memory leak when opening a different project
+			var prs = new Process();
+			prs.StartInfo.FileName = Application.ExecutablePath;
+			prs.StartInfo.Arguments = "\"" + projectPath + "\"";
+			prs.Start();
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// By the time we get here, we know the app. has settled down after loading a project.
 		/// Now that the project has been loaded without crashing, save the project as the
@@ -438,7 +452,6 @@ namespace SayMore
 		static void ChooseAnotherProject(object sender, EventArgs e)
 		{
 			Application.Idle -= ChooseAnotherProject;
-			_applicationContainer.CloseSplashScreen();
 
 			while (true)
 			{
@@ -450,7 +463,8 @@ namespace SayMore
 						return;
 					}
 
-					if (OpenProjectWindow(dlg.Model.ProjectSettingsFilePath))
+					if (OpenProject(dlg.Model.ProjectSettingsFilePath))
+						Application.Exit();
 						return;
 				}
 			}

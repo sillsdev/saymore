@@ -44,11 +44,20 @@ namespace SayMore.Transcription.UI
 
 			_project = project;
 			_grid = new TextAnnotationEditorGrid(project.TranscriptionFont, project.FreeTranslationFont);
+
 			_grid.TranscriptionFontChanged += font =>
 			{
 				_project.TranscriptionFont = font;
 				_project.Save();
 			};
+
+			// SP-873: Translation font not saving
+			_grid.TranslationFontChanged += font =>
+			{
+				_project.FreeTranslationFont = font;
+				_project.Save();
+			};
+
 			_grid.Dock = DockStyle.Fill;
 			_splitter.Panel2.Controls.Add(_grid);
 

@@ -33,6 +33,7 @@ namespace SayMore.UI.ComponentEditors
 			_contributorsControl = new ContributorsListControl(_model);
 			_contributorsControl.Dock = DockStyle.Fill;
 			_contributorsControl.ValidatingContributor += HandleValidatingContributor;
+			LocalizeColumnHeaders();
 			Controls.Add(_contributorsControl);
 
 			file.AfterSave += file_AfterSave;
@@ -65,7 +66,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override void SetComponentFile(ComponentFile file)
+		public override sealed void SetComponentFile(ComponentFile file)
 		{
 			base.SetComponentFile(file);
 			_model.SetContributionList(file.GetValue("contributions", null) as ContributionCollection);
@@ -140,7 +141,20 @@ namespace SayMore.UI.ComponentEditors
 		protected override void HandleStringsLocalized()
 		{
 			TabText = LocalizationManager.GetString("CommonToMultipleViews.ContributorsEditor.TabText", "Contributors");
+
+			if (_contributorsControl != null)
+				LocalizeColumnHeaders();
+
 			base.HandleStringsLocalized();
+		}
+
+		/// <remarks>SP-874: Localize column headers</remarks>
+		private void LocalizeColumnHeaders()
+		{
+			_contributorsControl.SetColumnHeaderText(0, LocalizationManager.GetString("SessionsView.ContributorsEditor.NameColumnTitle", "Name"));
+			_contributorsControl.SetColumnHeaderText(1, LocalizationManager.GetString("SessionsView.ContributorsEditor.RoleColumnTitle", "Role"));
+			_contributorsControl.SetColumnHeaderText(2, LocalizationManager.GetString("SessionsView.ContributorsEditor.DateColumnTitle", "Date"));
+			_contributorsControl.SetColumnHeaderText(3, LocalizationManager.GetString("SessionsView.ContributorsEditor.CommentColumnTitle", "Comments"));
 		}
 	}
 }

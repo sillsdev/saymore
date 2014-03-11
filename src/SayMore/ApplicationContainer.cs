@@ -162,12 +162,13 @@ namespace SayMore
 
 		public  LocalizationManager CreateLocalizationManager()
 		{
+			var defaultTmxFilename = LocalizationManager.GetTmxFileNameForLanguage(kSayMoreLocalizationId, LocalizationManager.kDefaultLang);
 			// Move any non-installed tmx files to the new location.
 			foreach (var oldTmxFile in Directory.GetFiles(Program.CommonAppDataFolder,
 				LocalizationManager.GetTmxFileNameForLanguage(kSayMoreLocalizationId, "*")))
 			{
 				var filename = Path.GetFileName(oldTmxFile);
-				if (filename != null)
+				if (filename != null && filename != defaultTmxFilename)
 				{
 					if (File.Exists(FileLocator.GetFileDistributedWithApplication(true, filename)))
 					{
@@ -192,7 +193,7 @@ namespace SayMore
 
 			var installedStringFileFolder = Path.GetDirectoryName(FileLocator.GetFileDistributedWithApplication("SayMore.es.tmx"));
 			var localizationManager = LocalizationManager.Create(Settings.Default.UserInterfaceLanguage, kSayMoreLocalizationId,
-				"SayMore", System.Windows.Forms.Application.ProductVersion, installedStringFileFolder,
+				"SayMore", System.Windows.Forms.Application.ProductVersion, installedStringFileFolder, Program.CommonAppDataFolder,
 				Program.CustomizedLocalizationsFolder, Resources.SayMore, "issues@saymore.palaso.org", "SayMore", "SIL.Archiving");
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 			return localizationManager;

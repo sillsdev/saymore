@@ -45,6 +45,8 @@ namespace SayMore.UI.LowLevelControls
 
 			InitializeComponent();
 
+			_headerLabel.MouseDown += (sender, args) => base.OnMouseDown(args);
+
 			if (DesignMode)
 				return;
 

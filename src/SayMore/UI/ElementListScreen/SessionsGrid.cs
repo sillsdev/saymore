@@ -110,7 +110,7 @@ namespace SayMore.UI.ElementListScreen
 				});
 
 			menu.Text = LocalizationManager.GetString("SessionsView.SessionsList.RampArchiveMenuText",
-				"Archive with RAMP (SIL)...", null, menu);
+				"Archive with RAMP (&SIL)...", null, menu);
 
 			// Since this item isn't going to be added to an actual menu yet, we can't hook up the
 			// code to enable/disable it yet. When it is added to a menu, if that menu is a drop-down
@@ -133,7 +133,7 @@ namespace SayMore.UI.ElementListScreen
 				});
 
 			menu.Text = LocalizationManager.GetString("SessionsView.SessionsList.IMDIArchiveMenuText",
-				"Archive using IMDI...", null, menu);
+				"Archive using &IMDI...", null, menu);
 
 			// Since this item isn't going to be added to an actual menu yet, we can't hook up the
 			// code to enable/disable it yet. When it is added to a menu, if that menu is a drop-down

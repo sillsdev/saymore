@@ -26,5 +26,6 @@ copy /Y ..\%palaso%\output\debug\Palaso.BuildTasks.dll build
 REM now copy all that stuff to the debug folder
 copy /Y lib\dotnet\Palaso*.* output\debug
 copy /Y lib\dotnet\SIL.Archiving.* output\debug
+copy /Y lib\dotnet\L10NSharp.* output\debug
 
 pause

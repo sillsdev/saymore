@@ -162,47 +162,13 @@ namespace SayMore
 
 		public  LocalizationManager CreateLocalizationManager()
 		{
-			var defaultTmxFilename = LocalizationManager.GetTmxFileNameForLanguage(kSayMoreLocalizationId, LocalizationManager.kDefaultLang);
-			// Move any non-installed tmx files to the new location.
-			foreach (var oldTmxFile in Directory.GetFiles(Program.CommonAppDataFolder,
-				LocalizationManager.GetTmxFileNameForLanguage(kSayMoreLocalizationId, "*")))
-			{
-				var filename = Path.GetFileName(oldTmxFile);
-				if (filename != null && filename != defaultTmxFilename)
-				{
-					if (File.Exists(FileLocator.GetFileDistributedWithApplication(true, filename)))
-					{
-						// This is a copy of factory localization file, so we can probably safely delete it.
-						try
-						{
-							File.Delete(oldTmxFile);
-						}
-						catch (Exception)
-						{
-							// Oh, well, just leave it. It's not going to hurt anything.
-						}
-					}
-					else
-					{
-						if (!Directory.Exists(Program.CustomizedLocalizationsFolder))
-							Directory.CreateDirectory(Program.CustomizedLocalizationsFolder);
-						File.Move(oldTmxFile, Path.Combine(Program.CustomizedLocalizationsFolder, filename));
-					}
-				}
-			}
-
 			var installedStringFileFolder = Path.GetDirectoryName(FileLocator.GetFileDistributedWithApplication("SayMore.es.tmx"));
 			var localizationManager = LocalizationManager.Create(Settings.Default.UserInterfaceLanguage, kSayMoreLocalizationId,
-				"SayMore", System.Windows.Forms.Application.ProductVersion, installedStringFileFolder, Program.CommonAppDataFolder,
+				"SayMore", System.Windows.Forms.Application.ProductVersion, installedStringFileFolder, true, Program.CommonAppDataFolder,
 				Program.CustomizedLocalizationsFolder, Resources.SayMore, "issues@saymore.palaso.org", "SayMore", "SIL.Archiving");
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 			return localizationManager;
 		}
-
-//        public LocalizationManager LocalizationManager
-//        {
-//            get { return _container.Resolve<LocalizationManager>(); }
-//        }
 
 		/// ------------------------------------------------------------------------------------
 		public static IDictionary<string, IXmlFieldSerializer> XmlFieldSerializers

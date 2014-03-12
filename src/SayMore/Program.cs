@@ -375,6 +375,11 @@ namespace SayMore
 				Application.Idle += SaveLastOpenedProjectInMRUList;
 				return true;
 			}
+			catch (OutOfMemoryException oomex)
+			{
+				MessageBox.Show(oomex.ToString());
+				Application.Exit();
+			}
 			catch (Exception e)
 			{
 				HandleErrorOpeningProjectWindow(e, projectPath);

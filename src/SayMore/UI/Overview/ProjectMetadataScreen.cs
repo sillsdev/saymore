@@ -271,11 +271,5 @@ namespace SayMore.UI.Overview
 			if (_country.SelectionLength > 0)
 				_country.SelectionLength = 0;
 		}
-
-		private void _testButton_Click(object sender, EventArgs e)
-		{
-			Palaso.UI.WindowsForms.Reporting.WinFormsExceptionHandler.DoNotCallThisMethod();
-			MessageBox.Show(@"Test finished.");
-		}
 	}
 }

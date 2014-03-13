@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Linq;
 using L10NSharp;
+using L10NSharp.UI;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Extensions;
 using SayMore.Media.Audio;
@@ -15,7 +16,6 @@ using SayMore.Transcription.Model.Exporters;
 using SayMore.UI.ComponentEditors;
 using SayMore.Media.MPlayer;
 using SayMore.Model;
-using Palaso.UI.WindowsForms;
 using SayMore.Utilities;
 
 // ReSharper disable once CheckNamespace
@@ -26,7 +26,7 @@ namespace SayMore.Transcription.UI
 	{
 		public delegate TextAnnotationEditor Factory(ComponentFile file, string imageKey);
 
-		private readonly TextAnnotationEditorGrid _grid;
+		private TextAnnotationEditorGrid _grid;
 		private readonly VideoPanel _videoPanel;
 		private FileSystemWatcher _watcher;
 		private bool _isFirstTimeActivated = true;
@@ -43,23 +43,8 @@ namespace SayMore.Transcription.UI
 			_comboPlaybackSpeed.Font = Program.DialogFont;
 
 			_project = project;
-			_grid = new TextAnnotationEditorGrid(project.TranscriptionFont, project.FreeTranslationFont);
 
-			_grid.TranscriptionFontChanged += font =>
-			{
-				_project.TranscriptionFont = font;
-				_project.Save();
-			};
-
-			// SP-873: Translation font not saving
-			_grid.TranslationFontChanged += font =>
-			{
-				_project.FreeTranslationFont = font;
-				_project.Save();
-			};
-
-			_grid.Dock = DockStyle.Fill;
-			_splitter.Panel2.Controls.Add(_grid);
+			InitializeGrid();
 
 			LoadPlaybackSpeedCombo();
 			_comboPlaybackSpeed.SelectedIndexChanged += HandlePlaybackSpeedValueChanged;
@@ -77,6 +62,33 @@ namespace SayMore.Transcription.UI
 			{
 				Program.ShowHelpTopic("/Using_Tools/Sessions_tab/Annotations_tab/Working_with_annotations.htm");
 			};
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InitializeGrid()
+		{
+			_grid = new TextAnnotationEditorGrid(_project.TranscriptionFont, _project.FreeTranslationFont);
+
+			_grid.TranscriptionFontChanged += font =>
+			{
+				_project.TranscriptionFont = font;
+				_project.Save();
+			};
+
+			// SP-873: Translation font not saving
+			_grid.TranslationFontChanged += font =>
+			{
+				_project.FreeTranslationFont = font;
+				_project.Save();
+			};
+
+			L10NSharpExtender gridLocExtender = new L10NSharpExtender();
+			gridLocExtender.LocalizationManagerId = "SayMore";
+			gridLocExtender.SetLocalizingId(_grid, "TextAnnotationEditorGrid");
+			gridLocExtender.EndInit();
+
+			_grid.Dock = DockStyle.Fill;
+			_splitter.Panel2.Controls.Add(_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -59,7 +59,6 @@ namespace SayMore.UI.Overview
 			this._projectTitle = new System.Windows.Forms.TextBox();
 			this._linkHelp = new System.Windows.Forms.LinkLabel();
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
-			this._testButton = new System.Windows.Forms.Button();
 			this._tableLayout.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
@@ -97,7 +96,6 @@ namespace SayMore.UI.Overview
 			this._tableLayout.Controls.Add(this._rightsHolder, 1, 12);
 			this._tableLayout.Controls.Add(this._fundingProjectTitle, 1, 10);
 			this._tableLayout.Controls.Add(this.flowLayoutPanel1, 1, 0);
-			this._tableLayout.Controls.Add(this._testButton, 1, 14);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Top;
 			this._tableLayout.Location = new System.Drawing.Point(7, 7);
 			this._tableLayout.Name = "_tableLayout";
@@ -117,8 +115,8 @@ namespace SayMore.UI.Overview
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-			this._tableLayout.Size = new System.Drawing.Size(639, 421);
+			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this._tableLayout.Size = new System.Drawing.Size(639, 411);
 			this._tableLayout.TabIndex = 0;
 			// 
 			// _contactPerson
@@ -500,20 +498,6 @@ namespace SayMore.UI.Overview
 			this.locExtender.LocalizationManagerId = "SayMore";
 			this.locExtender.PrefixForNewItems = null;
 			// 
-			// _testButton
-			// 
-			this._testButton.Dock = System.Windows.Forms.DockStyle.Left;
-			this.locExtender.SetLocalizableToolTip(this._testButton, null);
-			this.locExtender.SetLocalizationComment(this._testButton, null);
-			this.locExtender.SetLocalizingId(this._testButton, "button1");
-			this._testButton.Location = new System.Drawing.Point(125, 391);
-			this._testButton.Name = "_testButton";
-			this._testButton.Size = new System.Drawing.Size(75, 24);
-			this._testButton.TabIndex = 24;
-			this._testButton.Text = "Test";
-			this._testButton.UseVisualStyleBackColor = true;
-			this._testButton.Click += new System.EventHandler(this._testButton_Click);
-			// 
 			// ProjectMetadataScreen
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -573,7 +557,6 @@ namespace SayMore.UI.Overview
 		private LowLevelControls.DatePicker _dateAvailable;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
 		private System.Windows.Forms.LinkLabel _linkHelp;
-		private System.Windows.Forms.Button _testButton;
 
 	}
 }

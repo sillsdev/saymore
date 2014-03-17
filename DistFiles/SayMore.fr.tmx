@@ -6244,7 +6244,7 @@
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelBirthYear">
       <tuv xml:lang="en">
-        <seg>Birth Year</seg>
+        <seg>Birth &amp;Year</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Année de &amp;naissance</seg>
@@ -6268,7 +6268,7 @@
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelEthnicGroup">
       <tuv xml:lang="en">
-        <seg>Ethnic Group</seg>
+        <seg>Ethnic Gro&amp;up</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Groupe ethnique</seg>
@@ -6300,7 +6300,7 @@
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelNickName">
       <tuv xml:lang="en">
-        <seg>Nickname</seg>
+        <seg>Nic&amp;kname</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Surnom</seg>
@@ -7146,7 +7146,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelId">
       <tuv xml:lang="en">
-        <seg>Id</seg>
+        <seg>&amp;Id</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>ID</seg>
@@ -7154,7 +7154,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelLocation">
       <tuv xml:lang="en">
-        <seg>Location</seg>
+        <seg>&amp;Location</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Emplacement</seg>
@@ -7162,7 +7162,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelMoreFields">
       <tuv xml:lang="en">
-        <seg>More Fields</seg>
+        <seg>&amp;More Fields</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Champs supplémentaires</seg>
@@ -7170,7 +7170,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelParticipants">
       <tuv xml:lang="en">
-        <seg>People</seg>
+        <seg>Pe&amp;ople</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Personnes</seg>
@@ -7178,7 +7178,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelSetting">
       <tuv xml:lang="en">
-        <seg>Setting</seg>
+        <seg>S&amp;etting</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Arrière plan</seg>
@@ -7186,7 +7186,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelSituation">
       <tuv xml:lang="en">
-        <seg>Situation</seg>
+        <seg>Sit&amp;uation</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Situation</seg>
@@ -7194,7 +7194,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelTitle">
       <tuv xml:lang="en">
-        <seg>Title</seg>
+        <seg>&amp;Title</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Titre</seg>

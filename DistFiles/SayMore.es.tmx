@@ -5865,7 +5865,7 @@
         <seg>&amp;Help</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&amp;Ayuda</seg>
+        <seg>A&amp;yuda</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._menuAbout">
@@ -6193,7 +6193,7 @@
         <seg>Birth &amp;Year</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Año de nacimiento</seg>
+        <seg>Año de naci&amp;miento</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelCustomFields">
@@ -6209,7 +6209,7 @@
         <seg>&amp;Education</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&amp;Educación</seg>
+        <seg>E&amp;ducación</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelEthnicGroup">
@@ -6217,7 +6217,7 @@
         <seg>Ethnic Gro&amp;up</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Grupo étnico</seg>
+        <seg>Gr&amp;upo étnico</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelFullName">
@@ -6233,7 +6233,7 @@
         <seg>Ho&amp;w to Contact</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>&amp;Información de contacto</seg>
+        <seg>In&amp;formación de contacto</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelID">
@@ -6241,7 +6241,7 @@
         <seg>Co&amp;de</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Código ID</seg>
+        <seg>Código &amp;ID</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelNickName">
@@ -6249,7 +6249,7 @@
         <seg>Nic&amp;kname</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Sobrenombre</seg>
+        <seg>So&amp;brenombre</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelOtherLanguages">
@@ -6257,7 +6257,7 @@
         <seg>Other L&amp;anguages</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Otros idiomas</seg>
+        <seg>O&amp;tros idiomas</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelPrimaryLanguage">
@@ -6273,7 +6273,7 @@
         <seg>Learned &amp;In:</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Lugar de aprend&amp;izaje:</seg>
+        <seg>Lugar de aprendi&amp;zaje:</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelPrimaryOccupation">
@@ -7262,7 +7262,7 @@
         <seg>&amp;Access</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Acceso</seg>
+        <seg>Acces&amp;o</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelCustomFields">
@@ -7270,7 +7270,7 @@
         <seg>&amp;Custom Fields</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Campos definidos por el usuario</seg>
+        <seg>&amp;Campos definidos por el usuario</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelDate">
@@ -7278,7 +7278,7 @@
         <seg>&amp;Date</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Fecha</seg>
+        <seg>&amp;Fecha</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelDescription">
@@ -7286,7 +7286,7 @@
         <seg>Desc&amp;ription</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Descripción</seg>
+        <seg>&amp;Descripción</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelGenre">
@@ -7294,15 +7294,15 @@
         <seg>&amp;Genre</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Género</seg>
+        <seg>&amp;Género</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelId">
       <tuv xml:lang="en">
-        <seg>&amp;Id</seg>
+        <seg>&amp;ID</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>ID</seg>
+        <seg>&amp;ID</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelLocation">
@@ -7310,7 +7310,7 @@
         <seg>&amp;Location</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Lugar</seg>
+        <seg>&amp;Lugar</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelMoreFields">
@@ -7318,7 +7318,7 @@
         <seg>&amp;More Fields</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Más campos</seg>
+        <seg>&amp;Más campos</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelParticipants">
@@ -7326,7 +7326,7 @@
         <seg>Pe&amp;ople</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Personas</seg>
+        <seg>Pe&amp;rsonas</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelSetting">
@@ -7334,7 +7334,7 @@
         <seg>S&amp;etting</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Escena</seg>
+        <seg>Esce&amp;na</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelSituation">
@@ -7342,7 +7342,7 @@
         <seg>Sit&amp;uation</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Situación</seg>
+        <seg>Sit&amp;uación</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelTitle">
@@ -7350,7 +7350,7 @@
         <seg>&amp;Title</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Título</seg>
+        <seg>&amp;Título</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Miscellaneous.NewSessionNamePrefix">

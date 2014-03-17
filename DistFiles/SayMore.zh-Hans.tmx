@@ -2556,7 +2556,7 @@
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelBirthYear">
       <tuv xml:lang="en">
-        <seg>Birth Year</seg>
+        <seg>Birth &amp;Year</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>&amp;出生年月</seg>
@@ -2958,7 +2958,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelId">
       <tuv xml:lang="en">
-        <seg>Id</seg>
+        <seg>&amp;Id</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>序号</seg>
@@ -2966,7 +2966,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelLocation">
       <tuv xml:lang="en">
-        <seg>Location</seg>
+        <seg>&amp;Location</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>地点</seg>
@@ -2974,7 +2974,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelParticipants">
       <tuv xml:lang="en">
-        <seg>People</seg>
+        <seg>Pe&amp;ople</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>人员</seg>
@@ -2982,7 +2982,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelSetting">
       <tuv xml:lang="en">
-        <seg>Setting</seg>
+        <seg>S&amp;etting</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>设置</seg>
@@ -2990,7 +2990,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelSituation">
       <tuv xml:lang="en">
-        <seg>Situation</seg>
+        <seg>Sit&amp;uation</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>位置</seg>
@@ -2998,7 +2998,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelTitle">
       <tuv xml:lang="en">
-        <seg>Title</seg>
+        <seg>&amp;Title</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>标题</seg>

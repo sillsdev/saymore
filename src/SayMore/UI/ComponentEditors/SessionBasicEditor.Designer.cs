@@ -78,7 +78,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelId.Name = "_labelId";
 			this._labelId.Size = new System.Drawing.Size(17, 13);
 			this._labelId.TabIndex = 0;
-			this._labelId.Text = "&Id";
+			this._labelId.Text = "&ID";
 			// 
 			// _id
 			// 

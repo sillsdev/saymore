@@ -20,9 +20,9 @@ using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Media;
 using SayMore.Properties;
 using SayMore.UI;
+using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
 using SayMore.Model;
-using SayMore.Utilities;
 
 namespace SayMore
 {
@@ -295,6 +295,9 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public delegate void SaveDelegate();
+
+		/// ------------------------------------------------------------------------------------
 		public static void SaveProjectMetadata()
 		{
 			// This can happen during unit testing
@@ -303,9 +306,14 @@ namespace SayMore
 			var views = _projectContext.ProjectWindow.Views;
 			foreach (var view in views)
 			{
-				var save = view.HasMethod("Save");
-				if (save != null)
-					save.Invoke(view, null);
+				var savable = view as ISaveable;
+				if (savable == null) continue;
+
+				// this can happen when creating new session from device
+				if (view.InvokeRequired)
+					view.Invoke(new SaveDelegate(savable.Save));
+				else
+					savable.Save();
 			}
 		}
 
@@ -476,8 +484,16 @@ namespace SayMore
 						return;
 					}
 
-					if (OpenProject(dlg.Model.ProjectSettingsFilePath))
-						Application.Exit();
+					if (File.Exists(dlg.Model.ProjectSettingsFilePath))
+					{
+						// this is a request to open an existing project
+						if (OpenProject(dlg.Model.ProjectSettingsFilePath))
+							Application.Exit();
+							return;
+					}
+
+					// this is a request to create a new project
+					if (OpenProjectWindow(dlg.Model.ProjectSettingsFilePath))
 						return;
 				}
 			}

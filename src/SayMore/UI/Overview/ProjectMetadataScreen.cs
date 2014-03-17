@@ -10,7 +10,7 @@ using SIL.Archiving.IMDI.Lists;
 
 namespace SayMore.UI.Overview
 {
-	public partial class ProjectMetadataScreen : EditorBase, ISayMoreView
+	public partial class ProjectMetadataScreen : EditorBase, ISayMoreView, ISaveable
 	{
 		private IMDIItemList _countryList;
 
@@ -227,7 +227,7 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal void Save()
+		public void Save()
 		{
 			// check for changes
 			var project = Program.CurrentProject;

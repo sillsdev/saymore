@@ -9,7 +9,12 @@ using SayMore.UI.ProjectWindow;
 
 namespace SayMore.UI.Overview
 {
-	public partial class ProjectScreen : UserControl, ISayMoreView
+	public interface ISaveable
+	{
+		void Save();
+	}
+
+	public partial class ProjectScreen : UserControl, ISayMoreView, ISaveable
 	{
 		private readonly ProgressScreen _progressView;
 		private readonly ProjectMetadataScreen _metadataView;
@@ -177,7 +182,7 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal void Save()
+		public void Save()
 		{
 			_metadataView.Save();
 			_accessView.Save();

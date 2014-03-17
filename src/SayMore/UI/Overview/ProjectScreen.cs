@@ -65,14 +65,13 @@ namespace SayMore.UI.Overview
 			// Just to be safe and prevent re-entrant call.
 			_projectPages.RowEnter -= _projectPages_RowEnter;
 
-			string[] viewNames = new []
-				{
-					LocalizationManager.GetString("ProjectView.AboutProjectViewTitle", "About This Project"),
-					LocalizationManager.GetString("ProjectView.AccessProtocolViewTitle", "Access Protocol"),
-					LocalizationManager.GetString("ProjectView.DescriptionDocumentsTitle", "Description Documents"),
-					LocalizationManager.GetString("ProjectView.OtherDocumentsTitle", "Other Documents"),
-					LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress"),
-				};
+			string[] viewNames = {
+				LocalizationManager.GetString("ProjectView.AboutProjectViewTitle", "About This Project"),
+				LocalizationManager.GetString("ProjectView.AccessProtocolViewTitle", "Access Protocol"),
+				LocalizationManager.GetString("ProjectView.DescriptionDocumentsTitle", "Description Documents"),
+				LocalizationManager.GetString("ProjectView.OtherDocumentsTitle", "Other Documents"),
+				LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress")
+			};
 
 			if (_projectPages.RowCount != viewNames.Length)
 			{

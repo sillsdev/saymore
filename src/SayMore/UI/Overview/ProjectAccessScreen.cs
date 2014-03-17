@@ -59,8 +59,6 @@ namespace SayMore.UI.Overview
 			SizeProtocolsComboBox(_projectAccess);
 			if (iSelectedProtocol >= 0)
 				_projectAccess.SelectedIndex = iSelectedProtocol;
-
-
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -162,6 +160,9 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		internal void Save()
 		{
+			// SP-875: Project Access field reverting to "None"
+			if (!_isLoaded) return;
+
 			// check for changes
 			var project = Program.CurrentProject;
 

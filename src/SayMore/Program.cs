@@ -290,6 +290,16 @@ namespace SayMore
 		public static void ArchiveProjectUsingIMDI(Form parentForm)
 		{
 			// SP-767: some project changes not being saved before archiving
+			SaveProjectMetadata();
+			_projectContext.Project.ArchiveProjectUsingIMDI(parentForm);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void SaveProjectMetadata()
+		{
+			// This can happen during unit testing
+			if (_projectContext == null) return;
+
 			var views = _projectContext.ProjectWindow.Views;
 			foreach (var view in views)
 			{
@@ -297,8 +307,6 @@ namespace SayMore
 				if (save != null)
 					save.Invoke(view, null);
 			}
-
-			_projectContext.Project.ArchiveProjectUsingIMDI(parentForm);
 		}
 
 		/// ------------------------------------------------------------------------------------

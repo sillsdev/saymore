@@ -58,7 +58,7 @@ namespace SayMore.Model
 		{
 			_personInformant = personInformant;
 
-// ReSharper disable DoNotCallOverridableMethodsInConstructor
+			// ReSharper disable DoNotCallOverridableMethodsInConstructor
 
 			// Using a 1-minute fudge factor is a bit of a kludge, but when a session is created from an
 			// existing media file, it already has an ID, and there's no other way to tell it's "new".
@@ -69,6 +69,9 @@ namespace SayMore.Model
 				MetaDataFile.GetStringValue(SessionFileType.kContinentFieldName, null) == null &&
 				MetaDataFile.GetStringValue(SessionFileType.kAddressFieldName, null) == null)
 			{
+				// SP-876: Project Data not displayed in new sessions until after a restart.
+				Program.SaveProjectMetadata();
+
 				if (!string.IsNullOrEmpty(project.Country))
 					MetaDataFile.TrySetStringValue(SessionFileType.kCountryFieldName, project.Country);
 				if (!string.IsNullOrEmpty(project.Region))

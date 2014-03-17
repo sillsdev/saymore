@@ -47,7 +47,7 @@ namespace SayMore
 				.As<ICommand>()
 				.Where(t => t.GetInterfaces().Contains(typeof(ICommand))).InstancePerLifetimeScope();
 
-			builder.RegisterInstance<LocalizationManager>(CreateLocalizationManager()).SingleInstance();
+			builder.RegisterInstance(CreateLocalizationManager()).SingleInstance();
 
 
 			//			var filesTypes = GetFilesTypes(parentContainer);
@@ -160,12 +160,13 @@ namespace SayMore
 			}
 		}
 
-		public  LocalizationManager CreateLocalizationManager()
+		public LocalizationManager CreateLocalizationManager()
 		{
 			var installedStringFileFolder = Path.GetDirectoryName(FileLocator.GetFileDistributedWithApplication("SayMore.es.tmx"));
 			var localizationManager = LocalizationManager.Create(Settings.Default.UserInterfaceLanguage, kSayMoreLocalizationId,
 				"SayMore", System.Windows.Forms.Application.ProductVersion, installedStringFileFolder, true, Program.CommonAppDataFolder,
-				Program.CustomizedLocalizationsFolder, Resources.SayMore, "issues@saymore.palaso.org", "SayMore", "SIL.Archiving");
+				Program.CustomizedLocalizationsFolder, Resources.SayMore, "issues@saymore.palaso.org", "SayMore", "SIL.Archiving",
+				"Palaso.UI.WindowsForms.FileSystem");
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 			return localizationManager;
 		}

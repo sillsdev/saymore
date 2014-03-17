@@ -441,7 +441,7 @@ namespace SayMore.UI.ElementListScreen
 			msg = (itemCount > 1 ? string.Format(msg, itemCount) :
 				string.Format(msg, _elementsGrid.GetCurrentElement().Id));
 
-			return ConfirmRecycleDialog.JustConfirm(msg);
+			return ConfirmRecycleDialog.JustConfirm(msg, itemCount > 1, ApplicationContainer.kSayMoreLocalizationId);
 		}
 
 		/// ------------------------------------------------------------------------------------

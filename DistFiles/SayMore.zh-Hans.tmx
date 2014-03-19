@@ -3550,10 +3550,10 @@
     </tu>
     <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonAutoSegmenter">
       <tuv xml:lang="en">
-        <seg>Use auto segmenter (experimental)</seg>
+        <seg>Use auto segmenter</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>使用自动分段(测试)</seg>
+        <seg>使用自动分段</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonCarefulSpeech">

@@ -98,6 +98,8 @@ namespace SayMore.Transcription.Model
 				timeTier.AppendSegment((float)segment.TotalSeconds);
 			}
 
+			StreamReader.Close();
+
 			WaitCursor.Hide();
 
 			return tiers.Save();

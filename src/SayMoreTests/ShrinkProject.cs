@@ -6,7 +6,10 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Palaso.Code;
+using Palaso.CommandLineProcessing;
+using Palaso.Media;
 using Palaso.Progress;
+using SayMore.Media.FFmpeg;
 
 
 namespace SayMoreTests
@@ -30,17 +33,19 @@ namespace SayMoreTests
 		[Test, Ignore("By hand only")]
 		public void ShrinkFolder()
 		{
-			var destinationFolder = @"C:\dev\temp\shrunkEdolo";
+			var destinationFolder = @"C:\dev\SayMore\SampleData\KovaiSample";
 			if(Directory.Exists(destinationFolder))
 			{
 				Directory.Delete(destinationFolder,true);
 			}
 
-			CloneAndShrinkProject( @"C:\Users\John\Documents\Language Data\edolo\SmallEdolo", destinationFolder);
+			CloneAndShrinkProject(@"C:\Users\john\Documents\SayMore\Kovai Sample", destinationFolder);
 		}
 
 		public void CloneAndShrinkProject(string originalProjectFolder, string destinationFolder)
 		{
+			FFmpegRunner.FFmpegLocation = FFmpegDownloadHelper.FullPathToFFmpegForSayMoreExe;
+
 			RequireThat.Directory(destinationFolder).DoesNotExist();
 			RequireThat.Directory(originalProjectFolder).Exists();
 
@@ -87,6 +92,7 @@ namespace SayMoreTests
 								break;
 							case ".mov":
 							case ".avi":
+							case ".mp4":
 								newPath = ShrinkVideo(original, newPathRoot);
 								break;
 							case ".jpg":
@@ -122,10 +128,20 @@ namespace SayMoreTests
 
 			var result = Palaso.Media.FFmpegRunner.MakeLowQualityCompressedAudio(original, newPath,
 																   _progress);
+
+			CheckForError(result);
 			return newPath;
 
 		}
 
+		private void CheckForError(ExecutionResult result)
+		{
+			if (result.StandardError.ToLower().Contains("error") //ffmpeg always outputs config info to standarderror
+				|| result.StandardError.ToLower().Contains("unable to")
+				|| result.StandardError.ToLower().Contains("invalid")
+				|| result.StandardError.ToLower().Contains("could not"))
+				Debug.Fail(result.StandardError);
+		}
 		private string ShrinkPicture(string original, string newPathRoot)
 		{
 			Debug.WriteLine("ShrinkPicture " + original);
@@ -133,8 +149,9 @@ namespace SayMoreTests
 			var newPath = newPathRoot+".jpg";
 			if (File.Exists(newPath))
 				File.Delete(newPath);
-			Palaso.Media.FFmpegRunner.MakeLowQualitySmallPicture(original, newPath,
+			var result = Palaso.Media.FFmpegRunner.MakeLowQualitySmallPicture(original, newPath,
 																   _progress);
+			CheckForError(result);
 			return newPath;
 		}
 
@@ -149,6 +166,7 @@ namespace SayMoreTests
 				File.Delete(newPath);
 			var result = Palaso.Media.FFmpegRunner.MakeLowQualitySmallVideo(original, newPath,  0,
 																	_progress);
+			CheckForError(result);
 			return newPath;
 		}
 	}

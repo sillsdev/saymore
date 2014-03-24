@@ -54,7 +54,15 @@ namespace SayMore.Media.FFmpeg
 		/// ------------------------------------------------------------------------------------
 		public static string FFmpegForSayMoreParentFolder
 		{
-			get { return Program.CommonAppDataFolder; }
+			get
+			{
+#if DEBUG
+				//Program.CommonAppDataFolder; gives some resharper folder during tests
+				return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),"SIL/SayMore");
+#endif
+
+				return Program.CommonAppDataFolder;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

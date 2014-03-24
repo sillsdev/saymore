@@ -28,7 +28,7 @@ In previous versions of SayMore, you could type whatever you liked in the "Acces
 
  1. You can choose from a number of access protocols and SayMore will restrict your choices to their closed vocabulary:
 - SIL REAP
-- ELAR (http://www.elar-archive.org/using-elar/access-protocol.php) -  Endangered Languages Archive
+- [ELAR](http://www.elar-archive.org/using-elar/access-protocol.php) -  Endangered Languages Archive
 - TLA - The Language Archive
 - ANLA - Alaska Native Language Archive
 - AILLA - The Archive of the Indigenous Languages of Latin America
@@ -72,6 +72,9 @@ Progress, which was on its own tab in Version 2, has been moved and is now a sub
 ##Manual Segmenter Dialog
 * Added a play button to individual segments
 * Can now zoom in for finer control
+
+##Known Issues in Version 3.0
+[Allowable Country values are inconsistently allowed](http://jira.palaso.org/issues/browse/SP-819)
 
 ##Thanks
 Sarah Moeller and Tim Gaved served as consultants and _champions_ for this release.

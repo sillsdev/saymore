@@ -10,7 +10,7 @@ using SIL.Archiving.Generic.AccessProtocol;
 
 namespace SayMore.UI.Overview
 {
-	public partial class ProjectAccessScreen : UserControl
+	public partial class ProjectAccessScreen : UserControl, ISaveable
 	{
 		private bool _isLoaded;
 		private string _currentUri;
@@ -59,8 +59,6 @@ namespace SayMore.UI.Overview
 			SizeProtocolsComboBox(_projectAccess);
 			if (iSelectedProtocol >= 0)
 				_projectAccess.SelectedIndex = iSelectedProtocol;
-
-
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -160,8 +158,11 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal void Save()
+		public void Save()
 		{
+			// SP-875: Project Access field reverting to "None"
+			if (!_isLoaded) return;
+
 			// check for changes
 			var project = Program.CurrentProject;
 

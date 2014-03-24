@@ -6837,6 +6837,38 @@
         <seg>&amp;Archivar con IMDI...</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.ContributorsEditor.CommentColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Comments</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Notas</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.ContributorsEditor.DateColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Date</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Fecha</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.ContributorsEditor.NameColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Name</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Nombre</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.ContributorsEditor.RoleColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Role</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Rol</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.FileList.AddSessionsButtonToolTip">
       <tuv xml:lang="en">
         <seg>Add Files to the Session</seg>

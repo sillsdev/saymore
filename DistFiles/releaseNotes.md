@@ -10,7 +10,6 @@ SayMore 3 adds a "Project" tab for the first time:
 
 ### Project Metadata
 * Title
-* Funding Project Title
 * Description
 * Vernacular Language
 * Location/Address
@@ -18,34 +17,32 @@ SayMore 3 adds a "Project" tab for the first time:
 * Country
 * Continent
 * Contact Person
-* Content Type
-* Applications
+* Funding Project Title
 * Date Available
 * Rights Holder
 * Depositor
-* Related Publications
 
 ### Project Access Protocols
 
-In previous versions of SayMore, you could type whatever you like in the "Access" field. Now, you have three options:
+In previous versions of SayMore, you could type whatever you liked in the "Access" field. Now, you have three options:
 
- 1. You can choose from a number of access protocols and SayMore will restrict your choices to the their closed vocabulary:
+ 1. You can choose from a number of access protocols and SayMore will restrict your choices to their closed vocabulary:
 - SIL REAP
-- [FURCS](http://www.elar-archive.org/using-elar/access-protocol.php) -  Endangered Languages Archive
+- ELAR (http://www.elar-archive.org/using-elar/access-protocol.php) -  Endangered Languages Archive
 - TLA - The Language Archive
 - ANLA - Alaska Native Language Archive
 - AILLA - The Archive of the Indigenous Languages of Latin America
 - AILCA - The Archive of Indigenous Languages and Cultures of Asia
 
- 1. You can set up a custom set of choices.
+ 2. You can set up a custom set of choices.
 
- 1. Or you can still just let yourself type in whatever you want, as with version 2.
+ 3. Or you can still just let yourself type in whatever you want, as with version 2.
 
 ### Project Documents
 Add files that describe the project, how it was funded, etc.
 
 ### Progress Charts
-Progress has been moved from its own tab in Version 2 to live as a sub items under the new Project tab.
+Progress, which was on its own tab in Version 2, has been moved and is now a sub item under the new Project tab.
 
 ##New Session Fields
 
@@ -56,9 +53,7 @@ Progress has been moved from its own tab in Version 2 to live as a sub items und
  * Location region
  * Location address
  * Sub-Genre
- * Interactivity
  * Planning Type
- * Involvement
  * Social Context
  * Task
 
@@ -67,7 +62,7 @@ Progress has been moved from its own tab in Version 2 to live as a sub items und
 ##New Person Fields
 
  * Nickname
- * Code (for projects that wan to assign an alphanumeric id to each speaker)
+ * Code (for projects that want to assign an alphanumeric id to each speaker)
  * Ethnic Group
 
 ##New Person Tab: Contributions

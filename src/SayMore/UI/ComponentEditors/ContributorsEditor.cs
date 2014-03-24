@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
+using L10NSharp.UI;
 using Palaso.UI.WindowsForms.ClearShare;
 using Palaso.UI.WindowsForms.ClearShare.WinFormsUI;
 using SayMore.Model;
@@ -30,9 +31,13 @@ namespace SayMore.UI.ComponentEditors
 
 			_model = new ContributorsListControlViewModel(autoCompleteProvider, SaveContributors);
 
+			// ReSharper disable once UseObjectOrCollectionInitializer
 			_contributorsControl = new ContributorsListControl(_model);
 			_contributorsControl.Dock = DockStyle.Fill;
 			_contributorsControl.ValidatingContributor += HandleValidatingContributor;
+
+			InitializeGrid();
+
 			Controls.Add(_contributorsControl);
 
 			file.AfterSave += file_AfterSave;
@@ -41,6 +46,43 @@ namespace SayMore.UI.ComponentEditors
 
 			if (personInformant != null)
 				personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
+		}
+
+		/// <remarks>SP-874: Not able to open L10NSharp with Alt-Shift-click</remarks>
+		private void InitializeGrid()
+		{
+			// misc. column header settings
+			_contributorsControl.Grid.BorderStyle = BorderStyle.None;
+			_contributorsControl.Grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+			_contributorsControl.Grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+			// set the localizable column header text
+			string[] headerText =
+			{
+				@"_L10N_:SessionsView.ContributorsEditor.NameColumnTitle!Name",
+				@"_L10N_:SessionsView.ContributorsEditor.RoleColumnTitle!Role",
+				@"_L10N_:SessionsView.ContributorsEditor.DateColumnTitle!Date",
+				@"_L10N_:SessionsView.ContributorsEditor.CommentColumnTitle!Comments"
+			};
+
+			for (var i = 0; i < headerText.Length; i++)
+			{
+				_contributorsControl.SetColumnHeaderText(i, headerText[i]);
+
+				// this is needed to match the visual behavior of the other grids
+				_contributorsControl.Grid.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
+			}
+
+			// set column header height to match the other grids
+			_contributorsControl.Grid.AutoResizeColumnHeadersHeight();
+			_contributorsControl.Grid.ColumnHeadersHeight += 8;
+
+			// make it localizable
+			L10NSharpExtender locExtender = new L10NSharpExtender();
+			locExtender.LocalizationManagerId = "SayMore";
+			_contributorsControl.SetLocalizationExtender(locExtender);
+
+			locExtender.EndInit();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -65,7 +107,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override void SetComponentFile(ComponentFile file)
+		public override sealed void SetComponentFile(ComponentFile file)
 		{
 			base.SetComponentFile(file);
 			_model.SetContributionList(file.GetValue("contributions", null) as ContributionCollection);

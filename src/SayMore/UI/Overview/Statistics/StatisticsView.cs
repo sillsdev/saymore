@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -29,10 +30,10 @@ namespace SayMore.UI.Overview.Statistics
 
 			LocalizeItemDlg.StringsLocalized -= UpdateDisplay;
 
-			if (timer1 != null)
+			if (_refreshTimer != null)
 			{
-				timer1.Dispose();
-				timer1 = null;
+				_refreshTimer.Dispose();
+				_refreshTimer = null;
 			}
 
 			if (_webBrowser != null)
@@ -169,10 +170,38 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		private void HandleTimerTick(object sender, EventArgs e)
 		{
-			UpdateStatusDisplay();
+			//SP-866: Program crashes or freezes after progress tab is displayed.
+			try
+			{
+				_refreshTimer.Enabled = false;
+				_refreshTimer.Interval = IsReallyVisible() ? 3000 : 1000;
 
-			if (_updateDisplayNeeded)
-				UpdateDisplay();
+				if (_refreshTimer.Interval > 1000)
+				{
+					UpdateStatusDisplay();
+
+					if (_updateDisplayNeeded)
+						UpdateDisplay();
+				}
+			}
+			finally
+			{
+				_refreshTimer.Enabled = true;
+			}
+
+		}
+
+		/// <summary>SP-866: Program crashes or freezes after progress tab is displayed.</summary>
+		private bool IsReallyVisible()
+		{
+			if (Program.ProjectWindow == null) return false;
+			if (Program.ProjectWindow.SelectedTabIndex() != 0) return false;
+
+			// is the progress tab selected?
+			var pos = Program.ProjectWindow.PointToClient(_toolStripActions.PointToScreen(Point.Empty));
+			if ((pos.X < 0) || (pos.Y < 0)) return false;
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

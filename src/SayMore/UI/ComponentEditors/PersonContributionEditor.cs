@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
+using L10NSharp.UI;
 using Palaso.Extensions;
 using Palaso.UI.WindowsForms.ClearShare;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
@@ -73,7 +74,10 @@ namespace SayMore.UI.ComponentEditors
 				AllowUserToOrderColumns = false,
 				AllowUserToResizeRows = true,
 				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None,
-				Name = "PersonContributionGrid"
+				Name = "PersonContributionGrid",
+				BorderStyle = BorderStyle.None,
+				ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None,
+				ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
 			};
 
 			// look for saved settings
@@ -81,10 +85,29 @@ namespace SayMore.UI.ComponentEditors
 			while (widths.Count < 4)
 				widths.Add(200);
 
-			_grid.Columns.Add(new DataGridViewTextBoxColumn { Width = widths[0], SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.NameColumnTitle", "Name") });
-			_grid.Columns.Add(new DataGridViewTextBoxColumn { Width = widths[1], SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.RoleColumnTitle", "Role") });
-			_grid.Columns.Add(new DataGridViewTextBoxColumn { Width = widths[2], SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.DateColumnTitle", "Date") });
-			_grid.Columns.Add(new DataGridViewTextBoxColumn { Width = widths[3], SortMode = DataGridViewColumnSortMode.NotSortable, ReadOnly = true, HeaderText = LocalizationManager.GetString("PeopleView.ContributionEditor.CommentColumnTitle", "Comments") });
+			// set the localizable column header text
+			string[] headerText =
+			{
+				@"_L10N_:PeopleView.ContributionEditor.NameColumnTitle!Name",
+				@"_L10N_:PeopleView.ContributionEditor.RoleColumnTitle!Role",
+				@"_L10N_:PeopleView.ContributionEditor.DateColumnTitle!Date",
+				@"_L10N_:PeopleView.ContributionEditor.CommentColumnTitle!Comments"
+			};
+
+			for (var i = 0; i < headerText.Length; i++)
+				_grid.Columns.Add(new DataGridViewTextBoxColumn { Width = widths[i], SortMode = DataGridViewColumnSortMode.Automatic, ReadOnly = true, HeaderText = headerText[i] });
+
+			// set column header height to match the other grids
+			_grid.AutoResizeColumnHeadersHeight();
+			_grid.ColumnHeadersHeight += 8;
+
+			// make it localizable
+			L10NSharpExtender locExtender = new L10NSharpExtender();
+			locExtender.LocalizationManagerId = "SayMore";
+			locExtender.SetLocalizingId(_grid, "ContributionsEditorGrid");
+
+			locExtender.EndInit();
+
 			Controls.Add(_grid);
 
 			_grid.ColumnWidthChanged += _grid_ColumnWidthChanged;

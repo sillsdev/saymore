@@ -140,7 +140,7 @@ namespace SayMore.UI.Overview
 			if (!Directory.Exists(dir)) yield break;
 
 			var unknownFileType = new FileType[]
-			{new UnknownFileType(null, null), new AudioFileType(null, null, null), new VideoFileType(null, null, null)};
+			{new UnknownFileType(null, null), new AudioFileType(null, null, null), new VideoFileType(null, null, null), new ImageFileType(null, null) };
 			var blankRoles = new ComponentRole[] {};
 			var blankSerializer = new XmlFileSerializer(null);
 
@@ -185,6 +185,8 @@ namespace SayMore.UI.Overview
 
 				if ((file.FileType is AudioFileType) || (file.FileType is VideoFileType))
 					providers.Add(new AudioVideoPlayer(file, null));
+				else if (file.FileType is ImageFileType)
+					providers.Add(new ImageViewer(file));
 				else
 					providers.Add(new BrowserEditor(file, null));
 

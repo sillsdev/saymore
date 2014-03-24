@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Windows;
 using Autofac;
 using L10NSharp;
 using Palaso.IO;

@@ -121,8 +121,14 @@ namespace SayMore.Transcription.UI
 			var playbackOptionMenus = GetPlaybackOptionMenus();
 			_columnMenu.Items.AddRange(playbackOptionMenus.Cast<ToolStripItem>().ToArray());
 			_columnMenu.Items.Add(new ToolStripSeparator());
-			_columnMenu.Items.Add(new ToolStripMenuItem(LocalizationManager.GetString("SessionsView.Transcription.FontsMenu", "&Fonts..."),
-				null, HandleFontMenuItemClicked));
+
+			// add "Fonts..." as the last menu item
+			var menuItem = new ToolStripMenuItem(null, null, HandleFontMenuItemClicked);
+			menuItem.Text = LocalizationManager.GetString(
+			   "SessionsView.Transcription.FontsMenu",
+			   "&Fonts...", null, menuItem);
+
+			_columnMenu.Items.Add(menuItem);
 			_columnMenu.ShowCheckMargin = true;
 			_columnMenu.ShowImageMargin = false;
 		}

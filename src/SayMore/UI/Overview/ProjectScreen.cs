@@ -9,7 +9,12 @@ using SayMore.UI.ProjectWindow;
 
 namespace SayMore.UI.Overview
 {
-	public partial class ProjectScreen : UserControl, ISayMoreView
+	public interface ISaveable
+	{
+		void Save();
+	}
+
+	public partial class ProjectScreen : UserControl, ISayMoreView, ISaveable
 	{
 		private readonly ProgressScreen _progressView;
 		private readonly ProjectMetadataScreen _metadataView;
@@ -65,14 +70,13 @@ namespace SayMore.UI.Overview
 			// Just to be safe and prevent re-entrant call.
 			_projectPages.RowEnter -= _projectPages_RowEnter;
 
-			string[] viewNames = new []
-				{
-					LocalizationManager.GetString("ProjectView.AboutProjectViewTitle", "About This Project"),
-					LocalizationManager.GetString("ProjectView.AccessProtocolViewTitle", "Access Protocol"),
-					LocalizationManager.GetString("ProjectView.DescriptionDocumentsTitle", "Description Documents"),
-					LocalizationManager.GetString("ProjectView.OtherDocumentsTitle", "Other Documents"),
-					LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress"),
-				};
+			string[] viewNames = {
+				LocalizationManager.GetString("ProjectView.AboutProjectViewTitle", "About This Project"),
+				LocalizationManager.GetString("ProjectView.AccessProtocolViewTitle", "Access Protocol"),
+				LocalizationManager.GetString("ProjectView.DescriptionDocumentsTitle", "Description Documents"),
+				LocalizationManager.GetString("ProjectView.OtherDocumentsTitle", "Other Documents"),
+				LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress")
+			};
 
 			if (_projectPages.RowCount != viewNames.Length)
 			{
@@ -178,7 +182,7 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal void Save()
+		public void Save()
 		{
 			_metadataView.Save();
 			_accessView.Save();

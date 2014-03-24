@@ -29,7 +29,7 @@ namespace SayMore.UI.Overview.Statistics
         private void InitializeComponent()
         {
 			this.components = new System.ComponentModel.Container();
-			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this._refreshTimer = new System.Windows.Forms.Timer(this.components);
 			this._webBrowser = new System.Windows.Forms.WebBrowser();
 			this._panelBrowser = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
 			this._panelWorking = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
@@ -50,11 +50,11 @@ namespace SayMore.UI.Overview.Statistics
 			this._toolStripActions.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// timer1
+			// _refreshTimer
 			// 
-			this.timer1.Enabled = true;
-			this.timer1.Interval = 500;
-			this.timer1.Tick += new System.EventHandler(this.HandleTimerTick);
+			this._refreshTimer.Enabled = true;
+			this._refreshTimer.Interval = 1000;
+			this._refreshTimer.Tick += new System.EventHandler(this.HandleTimerTick);
 			// 
 			// _webBrowser
 			// 
@@ -283,7 +283,7 @@ namespace SayMore.UI.Overview.Statistics
 
         #endregion
 
-		private System.Windows.Forms.Timer timer1;
+		private System.Windows.Forms.Timer _refreshTimer;
 		private System.Windows.Forms.WebBrowser _webBrowser;
 		private SayMore.UI.LowLevelControls.ElementBar _toolStripActions;
 		private System.Windows.Forms.ToolStripButton _buttonRefresh;

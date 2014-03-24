@@ -5,6 +5,7 @@ using L10NSharp;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 
+// ReSharper disable once CheckNamespace
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------
@@ -67,7 +68,9 @@ namespace SayMore.Transcription.UI
 		protected override void SetFont(System.Drawing.Font newFont)
 		{
 			base.SetFont(newFont);
-			_grid.TranscriptionFont = newFont;
+
+			// SP-873: Translation font not saving
+			_grid.TranlationFont = newFont;
 		}
 	}
 }

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Code;
@@ -105,7 +106,7 @@ namespace SayMore.Model.Files
 			FieldUpdater fieldUpdater)
 		{
 			ParentElement = parentElement;
-			PathToAnnotatedFile = pathToAnnotatedFile;
+			SetPathToFile(pathToAnnotatedFile);
 			_componentRoles = componentRoles;
 			_xmlFileSerializer = xmlFileSerializer;
 			_statisticsProvider = statisticsProvider;
@@ -127,7 +128,7 @@ namespace SayMore.Model.Files
 			RootElementName = "MetaData";
 
 			if (File.Exists(_metaDataPath))
-				Load();
+				LoadNow();
 
 			InitializeFileInfo();
 		}
@@ -136,6 +137,16 @@ namespace SayMore.Model.Files
 		public ComponentFile()
 		{
 			_componentRoles = ApplicationContainer.ComponentRoles;
+		}
+
+		public void LoadNow()
+		{
+			Load();
+		}
+
+		private void SetPathToFile(string pathToAnnotatedFile)
+		{
+			PathToAnnotatedFile = pathToAnnotatedFile;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -150,7 +161,7 @@ namespace SayMore.Model.Files
 			RootElementName = rootElementName;
 			ParentElement = parentElement;
 			//The annotated file is the same as the annotation file; there isn't a pair of files for session/person
-			PathToAnnotatedFile = filePath;
+			SetPathToFile(filePath);
 			FileType = fileType;
 			_xmlFileSerializer = xmlFileSerializer;
 			_metaDataPath = filePath;
@@ -292,6 +303,19 @@ namespace SayMore.Model.Files
 					return TimeSpan.Zero;
 
 				var stats = StatisticsProvider.GetFileData(PathToAnnotatedFile);
+
+				// SP-877: Imported Recording properties not displayed until after a restart of SayMore
+				if (stats == null)
+				{
+					var processor = StatisticsProvider as AudioVideoDataGatherer;
+					if (processor != null)
+						processor.ProcessThisFile(PathToAnnotatedFile);
+
+					Thread.Sleep(100);
+
+					stats = StatisticsProvider.GetFileData(PathToAnnotatedFile);
+				}
+
 				if (stats == null || stats.Duration == default(TimeSpan))
 				{
 					string duration = GetStringValue("Duration", string.Empty);
@@ -907,6 +931,8 @@ namespace SayMore.Model.Files
 
 #if !__MonoCS__
 			var ext = Path.GetExtension(fullFilePath);
+			if (ext == null) return;
+
 			if (s_fileTypes.TryGetValue(ext, out fileType))
 			{
 				smallIcon = s_smallFileIcons[ext];
@@ -919,6 +945,7 @@ namespace SayMore.Model.Files
 				SHGetFileInfo(fullFilePath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_TYPENAME |
 						SHGFI_SMALLICON | SHGFI_ICON | SHGFI_DISPLAYNAME);
 			}
+			// ReSharper disable once EmptyGeneralCatchClause
 			catch { }
 
 			// This should only be zero during tests.

@@ -20,9 +20,9 @@ using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Media;
 using SayMore.Properties;
 using SayMore.UI;
+using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
 using SayMore.Model;
-using SayMore.Utilities;
 
 namespace SayMore
 {
@@ -88,7 +88,9 @@ namespace SayMore
 			{
 				try
 				{
+					// ReSharper disable once NotAccessedVariable
 					var x = Settings.Default.SessionsListGrid; //we want this to throw if the last version used the SILGrid, and this one uses the BetterGrid
+					// ReSharper disable once RedundantAssignment
 					x = Settings.Default.PersonListGrid;
 				}
 				catch (Exception)
@@ -99,7 +101,7 @@ namespace SayMore
 						ErrorReport.NotifyUserOfProblem("We apologize for the inconvenience, but to complete this upgrade, SayMore needs to exit. Please run it again to complete the upgrade.");
 
 						var s = Application.LocalUserAppDataPath;
-						s = s.Substring(0, s.IndexOf("Local") + 5);
+						s = s.Substring(0, s.IndexOf("Local", StringComparison.InvariantCultureIgnoreCase) + 5);
 						path = s.CombineForPath("SayMore", "SayMore.Settings");
 						File.Delete(path);
 
@@ -134,6 +136,7 @@ namespace SayMore
 				}
 				File.Delete(MRULatestReminderFilePath);
 			}
+
 
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(false);
@@ -278,7 +281,7 @@ namespace SayMore
 			get
 			{
 				var s = Application.LocalUserAppDataPath;
-				s = s.Substring(0, s.IndexOf("Local") + 5);
+				s = s.Substring(0, s.IndexOf("Local", StringComparison.InvariantCultureIgnoreCase) + 5);
 				return s.CombineForPath("SayMore", "lastFilePath.txt");
 			}
 		}
@@ -287,15 +290,31 @@ namespace SayMore
 		public static void ArchiveProjectUsingIMDI(Form parentForm)
 		{
 			// SP-767: some project changes not being saved before archiving
+			SaveProjectMetadata();
+			_projectContext.Project.ArchiveProjectUsingIMDI(parentForm);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public delegate void SaveDelegate();
+
+		/// ------------------------------------------------------------------------------------
+		public static void SaveProjectMetadata()
+		{
+			// This can happen during unit testing
+			if (_projectContext == null) return;
+
 			var views = _projectContext.ProjectWindow.Views;
 			foreach (var view in views)
 			{
-				var save = view.HasMethod("Save");
-				if (save != null)
-					save.Invoke(view, null);
-			}
+				var savable = view as ISaveable;
+				if (savable == null) continue;
 
-			_projectContext.Project.ArchiveProjectUsingIMDI(parentForm);
+				// this can happen when creating new session from device
+				if (view.InvokeRequired)
+					view.Invoke(new SaveDelegate(savable.Save));
+				else
+					savable.Save();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -378,12 +397,29 @@ namespace SayMore
 				Application.Idle += SaveLastOpenedProjectInMRUList;
 				return true;
 			}
+			catch (OutOfMemoryException oomex)
+			{
+				MessageBox.Show(oomex.ToString());
+				Application.Exit();
+			}
 			catch (Exception e)
 			{
 				HandleErrorOpeningProjectWindow(e, projectPath);
 			}
 
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static bool OpenProject(string projectPath)
+		{
+			// SP-855: Memory leak when opening a different project
+			var prs = new Process();
+			prs.StartInfo.FileName = Application.ExecutablePath;
+			prs.StartInfo.Arguments = "\"" + projectPath + "\"";
+			prs.Start();
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -443,7 +479,6 @@ namespace SayMore
 		static void ChooseAnotherProject(object sender, EventArgs e)
 		{
 			Application.Idle -= ChooseAnotherProject;
-			_applicationContainer.CloseSplashScreen();
 
 			while (true)
 			{
@@ -455,6 +490,15 @@ namespace SayMore
 						return;
 					}
 
+					if (File.Exists(dlg.Model.ProjectSettingsFilePath))
+					{
+						// this is a request to open an existing project
+						if (OpenProject(dlg.Model.ProjectSettingsFilePath))
+							Application.Exit();
+							return;
+					}
+
+					// this is a request to create a new project
 					if (OpenProjectWindow(dlg.Model.ProjectSettingsFilePath))
 						return;
 				}

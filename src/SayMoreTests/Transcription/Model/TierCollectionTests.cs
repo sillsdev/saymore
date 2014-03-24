@@ -269,7 +269,7 @@ namespace SayMoreTests.Transcription.Model
 		public void GetTranscriptionTier_TierExists_ReturnsIt()
 		{
 			var tier = _collection.GetTranscriptionTier();
-			Assert.AreEqual(TextTier.ElanTranscriptionTierId, tier.DisplayName);
+			Assert.AreEqual(TextTier.ElanTranscriptionTierId, tier.Id);
 			Assert.AreEqual(TierType.Transcription, tier.TierType);
 		}
 

@@ -107,7 +107,7 @@ namespace SayMore.UI.ProjectWindow
 			this._menuExportSessions.Name = "_menuExportSessions";
 			this._menuExportSessions.Size = new System.Drawing.Size(254, 22);
 			this._menuExportSessions.Tag = "exportSessions";
-			this._menuExportSessions.Text = "Export Sessions...";
+			this._menuExportSessions.Text = "Export &Sessions...";
 			this._menuExportSessions.Click += new System.EventHandler(this.HandleCommandMenuItemClick);
 			// 
 			// _menuExportPeople
@@ -118,7 +118,7 @@ namespace SayMore.UI.ProjectWindow
 			this._menuExportPeople.Name = "_menuExportPeople";
 			this._menuExportPeople.Size = new System.Drawing.Size(254, 22);
 			this._menuExportPeople.Tag = "exportPeople";
-			this._menuExportPeople.Text = "Export People...";
+			this._menuExportPeople.Text = "Export &People...";
 			this._menuExportPeople.Click += new System.EventHandler(this.HandleCommandMenuItemClick);
 			// 
 			// archiveIMDIProjectToolStripMenuItem
@@ -143,7 +143,7 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizingId(this._menuChangeUILanguage, "MainWindow._menuChangeUILanguage");
 			this._menuChangeUILanguage.Name = "_menuChangeUILanguage";
 			this._menuChangeUILanguage.Size = new System.Drawing.Size(254, 22);
-			this._menuChangeUILanguage.Text = "Change User Interface Language...";
+			this._menuChangeUILanguage.Text = "&Change User Interface Language...";
 			this._menuChangeUILanguage.Click += new System.EventHandler(this.HandleChangeUILanguageMenuClick);
 			// 
 			// _menuShowMPlayerDebugWindow
@@ -194,7 +194,7 @@ namespace SayMore.UI.ProjectWindow
 			this._menuReleaseNotes.Name = "_menuReleaseNotes";
 			this._menuReleaseNotes.Size = new System.Drawing.Size(156, 22);
 			this._menuReleaseNotes.Tag = "releaseNotes";
-			this._menuReleaseNotes.Text = "Release Notes...";
+			this._menuReleaseNotes.Text = "Release &Notes...";
 			this._menuReleaseNotes.Click += new System.EventHandler(this.HandleCommandMenuItemClick);
 			// 
 			// toolStripSeparator1

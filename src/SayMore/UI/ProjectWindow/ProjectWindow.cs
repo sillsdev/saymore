@@ -12,7 +12,6 @@ using L10NSharp.UI;
 using Palaso.IO;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.PortableSettingsProvider;
-using SayMore.UI.ElementListScreen;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
@@ -33,7 +32,6 @@ namespace SayMore.UI.ProjectWindow
 		private readonly IEnumerable<ICommand> _commands;
 		private readonly UILanguageDlg.Factory _uiLanguageDialogFactory;
 		private MPlayerDebuggingOutputWindow _outputDebuggingWindow;
-		internal SessionsListScreen SessionsListScreen;
 
 		public bool UserWantsToOpenADifferentProject { get; set; }
 
@@ -77,10 +75,6 @@ namespace SayMore.UI.ProjectWindow
 			{
 				vw.AddTabToTabGroup(_viewTabGroup);
 
-				var screen = vw as SessionsListScreen;
-				if (screen != null)
-					SessionsListScreen = screen;
-
 				if (vw.MainMenuItem != null)
 				{
 					vw.MainMenuItem.Enabled = false;
@@ -111,6 +105,14 @@ namespace SayMore.UI.ProjectWindow
 			{
 				return _viewTabGroup.Tabs.Select(item => item.View).ToList();
 			}
+		}
+
+		internal int SelectedTabIndex()
+		{
+			for (var i = 0; i < _viewTabGroup.Tabs.Count; i++)
+				if (_viewTabGroup.Tabs[i].Selected) return i;
+
+			return -1;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -185,6 +187,7 @@ namespace SayMore.UI.ProjectWindow
 			using (var dlg = new Palaso.UI.WindowsForms.SIL.SILAboutBox(FileLocator.GetFileDistributedWithApplication("aboutbox.htm")))
 				dlg.ShowDialog();
 		}
+
 		/// ------------------------------------------------------------------------------------
 		private void HandleHelpClick(object sender, EventArgs e)
 		{
@@ -289,6 +292,12 @@ namespace SayMore.UI.ProjectWindow
 			var view = deactivatedTab.View as ISayMoreView;
 			if (view != null && view.MainMenuItem != null)
 				view.MainMenuItem.Enabled = false;
+		}
+
+		public new void Dispose()
+		{
+			_viewTabGroup.Tabs.RemoveAll(tab => true);
+			base.Dispose();
 		}
 	}
 }

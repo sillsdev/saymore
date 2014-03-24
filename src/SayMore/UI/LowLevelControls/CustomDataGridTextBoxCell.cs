@@ -2,7 +2,13 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-// SP-848: Testing another possible fix.
+//-------------------------------------------------------------------
+// SP-848: The text box editing control is displaying a black
+// background on some Windows 8.1 computers.
+//
+// This file contains classes that implement a custom text box
+// for the DataGridView control.
+//-------------------------------------------------------------------
 namespace SayMore.UI.LowLevelControls
 {
 	public class CustomDataGridTextBoxColumn : DataGridViewColumn
@@ -34,21 +40,6 @@ namespace SayMore.UI.LowLevelControls
 		public CustomDataGridTextBoxCell()
 		{
 			Style.Font = SystemFonts.MenuFont;
-		}
-
-		public override void InitializeEditingControl(int rowIndex, object initialFormattedValue, DataGridViewCellStyle dataGridViewCellStyle)
-		{
-			base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
-
-			var ctl = DataGridView.EditingControl as CustomDataGridTextBox;
-			if (ctl == null) return;
-
-			// select the current text
-			if (ctl.Text.Length <= 0) return;     // nothing to select
-			if (ctl.SelectionLength != 0) return; // already selected
-
-			ctl.SelectionStart = 0;
-			ctl.SelectionLength = ctl.TextLength;
 		}
 
 		public override Type EditType
@@ -102,7 +93,14 @@ namespace SayMore.UI.LowLevelControls
 
 		public void PrepareEditingControlForEdit(bool selectAll)
 		{
-			// nothing needs done
+			if (!selectAll) return;
+
+			if (Text.Length <= 0) return;     // nothing to select
+			if (SelectionLength != 0) return; // already selected
+
+			// select all the text
+			SelectionStart = 0;
+			SelectionLength = TextLength;
 		}
 
 		public Cursor EditingPanelCursor

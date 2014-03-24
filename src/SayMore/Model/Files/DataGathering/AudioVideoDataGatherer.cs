@@ -32,5 +32,12 @@ namespace SayMore.Model.Files.DataGathering
 
 			return (!isOralAnnotationSegmentFile && base.GetDoIncludeFile(path));
 		}
+
+		public void ProcessThisFile(string fileName)
+		{
+			SuspendProcessing();
+			CollectDataForFile(fileName);
+			ResumeProcessing(true);
+		}
 	}
 }

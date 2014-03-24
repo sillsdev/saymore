@@ -213,14 +213,12 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected void AddColumns()
 		{
-			var col = CreateTextBoxColumn("colField");
+			var col = NewTextBoxColumn("colField");
 			col.HeaderText = @"_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Field!Field";
 			col.Width = 125;
 			col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 			Columns.Add(col);
 
-			// SP-848: Testing another possible fix.
-			//col = CreateTextBoxColumn("colValue");
 			col = NewTextBoxColumn("colValue");
 			col.HeaderText = @"_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Value!Value";
 			col.Width = 175;
@@ -230,7 +228,7 @@ namespace SayMore.UI.ComponentEditors
 			_locExtender.EndInit();
 		}
 
-		/// <summary>SP-848: Testing another possible fix.</summary>
+		/// <summary>SP-848: The text box editing control is displaying a black background on some Windows 8.1 computers</summary>
 		private static DataGridViewColumn NewTextBoxColumn(string name)
 		{
 			var column = new CustomDataGridTextBoxColumn();

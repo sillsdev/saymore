@@ -107,6 +107,14 @@ namespace SayMore.UI.ProjectWindow
 			}
 		}
 
+		internal int SelectedTabIndex()
+		{
+			for (var i = 0; i < _viewTabGroup.Tabs.Count; i++)
+				if (_viewTabGroup.Tabs[i].Selected) return i;
+
+			return -1;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{

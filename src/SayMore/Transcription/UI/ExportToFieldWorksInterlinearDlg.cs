@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -8,8 +7,6 @@ using L10NSharp;
 using Palaso.Reporting;
 using Palaso.WritingSystems;
 using SayMore.Properties;
-using SayMore.Transcription.Model;
-using Palaso.Extensions;
 
 namespace SayMore.Transcription.UI
 {
@@ -46,10 +43,10 @@ namespace SayMore.Transcription.UI
 			InitializeComponent();
 
 			_labelTranscriptionColumnHeadingText.Text =
-				string.Format(_labelTranscriptionColumnHeadingText.Text, TextTier.ElanTranscriptionTierId);
+				string.Format(_labelTranscriptionColumnHeadingText.Text, LocalizationManager.GetString("SessionsView.Transcription.TierDisplayNames.Transcription", "Transcription"));
 
 			_labelFreeTranslationColumnHeadingText.Text =
-				string.Format(_labelFreeTranslationColumnHeadingText.Text, TextTier.FreeTranslationTierDisplayName);
+				string.Format(_labelFreeTranslationColumnHeadingText.Text, LocalizationManager.GetString("SessionsView.Transcription.TierDisplayNames.FreeTranslation", "Free Translation"));
 
 			_labelOverview.Font = Program.DialogFont;
 			_labelTranscriptionColumnHeadingText.Font = Program.DialogFont;
@@ -162,8 +159,8 @@ namespace SayMore.Transcription.UI
 			TranscriptionWs = _comboTranscriptionWs.SelectedItem as DisplayFriendlyWritingSystem;
 			FreeTranslationWs = _comboTranslationWs.SelectedItem as DisplayFriendlyWritingSystem;
 
-			Settings.Default.TranscriptionWsForFWInterlinearExport = TranscriptionWs.Id;
-			Settings.Default.FreeTranslationWsForFWInterlinearExport = FreeTranslationWs.Id;
+			if (TranscriptionWs != null) Settings.Default.TranscriptionWsForFWInterlinearExport = TranscriptionWs.Id;
+			if (FreeTranslationWs != null) Settings.Default.FreeTranslationWsForFWInterlinearExport = FreeTranslationWs.Id;
 
 			UpdateDisplay();
 		}

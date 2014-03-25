@@ -60,7 +60,8 @@ namespace SayMore.Transcription.UI
 
 			_buttonHelp.Click += delegate
 			{
-				Program.ShowHelpTopic("/Using_Tools/Sessions_tab/Annotations_tab/Working_with_annotations.htm");
+				// SP-887: Change Help link for Annotations
+				Program.ShowHelpTopic("/Using_Tools/Sessions_tab/Annotations_tab/Annotations_tab_overview.htm");
 			};
 		}
 

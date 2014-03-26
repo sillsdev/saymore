@@ -380,13 +380,17 @@ namespace SayMore.Model.Files.DataGathering
 
 		private static List<string> WalkDirectoryTree(string topLevelFolder, SearchOption searchOption)
 		{
-			string[] files = null;
+			IEnumerable<string> files = null;
 			var returnVal = new List<string>();
 			// First, process all the files directly under this folder
 			try
 			{
-				//files = root.GetFiles("*.*");
-				files = Directory.GetFiles(topLevelFolder, "*.*");
+				// SP-879: Crash reading .DS_Store file on MacOS
+				files = Directory.GetFiles(topLevelFolder, "*.*").Where(name =>
+				{
+					var fileName = Path.GetFileName(name);
+					return fileName != null && !fileName.StartsWith(".");
+				});
 				returnVal.AddRange(files);
 			}
 			catch (UnauthorizedAccessException)

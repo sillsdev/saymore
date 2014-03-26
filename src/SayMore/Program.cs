@@ -28,6 +28,8 @@ namespace SayMore
 {
 	static class Program
 	{
+		public const string kCompanyAbbrev = "SIL";
+
 		/// <summary>
 		/// We have one project open at a time, and this helps us bootstrap the project and
 		/// properly dispose of various things when the project is closed.
@@ -334,19 +336,13 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public static string SilCommonDataFolder
 		{
-			get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SIL"); }
+			get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), kCompanyAbbrev); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static string CommonAppDataFolder
 		{
 			get { return Path.Combine(SilCommonDataFolder, Application.ProductName); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string CustomizedLocalizationsFolder
-		{
-			get { return Path.Combine(CommonAppDataFolder, "Localization"); }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 using Autofac;
 using L10NSharp;
 using Palaso.IO;
@@ -162,11 +163,18 @@ namespace SayMore
 		public LocalizationManager CreateLocalizationManager()
 		{
 			var installedStringFileFolder = Path.GetDirectoryName(FileLocator.GetFileDistributedWithApplication("SayMore.es.tmx"));
+			var relativePathForWritingTmxFiles = Path.Combine(Program.kCompanyAbbrev, Application.ProductName);
+
+			LocalizationManager.DeleteOldTmxFiles(kSayMoreLocalizationId,
+				Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), relativePathForWritingTmxFiles),
+				installedStringFileFolder);
+
 			var localizationManager = LocalizationManager.Create(Settings.Default.UserInterfaceLanguage, kSayMoreLocalizationId,
-				"SayMore", System.Windows.Forms.Application.ProductVersion, installedStringFileFolder, true, Program.CommonAppDataFolder,
-				Program.CustomizedLocalizationsFolder, Resources.SayMore, "issues@saymore.palaso.org", "SayMore", "SIL.Archiving",
-				"Palaso.UI.WindowsForms.FileSystem");
+				"SayMore", Application.ProductVersion, installedStringFileFolder, relativePathForWritingTmxFiles,
+				Resources.SayMore, "issues@saymore.palaso.org", "SayMore", "SIL.Archiving", "Palaso.UI.WindowsForms.FileSystem");
+
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
+
 			return localizationManager;
 		}
 

@@ -152,13 +152,7 @@ namespace SayMore
 
 			bool startedWithCommandLineProject = false;
 			var args = Environment.GetCommandLineArgs();
-			var firstTimeArg = args.FirstOrDefault(x => x.ToLower().StartsWith("-i"));
-			if (firstTimeArg != null)
-			{
-				using (var dlg = new FirstTimeRunDialog("put filename here"))
-					dlg.ShowDialog();
-			}
-			else if (args.Length > 1)
+			if (args.Length > 1)
 			{
 				var possibleProjFile = args[1];
 				startedWithCommandLineProject =

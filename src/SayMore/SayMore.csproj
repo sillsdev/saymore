@@ -634,12 +634,6 @@
       <DependentUpon>SessionsListScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Command.cs" />
-    <Compile Include="UI\ProjectWindow\FirstTimeRunDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\ProjectWindow\FirstTimeRunDialog.Designer.cs">
-      <DependentUpon>FirstTimeRunDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\ProjectWindow\MissingFFmpegPopup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -936,9 +930,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Overview\Statistics\StatisticsView.resx">
       <DependentUpon>StatisticsView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\ProjectWindow\FirstTimeRunDialog.resx">
-      <DependentUpon>FirstTimeRunDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectWindow\MissingFFmpegPopup.resx">
       <DependentUpon>MissingFFmpegPopup.cs</DependentUpon>

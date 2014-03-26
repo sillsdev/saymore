@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="2.0.5189.19124" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="es" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="2.0.5196.24814" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">3.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -513,6 +513,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>No se pudo abrir la imagen.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ImageViewer.OpeningPictureFileTooLargeMsg">
+      <tuv xml:lang="en">
+        <seg>Could not open that picture. The image size is too large for SayMore to open.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>No se pudo abrir la imagen porque es demasiado grande para SayMore.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ImageViewer.TabText">
@@ -1845,10 +1853,10 @@
         <seg>Islas Heard y McDonald</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.ListItems.Countries.Holy Seat (Vatican City).Text">
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Holy See (Vatican City).Text">
       <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
-        <seg>Holy Seat (Vatican City)</seg>
+        <seg>Holy See (Vatican City)</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Santa Sede (Ciudad del Vaticano)</seg>
@@ -5878,7 +5886,7 @@
     </tu>
     <tu tuid="MainWindow._menuChangeUILanguage">
       <tuv xml:lang="en">
-        <seg>Change User Interface Language...</seg>
+        <seg>&amp;Change User Interface Language...</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Cambiar el idioma de la interfaz de usuario...</seg>
@@ -5894,7 +5902,7 @@
     </tu>
     <tu tuid="MainWindow._menuExportPeople">
       <tuv xml:lang="en">
-        <seg>Export People...</seg>
+        <seg>Export &amp;People...</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Exportar información de personas...</seg>
@@ -5902,7 +5910,7 @@
     </tu>
     <tu tuid="MainWindow._menuExportSessions">
       <tuv xml:lang="en">
-        <seg>Export Sessions...</seg>
+        <seg>Export &amp;Sessions...</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Exportar sesiones...</seg>
@@ -5934,7 +5942,7 @@
     </tu>
     <tu tuid="MainWindow._menuReleaseNotes">
       <tuv xml:lang="en">
-        <seg>Release Notes...</seg>
+        <seg>Release &amp;Notes...</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>Ver notas de la versión...</seg>
@@ -6841,7 +6849,7 @@
       <tuv xml:lang="en">
         <seg>Comments</seg>
       </tuv>
-      <tuv xml:lang="fr">
+      <tuv xml:lang="es">
         <seg>Notas</seg>
       </tuv>
     </tu>
@@ -6849,7 +6857,7 @@
       <tuv xml:lang="en">
         <seg>Date</seg>
       </tuv>
-      <tuv xml:lang="fr">
+      <tuv xml:lang="es">
         <seg>Fecha</seg>
       </tuv>
     </tu>
@@ -6857,7 +6865,7 @@
       <tuv xml:lang="en">
         <seg>Name</seg>
       </tuv>
-      <tuv xml:lang="fr">
+      <tuv xml:lang="es">
         <seg>Nombre</seg>
       </tuv>
     </tu>
@@ -6865,8 +6873,8 @@
       <tuv xml:lang="en">
         <seg>Role</seg>
       </tuv>
-      <tuv xml:lang="fr">
-        <seg>Rol</seg>
+      <tuv xml:lang="es">
+        <seg>Papel</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.FileList.AddSessionsButtonToolTip">
@@ -8104,6 +8112,14 @@
       </tuv>
       <tuv xml:lang="es">
         <seg>Archivo ELAN...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMessage">
+      <tuv xml:lang="en">
+        <seg>Actually, SayMore already stores this information in ELAN format (.eaf). Simply double click the annotations file to edit it in ELAN.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>En realidad, SayMore ya almacena esta información en formato de ELAN (.eaf). Simplemente haga doble clic en el archivo de anotaciones para editarlo en ELAN.</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.FLExTextExport">

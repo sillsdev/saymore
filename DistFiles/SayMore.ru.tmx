@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="ru" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.2.5141.16548" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="ru" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="2.0.5196.24814" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -1512,7 +1512,7 @@
     </tu>
     <tu tuid="MainWindow._menuExportPeople">
       <tuv xml:lang="en">
-        <seg>Export People...</seg>
+        <seg>Export &amp;People...</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Экспортировать участников...</seg>
@@ -1520,7 +1520,7 @@
     </tu>
     <tu tuid="MainWindow._menuExportSessions">
       <tuv xml:lang="en">
-        <seg>Export Sessions...</seg>
+        <seg>Export &amp;Sessions...</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Экспортировать события...</seg>
@@ -1552,7 +1552,7 @@
     </tu>
     <tu tuid="MainWindow._menuReleaseNotes">
       <tuv xml:lang="en">
-        <seg>Release Notes...</seg>
+        <seg>Release &amp;Notes...</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Заметки к версии программы...</seg>

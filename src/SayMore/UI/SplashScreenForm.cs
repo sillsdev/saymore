@@ -43,7 +43,6 @@ namespace SayMore.UI
 		private EventWaitHandle m_waitHandle;
 		protected Panel m_panel;
 		protected PictureBox pictureBox1;
-		protected Label lblVersion;
 		protected Label lblMessage;
 		protected Label lblCopyright;
 		protected Label lblProductName;
@@ -51,7 +50,7 @@ namespace SayMore.UI
 		private bool m_showStandardSILContent = true;
 		protected Label lblBuildNumber;
 		private readonly bool m_showBuildNum;
-		private readonly VersionType m_versionType;
+		private readonly BuildType.VersionType m_versionType;
 		private readonly string m_versionFmt;
 		private PictureBox picLoadingWheel;
 		private readonly string m_buildFmt;
@@ -75,12 +74,11 @@ namespace SayMore.UI
 			Width = Resources.LargeSayMoreLogo.Size.Width + Resources.SayMoreText.Width + 80;
 			Height = Resources.LargeSayMoreLogo.Size.Height + kLogoTextImageTop + 30;
 
-			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text);
+			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text, BuildType.Current);
 
-			m_versionFmt = lblVersion.Text;
+			m_versionFmt = _labelVersionInfo.Text;
 			m_buildFmt = lblBuildNumber.Text;
 			lblCopyright.Font = SystemInformation.MenuFont;
-			lblVersion.Font = SystemInformation.MenuFont;
 			lblMessage.Font = SystemInformation.MenuFont;
 			lblBuildNumber.Font = SystemInformation.MenuFont;
 			Opacity = 0;
@@ -91,7 +89,7 @@ namespace SayMore.UI
 		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SplashScreenForm(bool showBuildNum, VersionType versionType) : this()
+		public SplashScreenForm(bool showBuildNum, BuildType.VersionType versionType) : this()
 		{
 			m_showBuildNum = showBuildNum;
 			m_versionType = versionType;
@@ -207,37 +205,6 @@ namespace SayMore.UI
 		#region Public properties set automatically in constructor for .Net apps
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// The product version which appears in the App Version label on the splash screen
-		/// </summary>
-		/// <remarks>
-		/// .Net clients should not set this. It will be ignored. They should set the
-		/// AssemblyFileVersion attribute in AssemblyInfo.cs of the executable.
-		/// </remarks>
-		/// ------------------------------------------------------------------------------------
-		public virtual void SetProdVersion(string value)
-		{
-			string version = value;
-			if (string.IsNullOrEmpty(version))
-			{
-				var ver = new Version(Application.ProductVersion);
-				version = ver.ToString(3);
-			}
-
-			var verType = string.Empty;
-			if (m_versionType == VersionType.Alpha)
-				verType = "Test Version";
-			else if (m_versionType == VersionType.Beta)
-				verType = "Beta";
-
-#if DEBUG
-			lblVersion.Text = string.Format(m_versionFmt, version, "(Debug version)", verType);
-#else
-			lblVersion.Text = string.Format(m_versionFmt, version, string.Empty, verType);
-#endif
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// The copyright info which appears in the Copyright label on the splash screen
 		/// </summary>
 		/// <remarks>
@@ -249,7 +216,6 @@ namespace SayMore.UI
 		{
 			lblCopyright.Text = value.Replace("(C)", "©");
 		}
-
 		#endregion
 
 		#region Non-public methods
@@ -331,8 +297,6 @@ namespace SayMore.UI
 
 				var bldDate = File.GetCreationTime(Application.ExecutablePath);
 				lblBuildNumber.Text = string.Format(m_buildFmt, bldDate.ToString("dd-MMM-yyyy"));
-
-				SetProdVersion(null);
 
 				if (assembly == null)
 					assembly = Assembly.GetExecutingAssembly();

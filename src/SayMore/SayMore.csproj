@@ -109,6 +109,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildType.cs" />
     <Compile Include="MediaUtils\Audio\AudioFileHelper.cs">
       <SubType>Code</SubType>
     </Compile>

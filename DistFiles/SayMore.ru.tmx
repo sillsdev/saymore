@@ -626,10 +626,10 @@
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._labelVersionInfo">
       <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
+        <seg>Version {0}.{1}.{2} {3}    Built on {4}</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Версия {0}.{1}.{2}, Построенный на {3}</seg>
+        <seg>Версия {0}.{1}.{2} {3}, Построенный на {4}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebsite">
@@ -1124,10 +1124,10 @@
     </tu>
     <tu tuid="DialogBoxes.SplashScreen.VersionInfoLabel">
       <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
+        <seg>Version {0}.{1}.{2} {3}    Built on {4}</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Версия {0}.{1}.{2}, Построенный на {3}</seg>
+        <seg>Версия {0}.{1}.{2} {3}, Построенный на {4}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString">
@@ -1389,10 +1389,10 @@
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._labelVersionInfo">
       <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
+        <seg>Version {0}.{1}.{2} {3}    Built on {4}</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Версия {0}.{1}.{2}, Построенный на {3}</seg>
+        <seg>Версия {0}.{1}.{2} {3}, Построенный на {4}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._linkSayMoreWebsite">

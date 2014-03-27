@@ -92,7 +92,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		/// ------------------------------------------------------------------------------------
 		private void LocalizationInitiated()
 		{
-			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text);
+			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text, BuildType.Current);
 
 			_linkSILWebsite.Text = String.Format(_linkSILWebsite.Text, Application.CompanyName);
 			_linkSayMoreWebsite.Text = String.Format(_linkSayMoreWebsite.Text, Application.ProductName);

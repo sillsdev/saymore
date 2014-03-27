@@ -3523,10 +3523,10 @@
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._labelVersionInfo">
       <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
+        <seg>Version {0}.{1}.{2} {3}    Built on {4}</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Version {0}.{1}.{2} du {3}</seg>
+        <seg>Version {0}.{1}.{2} {3} du {4}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.AboutDlg._linkSILWebsite">
@@ -4950,10 +4950,10 @@
     </tu>
     <tu tuid="DialogBoxes.SplashScreen.VersionInfoLabel">
       <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
+        <seg>Version {0}.{1}.{2} {3}    Built on {4}</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Version {0}.{1}.{2} (Beta) du {3}</seg>
+        <seg>Version {0}.{1}.{2} {3} du {4}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CarefulSpeechRecorderDlg.WindowTitle">
@@ -5752,10 +5752,10 @@
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._labelVersionInfo">
       <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2} (Beta)    Built on {3}</seg>
+        <seg>Version {0}.{1}.{2} {3}    Built on {4}</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Version {0}.{1}.{2} du {3}</seg>
+        <seg>Version {0}.{1}.{2} {3} du {4}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._linkSILWebsite">
@@ -5900,18 +5900,18 @@
     </tu>
     <tu tuid="MainWindow.WindowTitle">
       <tuv xml:lang="en">
-        <seg>{0} - SayMore {1}.{2}.{3} (Beta)</seg>
+        <seg>{0} - SayMore {1}.{2}.{3} {4}</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>{0} - SayMore {1}.{2}.{3} (Beta)</seg>
+        <seg>{0} - SayMore {1}.{2}.{3} {4}</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.WindowTitleWithProject">
       <tuv xml:lang="en">
-        <seg>{0} - SayMore {1}.{2}.{3} (Beta)</seg>
+        <seg>{0} - SayMore {1}.{2}.{3} {4}</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>{0} - SayMore {1}.{2}.{3} (Beta)</seg>
+        <seg>{0} - SayMore {1}.{2}.{3} {4}</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._mainMenuHelp">

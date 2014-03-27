@@ -32,6 +32,7 @@ namespace SayMore.UI.ProjectWindow
 		private readonly IEnumerable<ICommand> _commands;
 		private readonly UILanguageDlg.Factory _uiLanguageDialogFactory;
 		private MPlayerDebuggingOutputWindow _outputDebuggingWindow;
+		private string _titleFmt;
 
 		public bool UserWantsToOpenADifferentProject { get; set; }
 
@@ -47,6 +48,7 @@ namespace SayMore.UI.ProjectWindow
 			ExceptionHandler.AddDelegate(AudioUtils.HandleGlobalNAudioException);
 
 			InitializeComponent();
+			_titleFmt = Text;
 			_menuShowMPlayerDebugWindow.Tag = _menuProject.DropDownItems.IndexOf(_menuShowMPlayerDebugWindow);
 			_menuProject.DropDownItems.Remove(_menuShowMPlayerDebugWindow);
 		}
@@ -135,8 +137,8 @@ namespace SayMore.UI.ProjectWindow
 		private void SetWindowText()
 		{
 			var ver = Assembly.GetExecutingAssembly().GetName().Version;
-			var fmt = LocalizationManager.GetString("MainWindow.WindowTitleWithProject", "{0} - SayMore {1}.{2}.{3} (Beta)");
-			Text = string.Format(fmt, ProjectName, ver.Major, ver.Minor, ver.Build);
+			Text = string.Format(_titleFmt, ProjectName, ver.Major, ver.Minor, ver.Build,
+				ApplicationContainer.GetBuildTypeDescriptor(BuildType.Current));
 		}
 
 		/// ------------------------------------------------------------------------------------

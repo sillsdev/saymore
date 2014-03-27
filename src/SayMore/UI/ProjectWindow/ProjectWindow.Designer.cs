@@ -245,11 +245,11 @@ namespace SayMore.UI.ProjectWindow
 			this.Controls.Add(this._mainMenuStrip);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "MainWindow.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "MainWindow.WindowTitleWithProject");
 			this.MainMenuStrip = this._mainMenuStrip;
 			this.MinimumSize = new System.Drawing.Size(600, 450);
 			this.Name = "ProjectWindow";
-			this.Text = "{0} - SayMore {1}.{2}.{3} (Beta)";
+			this.Text = "{0} - SayMore {1}.{2}.{3} {4}";
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this._mainMenuStrip.ResumeLayout(false);
 			this._mainMenuStrip.PerformLayout();

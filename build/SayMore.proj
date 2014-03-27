@@ -32,14 +32,17 @@
 	  <StampAssemblies Version="$(Version)" InputAssemblyPaths="@(AssemblyInfoFiles)" />
 	</Target>
 
-  <Target Name="UpdateBuildTypeFile" DependsOnTargets="VersionNumbers">
+  <Target Name="SetBuildType" DependsOnTargets="VersionNumbers">
+
+	  <Message Text="RELEASE_TYPE: $(RELEASE_TYPE)" Importance="high"/>
+
 	  <ItemGroup>
 		<BuildTypeFiles Include="$(teamcity_build_checkoutDir)/src/**/BuildType.cs"/>
 	  </ItemGroup>
 	  <UpdateBuildTypeFile BuildType="$(RELEASE_TYPE)" BuildTypePaths="@(BuildTypeFiles)" />
 	</Target>
 
-  <Target Name="Build" DependsOnTargets="SetAssemblyVersion;UpdateBuildTypeFile">
+  <Target Name="Build" DependsOnTargets="SetAssemblyVersion;SetBuildType">
 	<MSBuild Projects="$(teamcity_build_checkoutDir)/SayMore.sln"
 			 Targets="Rebuild"
 			 Properties="Configuration=Release" />

@@ -238,10 +238,10 @@ namespace SayMore.Transcription.Model.Exporters
 
 			// SP-890: Segments marked "ignore" should export as empty in FLEx export
 			phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "segnum", _currentSegment++.ToString(CultureInfo.InvariantCulture)));
-			phraseElement.Add(CreateItemElement(_wsTranscriptionId, "txt", (string.Compare(transcription, "%ignore%", StringComparison.OrdinalIgnoreCase) == 0) ? string.Empty : transcription));
+			phraseElement.Add(CreateItemElement(_wsTranscriptionId, "txt", (string.Compare(transcription, TierCollection.kIgnoreSegment, StringComparison.OrdinalIgnoreCase) == 0) ? string.Empty : transcription));
 
 			if (freeTranslation != null)
-				phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "gls", (string.Compare(freeTranslation, "%ignore%", StringComparison.OrdinalIgnoreCase) == 0) ? string.Empty : freeTranslation));
+				phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "gls", (string.Compare(freeTranslation, TierCollection.kIgnoreSegment, StringComparison.OrdinalIgnoreCase) == 0) ? string.Empty : freeTranslation));
 
 			phraseElement.Add(new XElement("words", null));
 

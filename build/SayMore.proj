@@ -24,7 +24,6 @@
 	<Message Text="Version: $(Version)" Importance="high"/>
   </Target>
 
-
   <Target Name="SetAssemblyVersion" DependsOnTargets="VersionNumbers">
 	  <ItemGroup>
 		<AssemblyInfoFiles Include="$(teamcity_build_checkoutDir)/src/**/assemblyinfo.cs"/>
@@ -32,7 +31,14 @@
 	  <StampAssemblies Version="$(Version)" InputAssemblyPaths="@(AssemblyInfoFiles)" />
 	</Target>
 
-  <Target Name="Build" DependsOnTargets="SetAssemblyVersion">
+  <Target Name="UpdateBuildTypeFile" DependsOnTargets="VersionNumbers">
+	  <ItemGroup>
+		<BuildTypeFiles Include="$(teamcity_build_checkoutDir)/src/**/BuildType.cs"/>
+	  </ItemGroup>
+	  <UpdateBuildTypeFile BuildType="$(RELEASE_TYPE)" BuildTypePaths="@(BuildTypeFiles)" />
+	</Target>
+
+  <Target Name="Build" DependsOnTargets="SetAssemblyVersion;UpdateBuildTypeFile">
 	<MSBuild Projects="$(teamcity_build_checkoutDir)/SayMore.sln"
 			 Targets="Rebuild"
 			 Properties="Configuration=Release" />

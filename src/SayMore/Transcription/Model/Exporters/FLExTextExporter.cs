@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -85,6 +86,7 @@ namespace SayMore.Transcription.Model.Exporters
 		/// ------------------------------------------------------------------------------------
 		public void Start()
 		{
+			// ReSharper disable once UseObjectOrCollectionInitializer
 			_worker = new BackgroundWorker();
 			_worker.WorkerSupportsCancellation = true;
 			_worker.WorkerReportsProgress = true;
@@ -140,18 +142,29 @@ namespace SayMore.Transcription.Model.Exporters
 		{
 			var rootElement = CreateRootElement();
 
-			rootElement.Element("interlinear-text").Element("paragraphs").Add(
-				CreateParagraphElements());
+			var interlinear = rootElement.Element("interlinear-text");
+			if (interlinear != null)
+			{
+				var paragraphs = interlinear.Element("paragraphs");
+				if (paragraphs != null)
+					paragraphs.Add(CreateParagraphElements());
 
-			rootElement.Element("interlinear-text").Add(CreateLanguagesElement(
-				new[] { _wsTranscriptionId, _wsFreeTranslationId }));
+				interlinear.Add(CreateLanguagesElement(
+					new[] { _wsTranscriptionId, _wsFreeTranslationId }));
 
-			rootElement.Element("interlinear-text").Add(
-				new XElement("media-files", new XAttribute("offset-type", ""),
-					new XElement("media", new XAttribute("guid", _mediaFileGuid), new XAttribute("location", _mediaFilePath))));
+				interlinear.Add(
+					new XElement("media-files", new XAttribute("offset-type", ""),
+						new XElement("media", new XAttribute("guid", _mediaFileGuid), new XAttribute("location", _mediaFilePath))));
 
-			if (!string.IsNullOrEmpty(_sourceFilePath)) rootElement.Element("interlinear-text").Element("media-files").Add(
-				new XElement("media", new XAttribute("guid", _sourceFileGuid), new XAttribute("location", _sourceFilePath)));
+				var mediafiles = interlinear.Element("media-files");
+				if (mediafiles != null)
+				{
+					if (!string.IsNullOrEmpty(_sourceFilePath)) mediafiles.Add(
+					new XElement("media", new XAttribute("guid", _sourceFileGuid), new XAttribute("location", _sourceFilePath)));
+				}
+
+			}
+
 
 			return rootElement;
 		}
@@ -209,8 +222,8 @@ namespace SayMore.Transcription.Model.Exporters
 					translationTier.TryGetSegment(i, out freeTranslationSegment);
 					yield return CreateSingleParagraphElement(segmentList[i].Text,
 						(freeTranslationSegment != null ? freeTranslationSegment.Text : null),
-						startTime.ToString(),
-						endTime.ToString()
+						startTime.ToString(CultureInfo.InvariantCulture),
+						endTime.ToString(CultureInfo.InvariantCulture)
 						);
 				}
 			}
@@ -223,23 +236,17 @@ namespace SayMore.Transcription.Model.Exporters
 			var phraseElement = new XElement("phrase",
 				new XAttribute("begin-time-offset", start), new XAttribute("end-time-offset", end), new XAttribute("media-file", _mediaFileGuid));
 
-			phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "segnum", _currentSegment++.ToString()));
-			phraseElement.Add(CreateItemElement(_wsTranscriptionId, "txt", transcription));
+			// SP-890: Segments marked "ignore" should export as empty in FLEx export
+			phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "segnum", _currentSegment++.ToString(CultureInfo.InvariantCulture)));
+			phraseElement.Add(CreateItemElement(_wsTranscriptionId, "txt", (string.Compare(transcription, "%ignore%", StringComparison.OrdinalIgnoreCase) == 0) ? string.Empty : transcription));
 
 			if (freeTranslation != null)
-				phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "gls", freeTranslation));
+				phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "gls", (string.Compare(freeTranslation, "%ignore%", StringComparison.OrdinalIgnoreCase) == 0) ? string.Empty : freeTranslation));
 
 			phraseElement.Add(new XElement("words", null));
 
 			return new XElement("paragraph", new XElement("phrases", phraseElement));
 		}
-
-		/// ------------------------------------------------------------------------------------
-		//public XElement CreateSingleWordElement(string text)
-		//{
-		//    return new XElement("words", new XElement("word",
-		//        CreateItemElement(_wsTranscriptionId, "txt", text)));
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		public XElement CreateItemElement(string langId, string type, string text)

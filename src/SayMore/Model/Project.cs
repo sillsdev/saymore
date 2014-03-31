@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Drawing;
 using System.Linq;
@@ -278,6 +279,13 @@ namespace SayMore.Model
 			{
 				var msg = LocalizationManager.GetString("DialogBoxes.LoadProject.InvalidPath", "SayMore is not able to open the project file. \"{0}\" is not a valid path.");
 				MessageBox.Show(string.Format(msg, SettingsFilePath));
+
+				// allow the user to select a different project
+				var prs = new Process();
+				prs.StartInfo.FileName = Application.ExecutablePath;
+				prs.StartInfo.Arguments = "-nl";
+				prs.Start();
+
 				Environment.Exit(0);
 			}
 

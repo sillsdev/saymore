@@ -278,7 +278,7 @@ namespace SayMore.Model
 			if (!Uri.TryCreate(SettingsFilePath, UriKind.Absolute, out settingsUri))
 			{
 				var msg = LocalizationManager.GetString("DialogBoxes.LoadProject.InvalidPath", "SayMore is not able to open the project file. \"{0}\" is not a valid path.");
-				MessageBox.Show(string.Format(msg, SettingsFilePath));
+				ErrorReport.ReportNonFatalMessageWithStackTrace(msg, SettingsFilePath);
 
 				// allow the user to select a different project
 				var prs = new Process();

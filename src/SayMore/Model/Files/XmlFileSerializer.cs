@@ -41,7 +41,7 @@ namespace SayMore.Model.Files
 				if (Palaso.IO.FileUtils.IsFileLocked(path))
 				{
 					var msg = LocalizationManager.GetString("DialogBoxes.XmlFileSerializer.FileIsReadOnlyOrLocked", "SayMore is not able to write to the file \"{0}.\" It is read-only or locked by another user.");
-					MessageBox.Show(string.Format(msg, path));
+					ErrorReport.ReportNonFatalMessageWithStackTrace(msg, path);
 					return;
 				}
 			}

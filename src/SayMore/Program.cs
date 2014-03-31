@@ -9,6 +9,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
 using Palaso;
 using Palaso.Code;
@@ -150,31 +151,45 @@ namespace SayMore
 			SetUpErrorHandling();
 			SetUpReporting();
 
-			bool startedWithCommandLineProject = false;
-			var args = Environment.GetCommandLineArgs();
-			if (args.Length > 1)
-			{
-				var possibleProjFile = args[1];
-				startedWithCommandLineProject =
-					possibleProjFile.EndsWith(Settings.Default.ProjectFileExtension) &&
-					File.Exists(possibleProjFile) &&
-					OpenProjectWindow(possibleProjFile);
-			}
+#if DEBUG
+			//always track if this is a debug built, but track to a different segment.io project
+			using (new Analytics("twa75xkko9"))
+#else
+			// if this is a release build, then allow an envinroment variable to be set to false
+			// so that testers aren't generating false analytics
+			string feedbackSetting = System.Environment.GetEnvironmentVariable("FEEDBACK");
 
-			if (!startedWithCommandLineProject)
-				StartUpShellBasedOnMostRecentUsedIfPossible();
+			var allowTracking = string.IsNullOrEmpty(feedbackSetting) || feedbackSetting.ToLower() == "yes" || feedbackSetting.ToLower() == "true";
 
-			try
+			using (new Analytics("jtfe7dyef3", allowTracking))
+#endif
 			{
-				Application.Run();
-				Settings.Default.Save();
-				Logger.ShutDown();
+				bool startedWithCommandLineProject = false;
+				var args = Environment.GetCommandLineArgs();
+				if (args.Length > 1)
+				{
+					var possibleProjFile = args[1];
+					startedWithCommandLineProject =
+						possibleProjFile.EndsWith(Settings.Default.ProjectFileExtension) &&
+							File.Exists(possibleProjFile) &&
+							OpenProjectWindow(possibleProjFile);
+				}
 
-				SafelyDisposeProjectContext();
-			}
-			finally
-			{
-				ReleaseMutexForThisProject();
+				if (!startedWithCommandLineProject)
+					StartUpShellBasedOnMostRecentUsedIfPossible();
+
+				try
+				{
+					Application.Run();
+					Settings.Default.Save();
+					Logger.ShutDown();
+
+					SafelyDisposeProjectContext();
+				}
+				finally
+				{
+					ReleaseMutexForThisProject();
+				}
 			}
 		}
 

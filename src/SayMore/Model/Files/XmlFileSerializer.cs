@@ -3,8 +3,10 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using L10NSharp;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
 using Palaso.Xml;
@@ -33,6 +35,17 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public void Save(IEnumerable<FieldInstance> fields, string path, string rootElementName)
 		{
+			// SP-872: Access to the path is denied
+			if (File.Exists(path))
+			{
+				if (Palaso.IO.FileUtils.IsFileLocked(path))
+				{
+					var msg = LocalizationManager.GetString("CommonToMultipleViews.XmlFileSerializer.FileIsReadOnlyOrLocked", "SayMore is not able to write to the file \"{0}.\" It is read-only or locked by another user.");
+					MessageBox.Show(string.Format(msg, path));
+					return;
+				}
+			}
+
 			var root = new XElement(rootElementName); // TODO: could use actual name
 
 			XElement customFieldsElement = null;

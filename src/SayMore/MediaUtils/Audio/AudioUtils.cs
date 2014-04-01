@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using NAudio.FileFormats.Wav;
 using NAudio.Wave;
 using NAudio.Wave.Compression;
 using Palaso.Media;

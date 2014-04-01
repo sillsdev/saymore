@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using DesktopAnalytics;
 using L10NSharp;
 using NAudio.Wave;
 using Palaso.Media.Naudio;
@@ -518,7 +519,8 @@ namespace SayMore.Transcription.UI
 				_annotationPlayer.StartPlaying();
 			}
 
-			UsageReporter.SendNavigationNotice(ProgramAreaForUsageReporting + "/PlayAnnotation");
+			Analytics.Track("Play Annotation", new Dictionary<string, string> {
+				{ "ProgramAreaForUsageReporting", ProgramAreaForUsageReporting } });
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -597,7 +599,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override string ProgramAreaForUsageReporting
 		{
-			get { return "Annotations/Oral/" + AudioRecordingType.Careful; }
+			get { return "Careful Speech"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -636,7 +638,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override string ProgramAreaForUsageReporting
 		{
-			get { return "Annotations/Oral/" + AudioRecordingType.Translation; }
+			get { return "Oral Translation"; }
 		}
 
 		/// ------------------------------------------------------------------------------------

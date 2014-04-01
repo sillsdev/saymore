@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.ClearShare;
@@ -345,6 +346,8 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void ArchiveUsingRAMP()
 		{
+			Analytics.Track("Archive Session using RAMP");
+
 			var model = new RampArchivingDlgViewModel(Application.ProductName, Title, Id,
 				ArchiveInfoDetails, SetFilesToArchive, GetFileDescription);
 
@@ -366,6 +369,8 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void ArchiveUsingIMDI()
 		{
+			Analytics.Track("Archive Session using IMDI");
+
 			ArchivingHelper.ArchiveUsingIMDI(this);
 		}
 

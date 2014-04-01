@@ -144,12 +144,11 @@ namespace SayMore
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(false);
 
-			var log = Path.Combine(Path.GetTempPath(), EntryAssembly.CompanyName, UsageReporter.AppNameToUseInReporting, "createLogFile.txt");
+			var log = Path.Combine(Path.GetTempPath(), EntryAssembly.CompanyName, EntryAssembly.ProductName, "createLogFile.txt");
 			if (File.Exists(log))
 				Logger.Init();
 			Logger.WriteEvent("Visual Styles State: {0}", Application.VisualStyleState);
 			SetUpErrorHandling();
-			SetUpReporting();
 
 #if DEBUG
 			//always track if this is a debug built, but track to a different segment.io project
@@ -604,7 +603,9 @@ namespace SayMore
 		{
 			var path = FileLocator.GetFileDistributedWithApplication("SayMore.chm");
 			Help.ShowHelp(new Label(), path, topicLink);
-			UsageReporter.SendNavigationNotice("Help: " + topicLink);
+
+			Analytics.Track("Show Help Topic", new Dictionary<string, string> {
+				{"topicLink",  topicLink}});
 		}
 
 
@@ -618,24 +619,7 @@ namespace SayMore
 			ErrorReport.EmailAddress = "issues@saymore.palaso.org";
 			ErrorReport.AddStandardProperties();
 			ExceptionHandler.Init();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static void SetUpReporting()
-		{
-			if (Settings.Default.Reporting == null)
-			{
-				Settings.Default.Reporting = new ReportingSettings();
-				Settings.Default.Save();
-			}
-
-			UsageReporter.Init(Settings.Default.Reporting, "saymore.palaso.org", "UA-22170471-3",
-#if DEBUG
- true
-#else
-				false
-#endif
-);
+			ExceptionHandler.AddDelegate((w, e) => Analytics.ReportException(e.Exception));
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
 using Palaso.Code;
 using Palaso.Reporting;
@@ -735,6 +736,8 @@ namespace SayMore.Model.Files
 						viewModel.DiscardChanges();
 						return null;
 					}
+
+					Analytics.Track("Changes made using Oral Annotation Recorder");
 
 					var eafFileName = viewModel.Tiers.Save(PathToAnnotatedFile);
 					WaitCursor.Show();

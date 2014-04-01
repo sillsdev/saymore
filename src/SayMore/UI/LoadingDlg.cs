@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Miscellaneous;
@@ -98,7 +99,9 @@ namespace SayMore.UI
 			if (e.Cancelled)
 			{
 				DialogResult = DialogResult.Cancel;
-				UsageReporter.ReportException(false, "User cancelled operation", _exception, _labelLoading.Text);
+				Analytics.Track("User cancelled operation", new Dictionary<string, string> {
+					{"_labelLoading.Text", _labelLoading.Text} });
+				Analytics.ReportException(_exception);
 			}
 			else if (e.Error != null)
 			{

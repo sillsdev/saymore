@@ -3,11 +3,11 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Linq;
+using DesktopAnalytics;
 using L10NSharp;
 using L10NSharp.UI;
 using Palaso.Media.Naudio;
 using Palaso.Media.Naudio.UI;
-using Palaso.Reporting;
 using Palaso.UI.WindowsForms;
 using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Media.Audio;
@@ -934,7 +934,7 @@ namespace SayMore.Transcription.UI
 		private void HandleVideoHelpButtonClick(object sender, EventArgs e)
 		{
 			MessageBox.Show("Sorry, we don't actually have a video for this yet. Contributions welcome!");
-			UsageReporter.SendNavigationNotice("Video Help requested in " + ViewModel.AnnotationType + " dialog box.");
+			Analytics.Track("Video Help requested in " + ViewModel.AnnotationType + " dialog box.");
 		}
 
 		/// ------------------------------------------------------------------------------------

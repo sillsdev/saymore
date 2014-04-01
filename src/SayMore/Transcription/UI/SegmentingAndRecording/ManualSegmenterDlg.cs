@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Miscellaneous;
@@ -39,6 +40,8 @@ namespace SayMore.Transcription.UI
 						viewModel.DiscardChanges();
 						return null;
 					}
+
+					Analytics.Track("Changes made using Manual Segmentation");
 
 					var annotationFile = file.GetAnnotationFile();
 

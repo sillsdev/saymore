@@ -7,6 +7,7 @@ using System.Linq;
 using System.Media;
 using System.Reflection;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
 using L10NSharp.UI;
 using Palaso.IO;
@@ -193,7 +194,7 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void HandleHelpClick(object sender, EventArgs e)
 		{
-			//nb: when the file is in our source code, and not in the program directory, windows security will squak and then not show content.
+			//nb: when the file is in our source code, and not in the program directory, windows security will squawk and then not show content.
 			var path = FileLocator.GetFileDistributedWithApplication(false,"SayMore.chm");
 			try
 			{
@@ -204,7 +205,7 @@ namespace SayMore.UI.ProjectWindow
 				//user cancelling a security warning here shouldn't lead to a crash
 				Debug.Print(ex.Message);
 			}
-			UsageReporter.SendNavigationNotice("Help");
+			Analytics.Track("Show Help from main menu");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -285,7 +286,7 @@ namespace SayMore.UI.ProjectWindow
 			if (view.MainMenuItem != null)
 				view.MainMenuItem.Enabled = true;
 
-			UsageReporter.SendNavigationNotice(view.NameForUsageReporting);
+			Analytics.Track(view.NameForUsageReporting + "View Activated");
 		}
 
 		/// ------------------------------------------------------------------------------------

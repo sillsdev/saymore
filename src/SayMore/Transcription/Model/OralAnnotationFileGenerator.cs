@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
@@ -83,6 +84,8 @@ namespace SayMore.Transcription.Model
 					FileSystemUtils.WaitForFileRelease(oralAnnotationFile);
 					return true;
 				}
+
+				Analytics.Track("Generating Oral Annotation File");
 
 				using (var generator = new OralAnnotationFileGenerator(timeTier,
 					tierCollection.GetIsSegmentIgnored, parentControlForDialog))

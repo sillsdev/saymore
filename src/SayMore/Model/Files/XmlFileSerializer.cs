@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using L10NSharp;

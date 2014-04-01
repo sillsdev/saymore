@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Linq;
+using DesktopAnalytics;
 using L10NSharp;
 using L10NSharp.UI;
 using Palaso.Reporting;
@@ -254,6 +255,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void OnFLexTextExportClick(object sender, EventArgs e)
 		{
+			Analytics.Track("Export FlexText initiated");
+
 			var file = (AnnotationComponentFile)_file;
 			var fullMediaFileName = file.GetPathToAssociatedMediaFile();
 			var mediaFileName = Path.GetFileName(fullMediaFileName);
@@ -276,7 +279,10 @@ namespace SayMore.Transcription.UI
 			using (var dlg = new ExportToFieldWorksInterlinearDlg(mediaFileName))
 			{
 				if (dlg.ShowDialog() == DialogResult.Cancel)
+				{
+					Analytics.Track("Export FlexText cancelled");
 					return;
+				}
 
 				FLExTextExporter.Save(dlg.FileName, mediaFileName,
 					file.Tiers, dlg.TranscriptionWs.Id, dlg.FreeTranslationWs.Id, fullMediaFileName, sourceFileName);
@@ -421,6 +427,8 @@ namespace SayMore.Transcription.UI
 
 		private void OnExportElanMenuItem_Click(object sender, EventArgs e)
 		{
+			Analytics.Track("Export ELAN");
+
 			var msg =
 				LocalizationManager.GetString(
 					"SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMessage",
@@ -430,6 +438,8 @@ namespace SayMore.Transcription.UI
 
 		private void OnExportSubtitlesFreeTranslation(object sender, EventArgs e)
 		{
+			Analytics.Track("Export Free Translation Subtitles");
+
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var contentTier = ((AnnotationComponentFile) _file).Tiers.GetFreeTranslationTier();
 			DoExportSubtitleDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix", "freeTranslation_subtitle"), timeTier, contentTier);
@@ -437,6 +447,8 @@ namespace SayMore.Transcription.UI
 
 		private void OnExportSubtitlesVernacular(object sender, EventArgs e)
 		{
+			Analytics.Track("Export Transcription Subtitles");
+
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var contentTier = ((AnnotationComponentFile)_file).Tiers.GetTranscriptionTier();
 			DoExportSubtitleDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.transcriptionFilenameSuffix", "transcription_subtitle"), timeTier, contentTier);
@@ -456,6 +468,8 @@ namespace SayMore.Transcription.UI
 
 		private void OnAudacityExportFreeTranslation(object sender, EventArgs e)
 		{
+			Analytics.Track("Export Free Translation to Audacity");
+
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var textTeir = ((AnnotationComponentFile)_file).Tiers.GetFreeTranslationTier();
 			textTeir.AddTimeRangeData(timeTier);
@@ -470,6 +484,8 @@ namespace SayMore.Transcription.UI
 
 		private void OnAudacityExportTranscription(object sender, EventArgs e)
 		{
+			Analytics.Track("Export Transcription to Audacity");
+
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var textTeir = ((AnnotationComponentFile)_file).Tiers.GetTranscriptionTier();
 			textTeir.AddTimeRangeData(timeTier);
@@ -485,6 +501,8 @@ namespace SayMore.Transcription.UI
 
 		private void OnPlainTextExportMenuItem_Click(object sender, EventArgs e)
 		{
+			Analytics.Track("Export Plain Text");
+
 			var filter = "Text File (*.txt)|*.txt";
 			var fileName = _file.ParentElement.Id + "_transcription.txt";
 			var action = new Action<string>(path => PlainTextTranscriptionExporter.Export(path, (((AnnotationComponentFile) _file).Tiers)));
@@ -494,6 +512,8 @@ namespace SayMore.Transcription.UI
 
 		private void OnCsvExportMenuItem_Click(object sender, EventArgs e)
 		{
+			Analytics.Track("Export CSV");
+
 			var filter = "Comma Separated Values File (*.csv)|*.csv";
 			var fileName = _file.ParentElement.Id + "_transcription.csv";
 			var action = new Action<string>(path => CSVTranscriptionExporter.Export(path, (((AnnotationComponentFile) _file).Tiers)));
@@ -503,6 +523,8 @@ namespace SayMore.Transcription.UI
 
 		private void OnToolboxInterlinearExportMenuItem_Click(object sender, EventArgs e)
 		{
+			Analytics.Track("Export Toolbox Interlinear");
+
 			var filter = "Toolbox Standard Format File (*.txt)|*.txt";
 			var fileName = _file.ParentElement.Id + "_interlinear.txt";
 			var mediaFileName = Path.GetFileName(AssociatedComponentFile.PathToAnnotatedFile);

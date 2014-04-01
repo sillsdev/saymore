@@ -230,9 +230,6 @@
     <Setting Name="NeedUpgrade" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="Reporting" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="Palaso.Reporting.ReportingSettings" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="FileTypesToAllowLoadingInBrowserEditor" Type="System.String" Scope="Application">
       <Value Profile="(Default)">htm;html;xml;txt;pdf</Value>
     </Setting>

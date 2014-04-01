@@ -443,7 +443,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual string ProgramAreaForUsageReporting
 		{
-			get { return "ManualSegmentation"; }
+			get { return "Manual Segmentation"; }
 		}
 
 		/// ------------------------------------------------------------------------------------

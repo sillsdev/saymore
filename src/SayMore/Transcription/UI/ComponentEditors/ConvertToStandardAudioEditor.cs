@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms;
@@ -105,6 +107,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleConvertButtonClick(object sender, EventArgs e)
 		{
+			Analytics.Track("Convert to standard audio", new Dictionary<string, string> {
+				{"fileExtension", Path.GetExtension(_file.PathToAnnotatedFile) }});
+
 			_buttonConvert.Enabled = true;
 
 			var error = AudioUtils.ConvertToStandardPCM(_file.PathToAnnotatedFile,

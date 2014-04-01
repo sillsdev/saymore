@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using L10NSharp;
-using Palaso.Reporting;
 using SayMore.UI;
 using SayMore.UI.LowLevelControls;
 
@@ -272,8 +271,6 @@ namespace SayMore.Transcription.Model.Exporters
 				dlg.StartPosition = FormStartPosition.CenterScreen;
 				dlg.ShowDialog();
 			}
-
-			UsageReporter.SendNavigationNotice("Export to FieldWorks.");
 		}
 	}
 }

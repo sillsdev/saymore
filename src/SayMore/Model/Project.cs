@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using DesktopAnalytics;
 using L10NSharp;
 using Palaso.Extensions;
 using Palaso.Reporting;
@@ -532,6 +533,8 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		internal void ArchiveProjectUsingIMDI(Form parentForm)
 		{
+			Analytics.Track("Archive Project using IMDI");
+
 			ArchivingHelper.ArchiveUsingIMDI(this);
 		}
 

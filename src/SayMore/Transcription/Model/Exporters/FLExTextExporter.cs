@@ -231,16 +231,16 @@ namespace SayMore.Transcription.Model.Exporters
 		/// ------------------------------------------------------------------------------------
 		public XElement CreateSingleParagraphElement(string transcription, string freeTranslation, string start, string end)
 		{
-			//	var transcriptionElement = CreateSingleWordElement(transcription);
 			var phraseElement = new XElement("phrase",
 				new XAttribute("begin-time-offset", start), new XAttribute("end-time-offset", end), new XAttribute("media-file", _mediaFileGuid));
 
-			// SP-890: Segments marked "ignore" should export as empty in FLEx export
+			// SP-890: Segments marked "ignore" should export as "..." in FLEx export
 			phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "segnum", _currentSegment++.ToString(CultureInfo.InvariantCulture)));
-			phraseElement.Add(CreateItemElement(_wsTranscriptionId, "txt", (string.Compare(transcription, TierCollection.kIgnoreSegment, StringComparison.OrdinalIgnoreCase) == 0) ? string.Empty : transcription));
+			bool ignored = transcription == TierCollection.kIgnoreSegment;
+			phraseElement.Add(CreateItemElement(_wsTranscriptionId, "txt", (ignored ? "..." : transcription)));
 
-			if (freeTranslation != null)
-				phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "gls", (string.Compare(freeTranslation, TierCollection.kIgnoreSegment, StringComparison.OrdinalIgnoreCase) == 0) ? string.Empty : freeTranslation));
+			if (!ignored && freeTranslation != null)
+				phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "gls", freeTranslation));
 
 			phraseElement.Add(new XElement("words", null));
 

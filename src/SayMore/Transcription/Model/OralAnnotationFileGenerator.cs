@@ -80,8 +80,7 @@ namespace SayMore.Transcription.Model
 					if (File.Exists(oralAnnotationFile))
 						FileSystemUtils.WaitForFileRelease(oralAnnotationFile);
 
-					File.Create(oralAnnotationFile);
-					FileSystemUtils.WaitForFileRelease(oralAnnotationFile);
+					File.Create(oralAnnotationFile).Dispose();
 					return true;
 				}
 

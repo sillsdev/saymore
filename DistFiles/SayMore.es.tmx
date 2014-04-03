@@ -226,6 +226,22 @@
         <seg>¿Desea eliminar el campo '{0}' y su contenido en cada record del proyecto?</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.FileIsReadOnly">
+      <tuv xml:lang="en">
+        <seg>SayMore is not able to write to the file "{0}." It is read-only.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>SayMore no puede grabar el archivo "{0}." Es de sólo lectura.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileIsReadOnlyOrLocked">
+      <tuv xml:lang="en">
+        <seg>SayMore is not able to write to the file "{0}." It is read-only or locked.</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>SayMore no puede grabar el archivo "{0}." Es de sólo lectura o está bloqueado.</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.Caption">
       <tuv xml:lang="en">
         <seg>Add Files</seg>

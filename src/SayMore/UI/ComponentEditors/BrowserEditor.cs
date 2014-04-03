@@ -59,7 +59,7 @@ namespace SayMore.UI.ComponentEditors
 				// The browser takes a moment to finish navigating and thus
 				// to release the file pointed to by the previous URL.
 				Cursor = Cursors.WaitCursor;
-				FileSystemUtils.WaitForFileRelease(file.PathToAnnotatedFile, Thread.CurrentThread);
+				FileSystemUtils.WaitForFileRelease(file.PathToAnnotatedFile);
 				Cursor = Cursors.Default;
 			});
 

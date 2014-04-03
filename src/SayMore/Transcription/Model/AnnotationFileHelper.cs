@@ -84,7 +84,13 @@ namespace SayMore.Transcription.Model
 				var root = XElement.Load(fileName);
 				return root.Name.LocalName == "ANNOTATION_DOCUMENT";
 			}
-			catch { }
+			catch (IOException)
+			{
+				throw;
+			}
+			catch
+			{
+			}
 
 			return false;
 		}
@@ -751,7 +757,7 @@ namespace SayMore.Transcription.Model
 			try
 			{
 				// SP-702: file is being used by another process
-				FileSystemUtils.WaitForFileRelease(AnnotationFileName);
+				FileSystemUtils.WaitForFileRelease(AnnotationFileName, true);
 				Root.Save(AnnotationFileName);
 			}
 			catch (Exception e)

@@ -9,6 +9,7 @@ using L10NSharp;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
 using Palaso.Xml;
+using SayMore.Utilities;
 
 namespace SayMore.Model.Files
 {
@@ -37,10 +38,15 @@ namespace SayMore.Model.Files
 			// SP-872: Access to the path is denied
 			if (File.Exists(path))
 			{
-				if (Palaso.IO.FileUtils.IsFileLocked(path))
+				var result = FileSystemUtils.WaitForFileRelease(path, true);
+				if (result != FileSystemUtils.WaitForReleaseResult.Free)
 				{
-					var msg = LocalizationManager.GetString("DialogBoxes.XmlFileSerializer.FileIsReadOnlyOrLocked", "SayMore is not able to write to the file \"{0}.\" It is read-only or locked by another user.");
-					ErrorReport.ReportNonFatalMessageWithStackTrace(msg, path);
+					if (result == FileSystemUtils.WaitForReleaseResult.TimedOut)
+					{
+						var msg = LocalizationManager.GetString("CommonToMultipleViews.FileIsReadOnlyOrLocked",
+							"SayMore is not able to write to the file \"{0}.\" It is read-only or locked.");
+						ErrorReport.ReportNonFatalMessageWithStackTrace(msg, path);
+					}
 					return;
 				}
 			}
@@ -152,7 +158,7 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Create an empty copy of the file if it isn't there.
+		/// Create an "empty" (with just a root element) copy of the file if it isn't there.
 		/// </summary>
 		/// <returns>true if the file had to be created</returns>
 		/// ------------------------------------------------------------------------------------

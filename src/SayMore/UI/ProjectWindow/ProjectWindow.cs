@@ -124,7 +124,12 @@ namespace SayMore.UI.ProjectWindow
 			if (disposing)
 			{
 				ExceptionHandler.RemoveDelegate(AudioUtils.HandleGlobalNAudioException);
-				components.Dispose();
+
+				if (components != null)
+					components.Dispose();
+
+				if (_viewTabGroup != null)
+					_viewTabGroup.Tabs.Clear();
 			}
 
 			base.Dispose(disposing);
@@ -295,12 +300,6 @@ namespace SayMore.UI.ProjectWindow
 			var view = deactivatedTab.View as ISayMoreView;
 			if (view != null && view.MainMenuItem != null)
 				view.MainMenuItem.Enabled = false;
-		}
-
-		public new void Dispose()
-		{
-			_viewTabGroup.Tabs.RemoveAll(tab => true);
-			base.Dispose();
 		}
 	}
 }

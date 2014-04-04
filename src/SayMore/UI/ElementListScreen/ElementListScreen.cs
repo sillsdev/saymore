@@ -536,17 +536,26 @@ namespace SayMore.UI.ElementListScreen
 			return (editor == null || editor.IsOKToLeaveEditor);
 		}
 
-		public new void Dispose()
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
 		{
-			_elementsGrid.SelectedElementChanged -= HandleSelectedElementChanged;
-			_elementsListPanel.NewButtonClicked -= HandleAddingNewElement;
-			_elementsListPanel.DeleteButtonClicked -= HandleDeletingSelectedElements;
+			if (disposing)
+			{
+				if (components != null)
+					components.Dispose();
 
-			var frm = FindForm();
-			if (frm != null)
-				frm.Activated += HandleParentFormActivated;
+				_elementsGrid.SelectedElementChanged -= HandleSelectedElementChanged;
+				_elementsListPanel.NewButtonClicked -= HandleAddingNewElement;
+				_elementsListPanel.DeleteButtonClicked -= HandleDeletingSelectedElements;
 
-			base.Dispose();
+				var frm = FindForm();
+				if (frm != null)
+					frm.Activated -= HandleParentFormActivated;
+			}
+			base.Dispose(disposing);
 		}
 	}
 }

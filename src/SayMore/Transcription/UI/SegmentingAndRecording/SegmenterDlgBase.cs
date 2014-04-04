@@ -460,8 +460,15 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnPlayingback(WaveControlBasic ctrl, TimeSpan current, TimeSpan total)
 		{
-			_labelTimeDisplay.Text = MediaPlayerViewModel.GetTimeDisplay(
-				(float)current.TotalSeconds, (float)total.TotalSeconds);
+			if (InvokeRequired)
+			{
+				Invoke(new Action(() => OnPlayingback(ctrl, current, total)));
+			}
+			else
+			{
+				_labelTimeDisplay.Text = MediaPlayerViewModel.GetTimeDisplay(
+					(float) current.TotalSeconds, (float) total.TotalSeconds);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -60,9 +60,9 @@
     <Reference Include="Analytics.NET">
       <HintPath>..\..\packages\Analytics.1.1.0\lib\Analytics.NET.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac, Version=2.5.1.827, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+    <Reference Include="Autofac, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\Autofac.dll</HintPath>
+      <HintPath>..\..\packages\Autofac.3.3.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="DesktopAnalytics">
       <HintPath>..\..\packages\DesktopAnalytics.0.2.9\lib\DesktopAnalytics.dll</HintPath>
@@ -70,13 +70,13 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\dotnet\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="L10NSharp, Version=1.1.4835.17235, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="L10NSharp, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\L10NSharp.dll</HintPath>
+      <HintPath>..\..\packages\L10NSharp.2.0.3\lib\net40-Client\L10NSharp.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio, Version=1.5.4.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="NAudio, Version=1.7.0.15, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\NAudio.dll</HintPath>
+      <HintPath>..\..\packages\NAudio.1.7\lib\net35\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>

@@ -38,7 +38,7 @@ namespace SayMore.Media.Audio
 		protected float _zoomPercentage = 100f;
 		protected bool _wasStreamCreatedHere;
 		protected WaveStream _playbackStream;
-		protected WaveOut _waveOut;
+		protected WaveOutEvent _waveOut;
 		protected Size _prevClientSize;
 		protected bool _savedAllowDrawingValue = true;
 		protected int _savedBottomReservedAreaHeight;
@@ -665,8 +665,8 @@ namespace SayMore.Media.Audio
 
 			try
 			{
-				_waveOut = new WaveOut();
-				_waveOut.DesiredLatency = 100;
+				_waveOut = new WaveOutEvent();
+				_waveOut.DesiredLatency = 500;
 				_waveOut.Init(new SampleToWaveProvider(waveOutProvider));
 				_waveOut.PlaybackStopped += delegate { Stop(); };
 				_waveOut.Play();

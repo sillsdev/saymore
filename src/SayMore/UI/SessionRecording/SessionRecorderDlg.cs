@@ -143,7 +143,6 @@ namespace SayMore.UI.SessionRecording
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			_viewModel.CloseAll();
-			LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 			base.OnFormClosing(e);
 		}
 

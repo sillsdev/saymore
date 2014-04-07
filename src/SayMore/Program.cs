@@ -415,18 +415,6 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static bool OpenProject(string projectPath)
-		{
-			// SP-855: Memory leak when opening a different project
-			var prs = new Process();
-			prs.StartInfo.FileName = Application.ExecutablePath;
-			prs.StartInfo.Arguments = "\"" + projectPath + "\"";
-			prs.Start();
-
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// By the time we get here, we know the app. has settled down after loading a project.
 		/// Now that the project has been loaded without crashing, save the project as the
@@ -494,15 +482,6 @@ namespace SayMore
 						return;
 					}
 
-					if (File.Exists(dlg.Model.ProjectSettingsFilePath))
-					{
-						// this is a request to open an existing project
-						if (OpenProject(dlg.Model.ProjectSettingsFilePath))
-							Application.Exit();
-							return;
-					}
-
-					// this is a request to create a new project
 					if (OpenProjectWindow(dlg.Model.ProjectSettingsFilePath))
 						return;
 				}

@@ -37,9 +37,9 @@ namespace SayMore.Model.Files
 			new Dictionary<int, IEnumerable<IEditorProvider>>();
 
 		public string Name { get; protected set; }
-		public virtual string TypeDescription { get; protected set; }
-		public virtual Image SmallIcon { get; protected set; }
-		public virtual string FileSize { get; protected set; }
+		public virtual string TypeDescription { get { return null; } }
+		public virtual Image SmallIcon { get { return null; } }
+		public virtual string FileSize { get { return null; } }
 
 		/// ------------------------------------------------------------------------------------
 		public static FileType Create(string name, string matchForEndOfFileName)

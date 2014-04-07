@@ -97,6 +97,7 @@ namespace SayMore.UI.ElementListScreen
 			LoadElementList();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);

@@ -29,13 +29,6 @@ namespace SayMore.UI.Overview
 				Program.ShowHelpTopic("/Using_Tools/Project_tab/Choose_Access_Protocol.htm");
 		}
 
-		protected override void OnHandleDestroyed(EventArgs e)
-		{
-			base.OnHandleDestroyed(e);
-
-			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
-		}
-
 		private string GetBaseUriDirectory()
 		{
 			var fileName = FileLocator.GetFileDistributedWithApplication("Archiving", AccessProtocols.kProtocolFileName);

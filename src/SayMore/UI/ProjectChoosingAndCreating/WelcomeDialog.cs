@@ -123,7 +123,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		{
 			base.OnFormClosing(e);
 			Settings.Default.Save();
-			LocalizeItemDlg.StringsLocalized -= LocalizationInitiated;
 		}
 
 		/// ------------------------------------------------------------------------------------

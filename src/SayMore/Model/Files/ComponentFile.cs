@@ -30,7 +30,7 @@ namespace SayMore.Model.Files
 	/// etc.). Each of these is represented by an object of this class.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class ComponentFile
+	public class ComponentFile : IDisposable
 	{
 		#region Windows API stuff
 #if !__MonoCS__
@@ -72,10 +72,10 @@ namespace SayMore.Model.Files
 		private AnnotationComponentFile _annotationFile;
 
 		protected IEnumerable<ComponentRole> _componentRoles;
-		private readonly XmlFileSerializer _xmlFileSerializer;
-		private readonly IProvideAudioVideoFileStatistics _statisticsProvider;
-		private readonly PresetGatherer _presetProvider;
-		private readonly FieldUpdater _fieldUpdater;
+		private XmlFileSerializer _xmlFileSerializer;
+		private IProvideAudioVideoFileStatistics _statisticsProvider;
+		private PresetGatherer _presetProvider;
+		private FieldUpdater _fieldUpdater;
 
 		public ProjectElement ParentElement { get; protected set; }
 		public string RootElementName { get; protected set; }
@@ -859,6 +859,21 @@ namespace SayMore.Model.Files
 		public override string ToString()
 		{
 			return PathToAnnotatedFile;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Dispose()
+		{
+			if (_annotationFile != null)
+				_annotationFile.Dispose();
+			_annotationFile = null;
+
+			_xmlFileSerializer = null;
+			_statisticsProvider = null;
+			_presetProvider = null;
+			_fieldUpdater = null;
+			MetaDataFieldValues = null;
+			ParentElement = null;
 		}
 
 		/// ------------------------------------------------------------------------------------

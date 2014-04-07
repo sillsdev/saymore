@@ -63,6 +63,8 @@ namespace SayMore.UI.Overview
 					_statsView.Dispose();
 					_statsView = null;
 				}
+				if (_mnuProgress != null)
+					_mnuProgress.Dispose();
 			}
 
 			base.Dispose(disposing);

@@ -128,8 +128,6 @@ namespace SayMore.UI
 				DialogResult = DialogResult.OK;
 
 			base.OnClosing(e);
-			if (!e.Cancel)
-				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,3 +1,5 @@
+using L10NSharp.UI;
+
 namespace SayMore.UI.ElementListScreen
 {
 	partial class ComponentFileGrid
@@ -13,9 +15,12 @@ namespace SayMore.UI.ElementListScreen
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (components != null))
+			if (disposing)
 			{
-				components.Dispose();
+				if (components != null)
+					components.Dispose();
+
+				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 			}
 			base.Dispose(disposing);
 		}

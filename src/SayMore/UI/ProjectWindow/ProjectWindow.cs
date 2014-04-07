@@ -123,6 +123,8 @@ namespace SayMore.UI.ProjectWindow
 		{
 			if (disposing)
 			{
+				LocalizeItemDlg.StringsLocalized -= SetWindowText;
+
 				ExceptionHandler.RemoveDelegate(AudioUtils.HandleGlobalNAudioException);
 
 				if (components != null)
@@ -166,9 +168,6 @@ namespace SayMore.UI.ProjectWindow
 			}
 
 			base.OnFormClosing(e);
-
-			if (!e.Cancel)
-				LocalizeItemDlg.StringsLocalized -= SetWindowText;
 		}
 
 		/// ------------------------------------------------------------------------------------

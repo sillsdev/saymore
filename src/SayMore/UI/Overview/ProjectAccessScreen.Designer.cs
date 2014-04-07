@@ -1,3 +1,5 @@
+using L10NSharp.UI;
+
 namespace SayMore.UI.Overview
 {
 	partial class ProjectAccessScreen
@@ -13,9 +15,11 @@ namespace SayMore.UI.Overview
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (components != null))
+			if (disposing)
 			{
-				components.Dispose();
+				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
+				if (components != null)
+					components.Dispose();
 			}
 			base.Dispose(disposing);
 		}

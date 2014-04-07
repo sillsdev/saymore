@@ -129,7 +129,6 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 			if (!DesignMode)
 				Settings.Default[_gridColSettingPrefix + "ComponentGrid"] = GridSettings.Create(_grid);
 

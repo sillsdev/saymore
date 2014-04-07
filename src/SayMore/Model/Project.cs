@@ -30,9 +30,9 @@ namespace SayMore.Model
 	/// people, and another of sessions.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class Project : IAutoSegmenterSettings, IIMDIArchivable
+	public class Project : IAutoSegmenterSettings, IIMDIArchivable, IDisposable
 	{
-		private readonly ElementRepository<Session>.Factory _sessionsRepoFactory;
+		private ElementRepository<Session>.Factory _sessionsRepoFactory;
 		private readonly SessionFileType _sessionFileType;
 		private string _accessProtocol;
 		private bool _accessProtocolChanged;
@@ -42,7 +42,9 @@ namespace SayMore.Model
 		public string Name { get; protected set; }
 
 		public Font TranscriptionFont { get; set; }
+		private bool _needToDisposeTranscriptionFont;
 		public Font FreeTranslationFont { get; set; }
+		private bool _needToDisposeFreeTranslationFont;
 
 		public int AutoSegmenterMinimumSegmentLengthInMilliseconds { get; set; }
 		public int AutoSegmenterMaximumSegmentLengthInMilliseconds { get; set; }
@@ -109,6 +111,18 @@ namespace SayMore.Model
 			}
 
 			if (saveNeeded) Save();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Dispose()
+		{
+			_sessionsRepoFactory = null;
+			if (_needToDisposeTranscriptionFont)
+				TranscriptionFont.Dispose();
+			TranscriptionFont = null;
+			if (_needToDisposeFreeTranslationFont)
+				FreeTranslationFont.Dispose();
+			FreeTranslationFont = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -302,12 +316,16 @@ namespace SayMore.Model
 
 			settingValue = GetStringSettingValue(project, "transcriptionFont", null);
 			if (!string.IsNullOrEmpty(settingValue))
+			{
 				TranscriptionFont = FontHelper.MakeFont(settingValue);
-
+				_needToDisposeTranscriptionFont = true;
+			}
 			settingValue = GetStringSettingValue(project, "freeTranslationFont", null);
 			if (!string.IsNullOrEmpty(settingValue))
+			{
 				FreeTranslationFont = FontHelper.MakeFont(settingValue);
-
+				_needToDisposeFreeTranslationFont = true;
+			}
 			var autoSegmenterSettings = project.Element("AutoSegmentersettings");
 			if (autoSegmenterSettings != null)
 			{

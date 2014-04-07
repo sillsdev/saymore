@@ -66,6 +66,15 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
+
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void Initialize(string tabText, string imageKey)
 		{
 			TabText = tabText ?? TabText;
@@ -157,13 +166,6 @@ namespace SayMore.UI.ComponentEditors
 		{
 			SetLabelFonts(this, FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold));
 			base.OnLoad(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleDestroyed(EventArgs e)
-		{
-			base.OnHandleDestroyed(e);
-			LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------

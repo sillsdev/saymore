@@ -97,6 +97,8 @@ namespace SayMore.Model
 		public virtual void Dispose()
 		{
 			ClearComponentFiles();
+			if (MetaDataFile != null)
+				MetaDataFile = null;
 		}
 
 		[Obsolete("For Mocking Only")]

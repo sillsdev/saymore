@@ -62,7 +62,7 @@
     </Reference>
     <Reference Include="Autofac, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\Autofac.dll</HintPath>
+      <HintPath>..\..\packages\Autofac.3.3.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="DesktopAnalytics">
       <HintPath>..\..\packages\DesktopAnalytics.0.2.9\lib\DesktopAnalytics.dll</HintPath>

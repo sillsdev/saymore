@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -11,7 +10,6 @@ namespace SayMore.UI.Overview.Statistics
 	public partial class StatisticsView : UserControl
 	{
 		private readonly StatisticsViewModel _model;
-		private bool _updateDisplayNeeded;
 
 		/// ------------------------------------------------------------------------------------
 		public StatisticsView(StatisticsViewModel model)
@@ -29,28 +27,17 @@ namespace SayMore.UI.Overview.Statistics
 			base.OnHandleDestroyed(e);
 
 			LocalizeItemDlg.StringsLocalized -= UpdateDisplay;
-
-			if (_refreshTimer != null)
-			{
-				_refreshTimer.Dispose();
-				_refreshTimer = null;
-			}
-
-			if (_webBrowser != null)
-			{
-				_webBrowser.Dispose();
-				_webBrowser = null;
-			}
+			_model.FinishedGatheringStatisticsForAllFiles -= HandleNewDataAvailable;
+			_model.NewStatisticsAvailable -= HandleNewDataAvailable;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void InitializeView()
 		{
-			_model.FinishedGatheringStatisticsForAllFiles += HandleFinishedGatheringStatisticsForAllFiles;
+			_model.FinishedGatheringStatisticsForAllFiles += HandleNewDataAvailable;
 
-			if (!_model.IsDataUpToDate)
-				UpdateStatusDisplay();
-			else
+			UpdateStatusDisplay();
+			if (_model.IsDataUpToDate)
 			{
 				_model.NewStatisticsAvailable += HandleNewDataAvailable;
 				UpdateDisplay();
@@ -62,8 +49,6 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		public void UpdateDisplay()
 		{
-			_updateDisplayNeeded = false;
-
 			if (_webBrowser.DocumentStream != null)
 				_webBrowser.DocumentStream.Dispose();
 
@@ -164,54 +149,8 @@ namespace SayMore.UI.Overview.Statistics
 
 			_model.NewStatisticsAvailable -= HandleNewDataAvailable;
 			_model.Refresh();
+			UpdateStatusDisplay();
 			_webBrowser.DocumentText = string.Empty;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleTimerTick(object sender, EventArgs e)
-		{
-			//SP-866: Program crashes or freezes after progress tab is displayed.
-			try
-			{
-				_refreshTimer.Enabled = false;
-				_refreshTimer.Interval = IsReallyVisible() ? 3000 : 1000;
-
-				if (_refreshTimer.Interval > 1000)
-				{
-					UpdateStatusDisplay();
-
-					if (_updateDisplayNeeded)
-						UpdateDisplay();
-				}
-			}
-			finally
-			{
-				_refreshTimer.Enabled = true;
-			}
-
-		}
-
-		/// <summary>SP-866: Program crashes or freezes after progress tab is displayed.</summary>
-		private bool IsReallyVisible()
-		{
-			if (Program.ProjectWindow == null) return false;
-			if (Program.ProjectWindow.SelectedTabIndex() != 0) return false;
-
-			// is the progress tab selected?
-			var pos = Program.ProjectWindow.PointToClient(_toolStripActions.PointToScreen(Point.Empty));
-			if ((pos.X < 0) || (pos.Y < 0)) return false;
-
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		void HandleFinishedGatheringStatisticsForAllFiles(object sender, EventArgs e)
-		{
-			// Can't actually call UpdateDisplay from here because this event is fired from
-			// a background (data gathering) thread and updating the browser control on the
-			// background thread is a no-no. UpdateDisplay will be called when the timer
-			// tick fires.
-			_updateDisplayNeeded = true;
 		}
 
 		/// ----------------------------------------------------------------------------------
@@ -221,7 +160,7 @@ namespace SayMore.UI.Overview.Statistics
 			// a background (data gathering) thread and updating the browser control on the
 			// background thread is a no-no. UpdateDisplay will be called when the timer
 			// tick fires.
-			_updateDisplayNeeded = true;
+			BeginInvoke(new Action(UpdateDisplay));
 		}
 	}
 }

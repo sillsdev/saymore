@@ -54,7 +54,7 @@ namespace SayMore.Media
 		{
 			var finfo = new FileInfo(mediaFile);
 			if (!finfo.Exists || finfo.Length == 0)
-				return null;
+				return new MediaFileInfo();
 
 			var info = new MediaInfo();
 			if (info.Open(mediaFile) == 0)
@@ -100,7 +100,11 @@ namespace SayMore.Media
 		{
 			get
 			{
-				return (Video == null || Audio.DurationInSeconds > Video.DurationInSeconds) ?
+				if (Audio == null)
+					return Video == null ? 0 : Video.DurationInSeconds;
+				if (Video == null)
+					return Audio.DurationInSeconds;
+				return Audio.DurationInSeconds > Video.DurationInSeconds ?
 					Audio.DurationInSeconds : Video.DurationInSeconds;
 			}
 		}

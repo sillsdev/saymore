@@ -167,6 +167,7 @@ namespace SayMore.Model.Files.DataGathering
 						if (_restartRequested)
 						{
 							_restartRequested = false;
+							Status = kWorkingStatus;
 							ProcessAllFiles();
 						}
 
@@ -259,6 +260,7 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			T fileData = null;
 
+			var priorStatus = Status;
 			Status = kWorkingStatus;
 
 			try
@@ -291,7 +293,7 @@ namespace SayMore.Model.Files.DataGathering
 			}
 
 			OnNewDataAvailable(fileData);
-			Status = kUpToDataStatus;
+			Status = priorStatus;
 		}
 
 		/// ------------------------------------------------------------------------------------

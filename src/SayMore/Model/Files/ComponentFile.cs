@@ -312,8 +312,6 @@ namespace SayMore.Model.Files
 					if (processor != null)
 						processor.ProcessThisFile(PathToAnnotatedFile);
 
-					Thread.Sleep(100);
-
 					stats = StatisticsProvider.GetFileData(PathToAnnotatedFile);
 				}
 

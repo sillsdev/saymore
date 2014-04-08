@@ -71,10 +71,7 @@ namespace SayMore.Model.Files.DataGathering
 		public void Dispose()
 		{
 			if (_workerThread != null)
-			{
 				_workerThread.Abort(); //will eventually lead to it stopping
-				_workerThread.Join();
-			}
 			_workerThread = null;
 		}
 

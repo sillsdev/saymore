@@ -318,6 +318,8 @@ namespace SayMore.Model.Files
 				if (stats == null || stats.Duration == default(TimeSpan))
 				{
 					string duration = GetStringValue("Duration", string.Empty);
+					if (duration == "Not Generated")
+						return TimeSpan.Zero;
 					return string.IsNullOrEmpty(duration) ? TimeSpan.Zero : TimeSpan.Parse(duration);
 				}
 
@@ -362,10 +364,13 @@ namespace SayMore.Model.Files
 
 			if (computedFieldInfo != null && StatisticsProvider != null)
 			{
+				var mediaFileInfo = StatisticsProvider.GetFileData(PathToAnnotatedFile);
+				if (mediaFileInfo.Audio == null &&
+					PathToAnnotatedFile.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix))
+					return "Not Generated";
 				// Get the computed value (if there is one).
 				computedValue = computedFieldInfo.GetFormatedStatProvider(
-					StatisticsProvider.GetFileData(PathToAnnotatedFile),
-					computedFieldInfo.DataItemChooser, computedFieldInfo.Suffix);
+					mediaFileInfo, computedFieldInfo.DataItemChooser, computedFieldInfo.Suffix);
 			}
 
 			// Get the value from the metadata file.
@@ -757,7 +762,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void GenerateOralAnnotationFile(TierCollection tiers, Control parentOfProgressPopup, GenerateOption option)
+		public bool GenerateOralAnnotationFile(TierCollection tiers, Control parentOfProgressPopup, GenerateOption option)
 		{
 			if (PreGenerateOralAnnotationFileAction != null)
 				PreGenerateOralAnnotationFileAction();
@@ -772,6 +777,8 @@ namespace SayMore.Model.Files
 
 			if (PostGenerateOralAnnotationFileAction != null)
 				PostGenerateOralAnnotationFileAction(generated);
+
+			return generated;
 		}
 
 		/// ------------------------------------------------------------------------------------

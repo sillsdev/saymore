@@ -49,6 +49,15 @@ namespace SayMore.UI.ComponentEditors
 			RowData = new List<FieldInstance>();
 			LoadFields();
 
+			file.PostGenerateOralAnnotationFileAction += generated =>
+			{
+				if (generated)
+				{
+					RowData = new List<FieldInstance>();
+					LoadFields();
+				}
+			};
+
 			if (ComponentFileChanged != null)
 				ComponentFileChanged();
 		}

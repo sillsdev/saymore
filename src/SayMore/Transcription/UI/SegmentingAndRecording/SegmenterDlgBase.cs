@@ -656,8 +656,9 @@ namespace SayMore.Transcription.UI
 #if DEBUG
 					throw new Exception(
 						"How can this be null? It has happened twice, and it makes no sense! Now using above logic instead of HotSegment.");
-#endif
+#else
 					return;
+#endif
 				}
 			}
 			else

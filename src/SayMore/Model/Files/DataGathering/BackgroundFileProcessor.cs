@@ -265,7 +265,6 @@ namespace SayMore.Model.Files.DataGathering
 
 			try
 			{
-				Debug.WriteLine("processing " + path);
 				var actualPath = GetActualPath(path);
 
 				if (!ShouldStop && File.Exists(actualPath))

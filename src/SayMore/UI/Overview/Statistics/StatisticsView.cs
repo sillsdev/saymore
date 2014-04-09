@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using L10NSharp.UI;
@@ -36,7 +37,7 @@ namespace SayMore.UI.Overview.Statistics
 		{
 			_model.FinishedGatheringStatisticsForAllFiles += HandleNewDataAvailable;
 
-			UpdateStatusDisplay();
+			UpdateStatusDisplay(true);
 			if (_model.IsDataUpToDate)
 			{
 				_model.NewStatisticsAvailable += HandleNewDataAvailable;
@@ -47,27 +48,37 @@ namespace SayMore.UI.Overview.Statistics
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void UpdateDisplay()
+		private void UpdateDisplay()
 		{
 			if (_webBrowser.DocumentStream != null)
 				_webBrowser.DocumentStream.Dispose();
+			UpdateStatusDisplay(true);
+			Thread updateDisplayThread = new Thread(() =>
+				{
+					var htmlData = new MemoryStream(Encoding.UTF8.GetBytes(_model.HTMLString));
 
-			_webBrowser.DocumentStream = new MemoryStream(Encoding.UTF8.GetBytes(_model.HTMLString));
+					Invoke(new Action(() =>
+						{
+							_webBrowser.DocumentStream = htmlData;
 
-			if (_webBrowser.Document != null)
-				_webBrowser.Document.Encoding = "utf-8";
+							if (_webBrowser.Document != null)
+								_webBrowser.Document.Encoding = "utf-8";
 
-			UpdateStatusDisplay();
-			_model.NewStatisticsAvailable -= HandleNewDataAvailable;
-			_model.NewStatisticsAvailable += HandleNewDataAvailable;
+							UpdateStatusDisplay(false);
+							_model.NewStatisticsAvailable -= HandleNewDataAvailable;
+							_model.NewStatisticsAvailable += HandleNewDataAvailable;
+						}));
+				});
+			updateDisplayThread.Name = "StatisticsView.UpdateDisplay";
+			updateDisplayThread.IsBackground = true;
+			updateDisplayThread.Start();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateStatusDisplay()
+		private void UpdateStatusDisplay(bool working)
 		{
-			var showRefreshButton = _model.IsDataUpToDate;
-			_buttonRefresh.Visible = showRefreshButton;
-			_panelWorking.Visible = !showRefreshButton;
+			_buttonRefresh.Visible = !working;
+			_panelWorking.Visible = working;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -147,9 +158,9 @@ namespace SayMore.UI.Overview.Statistics
 			if (_model.IsBusy)
 				return;
 
+			UpdateStatusDisplay(true);
 			_model.NewStatisticsAvailable -= HandleNewDataAvailable;
 			_model.Refresh();
-			UpdateStatusDisplay();
 			_webBrowser.DocumentText = string.Empty;
 		}
 

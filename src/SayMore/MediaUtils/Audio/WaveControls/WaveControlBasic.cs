@@ -262,6 +262,14 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool IsPlayingToEndOfMedia
+		{
+			get { return IsPlaying && _playbackRange.End == WaveStream.TotalTime; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual IEnumerable<TimeSpan> SegmentBoundaries
 		{
 			get { return (Painter != null ? Painter.SegmentBoundaries : new TimeSpan[] { }); }
@@ -636,6 +644,11 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		public void Play(TimeSpan playbackStartTime, TimeSpan playbackEndTime)
 		{
+			if (_waveOut != null)
+			{
+				throw new InvalidOperationException("Can't call play while playing (_waveOut != null).");
+			}
+
 			if (_playbackStream == null || (_playbackStream.WaveFormat.BitsPerSample == 32 &&
 				_playbackStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat))
 			{
@@ -672,10 +685,13 @@ namespace SayMore.Media.Audio
 				_waveOut.Play();
 				OnPlaybackStarted(playbackStartTime, playbackEndTime);
 			}
-			catch (MmException)
+			catch (MmException exception)
 			{
+				if (_waveOut != null)
+					_waveOut.Dispose();
 				_waveOut = null;
-				throw;
+				DesktopAnalytics.Analytics.ReportException(exception);
+				//  throw;
 			}
 		}
 
@@ -702,7 +718,7 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		protected void HandlePlaybackMetering(object sender, StreamVolumeEventArgs e)
 		{
-			if (_playbackStream.CurrentTime == (_playbackRange.End > TimeSpan.Zero ? _playbackRange.End : WaveStream.TotalTime))
+			if (_playbackStream.CurrentTime >= (_playbackRange.End > TimeSpan.Zero ? _playbackRange.End : WaveStream.TotalTime))
 			{
 				SetCursor(_playbackRange.End);
 				if (_waveOut != null)

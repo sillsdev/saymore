@@ -256,7 +256,7 @@ namespace SayMore.Transcription.UI
 
 
 		/// ------------------------------------------------------------------------------------
-		protected Rectangle PlayOrigButtonRectangle
+		protected virtual Rectangle PlayOrigButtonRectangle
 		{
 			get
 			{
@@ -364,12 +364,6 @@ namespace SayMore.Transcription.UI
 				if (setZoomText)
 					SetZoomTextInComboBox();
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual bool ShouldShadePlaybackAreaDuringPlayback
-		{
-			get { return true; }
 		}
 
 		/// ------------------------------------------------------------------------------------

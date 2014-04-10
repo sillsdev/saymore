@@ -431,9 +431,14 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override bool ShouldShadePlaybackAreaDuringPlayback
+		protected override Rectangle PlayOrigButtonRectangle
 		{
-			get { return false; }
+			get
+			{
+				if (_waveControl.IsPlayingToEndOfMedia)
+					return new Rectangle();
+				return base.PlayOrigButtonRectangle;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -452,6 +457,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void UpdateDisplay()
 		{
+			if (InvokeRequired)
+			{
+				Invoke(new Action(UpdateDisplay));
+				return;
+			}
+
 			_buttonListenToOriginal.Visible = !_waveControl.IsPlaying;
 			_buttonStopOriginal.Visible = _waveControl.IsPlaying;
 

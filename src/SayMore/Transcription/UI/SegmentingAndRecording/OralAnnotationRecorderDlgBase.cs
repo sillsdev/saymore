@@ -876,6 +876,12 @@ namespace SayMore.Transcription.UI
 			if (!playSource && !playAnnotation)
 				return;
 
+			// Normally playing gets stopped by mouse down, but if the mouse down happens
+			// and then playing starts (e.g., by pressing 'b') before the mouse comes up,
+			// we just ignore this.
+			if (_waveControl.IsPlaying)
+				return;
+
 			var segMouseOver = _waveControl.GetSegmentForX(e.X);
 
 			StopAnnotationPlayBackIfNeeded();

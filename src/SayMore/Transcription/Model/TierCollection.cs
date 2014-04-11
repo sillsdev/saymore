@@ -223,11 +223,11 @@ namespace SayMore.Transcription.Model
 			if (!timeTier.Segments.Any())
 				return false;
 
-			var segment = timeTier.GetSegmentHavingEndBoundary(boundary);
-			if (segment == null && TimeSpan.FromSeconds(boundary) > timeTier.Segments.Last().TimeRange.End)
+			var precedingSegment = timeTier.GetSegmentHavingEndBoundary(boundary);
+			if (precedingSegment == null && TimeSpan.FromSeconds(boundary) > timeTier.Segments.Last().TimeRange.End)
 				return false;
 
-			var i = timeTier.GetIndexOfSegment(segment);
+			var i = timeTier.GetIndexOfSegment(precedingSegment);
 
 			if (PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent)
 			{
@@ -235,7 +235,8 @@ namespace SayMore.Transcription.Model
 				foreach (TextTier textTier in this.OfType<TextTier>())
 				{
 					var segments = textTier.Segments;
-					if (segments == null || i < 0 || segments.Count <= i) continue;
+					if (segments == null || i < 0 || segments.Count <= i)
+						continue;
 					if (!string.IsNullOrEmpty(segments[i].Text) ||
 						segments.Count > i + 1 && !string.IsNullOrEmpty(segments[i + 1].Text))
 						return true;
@@ -243,17 +244,13 @@ namespace SayMore.Transcription.Model
 			}
 
 			// SP-891: Object reference not set to an instance of an object
-			if (segment != null)
-			{
-				if (File.Exists(segment.GetFullPathToCarefulSpeechFile()) ||
-					File.Exists(segment.GetFullPathToOralTranslationFile()))
-					return true;
-			}
+			if (precedingSegment != null && precedingSegment.GetHasAnyOralAnnotation())
+				return true;
 
 			if (timeTier.Segments.Count > i + 1)
 			{
-				segment = timeTier.Segments[i + 1];
-				return segment.GetHasAnyOralAnnotation();
+				var followingSegment = timeTier.Segments[i + 1];
+				return followingSegment.GetHasAnyOralAnnotation();
 			}
 
 			return false;

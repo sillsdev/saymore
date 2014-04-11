@@ -217,14 +217,6 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void SetVirtualWidth(int width)
-		{
-			VirtualWidth = width;
-			PixelPerMillisecond = (width - kRightDisplayPadding) / _totalTime.TotalMilliseconds;
-			SetSamplesPerPixel(_numberOfSamples / ((double)width - kRightDisplayPadding));
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public virtual void SetPixelsPerSecond(double value)
 		{
 			PixelPerMillisecond = value / 1000.0;
@@ -394,7 +386,7 @@ namespace SayMore.Media.Audio
 			DrawWave(e, rc);
 			DrawBottomArea(e, rc);
 			ShadeIgnoredSegments(e);
-			DrawSegmentBoundaries(e.Graphics, rc.Height + BottomReservedAreaHeight);
+			DrawSegmentBoundaries(e, rc.Height + BottomReservedAreaHeight);
 			DrawCursor(e.Graphics, rc);
 
 			if (_movedBoundary > TimeSpan.Zero)
@@ -607,13 +599,18 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void DrawSegmentBoundaries(Graphics g, int clientHeight)
+		protected virtual void DrawSegmentBoundaries(PaintEventArgs e, int clientHeight)
 		{
-			if (_segmentBoundaries == null)
+			if (_segmentBoundaries == null || !_segmentBoundaries.Any())
 				return;
 
-			foreach (var boundary in _segmentBoundaries)
-				DrawBoundary(g, clientHeight, boundary);
+			var graphics = e.Graphics;
+
+			var startTime = ConvertXCoordinateToTime(e.ClipRectangle.Left - 1);
+			var endTime = ConvertXCoordinateToTime(e.ClipRectangle.Right + 1);
+
+			foreach (var boundary in _segmentBoundaries.Where(s => s >= startTime && s <= endTime))
+				DrawBoundary(graphics, clientHeight, boundary);
 		}
 
 		/// ------------------------------------------------------------------------------------

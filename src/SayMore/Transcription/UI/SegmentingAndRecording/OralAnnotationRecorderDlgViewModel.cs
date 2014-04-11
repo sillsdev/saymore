@@ -565,6 +565,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void PlaySource(WaveControlBasic waveControl, Action<WaveControlBasic> play)
 		{
+			waveControl.PlaybackStopped -= OnPlaybackStopped;
 			waveControl.PlaybackStopped += OnPlaybackStopped;
 
 			if (_recordingDeviceIndicator != null)

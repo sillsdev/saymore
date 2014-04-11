@@ -172,7 +172,10 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public int GetIndexOfSegment(Segment segment)
 		{
-			for (int i = 0; segment != null && i < Segments.Count; i++)
+			if (segment == null)
+				return -1;
+
+			for (int i = 0; i < Segments.Count; i++)
 			{
 				if (Segments[i].TimeRange == segment.TimeRange)
 					return i;

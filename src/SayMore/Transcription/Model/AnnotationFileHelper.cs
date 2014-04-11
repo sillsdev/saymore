@@ -469,7 +469,7 @@ namespace SayMore.Transcription.Model
 				}
 			}
 
-			return kvpList.OrderBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+			return kvpList.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 		}
 
 		/// ------------------------------------------------------------------------------------

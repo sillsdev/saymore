@@ -101,7 +101,8 @@ namespace SayMore.UI
 				DialogResult = DialogResult.Cancel;
 				Analytics.Track("User cancelled operation", new Dictionary<string, string> {
 					{"_labelLoading.Text", _labelLoading.Text} });
-				Analytics.ReportException(_exception);
+				if (_exception != null)
+					Analytics.ReportException(_exception);
 			}
 			else if (e.Error != null)
 			{

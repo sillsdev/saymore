@@ -48,6 +48,8 @@ namespace SayMore.Transcription.UI
 		protected PercentageFormatter _pctFormatter = new PercentageFormatter();
 		private bool _changeActiveControlOnEnter;
 		private bool _inHandleZoomKeyDown;
+		private bool _closeDlgRequested;
+
 
 		public event Action SegmentIgnored;
 
@@ -182,6 +184,16 @@ namespace SayMore.Transcription.UI
 
 				if (components != null)
 					components.Dispose();
+
+				if (_waveControl != null)
+				{
+					_waveControl.PlaybackStarted -= OnPlaybackStarted;
+					_waveControl.PlaybackUpdate -= OnPlayingback;
+					_waveControl.PlaybackStopped -= OnPlaybackStopped;
+					_waveControl.MouseMove -= HandleWaveControlMouseMove;
+					_waveControl.MouseLeave -= HandleWaveControlMouseLeave;
+					_waveControl.MouseClick -= HandleWaveControlMouseClick;
+				}
 			}
 
 			base.Dispose(disposing);
@@ -419,6 +431,16 @@ namespace SayMore.Transcription.UI
 				DialogResult = DialogResult.OK;
 			}
 
+			if (_waveControl.IsPlaying)
+			{
+				// This is weird, but if we close the dialog while playing, OnPlayingBack gets called and
+				// throws an ObjectDisposedException even though the dlg is only being destroyed and has not
+				// yet been disposed. Stopping playback is asynchronous, so we just need to note that the user
+				// wishes to close and wait for playback to stop.
+				_closeDlgRequested = true;
+				return;
+			}
+
 			e.Cancel = false;
 
 			if (DialogResult == DialogResult.OK)
@@ -468,7 +490,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnPlaybackStopped(WaveControlBasic ctrl, TimeSpan start, TimeSpan end)
 		{
-			UpdateDisplay();
+			if (_closeDlgRequested)
+				Close();
+			else
+				UpdateDisplay();
 		}
 
 		#region Methods for adjusting/saving/playing within segment boundaries
@@ -528,9 +553,19 @@ namespace SayMore.Transcription.UI
 			g.DrawImage(img, rc);
 		}
 
+		private Point _lastMousePosition;
+		private Point _lastWaveControlScrollPosition;
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleWaveControlMouseMove(object sender, MouseEventArgs e)
 		{
+			// This is utter insanity, but we're constantly getting mouse move events when the
+			// mouse isn't moving, and the processing here is using all the CPU. If nothing
+			// has changed, let's just get out of here.
+			if (e.Location == _lastMousePosition && _waveControl.AutoScrollPosition == _lastWaveControlScrollPosition)
+				return;
+			_lastMousePosition = e.Location;
+			_lastWaveControlScrollPosition = _waveControl.AutoScrollPosition;
+
 			bool enableIgnoreMenu = false;
 			var rcHotSegment = HotSegmentRectangle;
 			if (rcHotSegment != Rectangle.Empty)
@@ -727,6 +762,7 @@ namespace SayMore.Transcription.UI
 				if (!_waveControl.IsPlaying)
 				{
 					_waveControl.Play(playbackStartTime, boundary);
+					_waveControl.PlaybackStopped -= PlaybackShortPortionUpToBoundary;
 					_waveControl.PlaybackStopped += PlaybackShortPortionUpToBoundary;
 				}
 

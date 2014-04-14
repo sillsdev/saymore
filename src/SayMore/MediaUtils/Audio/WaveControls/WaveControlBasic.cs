@@ -10,6 +10,7 @@ using NAudio.Wave.SampleProviders;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 
+// ReSharper disable once CheckNamespace
 namespace SayMore.Media.Audio
 {
 	/// ----------------------------------------------------------------------------------------
@@ -55,6 +56,7 @@ namespace SayMore.Media.Audio
 		protected int _slidingTargetScrollOffset;
 		protected bool _ignoreMouseProcessing;
 		private bool _stopping;
+		private bool _initialized;
 
 		/// ------------------------------------------------------------------------------------
 		public WaveControlBasic()
@@ -125,6 +127,8 @@ namespace SayMore.Media.Audio
 			Painter.AllowRedraw = _savedAllowDrawingValue;
 			Painter.ForeColor = ForeColor;
 			Painter.BackColor = BackColor;
+
+			_initialized = true;
 
 			SetZoom();
 
@@ -940,6 +944,9 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		private void SetZoom()
 		{
+			// SP-907: Object reference not set (ZoomPercentage is being set before Initialize is called)
+			if (!_initialized) return;
+
 			if (_playbackStream == null)
 			{
 				// Just use default for now - probably being set in Designer code.

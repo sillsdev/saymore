@@ -740,6 +740,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public TimeRange GetTimeRangeForRow(int rowIndex)
 		{
+			// SP-912: Index was out of range. Must be non-negative and less than the size of the collection.
+			// (This is happening after a segment is deleted)
+			if (rowIndex >= _annotationFile.Tiers.GetTimeTier().Segments.Count)
+				return new TimeRange(TimeSpan.Zero, TimeSpan.Zero);
+
 			return _annotationFile.Tiers.GetTimeTier().Segments[rowIndex].TimeRange;
 		}
 		#endregion

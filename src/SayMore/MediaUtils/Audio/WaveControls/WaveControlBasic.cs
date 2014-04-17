@@ -56,7 +56,6 @@ namespace SayMore.Media.Audio
 		protected int _slidingTargetScrollOffset;
 		protected bool _ignoreMouseProcessing;
 		private bool _stopping;
-		private bool _initialized;
 
 		/// ------------------------------------------------------------------------------------
 		public WaveControlBasic()
@@ -128,8 +127,6 @@ namespace SayMore.Media.Audio
 			Painter.ForeColor = ForeColor;
 			Painter.BackColor = BackColor;
 
-			_initialized = true;
-
 			SetZoom();
 
 			if (Painter.AllowRedraw)
@@ -149,6 +146,8 @@ namespace SayMore.Media.Audio
 				WaveStream.Dispose();
 				WaveStream = null;
 			}
+
+			_playbackStream = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -945,15 +944,9 @@ namespace SayMore.Media.Audio
 		private void SetZoom()
 		{
 			// SP-907: Object reference not set (ZoomPercentage is being set before Initialize is called)
-			if (!_initialized) return;
-
 			if (_playbackStream == null)
-			{
-				// Just use default for now - probably being set in Designer code.
-				Painter.SetPixelsPerSecond(Settings.Default.SegmentingWaveViewPixelsPerSecond);
-				AutoScrollMinSize = new Size(Painter.VirtualWidth, 0);
 				return;
-			}
+
 			var percentage = _zoomPercentage / 100;
 			var defaultWidth = _playbackStream.TotalTime.TotalSeconds * Settings.Default.SegmentingWaveViewPixelsPerSecond;
 			var adjustedWidth = (int)(Math.Round(defaultWidth * percentage, MidpointRounding.AwayFromZero));

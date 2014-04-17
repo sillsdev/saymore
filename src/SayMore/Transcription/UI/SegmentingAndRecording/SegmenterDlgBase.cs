@@ -118,6 +118,7 @@ namespace SayMore.Transcription.UI
 			_hotPlayInSegmentButton = PaintingHelper.MakeHotImage(_normalPlayInSegmentButton);
 
 			_waveControl = CreateWaveControl();
+			InitializeZoomCombo(); // For efficiency, do this before initializing the wave control.
 			InitializeWaveControl();
 			_waveControl.Dock = DockStyle.Fill;
 			_panelWaveControl.Controls.Add(_waveControl);
@@ -138,7 +139,6 @@ namespace SayMore.Transcription.UI
 					waveFormat.BitsPerSample, waveFormat.Encoding);
 			};
 
-			InitializeZoomCombo();
 			_labelZoom.Font = Program.DialogFont;
 			_labelSegmentXofY.Font = Program.DialogFont;
 			_labelSegmentNumber.Font = Program.DialogFont;
@@ -955,7 +955,8 @@ namespace SayMore.Transcription.UI
 			if (_inHandleZoomKeyDown)
 				return;
 			SetZoom();
-			if (!_comboBoxZoom.DroppedDown)
+			// Can't make the wave control active if it hasn't yet been added to the form.
+			if (!_comboBoxZoom.DroppedDown && _waveControl.Parent != null)
 				ActiveControl = _waveControl;
 		}
 

@@ -67,9 +67,7 @@ namespace SayMore.Model.Files
 					option = GenerateOption.RegenerateNow;
 			}
 
-			bool generated = AssociatedComponentFile.GenerateOralAnnotationFile(eafFile.Tiers, parentOfProgressPopup, option);
-			if (PostGenerateOralAnnotationFileAction != null)
-				PostGenerateOralAnnotationFileAction(generated);
+			AssociatedComponentFile.GenerateOralAnnotationFile(eafFile.Tiers, parentOfProgressPopup, option);
 		}
 	}
 }

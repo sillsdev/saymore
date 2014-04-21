@@ -758,13 +758,13 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public bool GenerateOralAnnotationFile(TierCollection tiers, Control parentOfProgressPopup, GenerateOption option)
 		{
-			if (PreGenerateOralAnnotationFileAction != null)
-				PreGenerateOralAnnotationFileAction();
-
 			bool generated = false;
 			// subclass OralAnnotationComponentFile will handle the case of JIT generation
 			if (option != GenerateOption.GenerateIfNeeded)
 			{
+				if (PreGenerateOralAnnotationFileAction != null)
+					PreGenerateOralAnnotationFileAction();
+
 				generated = OralAnnotationFileGenerator.Generate(tiers, parentOfProgressPopup,
 					option == GenerateOption.ClearAndRegenerateOnDemand);
 			}

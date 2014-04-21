@@ -193,6 +193,7 @@ namespace SayMore.Transcription.UI
 					_waveControl.MouseMove -= HandleWaveControlMouseMove;
 					_waveControl.MouseLeave -= HandleWaveControlMouseLeave;
 					_waveControl.MouseClick -= HandleWaveControlMouseClick;
+					_waveControl.FormatNotSupportedMessageProvider = null;
 				}
 			}
 

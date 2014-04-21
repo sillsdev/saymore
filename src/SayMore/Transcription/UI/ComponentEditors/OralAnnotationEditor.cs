@@ -71,21 +71,25 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public override void SetComponentFile(ComponentFile file)
 		{
-			if (AssociatedComponentFile != null)
-			{
-				AssociatedComponentFile.PreGenerateOralAnnotationFileAction = null;
-				AssociatedComponentFile.PostGenerateOralAnnotationFileAction = null;
-			}
-
-			base.SetComponentFile(file);
-
 			_buttonPlay.Enabled = false;
 
-			file.PreDeleteAction = () =>
-				_oralAnnotationWaveViewer.CloseAudioStream();
-			AssociatedComponentFile.PreGenerateOralAnnotationFileAction = () =>
-				_oralAnnotationWaveViewer.CloseAudioStream();
-			AssociatedComponentFile.PostGenerateOralAnnotationFileAction = HandleOralAnnotationFileGenerated;
+			if (_file != file || _isFirstTimeActivated)
+			{
+				if (AssociatedComponentFile != null)
+				{
+					AssociatedComponentFile.PreGenerateOralAnnotationFileAction = null;
+					AssociatedComponentFile.PostGenerateOralAnnotationFileAction = null;
+				}
+
+				base.SetComponentFile(file);
+
+				file.PreDeleteAction = () =>
+					_oralAnnotationWaveViewer.CloseAudioStream();
+				AssociatedComponentFile.PreGenerateOralAnnotationFileAction = () =>
+					_oralAnnotationWaveViewer.CloseAudioStream();
+				AssociatedComponentFile.PostGenerateOralAnnotationFileAction = HandleOralAnnotationFileGenerated;
+			}
+
 			file.GenerateOralAnnotationFile(this, ComponentFile.GenerateOption.GenerateIfNeeded);
 
 			_buttonHelp.Enabled = true;

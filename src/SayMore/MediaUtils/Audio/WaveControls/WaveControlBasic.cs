@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NAudio;
@@ -37,7 +38,7 @@ namespace SayMore.Media.Audio
 		public WaveStream WaveStream { get; private set; }
 
 		protected float _zoomPercentage = 100f;
-		protected bool _wasStreamCreatedHere;
+		private FileInfo _finfo;
 		protected WaveStream _playbackStream;
 		protected WaveOutEvent _waveOut;
 		protected Size _prevClientSize;
@@ -78,11 +79,7 @@ namespace SayMore.Media.Audio
 				if (_waveOut != null)
 					Stop();
 
-				if (_wasStreamCreatedHere && WaveStream != null)
-				{
-					WaveStream.Close();
-					WaveStream.Dispose();
-				}
+				CloseAndDisposeWaveStreamIfNeeded();
 
 				PostPaintAction = null;
 			}
@@ -91,16 +88,32 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Initialize(string audioFileName)
+		private void CloseAndDisposeWaveStreamIfNeeded()
 		{
-			_wasStreamCreatedHere = true;
+			if (_finfo != null && WaveStream != null)
+			{
+				WaveStream.Close();
+				WaveStream.Dispose();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void LoadFile(string audioFileName)
+		{
 			try
 			{
-				Initialize(new WaveFileReader(audioFileName));
+				FileInfo finfo = new FileInfo(audioFileName);
+				if (_finfo != null && finfo.FullName == _finfo.FullName && finfo.LastWriteTimeUtc == _finfo.LastWriteTimeUtc)
+				{
+					// Reloading same exact file - nothing to do except paint.
+					if (Painter.AllowRedraw)
+						Invalidate();
+					return;
+				}
+				LoadStream(new WaveFileReader(audioFileName), finfo);
 			}
 			catch
 			{
-				_wasStreamCreatedHere = true;
 				AllowDrawing = false;
 				throw;
 			}
@@ -109,8 +122,18 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		public void Initialize(WaveFileReader stream)
 		{
+			LoadStream(stream, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void LoadStream(WaveFileReader stream, FileInfo finfo)
+		{
 			if (Painter != null)
 				Painter.Dispose();
+
+			CloseAndDisposeWaveStreamIfNeeded();
+
+			_finfo = finfo;
 
 			WaveStream = stream;
 
@@ -138,10 +161,15 @@ namespace SayMore.Media.Audio
 		{
 			KillSlideTimer();
 
-			if (_wasStreamCreatedHere && WaveStream != null)
+			if (Painter != null)
 			{
+				Painter.BottomReservedAreaPaintAction = null;
 				Painter.Dispose();
 				Painter = null;
+			}
+
+			if (_finfo != null && WaveStream != null)
+			{
 				WaveStream.Close();
 				WaveStream.Dispose();
 				WaveStream = null;

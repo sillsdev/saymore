@@ -254,24 +254,6 @@ namespace SayMore.Media.Audio
 				_samplesToDraw = AudioFileHelper.GetSamples(new WaveFileReaderWrapper(_waveStream),
 					(uint)(VirtualWidth - kRightDisplayPadding));
 			}
-
-			//_numberOfSamples = _samples.Length;
-			//_samplesToDraw = new[] { new List<float[]>((int)(_numberOfSamples / (long)SamplesPerPixel)) };
-
-			//for (int sample = 0; sample < _numberOfSamples; sample += (int)SamplesPerPixel)
-			//{
-			//    var biggestSample = float.MinValue;
-			//    var smallestSample = float.MaxValue;
-
-			//    // Find the max and min peaks for this pixel
-			//    for (int i = 0; i < SamplesPerPixel && sample + i < _numberOfSamples; i++)
-			//    {
-			//        biggestSample = Math.Max(biggestSample, _samples[sample + i]);
-			//        smallestSample = Math.Min(smallestSample, _samples[sample + i]);
-			//    }
-
-			//    _samplesToDraw[0].Add(new[] { biggestSample, smallestSample });
-			//}
 		}
 
 		/// ------------------------------------------------------------------------------------

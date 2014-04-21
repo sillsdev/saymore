@@ -83,7 +83,7 @@ namespace SayMore.Transcription.UI
 		public void LoadAnnotationAudioFile(string filename)
 		{
 			_waveControl.AllowDrawing = true;
-			_waveControl.Initialize(filename);
+			_waveControl.LoadFile(filename);
 			_waveControl.AutoScrollPosition = new Point(0, AutoScrollPosition.Y);
 			_waveControl.SetCursor(0);
 

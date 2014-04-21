@@ -226,12 +226,8 @@ namespace SayMore.UI.ComponentEditors
 			if (value == RowData[index].ValueAsString)
 				return;
 
-			string failureMessage;
-			value = _file.SetStringValue(RowData[index].FieldId, value, out failureMessage);
-			if (failureMessage != null)
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
-			else
-				RowData[index].Value = value;
+			value = _file.SetStringValue(RowData[index].FieldId, value);
+			RowData[index].Value = value;
 
 			_fieldGatherer.SuspendProcessing();
 			_file.Save();

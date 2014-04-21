@@ -59,13 +59,11 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual bool TrySetStringValue(string key, string newValue)
 		{
-			string failureMessage;
-			return (SetStringValue(key, newValue, out failureMessage) == newValue &&
-				string.IsNullOrEmpty(failureMessage));
+			return (SetStringValue(key, newValue) == newValue);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string SetStringValue(string key, string newValue, out string failureMessage)
+		public override string SetStringValue(string key, string newValue)
 		{
 			if (key == SessionFileType.kStatusFieldName)
 				newValue = Session.GetStatusAsEnumParsableString(newValue);
@@ -74,7 +72,7 @@ namespace SayMore.Model.Files
 			else if (key == PersonFileType.kCode)
 				_oldUiId = ParentElement.UiId;
 
-			return base.SetStringValue(key, newValue, out failureMessage);
+			return base.SetStringValue(key, newValue);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -95,11 +93,19 @@ namespace SayMore.Model.Files
 
 			if (ParentElement.Id != newId)
 			{
-				var oldId = ParentElement.Id;
-				if (ParentElement.TryChangeIdAndSave(newId, out failureMessage))
+				Program.SuspendBackgroundProcesses();
+				try
 				{
-					LoadFileSizeAndDateModified();
-					OnIdChanged("id", oldId, newId);
+					var oldId = ParentElement.Id;
+					if (ParentElement.TryChangeIdAndSave(newId, out failureMessage))
+					{
+						LoadFileSizeAndDateModified();
+						OnIdChanged("id", oldId, newId);
+					}
+				}
+				finally
+				{
+					Program.ResumeBackgroundProcesses(false);
 				}
 			}
 

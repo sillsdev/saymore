@@ -315,20 +315,14 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string SetValue(string key, string value)
+		public void SetValues(IEnumerable<KeyValuePair<string, string>> values)
 		{
-			string failureMessage;
 			ComponentFile.MetadataValueChanged -= HandleValueChangedOutsideBinder;
-			var modifiedValue = ComponentFile.SetStringValue(key, value, out failureMessage);
+			foreach (KeyValuePair<string, string> kvp in values)
+				ComponentFile.SetStringValue(kvp.Key, kvp.Value);
 			ComponentFile.MetadataValueChanged += HandleValueChangedOutsideBinder;
 
-			if (failureMessage != null)
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
-
-			//enchance: don't save so often, leave it to some higher level
 			SaveNow();
-
-			return modifiedValue;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -387,16 +381,17 @@ namespace SayMore.UI.ComponentEditors
 			if (oldValue != null && oldValue == newValue)
 				return;
 
-			string failureMessage;
+			string failureMessage = null;
 
 			ComponentFile.MetadataValueChanged -= HandleValueChangedOutsideBinder;
 
 			// SP-742: Save changes before renaming the file ("Could not find a part of the path 'C:\...\NameOf.session'.")
-			if (_componentFileIdControl == ctrl) SaveNow();
+			if (_componentFileIdControl == ctrl)
+				SaveNow();
 
 			newValue = (_componentFileIdControl == ctrl ?
 				ComponentFile.TryChangeChangeId(newValue, out failureMessage) :
-				ComponentFile.SetStringValue(key, newValue, out failureMessage));
+				ComponentFile.SetStringValue(key, newValue));
 
 			ComponentFile.MetadataValueChanged += HandleValueChangedOutsideBinder;
 

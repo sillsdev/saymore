@@ -386,11 +386,7 @@ namespace SayMore.Model.Files
 					// REVIEW: We probably don't want to save the formatted value to the
 					// metadata file, which is what we're doing here. In the future we'll
 					// probably want to change things to save the raw computed value.
-					string failureMessage;
-					SetStringValue(key, computedValue, out failureMessage);
-					if (failureMessage != null)
-						ErrorReport.NotifyUserOfProblem(failureMessage);
-
+					SetStringValue(key, computedValue);
 					Save();
 					return computedValue;
 				}
@@ -411,9 +407,9 @@ namespace SayMore.Model.Files
 		/// Sets the value for persisting, and returns the same value, potentially modified
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual string SetStringValue(string key, string newValue, out string failureMessage)
+		public virtual string SetStringValue(string key, string newValue)
 		{
-			return SetStringValue(new FieldInstance(key, newValue), out failureMessage);
+			return SetStringValue(new FieldInstance(key, newValue));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -454,10 +450,8 @@ namespace SayMore.Model.Files
 		/// Sets the value for persisting, and returns the same value, potentially modified
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual string SetStringValue(FieldInstance newFieldInstance, out string failureMessage)
+		public virtual string SetStringValue(FieldInstance newFieldInstance)
 		{
-			failureMessage = null;
-
 			newFieldInstance.Value = (newFieldInstance.ValueAsString ?? string.Empty).Trim();
 			var oldFieldValue = MetaDataFieldValues.Find(v => v.FieldId == newFieldInstance.FieldId);
 
@@ -1024,13 +1018,7 @@ namespace SayMore.Model.Files
 		public void UsePreset(IDictionary<string, string> preset)
 		{
 			foreach (KeyValuePair<string, string> pair in preset)
-			{
-				string failureStringMessage;
-				SetStringValue(pair.Key, pair.Value, out failureStringMessage);
-
-				if (!string.IsNullOrEmpty(failureStringMessage))
-					ErrorReport.NotifyUserOfProblem(failureStringMessage);
-			}
+				SetStringValue(pair.Key, pair.Value);
 
 			Save();
 		}

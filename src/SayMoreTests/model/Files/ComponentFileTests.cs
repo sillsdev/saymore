@@ -575,13 +575,7 @@ namespace SayMoreTests.Model.Files
 
 		public string SetStringValue(ComponentFile file, string key, string value)
 		{
-			string failureMessage;
-			var suceeded = file.SetStringValue(key, value, out failureMessage);
-
-			if (!string.IsNullOrEmpty(failureMessage))
-				throw new ApplicationException(failureMessage);
-
-			return suceeded;
+			return file.SetStringValue(key, value);
 		}
 
 		public object SetValue(ComponentFile file, string key, object value)

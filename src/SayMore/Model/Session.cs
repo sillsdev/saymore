@@ -255,14 +255,10 @@ namespace SayMore.Model
 			var allParticipants = GetAllParticipants();
 			var newNames = allParticipants.Select(name => (name == e.OldId ? e.NewId : name));
 
-			string failureMessage;
 			MetaDataFile.SetStringValue(SessionFileType.kParticipantsFieldName,
-				FieldInstance.GetTextFromMultipleValues(newNames), out failureMessage);
+				FieldInstance.GetTextFromMultipleValues(newNames));
 
-			if (failureMessage == null)
-				MetaDataFile.Save();
-			else
-				ErrorReport.NotifyUserOfProblem(failureMessage);
+			MetaDataFile.Save();
 
 			ProcessContributorNameChange(e);
 		}

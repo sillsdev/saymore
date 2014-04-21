@@ -509,10 +509,9 @@ namespace SayMore.UI.NewSessionsFromFiles
 
 			var newSession = SessionPresentationModel.CreateNewElementWithId(id);
 
-			string msg;
 			var date = File.GetLastWriteTime(sourcePath);
-			newSession.MetaDataFile.SetStringValue(SessionFileType.kDateFieldName, date.ToISO8601DateOnlyString(), out msg);
-			newSession.MetaDataFile.SetStringValue(SessionFileType.kStatusFieldName, Session.Status.Incoming.ToString(), out msg);
+			newSession.MetaDataFile.SetStringValue(SessionFileType.kDateFieldName, date.ToISO8601DateOnlyString());
+			newSession.MetaDataFile.SetStringValue(SessionFileType.kStatusFieldName, Session.Status.Incoming.ToString());
 			newSession.MetaDataFile.Save();
 
 			if (FirstNewSessionAdded == null)

@@ -27,7 +27,7 @@ namespace SayMore.UI.ComponentEditors
 		private FieldsValuesGridViewModel _gridViewModel;
 		private readonly ImageFileType _imgFileType;
 
-		private readonly bool _loaded;
+		private bool _loaded;
 
 		// SP-846: Do not save parent languages while setting them
 		private bool _loadingLanguages = false;
@@ -70,16 +70,12 @@ namespace SayMore.UI.ComponentEditors
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
 
-			LoadPersonsPicture();
-			LoadParentLanguages();
-
 			_id.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelFullName); };
 			_birthYear.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelBirthYear); };
-			ValidateBirthYear();
+
+			LoadAndValidatePersonInfo();
 
 			_binder.OnDataSaved += _binder_OnDataSaved;
-
-			_loaded = true;
 		}
 
 		void _binder_OnDataSaved()
@@ -101,7 +97,7 @@ namespace SayMore.UI.ComponentEditors
 				if (!string.IsNullOrEmpty(path))
 				{
 					if (Directory.Exists(path))
-					SaveParentLanguages();
+						SaveParentLanguages();
 				}
 			}
 
@@ -124,20 +120,25 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public override void SetComponentFile(ComponentFile file)
 		{
-			if (_file != null && File.Exists(_file.PathToAnnotatedFile) &&
-				file.PathToAnnotatedFile != _file.PathToAnnotatedFile)
-			{
-				SaveParentLanguages();
-			}
+			_loaded = false;
 
 			base.SetComponentFile(file);
 
 			if (_gridViewModel != null)
 				_gridViewModel.SetComponentFile(file);
 
+			LoadAndValidatePersonInfo();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void LoadAndValidatePersonInfo()
+		{
 			LoadPersonsPicture();
 			LoadParentLanguages();
+
 			ValidateBirthYear();
+
+			_loaded = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -213,15 +214,23 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void SaveParentLanguages()
 		{
-			if (_loadingLanguages) return;
+			if (!_loadingLanguages)
+				_binder.SetValues(GetParentLanguageKeyValuePairs());
+		}
 
-			var pb = _fatherButtons.SingleOrDefault(x => x.Selected);
-			_binder.SetValue("fathersLanguage", pb == null ? null : ((TextBox) pb.Tag).Text.Trim());
+		/// ------------------------------------------------------------------------------------
+		private IEnumerable<KeyValuePair<string, string>> GetParentLanguageKeyValuePairs()
+		{
+			yield return new KeyValuePair<string, string>("fathersLanguage",
+				GetParentLanguageName(_fatherButtons.SingleOrDefault(x => x.Selected)));
+			yield return new KeyValuePair<string, string>("mothersLanguage",
+				GetParentLanguageName(_motherButtons.SingleOrDefault(x => x.Selected)));
+		}
 
-			pb = _motherButtons.SingleOrDefault(x => x.Selected);
-			_binder.SetValue("mothersLanguage", pb == null ? null : ((TextBox)pb.Tag).Text.Trim());
-
-			_file.Save();
+		/// ------------------------------------------------------------------------------------
+		private string GetParentLanguageName(ParentButton pb)
+		{
+			return pb == null ? null : ((TextBox)pb.Tag).Text.Trim();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -241,8 +250,8 @@ namespace SayMore.UI.ComponentEditors
 		// SP-810:  Parent language data not saving correctly
 		void HandleParentLanguageSelectedChanged(object sender, EventArgs e)
 		{
-			if (!_loaded) return;
-			SaveParentLanguages();
+			if (_loaded)
+				SaveParentLanguages();
 		}
 
 		/// ------------------------------------------------------------------------------------

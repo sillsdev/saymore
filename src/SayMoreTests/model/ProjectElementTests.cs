@@ -76,14 +76,7 @@ namespace SayMoreTests.Model
 
 		public string SetValue(Person person, string key, string value)
 		{
-			string failureMessage;
-			var suceeded = person.MetaDataFile.SetStringValue(key, value, out failureMessage);
-			if (!string.IsNullOrEmpty(failureMessage))
-			{
-				throw new ApplicationException(failureMessage);
-			}
-
-			return suceeded;
+			return person.MetaDataFile.SetStringValue(key, value);
 		}
 
 		[Test]

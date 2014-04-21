@@ -18,6 +18,7 @@ namespace SayMore.UI.ElementListScreen
 
 		private readonly StagesDataProvider _stagesDataProvider;
 		private readonly StagesControlToolTip _tooltip;
+		private readonly Dictionary<string, object> _statusIcons = new Dictionary<string, object>();
 
 		/// ------------------------------------------------------------------------------------
 		public SessionsGrid(StagesDataProvider stagesDataProvider, StagesControlToolTip toolTip)
@@ -49,7 +50,14 @@ namespace SayMore.UI.ElementListScreen
 			if (fieldName == SessionFileType.kStatusFieldName)
 			{
 				var value = element.MetaDataFile.GetStringValue(fieldName, string.Empty, false);
-				return Resources.ResourceManager.GetObject("Status" + Session.GetStatusAsEnumParsableString(value));
+				var objectName = "Status" + Session.GetStatusAsEnumParsableString(value);
+				object obj;
+				if (!_statusIcons.TryGetValue(objectName, out obj))
+				{
+					obj = Resources.ResourceManager.GetObject(objectName);
+					_statusIcons[objectName] = obj;
+				}
+				return obj;
 			}
 
 			if (fieldName == SessionFileType.kStagesFieldName)

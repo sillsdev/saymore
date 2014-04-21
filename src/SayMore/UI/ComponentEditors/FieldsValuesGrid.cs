@@ -6,7 +6,6 @@ using System.Media;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
@@ -22,26 +21,11 @@ namespace SayMore.UI.ComponentEditors
 		private readonly Color _focusedSelectionBackColor;
 		private bool _adjustHeightToFitRows = true;
 		protected readonly L10NSharpExtender _locExtender;
-		private readonly bool _log;
 
 		/// ------------------------------------------------------------------------------------
 		public FieldsValuesGrid(FieldsValuesGridViewModel model, string name)
 		{
 			Name = name;
-			_log = (Name == "SessionBasicEditor._gridAdditionalFields");
-			Log("Entering FieldValuesGrid Constructor: {0}", Name);
-			if (SystemColors.WindowText.IsKnownColor)
-				Log("    Window Text Color = {0}", SystemColors.WindowText.ToKnownColor());
-			Log("    Window Text Color ARGB = {0}", FormatColorAsString(SystemColors.WindowText));
-			if (SystemColors.Window.IsKnownColor)
-				Log("    Window Color = {0}", SystemColors.Window.ToKnownColor());
-			Log("    Window Color ARGB = {0}", FormatColorAsString(SystemColors.Window));
-			if (SystemColors.HighlightText.IsKnownColor)
-				Log("    Highlight Text Color = {0}", SystemColors.HighlightText.ToKnownColor());
-			Log("    Highlight Text Color ARGB = {0}", FormatColorAsString(SystemColors.HighlightText));
-			if (SystemColors.Highlight.IsKnownColor)
-				Log("    Highlight Color = {0}", SystemColors.Highlight.ToKnownColor());
-			Log("    Highlight Color ARGB = {0}", FormatColorAsString(SystemColors.Highlight));
 
 			// ReSharper disable once UseObjectOrCollectionInitializer
 			_locExtender = new L10NSharpExtender();
@@ -56,12 +40,7 @@ namespace SayMore.UI.ComponentEditors
 			MultiSelect = false;
 			Margin = new Padding(0, Margin.Top, 0, Margin.Bottom);
 			RowHeadersVisible = false;
-			Log("  About to set DefaultCellStyle.SelectionForeColor");
-			Log("    DefaultCellStyle.SelectionForeColor = {0}", DefaultCellStyle.SelectionForeColor);
-			Log("    DefaultCellStyle.ForeColor = {0}", DefaultCellStyle.ForeColor);
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
-			Log("  Finished setting DefaultCellStyle.SelectionForeColor");
-			Log("    DefaultCellStyle.SelectionForeColor = {0}", DefaultCellStyle.SelectionForeColor);
 
 			_focusedSelectionBackColor = ColorHelper.CalculateColor(Color.White,
 				DefaultCellStyle.SelectionBackColor, 140);
@@ -94,62 +73,19 @@ namespace SayMore.UI.ComponentEditors
 			set { base.Font = value; }
 		}
 
-		private void Log(string message, params object[] args)
-		{
-			if (_log)
-				Logger.WriteEvent(message, args);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private string FormatColorAsString(Color color)
-		{
-			var argb = color.ToArgb();
-			var namedColor = GetNamedColors().FirstOrDefault(c => color.ToArgb() == c.ToArgb());
-			string knownColorName = namedColor == default(Color) ? (((uint)argb == 0xFF3399FF) ? "Blue highlight" : "????") : namedColor.Name;
-
-			return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2} ({4})", color.A, color.R, color.G, color.B, knownColorName);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		static IEnumerable<Color> GetNamedColors()
-		{
-			Type type = typeof(Color);
-			return type.GetProperties().Where(info => info.PropertyType == type).Select(info => (Color)info.GetValue(null, null)).Where(c => !c.IsSystemColor);
-		}
-
 		/// ------------------------------------------------------------------------------------
 		private void SetSelectionColors(bool hasFocus)
 		{
-			Log("Entering \"FieldValuesGrid.SetSelectionColors\" ({0})", Name);
-			Log("    hasFocus = {0}", hasFocus);
-			Log("    DefaultCellStyle.SelectionBackColor = {0}", DefaultCellStyle.SelectionBackColor);
-			Log("    DefaultCellStyle.SelectionForeColor = {0}", DefaultCellStyle.SelectionForeColor);
-			Log("    DefaultCellStyle.BackColor = {0}", DefaultCellStyle.BackColor);
-			Log("    DefaultCellStyle.ForeColor = {0}", DefaultCellStyle.ForeColor);
-			Log("    _focusedSelectionBackColor = {0}", FormatColorAsString(_focusedSelectionBackColor));
-			Log("    Grid BackgroundColor = {0}", BackgroundColor);
-			Log("    Grid ForeColor = {0}", ForeColor);
-
 			// The reason the Focused property is not used is because when this method is
 			// called in the Validated event (which is also true of the Leave and LostFocus
 			// events) the Focused property is still true. Argh!
 			DefaultCellStyle.SelectionBackColor = (hasFocus ?
 				_focusedSelectionBackColor : BackgroundColor);
-			Log("  Finished setting DefaultCellStyle.SelectionBackColor");
-			Log("    DefaultCellStyle.SelectionBackColor = {0}", DefaultCellStyle.SelectionBackColor);
-
-			Log("<Leaving \"FieldValuesGrid.SetSelectionColors\"");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnGotFocus(EventArgs e)
 		{
-			Log("In \"FieldValuesGrid.OnGotFocus\"");
-			if (CurrentCell == null)
-				Log("    CurrentCell is null");
-			else
-				Log("    CurrentCell: Row = {0}; Column = {1}; Value = {2}", CurrentCell.RowIndex, CurrentCell.ColumnIndex, CurrentCell.Value ?? "Null");
-
 			base.OnGotFocus(e);
 
 			// In addition to getting this event when coming from a control outside of the
@@ -160,19 +96,7 @@ namespace SayMore.UI.ComponentEditors
 				return;
 
 			SetSelectionColors(true);
-			var cell = CurrentCell;
 			CurrentCell = (_model.GetIdForIndex(0) == null ? this[0, 0] : this[1, 0]);
-			if (cell == CurrentCell)
-				Log("  CurrentCell NOT changed");
-			else
-			{
-				Log("  Finished setting CurrentCell");
-				if (CurrentCell == null)
-					Log("    CurrentCell is null");
-				else
-					Log("    CurrentCell: Row = {0}; Column = {1}; Value = {2}", CurrentCell.RowIndex,
-						CurrentCell.ColumnIndex, CurrentCell.Value ?? "Null");
-			}
 			// This prevents the grid from stealing focus at startup when it shouldn't.
 			// The problem arises in the following way: The OnCellFormatting gets called,
 			// even when the grid does not have focus. In the CellFormatting event, cells
@@ -190,7 +114,6 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void OnValidated(EventArgs e)
 		{
-			Log("In \"FieldValuesGrid.OnValidated\"");
 			base.OnValidated(e);
 			SetSelectionColors(false);
 		}
@@ -228,6 +151,7 @@ namespace SayMore.UI.ComponentEditors
 			_locExtender.EndInit();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>SP-848: The text box editing control is displaying a black background on some Windows 8.1 computers</summary>
 		private static DataGridViewColumn NewTextBoxColumn(string name)
 		{
@@ -267,44 +191,11 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
 		{
-			if (e.ColumnIndex == 1)
-			{
-				Log("Entering \"FieldValuesGrid.OnCellFormatting\" ({0})", Name);
-				Log("    e.RowIndex = {0}; e.ColumnIndex = {1}; Value = {2}", e.RowIndex, e.ColumnIndex,
-					this[e.ColumnIndex, e.RowIndex].Value ?? "Null");
-				Log("    e.CellStyle.BackColor = {0}", e.CellStyle.BackColor);
-				Log("    e.CellStyle.ForeColor = {0}", e.CellStyle.ForeColor);
-				Log("    e.CellStyle.SelectionBackColor = {0}", e.CellStyle.SelectionBackColor);
-				Log("    e.CellStyle.SelectionForeColor = {0}", e.CellStyle.SelectionForeColor);
-				if (e.ColumnIndex < ColumnCount && e.RowIndex >= 0 && e.RowIndex < RowCount)
-				{
-					Log("    this[e.ColumnIndex, e.RowIndex].Style.BackColor = {0}",
-						this[e.ColumnIndex, e.RowIndex].Style.BackColor);
-					Log("    this[e.ColumnIndex, e.RowIndex].Style.ForeColor = {0}",
-						this[e.ColumnIndex, e.RowIndex].Style.ForeColor);
-					Log("    this[e.ColumnIndex, e.RowIndex].Style.SelectionBackColor = {0}",
-						this[e.ColumnIndex, e.RowIndex].Style.SelectionBackColor);
-					Log("    this[e.ColumnIndex, e.RowIndex].Style.SelectionForeColor = {0}",
-						this[e.ColumnIndex, e.RowIndex].Style.SelectionForeColor);
-				}
-			}
-
 			// REVIEW: For some reason, when the grid does not have focus, sometimes
 			// setting a cell's readonly property to true gives the grid focus.
 
 			if (_model != null)
 			{
-				if (e.ColumnIndex == 1)
-				{
-					Log("    Focused = {0}", Focused);
-					Log("    DefaultCellStyle.SelectionBackColor = {0}", DefaultCellStyle.SelectionBackColor);
-					Log("    DefaultCellStyle.SelectionForeColor = {0}", DefaultCellStyle.SelectionForeColor);
-					Log("    DefaultCellStyle.BackColor = {0}", DefaultCellStyle.BackColor);
-					Log("    DefaultCellStyle.ForeColor = {0}", DefaultCellStyle.ForeColor);
-					Log("    Grid BackgroundColor = {0}", BackgroundColor);
-					Log("    Grid ForeColor = {0}", ForeColor);
-				}
-
 				var isReadOnly = _model.IsIndexForReadOnlyField(e.RowIndex);
 				var isCustom = _model.IsIndexForCustomField(e.RowIndex);
 
@@ -324,30 +215,11 @@ namespace SayMore.UI.ComponentEditors
 						if (isReadOnly)
 						{
 							this[1, e.RowIndex].Style.ForeColor = Color.Gray;
-							Log("  After setting this[1, e.RowIndex].Style.ForeColor = Color.Gray");
-							Log("    this[1, e.RowIndex].Style.ForeColor = {0}", this[1, e.RowIndex].Style.ForeColor);
 						}
 					}
 				}
 			}
 			base.OnCellFormatting(e);
-			if (e.ColumnIndex == 1)
-			{
-				Log("  After calling \"base.OnCellFormatting(e)\"");
-
-				if (e.ColumnIndex < ColumnCount && e.RowIndex >= 0 && e.RowIndex < RowCount)
-				{
-					Log("    this[e.ColumnIndex, e.RowIndex].Style.BackColor = {0}",
-						this[e.ColumnIndex, e.RowIndex].Style.BackColor);
-					Log("    this[e.ColumnIndex, e.RowIndex].Style.ForeColor = {0}",
-						this[e.ColumnIndex, e.RowIndex].Style.ForeColor);
-					Log("    this[e.ColumnIndex, e.RowIndex].Style.SelectionBackColor = {0}",
-						this[e.ColumnIndex, e.RowIndex].Style.SelectionBackColor);
-					Log("    this[e.ColumnIndex, e.RowIndex].Style.SelectionForeColor = {0}",
-						this[e.ColumnIndex, e.RowIndex].Style.SelectionForeColor);
-				}
-				Log("< Leaving \"FieldValuesGrid.OnCellFormatting\"");
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -501,49 +373,6 @@ namespace SayMore.UI.ComponentEditors
 			base.OnRowsRemoved(e);
 			AdjustHeight();
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//protected override void OnRowValidating(DataGridViewCellCancelEventArgs e)
-		//{
-		//    var fieldId = _model.GetIdForIndex(e.RowIndex);
-		//    var fieldValue = _model.GetValueForIndex(e.RowIndex);
-
-		//    if (e.RowIndex < NewRowIndex && string.IsNullOrEmpty(fieldId) && !string.IsNullOrEmpty(fieldValue))
-		//    {
-		//        Utils.MsgBox("You must enter a field name.");
-		//        e.Cancel = true;
-		//    }
-
-		//    base.OnRowValidating(e);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//protected override void OnUserDeletingRow(DataGridViewRowCancelEventArgs e)
-		//{
-		//    int indexOfRowToDelete;
-
-		//    if (_model.CanDeleteRow(e.Row.Index, out indexOfRowToDelete))
-		//    {
-		//        if (indexOfRowToDelete >= 0)
-		//        {
-		//            var idToDelete = e.Row.Cells[0].Value as string;
-		//            if (AskUserToVerifyRemovingFieldEverywhere(idToDelete))
-		//                _model.RemoveFieldFromEntireProject(indexOfRowToDelete);
-		//            else
-		//            {
-		//                e.Cancel = true;
-		//                SystemSounds.Beep.Play();
-		//            }
-		//        }
-		//    }
-		//    else
-		//    {
-		//        e.Cancel = true;
-		//        SystemSounds.Beep.Play();
-		//    }
-
-		//    base.OnUserDeletingRow(e);
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		private static bool AskUserToVerifyRemovingFieldEverywhere(string id)

@@ -144,9 +144,7 @@ namespace SayMore
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(false);
 
-			var log = Path.Combine(Path.GetTempPath(), EntryAssembly.CompanyName, EntryAssembly.ProductName, "createLogFile.txt");
-			if (File.Exists(log))
-				Logger.Init();
+			Logger.Init();
 			Logger.WriteEvent("Visual Styles State: {0}", Application.VisualStyleState);
 			SetUpErrorHandling();
 

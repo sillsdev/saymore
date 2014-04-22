@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms.Miscellaneous;
 using SayMore.Model.Files;
 using SayMore.Media.MPlayer;
 using SayMore.UI.ComponentEditors;
@@ -35,22 +36,11 @@ namespace SayMore.Transcription.UI
 				_buttonPlay.Enabled = false;
 			};
 
-			_buttonStop.Click += delegate
-			{
-				_oralAnnotationWaveViewer.Stop();
-				_buttonStop.Enabled = false;
-				_buttonPlay.Enabled = true;
-			};
+			_buttonStop.Click += delegate { StopPlayback(); };
 
-			_oralAnnotationWaveViewer.PlaybackStopped += delegate
-			{
-				_buttonStop.Enabled = false;
-				_buttonPlay.Enabled = !IsRegeneratingAudioFile;
-			};
+			_oralAnnotationWaveViewer.PlaybackStopped += PlaybackStopped;
 
-			_oralAnnotationWaveViewer.CursorTimeChanged += (c, time) =>
-				_labelCursorTime.Text = MediaPlayerViewModel.GetTimeDisplay(
-					(float)time.TotalSeconds, (float)_oralAnnotationWaveViewer.AudioLength.TotalSeconds);
+			_oralAnnotationWaveViewer.CursorTimeChanged += HandleCursorTimeChanged;
 
 			_buttonHelp.Click += delegate
 			{
@@ -59,13 +49,11 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private ComponentFile AssociatedComponentFile
+		private void StopPlayback()
 		{
-			get
-			{
-				return _file == null ? null :
-					((OralAnnotationComponentFile)_file).AssociatedComponentFile;
-			}
+			_oralAnnotationWaveViewer.Stop();
+			_buttonStop.Enabled = false;
+			_buttonPlay.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,6 +71,10 @@ namespace SayMore.Transcription.UI
 
 				base.SetComponentFile(file);
 
+				var finfo = new FileInfo(_file.PathToAnnotatedFile);
+				if (finfo.Exists && finfo.Length > 0)
+					LoadFileAndResetUI(); // If it's length is 0, it will get loaded after generating below.
+
 				file.PreDeleteAction = () =>
 					_oralAnnotationWaveViewer.CloseAudioStream();
 				AssociatedComponentFile.PreGenerateOralAnnotationFileAction = () =>
@@ -98,28 +90,82 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleOralAnnotationFileGenerated(bool generated)
 		{
-			var finfo = new FileInfo(_file.PathToAnnotatedFile);
-			if (finfo.Exists && finfo.Length > 0)
+			if (!generated && _oralAnnotationWaveViewer.WaveControlLoaded)
+			{
+				_buttonPlay.Enabled = true;
+			}
+			else
 			{
 				try
 				{
-					_oralAnnotationWaveViewer.LoadAnnotationAudioFile(_file.PathToAnnotatedFile);
-					_buttonPlay.Enabled = true;
+					LoadFileAndResetUI();
 				}
 				catch (Exception failure)
 				{
-					if (failure is UnauthorizedAccessException || failure is IOException)
+					if ((failure is UnauthorizedAccessException || failure is IOException) && generated)
 					{
-						if (generated) // Successfully generated, but now some new problem has surfaced.
-						{
-							ErrorReport.NotifyUserOfProblem(failure, LocalizationManager.GetString(
-								"SessionsView.Transcription.GeneratedOralAnnotationView.OralAnnotationFileProblem",
-								"Problem occurred attempting to display generated oral annotation file."));
-						}
+						// Successfully generated, but now some new problem has surfaced.
+						ErrorReport.NotifyUserOfProblem(failure, LocalizationManager.GetString(
+							"SessionsView.Transcription.GeneratedOralAnnotationView.OralAnnotationFileProblem",
+							"Problem occurred attempting to display generated oral annotation file."));
 					}
 					else
 						throw;
 				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void LoadFileAndResetUI()
+		{
+			WaitCursor.Show();
+			try
+			{
+				_oralAnnotationWaveViewer.LoadAnnotationAudioFile(_file.PathToAnnotatedFile);
+				_oralAnnotationWaveViewer.ResetWaveControlCursor();
+				_buttonPlay.Enabled = true;
+
+			}
+			finally
+			{
+				WaitCursor.Hide();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void PlaybackStopped(object sender, EventArgs eventArgs)
+		{
+			if (InvokeRequired)
+			{
+				Invoke(new Action(() => PlaybackStopped(sender, eventArgs)));
+				return;
+			}
+			_buttonStop.Enabled = false;
+			_buttonPlay.Enabled = !IsRegeneratingAudioFile;
+
+			if (!Visible)
+				_oralAnnotationWaveViewer.ResetWaveControlCursor();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleCursorTimeChanged(Media.Audio.WaveControlBasic ctrl, TimeSpan cursorTime)
+		{
+			if (InvokeRequired)
+			{
+				Invoke(new Action(() => HandleCursorTimeChanged(ctrl, cursorTime)));
+				return;
+			}
+			_labelCursorTime.Text = MediaPlayerViewModel.GetTimeDisplay(
+			   (float)cursorTime.TotalSeconds, (float)_oralAnnotationWaveViewer.AudioLength.TotalSeconds);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private ComponentFile AssociatedComponentFile
+		{
+			get
+			{
+				return _file == null ? null :
+					((OralAnnotationComponentFile)_file).AssociatedComponentFile;
 			}
 		}
 
@@ -160,6 +206,27 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnEditorAndChildrenLostFocus();
 			_oralAnnotationWaveViewer.Stop();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+
+			var parent = Parent;
+			while (parent != null)
+			{
+				if (parent is TabControl)
+				{
+					parent.VisibleChanged += delegate
+					{
+						StopPlayback();
+						BeginInvoke(new Action(() => _oralAnnotationWaveViewer.ResetWaveControlCursor()));
+					};
+					break;
+				}
+				parent = parent.Parent;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

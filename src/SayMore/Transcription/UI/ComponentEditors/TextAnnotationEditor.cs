@@ -473,13 +473,11 @@ namespace SayMore.Transcription.UI
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var textTeir = ((AnnotationComponentFile)_file).Tiers.GetFreeTranslationTier();
 			textTeir.AddTimeRangeData(timeTier);
-			var filter = "Text File (*.txt)|*.txt";
 			var suffix = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslationFilenameSuffix",
 				"audacity_freeTranslation", "Probably does not need to be localized");
-			var fileName = _file.ParentElement.Id + "_" + suffix + ".txt";
 			var action = new Action<string>(path => AudacityExporter.Export(path, textTeir));
 
-			DoSimpleExportDialog(".txt", filter, fileName, action);
+			DoSimpleExportDialog(".txt", "Text File", suffix, action);
 		}
 
 		private void OnAudacityExportTranscription(object sender, EventArgs e)
@@ -490,53 +488,51 @@ namespace SayMore.Transcription.UI
 			var textTeir = ((AnnotationComponentFile)_file).Tiers.GetTranscriptionTier();
 			textTeir.AddTimeRangeData(timeTier);
 
-			var filter = "Text File (*.txt)|*.txt";
 			var suffix = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscriptionFilenameSuffix",
 				"audacity_transcription", "Probably does not need to be localized");
-			var fileName = _file.ParentElement.Id + "_"+suffix+".txt";
 			var action = new Action<string>(path => AudacityExporter.Export(path, textTeir));
 
-			DoSimpleExportDialog(".txt", filter, fileName, action);
+			DoSimpleExportDialog(".txt", "Text File", suffix, action);
 		}
 
 		private void OnPlainTextExportMenuItem_Click(object sender, EventArgs e)
 		{
 			Analytics.Track("Export Plain Text");
 
-			var filter = "Text File (*.txt)|*.txt";
-			var fileName = _file.ParentElement.Id + "_transcription.txt";
 			var action = new Action<string>(path => PlainTextTranscriptionExporter.Export(path, (((AnnotationComponentFile) _file).Tiers)));
 
-			DoSimpleExportDialog(".txt", filter, fileName, action);
+			DoSimpleExportDialog(".txt", "Text File", "transcription", action);
 		}
 
 		private void OnCsvExportMenuItem_Click(object sender, EventArgs e)
 		{
 			Analytics.Track("Export CSV");
 
-			var filter = "Comma Separated Values File (*.csv)|*.csv";
-			var fileName = _file.ParentElement.Id + "_transcription.csv";
 			var action = new Action<string>(path => CSVTranscriptionExporter.Export(path, (((AnnotationComponentFile) _file).Tiers)));
 
-			DoSimpleExportDialog(".csv", filter, fileName, action);
+			DoSimpleExportDialog(".csv", "Comma Separated Values File", "transcription", action);
 		}
 
 		private void OnToolboxInterlinearExportMenuItem_Click(object sender, EventArgs e)
 		{
 			Analytics.Track("Export Toolbox Interlinear");
 
-			var filter = "Toolbox Standard Format File (*.txt)|*.txt";
-			var fileName = _file.ParentElement.Id + "_interlinear.txt";
 			var mediaFileName = Path.GetFileName(AssociatedComponentFile.PathToAnnotatedFile);
 			var action = new Action<string>(path => ToolboxTranscriptionExporter.Export(_file.ParentElement.Id, mediaFileName, path, (((AnnotationComponentFile)_file).Tiers)));
 
-			DoSimpleExportDialog(".txt", filter, fileName, action);
+			DoSimpleExportDialog(".txt", "Toolbox Standard Format File", "interlinear", action);
 		}
 
-		private static void DoSimpleExportDialog(string defaultExt, string filter, string fileName, Action<string> action)
+		private void DoSimpleExportDialog(string defaultExt, string fileTypeName, string suffix, Action<string> action)
 		{
 			try
 			{
+				if (!suffix.StartsWith("."))
+					throw new ArgumentException("Suffix should start with \".\"!");
+
+				var filter = string.Format("{0} ({1})|{1}", fileTypeName, "*" + defaultExt);
+				var fileName = _file.ParentElement.Id + "_" + suffix + defaultExt;
+
 				using (var dlg = new SaveFileDialog())
 				{
 					dlg.AddExtension = true;

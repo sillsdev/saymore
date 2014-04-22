@@ -92,6 +92,13 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void ResetWaveControlCursor()
+		{
+			_waveControl.AutoScrollPosition = new Point(0, AutoScrollPosition.Y);
+			_waveControl.SetCursor(0);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void CloseAudioStream()
 		{
 			_waveControl.AutoScrollPosition = new Point(0, AutoScrollPosition.Y);
@@ -104,6 +111,12 @@ namespace SayMore.Transcription.UI
 		{
 			get { return _waveControl.ZoomPercentage; }
 			set { _waveControl.ZoomPercentage = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool WaveControlLoaded
+		{
+			get { return _waveControl != null && _waveControl.WaveStream != null; }
 		}
 
 		/// ------------------------------------------------------------------------------------

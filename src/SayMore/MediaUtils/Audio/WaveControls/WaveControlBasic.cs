@@ -38,7 +38,6 @@ namespace SayMore.Media.Audio
 		public WaveStream WaveStream { get; private set; }
 
 		protected float _zoomPercentage = 100f;
-		private FileInfo _finfo;
 		protected WaveStream _playbackStream;
 		protected WaveOutEvent _waveOut;
 		protected Size _prevClientSize;
@@ -90,7 +89,7 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		private void CloseAndDisposeWaveStreamIfNeeded()
 		{
-			if (_finfo != null && WaveStream != null)
+			if (WaveStream != null)
 			{
 				WaveStream.Close();
 				WaveStream.Dispose();
@@ -102,15 +101,7 @@ namespace SayMore.Media.Audio
 		{
 			try
 			{
-				FileInfo finfo = new FileInfo(audioFileName);
-				if (_finfo != null && finfo.FullName == _finfo.FullName && finfo.LastWriteTimeUtc == _finfo.LastWriteTimeUtc)
-				{
-					// Reloading same exact file - nothing to do except paint.
-					if (Painter.AllowRedraw)
-						Invalidate();
-					return;
-				}
-				LoadStream(new WaveFileReader(audioFileName), finfo);
+				LoadFile(new WaveFileReader(audioFileName));
 			}
 			catch
 			{
@@ -120,20 +111,12 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Initialize(WaveFileReader stream)
-		{
-			LoadStream(stream, null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void LoadStream(WaveFileReader stream, FileInfo finfo)
+		public void LoadFile(WaveFileReader stream)
 		{
 			if (Painter != null)
 				Painter.Dispose();
 
 			CloseAndDisposeWaveStreamIfNeeded();
-
-			_finfo = finfo;
 
 			WaveStream = stream;
 
@@ -168,12 +151,8 @@ namespace SayMore.Media.Audio
 				Painter = null;
 			}
 
-			if (_finfo != null && WaveStream != null)
-			{
-				WaveStream.Close();
-				WaveStream.Dispose();
-				WaveStream = null;
-			}
+			CloseAndDisposeWaveStreamIfNeeded();
+			WaveStream = null;
 
 			_playbackStream = null;
 		}
@@ -398,35 +377,29 @@ namespace SayMore.Media.Audio
 			if (Painter == null)
 				return;
 
-			Painter.SetCursor(cursorX);
-			EnsureXIsVisible(cursorX);
+			SetCursorInternal(Painter.ConvertXCoordinateToTime(cursorX), cursorX, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetCursor(TimeSpan cursorTime)
-		{
-			SetCursor(cursorTime, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void SetCursor(TimeSpan cursorTime, bool ensureCursorIsVisible)
-		{
-			OnCursorTimeChanged(cursorTime < TimeSpan.Zero ? TimeSpan.Zero : cursorTime);
-
-			if (cursorTime >= TimeSpan.Zero && ensureCursorIsVisible)
-				EnsureXIsVisible(Painter.ConvertTimeToXCoordinate(cursorTime));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected void OnCursorTimeChanged(TimeSpan cursorTime)
+		public void SetCursor(TimeSpan cursorTime, bool ensureCursorIsVisible = true)
 		{
 			if (Painter == null)
 				return;
 
+			SetCursorInternal(cursorTime, Painter.ConvertTimeToXCoordinate(cursorTime), ensureCursorIsVisible);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetCursorInternal(TimeSpan cursorTime, int cursorX, bool ensureCursorIsVisible)
+		{
+			cursorTime = cursorTime < TimeSpan.Zero ? TimeSpan.Zero : cursorTime;
 			Painter.SetCursor(cursorTime);
 
 			if (CursorTimeChanged != null)
 				CursorTimeChanged(this, cursorTime);
+
+			if (ensureCursorIsVisible)
+				EnsureXIsVisible(cursorX);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -515,6 +488,13 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		private void HandleSlideTimerTick(object sender, EventArgs e)
 		{
+			if (Painter == null)
+			{
+				// This can happen when regenerating the OralAnnotation file while playing.
+				KillSlideTimer();
+				return;
+			}
+
 			var currTime = DateTime.Now;
 			var newTargetX = _slidingTargetScrollOffset;
 

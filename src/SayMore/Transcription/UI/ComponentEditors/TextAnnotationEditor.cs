@@ -458,11 +458,9 @@ namespace SayMore.Transcription.UI
 		{
 			textTeir.AddTimeRangeData(timeTier);
 
-			var filter =  "SRT Subtitle File (*.srt)|*.srt";
-			var fileName =_file.ParentElement.Id + ComponentRole.kFileSuffixSeparator + fileNameSuffix + ".srt";
 			var action = new Action<string>(path => SRTFormatSubTitleExporter.Export(path, textTeir));
 
-			DoSimpleExportDialog(".srt", filter, fileName, action);
+			DoSimpleExportDialog(".srt", "SRT Subtitle File", fileNameSuffix, action);
 		}
 
 
@@ -527,11 +525,11 @@ namespace SayMore.Transcription.UI
 		{
 			try
 			{
-				if (!suffix.StartsWith("."))
-					throw new ArgumentException("Suffix should start with \".\"!");
+				if (!defaultExt.StartsWith("."))
+					throw new ArgumentException("Default extension should start with \".\"!");
 
 				var filter = string.Format("{0} ({1})|{1}", fileTypeName, "*" + defaultExt);
-				var fileName = _file.ParentElement.Id + "_" + suffix + defaultExt;
+				var fileName = _file.ParentElement.Id + ComponentRole.kFileSuffixSeparator + suffix + defaultExt;
 
 				using (var dlg = new SaveFileDialog())
 				{

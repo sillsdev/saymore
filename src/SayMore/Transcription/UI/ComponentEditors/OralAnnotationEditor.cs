@@ -15,6 +15,7 @@ namespace SayMore.Transcription.UI
 	public partial class OralAnnotationEditor : EditorBase
 	{
 		private bool _isFirstTimeActivated = true;
+		private string _fileTooLongMsgDisplayedForFile;
 
 		/// ------------------------------------------------------------------------------------
 		public OralAnnotationEditor(ComponentFile file) : base(file, null, "Audio")
@@ -96,6 +97,8 @@ namespace SayMore.Transcription.UI
 			}
 			else
 			{
+				if (generated)
+					_fileTooLongMsgDisplayedForFile = null;
 				try
 				{
 					LoadFileAndResetUI();
@@ -124,7 +127,24 @@ namespace SayMore.Transcription.UI
 				_oralAnnotationWaveViewer.LoadAnnotationAudioFile(_file.PathToAnnotatedFile);
 				_oralAnnotationWaveViewer.ResetWaveControlCursor();
 				_buttonPlay.Enabled = true;
-
+				_fileTooLongMsgDisplayedForFile = null;
+			}
+			catch (ArgumentOutOfRangeException e)
+			{
+				if (e.StackTrace.Contains("System.IO.FileStream.set_Position") &&
+					e.StackTrace.Contains("NAudio.FileFormats.Wav.WaveFileChunkReader.ReadWaveHeader"))
+				{
+					if (_fileTooLongMsgDisplayedForFile != _file.PathToAnnotatedFile)
+					{
+						_fileTooLongMsgDisplayedForFile = _file.PathToAnnotatedFile;
+						WaitCursor.Hide();
+						ErrorReport.NotifyUserOfProblem(e, LocalizationManager.GetString(
+							"SessionsView.Transcription.GeneratedOralAnnotationView.OralAnnotationFilePossiblyTooLarge",
+							"The generated oral annotation file may be too large to display or play correctly."));
+					}
+				}
+				else
+					throw;
 			}
 			finally
 			{

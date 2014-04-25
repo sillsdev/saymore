@@ -572,7 +572,7 @@ namespace SayMore.Transcription.UI
 
 			PlayerViewModel.PlaybackStarted += HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded += HandleMediaPlaybackEnded;
-			PlayerViewModel.PlaybackPositionChanged = (pos => Invoke(_playbackProgressReportingAction));
+			PlayerViewModel.PlaybackPositionChanged = HandleMediaPlaybackPositionChanged;
 			//_paused = false;
 			PlayerViewModel.Play();
 			PlaybackInProgress = true;
@@ -641,6 +641,10 @@ namespace SayMore.Transcription.UI
 					_mediaFileQueue.RemoveAt(0);
 			}
 
+
+			if (!Visible)
+				return;
+
 			if (!InternalPlay())
 			{
 				if (_annotationPlaybackLoopCount++ < 4)
@@ -663,6 +667,15 @@ namespace SayMore.Transcription.UI
 				Invoke(_playbackProgressReportingAction);
 			else
 				_playbackProgressReportingAction();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleMediaPlaybackPositionChanged(float pos)
+		{
+			if (!Visible)
+				Stop();
+			else
+				Invoke(_playbackProgressReportingAction);
 		}
 
 		/// ------------------------------------------------------------------------------------

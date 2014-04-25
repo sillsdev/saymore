@@ -282,6 +282,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother3.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangMother3.TabIndex = 27;
 			this._pbOtherLangMother3.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleMothersLanguageChanging);
+			this._pbOtherLangMother3.SelectedChanged += new System.EventHandler(this.HandleParentLanguageSelectedChanged);
 			this._pbOtherLangMother3.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
 			// _primaryLanguageLearnedIn
@@ -332,6 +333,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother1.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangMother1.TabIndex = 21;
 			this._pbOtherLangMother1.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleMothersLanguageChanging);
+			this._pbOtherLangMother1.SelectedChanged += new System.EventHandler(this.HandleParentLanguageSelectedChanged);
 			this._pbOtherLangMother1.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
 			// _pbOtherLangFather3
@@ -349,6 +351,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather3.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangFather3.TabIndex = 26;
 			this._pbOtherLangFather3.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleFathersLanguageChanging);
+			this._pbOtherLangFather3.SelectedChanged += new System.EventHandler(this.HandleParentLanguageSelectedChanged);
 			this._pbOtherLangFather3.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
 			// _pbOtherLangFather2
@@ -366,6 +369,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather2.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangFather2.TabIndex = 23;
 			this._pbOtherLangFather2.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleFathersLanguageChanging);
+			this._pbOtherLangFather2.SelectedChanged += new System.EventHandler(this.HandleParentLanguageSelectedChanged);
 			this._pbOtherLangFather2.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
 			// _pbOtherLangFather1
@@ -383,6 +387,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather1.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangFather1.TabIndex = 20;
 			this._pbOtherLangFather1.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleFathersLanguageChanging);
+			this._pbOtherLangFather1.SelectedChanged += new System.EventHandler(this.HandleParentLanguageSelectedChanged);
 			this._pbOtherLangFather1.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
 			// _pbOtherLangMother0
@@ -400,6 +405,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother0.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangMother0.TabIndex = 18;
 			this._pbOtherLangMother0.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleMothersLanguageChanging);
+			this._pbOtherLangMother0.SelectedChanged += new System.EventHandler(this.HandleParentLanguageSelectedChanged);
 			this._pbOtherLangMother0.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
 			// _pbOtherLangFather0
@@ -417,6 +423,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather0.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangFather0.TabIndex = 17;
 			this._pbOtherLangFather0.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleFathersLanguageChanging);
+			this._pbOtherLangFather0.SelectedChanged += new System.EventHandler(this.HandleParentLanguageSelectedChanged);
 			this._pbOtherLangFather0.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
 			// _otherLanguage3
@@ -439,6 +446,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage3.Size = new System.Drawing.Size(173, 20);
 			this._otherLanguage3.TabIndex = 25;
 			this._autoCompleteHelper.SetUpdateGatherer(this._otherLanguage3, false);
+			this._otherLanguage3.Validated += new System.EventHandler(this.HandleLanguageValidated);
 			// 
 			// _otherLanguage0
 			// 
@@ -460,6 +468,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage0.Size = new System.Drawing.Size(173, 20);
 			this._otherLanguage0.TabIndex = 16;
 			this._autoCompleteHelper.SetUpdateGatherer(this._otherLanguage0, false);
+			this._otherLanguage0.Validated += new System.EventHandler(this.HandleLanguageValidated);
 			// 
 			// _otherLanguage1
 			// 
@@ -481,6 +490,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage1.Size = new System.Drawing.Size(173, 20);
 			this._otherLanguage1.TabIndex = 19;
 			this._autoCompleteHelper.SetUpdateGatherer(this._otherLanguage1, false);
+			this._otherLanguage1.Validated += new System.EventHandler(this.HandleLanguageValidated);
 			// 
 			// _otherLanguage2
 			// 
@@ -502,6 +512,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage2.Size = new System.Drawing.Size(173, 20);
 			this._otherLanguage2.TabIndex = 22;
 			this._autoCompleteHelper.SetUpdateGatherer(this._otherLanguage2, false);
+			this._otherLanguage2.Validated += new System.EventHandler(this.HandleLanguageValidated);
 			// 
 			// _primaryLanguage
 			// 
@@ -523,6 +534,7 @@ namespace SayMore.UI.ComponentEditors
 			this._primaryLanguage.Size = new System.Drawing.Size(173, 20);
 			this._primaryLanguage.TabIndex = 8;
 			this._autoCompleteHelper.SetUpdateGatherer(this._primaryLanguage, false);
+			this._primaryLanguage.Validated += new System.EventHandler(this.HandleLanguageValidated);
 			// 
 			// _labelPrimaryLanguage
 			// 
@@ -552,6 +564,8 @@ namespace SayMore.UI.ComponentEditors
 			this._pbPrimaryLangMother.Selected = false;
 			this._pbPrimaryLangMother.Size = new System.Drawing.Size(24, 24);
 			this._pbPrimaryLangMother.TabIndex = 10;
+			this._pbPrimaryLangMother.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleMothersLanguageChanging);
+			this._pbPrimaryLangMother.SelectedChanged += new System.EventHandler(this.HandleParentLanguageSelectedChanged);
 			this._pbPrimaryLangMother.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
 			// _pbPrimaryLangFather
@@ -568,6 +582,8 @@ namespace SayMore.UI.ComponentEditors
 			this._pbPrimaryLangFather.Selected = false;
 			this._pbPrimaryLangFather.Size = new System.Drawing.Size(24, 24);
 			this._pbPrimaryLangFather.TabIndex = 9;
+			this._pbPrimaryLangFather.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleFathersLanguageChanging);
+			this._pbPrimaryLangFather.SelectedChanged += new System.EventHandler(this.HandleParentLanguageSelectedChanged);
 			this._pbPrimaryLangFather.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
 			// _labelOtherLanguages
@@ -601,6 +617,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother2.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangMother2.TabIndex = 24;
 			this._pbOtherLangMother2.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleMothersLanguageChanging);
+			this._pbOtherLangMother2.SelectedChanged += new System.EventHandler(this.HandleParentLanguageSelectedChanged);
 			this._pbOtherLangMother2.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
 			// 
 			// _labelEducation

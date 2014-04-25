@@ -255,6 +255,13 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleLanguageValidated(object sender, EventArgs e)
+		{
+			HandleParentLanguageSelectedChanged(_fatherButtons.Single(pb => pb.Tag == sender), e);
+			HandleParentLanguageSelectedChanged(_motherButtons.Single(pb => pb.Tag == sender), e);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleParentLanguageChange(IEnumerable<ParentButton> buttons,
 			ParentButton selectedButton, CancelEventHandler changeHandler)
 		{

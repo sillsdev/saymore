@@ -1325,5 +1325,53 @@ namespace SayMore.Properties {
                 this["ProjectOtherDocumentsComponentGrid"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastExportDestinationFolder {
+            get {
+                return ((string)(this["LastExportDestinationFolder"]));
+            }
+            set {
+                this["LastExportDestinationFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastToolboxExportDestinationFolder {
+            get {
+                return ((string)(this["LastToolboxExportDestinationFolder"]));
+            }
+            set {
+                this["LastToolboxExportDestinationFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastAudacityExportDestinationFolder {
+            get {
+                return ((string)(this["LastAudacityExportDestinationFolder"]));
+            }
+            set {
+                this["LastAudacityExportDestinationFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastFlexInterlinearExportDestinationFolder {
+            get {
+                return ((string)(this["LastFlexInterlinearExportDestinationFolder"]));
+            }
+            set {
+                this["LastFlexInterlinearExportDestinationFolder"] = value;
+            }
+        }
     }
 }

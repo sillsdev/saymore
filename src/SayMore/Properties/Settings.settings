@@ -368,5 +368,17 @@
     <Setting Name="ProjectOtherDocumentsComponentGrid" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="LastExportDestinationFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LastToolboxExportDestinationFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LastAudacityExportDestinationFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LastFlexInterlinearExportDestinationFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -124,6 +124,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleExportButtonClick(object sender, EventArgs e)
 		{
+			var folder = TextAnnotationEditor.GetDefaultExportFolder("LastFlexInterlinearExportDestinationFolder");
 			using (var dlg = new SaveFileDialog())
 			{
 				dlg.Title = LocalizationManager.GetString(
@@ -137,10 +138,14 @@ namespace SayMore.Transcription.UI
 				dlg.FileName = FileName;
 				dlg.OverwritePrompt = true;
 				dlg.CheckPathExists = true;
+				dlg.AutoUpgradeEnabled = true;
+				dlg.RestoreDirectory = true;
+				dlg.InitialDirectory = folder ?? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
 					FileName = dlg.FileName;
+					Settings.Default.LastFlexInterlinearExportDestinationFolder = Path.GetDirectoryName(FileName);
 					DialogResult = DialogResult.OK;
 					Close();
 				}

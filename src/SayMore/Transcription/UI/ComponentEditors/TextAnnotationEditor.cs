@@ -460,7 +460,7 @@ namespace SayMore.Transcription.UI
 
 			var action = new Action<string>(path => SRTFormatSubTitleExporter.Export(path, textTeir));
 
-			DoSimpleExportDialog(".srt", "SRT Subtitle File", fileNameSuffix, action);
+			DoSimpleExportDialog(".srt", "SRT Subtitle File", fileNameSuffix, string.Empty, action);
 		}
 
 
@@ -475,7 +475,7 @@ namespace SayMore.Transcription.UI
 				"audacity_freeTranslation", "Probably does not need to be localized");
 			var action = new Action<string>(path => AudacityExporter.Export(path, textTeir));
 
-			DoSimpleExportDialog(".txt", "Text File", suffix, action);
+			DoSimpleExportDialog(".txt", "Text File", suffix, "Audacity", action);
 		}
 
 		private void OnAudacityExportTranscription(object sender, EventArgs e)
@@ -490,7 +490,7 @@ namespace SayMore.Transcription.UI
 				"audacity_transcription", "Probably does not need to be localized");
 			var action = new Action<string>(path => AudacityExporter.Export(path, textTeir));
 
-			DoSimpleExportDialog(".txt", "Text File", suffix, action);
+			DoSimpleExportDialog(".txt", "Text File", suffix, "Audacity", action);
 		}
 
 		private void OnPlainTextExportMenuItem_Click(object sender, EventArgs e)
@@ -499,7 +499,7 @@ namespace SayMore.Transcription.UI
 
 			var action = new Action<string>(path => PlainTextTranscriptionExporter.Export(path, (((AnnotationComponentFile) _file).Tiers)));
 
-			DoSimpleExportDialog(".txt", "Text File", "transcription", action);
+			DoSimpleExportDialog(".txt", "Text File", "transcription", string.Empty, action);
 		}
 
 		private void OnCsvExportMenuItem_Click(object sender, EventArgs e)
@@ -508,7 +508,7 @@ namespace SayMore.Transcription.UI
 
 			var action = new Action<string>(path => CSVTranscriptionExporter.Export(path, (((AnnotationComponentFile) _file).Tiers)));
 
-			DoSimpleExportDialog(".csv", "Comma Separated Values File", "transcription", action);
+			DoSimpleExportDialog(".csv", "Comma Separated Values File", "transcription", string.Empty, action);
 		}
 
 		private void OnToolboxInterlinearExportMenuItem_Click(object sender, EventArgs e)
@@ -518,16 +518,19 @@ namespace SayMore.Transcription.UI
 			var mediaFileName = Path.GetFileName(AssociatedComponentFile.PathToAnnotatedFile);
 			var action = new Action<string>(path => ToolboxTranscriptionExporter.Export(_file.ParentElement.Id, mediaFileName, path, (((AnnotationComponentFile)_file).Tiers)));
 
-			DoSimpleExportDialog(".txt", "Toolbox Standard Format File", "interlinear", action);
+			DoSimpleExportDialog(".txt", "Toolbox Standard Format File", "interlinear", "Toolbox", action);
 		}
 
-		private void DoSimpleExportDialog(string defaultExt, string fileTypeName, string suffix, Action<string> action)
+		private void DoSimpleExportDialog(string defaultExt, string fileTypeName, string suffix, string namedSettingsFolder, Action<string> action)
 		{
+			if (!defaultExt.StartsWith("."))
+				throw new ArgumentException("Default extension should start with \".\"!");
+
+			namedSettingsFolder = string.Format("Last{0}ExportDestinationFolder", namedSettingsFolder);
+			string folder = GetDefaultExportFolder(namedSettingsFolder);
+
 			try
 			{
-				if (!defaultExt.StartsWith("."))
-					throw new ArgumentException("Default extension should start with \".\"!");
-
 				var filter = string.Format("{0} ({1})|{1}", fileTypeName, "*" + defaultExt);
 				var fileName = _file.ParentElement.Id + ComponentRole.kFileSuffixSeparator + suffix + defaultExt;
 
@@ -540,10 +543,13 @@ namespace SayMore.Transcription.UI
 					dlg.Filter = filter;
 					dlg.FileName = fileName;
 					dlg.RestoreDirectory = true;
-					dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+					dlg.InitialDirectory = folder ?? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
 					if (DialogResult.OK != dlg.ShowDialog())
 						return;
+
+					if (namedSettingsFolder != null)
+						Settings.Default[namedSettingsFolder] = Path.GetDirectoryName(dlg.FileName);
 
 					action(dlg.FileName);
 					Process.Start("Explorer", "/select, \"" + dlg.FileName + "\"");
@@ -557,6 +563,33 @@ namespace SayMore.Transcription.UI
 					throw;
 				ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
 			}
+		}
+
+		internal static string GetDefaultExportFolder(string namedSettingsFolder)
+		{
+			string folder = null;
+			if (namedSettingsFolder != null)
+			{
+				try
+				{
+					folder = (string)Settings.Default[namedSettingsFolder];
+					if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
+					{
+						if (namedSettingsFolder != "LastExportDestinationFolder")
+						{
+							// Try the "generic" one.
+							folder = (string) Settings.Default["LastExportDestinationFolder"];
+						}
+						if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
+							folder = null;
+					}
+				}
+				catch
+				{
+					folder = null;
+				}
+			}
+			return folder;
 		}
 	}
 }

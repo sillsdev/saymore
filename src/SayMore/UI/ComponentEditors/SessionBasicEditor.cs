@@ -148,6 +148,25 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnParentTabControlVisibleChanged()
+		{
+			OnEditorAndChildrenLostFocus();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnEditorAndChildrenLostFocus()
+		{
+			PrepareToDeactivate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void PrepareToDeactivate()
+		{
+			if (_participants.Popup.IsShowing)
+				_participants.Popup.ClosePopup();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider,
 			FieldGatherer fieldGatherer)
 		{

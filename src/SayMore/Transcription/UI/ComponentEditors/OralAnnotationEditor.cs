@@ -225,28 +225,21 @@ namespace SayMore.Transcription.UI
 		protected override void OnEditorAndChildrenLostFocus()
 		{
 			base.OnEditorAndChildrenLostFocus();
-			_oralAnnotationWaveViewer.Stop();
+			PrepareToDeactivate();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleCreated(EventArgs e)
+		protected override void OnParentTabControlVisibleChanged()
 		{
-			base.OnHandleCreated(e);
+			StopPlayback();
+			BeginInvoke(new Action(() => _oralAnnotationWaveViewer.ResetWaveControlCursor()));
+		}
 
-			var parent = Parent;
-			while (parent != null)
-			{
-				if (parent is TabControl)
-				{
-					parent.VisibleChanged += delegate
-					{
-						StopPlayback();
-						BeginInvoke(new Action(() => _oralAnnotationWaveViewer.ResetWaveControlCursor()));
-					};
-					break;
-				}
-				parent = parent.Parent;
-			}
+		/// ------------------------------------------------------------------------------------
+		public override void PrepareToDeactivate()
+		{
+			StopPlayback();
+			base.PrepareToDeactivate();
 		}
 
 		/// ------------------------------------------------------------------------------------

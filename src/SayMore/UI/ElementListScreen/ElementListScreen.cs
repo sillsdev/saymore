@@ -519,6 +519,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public virtual void ViewDeactivated()
 		{
+			((ComponentEditorTabPage)(_selectedEditorsTabControl.SelectedTab)).EditorProvider.PrepareToDeactivate();
 		}
 
 		/// ------------------------------------------------------------------------------------

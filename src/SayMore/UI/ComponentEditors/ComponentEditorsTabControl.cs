@@ -45,6 +45,14 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnDeselecting(TabControlCancelEventArgs e)
+		{
+			base.OnDeselecting(e);
+			if (!e.Cancel)
+				CurrentEditor.PrepareToDeactivate();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void TrySelectEditorOfType(Type componentEditorType)
 		{
 			if (componentEditorType == null)

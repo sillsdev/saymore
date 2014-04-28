@@ -27,6 +27,7 @@ namespace SayMore.UI.ComponentEditors
 		event Action<string> TabTextChanged;
 		IEnumerable<Control> ChildControls { get; }
 		ComponentFile ComponentFile { get; }
+		void PrepareToDeactivate();
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -141,6 +142,11 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public virtual void PrepareToDeactivate()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public Control Control
 		{
 			get { return this; }
@@ -166,6 +172,23 @@ namespace SayMore.UI.ComponentEditors
 		{
 			SetLabelFonts(this, FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold));
 			base.OnLoad(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+
+			var parent = Parent;
+			while (parent != null)
+			{
+				if (parent is TabControl)
+				{
+					parent.VisibleChanged += (sender, args) => OnParentTabControlVisibleChanged();
+					break;
+				}
+				parent = parent.Parent;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -265,6 +288,10 @@ namespace SayMore.UI.ComponentEditors
 		{
 		}
 
+		/// ------------------------------------------------------------------------------------
+		protected virtual void OnParentTabControlVisibleChanged()
+		{
+		}
 		#endregion
 
 		/// ------------------------------------------------------------------------------------

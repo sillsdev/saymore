@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -110,7 +111,8 @@ namespace SayMore.Model
 				AutoSegmenterOptimumLengthClampingFactor = Settings.Default.DefaultAutoSegmenterOptimumLengthClampingFactor;
 			}
 
-			if (saveNeeded) Save();
+			if (saveNeeded)
+				Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -273,7 +275,31 @@ namespace SayMore.Model
 			project.Add(new XElement("Depositor", Depositor.NullTrim()));
 			project.Add(new XElement("IMDIOutputDirectory", IMDIOutputDirectory.NullTrim()));
 
-			project.Save(SettingsFilePath);
+			int retryCount = 1;
+			Exception error;
+			do
+			{
+				try
+				{
+					error = null;
+					project.Save(SettingsFilePath);
+					break;
+				}
+				catch (Exception e)
+				{
+					error = e;
+					if (retryCount-- == 0)
+						break;
+					Thread.Sleep(250);
+				}
+			} while (true);
+
+			if (error != null)
+			{
+				ErrorReport.NotifyUserOfProblem(error,
+					LocalizationManager.GetString("MainWindow.ProblemSavingSayMoreProject",
+						"There was a problem saving the SayMore project:\r\n\r\n{0}"), SettingsFilePath);
+			}
 
 			if (_accessProtocolChanged)
 			{
@@ -282,7 +308,6 @@ namespace SayMore.Model
 
 				_accessProtocolChanged = false;
 			}
-
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -44,6 +44,7 @@ namespace SayMore.Transcription.UI
 //		private bool _paused = false;
 
 		private System.Threading.Timer _delayBeginRowPlayingTimer;
+		private bool _resizingColumnHeaders;
 
 		/// ------------------------------------------------------------------------------------
 		public TextAnnotationEditorGrid(Font transcriptionFont, Font translationFont)
@@ -336,6 +337,8 @@ namespace SayMore.Transcription.UI
 		protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
 		{
 			base.OnColumnWidthChanged(e);
+			if (_resizingColumnHeaders)
+				return;
 			BeginInvoke((Action)ResizeColumnHeaders);
 
 			// If this control doesn't have focus or all three standard columns have not yet
@@ -347,8 +350,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void ResizeColumnHeaders()
 		{
+			_resizingColumnHeaders = true;
 			AutoResizeColumnHeadersHeight();
 			ColumnHeadersHeight += 8;
+			_resizingColumnHeaders = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

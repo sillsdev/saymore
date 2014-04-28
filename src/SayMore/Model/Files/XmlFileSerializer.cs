@@ -35,6 +35,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public void Save(IEnumerable<FieldInstance> fields, string path, string rootElementName)
 		{
+			var giveUpTime = DateTime.Now.AddSeconds(15);
+
 			// SP-872: Access to the path is denied
 			if (File.Exists(path))
 			{
@@ -84,7 +86,6 @@ namespace SayMore.Model.Files
 					root.Add(element);
 			}
 
-			var giveUpTime = DateTime.Now.AddSeconds(5);
 			bool attemptedRetry = false;
 
 			while (true)
@@ -101,11 +102,19 @@ namespace SayMore.Model.Files
 					root.Save(path);
 					break;
 				}
-				catch (IOException)
+				catch (IOException e)
 				{
 					// Guarantee that it retries at least once
 					if (attemptedRetry && DateTime.Now >= giveUpTime)
-						throw;
+					{
+						// SP-896: Apparently the file that was just judged to be writable above has now been locked
+						// by some other process and is no longer writable. Pretty annoying when you think about it.
+						// I can't reproduce this error, but the only other thing I can think to do is make it non-
+						// fatal (as it is above if it was not released within the 10-second wait time) and hope the
+						// user can find some way to fix it or will have better luck next time.
+						ErrorReport.ReportNonFatalException(e);
+						return;
+					}
 
 					attemptedRetry = true;
 					Thread.Sleep(100);

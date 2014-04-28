@@ -48,7 +48,7 @@ namespace SayMore.UI.ComponentEditors
 		protected override void OnDeselecting(TabControlCancelEventArgs e)
 		{
 			base.OnDeselecting(e);
-			if (!e.Cancel)
+			if (!e.Cancel && CurrentEditor != null)
 				CurrentEditor.PrepareToDeactivate();
 		}
 

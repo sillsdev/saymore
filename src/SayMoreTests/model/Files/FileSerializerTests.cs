@@ -221,7 +221,7 @@ namespace SayMoreTests.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void Save_CannotCreateFile_Throws()
+		public void Save_DirectoryNotFound_Throws()
 		{
 			Assert.Throws<DirectoryNotFoundException>(() =>
 				_serializer.Save(_fields, _parentFolder.Combine("notthere", "test.txt"), "x"));

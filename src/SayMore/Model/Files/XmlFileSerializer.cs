@@ -104,6 +104,9 @@ namespace SayMore.Model.Files
 				}
 				catch (IOException e)
 				{
+					if (e.GetType() != typeof(IOException))
+						throw;
+
 					// Guarantee that it retries at least once
 					if (attemptedRetry && DateTime.Now >= giveUpTime)
 					{
@@ -197,8 +200,11 @@ namespace SayMore.Model.Files
 					doc.Load(path);
 					break;
 				}
-				catch (IOException)
+				catch (IOException e)
 				{
+					if (e.GetType() != typeof(IOException))
+						throw;
+
 					if (DateTime.Now >= giveUpTime)
 					{
 						Logger.WriteEvent("IO Exception path: " + (path ?? "null"));

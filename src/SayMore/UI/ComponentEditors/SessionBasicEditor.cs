@@ -27,7 +27,7 @@ namespace SayMore.UI.ComponentEditors
 		private FieldsValuesGrid _gridCustomFields;
 		private FieldsValuesGrid _gridAdditionalFields;
 		private FieldsValuesGridViewModel _gridViewModel;
-		private FieldsValuesGridViewModel _additionalFieldsGridViewModel;
+		private AdditionalFieldsValuesGridViewModel _additionalFieldsGridViewModel;
 		private readonly PersonInformant _personInformant;
 		private readonly AutoCompleteValueGatherer _autoCompleteProvider;
 		private bool _genreFieldEntered;
@@ -182,23 +182,12 @@ namespace SayMore.UI.ComponentEditors
 			_panelAdditionalGrid.AutoSize = true;
 			_panelAdditionalGrid.Controls.Add(_gridAdditionalFields);
 
-			// interactivity cell
-			AddDropdownCell(ListType.ContentInteractivity, 0);
-
-			// involvement cell
-			AddDropdownCell(ListType.ContentInvolvement, 1);
-
-			// set country dropdown
-			AddDropdownCell(ListType.Countries, 2);
-
-			// set continent dropdown
-			AddDropdownCell(ListType.Continents, 3);
-
-			// planning type cell
-			AddDropdownCell(ListType.ContentPlanningType, 6);
-
-			// social context cell
-			AddDropdownCell(ListType.ContentSocialContext, 8);
+			for (int i = 0; i < _gridAdditionalFields.RowCount; i++)
+			{
+				var listType = _additionalFieldsGridViewModel.GetListType(i);
+				if (listType != null)
+					AddDropdownCell(listType, i);
+			}
 
 			_gridAdditionalFields.EditingControlShowing += _gridAdditionalFields_EditingControlShowing;
 			// custom fields grid

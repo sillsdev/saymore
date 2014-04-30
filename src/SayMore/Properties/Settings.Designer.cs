@@ -778,8 +778,8 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool NeedUpgrade {
             get {
@@ -1327,7 +1327,8 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LastExportDestinationFolder {
             get {
@@ -1339,7 +1340,8 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LastToolboxExportDestinationFolder {
             get {
@@ -1351,7 +1353,8 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LastAudacityExportDestinationFolder {
             get {
@@ -1363,7 +1366,8 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LastFlexInterlinearExportDestinationFolder {
             get {
@@ -1371,6 +1375,19 @@ namespace SayMore.Properties {
             }
             set {
                 this["LastFlexInterlinearExportDestinationFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Interactivity|Planning Type|Task")]
+        public string AdditionalFieldsToHide {
+            get {
+                return ((string)(this["AdditionalFieldsToHide"]));
+            }
+            set {
+                this["AdditionalFieldsToHide"] = value;
             }
         }
     }

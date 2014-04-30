@@ -74,9 +74,17 @@ namespace SayMore
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			//bring in settings from any previous version
-			//NB: this code doesn't actually work, becuase for some reason Saymore uses its own settings code,
+			//NB: this code doesn't actually work, because for some reason Saymore uses its own settings code,
 			//(which emits a "settings" file rather than "user.config"),
 			//and which apparently doesn't use the application version to trigger the following technique:
+			// Insight from Tom: Looks like ALL user settings in SayMore use the PortableSettingsProvider. I think the
+			// idea of this was to facilitate installing SayMore to a thumb drive or whatever, so it could be totally
+			// portable. This provider does not attach version numbers to the settings files (or the cryptic GUIDs or
+			// whatever to their containing folders), so once NeedUpgrade gets set to false (the very first time SayMore
+			// is run), it will never again be true. It's easy enough to store NeedUpgrade in the normal
+			// user.config file by removing the attribute in Settings.Designer.cs that causes it to be handled by the
+			// custom provider. But PortableSettingsProvider would need to implement IApplicationSettingsProvider and
+			// implement Upgrade in an appropriate way to handle this.
 			if (Settings.Default.NeedUpgrade) //TODO: this doesn't get triggered with David's custom settings
 			{
 				//see http://stackoverflow.com/questions/3498561/net-applicationsettingsbase-should-i-call-upgrade-every-time-i-load
@@ -85,7 +93,7 @@ namespace SayMore
 				Settings.Default.Save();
 			}
 			//so, as a hack because this is biting our users *now*.
-			//this hack is begins the damage control started above, when from 1.6.52 to 1.6.53, we changed the namespace
+			//this hack begins the damage control started above, when from 1.6.52 to 1.6.53, we changed the namespace
 			//of the grid settings. It removes the old settings, talks to the user, and waits for the user to restart.
 			else
 			{

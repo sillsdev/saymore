@@ -380,5 +380,8 @@
     <Setting Name="LastFlexInterlinearExportDestinationFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="AdditionalFieldsToHide" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Interactivity|Planning Type|Task</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -21,6 +21,8 @@ namespace SayMore.UI.ComponentEditors
 			if (id != null)
 			{
 				var name = id.Substring(XmlFileSerializer.kAdditionalFieldIdPrefix.Length).Replace('_', ' ');
+				if (name == "Involvement")
+					return LocalizationManager.GetString("SessionsView.MetadataEditor.AdditionalFields.Involvement", "Researcher Involvement");
 				return LocalizationManager.GetDynamicString("SayMore", "SessionsView.MetadataEditor.AdditionalFields." + name, name);
 			}
 			return id;

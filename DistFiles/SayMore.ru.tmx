@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="ru" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="2.0.5196.24814" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
-    <prop type="x-appversion">2.0.0.0</prop>
+  <header srclang="ru" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="2.0.5.0" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+    <prop type="x-appversion">3.0.191.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
   <body>
+    <tu tuid="CommonToMultipleViews.AudioUtils.NoPlaybackDevicesFoundMsg">
+      <tuv xml:lang="en">
+        <seg>Currently SayMore is unable to find any audio playback devices installed and enabled on this computer.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>SayMore не удалось найти каких-либо устройств воспроизведения звука установленных и включенных на этом компьютере.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.AudioUtils.NoRecordingDevicesFoundMsg">
+      <tuv xml:lang="en">
+        <seg>Currently audio recordings cannot be made because SayMore is unable to find any recording devices installed and enabled on this computer.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>В настоящее время аудио запись нельзя сделать потому что SayMore не может найти записывающие устройства установленные и включенные на этом компьютере</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.ChangeIdFailureMsg">
       <note>Message displayed when attempt failed to change a session id or a person's name (i.e. id)</note>
       <tuv xml:lang="en">
@@ -19,7 +35,7 @@
         <seg>Enter a name.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Введите имя.</seg>
+        <seg>Введите имя</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ContributorsEditor.MissingContributorRoleMsg">
@@ -280,6 +296,14 @@
         <seg>Преобразование выбранного файла</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Convert.ConvertMenuText">
+      <tuv xml:lang="en">
+        <seg>Convert...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Конвертировать</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText">
       <tuv xml:lang="en">
         <seg>Extract audio to mono mp3 audio file (low quality)</seg>
@@ -434,10 +458,18 @@
     </tu>
     <tu tuid="CommonToMultipleViews.ImageViewer.OpeningPictureFileErrorMsg">
       <tuv xml:lang="en">
-        <seg>Could not open that picture</seg>
+        <seg>Could not open that picture.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Не удалось открыть это изображение</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ImageViewer.OpeningPictureFileTooLargeMsg">
+      <tuv xml:lang="en">
+        <seg>Could not open that picture. The image size is too large for SayMore to open.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не удалось открыть этo изображение. Размер изображения слишком велик для SayMore</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ImageViewer.TabText">
@@ -454,6 +486,2813 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Масштаб</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Interactivity.Interactive.Definition">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Speech events consists of verbal interaction between at least two participants. Comments: The event may or may not include an investigator.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Речевое событие состоит из речевого общения между по меньшей мере двумя участниками. Комментарии: событие может включать или не включать исследователя</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Interactivity.Interactive.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Interactive</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Диалог</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Interactivity.Non-interactive.Definition">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Speech/song produced without expecting extended verbal responses from hearer(s). Comments: Corresponds often to monologue.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Речь/песня производиться не ожидая значительных словесных ответов от слушателей. Комментарии: Часто соответствуетует форме монолога.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Interactivity.Non-interactive.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Non-interactive</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Монолог</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Interactivity.Semi-interactive.Definition">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Primarily monologic speech punctuated by repeated interjections from the hearer(s).</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Монолог размеченный периодическими перебиваниями слушающего</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Interactivity.Semi-interactive.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Semi-interactive</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Полу-диалог</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Interactivity.Unknown.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unknown</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Неизвестно</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Interactivity.Unspecified.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unspecified</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не указано</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Involvement.Elicited.Definition">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Investigator asks speaker(s) to produce isolated phonemes/ words/ utterances / grammatical structures.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Исследователь просит произвести отдельные фонемы, высказывания, слова или грамматические структуры</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Involvement.Elicited.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Elicited</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Речь/песня исполнена в рамках предложенных исследователем (вовлечение)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Involvement.No-observer.Definition">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>No outside observer is present.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Без присутствия сторонних наблюдателей</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Involvement.No-observer.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>No-observer</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Без наблюдателей</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Involvement.Non-elicited.Definition">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>The researcher does not interfere verbally with the speech event (other than the researcher's mere presence).</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Исследователь не вмешивается устно (кроме как своим присутствием)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Involvement.Non-elicited.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Non-elicited</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не в рамках предложенных исследователем</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Involvement.Unknown.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unknown</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Неизвестно</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-Involvement.Unspecified.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unspecified</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не указано</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-PlanningType.Planned.Definition">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>The speaker prepares in detail the structure and content of his/her "performance" in advance Comments: This differs from 'Elicitation' (involvement), where the performer/consultant is given a framework but does not necessary plan his/her answer.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Респондент детально готовит структуру и содержание его/ее "выступления" заранее. Комментарии: Это отличается от "выявления"(вовлечения), где исполнителю/консультанту дают рамки для "выступления", но его/ее ответ не обязательно планируеться</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-PlanningType.Planned.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Planned</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Спланированное</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-PlanningType.Semi-spontaneous.Definition">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Prompted speech/song. Comments: Topic directed in some way by an investigator or community member, but participants speak/sing freely within this context.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Запрошенная речь/песня. Комментарии: Тема в какой то мере поставлена исследователем или членом сообщества, но участники говорят/поют свободно в этом контексте.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-PlanningType.Semi-spontaneous.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Semi-spontaneous</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Частично спонтанное</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-PlanningType.Spontaneous.Definition">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unprompted speech/song. Comments: Topic not determined from context or observers.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не запрошенная речь/песня. Комментарии: Тема не определяется контекстом или наблюдателями.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-PlanningType.Spontaneous.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Spontaneous</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Спонтанное</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-PlanningType.Unknown.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unknown</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Неизвестно</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-PlanningType.Unspecified.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unspecified</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не указано</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-SocialContext.Controlled environment.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Controlled environment</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Контролируемая среда</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-SocialContext.Family.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Family</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Семья</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-SocialContext.Private.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Private</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Частный </seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-SocialContext.Public.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Public</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Публичный</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-SocialContext.Unknown.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unknown</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Неизвестно</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Content-SocialContext.Unspecified.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unspecified</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не указано</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Continents.Africa.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Africa</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Африка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Continents.Asia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Asia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Азия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Continents.Australia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Australia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Австралия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Continents.Europe.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Europe</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Европа</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Continents.Middle-America.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Middle-America</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Средняя Америка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Continents.North-America.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>North-America</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Северная Америка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Continents.Oceania.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Oceania</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Океания</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Continents.South-America.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>South-America</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Южная Америка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Continents.Unknown.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unknown</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Неизвестно</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Continents.Unspecified.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unspecified</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не указано</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Afghanistan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Afghanistan</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Афганистан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Albania.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Albania</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Албания</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Algeria.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Algeria</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Алжир</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.American Samoa.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>American Samoa</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Американское Самоа</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Andorra.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Andorra</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Андорра</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Angola.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Angola</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ангола</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Anguilla.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Anguilla</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ангилья</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Antarctica.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Antarctica</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Антарктида</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Antigua and Barbuda.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Antigua and Barbuda</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Антигуа и Барбуда</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Arctic Ocean.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Arctic Ocean</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Северный Ледовитый океан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Argentina.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Argentina</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Аргентина</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Armenia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Armenia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Армения</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Aruba.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Aruba</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Аруба</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Ashmore and Cartier Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Ashmore and Cartier Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Острова Ашмор и Картье</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Atlantic Ocean.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Atlantic Ocean</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Атлантический океан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Australia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Australia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Австралия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Austria.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Austria</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Австрия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Azerbaijan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Azerbaijan</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Азербайджан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Bahamas.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bahamas</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Багамские острова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Bahrain.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bahrain</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Бахрейн</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Baker Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Baker Island</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остров Бейкер</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Bangladesh.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bangladesh</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Бангладеш</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Barbados.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Barbados</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Барбадос</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Bassas da India.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bassas da India</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Бассас-да-Индия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Belarus.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Belarus</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Беларусь</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Belgium.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Belgium</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Бельгия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Belize.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Belize</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Белиз</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Benin.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Benin</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Бенин</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Bermuda.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bermuda</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Бермудские острова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Bhutan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bhutan</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Бутан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Bolivia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bolivia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Боливия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Bosnia and Herzegovina.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bosnia and Herzegovina</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Босния и Герцеговина</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Botswana.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Botswana</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ботсвана</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Bouvet Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bouvet Island</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остров Буве</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Brazil.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Brazil</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Бразилия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.British Indian Ocean Territory.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>British Indian Ocean Territory</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Британская территория Индийского океана</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.British Virgin Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>British Virgin Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Британские Виргинские острова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Brunei.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Brunei</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Бруней</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Bulgaria.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Bulgaria</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Болгария</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Burkina Faso.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Burkina Faso</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Буркина-Фасо</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Burma.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Burma</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Бирма</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Burundi.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Burundi</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Бурунди</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Cambodia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cambodia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Камбоджа</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Cameroon.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cameroon</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Камерун</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Canada.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Canada</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Канада</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Cape Verde.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cape Verde</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Кабо-Верде</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Cayman Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cayman Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Каймановы острова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Central African Republic.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Central African Republic</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Центральноафриканская Республика</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Chad.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Chad</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Чад</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Chile.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Chile</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Чили</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.China.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>China</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Китай</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Christmas Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Christmas Island</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остров Рождества</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Clipperton Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Clipperton Island</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остров Клиппертон</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Cocos (Keeling Islands).Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cocos (Keeling Islands)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Кокосовые острова (острова Килинг)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Colombia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Colombia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Колумбия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Comoros.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Comoros</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Коморские острова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Congo Republic of the.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Congo Republic of the</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Республика Конго</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Congo, Democratic Republic of the.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Congo, Democratic Republic of the</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Конго, Демократическая Республика</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Cook Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cook Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Острова Кука</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Coral Sea Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Coral Sea Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Территория островов Кораллового моря</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Costa Rica.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Costa Rica</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Коста-Рика</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Cote D'Ivoire.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cote D'Ivoire</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Кот д ' Ивуар</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Croatia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Croatia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Хорватия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Cuba.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cuba</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Куба</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Cyprus.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Cyprus</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Кипр</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Czech Republic.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Czech Republic</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Чешская Республика</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Denmark.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Denmark</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Дания</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Djibouti.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Djibouti</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Джибути</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Dominica.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Dominica</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Доминика</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Dominican Republic.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Dominican Republic</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Dominican Republic</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.East Timor.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>East Timor</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Восточный Тимор</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Ecuador.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Ecuador</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Эквадор</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Egypt.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Egypt</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Египет</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.El Salvador.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>El Salvador</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сальвадор</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Equatorial Guinea.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Equatorial Guinea</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Экваториальная Гвинея</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Eritrea.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Eritrea</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Эритрея</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Estonia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Estonia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Эстония</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Ethiopia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Ethiopia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Эфиопия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Europa Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Europa Island</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остров Европы</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Falkland Islands (Islas Malvinas).Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Falkland Islands (Islas Malvinas)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Фолклендские (Мальвинские) острова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Faroer Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Faroer Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Фарерские острова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Fiji.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Fiji</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Фиджи</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Finland.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Finland</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Финляндия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.France.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>France</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Франция</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.French Guiana.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>French Guiana</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Французская Гвиана</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.French Polynesia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>French Polynesia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Французская Полинезия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.French Southern and Antarctic Lands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>French Southern and Antarctic Lands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Французские южные и Антарктические земли</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Gabon.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Gabon</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Габон</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Gambia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Gambia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Гамбия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Georgia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Georgia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Грузия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Germany.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Germany</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Германия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Ghana.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Ghana</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Гана</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Gibraltar.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Gibraltar</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Гибралтар</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Glorioso Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Glorioso Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Глорьёз</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Greece.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Greece</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Греция</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Greenland.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Greenland</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Гренландия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Grenada.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Grenada</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Гренада</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Guadeloupe.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Guadeloupe</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Гваделупа</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Guam.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Guam</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Гуам</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Guatemala.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Guatemala</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Гватемала</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Guernsey.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Guernsey</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Гернси</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Guinea-Bissau.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Guinea-Bissau</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Гвинея-Бисау</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Guinea.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Guinea</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Гвинея</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Guyana.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Guyana</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Гайана</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Haiti.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Haiti</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Гаити</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Heard and McDonald Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Heard and McDonald Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остров Херд и острова Макдональд</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Holy Seat (Vatican City).Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Holy Seat (Vatican City)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ватикан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Holy See (Vatican City).Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Holy See (Vatican City)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ватикан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Honduras.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Honduras</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Гондурас</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Hong Kong.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Hong Kong</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Гонконг</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Howland Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Howland Island</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остров Хауленд</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Hungary.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Hungary</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Венгрия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Iceland.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Iceland</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Исландия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.India.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>India</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Индия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Indian Ocean.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Indian Ocean</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Индийский океан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Indonesia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Indonesia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Индонезия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Iran.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Iran</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Иран</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Iraq.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Iraq</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ирак</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Ireland.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Ireland</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ирландия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Israel.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Israel</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Израиль</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Italy.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Italy</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Италия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Jamaica.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Jamaica</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ямайка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Jan Mayen.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Jan Mayen</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ян-Майен</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Japan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Japan</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Япония</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Jarvis Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Jarvis Island</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остров Джарвис</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Jersey.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Jersey</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Джерси</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Johnston Atoll.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Johnston Atoll</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Атолл Джонстон</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Jordan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Jordan</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Иордания</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Juan de Nova Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Juan de Nova Island</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Хуан де Нова остров</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Kazakhstan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Kazakhstan</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Казахстан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Kenya.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Kenya</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Кения</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Kingman Reef.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Kingman Reef</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Риф Кингмен</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Kiribati.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Kiribati</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Кирибати</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Korea (North).Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Korea (North)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Корея (КНДР)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Korea (South).Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Korea (South)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Корея (Южная)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Kuwait.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Kuwait</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Кувейт</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Kyrgyzstan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Kyrgyzstan</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Киргизия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Laos.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Laos</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Лаос</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Latvia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Latvia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Латвия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Lebanon.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Lebanon</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ливан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Lesotho.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Lesotho</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Лесото</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Liberia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Liberia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Либерия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Libya.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Libya</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ливия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Liechtenstein.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Liechtenstein</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Лихтенштейн</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Lithuania.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Lithuania</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Литва</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Luxembourg.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Luxembourg</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Люксембург</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Macau.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Macau</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Макао</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Macedonia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Macedonia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Македония</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Madagascar.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Madagascar</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Мадагаскар</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Malawi.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Malawi</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Малави</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Malaysia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Malaysia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Малайзия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Maldives.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Maldives</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Мальдивские острова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Mali.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Mali</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Мали</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Malta.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Malta</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Мальта</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Man Isle of.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Man Isle of</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остров Мэн</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Marshall Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Marshall Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Маршалловы острова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Martinique.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Martinique</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Мартиника</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Mauritania.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Mauritania</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Мавритания</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Mauritius.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Mauritius</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Маврикий</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Mayotte.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Mayotte</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Майотта</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Mexico.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Mexico</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Мексика</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Micronesia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Micronesia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Микронезия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Moldova.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Moldova</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Молдова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Monaco.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Monaco</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Монако</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Mongolia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Mongolia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Монголия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Montserrat.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Montserrat</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Монтсеррат</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Morocco.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Morocco</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Марокко</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Mozambique.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Mozambique</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Мозамбик</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Namibia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Namibia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Намибия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Nauru.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Nauru</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Науру</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Navassa Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Navassa Island</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остров Навасса</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Nepal.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Nepal</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Непал</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Netherlands Antilles.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Netherlands Antilles</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Нидерландские Антильские острова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Netherlands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Netherlands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Нидерланды</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.New Caledonia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>New Caledonia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Новая Каледония</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.New Zealand.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>New Zealand</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Новая Зеландия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Nicaragua.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Nicaragua</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Никарагуа</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Niger.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Niger</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Нигер</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Nigeria.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Nigeria</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Нигерия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Niue.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Niue</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ниуэ</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Norfolk Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Norfolk Island</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остров Норфолк</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Northern Mariana Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Northern Mariana Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Северные Марианские острова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Norway.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Norway</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Норвегия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Oman.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Oman</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Оман</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Pacific Ocean.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Pacific Ocean</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Тихий океан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Pakistan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Pakistan</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Пакистан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Palau.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Palau</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Палау</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Palmyra Atoll.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Palmyra Atoll</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Атолл Пальмира</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Panama.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Panama</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Панама</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Papua New Guinea.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Papua New Guinea</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Папуа-Новая Гвинея</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Paracel Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Paracel Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Парасельские острова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Paraguay.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Paraguay</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Парагвай</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Peru.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Peru</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Перу</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Philippines.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Philippines</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Филиппины</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Pitcairn Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Pitcairn Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Острова Питкэрн</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Poland.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Poland</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Польша</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Portugal.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Portugal</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Португалия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Puerto Rico.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Puerto Rico</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Пуэрто-Рико</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Qatar.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Qatar</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Катар</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Reunion.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Reunion</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Реюньон</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Romania.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Romania</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Румыния</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Russian Federation.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Russian Federation</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Российская Федерация</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Rwanda.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Rwanda</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Руанда</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Saint Helena.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Saint Helena</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остров Святой Елены</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Saint Kitts and Nevis.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Saint Kitts and Nevis</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сент-Китс и Невис</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Saint Lucia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Saint Lucia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сент-Люсия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Saint Pierre and Miquelon.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Saint Pierre and Miquelon</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сен-Пьер и Микелон</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Saint Vincent and the Grenadines.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Saint Vincent and the Grenadines</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сент-Винсент и Гренадины</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Samoa.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Samoa</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Самоа</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.San Marino.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>San Marino</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сан-Марино</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Sao Tome and Principe.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Sao Tome and Principe</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сан-Томе и Принсипи</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Saudi Arabia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Saudi Arabia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Саудовская Аравия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Senegal.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Senegal</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сенегал</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Serbia and Montenegro.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Serbia and Montenegro</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сербия и Черногория</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Seychelles.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Seychelles</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сейшельские острова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Sierra Leone.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Sierra Leone</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сьерра-Леоне</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Singapore.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Singapore</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сингапур</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Slovak Republic.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Slovak Republic</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Словацкая Республика</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Slovenia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Slovenia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Словения</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Solomon Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Solomon Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Соломоновы острова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Somalia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Somalia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сомали</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.South Africa.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>South Africa</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Южная Африка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.South Georgia and the South Sandwich Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>South Georgia and the South Sandwich Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Южная Георгия и Южные Сандвичевы острова</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Southern Ocean.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Southern Ocean</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Южный океан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Spain.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Spain</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Испания</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Spratly Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Spratly Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Острова Спратли</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Sri Lanka.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Sri Lanka</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Шри-Ланка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Sudan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Sudan</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Судан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Suriname.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Suriname</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Суринам</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Svalbard.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Svalbard</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Шпицберген</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Swaziland.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Swaziland</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Свазиленд</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Sweden.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Sweden</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Швеция</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Switzerland.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Switzerland</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Швейцария</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Syria.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Syria</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сирия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Taiwan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Taiwan</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Тайвань</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Tajikistan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Tajikistan</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Таджикистан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Tanzania.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Tanzania</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Танзания</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Thailand.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Thailand</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Таиланд</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.The Gaza Strip.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>The Gaza Strip</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сектор Газа</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Togo.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Togo</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Того</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Tokelau.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Tokelau</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Токелау</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Tonga.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Tonga</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Тонга</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Trinidad and Tobago.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Trinidad and Tobago</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Тринидад и Тобаго</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Tromolin Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Tromolin Island</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Тромелин Остров</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Tunisia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Tunisia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Тунис</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Turkey.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Turkey</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Турция</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Turkmenistan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Turkmenistan</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Туркменистан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Turks and Caicos Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Turks and Caicos Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Острова Теркс и Кайкос</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Tuvalu.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Tuvalu</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Тувалу</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Uganda.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Uganda</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Уганда</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Ukraine.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Ukraine</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Украина</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Undefined.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Undefined</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не определено</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.United Arab Emirates.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>United Arab Emirates</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Объединенные Арабские Эмираты</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.United Kingdom.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>United Kingdom</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Великобритания</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.United States.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>United States</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>США</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Unknown.Definition">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unknown</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Неизвестно</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Unknown.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unknown</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Неизвестно</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Unspecified.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unspecified</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не указано</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Uruguay.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Uruguay</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Уругвай</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Uzbekistan.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Uzbekistan</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Узбекистан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Vanuatu.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Vanuatu</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Вануату</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Venezuela.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Venezuela</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Венесуэла</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Vietnam.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Vietnam</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Вьетнам</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Virgin Islands (US).Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Virgin Islands (US)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Виргинские острова (США)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Wake Island.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Wake Island</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остров Уэйк</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Wallis and Futuna Islands.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Wallis and Futuna Islands</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Уоллис и Футуна</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.West Bank.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>West Bank</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Западный берег реки Иордан</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Western Sahara.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Western Sahara</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Западная Сахара</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Yemen.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Yemen</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Йемен</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Zambia.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Zambia</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Замбия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Zimbabwe.Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Zimbabwe</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Зимбабве</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.InvalidMediaFile">
+      <tuv xml:lang="en">
+        <seg>File does not appear to be a valid media file: {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл не является допустимым медиа-файлом:{0}</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg">
@@ -517,7 +3356,7 @@
         <seg>Stop</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Остановка</seg>
+        <seg>Остановить</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.MediaPlayer.TabText-Audio">
@@ -565,7 +3404,7 @@
         <seg>Volume</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Уровень</seg>
+        <seg>Громкость</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.MediaPlayer.VolumeButton_ToolTip_">
@@ -573,7 +3412,7 @@
         <seg>Volume</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Объем</seg>
+        <seg>Громкость</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.MediaPropertiesEditor.PresetsButton">
@@ -600,45 +3439,12 @@
         <seg>Свойства</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.AboutDlg.WindowTitle">
+    <tu tuid="ConvertMedia.FullConversionOutput">
       <tuv xml:lang="en">
-        <seg>About SayMore</seg>
+        <seg>Full output from conversion:</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>О программе SayMore</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._buttonOK">
-      <tuv xml:lang="en">
-        <seg>OK</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>OK</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._labelSubTitle">
-      <tuv xml:lang="en">
-        <seg>Language Documentation Project Management</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Управление проектом документации языка</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._labelVersionInfo">
-      <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2} {3}    Built on {4}</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Версия {0}.{1}.{2} {3}, Построенный на {4}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebsite">
-      <note>Parameter is the program name, "SayMore"</note>
-      <tuv xml:lang="en">
-        <seg>Visit {0} on the Web.</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Посетите веб-сайт {0}.</seg>
+        <seg>Полный вывод данных после ковертирования:</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg">
@@ -655,6 +3461,14 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Добавление файлов для события «{0}»</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.AllFilesLabel">
+      <tuv xml:lang="en">
+        <seg>All Files</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Все файлы </seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.ArchivingProgressMsg">
@@ -682,9 +3496,18 @@
         <seg>Составитель</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg">
+    <tu tuid="DialogBoxes.ArchivingDlg.CopyingFilesMsg">
       <tuv xml:lang="en">
-        <seg>There was an error attempting to create the RAMP file.</seg>
+        <seg>Copying files</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Копирование файлов</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg">
+      <note>Parameter is the type of archive (e.g., IMDI)</note>
+      <tuv xml:lang="en">
+        <seg>There was an error attempting to create the {0} package.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Произошла ошибка при попытке создания архива для события «{0}».</seg>
@@ -706,12 +3529,64 @@
         <seg>Существует проблема c созданием zip-файла.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.FileExcludedFromPackage">
+      <note>Parameter is the type of archive (e.g., RAMP/IMDI)</note>
+      <tuv xml:lang="en">
+        <seg>File excluded from {0} package: </seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл исключен из {0} пакета:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.IMDIArchiveType">
+      <note>This is the abbreviation for Isle Metadata Initiative (http://www.mpi.nl/imdi/). Typically this probably does not need to be localized.</note>
+      <tuv xml:lang="en">
+        <seg>IMDI</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>IMDI</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.IMDIProgramInfoText">
+      <note>Parameter 0 is the name of the program that will be launched to further prepare the IMDI data for submission; Parameter 1 is the name of the calling (host) program (SayMore, FLEx, etc.)</note>
+      <tuv xml:lang="en">
+        <seg>This tool will help you use {0} to archive your {1} data. When the {1} package has been created, you can launch {0} and enter any additional information before doing the actual submission.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Этот инструмент поможет вам использовать {0} для архивирования {1} данных. Когда {1} пакет создан, можно запустить {0} и ввести любую дополнительную информацию, до введения архивируемых данных.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ISO3CodeRequired">
+      <note>Message displayed when an invalid language code is given.</note>
+      <tuv xml:lang="en">
+        <seg>ISO 639-3 3-letter language code required.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Требуется ISO 639-3 3-буквенный языковый код</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.InvalidLanguageCode">
+      <tuv xml:lang="en">
+        <seg>Invalid ISO 639-3 code: {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Недопустимый код ISO 639-3: {0}</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg">
       <tuv xml:lang="en">
         <seg>There are no contributors for this session.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Не существуют составители этого события.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg">
+      <tuv xml:lang="en">
+        <seg>The following files will be added to the archive:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Следующие файлы будут добавлены в архив:</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1">
@@ -785,7 +3660,7 @@
         <seg>{0}: Archive using {1}</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>SayMore: Архивизировать программой RAMP (только SIL)</seg>
+        <seg>{0} - SayMore {1}.{2}.{3} (Beta)</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg._buttonCancel">
@@ -821,12 +3696,127 @@
         <seg>Новый файл: {0}</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.ComponentFileRenamingDlg.WindowTitle">
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._buttonCancel">
       <tuv xml:lang="en">
-        <seg>Rename</seg>
+        <seg>Cancel</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Переименовать</seg>
+        <seg>Отмена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._labelNonSayMoreImportHint">
+      <tuv xml:lang="en">
+        <seg>Use the following only when you are importing annotations produced outside of SayMore</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Используйте следующее только тогда, когда вы импортируете аннотации, произведенные не в SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkCareful">
+      <tuv xml:lang="en">
+        <seg>Careful Speech</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Аккуратная речь</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkConsent">
+      <tuv xml:lang="en">
+        <seg>Informed Consent</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Информированное согласие</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkConsent_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Informed Consent:\nA scan or recording of consent covering\nthe use of this person's contribution.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Осознанного сканирования Consent:
+A или запись согласия covering
+использования взноса этого человека.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkTranscription">
+      <tuv xml:lang="en">
+        <seg>Transcription</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Транскрипция</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation">
+      <tuv xml:lang="en">
+        <seg>Written Translation</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Письменный перевод</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConfirmRecycleDialog.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Confirm Delete</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Подтвердить удаление</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConfirmRecycleDialog.cancelBtn">
+      <tuv xml:lang="en">
+        <seg>&amp;Cancel</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отмена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConfirmRecycleDialog.deleteBtn">
+      <tuv xml:lang="en">
+        <seg>&amp;Delete</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Удалить</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.CancelButton">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отмена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.CloseButton">
+      <tuv xml:lang="en">
+        <seg>Close</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Закрыть</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConvertToMp4AndAACConversionName">
+      <tuv xml:lang="en">
+        <seg>Convert to H.263/MPEG-4 video with AAC Audio</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Конвертировать в видео H.263/MPEG-4 с AAC аудио</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadButton">
+      <tuv xml:lang="en">
+        <seg>Install...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Установить</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadingProgressMsgFormat">
+      <note>The 'F2' in the parameters specifies displaying a number to 2 decimal places.</note>
+      <tuv xml:lang="en">
+        <seg>Downloaded {0:F2} MB of approximately {1:F2} MB</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Загружено {0: F2} МБ из приблизительно {1:F2} MB</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.ExtractStandardPcmFromVideoMenuText">
@@ -837,12 +3827,52 @@
         <seg>Извлечение аудио формате Wave</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.FileToConvertLabel">
+      <tuv xml:lang="en">
+        <seg>File to Convert:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл для ковертирования:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.HideOutputButton">
+      <tuv xml:lang="en">
+        <seg>Hide Details</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Скрыть детали</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.InvalidMediaFile">
+      <tuv xml:lang="en">
+        <seg>File does not appear to be a valid media file.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл не является допустимым медиа-файлом.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.OverviewLabel">
+      <tuv xml:lang="en">
+        <seg>To convert your media file to a different format, choose from one of the available conversions below and click 'Begin Conversion'. Your source media file will not be affected.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Чтобы конвертировать файл в другой формат, выберите одну из доступных версий конвертирования ниже и нажмите кнопку «Начать конвертирование». Ваш исходный медиа файл не будет аффектирован.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Convert Media</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Конвертировать Медиа</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.DeleteMessageBox.WindowTitle">
       <tuv xml:lang="en">
         <seg>Confirm Delete</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Подтверждение удаления</seg>
+        <seg>Подтвердить удаление</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.DeleteMessageBox._buttonCancel">
@@ -861,12 +3891,156 @@
         <seg>Удалить</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.CancelButton">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отмена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.CopyCompletedingMsg">
+      <tuv xml:lang="en">
+        <seg>Files Copied Successfully.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файлы скопированы успешно.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.DownloadCancelledMsg">
+      <tuv xml:lang="en">
+        <seg>Downloading and Installing Cancelled.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Загрузка и установка отменена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.DownloadCompleteMsg">
+      <tuv xml:lang="en">
+        <seg>Downloading and Installing Completed Successfully.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Загрузка и установка успешно завершена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallCompletedingMsg">
+      <tuv xml:lang="en">
+        <seg>Installed Successfully.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Успешно установлен.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileMsg">
+      <tuv xml:lang="en">
+        <seg>Installing...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Установка...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.OverviewLabel">
+      <tuv xml:lang="en">
+        <seg>You have three options for getting FFmpeg:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>У вас есть три варианта для получения FFmpeg:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.SelectDownloadedFFmpegFileDlg.FileTypesString">
+      <tuv xml:lang="en">
+        <seg>Zip Archive (*.zip)|*.zip|All Files (*.*)|*.*</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>ZIP-архив (*.zip) | *. zip|Все файлы (*. *) | *. *</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Install FFmpeg</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Установить FFmpeg</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelOptionB">
+      <tuv xml:lang="en">
+        <seg>B)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Б)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkDownloadAndInstall">
+      <tuv xml:lang="en">
+        <seg>Download and install FFmpeg</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Скачать и установить FFmpeg</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.IMDIArchivingDlg.ChangeDestinationFolder">
+      <tuv xml:lang="en">
+        <seg>Change Folder</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сменить папку</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.IMDIArchivingDlg.CloseButtonLabel">
+      <tuv xml:lang="en">
+        <seg>Close</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Закрыть</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.IMDIArchivingDlg.CreatePackageButtonLabel">
+      <tuv xml:lang="en">
+        <seg>Create Package</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создать пакет</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.LoadingDlg.CancelLink">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отмена</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.LoadingDlg._labelLoading">
       <tuv xml:lang="en">
         <seg>Loading...</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Загрузка...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MediaFileMoreInfoDlg.CloseButton">
+      <tuv xml:lang="en">
+        <seg>Close</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Закрыть</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MediaFileMoreInfoDlg.EvenMoreInfoButton">
+      <tuv xml:lang="en">
+        <seg>Even More Information</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Еще больше информации</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MediaFileMoreInfoDlg.LessInfoButton">
+      <tuv xml:lang="en">
+        <seg>Less Information</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Меньше информации</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.MissingFFmpegPopup.MessageLabel">
@@ -900,14 +4074,6 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Не удается создать новый проект с таким именем.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewProjectDlg.WindowTitle">
-      <tuv xml:lang="en">
-        <seg>New SayMore Project</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Новый проект SayMore</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewProjectDlg._buttonCancel">
@@ -974,7 +4140,7 @@
         <seg>Create 1 Session</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Создать событие 1</seg>
+        <seg>Создать событие</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.SessionsAlreadyExistMsg">
@@ -983,14 +4149,6 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Для следующего идентификатора события уже существуют. Они будут пропущены.\n\n{0}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.WindowTitle">
-      <tuv xml:lang="en">
-        <seg>New Sessions From Device</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Создать новое событие с устройства</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._buttonCancel">
@@ -1106,12 +4264,52 @@
         <seg>OK</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.CancelButtonText">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отмена</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.RecordButtonText">
       <tuv xml:lang="en">
         <seg>Record</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Записать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.RecordedLengthLabel">
+      <tuv xml:lang="en">
+        <seg>Recorded Length: {0} sec.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Продолжительность записанного: {0} сек.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.RecordingFormatLabel">
+      <tuv xml:lang="en">
+        <seg>Format: {0} bits, {1} Hz</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Формат: {0} бит, {1} Гц</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.StopButtonText">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остановить</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.UnableToStartRecording">
+      <tuv xml:lang="en">
+        <seg>Unable to start recording.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не удается начать запись.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.SplashScreen.LoadingLabel">
@@ -1127,7 +4325,56 @@
         <seg>Version {0}.{1}.{2} {3}    Built on {4}</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Версия {0}.{1}.{2} {3}, Построенный на {4}</seg>
+        <seg>Версия {0}.{1}.{2}, Построенный на {3}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CarefulSpeechRecorderDlg._labelCarefulSpeech">
+      <tuv xml:lang="en">
+        <seg>Careful Speech</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Аккуратная речь</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg.WindowTitle">
+      <note>Do not translate - Localized in subclass</note>
+      <tuv xml:lang="en">
+        <seg>Change this text</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Изменить этот текст</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отмена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._ignoreToolStripMenuItem">
+      <tuv xml:lang="en">
+        <seg>Ignored</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Игнорируется</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._ignoreToolStripMenuItem_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Mark this segment as Ignored to skip annotating it.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Пометьте этот сегмент как игнорируемые пропустить аннотирования его.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._undoToolStripMenuItem">
+      <tuv xml:lang="en">
+        <seg>Undo</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отменить</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString">
@@ -1189,7 +4436,7 @@
     </tu>
     <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg2">
       <tuv xml:lang="en">
-        <seg>SayMore was unable to find any Writing Systems on this computer. Make sure FLEx version 7.1 or greater is installed as has been run at least once. For now, you can export as English, and fix that up after you have imported into FLEx.</seg>
+        <seg>SayMore was unable to find any Writing Systems on this computer. Make sure FLEx version 7.1 or greater is installed and has been run at least once. For now, you can export as English, and fix that up after you have imported into FLEx.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>SayMore не удалось найти каких-либо идентификаторов языка на этом компьютере. Убедитесь что установлен FLEx версии 7.1 или выше и он был запущен хотябы один раз. В настоящее время можно экспортировать как английский и потом исправить это в установках FLEx.</seg>
@@ -1216,7 +4463,7 @@
         <seg>FLEx Interlinear (*.flextext)|*.flextext|All Files (*.*)|*.*</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>FLEx подстрочник (*.flextext)|*.flextext|Все файлы (*.*)|*.*</seg>
+        <seg>FLEx Interlinear XML (*.xml)|*.xml|Все файлы (*.*)|*.*</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationLabel">
@@ -1256,7 +4503,244 @@
         <seg>Export Annotations For FieldWorks Interlinear</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Экспорт аннотации в FieldWorks Interlinear</seg>
+        <seg>Экспорт аннотаций для FieldWorks Interlinear</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.ButtonTextWhenSegmentTooShort">
+      <tuv xml:lang="en">
+        <seg>Whoops! The segment will be too short. Continue listening.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ой! Сегмент будет слишком коротким. Продолжайте слушать.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.CarefulSpeechAnnotation">
+      <note>Type of oral annotation listed in message box to confirm deletion</note>
+      <tuv xml:lang="en">
+        <seg>Careful Speech</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Аккуратная речь</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotationsForDeletedBreak">
+      <tuv xml:lang="en">
+        <seg>Would you like to proceed with the deletion of this segment break and delete the oral annotations?</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Вы хотите продолжить удаление этого сегмента и удалить устные аннотации?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.DeletionOfBreakWillDeleteOralAnnotations">
+      <tuv xml:lang="en">
+        <seg>Deleting this segment break would delete a segment which has existing oral annotations:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Удаление этого разрыва сегмента удалит сегмент который имеет существующие устные аннотации:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.FollowingSegment">
+      <tuv xml:lang="en">
+        <seg>Following Segment ({0})</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Следующий сегмент ({0})</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonDeleteBoundary">
+      <tuv xml:lang="en">
+        <seg>Delete Selected Boundary (press DELETE)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Удалить выбранные границы (нажмите клавишу DELETE)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonListenToOriginal">
+      <tuv xml:lang="en">
+        <seg>Listen (press the SPACE BAR)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Слушать (нажмите пробел)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.CannotRecordErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Recording not working. Please make sure your microphone is plugged in.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Запись не работает. Пожалуйста, убедитесь, что микрофон подключен.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ListenButton">
+      <tuv xml:lang="en">
+        <seg>Listen</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Слушать </seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ListenButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Hold button down to listen\nto original recording</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Держите кнопку до listen
+в оригинальной записи</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortHoldingSpace">
+      <tuv xml:lang="en">
+        <seg>You need to keep the SPACE BAR down while you listen.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Вам нужно держать ПРОБЕЛ пока вы слушаете.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortPressingButton">
+      <tuv xml:lang="en">
+        <seg>You need to hold the button down while you listen.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Вам нужно нажать и держать кнопку, пока вы слушаете.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.NoAnnotationToolTipMsg">
+      <tuv xml:lang="en">
+        <seg>This segment does not have a recorded annotation.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Этот сегмент не имеет записанных аннотаций.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordButton">
+      <tuv xml:lang="en">
+        <seg>Speak</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Говорите</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingAbortedCaption">
+      <tuv xml:lang="en">
+        <seg>Recording Failed</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Запись не удалась</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingAnnotationMsg">
+      <tuv xml:lang="en">
+        <seg>Recording...\nLength: {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Запись...-(999) Длина: {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenOnlyMouseIsValid">
+      <tuv xml:lang="en">
+        <seg>Whoops. You need to hold down the mouse button while talking.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ой! Держите кнопку мышки пока говорите.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenSpaceOrMouseIsValid">
+      <tuv xml:lang="en">
+        <seg>Whoops. You need to hold down the SPACE BAR or mouse button while talking.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ой! Держите ПРОБЕЛ или кнопку мышки пока говорите.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RerecordAnnotationToolTipMsg">
+      <tuv xml:lang="en">
+        <seg>To erase the recorded annotation for this segment and record a new one, press and hold this button.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Чтобы стереть записанную аннотацию для этого сегмента и записать новую, нажмите и удерживайте эту кнопку.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.SkippedSegmentToolTipMsg">
+      <tuv xml:lang="en">
+        <seg>This segment was skipped.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Этот сегмент был пропущен.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UndoToolTipMsg">
+      <tuv xml:lang="en">
+        <seg>Undo: {0} (Ctrl-Z or Z)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отменить: {0} (Ctrl-Z или Z)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.WindowTitle">
+      <note>Do not translate - Localized in subclass</note>
+      <tuv xml:lang="en">
+        <seg>Change this text</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Изменить этот текст</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelFinishedHint">
+      <tuv xml:lang="en">
+        <seg>Finished</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Закончил</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint">
+      <tuv xml:lang="en">
+        <seg>To listen to the source recording, press and hold the SPACE BAR</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Чтобы прослушать запись источника, нажмите и удерживайте ПРОБЕЛ</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint">
+      <tuv xml:lang="en">
+        <seg>To record, press and hold the SPACE BAR</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Для записи, нажмите и удерживайте ПРОБЕЛ</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.MessageWhenSegmentTooShortManualDragging">
+      <tuv xml:lang="en">
+        <seg>Whoops! The segment will be too short.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ой! Сегмент будет слишком коротким. </seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.SaveChangesQuestion">
+      <tuv xml:lang="en">
+        <seg>Would you like to save your changes?</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Вы хотите сохранить изменения?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.AnnotationRecording">
+      <note>Parameter is time range of the segment for which the annotation was recorded.</note>
+      <tuv xml:lang="en">
+        <seg>Recording annotation for segment {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Запись аннотаций для сегмента {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentDeletion">
+      <note>Parameter is time range of deleted segment.</note>
+      <tuv xml:lang="en">
+        <seg>Deletion of segment {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Удаление сегмента {0}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.CancelButton">
@@ -1299,12 +4783,20 @@
         <seg>OK</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.ViewLocalizationsLink">
+      <tuv xml:lang="en">
+        <seg>View SayMore localizations...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Просмотреть SayMore локализации...</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.WindowTitle">
       <tuv xml:lang="en">
         <seg>User Interface Language</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Язык пользовательского интерфейса</seg>
+        <seg>Язык интерфейса </seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg.OpenFileDlgCaption">
@@ -1328,7 +4820,7 @@
         <seg>SayMore</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>SayMore</seg>
+        <seg>О программе SayMore</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._buttonBrowse">
@@ -1336,7 +4828,7 @@
         <seg>Browse for project...</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Поиск проекта...</seg>
+        <seg>Поиск проекта</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._buttonBrowse_ToolTip_">
@@ -1392,7 +4884,16 @@
         <seg>Version {0}.{1}.{2} {3}    Built on {4}</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Версия {0}.{1}.{2} {3}, Построенный на {4}</seg>
+        <seg>Версия {0}.{1}.{2}, Построенный на {3}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._linkSILWebsite">
+      <note>Parameter is the publisher of SayMore, "SIL International"</note>
+      <tuv xml:lang="en">
+        <seg>This free software is published by {0}.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Эта бесплатнае программа публикуется {0}.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._linkSayMoreWebsite">
@@ -1406,6 +4907,7 @@
     </tu>
     <tu tuid="MainWindow.DeleteMultipleItemsMsg">
       <note>For deleting sessions and people items</note>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>{0} items</seg>
       </tuv>
@@ -1420,6 +4922,14 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>{0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.DeletePersonMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Delete Person...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Удалить файл</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.ElementNoLongerExistsMsg">
@@ -1478,6 +4988,14 @@
         <seg>Прокрутка вправо</seg>
       </tuv>
     </tu>
+    <tu tuid="MainWindow.WaitingForOtherSayMoreInstance">
+      <tuv xml:lang="en">
+        <seg>Waiting for other instance of SayMore to finish...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ожидание другого экземпляра SayMore закончить...</seg>
+      </tuv>
+    </tu>
     <tu tuid="MainWindow._mainMenuHelp">
       <tuv xml:lang="en">
         <seg>&amp;Help</seg>
@@ -1496,7 +5014,7 @@
     </tu>
     <tu tuid="MainWindow._menuChangeUILanguage">
       <tuv xml:lang="en">
-        <seg>Change User Interface Language...</seg>
+        <seg>&amp;Change User Interface Language...</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Изменить язык интерфейса пользователя...</seg>
@@ -1544,7 +5062,7 @@
     </tu>
     <tu tuid="MainWindow._menuProject">
       <tuv xml:lang="en">
-        <seg>&amp;Project</seg>
+        <seg>Pro&amp;ject</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Проект</seg>
@@ -1620,6 +5138,22 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Предустановки еще не введены</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.ContributionEditor.CommentColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Comments</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Комментарии</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.ContributionEditor.DateColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Date</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Дата</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.FileList.AddPersonButtonToolTip">
@@ -1774,6 +5308,14 @@
         <seg>Образование</seg>
       </tuv>
     </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelEthnicGroup">
+      <tuv xml:lang="en">
+        <seg>Ethnic Gro&amp;up</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Этническая группа</seg>
+      </tuv>
+    </tu>
     <tu tuid="PeopleView.MetadataEditor._labelFullName">
       <tuv xml:lang="en">
         <seg>&amp;Full Name</seg>
@@ -1784,10 +5326,18 @@
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelHowToContact">
       <tuv xml:lang="en">
-        <seg>&amp;How to Contact</seg>
+        <seg>Ho&amp;w to Contact</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Как связаться</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelID">
+      <tuv xml:lang="en">
+        <seg>Co&amp;de</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Код</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelOtherLanguages">
@@ -1867,7 +5417,7 @@
         <seg>Click 'New' to add a new person.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Нажмите кнопку "Создать" для добавления нового пользователя.</seg>
+        <seg>Нажмите кнопку «Создать», чтобы добавить нового пользователя</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.PeopleList.ColumnHeadings.Consent">
@@ -1876,6 +5426,14 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Согласие</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.PeopleList.HeadingText">
+      <tuv xml:lang="en">
+        <seg>People</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Элементы проекта</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.PeopleMainMenu.NewMenuText">
@@ -1916,15 +5474,6 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Скопировать</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProgressView.HeadingText">
-      <note>Parameter is project name.</note>
-      <tuv xml:lang="en">
-        <seg>SayMore statistics for {0}</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Статистика SayMore для {0}</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.OverviewHeadingText">
@@ -2007,12 +5556,223 @@
         <seg>Обновить представление</seg>
       </tuv>
     </tu>
+    <tu tuid="ProjectView.AccessScreen.Custom">
+      <tuv xml:lang="en">
+        <seg>Custom</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Индивидуальный</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.AccessScreen._labelAccessProtocol">
+      <tuv xml:lang="en">
+        <seg>Access Protocol used\nby this project</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Протокол доступа данного проекта</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.AccessScreen._labelDescription">
+      <tuv xml:lang="en">
+        <seg>Custom Access Choices</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Варианты индивидуального доступа</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.AccessScreen._linkHelp">
+      <tuv xml:lang="en">
+        <seg>Help for access protocols</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Помощь для протоколов доступа</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.DescriptionDocuments._linkHowArchived">
+      <tuv xml:lang="en">
+        <seg>How these are archived</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Метод архивации</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.DescriptionDocumentsTitle">
+      <tuv xml:lang="en">
+        <seg>Description Documents</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Документы описания</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelApplications">
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>Applications</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Приложения</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelContact">
+      <tuv xml:lang="en">
+        <seg>Co&amp;ntact Person</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Контактное лицо</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelContentType">
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>Content Type</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Тип содержимого</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelContinent">
+      <tuv xml:lang="en">
+        <seg>C&amp;ontinent</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Континент</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelCountry">
+      <tuv xml:lang="en">
+        <seg>Countr&amp;y</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Страна</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelDateAvailable">
+      <tuv xml:lang="en">
+        <seg>&amp;Date Available</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Дата доступa</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelDepositor">
+      <tuv xml:lang="en">
+        <seg>D&amp;epositor</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Депозитор</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelDescription">
+      <tuv xml:lang="en">
+        <seg>Desc&amp;ription</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Описание</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelFundingProject">
+      <tuv xml:lang="en">
+        <seg>&amp;Funding Project Title</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Название проекта финансирования</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelLocationAddress">
+      <tuv xml:lang="en">
+        <seg>&amp;Location/Address</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Адрес/местонахождение</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelLocationRegion">
+      <tuv xml:lang="en">
+        <seg>Re&amp;gion</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Регион</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelProjectTitle">
+      <tuv xml:lang="en">
+        <seg>&amp;Title</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Название</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelRelatedPublications">
+      <prop type="x-nolongerused">true</prop>
+      <tuv xml:lang="en">
+        <seg>Related Publications</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Релевантные публикации</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelRightsHolder">
+      <tuv xml:lang="en">
+        <seg>R&amp;ights Holder</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Держатель прав</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._labelVernacular">
+      <tuv xml:lang="en">
+        <seg>&amp;Vernacular</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Родная речь</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._linkHelp">
+      <tuv xml:lang="en">
+        <seg>Help for these fields</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Помощь для этих полей</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._linkSelectVernacular">
+      <tuv xml:lang="en">
+        <seg>Change Language</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сменить язык</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProgressScreen._buttonCopy">
+      <tuv xml:lang="en">
+        <seg>Copy</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Копия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProgressScreen._buttonPrint">
+      <tuv xml:lang="en">
+        <seg>Print</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Печать</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProjectView.ProgressScreen._buttonRefresh">
       <tuv xml:lang="en">
-        <seg>Refresh</seg>
+        <seg>&amp;Refresh</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Обновить</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProgressScreen._buttonSave">
+      <tuv xml:lang="en">
+        <seg>Save</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сохранить</seg>
       </tuv>
     </tu>
     <tu tuid="ProjectView.ProgressScreen._labelWorking">
@@ -2021,6 +5781,30 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Работает...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectWindow.archiveUsingIMDIToolStripMenuItem">
+      <tuv xml:lang="en">
+        <seg>&amp;Archive using IMDI...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Архивировать с помощью IMDI</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.ContributorsEditor.CommentColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Comments</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Комментарии</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.ContributorsEditor.DateColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Date</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Дата</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.FileList.AddSessionsButtonToolTip">
@@ -2055,6 +5839,259 @@
         <seg>Перевод</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 3">
+      <note>pueden acceder</note>
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Time limit</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Лимит времени</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.REAP.">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>&lt;unknown&gt;</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>&lt;неизвестно&gt;</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.REAP.Entity">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Restricted to Entity staff</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Только для персонала</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.REAP.Entity curators">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Restricted to Entity curators</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Только для кураторов</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.REAP.Insite users">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Restricted to Insite users</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Только для пользователей Insite </seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.REAP.Public">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Public</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Открытый доступ</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.REAP.Strategic partners">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Restricted to Strategic partners</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Только для стратегических партнеров</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Interactivity">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Interactivity</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Интерактивность</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Involvement">
+      <tuv xml:lang="en">
+        <seg>Researcher Involvement</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Участие</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Location Address">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Location Address</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Адрес местонахождения</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Location Continent">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Location Continent</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Континент местонахождения</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Location Country">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Location Country</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Страна местонахождения</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Location Region">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Location Region</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Регион местонахождения</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Planning Type">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Planning Type</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Тип планирования</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Social Context">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Social Context</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Социальный контекст</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Sub-Genre">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Sub-Genre</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Суб-жанр</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Task">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Task</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Задача</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.drama">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Drama</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Драма</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.formulaic_discourse">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Formulaic Discourse</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Шаблонная речь</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.instrumental_music">
+      <note>Music intended to be performed by a musical instrument or group of instruments.</note>
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Instrumental Music</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Инструментальная музыка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.interactive_discourse">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Interactive Discourse</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Интерактивные дискуссии</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.language_play">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Language Play</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Языковые игры</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.narrative">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Narrative</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Повествование</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.oratory">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Oratory</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Оратория</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.procedural_discourse">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Procedural Discourse</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Процедурная речь</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.report">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Report</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отчет</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.singing">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Singing</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Пение</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.Genre.unintelligible_speech">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Unintelligible Speech</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Неразборчивая речь</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.MetadataEditor.TabText">
       <tuv xml:lang="en">
         <seg>Session</seg>
@@ -2074,7 +6111,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelAccess">
       <tuv xml:lang="en">
-        <seg>Access</seg>
+        <seg>&amp;Access</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Доступ</seg>
@@ -2082,7 +6119,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelCustomFields">
       <tuv xml:lang="en">
-        <seg>Custom Fields</seg>
+        <seg>&amp;Custom Fields</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Настраиваемые поля</seg>
@@ -2090,15 +6127,23 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelDate">
       <tuv xml:lang="en">
-        <seg>Date</seg>
+        <seg>&amp;Date</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Число</seg>
+        <seg>Дата</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelDescription">
+      <tuv xml:lang="en">
+        <seg>Desc&amp;ription</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Описание</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelGenre">
       <tuv xml:lang="en">
-        <seg>Genre</seg>
+        <seg>&amp;Genre</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Жанр</seg>
@@ -2106,7 +6151,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelId">
       <tuv xml:lang="en">
-        <seg>&amp;Id</seg>
+        <seg>&amp;ID</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>ID</seg>
@@ -2118,6 +6163,14 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Местонахoждение</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor._labelMoreFields">
+      <tuv xml:lang="en">
+        <seg>&amp;More Fields</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Дополнительные поля</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelParticipants">
@@ -2221,7 +6274,7 @@
         <seg>Click 'New' to add a new session.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Нажмите кнопку «Создать», чтобы добавить новое событие.</seg>
+        <seg>Нажмите кнопку «Создать» чтобы добавить новую сессию</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsList.ColumnHeadings.Date">
@@ -2229,7 +6282,7 @@
         <seg>Date</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Число</seg>
+        <seg>Дата</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsList.ColumnHeadings.Genre">
@@ -2280,6 +6333,14 @@
         <seg>Название</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.SessionsList.HeadingText">
+      <tuv xml:lang="en">
+        <seg>Sessions</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Элементы проекта</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.SessionsList.NewFilesFromDeviceButtonText">
       <tuv xml:lang="en">
         <seg>New From De&amp;vice...</seg>
@@ -2288,9 +6349,17 @@
         <seg>Создать с устройства...</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.SessionsList.NewFilesFromRecordingButtonText">
+      <tuv xml:lang="en">
+        <seg>New From &amp;Recording...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создать с записи...</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.SessionsList.RampArchiveMenuText">
       <tuv xml:lang="en">
-        <seg>Archive with RAMP (SIL)...</seg>
+        <seg>Archive with RAMP (&amp;SIL)...</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Архивировать с помощью RAMP (SIL)...</seg>
@@ -2325,7 +6394,7 @@
         <seg>Informed Consent</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Писменное согласие</seg>
+        <seg>Информированное согласие</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsList.Stages.OralTranslation">
@@ -2376,6 +6445,22 @@
         <seg>Создать</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.SessionsMainMenu.TopLevelMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Session</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Событие</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelStages">
+      <tuv xml:lang="en">
+        <seg>Stages</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Этапы</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.StatusAndStagesEditor._labelStatus">
       <tuv xml:lang="en">
         <seg>Status</seg>
@@ -2384,12 +6469,20 @@
         <seg>Состаяние</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelStatusHint">
+      <tuv xml:lang="en">
+        <seg>Use the status to mark the big picture of this session.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Используйте статус чтобы отметить общую картину этой сессии.</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.AnnotationFileNotFoundMsg">
       <tuv xml:lang="en">
         <seg>File not found: '{0}'</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Файл не найден: «{0}»</seg>
+        <seg>Файл не найден: '{0}'</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.BadAnnotationFileMsg">
@@ -2489,6 +6582,136 @@
         <seg>Созданный аудио файл</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._buttonConvert">
+      <tuv xml:lang="en">
+        <seg>Convert</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Конвертировать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelHeading">
+      <tuv xml:lang="en">
+        <seg>File Conversion Required</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Требуется конвертирование файлов</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._buttonGetStarted">
+      <tuv xml:lang="en">
+        <seg>Get Started...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Начать...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._labelIntroduction">
+      <tuv xml:lang="en">
+        <seg>You can add transcription, translation, careful speech and audio translation to this media file. But first...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Транскрипции, перевод, точную речь и аудио перевод можно добавить в этот файл мультимедиа. Но сначала...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonAutoSegmenter">
+      <tuv xml:lang="en">
+        <seg>Use auto segmenter</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Использование авто сегментатор </seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonCarefulSpeech">
+      <tuv xml:lang="en">
+        <seg>Use Careful Speech Tool</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Используйте инструмент точной речи</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonElan">
+      <tuv xml:lang="en">
+        <seg>Copy an existing ELAN file</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Скопировать существующий файл ELAN</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonManual">
+      <tuv xml:lang="en">
+        <seg>Use Manual Segmentation Tool</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Используйте инструмент ручной сегментации</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu">
+      <tuv xml:lang="en">
+        <seg>Export</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Экспортировать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslation">
+      <tuv xml:lang="en">
+        <seg>Audacity Label File (Free Translation)...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл Audacity с заметками (свободный перевод)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslationFilenameSuffix">
+      <note>Probably does not need to be localized</note>
+      <tuv xml:lang="en">
+        <seg>audacity_freeTranslation</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>audacity_свободный перевод</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscription">
+      <tuv xml:lang="en">
+        <seg>Audacity Label File (Transcription)...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл Audacity с заметками (транскрипция)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscriptionFilenameSuffix">
+      <note>Probably does not need to be localized</note>
+      <tuv xml:lang="en">
+        <seg>audacity_transcription</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>audacity_транскрипция</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMenuItem">
+      <tuv xml:lang="en">
+        <seg>ELAN File...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>ELAN файл...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.FLExTextExport">
+      <tuv xml:lang="en">
+        <seg>FLEx Interlinear Text...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Текст FLEx Interlinear...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.ToolboxExport">
+      <tuv xml:lang="en">
+        <seg>Toolbox File...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл панели инструментов...</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">
       <tuv xml:lang="en">
         <seg>&amp;Careful Speech...</seg>
@@ -2506,6 +6729,30 @@
         <seg>Скопировать {0} в буфер обмена</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.Caption">
+      <tuv xml:lang="en">
+        <seg>Exporting to FLEx Interlinear</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Экспорт в FLEx Interlinear</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.FinsihedMsg">
+      <tuv xml:lang="en">
+        <seg>Finished Exporting</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Экспортирование завершено</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.ProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Exporting...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Экспорт...</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.HelpButton">
       <tuv xml:lang="en">
         <seg>Help</seg>
@@ -2520,6 +6767,14 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Справка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.IgnoredSegmentIndicator">
+      <tuv xml:lang="en">
+        <seg>Ignored</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Игнорируется</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg">
@@ -2579,6 +6834,14 @@
         <seg>Свободный перевод</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.TierDisplayNames.Transcription">
+      <tuv xml:lang="en">
+        <seg>Transcription</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Транскрипция</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.ViewTabText">
       <tuv xml:lang="en">
         <seg>Sessions</seg>
@@ -2593,6 +6856,14 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Извините, файл «{0}» уже существует.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ConvertToStandardWavPcmAudioMsg">
+      <tuv xml:lang="en">
+        <seg>Converting...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Конвертирование...</seg>
       </tuv>
     </tu>
     <tu tuid="SoundFileUtils.ErrorFindingPcmAudioDriverMsg">

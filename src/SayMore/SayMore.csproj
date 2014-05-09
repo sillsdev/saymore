@@ -58,14 +58,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Analytics.NET">
-      <HintPath>..\..\packages\Analytics.1.1.0\lib\Analytics.NET.dll</HintPath>
+      <HintPath>..\..\packages\DesktopAnalytics.0.2.25\lib\net40\Analytics.NET.dll</HintPath>
     </Reference>
     <Reference Include="Autofac, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Autofac.3.3.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="DesktopAnalytics">
-      <HintPath>..\..\packages\DesktopAnalytics.0.2.9\lib\DesktopAnalytics.dll</HintPath>
+    <Reference Include="DesktopAnalytics, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DesktopAnalytics.0.2.25\lib\net40\DesktopAnalytics.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\dotnet\Ionic.Zip.dll</HintPath>
@@ -73,12 +73,8 @@
     <Reference Include="L10NSharp">
       <HintPath>..\..\packages\L10NSharp.2.0.5\lib\net40-Client\L10NSharp.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio, Version=1.7.0.15, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NAudio.1.7\lib\net35\NAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="NAudio">
+      <HintPath>..\..\lib\dotnet\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -831,7 +827,9 @@
     <EmbeddedResource Include="UI\SplashScreenForm.resx">
       <DependentUpon>SplashScreenForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

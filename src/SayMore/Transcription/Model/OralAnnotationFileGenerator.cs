@@ -81,7 +81,7 @@ namespace SayMore.Transcription.Model
 						FileSystemUtils.WaitForFileRelease(oralAnnotationFile);
 
 					File.Create(oralAnnotationFile).Dispose();
-					return true;
+					return false;
 				}
 
 				Analytics.Track("Generating Oral Annotation File");

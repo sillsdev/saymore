@@ -74,9 +74,9 @@ lib/dotnet/Ionic*
 lib/dotnet/nunit*
 DistFiles/SayMore.en.tmx
 packages/Newtonsoft.Json.4.5.11/*
-packages/DesktopAnalytics.0.2.9/*
 packages/Analytics.1.1.0/*
 Packages.dgml
 packages/NAudio.1.7/*
 packages/Autofac.3.3.1/*
 packages/L10NSharp.*/*
+packages/DesktopAnalytics.0.2.25/*

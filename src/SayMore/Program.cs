@@ -11,7 +11,6 @@ using System.Threading;
 using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
-using Palaso;
 using Palaso.Code;
 using Palaso.Extensions;
 using Palaso.IO;
@@ -156,9 +155,11 @@ namespace SayMore
 			Logger.WriteEvent("Visual Styles State: {0}", Application.VisualStyleState);
 			SetUpErrorHandling();
 
+			var userInfo = new UserInfo();
+
 #if DEBUG
 			//always track if this is a debug built, but track to a different segment.io project
-			using (new Analytics("twa75xkko9"))
+			using (new Analytics("twa75xkko9", userInfo))
 #else
 			// if this is a release build, then allow an envinroment variable to be set to false
 			// so that testers aren't generating false analytics
@@ -166,7 +167,7 @@ namespace SayMore
 
 			var allowTracking = string.IsNullOrEmpty(feedbackSetting) || feedbackSetting.ToLower() == "yes" || feedbackSetting.ToLower() == "true";
 
-			using (new Analytics("jtfe7dyef3", allowTracking))
+			using (new Analytics("jtfe7dyef3", userInfo, allowTracking))
 #endif
 			{
 				bool startedWithCommandLineProject = false;

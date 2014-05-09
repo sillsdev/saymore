@@ -95,10 +95,9 @@ namespace SayMore.Transcription.UI
 			{
 				_buttonPlay.Enabled = true;
 			}
-			else
+			else if (generated)
 			{
-				if (generated)
-					_fileTooLongMsgDisplayedForFile = null;
+				_fileTooLongMsgDisplayedForFile = null;
 				try
 				{
 					LoadFileAndResetUI();

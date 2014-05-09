@@ -743,7 +743,7 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnPlaybackStopped(ctrl, start, end);
 
-			if (!ViewModel.GetSelectedTimeRange().Contains(end))
+			if (!ViewModel.GetSelectedTimeRange().Contains(end, true))
 			{
 				if (HotSegment != null)
 					_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());

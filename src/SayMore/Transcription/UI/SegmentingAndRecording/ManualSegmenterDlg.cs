@@ -545,7 +545,7 @@ namespace SayMore.Transcription.UI
 			TimeSpan time1, TimeSpan time2)
 		{
 			base.PlaybackShortPortionUpToBoundary(ctrl, time1, time2);
-			_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
+			_waveControl.SetCursor(_startTimeOfSegmentWhoseEndIsMoving);
 		}
 
 		#region Low level keyboard handling

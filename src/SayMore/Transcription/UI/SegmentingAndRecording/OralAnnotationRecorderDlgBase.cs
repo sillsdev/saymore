@@ -743,13 +743,21 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnPlaybackStopped(ctrl, start, end);
 
-			if (!ViewModel.GetSelectedTimeRange().Contains(end, true))
+			var selectedTimeRange = ViewModel.GetSelectedTimeRange();
+			if (!selectedTimeRange.Contains(end, true))
 			{
-				if (HotSegment != null)
-					_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
-				else if (ViewModel.GetHasNewSegment())
+				if (ViewModel.GetHasNewSegment())
 					_waveControl.SetCursor(end);
+				else if (_startTimeOfSegmentWhoseEndIsMoving < TimeSpan.Zero)
+				{
+					// If this isn't the end of playback for a moving segment, then we set
+					// the cursor back to the start of the selected time
+					// range in hopes of keeping the user on track with the task of recording.
+					_waveControl.SetCursor(selectedTimeRange.Start);
+				}
 			}
+
+			_startTimeOfSegmentWhoseEndIsMoving = TimeSpan.FromSeconds(1).Negate();
 
 			if (end > ViewModel.GetEndOfLastSegment())
 			{
@@ -763,7 +771,7 @@ namespace SayMore.Transcription.UI
 			}
 
 			if (end == ViewModel.GetSelectedTimeRange().End &&
-				(ViewModel.CurrentUnannotatedSegment != null/* || ViewModel.GetSelectedSegmentIsLongEnough()*/))
+				(ViewModel.CurrentUnannotatedSegment != null))
 			{
 				InvalidateBottomReservedRectangleForCurrentUnannotatedSegment();
 				_userHasListenedToSelectedSegment = true;
@@ -1594,6 +1602,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRecordAnnotationMouseDown(object sender, MouseEventArgs e)
 		{
+			ScrollInPreparationForListenOrRecord(_labelRecordButton);
+
 			// SP-703: Presumably some sort of NAudio error got the Recorder to be set to null
 			// but the exact timing somehow still allowed us to get here. If we upgrade to
 			// NAudio 1.6 or later, we probably won't need this check.

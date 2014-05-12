@@ -36,6 +36,7 @@ namespace SayMore.Transcription.UI
 		protected string _segmentXofYFormat;
 		protected Timer _timer;
 		protected TimeSpan _timeAtBeginningOfBoundaryMove = TimeSpan.FromSeconds(1).Negate();
+		protected TimeSpan _startTimeOfSegmentWhoseEndIsMoving = TimeSpan.FromSeconds(1).Negate();
 		protected bool _moreReliableDesignMode;
 		private WaveControlWithMovableBoundaries _waveControl;
 		protected SegmentDefinitionMode _newSegmentDefinedBy;
@@ -753,8 +754,13 @@ namespace SayMore.Transcription.UI
 			// Make sure the playback doesn't start before the beginning of the segment.
 			var boundaries = _viewModel.GetSegmentEndBoundaries().ToList();
 			var i = boundaries.IndexOf(boundary);
-			if (i > 0 && playbackStartTime < boundaries[i - 1])
-				playbackStartTime = boundaries[i - 1];
+			_startTimeOfSegmentWhoseEndIsMoving = TimeSpan.FromSeconds(1).Negate();
+			if (i > 0)
+			{
+				_startTimeOfSegmentWhoseEndIsMoving = boundaries[i - 1];
+				if (playbackStartTime < _startTimeOfSegmentWhoseEndIsMoving)
+					playbackStartTime = _startTimeOfSegmentWhoseEndIsMoving;
+			}
 
 			_timer = new Timer();
 			_timer.Interval = Settings.Default.MillisecondsToDelayPlaybackAfterAdjustingSegmentBoundary;

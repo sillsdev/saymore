@@ -737,7 +737,6 @@ namespace SayMore.Model.Files
 					Analytics.Track("Changes made using Oral Annotation Recorder");
 
 					var eafFileName = viewModel.Tiers.Save(PathToAnnotatedFile);
-					WaitCursor.Show();
 					GenerateOralAnnotationFile(viewModel.Tiers, frm, GenerateOption.ClearAndRegenerateOnDemand);
 					return eafFileName;
 				}
@@ -745,7 +744,6 @@ namespace SayMore.Model.Files
 			finally
 			{
 				Program.ResumeBackgroundProcesses(true);
-				WaitCursor.Hide();
 			}
 		}
 

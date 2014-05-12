@@ -139,12 +139,6 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ComponentFile GetComponentFile(int index)
-		{
-			return SelectedElement.GetComponentFiles()[index];
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public void ActivateComponentEditors()
 		{
 			if (_currentEditorProviders == null)

@@ -367,7 +367,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleFileGridCurrentRowChanged(object sender, EventArgs e)
 		{
-			if (!Disposing)
+			if (!IsDisposed && !Disposing)
 				ForceRefresh();
 		}
 

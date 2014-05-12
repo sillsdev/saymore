@@ -96,9 +96,12 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual void Dispose()
 		{
-			ClearComponentFiles();
-			if (MetaDataFile != null)
-				MetaDataFile = null;
+			lock (this)
+			{
+				ClearComponentFiles();
+				if (MetaDataFile != null)
+					MetaDataFile = null;
+			}
 		}
 
 		[Obsolete("For Mocking Only")]
@@ -123,6 +126,9 @@ namespace SayMore.Model
 		{
 			lock (this)
 			{
+				if (MetaDataFile == null) // We are disposed
+					return new ComponentFile[0];
+
 				// Return a copy of the list to guard against changes
 				// on another thread (i.e., from the FileSystemWatcher)
 				if (_componentFiles != null)

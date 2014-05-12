@@ -213,9 +213,10 @@ namespace SayMore.UI.ElementListScreen
 		/// <summary>SP-55: Set focus to id field after creating a new session, and select the text</summary>
 		private void SetFocusOnId()
 		{
-			Application.DoEvents();
 			var frm = FindForm();
-			if (frm == null) return;
+			if (frm == null)
+				return;
+
 			frm.Focus();
 
 			var editors = Program.GetControlsOfType<SessionBasicEditor>(frm);

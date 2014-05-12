@@ -425,7 +425,11 @@ namespace SayMore.UI.ElementListScreen
 			// row enter event doesn't get fired because the row index hasn't changed.
 			// Therefore, we check to see if the first component editor's file is the
 			// new one. If not then set it to the new file.
-			var newComponentFile = _model.GetComponentFile(0);
+			var componentFiles = _model.SelectedElement.GetComponentFiles();
+			if (componentFiles.Length == 0)
+				return; // SayMore is probably shutting down.
+
+			var newComponentFile = componentFiles[0];
 			if (newComponentFile != firstEditor.ComponentFile)
 				firstEditor.SetComponentFile(newComponentFile);
 

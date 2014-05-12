@@ -243,7 +243,7 @@ namespace SayMoreTests.UI.ElementListScreen
 		public void DeleteComponentFile_PassesGoodFile_RemovesFile()
 		{
 			_model.SetSelectedElement(_model.Elements.ElementAt(1) as Person);
-			var file = _model.GetComponentFile(1);
+			var file = _model.SelectedElement.GetComponentFiles()[1];
 			Assert.IsTrue(_model.SelectedElement.DeleteComponentFile(file, false));
 			Assert.IsFalse(File.Exists(file.PathToAnnotatedFile));
 			Assert.IsFalse(File.Exists(file.PathToAnnotatedFile + ".meta"));

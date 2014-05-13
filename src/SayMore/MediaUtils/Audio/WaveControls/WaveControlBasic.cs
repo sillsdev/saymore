@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NAudio;
@@ -11,7 +10,6 @@ using NAudio.Wave.SampleProviders;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 
-// ReSharper disable once CheckNamespace
 namespace SayMore.Media.Audio
 {
 	/// ----------------------------------------------------------------------------------------
@@ -323,19 +321,19 @@ namespace SayMore.Media.Audio
 		///// ------------------------------------------------------------------------------------
 		//public new Size AutoScrollMinSize
 		//{
-		//    get { return base.AutoScrollMinSize; }
-		//    set
-		//    {
-		//        base.AutoScrollMinSize = new Size(value.Width, value.Height);
+		//	get { return base.AutoScrollMinSize; }
+		//	set
+		//	{
+		//		base.AutoScrollMinSize = new Size(value.Width, value.Height);
 
-		//        if (_painter != null)
-		//        {
-		//            this.SetWindowRedraw(false);
-		//            _painter.SetVirtualWidth(Math.Max(ClientSize.Width, value.Width));
-		//            Invalidate();
-		//            this.SetWindowRedraw(true);
-		//        }
-		//    }
+		//		if (_painter != null)
+		//		{
+		//			this.SetWindowRedraw(false);
+		//			_painter.SetVirtualWidth(Math.Max(ClientSize.Width, value.Width));
+		//			Invalidate();
+		//			this.SetWindowRedraw(true);
+		//		}
+		//	}
 		//}
 
 		#endregion
@@ -668,6 +666,8 @@ namespace SayMore.Media.Audio
 				return;
 			}
 
+			SetCursor(playbackStartTime);
+
 			_playbackRange = new TimeRange(playbackStartTime, playbackEndTime);
 
 			if (_playbackRange.Start < TimeSpan.Zero)
@@ -692,7 +692,8 @@ namespace SayMore.Media.Audio
 			try
 			{
 				_waveOut = new WaveOutEvent();
-				_waveOut.DesiredLatency = 500;
+				_waveOut.DesiredLatency = 100;
+				_waveOut.NumberOfBuffers = 20;
 				_waveOut.Init(new SampleToWaveProvider(waveOutProvider));
 				_waveOut.PlaybackStopped += WaveOutOnPlaybackStopped;
 				_waveOut.Play();
@@ -737,27 +738,13 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		protected void HandlePlaybackMetering(object sender, StreamVolumeEventArgs e)
 		{
-			if (_playbackStream.CurrentTime >= (_playbackRange.End > TimeSpan.Zero ? _playbackRange.End : WaveStream.TotalTime))
-			{
-				SetCursor(_playbackRange.End);
-				if (_waveOut != null)
-				{
-					// We're using a WaveSegmentStream which never gets a PlaybackStopped
-					// event on the WaveOut, so we have to force it here.
-					_waveOut.Stop();
-				}
-				return;
-			}
-
-			OnInternalPlaybackUpdate(_playbackStream.CurrentTime, _playbackStream.TotalTime);
-			SetCursor(_playbackStream.CurrentTime, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected void OnInternalPlaybackUpdate(TimeSpan currentTimeInStream, TimeSpan streamLength)
-		{
 			if (PlaybackUpdate != null)
-				PlaybackUpdate(this, currentTimeInStream, streamLength);
+				PlaybackUpdate(this, _playbackStream.CurrentTime, _playbackStream.TotalTime);
+
+			if (_playbackStream.CurrentTime >= (_playbackRange.End > TimeSpan.Zero ? _playbackRange.End : WaveStream.TotalTime))
+				SetCursor(_playbackRange.End);
+			else
+				SetCursor(_playbackStream.CurrentTime);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -815,6 +802,7 @@ namespace SayMore.Media.Audio
 
 			if (_waveOut == sender)
 			{
+				SetCursor(_playbackStream.CurrentTime);
 				_waveOut = null;
 				_scrollCalculator = null;
 

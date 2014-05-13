@@ -5,6 +5,39 @@
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
   <body>
+    <tu tuid="BuildType.Alpha">
+      <tuv xml:lang="en">
+        <seg>Alpha</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Альфа</seg>
+      </tuv>
+    </tu>
+    <tu tuid="BuildType.Beta">
+      <tuv xml:lang="en">
+        <seg>Beta</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Бета</seg>
+      </tuv>
+    </tu>
+    <tu tuid="BuildType.ReleaseCandidate">
+      <tuv xml:lang="en">
+        <seg>Release Candidate</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Релиз-кандидат</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.AttemptedRetriesMsg">
+      <note>Parameter is the number of times SayMore has attempted to move the temp file to the permanent location.</note>
+      <tuv xml:lang="en">
+        <seg>(Retries attempted: {0})</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>(Повторных попыток: {0})</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.AudioUtils.NoPlaybackDevicesFoundMsg">
       <tuv xml:lang="en">
         <seg>Currently SayMore is unable to find any audio playback devices installed and enabled on this computer.</seg>
@@ -19,6 +52,23 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>В настоящее время аудио запись нельзя сделать потому что SayMore не может найти записывающие устройства установленные и включенные на этом компьютере</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.AudioUtils.UnexpectedAudioErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an unexpected audio error.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Неожиданная проблема со звуком.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.BindingHelper.AmbiguousDateNote">
+      <note>Text appended to the note for an element with an ambigous date field value</note>
+      <tuv xml:lang="en">
+        <seg>***This record had an ambiguous {0}, produced by a bug in an old version of SayMore. The date was "{1}". SayMore has attempted to interpret the date, but might have swapped the day and month. Please accept our apologies for this error. After you have fixed the date or confirmed that it is correct, please delete this message.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Эта запись имела не читаемую {0}, произведенную из за дефекта старой версии SayMore. Дата была «{1}». SayMore была предпринята попытка интерпретировать дату, но могли поменяться день и месяц. Пожалуйста, примите наши извинения за эту ошибку. После того, как вы исправите даты или подтвердите что они в порядке, пожалуйста, удалите это сообщение.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ChangeIdFailureMsg">
@@ -184,6 +234,22 @@
         <seg>Вы хотите удалить поле «{0}» и его содержимое из всего проекта?</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.FileIsReadOnly">
+      <tuv xml:lang="en">
+        <seg>SayMore is not able to write to the file "{0}." It is read-only.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>SayMore не может записывать в файл «{0}.» Этот файл "только для чтения".</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileIsReadOnlyOrLocked">
+      <tuv xml:lang="en">
+        <seg>SayMore is not able to write to the file "{0}." It is read-only or locked.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>SayMore не может записывать в файл «{0}.» Этот файл "только для чтения" или заблокирован.</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.Caption">
       <tuv xml:lang="en">
         <seg>Add Files</seg>
@@ -213,7 +279,15 @@
         <seg>Add additional files related to this session by\ndragging them here or clicking the 'Add Files' button.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Добавьте дополнительные файлы, относящиеся к\nэтому событию перетаскивая их здесь или нажав кнопку «Добавление файлов».</seg>
+        <seg>Добавьте дополнительные файлы, относящиеся к этому событию \nперетаскивая их сюда или нажав кнопку «Добавление файлов».</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.CannotOpenFileInApplicationErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was a problem opening the file\n\n'{0}'\n\nMake sure there is an application associated with this type of file.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Проблема с открытием файла \n\n' {0}'\n\n Убедитесь что имеется аппликация связанная с этим типом файла.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CannotRenameFileErrorMsg">
@@ -318,6 +392,23 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Удалить файл</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.DeleteSubordinateFilesFormat">
+      <note>Used to format a string that will indicate that subordinate files (i.e., annotation files) will also be moved to the recycle bin. Parameter is the name (without path) of the main file being deleted.</note>
+      <tuv xml:lang="en">
+        <seg>{0} and subordinate files</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} и подчиненные файлы</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileAlreadyExistsMessage">
+      <tuv xml:lang="en">
+        <seg>There is already a file named {0} in this project. Do you want to replace the old one with this one?</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Уже существует файл с именем {0} в этом проекте. Вы хотите заменить существующий файл этимновым?</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.FileSizeBytes">
@@ -3415,12 +3506,20 @@
         <seg>Громкость</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.MediaPropertiesEditor.MoreInfoButton">
+      <tuv xml:lang="en">
+        <seg>More Information...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Дополнительная информация</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.MediaPropertiesEditor.PresetsButton">
       <tuv xml:lang="en">
         <seg>Presets</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Предустановка</seg>
+        <seg>Предустановки</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.NotesEditor.TabText">
@@ -3429,6 +3528,14 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Примечания</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.PercentFormat">
+      <tuv xml:lang="en">
+        <seg>{0}%</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} %</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.PropertiesEditor.TabText">
@@ -3452,7 +3559,31 @@
         <seg>Adding Files for Contributor '{0}'</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Добавление файлов от составителя «{0}»</seg>
+        <seg>Добавление файлов для составителя «{0}»</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.AddingContributorFilesToIMDIArchiveProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Adding Files for Contributors...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Добавление файлов  составителей...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.AddingOtherProjectDocumentsToIMDIArchiveProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Adding Other Project Documents...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Добавление других документов проекта...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.AddingProjectDescriptionDocumentsToIMDIArchiveProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Adding Project Description Documents...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Добавление документов описания проекта...</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg">
@@ -3469,6 +3600,15 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Все файлы </seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ArchivingInfoDetails">
+      <note>This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.xxxxOverviewText</note>
+      <tuv xml:lang="en">
+        <seg>The archive package will include all required files and data related to a session and its contributors.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Пакет архива будет включать в себя все необходимые файлы и данные, относящиеся к событию и его участникам.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.ArchivingProgressMsg">
@@ -3513,6 +3653,14 @@
         <seg>Произошла ошибка при попытке создания архива для события «{0}».</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.CreatingIMDIPackageErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was a problem starting process to create IMDI package.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Проблема с запуском процесса создания пакета IMDI.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.CreatingInternalReapMetsFileErrorMsg">
       <tuv xml:lang="en">
         <seg>There was an error attempting to create the RAMP/REAP mets file.</seg>
@@ -3526,7 +3674,7 @@
         <seg>There was a problem starting process to create zip file.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Существует проблема c созданием zip-файла.</seg>
+        <seg>Проблема c созданием zip-файла.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.FileExcludedFromPackage">
@@ -3538,6 +3686,15 @@
         <seg>Файл исключен из {0} пакета:</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.IMDIActorsGroup">
+      <note>This is the heading displayed in the Archive Using IMDI dialog box for the files for the actors/participants</note>
+      <tuv xml:lang="en">
+        <seg>Actors</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Актеры</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.IMDIArchiveType">
       <note>This is the abbreviation for Isle Metadata Initiative (http://www.mpi.nl/imdi/). Typically this probably does not need to be localized.</note>
       <tuv xml:lang="en">
@@ -3545,6 +3702,15 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>IMDI</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.IMDIOverviewText">
+      <note>Parameter 0  is 'Isle Metadata Initiative' (the first occurrence will be turned into a hyperlink); Parameter 1 is 'IMDI'</note>
+      <tuv xml:lang="en">
+        <seg>{0} ({1}) is a metadata standard to describe multi-media and multi-modal language resources. The standard provides interoperability for browsable and searchable corpus structures and resource descriptions.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} ({1}) является метаданными, стандарт для описания мультимедийных и мультимодальных языковых ресурсов. Стандарт обеспечивает функциональную совместимость для просмотра и поиска корпусных структур и описания ресурсов.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.IMDIProgramInfoText">
@@ -3565,6 +3731,14 @@
         <seg>Требуется ISO 639-3 3-буквенный языковый код</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.InvalidBirthYearMsg">
+      <tuv xml:lang="en">
+        <seg>The Birth Year for {0} should be either blank or a 4 digit number.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Год рождения для {0} должен быть пустым либо числом из 4</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.InvalidLanguageCode">
       <tuv xml:lang="en">
         <seg>Invalid ISO 639-3 code: {0}</seg>
@@ -3573,12 +3747,30 @@
         <seg>Недопустимый код ISO 639-3: {0}</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.IsleMetadataInitiative">
+      <note>Typically this probably does not need to be localized.</note>
+      <tuv xml:lang="en">
+        <seg>Isle Metadata Initiative</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Инициатива Isle Metadata</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg">
       <tuv xml:lang="en">
         <seg>There are no contributors for this session.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Не существуют составители этого события.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.NoIMDIProgramInfoText">
+      <note>Parameter 0 is 'IMDI'; Parameter 1 is the path where the package is created.</note>
+      <tuv xml:lang="en">
+        <seg>The {0} package will be created in {1}.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} пакет будет создан в {1}.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg">
@@ -3605,6 +3797,39 @@
         <seg>Следующие файлы событий будут добавлены в ваш архив.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.PreparingFilesMsg">
+      <tuv xml:lang="en">
+        <seg>Analyzing component files</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Анализ составных файлов</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ProgramsFileTypeLabel">
+      <tuv xml:lang="en">
+        <seg>Programs</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Программы</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails">
+      <note>This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.IMDIOverviewText</note>
+      <tuv xml:lang="en">
+        <seg>The archive corpus will include all required files and data related to this project.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Архивный корпус будет включать в себя все необходимые файлы и данные, связанные с этим проектом.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.RAMPArchiveType">
+      <tuv xml:lang="en">
+        <seg>RAMP (SIL Only)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg> RAMP (SIL только)</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.RAMPOverviewText">
       <note>Parameter 0  is the word 'RAMP' (the first one will be turned into a hyperlink); Parameter 1 is the name of the calling (host) program (SayMore, FLEx, etc.); Parameter 2 is additional app-specifc information.</note>
       <tuv xml:lang="en">
@@ -3622,12 +3847,29 @@
         <seg>Не удается найти программу RAMP!</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ReadyToCallIMDIMsg">
+      <tuv xml:lang="en">
+        <seg>Exported to {0}. This path is now on your clipboard. If you are using Arbil, go to File, Import, then paste this path in.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Экспорт в {0}. Этот путь уже в Вашем буфере обмена. Если вы используете Эрбиль, перейдите в меню Файл, Импорт, а затем вставьте этот путь.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.ReadyToCallRampMsg">
       <tuv xml:lang="en">
         <seg>Ready to hand the package to RAMP</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Готов передать пакет программе RAMP</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.SavingFilesInPackageMsg">
+      <note>Parameter is the type of archive (e.g., RAMP/IMDI)</note>
+      <tuv xml:lang="en">
+        <seg>Saving files in {0} package</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сохранение файлов в пакет {0}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.SearchingForRampMsg">
@@ -3646,12 +3888,20 @@
         <seg>Событие</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.StartingIMDIErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error attempting to open the archive package in {0}.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при попытке открыть пакет архива в {0}.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.StartingRampErrorMsg">
       <tuv xml:lang="en">
         <seg>There was an error attempting to open the archive package in {0}.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Произошла ошибка при попытке открыть архив пакета в программе RAMP.</seg>
+        <seg>Произошла ошибка при попытке открыть пакет архива в {0}.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.WindowTitle">
@@ -3687,6 +3937,22 @@
         <seg>2) Загрузить программу RAMP</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.GettingInfoErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error trying to get more information for the media file:\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при попытке получить больше информации для медиа файла:\n\n{0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg.FileAlreadyExistsMsg">
+      <tuv xml:lang="en">
+        <seg>A file by that name already exists or the name is invalid.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл с таким именем уже существует или это название неверно.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg.NewFileNameMsg">
       <note>Displayed under the text box.</note>
       <tuv xml:lang="en">
@@ -3694,6 +3960,14 @@
       </tuv>
       <tuv xml:lang="ru">
         <seg>Новый файл: {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Rename</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Переименовать</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg._buttonCancel">
@@ -3704,12 +3978,52 @@
         <seg>Отмена</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._buttonRename">
+      <tuv xml:lang="en">
+        <seg>Rename</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Переименовать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._labelChangeNameTo">
+      <tuv xml:lang="en">
+        <seg>Change Name To:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Изменить имя на:</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg._labelNonSayMoreImportHint">
       <tuv xml:lang="en">
         <seg>Use the following only when you are importing annotations produced outside of SayMore</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Используйте следующее только тогда, когда вы импортируете аннотации, произведенные не в SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._labelReadAboutRenaming">
+      <tuv xml:lang="en">
+        <seg>Read About How SayMore Uses Names</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Читать о том, как SayMore использует имена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._labelShortcuts">
+      <tuv xml:lang="en">
+        <seg>Shortcuts</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сочетания клавиш</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._labelShortcutsHint">
+      <tuv xml:lang="en">
+        <seg>(hover over each link to read about how it is used)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>(наведите мышку на каждую ссылку, чтобы прочитать о том, как они используются)</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkCareful">
@@ -3738,6 +4052,32 @@ A или запись согласия covering
 использования взноса этого человека.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkOralTranslation">
+      <tuv xml:lang="en">
+        <seg>Oral Translation</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Устный перевод</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkOralTranslation_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Oral Translation:\nRecording of a translation\nof the source recording.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Устный Translation:
+запись translation
+источника записи.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkSource">
+      <tuv xml:lang="en">
+        <seg>Source</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Источник</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkTranscription">
       <tuv xml:lang="en">
         <seg>Transcription</seg>
@@ -3752,6 +4092,24 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Письменный перевод</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConfirmRecycleDialog.MessageForMultipleItems">
+      <note>Param 0 is a description of the things being deleted (e.g., "The selected files"</note>
+      <tuv xml:lang="en">
+        <seg>{0} will be moved to the Recycle Bin.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} будут перемещены в Kорзину.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConfirmRecycleDialog.MessageForSingleItem">
+      <note>Param 0 is a file name</note>
+      <tuv xml:lang="en">
+        <seg>{0} will be moved to the Recycle Bin.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} будут перемещены в Kорзину.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConfirmRecycleDialog.WindowTitle">
@@ -3778,6 +4136,22 @@ A или запись согласия covering
         <seg>Удалить</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.AvailableConversionsLabel">
+      <tuv xml:lang="en">
+        <seg>Available Conversions:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg> Возможные версии конвертирования:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.BeginConversionButton">
+      <tuv xml:lang="en">
+        <seg>Begin Conversion</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Начать конвертирование</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.CancelButton">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
@@ -3794,6 +4168,46 @@ A или запись согласия covering
         <seg>Закрыть</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionCancelledMsg">
+      <tuv xml:lang="en">
+        <seg>Conversion Cancelled.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Конвертирование отменено.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionFailedMsg">
+      <tuv xml:lang="en">
+        <seg>Conversion Failed.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Конвертитование не удалось.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionFinishedWithPossibleErrorsMsg">
+      <tuv xml:lang="en">
+        <seg>Conversion Finished, but with possible errors.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Конвертирование завершено, но с возможными ошибками.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionProgressStatusMsgFormat">
+      <tuv xml:lang="en">
+        <seg>{0} of {1} Converted...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} из {1} конвертировано...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ConversionSucceededMsg">
+      <tuv xml:lang="en">
+        <seg>Conversion Finished Successfully.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Конвертирование завершилось успешно.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.ConvertToMp4AndAACConversionName">
       <tuv xml:lang="en">
         <seg>Convert to H.263/MPEG-4 video with AAC Audio</seg>
@@ -3808,6 +4222,30 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Установить</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadNeededLabel">
+      <tuv xml:lang="en">
+        <seg>The selected conversion '{0}' requires FFmpeg which must be installed.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Выбранное конвертирование «{0}» требует установку FFmpeg.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadingFailedDueToWebExceptionMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error getting a web response trying to download FFmpeg. Try pasting this Url in your browser to see if the file's location is available.\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при получении веб-ответа, пытаясь скачать FFmpeg. Попробуйте вставить этот URL в вашем браузерe, чтобы увидеть, если местоположение файла доступно.\n\n{0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadingGeneralFailureMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error attempting to download FFmpeg. Try pasting this Url in your browser to see if the file's location is available.\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при попытке загрузить FFmpeg. Попробуйте вставить этот Url в вашем браузере, чтобы увидеть, если местоположение файла доступно.\n\n{0}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadingProgressMsgFormat">
@@ -3851,12 +4289,28 @@ A или запись согласия covering
         <seg>Файл не является допустимым медиа-файлом.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.OutputFileLabel">
+      <tuv xml:lang="en">
+        <seg>Output File:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Выходной файл:</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.OverviewLabel">
       <tuv xml:lang="en">
         <seg>To convert your media file to a different format, choose from one of the available conversions below and click 'Begin Conversion'. Your source media file will not be affected.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Чтобы конвертировать файл в другой формат, выберите одну из доступных версий конвертирования ниже и нажмите кнопку «Начать конвертирование». Ваш исходный медиа файл не будет аффектирован.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConvertMediaDlg.ShowOutputButton">
+      <tuv xml:lang="en">
+        <seg>Show Details</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Показать детали</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.WindowTitle">
@@ -3931,12 +4385,28 @@ A или запись согласия covering
         <seg>Успешно установлен.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>The file '{0}'\n\neither does not contain ffmpeg or is not a valid zip file.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл ' {0}'\n\n либо не содержит ffmpeg или не является допустимым zip-файл.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileMsg">
       <tuv xml:lang="en">
         <seg>Installing...</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Установка...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.NotAnFfmpegFolderMsg">
+      <tuv xml:lang="en">
+        <seg>The selected folder is not a valid "FFmpeg for SayMore" folder.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Выбранная папка не является применимой «FFmpeg для SayMore» папкой.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.OverviewLabel">
@@ -3947,12 +4417,30 @@ A или запись согласия covering
         <seg>У вас есть три варианта для получения FFmpeg:</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.SelectDownloadedFFmpegFileDlg.Caption">
+      <note>This is the caption for the 'Open File' dialog box when specifying the manually downloaded FFmpeg zip file.</note>
+      <tuv xml:lang="en">
+        <seg>Select the Downloaded FFmpeg File</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Выберите загруженный файл FFmpeg</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.SelectDownloadedFFmpegFileDlg.FileTypesString">
       <tuv xml:lang="en">
         <seg>Zip Archive (*.zip)|*.zip|All Files (*.*)|*.*</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>ZIP-архив (*.zip) | *. zip|Все файлы (*. *) | *. *</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg.SelectExistingFFmpegFolderDlg.Description">
+      <note>This is the descriptive text for the 'Open Folder' dialog box when specifying the location of an "FFmpeg for SayMore" folder on (or copied from) another computer.</note>
+      <tuv xml:lang="en">
+        <seg>Select the FFmpeg for SayMore folder from another computer</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Выберите FFmpeg для  папки SayMore с другого компьютера</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg.WindowTitle">
@@ -3963,12 +4451,85 @@ A или запись согласия covering
         <seg>Установить FFmpeg</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._buttonAbort">
+      <tuv xml:lang="en">
+        <seg>Abort</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Прекратить</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelCopyFromAnotherComputer">
+      <note>Parameter is the full path to the "FFmpeg for SayMore" folder on this computer.</note>
+      <tuv xml:lang="en">
+        <seg>If you have the folder "FFmpeg for SayMore" from another computer (e.g., {0}), SayMore can copy it to the proper location on this computer:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Если у вас есть папка «FFmpeg для SayMore» с другого компьютера (например, {0}), SayMore может скопировать её в надлежащее место на этом компьютере:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelDownloadAndInstall">
+      <tuv xml:lang="en">
+        <seg>If you have a reliable Internet connection, you can let SayMore download and install FFmpeg automatically. The file is large (about 20 MB).</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Если у вас есть надежное подключение к интернеты, вы можете позволить SayMore загрузить и автоматически установить FFmpeg. Файл велик (около 20 МБ).</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelInstallFromZipFile">
+      <tuv xml:lang="en">
+        <seg>If you use a download utility to deal with an unreliable Internet connection, follow these steps:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Если вы используете утилиту загрузки для помощи в работе с ненадежной Интернето-связью, выполните следующие действия:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelOptionA">
+      <tuv xml:lang="en">
+        <seg>A)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>A)</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelOptionB">
       <tuv xml:lang="en">
         <seg>B)</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Б)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelOptionC">
+      <tuv xml:lang="en">
+        <seg>C)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>C)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelOr1">
+      <tuv xml:lang="en">
+        <seg>OR</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>ИЛИ</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelOr2">
+      <tuv xml:lang="en">
+        <seg>OR</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>ИЛИ</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkCopyFromFolder">
+      <tuv xml:lang="en">
+        <seg>Show SayMore where to find the folder</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Показать SayMore где найти папку</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkDownloadAndInstall">
@@ -3979,12 +4540,44 @@ A или запись согласия covering
         <seg>Скачать и установить FFmpeg</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkInstallFromZipFile">
+      <tuv xml:lang="en">
+        <seg>Show SayMore where you saved it</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Показать SayMore, где вы сохранили его</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FFmpegDownloadDlg._linkManualDownload">
+      <tuv xml:lang="en">
+        <seg>Open Internet browser to page containing FFmpegForSayMore.zip</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Откройте Интернет-браузер на страницу, содержащую FFmpegForSayMore.zip</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.IMDIArchivingDlg.ArchivingIMDILocationDescription">
+      <tuv xml:lang="en">
+        <seg>Select a base folder where the IMDI directory structure should be created.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Выберите базовую папку чтобы создать структуру каталогов IMDI.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.IMDIArchivingDlg.ChangeDestinationFolder">
       <tuv xml:lang="en">
         <seg>Change Folder</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Сменить папку</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.IMDIArchivingDlg.ChangeProgramToLaunch">
+      <tuv xml:lang="en">
+        <seg>Change Program to Launch</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Изменить программу для запуска</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.IMDIArchivingDlg.CloseButtonLabel">
@@ -4001,6 +4594,22 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Создать пакет</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.IMDIArchivingDlg.SelectIMDIProgram">
+      <tuv xml:lang="en">
+        <seg>Select the program to launch after IMDI package is created</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Выберите программу для запуска после того, как создан пакет IMDI</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.LoadProject.InvalidPath">
+      <tuv xml:lang="en">
+        <seg>SayMore is not able to open the project file. "{0}" is not a valid path.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>SayMore не удалось открыть файл проекта. «{0}» не является применимым путем.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.LoadingDlg.CancelLink">
@@ -4043,6 +4652,14 @@ A или запись согласия covering
         <seg>Меньше информации</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.MediaFileMoreInfoDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>More Information for Media File</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Дополнительная информация для медиа файла</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.MissingFFmpegPopup.MessageLabel">
       <tuv xml:lang="en">
         <seg>If you install FFmpeg, SayMore can automatically report technical details of your media files, and offer some handy conversion functions.  FFmpeg is (free, open source).\n</seg>
@@ -4074,6 +4691,14 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Не удается создать новый проект с таким именем.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>New SayMore Project</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Новый проект SayMore</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewProjectDlg._buttonCancel">
@@ -4151,6 +4776,14 @@ A или запись согласия covering
         <seg>Для следующего идентификатора события уже существуют. Они будут пропущены.\n\n{0}</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.NewSessionsFromFilesDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>New Sessions From Device</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Новые события с устройства</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._buttonCancel">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
@@ -4181,7 +4814,7 @@ A или запись согласия covering
         <seg>Mark each file which represents a source recording of a session. For each one, SayMore will create a new session and copy the file into it.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Отметь каждый файл, который представляет оригинальную запись событии. Для каждого из них SayMore создаст новое событие, копируя туда ваш файл.</seg>
+        <seg>Отметьте каждый файл, который представляет оригинальную запись события. Для каждого из них SayMore создаст новое событие, копируя туда ваш файл.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlg._labelProgress">
@@ -4221,7 +4854,7 @@ A или запись согласия covering
         <seg>2) The device is plugged in but is currently assigned a different drive letter from '{0}'.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>2) Устройство подключено, но в настоящее время получило другую букву диска f</seg>
+        <seg>2) Устройство подключено, но в настоящее время получило от {0} другую букву диска.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel3">
@@ -4229,7 +4862,7 @@ A или запись согласия covering
         <seg>3) Some part of the above path has changed (e.g. a folder name).</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>3) Часть выше указаной пути была изменена (например название папки).</seg>
+        <seg>3) Часть выше указанного пути была изменена (например название папки).</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.ProblemOverviewMsgLabel">
@@ -4272,12 +4905,36 @@ A или запись согласия covering
         <seg>Отмена</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.ErrorMovingRecordingToSessionFolder">
+      <tuv xml:lang="en">
+        <seg>There was an error moving your recording to the session folder for '{0}'.\n\nUnexpectedly, SayMore has probably kept a lock on the file; therefore, the recording will not be deleted and it may be copied from your temporary folder after closing SayMore.\n\nThe file is:\n\n{1}.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка перемещения записи в папку события для «{0}». SayMore вероятно сохранил блокировку файла; Таким образом записи не будут удалены, и они могут быть скопированы из временной папки после закрытия SayMore. Файл:{1}.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.OKButtonText">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Хорошо</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.PlaybackButtonText">
+      <tuv xml:lang="en">
+        <seg>Play Back Recording</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Играть обратно запись</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.RecordButtonText">
       <tuv xml:lang="en">
         <seg>Record</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Записать</seg>
+        <seg>Запись</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.RecordedLengthLabel">
@@ -4296,6 +4953,14 @@ A или запись согласия covering
         <seg>Формат: {0} бит, {1} Гц</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.RetryAfterUnauthorizedAccessExceptionMsg">
+      <tuv xml:lang="en">
+        <seg>If you can determine which program is using this file, close it and click Retry.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Если вы можете определить, какой программой этот файл используется, закройте её и нажмите кнопку "повторить".</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.StopButtonText">
       <tuv xml:lang="en">
         <seg>Stop</seg>
@@ -4312,6 +4977,14 @@ A или запись согласия covering
         <seg>Не удается начать запись.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.SessionRecorderDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Session Recorder</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Рекордер события</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.SplashScreen.LoadingLabel">
       <tuv xml:lang="en">
         <seg>Loading...</seg>
@@ -4326,6 +4999,14 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Версия {0}.{1}.{2}, Построенный на {3}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CarefulSpeechRecorderDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Careful Speech Recorder</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Запись аккуратной речи</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CarefulSpeechRecorderDlg._labelCarefulSpeech">
@@ -4353,6 +5034,22 @@ A или запись согласия covering
         <seg>Отмена</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonClose">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Хорошо</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._comboBoxZoom_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Ctrl+1: In; Ctrl+2: 100%; Ctrl+3: Out</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ctrl + 1: В; Ctrl + 2:100 %; Ctrl + 3: вне</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._ignoreToolStripMenuItem">
       <tuv xml:lang="en">
         <seg>Ignored</seg>
@@ -4367,6 +5064,38 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Пометьте этот сегмент как игнорируемые пропустить аннотирования его.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelOriginalRecording">
+      <tuv xml:lang="en">
+        <seg>Source Audio</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Источник аудио</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelSegmentNumber">
+      <tuv xml:lang="en">
+        <seg>Segments: {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сегменты: {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelSegmentXofY">
+      <tuv xml:lang="en">
+        <seg>Segment {0} of {1}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сегмент {0} из {1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelZoom">
+      <tuv xml:lang="en">
+        <seg>&amp;Zoom:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Масштаб:</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._undoToolStripMenuItem">
@@ -4523,6 +5252,14 @@ A или запись согласия covering
         <seg>Аккуратная речь</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotationsForAddedBreak">
+      <tuv xml:lang="en">
+        <seg>Adding a segment break here would split a segment which has existing oral annotations of the following types:{0}Would you like to proceed with the addition of this segment break and delete the oral annotations?</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>В результате добавления разрыва сегмента в этом месте будет разделен сегмент, который имеет существующие устные аннотации следующих типов: {0}. Вы хотели бы продолжить с добавлением этого разрыва и удалить аннотации?</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotationsForDeletedBreak">
       <tuv xml:lang="en">
         <seg>Would you like to proceed with the deletion of this segment break and delete the oral annotations?</seg>
@@ -4547,6 +5284,63 @@ A или запись согласия covering
         <seg>Следующий сегмент ({0})</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.GeneralSegmentingErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error segmenting the file '{0}'.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка сегментации файла «{0}».</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.JoinSegmentsWithOralAnnotations">
+      <tuv xml:lang="en">
+        <seg>Deleting this segment break would join segments which have existing oral annotations:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Удаление этого разрыва сегмента соединит сегменты, которые имеют существующие устные аннотации:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.OralTranslationAnnotation">
+      <note>Type of oral annotation listed in message box to confirm deletion</note>
+      <tuv xml:lang="en">
+        <seg>Oral Translation</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Устный перевод</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.PrecedingSegment">
+      <tuv xml:lang="en">
+        <seg>Preceding Segment ({0})</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Предыдущий сегмент ({0})</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.SavingSegmentsErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error while trying to save segments for the file '{0}'.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при попытке сохранения сегментов для файла «{0}».</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Manual Segmenter</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ручной сегментатор</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonAddSegmentBoundary.Normal">
+      <tuv xml:lang="en">
+        <seg>Add Segment Boundary (press ENTER)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Добавить границы сегмента (нажмите ENTER)</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonDeleteBoundary">
       <tuv xml:lang="en">
         <seg>Delete Selected Boundary (press DELETE)</seg>
@@ -4561,6 +5355,22 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Слушать (нажмите пробел)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._buttonStopOriginal">
+      <tuv xml:lang="en">
+        <seg>Stop (press the SPACE BAR)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остановить (нажмите пробел)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ManualSegmenterDlg._labelInfo">
+      <tuv xml:lang="en">
+        <seg>One of the segments delineated by the selected break already has oral annotations.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Один из сегментов, разделенный выбранным разрывом уже имеет устные аннотации.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.CannotRecordErrorMsg">
@@ -4612,6 +5422,22 @@ A или запись согласия covering
         <seg>Этот сегмент не имеет записанных аннотаций.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayAnnotationToolTipMsg">
+      <tuv xml:lang="en">
+        <seg>Listen to this annotation.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Слушать эту аннотацию</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayOriginalShortcutToolTipHint">
+      <tuv xml:lang="en">
+        <seg>Keyboard shortcut: 'b'</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сочетания клавиш: «b»</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordButton">
       <tuv xml:lang="en">
         <seg>Speak</seg>
@@ -4626,6 +5452,14 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Запись не удалась</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingAbortedMessage">
+      <tuv xml:lang="en">
+        <seg>The recording was interrupted by a change in the default recording device.\nThis can happen if you turn off or disconnect the microphone.\nAfter you correct the problem, click OK, and then record again.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Запись была прервана из-за изменений в устройстве звукозаписи.\n Это может произойти, если вы выключите или отсоедините микрофон.\n После того, как вы исправите эту проблему, нажмите кнопку ОК, и  начните запись снова.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingAnnotationMsg">
@@ -4676,6 +5510,14 @@ A или запись согласия covering
         <seg>Отменить: {0} (Ctrl-Z или Z)</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UnexpectedErrorAttemptingToRecordMsg">
+      <tuv xml:lang="en">
+        <seg>An unexpected error occurred when attempting to record an annotation.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Непредвиденная ошибка произошла при попытке записать аннотацию.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.WindowTitle">
       <note>Do not translate - Localized in subclass</note>
       <tuv xml:lang="en">
@@ -4709,6 +5551,22 @@ A или запись согласия covering
         <seg>Для записи, нажмите и удерживайте ПРОБЕЛ</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.OralTranslationRecorderDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Oral Translation Recorder</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Рекордер устного перевода</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralTranslationRecorderDlg._labelOralTranslation">
+      <tuv xml:lang="en">
+        <seg>Oral Translation</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Устный перевод</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.MessageWhenSegmentTooShortManualDragging">
       <tuv xml:lang="en">
         <seg>Whoops! The segment will be too short.</seg>
@@ -4717,12 +5575,45 @@ A или запись согласия covering
         <seg>Ой! Сегмент будет слишком коротким. </seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.PlayOriginalToolTipMsg">
+      <tuv xml:lang="en">
+        <seg>Listen to this segment.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Слушать этот сегмент.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.SaveChangesQuestion">
       <tuv xml:lang="en">
         <seg>Would you like to save your changes?</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Вы хотите сохранить изменения?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.Segmenting3ChannelAudioFilesNotSupportedMsg">
+      <tuv xml:lang="en">
+        <seg>Segmenting {0} channel audio files is not supported.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сегментация {0} каналов аудио файлов не поддерживается.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.SegmentingAudioFormatNotSupportedMsg">
+      <tuv xml:lang="en">
+        <seg>Segmenting {0} bit, {1} audio files is not supported.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сегментации бит {0} {1} аудио-файлов не поддерживается.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.AnnotationDeleted">
+      <note>Parameter is time range of the segment for which the annotation was deleted (This undo action is included for completeness, but currently never gets displayed in UI).</note>
+      <tuv xml:lang="en">
+        <seg>Deletion of annotation for segment {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Удаление аннотации сегмента {0}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.AnnotationRecording">
@@ -4734,6 +5625,24 @@ A или запись согласия covering
         <seg>Запись аннотаций для сегмента {0}</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentAddition">
+      <note>Parameter is time range of added segment.</note>
+      <tuv xml:lang="en">
+        <seg>Addition of segment {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Добавление сегмента {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentBoundaryMove">
+      <note>Parameter 0 is the original time range of the segment. Parameter 1 is the new time range.</note>
+      <tuv xml:lang="en">
+        <seg>Segment boundary change from {0} to {1}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Изменение границ сегмента с {0} по {1}</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentDeletion">
       <note>Parameter is time range of deleted segment.</note>
       <tuv xml:lang="en">
@@ -4741,6 +5650,24 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Удаление сегмента {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentIgnored">
+      <note>Parameter is time range of the segment that was ignored.</note>
+      <tuv xml:lang="en">
+        <seg>Ignoring segment {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сегмент {0} игнорируется</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentUnignored">
+      <note>Parameter is time range of the segment that was ignored.</note>
+      <tuv xml:lang="en">
+        <seg>Marking segment {0} as relevant</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Маркировка сегмента {0} как релевантный</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.CancelButton">
@@ -4929,7 +5856,15 @@ A или запись согласия covering
         <seg>&amp;Delete Person...</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Удалить файл</seg>
+        <seg>Удалить человека...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.DeleteSessionMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Delete Session...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Удалить сеанс...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.ElementNoLongerExistsMsg">
@@ -4972,6 +5907,38 @@ A или запись согласия covering
         <seg>{0} не смог загрузить проект {1}. Сообщите об этой проблеме разработчикам SayMore, нажав кнопку «Информация».</seg>
       </tuv>
     </tu>
+    <tu tuid="MainWindow.ProblemOpeningSayMoreProject">
+      <tuv xml:lang="en">
+        <seg>There was a problem opening the SayMore project which might require that you restart your computer.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Проблема с открытием проекта SayMore. Может потребоваться перезагрузить компьютер.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.ProblemSavingSayMoreProject">
+      <tuv xml:lang="en">
+        <seg>There was a problem saving the SayMore project:\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Проблема с сохранением проекта SayMore:\n\n{0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.ProjectOpenInOtherSayMore">
+      <tuv xml:lang="en">
+        <seg>Another instance of SayMore is already open with this project:\n{0}\n\nIf you cannot find that instance of SayMore, restart your computer.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Уже открыт другой экземпляр SayMore  с этим проектом:\n{0}\n\n Если вы не можете найти этот экземпляр SayMore, перезагрузите компьютер.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.RemovedElementsErrorMsg">
+      <tuv xml:lang="en">
+        <seg>The folders for the following elements have been removed from your computer.\nTherefore, SayMore will remove them from the list.\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Папки для следующих элементов были удалены с вашего компьютера.\n Поэтому SayMore удалит их из списка.\n\n{0}</seg>
+      </tuv>
+    </tu>
     <tu tuid="MainWindow.ViewTabsScrollLeftToolTipText">
       <tuv xml:lang="en">
         <seg>Scroll Left</seg>
@@ -4994,6 +5961,14 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Ожидание другого экземпляра SayMore закончить...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.WindowTitleWithProject">
+      <tuv xml:lang="en">
+        <seg>{0} - SayMore {1}.{2}.{3} {4}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} - SayMore {1}.{2}.{3} {4}</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._mainMenuHelp">
@@ -5129,7 +6104,7 @@ A или запись согласия covering
         <seg>The file {0} appears unchanged since it was copied before, so it will be skipped.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Файл {0} кажется неизмененным так, как он был раньше скопирован, поэтому он будет пропущен.</seg>
+        <seg>Файл {0} кажется неизмененным, так как он был раньше скопирован, поэтому он будет пропущен.</seg>
       </tuv>
     </tu>
     <tu tuid="Miscellaneous.PresetGathererNoPresetsYetMsg">
@@ -5138,6 +6113,14 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Предустановки еще не введены</seg>
+      </tuv>
+    </tu>
+    <tu tuid="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Mark this segment as Ignored to skip annotating it.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Пометьте этот сегмент как игнорируемый чтобы пропустить аннотирование его.</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.ContributionEditor.CommentColumnTitle">
@@ -5154,6 +6137,38 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Дата</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.ContributionEditor.NameColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Name</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Имя</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.ContributionEditor.RoleColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Role</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Роль</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.ContributionEditor.RoleParticipant">
+      <tuv xml:lang="en">
+        <seg>Participant</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Участник</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.ContributionEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Contributions</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Участники</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.FileList.AddPersonButtonToolTip">
@@ -5340,6 +6355,14 @@ A или запись согласия covering
         <seg>Код</seg>
       </tuv>
     </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelNickName">
+      <tuv xml:lang="en">
+        <seg>Nic&amp;kname</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Кличка</seg>
+      </tuv>
+    </tu>
     <tu tuid="PeopleView.MetadataEditor._labelOtherLanguages">
       <tuv xml:lang="en">
         <seg>Other L&amp;anguages</seg>
@@ -5370,6 +6393,14 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Основное занятие</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelPrivacyProtection">
+      <tuv xml:lang="en">
+        <seg>Archive should keep this person private</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Хранить конфиденциальность личности этого человека </seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelgender">
@@ -5428,6 +6459,14 @@ A или запись согласия covering
         <seg>Согласие</seg>
       </tuv>
     </tu>
+    <tu tuid="PeopleView.PeopleList.ColumnHeadings.Person">
+      <tuv xml:lang="en">
+        <seg>Person</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Лицо</seg>
+      </tuv>
+    </tu>
     <tu tuid="PeopleView.PeopleList.HeadingText">
       <tuv xml:lang="en">
         <seg>People</seg>
@@ -5442,6 +6481,14 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Создать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.PeopleMainMenu.TopLevelMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Person</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Человек</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.ViewTabText">
@@ -5474,6 +6521,15 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Скопировать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.HeadingText">
+      <note>Parameter is project name.</note>
+      <tuv xml:lang="en">
+        <seg>SayMore statistics for {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Статистика SayMore для {0}</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.OverviewHeadingText">
@@ -5548,12 +6604,36 @@ A или запись согласия covering
         <seg>{0}: {1} события общей продолжительности {2} мин.</seg>
       </tuv>
     </tu>
+    <tu tuid="ProgressView.TabText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Progress View</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Вид прогресса</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProgressView._buttonRefresh_ToolTip_">
       <tuv xml:lang="en">
         <seg>Refresh View</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Обновить представление</seg>
+        <seg>Обновить вид</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.AboutProjectViewTitle">
+      <tuv xml:lang="en">
+        <seg>About This Project</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Об этом проекте</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.AccessProtocolViewTitle">
+      <tuv xml:lang="en">
+        <seg>Access Protocol</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Протокол доступа</seg>
       </tuv>
     </tu>
     <tu tuid="ProjectView.AccessScreen.Custom">
@@ -5564,12 +6644,28 @@ A или запись согласия covering
         <seg>Индивидуальный</seg>
       </tuv>
     </tu>
+    <tu tuid="ProjectView.AccessScreen.None">
+      <tuv xml:lang="en">
+        <seg>None</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Нет</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProjectView.AccessScreen._labelAccessProtocol">
       <tuv xml:lang="en">
         <seg>Access Protocol used\nby this project</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Протокол доступа данного проекта</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.AccessScreen._labelCustomAccessInstructions">
+      <tuv xml:lang="en">
+        <seg>Enter each choice, separated by commas</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Введите каждый выбор разделяя запятыми</seg>
       </tuv>
     </tu>
     <tu tuid="ProjectView.AccessScreen._labelDescription">
@@ -5743,6 +6839,14 @@ A или запись согласия covering
         <seg>Сменить язык</seg>
       </tuv>
     </tu>
+    <tu tuid="ProjectView.OtherDocumentsTitle">
+      <tuv xml:lang="en">
+        <seg>Other Documents</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Другие документы</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProjectView.ProgressScreen._buttonCopy">
       <tuv xml:lang="en">
         <seg>Copy</seg>
@@ -5783,6 +6887,70 @@ A или запись согласия covering
         <seg>Работает...</seg>
       </tuv>
     </tu>
+    <tu tuid="ProjectView.ProgressViewTitle">
+      <tuv xml:lang="en">
+        <seg>Progress</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Прогресс</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProjectDocuments.AddDescriptionFileToolTip">
+      <tuv xml:lang="en">
+        <seg>Add Description Documents to the Project</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Добавление документов описания в проект</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProjectDocuments.AddOtherFileToolTip">
+      <tuv xml:lang="en">
+        <seg>Add Other Documents to the Project</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Добавьте в проект другие документы</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProjectDocuments.DescriptionDocumentsInformationLabel">
+      <tuv xml:lang="en">
+        <seg>Add documents here that describe the project and corpus.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Добавление документов, которые описывают проект и корпус.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProjectDocuments.HowArchivedMsg">
+      <tuv xml:lang="en">
+        <seg>In an IMDI project archive, these files will be exported in a special session named {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>В архиве проекта IMDI эти файлы будут экспортированы в специальной сессии с именем {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProjectDocuments.OtherDocumentsInformationLabel">
+      <tuv xml:lang="en">
+        <seg>Add documents here that don't seem to fit anywhere else, for example about how the project was funded.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Добавление документов которые не подходят где-либо еще, например, о том, как проект финансировался.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.TabText">
+      <tuv xml:lang="en">
+        <seg>Project</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Проект</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.TabText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Project View</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Вид проекта</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProjectWindow.archiveUsingIMDIToolStripMenuItem">
       <tuv xml:lang="en">
         <seg>&amp;Archive using IMDI...</seg>
@@ -5807,6 +6975,22 @@ A или запись согласия covering
         <seg>Дата</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.ContributorsEditor.NameColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Name</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Имя</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.ContributorsEditor.RoleColumnTitle">
+      <tuv xml:lang="en">
+        <seg>Role</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Роль</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.FileList.AddSessionsButtonToolTip">
       <tuv xml:lang="en">
         <seg>Add Files to the Session</seg>
@@ -5828,7 +7012,7 @@ A или запись согласия covering
         <seg>Source</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Исходный текст</seg>
+        <seg>Источник</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.GeneratedOralAnnotationView.TranslationLabel">
@@ -5839,6 +7023,78 @@ A или запись согласия covering
         <seg>Перевод</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>only the Depositor and delegate can access</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Доступ разрешен только Депозитору и делегату</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.C">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>only Community members are allowed access (normally requires application to Depositor)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Только абонентам разрешен доступ (обычно требуется заявление Депозитору)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.F">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>access is Free to all</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>доступ свободен для всех</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.RC">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Researchers and Community members are allowed access</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg> Доступ разрешен исследователям и членам общественности</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.S">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>only Subscribers are allowed access (requires application to Depositor)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Только абонентам разрешен доступ (требуется заявление Депозитору)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.U">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>all Users can access (requires registration)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>все пользователи могут получить доступ (требуется регистрация)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 1">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Public Access</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Открытый доступ</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 2">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Password</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Пароль</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 3">
       <note>pueden acceder</note>
       <prop type="x-dynamic">true</prop>
@@ -5847,6 +7103,51 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Лимит времени</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 4">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Depositor control</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Kонтроль депонента</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.C">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>only Community members are allowed access (normally requires application to Depositor)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Только абонентам разрешен доступ (обычно требуется заявление Депозитору)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.R">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Researchers and Community members are allowed access</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg> Доступ разрешен исследователям и членам общественности</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.S">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>only Subscribers are allowed access (requires application to Depositor)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Только абонентам разрешен доступ (требуется заявление Депозитору)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.U">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>all Users can access</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>все пользователи могут получить доступ</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.AccessProtocol.REAP.">
@@ -6229,6 +7530,38 @@ A или запись согласия covering
         <seg>Не возможна переименовать из {0} в {1}, поскольку событие с указанным именем уже существует.</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.MissingMediaFileEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Missing Media File</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отсутствует медиа файл</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MissingMediaFileEditor.lblExplanation">
+      <tuv xml:lang="en">
+        <seg>This can happen if the media file is inadvertently deleted or renamed outside of SayMore. It could also happen if a properly named ELAN file is added to a SayMore session but internally refers to a media file that is not where SayMore expects to find it. If you have access to the media file and would like to be able to annotate it in SayMore, please copy it to the above location.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Это может произойти, если мультимедиа файл был случайно удален или переименован вне SayMore. Это также может произойти, если должным образом именованный файл ELAN добавляется к событию SayMore, но внутренне ссылается на мультимедиа  файл , который сохранен не там где SayMore ожидает его найти. Если вы имеете доступ к медиа файлу и хотите иметь возможность комментировать его в SayMore, пожалуйста, скопируйте его в папку выше.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MissingMediaFileEditor.lblMediaFileMissing">
+      <tuv xml:lang="en">
+        <seg>The media file for this ELAN file could not be found. SayMore expected to find it here:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не найден медиа файл для этого файла ELAN. SayMore ожидал найти его здесь:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MissingMediaFileEditor.linkHelpTopic">
+      <tuv xml:lang="en">
+        <seg>Show Help topic for ELAN</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Показать раздел справки для ELAN</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.SessionStatus.Finished">
       <tuv xml:lang="en">
         <seg>Finished</seg>
@@ -6266,7 +7599,7 @@ A или запись согласия covering
         <seg>Status: {0}</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Состояние: {0}</seg>
+        <seg>Статус: {0}</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsList.ClickNewButtonHelpPrompt">
@@ -6341,6 +7674,14 @@ A или запись согласия covering
         <seg>Элементы проекта</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.SessionsList.IMDIArchiveMenuText">
+      <tuv xml:lang="en">
+        <seg>Archive using &amp;IMDI...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Архив с помощью IMDI...</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.SessionsList.NewFilesFromDeviceButtonText">
       <tuv xml:lang="en">
         <seg>New From De&amp;vice...</seg>
@@ -6410,7 +7751,7 @@ A или запись согласия covering
         <seg>Source Recording</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Оригинальная запись</seg>
+        <seg>Исходная запись</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.SessionsList.Stages.Transcription">
@@ -6437,6 +7778,14 @@ A или запись согласия covering
         <seg>Создать с устройства...</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.SessionsMainMenu.NewFromRecordingMenuText">
+      <tuv xml:lang="en">
+        <seg>New From &amp;Recording...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создать с записи...</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.SessionsMainMenu.NewMenuText">
       <tuv xml:lang="en">
         <seg>&amp;New</seg>
@@ -6453,6 +7802,70 @@ A или запись согласия covering
         <seg>Событие</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.StageNameDisplayFormat">
+      <tuv xml:lang="en">
+        <seg>{0} (on auto-pilot)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} (на авто пилоте)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.StatusToolTips.Finished">
+      <tuv xml:lang="en">
+        <seg>I'm done working on it.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Я завершил эту работу.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.StatusToolTips.In_Progress">
+      <tuv xml:lang="en">
+        <seg>I'm working on it.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Я работаю над этим.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.StatusToolTips.Incoming">
+      <tuv xml:lang="en">
+        <seg>I am gathering the recording and meta\ndata and may or may not take it further.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Я собираю записи и метадата, возможно что не более чем это</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.StatusToolTips.Skipped">
+      <tuv xml:lang="en">
+        <seg>I've decided to not develop\nthis session at this time.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Я решил не разрабатовать это событие в настоящее время.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Status &amp;&amp; Stages</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Статус и этапы</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelReadAboutStages">
+      <tuv xml:lang="en">
+        <seg>Read About SayMore Stages</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Читать о SayMore Этапах</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelReadAboutStatus">
+      <tuv xml:lang="en">
+        <seg>Read About SayMore Status Indicators</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Читать о Статус-Индикаторах SayMore </seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.StatusAndStagesEditor._labelStages">
       <tuv xml:lang="en">
         <seg>Stages</seg>
@@ -6461,12 +7874,20 @@ A или запись согласия covering
         <seg>Этапы</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.StatusAndStagesEditor._labelStagesHint">
+      <tuv xml:lang="en">
+        <seg>Stages are normally automatic indicators of what  has been done, based on file names and annotation work you've done. Click any item to take control of this indicator.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Этапы обычно являются автоматическими индикаторами сделанной работы, основанные на именах файлов и внесенных вами аннотаций. Щелкните любой элемент, чтобы контролировать этот показатель.</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.StatusAndStagesEditor._labelStatus">
       <tuv xml:lang="en">
         <seg>Status</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Состаяние</seg>
+        <seg>Статус</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.StatusAndStagesEditor._labelStatusHint">
@@ -6493,6 +7914,46 @@ A или запись согласия covering
         <seg>Файл «{0}» не является файлом аннотации SayMore. Возможно файл поврежден.</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.ErrorAccessingMediaFile">
+      <tuv xml:lang="en">
+        <seg>There was an error accessing media file to determine the duration: '{0}'</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при доступе к мультимедиа файлу для определения длительности: «{0}»</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.FontDialogProblem">
+      <tuv xml:lang="en">
+        <seg>There was some problem with choosing that font. If you just installed it, you might try restarting the program or even your computer.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Проблема с выбором шрифта. Если вы только что установили его, попробуйте перезапустить программу или даже перезагрузить компьютер.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.FontsMenu">
+      <tuv xml:lang="en">
+        <seg>&amp;Fonts...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Шрифты...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileDetails">
+      <tuv xml:lang="en">
+        <seg>Attempting to generate file:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Попытка создать файл:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileGenericErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error generating the oral annotation file.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при генерации файла устной аннотации.</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg">
       <tuv xml:lang="en">
         <seg>Generating Oral Annotation file...</seg>
@@ -6515,6 +7976,22 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Справка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.OralAnnotationFilePossiblyTooLarge">
+      <tuv xml:lang="en">
+        <seg>The generated oral annotation file may be too large to display or play correctly.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Созданный файл устных аннотаций может быть слишком велик для корректного изображения и проигрывания.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.OralAnnotationFileProblem">
+      <tuv xml:lang="en">
+        <seg>Problem occurred attempting to display generated oral annotation file.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Возникла проблема при попытке показать файл устных аннотаций.</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton">
@@ -6582,6 +8059,14 @@ A или запись согласия covering
         <seg>Созданный аудио файл</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.OptionsMenu">
+      <tuv xml:lang="en">
+        <seg>Options</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Возможности</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._buttonConvert">
       <tuv xml:lang="en">
         <seg>Convert</seg>
@@ -6598,6 +8083,46 @@ A или запись согласия covering
         <seg>Требуется конвертирование файлов</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForAudio">
+      <tuv xml:lang="en">
+        <seg>The format of this audio file is '{0}'. In order to annotate, SayMore needs to convert it to WAV PCM, which is a good, standard choice for archiving. During the conversion process, a standard audio file will be created from the source and added to the session's file list. The name of the new audio file will be the same as the source with the suffix "{1}" added to the end. The source file will remain unchanged in the session's file list.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Формат этого звукового файл является «{0}». Чтобы добавлять аннотации, SayMore необходимо конвертиртировать его в WAV PCM, который представляет собой хороший, стандартный формат для архивирования. Во время конвертирования стандартный аудио файл будет создан из источника и добавлен к списку файлов события. Имя нового звукового файла будет таким же как источник. с суффиксом «{1}», добавленным в конце. Исходный файл останется без изменений в списке файлов события.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForVideo">
+      <tuv xml:lang="en">
+        <seg>In order to annotate, SayMore needs to convert this video to WAV PCM audio. During the conversion process, a standard audio file will be created from the source and added to the session's file list. The name of the new audio file will be the same as the name of the source with the suffix "{0}" added to the end. The source file will remain unchanged in the session's file list.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Чтобы аннотировать, SayMore необходимо конвертировать видео в аудио WAV PCM. Во время конвертирования стандартный аудио файл будет создан из источника и добавлен  к списку файлов события. Имя нового звукового файла будет таким же как имя источника, с суффиксом «{0}» добавленным в конце. Исходный файл останется без изменений в списке файлов события.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelSourceFileName">
+      <tuv xml:lang="en">
+        <seg>Name of source media file:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Имя исходного медиа файла:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelStandardAudioFileName">
+      <tuv xml:lang="en">
+        <seg>Name of new, standard audio file:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Имя нового стандартного аудио файла:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab.TabText">
+      <tuv xml:lang="en">
+        <seg>Start Annotating</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Начать создание аннотаций</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.StartAnnotatingTab._buttonGetStarted">
       <tuv xml:lang="en">
         <seg>Get Started...</seg>
@@ -6612,6 +8137,30 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Транскрипции, перевод, точную речь и аудио перевод можно добавить в этот файл мультимедиа. Но сначала...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethod">
+      <tuv xml:lang="en">
+        <seg>Segmentation Method</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Метод сегментации</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethodQuestion">
+      <tuv xml:lang="en">
+        <seg>Each annotation will be linked to a single time segment of media. How would you like to identify those segments?</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Каждая аннотация будет связана с одним сегментом медиа материала. Как вы хотите идентифицировать эти сегменты?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonAudacity">
+      <tuv xml:lang="en">
+        <seg>Read an Audacity Label file</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Читать файл Audacity Label</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonAutoSegmenter">
@@ -6696,6 +8245,14 @@ A или запись согласия covering
         <seg>ELAN файл...</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMessage">
+      <tuv xml:lang="en">
+        <seg>Actually, SayMore already stores this information in ELAN format (.eaf). Simply double click the annotations file to edit it in ELAN.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>На самом деле SayMore уже хранит эту информацию в формате ELAN (.eaf). Просто дважды щелкните файл аннотации для его редактирования в ELAN.</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.FLExTextExport">
       <tuv xml:lang="en">
         <seg>FLEx Interlinear Text...</seg>
@@ -6710,6 +8267,54 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Файл панели инструментов...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.commaSeparatedValueExport">
+      <tuv xml:lang="en">
+        <seg>Spreadsheet (CSV) File...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Таблицa (CSV) файл...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.plainTextExport">
+      <tuv xml:lang="en">
+        <seg>Plain Text...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Простой текст...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix">
+      <tuv xml:lang="en">
+        <seg>freeTranslation_subtitle</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>freeTranslation_subtitle</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscription">
+      <tuv xml:lang="en">
+        <seg>Subtitles File (Transcription)...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл с субтитрами (транскрипция)...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.transcriptionFilenameSuffix">
+      <tuv xml:lang="en">
+        <seg>transcription_subtitle</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>transcription_subtitle</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlestFreeTranslation">
+      <tuv xml:lang="en">
+        <seg>Subtitles File (Free Translation)...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл с субтитрами (вольный перевод)...</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">
@@ -6753,6 +8358,30 @@ A или запись согласия covering
         <seg>Экспорт...</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Both">
+      <tuv xml:lang="en">
+        <seg>Playback Both Recordings</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Воспроизведение обоих записей</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.OralTranslation">
+      <tuv xml:lang="en">
+        <seg>Playback Oral Translation Recording</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Воспроизведение записи устного перевода</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Source">
+      <tuv xml:lang="en">
+        <seg>Playback Source Recording</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Воспроизведение записи-источника</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.HelpButton">
       <tuv xml:lang="en">
         <seg>Help</seg>
@@ -6767,6 +8396,14 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Справка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.IgnoredMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Ignored</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Игнорируется</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.IgnoredSegmentIndicator">
@@ -6802,12 +8439,20 @@ A или запись согласия covering
         <seg>Устный перевод...</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.RecordButton">
+      <tuv xml:lang="en">
+        <seg>Oral Annotations Tools</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Инструменты для устных аннотций</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.RecordButton_ToolTip_">
       <tuv xml:lang="en">
         <seg>Record Oral Annotations</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Запись устных аннотации</seg>
+        <seg>Записи устных аннотации</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.ResegmentButton">
@@ -6815,7 +8460,16 @@ A или запись согласия covering
         <seg>Segment...</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Пересоздание разделов...</seg>
+        <seg>Пересоздание сегментов...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.SegmentTooltip">
+      <note>First parameter is time range of the segment (e.g., 00.0-02.1); Second parameter is "F2"</note>
+      <tuv xml:lang="en">
+        <seg>Segment range: {0}\nPress {1} to Play/Pause</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сегмент в пределах: {0}\nНажмите {1} для Воспроизведения/Паузы</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TabText">
@@ -6824,6 +8478,38 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Аннотации</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TranscriptionColumnPlaybackMenuOptions.Both">
+      <tuv xml:lang="en">
+        <seg>Playback Both Recordings</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Воспроизведение обоих записей</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TranscriptionColumnPlaybackMenuOptions.CarefulSpeech">
+      <tuv xml:lang="en">
+        <seg>Playback Careful Speech Recording</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Воспроизведение записи аккуратной речи</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TranscriptionColumnPlaybackMenuOptions.Source">
+      <tuv xml:lang="en">
+        <seg>Playback Source Recording</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Воспроизведение записи-источника</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor._comboPlaybackSpeed_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Playback speed</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Скорость воспроизведения</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TierDisplayNames.FreeTranslation">
@@ -6856,6 +8542,15 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Извините, файл «{0}» уже существует.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ConvertToStandardWavPcmAudioErrorMsg">
+      <note>Parameter is the file name of the media file used as the basis for the attempted conversion.</note>
+      <tuv xml:lang="en">
+        <seg>There was an error trying to create a standard audio file from:\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при попытке создать стандартный аудио файл из:\n\n{0}</seg>
       </tuv>
     </tu>
     <tu tuid="SoundFileUtils.ConvertToStandardWavPcmAudioMsg">
@@ -6891,12 +8586,28 @@ A или запись согласия covering
         <seg>Ошибка извлечения аудио из файла '{0}' \n\n{1}</seg>
       </tuv>
     </tu>
+    <tu tuid="SoundFileUtils.FileMayNotBeValidAudioError">
+      <tuv xml:lang="en">
+        <seg>No audio track could be found in the specified file. Verify that the file is a valid audio file.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>В указанном файле не находиться звукозапись. Убедитесь, что файл является допустимым звуковым файлом.</seg>
+      </tuv>
+    </tu>
     <tu tuid="SoundFileUtils.MediaFileDoesNotExistErrorMsg">
       <tuv xml:lang="en">
         <seg>Media file does not exist.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Медиа-файл не существует.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.PossibleConversionErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Conversion completed, but with possible error(s). If the converted file does not appear to be usable, delete it and check the validity of the source file. After checking the source file and the conversion output details, if you believe this is a problem with SayMore, please include a copy of the source file with your error report.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Конвертирование завершено, но с возможными ошибками. Если конвертированный файл не работает удалите его и проверьте правильность исходного файла. После проверки исходного файла и выходных данных конвертирования, если вы считаете, что это проблемы с SayMore, пожалуйста, включите копию исходного файла с отчетом об ошибке.</seg>
       </tuv>
     </tu>
   </body>

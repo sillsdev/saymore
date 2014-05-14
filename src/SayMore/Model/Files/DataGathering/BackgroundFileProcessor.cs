@@ -251,7 +251,15 @@ namespace SayMore.Model.Files.DataGathering
 			lock (((ICollection)_fileToDataDictionary).SyncRoot)
 			{
 				T stats;
-				return (_fileToDataDictionary.TryGetValue(filePath, out stats) ? stats : null);
+				if (_fileToDataDictionary.TryGetValue(filePath, out stats))
+					return stats;
+
+				if (GetDoIncludeFile(filePath))
+				{
+					CollectDataForFile(filePath);
+					return (_fileToDataDictionary.TryGetValue(filePath, out stats) ? stats : null);
+				}
+				return null;
 			}
 		}
 

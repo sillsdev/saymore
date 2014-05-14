@@ -179,7 +179,7 @@ namespace SayMore.Model.Files
 
 			FileType =
 				fTypes.FirstOrDefault(t => t.IsMatch(pathToAnnotatedFile)) ??
-				fTypes.FirstOrDefault(t => t.IsForUnknownFileTypes);
+				fTypes.Single(t => t.IsForUnknownFileTypes);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -305,16 +305,6 @@ namespace SayMore.Model.Files
 
 				var stats = StatisticsProvider.GetFileData(PathToAnnotatedFile);
 
-				// SP-877: Imported Recording properties not displayed until after a restart of SayMore
-				if (stats == null)
-				{
-					var processor = StatisticsProvider as AudioVideoDataGatherer;
-					if (processor != null)
-						processor.ProcessThisFile(PathToAnnotatedFile);
-
-					stats = StatisticsProvider.GetFileData(PathToAnnotatedFile);
-				}
-
 				if (stats == null || stats.Duration == default(TimeSpan))
 				{
 					string duration = GetStringValue("Duration", string.Empty);
@@ -365,12 +355,15 @@ namespace SayMore.Model.Files
 			if (computedFieldInfo != null && StatisticsProvider != null)
 			{
 				var mediaFileInfo = StatisticsProvider.GetFileData(PathToAnnotatedFile);
-				if (mediaFileInfo.Audio == null &&
-					PathToAnnotatedFile.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix))
-					return "Not Generated";
-				// Get the computed value (if there is one).
-				computedValue = computedFieldInfo.GetFormatedStatProvider(
-					mediaFileInfo, computedFieldInfo.DataItemChooser, computedFieldInfo.Suffix);
+				if (mediaFileInfo != null)
+				{
+					if (mediaFileInfo.Audio == null &&
+						PathToAnnotatedFile.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix))
+						return "Not Generated";
+					// Get the computed value (if there is one).
+					computedValue = computedFieldInfo.GetFormatedStatProvider(
+						mediaFileInfo, computedFieldInfo.DataItemChooser, computedFieldInfo.Suffix);
+				}
 			}
 
 			// Get the value from the metadata file.

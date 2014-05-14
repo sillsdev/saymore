@@ -73,7 +73,7 @@ namespace SayMore.UI.ComponentEditors
 
 			_fieldDefsForFile = factoryFields
 				.Union(_fieldGatherer.GetAllFieldsForFileType(FileType)
-				.Where(f => !factoryFields.Any(e => e.Key == f.Key)));
+				.Where(f => factoryFields.All(e => e.Key != f.Key)));
 
 			foreach (var field in _fieldDefsForFile)
 			{

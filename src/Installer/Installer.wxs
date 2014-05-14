@@ -136,6 +136,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<File Id="SayMore.exe.config" Name="SayMore.exe.config" KeyPath="no" Source="..\..\output\release\SayMore.exe.config" />
 			<File Id="Analytics.NET.dll" Name="Analytics.NET.dll" KeyPath="no" Source="..\..\output\release\Analytics.NET.dll" />
 			<File Id="DesktopAnalytics.dll" Name="DesktopAnalytics.dll" KeyPath="no" Source="..\..\output\release\DesktopAnalytics.dll" />
+			<File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" KeyPath="no" Source="..\..\output\release\Newtonsoft.Json.dll" />
 
 			<!--- todo: icons for saymore files -->
 

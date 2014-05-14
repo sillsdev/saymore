@@ -692,8 +692,8 @@ namespace SayMore.Media.Audio
 			try
 			{
 				_waveOut = new WaveOutEvent();
-				_waveOut.DesiredLatency = 100;
-				_waveOut.NumberOfBuffers = 20;
+				_waveOut.DesiredLatency = 500;
+				_waveOut.NumberOfBuffers = 5;
 				_waveOut.Init(new SampleToWaveProvider(waveOutProvider));
 				_waveOut.PlaybackStopped += WaveOutOnPlaybackStopped;
 				_waveOut.Play();
@@ -741,10 +741,11 @@ namespace SayMore.Media.Audio
 			if (PlaybackUpdate != null)
 				PlaybackUpdate(this, _playbackStream.CurrentTime, _playbackStream.TotalTime);
 
-			if (_playbackStream.CurrentTime >= (_playbackRange.End > TimeSpan.Zero ? _playbackRange.End : WaveStream.TotalTime))
+			var newTime = _playbackStream.CurrentTime.Add(-TimeSpan.FromMilliseconds(_waveOut.DesiredLatency / 2.0));
+			if (newTime >= (_playbackRange.End > TimeSpan.Zero ? _playbackRange.End : WaveStream.TotalTime))
 				SetCursor(_playbackRange.End);
 			else
-				SetCursor(_playbackStream.CurrentTime);
+				SetCursor(newTime);
 		}
 
 		/// ------------------------------------------------------------------------------------

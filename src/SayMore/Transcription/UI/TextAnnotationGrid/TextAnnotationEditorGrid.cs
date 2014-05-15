@@ -153,7 +153,20 @@ namespace SayMore.Transcription.UI
 			if (targetRow < 0 || !Visible || Height <= ColumnHeadersHeight)
 				return;
 
-			FirstDisplayedScrollingRowIndex = targetRow;
+			try
+			{
+				FirstDisplayedScrollingRowIndex = targetRow;
+			}
+			catch (InvalidOperationException)
+			{
+				// SP-942: There is an edge case where Height > ColumnHeadersHeight, but the
+				// DataGridView still thinks it doesn't have enough room to display anything.
+				// I suspect that the border thickness is coming into play, but I can't figure
+				// out what the actual calculation should be. Ironically, unless I'm catching
+				// exceptions in the debugger, I never see this exception, even though there is
+				// no apparent try-catch in the call stack. But a real user got this exception,
+				// so this catch should prevent this problem.
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

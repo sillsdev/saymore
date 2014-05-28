@@ -58,7 +58,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Analytics.NET, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DesktopAnalytics.1.0.0\lib\net40\Analytics.NET.dll</HintPath>
+      <HintPath>..\..\packages\DesktopAnalytics.1.0.1\lib\net40\Analytics.NET.dll</HintPath>
     </Reference>
     <Reference Include="Autofac, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -66,7 +66,7 @@
     </Reference>
     <Reference Include="DesktopAnalytics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\DesktopAnalytics.1.0.0\lib\net40\DesktopAnalytics.dll</HintPath>
+      <HintPath>..\..\packages\DesktopAnalytics.1.0.1\lib\net40\DesktopAnalytics.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\dotnet\Ionic.Zip.dll</HintPath>

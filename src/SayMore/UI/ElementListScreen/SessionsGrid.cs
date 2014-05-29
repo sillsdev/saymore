@@ -113,8 +113,6 @@ namespace SayMore.UI.ElementListScreen
 			var menu = new ToolStripMenuItem(string.Empty, Resources.RampIcon,
 				(s, e) => {
 					var session = (Session)GetCurrentElement();
-					if (session != null)
-						session.ArchiveUsingRAMP();
 				});
 
 			menu.Text = LocalizationManager.GetString("SessionsView.SessionsList.RampArchiveMenuText",
@@ -136,8 +134,6 @@ namespace SayMore.UI.ElementListScreen
 			menu = new ToolStripMenuItem(string.Empty, null,
 				(s, e) => {
 					var session = (Session)GetCurrentElement();
-					if (session != null)
-						session.ArchiveUsingIMDI();
 				});
 
 			menu.Text = LocalizationManager.GetString("SessionsView.SessionsList.IMDIArchiveMenuText",

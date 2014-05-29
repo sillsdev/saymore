@@ -5,7 +5,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using DesktopAnalytics;
 using Palaso.IO;
 using Palaso.Reporting;
 using L10NSharp;
@@ -94,8 +93,6 @@ namespace SayMore.Utilities
 
 				Application.DoEvents();
 			}
-			Analytics.Track("WaitForFileRelease Timeout", new Dictionary<string, string> {
-				{"filePath", filePath} });
 			return WaitForReleaseResult.TimedOut;
 		}
 

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Media;
 using System.Reflection;
 using System.Windows.Forms;
-using DesktopAnalytics;
 using L10NSharp;
 using L10NSharp.UI;
 using Palaso.IO;
@@ -46,8 +45,6 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private ProjectWindow()
 		{
-			ExceptionHandler.AddDelegate(AudioUtils.HandleGlobalNAudioException);
-
 			InitializeComponent();
 			_titleFmt = Text;
 			_menuShowMPlayerDebugWindow.Tag = _menuProject.DropDownItems.IndexOf(_menuShowMPlayerDebugWindow);
@@ -124,8 +121,6 @@ namespace SayMore.UI.ProjectWindow
 			if (disposing)
 			{
 				LocalizeItemDlg.StringsLocalized -= SetWindowText;
-
-				ExceptionHandler.RemoveDelegate(AudioUtils.HandleGlobalNAudioException);
 
 				if (components != null)
 					components.Dispose();
@@ -209,7 +204,6 @@ namespace SayMore.UI.ProjectWindow
 				//user cancelling a security warning here shouldn't lead to a crash
 				Debug.Print(ex.Message);
 			}
-			Analytics.Track("Show Help from main menu");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -290,7 +284,6 @@ namespace SayMore.UI.ProjectWindow
 			if (view.MainMenuItem != null)
 				view.MainMenuItem.Enabled = true;
 
-			Analytics.Track(view.NameForUsageReporting + "View Activated");
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using DesktopAnalytics;
 using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms;
@@ -70,8 +69,6 @@ namespace SayMore.Transcription.UI
 				return string.Format(text, suffix);
 			}
 
-			var encoding = AudioUtils.GetAudioEncoding(_file.PathToAnnotatedFile);
-
 			text = LocalizationManager.GetString(
 				"SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForAudio",
 				"The format of this audio file is '{0}'. In order to annotate, SayMore needs to convert " +
@@ -81,7 +78,7 @@ namespace SayMore.Transcription.UI
 				"the suffix \"{1}\" added to the end. The source file will remain unchanged in the " +
 				"session's file list.", null, _labelConvertIntroduction);
 
-			return string.Format(text, encoding, suffix);
+			return string.Format(text, "whatever", suffix);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -107,28 +104,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleConvertButtonClick(object sender, EventArgs e)
 		{
-			Analytics.Track("Convert to standard audio", new Dictionary<string, string> {
-				{"fileExtension", Path.GetExtension(_file.PathToAnnotatedFile) }});
-
 			_buttonConvert.Enabled = true;
-
-			var error = AudioUtils.ConvertToStandardPCM(_file.PathToAnnotatedFile,
-				_file.GetSuggestedPathToStandardAudioFile(), this,
-				AudioUtils.GetConvertingToStandardPcmAudioMsg());
-
-			if (error == null)
-			{
-				if (ComponentFileListRefreshAction != null)
-				{
-					ComponentFileListRefreshAction(
-						_file.GetSuggestedPathToStandardAudioFile(), typeof(StartAnnotatingEditor));
-				}
-
-				return;
-			}
-
-			ErrorReport.NotifyUserOfProblem(error,
-				AudioUtils.GetConvertingToStandardPcmAudioErrorMsg(), _file.PathToAnnotatedFile);
 		}
 	}
 }

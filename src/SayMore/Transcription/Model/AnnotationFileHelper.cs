@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using DesktopAnalytics;
 using L10NSharp;
 using Palaso.IO;
 using Palaso.Reporting;
@@ -575,12 +574,6 @@ namespace SayMore.Transcription.Model
 			var mediaFileName = eafFileName.Remove(eafFileName.Length - kAnnotationsEafFileSuffix.Length);
 			if (File.Exists(Path.Combine(sessionFolder, mediaFileName)))
 			{
-				Analytics.Track("AnnotationFileHelper EnsureMediaFileIsCorrect Automatic repair of Media File URL",
-					new Dictionary<string, string> {
-						{"_mediaFileName",  _mediaFileName},
-						{"AnnotationFileName",  AnnotationFileName}
-					});
-
 				SetMediaFile(mediaFileName);
 				Save();
 			}
@@ -803,11 +796,6 @@ namespace SayMore.Transcription.Model
 			{
 				var labelHelper = new AudacityLabelHelper(File.ReadAllLines(segmentFileName), mediaFileName);
 				helper.SaveFromSegments(labelHelper.Segments);
-				Analytics.Track("AnnotationFileHelper Import segment file");
-			}
-			else
-			{
-				Analytics.Track("AnnotationFileHelper Import ELAN file");
 			}
 
 			return helper.AnnotationFileName;

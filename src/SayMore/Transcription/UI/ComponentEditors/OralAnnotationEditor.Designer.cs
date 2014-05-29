@@ -36,7 +36,6 @@ namespace SayMore.Transcription.UI
 			this._buttonStop = new System.Windows.Forms.ToolStripButton();
 			this._buttonRegenerate = new System.Windows.Forms.ToolStripButton();
 			this._panelOralAnnotationWaveViewer = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
-			this._oralAnnotationWaveViewer = new SayMore.Transcription.UI.OralAnnotationWaveViewer();
 			this._labelCursorTime = new System.Windows.Forms.Label();
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayout.SuspendLayout();
@@ -142,7 +141,6 @@ namespace SayMore.Transcription.UI
 			this._panelOralAnnotationWaveViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._panelOralAnnotationWaveViewer.ClipTextForChildControls = true;
 			this._panelOralAnnotationWaveViewer.ControlReceivingFocusOnMnemonic = null;
-			this._panelOralAnnotationWaveViewer.Controls.Add(this._oralAnnotationWaveViewer);
 			this._panelOralAnnotationWaveViewer.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._panelOralAnnotationWaveViewer.DoubleBuffered = true;
 			this._panelOralAnnotationWaveViewer.DrawOnlyBottomBorder = false;
@@ -160,21 +158,6 @@ namespace SayMore.Transcription.UI
 			this._panelOralAnnotationWaveViewer.PaintExplorerBarBackground = false;
 			this._panelOralAnnotationWaveViewer.Size = new System.Drawing.Size(488, 296);
 			this._panelOralAnnotationWaveViewer.TabIndex = 2;
-			// 
-			// _oralAnnotationWaveViewer
-			// 
-			this._oralAnnotationWaveViewer.BackColor = System.Drawing.SystemColors.Window;
-			this._oralAnnotationWaveViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.locExtender.SetLocalizableToolTip(this._oralAnnotationWaveViewer, null);
-			this.locExtender.SetLocalizationComment(this._oralAnnotationWaveViewer, null);
-			this.locExtender.SetLocalizationPriority(this._oralAnnotationWaveViewer, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._oralAnnotationWaveViewer, "OralAnnotationEditor.OralAnnotationWaveViewer");
-			this._oralAnnotationWaveViewer.Location = new System.Drawing.Point(0, 0);
-			this._oralAnnotationWaveViewer.Margin = new System.Windows.Forms.Padding(0);
-			this._oralAnnotationWaveViewer.Name = "_oralAnnotationWaveViewer";
-			this._oralAnnotationWaveViewer.Size = new System.Drawing.Size(486, 294);
-			this._oralAnnotationWaveViewer.TabIndex = 0;
-			this._oralAnnotationWaveViewer.ZoomPercentage = 100F;
 			// 
 			// _labelCursorTime
 			// 
@@ -224,7 +207,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStrip _toolStrip;
 		private System.Windows.Forms.ToolStripButton _buttonHelp;
 		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _panelOralAnnotationWaveViewer;
-		private OralAnnotationWaveViewer _oralAnnotationWaveViewer;
 		private System.Windows.Forms.ToolStripButton _buttonPlay;
 		private System.Windows.Forms.ToolStripButton _buttonStop;
 		private L10NSharp.UI.L10NSharpExtender locExtender;

@@ -6,14 +6,11 @@ using L10NSharp;
 using Palaso.UI.WindowsForms.WritingSystems;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;
-using SIL.Archiving.IMDI.Lists;
 
 namespace SayMore.UI.Overview
 {
 	public partial class ProjectMetadataScreen : EditorBase, ISayMoreView, ISaveable
 	{
-		private IMDIItemList _countryList;
-
 		public ProjectMetadataScreen()
 		{
 			InitializeComponent();
@@ -25,52 +22,8 @@ namespace SayMore.UI.Overview
 			_tableLayout.RowStyles[4].SizeType = SizeType.Absolute;
 			_tableLayout.RowStyles[4].Height = rowHeight;
 
-			// continent list
-			var continentList = ListConstructor.GetClosedList(ListType.Continents, true, ListConstructor.RemoveUnknown.RemoveAll);
-			_continent.DataSource = continentList;
-			_continent.DisplayMember = "Text";
-			_continent.ValueMember = "Value";
-			SizeContinentComboBox(_continent);
-
-			// Data-binding doesn't work correctly for country  because it is an open list.
-			// Items populated in HandleStringsLocalized.
-			_countryList = ListConstructor.GetList(ListType.Countries, false, Localize, ListConstructor.RemoveUnknown.RemoveAll);
-
 			_linkHelp.Click += (s, e) =>
 				Program.ShowHelpTopic("/User_Interface/Tabs/About_This_Project_User_Interface_terms.htm");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
-		{
-			base.HandleStringsLocalized();
-
-			if (_country == null || _countryList == null)
-			{
-				Load += (o, args) => ResetCountryList();
-				return;
-			}
-			ResetCountryList();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void ResetCountryList()
-		{
-			//int iCountry = _country.SelectedIndex;
-			var selectedCountry = _country.SelectedItem as IMDIListItem;
-
-			//_country.Items.Clear();
-			_country.DataSource = null;
-			_countryList.Localize(Localize);
-			_countryList.Sort();
-			//_country.Items.AddRange(_countryList.Select(c => c.Text).Cast<object>().ToArray());
-
-			_country.DataSource = _countryList;
-			_country.DisplayMember = "Text";
-			_country.ValueMember = "Value";
-
-			if (selectedCountry != null)
-				_country.SelectedItem = _countryList.FindByValue(selectedCountry.Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -171,19 +124,6 @@ namespace SayMore.UI.Overview
 			_labelSelectedVernacular.Text = project.VernacularISO3CodeAndName;
 			_location.Text = project.Location;
 			_region.Text = project.Region;
-			int iCountry = -1;
-			for (int i = 0; i < _countryList.Count; i++)
-			{
-				if (_countryList[i].Value == project.Country)
-				{
-					iCountry = i;
-					break;
-				}
-			}
-			if (iCountry >= 0)
-				_country.SelectedIndex = iCountry;
-			else
-				_country.Text = project.Country;
 
 			foreach (var item in _continent.Items.Cast<object>().Where(i => i.ToString() == project.Continent))
 				_continent.SelectedItem = item;
@@ -220,8 +160,6 @@ namespace SayMore.UI.Overview
 		{
 			get
 			{
-				if (_country.SelectedIndex >= 0)
-					return _countryList[_country.SelectedIndex].Value;
 				return _country.Text;
 			}
 		}

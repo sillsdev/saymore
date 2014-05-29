@@ -57,16 +57,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Analytics.NET, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DesktopAnalytics.1.0.1\lib\net40\Analytics.NET.dll</HintPath>
-    </Reference>
     <Reference Include="Autofac, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Autofac.3.4.0\lib\net40\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="DesktopAnalytics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\DesktopAnalytics.1.0.1\lib\net40\DesktopAnalytics.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\dotnet\Ionic.Zip.dll</HintPath>
@@ -74,20 +67,9 @@
     <Reference Include="L10NSharp">
       <HintPath>..\..\packages\L10NSharp.2.0.5\lib\net40-Client\L10NSharp.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio">
-      <HintPath>..\..\lib\dotnet\NAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
-    </Reference>
-    <Reference Include="Palaso.Media, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\Palaso.Media.dll</HintPath>
     </Reference>
     <Reference Include="PalasoUIWindowsForms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -95,9 +77,6 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="SIL.Archiving">
-      <HintPath>..\..\lib\dotnet\SIL.Archiving.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -122,30 +101,8 @@
     <Compile Include="MediaUtils\Audio\AudioFileHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MediaUtils\Audio\AudioUtils.cs" />
     <Compile Include="MediaUtils\Audio\WaveFileReaderWrapper.cs" />
-    <Compile Include="Model\ArchivingHelper.cs" />
-    <Compile Include="Model\IIMDIArchivable.cs" />
     <Compile Include="Transcription\Model\AutoSegmenter.cs" />
-    <Compile Include="MediaUtils\Audio\OralAnnotationPlaybackWaveStream.cs" />
-    <Compile Include="MediaUtils\Audio\WaveControls\WaveControlBasic.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="MediaUtils\Audio\WaveControls\WaveControlScrollCalculator.cs" />
-    <Compile Include="MediaUtils\Audio\WaveControls\WaveControlWithBoundarySelection.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="MediaUtils\Audio\WaveControls\WaveControlWithMovableBoundaries.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="MediaUtils\Audio\WaveControls\WaveControlWithRangeSelection.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="MediaUtils\Audio\WavePainting\WavePainterWithBoundarySelection.cs" />
-    <Compile Include="MediaUtils\Audio\WavePainting\WavePainterBasic.cs" />
-    <Compile Include="MediaUtils\Audio\WavePainting\WavePainterWithRangeSelection.cs" />
-    <Compile Include="MediaUtils\Audio\WaveSegmentStream.cs" />
-    <Compile Include="MediaUtils\Audio\WaveStreamProvider.cs" />
     <Compile Include="MediaUtils\FFmpeg\FFmpegConversionInfo.cs" />
     <Compile Include="MediaUtils\FFmpeg\FFmpegDownloadDlg.cs">
       <SubType>Form</SubType>
@@ -209,11 +166,9 @@
     <Compile Include="Transcription\Model\TierCollection.cs" />
     <Compile Include="Transcription\Model\TimeRange.cs" />
     <Compile Include="Transcription\Model\TimeTier.cs" />
-    <Compile Include="Transcription\UI\SegmentingAndRecording\OralAnnotationRecorder.cs" />
     <Compile Include="Transcription\UI\StandardAudioButtons.cs" />
     <Compile Include="Transcription\Model\AudacityLabelHelper.cs" />
     <Compile Include="Transcription\Model\Exporters\FLExTextExporter.cs" />
-    <Compile Include="Transcription\Model\OralAnnotationFileGenerator.cs" />
     <Compile Include="Transcription\Model\TextTier.cs" />
     <Compile Include="Transcription\Model\TierBase.cs" />
     <Compile Include="Transcription\UI\ComponentEditors\ConvertToStandardAudioEditor.cs">
@@ -246,45 +201,6 @@
     <Compile Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.Designer.cs">
       <DependentUpon>ExportToFieldWorksInterlinearDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transcription\UI\OralAnnotationWaveViewer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Transcription\UI\OralAnnotationWaveViewer.designer.cs">
-      <DependentUpon>OralAnnotationWaveViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Transcription\UI\SegmentingAndRecording\CarefulSpeechRecorderDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Transcription\UI\SegmentingAndRecording\CarefulSpeechRecorderDlg.designer.cs">
-      <DependentUpon>CarefulSpeechRecorderDlg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Transcription\UI\SegmentingAndRecording\ManualSegmenterDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Transcription\UI\SegmentingAndRecording\ManualSegmenterDlg.designer.cs">
-      <DependentUpon>ManualSegmenterDlg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Transcription\UI\SegmentingAndRecording\ManualSegmenterDlgViewModel.cs" />
-    <Compile Include="Transcription\UI\SegmentingAndRecording\OralAnnotationRecorderDlgBase.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Transcription\UI\SegmentingAndRecording\OralAnnotationRecorderDlgBase.designer.cs">
-      <DependentUpon>OralAnnotationRecorderDlgBase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Transcription\UI\SegmentingAndRecording\OralAnnotationRecorderDlgViewModel.cs" />
-    <Compile Include="Transcription\UI\SegmentingAndRecording\OralTranslationRecorderDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Transcription\UI\SegmentingAndRecording\OralTranslationRecorderDlg.designer.cs">
-      <DependentUpon>OralTranslationRecorderDlg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Transcription\UI\SegmentingAndRecording\SegmenterDlgBase.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Transcription\UI\SegmentingAndRecording\SegmenterDlgBase.designer.cs">
-      <DependentUpon>SegmenterDlgBase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Transcription\UI\SegmentingAndRecording\SegmenterDlgBaseViewModel.cs" />
     <Compile Include="Transcription\UI\TextAnnotationGrid\AudioWaveFormCell.cs" />
     <Compile Include="Transcription\UI\TextAnnotationGrid\AudioWaveFormColumn.cs" />
     <Compile Include="Transcription\UI\TextAnnotationGrid\TextAnnotationColumn.cs" />
@@ -498,13 +414,6 @@
     <Compile Include="UI\Overview\ProjectScreen.designer.cs">
       <DependentUpon>ProjectScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SessionRecording\SessionRecorderDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SessionRecording\SessionRecorderDlg.designer.cs">
-      <DependentUpon>SessionRecorderDlg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SessionRecording\SessionRecorderDlgViewModel.cs" />
     <Compile Include="UI\LoadingDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -694,24 +603,6 @@
     <EmbeddedResource Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.resx">
       <DependentUpon>ExportToFieldWorksInterlinearDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Transcription\UI\OralAnnotationWaveViewer.resx">
-      <DependentUpon>OralAnnotationWaveViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Transcription\UI\SegmentingAndRecording\CarefulSpeechRecorderDlg.resx">
-      <DependentUpon>CarefulSpeechRecorderDlg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Transcription\UI\SegmentingAndRecording\ManualSegmenterDlg.resx">
-      <DependentUpon>ManualSegmenterDlg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Transcription\UI\SegmentingAndRecording\OralAnnotationRecorderDlgBase.resx">
-      <DependentUpon>OralAnnotationRecorderDlgBase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Transcription\UI\SegmentingAndRecording\OralTranslationRecorderDlg.resx">
-      <DependentUpon>OralTranslationRecorderDlg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Transcription\UI\SegmentingAndRecording\SegmenterDlgBase.resx">
-      <DependentUpon>SegmenterDlgBase.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\TextAnnotationGrid\TextAnnotationEditorGrid.resx">
       <DependentUpon>TextAnnotationEditorGrid.cs</DependentUpon>
     </EmbeddedResource>
@@ -785,9 +676,6 @@
     <EmbeddedResource Include="UI\Overview\ProjectScreen.resx">
       <DependentUpon>ProjectScreen.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SessionRecording\SessionRecorderDlg.resx">
-      <DependentUpon>SessionRecorderDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LoadingDlg.resx">
       <DependentUpon>LoadingDlg.cs</DependentUpon>
@@ -1090,6 +978,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="MediaUtils\Audio\WaveControls\" />
     <Folder Include="UI\Archiving\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

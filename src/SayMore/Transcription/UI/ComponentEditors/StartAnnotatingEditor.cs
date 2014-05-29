@@ -67,8 +67,7 @@ namespace SayMore.Transcription.UI
 			{
 				return (_file != null &&
 					!_file.GetDoesHaveAnnotationFile() &&
-					_file.GetCanHaveAnnotationFile() &&
-					AudioUtils.GetIsFileStandardPcm(_file.PathToAnnotatedFile));
+					_file.GetCanHaveAnnotationFile());
 			}
 		}
 
@@ -84,75 +83,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleGetStartedButtonClick(object sender, EventArgs e)
 		{
-			_buttonGetStarted.Enabled = false;
 			ExternalProcess.CleanUpAllProcesses();
-			string newAnnotationFile = null;
-
-			if (_radioButtonManual.Checked)
-			{
-				Settings.Default.DefaultSegmentationMethod = 0;
-				newAnnotationFile = ManualSegmenterDlg.ShowDialog(_file, this, -1);
-			}
-			else if (_radioButtonCarefulSpeech.Checked)
-			{
-				Settings.Default.DefaultSegmentationMethod = 1;
-				newAnnotationFile = (!AudioUtils.GetCanRecordAudio()) ? null :
-					_file.RecordAnnotations(FindForm(), AudioRecordingType.Careful);
-			}
-			else if (_radioButtonElan.Checked)
-			{
-				var caption = LocalizationManager.GetString(
-					"DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadSegmentFileDlgCaption", "Select Segment File");
-
-				var filetype = LocalizationManager.GetString(
-					"DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanFileTypeString",
-					"ELAN File (*.eaf)|*.eaf");
-
-				newAnnotationFile = GetAudacityOrElanFile(caption, filetype);
-				Settings.Default.DefaultSegmentationMethod = 2;
-			}
-			else if (_radioButtonAudacity.Checked)
-			{
-				var caption = LocalizationManager.GetString(
-					"DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.Caption",
-					"Select Audacity Label File");
-
-				var filetype = LocalizationManager.GetString(
-					"DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.FileTypeString",
-					"Audacity Label File (*.txt)|*.txt");
-
-				newAnnotationFile = GetAudacityOrElanFile(caption, filetype);
-				Settings.Default.DefaultSegmentationMethod = 3;
-			}
-			else if (_radioButtonAutoSegmenter.Checked)
-			{
-				var segmenter = new AutoSegmenter(_file, _project);
-				newAnnotationFile = segmenter.Run();
-				Settings.Default.DefaultSegmentationMethod = 4;
-			}
-
-			if (newAnnotationFile != null && ComponentFileListRefreshAction != null)
-				ComponentFileListRefreshAction(newAnnotationFile, null);
-
-			_buttonGetStarted.Enabled = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private string GetAudacityOrElanFile(string caption, string filter)
-		{
-			using (var dlg = new OpenFileDialog())
-			{
-				dlg.Title = caption;
-				dlg.CheckFileExists = true;
-				dlg.CheckPathExists = true;
-				dlg.Multiselect = false;
-				dlg.Filter = filter + "|" + LocalizationManager.GetString(
-					"DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString",
-					"All Files (*.*)|*.*");
-
-				return (dlg.ShowDialog() != DialogResult.OK ? null :
-					AnnotationFileHelper.CreateFileFromFile(dlg.FileName, _file.PathToAnnotatedFile));
-			}
 		}
 	}
 }

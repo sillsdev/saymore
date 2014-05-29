@@ -110,8 +110,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MediaUtils\Audio\AudioFileHelperTests.cs" />
-    <Compile Include="MediaUtils\Audio\OralAnnotationPlaybackWaveStreamTests.cs" />
     <Compile Include="model\SessionWorkflowInformantTests.cs" />
     <Compile Include="model\ElementRepositoryTests.cs" />
     <Compile Include="model\Fields\ContributionCollectionTests.cs" />
@@ -132,7 +130,6 @@
     <Compile Include="model\Files\FileTypeTests.cs" />
     <Compile Include="model\Files\ComponentRoleTests.cs" />
     <Compile Include="model\SessionTests.cs" />
-    <Compile Include="model\ProjectTests.cs" />
     <Compile Include="model\Files\FileSerializerTests.cs" />
     <Compile Include="ProjectChosingAndCreating\WelcomeDialogTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -144,7 +141,6 @@
     <Compile Include="ShrinkProject.cs" />
     <Compile Include="Transcription\Model\AnnotationFileHelperTests.cs" />
     <Compile Include="Transcription\Model\AudacityLabelHelperTests.cs" />
-    <Compile Include="Transcription\Model\AutoSegmenterTests.cs" />
     <Compile Include="Transcription\Model\AudacityExporterTests.cs" />
     <Compile Include="Transcription\Model\FLExTextExporterTests.cs" />
     <Compile Include="Transcription\Model\SegmentTests.cs" />
@@ -152,11 +148,6 @@
     <Compile Include="Transcription\Model\TextTierTests.cs" />
     <Compile Include="Transcription\Model\TierCollectionTests.cs" />
     <Compile Include="Transcription\Model\TimeTierTests.cs" />
-    <Compile Include="Transcription\UI\OralAnnotationRecorderDlgViewModelTests.cs" />
-    <Compile Include="Transcription\UI\SegmenterDlgBaseViewModelTests.cs" />
-    <Compile Include="model\SessionArchivingTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="UI\Charts\ChartBarInfoTests.cs" />
     <Compile Include="UI\Charts\HTMLChartBuilderTests.cs" />
     <Compile Include="UI\ComponentEditors\EditorBaseTests.cs" />
@@ -164,7 +155,6 @@
     <Compile Include="UI\ConvertMediaDlgViewModelTests.cs" />
     <Compile Include="UI\ElementListScreen\ElementGridTests.cs" />
     <Compile Include="UI\ElementListScreen\ElementListViewModelTests.cs" />
-    <Compile Include="UI\SessionRecording\SessionRecorderDlgViewModelTests.cs" />
     <Compile Include="UI\LowLevelControls\ListPanelTests.cs" />
     <Compile Include="UI\LowLevelControls\MultiValuePickerPopupTests.cs" />
     <Compile Include="MediaUtils\MPlayer\MediaPlayerViewModelTests.cs" />

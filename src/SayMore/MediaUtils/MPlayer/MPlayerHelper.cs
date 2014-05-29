@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using NAudio.Wave;
 using Palaso.IO;
 using L10NSharp;
 using SayMore.Utilities;
@@ -111,15 +110,13 @@ namespace SayMore.Media.MPlayer
 
 		/// ------------------------------------------------------------------------------------
 		private static IEnumerable<string> GetArgumentsToCreatePcmAudio(string audioInPath,
-			string audioOutPath, WaveFormat preferredOutputFormat)
+			string audioOutPath)
 		{
 			yield return "\"" + audioInPath + "\"";
 			yield return "-nofontconfig";
 			yield return "-nocorrect-pts";
 			yield return "-vo null";
 			yield return "-vc null";
-			yield return string.Format("-af channels={0}", preferredOutputFormat.Channels);
-			yield return string.Format("-srate {0}", preferredOutputFormat.SampleRate);
 			yield return string.Format("-ao pcm:fast:file=%{0}%\"{1}\"", audioOutPath.Length, audioOutPath);
 		}
 
@@ -140,7 +137,7 @@ namespace SayMore.Media.MPlayer
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static ConversionResult CreatePcmAudioFromMediaFile(string mediaInPath,
-			string audioOutPath, WaveFormat preferredOutputFormat, out string output)
+			string audioOutPath, out string output)
 		{
 			output = null;
 
@@ -151,14 +148,8 @@ namespace SayMore.Media.MPlayer
 			var tempFile = Path.GetTempFileName();
 
 			mediaInPath = mediaInPath.Replace('\\', '/');
-			if (preferredOutputFormat == null)
-			{
-				var info = MediaFileInfo.GetInfo(mediaInPath);
-				if (info == null)
-					return ConversionResult.ConversionFailed;
-				preferredOutputFormat = new WaveFormat(info.SamplesPerSecond, info.BitsPerSample, info.Channels);
-			}
-			var args = GetArgumentsToCreatePcmAudio(mediaInPath, tempFile, preferredOutputFormat);
+
+			var args = GetArgumentsToCreatePcmAudio(mediaInPath, tempFile);
 			var finishedProcessing = false;
 			var result = ConversionResult.InProgress;
 			var outputBuilder = new StringBuilder();

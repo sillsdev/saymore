@@ -78,21 +78,5 @@ namespace SayMoreTests.Model.Files
 			using (var tempFile = new TempFileFromFolder(_parentFolder, "blah_StandardAudio.mp3", ""))
 				Assert.IsFalse(AudioVideoFileTypeBase.GetIsStandardPcmAudioFile(tempFile.Path));
 		}
-
-		[Test]
-		public void GetIsStandardPcmAudioFile_SourceIsAlreadyPcm_ReturnsTrue()
-		{
-			var audioFile = MediaFileInfoTests.GetShortTestAudioFile();
-
-			try
-			{
-				Assert.IsTrue(AudioVideoFileTypeBase.GetIsStandardPcmAudioFile(audioFile));
-			}
-			finally
-			{
-				if (audioFile != null && File.Exists(audioFile))
-					File.Delete(audioFile);
-			}
-		}
 	}
 }

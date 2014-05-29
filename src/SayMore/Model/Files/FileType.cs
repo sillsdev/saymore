@@ -915,8 +915,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static bool GetIsStandardPcmAudioFile(string path)
 		{
-			return path.EndsWith(Settings.Default.StandardAudioFileSuffix) ||
-				AudioUtils.GetIsFileStandardPcm(path);
+			return path.EndsWith(Settings.Default.StandardAudioFileSuffix);
 		}
 	}
 

@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
-using DesktopAnalytics;
 using Ionic.Zip;
 using L10NSharp;
 using Palaso.Reporting;
@@ -112,14 +111,11 @@ namespace SayMore.Media.FFmpeg
 		{
 			_canceled = true;
 			_worker.CancelAsync();
-			Analytics.Track("FFmpeg download cancelled");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Start()
 		{
-			Analytics.Track("FFmpeg download started");
-
 			if (OnUpdateStatus != null)
 				OnUpdateStatus(this, EventArgs.Empty);
 

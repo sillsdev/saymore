@@ -4,20 +4,15 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows.Forms;
-using DesktopAnalytics;
 using L10NSharp;
 using Palaso.Code;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.FileSystem;
-using Palaso.UI.WindowsForms.Miscellaneous;
-using SayMore.Media.Audio;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SayMore.Transcription.UI;
 using SayMore.UI.ElementListScreen;
 using SayMore.Utilities;
 
@@ -223,8 +218,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual bool GetNeedsConvertingToStandardAudio()
 		{
-			return (GetCanHaveAnnotationFile() &&
-				!AudioUtils.GetIsFileStandardPcm(PathToAnnotatedFile));
+			return (GetCanHaveAnnotationFile());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -718,21 +712,7 @@ namespace SayMore.Model.Files
 			{
 				Program.SuspendBackgroundProcesses();
 
-				using (var viewModel = OralAnnotationRecorderDlgViewModel.Create(this, annotationType))
-				using (var dlg = OralAnnotationRecorderBaseDlg.Create(viewModel, annotationType))
-				{
-					if (dlg.ShowDialog(frm) != DialogResult.OK || !viewModel.WereChangesMade)
-					{
-						viewModel.DiscardChanges();
-						return null;
-					}
-
-					Analytics.Track("Changes made using Oral Annotation Recorder");
-
-					var eafFileName = viewModel.Tiers.Save(PathToAnnotatedFile);
-					GenerateOralAnnotationFile(viewModel.Tiers, frm, GenerateOption.ClearAndRegenerateOnDemand);
-					return eafFileName;
-				}
+				return "blah";
 			}
 			finally
 			{
@@ -749,15 +729,12 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public bool GenerateOralAnnotationFile(TierCollection tiers, Control parentOfProgressPopup, GenerateOption option)
 		{
-			bool generated = false;
+			const bool generated = false;
 			// subclass OralAnnotationComponentFile will handle the case of JIT generation
 			if (option != GenerateOption.GenerateIfNeeded)
 			{
 				if (PreGenerateOralAnnotationFileAction != null)
 					PreGenerateOralAnnotationFileAction();
-
-				generated = OralAnnotationFileGenerator.Generate(tiers, parentOfProgressPopup,
-					option == GenerateOption.ClearAndRegenerateOnDemand);
 			}
 
 			if (PostGenerateOralAnnotationFileAction != null)

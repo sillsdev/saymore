@@ -1,5 +1,4 @@
 using L10NSharp;
-using SIL.Archiving.IMDI.Lists;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
@@ -33,26 +32,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public string GetListType(int index)
 		{
-			var id = GetIdForIndex(index);
-			if (id != null)
-			{
-				switch (id)
-				{
-					case SessionFileType.kInteractivityFieldName:
-						return ListType.ContentInteractivity;
-					case SessionFileType.kInvolvementFieldName:
-						return ListType.ContentInvolvement;
-					case SessionFileType.kCountryFieldName:
-						return ListType.Countries;
-					case SessionFileType.kContinentFieldName:
-						return ListType.Continents;
-					case SessionFileType.kPlanningTypeFieldName:
-						return ListType.ContentPlanningType;
-					case SessionFileType.kSocialContextFieldName:
-						return ListType.ContentSocialContext;
-				}
-			}
-			return null;
+			return "blah";
 		}
 
 		/// ------------------------------------------------------------------------------------

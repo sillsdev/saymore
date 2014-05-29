@@ -1,7 +1,5 @@
 using System;
 using System.IO;
-using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
 
 namespace SayMore.Media.Audio
 {
@@ -13,9 +11,7 @@ namespace SayMore.Media.Audio
 	/// ----------------------------------------------------------------------------------------
 	public class AudioFileHelper
 	{
-		private Tuple<float, float>[,] _cachedSamples;
 		public string AudioFilePath { get; private set; }
-		private TimeSpan _audioDuration;
 
 		/// ------------------------------------------------------------------------------------
 		public AudioFileHelper(string audioFilePath)
@@ -28,15 +24,7 @@ namespace SayMore.Media.Audio
 		{
 			get
 			{
-				if (_audioDuration == default(TimeSpan))
-				{
-					using (var stream = new WaveFileReaderWrapper(AudioFilePath))
-					{
-						_audioDuration = stream.TotalTime;
-						stream.Close();
-					}
-				}
-				return _audioDuration;
+				return new TimeSpan(24);
 			}
 		}
 
@@ -53,17 +41,7 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		public Tuple<float, float>[,] GetSamples(uint numberOfSamplesToReturn)
 		{
-			if (_cachedSamples == null || _cachedSamples.Length != numberOfSamplesToReturn)
-			{
-				using (var stream = new WaveFileReaderWrapper(AudioFilePath))
-				{
-					_audioDuration = stream.TotalTime;
-					_cachedSamples = GetSamples(stream, numberOfSamplesToReturn);
-					stream.Close();
-				}
-			}
-
-			return _cachedSamples;
+			return new Tuple<float, float>[1,1];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -72,7 +50,7 @@ namespace SayMore.Media.Audio
 		{
 			var sampleCount = stream.SampleCount;
 			if (numberOfSamplesToReturn == 0 || sampleCount == 0 ||
-				(stream.BitsPerSample == 32 && stream.Encoding != WaveFormatEncoding.IeeeFloat))
+				(stream.BitsPerSample == 32))
 			{
 				return new Tuple<float, float>[0, 0];
 			}

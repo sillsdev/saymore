@@ -70,8 +70,6 @@ namespace SayMore.Transcription.Model
 		{
 			get
 			{
-				if (_streamReader == null)
-					_streamReader = new WaveFileReaderWrapper(_file.PathToAnnotatedFile);
 				return _streamReader;
 			}
 		}

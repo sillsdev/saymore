@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using DesktopAnalytics;
 using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Miscellaneous;
@@ -99,10 +98,6 @@ namespace SayMore.UI
 			if (e.Cancelled)
 			{
 				DialogResult = DialogResult.Cancel;
-				Analytics.Track("User cancelled operation", new Dictionary<string, string> {
-					{"_labelLoading.Text", _labelLoading.Text} });
-				if (_exception != null)
-					Analytics.ReportException(_exception);
 			}
 			else if (e.Error != null)
 			{

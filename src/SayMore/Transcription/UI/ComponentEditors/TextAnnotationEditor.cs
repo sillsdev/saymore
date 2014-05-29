@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Linq;
-using DesktopAnalytics;
 using L10NSharp;
 using L10NSharp.UI;
 using Palaso.Reporting;
@@ -255,8 +254,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void OnFLexTextExportClick(object sender, EventArgs e)
 		{
-			Analytics.Track("Export FlexText initiated");
-
 			var file = (AnnotationComponentFile)_file;
 			var fullMediaFileName = file.GetPathToAssociatedMediaFile();
 			var mediaFileName = Path.GetFileName(fullMediaFileName);
@@ -280,7 +277,6 @@ namespace SayMore.Transcription.UI
 			{
 				if (dlg.ShowDialog() == DialogResult.Cancel)
 				{
-					Analytics.Track("Export FlexText cancelled");
 					return;
 				}
 
@@ -362,9 +358,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRecordedAnnotationButtonClick(object sender, EventArgs e)
 		{
-			if (!AudioUtils.GetCanRecordAudio())
-				return;
-
 			ShowSegmentationDialog(delegate
 			{
 				var annotationType = (sender == _buttonCarefulSpeech
@@ -382,34 +375,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleResegmentButtonClick(object sender, EventArgs e)
 		{
-			var originallySelectedCell = _grid.CurrentCellAddress;
-			bool startPlayBackWhenFinished = false;
-			ShowSegmentationDialog(delegate
-				{
-					if (ManualSegmenterDlg.ShowDialog(AssociatedComponentFile, this, _grid.CurrentCellAddress.Y) != null)
-					{
-						if (!_grid.IsDisposed)
-						{
-							if (originallySelectedCell != _grid.CurrentCellAddress)
-							{
-								// User has already selected a different cell, so go ahead and
-								// start playback after refreshing the grid.
-								originallySelectedCell = _grid.CurrentCellAddress;
-								startPlayBackWhenFinished = true;
-							}
-							SetComponentFile(_file);
-							if (_grid.RowCount > originallySelectedCell.Y && originallySelectedCell.Y >= 0 &&
-								_grid.ColumnCount > originallySelectedCell.X && originallySelectedCell.X >= 0)
-							{
-								_grid.CurrentCell = _grid.Rows[originallySelectedCell.Y].Cells[originallySelectedCell.X];
-							}
-							else
-								startPlayBackWhenFinished = false; // Oops, that cell is gone!
-						}
-					}
-				});
-			if (startPlayBackWhenFinished)
-				_grid.Play();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -427,8 +392,6 @@ namespace SayMore.Transcription.UI
 
 		private void OnExportElanMenuItem_Click(object sender, EventArgs e)
 		{
-			Analytics.Track("Export ELAN");
-
 			var msg =
 				LocalizationManager.GetString(
 					"SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMessage",
@@ -438,8 +401,6 @@ namespace SayMore.Transcription.UI
 
 		private void OnExportSubtitlesFreeTranslation(object sender, EventArgs e)
 		{
-			Analytics.Track("Export Free Translation Subtitles");
-
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var contentTier = ((AnnotationComponentFile) _file).Tiers.GetFreeTranslationTier();
 			DoExportSubtitleDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix", "freeTranslation_subtitle"), timeTier, contentTier);
@@ -447,8 +408,6 @@ namespace SayMore.Transcription.UI
 
 		private void OnExportSubtitlesVernacular(object sender, EventArgs e)
 		{
-			Analytics.Track("Export Transcription Subtitles");
-
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var contentTier = ((AnnotationComponentFile)_file).Tiers.GetTranscriptionTier();
 			DoExportSubtitleDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.transcriptionFilenameSuffix", "transcription_subtitle"), timeTier, contentTier);
@@ -466,8 +425,6 @@ namespace SayMore.Transcription.UI
 
 		private void OnAudacityExportFreeTranslation(object sender, EventArgs e)
 		{
-			Analytics.Track("Export Free Translation to Audacity");
-
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var textTeir = ((AnnotationComponentFile)_file).Tiers.GetFreeTranslationTier();
 			textTeir.AddTimeRangeData(timeTier);
@@ -480,8 +437,6 @@ namespace SayMore.Transcription.UI
 
 		private void OnAudacityExportTranscription(object sender, EventArgs e)
 		{
-			Analytics.Track("Export Transcription to Audacity");
-
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var textTeir = ((AnnotationComponentFile)_file).Tiers.GetTranscriptionTier();
 			textTeir.AddTimeRangeData(timeTier);
@@ -495,8 +450,6 @@ namespace SayMore.Transcription.UI
 
 		private void OnPlainTextExportMenuItem_Click(object sender, EventArgs e)
 		{
-			Analytics.Track("Export Plain Text");
-
 			var action = new Action<string>(path => PlainTextTranscriptionExporter.Export(path, (((AnnotationComponentFile) _file).Tiers)));
 
 			DoSimpleExportDialog(".txt", "Text File", "transcription", string.Empty, action);
@@ -504,8 +457,6 @@ namespace SayMore.Transcription.UI
 
 		private void OnCsvExportMenuItem_Click(object sender, EventArgs e)
 		{
-			Analytics.Track("Export CSV");
-
 			var action = new Action<string>(path => CSVTranscriptionExporter.Export(path, (((AnnotationComponentFile) _file).Tiers)));
 
 			DoSimpleExportDialog(".csv", "Comma Separated Values File", "transcription", string.Empty, action);
@@ -513,8 +464,6 @@ namespace SayMore.Transcription.UI
 
 		private void OnToolboxInterlinearExportMenuItem_Click(object sender, EventArgs e)
 		{
-			Analytics.Track("Export Toolbox Interlinear");
-
 			var mediaFileName = Path.GetFileName(AssociatedComponentFile.PathToAnnotatedFile);
 			var action = new Action<string>(path => ToolboxTranscriptionExporter.Export(_file.ParentElement.Id, mediaFileName, path, (((AnnotationComponentFile)_file).Tiers)));
 

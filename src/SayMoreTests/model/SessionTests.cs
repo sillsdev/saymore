@@ -185,53 +185,6 @@ namespace SayMoreTests.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
-		public void GetFilesToCopy_TwoMediaFilesToBeCopiedToSessionWithNoExistingSource_FirstOneRenamedAsSource()
-		{
-			using (var session = CreateSession(new string[] { }))
-			{
-				const string srcFile1 = @"c:\wherever\whatever.mov";
-				const string srcFile2 = @"c:\wherever\whatever.mp3";
-				var list = session.GetValidFilesToCopy(
-					new[] { srcFile1, srcFile2 }).ToArray();
-
-				Assert.That(list.Count(), Is.EqualTo(2));
-
-				var file1 = list.SingleOrDefault(kvp => kvp.Key == srcFile1);
-				Assert.IsNotNull(file1);
-				Assert.AreEqual(Path.Combine(session.FolderPath, "whatever_Source.mov"), file1.Value);
-				var file2 = list.SingleOrDefault(kvp => kvp.Key == srcFile2);
-				Assert.IsNotNull(file2);
-				Assert.AreEqual(Path.Combine(session.FolderPath, "whatever.mp3"), file2.Value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		[Category("SkipOnTeamCity")]
-		public void GetFilesToCopy_TwoMediaFilesToBeCopiedToSessionWithSourceMarkedComplete_FirstOneRenamedAsSource()
-		{
-			using (var session = CreateSession(new string[] { }))
-			{
-				const string srcFile1 = @"c:\wherever\whatever.mov";
-				const string srcFile2 = @"c:\wherever\whatever.mp3";
-				session.StageCompletedControlValues[ComponentRole.kSourceComponentRoleId] = StageCompleteType.Complete;
-				var list = session.GetValidFilesToCopy(
-					new[] { srcFile1, srcFile2 }).ToArray();
-
-				Assert.That(list.Count(), Is.EqualTo(2));
-
-				var file1 = list.SingleOrDefault(kvp => kvp.Key == srcFile1);
-				Assert.IsNotNull(file1);
-				Assert.AreEqual(Path.Combine(session.FolderPath, Path.GetFileName(srcFile1)), file1.Value);
-				var file2 = list.SingleOrDefault(kvp => kvp.Key == srcFile2);
-				Assert.IsNotNull(file2);
-				Assert.AreEqual(Path.Combine(session.FolderPath, Path.GetFileName(srcFile2)), file2.Value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
 		public void GetTotalDurationOfSourceMedia_SessionFileIsOnlyComponentFile_ReturnsZero()
 		{
 			using (var session = CreateSession(new string[] { }))

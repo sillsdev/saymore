@@ -8,16 +8,12 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using DesktopAnalytics;
 using L10NSharp;
 using Palaso.Extensions;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.Overview;
-using SIL.Archiving;
-using SIL.Archiving.Generic;
-using SIL.Archiving.IMDI;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Model.Files;
@@ -31,7 +27,7 @@ namespace SayMore.Model
 	/// people, and another of sessions.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class Project : IAutoSegmenterSettings, IIMDIArchivable, IDisposable
+	public class Project : IAutoSegmenterSettings, IDisposable
 	{
 		private ElementRepository<Session>.Factory _sessionsRepoFactory;
 		private readonly SessionFileType _sessionFileType;
@@ -526,119 +522,6 @@ namespace SayMore.Model
 		public string Id
 		{
 			get { return Name; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void InitializeModel(IMDIArchivingDlgViewModel model)
-		{
-			//Set project metadata here.
-			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
-			ArchivingHelper.SetIMDIMetadataToArchive(this, model);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void DisplayInitialArchiveSummary(IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists, ArchivingDlgViewModel model)
-		{
-			foreach (var message in model.AdditionalMessages)
-				model.DisplayMessage(message.Key + "\n", message.Value);
-
-			if (fileLists.Count > 1)
-			{
-				model.DisplayMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1",
-					"The following session and contributor files will be added to your archive."), ArchivingDlgViewModel.MessageType.Normal);
-			}
-			else
-			{
-				model.DisplayMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg",
-					"There are no contributors for this session."), ArchivingDlgViewModel.MessageType.Warning);
-
-				model.DisplayMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2",
-					"The following session files will be added to your archive."), ArchivingDlgViewModel.MessageType.Progress);
-			}
-
-			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingProgressMsg", "     {0}: {1}",
-				"The first parameter is 'Session' or 'Contributor'. The second parameter is the session or contributor name.");
-
-			foreach (var kvp in fileLists)
-			{
-				var element = (kvp.Key.StartsWith("\n") ?
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor") :
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Session"));
-
-				model.DisplayMessage(string.Format(fmt, element, (kvp.Key.StartsWith("\n") ? kvp.Key.Substring(1) : kvp.Key)),
-					ArchivingDlgViewModel.MessageType.Progress);
-
-				foreach (var file in kvp.Value.Item1)
-					model.DisplayMessage(Path.GetFileName(file), ArchivingDlgViewModel.MessageType.Bullet);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal void ArchiveProjectUsingIMDI(Form parentForm)
-		{
-			Analytics.Track("Archive Project using IMDI");
-
-			ArchivingHelper.ArchiveUsingIMDI(this);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void SetFilesToArchive(ArchivingDlgViewModel model)
-		{
-			Dictionary<string, HashSet<string>> contributorFiles = new Dictionary<string, HashSet<string>>();
-			Type archiveType = model.GetType();
-			foreach (var session in GetAllSessions())
-			{
-				model.AddFileGroup(session.Id, session.GetSessionFilesToArchive(archiveType), session.AddingSessionFilesProgressMsg);
-				foreach (var person in session.GetParticipantFilesToArchive(model.GetType()))
-				{
-					if (!contributorFiles.ContainsKey(person.Key))
-						contributorFiles.Add(person.Key, new HashSet<string>());
-
-					foreach (var file in person.Value)
-						contributorFiles[person.Key].Add(file);
-				}
-
-				IArchivingSession s = model.AddSession(session.Id);
-				s.Location.Address = session.MetaDataFile.GetStringValue(SessionFileType.kLocationFieldName, string.Empty);
-				s.Title = session.Title;
-			}
-
-			// project description documents
-			var docsPath = Path.Combine(FolderPath, ProjectDescriptionDocsScreen.kFolderName);
-			if (Directory.Exists(docsPath))
-			{
-				var files = Directory.GetFiles(docsPath, "*.*", SearchOption.TopDirectoryOnly);
-
-				// the directory exists and contains files
-				if (files.Length > 0)
-				{
-					model.AddFileGroup(ProjectDescriptionDocsScreen.kArchiveSessionName, files,
-						LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingProjectDescriptionDocumentsToIMDIArchiveProgressMsg",
-							"Adding Project Description Documents..."));
-				}
-			}
-
-			// other project documents
-			docsPath = Path.Combine(FolderPath, ProjectOtherDocsScreen.kFolderName);
-			if (Directory.Exists(docsPath))
-			{
-				var files = Directory.GetFiles(docsPath, "*.*", SearchOption.TopDirectoryOnly);
-
-				// the directory exists and contains files
-				if (files.Length > 0)
-				{
-					model.AddFileGroup(ProjectOtherDocsScreen.kArchiveSessionName, files,
-						LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingOtherProjectDocumentsToIMDIArchiveProgressMsg",
-							"Adding Other Project Documents..."));
-				}
-			}
-
-			foreach (var key in contributorFiles.Keys)
-			{
-				model.AddFileGroup("\n" + key, contributorFiles[key],
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesToIMDIArchiveProgressMsg",
-					"Adding Files for Contributors..."));
-			}
 		}
 		#endregion
 	}

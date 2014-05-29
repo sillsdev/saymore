@@ -6,7 +6,6 @@ using SayMore.Media.Audio;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
-using SayMore.UI.SessionRecording;
 using SayMore.UI.NewSessionsFromFiles;
 using SayMore.UI.ProjectWindow;
 
@@ -193,21 +192,6 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonNewFromRecordingsClick(object sender, EventArgs e)
 		{
-			if (!AudioUtils.GetCanRecordAudio())
-				return;
-
-			using (var viewModel = new SessionRecorderDlgViewModel())
-			using (var dlg = new SessionRecorderDlg(viewModel))
-			{
-				if (dlg.ShowDialog(FindForm()) != DialogResult.OK)
-					return;
-
-				var newSession = _model.CreateNewElement();
-				viewModel.MoveRecordingToSessionFolder(newSession);
-				LoadElementList(newSession);
-
-				SetFocusOnId();
-			}
 		}
 
 		/// <summary>SP-55: Set focus to id field after creating a new session, and select the text</summary>

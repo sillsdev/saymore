@@ -64,21 +64,6 @@ namespace SayMoreTests.Model.Files.DataGathering
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetData_LinuxHiddenFile_FileNotReturned()
-		{
-			var hiddenFile = WriteLinuxHidden(".DS_Store", "DS_Store file");
-			using (var processor = CreateGenericProcessor())
-			{
-				processor.Start();
-				WaitUntilNotBusy(processor);
-
-				Assert.AreEqual(0, processor.GetAllFileData().Count());
-				Assert.IsNull(processor.GetFileData(hiddenFile));
-			}
-		}
-
-		[Test]
-		[Category("SkipOnTeamCity")]
 		public void Start_OneRelevantFileExists_FiresNewDataAvailableEvent()
 		{
 			WriteTestWav(@"first");

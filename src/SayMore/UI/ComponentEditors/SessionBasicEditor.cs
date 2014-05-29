@@ -14,8 +14,6 @@ using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.UI.LowLevelControls;
-using SIL.Archiving.Generic.AccessProtocol;
-using SIL.Archiving.IMDI.Lists;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -31,7 +29,6 @@ namespace SayMore.UI.ComponentEditors
 		private readonly PersonInformant _personInformant;
 		private readonly AutoCompleteValueGatherer _autoCompleteProvider;
 		private bool _genreFieldEntered;
-		private List<AccessOption> _accessOptions;
 		private DataGridViewComboBoxEditingControl _moreFieldsComboBox;
 
 		/// ------------------------------------------------------------------------------------
@@ -222,13 +219,6 @@ namespace SayMore.UI.ComponentEditors
 			if (_moreFieldsComboBox == null)
 				return;
 
-			bool hasDefinitions = _moreFieldsComboBox.Items.Cast<IMDIListItem>().Any(item => !string.IsNullOrEmpty(item.Definition));
-			if (!hasDefinitions)
-			{
-				_moreFieldsComboBox = null;
-				return;
-			}
-
 			_moreFieldsComboBox.DrawMode = DrawMode.OwnerDrawFixed;
 			_moreFieldsComboBox.DrawItem += HandleMoreFieldsComboDrawItem;
 			_moreFieldsComboBox.DropDown += HandleMoreFieldsComboDropDown;
@@ -236,9 +226,6 @@ namespace SayMore.UI.ComponentEditors
 
 		void HandleMoreFieldsComboDropDownClosed(object sender, EventArgs e)
 		{
-			var selectedItem = _moreFieldsComboBox.SelectedItem as IMDIListItem;
-			if (selectedItem != null && selectedItem.Definition != selectedItem.Text)
-				_gridAdditionalFields.CurrentCell.ToolTipText = selectedItem.Definition;
 			_moreFieldsToolTip.RemoveAll();
 			_moreFieldsComboBox.DropDownClosed -= HandleMoreFieldsComboDropDownClosed;
 		}
@@ -259,7 +246,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 			if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
 			{
-				var toolTipText = ((IMDIListItem)_moreFieldsComboBox.Items[e.Index]).Definition;
+				var toolTipText = _moreFieldsComboBox.Items[e.Index].ToString();
 				if (toolTipText != text && _gridAdditionalFields.CurrentRow != null && _moreFieldsComboBox.DroppedDown)
 				{
 					// SP-799:  Tooltip text too long for netbook screen
@@ -329,30 +316,6 @@ namespace SayMore.UI.ComponentEditors
 
 		private void AddDropdownCell(string listType, int row)
 		{
-			var list = ListConstructor.GetList(listType, true, Localize, ListConstructor.RemoveUnknown.RemoveAll);
-
-			var currentValue = _gridAdditionalFields[1, row].Value.ToString();
-
-			if (list.FindByValue(currentValue) == null)
-			{
-				currentValue = string.Empty;
-				_gridAdditionalFields[1, row].Value = currentValue;
-			}
-
-			var cell = new DataGridViewComboBoxCell
-			{
-				DataSource = list,
-				DisplayMember = "Text",
-				ValueMember = "Value",
-				Value = currentValue,
-				FlatStyle = FlatStyle.Flat
-			};
-
-			_gridAdditionalFields[1, row] = cell;
-
-			// Added Application.DoEvents() because it was interferring with the background
-			// file processor if it needed to download the list files.
-			Application.DoEvents();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -396,9 +359,6 @@ namespace SayMore.UI.ComponentEditors
 			if (_genre.Items.Count == 0)
 				LoadGenreList(_autoCompleteProvider, null);
 
-			if (_accessOptions == null)
-				SetAccessProtocol();
-
 			SetAccessCodeListAndValue();
 
 			base.Activated();
@@ -419,21 +379,6 @@ namespace SayMore.UI.ComponentEditors
 					_genre.Text = GenreDefinition.TranslateIdToName(genreId);
 			}
 
-			if (_gridAdditionalFields != null)
-			{
-				for (int iRow = 0; iRow < _gridAdditionalFields.RowCount; iRow++)
-				{
-					DataGridViewComboBoxCell comboBoxCell = _gridAdditionalFields[1, iRow] as DataGridViewComboBoxCell;
-					if (comboBoxCell != null)
-					{
-						IMDIItemList list = comboBoxCell.DataSource as IMDIItemList;
-						if (list != null)
-						{
-							list.Localize(Localize);
-						}
-					}
-				}
-			}
 			base.HandleStringsLocalized();
 		}
 
@@ -464,46 +409,6 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public void SetAccessProtocol()
 		{
-			if (Program.CurrentProject == null)
-			{
-				GetDataInBackground();
-				return;
-			}
-
-			var accessProtocol = Program.CurrentProject.AccessProtocol;
-			var protocols = AccessProtocols.LoadStandardAndCustom();
-			var protocol = protocols.FirstOrDefault(i => i.ProtocolName == accessProtocol);
-
-			// is "None" the selected protocol?
-			if ((accessProtocol == "None") || (protocol == null))
-			{
-				_access.DataSource = null;
-				_access.DropDownStyle = ComboBoxStyle.DropDown;
-			}
-			else
-			{
-				// remember the list of possible choices
-				_accessOptions = protocol.Choices;
-
-				// localize the list
-				foreach (var item in _accessOptions)
-					item.Description = LocalizationManager.GetDynamicString("SayMore",
-						"SessionsView.MetadataEditor.AccessProtocol." + accessProtocol + "." + item.ValueMember, item.DisplayMember, null);
-
-				_access.DropDownStyle = ComboBoxStyle.DropDownList;
-			}
-
-			SetAccessCodeListAndValue();
-		}
-
-		private void GetDataInBackground()
-		{
-			using (BackgroundWorker backgroundWorker = new BackgroundWorker())
-			{
-				backgroundWorker.DoWork += backgroundWorker_DoWork;
-				backgroundWorker.RunWorkerCompleted += backgroundWorker_RunWorkerCompleted;
-				backgroundWorker.RunWorkerAsync();
-			}
 		}
 
 		void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -530,28 +435,7 @@ namespace SayMore.UI.ComponentEditors
 			if (_access.DropDownStyle == ComboBoxStyle.DropDown)
 			{
 				_access.Text = currentAccessCode ?? string.Empty;
-				return;
 			}
-
-			// get the saved list. use .ToList() to copy the list rather than modify the original
-			var choices = _accessOptions.ToList();
-
-			// is the selected item in the list
-			var found = choices.Any(i => i.ToString() == currentAccessCode);
-
-			if (!found)
-			{
-				choices.Insert(0, new AccessOption { OptionName = "-----" });
-				choices.Insert(0, new AccessOption { OptionName = currentAccessCode });
-			}
-
-			_access.DataSource = choices;
-			_access.DisplayMember = "DisplayMember";
-			_access.ValueMember = "ValueMember";
-
-			// select the current code
-			foreach (var item in _access.Items.Cast<object>().Where(item => ((AccessOption)item).ValueMember == currentAccessCode))
-				_access.SelectedItem = item;
 		}
 
 		/// ------------------------------------------------------------------------------------

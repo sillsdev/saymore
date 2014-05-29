@@ -6,14 +6,12 @@ using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
 using Palaso.IO;
-using SIL.Archiving.Generic.AccessProtocol;
 
 namespace SayMore.UI.Overview
 {
 	public partial class ProjectAccessScreen : UserControl, ISaveable
 	{
 		private bool _isLoaded;
-		private string _currentUri;
 		private string _archivingFileDirectoryName;
 
 		/// ------------------------------------------------------------------------------------
@@ -31,7 +29,7 @@ namespace SayMore.UI.Overview
 
 		private string GetBaseUriDirectory()
 		{
-			var fileName = FileLocator.GetFileDistributedWithApplication("Archiving", AccessProtocols.kProtocolFileName);
+			var fileName = FileLocator.GetFileDistributedWithApplication("Archiving", "blkah");
 			return Path.GetDirectoryName(fileName);
 		}
 
@@ -42,16 +40,6 @@ namespace SayMore.UI.Overview
 			Debug.Assert(_archivingFileDirectoryName != null);
 			if (LocalizationManager.UILanguageId != "en" && Directory.Exists(Path.Combine(_archivingFileDirectoryName, LocalizationManager.UILanguageId)))
 				_archivingFileDirectoryName = Path.Combine(_archivingFileDirectoryName, LocalizationManager.UILanguageId);
-
-			var protocols = AccessProtocols.LoadStandardAndCustom(_archivingFileDirectoryName);
-			if (protocols.Last().ProtocolName == "Custom")
-				protocols.Last().ProtocolName = LocalizationManager.GetString("ProjectView.AccessScreen.Custom", "Custom");
-			protocols.Insert(0, new ArchiveAccessProtocol { ProtocolName = LocalizationManager.GetString("ProjectView.AccessScreen.None", "None") });
-			var iSelectedProtocol = _projectAccess.SelectedIndex;
-			_projectAccess.DataSource = protocols;
-			SizeProtocolsComboBox(_projectAccess);
-			if (iSelectedProtocol >= 0)
-				_projectAccess.SelectedIndex = iSelectedProtocol;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -71,40 +59,6 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		private void _projectAccess_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (_projectAccess.SelectedItem == null) return;
-
-			if (_isLoaded) SetForCustom();
-
-			var item = (ArchiveAccessProtocol)_projectAccess.SelectedItem;
-
-			// was the last item (Custom) selected?
-			if (_projectAccess.SelectedIndex == _projectAccess.Items.Count - 1)
-			{
-				_customAccessChoices.Text = item.ChoicesToCsv();
-			}
-			else
-			{
-				_currentUri = GetDocumentationUri(item);
-				_webBrowser.Navigate(_currentUri);
-			}
-
-		}
-
-		/// <remarks>If the documentation has not been localized, return the English version</remarks>
-		private string GetDocumentationUri(ArchiveAccessProtocol item)
-		{
-			try
-			{
-				return item.GetDocumentaionUri(_archivingFileDirectoryName);
-			}
-			catch (DirectoryNotFoundException)
-			{
-				return item.GetDocumentaionUri(GetBaseUriDirectory());
-			}
-			catch (FileNotFoundException)
-			{
-				return item.GetDocumentaionUri(GetBaseUriDirectory());
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -146,8 +100,7 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		private void _webBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
 		{
-			if (e.Url.AbsoluteUri != _currentUri)
-				e.Cancel = true;
+			e.Cancel = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -165,16 +118,6 @@ namespace SayMore.UI.Overview
 			var changed = (_projectAccess.Text != project.AccessProtocol);
 
 			// check if custom access choices changed
-			ArchiveAccessProtocol custom = (ArchiveAccessProtocol)_projectAccess.Items[_projectAccess.Items.Count - 1];
-			if (_customAccessChoices.Text != custom.ChoicesToCsv())
-			{
-				var customs = AccessProtocols.LoadCustom();
-				var firstCustom = customs.First();
-				firstCustom.SetChoicesFromCsv(_customAccessChoices.Text);
-				_customAccessChoices.Text = firstCustom.ChoicesToCsv();
-				AccessProtocols.SaveCustom(customs);
-				changed = true;
-			}
 
 			if (!changed) return;
 

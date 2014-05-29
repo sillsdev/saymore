@@ -25,23 +25,15 @@ namespace SayMore.Transcription.UI
 			_toolStrip.Renderer = new NoToolStripBorderRenderer();
 			_labelCursorTime.Text = string.Empty;
 
-			_oralAnnotationWaveViewer.Dock = DockStyle.Fill;
-			_oralAnnotationWaveViewer.ZoomPercentage = 300;
-
 			_buttonRegenerate.Click += HandleRegenerateFileButtonClick;
 
 			_buttonPlay.Click += delegate
 			{
-				_oralAnnotationWaveViewer.Play();
 				_buttonStop.Enabled = true;
 				_buttonPlay.Enabled = false;
 			};
 
 			_buttonStop.Click += delegate { StopPlayback(); };
-
-			_oralAnnotationWaveViewer.PlaybackStopped += PlaybackStopped;
-
-			_oralAnnotationWaveViewer.CursorTimeChanged += HandleCursorTimeChanged;
 
 			_buttonHelp.Click += delegate
 			{
@@ -52,7 +44,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void StopPlayback()
 		{
-			_oralAnnotationWaveViewer.Stop();
 			_buttonStop.Enabled = false;
 			_buttonPlay.Enabled = true;
 		}
@@ -76,10 +67,6 @@ namespace SayMore.Transcription.UI
 				if (finfo.Exists && finfo.Length > 0)
 					LoadFileAndResetUI(); // If it's length is 0, it will get loaded after generating below.
 
-				file.PreDeleteAction = () =>
-					_oralAnnotationWaveViewer.CloseAudioStream();
-				AssociatedComponentFile.PreGenerateOralAnnotationFileAction = () =>
-					_oralAnnotationWaveViewer.CloseAudioStream();
 				AssociatedComponentFile.PostGenerateOralAnnotationFileAction = HandleOralAnnotationFileGenerated;
 			}
 
@@ -91,7 +78,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleOralAnnotationFileGenerated(bool generated)
 		{
-			if (!generated && _oralAnnotationWaveViewer.WaveControlLoaded)
+			if (!generated)
 			{
 				_buttonPlay.Enabled = true;
 			}
@@ -123,8 +110,6 @@ namespace SayMore.Transcription.UI
 			WaitCursor.Show();
 			try
 			{
-				_oralAnnotationWaveViewer.LoadAnnotationAudioFile(_file.PathToAnnotatedFile);
-				_oralAnnotationWaveViewer.ResetWaveControlCursor();
 				_buttonPlay.Enabled = true;
 				_fileTooLongMsgDisplayedForFile = null;
 			}
@@ -152,33 +137,6 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void PlaybackStopped(object sender, EventArgs eventArgs)
-		{
-			if (InvokeRequired)
-			{
-				Invoke(new Action(() => PlaybackStopped(sender, eventArgs)));
-				return;
-			}
-			_buttonStop.Enabled = false;
-			_buttonPlay.Enabled = !IsRegeneratingAudioFile;
-
-			if (!Visible)
-				_oralAnnotationWaveViewer.ResetWaveControlCursor();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleCursorTimeChanged(Media.Audio.WaveControlBasic ctrl, TimeSpan cursorTime)
-		{
-			if (InvokeRequired)
-			{
-				Invoke(new Action(() => HandleCursorTimeChanged(ctrl, cursorTime)));
-				return;
-			}
-			_labelCursorTime.Text = MediaPlayerViewModel.GetTimeDisplay(
-			   (float)cursorTime.TotalSeconds, (float)_oralAnnotationWaveViewer.AudioLength.TotalSeconds);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private ComponentFile AssociatedComponentFile
 		{
 			get
@@ -193,7 +151,6 @@ namespace SayMore.Transcription.UI
 		{
 			if (base.ComponentFileDeletionInitiated(file))
 			{
-				_oralAnnotationWaveViewer.CloseAudioStream();
 				return true;
 			}
 
@@ -231,7 +188,6 @@ namespace SayMore.Transcription.UI
 		protected override void OnParentTabControlVisibleChanged()
 		{
 			StopPlayback();
-			BeginInvoke(new Action(() => _oralAnnotationWaveViewer.ResetWaveControlCursor()));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -244,26 +200,15 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRegenerateFileButtonClick(object sender, EventArgs e)
 		{
-			_oralAnnotationWaveViewer.Stop();
-
 			_buttonHelp.Enabled = false;
 			_buttonPlay.Enabled = false;
 			_buttonStop.Enabled = false;
 			_buttonRegenerate.Enabled = false;
 
-			_oralAnnotationWaveViewer.CloseAudioStream();
-
 			_file.GenerateOralAnnotationFile(this, ComponentFile.GenerateOption.RegenerateNow);
 			SetComponentFile(_file);
-			_oralAnnotationWaveViewer.Invalidate(true);
 
 			_buttonRegenerate.Enabled = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private bool IsRegeneratingAudioFile
-		{
-			get { return !_buttonRegenerate.Enabled; }
 		}
 
 		/// ------------------------------------------------------------------------------------

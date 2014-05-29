@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
-using NAudio.Wave;
 using Palaso.Reporting;
 using SayMore.Media;
 using SayMore.Media.FFmpeg;
@@ -122,7 +121,7 @@ namespace SayMore.UI
 
 		/// ------------------------------------------------------------------------------------
 		public void BeginConversion(Action<TimeSpan, string> conversionReportingAction,
-			string outputFile = null, WaveFormat preferredOutputFormat = null)
+			string outputFile = null, object preferredOutputFormat = null)
 		{
 			if (MediaInfo == null)
 			{
@@ -132,7 +131,7 @@ namespace SayMore.UI
 
 			if (outputFile == null)
 				outputFile = GetNewOutputFileName(false);
-			var commandLine = BuildCommandLine(outputFile, preferredOutputFormat);
+			var commandLine = BuildCommandLine(outputFile);
 			ConversionState = ConvertMediaUIState.Converting;
 
 			_conversionReportingAction = conversionReportingAction;
@@ -163,39 +162,18 @@ namespace SayMore.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string BuildCommandLine(string outputFileName, WaveFormat preferredOutputFormat = null)
+		public string BuildCommandLine(string outputFileName)
 		{
 			OutputFileCreated = outputFileName;
 
 			var switches = (SelectedConversion.CommandLine != null ?
 				SelectedConversion.CommandLine.Trim() : string.Empty);
 
-			if (!switches.Contains(" -ar ") && preferredOutputFormat != null &&
-				preferredOutputFormat.SampleRate > 0 && preferredOutputFormat.SampleRate != MediaInfo.SamplesPerSecond)
-			{
-				switches += " -ar " + preferredOutputFormat.SampleRate;
-			}
-
 			var commandLine = string.Format("-i \"{0}\" {1} \"{2}\"",
 				InputFile, switches, OutputFileCreated);
 
 			var bitRate = (MediaInfo.VideoBitRate == 0 ? string.Empty :
 				MediaInfo.VideoBitRate.ToString(CultureInfo.InvariantCulture));
-
-			if (commandLine.Contains("{pcm}"))
-			{
-				var bps = MediaInfo.BitsPerSample;
-				if (preferredOutputFormat != null && preferredOutputFormat.BitsPerSample > bps)
-					bps = preferredOutputFormat.BitsPerSample;
-				switch (bps)
-				{
-					case 32: commandLine = commandLine.Replace("{pcm}", "pcm_f32le"); break;
-					case 24: commandLine = commandLine.Replace("{pcm}", "pcm_s24le"); break;
-					// ffmpeg says: pcm_s8 codec not supported in WAVE format. Probably don't want this anyway.
-					//case 8: commandLine = commandLine.Replace("{pcm}", "pcm_s8"); break;
-					default: commandLine = commandLine.Replace("{pcm}", "pcm_s16le"); break;
-				}
-			}
 
 			commandLine = commandLine.Replace("{vb}", bitRate);
 

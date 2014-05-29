@@ -15,6 +15,7 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		private bool _mouseClickSelect;
+		static Size s_checkBoxRectangleSize;
 
 		public delegate void CheckChangedHandler(PickerPopupItem sender, ItemSelectMode selectMode);
 		public new event CheckChangedHandler CheckedChanged;
@@ -105,6 +106,35 @@ namespace SayMore.UI.LowLevelControls
 			}
 		}
 
+		private Size CheckBoxRectSize
+		{
+			get
+			{
+				if (s_checkBoxRectangleSize.Width <= 0)
+				{
+					// At this point, the AutoSize property is true so we know the entire
+					// box part of the check box control is visible. Write it to a bit map.
+					using (var bmp = new Bitmap(CheckBox.Width, CheckBox.Height))
+					{
+						Size checkBoxSize = CheckBox.Size;
+						CheckBox.DrawToBitmap(bmp, new Rectangle(new Point(), checkBoxSize));
+
+						// Find the rectangle that is occupied by just the box portion of the check
+						// box control by check pixel colors from rigth-to-left and and bottom-to-top.
+						s_checkBoxRectangleSize = bmp.Size;
+						var clr = CheckBox.BackColor;
+						while (bmp.GetPixel(s_checkBoxRectangleSize.Width - 1, 0) == clr)
+							s_checkBoxRectangleSize.Width--;
+
+						while (bmp.GetPixel(0, s_checkBoxRectangleSize.Height - 1) == clr)
+							s_checkBoxRectangleSize.Height--;
+					}
+				}
+
+				return s_checkBoxRectangleSize;
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// One thing that's difficult with visual styles is to know exactly what the size of
@@ -121,20 +151,7 @@ namespace SayMore.UI.LowLevelControls
 			if (CheckBox.BackColor == Color.Transparent)
 				return;
 
-			// At this point, the AutoSize property is true so we know the entire
-			// box part of the check box control is visible. Write it to a bit map.
-			var bmp = new Bitmap(CheckBox.Width, CheckBox.Height);
-			CheckBox.DrawToBitmap(bmp, new Rectangle(new Point(), CheckBox.Size));
-
-			// Find the rectangle that is occupied by just the box portion of the check
-			// box control by check pixel colors from rigth-to-left and and bottom-to-top.
-			var sz = bmp.Size;
-			var clr = Color.FromArgb(Color.Magenta.ToArgb());
-			while (bmp.GetPixel(sz.Width - 1, 0) == clr)
-				sz.Width--;
-
-			while (bmp.GetPixel(0, sz.Height - 1) == clr)
-				sz.Height--;
+			var sz = CheckBoxRectSize;
 
 			// Force the size of the check box control to only accommodate the box portion.
 			CheckBox.BackColor = Color.Transparent;

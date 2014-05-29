@@ -388,9 +388,6 @@
   <data name="SayMoreText" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SayMoreText.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ComponentStageColorBlockTemplate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ComponentStageColorBlockTemplate.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="RegenerateAnnotationFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RegenerateAnnotationFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

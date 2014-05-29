@@ -10,6 +10,8 @@ namespace SayMore.UI.ElementListScreen
 	/// ------------------------------------------------------------------------------------
 	public class StagesDataProvider
 	{
+		private const int kComponentStageColorBlockWidth = 8;
+		private const int kComponentStageColorBlockHeight = 12;
 		private readonly Dictionary<Color, Image> s_clrBlockCache = new Dictionary<Color, Image>();
 		private readonly Dictionary<long, Image> s_stagesImageCache = new Dictionary<long, Image>();
 
@@ -46,9 +48,7 @@ namespace SayMore.UI.ElementListScreen
 			if (s_stagesImageCache.TryGetValue(completedRolesKey, out img))
 				return img;
 
-			var sz = Resources.ComponentStageColorBlockTemplate.Size;
-
-			var bmp = new Bitmap((sz.Width - 1) * _componentRoles.Count() + 1, sz.Height);
+			var bmp = new Bitmap((kComponentStageColorBlockWidth - 1) * _componentRoles.Count() + 1, kComponentStageColorBlockHeight);
 
 			// Now create a single image by combining the blocks for each stage.
 			using (var g = Graphics.FromImage(bmp))
@@ -58,7 +58,7 @@ namespace SayMore.UI.ElementListScreen
 				foreach (var role in _componentRoles)
 				{
 					g.DrawImageUnscaled(GetComponentStageColorBlock(role, completedRolesList), dx, 0);
-					dx += (sz.Width - 1);
+					dx += (kComponentStageColorBlockWidth - 1);
 				}
 			}
 
@@ -104,11 +104,17 @@ namespace SayMore.UI.ElementListScreen
 			if (s_clrBlockCache.TryGetValue(clr, out img))
 				return img;
 
-			img = AppColors.ReplaceColor(Resources.ComponentStageColorBlockTemplate,
-				Color.FromArgb(0xFF, Color.White), clr);
+			Bitmap bmp = new Bitmap(kComponentStageColorBlockWidth, kComponentStageColorBlockHeight);
+			Graphics gBmp = Graphics.FromImage(bmp);
 
-			s_clrBlockCache[clr] = img;
-			return img;
+			using (var pen = new Pen(Color.FromArgb(133, 133, 108)))
+				gBmp.DrawRectangle(pen, new Rectangle(0, 0, kComponentStageColorBlockWidth - 1, kComponentStageColorBlockHeight - 1));
+
+			using (var brush = new SolidBrush(clr))
+				gBmp.FillRectangle(brush, new Rectangle(1, 1, kComponentStageColorBlockWidth - 2, kComponentStageColorBlockHeight - 2));
+
+			s_clrBlockCache[clr] = bmp;
+			return bmp;
 		}
 	}
 }

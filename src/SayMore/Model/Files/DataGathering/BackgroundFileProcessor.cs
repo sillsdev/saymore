@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Windows;
 using ThreadState = System.Threading.ThreadState;
 
 namespace SayMore.Model.Files.DataGathering
@@ -131,6 +132,12 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public virtual void Start()
 		{
+			if (MessageBox.Show(string.Format("Okay to start background file processor: {0}", GetType()),
+				"Memory Profiling", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
+			{
+				return;
+			}
+
 			_workerThread = new Thread(StartWorking);
 			_workerThread.Name = GetType().Name;
 			_workerThread.Priority = ThreadPriority;

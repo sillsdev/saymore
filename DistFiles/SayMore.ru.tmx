@@ -3511,7 +3511,15 @@
         <seg>More Information...</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Дополнительная информация</seg>
+        <seg>Подробнее...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPropertiesEditor.MoreInfoButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>More information about this file</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Дополнительные сведения об этом файле</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.MediaPropertiesEditor.PresetsButton">
@@ -3519,7 +3527,15 @@
         <seg>Presets</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Предустановки</seg>
+        <seg>Пресеты</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPropertiesEditor.PresetsButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Select presets for media file</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Выберите предустановки для медиа-файла </seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.NotesEditor.TabText">
@@ -4031,7 +4047,15 @@
         <seg>Careful Speech</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Аккуратная речь</seg>
+        <seg>Тщательное речи</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkCareful_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Careful Speech:\nSlow, careful speech re-speaking\nof the source recording.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Тщательная речь\n Медленная, тщательная речь воспроизведена заново\n не источник</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkConsent">
@@ -4078,6 +4102,14 @@ A или запись согласия covering
         <seg>Источник</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkSource_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Source:\nThe recording of the session. Used to satisfy\nthe 'Source Recording' stage of the session.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Источник:\n Запись сессии. Используется на стадии сессии «Источник записи».</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkTranscription">
       <tuv xml:lang="en">
         <seg>Transcription</seg>
@@ -4086,12 +4118,28 @@ A или запись согласия covering
         <seg>Транскрипция</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkTranscription_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Transcription:\nWritten transcription of\nthe source recording.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Транскрипция:\n Письменные транскрипции записи источника.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation">
       <tuv xml:lang="en">
         <seg>Written Translation</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Письменный перевод</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Written Translation:\nWritten translation of\nthe source recording.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Письменный перевод:\n Письменный перевод записи источника</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConfirmRecycleDialog.MessageForMultipleItems">
@@ -5394,8 +5442,7 @@ A или запись согласия covering
         <seg>Hold button down to listen\nto original recording</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Держите кнопку до listen
-в оригинальной записи</seg>
+        <seg>Держите кнопку для прослушки \n оригинальной записи</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortHoldingSpace">
@@ -5443,7 +5490,15 @@ A или запись согласия covering
         <seg>Speak</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Говорите</seg>
+        <seg>Говорят</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Hold button down to record</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Удерживайте кнопку для записи</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingAbortedCaption">
@@ -6499,6 +6554,14 @@ A или запись согласия covering
         <seg>Люди</seg>
       </tuv>
     </tu>
+    <tu tuid="PeopleView.ViewTabText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>People View</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Вид людей</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProgressView.ByGenreHeadingText">
       <tuv xml:lang="en">
         <seg>By Genre</seg>
@@ -6520,7 +6583,15 @@ A или запись согласия covering
         <seg>&amp;Copy</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Скопировать</seg>
+        <seg>Копия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.CopyMenuItemText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Copy entire view to clipboard</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Скопировать в буфер обмена весь вид</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.HeadingText">
@@ -6570,6 +6641,14 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Сохраните...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.SaveMenuItemText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Save view to file</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Сохранить вид в файл</seg>
       </tuv>
     </tu>
     <tu tuid="ProgressView.SessionsLabel">
@@ -6869,6 +6948,14 @@ A или запись согласия covering
       </tuv>
       <tuv xml:lang="ru">
         <seg>Обновить</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProgressScreen._buttonRefresh_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Refresh View</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Обновить вид</seg>
       </tuv>
     </tu>
     <tu tuid="ProjectView.ProgressScreen._buttonSave">
@@ -7831,7 +7918,7 @@ A или запись согласия covering
         <seg>I am gathering the recording and meta\ndata and may or may not take it further.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Я собираю записи и метадата, возможно что не более чем это</seg>
+        <seg>Я собираю записи и метадата, я не уверен буду ли работать над этим дальше</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.StatusAndStagesEditor.StatusToolTips.Skipped">
@@ -8032,7 +8119,15 @@ A или запись согласия covering
         <seg>Regenerate</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Востанавить файл</seg>
+        <seg>Регенерации</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.RegenerateButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Regenerate Oral Annotation Audio File</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Регенерировать устные аннотации к аудио-файлу</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.StopButton">

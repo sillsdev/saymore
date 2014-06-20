@@ -92,6 +92,7 @@ namespace SayMoreTests.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[NUnit.Framework.Category("SkipOnTeamCity")]
+		[RequiresSTA]
 		public void Application_WalkThrough_DoesNotCrash()
 		{
 			CopySampleProject();
@@ -213,6 +214,7 @@ namespace SayMoreTests.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[NUnit.Framework.Category("SkipOnTeamCity")]
+		[RequiresSTA]
 		public void Application_CreateProject_DoesNotCrash()
 		{
 			CreateProject();

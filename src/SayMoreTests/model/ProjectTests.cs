@@ -141,6 +141,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
+		[RequiresSTA]
 		public void Load_AfterSave_IsoPreserved()
 		{
 			string settingsPath = _parentFolder.Combine("foo." + Project.ProjectSettingsFileExtension);
@@ -223,6 +224,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
+		[RequiresSTA]
 		public void Constructor_EverythingOk_CreatesFolderAndSettingsFile()
 		{
 			CreateProject(_parentFolder);
@@ -232,6 +234,7 @@ namespace SayMoreTests.Model
 		#region SetFilesToArchive Tests
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		[RequiresSTA]
 		public void SetFilesToArchive_GetsCorrectSessionAndPersonFiles()
 		{
 			var prj = CreateProject(_parentFolder);

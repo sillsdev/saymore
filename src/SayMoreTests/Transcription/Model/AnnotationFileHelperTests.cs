@@ -1030,7 +1030,7 @@ namespace SayMoreTests.Transcription.Model
 			Assert.AreEqual(0, elements.Length);
 			Assert.AreEqual(0, _helper.GetTimeSlots().Count);
 
-			_helper.CreateTranscriptionAnnotationElement(new Segment(null, 3f, 5.4f));
+			_helper.CreateTranscriptionAnnotationElement(new AnnotationSegment(null, 3f, 5.4f));
 
 			elements = _helper.GetTranscriptionTierAnnotations().Select(kvp => kvp.Value).ToArray();
 			Assert.AreEqual(1, elements.Length);

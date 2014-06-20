@@ -84,9 +84,9 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment AddSegment(string text)
+		public AnnotationSegment AddSegment(string text)
 		{
-			var segment = new Segment(this, text ?? string.Empty);
+			var segment = new AnnotationSegment(this, text ?? string.Empty);
 			Segments.Add(segment);
 			return segment;
 		}

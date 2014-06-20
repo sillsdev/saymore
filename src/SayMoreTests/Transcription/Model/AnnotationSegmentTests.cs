@@ -4,16 +4,16 @@ using SayMore.Transcription.Model;
 namespace SayMoreTests.Transcription.Model
 {
 	[TestFixture]
-	public class SegmentTests
+	public class AnnotationSegmentTests
 	{
-		private Segment _segment;
+		private AnnotationSegment _segment;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void Setup()
 		{
 			var tier = new TextTier("tier");
-			_segment = new Segment(tier, "segText");
+			_segment = new AnnotationSegment(tier, "segText");
 
 			Assert.AreEqual(tier, _segment.Tier);
 			Assert.AreEqual("segText", _segment.Text);

@@ -67,13 +67,13 @@ namespace SayMore.Transcription.Model
 
 		#region Methods for dealing with annotation files
 		/// ------------------------------------------------------------------------------------
-		public string GetFullPathToCarefulSpeechFile(Segment segment)
+		public string GetFullPathToCarefulSpeechFile(AnnotationSegment segment)
 		{
 			return Path.Combine(SegmentFileFolder, ComputeFileNameForCarefulSpeechSegment(segment));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetFullPathToOralTranslationFile(Segment segment)
+		public string GetFullPathToOralTranslationFile(AnnotationSegment segment)
 		{
 			return Path.Combine(SegmentFileFolder, ComputeFileNameForOralTranslationSegment(segment));
 		}
@@ -88,13 +88,13 @@ namespace SayMore.Transcription.Model
 
 		#region Static methods for computing oral annotation segment audio file names.
 		/// ------------------------------------------------------------------------------------
-		public static string ComputeFileNameForCarefulSpeechSegment(Segment segment)
+		public static string ComputeFileNameForCarefulSpeechSegment(AnnotationSegment segment)
 		{
 			return ComputeFileNameForCarefulSpeechSegment(segment.TimeRange);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string ComputeFileNameForOralTranslationSegment(Segment segment)
+		public static string ComputeFileNameForOralTranslationSegment(AnnotationSegment segment)
 		{
 			return ComputeFileNameForOralTranslationSegment(segment.TimeRange);
 		}
@@ -170,7 +170,7 @@ namespace SayMore.Transcription.Model
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		public int GetIndexOfSegment(Segment segment)
+		public int GetIndexOfSegment(AnnotationSegment segment)
 		{
 			if (segment == null)
 				return -1;
@@ -185,26 +185,26 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment GetSegmentHavingEndBoundary(float endBoundary)
+		public AnnotationSegment GetSegmentHavingEndBoundary(float endBoundary)
 		{
 			return Segments.FirstOrDefault(s => s.EndsAt(endBoundary));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment GetSegmentHavingStartBoundary(float startBoundary)
+		public AnnotationSegment GetSegmentHavingStartBoundary(float startBoundary)
 		{
 			return Segments.FirstOrDefault(s => s.StartsAt(startBoundary));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment GetSegmentEnclosingTime(float time)
+		public AnnotationSegment GetSegmentEnclosingTime(float time)
 		{
 			return Segments.FirstOrDefault(s => s.TimeRange.GetIsTimeInRange(time, false, true));
 		}
 
 		#region Methods for Adding and removing segments
 		/// ------------------------------------------------------------------------------------
-		public Segment AppendSegment(float endOfNewSegment)
+		public AnnotationSegment AppendSegment(float endOfNewSegment)
 		{
 			var startOfNewSegment = (float)EndOfLastSegment.TotalSeconds;
 			if (endOfNewSegment <= startOfNewSegment)
@@ -214,9 +214,9 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment AddSegment(float start, float stop)
+		public AnnotationSegment AddSegment(float start, float stop)
 		{
-			var segment = new Segment(this, start, stop);
+			var segment = new AnnotationSegment(this, start, stop);
 			Segments.Add(segment);
 			return segment;
 		}
@@ -229,7 +229,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool RemoveSegment(Segment segment)
+		public bool RemoveSegment(AnnotationSegment segment)
 		{
 			return RemoveSegment(GetIndexOfSegment(segment));
 		}
@@ -266,7 +266,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public BoundaryModificationResult ChangeSegmentsEndBoundary(Segment segment, float newEndBoundary)
+		public BoundaryModificationResult ChangeSegmentsEndBoundary(AnnotationSegment segment, float newEndBoundary)
 		{
 			// New boundary must be at least a minimal amount greater than the segment's start boundary.
 			if (!GetIsAcceptableSegmentLength(segment.Start, newEndBoundary))
@@ -301,7 +301,7 @@ namespace SayMore.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		public BoundaryModificationResult InsertSegmentBoundary(float newBoundary,
-			Func<Segment, bool, bool, bool> allowDeletionOfOralAnnotations = null)
+			Func<AnnotationSegment, bool, bool, bool> allowDeletionOfOralAnnotations = null)
 		{
 			float newSegStart = 0f;
 			var segBeingSplit = Segments.FirstOrDefault(
@@ -338,7 +338,7 @@ namespace SayMore.Transcription.Model
 
 			float newSegEnd = segBeingSplit.End;
 			segBeingSplit.End = newBoundary;
-			var newSegment = new Segment(segBeingSplit.Tier, newBoundary, newSegEnd);
+			var newSegment = new AnnotationSegment(segBeingSplit.Tier, newBoundary, newSegEnd);
 			Segments.Insert(GetIndexOfSegment(segBeingSplit) + 1, newSegment);
 
 			return BoundaryModificationResult.Success;
@@ -346,7 +346,7 @@ namespace SayMore.Transcription.Model
 
 		#region Methods for renaming and deleting oral annotation segment files
 		/// ------------------------------------------------------------------------------------
-		public void RenameAnnotationSegmentFile(Segment oldSegment, float newStart, float newEnd)
+		public void RenameAnnotationSegmentFile(AnnotationSegment oldSegment, float newStart, float newEnd)
 		{
 			try
 			{
@@ -382,7 +382,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void DeleteAnnotationSegmentFile(Segment segment)
+		public void DeleteAnnotationSegmentFile(AnnotationSegment segment)
 		{
 			try
 			{

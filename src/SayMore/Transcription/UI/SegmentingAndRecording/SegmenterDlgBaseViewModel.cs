@@ -464,7 +464,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ----------------------------------------------------------------------------------------
-		public Segment GetSegment(int index)
+		public AnnotationSegment GetSegment(int index)
 		{
 			return (index < 0 || index >= TimeTier.Segments.Count ?
 				null : TimeTier.Segments[index]);
@@ -551,7 +551,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool UpdateSegmentBoundary(Segment seg, TimeSpan newEndTime)
+		private bool UpdateSegmentBoundary(AnnotationSegment seg, TimeSpan newEndTime)
 		{
 			var origTimeRange = seg.TimeRange.Copy();
 
@@ -592,7 +592,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool ConfirmDeletionOfOralAnnotations(Segment segment, bool hasCarefulSpeech, bool hasOralTranslation)
+		protected bool ConfirmDeletionOfOralAnnotations(AnnotationSegment segment, bool hasCarefulSpeech, bool hasOralTranslation)
 		{
 			if (AllowDeletionOfOralAnnotations == null || !AllowDeletionOfOralAnnotations(hasCarefulSpeech, hasOralTranslation))
 				return false;
@@ -611,7 +611,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetIgnoredFlagForSegment(Segment segment, bool ignore)
+		public void SetIgnoredFlagForSegment(AnnotationSegment segment, bool ignore)
 		{
 			if (segment != null)
 			{
@@ -644,7 +644,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual Action GetActionToRestoreStateWhenUndoingAnIgnore(Segment segment)
+		protected virtual Action GetActionToRestoreStateWhenUndoingAnIgnore(AnnotationSegment segment)
 		{
 			return () => { };
 		}
@@ -659,7 +659,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetIsSegmentIgnored(Segment segment)
+		public bool GetIsSegmentIgnored(AnnotationSegment segment)
 		{
 			return GetIsSegmentIgnored(TimeTier.GetIndexOfSegment(segment));
 		}
@@ -714,7 +714,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void OnSegmentDeleted(Segment segment)
+		protected virtual void OnSegmentDeleted(AnnotationSegment segment)
 		{
 			_undoStack.Push(new SegmentChange(SegmentChangeType.Deletion, segment.TimeRange.Copy(), null, null));
 		}

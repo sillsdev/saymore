@@ -5,7 +5,7 @@ using System.IO;
 namespace SayMore.Transcription.Model
 {
 	/// ----------------------------------------------------------------------------------------
-	public class Segment
+	public class AnnotationSegment
 	{
 		public TierBase Tier { get; private set; }
 		public string Text { get; set; }
@@ -13,30 +13,30 @@ namespace SayMore.Transcription.Model
 		private TimeRange _timeRange;
 
 		/// ------------------------------------------------------------------------------------
-		public Segment(TierBase tier)
+		public AnnotationSegment(TierBase tier)
 		{
 			Tier = tier;
 			TimeRange = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment() : this(null)
+		public AnnotationSegment() : this(null)
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment(TierBase tier, TimeRange timeRange) : this(tier)
+		public AnnotationSegment(TierBase tier, TimeRange timeRange) : this(tier)
 		{
 			TimeRange = timeRange;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment(TierBase tier, float start, float end) : this(tier, new TimeRange(start, end))
+		public AnnotationSegment(TierBase tier, float start, float end) : this(tier, new TimeRange(start, end))
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment(TierBase tier, string text) : this(tier)
+		public AnnotationSegment(TierBase tier, string text) : this(tier)
 		{
 			Text = text;
 		}
@@ -81,9 +81,9 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual Segment Copy(TierBase owningTier)
+		public virtual AnnotationSegment Copy(TierBase owningTier)
 		{
-			return new Segment(owningTier, Start, End) { Text = Text };
+			return new AnnotationSegment(owningTier, Start, End) { Text = Text };
 		}
 
 		/// ------------------------------------------------------------------------------------

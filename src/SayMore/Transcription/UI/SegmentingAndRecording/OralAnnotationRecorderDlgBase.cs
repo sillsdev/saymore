@@ -48,7 +48,7 @@ namespace SayMore.Transcription.UI
 		private TimeSpan _elapsedRecordingTime;
 		private TimeSpan _annotationPlaybackLength;
 		private TimeSpan _lastAnnotationPlaybackPosition;
-		private Segment _segmentWhoseAnnotationIsBeingPlayedBack;
+		private AnnotationSegment _segmentWhoseAnnotationIsBeingPlayedBack;
 		private Font _annotationSegmentFont;
 		private TimeRange _segmentBeingRecorded;
 		private bool _listeningOrRecordingUsingSpaceBar;
@@ -933,7 +933,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void PlaySource(Segment segment)
+		protected override void PlaySource(AnnotationSegment segment)
 		{
 			ViewModel.PlaySource(_waveControl, ctrl =>
 				{
@@ -996,7 +996,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private Rectangle GetBottomReservedRectangleForSegment(Segment segment)
+		private Rectangle GetBottomReservedRectangleForSegment(AnnotationSegment segment)
 		{
 			return _waveControl.Painter.GetBottomReservedRectangleForTimeRange(segment.TimeRange);
 		}
@@ -1237,7 +1237,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void DrawOralAnnotationWave(PaintEventArgs e, Rectangle rc, Segment segment)
+		private void DrawOralAnnotationWave(PaintEventArgs e, Rectangle rc, AnnotationSegment segment)
 		{
 			// The reason we wrap this in a try/catch block is because in some rare cases
 			// when an audio error occurs (e.g. unplugging the mic. while recording) we'll
@@ -1478,7 +1478,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetDoesSegmentHaveAnnotationFile(Segment segment)
+		public bool GetDoesSegmentHaveAnnotationFile(AnnotationSegment segment)
 		{
 			return ViewModel.GetDoesSegmentHaveAnnotationFile(segment);
 		}

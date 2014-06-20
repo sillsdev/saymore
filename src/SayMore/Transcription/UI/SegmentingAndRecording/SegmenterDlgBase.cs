@@ -327,7 +327,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected Segment HotSegment
+		protected AnnotationSegment HotSegment
 		{
 			get
 			{
@@ -656,7 +656,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void PlaySource(Segment segment)
+		protected virtual void PlaySource(AnnotationSegment segment)
 		{
 			_waveControl.Play(segment.TimeRange);
 		}

@@ -158,7 +158,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment GetCurrentSegment()
+		public AnnotationSegment GetCurrentSegment()
 		{
 			return Tier.Segments[_grid.CurrentCellAddress.Y];
 		}

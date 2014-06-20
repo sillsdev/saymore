@@ -68,9 +68,9 @@ namespace SayMoreTests.Transcription.Model
 		private TextTier CreateTier()
 		{
 			var tier = new TextTier(TextTier.ElanTranscriptionTierId);
-			tier.Segments.Add(new Segment(tier){Start=0, End=1,Text="one"});
-			tier.Segments.Add(new Segment(tier) { Start = (float) 1.456, End = (float) 2.6789, Text = "two" });
-			tier.Segments.Add(new Segment(tier) { Start = 2, End = 3, Text = "three" });
+			tier.Segments.Add(new AnnotationSegment(tier){Start=0, End=1,Text="one"});
+			tier.Segments.Add(new AnnotationSegment(tier) { Start = (float) 1.456, End = (float) 2.6789, Text = "two" });
+			tier.Segments.Add(new AnnotationSegment(tier) { Start = 2, End = 3, Text = "three" });
 
 			return tier;
 		}

@@ -144,7 +144,7 @@ namespace SayMoreTests.Transcription.Model
 		public void TryGetSegment_NoSegments_ReturnsFalse()
 		{
 			_tier.Segments.Clear();
-			Segment segment;
+			AnnotationSegment segment;
 			Assert.IsFalse(_tier.TryGetSegment(0, out segment));
 		}
 
@@ -152,7 +152,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void TryGetSegment_SegmentsExistButIndexOutOfRange_ReturnsFalse()
 		{
-			Segment segment;
+			AnnotationSegment segment;
 			Assert.IsFalse(_tier.TryGetSegment(3, out segment));
 		}
 
@@ -160,7 +160,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void TryGetSegment_SegmentsExistIndexInRange_ReturnsTrue()
 		{
-			Segment segment;
+			AnnotationSegment segment;
 			Assert.IsTrue(_tier.TryGetSegment(1, out segment));
 		}
 
@@ -263,9 +263,9 @@ namespace SayMoreTests.Transcription.Model
 		public void RemoveSegment_BySegment_SegmentDoesNotExist_ReturnsFalse()
 		{
 			Assert.AreEqual(3, _tier.Segments.Count);
-			Assert.IsFalse(_tier.RemoveSegment(new Segment(null, 10f, 19f)));
+			Assert.IsFalse(_tier.RemoveSegment(new AnnotationSegment(null, 10f, 19f)));
 			Assert.AreEqual(3, _tier.Segments.Count);
-			Assert.IsFalse(_tier.RemoveSegment(new Segment(null, 20f, 29.99f)));
+			Assert.IsFalse(_tier.RemoveSegment(new AnnotationSegment(null, 20f, 29.99f)));
 			Assert.AreEqual(3, _tier.Segments.Count);
 		}
 
@@ -273,7 +273,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void RemoveSegment_BySegment_RemoveSecondSegment_JoinsWithPrecedingSegment()
 		{
-			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 20f, 30f)));
+			Assert.IsTrue(_tier.RemoveSegment(new AnnotationSegment(null, 20f, 30f)));
 			Assert.AreEqual(2, _tier.Segments.Count);
 			Assert.AreEqual(10f, _tier.Segments[0].Start);
 			Assert.AreEqual(20f, _tier.Segments[0].End);
@@ -285,7 +285,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void RemoveSegment_BySegment_RemoveFirstSegment_JoinsWithNextSegment()
 		{
-			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 10f, 20f)));
+			Assert.IsTrue(_tier.RemoveSegment(new AnnotationSegment(null, 10f, 20f)));
 			Assert.AreEqual(2, _tier.Segments.Count());
 			Assert.AreEqual(10f, _tier.Segments[0].Start);
 			Assert.AreEqual(30f, _tier.Segments[0].End);
@@ -297,7 +297,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void RemoveSegment_BySegment_RemoveLastSegment_DoesNotAffectPrecedingSegment()
 		{
-			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 30f, 40f)));
+			Assert.IsTrue(_tier.RemoveSegment(new AnnotationSegment(null, 30f, 40f)));
 			Assert.AreEqual(2, _tier.Segments.Count());
 			Assert.AreEqual(10f, _tier.Segments[0].Start);
 			Assert.AreEqual(20f, _tier.Segments[0].End);
@@ -311,7 +311,7 @@ namespace SayMoreTests.Transcription.Model
 		{
 			CreateAnnotationFilesForSegmentsCreatedInSetup();
 
-			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 10f, 20f)));
+			Assert.IsTrue(_tier.RemoveSegment(new AnnotationSegment(null, 10f, 20f)));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Translation.wav")));
 			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_30_Careful.wav")));
@@ -327,7 +327,7 @@ namespace SayMoreTests.Transcription.Model
 		{
 			CreateAnnotationFilesForSegmentsCreatedInSetup();
 
-			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 20f, 30f)));
+			Assert.IsTrue(_tier.RemoveSegment(new AnnotationSegment(null, 20f, 30f)));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")));
 			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")));
@@ -343,7 +343,7 @@ namespace SayMoreTests.Transcription.Model
 		{
 			CreateAnnotationFilesForSegmentsCreatedInSetup();
 
-			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 30f, 40f)));
+			Assert.IsTrue(_tier.RemoveSegment(new AnnotationSegment(null, 30f, 40f)));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
 			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")));
@@ -378,23 +378,23 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void GetIndexOfSegment_SegmentDoesNotExist_ReturnsNegOne()
 		{
-			Assert.AreEqual(-1, _tier.GetIndexOfSegment(new Segment(null, 9.99f, 20f)));
-			Assert.AreEqual(-1, _tier.GetIndexOfSegment(new Segment(null, 10f, 19.499f)));
+			Assert.AreEqual(-1, _tier.GetIndexOfSegment(new AnnotationSegment(null, 9.99f, 20f)));
+			Assert.AreEqual(-1, _tier.GetIndexOfSegment(new AnnotationSegment(null, 10f, 19.499f)));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetIndexOfSegment_SegmentExists_ReturnsIndex()
 		{
-			Assert.AreEqual(0, _tier.GetIndexOfSegment(new Segment(null, 10f, 20f)));
-			Assert.AreEqual(2, _tier.GetIndexOfSegment(new Segment(null, 30f, 40f)));
+			Assert.AreEqual(0, _tier.GetIndexOfSegment(new AnnotationSegment(null, 10f, 20f)));
+			Assert.AreEqual(2, _tier.GetIndexOfSegment(new AnnotationSegment(null, 30f, 40f)));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetFileNameForCarefulSpeechSegment_PassNullSegment_ThrowsException()
 		{
-			Assert.Throws<NullReferenceException>(() => TimeTier.ComputeFileNameForCarefulSpeechSegment(null as Segment));
+			Assert.Throws<NullReferenceException>(() => TimeTier.ComputeFileNameForCarefulSpeechSegment(null as AnnotationSegment));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -408,7 +408,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void GetFullPathToCarefulSpeechFile_PassGoodSegment_ReturnsCorrectPath()
 		{
-			var filepath = _tier.GetFullPathToCarefulSpeechFile(new Segment(null, 3f, 5f));
+			var filepath = _tier.GetFullPathToCarefulSpeechFile(new AnnotationSegment(null, 3f, 5f));
 			Assert.AreEqual(_tier.SegmentFileFolder, Path.GetDirectoryName(filepath));
 		}
 
@@ -423,7 +423,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void GetFullPathToOralTranslationFile_PassGoodSegment_ReturnsCorrectPath()
 		{
-			var filepath = _tier.GetFullPathToOralTranslationFile(new Segment(null, 3f, 5f));
+			var filepath = _tier.GetFullPathToOralTranslationFile(new AnnotationSegment(null, 3f, 5f));
 			Assert.AreEqual(_tier.SegmentFileFolder, Path.GetDirectoryName(filepath));
 		}
 
@@ -432,7 +432,7 @@ namespace SayMoreTests.Transcription.Model
 		public void ComputeFileNameForCarefulSpeechSegment_PassGoodSegment_ReturnsCorrectFileName()
 		{
 			Assert.AreEqual("0_to_4.75_Careful.wav",
-				TimeTier.ComputeFileNameForCarefulSpeechSegment(new Segment(null, 0f, 4.75f)));
+				TimeTier.ComputeFileNameForCarefulSpeechSegment(new AnnotationSegment(null, 0f, 4.75f)));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -447,7 +447,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void ComputeFileNameForOralTranslationSegment_PassNullSegment_ThrowsException()
 		{
-			Assert.Throws<NullReferenceException>(() => TimeTier.ComputeFileNameForOralTranslationSegment(null as Segment));
+			Assert.Throws<NullReferenceException>(() => TimeTier.ComputeFileNameForOralTranslationSegment(null as AnnotationSegment));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -455,7 +455,7 @@ namespace SayMoreTests.Transcription.Model
 		public void ComputeFileNameForOralTranslationSegment_PassGoodSegment_ReturnsCorrectFileName()
 		{
 			Assert.AreEqual("0_to_4.75_Translation.wav",
-				TimeTier.ComputeFileNameForOralTranslationSegment(new Segment(null, 0f, 4.75f)));
+				TimeTier.ComputeFileNameForOralTranslationSegment(new AnnotationSegment(null, 0f, 4.75f)));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -578,7 +578,7 @@ namespace SayMoreTests.Transcription.Model
 		{
 			SetupSegmentFileFolders();
 
-			_tier.RenameAnnotationSegmentFile(new Segment(null, 2f, 4.5f), 6.234f, 10.587f);
+			_tier.RenameAnnotationSegmentFile(new AnnotationSegment(null, 2f, 4.5f), 6.234f, 10.587f);
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "2_to_4.5_Careful.wav")));
 			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "6.234_to_10.587_Careful.wav")));
 		}
@@ -589,7 +589,7 @@ namespace SayMoreTests.Transcription.Model
 		{
 			SetupSegmentFileFolders();
 
-			_tier.RenameAnnotationSegmentFile(new Segment(null, 2f, 4.5f), 6.234f, 10.587f);
+			_tier.RenameAnnotationSegmentFile(new AnnotationSegment(null, 2f, 4.5f), 6.234f, 10.587f);
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "2_to_4.5_Translation.wav")));
 			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "6.234_to_10.587_Translation.wav")));
 		}
@@ -603,7 +603,7 @@ namespace SayMoreTests.Transcription.Model
 			bool backupCalled = false;
 			bool deleteFlag = true;
 			_tier.BackupOralAnnotationSegmentFileAction = (f, g) => { backupCalled = true; deleteFlag = g; };
-			_tier.RenameAnnotationSegmentFile(new Segment(null, 3f, 4.5f), 6.234f, 10.587f);
+			_tier.RenameAnnotationSegmentFile(new AnnotationSegment(null, 3f, 4.5f), 6.234f, 10.587f);
 			Assert.IsFalse(backupCalled);
 			Assert.IsTrue(deleteFlag);
 		}
@@ -617,7 +617,7 @@ namespace SayMoreTests.Transcription.Model
 			bool backupCalled = false;
 			bool deleteFlag = true;
 			_tier.BackupOralAnnotationSegmentFileAction = (f, g) => { backupCalled = true; deleteFlag = g; };
-			_tier.RenameAnnotationSegmentFile(new Segment(null, 2f, 4.5f), 6.234f, 10.587f);
+			_tier.RenameAnnotationSegmentFile(new AnnotationSegment(null, 2f, 4.5f), 6.234f, 10.587f);
 			Assert.IsTrue(backupCalled);
 			Assert.IsFalse(deleteFlag);
 		}
@@ -628,7 +628,7 @@ namespace SayMoreTests.Transcription.Model
 		{
 			SetupSegmentFileFolders();
 
-			_tier.DeleteAnnotationSegmentFile(new Segment(null, 2f, 4.5f));
+			_tier.DeleteAnnotationSegmentFile(new AnnotationSegment(null, 2f, 4.5f));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "2_to_4.5_Careful.wav")));
 		}
 
@@ -638,7 +638,7 @@ namespace SayMoreTests.Transcription.Model
 		{
 			SetupSegmentFileFolders();
 
-			_tier.DeleteAnnotationSegmentFile(new Segment(null, 6.234f, 10.587f));
+			_tier.DeleteAnnotationSegmentFile(new AnnotationSegment(null, 6.234f, 10.587f));
 			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "2_to_4.5_Careful.wav")));
 		}
 
@@ -651,7 +651,7 @@ namespace SayMoreTests.Transcription.Model
 			bool backupCalled = false;
 			bool deleteFlag = false;
 			_tier.BackupOralAnnotationSegmentFileAction = (f, g) => { backupCalled = true; deleteFlag = g; };
-			_tier.DeleteAnnotationSegmentFile(new Segment(null, 3f, 4.5f));
+			_tier.DeleteAnnotationSegmentFile(new AnnotationSegment(null, 3f, 4.5f));
 			Assert.IsFalse(backupCalled);
 			Assert.IsFalse(deleteFlag);
 		}
@@ -665,7 +665,7 @@ namespace SayMoreTests.Transcription.Model
 			bool backupCalled = false;
 			bool deleteFlag = false;
 			_tier.BackupOralAnnotationSegmentFileAction = (f, g) => { backupCalled = true; deleteFlag = g; };
-			_tier.DeleteAnnotationSegmentFile(new Segment(null, 2f, 4.5f));
+			_tier.DeleteAnnotationSegmentFile(new AnnotationSegment(null, 2f, 4.5f));
 			Assert.IsTrue(backupCalled);
 			Assert.IsTrue(deleteFlag);
 		}
@@ -688,7 +688,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void ChangeSegmentsEndBoundary_WhenSegmentDoesNotExist_ReturnsNotSuccess()
 		{
-			var segment = new Segment(null, 2.5f, 4.5f);
+			var segment = new AnnotationSegment(null, 2.5f, 4.5f);
 			Assert.AreEqual(BoundaryModificationResult.SegmentNotFound, _tier.ChangeSegmentsEndBoundary(segment, 25f));
 		}
 

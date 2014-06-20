@@ -113,10 +113,10 @@ namespace SayMore.Transcription.Model
 		{
 			var timeTier = GetTimeTier();
 			var transcriptionTier = GetTranscriptionTier();
-			Segment transcriptionSegment;
-			Func<Segment, string> getPathToAnnotationFile = (type == OralAnnotationType.CarefulSpeech) ?
+			AnnotationSegment transcriptionSegment;
+			Func<AnnotationSegment, string> getPathToAnnotationFile = (type == OralAnnotationType.CarefulSpeech) ?
 				timeTier.GetFullPathToCarefulSpeechFile :
-				(Func<Segment, string>)timeTier.GetFullPathToOralTranslationFile;
+				(Func<AnnotationSegment, string>)timeTier.GetFullPathToOralTranslationFile;
 
 			int iSegment = 0;
 			while (iSegment < timeTier.Segments.Count && ((transcriptionTier != null &&
@@ -131,7 +131,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool SegmentIsIgnored(Segment transcriptionSegment)
+		private bool SegmentIsIgnored(AnnotationSegment transcriptionSegment)
 		{
 			return transcriptionSegment.Text == kIgnoreSegment
 				|| transcriptionSegment.Text == "%junk%" /*old indicator*/;
@@ -161,7 +161,7 @@ namespace SayMore.Transcription.Model
 			foreach (var tier in this.OfType<TextTier>())
 			{
 				var text = (tier == transcriptionTier) ? kIgnoreSegment : string.Empty;
-				tier.Segments.Add(new Segment(tier, text));
+				tier.Segments.Add(new AnnotationSegment(tier, text));
 			}
 		}
 
@@ -192,7 +192,7 @@ namespace SayMore.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		public BoundaryModificationResult InsertTierSegment(float boundary,
-			Func<Segment, bool, bool, bool> allowDeletionOfOralAnnotations = null)
+			Func<AnnotationSegment, bool, bool, bool> allowDeletionOfOralAnnotations = null)
 		{
 			var timeTier = GetTimeTier();
 
@@ -209,7 +209,7 @@ namespace SayMore.Transcription.Model
 				var transcription = GetIsSegmentIgnored(i) ? kIgnoreSegment : string.Empty;
 				foreach (var tier in this.OfType<TextTier>())
 				{
-					tier.Segments.Insert(i, new Segment(tier,
+					tier.Segments.Insert(i, new AnnotationSegment(tier,
 						(tier.TierType == TierType.Transcription) ? transcription : string.Empty));
 				}
 			}

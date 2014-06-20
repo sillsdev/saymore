@@ -39,7 +39,7 @@ namespace SayMore.Transcription.UI
 		public Action<Exception> PlaybackErrorAction { get; set; }
 		public Action<StopAnnotationRecordingResult> RecordingCompleted;
 		public event EventHandler SelectedDeviceChanged;
-		public Segment CurrentUnannotatedSegment { get; private set; }
+		public AnnotationSegment CurrentUnannotatedSegment { get; private set; }
 		public OralAnnotationRecorder Recorder { get; private set; }
 		private AudioPlayer _annotationPlayer;
 		private TimeSpan _endBoundary;
@@ -152,7 +152,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetDoesSegmentHaveAnnotationFile(Segment segment)
+		public bool GetDoesSegmentHaveAnnotationFile(AnnotationSegment segment)
 		{
 			if (segment == null || segment.TimeRange == _segmentBeingRecorded)
 				return false;
@@ -161,13 +161,13 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetFullPathToAnnotationFileForSegment(Segment segment)
+		public string GetFullPathToAnnotationFileForSegment(AnnotationSegment segment)
 		{
 			return GetFullPathOfAnnotationFileForTimeRange(segment.TimeRange);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetFullPathToOtherAnnotationFileForSegment(Segment segment)
+		public string GetFullPathToOtherAnnotationFileForSegment(AnnotationSegment segment)
 		{
 			return GetFullPathOfOtherAnnotationFileForTimeRange(segment.TimeRange);
 		}
@@ -197,7 +197,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override Action GetActionToRestoreStateWhenUndoingAnIgnore(Segment segment)
+		protected override Action GetActionToRestoreStateWhenUndoingAnIgnore(AnnotationSegment segment)
 		{
 			var timeRange = segment.TimeRange.Copy();
 
@@ -234,7 +234,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool SegmentNeedsAnnotation(Segment s)
+		private bool SegmentNeedsAnnotation(AnnotationSegment s)
 		{
 			return !GetDoesSegmentHaveAnnotationFile(s) && !GetIsSegmentIgnored(s);
 		}
@@ -267,7 +267,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnSegmentDeleted(Segment segment)
+		protected override void OnSegmentDeleted(AnnotationSegment segment)
 		{
 			base.OnSegmentDeleted(segment);
 			if (segment == CurrentUnannotatedSegment)
@@ -275,7 +275,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ----------------------------------------------------------------------------------------
-		public Tuple<float, float>[,] GetSegmentSamples(Segment segment, uint numberOfSamplesToReturn)
+		public Tuple<float, float>[,] GetSegmentSamples(AnnotationSegment segment, uint numberOfSamplesToReturn)
 		{
 			// If the samples for this oral annotation have not been calculated, then create a
 			// helper to get those samples and cache them.
@@ -455,7 +455,7 @@ namespace SayMore.Transcription.UI
 
 		#region Annotation playback methods
 		/// ------------------------------------------------------------------------------------
-		public bool InitializeAnnotationPlayer(Segment segment)
+		public bool InitializeAnnotationPlayer(AnnotationSegment segment)
 		{
 			CloseAnnotationPlayer();
 
@@ -505,7 +505,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void StartAnnotationPlayback(Segment segment,
+		public void StartAnnotationPlayback(AnnotationSegment segment,
 			Action<PlaybackProgressEventArgs> playbackProgressAction,
 			Action playbackStoppedAction)
 		{
@@ -607,7 +607,7 @@ namespace SayMore.Transcription.UI
 		public override string GetFullPathOfAnnotationFileForTimeRange(TimeRange timeRange)
 		{
 			var segment = TimeTier.Segments.FirstOrDefault(s => s.TimeRange == timeRange) ??
-				new Segment(null, timeRange);
+				new AnnotationSegment(null, timeRange);
 			return TimeTier.GetFullPathToCarefulSpeechFile(segment);
 		}
 
@@ -615,7 +615,7 @@ namespace SayMore.Transcription.UI
 		public override string GetFullPathOfOtherAnnotationFileForTimeRange(TimeRange timeRange)
 		{
 			var segment = TimeTier.Segments.FirstOrDefault(s => s.TimeRange == timeRange) ??
-				new Segment(null, timeRange);
+				new AnnotationSegment(null, timeRange);
 			return TimeTier.GetFullPathToOralTranslationFile(segment);
 		}
 
@@ -646,7 +646,7 @@ namespace SayMore.Transcription.UI
 		public override string GetFullPathOfAnnotationFileForTimeRange(TimeRange timeRange)
 		{
 			var segment = TimeTier.Segments.FirstOrDefault(s => s.TimeRange == timeRange) ??
-				new Segment(null, timeRange);
+				new AnnotationSegment(null, timeRange);
 			return TimeTier.GetFullPathToOralTranslationFile(segment);
 		}
 
@@ -654,7 +654,7 @@ namespace SayMore.Transcription.UI
 		public override string GetFullPathOfOtherAnnotationFileForTimeRange(TimeRange timeRange)
 		{
 			var segment = TimeTier.Segments.FirstOrDefault(s => s.TimeRange == timeRange) ??
-				new Segment(null, timeRange);
+				new AnnotationSegment(null, timeRange);
 			return TimeTier.GetFullPathToCarefulSpeechFile(segment);
 		}
 

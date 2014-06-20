@@ -394,7 +394,7 @@ namespace SayMore.Transcription.Model
 		/// and returns the id of the annotation added.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string CreateTranscriptionAnnotationElement(Segment seg)
+		public string CreateTranscriptionAnnotationElement(AnnotationSegment seg)
 		{
 			var timeSlotRef1 = GetOrCreateTimeOrderElementAndReturnId(seg.Start);
 			var timeSlotRef2 = GetOrCreateTimeOrderElementAndReturnId(seg.End);
@@ -714,7 +714,7 @@ namespace SayMore.Transcription.Model
 
 			for (int i = 0; i < timeSegments.Length; i++)
 			{
-				var annotationId = CreateTranscriptionAnnotationElement(new Segment
+				var annotationId = CreateTranscriptionAnnotationElement(new AnnotationSegment
 				{
 					Start = timeSegments[i].Start,
 					End = timeSegments[i].End,
@@ -727,7 +727,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void SaveFromSegments(IEnumerable<Segment> segments)
+		private void SaveFromSegments(IEnumerable<AnnotationSegment> segments)
 		{
 			RemoveTimeSlots();
 			RemoveAnnotationsFromTier(TextTier.ElanTranscriptionTierId);

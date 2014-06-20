@@ -119,7 +119,9 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool GetDoIncludeFile(string path)
 		{
-			return (_typesOfFilesToProcess.Any(t => t.IsMatch(path)));
+			var fileName = Path.GetFileName(path);
+			return (fileName != null && !fileName.StartsWith(".") &&
+				(_typesOfFilesToProcess.Any(t => t.IsMatch(path))));
 		}
 
 		/// ------------------------------------------------------------------------------------

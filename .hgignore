@@ -79,3 +79,4 @@ packages/Newtonsoft.Json*
 packages/DesktopAnalytics*
 packages/Autofac.*
 packages/NAudio.*
+packages/Analytics*

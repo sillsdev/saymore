@@ -35,7 +35,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleGridCellValuePushed(object sender, DataGridViewCellValueEventArgs e)
 		{
-			Segment segment;
+			AnnotationSegment segment;
 
 			if (e.ColumnIndex != Index || !Tier.TryGetSegment(e.RowIndex, out segment))
 				return;

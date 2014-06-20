@@ -51,7 +51,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void TryGetSegment_NoSegments_ReturnsFalse()
 		{
-			Segment segment;
+			AnnotationSegment segment;
 			Assert.IsFalse(_tier.TryGetSegment(0, out segment));
 		}
 
@@ -60,7 +60,7 @@ namespace SayMoreTests.Transcription.Model
 		public void TryGetSegment_SegmentsExistButIndexOutOfRange_ReturnsFalse()
 		{
 			_tier.AddSegment("hydrogen");
-			Segment segment;
+			AnnotationSegment segment;
 			Assert.IsFalse(_tier.TryGetSegment(1, out segment));
 		}
 
@@ -69,7 +69,7 @@ namespace SayMoreTests.Transcription.Model
 		public void TryGetSegment_SegmentsExistIndexInRange_ReturnsTrue()
 		{
 			_tier.AddSegment("oxygen");
-			Segment segment;
+			AnnotationSegment segment;
 			Assert.IsTrue(_tier.TryGetSegment(0, out segment));
 		}
 

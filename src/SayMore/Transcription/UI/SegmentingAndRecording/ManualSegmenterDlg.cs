@@ -284,7 +284,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool ConfirmOralAnnotationDeletion(Segment segmentPreceding, Segment segmentFollowing)
+		private bool ConfirmOralAnnotationDeletion(AnnotationSegment segmentPreceding, AnnotationSegment segmentFollowing)
 		{
 			string msg;
 			if (segmentFollowing == null)

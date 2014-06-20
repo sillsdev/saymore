@@ -217,7 +217,7 @@ namespace SayMore.Transcription.Model.Exporters
 
 				if (translationTier != null)
 				{
-					Segment freeTranslationSegment;
+					AnnotationSegment freeTranslationSegment;
 					translationTier.TryGetSegment(i, out freeTranslationSegment);
 					yield return CreateSingleParagraphElement(segmentList[i].Text,
 						(freeTranslationSegment != null ? freeTranslationSegment.Text : null),

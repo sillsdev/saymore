@@ -279,7 +279,7 @@ namespace SayMoreTests.Transcription.UI
 			var tier = new TimeTier(_model.OralAnnotationsFolder.Replace("_Annotations", string.Empty));
 
 			Assert.AreEqual(_model.OralAnnotationsFolder, Path.GetDirectoryName(
-				_model.GetFullPathToAnnotationFileForSegment(new Segment(tier, 1f, 2f))));
+				_model.GetFullPathToAnnotationFileForSegment(new AnnotationSegment(tier, 1f, 2f))));
 		}
 
 		/// ------------------------------------------------------------------------------------

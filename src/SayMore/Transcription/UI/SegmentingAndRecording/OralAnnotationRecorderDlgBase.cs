@@ -8,6 +8,7 @@ using L10NSharp;
 using L10NSharp.UI;
 using Palaso.Media.Naudio;
 using Palaso.Media.Naudio.UI;
+using Palaso.Reporting;
 using Palaso.UI.WindowsForms;
 using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Media.Audio;
@@ -86,6 +87,45 @@ namespace SayMore.Transcription.UI
 		protected OralAnnotationRecorderBaseDlg(OralAnnotationRecorderDlgViewModel viewModel)
 			: base(viewModel)
 		{
+			int listenToOriginalRecordingDownWidth = -1, listenToOriginalRecording = -1,
+				recordingOralAnnotationInProgressWidth = -1, recordOralAnnotationWidth = -1,
+				green_checkWidth = -1, information_redWidth = -1, information_blueWidth = -1;
+
+			try
+			{
+				// SP-950: Check for corrupt resources, out of memory, or ???
+				listenToOriginalRecordingDownWidth = Resources.ListenToOriginalRecordingDown.Width;
+				listenToOriginalRecording = Resources.ListenToOriginalRecording.Width;
+				recordingOralAnnotationInProgressWidth = Resources.RecordingOralAnnotationInProgress.Width;
+				recordOralAnnotationWidth = Resources.RecordOralAnnotation.Width;
+				green_checkWidth = Resources.Green_check.Width;
+				information_redWidth = Resources.Information_red.Width;
+				information_blueWidth = Resources.Information_blue.Width;
+			}
+			catch (Exception e)
+			{
+				if (!s_fSp950ExceptionDetailsReported)
+				{
+					ErrorReport.ReportNonFatalExceptionWithMessage(e,
+						"Problem with Image from resources. Please report this information to help us fix a difficult bug! SP-950 Debug info: " +
+						"listenToOriginalRecordingDownWidth = {0}; " +
+						"listenToOriginalRecording = {1}; " +
+						"recordingOralAnnotationInProgressWidth = {2}; " +
+						"recordOralAnnotationWidth = {3}; " +
+						"green_checkWidth = {4}; " +
+						"information_redWidth = {5}; " +
+						"information_blueWidth = {6}",
+						listenToOriginalRecordingDownWidth,
+						listenToOriginalRecording,
+						recordingOralAnnotationInProgressWidth,
+						recordOralAnnotationWidth,
+						green_checkWidth,
+						information_redWidth,
+						information_blueWidth);
+					s_fSp950ExceptionDetailsReported = true;
+				}
+			}
+
 			AudioUtils.NAudioExceptionThrown += HandleNAudioExceptionThrown;
 
 			InitializeComponent();
@@ -522,62 +562,98 @@ namespace SayMore.Transcription.UI
 			base.StopAllMedia();
 		}
 
+		static bool s_fSp950ExceptionDetailsReported = false;
+
 		/// ------------------------------------------------------------------------------------
 		protected override void UpdateDisplay()
 		{
 			_recDeviceIndicator.UpdateDisplay();
 
-			_labelListenButton.Image = (_waveControl.IsPlaying && _playingBackUsingHoldDownButton ?
-				Resources.ListenToOriginalRecordingDown : Resources.ListenToOriginalRecording);
+			int _debugSP950 = 0;
 
-			_labelRecordButton.Image = (ViewModel.GetIsRecording() ?
-				Resources.RecordingOralAnnotationInProgress : Resources.RecordOralAnnotation);
-
-			_labelListenButton.Enabled = !ViewModel.GetIsRecording() &&
-				(ViewModel.CurrentUnannotatedSegment != null || !ViewModel.GetIsFullyAnnotated());
-
-			_labelRecordButton.Enabled = (ViewModel.GetSelectedSegmentIsLongEnough() &&
-				_userHasListenedToSelectedSegment &&
-				AudioUtils.GetCanRecordAudio(true) &&
-				!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying());
-
-			_labelListenHint.Visible = _spaceBarMode == SpaceBarMode.Listen && _labelListenButton.Enabled;
-			_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record && _labelRecordButton.Enabled && !_reRecording && _recordingErrorMessage == null;
-
-			if (_spaceBarMode == SpaceBarMode.Done && _recordingErrorMessage == null)
+			try
 			{
-				if (!_labelFinishedHint.Visible)
-				{
-					_pictureIcon.Image = Resources.Green_check;
-					_labelFinishedHint.Visible = true;
-					_tableLayoutButtons.Controls.Add(_labelFinishedHint, 1, 0);
-					_tableLayoutButtons.SetRowSpan(_labelFinishedHint, 3);
-					AcceptButton = _buttonOK;
-				}
-			}
-			else
-			{
-				UdateErrorMessageDisplay();
+				_labelListenButton.Image = (_waveControl.IsPlaying && _playingBackUsingHoldDownButton
+					? Resources.ListenToOriginalRecordingDown
+					: Resources.ListenToOriginalRecording);
 
-				if (_labelErrorInfo.Visible)
+				_debugSP950++;
+
+				_labelRecordButton.Image = (ViewModel.GetIsRecording()
+					? Resources.RecordingOralAnnotationInProgress
+					: Resources.RecordOralAnnotation);
+
+				_debugSP950++;
+
+				_labelListenButton.Enabled = !ViewModel.GetIsRecording() &&
+											(ViewModel.CurrentUnannotatedSegment != null || !ViewModel.GetIsFullyAnnotated());
+
+				_labelRecordButton.Enabled = (ViewModel.GetSelectedSegmentIsLongEnough() &&
+											_userHasListenedToSelectedSegment &&
+											AudioUtils.GetCanRecordAudio(true) &&
+											!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying());
+
+				_labelListenHint.Visible = _spaceBarMode == SpaceBarMode.Listen && _labelListenButton.Enabled;
+				_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record && _labelRecordButton.Enabled && !_reRecording &&
+											_recordingErrorMessage == null;
+
+				if (_spaceBarMode == SpaceBarMode.Done && _recordingErrorMessage == null)
 				{
-					_pictureIcon.Image = Resources.Information_red;
-					if (_labelFinishedHint.Visible)
+					if (!_labelFinishedHint.Visible)
 					{
-						_labelFinishedHint.Visible = false;
-						_tableLayoutButtons.Controls.Remove(_labelFinishedHint);
+						_debugSP950 = 50;
+						_pictureIcon.Image = Resources.Green_check;
+						_debugSP950++;
+						_labelFinishedHint.Visible = true;
+						_tableLayoutButtons.Controls.Add(_labelFinishedHint, 1, 0);
+						_tableLayoutButtons.SetRowSpan(_labelFinishedHint, 3);
+						AcceptButton = _buttonOK;
 					}
-					_labelRecordHint.Visible = false;
 				}
 				else
 				{
-					_pictureIcon.Image = Resources.Information_blue;
+					UdateErrorMessageDisplay();
+
+					if (_labelErrorInfo.Visible)
+					{
+						_debugSP950 = 60;
+						_pictureIcon.Image = Resources.Information_red;
+						_debugSP950++;
+						if (_labelFinishedHint.Visible)
+						{
+							_labelFinishedHint.Visible = false;
+							_tableLayoutButtons.Controls.Remove(_labelFinishedHint);
+						}
+						_labelRecordHint.Visible = false;
+					}
+					else
+					{
+						_debugSP950 = 70;
+						_pictureIcon.Image = Resources.Information_blue;
+						_debugSP950++;
+					}
+
+					float percentage = (_labelErrorInfo.Visible) ? 50 : 100;
+					_tableLayoutButtons.RowStyles[0].Height = (_labelErrorInfo.Visible) ? percentage : 0;
+					_tableLayoutButtons.RowStyles[1].Height = (_labelListenHint.Visible) ? percentage : 0;
+					_tableLayoutButtons.RowStyles[2].Height = (_labelRecordHint.Visible) ? percentage : 0;
 				}
 
-				float percentage = (_labelErrorInfo.Visible) ? 50 : 100;
-				_tableLayoutButtons.RowStyles[0].Height = (_labelErrorInfo.Visible) ? percentage : 0;
-				_tableLayoutButtons.RowStyles[1].Height = (_labelListenHint.Visible) ? percentage : 0;
-				_tableLayoutButtons.RowStyles[2].Height = (_labelRecordHint.Visible) ? percentage : 0;
+			}
+			catch (Exception e)
+			{
+				Analytics.ReportException(e);
+				if (e.Message == "Parameter is not valid.")
+				{
+					if (!s_fSp950ExceptionDetailsReported)
+					{
+						ErrorReport.ReportNonFatalExceptionWithMessage(e,
+							"Problem setting Image from resources. SP-950 Debug value = {0}", _debugSP950);
+						s_fSp950ExceptionDetailsReported = true;
+					}
+				}
+				else
+					throw;
 			}
 			base.UpdateDisplay();
 		}

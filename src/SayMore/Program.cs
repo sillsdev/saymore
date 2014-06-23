@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Configuration;
 using System.Drawing;
 using System.Linq;
 using System.Diagnostics;
@@ -45,7 +46,9 @@ namespace SayMore
 		public delegate void PersonMetadataChangedHandler();
 		public static event PersonMetadataChangedHandler PersonDataChanged;
 
-		/// ------------------------------------------------------------------------------------
+		private static List<Exception> _pendingExceptionsToReportToAnalytics = new List<Exception>();
+
+			/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -71,6 +74,23 @@ namespace SayMore
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			// This following two lines not only get the locations of the respective settings files. They also
+			// detect corruption and delete them so SayMore doesn't crash.
+			var analyticsConfigFilePath = GetAnalyticsConfigFilePath(); // Analytics settings.
+
+			if ((Control.ModifierKeys & Keys.Shift) > 0 && !string.IsNullOrEmpty(analyticsConfigFilePath))
+			{
+				var confirmationString = LocalizationManager.GetString("MainWindow.ConfirmDeleteUserSettingsFile",
+					"Do you want to delete your user settings? (This will clear your most-recently-used project list, window positions, UI language settings, etc. It will not affect your SayMore project data.)");
+
+				if (DialogResult.Yes ==
+					MessageBox.Show(confirmationString, "SayMore", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
+				{
+					File.Delete(analyticsConfigFilePath);
+					File.Delete(new PortableSettingsProvider().GetFullSettingsFilePath());
+				}
+			}
 
 			//bring in settings from any previous version
 			//NB: this code doesn't actually work, because for some reason Saymore uses its own settings code,
@@ -147,7 +167,6 @@ namespace SayMore
 				File.Delete(MRULatestReminderFilePath);
 			}
 
-
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(false);
 
@@ -170,6 +189,9 @@ namespace SayMore
 			using (new Analytics("jtfe7dyef3", userInfo, allowTracking))
 #endif
 			{
+				foreach (var exception in _pendingExceptionsToReportToAnalytics)
+					Analytics.ReportException(exception);
+
 				bool startedWithCommandLineProject = false;
 				var args = Environment.GetCommandLineArgs();
 				if (args.Length > 1)
@@ -196,6 +218,20 @@ namespace SayMore
 				{
 					ReleaseMutexForThisProject();
 				}
+			}
+		}
+
+		public static string GetAnalyticsConfigFilePath()
+		{
+			try
+			{
+				return ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
+			}
+			catch (ConfigurationErrorsException e)
+			{
+				_pendingExceptionsToReportToAnalytics.Add(e);
+				File.Delete(e.Filename);
+				return e.Filename;
 			}
 		}
 

@@ -126,6 +126,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Registry Root="HKCU" Key="SOFTWARE\SayMore\Components\SayMore.exe" KeyPath="yes" />
 
 			<File Id="SayMore.exe" Name="SayMore.exe"  Source="..\..\output\release\SayMore.exe" />
+			<File Id="SayMore.pdb" Name="SayMore.pdb"  Source="..\..\output\release\SayMore.pdb" />
 
 			<!-- moved these files here because they are not being installed correctly during an upgrade from V2 to V3 -->
 			<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="no" Source="..\..\output\release\L10NSharp.dll" />
@@ -133,6 +134,10 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<File Id="Palaso.dll" Name="Palaso.dll" KeyPath="no" Source="..\..\output\release\Palaso.dll" />
 			<File Id="Palaso.Media.dll" Name="Palaso.Media.dll" KeyPath="no" Source="..\..\output\release\Palaso.Media.dll" />
 			<File Id="SIL.Archiving.dll" Name="SIL.Archiving.dll" KeyPath="no" Source="..\..\output\release\SIL.Archiving.dll" />
+			<File Id="PalasoUIWindowsForms.pdb" Name="PalasoUIWindowsForms.pdb" KeyPath="no" Source="..\..\output\release\PalasoUIWindowsForms.pdb" />
+			<File Id="Palaso.pdb" Name="Palaso.pdb" KeyPath="no" Source="..\..\output\release\Palaso.pdb" />
+			<File Id="Palaso.Media.pdb" Name="Palaso.Media.pdb" KeyPath="no" Source="..\..\output\release\Palaso.Media.pdb" />
+			<File Id="SIL.Archiving.pdb" Name="SIL.Archiving.pdb" KeyPath="no" Source="..\..\output\release\SIL.Archiving.pdb" />
 			<File Id="SayMore.exe.config" Name="SayMore.exe.config" KeyPath="no" Source="..\..\output\release\SayMore.exe.config" />
 			<File Id="Analytics.NET.dll" Name="Analytics.NET.dll" KeyPath="no" Source="..\..\output\release\Analytics.NET.dll" />
 			<File Id="DesktopAnalytics.dll" Name="DesktopAnalytics.dll" KeyPath="no" Source="..\..\output\release\DesktopAnalytics.dll" />

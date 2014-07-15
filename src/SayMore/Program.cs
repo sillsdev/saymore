@@ -627,7 +627,7 @@ namespace SayMore
 			Help.ShowHelp(new Label(), path, topicLink);
 
 			Analytics.Track("Show Help Topic", new Dictionary<string, string> {
-				{"topicLink",  topicLink}});
+				{"topicLink", topicLink}});
 		}
 
 

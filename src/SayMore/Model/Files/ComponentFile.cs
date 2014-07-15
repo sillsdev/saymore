@@ -939,7 +939,8 @@ namespace SayMore.Model.Files
 
 #if !__MonoCS__
 			var ext = Path.GetExtension(fullFilePath);
-			if (ext == null) return;
+			if (ext == null)
+				return;
 
 			if (s_fileTypes.TryGetValue(ext, out fileType))
 			{

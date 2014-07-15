@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -101,29 +102,33 @@ namespace SayMore.Transcription.UI
 				green_checkWidth = Resources.Green_check.Width;
 				information_redWidth = Resources.Information_red.Width;
 				information_blueWidth = Resources.Information_blue.Width;
+				Logger.WriteEvent(string.Format("SP-950 Debug Info: listenToOriginalRecordingDownWidth = {0}; listenToOriginalRecording = {1}; " +
+					"recordingOralAnnotationInProgressWidth = {2}; recordOralAnnotationWidth = {3}; green_checkWidth = {4}; " +
+					"information_redWidth = {5}; information_blueWidth = {6};",
+					listenToOriginalRecordingDownWidth, listenToOriginalRecording, recordingOralAnnotationInProgressWidth, recordOralAnnotationWidth,
+					green_checkWidth, information_redWidth, information_blueWidth));
+				Analytics.Track(string.Format("OARBD: {0}; {1}; {2}; {3}; {4}; {5}; {6};",
+					listenToOriginalRecordingDownWidth, listenToOriginalRecording, recordingOralAnnotationInProgressWidth, recordOralAnnotationWidth,
+					green_checkWidth, information_redWidth, information_blueWidth));
 			}
 			catch (Exception e)
 			{
-				if (!s_fSp950ExceptionDetailsReported)
-				{
-					ErrorReport.ReportNonFatalExceptionWithMessage(e,
-						"Problem with Image from resources. Please report this information to help us fix a difficult bug! SP-950 Debug info: " +
-						"listenToOriginalRecordingDownWidth = {0}; " +
-						"listenToOriginalRecording = {1}; " +
-						"recordingOralAnnotationInProgressWidth = {2}; " +
-						"recordOralAnnotationWidth = {3}; " +
-						"green_checkWidth = {4}; " +
-						"information_redWidth = {5}; " +
-						"information_blueWidth = {6}",
-						listenToOriginalRecordingDownWidth,
-						listenToOriginalRecording,
-						recordingOralAnnotationInProgressWidth,
-						recordOralAnnotationWidth,
-						green_checkWidth,
-						information_redWidth,
-						information_blueWidth);
-					s_fSp950ExceptionDetailsReported = true;
-				}
+				ErrorReport.ReportNonFatalExceptionWithMessage(e,
+					"Problem with Image from resources. Please report this information to help us fix a difficult bug! SP-950 Debug info: " +
+					"listenToOriginalRecordingDownWidth = {0}; " +
+					"listenToOriginalRecording = {1}; " +
+					"recordingOralAnnotationInProgressWidth = {2}; " +
+					"recordOralAnnotationWidth = {3}; " +
+					"green_checkWidth = {4}; " +
+					"information_redWidth = {5}; " +
+					"information_blueWidth = {6}",
+					listenToOriginalRecordingDownWidth,
+					listenToOriginalRecording,
+					recordingOralAnnotationInProgressWidth,
+					recordOralAnnotationWidth,
+					green_checkWidth,
+					information_redWidth,
+					information_blueWidth);
 			}
 
 			AudioUtils.NAudioExceptionThrown += HandleNAudioExceptionThrown;
@@ -562,100 +567,96 @@ namespace SayMore.Transcription.UI
 			base.StopAllMedia();
 		}
 
-		static bool s_fSp950ExceptionDetailsReported = false;
-
 		/// ------------------------------------------------------------------------------------
 		protected override void UpdateDisplay()
 		{
 			_recDeviceIndicator.UpdateDisplay();
 
-			int _debugSP950 = 0;
+			if (_waveControl.IsPlaying && _playingBackUsingHoldDownButton)
+				SetLabelImage(_labelListenButton, Resources.ListenToOriginalRecordingDown, "ListenToOriginalRecordingDown");
+			else
+				SetLabelImage(_labelListenButton, Resources.ListenToOriginalRecording, "ListenToOriginalRecording");
 
-			try
+			if (ViewModel.GetIsRecording())
+				SetLabelImage(_labelRecordButton, Resources.RecordingOralAnnotationInProgress, "RecordingOralAnnotationInProgress");
+			else
+				SetLabelImage(_labelRecordButton, Resources.RecordOralAnnotation, "RecordOralAnnotation");
+
+			_labelListenButton.Enabled = !ViewModel.GetIsRecording() &&
+										(ViewModel.CurrentUnannotatedSegment != null || !ViewModel.GetIsFullyAnnotated());
+
+			_labelRecordButton.Enabled = (ViewModel.GetSelectedSegmentIsLongEnough() &&
+										_userHasListenedToSelectedSegment &&
+										AudioUtils.GetCanRecordAudio(true) &&
+										!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying());
+
+			_labelListenHint.Visible = _spaceBarMode == SpaceBarMode.Listen && _labelListenButton.Enabled;
+			_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record && _labelRecordButton.Enabled && !_reRecording &&
+										_recordingErrorMessage == null;
+
+			if (_spaceBarMode == SpaceBarMode.Done && _recordingErrorMessage == null)
 			{
-				_labelListenButton.Image = (_waveControl.IsPlaying && _playingBackUsingHoldDownButton
-					? Resources.ListenToOriginalRecordingDown
-					: Resources.ListenToOriginalRecording);
-
-				_debugSP950++;
-
-				_labelRecordButton.Image = (ViewModel.GetIsRecording()
-					? Resources.RecordingOralAnnotationInProgress
-					: Resources.RecordOralAnnotation);
-
-				_debugSP950++;
-
-				_labelListenButton.Enabled = !ViewModel.GetIsRecording() &&
-											(ViewModel.CurrentUnannotatedSegment != null || !ViewModel.GetIsFullyAnnotated());
-
-				_labelRecordButton.Enabled = (ViewModel.GetSelectedSegmentIsLongEnough() &&
-											_userHasListenedToSelectedSegment &&
-											AudioUtils.GetCanRecordAudio(true) &&
-											!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying());
-
-				_labelListenHint.Visible = _spaceBarMode == SpaceBarMode.Listen && _labelListenButton.Enabled;
-				_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record && _labelRecordButton.Enabled && !_reRecording &&
-											_recordingErrorMessage == null;
-
-				if (_spaceBarMode == SpaceBarMode.Done && _recordingErrorMessage == null)
+				if (!_labelFinishedHint.Visible)
 				{
-					if (!_labelFinishedHint.Visible)
+					SetLabelImage(_pictureIcon, Resources.Green_check, "Green_check");
+					_labelFinishedHint.Visible = true;
+					_tableLayoutButtons.Controls.Add(_labelFinishedHint, 1, 0);
+					_tableLayoutButtons.SetRowSpan(_labelFinishedHint, 3);
+					AcceptButton = _buttonOK;
+				}
+			}
+			else
+			{
+				UdateErrorMessageDisplay();
+
+				if (_labelErrorInfo.Visible)
+				{
+					SetLabelImage(_pictureIcon, Resources.Information_red, "Information_red");
+					if (_labelFinishedHint.Visible)
 					{
-						_debugSP950 = 50;
-						_pictureIcon.Image = Resources.Green_check;
-						_debugSP950++;
-						_labelFinishedHint.Visible = true;
-						_tableLayoutButtons.Controls.Add(_labelFinishedHint, 1, 0);
-						_tableLayoutButtons.SetRowSpan(_labelFinishedHint, 3);
-						AcceptButton = _buttonOK;
+						_labelFinishedHint.Visible = false;
+						_tableLayoutButtons.Controls.Remove(_labelFinishedHint);
 					}
+					_labelRecordHint.Visible = false;
 				}
 				else
 				{
-					UdateErrorMessageDisplay();
-
-					if (_labelErrorInfo.Visible)
-					{
-						_debugSP950 = 60;
-						_pictureIcon.Image = Resources.Information_red;
-						_debugSP950++;
-						if (_labelFinishedHint.Visible)
-						{
-							_labelFinishedHint.Visible = false;
-							_tableLayoutButtons.Controls.Remove(_labelFinishedHint);
-						}
-						_labelRecordHint.Visible = false;
-					}
-					else
-					{
-						_debugSP950 = 70;
-						_pictureIcon.Image = Resources.Information_blue;
-						_debugSP950++;
-					}
-
-					float percentage = (_labelErrorInfo.Visible) ? 50 : 100;
-					_tableLayoutButtons.RowStyles[0].Height = (_labelErrorInfo.Visible) ? percentage : 0;
-					_tableLayoutButtons.RowStyles[1].Height = (_labelListenHint.Visible) ? percentage : 0;
-					_tableLayoutButtons.RowStyles[2].Height = (_labelRecordHint.Visible) ? percentage : 0;
+					SetLabelImage(_pictureIcon, Resources.Information_blue, "Information_blue");
 				}
 
+				float percentage = (_labelErrorInfo.Visible) ? 50 : 100;
+				_tableLayoutButtons.RowStyles[0].Height = (_labelErrorInfo.Visible) ? percentage : 0;
+				_tableLayoutButtons.RowStyles[1].Height = (_labelListenHint.Visible) ? percentage : 0;
+				_tableLayoutButtons.RowStyles[2].Height = (_labelRecordHint.Visible) ? percentage : 0;
+			}
+
+			base.UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This is an attempt to track down SP-950
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetLabelImage(Control control, Bitmap image, string name)
+		{
+			try
+			{
+				Label label = control as Label;
+				if (label != null)
+					label.Image = image;
+				else
+				{
+					((PictureBox) control).Image = image;
+				}
 			}
 			catch (Exception e)
 			{
+				Analytics.Track("SetImageLabelError", new Dictionary<string, string> { { "name", name } });
+				ErrorReport.ReportNonFatalExceptionWithMessage(e,
+					"Problem setting Image from resources: Control: {0}; Image: {1}", control.Name, name);
 				Analytics.ReportException(e);
-				if (e.Message == "Parameter is not valid.")
-				{
-					if (!s_fSp950ExceptionDetailsReported)
-					{
-						ErrorReport.ReportNonFatalExceptionWithMessage(e,
-							"Problem setting Image from resources. SP-950 Debug value = {0}", _debugSP950);
-						s_fSp950ExceptionDetailsReported = true;
-					}
-				}
-				else
-					throw;
 			}
-			base.UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -39,7 +39,7 @@ namespace SayMore.Transcription.UI
 		private AnnotationComponentFile _annotationFile;
 		private readonly List<AnnotationPlaybackInfo> _mediaFileQueue = new List<AnnotationPlaybackInfo>();
 		private int _annotationPlaybackLoopCount;
-		private Action _playbackProgressReportingAction;
+		private Action _playbackProgressReportingAction = () => { };
 //		private ToolTip _toolTip = new ToolTip();
 //		private bool _paused = false;
 
@@ -70,8 +70,6 @@ namespace SayMore.Transcription.UI
 
 			PlayerViewModel.SetVolume(100);
 			PlayerViewModel.SetSpeed(Settings.Default.AnnotationEditorPlaybackSpeedIndex);
-
-			SetPlaybackProgressReportAction(null);
 
 			SetColumnFonts(transcriptionFont, translationFont);
 		}

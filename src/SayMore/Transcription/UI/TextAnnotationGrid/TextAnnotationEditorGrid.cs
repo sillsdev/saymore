@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms;
@@ -679,6 +680,15 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleMediaPlayStarted(object sender, EventArgs e)
 		{
+			if (_playbackProgressReportingAction == null)
+			{
+				// SP-952/SP-953: This is theoretically impossible, but it seems to have happened
+				// twice to a real user. I've moved the initialization of this field up to where
+				// it should be even more impossible, but for safety's sake, I'm also checking
+				// for null here.
+				Analytics.Track("Error: _playbackProgressReportingAction is null in HandleMediaPlayStarted");
+				return;
+			}
 			if (InvokeRequired)
 				Invoke(_playbackProgressReportingAction);
 			else

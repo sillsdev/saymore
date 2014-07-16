@@ -942,10 +942,13 @@ namespace SayMore.Model.Files
 			if (ext == null)
 				return;
 
-			if (s_fileTypes.TryGetValue(ext, out fileType))
+			lock (s_fileTypes)
 			{
-				smallIcon = s_smallFileIcons[ext];
-				return;
+				if (s_fileTypes.TryGetValue(ext, out fileType))
+				{
+					smallIcon = s_smallFileIcons[ext];
+					return;
+				}
 			}
 
 			var shinfo = new SHFILEINFO();
@@ -967,8 +970,11 @@ namespace SayMore.Model.Files
 
 			fileType = shinfo.szTypeName;
 
-			s_fileTypes[ext] = fileType;
-			s_smallFileIcons[ext] = smallIcon;
+			lock (s_fileTypes)
+			{
+				s_fileTypes[ext] = fileType;
+				s_smallFileIcons[ext] = smallIcon;
+			}
 #else
 			// REVIEW: Figure out a better way to get this in Mono.
 			Icon icon = Icon.ExtractAssociatedIcon(fullFilePath);

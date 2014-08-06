@@ -985,6 +985,17 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void CorrectLastUsedAnnotationIdIfNecessary_AdditionalNonSayMorePropertyExists_DoesNotThrowException()
+		{
+			LoadEafFile(false);
+			var header = _helper.GetOrCreateHeader();
+			var element = new XElement("PROPERTY", new XAttribute("NAME", "UnexpectedProperty"), "whatever");
+			header.AddFirst(element);
+			_helper.CorrectLastUsedAnnotationIdIfNecessary();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void GetOrCreateTranscriptionTierElement_ElementDoesNotExist_CreatesIt()
 		{
 			LoadEafFile();

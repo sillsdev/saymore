@@ -318,46 +318,66 @@ namespace SayMore.Transcription.Model
 
 		#region Methods for reading/writing lastUsedAnnotationId
 		/// ------------------------------------------------------------------------------------
-		public string GetNextAvailableAnnotationIdAndIncrement()
+		/// <summary>
+		/// First: this forces the header to get created if necessary.
+		/// Then: if there is an existing "lastUsedAnnotationId" PROPERTY element, this method
+		/// returns it. Otherwise, it creates a new one and sets the value as requested (and
+		/// returns null).
+		/// </summary>
+		/// <param name="valueToUseIfCreating">This value is ignored if there is an existing
+		/// "lastUsedAnnotationId" PROPERTY element</param>
+		/// <returns>The existing "lastUsedAnnotationId" PROPERTY element; otherwise null (if a
+		/// new one was created and assigned the given value)</returns>
+		/// ------------------------------------------------------------------------------------
+		private XElement GetOrCreateLastUsedAnnotationIdPropertyElement(int valueToUseIfCreating)
 		{
 			var header = GetOrCreateHeader();
 
-			if (header.Element("PROPERTY") == null || header.Element("PROPERTY").Attribute("NAME") == null ||
-				header.Element("PROPERTY").Attribute("NAME").Value != "lastUsedAnnotationId")
+			var lastUsedAnnotationIdPropertyElement = header.Elements("PROPERTY")
+				.SingleOrDefault(e => e.Attribute("NAME") != null && e.Attribute("NAME").Value == "lastUsedAnnotationId");
+
+			if (lastUsedAnnotationIdPropertyElement != null)
+				return lastUsedAnnotationIdPropertyElement;
+
+			lastUsedAnnotationIdPropertyElement = new XElement("PROPERTY", new XAttribute("NAME", "lastUsedAnnotationId"),
+				valueToUseIfCreating);
+			header.Add(lastUsedAnnotationIdPropertyElement);
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetNextAvailableAnnotationIdAndIncrement()
+		{
+			int id = 1;
+			var lastUsedAnnotationIdPropertyElement = GetOrCreateLastUsedAnnotationIdPropertyElement(id);
+
+			if (lastUsedAnnotationIdPropertyElement != null)
 			{
-				header.Add(new XElement("PROPERTY", new XAttribute("NAME", "lastUsedAnnotationId"), 0));
+				int.TryParse(lastUsedAnnotationIdPropertyElement.Value, out id);
+				id = Math.Max(id, 0);
+				lastUsedAnnotationIdPropertyElement.SetValue(++id);
 			}
-
-			var element = header.Elements("PROPERTY")
-				.Single(e => e.Attribute("NAME") != null && e.Attribute("NAME").Value == "lastUsedAnnotationId");
-
-			int id;
-			if (!int.TryParse(element.Value, out id))
-				id = 0;
-
-			element.SetValue(++id);
 			return string.Format("a{0}", id);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetLastUsedAnnotationId(int id)
 		{
+			// REVIEW: Looks like it doesn't actually matter, but the logic here requires
+			// non-negative, but the message says it must be striclty GREATER THAN 0. Changing
+			// the check to id <= 0 causes lots of test failures (although it seems to be in
+			// keeping with the behavior of GetNextAvailableAnnotationIdAndIncrement which uses
+			// 1 as the initial value when creating a new LastUsedAnnotationId property element).
 			if (id < 0)
 			{
 				var msg = "{0} is an invalid value for the last used annotation id. Must be greater than zero.";
 				throw new ArgumentOutOfRangeException(string.Format(msg, id));
 			}
 
-			// Forces the header and lastUsedAnnotationId elements to get created.
-			GetNextAvailableAnnotationIdAndIncrement();
-			var header = Root.Element("HEADER");
-
-			var elements = (from element in header.Elements("PROPERTY")
-							let attrib = element.Attributes("NAME").FirstOrDefault(a => a.Value == "lastUsedAnnotationId")
-							where attrib != null
-							select element).ToArray();
-
-			elements[0].SetValue(id);
+			// Forces the header and lastUsedAnnotationId elements to get created, if necessary.
+			var lastUsedAnnotationIdPropertyElement = GetOrCreateLastUsedAnnotationIdPropertyElement(id);
+			if (lastUsedAnnotationIdPropertyElement != null)
+				lastUsedAnnotationIdPropertyElement.SetValue(id);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -814,7 +834,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static AnnotationFileHelper GetOrCreateFile(string eafFile, string mediaFileName)
+		private static AnnotationFileHelper GetOrCreateFile(string eafFile, string mediaFileName)
 		{
 			if (string.IsNullOrEmpty(eafFile))
 				eafFile = ComputeEafFileNameFromOralAnnotationFile(mediaFileName);

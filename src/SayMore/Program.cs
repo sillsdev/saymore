@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -47,6 +48,9 @@ namespace SayMore
 		public static event PersonMetadataChangedHandler PersonDataChanged;
 
 		private static List<Exception> _pendingExceptionsToReportToAnalytics = new List<Exception>();
+
+		private static bool s_handlingFirstChanceExceptionThreadsafe = false;
+		private static bool s_handlingFirstChanceExceptionUnsafe = false;
 
 			/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -171,6 +175,7 @@ namespace SayMore
 			_applicationContainer = new ApplicationContainer(false);
 
 			Logger.Init();
+			AppDomain.CurrentDomain.FirstChanceException += FirstChanceHandler;
 			Logger.WriteEvent("Visual Styles State: {0}", Application.VisualStyleState);
 			SetUpErrorHandling();
 
@@ -645,6 +650,30 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
+		static void FirstChanceHandler(object source, FirstChanceExceptionEventArgs e)
+		{
+			// Never try to handle another one if we're already handling one. It will probably just make things worse.
+			// This check is outside the lock, just in case the attempt to get the lock throws an exception. It's not
+			// perfect, but it's better than nothing.
+			if (s_handlingFirstChanceExceptionUnsafe)
+				return;
+			s_handlingFirstChanceExceptionUnsafe = true;
+
+			lock (_applicationContainer)
+			{
+				// Never try to handle another one if we're already handling one. It will probably just make things worse.
+				if (s_handlingFirstChanceExceptionThreadsafe)
+					return;
+				s_handlingFirstChanceExceptionThreadsafe = true;
+				if (!(e.Exception is MissingMethodException) || !e.Exception.Message.Contains(".ShortcutKeys"))
+					Logger.WriteEvent("FirstChanceException event: {0}\r\n{1}", e.Exception.Message, e.Exception.StackTrace);
+				s_handlingFirstChanceExceptionThreadsafe = false;
+			}
+
+			s_handlingFirstChanceExceptionUnsafe = false;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static string ProjectSettingsFile
 		{
 			get
@@ -692,5 +721,6 @@ namespace SayMore
 			var handler = PersonDataChanged;
 			if (handler != null) handler();
 		}
+
 	}
 }

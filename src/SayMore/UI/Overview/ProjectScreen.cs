@@ -3,6 +3,7 @@ using System.Drawing;
 using L10NSharp;
 using System.Windows.Forms;
 using L10NSharp.UI;
+using Palaso.Reporting;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;
@@ -26,6 +27,8 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		public ProjectScreen(ProjectMetadataScreen metadataView, ProjectAccessScreen accessView, ProgressScreen progressView, ProjectDescriptionDocsScreen descriptionDocsView, ProjectOtherDocsScreen otherDocsView)
 		{
+			Logger.WriteEvent("ProjectScreen constructor");
+
 			_metadataView = metadataView;
 			_progressView = progressView;
 			_accessView = accessView;

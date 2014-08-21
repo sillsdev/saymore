@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.Reporting;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
@@ -38,6 +39,8 @@ namespace SayMore.UI.ComponentEditors
 			ImageFileType imgFileType)
 			: base(file, null, imageKey)
 		{
+			Logger.WriteEvent("PersonBasicEditor constructor. file = {0}", file);
+
 			InitializeComponent();
 			Name = "PersonEditor";
 

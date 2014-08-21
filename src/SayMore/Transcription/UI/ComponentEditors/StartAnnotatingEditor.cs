@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.Reporting;
 using Palaso.UI.WindowsForms;
 using SayMore.Media.Audio;
 using SayMore.Model;
@@ -23,6 +24,7 @@ namespace SayMore.Transcription.UI
 			base(file, null, null)
 		{
 			_project = project;
+			Logger.WriteEvent("OralAnnotationEditor constructor. file = {0}", file);
 			InitializeComponent();
 			Name = "StartAnnotating";
 

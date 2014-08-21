@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using Palaso.Reporting;
 using SayMore.Media.Audio;
 
 namespace SayMore.Transcription.UI
@@ -26,6 +27,7 @@ namespace SayMore.Transcription.UI
 		{
 			DoubleBuffered = true;
 
+			Logger.WriteEvent("OralAnnotationWaveViewer constructor");
 			InitializeComponent();
 			InitializeWaveControl();
 

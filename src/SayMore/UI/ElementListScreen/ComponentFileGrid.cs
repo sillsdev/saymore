@@ -9,6 +9,7 @@ using System.Media;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
+using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Widgets.BetterGrid;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -45,6 +46,8 @@ namespace SayMore.UI.ElementListScreen
 		public ComponentFileGrid()
 		{
 			ShowContextMenu = true;
+
+			Logger.WriteEvent("ComponentFileGrid constructor");
 
 			InitializeComponent();
 			Font = Program.DialogFont;

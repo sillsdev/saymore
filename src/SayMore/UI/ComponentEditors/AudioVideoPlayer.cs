@@ -20,6 +20,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public AudioVideoPlayer(ComponentFile file, string imageKey) : base(file, null, imageKey)
 		{
+			Logger.WriteEvent("AudioVideoPlayer constructor. file = {0}; imageKey = {1}", file, imageKey);
 			InitializeComponent();
 			Name = "AudioVideoPlayer";
 

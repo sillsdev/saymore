@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.Reporting;
 using Palaso.UI.WindowsForms.WritingSystems;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;
@@ -16,6 +17,8 @@ namespace SayMore.UI.Overview
 
 		public ProjectMetadataScreen()
 		{
+			Logger.WriteEvent("ProjectMetadataScreen constructor");
+
 			InitializeComponent();
 
 			// position the Description and Vernacular label correctly

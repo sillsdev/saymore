@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Model;
 using SayMore.Properties;
@@ -23,6 +24,8 @@ namespace SayMore.UI.ElementListScreen
 			SessionsGrid.Factory sessionGridFactory)
 			: base(presentationModel)
 		{
+			Logger.WriteEvent("PersonListScreen constructor");
+
 			_elementsGrid = sessionGridFactory();
 			_elementsGrid.Name = "SessionsGrid";
 			_newSessionsFromFileDlgViewModel = newSessionsFromFileDlgViewModel;

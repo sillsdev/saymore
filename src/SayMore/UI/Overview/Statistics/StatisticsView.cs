@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using L10NSharp.UI;
+using Palaso.Reporting;
 
 namespace SayMore.UI.Overview.Statistics
 {
@@ -15,6 +16,8 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		public StatisticsView(StatisticsViewModel model)
 		{
+			Logger.WriteEvent("StatisticsView constructor");
+
 			_model = model;
 			InitializeComponent();
 

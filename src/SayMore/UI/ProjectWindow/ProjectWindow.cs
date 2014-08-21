@@ -46,6 +46,8 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private ProjectWindow()
 		{
+			Logger.WriteEvent("ProjectWindow constructor");
+
 			ExceptionHandler.AddDelegate(AudioUtils.HandleGlobalNAudioException);
 
 			InitializeComponent();

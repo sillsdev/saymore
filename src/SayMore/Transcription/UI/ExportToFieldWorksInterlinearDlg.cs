@@ -40,6 +40,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public ExportToFieldWorksInterlinearDlg()
 		{
+			Logger.WriteEvent("ExportToFieldWorksInterlinearDlg constructor");
 			InitializeComponent();
 
 			_labelTranscriptionColumnHeadingText.Text =

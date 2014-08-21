@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
+using Palaso.Reporting;
 using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Model;
 using SayMore.Properties;
@@ -26,6 +27,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		/// ------------------------------------------------------------------------------------
 		public WelcomeDialog(WelcomeDialogViewModel viewModel)
 		{
+			Logger.WriteEvent("WelcomeDialog constructor");
+
 			InitializeComponent();
 
 			Font = SystemFonts.MessageBoxFont; //use the default OS UI font

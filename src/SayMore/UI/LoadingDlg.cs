@@ -23,6 +23,8 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		public LoadingDlg()
 		{
+			Logger.WriteEvent("LoadingDlg constructor");
+
 			InitializeComponent();
 			_linkCancel.Font = Program.DialogFont;
 			BackColor = Color.White;

@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Windows.Forms;
+using Palaso.Reporting;
 
 namespace SayMore.UI.LowLevelControls
 {
@@ -26,6 +27,8 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		public DeleteMessageBox(string msg)
 		{
+			Logger.WriteEvent("DeleteMessageBox constructor");
+
 			InitializeComponent();
 			_labelMessage.Font = SystemFonts.MessageBoxFont;
 			_labelMessage.Text = msg;

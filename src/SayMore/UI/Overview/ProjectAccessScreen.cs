@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
 using Palaso.IO;
+using Palaso.Reporting;
 using SIL.Archiving.Generic.AccessProtocol;
 
 namespace SayMore.UI.Overview
@@ -19,6 +20,8 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		public ProjectAccessScreen()
 		{
+			Logger.WriteEvent("ProjectAccessScreen constructor");
+
 			InitializeComponent();
 
 			// access protocol list

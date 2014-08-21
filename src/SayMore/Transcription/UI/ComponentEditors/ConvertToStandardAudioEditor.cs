@@ -16,14 +16,31 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class ConvertToStandardAudioEditor : EditorBase
 	{
+		private static Bitmap s_informationIconAsBitmap;
 		/// ------------------------------------------------------------------------------------
 		public ConvertToStandardAudioEditor(ComponentFile file) : base(file, null, null)
 		{
+			Logger.WriteEvent("ConvertToStandardAudioEditor constructor. file = {0}", file);
 			InitializeComponent();
 			Name = "StartAnnotating";
 
 			_tableLayoutConvert.Dock = DockStyle.Top;
-			_pictureInfo.Image = SystemIcons.Information.ToBitmap();
+			// ENHANCE: I made the Dispose method for this class disposes of the Image. However,
+			// Dispose !never! gets called. This is not a huge bitmap, of course, but this
+			// constructor can get called quite a few times. It gets squirreled away in the _editors
+			// hastable in FileType using a cryptic hashcode from ElementListViewModel. But FileType
+			// is never disposed, nor is the hashtable ever cleared. So even when changing projects,
+			// it just contionues to grow. I'm not exactly sure how to fix this memory leak because
+			// there's no obvious time when it makes sense to clear FileType._editors. I tried
+			// discarding editor providers for all component files of the selected element every time
+			// SelectedElement changed, but that caused the Contributors editor to appear blank and
+			// resulted in a crash later when trying to switch to the persons tab.
+			// Finally, I "solved" the problem by caching and reusing the bitmap each time it is
+			// needed rather than create a new one. So now that bitmap stays in memory the whole
+			// time, but at least it's just one.
+			if (s_informationIconAsBitmap == null)
+				s_informationIconAsBitmap = SystemIcons.Information.ToBitmap();
+			_pictureInfo.Image = s_informationIconAsBitmap;
 		}
 
 		/// ------------------------------------------------------------------------------------

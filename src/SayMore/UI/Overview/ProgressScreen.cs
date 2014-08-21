@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using L10NSharp;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using SayMore.Properties;
 using SayMore.UI.Overview.Statistics;
 using SayMore.UI.ProjectWindow;
@@ -10,14 +11,14 @@ namespace SayMore.UI.Overview
 {
 	public partial class ProgressScreen : UserControl, ISayMoreView
 	{
-// ReSharper disable InconsistentNaming
-		protected StatisticsView _statsView;
-		protected ToolStripMenuItem _mnuProgress;
-// ReSharper restore InconsistentNaming
+		private StatisticsView _statsView;
+		private readonly ToolStripMenuItem _mnuProgress;
 
 		/// ------------------------------------------------------------------------------------
 		public ProgressScreen(StatisticsViewModel statisticsModel)
 		{
+			Logger.WriteEvent("ProgressScreen constructor");
+
 			InitializeComponent();
 			_statsView = new StatisticsView(statisticsModel) {Dock = DockStyle.Fill};
 			Controls.Add(_statsView);

@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using Palaso.Extensions;
+using Palaso.Reporting;
 using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -40,6 +41,8 @@ namespace SayMore.UI.ComponentEditors
 			PersonInformant personInformant)
 			: base(file, null, imageKey)
 		{
+			Logger.WriteEvent("PersonBasicEditor constructor. file = {0}", file);
+
 			InitializeComponent();
 			Name = "SessionEditor";
 

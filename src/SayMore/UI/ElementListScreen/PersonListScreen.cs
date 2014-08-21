@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.Reporting;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ProjectWindow;
@@ -13,9 +14,10 @@ namespace SayMore.UI.ElementListScreen
 	{
 		/// ------------------------------------------------------------------------------------
 		public PersonListScreen(ElementListViewModel<Person> presentationModel,
-			PersonGrid.Factory personGridFactory)
-			: base(presentationModel)
+			PersonGrid.Factory personGridFactory) : base(presentationModel)
 		{
+			Logger.WriteEvent("PersonListScreen constructor");
+
 			_elementsGrid = personGridFactory();
 			_elementsGrid.Name = "PersonGrid";
 			InitializeComponent();

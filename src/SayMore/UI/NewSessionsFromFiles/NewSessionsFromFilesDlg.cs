@@ -31,6 +31,8 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// ------------------------------------------------------------------------------------
 		public NewSessionsFromFilesDlg(NewSessionsFromFileDlgViewModel viewModel)
 		{
+			Logger.WriteEvent("NewSessionsFromFilesDlg constructor");
+
 			InitializeComponent();
 
 			var selectedCol = new DataGridViewCheckBoxColumn();

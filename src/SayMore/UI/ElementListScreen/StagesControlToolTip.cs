@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.Reporting;
 using SayMore.Model.Files;
 
 namespace SayMore.UI.ElementListScreen
@@ -26,6 +27,8 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public StagesControlToolTip(IEnumerable<ComponentRole> componentRoles, StagesDataProvider stagesImageMaker)
 		{
+			Logger.WriteEvent("StagesControlToolTip constructor");
+
 			_componentRoles = componentRoles;
 			_stagesImageMaker = stagesImageMaker;
 			InitializeComponent();

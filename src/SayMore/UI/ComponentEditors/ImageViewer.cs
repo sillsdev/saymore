@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.Reporting;
 using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using Palaso.UI.WindowsForms.Widgets;
 using SayMore.Model.Files;
@@ -18,6 +19,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public ImageViewer(ComponentFile file) : base(file, null, "Image")
 		{
+			Logger.WriteEvent("ImageViewer constructor. file = {0}", file);
 			InitializeComponent();
 			Name = "ImageViewer";
 

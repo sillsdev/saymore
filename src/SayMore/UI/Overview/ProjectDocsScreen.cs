@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
+using Palaso.Reporting;
 using Palaso.UI.WindowsForms.Miscellaneous;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -24,6 +25,8 @@ namespace SayMore.UI.Overview
 
 		protected ProjectDocsScreen()
 		{
+			Logger.WriteEvent("ProjectDocsScreen constructor");
+
 			InitializeComponent();
 
 			InitializeFileGrid();

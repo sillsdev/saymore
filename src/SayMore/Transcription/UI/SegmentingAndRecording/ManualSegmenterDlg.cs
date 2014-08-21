@@ -97,6 +97,7 @@ namespace SayMore.Transcription.UI
 		public ManualSegmenterDlg(ManualSegmenterDlgViewModel viewModel, int segmentToHighlight)
 			: base(viewModel)
 		{
+			Logger.WriteEvent("ManualSegmenterDlg constructor. ComponentFile = {0}; segmentToHighlight = ", viewModel.ComponentFile, segmentToHighlight);
 			InitializeComponent();
 			_tableLayoutButtons.BackColor = Settings.Default.BarColorEnd;
 			Opacity = 0D;

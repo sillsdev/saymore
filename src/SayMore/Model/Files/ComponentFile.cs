@@ -942,6 +942,8 @@ namespace SayMore.Model.Files
 			if (ext == null)
 				return;
 
+			ext = ext.ToLowerInvariant();
+
 			lock (s_fileTypes)
 			{
 				if (s_fileTypes.TryGetValue(ext, out fileType))
@@ -949,29 +951,32 @@ namespace SayMore.Model.Files
 					smallIcon = s_smallFileIcons[ext];
 					return;
 				}
-			}
 
-			var shinfo = new SHFILEINFO();
-			try
-			{
-				SHGetFileInfo(fullFilePath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_TYPENAME |
-						SHGFI_SMALLICON | SHGFI_ICON | SHGFI_DISPLAYNAME);
-			}
-			// ReSharper disable once EmptyGeneralCatchClause
-			catch { }
+				Logger.WriteEvent("Getting icon for file {0} (type: {1})", fullFilePath, ext);
 
-			// This should only be zero during tests.
-			if (shinfo.hIcon != IntPtr.Zero)
-			{
-				var icon = Icon.FromHandle(shinfo.hIcon);
-				smallIcon = icon.ToBitmap();
-				DestroyIcon(shinfo.hIcon);
-			}
+				var shinfo = new SHFILEINFO();
+				try
+				{
+					SHGetFileInfo(fullFilePath, 0, ref shinfo, (uint) Marshal.SizeOf(shinfo),
+						SHGFI_TYPENAME | SHGFI_SMALLICON | SHGFI_ICON | SHGFI_DISPLAYNAME);
+				}
+				catch (Exception e)
+				{
+					Logger.WriteEvent("Error calling SHGetFileInfo with path: {0}\r\nException: {1}", fullFilePath, e);
+					if (e is OutOfMemoryException)
+						throw;
+				}
 
-			fileType = shinfo.szTypeName;
+				// This should only be zero during tests.
+				if (shinfo.hIcon != IntPtr.Zero)
+				{
+					var icon = Icon.FromHandle(shinfo.hIcon);
+					smallIcon = icon.ToBitmap();
+					DestroyIcon(shinfo.hIcon);
+				}
 
-			lock (s_fileTypes)
-			{
+				fileType = shinfo.szTypeName;
+
 				s_fileTypes[ext] = fileType;
 				s_smallFileIcons[ext] = smallIcon;
 			}

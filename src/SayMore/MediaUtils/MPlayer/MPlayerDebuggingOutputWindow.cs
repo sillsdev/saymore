@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using Palaso.UI.WindowsForms;
 using Palaso.UI.WindowsForms.PortableSettingsProvider;
 using SayMore.Properties;
@@ -19,6 +20,7 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		public MPlayerDebuggingOutputWindow()
 		{
+			Logger.WriteEvent("MPlayerDebuggingOutputWindow constructor");
 			InitializeComponent();
 			_buttonClose.Click += delegate { Close(); };
 		}

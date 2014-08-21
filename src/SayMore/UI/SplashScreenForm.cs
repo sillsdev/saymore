@@ -18,6 +18,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using Palaso.UI.WindowsForms;
 using Palaso.UI.WindowsForms.Extensions;
 using SayMore.Properties;
@@ -64,6 +65,8 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		public SplashScreenForm()
 		{
+			Logger.WriteEvent("Starting to construct SplashScreenForm.");
+
 			InitializeComponent();
 
 			ShowStandardSILContent = false;
@@ -129,6 +132,8 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		public virtual void RealShow(EventWaitHandle waitHandle, bool useFading)
 		{
+			Logger.WriteEvent("Showing SplashScreenForm.");
+
 			m_waitHandle = waitHandle;
 			InitControlLabels();
 			m_useFading = useFading;
@@ -164,6 +169,7 @@ namespace SayMore.UI
 				m_timer.Stop();
 
 			Close();
+			Logger.WriteEvent("Closed SplashScreenForm.");
 		}
 		#endregion
 

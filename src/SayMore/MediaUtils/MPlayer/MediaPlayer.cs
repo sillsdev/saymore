@@ -4,6 +4,7 @@ using System.ComponentModel.Design;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using SayMore.UI.LowLevelControls;
 using Palaso.UI.WindowsForms;
 
@@ -17,6 +18,7 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		public MediaPlayer()
 		{
+			Logger.WriteEvent("MediaPlayer constructor");
 			InitializeComponent();
 			DoubleBuffered = true;
 

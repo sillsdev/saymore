@@ -20,6 +20,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public OralAnnotationEditor(ComponentFile file) : base(file, null, "Audio")
 		{
+			Logger.WriteEvent("OralAnnotationEditor constructor. file = {0}", file);
 			InitializeComponent();
 			Name = "OralAnnotations";
 			_toolStrip.Renderer = new NoToolStripBorderRenderer();

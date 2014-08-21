@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI
@@ -17,6 +18,8 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		public ProgressDlg(IProgressViewModel model, string caption, bool showCancel)
 		{
+			Logger.WriteEvent("ProgressDlg constructor. caption = {0}", caption);
+
 			_model = model;
 			InitializeComponent();
 			_model.OnFinished += HandleFinished;
@@ -30,7 +33,11 @@ namespace SayMore.UI
 			{
 				_buttonCancel.Visible = true;
 				_buttonOK.Visible = false;
-				_buttonCancel.Click += delegate { _model.Cancel(); };
+				_buttonCancel.Click += delegate
+				{
+					Logger.WriteEvent("Cancelled {0}", Text);
+					_model.Cancel();
+				};
 			}
 		}
 

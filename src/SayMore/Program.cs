@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Configuration;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Diagnostics;
 using System.IO;
@@ -51,6 +52,7 @@ namespace SayMore
 
 		private static bool s_handlingFirstChanceExceptionThreadsafe = false;
 		private static bool s_handlingFirstChanceExceptionUnsafe = false;
+		private static bool s_lastFirstChanceExceptionWasOutOfMemory = false;
 
 			/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -431,6 +433,8 @@ namespace SayMore
 		{
 			Debug.Assert(_projectContext == null);
 
+			Logger.WriteEvent("Attempting to open project {0}", projectPath);
+
 			try
 			{
 				if (!ObtainTokenForThisProject(projectPath))
@@ -479,6 +483,8 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		private static void HandleProjectWindowActivated(object sender, EventArgs e)
 		{
+			Logger.WriteEvent("Project window activated for project {0}", _projectContext.Project.Name);
+
 			_projectContext.ProjectWindow.Activated -= HandleProjectWindowActivated;
 			_applicationContainer.CloseSplashScreen();
 
@@ -504,12 +510,15 @@ namespace SayMore
 
 			_applicationContainer.CloseSplashScreen();
 
-			var msg = LocalizationManager.GetString("MainWindow.LoadingProjectErrorMsg",
+			var msg = string.Format(LocalizationManager.GetString("MainWindow.LoadingProjectErrorMsg",
 				"{0} had a problem loading the {1} project. Please report this problem " +
-				"to the developers by clicking 'Details' below.");
-
-			ErrorReport.NotifyUserOfProblem(new ShowAlwaysPolicy(), error, msg,
+				"to the developers by clicking 'Details' below."),
 				Application.ProductName, Path.GetFileNameWithoutExtension(projectPath));
+
+			Logger.WriteEvent(msg);
+			Logger.WriteEvent("Details:\r\n{0}", error);
+
+			ErrorReport.NotifyUserOfProblem(new ShowAlwaysPolicy(), error, msg);
 
 			Settings.Default.MRUList.Remove(projectPath);
 			MruFiles.Initialize(Settings.Default.MRUList);
@@ -665,8 +674,12 @@ namespace SayMore
 				if (s_handlingFirstChanceExceptionThreadsafe)
 					return;
 				s_handlingFirstChanceExceptionThreadsafe = true;
-				if (!(e.Exception is MissingMethodException) || !e.Exception.Message.Contains(".ShortcutKeys"))
-					Logger.WriteEvent("FirstChanceException event: {0}\r\n{1}", e.Exception.Message, e.Exception.StackTrace);
+				if (!((e.Exception is MissingMethodException) && e.Exception.Message.Contains(".ShortcutKeys")) &&
+					!(s_lastFirstChanceExceptionWasOutOfMemory && (e.Exception is OutOfMemoryException)))
+				{
+					s_lastFirstChanceExceptionWasOutOfMemory = e.Exception is OutOfMemoryException;
+					Logger.WriteEvent("FirstChanceException event: {0}", e.Exception.ToString());
+				}
 				s_handlingFirstChanceExceptionThreadsafe = false;
 			}
 

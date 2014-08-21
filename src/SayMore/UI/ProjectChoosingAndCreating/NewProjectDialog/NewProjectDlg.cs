@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Palaso.Reporting;
 
 namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 {
@@ -16,6 +17,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		/// ------------------------------------------------------------------------------------
 		public NewProjectDlg()
 		{
+			Logger.WriteEvent("NewProjectDlg constructor");
+
 			InitializeComponent();
 			_buttonOK.Enabled = false;
 			_labelNewProjectPath.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8f, GraphicsUnit.Point);

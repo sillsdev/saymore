@@ -162,7 +162,7 @@ namespace SayMore
 
 			//this hack is a continuation of the damage control started above, when from 1.6.52 to 1.6.53, we changed the namespace
 			//of the grid settings.
-			if(File.Exists(MRULatestReminderFilePath))
+			if (File.Exists(MRULatestReminderFilePath))
 			{
 				var path = File.ReadAllText(MRULatestReminderFilePath).Trim();
 				if(File.Exists(path))
@@ -342,7 +342,7 @@ namespace SayMore
 			{
 				var s = Application.LocalUserAppDataPath;
 				s = s.Substring(0, s.IndexOf("Local", StringComparison.InvariantCultureIgnoreCase) + 5);
-				return s.CombineForPath("SayMore", "lastFilePath.txt");
+				return Path.Combine(s, "SayMore", "lastFilePath.txt");
 			}
 		}
 

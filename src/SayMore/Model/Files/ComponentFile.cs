@@ -952,13 +952,17 @@ namespace SayMore.Model.Files
 					return;
 				}
 
+				uint shGetFileInfoFlags = SHGFI_TYPENAME | SHGFI_DISPLAYNAME;
+
+				if (Settings.Default.LoadComponentFileIcons)
+					shGetFileInfoFlags |= SHGFI_SMALLICON | SHGFI_ICON;
+
 				Logger.WriteEvent("Getting icon for file {0} (type: {1})", fullFilePath, ext);
 
 				var shinfo = new SHFILEINFO();
 				try
 				{
-					SHGetFileInfo(fullFilePath, 0, ref shinfo, (uint) Marshal.SizeOf(shinfo),
-						SHGFI_TYPENAME | SHGFI_SMALLICON | SHGFI_ICON | SHGFI_DISPLAYNAME);
+					SHGetFileInfo(fullFilePath, 0, ref shinfo, (uint) Marshal.SizeOf(shinfo), shGetFileInfoFlags);
 				}
 				catch (Exception e)
 				{
@@ -968,7 +972,7 @@ namespace SayMore.Model.Files
 				}
 
 				// This should only be zero during tests.
-				if (shinfo.hIcon != IntPtr.Zero)
+				if (Settings.Default.LoadComponentFileIcons && shinfo.hIcon != IntPtr.Zero)
 				{
 					var icon = Icon.FromHandle(shinfo.hIcon);
 					smallIcon = icon.ToBitmap();

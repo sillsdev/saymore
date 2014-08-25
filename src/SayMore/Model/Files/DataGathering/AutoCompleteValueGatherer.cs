@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using L10NSharp;
+using Palaso.Reporting;
 using Palaso.UI.WindowsForms.ClearShare;
 using SayMore.Model.Fields;
 using SayMore.Properties;
@@ -105,9 +107,25 @@ namespace SayMore.Model.Files.DataGathering
 			}
 			catch(Exception err)
 			{
+				// REVIEW: What specific types of (common?) exceptions were we hoping to ignore here. This represents a lot of code with
+				// a lot of possible errors that could be ignored.
+				// To try to solve SP-898 and SP-915, I'm ensuring that we DO report any ArgumentException or OutOfMemoryException.
+				// If this starts catching stuff we'd really rather ignore, this part of the try-catch block can maybe be moved into
+				// ComponentFile.GetSmallIconAndFileType to catch errors in the call to Icon.ToBitmap.
+				Logger.WriteEvent("Exception caught in AutoCompleteValueGatherer.ExtractValues. path = {0}\r\nException: {1}", path, err.ToString());
+				if (err is ArgumentException || err is OutOfMemoryException)
+				{
+					ErrorReport.NotifyUserOfProblem(new ShowOncePerSessionBasedOnExactMessagePolicy(), err,
+						string.Format(LocalizationManager.GetString("MainWindow.AutoCompleteValueGathererError",
+						"An error of type {0} ocurred trying to gather information from file: {1}",
+						"Parameter 0 is an exception type; parameter 1 is a file name"), err.GetType(), path));
+				}
+				else
+				{
 #if DEBUG
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(err, "Only seeing because you're in debug mode.");
+					ErrorReport.NotifyUserOfProblem(err, "Only seeing because you're in debug mode.");
 #endif
+				}
 				return new Dictionary<string, string>();
 			}
 		}

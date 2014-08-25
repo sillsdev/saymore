@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using L10NSharp;
+using Palaso.Reporting;
 using ThreadState = System.Threading.ThreadState;
 
 namespace SayMore.Model.Files.DataGathering
@@ -294,10 +296,28 @@ namespace SayMore.Model.Files.DataGathering
 			}
 			catch (Exception e)
 			{
+				// REVIEW: What specific types of (common?) exceptions were we hoping to ignore here. This represents a lot of code with
+				// a lot of possible errors that could be ignored.
+
 				Debug.WriteLine(e.Message);
+
+				// To try to solve SP-898 and SP-915, I'm ensuring that we DO report any ArgumentException or OutOfMemoryException.
+				// If this starts catching stuff we'd really rather ignore, this part of the try-catch block can maybe be moved into
+				// ComponentFile.GetSmallIconAndFileType to catch errors in the call to Icon.ToBitmap.
+				Logger.WriteEvent("Exception caught in {0}.CollectDataForFile. path = {1}\r\nException: {2}", GetType(), path, e.ToString());
+				if (e is ArgumentException || e is OutOfMemoryException)
+				{
+					ErrorReport.NotifyUserOfProblem(new ShowOncePerSessionBasedOnExactMessagePolicy(), e,
+						string.Format(LocalizationManager.GetString("MainWindow.AutoCompleteValueGathererError",
+						"An error of type {0} ocurred trying to gather information from file: {1}",
+						"Parameter 0 is an exception type; parameter 1 is a file name"), e.GetType(), path));
+				}
+				else
+				{
 #if  DEBUG
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, "Error gathering data");
+					ErrorReport.NotifyUserOfProblem(e, "Error gathering data");
 #endif
+				}
 				//nothing here is worth crashing over
 			}
 

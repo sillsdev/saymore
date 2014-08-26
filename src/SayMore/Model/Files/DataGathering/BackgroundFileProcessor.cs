@@ -242,6 +242,7 @@ namespace SayMore.Model.Files.DataGathering
 			catch (Exception e)
 			{
 				Debug.WriteLine(e.Message);
+				Logger.WriteEvent("Handled Exception in {0}.ProcessingFileEvent:\r\n{1}", GetType().Name, e.ToString());
 #if  DEBUG
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, "Error gathering data");
 #endif

@@ -88,8 +88,9 @@ namespace SayMore.Transcription.Model
 			{
 				throw;
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.WriteEvent("Handled Exception in AnnotationFileHelper.GetIsElanFile:\r\n{0}", e.ToString());
 			}
 
 			return false;

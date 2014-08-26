@@ -242,7 +242,10 @@ namespace SayMore.Transcription.Model
 			finally
 			{
 				try { _audioFileWriter.Dispose(); }
-				catch { }
+				catch (Exception error)
+				{
+					Logger.WriteEvent("Handled Exception thrown while trying to dispose _audioFileWriter in OralAnnotationFileGenerator.CreateInterleavedAudiFile:\r\n{0}", error.ToString());
+				}
 				_audioFileWriter = null;
 
 				if (File.Exists(tmpOutputFile))

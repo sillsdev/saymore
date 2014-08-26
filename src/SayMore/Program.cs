@@ -52,7 +52,7 @@ namespace SayMore
 
 		private static bool s_handlingFirstChanceExceptionThreadsafe = false;
 		private static bool s_handlingFirstChanceExceptionUnsafe = false;
-		private static bool s_lastFirstChanceExceptionWasOutOfMemory = false;
+		private static int s_countOfContiguousFirstChanceOutOfMemoryExceptions = 0;
 
 			/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -218,6 +218,9 @@ namespace SayMore
 				{
 					Application.Run();
 					Settings.Default.Save();
+					Logger.WriteEvent("SayMore shutting down");
+					if (s_countOfContiguousFirstChanceOutOfMemoryExceptions > 1)
+						Logger.WriteEvent("Total number of contiguous OutOfMemoryExceptions: {0}", s_countOfContiguousFirstChanceOutOfMemoryExceptions);
 					Logger.ShutDown();
 
 					SafelyDisposeProjectContext();
@@ -456,6 +459,7 @@ namespace SayMore
 			}
 			catch (OutOfMemoryException oomex)
 			{
+				Logger.WriteEvent("Out of memory exception in Program.OpenProjectWindow:\r\n{0}", oomex.ToString());
 				MessageBox.Show(oomex.ToString());
 				Application.Exit();
 			}
@@ -675,11 +679,27 @@ namespace SayMore
 				if (s_handlingFirstChanceExceptionThreadsafe)
 					return;
 				s_handlingFirstChanceExceptionThreadsafe = true;
-				if (!((e.Exception is MissingMethodException) && e.Exception.Message.Contains(".ShortcutKeys")) &&
-					!(s_lastFirstChanceExceptionWasOutOfMemory && (e.Exception is OutOfMemoryException)))
+				if (!((e.Exception is MissingMethodException) && e.Exception.Message.Contains(".ShortcutKeys")))
 				{
-					s_lastFirstChanceExceptionWasOutOfMemory = e.Exception is OutOfMemoryException;
-					Logger.WriteEvent("FirstChanceException event: {0}", e.Exception.ToString());
+					if (e.Exception is OutOfMemoryException)
+					{
+						if (s_countOfContiguousFirstChanceOutOfMemoryExceptions > 0)
+							s_countOfContiguousFirstChanceOutOfMemoryExceptions++;
+						else
+						{
+							Logger.WriteEvent("FirstChanceException event: {0}", e.Exception.ToString());
+							s_countOfContiguousFirstChanceOutOfMemoryExceptions = 1;
+						}
+					}
+					else
+					{
+						if (s_countOfContiguousFirstChanceOutOfMemoryExceptions > 1)
+						{
+							Logger.WriteEvent("Total number of contiguous OutOfMemoryExceptions: {0}", s_countOfContiguousFirstChanceOutOfMemoryExceptions);
+							s_countOfContiguousFirstChanceOutOfMemoryExceptions = 0;
+						}
+						Logger.WriteEvent("FirstChanceException event: {0}", e.Exception.ToString());
+					}
 				}
 				s_handlingFirstChanceExceptionThreadsafe = false;
 			}

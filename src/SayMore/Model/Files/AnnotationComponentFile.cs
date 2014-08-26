@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Palaso.IO;
+using Palaso.Reporting;
 using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -115,6 +117,7 @@ namespace SayMore.Model.Files
 			}
 			catch (Exception e)
 			{
+				Logger.WriteEvent("Handled Exception in AnnotationComponentFile.TryLoadAndReturnException:\r\n{0}", e.ToString());
 				Tiers = savTiers;
 				return e;
 			}
@@ -180,9 +183,9 @@ namespace SayMore.Model.Files
 						ConfirmRecycleDialog.Recycle(file.FullName);
 					Directory.Delete(segmentAnnotationFileFolder, true);
 				}
-// ReSharper disable once EmptyGeneralCatchClause
-				catch
+				catch (Exception e)
 				{
+					Logger.WriteEvent("Handled Exception in AnnotationComponentFile.Delete:\r\n{0}", e.ToString());
 				}
 			}
 

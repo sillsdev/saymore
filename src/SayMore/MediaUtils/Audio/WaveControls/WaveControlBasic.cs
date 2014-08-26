@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using NAudio;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
+using Palaso.Reporting;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 
@@ -704,6 +705,7 @@ namespace SayMore.Media.Audio
 				if (_waveOut != null)
 					_waveOut.Dispose();
 				_waveOut = null;
+				Logger.WriteEvent("Exception in WaveControllerbasic.Play:\r\n{0}", exception.ToString());
 				DesktopAnalytics.Analytics.ReportException(exception);
 				//  throw;
 			}
@@ -722,7 +724,10 @@ namespace SayMore.Media.Audio
 			{
 				Stop();
 			}
-			catch { }
+			catch (Exception e)
+			{
+				Logger.WriteEvent("Exception in WaveControllerbasic.HandleNAudioExceptionThrown:\r\n{0}", e.ToString());
+			}
 
 			if (PlaybackErrorAction != null)
 				PlaybackErrorAction(exception);

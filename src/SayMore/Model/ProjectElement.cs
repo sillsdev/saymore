@@ -41,7 +41,9 @@ namespace SayMore.Model
 		protected internal string ParentFolderPath { get; set; }
 		protected abstract string ExtensionWithoutPeriod { get; }
 
+		private readonly object _componentFilesSync = new object();
 		protected HashSet<ComponentFile> _componentFiles;
+		private readonly object _fileWatcherSync = new object();
 		FileSystemWatcher _watcher;
 
 		/// ------------------------------------------------------------------------------------
@@ -96,12 +98,9 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual void Dispose()
 		{
-			lock (this)
-			{
-				ClearComponentFiles();
-				if (MetaDataFile != null)
-					MetaDataFile = null;
-			}
+			ClearComponentFiles();
+			if (MetaDataFile != null)
+				MetaDataFile = null;
 		}
 
 		[Obsolete("For Mocking Only")]
@@ -110,21 +109,23 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void ClearComponentFiles()
 		{
-			lock (this)
+			lock (_fileWatcherSync)
 			{
 				if (_watcher != null)
 				{
+					_watcher.EnableRaisingEvents = false;
 					_watcher.Dispose();
 					_watcher = null;
 				}
-				_componentFiles = null;
 			}
+			lock (_componentFilesSync)
+				_componentFiles = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual ComponentFile[] GetComponentFiles()
 		{
-			lock (this)
+			lock (_componentFilesSync)
 			{
 				if (MetaDataFile == null) // We are disposed
 					return new ComponentFile[0];
@@ -160,20 +161,23 @@ namespace SayMore.Model
 					}
 				}
 
-				_watcher = new FileSystemWatcher(FolderPath);
-				_watcher.EnableRaisingEvents = true;
-				_watcher.Changed += (s, e) =>
+				lock (_fileWatcherSync)
 				{
-					if (e.ChangeType != WatcherChangeTypes.Changed)
-						return;
-					ComponentFile file;
-					lock (this)
+					_watcher = new FileSystemWatcher(FolderPath);
+					_watcher.EnableRaisingEvents = true;
+					_watcher.Changed += (s, e) =>
 					{
-						file = _componentFiles.FirstOrDefault(f => f.PathToAnnotatedFile == e.FullPath);
-					}
-					if (file != null)
-						file.Refresh();
-				};
+						if (e.ChangeType != WatcherChangeTypes.Changed)
+							return;
+						ComponentFile file;
+						lock (_componentFilesSync)
+						{
+							file = _componentFiles.FirstOrDefault(f => f.PathToAnnotatedFile == e.FullPath);
+						}
+						if (file != null)
+							file.Refresh();
+					};
+				}
 
 				return _componentFiles.ToArray();
 			}
@@ -291,7 +295,7 @@ namespace SayMore.Model
 				try
 				{
 					File.Copy(kvp.Key, kvp.Value);
-					lock (this)
+					lock (_componentFilesSync)
 					{
 						if (_componentFiles != null)
 							_componentFiles.Add(_componentFileFactory(this, kvp.Value));

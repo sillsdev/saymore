@@ -35,11 +35,13 @@ namespace SayMore.Model.Fields
 				{
 					name = GetLocalizedName();
 				}
-				catch (ArgumentException)
-				{
-					// This can happen when running unit tests
-					name = _name;
-				}
+				// I (TomB) couldn't find any tests that got into this condition, and the call to GetLocalizedName doesn't look
+				// like it should do anything bad during tests. This was probably true sometime in the past.
+				//catch (ArgumentException)
+				//{
+				//    // This can happen when running unit tests
+				//    name = _name;
+				//}
 				catch (InvalidOperationException)
 				{
 					// SP-865: This can happen if the the list is still loading, "Collection was modified; enumeration operation may not execute."

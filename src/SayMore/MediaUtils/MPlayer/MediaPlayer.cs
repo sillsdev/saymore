@@ -118,7 +118,7 @@ namespace SayMore.Media.MPlayer
 			_buttonPlay.Visible = _viewModel.IsPlayButtonVisible;
 			_buttonStop.Enabled = _viewModel.IsStopEnabled;
 			_buttonVolume.Image = (_viewModel.IsVolumeMuted ?
-				Properties.Resources.MuteVolume : Properties.Resources.Volume);
+				ResourceImageCache.MuteVolume : ResourceImageCache.Volume);
 		}
 
 		/// ------------------------------------------------------------------------------------

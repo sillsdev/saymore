@@ -74,20 +74,6 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap arrow_skip_right {
-            get {
-                object obj = ResourceManager.GetObject("arrow_skip_right", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap AudioComponentFileImage {
-            get {
-                object obj = ResourceManager.GetObject("AudioComponentFileImage", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap AudioFileImage {
             get {
                 object obj = ResourceManager.GetObject("AudioFileImage", resourceCulture);
@@ -116,13 +102,6 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap CarefulSpeech {
-            get {
-                object obj = ResourceManager.GetObject("CarefulSpeech", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap CheckedBox {
             get {
                 object obj = ResourceManager.GetObject("CheckedBox", resourceCulture);
@@ -140,13 +119,6 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap Copy {
             get {
                 object obj = ResourceManager.GetObject("Copy", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap Delete {
-            get {
-                object obj = ResourceManager.GetObject("Delete", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -304,13 +276,6 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap kimidMoreAction {
-            get {
-                object obj = ResourceManager.GetObject("kimidMoreAction", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap kimidNewProject {
             get {
                 object obj = ResourceManager.GetObject("kimidNewProject", resourceCulture);
@@ -412,13 +377,6 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap MissingAnnotation {
-            get {
-                object obj = ResourceManager.GetObject("MissingAnnotation", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap MoreArrows {
             get {
                 object obj = ResourceManager.GetObject("MoreArrows", resourceCulture);
@@ -489,13 +447,6 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap NotesTabImage {
             get {
                 object obj = ResourceManager.GetObject("NotesTabImage", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap OralTranslation {
-            get {
-                object obj = ResourceManager.GetObject("OralTranslation", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -605,23 +556,9 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap RecordingPlaybackAnnotation {
-            get {
-                object obj = ResourceManager.GetObject("RecordingPlaybackAnnotation", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap RecordOralAnnotation {
             get {
                 object obj = ResourceManager.GetObject("RecordOralAnnotation", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap RecordOralAnnotationSmall {
-            get {
-                object obj = ResourceManager.GetObject("RecordOralAnnotationSmall", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -801,13 +738,6 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap StopSegment {
             get {
                 object obj = ResourceManager.GetObject("StopSegment", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap TechnicalTabImage {
-            get {
-                object obj = ResourceManager.GetObject("TechnicalTabImage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -111,11 +111,11 @@ namespace SayMore.UI.LowLevelControls
 				if (_parentType == ParentType.Father)
 				{
 					return (_selected && Enabled ?
-						Resources.kimidMale_Selected : Resources.kimidMale_NotSelected);
+						ResourceImageCache.kimidMale_Selected : ResourceImageCache.kimidMale_NotSelected);
 				}
 
 				return (_selected && Enabled ?
-					Resources.kimidFemale_Selected : Resources.kimidFemale_NotSelected);
+					ResourceImageCache.kimidFemale_Selected : ResourceImageCache.kimidFemale_NotSelected);
 			}
 		}
 

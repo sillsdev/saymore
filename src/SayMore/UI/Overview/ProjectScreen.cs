@@ -138,7 +138,7 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		public Image Image
 		{
-			get { return Resources.project; }
+			get { return ResourceImageCache.project; }
 		}
 
 // ReSharper disable once UnusedAutoPropertyAccessor.Local

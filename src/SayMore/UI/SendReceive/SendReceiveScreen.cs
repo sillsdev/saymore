@@ -34,7 +34,7 @@ namespace SayMore.UI.SendReceive
 	//    /// ------------------------------------------------------------------------------------
 	//    public System.Drawing.Image Image
 	//    {
-	//        get { return Resources.SendReceive; }
+	//        get { return ResourceImageCache.SendReceive; }
 	//    }
 
 	//    /// ------------------------------------------------------------------------------------

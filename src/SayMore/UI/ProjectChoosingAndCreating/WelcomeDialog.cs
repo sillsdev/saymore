@@ -213,13 +213,13 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			using (var pen = new Pen(AppColors.BarBorder))
 				e.Graphics.DrawLine(pen, 0, rc.Bottom, rc.Right, rc.Bottom);
 
-			rc = new Rectangle(new Point(_labelSubTitle.Left - 6, 18), Resources.SayMoreText.Size);
+			rc = new Rectangle(new Point(_labelSubTitle.Left - 6, 18), ResourceImageCache.SayMoreText.Size);
 			//rc.Inflate(-4, -4);
-			e.Graphics.DrawImage(Resources.SayMoreText, rc);
+			e.Graphics.DrawImage(ResourceImageCache.SayMoreText, rc);
 
 			// Draw the application's logo image.
-			rc = new Rectangle(new Point(pnlOptions.Left - 10, 0), Resources.LargeSayMoreLogo.Size);
-			e.Graphics.DrawImage(Resources.LargeSayMoreLogo, rc);
+			rc = new Rectangle(new Point(pnlOptions.Left - 10, 0), ResourceImageCache.LargeSayMoreLogo.Size);
+			e.Graphics.DrawImage(ResourceImageCache.LargeSayMoreLogo, rc);
 		}
 	}
 }

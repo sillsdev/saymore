@@ -955,9 +955,14 @@ namespace SayMore.Model.Files
 				uint shGetFileInfoFlags = SHGFI_TYPENAME | SHGFI_DISPLAYNAME;
 
 				if (Settings.Default.LoadComponentFileIcons)
+				{
 					shGetFileInfoFlags |= SHGFI_SMALLICON | SHGFI_ICON;
-
-				Logger.WriteEvent("Getting icon for file {0} (type: {1})", fullFilePath, ext);
+					Logger.WriteEvent("Getting icon and file type for file {0} (type: {1})", fullFilePath, ext);
+				}
+				else
+				{
+					Logger.WriteEvent("Getting file type for file {0} (type: {1})", fullFilePath, ext);
+				}
 
 				var shinfo = new SHFILEINFO();
 				try

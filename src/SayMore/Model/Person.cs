@@ -91,15 +91,15 @@ namespace SayMore.Model
 		{
 			var componentFile = GetInformedConsentComponentFile();
 			if (componentFile == null)
-				return Resources.NoInformedConsent;
+				return ResourceImageCache.NoInformedConsent;
 
 			if (componentFile.FileType.IsAudio)
-				return Resources.AudioInformedConsent;
+				return ResourceImageCache.AudioInformedConsent;
 
 			if (componentFile.FileType.IsVideo)
-				return Resources.VideoInformedConsent;
+				return ResourceImageCache.VideoInformedConsent;
 
-			return Resources.WrittenInformedConsent;
+			return ResourceImageCache.WrittenInformedConsent;
 		}
 
 		/// ------------------------------------------------------------------------------------

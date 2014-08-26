@@ -91,7 +91,7 @@ namespace SayMore.UI
 					return;
 				_labelLoading.Text = msg;
 				_exception = e;
-				_pictureLoading.Image = (e == null ? _originalGif : Properties.Resources.kimidWarning);
+				_pictureLoading.Image = (e == null ? _originalGif : ResourceImageCache.kimidWarning);
 			}
 		}
 

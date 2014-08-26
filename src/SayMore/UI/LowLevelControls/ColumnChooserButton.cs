@@ -22,7 +22,7 @@ namespace SayMore.UI.LowLevelControls
 		public ColumnChooserButton()
 		{
 			AutoSize = false;
-			Image = Properties.Resources.ColumnChooser;
+			Image = ResourceImageCache.ColumnChooser;
 			Size = new Size(Image.Width + 4, Image.Height + 4);
 			Text = string.Empty;
 

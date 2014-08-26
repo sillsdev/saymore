@@ -65,14 +65,14 @@ namespace SayMore.UI.ElementListScreen
 
 			_tabControlImages = new ImageList();
 			_tabControlImages.ColorDepth = ColorDepth.Depth32Bit;
-			_tabControlImages.ImageSize = Resources.PlayTabImage.Size;
-			_tabControlImages.Images.Add("Notes", Resources.NotesTabImage);
-			_tabControlImages.Images.Add("Play", Resources.PlayTabImage);
-			_tabControlImages.Images.Add("Person", Resources.PersonFileImage);
-			_tabControlImages.Images.Add("Session", Resources.SessionFileImage);
-			_tabControlImages.Images.Add("Image", Resources.ImageFileImage);
-			_tabControlImages.Images.Add("Video", Resources.VideoFileImage);
-			_tabControlImages.Images.Add("Audio", Resources.AudioFileImage);
+			_tabControlImages.ImageSize = ResourceImageCache.PlayTabImage.Size;
+			_tabControlImages.Images.Add("Notes", ResourceImageCache.NotesTabImage);
+			_tabControlImages.Images.Add("Play", ResourceImageCache.PlayTabImage);
+			_tabControlImages.Images.Add("Person", ResourceImageCache.PersonFileImage);
+			_tabControlImages.Images.Add("Session", ResourceImageCache.SessionFileImage);
+			_tabControlImages.Images.Add("Image", ResourceImageCache.ImageFileImage);
+			_tabControlImages.Images.Add("Video", ResourceImageCache.VideoFileImage);
+			_tabControlImages.Images.Add("Audio", ResourceImageCache.AudioFileImage);
 
 			_elementsGrid.IsOKToSelectDifferentElement = GetIsOKToLeaveCurrentEditor;
 			_elementsGrid.DeleteAction = DeleteSelectedElements;

@@ -91,7 +91,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public Image Image
 		{
-			get { return Resources.People; }
+			get { return ResourceImageCache.People; }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -334,7 +334,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get { return Resources.PersonFileImage; }
+			get { return ResourceImageCache.PersonFileImage; }
 		}
 	}
 
@@ -528,7 +528,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get { return Resources.SessionFileImage; }
+			get { return ResourceImageCache.SessionFileImage; }
 		}
 	}
 
@@ -992,7 +992,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get {return Resources.AudioFileImage;}
+			get {return ResourceImageCache.AudioFileImage;}
 		}
 	}
 
@@ -1066,7 +1066,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get { return Resources.VideoFileImage; }
+			get { return ResourceImageCache.VideoFileImage; }
 		}
 	}
 
@@ -1106,7 +1106,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get { return Resources.ImageFileImage; }
+			get { return ResourceImageCache.ImageFileImage; }
 		}
 	}
 

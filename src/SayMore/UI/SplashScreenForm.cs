@@ -71,11 +71,11 @@ namespace SayMore.UI
 
 			ShowStandardSILContent = false;
 
-			_logoTextLeft = Resources.LargeSayMoreLogo.Size.Width + 40;
-			_labelLoading.Location = new Point(_logoTextLeft, kLogoTextImageTop + Resources.SayMoreText.Height);
+			_logoTextLeft = ResourceImageCache.LargeSayMoreLogo.Size.Width + 40;
+			_labelLoading.Location = new Point(_logoTextLeft, kLogoTextImageTop + ResourceImageCache.SayMoreText.Height);
 
-			Width = Resources.LargeSayMoreLogo.Size.Width + Resources.SayMoreText.Width + 80;
-			Height = Resources.LargeSayMoreLogo.Size.Height + kLogoTextImageTop + 30;
+			Width = ResourceImageCache.LargeSayMoreLogo.Size.Width + ResourceImageCache.SayMoreText.Width + 80;
+			Height = ResourceImageCache.LargeSayMoreLogo.Size.Height + kLogoTextImageTop + 30;
 
 			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text, BuildType.Current);
 
@@ -351,13 +351,13 @@ namespace SayMore.UI
 				e.Graphics.DrawLine(pen, 0, rc.Bottom, rc.Right, rc.Bottom);
 
 			// Draw the application's logo image.
-			rc = new Rectangle(new Point(30, 0), Resources.LargeSayMoreLogo.Size);
-			e.Graphics.DrawImage(Resources.LargeSayMoreLogo, rc);
+			rc = new Rectangle(new Point(30, 0), ResourceImageCache.LargeSayMoreLogo.Size);
+			e.Graphics.DrawImage(ResourceImageCache.LargeSayMoreLogo, rc);
 
 			// Draw logo text.
-			rc = new Rectangle(new Point(_logoTextLeft, kLogoTextImageTop), Resources.SayMoreText.Size);
-			//rc = new Rectangle(new Point(_logoTextLeft, 18), Resources.SayMoreText.Size);
-			e.Graphics.DrawImage(Resources.SayMoreText, rc);
+			rc = new Rectangle(new Point(_logoTextLeft, kLogoTextImageTop), ResourceImageCache.SayMoreText.Size);
+			//rc = new Rectangle(new Point(_logoTextLeft, 18), ResourceImageCache.SayMoreText.Size);
+			e.Graphics.DrawImage(ResourceImageCache.SayMoreText, rc);
 
 			// Draw border around window.
 			rc = new Rectangle(0, 0, ClientSize.Width - 1, ClientSize.Height - 1);

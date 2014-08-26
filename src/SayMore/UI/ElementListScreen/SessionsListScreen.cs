@@ -155,7 +155,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public Image Image
 		{
-			get { return Resources.Sessions; }
+			get { return ResourceImageCache.Sessions; }
 		}
 
 		/// ------------------------------------------------------------------------------------

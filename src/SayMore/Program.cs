@@ -178,6 +178,7 @@ namespace SayMore
 
 			Logger.Init();
 			AppDomain.CurrentDomain.FirstChanceException += FirstChanceHandler;
+			Logger.WriteEvent(ApplicationContainer.GetVersionInfo("SayMore version {0}.{1}.{2} {3}    Built on {4}", BuildType.Current));
 			Logger.WriteEvent("Visual Styles State: {0}", Application.VisualStyleState);
 			SetUpErrorHandling();
 

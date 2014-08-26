@@ -95,13 +95,13 @@ namespace SayMore.Transcription.UI
 			try
 			{
 				// SP-950: Check for corrupt resources, out of memory, or ???
-				listenToOriginalRecordingDownWidth = Resources.ListenToOriginalRecordingDown.Width;
-				listenToOriginalRecording = Resources.ListenToOriginalRecording.Width;
-				recordingOralAnnotationInProgressWidth = Resources.RecordingOralAnnotationInProgress.Width;
-				recordOralAnnotationWidth = Resources.RecordOralAnnotation.Width;
-				green_checkWidth = Resources.Green_check.Width;
-				information_redWidth = Resources.Information_red.Width;
-				information_blueWidth = Resources.Information_blue.Width;
+				listenToOriginalRecordingDownWidth = ResourceImageCache.ListenToOriginalRecordingDown.Width;
+				listenToOriginalRecording = ResourceImageCache.ListenToOriginalRecording.Width;
+				recordingOralAnnotationInProgressWidth = ResourceImageCache.RecordingOralAnnotationInProgress.Width;
+				recordOralAnnotationWidth = ResourceImageCache.RecordOralAnnotation.Width;
+				green_checkWidth = ResourceImageCache.Green_check.Width;
+				information_redWidth = ResourceImageCache.Information_red.Width;
+				information_blueWidth = ResourceImageCache.Information_blue.Width;
 				Logger.WriteEvent(string.Format("SP-950 Debug Info: listenToOriginalRecordingDownWidth = {0}; listenToOriginalRecording = {1}; " +
 					"recordingOralAnnotationInProgressWidth = {2}; recordOralAnnotationWidth = {3}; green_checkWidth = {4}; " +
 					"information_redWidth = {5}; information_blueWidth = {6};",
@@ -371,7 +371,7 @@ namespace SayMore.Transcription.UI
 
 			_normalPlaySourceButton = _labelListenButton.Image;
 			_normalRecordAnnotationButton = _labelRecordButton.Image;
-			_normalRerecordAnnotationButton = Resources.RerecordOralAnnotation;
+			_normalRerecordAnnotationButton = ResourceImageCache.RerecordOralAnnotation;
 			_hotPlaySourceButton = PaintingHelper.MakeHotImage(_normalPlaySourceButton);
 			_hotRecordAnnotationButton = PaintingHelper.MakeHotImage(_normalRecordAnnotationButton);
 			_hotRerecordAnnotationButton = PaintingHelper.MakeHotImage(_normalRerecordAnnotationButton);
@@ -573,14 +573,14 @@ namespace SayMore.Transcription.UI
 			_recDeviceIndicator.UpdateDisplay();
 
 			if (_waveControl.IsPlaying && _playingBackUsingHoldDownButton)
-				SetLabelImage(_labelListenButton, Resources.ListenToOriginalRecordingDown, "ListenToOriginalRecordingDown");
+				SetLabelImage(_labelListenButton, ResourceImageCache.ListenToOriginalRecordingDown, "ListenToOriginalRecordingDown");
 			else
-				SetLabelImage(_labelListenButton, Resources.ListenToOriginalRecording, "ListenToOriginalRecording");
+				SetLabelImage(_labelListenButton, ResourceImageCache.ListenToOriginalRecording, "ListenToOriginalRecording");
 
 			if (ViewModel.GetIsRecording())
-				SetLabelImage(_labelRecordButton, Resources.RecordingOralAnnotationInProgress, "RecordingOralAnnotationInProgress");
+				SetLabelImage(_labelRecordButton, ResourceImageCache.RecordingOralAnnotationInProgress, "RecordingOralAnnotationInProgress");
 			else
-				SetLabelImage(_labelRecordButton, Resources.RecordOralAnnotation, "RecordOralAnnotation");
+				SetLabelImage(_labelRecordButton, ResourceImageCache.RecordOralAnnotation, "RecordOralAnnotation");
 
 			_labelListenButton.Enabled = !ViewModel.GetIsRecording() &&
 										(ViewModel.CurrentUnannotatedSegment != null || !ViewModel.GetIsFullyAnnotated());
@@ -598,7 +598,7 @@ namespace SayMore.Transcription.UI
 			{
 				if (!_labelFinishedHint.Visible)
 				{
-					SetLabelImage(_pictureIcon, Resources.Green_check, "Green_check");
+					SetLabelImage(_pictureIcon, ResourceImageCache.Green_check, "Green_check");
 					_labelFinishedHint.Visible = true;
 					_tableLayoutButtons.Controls.Add(_labelFinishedHint, 1, 0);
 					_tableLayoutButtons.SetRowSpan(_labelFinishedHint, 3);
@@ -611,7 +611,7 @@ namespace SayMore.Transcription.UI
 
 				if (_labelErrorInfo.Visible)
 				{
-					SetLabelImage(_pictureIcon, Resources.Information_red, "Information_red");
+					SetLabelImage(_pictureIcon, ResourceImageCache.Information_red, "Information_red");
 					if (_labelFinishedHint.Visible)
 					{
 						_labelFinishedHint.Visible = false;
@@ -621,7 +621,7 @@ namespace SayMore.Transcription.UI
 				}
 				else
 				{
-					SetLabelImage(_pictureIcon, Resources.Information_blue, "Information_blue");
+					SetLabelImage(_pictureIcon, ResourceImageCache.Information_blue, "Information_blue");
 				}
 
 				float percentage = (_labelErrorInfo.Visible) ? 50 : 100;
@@ -1063,7 +1063,7 @@ namespace SayMore.Transcription.UI
 			_spaceBarMode = ViewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
 			if (_labelFinishedHint.Visible && _spaceBarMode != SpaceBarMode.Done)
 			{
-				_pictureIcon.Image = Resources.Information_blue;
+				_pictureIcon.Image = ResourceImageCache.Information_blue;
 				_labelFinishedHint.Visible = false;
 				_tableLayoutButtons.Controls.Remove(_labelFinishedHint);
 				AcceptButton = null;

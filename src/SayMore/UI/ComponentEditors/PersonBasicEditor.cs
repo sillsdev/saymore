@@ -420,7 +420,7 @@ namespace SayMore.UI.ComponentEditors
 				var picFile = GetPictureFile();
 
 				if (picFile == null)
-					_personsPicture.Image = Resources.kimidNoPhoto;
+					_personsPicture.Image = ResourceImageCache.kimidNoPhoto;
 				else
 				{
 					// Do this instead of using the Load method because Load keeps a lock on the file.
@@ -454,7 +454,7 @@ namespace SayMore.UI.ComponentEditors
 			if (!_personsPicture.ClientRectangle.Contains(_personsPicture.PointToClient(MousePosition)))
 				return;
 
-			var img = Resources.kimidChangePicture;
+			var img = ResourceImageCache.kimidChangePicture;
 			var rc = _personsPicture.ClientRectangle;
 
 			if (rc.Width > rc.Height)

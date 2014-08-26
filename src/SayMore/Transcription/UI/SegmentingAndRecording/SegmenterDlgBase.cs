@@ -43,7 +43,7 @@ namespace SayMore.Transcription.UI
 
 		private Image _hotPlayInSegmentButton;
 		private Image _normalPlayInSegmentButton;
-		protected Size _playButtonSize = Resources.ListenToSegment.Size;
+		protected Size _playButtonSize = ResourceImageCache.ListenToSegment.Size;
 		private Rectangle _lastPlayButtonRc;
 
 		protected PercentageFormatter _pctFormatter = new PercentageFormatter();
@@ -115,7 +115,7 @@ namespace SayMore.Transcription.UI
 			_tableLayoutOuter.RowStyles.Add(new RowStyle(SizeType.Absolute, HeightOfTableLayoutButtonRow));
 			_tableLayoutOuter.RowStyles.Add(new RowStyle());
 
-			_normalPlayInSegmentButton = Resources.ListenToSegment;
+			_normalPlayInSegmentButton = ResourceImageCache.ListenToSegment;
 			_hotPlayInSegmentButton = PaintingHelper.MakeHotImage(_normalPlayInSegmentButton);
 
 			_waveControl = CreateWaveControl();
@@ -665,7 +665,7 @@ namespace SayMore.Transcription.UI
 		private void HandleIgnoreToolStripMenuItemCheckedChanged(object sender, EventArgs e)
 		{
 			_ignoreToolStripMenuItem.Image = _ignoreToolStripMenuItem.Checked ?
-				Resources.CheckedBox : Resources.UncheckedBox;
+				ResourceImageCache.CheckedBox : ResourceImageCache.UncheckedBox;
 		}
 
 		/// ------------------------------------------------------------------------------------

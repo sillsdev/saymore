@@ -108,7 +108,7 @@ namespace SayMore.UI.ComponentEditors
 			{
 				Name = "picture_" + status,
 				Anchor = AnchorStyles.Top | AnchorStyles.Left,
-				Image = (Image)Properties.Resources.ResourceManager.GetObject("Status" + status),
+				Image = ResourceImageCache.GetBitmap("Status" + status),
 				Margin = new Padding(5, 4, 0, 2),
 				SizeMode = PictureBoxSizeMode.AutoSize,
 			};

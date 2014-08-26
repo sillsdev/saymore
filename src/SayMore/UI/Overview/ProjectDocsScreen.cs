@@ -158,10 +158,8 @@ namespace SayMore.UI.Overview
 			_descriptionFileGrid.HideDuration = true;
 
 			_tabControlImages.ColorDepth = ColorDepth.Depth32Bit;
-			_tabControlImages.ImageSize = Resources.PlayTabImage.Size;
-			_tabControlImages.Images.Add("Notes", Resources.NotesTabImage);
-
-
+			_tabControlImages.ImageSize = ResourceImageCache.PlayTabImage.Size;
+			_tabControlImages.Images.Add("Notes", ResourceImageCache.NotesTabImage);
 		}
 
 		private void HandleAfterComponentFileSelected(int index)

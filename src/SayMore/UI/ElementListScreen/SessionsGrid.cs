@@ -54,7 +54,7 @@ namespace SayMore.UI.ElementListScreen
 				object obj;
 				if (!_statusIcons.TryGetValue(objectName, out obj))
 				{
-					obj = Resources.ResourceManager.GetObject(objectName);
+					obj = ResourceImageCache.GetBitmap(objectName);
 					_statusIcons[objectName] = obj;
 				}
 				return obj;
@@ -110,7 +110,7 @@ namespace SayMore.UI.ElementListScreen
 		public override IEnumerable<ToolStripMenuItem> GetMenuCommands()
 		{
 			// RAMP Archive
-			var menu = new ToolStripMenuItem(string.Empty, Resources.RampIcon,
+			var menu = new ToolStripMenuItem(string.Empty, ResourceImageCache.RampIcon,
 				(s, e) => {
 					var session = (Session)GetCurrentElement();
 					if (session != null)

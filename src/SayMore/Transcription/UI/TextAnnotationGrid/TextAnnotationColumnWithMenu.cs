@@ -89,7 +89,7 @@ namespace SayMore.Transcription.UI
 			rect.X += headerTextWidth;
 			rect.Width -= headerTextWidth;
 
-			var arrow = Properties.Resources.DropDownArrow;
+			var arrow = ResourceImageCache.DropDownArrow;
 			var glyphWidth = arrow.Width;
 			if (rect.Width > glyphWidth)
 			{

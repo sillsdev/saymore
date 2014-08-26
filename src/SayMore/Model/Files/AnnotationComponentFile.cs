@@ -32,7 +32,7 @@ namespace SayMore.Model.Files
 			InitializeFileInfo();
 			Load();
 
-			SmallIcon = Resources.ElanIcon;
+			SmallIcon = ResourceImageCache.ElanIcon;
 
 			var oralAnnotationFilePath = GetSuggestedPathToOralAnnotationFile();
 			if (File.Exists(oralAnnotationFilePath))

@@ -110,6 +110,8 @@
 	<!-- remove an existing one with the same name, if necessary -->
 	<Delete Files="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).msi" TreatErrorsAsWarnings="false" />
 
+	<Exec Command='sign "$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.msi"'></Exec>
+
 	<Copy SourceFiles="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.msi"
 		  DestinationFiles="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).msi"
 		  />

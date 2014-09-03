@@ -185,10 +185,10 @@ namespace SayMore
 			var userInfo = new UserInfo();
 
 #if DEBUG
-			//always track if this is a debug built, but track to a different segment.io project
+			// Always track if this is a debug build, but track to a different segment.io project
 			using (new Analytics("twa75xkko9", userInfo))
 #else
-			// if this is a release build, then allow an envinroment variable to be set to false
+			// If this is a release build, then allow an environment variable to be set to false
 			// so that testers aren't generating false analytics
 			string feedbackSetting = System.Environment.GetEnvironmentVariable("FEEDBACK");
 

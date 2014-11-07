@@ -74,8 +74,9 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\dotnet\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="L10NSharp">
-      <HintPath>..\..\packages\L10NSharp.2.0.5\lib\net40-Client\L10NSharp.dll</HintPath>
+    <Reference Include="L10NSharp, Version=2.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\dotnet\L10NSharp.dll</HintPath>
     </Reference>
     <Reference Include="NAudio">
       <HintPath>..\..\lib\dotnet\NAudio.dll</HintPath>

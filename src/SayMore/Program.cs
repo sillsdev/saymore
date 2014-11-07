@@ -81,8 +81,8 @@ namespace SayMore
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			// This following two lines not only get the locations of the respective settings files. They also
-			// detect corruption and delete them so SayMore doesn't crash.
+			// The following not only get the location of the settings file used for the analytics stuff. It also
+			// detects corruption and deletes it if needed so SayMore doesn't crash.
 			var analyticsConfigFilePath = GetAnalyticsConfigFilePath(); // Analytics settings.
 
 			if ((Control.ModifierKeys & Keys.Shift) > 0 && !string.IsNullOrEmpty(analyticsConfigFilePath))

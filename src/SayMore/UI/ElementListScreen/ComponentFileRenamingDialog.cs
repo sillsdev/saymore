@@ -136,7 +136,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			var fmt = LocalizationManager.GetString(
 				"DialogBoxes.ComponentFileRenamingDlg.NewFileNameMsg",
-				"New file: {0}", "Displayed under the text box.", "Parameter is file name.");
+				"New file: {0}", "Displayed under the text box.; Parameter is file name.");
 
 			var validMsg = (_textBox.Text.Trim() == string.Empty ?
 				string.Empty : string.Format(fmt, NewFilePath));

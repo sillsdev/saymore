@@ -222,7 +222,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Font TranlationFont
+		public Font TranslationFont
 		{
 			set
 			{

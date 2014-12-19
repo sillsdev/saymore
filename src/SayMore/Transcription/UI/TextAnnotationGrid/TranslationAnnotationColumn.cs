@@ -70,7 +70,7 @@ namespace SayMore.Transcription.UI
 			base.SetFont(newFont);
 
 			// SP-873: Translation font not saving
-			_grid.TranlationFont = newFont;
+			_grid.TranslationFont = newFont;
 		}
 	}
 }

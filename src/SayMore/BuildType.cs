@@ -16,7 +16,7 @@ namespace SayMore
 #if DEBUG
 			get { return VersionType.Debug; }
 #else
-			get { return VersionType.Production; }
+			get { return VersionType.Alpha; }
 #endif
 		}
 	}

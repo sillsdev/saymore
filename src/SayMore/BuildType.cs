@@ -8,7 +8,7 @@ namespace SayMore
 			Alpha,
 			Beta,
 			ReleaseCandidate,
-			Production
+			Release,
 		}
 
 		public static VersionType Current

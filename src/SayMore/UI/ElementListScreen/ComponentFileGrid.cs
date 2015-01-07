@@ -605,7 +605,14 @@ namespace SayMore.UI.ElementListScreen
 				return;
 			}
 
-			file.Rename(PostMenuCommandRefreshAction);
+			try
+			{
+				file.Rename(PostMenuCommandRefreshAction);
+			}
+			catch (PathTooLongException ex)
+			{
+				MessageBox.Show(FindForm(), ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

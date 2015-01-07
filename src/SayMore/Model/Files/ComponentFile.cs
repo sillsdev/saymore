@@ -337,7 +337,23 @@ namespace SayMore.Model.Files
 		protected void LoadFileSizeAndDateModified()
 		{
 			// Initialize file's display size. File should only not exist during tests.
-			var fi = new FileInfo(PathToAnnotatedFile);
+			FileInfo fi = null;
+			try
+			{
+				fi = new FileInfo(PathToAnnotatedFile);
+			}
+			catch (Exception e)
+			{
+				if (e is PathTooLongException || e is ArgumentException)
+				{
+					ErrorReport.ReportNonFatalExceptionWithMessage(e,
+						LocalizationManager.GetString("CommonToMultipleViews.FileList.CannotRenameFileErrorMsg",
+						"{0} could not load the file: {1}"),
+						Application.ProductName, PathToAnnotatedFile);
+					return;
+				}
+				throw;
+			}
 			FileSize = (fi.Exists ? GetDisplayableFileSize(fi.Length) : "0 KB");
 
 			// display the file time using the current culture, same as windows explorer
@@ -829,6 +845,10 @@ namespace SayMore.Model.Files
 
 				if (_annotationFile != null)
 					_annotationFile.RenameAnnotatedFile(GetSuggestedPathToAnnotationFile());
+			}
+			catch (PathTooLongException pathTooLong)
+			{
+				throw new PathTooLongException(pathTooLong.Message + Environment.NewLine + newPath, pathTooLong);
 			}
 			catch (Exception e)
 			{

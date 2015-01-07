@@ -467,6 +467,18 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>This is a fix for SP-960, needed to fully display the last row of the text
+		/// annotation grid when the row has been resized in response to the user entering it.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnRowHeightChanged(DataGridViewRowEventArgs e)
+		{
+			base.OnRowHeightChanged(e);
+			if (CurrentRow == e.Row && e.Row.Index == RowCount - 1)
+				FirstDisplayedScrollingRowIndex = e.Row.Index;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnCellLeave(DataGridViewCellEventArgs e)
 		{
 			base.OnCellLeave(e);

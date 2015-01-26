@@ -1,10 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="fr" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="2.0.5196.24814" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
-    <prop type="x-appversion">3.0.0.0</prop>
+  <header srclang="fr" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="2.0.21.0" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+    <prop type="x-appversion">3.0.227.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
   <body>
+    <tu tuid="BuildType.Alpha">
+      <tuv xml:lang="en">
+        <seg>Alpha</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Alpha</seg>
+      </tuv>
+    </tu>
+    <tu tuid="BuildType.Beta">
+      <tuv xml:lang="en">
+        <seg>Beta</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Bêta</seg>
+      </tuv>
+    </tu>
+    <tu tuid="BuildType.ReleaseCandidate">
+      <tuv xml:lang="en">
+        <seg>Release Candidate</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Version admissible (Release Candidate)</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.AttemptedRetriesMsg">
       <note>Parameter is the number of times SayMore has attempted to move the temp file to the permanent location.</note>
       <tuv xml:lang="en">
@@ -210,6 +234,22 @@
         <seg>Voulez-vous supprimer le champ '{0}' et son contenu de l'ensemble du projet ?</seg>
       </tuv>
     </tu>
+    <tu tuid="CommonToMultipleViews.FileIsReadOnly">
+      <tuv xml:lang="en">
+        <seg>SayMore is not able to write to the file "{0}." It is read-only.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>SayMore ne peut pas écrire le fichier "{0}". Il est en lecture seule.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileIsReadOnlyOrLocked">
+      <tuv xml:lang="en">
+        <seg>SayMore is not able to write to the file "{0}." It is read-only or locked.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>SayMore ne peut pas écrire le fichier "{0}". Il est en lecture seule ou verrouillé.</seg>
+      </tuv>
+    </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.Caption">
       <tuv xml:lang="en">
         <seg>Add Files</seg>
@@ -252,7 +292,7 @@
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CannotRenameFileErrorMsg">
       <tuv xml:lang="en">
-        <seg>{0} could not rename the file to '{1}' because there is already a file with that name.</seg>
+        <seg>{0} could not load the file: {1}</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>{0} ne peut pas renommer le fichier '{1}' car il existe déjà un fichier avec ce nom.</seg>
@@ -361,6 +401,14 @@
       </tuv>
       <tuv xml:lang="fr">
         <seg>{0} et des fichiers subordonnés</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileAlreadyExistsMessage">
+      <tuv xml:lang="en">
+        <seg>There is already a file named {0} in this project. Do you want to replace the old one with this one?</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Il existe déjà un fichier nommé {0} dans ce projet. Voulez-vous remplacer l'ancien avec celui-ci ?</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.FileSizeBytes">
@@ -493,10 +541,18 @@
     </tu>
     <tu tuid="CommonToMultipleViews.ImageViewer.OpeningPictureFileErrorMsg">
       <tuv xml:lang="en">
-        <seg>Could not open that picture</seg>
+        <seg>Could not open that picture.</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>N'a pas pu ouvrir cette image</seg>
+        <seg>Impossible d'ouvrir cette image.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ImageViewer.OpeningPictureFileTooLargeMsg">
+      <tuv xml:lang="en">
+        <seg>Could not open that picture. The image size is too large for SayMore to open.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Impossible d'ouvrir cette image. La taille de l'image est trop grande pour SayMore.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ImageViewer.TabText">
@@ -1827,6 +1883,15 @@
       </tuv>
       <tuv xml:lang="fr">
         <seg>Îles Heard-et-MacDonald</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ListItems.Countries.Holy Seat (Vatican City).Text">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Holy Seat (Vatican City)</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Saint Siège (Cité du Vatican)</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ListItems.Countries.Holy See (Vatican City).Text">
@@ -3497,56 +3562,6 @@
         <seg>Sortie complète de conversion :</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.AboutDlg.WindowTitle">
-      <tuv xml:lang="en">
-        <seg>About SayMore</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>À propos de SayMore</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._buttonOK">
-      <tuv xml:lang="en">
-        <seg>OK</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>OK</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._labelSubTitle">
-      <tuv xml:lang="en">
-        <seg>Language Documentation Project Management</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Gestion de projets de documentation de langues</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._labelVersionInfo">
-      <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2} {3}    Built on {4}</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Version {0}.{1}.{2} {3} du {4}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._linkSILWebsite">
-      <note>Parameter is the publisher of SayMore, "SIL International"</note>
-      <tuv xml:lang="en">
-        <seg>This free software is published by {0}.</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>SayMore vous est apporté gratuitement par {0}.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebsite">
-      <note>Parameter is the program name, "SayMore"</note>
-      <tuv xml:lang="en">
-        <seg>Visit {0} on the Web.</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>Visiter le site web {0}.</seg>
-      </tuv>
-    </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg">
       <tuv xml:lang="en">
         <seg>Adding Files for Contributor '{0}'</seg>
@@ -3561,6 +3576,22 @@
       </tuv>
       <tuv xml:lang="fr">
         <seg>Ajout des fichiers des collaborateurs... </seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.AddingOtherProjectDocumentsToIMDIArchiveProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Adding Other Project Documents...</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Ajout d'autres documents de projet...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.AddingProjectDescriptionDocumentsToIMDIArchiveProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Adding Project Description Documents...</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Ajout des documents de description de projet...</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg">
@@ -3887,7 +3918,7 @@
         <seg>{0}: Archive using {1}</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>{0} : Archiver avec {1}</seg>
+        <seg>{0}: Archiver avec {1}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ArchivingDlg._buttonCancel">
@@ -3931,7 +3962,7 @@
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ComponentFileRenamingDlg.NewFileNameMsg">
-      <note>Displayed under the text box.</note>
+      <note>Displayed under the text box.; Parameter is file name.</note>
       <tuv xml:lang="en">
         <seg>New file: {0}</seg>
       </tuv>
@@ -4097,6 +4128,48 @@
       </tuv>
       <tuv xml:lang="fr">
         <seg>Traduction écrite :\ntraduction écrite de\nl'enregistrement de la source.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConfirmRecycleDialog.MessageForMultipleItems">
+      <note>Param 0 is a description of the things being deleted (e.g., "The selected files"</note>
+      <tuv xml:lang="en">
+        <seg>{0} will be moved to the Recycle Bin.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>{0} seront déplacés vers la corbeille.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConfirmRecycleDialog.MessageForSingleItem">
+      <note>Param 0 is a file name</note>
+      <tuv xml:lang="en">
+        <seg>{0} will be moved to the Recycle Bin.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>{0} sera déplacé vers la corbeille.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConfirmRecycleDialog.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Confirm Delete</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Confirmer la suppression</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConfirmRecycleDialog.cancelBtn">
+      <tuv xml:lang="en">
+        <seg>&amp;Cancel</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Annuler</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ConfirmRecycleDialog.deleteBtn">
+      <tuv xml:lang="en">
+        <seg>&amp;Delete</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Supprimer</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.AvailableConversionsLabel">
@@ -4428,7 +4501,7 @@
         <seg>If you have the folder "FFmpeg for SayMore" from another computer (e.g., {0}), SayMore can copy it to the proper location on this computer:</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>Si vous avez le dossier "FFmpeg pour SayMore" d'un autre ordinateur (par exemple, {0}), SayMore peut le copier à l'emplacement approprié sur cet ordinateur :</seg>
+        <seg>Si vous avez le dossier "FFmpeg for SayMore" d'un autre ordinateur (par exemple, {0}), SayMore peut le copier à l'emplacement approprié sur cet ordinateur :</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FFmpegDownloadDlg._labelDownloadAndInstall">
@@ -4567,6 +4640,14 @@
         <seg>Sélectionner le logiciel à lancer après la création de l'archive IMDI</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.LoadProject.InvalidPath">
+      <tuv xml:lang="en">
+        <seg>SayMore is not able to open the project file. "{0}" is not a valid path.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>SayMore ne peut pas ouvrir le fichier projet. "{0}" n'est pas un chemin valide.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.LoadingDlg.CancelLink">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
@@ -4636,7 +4717,7 @@
         <seg>Could not locate FFmpeg</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>N'a pas pu trouver FFmpeg</seg>
+        <seg>Impossible de trouver FFmpeg</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewProjectDlg.InvalidPathMsg">
@@ -4661,7 +4742,7 @@
         <seg>&amp;Cancel</seg>
       </tuv>
       <tuv xml:lang="fr">
-        <seg>&amp;Annuler</seg>
+        <seg>Annuler</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewProjectDlg._buttonOK">
@@ -4878,7 +4959,7 @@
     </tu>
     <tu tuid="DialogBoxes.SessionRecorderDlg.PlaybackButtonText">
       <tuv xml:lang="en">
-        <seg>Playback Recording</seg>
+        <seg>Play Back Recording</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Lire l'enregistrement</seg>
@@ -5776,8 +5857,26 @@
         <seg>Visiter le site web {0}</seg>
       </tuv>
     </tu>
+    <tu tuid="MainWindow.AutoCompleteValueGathererError">
+      <note>Parameter 0 is an exception type; parameter 1 is a file name</note>
+      <tuv xml:lang="en">
+        <seg>An error of type {0} ocurred trying to gather information from file: {1}</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Une erreur de type {0} est produite en essayant de recueillir des informations du fichier : {1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.ConfirmDeleteUserSettingsFile">
+      <tuv xml:lang="en">
+        <seg>Do you want to delete your user settings? (This will clear your most-recently-used project list, window positions, UI language settings, etc. It will not affect your SayMore project data.)</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Voulez-vous supprimer vos paramètres d'utilisateur ? (Ceci effacera votre liste de projets les plus récemment utilisés, les positions des fenêtres, les paramètres de langue de l'interface utilisateur, etc. Il n'affectera pas vos données de projet SayMore.)</seg>
+      </tuv>
+    </tu>
     <tu tuid="MainWindow.DeleteMultipleItemsMsg">
       <note>For deleting sessions and people items</note>
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>{0} items</seg>
       </tuv>
@@ -5858,6 +5957,14 @@
         <seg>Il y avait un problème à l'ouverture du projet SayMore qui pourrait exiger le redémarrage de votre ordinateur.</seg>
       </tuv>
     </tu>
+    <tu tuid="MainWindow.ProblemSavingSayMoreProject">
+      <tuv xml:lang="en">
+        <seg>There was a problem saving the SayMore project:\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Il y avait un problème à l'enregistrement du project SayMore :\n\n{0}</seg>
+      </tuv>
+    </tu>
     <tu tuid="MainWindow.ProjectOpenInOtherSayMore">
       <tuv xml:lang="en">
         <seg>Another instance of SayMore is already open with this project:\n{0}\n\nIf you cannot find that instance of SayMore, restart your computer.</seg>
@@ -5896,14 +6003,6 @@
       </tuv>
       <tuv xml:lang="fr">
         <seg>En attente de la terminaison de l'autre copie de SayMore...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MainWindow.WindowTitle">
-      <tuv xml:lang="en">
-        <seg>{0} - SayMore {1}.{2}.{3} {4}</seg>
-      </tuv>
-      <tuv xml:lang="fr">
-        <seg>{0} - SayMore {1}.{2}.{3} {4}</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.WindowTitleWithProject">
@@ -5980,7 +6079,7 @@
     </tu>
     <tu tuid="MainWindow._menuProject">
       <tuv xml:lang="en">
-        <seg>&amp;Project</seg>
+        <seg>Pro&amp;ject</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>&amp;Projet</seg>
@@ -6284,7 +6383,7 @@
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelHowToContact">
       <tuv xml:lang="en">
-        <seg>&amp;How to Contact</seg>
+        <seg>Ho&amp;w to Contact</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Comment contacter</seg>
@@ -6292,7 +6391,7 @@
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelID">
       <tuv xml:lang="en">
-        <seg>Code</seg>
+        <seg>Co&amp;de</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Code</seg>
@@ -6603,6 +6702,22 @@
         <seg>Protocole d'accès</seg>
       </tuv>
     </tu>
+    <tu tuid="ProjectView.AccessScreen.Custom">
+      <tuv xml:lang="en">
+        <seg>Custom</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Personnalisé</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.AccessScreen.None">
+      <tuv xml:lang="en">
+        <seg>None</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Aucun</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProjectView.AccessScreen._labelAccessProtocol">
       <tuv xml:lang="en">
         <seg>Access Protocol used\nby this project</seg>
@@ -6611,15 +6726,56 @@
         <seg>Protocole d'accès\nde ce projet</seg>
       </tuv>
     </tu>
+    <tu tuid="ProjectView.AccessScreen._labelCustomAccessInstructions">
+      <tuv xml:lang="en">
+        <seg>Enter each choice, separated by commas</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Entrer chaque choix, séparé par des virgules</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.AccessScreen._labelDescription">
+      <tuv xml:lang="en">
+        <seg>Custom Access Choices</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Choix d'accès personnalisés</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.AccessScreen._linkHelp">
+      <tuv xml:lang="en">
+        <seg>Help for access protocols</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Aide sur les protocoles d'accès</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.DescriptionDocuments._linkHowArchived">
+      <tuv xml:lang="en">
+        <seg>How these are archived</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Comment ceux-ci sont archivés</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.DescriptionDocumentsTitle">
+      <tuv xml:lang="en">
+        <seg>Description Documents</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Documents de description</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProjectView.MetadataScreen._labelContact">
       <tuv xml:lang="en">
-        <seg>Contact Person</seg>
+        <seg>Co&amp;ntact Person</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Personne à contacter</seg>
       </tuv>
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelContentType">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Content Type</seg>
       </tuv>
@@ -6629,7 +6785,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelContinent">
       <tuv xml:lang="en">
-        <seg>Continent</seg>
+        <seg>C&amp;ontinent</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Continent</seg>
@@ -6637,7 +6793,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelCountry">
       <tuv xml:lang="en">
-        <seg>Country</seg>
+        <seg>Countr&amp;y</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Pays</seg>
@@ -6645,7 +6801,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelDateAvailable">
       <tuv xml:lang="en">
-        <seg>Date Available</seg>
+        <seg>&amp;Date Available</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Disponible le</seg>
@@ -6653,7 +6809,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelDepositor">
       <tuv xml:lang="en">
-        <seg>Depositor</seg>
+        <seg>D&amp;epositor</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Déposant</seg>
@@ -6661,7 +6817,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelDescription">
       <tuv xml:lang="en">
-        <seg>Description</seg>
+        <seg>Desc&amp;ription</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Description</seg>
@@ -6669,7 +6825,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelFundingProject">
       <tuv xml:lang="en">
-        <seg>Funding Project Title</seg>
+        <seg>&amp;Funding Project Title</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Titre du projet de financement</seg>
@@ -6677,7 +6833,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelLocationAddress">
       <tuv xml:lang="en">
-        <seg>Location/Address</seg>
+        <seg>&amp;Location/Address</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Emplacement/Adresse</seg>
@@ -6685,7 +6841,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelLocationRegion">
       <tuv xml:lang="en">
-        <seg>Region</seg>
+        <seg>Re&amp;gion</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Région</seg>
@@ -6693,13 +6849,14 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelProjectTitle">
       <tuv xml:lang="en">
-        <seg>Title</seg>
+        <seg>&amp;Title</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Titre</seg>
       </tuv>
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelRelatedPublications">
+      <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
         <seg>Related Publications</seg>
       </tuv>
@@ -6709,7 +6866,7 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelRightsHolder">
       <tuv xml:lang="en">
-        <seg>Rights Holder</seg>
+        <seg>R&amp;ights Holder</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Titulaire de droits</seg>
@@ -6717,10 +6874,18 @@
     </tu>
     <tu tuid="ProjectView.MetadataScreen._labelVernacular">
       <tuv xml:lang="en">
-        <seg>Vernacular</seg>
+        <seg>&amp;Vernacular</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Vernaculaire</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.MetadataScreen._linkHelp">
+      <tuv xml:lang="en">
+        <seg>Help for these fields</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Aide pour ces champs</seg>
       </tuv>
     </tu>
     <tu tuid="ProjectView.MetadataScreen._linkSelectVernacular">
@@ -6729,6 +6894,14 @@
       </tuv>
       <tuv xml:lang="fr">
         <seg>Spécifier la langue</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.OtherDocumentsTitle">
+      <tuv xml:lang="en">
+        <seg>Other Documents</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Autres documents</seg>
       </tuv>
     </tu>
     <tu tuid="ProjectView.ProgressScreen._buttonCopy">
@@ -6749,7 +6922,7 @@
     </tu>
     <tu tuid="ProjectView.ProgressScreen._buttonRefresh">
       <tuv xml:lang="en">
-        <seg>Refresh</seg>
+        <seg>&amp;Refresh</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Actualiser</seg>
@@ -6785,6 +6958,46 @@
       </tuv>
       <tuv xml:lang="fr">
         <seg>Progrès</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProjectDocuments.AddDescriptionFileToolTip">
+      <tuv xml:lang="en">
+        <seg>Add Description Documents to the Project</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Ajouter des documents de description au projet</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProjectDocuments.AddOtherFileToolTip">
+      <tuv xml:lang="en">
+        <seg>Add Other Documents to the Project</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Ajouter d'autres documents au projet</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProjectDocuments.DescriptionDocumentsInformationLabel">
+      <tuv xml:lang="en">
+        <seg>Add documents here that describe the project and corpus.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Ajouter ici des documents qui décrivent le projet et le corpus.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProjectDocuments.HowArchivedMsg">
+      <tuv xml:lang="en">
+        <seg>In an IMDI project archive, these files will be exported in a special session named {0}</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Dans une archive IMDI, ces fichiers seront exportés en session spéciale nommée {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectView.ProjectDocuments.OtherDocumentsInformationLabel">
+      <tuv xml:lang="en">
+        <seg>Add documents here that don't seem to fit anywhere else, for example about how the project was funded.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Ajouter ici des documents qui ne s'accordent pas ailleurs, par exemple information sur le financement du projet.</seg>
       </tuv>
     </tu>
     <tu tuid="ProjectView.TabText">
@@ -6875,6 +7088,133 @@
         <seg>Traduction</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>only the Depositor and delegate can access</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>seuls le Déposant et son délégué peuvent accéder</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.C">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>only Community members are allowed access (normally requires application to Depositor)</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>seuls les membres de la communauté sont autorisés à accéder (exige normalement une demande au Déposant)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.F">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>access is Free to all</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>accès libre à tous</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.RC">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Researchers and Community members are allowed access</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>les chercheurs et les membres de la communauté sont autorisés à accéder</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.S">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>only Subscribers are allowed access (requires application to Depositor)</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>seuls les abonnés sont autorisés à accéder (exige une demande au Déposant)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILCA.U">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>all Users can access (requires registration)</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>tous les utilisateurs peuvent accéder (exige une inscription)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 1">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Public Access</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>accès au public</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 2">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Password</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Mot de passe</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 3">
+      <note>pueden acceder</note>
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Time limit</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Délai</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 4">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Depositor control</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Contrôle du Déposant</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.C">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>only Community members are allowed access (normally requires application to Depositor)</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>seuls les membres de la communauté sont autorisés à accéder (exige normalement une demande au Déposant)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.R">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Researchers and Community members are allowed access</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>les chercheurs et les membres de la communauté sont autorisés à accéder</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.S">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>only Subscribers are allowed access (requires application to Depositor)</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>seuls les abonnés sont autorisés à accéder (exige une demande au Déposant)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.U">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>all Users can access</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>tous les utilisateurs peuvent accéder</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.MetadataEditor.AccessProtocol.REAP.">
       <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
@@ -6939,9 +7279,8 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.AdditionalFields.Involvement">
-      <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
-        <seg>Involvement</seg>
+        <seg>Researcher Involvement</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Participation</seg>
@@ -7138,7 +7477,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelAccess">
       <tuv xml:lang="en">
-        <seg>Access</seg>
+        <seg>&amp;Access</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Accès</seg>
@@ -7146,7 +7485,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelCustomFields">
       <tuv xml:lang="en">
-        <seg>Custom Fields</seg>
+        <seg>&amp;Custom Fields</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Champs personnalisés</seg>
@@ -7154,7 +7493,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelDate">
       <tuv xml:lang="en">
-        <seg>Date</seg>
+        <seg>&amp;Date</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Date</seg>
@@ -7162,7 +7501,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelDescription">
       <tuv xml:lang="en">
-        <seg>Description</seg>
+        <seg>Desc&amp;ription</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Description</seg>
@@ -7170,7 +7509,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelGenre">
       <tuv xml:lang="en">
-        <seg>Genre</seg>
+        <seg>&amp;Genre</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Genre</seg>
@@ -7178,7 +7517,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelId">
       <tuv xml:lang="en">
-        <seg>&amp;Id</seg>
+        <seg>&amp;ID</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>ID</seg>
@@ -7402,7 +7741,7 @@
     </tu>
     <tu tuid="SessionsView.SessionsList.IMDIArchiveMenuText">
       <tuv xml:lang="en">
-        <seg>Archive using IMDI...</seg>
+        <seg>Archive using &amp;IMDI...</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Archiver avec IMDI...</seg>
@@ -7426,7 +7765,7 @@
     </tu>
     <tu tuid="SessionsView.SessionsList.RampArchiveMenuText">
       <tuv xml:lang="en">
-        <seg>Archive with RAMP (SIL)...</seg>
+        <seg>Archive with RAMP (&amp;SIL)...</seg>
       </tuv>
       <tuv xml:lang="fr">
         <seg>Archiver avec RAMP (SIL)...</seg>
@@ -7704,6 +8043,14 @@
         <seg>Aide</seg>
       </tuv>
     </tu>
+    <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.OralAnnotationFilePossiblyTooLarge">
+      <tuv xml:lang="en">
+        <seg>The generated oral annotation file may be too large to display or play correctly.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Le fichier d'annotation orale généré peut être trop grand pour afficher ou lire correctement.</seg>
+      </tuv>
+    </tu>
     <tu tuid="SessionsView.Transcription.GeneratedOralAnnotationView.OralAnnotationFileProblem">
       <tuv xml:lang="en">
         <seg>Problem occurred attempting to display generated oral annotation file.</seg>
@@ -7938,6 +8285,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslationFilenameSuffix">
+      <note>Probably does not need to be localized</note>
       <tuv xml:lang="en">
         <seg>audacity_freeTranslation</seg>
       </tuv>
@@ -7954,6 +8302,7 @@
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscriptionFilenameSuffix">
+      <note>Probably does not need to be localized</note>
       <tuv xml:lang="en">
         <seg>audacity_transcription</seg>
       </tuv>
@@ -7967,6 +8316,14 @@
       </tuv>
       <tuv xml:lang="fr">
         <seg>Fichier ELAN...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMessage">
+      <tuv xml:lang="en">
+        <seg>Actually, SayMore already stores this information in ELAN format (.eaf). Simply double click the annotations file to edit it in ELAN.</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>En fait, SayMore stocke déjà ces informations dans le format ELAN (.eaf). Double-cliquer sur le fichier d'annotations pour l'éditer dans ELAN.</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotation.ExportMenu.FLExTextExport">
@@ -8185,6 +8542,15 @@
       </tuv>
       <tuv xml:lang="fr">
         <seg>Ajouter, supprimer ou déplacer les limites de segment</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.Transcription.TextAnnotationEditor.SegmentTooltip">
+      <note>First parameter is time range of the segment (e.g., 00.0-02.1); Second parameter is "F2"</note>
+      <tuv xml:lang="en">
+        <seg>Segment range: {0}\nPress {1} to Play/Pause</seg>
+      </tuv>
+      <tuv xml:lang="fr">
+        <seg>Segment: {0}\nAppuyer sur {1} pour Lire/Pause</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.TabText">

@@ -277,16 +277,29 @@ namespace SayMore.Transcription.UI
 		/// ----------------------------------------------------------------------------------------
 		public Tuple<float, float>[,] GetSegmentSamples(AnnotationSegment segment, uint numberOfSamplesToReturn)
 		{
-			// If the samples for this oral annotation have not been calculated, then create a
-			// helper to get those samples and cache them.
-			var audioFilePath = GetFullPathToAnnotationFileForSegment(segment);
-			var helper = SegmentsAnnotationSamplesToDraw.FirstOrDefault(h => h.AudioFilePath == audioFilePath);
-			if (helper == null)
+			lock (_segmentsAnnotationSamplesToDraw)
 			{
-				helper = new AudioFileHelper(audioFilePath);
-				SegmentsAnnotationSamplesToDraw.Add(helper);
+				// If the samples for this oral annotation have not been calculated, then create a
+				// helper to get those samples and cache them.
+				var audioFilePath = GetFullPathToAnnotationFileForSegment(segment);
+				var helper = _segmentsAnnotationSamplesToDraw.FirstOrDefault(h => h.AudioFilePath == audioFilePath);
+				if (helper == null)
+				{
+					helper = new AudioFileHelper(audioFilePath);
+					_segmentsAnnotationSamplesToDraw.Add(helper);
+				}
+				return helper.GetSamples(numberOfSamplesToReturn);
 			}
-			return helper.GetSamples(numberOfSamplesToReturn);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeSpan GetAnnotationFileAudioDuration(AnnotationSegment segment)
+		{
+			var path = GetFullPathToAnnotationFileForSegment(segment);
+			lock (_segmentsAnnotationSamplesToDraw)
+			{
+				return _segmentsAnnotationSamplesToDraw.First(h => h.AudioFilePath == path).AudioDuration;
+			}
 		}
 		#endregion
 
@@ -544,8 +557,11 @@ namespace SayMore.Transcription.UI
 		protected void RestorePreviousVersionOfAnnotation(TimeRange timeRange)
 		{
 			var audioFilePath = GetFullPathOfAnnotationFileForTimeRange(timeRange);
-			RestorePreviousVersionOfAnnotation(audioFilePath);
-			SegmentsAnnotationSamplesToDraw.RemoveWhere(h => h.AudioFilePath == audioFilePath);
+			lock (_segmentsAnnotationSamplesToDraw)
+			{
+				RestorePreviousVersionOfAnnotation(audioFilePath);
+				_segmentsAnnotationSamplesToDraw.RemoveWhere(h => h.AudioFilePath == audioFilePath);
+			}
 			var segment = TimeTier.Segments.FirstOrDefault(s => s.TimeRange.Equals(timeRange));
 			if (segment != null && !segment.GetHasOralAnnotation(AnnotationType))
 				CurrentUnannotatedSegment = segment;

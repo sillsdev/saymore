@@ -981,11 +981,9 @@ namespace SayMore.Transcription.UI
 
 				_segmentWhoseAnnotationIsBeingPlayedBack = segment;
 
-				var path = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
-				_annotationPlaybackLength = ViewModel.SegmentsAnnotationSamplesToDraw.First(
-					h => h.AudioFilePath == path).AudioDuration;
-
 				KillRecordingErrorMessage();
+
+				_annotationPlaybackLength = ViewModel.GetAnnotationFileAudioDuration(segment);
 
 				ViewModel.StartAnnotationPlayback(segment, HandleAnnotationPlaybackProgress, () =>
 				{
@@ -1275,7 +1273,8 @@ namespace SayMore.Transcription.UI
 		private int GetAnnotationPlaybackCursorX(TimeSpan playbackPosition)
 		{
 			var rc = GetAnnotationPlaybackRectangle();
-			var pixelPerMillisecond = rc.Width / _annotationPlaybackLength.TotalMilliseconds;
+			var pixelPerMillisecond = _annotationPlaybackLength.TotalMilliseconds.Equals(0) ? 0 :
+				rc.Width / _annotationPlaybackLength.TotalMilliseconds;
 
 			return rc.X + (int)(Math.Ceiling(playbackPosition.TotalMilliseconds * pixelPerMillisecond));
 		}

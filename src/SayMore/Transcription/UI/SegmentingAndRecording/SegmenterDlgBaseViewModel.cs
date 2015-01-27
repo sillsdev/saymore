@@ -233,12 +233,12 @@ namespace SayMore.Transcription.UI
 		public Func<bool, bool, bool> AllowDeletionOfOralAnnotations { get; set; }
 		public TierCollection Tiers { get; protected set; }
 		public TimeTier TimeTier { get; protected set; }
-		public HashSet<AudioFileHelper> SegmentsAnnotationSamplesToDraw { get; private set; }
 		public Action OralAnnotationWaveAreaRefreshAction { get; set; }
 
 		public string TempOralAnnotationsFolder { get; protected set; }
 		public string OralAnnotationsFolder { get; protected set; }
 
+		protected readonly HashSet<AudioFileHelper> _segmentsAnnotationSamplesToDraw = new HashSet<AudioFileHelper>();
 		protected List<string> _oralAnnotationFilesBeforeChanges = new List<string>();
 		protected readonly UndoStack _undoStack = new UndoStack();
 		private List<string> _oralAnnotationFilesToDelete;
@@ -247,7 +247,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public SegmenterDlgBaseViewModel(ComponentFile file)
 		{
-			SegmentsAnnotationSamplesToDraw = new HashSet<AudioFileHelper>();
 			ComponentFile = file;
 			OrigWaveStream = new WaveFileReader(ComponentFile.PathToAnnotatedFile);
 
@@ -313,10 +312,13 @@ namespace SayMore.Transcription.UI
 		{
 			FileSystemUtils.WaitForFileRelease(path);
 
-			if (File.Exists(path))
+			lock (_segmentsAnnotationSamplesToDraw)
 			{
-				File.Delete(path);
-				SegmentsAnnotationSamplesToDraw.RemoveWhere(h => h.AudioFilePath == path);
+				if (File.Exists(path))
+				{
+					File.Delete(path);
+					_segmentsAnnotationSamplesToDraw.RemoveWhere(h => h.AudioFilePath == path);
+				}
 			}
 		}
 
@@ -722,7 +724,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void OnSegmentBoundaryChanged()
 		{
-			SegmentsAnnotationSamplesToDraw.Clear();
+			lock(_segmentsAnnotationSamplesToDraw)
+				_segmentsAnnotationSamplesToDraw.Clear();
 
 			if (OralAnnotationWaveAreaRefreshAction != null)
 				OralAnnotationWaveAreaRefreshAction();

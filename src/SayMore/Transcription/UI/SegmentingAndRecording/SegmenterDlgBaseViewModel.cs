@@ -366,7 +366,22 @@ namespace SayMore.Transcription.UI
 					File.Delete(dstFile);
 				}
 
-				File.Move(backupFile, dstFile);
+				try
+				{
+					File.Move(backupFile, dstFile);
+				}
+				catch (IOException e)
+				{
+					// SP-988: We think the lock around _segmentsAnnotationSamplesToDraw (in
+					// the call to this method) may now effectively prevent this error, but just
+					// in case, we're reporting it as non-fatal. If the user ignores this error,
+					// the only "bad" thing that happens is we fail to restore a backup. But since
+					// this can only happen if something (presumably some other thread in SM)
+					// creates a new version of the file right after we check for its existence
+					// and/or delete it, something else is probably happening or about to happen
+					// that will overwrite the file anyway.
+					ErrorReport.ReportNonFatalException(e);
+				}
 			}
 			else
 				EraseAnnotation(dstFile);

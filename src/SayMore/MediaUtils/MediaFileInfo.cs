@@ -1,12 +1,16 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq.Expressions;
+using System.Text;
 using System.Xml.Serialization;
 using Palaso.IO;
 using Palaso.Xml;
 using SayMore.Media.MPlayer;
+using SayMore.Model.Files;
 using SayMore.Properties;
 using MediaInfoLib;
+using SayMore.Utilities;
 
 namespace SayMore.Media
 {
@@ -82,6 +86,25 @@ namespace SayMore.Media
 			info.Option("Inform", "HTML");
 			string output = info.Inform();
 			info.Close();
+			// SP-985: The following makes it easier for end-users to get the 8.3, which may be needed
+			// to diagnose MPlayer issues.
+			if (verbose)
+			{
+				var i = output.IndexOf(mediaFile, StringComparison.Ordinal);
+				if (i > 0)
+				{
+					i = output.IndexOf("</tr>", i, StringComparison.OrdinalIgnoreCase);
+					if (i > 0)
+					{
+						i += "</tr>".Length;
+						var sb = new StringBuilder(output);
+						sb.Insert(i, String.Format("{0}  <tr>{0}    <td><i>MPlayer path :</i></td>{0}    <td colspan=\"3\">{1}</td>{0}</tr>{0}",
+							Environment.NewLine,
+							FileSystemUtils.GetShortName(mediaFile).Replace('\\', '/')));
+						output = sb.ToString();
+					}
+				}
+			}
 			return output;
 		}
 

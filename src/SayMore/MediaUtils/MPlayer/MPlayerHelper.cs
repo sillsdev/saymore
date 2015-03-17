@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -54,6 +55,7 @@ namespace SayMore.Media.MPlayer
 			float volume, int speed, bool resampleToMono, int hwndVideo, int bitsPerSample)
 		{
 			var mplayerConfigPath = Path.Combine(GetPathToThisAssembly(), "MPlayerSettings.conf");
+			IFormatProvider invariantNumberFormatter = CultureInfo.InvariantCulture.NumberFormat;
 
 			if (File.Exists(mplayerConfigPath))
 			{
@@ -69,17 +71,17 @@ namespace SayMore.Media.MPlayer
 				yield return "-autosync 100";
 				yield return "-priority abovenormal";
 				yield return "-osdlevel 0";
-				yield return string.Format("-volume {0}", volume);
+				yield return string.Format(invariantNumberFormatter, "-volume {0}", volume);
 				yield return (resampleToMono ? "-af pan=1:1:1:1,scaletempo" : "-af scaletempo");
 
 				if (speed != 100)
-					yield return string.Format("-speed {0}", speed / 100d);
+					yield return string.Format(invariantNumberFormatter, "-speed {0}", speed / 100d);
 
 				if (startPosition > 0f)
-					yield return string.Format("-ss {0}", startPosition);
+					yield return string.Format(invariantNumberFormatter, "-ss {0}", startPosition);
 
 				if (duration > 0f)
-					yield return string.Format("-endpos {0}", duration);
+					yield return string.Format(invariantNumberFormatter, "-endpos {0}", duration);
 
 				// A window handle of -1 means we're only playing back
 				// the audio portion of a video file.
@@ -93,7 +95,7 @@ namespace SayMore.Media.MPlayer
 #if !__MonoCS__
 					yield return "-vo gl";
 #endif
-					yield return string.Format("-wid {0}", hwndVideo);
+					yield return string.Format(invariantNumberFormatter, "-wid {0}", hwndVideo);
 				}
 #if !__MonoCS__
 				if (bitsPerSample > 16)

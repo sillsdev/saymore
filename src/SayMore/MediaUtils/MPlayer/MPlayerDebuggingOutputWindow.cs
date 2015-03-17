@@ -53,9 +53,12 @@ namespace SayMore.Media.MPlayer
 		{
 			Invoke((MethodInvoker)delegate
 			{
-				_textOutput.AppendText(text + Environment.NewLine);
-				_textOutput.SelectionLength = 0;
-				_textOutput.SelectionStart = _textOutput.Text.Length;
+				if (!_textOutput.IsDisposed)
+				{
+					_textOutput.AppendText(text + Environment.NewLine);
+					_textOutput.SelectionLength = 0;
+					_textOutput.SelectionStart = _textOutput.Text.Length;
+				}
 			});
 		}
 

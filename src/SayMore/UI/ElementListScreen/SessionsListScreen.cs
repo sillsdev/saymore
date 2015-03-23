@@ -184,8 +184,6 @@ namespace SayMore.UI.ElementListScreen
 			using (var viewModel = _newSessionsFromFileDlgViewModel(_model))
 			using (var dlg = new NewSessionsFromFilesDlg(viewModel))
 			{
-				viewModel.Dialog = dlg;
-
 				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
 					LoadElementList(viewModel.FirstNewSessionAdded);
 

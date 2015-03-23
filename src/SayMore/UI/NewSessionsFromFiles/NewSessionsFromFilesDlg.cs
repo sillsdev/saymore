@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Drawing;
 using System.IO;
@@ -77,6 +78,11 @@ namespace SayMore.UI.NewSessionsFromFiles
 
 			DialogResult = DialogResult.Cancel;
 			_viewModel = viewModel;
+			_viewModel.FilesChanged += UpdateDisplay;
+			_viewModel.FileLoadingStarted += InitializeProgressIndicatorForFileLoading;
+			_viewModel.FilesLoaded += UpdateFileLoadingProgress;
+			_viewModel.FileLoadingCompleted += FileLoadingProgressComplete;
+			_viewModel.Initialize(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -84,9 +90,8 @@ namespace SayMore.UI.NewSessionsFromFiles
 		{
 			Settings.Default.NewSessionsFromFilesDlg.InitializeForm(this);
 			base.OnShown(e);
-			_mediaPlayerViewModel.VolumeChanged = delegate { Invoke((Action)HandleMediaPlayerVolumeChanged); };
+			_mediaPlayerViewModel.VolumeChanged = () => Invoke((Action) HandleMediaPlayerVolumeChanged);
 			_viewModel.SelectedFolder = Settings.Default.NewSessionsFromFilesLastFolder;
-			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -100,13 +105,12 @@ namespace SayMore.UI.NewSessionsFromFiles
 			if (DialogResult == DialogResult.Cancel && _panelProgress.Visible)
 				_viewModel.CancelLoad();
 
-			base.OnFormClosing(e);
-		}
+			_viewModel.FilesChanged -= UpdateDisplay;
+			_viewModel.FileLoadingStarted -= InitializeProgressIndicatorForFileLoading;
+			_viewModel.FilesLoaded -= UpdateFileLoadingProgress;
+			_viewModel.FileLoadingCompleted -= FileLoadingProgressComplete;
 
-		/// ------------------------------------------------------------------------------------
-		public bool IsMissingFolderMessageVisible
-		{
-			get { return _folderMissingMsgCtrl.Visible; }
+			base.OnFormClosing(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -114,35 +118,31 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// Updates the state and content of the controls on the dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void UpdateDisplay()
+		private void UpdateDisplay(ReadOnlyCollection<NewComponentFile> files, bool isFolderMissing)
 		{
 			this.SetWindowRedraw(false);
 
 			_gridFiles.Visible = !string.IsNullOrEmpty(_viewModel.SelectedFolder);
 
-			var showMissingFolderMsg =
-				(!string.IsNullOrEmpty(_viewModel.SelectedFolder) &&
-				!Directory.Exists(_viewModel.SelectedFolder));
+			_labelIncomingFiles.Visible = !isFolderMissing;
+			_labelInstructions.Visible = !isFolderMissing;
 
-			_labelIncomingFiles.Visible = !showMissingFolderMsg;
-			_labelInstructions.Visible = !showMissingFolderMsg;
-
-			_labelSourceFolder.ForeColor = (showMissingFolderMsg ?
+			_labelSourceFolder.ForeColor = (isFolderMissing ?
 				Color.Red : SystemColors.ControlText);
 
-			_folderMissingMsgCtrl.Visible = showMissingFolderMsg;
+			_folderMissingMsgCtrl.Visible = isFolderMissing;
 			_folderMissingMsgCtrl.SetDriveLetterFromPath(_viewModel.SelectedFolder);
 			_labelSourceFolder.Text = _viewModel.SelectedFolder;
 
 			UpdateCreateButton();
 
-			var fileCount = _viewModel.Files.Count;
+			var fileCount = files.Count;
 
 			if (_gridFiles.Grid.RowCount == fileCount)
 				_mediaPlayerPanel.Enabled = (_gridFiles.Grid.RowCount > 0);
 			else
 			{
-				_gridFiles.UpdateComponentFileList(_viewModel.Files);
+				_gridFiles.UpdateComponentFileList(files);
 
 				if (fileCount == 0)
 				{
@@ -156,8 +156,8 @@ namespace SayMore.UI.NewSessionsFromFiles
 					QueueMediaFile(_gridFiles.Grid.CurrentCellAddress.Y);
 				}
 
-				var selectedCount = _viewModel.Files.Count(x => x.Selected);
-				if (selectedCount == _viewModel.Files.Count)
+				var selectedCount = files.Count(x => x.Selected);
+				if (selectedCount == files.Count)
 					_chkBoxColHdrHandler.HeadersCheckState = CheckState.Checked;
 				else
 				{
@@ -209,7 +209,10 @@ namespace SayMore.UI.NewSessionsFromFiles
 		{
 			try
 			{
-				_mediaPlayerViewModel.LoadFile(_viewModel.GetFullFilePath(rowIndex));
+				var filePath = _viewModel.GetFullFilePath(rowIndex);
+				if (string.IsNullOrEmpty(filePath))
+					return;
+				_mediaPlayerViewModel.LoadFile(filePath);
 			}
 			catch (Exception e)
 			{
@@ -221,7 +224,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void InitializeProgressIndicatorForFileLoading(int fileCount)
+		private void InitializeProgressIndicatorForFileLoading(int fileCount)
 		{
 			_progressBar.Maximum = fileCount;
 			_progressBar.Value = 0;
@@ -233,16 +236,16 @@ namespace SayMore.UI.NewSessionsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void UpdateFileLoadingProgress()
+		private void UpdateFileLoadingProgress(int numberOfFilesLoaded)
 		{
-			_progressBar.Increment(1);
+			_progressBar.Increment(numberOfFilesLoaded);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void FileLoadingProgressComplele()
+		private void FileLoadingProgressComplete(ReadOnlyCollection<NewComponentFile> files, bool isFolderMissing)
 		{
 			_panelProgress.Visible = false;
-			UpdateDisplay();
+			UpdateDisplay(files, isFolderMissing);
 
 			// This is to fix a very frustrating problem. When the list is first loaded
 			// when the dialog first gets displayed and when the first item is selected,
@@ -315,7 +318,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 		{
 			if (e.ColumnIndex == 0)
 			{
-				_viewModel.Files[e.RowIndex].Selected = (bool)e.Value;
+				_viewModel.SetFileSelectionState(e.RowIndex, (bool) e.Value);
 				UpdateCreateButton();
 			}
 		}

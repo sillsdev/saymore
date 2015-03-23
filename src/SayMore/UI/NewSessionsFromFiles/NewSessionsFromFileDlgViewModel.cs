@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -25,14 +26,27 @@ namespace SayMore.UI.NewSessionsFromFiles
 
 		public delegate NewSessionsFromFileDlgViewModel Factory(ElementListViewModel<Session> sessionPresentationModel);
 
-		public bool WaitForAsyncFileLoadingToFinish { get; set; }
-
-		protected ElementListViewModel<Session> SessionPresentationModel { get; private set; }
+		private ElementListViewModel<Session> SessionPresentationModel { get; set; }
 
 		private string _selectedFolder;
-		private NewSessionsFromFilesDlg _dlg;
 		private readonly BackgroundWorker _fileLoaderWorker;
 		private readonly FileSystemWatcher _fileWatcher;
+		protected readonly List<NewComponentFile> m_files;
+		private bool m_folderWasMissingOnLastLoadAttempt;
+
+		public delegate void FilesChangedHandler(ReadOnlyCollection<NewComponentFile> files, bool isFolderMissing);
+
+		public event FilesChangedHandler FilesChanged;
+
+		public delegate void FileLoadingStartedHandler(int numberOfFilesToLoad);
+
+		public event FileLoadingStartedHandler FileLoadingStarted;
+
+		public delegate void FilesLoadedHandler(int numberOfFilesLoaded);
+
+		public event FilesLoadedHandler FilesLoaded;
+
+		public event FilesChangedHandler FileLoadingCompleted;
 
 		#region Construction, initialization and disposal.
 		/// ------------------------------------------------------------------------------------
@@ -56,7 +70,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			_fileLoaderWorker.RunWorkerCompleted += HandleFileLoaderComplete;
 			_fileLoaderWorker.DoWork += HandleFileLoaderDoWork;
 
-			Files = new List<NewComponentFile>();
+			m_files = new List<NewComponentFile>();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -64,6 +78,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 		{
 			Application.Idle -= HandleApplicationIdle;
 			_fileWatcher.Dispose();
+			_fileWatcher.SynchronizingObject = null;
 			_fileLoaderWorker.Dispose();
 		}
 
@@ -72,18 +87,13 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// Gets or sets the dialog for which this class is the view model.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public NewSessionsFromFilesDlg Dialog
+		public void Initialize(ISynchronizeInvoke synchObject)
 		{
-			get { return _dlg; }
-			set
-			{
-				Application.Idle -= HandleApplicationIdle;
-				_dlg = value;
-				_fileWatcher.SynchronizingObject = _dlg;
-				EnableFileWatchingIfAble();
-				if (_dlg != null)
-					Application.Idle += HandleApplicationIdle;
-			}
+			Application.Idle -= HandleApplicationIdle; // just in case this gets called more than once
+			_fileWatcher.SynchronizingObject = synchObject;
+			EnableFileWatchingIfAble();
+			if (synchObject != null)
+				Application.Idle += HandleApplicationIdle;
 		}
 
 		#endregion
@@ -95,34 +105,6 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string FirstNewSessionAdded { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the list of potential session files.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<NewComponentFile> Files { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not any files are selected from which a
-		/// session will be created.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool AnyFilesSelected
-		{
-			get { return Files.Any(x => x.Selected); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not all files are selected.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool AllFilesSelected
-		{
-			get { return Files.TrueForAll(x => x.Selected); }
-		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -143,13 +125,16 @@ namespace SayMore.UI.NewSessionsFromFiles
 				foreach (var element in SessionPresentationModel.Elements)
 					sessions.Add(element.Id);
 
-				foreach (var sessName in Files.Where(f => f.Selected)
-					.Select(file => Path.GetFileNameWithoutExtension(file.FileName))
-					.Where(sessName => !string.IsNullOrEmpty(sessName))
-					.Where(sessName => !sessions.Contains(sessName)))
+				lock (m_files)
 				{
-					newCount++;
-					sessions.Add(sessName);
+					foreach (var sessName in m_files.Where(f => f.Selected)
+						.Select(file => Path.GetFileNameWithoutExtension(file.FileName))
+						.Where(sessName => !string.IsNullOrEmpty(sessName))
+						.Where(sessName => !sessions.Contains(sessName)))
+					{
+						newCount++;
+						sessions.Add(sessName);
+					}
 				}
 
 				return newCount;
@@ -179,7 +164,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// ------------------------------------------------------------------------------------
 		private void EnableFileWatchingIfAble()
 		{
-			if (_dlg == null || !Directory.Exists(_selectedFolder))
+			if (_fileWatcher.SynchronizingObject == null || !Directory.Exists(_selectedFolder))
 				_fileWatcher.EnableRaisingEvents = false;
 			else
 			{
@@ -194,13 +179,13 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// plug-in or unplugs the device containing the folder).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void HandleApplicationIdle(object sender, EventArgs e)
+		private void HandleApplicationIdle(object sender, EventArgs e)
 		{
-			if (string.IsNullOrEmpty(SelectedFolder) || _dlg == null || _fileLoaderWorker.IsBusy)
+			if (string.IsNullOrEmpty(SelectedFolder) || _fileWatcher.SynchronizingObject == null || _fileLoaderWorker.IsBusy)
 				return;
 
-			if ((!Directory.Exists(SelectedFolder) && !_dlg.IsMissingFolderMessageVisible) ||
-				(Directory.Exists(SelectedFolder) && _dlg.IsMissingFolderMessageVisible))
+			if ((!Directory.Exists(SelectedFolder) && !m_folderWasMissingOnLastLoadAttempt) ||
+				(Directory.Exists(SelectedFolder) && m_folderWasMissingOnLastLoadAttempt))
 			{
 				LoadFilesFromFolder(SelectedFolder);
 			}
@@ -216,27 +201,51 @@ namespace SayMore.UI.NewSessionsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// Must only be called from context where m_files is locked!
+		/// ------------------------------------------------------------------------------------
+		private void RaiseFilesChangedEvent(bool fileLoadingCompleted = false)
+		{
+			var files = new ReadOnlyCollection<NewComponentFile>(m_files);
+			m_folderWasMissingOnLastLoadAttempt = (!string.IsNullOrEmpty(SelectedFolder) &&
+													!Directory.Exists(SelectedFolder));
+			if (fileLoadingCompleted)
+			{
+				if (FileLoadingCompleted != null)
+					FileLoadingCompleted(files, m_folderWasMissingOnLastLoadAttempt);
+			}
+			else
+			{
+				if (FilesChanged != null)
+					FilesChanged(files, m_folderWasMissingOnLastLoadAttempt);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void RemoveFile(string path)
 		{
-			var componentFile = Files.FirstOrDefault(x => x.PathToAnnotatedFile == path);
-			if (componentFile != null)
-				Files.Remove(componentFile);
+			lock (m_files)
+			{
+				var componentFile = m_files.FirstOrDefault(x => x.PathToAnnotatedFile == path);
+				if (componentFile != null)
+					m_files.Remove(componentFile);
 
-			if (_dlg != null)
-				_dlg.UpdateDisplay();
+				RaiseFilesChangedEvent();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void AddFile(string path)
 		{
-			if (!File.Exists(path) || Files.Any(x => x.PathToAnnotatedFile == path))
-				return;
+			lock (m_files)
+			{
+				if (!File.Exists(path) || m_files.Any(x => x.PathToAnnotatedFile == path))
+					return;
 
-			Files.Add(_newComponentFileFactory(path));
-			Files.Sort((x, y) => x.FileName.CompareTo(y.FileName));
+				m_files.Add(_newComponentFileFactory(path));
+				SortFiles();
 
-			if (_dlg != null)
-				_dlg.UpdateDisplay();
+				RaiseFilesChangedEvent();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -257,17 +266,26 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// ------------------------------------------------------------------------------------
 		private void RenameFile(string newPath, string oldPath)
 		{
-			var componentFile = Files.FirstOrDefault(x => x.PathToAnnotatedFile == oldPath);
-			if (componentFile == null)
-				return;
+			lock (m_files)
+			{
+				var componentFile = m_files.FirstOrDefault(x => x.PathToAnnotatedFile == oldPath);
+				if (componentFile == null)
+					return;
 
-			componentFile.Rename(newPath);
-			Files.Sort((x, y) => x.FileName.CompareTo(y.FileName));
+				componentFile.Rename(newPath);
+				SortFiles();
 
-			if (_dlg != null)
-				_dlg.UpdateDisplay();
+				RaiseFilesChangedEvent();
+			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// Must only be called from context where m_files is locked!
+		/// ------------------------------------------------------------------------------------
+		private void SortFiles()
+		{
+			m_files.Sort((x, y) => String.Compare(x.FileName, y.FileName, StringComparison.Ordinal));
+		}
 		#endregion
 
 		#region Misc. public methods
@@ -278,18 +296,23 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// ------------------------------------------------------------------------------------
 		public string GetFullFilePath(int fileIndex)
 		{
-			return (fileIndex < 0 || fileIndex >= Files.Count ?
-				string.Empty : Files[fileIndex].PathToAnnotatedFile);
+			lock (m_files)
+			{
+				return (fileIndex < 0 || fileIndex >= m_files.Count
+					? string.Empty : m_files[fileIndex].PathToAnnotatedFile);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void ToggleFilesSelectedState(int fileIndex)
 		{
-			if (fileIndex >= 0 && fileIndex < Files.Count)
+			lock (m_files)
 			{
-				Files[fileIndex].Selected = !Files[fileIndex].Selected;
-				if (_dlg != null)
-					_dlg.UpdateDisplay();
+				if (fileIndex >= 0 && fileIndex < m_files.Count)
+				{
+					m_files[fileIndex].Selected = !m_files[fileIndex].Selected;
+					RaiseFilesChangedEvent();
+				}
 			}
 		}
 
@@ -300,8 +323,11 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// ------------------------------------------------------------------------------------
 		public void SelectAllFiles(bool select)
 		{
-			foreach (var file in Files)
-				file.Selected = select;
+			lock (m_files)
+			{
+				foreach (var file in m_files)
+					file.Selected = select;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -344,22 +370,22 @@ namespace SayMore.UI.NewSessionsFromFiles
 				_fileLoaderWorker.CancelAsync();
 
 			_fileWatcher.EnableRaisingEvents = false;
-			Files.Clear();
 
-			if (_dlg != null)
-				_dlg.UpdateDisplay();
+			lock (m_files)
+			{
+				m_files.Clear();
+
+				RaiseFilesChangedEvent();
+			}
 
 			if (folder == null || !Directory.Exists(folder))
 				return;
 
 			var fileList = Directory.GetFiles(folder);
-			if (_dlg != null)
-				_dlg.InitializeProgressIndicatorForFileLoading(fileList.Length);
+			if (FileLoadingStarted != null)
+				FileLoadingStarted(fileList.Length);
 
 			_fileLoaderWorker.RunWorkerAsync(fileList);
-
-			if (WaitForAsyncFileLoadingToFinish)
-				while (_fileLoaderWorker.IsBusy) { Application.DoEvents(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -373,31 +399,34 @@ namespace SayMore.UI.NewSessionsFromFiles
 			validExtensions.AddRange(FileUtils.AudioFileExtensions.Cast<string>().Select(x => x.ToLower()));
 			validExtensions.AddRange(FileUtils.VideoFileExtensions.Cast<string>().Select(x => x.ToLower()));
 
-			foreach (var file in fileList)
+			lock (m_files)
 			{
-				// If the file's path no longer exists, it probably means the user disconnected the
-				// storage device (e.g. recorder) before reading all its contents.
-				if (_fileLoaderWorker.CancellationPending || !Directory.Exists(Path.GetDirectoryName(file)))
+				foreach (var file in fileList)
 				{
-					e.Cancel = true;
-					return;
-				}
-
-				_fileLoaderWorker.ReportProgress(0);
-
-				try
-				{
-					if (validExtensions.Contains(Path.GetExtension(file).ToLower()))
+					// If the file's path no longer exists, it probably means the user disconnected the
+					// storage device (e.g. recorder) before reading all its contents.
+					if (_fileLoaderWorker.CancellationPending || !Directory.Exists(Path.GetDirectoryName(file)))
 					{
-						var sessionFile = _newComponentFileFactory(file);
-						sessionFile.Selected = (new FileInfo(file).Attributes & FileAttributes.Archive) > 0;
-						Files.Add(sessionFile);
+						e.Cancel = true;
+						return;
 					}
-				}
-				catch (Exception)
-				{
-					if (Directory.Exists(Path.GetDirectoryName(file)))
-						throw;
+
+					_fileLoaderWorker.ReportProgress(0);
+
+					try
+					{
+						if (validExtensions.Contains(Path.GetExtension(file).ToLower()))
+						{
+							var sessionFile = _newComponentFileFactory(file);
+							sessionFile.Selected = (new FileInfo(file).Attributes & FileAttributes.Archive) > 0;
+							m_files.Add(sessionFile);
+						}
+					}
+					catch (Exception)
+					{
+						if (Directory.Exists(Path.GetDirectoryName(file)))
+							throw;
+					}
 				}
 			}
 		}
@@ -405,8 +434,8 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// ------------------------------------------------------------------------------------
 		void HandleFileLoaderProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-			if (_dlg != null)
-				_dlg.UpdateFileLoadingProgress();
+			if (FilesLoaded != null)
+				FilesLoaded(1);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -419,16 +448,18 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// ------------------------------------------------------------------------------------
 		void HandleFileLoaderComplete(object sender, RunWorkerCompletedEventArgs e)
 		{
-			if (e.Cancelled)
-				Files.Clear();
-			else
+			lock (m_files)
 			{
-				Files.Sort((x, y) => x.FileName.CompareTo(y.FileName));
-				_fileWatcher.Path = _selectedFolder;
-			}
+				if (e.Cancelled)
+					m_files.Clear();
+				else
+				{
+					SortFiles();
+					_fileWatcher.Path = _selectedFolder;
+				}
 
-			if (_dlg != null)
-				_dlg.FileLoadingProgressComplele();
+				RaiseFilesChangedEvent(true);
+			}
 
 			EnableFileWatchingIfAble();
 		}
@@ -442,15 +473,18 @@ namespace SayMore.UI.NewSessionsFromFiles
 			var sessionsPath = SessionPresentationModel.PathToSessionsFolder;
 			var sourceRole = ApplicationContainer.ComponentRoles.First(r => r.Id == ComponentRole.kSourceComponentRoleId);
 
-			foreach (var source in Files.Where(file => file.Selected))
+			lock (m_files)
 			{
-				var srcFile = source.PathToAnnotatedFile;
-				var sessionName = Path.GetFileNameWithoutExtension(srcFile);
-				if (sessionName == null)
-					continue;
-				var destPath = Path.Combine(Path.Combine(sessionsPath, sessionName),
-					sourceRole.GetCanoncialName(sessionName, Path.GetFileName(srcFile)));
-				yield return new KeyValuePair<string, string>(srcFile, destPath);
+				foreach (var source in m_files.Where(file => file.Selected))
+				{
+					var srcFile = source.PathToAnnotatedFile;
+					var sessionName = Path.GetFileNameWithoutExtension(srcFile);
+					if (sessionName == null)
+						continue;
+					var destPath = Path.Combine(Path.Combine(sessionsPath, sessionName),
+						sourceRole.GetCanoncialName(sessionName, Path.GetFileName(srcFile)));
+					yield return new KeyValuePair<string, string>(srcFile, destPath);
+				}
 			}
 		}
 
@@ -498,6 +532,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 		public void CreateSingleSession(string sourcePath)
 		{
 			var id = Path.GetFileNameWithoutExtension(sourcePath);
+			Debug.Assert(id != null);
 
 			// SP-789: Do not add duplicate sessions
 			if (SessionPresentationModel.Elements.Any(e => e.Id == id))
@@ -519,6 +554,21 @@ namespace SayMore.UI.NewSessionsFromFiles
 		}
 
 		#endregion
+
+		public void SetFileSelectionState(int index, bool value)
+		{
+			lock (m_files)
+			{
+				if (index < m_files.Count)
+					m_files[index].Selected = value;
+				else
+				{
+					// If not, maybe the collection is changing, so just log the evidence.
+					Logger.WriteEvent("Attempted to set file selection state to {0} for file at index {1}, but collection only contained {2} files",
+						value, index, m_files.Count);
+				}
+			}
+		}
 	}
 
 	#endregion

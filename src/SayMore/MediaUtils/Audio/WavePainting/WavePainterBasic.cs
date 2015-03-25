@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
+using Palaso.Reporting;
 using Palaso.UI.WindowsForms;
 using SayMore.Transcription.Model;
 
@@ -461,10 +462,17 @@ namespace SayMore.Media.Audio
 					e.Graphics.DrawLine(pen, rc.X, xAxis, rc.Right, xAxis);
 			}
 
-			// If samples per pixel is small or less than zero,
-			// we are out of zoom range, so don't display anything
+			// If samples per pixel is small or less than zero, we are out of zoom range, so don't display anything.
 			if (SamplesPerPixel <= 0.0000000001d)
 				return;
+			// SP-998: If _smaplesToDraw is null, it apparently hasn't been set yet. Not sure how this can happen,
+			// and we haven't been able to reproduce it, but let's hope it's a timing issue and
+			// the problem magically corrects itself.
+			if (_samplesToDraw == null)
+			{
+				Logger.WriteEvent("DrawWave called with null _samplesToDraw. Possible timing issue? (See SP-998)");
+				return;
+			}
 
 			// Samples will span from some value between -1 and +1, inclusively.
 			// The top of the client area represents +1 and the bottom represents -1.

@@ -58,8 +58,11 @@ namespace SayMore.Media
 		{
 			var finfo = new FileInfo(mediaFile);
 			if (!finfo.Exists || finfo.Length == 0)
-				return new MediaFileInfo();
-
+			{
+				var emptyMediaFileInfo = new MediaFileInfo();
+				emptyMediaFileInfo.Audio = new AudioInfo(); // SP-1007
+				return emptyMediaFileInfo;
+			}
 			var info = new MediaInfo();
 			if (info.Open(mediaFile) == 0)
 				return null;

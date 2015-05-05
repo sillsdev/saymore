@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using System.Linq;
 using DesktopAnalytics;
@@ -30,6 +31,7 @@ namespace SayMore.Transcription.UI
 		private TextAnnotationEditorGrid _grid;
 		private readonly VideoPanel _videoPanel;
 		private FileSystemWatcher _watcher;
+		private DateTime _lastWriteTime;
 		private bool _isFirstTimeActivated = true;
 		private Project _project;
 
@@ -326,14 +328,36 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleAnnotationFileChanged(object sender, FileSystemEventArgs e)
 		{
-			Invoke(new EventHandler((s, args) =>
+			int attempts = 0;
+			do
 			{
-				_file.Load();
-				_grid.Load(_file as AnnotationComponentFile);
-				_grid.SetColumnFonts(_project.TranscriptionFont, _project.FreeTranslationFont);
-			}));
+				try
+				{
+					var writeTime = File.GetLastWriteTime(e.FullPath);
+					if (_lastWriteTime != writeTime)
+					{
+						_file.Load();
+						Invoke(new EventHandler((s, args) =>
+						{
+							_grid.Load(_file as AnnotationComponentFile);
+							_grid.SetColumnFonts(_project.TranscriptionFont, _project.FreeTranslationFont);
+						}));
+						_lastWriteTime = writeTime;
+					}
+					break;
+				}
+				catch (IOException ex)
+				{
+					if (++attempts < 3)
+					{
+						Logger.WriteEvent("Exception during attempt #{0} to load file in TextAnnotationEditor.HandleAnnotationFileChanged:\r\n{1}", attempts, ex.ToString());
+						Thread.Sleep(100 * attempts);
+					}
+					else
+						throw;
+				}
+			} while (attempts < 3);
 		}
-
 		#endregion
 
 		/// ------------------------------------------------------------------------------------

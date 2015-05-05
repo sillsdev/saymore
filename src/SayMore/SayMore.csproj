@@ -983,7 +983,6 @@
     <None Include="Resources\VSliderThumbDisabled.png" />
     <None Include="Resources\VSliderThumbPressed.png" />
     <None Include="Resources\Stop.png" />
-    <None Include="Resources\ComponentStageColorBlockTemplate.png" />
     <None Include="Resources\AudioInformedConsent.png" />
     <None Include="Resources\NoInformedConsent.png" />
     <None Include="Resources\VideoInformedConsent.png" />
@@ -1005,7 +1004,6 @@
     <None Include="Resources\Add.png" />
     <None Include="Resources\Delete.png" />
     <None Include="Resources\ramp.png" />
-    <None Include="Resources\EmptyMets.xml" />
     <None Include="Resources\PlaySegment.png" />
     <None Include="Resources\StopSegment.png" />
     <None Include="Resources\ElanIcon.png" />

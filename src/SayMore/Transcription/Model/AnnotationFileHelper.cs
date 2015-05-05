@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Xml.Linq;
 using DesktopAnalytics;
 using L10NSharp;
@@ -775,16 +776,24 @@ namespace SayMore.Transcription.Model
 			if (!Directory.Exists(folder))
 				Directory.CreateDirectory(folder);
 
-			try
+			int attempts = 0;
+			do
 			{
-				// SP-702: file is being used by another process
-				FileSystemUtils.WaitForFileRelease(AnnotationFileName, true);
-				Root.Save(AnnotationFileName);
-			}
-			catch (Exception e)
-			{
-				ErrorReport.ReportNonFatalException(e);
-			}
+				try
+				{
+					// SP-702/SP-989: file is being used by another process
+					FileSystemUtils.WaitForFileRelease(AnnotationFileName, true);
+					Root.Save(AnnotationFileName);
+					break;
+				}
+				catch (IOException e)
+				{
+					if (++attempts < 3)
+						Logger.WriteEvent("Exception during attempt #{0} to save file in AnnotationFileHelper.Save:\r\n{1}", attempts, e.ToString());
+					else
+						ErrorReport.ReportNonFatalException(e);
+				}
+			} while (attempts < 3);
 		}
 
 		/// ------------------------------------------------------------------------------------

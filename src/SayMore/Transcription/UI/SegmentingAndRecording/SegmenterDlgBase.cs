@@ -169,6 +169,7 @@ namespace SayMore.Transcription.UI
 			_waveControl.MouseMove += HandleWaveControlMouseMove;
 			_waveControl.MouseLeave += HandleWaveControlMouseLeave;
 			_waveControl.MouseClick += HandleWaveControlMouseClick;
+			_waveControl.MouseDown += (sender, args) => KillTimer();
 			_waveControl.Controls.Add(_currentSegmentMenuStrip);
 			_currentSegmentMenuStrip.UseWaitCursor = false;
 			_waveControl.Controls.Add(_lastSegmentMenuStrip);
@@ -773,9 +774,7 @@ namespace SayMore.Transcription.UI
 					_waveControl.PlaybackStopped += PlaybackShortPortionUpToBoundary;
 				}
 
-				_timer.Stop();
-				_timer.Dispose();
-				_timer = null;
+				KillTimer();
 			};
 
 			_timer.Start();
@@ -791,16 +790,19 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual void StopAllMedia()
 		{
+			KillTimer();
+			_waveControl.Stop();
+		}
+
+		private void KillTimer()
+		{
 			if (_timer != null)
 			{
 				_timer.Stop();
 				_timer.Dispose();
 				_timer = null;
 			}
-
-			_waveControl.Stop();
 		}
-
 		#endregion
 
 		/// ------------------------------------------------------------------------------------

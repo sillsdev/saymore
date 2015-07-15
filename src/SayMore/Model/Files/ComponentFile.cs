@@ -509,7 +509,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void Save()
+		public void Save()
 		{
 			Save(_metaDataPath);
 		}
@@ -524,7 +524,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void OnBeforeSave(object sender)
+		protected void OnBeforeSave(object sender)
 		{
 			if (BeforeSave != null)
 				BeforeSave(sender, EventArgs.Empty);

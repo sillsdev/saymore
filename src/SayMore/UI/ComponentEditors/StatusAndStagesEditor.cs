@@ -157,12 +157,7 @@ namespace SayMore.UI.ComponentEditors
 				_toolTip.ToolTipTitle = statusRadioButton.Text;
 			};
 
-			statusRadioButton.CheckedChanged += (s, e) =>
-			{
-				var radioButton = (RadioButton)s;
-				if (radioButton.Checked)
-					SaveFieldValue(SessionFileType.kStatusFieldName, radioButton.Tag.ToString());
-			};
+			statusRadioButton.CheckedChanged += HandleStatusRadioButtonCheckedChanged;
 
 			_tableLayoutOuter.Controls.Add(statusRadioButton, 1, row);
 			_statusRadioButtons.Add(statusRadioButton);
@@ -275,8 +270,13 @@ namespace SayMore.UI.ComponentEditors
 
 			var status = _file.GetValue(SessionFileType.kStatusFieldName, Session.Status.Incoming.ToString()) as string;
 
-			foreach (var radioButton in _statusRadioButtons.Where(r => r.Tag.ToString() == status))
+			var radioButton = _statusRadioButtons.FirstOrDefault(r => r.Tag.ToString() == status);
+			if (radioButton != null)
+			{
+				radioButton.CheckedChanged -= HandleStatusRadioButtonCheckedChanged;
 				radioButton.Checked = true;
+				radioButton.CheckedChanged += HandleStatusRadioButtonCheckedChanged;
+			}
 
 			foreach (var checkBox in _stageCheckBoxes)
 			{
@@ -301,6 +301,14 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		#region Event handlers
+		/// ----------------------------------------------------------------------------------------
+		private void HandleStatusRadioButtonCheckedChanged(object s, EventArgs e)
+		{
+			var radioButton = (RadioButton)s;
+			if (radioButton.Checked)
+				SaveFieldValue(SessionFileType.kStatusFieldName, radioButton.Tag.ToString());
+		}
+
 		/// ------------------------------------------------------------------------------------
 		void HandleStageCheckBoxCheckChanged(object sender, EventArgs e)
 		{

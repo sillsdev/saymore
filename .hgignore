@@ -39,8 +39,6 @@ glob:src/SayMore/Model/Files/DataGathering/BackgroundFileProcessor.cs.orig
 glob:src/SayMore/UI/Overview/Statistics/StatisticsViewModel.cs.orig
 glob:DistFiles/SayMore.chm
 glob:SayMore.chm
-glob:lib/dotnet/Palaso.*
-glob:lib/dotnet/PalasoUIWindowsForms.*
 glob:src/SayMore/obj/*
 glob:src/SayMoreTests/obj/*
 glob:src/Sponge/obj/*
@@ -80,3 +78,5 @@ packages/DesktopAnalytics*
 packages/Autofac.*
 packages/NAudio.*
 packages/Analytics*
+lib/dotnet/SIL.*.dll
+lib/dotnet/SIL.*.pdb

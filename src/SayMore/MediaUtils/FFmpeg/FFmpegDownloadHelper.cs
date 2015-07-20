@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using DesktopAnalytics;
 using Ionic.Zip;
 using L10NSharp;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.UI.LowLevelControls;
 
 namespace SayMore.Media.FFmpeg

@@ -1,5 +1,5 @@
-using Palaso.IO;
-using Palaso.UI.WindowsForms.ReleaseNotes;
+using SIL.IO;
+using SIL.Windows.Forms.ReleaseNotes;
 
 namespace SayMore.UI.ProjectWindow
 {

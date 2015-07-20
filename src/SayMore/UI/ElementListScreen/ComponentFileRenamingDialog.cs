@@ -5,8 +5,8 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms;
+using SIL.Reporting;
+using SIL.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 

@@ -9,12 +9,12 @@ using System.Media;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.Reporting;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using GridSettings = Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings;
-using Palaso.UI.WindowsForms;
+using GridSettings = SIL.Windows.Forms.Widgets.BetterGrid.GridSettings;
+using SIL.Windows.Forms;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -51,7 +51,7 @@ namespace SayMore.UI.ElementListScreen
 
 			InitializeComponent();
 			Font = Program.DialogFont;
-			_toolStripActions.Renderer = new Palaso.UI.WindowsForms.NoToolStripBorderRenderer();
+			_toolStripActions.Renderer = new SIL.Windows.Forms.NoToolStripBorderRenderer();
 
 			try
 			{

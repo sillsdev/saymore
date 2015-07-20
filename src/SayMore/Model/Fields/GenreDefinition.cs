@@ -5,8 +5,8 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using L10NSharp;
-using Palaso.IO;
-using Palaso.Xml;
+using SIL.IO;
+using SIL.Xml;
 
 namespace SayMore.Model.Fields
 {

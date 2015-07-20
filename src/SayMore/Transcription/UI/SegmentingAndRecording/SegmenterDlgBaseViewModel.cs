@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using L10NSharp;
 using NAudio.Wave;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;

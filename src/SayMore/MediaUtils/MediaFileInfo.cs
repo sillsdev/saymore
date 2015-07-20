@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Text;
 using System.Xml.Serialization;
-using Palaso.IO;
-using Palaso.Xml;
+using SIL.IO;
+using SIL.Xml;
 using SayMore.Media.MPlayer;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -415,7 +415,7 @@ namespace SayMore.Media
 	//        else
 	//        {
 	//            prs = null;
-	//            Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Gathering audio/video " +
+	//            SIL.Reporting.ErrorReport.NotifyUserOfProblem("Gathering audio/video " +
 	//                "statistics failed. Please verify that MPlayer is installed in the folder '{0}'.",
 	//                Path.GetDirectoryName(path));
 	//        }

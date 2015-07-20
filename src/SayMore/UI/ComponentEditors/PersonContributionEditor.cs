@@ -1,4 +1,3 @@
-
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -9,9 +8,9 @@ using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.Extensions;
-using Palaso.UI.WindowsForms.ClearShare;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.Extensions;
+using SIL.Windows.Forms.ClearShare;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model.Files;
 using SayMore.Properties;
 
@@ -204,7 +203,7 @@ namespace SayMore.UI.ComponentEditors
 			if (string.IsNullOrEmpty(dateString)) return string.Empty;
 
 			// older saymore date problem due to saving localized date string rather than ISO8601
-			var date = dateString.IsISO8601Date()
+			var date = DateTimeExtensions.IsISO8601Date(dateString)
 				? DateTime.Parse(dateString)
 				: DateTimeExtensions.ParseDateTimePermissivelyWithException(dateString);
 

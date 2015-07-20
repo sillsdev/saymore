@@ -6,10 +6,10 @@ using System.Media;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
-using Palaso.UI.WindowsForms;
+using SIL.Windows.Forms;
 
 namespace SayMore.UI.ComponentEditors
 {

@@ -1,6 +1,6 @@
 using System.Drawing;
 using System.Windows.Forms;
-using Palaso.Reporting;
+using SIL.Reporting;
 
 namespace SayMore.UI.LowLevelControls
 {

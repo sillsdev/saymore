@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using NAudio;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 

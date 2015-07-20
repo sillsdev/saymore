@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Utilities;
 
 namespace SayMore.Media
@@ -55,7 +55,7 @@ namespace SayMore.Media
 			{
 				prs = null;
 				if (processFailedToStartErrorMsg != null)
-					Palaso.Reporting.ErrorReport.NotifyUserOfProblem(processFailedToStartErrorMsg);
+					SIL.Reporting.ErrorReport.NotifyUserOfProblem(processFailedToStartErrorMsg);
 			}
 
 			prs.StandardInput.AutoFlush = true;

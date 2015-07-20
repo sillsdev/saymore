@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Nini.Ini;
-using Palaso.IO;
+using SIL.IO;
 using SayMore.Properties;
 using SayMore.UI;
 

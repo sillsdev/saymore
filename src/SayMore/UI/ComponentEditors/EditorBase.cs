@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.UI.WindowsForms;
+using SIL.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Utilities;
 

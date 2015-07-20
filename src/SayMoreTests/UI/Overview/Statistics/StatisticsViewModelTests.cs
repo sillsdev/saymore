@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
@@ -22,7 +22,7 @@ namespace SayMoreTests.UI.Overview.Statistics
 			_folder = new TemporaryFolder("StatisticsViewModelTests");
 			Directory.CreateDirectory(_folder.Combine("people"));
 			Directory.CreateDirectory(_folder.Combine("sessions"));
-			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
+			SIL.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 		}
 
 		[TearDown]

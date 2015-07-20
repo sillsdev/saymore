@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using Autofac;
 using L10NSharp;
-using Palaso.IO;
+using SIL.IO;
 using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -196,7 +196,7 @@ namespace SayMore
 
 			var localizationManager = LocalizationManager.Create(Settings.Default.UserInterfaceLanguage, kSayMoreLocalizationId,
 				"SayMore", Application.ProductVersion, installedStringFileFolder, relativePathForWritingTmxFiles,
-				Resources.SayMore, "issues@saymore.palaso.org", "SayMore", "SIL.Archiving", "Palaso.UI.WindowsForms.FileSystem");
+				Resources.SayMore, "issues@saymore.palaso.org", "SayMore", "SIL.Archiving", "SIL.Windows.Forms.FileSystem");
 
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 

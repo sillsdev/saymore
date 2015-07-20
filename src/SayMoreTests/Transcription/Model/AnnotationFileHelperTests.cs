@@ -6,8 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using NUnit.Framework;
-using Palaso.Reporting;
-using Palaso.TestUtilities;
+using SIL.Reporting;
+using SIL.TestUtilities;
 using SayMore.Transcription.Model;
 using SayMoreTests.Model.Files;
 

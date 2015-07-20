@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Extensions;
+using SIL.Extensions;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.UI.LowLevelControls;
@@ -292,8 +292,8 @@ namespace SayMore.UI.ComponentEditors
 
 				}
 
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
-					new Palaso.Reporting.ShowOncePerSessionBasedOnExactMessagePolicy(), error,
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(
+					new SIL.Reporting.ShowOncePerSessionBasedOnExactMessagePolicy(), error,
 						"SayMore had a problem displaying the {0}, which had a value of {1}." + Environment.NewLine +
 						"Message " + error.Message + Environment.NewLine +
 						"You should report this problem to the developers by clicking 'Details' below.",
@@ -372,7 +372,7 @@ namespace SayMore.UI.ComponentEditors
 					if (ctrl is DatePicker)
 						newValue = ((DatePicker)ctrl).GetISO8601DateValueOrNull();
 					else
-						newValue = DateTime.Parse(newValue, CultureInfo.CurrentCulture).ToISO8601DateOnlyString();
+						newValue = DateTime.Parse(newValue, CultureInfo.CurrentCulture).ToISO8601TimeFormatDateOnlyString();
 				}
 			}
 
@@ -399,7 +399,7 @@ namespace SayMore.UI.ComponentEditors
 				ctrl.Text = newValue;
 
 			if (failureMessage != null)
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
 
 			//enchance: don't save so often, leave it to some higher level
 			if (_componentFileIdControl != ctrl)

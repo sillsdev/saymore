@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using DesktopAnalytics;
-using Palaso.IO;
-using Palaso.Reporting;
+using SIL.IO;
+using SIL.Reporting;
 using L10NSharp;
 
 namespace SayMore.Utilities

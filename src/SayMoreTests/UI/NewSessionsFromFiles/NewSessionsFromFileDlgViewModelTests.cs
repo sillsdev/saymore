@@ -1,8 +1,8 @@
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using Palaso.Reporting;
-using Palaso.TestUtilities;
+using SIL.Reporting;
+using SIL.TestUtilities;
 using Moq;
 using SayMore.Model;
 using SayMore.Model.Files;

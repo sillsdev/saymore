@@ -5,8 +5,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using L10NSharp;
-using Palaso.UI.WindowsForms;
-using Palaso.UI.WindowsForms.Extensions;
+using SIL.Windows.Forms;
+using SIL.Windows.Forms.Extensions;
 using SayMore.Model;
 using SayMore.Model.Files;
 using Color = System.Drawing.Color;
@@ -297,7 +297,7 @@ namespace SayMore.UI.ComponentEditors
 			if (failureMessage == null)
 				_file.Save();
 			else
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
 		}
 
 		#region Event handlers

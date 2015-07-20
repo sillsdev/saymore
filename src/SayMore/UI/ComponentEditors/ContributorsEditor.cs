@@ -4,8 +4,8 @@ using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.UI.WindowsForms.ClearShare;
-using Palaso.UI.WindowsForms.ClearShare.WinFormsUI;
+using SIL.Windows.Forms.ClearShare;
+using SIL.Windows.Forms.ClearShare.WinFormsUI;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
@@ -171,7 +171,7 @@ namespace SayMore.UI.ComponentEditors
 			_file.SetValue("contributions", _model.Contributions, out failureMessage);
 			_file.Save();
 			if (failureMessage != null)
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
 		}
 
 		/// ------------------------------------------------------------------------------------

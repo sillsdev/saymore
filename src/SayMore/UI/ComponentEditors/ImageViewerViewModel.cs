@@ -79,7 +79,7 @@ namespace SayMore.UI.ComponentEditors
 			{
 				var msg = LocalizationManager.GetString("CommonToMultipleViews.ImageViewer.OpeningPictureFileTooLargeMsg",
 					"Could not open that picture. The image size is too large for SayMore to open.");
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(oomex, msg);
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(oomex, msg);
 			}
 			catch (Exception e)
 			{
@@ -91,7 +91,7 @@ namespace SayMore.UI.ComponentEditors
 				 ***************************************************************************************/
 				var msg = LocalizationManager.GetString("CommonToMultipleViews.ImageViewer.OpeningPictureFileErrorMsg",
 					"Could not open that picture.");
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
 			}
 			finally
 			{

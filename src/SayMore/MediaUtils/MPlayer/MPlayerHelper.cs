@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using NAudio.Wave;
-using Palaso.IO;
+using SIL.IO;
 using L10NSharp;
 using SayMore.Utilities;
 

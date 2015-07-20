@@ -7,9 +7,9 @@ using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
 using NAudio.Wave;
-using Palaso.UI.WindowsForms;
-using Palaso.UI.WindowsForms.Miscellaneous;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.Windows.Forms;
+using SIL.Windows.Forms.Miscellaneous;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -69,7 +69,7 @@ namespace SayMore.Transcription.UI
 
 			WaitCursor.Show();
 
-			_toolStripStatus.Renderer = new Palaso.UI.WindowsForms.NoToolStripBorderRenderer();
+			_toolStripStatus.Renderer = new SIL.Windows.Forms.NoToolStripBorderRenderer();
 			_panelWaveControl.BackColor = Settings.Default.BarColorBorder;
 
 			_buttonCancel.Click += delegate { Close(); };

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using Palaso.IO;
+using SIL.IO;
 using SayMore.Utilities;
 
 namespace SayMore.Model.Files

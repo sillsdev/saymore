@@ -8,7 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using NAudio.Wave;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Media;
 using SayMore.Media.FFmpeg;
 using SayMore.Utilities;

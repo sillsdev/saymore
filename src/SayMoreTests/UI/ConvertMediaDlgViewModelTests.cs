@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using SayMore.Media;
 using SayMore.Media.FFmpeg;
 using SayMore.UI;

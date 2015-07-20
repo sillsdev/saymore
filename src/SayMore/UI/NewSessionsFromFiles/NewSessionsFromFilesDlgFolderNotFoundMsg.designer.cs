@@ -29,12 +29,12 @@ namespace SayMore.UI.NewSessionsFromFiles
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this._labelProblemOverviewMsg = new Palaso.UI.WindowsForms.Widgets.AutoHeightLabel();
-			this._labelPossibleProblemsMsg1 = new Palaso.UI.WindowsForms.Widgets.AutoHeightLabel();
-			this._labelDriveLetterHintMsg = new Palaso.UI.WindowsForms.Widgets.AutoHeightLabel();
+			this._labelProblemOverviewMsg = new SIL.Windows.Forms.Widgets.AutoHeightLabel();
+			this._labelPossibleProblemsMsg1 = new SIL.Windows.Forms.Widgets.AutoHeightLabel();
+			this._labelDriveLetterHintMsg = new SIL.Windows.Forms.Widgets.AutoHeightLabel();
 			this._tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-			this._labelPossibleProblemsMsg2 = new Palaso.UI.WindowsForms.Widgets.AutoHeightLabel();
-			this._labelPossibleProblemsMsg3 = new Palaso.UI.WindowsForms.Widgets.AutoHeightLabel();
+			this._labelPossibleProblemsMsg2 = new SIL.Windows.Forms.Widgets.AutoHeightLabel();
+			this._labelPossibleProblemsMsg3 = new SIL.Windows.Forms.Widgets.AutoHeightLabel();
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayoutPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -181,12 +181,12 @@ namespace SayMore.UI.NewSessionsFromFiles
 
 		#endregion
 
-		private Palaso.UI.WindowsForms.Widgets.AutoHeightLabel _labelProblemOverviewMsg;
-		private Palaso.UI.WindowsForms.Widgets.AutoHeightLabel _labelPossibleProblemsMsg1;
-		private Palaso.UI.WindowsForms.Widgets.AutoHeightLabel _labelDriveLetterHintMsg;
+		private SIL.Windows.Forms.Widgets.AutoHeightLabel _labelProblemOverviewMsg;
+		private SIL.Windows.Forms.Widgets.AutoHeightLabel _labelPossibleProblemsMsg1;
+		private SIL.Windows.Forms.Widgets.AutoHeightLabel _labelDriveLetterHintMsg;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutPanel;
-		private Palaso.UI.WindowsForms.Widgets.AutoHeightLabel _labelPossibleProblemsMsg2;
-		private Palaso.UI.WindowsForms.Widgets.AutoHeightLabel _labelPossibleProblemsMsg3;
+		private SIL.Windows.Forms.Widgets.AutoHeightLabel _labelPossibleProblemsMsg2;
+		private SIL.Windows.Forms.Widgets.AutoHeightLabel _labelPossibleProblemsMsg3;
 		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

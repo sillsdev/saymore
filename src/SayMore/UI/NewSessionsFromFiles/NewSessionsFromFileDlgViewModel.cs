@@ -8,13 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.IO;
-using Palaso.Reporting;
+using SIL.IO;
+using SIL.Reporting;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
-using Palaso.Extensions;
+using SIL.Extensions;
 
 namespace SayMore.UI.NewSessionsFromFiles
 {
@@ -545,7 +545,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			var newSession = SessionPresentationModel.CreateNewElementWithId(id);
 
 			var date = File.GetLastWriteTime(sourcePath);
-			newSession.MetaDataFile.SetStringValue(SessionFileType.kDateFieldName, date.ToISO8601DateOnlyString());
+			newSession.MetaDataFile.SetStringValue(SessionFileType.kDateFieldName, date.ToISO8601TimeFormatDateOnlyString());
 			newSession.MetaDataFile.SetStringValue(SessionFileType.kStatusFieldName, Session.Status.Incoming.ToString());
 			newSession.MetaDataFile.Save();
 

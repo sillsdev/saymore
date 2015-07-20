@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using Palaso.IO;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.FileSystem;
+using SIL.IO;
+using SIL.Reporting;
+using SIL.Windows.Forms.FileSystem;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 

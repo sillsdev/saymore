@@ -24,7 +24,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection MRUList {
             get {
@@ -149,11 +149,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings NewSessionsFromFilesDlg {
+        public global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings NewSessionsFromFilesDlg {
             get {
-                return ((global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings)(this["NewSessionsFromFilesDlg"]));
+                return ((global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings)(this["NewSessionsFromFilesDlg"]));
             }
             set {
                 this["NewSessionsFromFilesDlg"] = value;
@@ -161,11 +161,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings NewSessionsFromFilesDlgComponentGrid {
+        public global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings NewSessionsFromFilesDlgComponentGrid {
             get {
-                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["NewSessionsFromFilesDlgComponentGrid"]));
+                return ((global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings)(this["NewSessionsFromFilesDlgComponentGrid"]));
             }
             set {
                 this["NewSessionsFromFilesDlgComponentGrid"] = value;
@@ -173,7 +173,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string NewSessionsFromFilesLastFolder {
             get {
@@ -203,7 +203,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int PersonScreenElementListSpiltterPos {
             get {
@@ -215,7 +215,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int PersonScreenComponentsSplitterPos {
             get {
@@ -227,7 +227,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int SessionScreenElementsListSplitterPos {
             get {
@@ -239,7 +239,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int SessionScreenComponentsSplitterPos {
             get {
@@ -251,11 +251,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings WelcomeDialog {
+        public global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings WelcomeDialog {
             get {
-                return ((global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings)(this["WelcomeDialog"]));
+                return ((global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings)(this["WelcomeDialog"]));
             }
             set {
                 this["WelcomeDialog"] = value;
@@ -263,11 +263,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings ProjectWindow {
+        public global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings ProjectWindow {
             get {
-                return ((global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings)(this["ProjectWindow"]));
+                return ((global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings)(this["ProjectWindow"]));
             }
             set {
                 this["ProjectWindow"] = value;
@@ -275,11 +275,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings SessionScreenComponentGrid {
+        public global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings SessionScreenComponentGrid {
             get {
-                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["SessionScreenComponentGrid"]));
+                return ((global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings)(this["SessionScreenComponentGrid"]));
             }
             set {
                 this["SessionScreenComponentGrid"] = value;
@@ -287,11 +287,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings PersonScreenComponentGrid {
+        public global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings PersonScreenComponentGrid {
             get {
-                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["PersonScreenComponentGrid"]));
+                return ((global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings)(this["PersonScreenComponentGrid"]));
             }
             set {
                 this["PersonScreenComponentGrid"] = value;
@@ -299,7 +299,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public bool PauseMediaPlayerWhenTabLoosesFocus {
             get {
@@ -374,7 +374,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string LastFolderForComponentFileAdd {
             get {
@@ -386,7 +386,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-1")]
         public float MediaPlayerVolume {
@@ -408,11 +408,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings SessionCustomFieldsGrid {
+        public global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings SessionCustomFieldsGrid {
             get {
-                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["SessionCustomFieldsGrid"]));
+                return ((global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings)(this["SessionCustomFieldsGrid"]));
             }
             set {
                 this["SessionCustomFieldsGrid"] = value;
@@ -420,11 +420,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings PersonCustomFieldsGrid {
+        public global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings PersonCustomFieldsGrid {
             get {
-                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["PersonCustomFieldsGrid"]));
+                return ((global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings)(this["PersonCustomFieldsGrid"]));
             }
             set {
                 this["PersonCustomFieldsGrid"] = value;
@@ -432,11 +432,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings AudioFileFieldsGrid {
+        public global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings AudioFileFieldsGrid {
             get {
-                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["AudioFileFieldsGrid"]));
+                return ((global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings)(this["AudioFileFieldsGrid"]));
             }
             set {
                 this["AudioFileFieldsGrid"] = value;
@@ -444,11 +444,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings VideoFileFieldsGrid {
+        public global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings VideoFileFieldsGrid {
             get {
-                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["VideoFileFieldsGrid"]));
+                return ((global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings)(this["VideoFileFieldsGrid"]));
             }
             set {
                 this["VideoFileFieldsGrid"] = value;
@@ -456,11 +456,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings ImageFileFieldsGrid {
+        public global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings ImageFileFieldsGrid {
             get {
-                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["ImageFileFieldsGrid"]));
+                return ((global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings)(this["ImageFileFieldsGrid"]));
             }
             set {
                 this["ImageFileFieldsGrid"] = value;
@@ -468,11 +468,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings UnknownFileFieldsGrid {
+        public global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings UnknownFileFieldsGrid {
             get {
-                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["UnknownFileFieldsGrid"]));
+                return ((global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings)(this["UnknownFileFieldsGrid"]));
             }
             set {
                 this["UnknownFileFieldsGrid"] = value;
@@ -552,7 +552,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool FirstTimeRun {
@@ -565,7 +565,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string DefaultFolderForNewProjects {
             get {
@@ -685,11 +685,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings SessionsListGrid {
+        public global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings SessionsListGrid {
             get {
-                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["SessionsListGrid"]));
+                return ((global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings)(this["SessionsListGrid"]));
             }
             set {
                 this["SessionsListGrid"] = value;
@@ -697,11 +697,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings PersonListGrid {
+        public global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings PersonListGrid {
             get {
-                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["PersonListGrid"]));
+                return ((global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings)(this["PersonListGrid"]));
             }
             set {
                 this["PersonListGrid"] = value;
@@ -736,7 +736,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public bool AllowStatisticsChartLabelsToWrap {
             get {
@@ -757,11 +757,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings ContributorsGrid {
+        public global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings ContributorsGrid {
             get {
-                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["ContributorsGrid"]));
+                return ((global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings)(this["ContributorsGrid"]));
             }
             set {
                 this["ContributorsGrid"] = value;
@@ -778,7 +778,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool NeedUpgrade {
@@ -800,7 +800,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("author;compiler;consultant;developer;editor;facilitator;illustrator;interviewer;p" +
             "hotographer;recorder;researcher;signer;speaker;transcriber;translator")]
@@ -811,11 +811,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings ArchivingDialog {
+        public global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings ArchivingDialog {
             get {
-                return ((global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings)(this["ArchivingDialog"]));
+                return ((global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings)(this["ArchivingDialog"]));
             }
             set {
                 this["ArchivingDialog"] = value;
@@ -823,11 +823,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings SegmentGrid {
+        public global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings SegmentGrid {
             get {
-                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["SegmentGrid"]));
+                return ((global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings)(this["SegmentGrid"]));
             }
             set {
                 this["SegmentGrid"] = value;
@@ -844,7 +844,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int AnnotationEditorPlaybackSpeedIndex {
@@ -857,7 +857,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0.75")]
         public decimal AnnotationEditorVideoWindowYtoXRatio {
@@ -870,7 +870,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int AnnotationEditorSpiltterPos {
             get {
@@ -882,7 +882,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string TranscriptionWsForFWInterlinearExport {
             get {
@@ -894,7 +894,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string FreeTranslationWsForFWInterlinearExport {
             get {
@@ -906,11 +906,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings OralAnnotationRecorderDlg {
+        public global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings OralAnnotationRecorderDlg {
             get {
-                return ((global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings)(this["OralAnnotationRecorderDlg"]));
+                return ((global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings)(this["OralAnnotationRecorderDlg"]));
             }
             set {
                 this["OralAnnotationRecorderDlg"] = value;
@@ -954,7 +954,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("5")]
         public int MillisecondsToAdvanceSegmentBoundaryOnRightArrow {
@@ -964,7 +964,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("5")]
         public int MillisecondsToBackupSegmentBoundaryOnLeftArrow {
@@ -974,7 +974,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1000")]
         public int MillisecondsToRePlayAfterAdjustingSegmentBoundary {
@@ -984,7 +984,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("en")]
         public string UserInterfaceLanguage {
@@ -997,7 +997,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string LocalizationDlgSettings {
             get {
@@ -1009,7 +1009,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("600")]
         public int MillisecondsToDelayPlaybackAfterAdjustingSegmentBoundary {
@@ -1019,7 +1019,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public float ZoomPercentageInAnnotationRecordingDlg {
@@ -1032,11 +1032,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings ManualSegmenterDlg {
+        public global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings ManualSegmenterDlg {
             get {
-                return ((global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings)(this["ManualSegmenterDlg"]));
+                return ((global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings)(this["ManualSegmenterDlg"]));
             }
             set {
                 this["ManualSegmenterDlg"] = value;
@@ -1044,7 +1044,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public float ZoomPercentageInManualSegmenterDlg {
@@ -1057,7 +1057,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int DefaultSegmentationMethod {
             get {
@@ -1069,7 +1069,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("500")]
         public int MinimumAnnotationSegmentLengthInMilliseconds {
@@ -1079,11 +1079,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings SessionRecorderDlg {
+        public global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings SessionRecorderDlg {
             get {
-                return ((global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings)(this["SessionRecorderDlg"]));
+                return ((global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings)(this["SessionRecorderDlg"]));
             }
             set {
                 this["SessionRecorderDlg"] = value;
@@ -1091,7 +1091,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int TranscriptionPlaybackType {
@@ -1104,7 +1104,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("4")]
         public int TranslationPlaybackType {
@@ -1117,11 +1117,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings MPlayerDebuggingOutputWindow {
+        public global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings MPlayerDebuggingOutputWindow {
             get {
-                return ((global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings)(this["MPlayerDebuggingOutputWindow"]));
+                return ((global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings)(this["MPlayerDebuggingOutputWindow"]));
             }
             set {
                 this["MPlayerDebuggingOutputWindow"] = value;
@@ -1129,7 +1129,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("_StandardAudio.wav")]
         public string StandardAudioFileSuffix {
@@ -1139,7 +1139,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("80")]
         public int SegmentingWaveViewPixelsPerSecond {
@@ -1149,7 +1149,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public bool PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent {
             get {
@@ -1158,7 +1158,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("850")]
         public int MinimumSegmentLengthInMilliseconds {
@@ -1168,11 +1168,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings FFmpegDownloadDlg {
+        public global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings FFmpegDownloadDlg {
             get {
-                return ((global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings)(this["FFmpegDownloadDlg"]));
+                return ((global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings)(this["FFmpegDownloadDlg"]));
             }
             set {
                 this["FFmpegDownloadDlg"] = value;
@@ -1180,11 +1180,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings ConvertMediaDlg {
+        public global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings ConvertMediaDlg {
             get {
-                return ((global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings)(this["ConvertMediaDlg"]));
+                return ((global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings)(this["ConvertMediaDlg"]));
             }
             set {
                 this["ConvertMediaDlg"] = value;
@@ -1192,7 +1192,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public bool ShowFFmpegDetailsWhenConvertingMedia {
             get {
@@ -1204,11 +1204,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings MediaFileMoreInfoDlg {
+        public global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings MediaFileMoreInfoDlg {
             get {
-                return ((global::Palaso.UI.WindowsForms.PortableSettingsProvider.FormSettings)(this["MediaFileMoreInfoDlg"]));
+                return ((global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings)(this["MediaFileMoreInfoDlg"]));
             }
             set {
                 this["MediaFileMoreInfoDlg"] = value;
@@ -1219,7 +1219,7 @@ namespace SayMore.Properties {
         /// The auto-segmenter will calculate the &quot;optimal&quot; segment length to be halfway between AutoSegmenterMinimumSegmentLengthInMilliseconds and this value.
         /// </summary>
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("The auto-segmenter will calculate the \"optimal\" segment length to be halfway betw" +
             "een AutoSegmenterMinimumSegmentLengthInMilliseconds and this value.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1234,7 +1234,7 @@ namespace SayMore.Properties {
         /// The larger this value, the longer the pause that the auto-segmenter will try to find to use as a break.
         /// </summary>
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("The larger this value, the longer the pause that the auto-segmenter will try to f" +
             "ind to use as a break.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1249,7 +1249,7 @@ namespace SayMore.Properties {
         /// The larger this number, the more strongly the auto-segmenter will favor possible breaks close to the midpoint between the minimum and the maximum segment length.
         /// </summary>
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("The larger this number, the more strongly the auto-segmenter will favor possible " +
             "breaks close to the midpoint between the minimum and the maximum segment length." +
             "")]
@@ -1265,7 +1265,7 @@ namespace SayMore.Properties {
         /// The auto-segmenter will calculate the &quot;optimal&quot; segment length to be halfway between this value and AutoSegmenterMaximumSegmentLengthInMilliseconds.
         /// </summary>
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("The auto-segmenter will calculate the \"optimal\" segment length to be halfway betw" +
             "een this value and AutoSegmenterMaximumSegmentLengthInMilliseconds.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1277,7 +1277,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Arbil\\arbil-stable.exe")]
         public string ProgramToLaunchForIMDIPackage {
@@ -1290,7 +1290,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("200,120,80,200")]
         public string PersonContributionColumns {
@@ -1303,11 +1303,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings ProjectDescriptionDocumentsComponentGrid {
+        public global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings ProjectDescriptionDocumentsComponentGrid {
             get {
-                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["ProjectDescriptionDocumentsComponentGrid"]));
+                return ((global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings)(this["ProjectDescriptionDocumentsComponentGrid"]));
             }
             set {
                 this["ProjectDescriptionDocumentsComponentGrid"] = value;
@@ -1315,11 +1315,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings ProjectOtherDocumentsComponentGrid {
+        public global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings ProjectOtherDocumentsComponentGrid {
             get {
-                return ((global::Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings)(this["ProjectOtherDocumentsComponentGrid"]));
+                return ((global::SIL.Windows.Forms.Widgets.BetterGrid.GridSettings)(this["ProjectOtherDocumentsComponentGrid"]));
             }
             set {
                 this["ProjectOtherDocumentsComponentGrid"] = value;
@@ -1387,7 +1387,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-		[global::System.Configuration.SettingsProviderAttribute(typeof(Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider))]
+		[global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool LoadComponentFileIcons {

@@ -5,8 +5,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.Miscellaneous;
+using SIL.Reporting;
+using SIL.Windows.Forms.Miscellaneous;
 using SayMore.Utilities;
 
 namespace SayMore.UI

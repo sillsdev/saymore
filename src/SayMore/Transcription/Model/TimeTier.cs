@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using L10NSharp;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Media;
 using SayMore.Properties;
 using SayMore.Transcription.UI;

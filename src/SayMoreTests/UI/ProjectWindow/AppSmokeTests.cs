@@ -4,13 +4,13 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.LowLevelControls;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using NUnit.Extensions.Forms;
 using NUnit.Framework;
 using SayMore.UI.ProjectWindow;
@@ -29,7 +29,7 @@ namespace SayMoreTests.UI.ProjectWindow
 		[SetUp]
 		public void TestSetup()
 		{
-			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
+			SIL.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 
 			_projectsFolder = new TemporaryFolder("SayMoreSmokeTest");
 			PortableSettingsProvider.SettingsFileFolder = _projectsFolder.Combine("Settings");

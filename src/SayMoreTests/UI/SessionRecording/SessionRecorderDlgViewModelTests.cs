@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using Moq;
 using SayMore.Model;
 using SayMore.UI.SessionRecording;
@@ -21,6 +21,10 @@ namespace SayMoreTests.UI
 		[SetUp]
 		public void SetUp()
 		{
+			// The next two lines create a Synchronization context so that WaveIn can be happy.
+			var someControl = new Control();
+			var whatever = someControl.Handle;
+
 			_model = new SessionRecorderDlgViewModel();
 			_model.Recorder.BeginMonitoring();
 			_tempFolder = new TemporaryFolder("SessionRecorderDlgViewModelTests");

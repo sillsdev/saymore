@@ -1,4 +1,4 @@
-using Palaso.Reporting;
+using SIL.Reporting;
 
 namespace SayMore.Transcription.UI
 {

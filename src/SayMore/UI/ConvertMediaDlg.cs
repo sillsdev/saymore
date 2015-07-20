@@ -5,9 +5,9 @@ using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.Reporting;
+using SIL.Windows.Forms;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media.FFmpeg;
 using SayMore.Properties;
 

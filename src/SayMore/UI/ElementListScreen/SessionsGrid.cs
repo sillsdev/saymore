@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.Reporting;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using Palaso.Extensions;
+using SIL.Extensions;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -92,14 +92,14 @@ namespace SayMore.UI.ElementListScreen
 				try
 				{
 					//we parse it and then generate it because we're trying to migrate old, locale-specific dates to ISO8601 dates
-					return DateTimeExtensions.ParseDateTimePermissivelyWithException(dateString).ToISO8601DateOnlyString();
+					return DateTimeExtensions.ParseDateTimePermissivelyWithException(dateString).ToISO8601TimeFormatDateOnlyString();
 				}
 				catch (Exception e)
 				{
 #if DEBUG
 					ErrorReport.NotifyUserOfProblem(e, "only seeing because your'e in DEBUG mode");
 #endif
-					return DateTime.MinValue.ToISO8601DateOnlyString();
+					return DateTime.MinValue.ToISO8601TimeFormatDateOnlyString();
 				}
 			}
 

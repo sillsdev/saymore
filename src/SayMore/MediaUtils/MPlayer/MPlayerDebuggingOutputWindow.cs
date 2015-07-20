@@ -1,8 +1,8 @@
 using System;
 using System.Windows.Forms;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.Reporting;
+using SIL.Windows.Forms;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Properties;
 
 namespace SayMore.Media.MPlayer

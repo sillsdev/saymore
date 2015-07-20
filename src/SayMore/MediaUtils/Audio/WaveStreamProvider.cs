@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using L10NSharp;
 using NAudio.Wave;
-using Palaso.UI.WindowsForms.Miscellaneous;
+using SIL.Windows.Forms.Miscellaneous;
 using SayMore.Transcription.Model;
 
 namespace SayMore.Media.Audio

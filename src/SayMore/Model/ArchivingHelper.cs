@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Extensions;
-using Palaso.Reporting;
+using SIL.Extensions;
+using SIL.Reporting;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 using SayMore.UI.Overview;
@@ -161,7 +161,7 @@ namespace SayMore.Model
 			// session date
 			stringVal = saymoreSession.MetaDataFile.GetStringValue("date", null);
 			if (!string.IsNullOrEmpty(stringVal))
-				imdiSession.SetDate(DateTime.Parse(stringVal).ToISO8601DateOnlyString());
+				imdiSession.SetDate(DateTime.Parse(stringVal).ToISO8601TimeFormatDateOnlyString());
 
 			// session situation
 			stringVal = saymoreSession.MetaDataFile.GetStringValue("situation", null);

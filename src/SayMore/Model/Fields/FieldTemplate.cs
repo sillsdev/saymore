@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using Palaso.IO;
-using Palaso.Reporting;
-using Palaso.Xml;
+using SIL.IO;
+using SIL.Reporting;
+using SIL.Xml;
 
 namespace SayMore.Model.Fields
 {

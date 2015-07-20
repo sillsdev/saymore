@@ -1,10 +1,10 @@
 using System.Diagnostics;
 using System.IO;
 using NUnit.Framework;
-using Palaso.Code;
-using Palaso.CommandLineProcessing;
-using Palaso.Media;
-using Palaso.Progress;
+using SIL.Code;
+using SIL.CommandLineProcessing;
+using SIL.Media;
+using SIL.Progress;
 using SayMore.Media.FFmpeg;
 
 namespace SayMoreTests
@@ -116,13 +116,11 @@ namespace SayMoreTests
 		{
 			Debug.WriteLine("ShrinkAudio " + original);
 
-			var extension = Path.GetExtension(original);
-			var newPath = newPathRoot+".mp3";
+			var newPath = newPathRoot + ".mp3";
 			if(File.Exists(newPath))
 				File.Delete(newPath);
 
-			var result = Palaso.Media.FFmpegRunner.MakeLowQualityCompressedAudio(original, newPath,
-																   _progress);
+			var result = FFmpegRunner.MakeLowQualityCompressedAudio(original, newPath, _progress);
 
 			CheckForError(result);
 			return newPath;
@@ -137,14 +135,14 @@ namespace SayMoreTests
 				|| result.StandardError.ToLower().Contains("could not"))
 				Debug.Fail(result.StandardError);
 		}
+
 		private string ShrinkPicture(string original, string newPathRoot)
 		{
 			Debug.WriteLine("ShrinkPicture " + original);
-			var extension = Path.GetExtension(original);
-			var newPath = newPathRoot+".jpg";
+			var newPath = newPathRoot + ".jpg";
 			if (File.Exists(newPath))
 				File.Delete(newPath);
-			var result = Palaso.Media.FFmpegRunner.MakeLowQualitySmallPicture(original, newPath,
+			var result = FFmpegRunner.MakeLowQualitySmallPicture(original, newPath,
 																   _progress);
 			CheckForError(result);
 			return newPath;
@@ -154,12 +152,10 @@ namespace SayMoreTests
 		{
 			Debug.WriteLine("ShrinkVIdeo "+original);
 
-			var extension = Path.GetExtension(original);
-
 			var newPath = newPathRoot + ".mp4";
 			if (File.Exists(newPath))
 				File.Delete(newPath);
-			var result = Palaso.Media.FFmpegRunner.MakeLowQualitySmallVideo(original, newPath,  0,
+			var result = FFmpegRunner.MakeLowQualitySmallVideo(original, newPath,  0,
 																	_progress);
 			CheckForError(result);
 			return newPath;

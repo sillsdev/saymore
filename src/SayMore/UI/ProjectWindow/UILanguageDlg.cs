@@ -2,7 +2,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
+using SIL.Reporting;
 
 namespace SayMore.UI.ProjectWindow
 {

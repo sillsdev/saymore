@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using Palaso.IO;
+using SIL.IO;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.Model.Exporters;
 
@@ -15,7 +15,7 @@ namespace SayMoreTests.Transcription.Model
 		[SetUp]
 		public void TestSetup()
 		{
-			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
+			SIL.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 		}
 
 		[Test]

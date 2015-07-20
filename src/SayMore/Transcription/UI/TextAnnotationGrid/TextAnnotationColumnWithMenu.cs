@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Transcription.Model;
 
 // ReSharper disable once CheckNamespace

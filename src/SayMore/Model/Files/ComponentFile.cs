@@ -8,10 +8,10 @@ using System.Threading;
 using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
-using Palaso.Code;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.FileSystem;
-using Palaso.UI.WindowsForms.Miscellaneous;
+using SIL.Code;
+using SIL.Reporting;
+using SIL.Windows.Forms.FileSystem;
+using SIL.Windows.Forms.Miscellaneous;
 using SayMore.Media.Audio;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
@@ -509,7 +509,8 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Save()
+		// ReSharper disable once VirtualMemberNeverOverriden.Global - Do not remove "virtual" - Mocked in tests
+		public virtual void Save()
 		{
 			Save(_metaDataPath);
 		}

@@ -5,7 +5,7 @@ using System.ComponentModel.Design;
 using System.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
-using Palaso.UI.WindowsForms;
+using SIL.Windows.Forms;
 
 namespace SayMore.UI.ComponentEditors
 {

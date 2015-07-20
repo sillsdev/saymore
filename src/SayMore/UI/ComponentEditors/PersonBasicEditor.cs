@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
@@ -401,7 +401,7 @@ namespace SayMore.UI.ComponentEditors
 					"PeopleView.MetadataEditor.ErrorChangingPersonsPhotoMsg",
 					"There was an error changing the person's photo.");
 
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error, msg);
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(error, msg);
 			}
 
 			Program.ResumeBackgroundProcesses(true);
@@ -436,7 +436,7 @@ namespace SayMore.UI.ComponentEditors
 				var msg = LocalizationManager.GetString("PeopleView.MetadataEditor.ErrorLoadingPersonsPhotoMsg",
 					"There was an error loading the person's photo.");
 
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
 			}
 
 			Program.ResumeAudioVideoBackgroundProcesses(true);

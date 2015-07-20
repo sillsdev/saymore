@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using Palaso.UI.WindowsForms;
+using SIL.Windows.Forms;
 using SayMore.Transcription.Model;
 
 namespace SayMore.Transcription.UI

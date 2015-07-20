@@ -1,7 +1,7 @@
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using SayMore.Model;
 
 namespace SayMoreTests.Model

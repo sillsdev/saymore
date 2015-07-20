@@ -5,7 +5,7 @@ using NUnit.Framework;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.UI.ElementListScreen;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using SayMoreTests.Model;
 
 namespace SayMoreTests.UI.ElementListScreen

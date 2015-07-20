@@ -5,11 +5,11 @@ using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.Extensions;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.Extensions;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Model.Files;
-using Palaso.UI.WindowsForms;
+using SIL.Windows.Forms;
 
 namespace SayMore.UI.ElementListScreen
 {

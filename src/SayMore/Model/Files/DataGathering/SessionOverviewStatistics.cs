@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Palaso.IO;
+using SIL.IO;
 using SayMore.Properties;
 
 namespace SayMore.Model.Files.DataGathering

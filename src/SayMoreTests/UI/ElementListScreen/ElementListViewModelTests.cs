@@ -2,7 +2,7 @@ using System.IO;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.UI.ElementListScreen;
@@ -24,7 +24,7 @@ namespace SayMoreTests.UI.ElementListScreen
 		[SetUp]
 		public void Setup()
 		{
-			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
+			SIL.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 			_tmpFolder = new TemporaryFolder("elementRepoTestFolder");
 
 			var peter = new Mock<Person>();
@@ -230,7 +230,7 @@ namespace SayMoreTests.UI.ElementListScreen
 		[Test]
 		public void VerifyAllElementsStillExist_OneRemoved_ReturnsFalse()
 		{
-			using (new Palaso.Reporting.ErrorReport.NonFatalErrorReportExpected())
+			using (new SIL.Reporting.ErrorReport.NonFatalErrorReportExpected())
 			{
 				Directory.Delete(_tmpFolder.Combine(Person.kFolderName, "paul"));
 				Assert.IsFalse(_model.VerifyAllElementsStillExist());

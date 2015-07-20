@@ -6,9 +6,9 @@ using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using L10NSharp;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Model.Fields;
-using Palaso.Xml;
+using SIL.Xml;
 using SayMore.Utilities;
 
 namespace SayMore.Model.Files

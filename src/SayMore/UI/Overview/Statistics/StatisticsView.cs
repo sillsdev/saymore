@@ -5,7 +5,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using L10NSharp.UI;
-using Palaso.Reporting;
+using SIL.Reporting;
 
 namespace SayMore.UI.Overview.Statistics
 {

@@ -4,9 +4,9 @@ using System.ComponentModel.Design;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.UI.LowLevelControls;
-using Palaso.UI.WindowsForms;
+using SIL.Windows.Forms;
 
 namespace SayMore.Media.MPlayer
 {

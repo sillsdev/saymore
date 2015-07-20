@@ -2,9 +2,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
-using Palaso.UI.WindowsForms.Widgets;
+using SIL.Reporting;
+using SIL.Windows.Forms.PortableSettingsProvider;
+using SIL.Windows.Forms.Widgets;
 using SayMore.Model.Files;
 using SayMore.Properties;
 

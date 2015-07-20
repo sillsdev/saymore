@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 using System.Xml.Linq;
-using Palaso.Extensions;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.ClearShare;
+using SIL.Extensions;
+using SIL.Reporting;
+using SIL.Windows.Forms.ClearShare;
 
 namespace SayMore.Model.Fields
 {
@@ -76,7 +76,7 @@ namespace SayMore.Model.Fields
 					var e = new XElement("contributor");
 					e.Add(new XElement("name", c.ContributorName));
 					e.Add(new XElement("role", c.Role.Code));
-					e.Add(new XElement("date", c.Date.ToISO8601DateOnlyString()));
+					e.Add(new XElement("date", c.Date.ToISO8601TimeFormatDateOnlyString()));
 					e.Add(new XElement("notes", c.Comments));
 					element.Add(e);
 				}

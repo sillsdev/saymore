@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Model.Files;
 
 namespace SayMore.UI.ElementListScreen

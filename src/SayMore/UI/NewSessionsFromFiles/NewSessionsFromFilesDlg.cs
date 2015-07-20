@@ -5,10 +5,10 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.Extensions;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.Reporting;
+using SIL.Windows.Forms.Extensions;
+using SIL.Windows.Forms.PortableSettingsProvider;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
 

@@ -3,7 +3,7 @@ using System.Drawing;
 using L10NSharp;
 using System.Windows.Forms;
 using L10NSharp.UI;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;

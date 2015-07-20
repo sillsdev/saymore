@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Palaso.UI.WindowsForms.ClearShare;
+using SIL.Windows.Forms.ClearShare;
 using SayMore.Model.Fields;
 
 namespace SayMoreTests.Model.Fields

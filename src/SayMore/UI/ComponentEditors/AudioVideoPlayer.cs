@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
@@ -134,7 +134,7 @@ namespace SayMore.UI.ComponentEditors
 		///// ------------------------------------------------------------------------------------
 		//private static void HandleMediaError(object sender, _WMPOCXEvents_MediaErrorEvent e)
 		//{
-		//    Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Media error: " + e.pMediaObject);
+		//    SIL.Reporting.ErrorReport.NotifyUserOfProblem("Media error: " + e.pMediaObject);
 		//}
 
 		/// ------------------------------------------------------------------------------------

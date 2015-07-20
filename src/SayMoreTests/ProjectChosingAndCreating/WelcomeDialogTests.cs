@@ -14,7 +14,7 @@ namespace SayMoreTests.ProjectChoosingAndCreating
 		public void TestSetup()
 		{
 			_viewModel = new WelcomeDialogViewModel();
-			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
+			SIL.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 		}
 
 		/* Why is all this commented out? At the moment, the dialog doesn't do much...
@@ -74,7 +74,7 @@ namespace SayMoreTests.ProjectChoosingAndCreating
 //		[Test]
 //		public void CreateNewProject_FolderAlreadyExists_False()
 //		{
-//			using (new Palaso.Reporting.ErrorReport.NonFatalErrorReportExpected())
+//			using (new SIL.Reporting.ErrorReport.NonFatalErrorReportExpected())
 //			{
 //				using (var parent = new TemporaryFolder("basketball"))
 //				{
@@ -90,7 +90,7 @@ namespace SayMoreTests.ProjectChoosingAndCreating
 //		[Test]
 //		public void CreateNewProject_FolderAlreadyContainsProject_ProjectPath_Null()
 //		{
-//			using (new Palaso.Reporting.ErrorReport.NonFatalErrorReportExpected())
+//			using (new SIL.Reporting.ErrorReport.NonFatalErrorReportExpected())
 //			using (var parent = new TemporaryFolder("basketball"))
 //			{
 //				using (var projectFolder = new TemporaryFolder(parent,"sonics"))

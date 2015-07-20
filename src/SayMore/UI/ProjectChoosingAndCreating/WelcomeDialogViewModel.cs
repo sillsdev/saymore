@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Model;
 using SayMore.Properties;
 

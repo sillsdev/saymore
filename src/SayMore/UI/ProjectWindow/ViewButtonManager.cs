@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Palaso.UI.WindowsForms.Extensions;
+using SIL.Windows.Forms.Extensions;
 
 namespace SayMore.UI.ProjectWindow
 {

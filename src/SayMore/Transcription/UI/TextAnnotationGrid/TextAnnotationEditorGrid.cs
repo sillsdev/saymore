@@ -7,15 +7,15 @@ using System.Linq;
 using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms;
-using Palaso.UI.WindowsForms.Extensions;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.Reporting;
+using SIL.Windows.Forms;
+using SIL.Windows.Forms.Extensions;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Media.MPlayer;
-using GridSettings = Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings;
+using GridSettings = SIL.Windows.Forms.Widgets.BetterGrid.GridSettings;
 
 namespace SayMore.Transcription.UI
 {

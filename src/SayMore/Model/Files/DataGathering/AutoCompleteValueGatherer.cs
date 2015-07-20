@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.ClearShare;
+using SIL.Reporting;
+using SIL.Windows.Forms.ClearShare;
 using SayMore.Model.Fields;
 using SayMore.Properties;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Properties;
 

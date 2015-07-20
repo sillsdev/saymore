@@ -19,9 +19,9 @@ using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.IO;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.IO;
+using SIL.Reporting;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
@@ -202,7 +202,7 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void HandleHelpAboutClick(object sender, EventArgs e)
 		{
-			using (var dlg = new Palaso.UI.WindowsForms.SIL.SILAboutBox(FileLocator.GetFileDistributedWithApplication("aboutbox.htm")))
+			using (var dlg = new SIL.Windows.Forms.Miscellaneous.SILAboutBox(FileLocator.GetFileDistributedWithApplication("aboutbox.htm")))
 				dlg.ShowDialog();
 		}
 

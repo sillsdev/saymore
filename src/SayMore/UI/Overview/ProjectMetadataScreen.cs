@@ -3,8 +3,8 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.WritingSystems;
+using SIL.Reporting;
+using SIL.Windows.Forms.WritingSystems;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;
 using SIL.Archiving.IMDI.Lists;
@@ -141,11 +141,13 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		private void _linkSelectVernacular_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			using (var dialog = new LookupISOCodeDialog { Force3LetterCodes = true })
+			// REVIEW: Do we need Force3LetterCodes? Can't find it in new implementation.
+			// using (var dialog = new LanguageLookupDialog { Force3LetterCodes = true, ShowDesiredLanguageNameField = true })
+			using (var dialog = new LanguageLookupDialog { ShowDesiredLanguageNameField = true })
 			{
 				var result = dialog.ShowDialog();
 				if (result == DialogResult.OK)
-					_labelSelectedVernacular.Text = dialog.SelectedLanguage.Code + @": " + dialog.SelectedLanguage.DesiredName;
+					_labelSelectedVernacular.Text = dialog.SelectedLanguage.LanguageTag + @": " + dialog.DesiredLanguageName; // REVIEW: This line was modified to get it to build
 			}
 
 		}

@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using System.Linq;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;

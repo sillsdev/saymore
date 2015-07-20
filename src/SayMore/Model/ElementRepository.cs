@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Palaso.Code;
-using Palaso.UI.WindowsForms.FileSystem;
+using SIL.Code;
+using SIL.Windows.Forms.FileSystem;
 using SayMore.Model.Files;
 
 namespace SayMore.Model

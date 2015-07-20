@@ -8,7 +8,7 @@ using DesktopAnalytics;
 using L10NSharp;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.UI;

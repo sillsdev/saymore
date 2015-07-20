@@ -10,9 +10,9 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using DesktopAnalytics;
 using L10NSharp;
-using Palaso.Extensions;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms;
+using SIL.Extensions;
+using SIL.Reporting;
+using SIL.Windows.Forms;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.Overview;
 using SIL.Archiving;
@@ -169,7 +169,7 @@ namespace SayMore.Model
 			//{
 			//    // TODO: should probably be more informative and give the user
 			//    // a chance to "unlock" the folder and retry.
-			//    //Palaso.Reporting.ErrorReport.ReportFatalException(e);
+			//    //SIL.Reporting.ErrorReport.ReportFatalException(e);
 			//    throw;  //by rethrowing, we allow the higher levels to do what they are supposed to, which is to
 			//    //say "sorry, couldn't open that." If we have more info to give here, we could do that via a non-fatal error.
 			//}

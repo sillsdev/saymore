@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Media.Audio;
 
 namespace SayMore.Transcription.UI

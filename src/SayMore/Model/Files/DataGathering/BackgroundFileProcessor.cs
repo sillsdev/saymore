@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using L10NSharp;
-using Palaso.Reporting;
+using SIL.Reporting;
 using ThreadState = System.Threading.ThreadState;
 
 namespace SayMore.Model.Files.DataGathering
@@ -193,7 +193,7 @@ namespace SayMore.Model.Files.DataGathering
 			}
 			catch (Exception error)
 			{
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error, "Background file watching failed.");
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(error, "Background file watching failed.");
 			}
 		}
 
@@ -244,7 +244,7 @@ namespace SayMore.Model.Files.DataGathering
 				Debug.WriteLine(e.Message);
 				Logger.WriteEvent("Handled Exception in {0}.ProcessingFileEvent:\r\n{1}", GetType().Name, e.ToString());
 #if  DEBUG
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, "Error gathering data");
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(e, "Error gathering data");
 #endif
 				//nothing here is worth crashing over
 			}

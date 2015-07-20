@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Palaso.UI.WindowsForms.ClearShare;
+using SIL.Windows.Forms.ClearShare;
 
 namespace SayMore.Model.Fields
 {

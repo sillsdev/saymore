@@ -2,12 +2,12 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.Miscellaneous;
+using SIL.Reporting;
+using SIL.Windows.Forms.Miscellaneous;
 using SayMore.Model.Files;
 using SayMore.Media.MPlayer;
 using SayMore.UI.ComponentEditors;
-using Palaso.UI.WindowsForms;
+using SIL.Windows.Forms;
 
 namespace SayMore.Transcription.UI
 {

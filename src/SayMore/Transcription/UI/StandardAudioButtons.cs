@@ -1,5 +1,5 @@
 using System.Drawing;
-using Palaso.UI.WindowsForms;
+using SIL.Windows.Forms;
 
 namespace SayMore.Transcription.UI
 {

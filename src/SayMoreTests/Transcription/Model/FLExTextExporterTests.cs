@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.Model.Exporters;
 using SayMoreTests.Model.Files;

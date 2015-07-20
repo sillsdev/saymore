@@ -1,6 +1,6 @@
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 

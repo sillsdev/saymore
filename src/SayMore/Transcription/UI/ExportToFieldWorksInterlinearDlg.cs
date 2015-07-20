@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.WritingSystems;
+using SIL.Reporting;
+using SIL.WritingSystems;
 using SayMore.Properties;
 
 namespace SayMore.Transcription.UI
@@ -60,10 +60,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<WritingSystemDefinition> GetAvailableWritingSystems()
 		{
-			//TODO: someday, this may be safe to call. But not yet.
-			//return (new LdmlInFolderWritingSystemRepository()).AllWritingSystems;
-
-			var globalPath = Path.Combine(Program.SilCommonDataFolder, "WritingSystemStore"); //NB: flex 7.1 is using this. Palaso head has WritingSystemRepository/2 instead. Sigh...
+			var globalPath = Path.Combine(Program.SilCommonDataFolder, "WritingSystemStore");
+				//NB: flex 7.1 is using this. Palaso head has WritingSystemRepository/2 instead. Sigh...
 
 			if (!Directory.Exists(globalPath))
 			{
@@ -75,31 +73,10 @@ namespace SayMore.Transcription.UI
 					"The parameter is a folder path");
 
 				ErrorReport.NotifyUserOfProblem(msg, globalPath);
-				yield return WritingSystemDefinition.Parse("en");
+				return new[] {new WritingSystemDefinition("en")};
 			}
-			else
-			{
-				foreach (string path in Directory.GetFiles(globalPath, "*.ldml"))
-				{
-					var name = Path.GetFileNameWithoutExtension(path);
-					WritingSystemDefinition x=null;
-					try
-					{
-						x = WritingSystemDefinition.Parse(name);
-					}
-					catch (Exception e)
-					{
-						var msg = LocalizationManager.GetString(
-							"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.OldWritingSystemsFoundMsg",
-							"Sorry, the writing system {0} does not conform to current standards. Please first upgrade to FLEx 7.1 or greater.");
-
-						ErrorReport.NotifyUserOfProblem(e, msg, name);
-					}
-
-					if (x != null)
-						yield return x;
-				}
-			}
+			var repo = LdmlInFolderWritingSystemRepository.Initialize(globalPath);
+			return repo.AllWritingSystems;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -180,7 +157,7 @@ namespace SayMore.Transcription.UI
 		private void ExportToFieldWorksInterlinearDlg_Load(object sender, EventArgs e)
 		{
 			var wsList = GetAvailableWritingSystems()
-				.Select(ws => new DisplayFriendlyWritingSystem { Id = ws.Id, Name = ws.LanguageName }).ToArray();
+				.Select(ws => new DisplayFriendlyWritingSystem { Id = ws.Id, Name = ws.Language.Name }).ToArray();
 
 			if (wsList.Length == 0)
 			{

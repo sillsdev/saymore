@@ -5,7 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Moq;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using SIL.Archiving.IMDI;
 using SayMore;
 using SayMore.Model;

@@ -63,7 +63,7 @@ namespace SayMore.UI.ElementListScreen
 				"The folders for the following elements have been removed from your computer.\r\n" +
 				"Therefore, SayMore will remove them from the list.\r\n\r\n{0}");
 
-			Palaso.Reporting.ErrorReport.NotifyUserOfProblem(msg, bldr.ToString());
+			SIL.Reporting.ErrorReport.NotifyUserOfProblem(msg, bldr.ToString());
 			RefreshElementList();
 			return false;
 		}

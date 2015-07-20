@@ -5,8 +5,8 @@ using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.IO;
-using Palaso.Reporting;
+using SIL.IO;
+using SIL.Reporting;
 using SIL.Archiving.Generic.AccessProtocol;
 
 namespace SayMore.UI.Overview

@@ -259,7 +259,8 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	  <ComponentRef Id="SIL.Media.pdb"/>
 	  <ComponentRef Id="SIL.WritingSystems.dll"/>
 	  <ComponentRef Id="SIL.WritingSystems.pdb"/>
-	  <ComponentRef Id="ParatextShared.dll"/>
+	  <ComponentRef Id="SIL.Windows.Forms.WritingSystems.dll"/>
+	  <ComponentRef Id="SIL.Windows.Forms.WritingSystems.pdb"/>
 	  <ComponentRef Id="DesktopAnalytics.dll"/>
 	  <ComponentRef Id="Analytics.NET.dll"/>
 	  <ComponentRef Id="Newtonsoft.Json.dll"/>

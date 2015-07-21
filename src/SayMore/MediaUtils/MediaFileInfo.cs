@@ -172,6 +172,12 @@ namespace SayMore.Media
 		{
 			get
 			{
+				// SP-1024: Audio should not normally be null, but if something happens to the
+				// media file or the XML file thjat this object loads from, we don't want it
+				// to crash. (Calling code seems to be capable of dealing with empty string.)
+				if (Audio == null)
+					return String.Empty;
+
 				if (Audio.Encoding == "MPEG Audio")
 				{
 					if (Audio.EncodingProfile == "Layer 3")

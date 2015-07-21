@@ -180,6 +180,14 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<File Id="SIL.Windows.Forms.pdb" Name="SIL.Windows.Forms.pdb" KeyPath="yes" Source="..\..\output\release\SIL.Windows.Forms.pdb" />
 		  </Component>
 
+		  <Component Id="SIL.Windows.Forms.WritingSystems.dll" Guid="{BBAD7C1A-06BF-4306-8001-DAD0A8C4EF59}">
+			<File Id="SIL.Windows.Forms.WritingSystems.dll" Name="SIL.Windows.Forms.WritingSystems.dll" KeyPath="yes" Source="..\..\output\release\SIL.Windows.Forms.WritingSystems.dll" />
+		  </Component>
+
+		  <Component Id="SIL.Windows.Forms.WritingSystems.pdb" Guid="{130158FD-7EDE-4B1F-BDEC-1D4FEF8AC714}">
+			<File Id="SIL.Windows.Forms.WritingSystems.pdb" Name="SIL.Windows.Forms.WritingSystems.pdb" KeyPath="yes" Source="..\..\output\release\SIL.Windows.Forms.WritingSystems.pdb" />
+		  </Component>
+
 		  <Component Id="SIL.Media.dll" Guid="{24293684-98EC-4D21-A6D1-C87D3E928079}">
 			<File Id="SIL.Media.dll" Name="SIL.Media.dll" KeyPath="yes" Source="..\..\output\release\SIL.Media.dll" />
 		  </Component>
@@ -194,10 +202,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 
 		  <Component Id="SIL.WritingSystems.pdb" Guid="{D90D106F-6705-410A-83CC-617CFDB03F47}">
 			<File Id="SIL.WritingSystems.pdb" Name="SIL.WritingSystems.pdb" KeyPath="yes" Source="..\..\output\release\SIL.WritingSystems.pdb" />
-		  </Component>
-
-		  <Component Id="ParatextShared.dll" Guid="{3E5B8909-AF35-43DD-8A28-7D1900BFCF43}">
-			<File Id="ParatextShared.dll" Name="ParatextShared.dll" KeyPath="yes" Source="..\..\output\release\ParatextShared.dll" />
 		  </Component>
 
 		  <Component Id="DesktopAnalytics.dll" Guid="{05CAD372-4D95-48E9-8557-F9EAA9B1F729}">

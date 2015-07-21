@@ -7,6 +7,7 @@ using L10NSharp;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.UI.Overview.Statistics;
+using SIL.Reporting;
 
 namespace SayMore.UI.Charts
 {
@@ -26,12 +27,16 @@ namespace SayMore.UI.Charts
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// This is used mainly for tests.
+		/// This is used only for tests.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string HtmlContent
 		{
-			get { return _htmlText.ToString(); }
+			get
+			{
+				lock (_htmlText)
+					return _htmlText.ToString();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -39,28 +44,43 @@ namespace SayMore.UI.Charts
 		{
 			lock (_htmlText)
 			{
-				_htmlText.Length = 0;
+				string fallbackHtml = _htmlText.ToString();
+				try
+				{
+					_htmlText.Length = 0;
 
-				OpenHtml();
+					OpenHtml();
 
-				var text = LocalizationManager.GetString("ProgressView.HeadingText", "SayMore statistics for {0}",
-					"Parameter is project name.");
-				WriteHtmlHead(string.Format(text, _statsViewModel.ProjectName));
+					var text = LocalizationManager.GetString("ProgressView.HeadingText", "SayMore statistics for {0}",
+						"Parameter is project name.");
+					WriteHtmlHead(string.Format(text, _statsViewModel.ProjectName));
 
-				OpenBody();
-				WriteOverviewSection();
-				WriteStageChart();
+					OpenBody();
+					WriteOverviewSection();
+					WriteStageChart();
 
-				var backColors = GetStatusSegmentColors();
-				var textColors = backColors.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
-				text = LocalizationManager.GetString("ProgressView.ByGenreHeadingText", "By Genre");
-				WriteChartByFieldPair(text, SessionFileType.kGenreFieldName, SessionFileType.kStatusFieldName, backColors,
-					textColors);
+					var backColors = GetStatusSegmentColors();
+					var textColors = backColors.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
+					text = LocalizationManager.GetString("ProgressView.ByGenreHeadingText", "By Genre");
+					WriteChartByFieldPair(text, SessionFileType.kGenreFieldName, SessionFileType.kStatusFieldName, backColors,
+						textColors);
 
-				CloseBody();
-				CloseHtml();
+					CloseBody();
+					CloseHtml();
 
-				return _htmlText.ToString();
+					return _htmlText.ToString();
+				}
+				catch (ChartBarSegmentInfo.CollectionModifiedException e)
+				{
+					// SP-1020: It's possible that the Sessions collection has changed on another (probably UI) thread. Because
+					// of the number of layers involved and the overall poor design, it's virtually impossible to ensure that
+					// the sessions collection is properly locked to prevent this. But since a change in the number of sessions
+					// should cause a new update to the HTML anyway, we'll just return our previous value and let the next one
+					// try again.
+					Logger.WriteEvent("Exception in HTMLChartBuilder.GetStatisticsCharts:\r\n{0}", e.ToString());
+					DesktopAnalytics.Analytics.ReportException(e);
+					return fallbackHtml;
+				}
 			}
 		}
 
@@ -209,7 +229,7 @@ namespace SayMore.UI.Charts
 				LocalizationManager.GetString("ProgressView.SummaryTotalsTextForSegment2", "{0}: {1} sessions totaling {2} minutes"));
 
 			var tooltipText = string.Format(fmt, barSegInfo.FieldValue,
-				barSegInfo.Sessions.Count(), barSegInfo.TotalTime);
+				barSegInfo.GetSessionCount(), barSegInfo.TotalTime);
 
 			WriteTableCell(null, barSegInfo.SegmentSize, barSegInfo.BackColor,
 				barSegInfo.TextColor, tooltipText, segmentText);

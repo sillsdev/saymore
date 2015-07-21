@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
@@ -59,7 +60,7 @@ namespace SayMore.UI.Charts
 
 			try
 			{
-				TotalSessions = Segments.Sum(s => s.Sessions.Count());
+				TotalSessions = Segments.Sum(s => s.GetSessionCount());
 				TotalTime = Segments.Sum(s => s.TotalTime);
 
 				foreach (var seg in Segments)
@@ -94,9 +95,18 @@ namespace SayMore.UI.Charts
 	/// ----------------------------------------------------------------------------------------
 	public class ChartBarSegmentInfo : IComparable<ChartBarSegmentInfo>
 	{
+		public class CollectionModifiedException : InvalidOperationException
+		{
+			public CollectionModifiedException(InvalidOperationException innerException)
+				: base(innerException.Message, innerException)
+			{
+			}
+		}
+
+		private readonly IEnumerable<Session> m_sessions;
+
 		public string FieldName { get; protected set; }
 		public string FieldValue { get; protected set; }
-		public IEnumerable<Session> Sessions { get; protected set; }
 		public Color BackColor { get; protected set; }
 		public Color TextColor { get; protected set; }
 		public int TotalTime { get; protected set; }
@@ -109,7 +119,7 @@ namespace SayMore.UI.Charts
 		{
 			FieldName = fieldName;
 			FieldValue = fieldValue.Trim('<', '>');
-			Sessions = sessions;
+			m_sessions = sessions;
 			BackColor = backColor;
 			TextColor = textColor;
 
@@ -130,7 +140,25 @@ namespace SayMore.UI.Charts
 		/// ------------------------------------------------------------------------------------
 		private double GetMinutesInSegment()
 		{
-			return Sessions.Sum(x => x.GetTotalMediaDuration().TotalMinutes);
+			return m_sessions.Sum(x => x.GetTotalMediaDuration().TotalMinutes);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int GetSessionCount()
+		{
+			try
+			{
+				return m_sessions.Count();
+			}
+			catch (InvalidOperationException e)
+			{
+				// SP-1020: The Sessions collection has probably changed on another (probably UI) thread.
+				// Hard to guarantee that the particular exception we caught was this one because the message
+				// could be in a different language or change in a future version of Windows/.Net.
+				// But for DEBUG purposes, let's do a sanity check.
+				Debug.Assert(e.Message.StartsWith("Collection was modified"));
+				throw new CollectionModifiedException(e);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -73,7 +73,7 @@
 	  <HintPath>C:\Program Files\Windows Installer XML v3.5\bin\WixNetFxExtension.dll</HintPath>
 	</WixExtension>
 	<WixExtension Include="WixUIExtension">
-	  <HintPath>C:\Program Files\Windows Installer XML v3.5\bin\WixUIExtension.dll</HintPath>
+	  <HintPath>C:\Program Files\Windows Installer XML v3\bin\WixUIExtension.dll</HintPath>
 	</WixExtension>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets" />

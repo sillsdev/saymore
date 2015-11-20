@@ -143,10 +143,10 @@ namespace SayMore.UI.Overview
 		{
 			// REVIEW: Do we need Force3LetterCodes? Can't find it in new implementation.
 			// using (var dialog = new LanguageLookupDialog { Force3LetterCodes = true, ShowDesiredLanguageNameField = true })
-			using (var dialog = new LanguageLookupDialog { ShowDesiredLanguageNameField = true })
+			using (var dialog = new LanguageLookupDialog { IsDesiredLanguageNameFieldVisible = true })
 			{
 				var result = dialog.ShowDialog();
-				if (result == DialogResult.OK)
+				if (result == DialogResult.OK && dialog.SelectedLanguage != null)
 					_labelSelectedVernacular.Text = dialog.SelectedLanguage.LanguageTag + @": " + dialog.DesiredLanguageName; // REVIEW: This line was modified to get it to build
 			}
 

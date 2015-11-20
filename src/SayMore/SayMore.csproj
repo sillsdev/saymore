@@ -918,7 +918,7 @@
     <None Include="Resources\SessionComponentFile.png" />
     <None Include="Resources\SayMoreLogo 16x16.png" />
     <None Include="Resources\SayMoreLogo.png" />
-	<Content Include="..\..\lib\dotnet\icudt54.dll">
+    <Content Include="..\..\lib\dotnet\icudt54.dll">
       <Link>icudt54.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

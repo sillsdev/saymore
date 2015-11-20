@@ -240,6 +240,22 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<File Id="MediaInfo.dll" Name="MediaInfo.dll" KeyPath="yes" Source="..\..\lib\MediaInfo.dll" />
 		  </Component>
 
+		  <Component Id="icu.net.dll" Guid="{29D1CCBC-5212-47A0-AC02-01CE5F92CCBB}">
+			<File Id="icu.net.dll" Name="icu.net.dll" KeyPath="yes" Source="..\output\release\icu.net.dll" />
+		  </Component>
+
+		  <Component Id="icudt54.dll" Guid="{01542986-7EAD-4828-B89D-E26584FE61AD}">
+			<File Id="icudt54.dll" Name="icudt54.dll" KeyPath="yes" Source="..\output\release\icudt54.dll" />
+		  </Component>
+
+		  <Component Id="icuin54.dll" Guid="{6696A708-44C1-420C-B950-1856411C8BD5}">
+			<File Id="icuin54.dll" Name="icuin54.dll" KeyPath="yes" Source="..\output\release\icuin54.dll" />
+		  </Component>
+
+		  <Component Id="icuuc54.dll" Guid="{DAD81B91-A1CF-4E47-B612-BAF9024372CC}">
+			<File Id="icuuc54.dll" Name="icuuc54.dll" KeyPath="yes" Source="..\output\release\icuuc54.dll" />
+		  </Component>
+
 		</Directory>
 	  </Directory>
 	</Directory>
@@ -271,6 +287,10 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	  <ComponentRef Id="Ionic.Zip.dll"/>
 	  <ComponentRef Id="MediaInfo.dll" />
 	  <ComponentRef Id="IMDILists" />
+	  <ComponentRef Id="icu.net.dll"/>
+	  <ComponentRef Id="icudt54.dll"/>
+	  <ComponentRef Id="icuin54.dll"/>
+	  <ComponentRef Id="icuuc54.dll"/>
 	  <ComponentGroupRef Id="DistFiles"/>
 	</Feature>
 

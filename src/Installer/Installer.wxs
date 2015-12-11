@@ -256,6 +256,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<File Id="icuuc54.dll" Name="icuuc54.dll" KeyPath="yes" Source="..\..\output\release\icuuc54.dll" />
 		  </Component>
 
+		  <Component Id="MarkdownDeep.dll" Guid="{ed7e13b3-7a16-4af9-8d5b-ea7f7cb9bf03}">
+			<File Id="MarkdownDeep.dll" Name="MarkdownDeep.dll" KeyPath="yes" Source="..\..\output\release\MarkdownDeep.dll" />
+		  </Component>
 		</Directory>
 	  </Directory>
 	</Directory>
@@ -291,7 +294,8 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	  <ComponentRef Id="icudt54.dll"/>
 	  <ComponentRef Id="icuin54.dll"/>
 	  <ComponentRef Id="icuuc54.dll"/>
-	  <ComponentGroupRef Id="DistFiles"/>
+		<ComponentRef Id="MarkdownDeep.dll"/>
+		<ComponentGroupRef Id="DistFiles"/>
 	</Feature>
 
 	<Media Id="1" Cabinet="product.cab" EmbedCab="yes" />

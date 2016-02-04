@@ -120,15 +120,24 @@ namespace SayMore.Transcription.UI
 			if (_annotationFile == null || !_annotationFile.Tiers.Any())
 				return;
 
-			int rowCount = 0;
-
-			foreach (var tier in _annotationFile.Tiers)
-				rowCount = Math.Max(rowCount, AddColumnForTier(tier));
-			RowCount = rowCount;
+			RowCount = _annotationFile.Tiers.Select(AddColumnForTier).Concat(new[] { 0 }).Max();
 			Font = Columns[0].DefaultCellStyle.Font;
 
 			this.SetWindowRedraw(true);
-			Invalidate();
+			if (IsHandleCreated)
+				Invalidate();
+			else
+			{
+				try
+				{
+					CreateHandle();
+				}
+				catch (ObjectDisposedException)
+				{
+					// This probably can't happen, but just in case
+					return;
+				}
+			}
 
 			if (Settings.Default.SegmentGrid != null)
 				Settings.Default.SegmentGrid.InitializeGrid(this);

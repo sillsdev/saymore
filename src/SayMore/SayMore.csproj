@@ -480,7 +480,9 @@
     <Compile Include="UI\LowLevelControls\AutoCompleteTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\LowLevelControls\CustomDataGridTextBoxCell.cs" />
+    <Compile Include="UI\LowLevelControls\CustomDataGridTextBoxCell.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\LowLevelControls\MultiValueAutoCompleteComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -591,7 +593,9 @@
     <Compile Include="MediaUtils\MPlayer\MPlayerDebuggingOutputWindow.Designer.cs">
       <DependentUpon>MPlayerDebuggingOutputWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="MediaUtils\MPlayer\MPlayerHelper.cs" />
+    <Compile Include="MediaUtils\MPlayer\MPlayerHelper.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MediaUtils\MPlayer\VideoPanel.cs">
       <SubType>Component</SubType>
     </Compile>

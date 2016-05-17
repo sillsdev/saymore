@@ -1,0 +1,11 @@
+obj/*
+output/*
+*.suo
+*.user
+_ReSharper*
+src/Sponge2/bin/*
+design/Mockups 17Nov09.pdf
+del.txt
+bugs.txt
+src/Sponge/bin/*
+src/Sponge2/Sponge2.csproj.John

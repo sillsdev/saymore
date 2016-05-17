@@ -1,0 +1,14 @@
+obj/*
+output/*
+*.suo
+*.user
+_ReSharper*
+src/Sponge2/bin/*
+design/Mockups 17Nov09.pdf
+del.txt
+bugs.txt
+src/Sponge/bin/*
+src/Sponge2/Sponge2.csproj.John
+src/SayMore/bin/*
+src/SayMore/Sponge2.csproj.John
+src/Installer/bin/Release/SayMoreInstaller.wixpdb

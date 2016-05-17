@@ -1,0 +1,82 @@
+obj/*
+output/*
+*.suo
+*.user
+_ReSharper*
+src/Sponge2/bin/*
+design/Mockups 17Nov09.pdf
+del.txt
+bugs.txt
+src/Sponge/bin/*
+src/Sponge2/Sponge2.csproj.John
+src/SayMore/bin/*
+src/SayMore/Sponge2.csproj.John
+src/Installer/bin/Release/SayMoreInstaller.wixpdb
+AttemptAtRemovingGenericRepositories/*
+VS2008Backup/*
+SayMore Design Pics/*
+MPlayer for Windows/*
+_UpgradeReport_Files/*
+Misc. Art Work/*
+things to test.txt
+src/SayMore/Model/Files/FileType.cs.orig
+REAP-RAMP Notes.docx
+OtherChartLayoutIdeas.xlsx
+mplayerWrapper-v0.2.zip
+RAMP, REAP, METS/METS Metadata Template.lnk
+SayMore.sln.cache
+RAMP, REAP, METS/RAMP.lnk
+RAMP, REAP, METS/METSUCCSC.ppt
+Thailand Report and Estimated Timeline for 2010-2011 work.pdf
+build/TestInstallerBuild - Copy.bat
+UpgradeLog.XML
+artwork/SayMoreText.svg.orig
+RAMP, REAP, METS/cat_mets.ppt
+UpgradeLog2.XML
+Interface Design Strategies for Computer-Assisted Speech Transcription.pdf
+src/SayMore/Model/Files/ComponentFile.cs.orig
+src/SayMore/Model/Files/DataGathering/BackgroundFileProcessor.cs.orig
+src/SayMore/UI/Overview/Statistics/StatisticsViewModel.cs.orig
+DistFiles/SayMore.chm
+SayMore.chm
+src/SayMore/obj/*
+src/SayMoreTests/obj/*
+src/Sponge/obj/*
+src/SpongeTests/obj/*
+
+HG Setup.eml
+src/SayMore/SayMore.csproj.orig
+RAMP Stuff/*
+lib/dotnet/SilTools.pdb
+RAMP Fields.docx
+src/SayMore/Program.cs.orig
+Chiang Mai SayMore Data/*
+DistFiles/AutoSegmenter/*
+Sample Transcriber Files/*
+UA-25EX_OM.pdf
+SayMore (ILPS Meeting).pptx
+SayMore Lighting Talk.ppt
+SayMore Lightning Talk (Conf. 2011).docx
+SayMore Presentation.docx
+DistFiles/mplayer/media/*
+artwork/layer1-9.png
+DistFiles/SayMore.chw
+Thumbs.db
+src/AutoSegmenter/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+lib/dotnet/L10NSharp*
+lib/dotnet/SilUtils.dll
+lib/dotnet/SIL.Archiving.*
+lib/dotnet/icu*
+lib/dotnet/Interop*
+lib/dotnet/Ionic*
+lib/dotnet/nunit*
+DistFiles/SayMore.en.tmx
+Packages.dgml
+packages/L10NSharp.*/*
+packages/Newtonsoft.Json*
+packages/DesktopAnalytics*
+packages/Autofac.*
+packages/NAudio.*
+packages/Analytics*
+lib/dotnet/SIL.*.dll
+lib/dotnet/SIL.*.pdb

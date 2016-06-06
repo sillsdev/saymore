@@ -75,6 +75,7 @@ Packages.dgml
 packages/L10NSharp.*/*
 packages/Newtonsoft.Json*
 packages/DesktopAnalytics*
+packages/MarkdownDeep*
 packages/Autofac.*
 packages/NAudio.*
 packages/Analytics*

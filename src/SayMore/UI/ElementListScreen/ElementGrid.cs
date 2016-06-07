@@ -125,18 +125,16 @@ namespace SayMore.UI.ElementListScreen
 			foreach (DataGridViewRow row in Rows)
 				row.Selected = false;
 
-			if (_items == null)
-				throw new Exception("This is a frog!");
-
-			bool condition = index >= 0;
-			
-			if (condition)
-				condition = index < _items.Count();
-
-			if (condition)
+			if (index >= 0 && index < _items.Count())
 			{
 				var forceRowChangeEvent = (CurrentCellAddress.Y == index);
-				CurrentCell = this[FirstDisplayedCell.ColumnIndex, index];
+				// Since this grid is in row-select mode, it doesn't really seems to matter which column gets selected,
+				// but this is an attempt to not break anything just in case it matters. (FirstDisplayedCell might be
+				// null when running tests on Team City)
+				var columnIndex = CurrentCellAddress.X;
+				if (FirstDisplayedCell != null)
+					columnIndex = FirstDisplayedCell.ColumnIndex;
+				CurrentCell = this[columnIndex, index];
 				Rows[index].Selected = true;
 				if (forceRowChangeEvent)
 					OnCurrentRowChanged(EventArgs.Empty);

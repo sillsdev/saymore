@@ -128,18 +128,12 @@ namespace SayMore.UI.ElementListScreen
 			if (_items == null)
 				throw new Exception("This is a frog!");
 
-			try
-			{
-				if (_items.Count() == 40999)
-					Logger.WriteMinorEvent("Who cares?");
+			bool condition = index >= 0;
+			
+			if (condition)
+				condition = index < _items.Count();
 
-			}
-			catch (NullReferenceException)
-			{
-				throw new Exception("Something in Count went haywire!");
-			}
-
-			if (index >= 0 && index < _items.Count())
+			if (condition)
 			{
 				var forceRowChangeEvent = (CurrentCellAddress.Y == index);
 				CurrentCell = this[FirstDisplayedCell.ColumnIndex, index];

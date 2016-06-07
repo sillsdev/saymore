@@ -128,13 +128,13 @@ namespace SayMore.UI.ElementListScreen
 			if (index >= 0 && index < _items.Count())
 			{
 				var forceRowChangeEvent = (CurrentCellAddress.Y == index);
-				// Since this grid is in row-select mode, it doesn't really seems to matter which column gets selected,
-				// but this is an attempt to not break anything just in case it matters. (FirstDisplayedCell might be
-				// null when running tests on Team City)
-				var columnIndex = CurrentCellAddress.X;
-				if (FirstDisplayedCell != null)
-					columnIndex = FirstDisplayedCell.ColumnIndex;
-				CurrentCell = this[columnIndex, index];
+				//// Since this grid is in row-select mode, it doesn't really seems to matter which column gets selected,
+				//// but this is an attempt to not break anything just in case it matters. (FirstDisplayedCell might be
+				//// null when running tests on Team City)
+				//var columnIndex = CurrentCellAddress.X;
+				//if (FirstDisplayedCell != null)
+				//	columnIndex = FirstDisplayedCell.ColumnIndex;
+				CurrentCell = this[0, index];
 				Rows[index].Selected = true;
 				if (forceRowChangeEvent)
 					OnCurrentRowChanged(EventArgs.Empty);

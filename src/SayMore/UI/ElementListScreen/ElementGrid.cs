@@ -9,6 +9,7 @@ using SIL.Extensions;
 using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Model.Files;
+using SIL.Reporting;
 using SIL.Windows.Forms;
 
 namespace SayMore.UI.ElementListScreen
@@ -123,6 +124,20 @@ namespace SayMore.UI.ElementListScreen
 
 			foreach (DataGridViewRow row in Rows)
 				row.Selected = false;
+
+			if (_items == null)
+				throw new Exception("This is a frog!");
+
+			try
+			{
+				if (_items.Count() == 40999)
+					Logger.WriteMinorEvent("Who cares?");
+
+			}
+			catch (NullReferenceException)
+			{
+				throw new Exception("Something in Count went haywire!");
+			}
 
 			if (index >= 0 && index < _items.Count())
 			{

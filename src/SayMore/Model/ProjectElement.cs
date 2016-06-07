@@ -360,7 +360,7 @@ namespace SayMore.Model
 		/// </summary>
 		/// <returns>true if the change was possible and occurred</returns>
 		/// ------------------------------------------------------------------------------------
-		public virtual bool TryChangeIdAndSave(string newId, out string failureMessage)
+		public bool TryChangeIdAndSave(string newId, out string failureMessage)
 		{
 			failureMessage = null;
 			Save();
@@ -489,6 +489,7 @@ namespace SayMore.Model
 		/// <summary>
 		/// Returns the sum of all media file durations in the project element.
 		/// </summary>
+		/// <remarks>Needs to be virtual to allow mocking in tests</remarks>
 		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan GetTotalMediaDuration()
 		{
@@ -514,7 +515,13 @@ namespace SayMore.Model
 		public virtual IEnumerable<ComponentRole> GetCompletedStages(
 			bool modifyComputedListWithUserOverrides)
 		{
-			//Todo: eventually, we need to differentiate between a file sitting there that
+			if (MetaDataFile == null)
+			{
+				// If it is disposed, MetaDataFile will be null and we can't get info about completed stages.
+				return new List<ComponentRole>(0);
+			}
+
+			//TODO: eventually, we need to differentiate between a file sitting there that
 			// is in progress, and one that is in fact marked as completed. For now, just
 			// being there gets you the gold star.
 

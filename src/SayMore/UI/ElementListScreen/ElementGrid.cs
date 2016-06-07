@@ -25,7 +25,7 @@ namespace SayMore.UI.ElementListScreen
 		public Action DeleteAction;
 
 		protected FileType _fileType;
-		protected IEnumerable<ProjectElement> _items = new ProjectElement[] { };
+		private IEnumerable<ProjectElement> _items = new ProjectElement[] { };
 		protected ContextMenuStrip _contextMenuStrip = new ContextMenuStrip();
 		protected readonly L10NSharpExtender _locExtender;
 

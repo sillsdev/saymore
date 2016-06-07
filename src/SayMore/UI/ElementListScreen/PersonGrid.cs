@@ -87,7 +87,7 @@ namespace SayMore.UI.ElementListScreen
 			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 &&
 				Columns[e.ColumnIndex].DataPropertyName == "consent")
 			{
-				var element = _items.ElementAt(e.RowIndex);
+				var element = Items.ElementAt(e.RowIndex);
 				this[e.ColumnIndex, e.RowIndex].ToolTipText =
 					((Person)element).GetToolTipForInformedConsentType();
 			}

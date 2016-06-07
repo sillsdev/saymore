@@ -171,7 +171,7 @@ namespace SayMore.UI.ElementListScreen
 			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 &&
 				Columns[e.ColumnIndex].DataPropertyName == SessionFileType.kStagesFieldName)
 			{
-				var element = _items.ElementAt(e.RowIndex);
+				var element = Items.ElementAt(e.RowIndex);
 				var pt = MousePosition;
 				pt.Offset(5, 5);
 				_tooltip.Show(pt, element.GetCompletedStages());
@@ -196,7 +196,7 @@ namespace SayMore.UI.ElementListScreen
 			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 &&
 				Columns[e.ColumnIndex].DataPropertyName == SessionFileType.kStatusFieldName)
 			{
-				var statusText = base.GetValueForField(_items.ElementAt(e.RowIndex), SessionFileType.kStatusFieldName);
+				var statusText = base.GetValueForField(Items.ElementAt(e.RowIndex), SessionFileType.kStatusFieldName);
 
 				e.ToolTipText = string.Format(
 					LocalizationManager.GetString("SessionsView.SessionStatus.TooltipFormatText", "Status: {0}"), statusText);

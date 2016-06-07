@@ -204,6 +204,8 @@ namespace SayMoreTests.UI.ElementListScreen
 				ProjectElementTests.CreatePerson(_tmpFolder.Path, "barney"),
 			};
 
+			Assert.IsNotNull(_grid.Items);
+
 			_grid.SelectElement(1);
 			Assert.AreEqual(1, _grid.GetSelectedElements().Count());
 			Assert.AreEqual("barney", _grid.GetSelectedElements().ElementAt(0).Id);

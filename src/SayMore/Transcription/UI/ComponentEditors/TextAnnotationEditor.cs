@@ -485,7 +485,9 @@ namespace SayMore.Transcription.UI
 
 			var action = new Action<string>(path => SRTFormatSubTitleExporter.Export(path, textTeir));
 
-			DoSimpleExportDialog(".srt", "SRT Subtitle File", fileNameSuffix, string.Empty, action);
+			DoSimpleExportDialog(".srt",
+				LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.TranscriptionFileDescriptor", "SRT Subtitle File ({0})"),
+				fileNameSuffix, string.Empty, action);
 		}
 
 
@@ -500,7 +502,8 @@ namespace SayMore.Transcription.UI
 				"audacity_freeTranslation", "Probably does not need to be localized");
 			var action = new Action<string>(path => AudacityExporter.Export(path, textTeir));
 
-			DoSimpleExportDialog(".txt", "Text File", suffix, "Audacity", action);
+			DoSimpleExportDialog(FileSystemUtils.kTextFileExtension, FileSystemUtils.LocalizedVersionOfTextFileDescriptor,
+				suffix, "Audacity", action);
 		}
 
 		private void OnAudacityExportTranscription(object sender, EventArgs e)
@@ -515,7 +518,8 @@ namespace SayMore.Transcription.UI
 				"audacity_transcription", "Probably does not need to be localized");
 			var action = new Action<string>(path => AudacityExporter.Export(path, textTeir));
 
-			DoSimpleExportDialog(".txt", "Text File", suffix, "Audacity", action);
+			DoSimpleExportDialog(FileSystemUtils.kTextFileExtension, FileSystemUtils.LocalizedVersionOfTextFileDescriptor,
+				suffix, "Audacity", action);
 		}
 
 		private void OnPlainTextExportMenuItem_Click(object sender, EventArgs e)
@@ -524,7 +528,8 @@ namespace SayMore.Transcription.UI
 
 			var action = new Action<string>(path => PlainTextTranscriptionExporter.Export(path, (((AnnotationComponentFile) _file).Tiers)));
 
-			DoSimpleExportDialog(".txt", "Text File", "transcription", string.Empty, action);
+			DoSimpleExportDialog(FileSystemUtils.kTextFileExtension, FileSystemUtils.LocalizedVersionOfTextFileDescriptor,
+				"transcription", string.Empty, action);
 		}
 
 		private void OnCsvExportMenuItem_Click(object sender, EventArgs e)
@@ -533,7 +538,9 @@ namespace SayMore.Transcription.UI
 
 			var action = new Action<string>(path => CSVTranscriptionExporter.Export(path, (((AnnotationComponentFile) _file).Tiers)));
 
-			DoSimpleExportDialog(".csv", "Comma Separated Values File", "transcription", string.Empty, action);
+			DoSimpleExportDialog(".csv",
+				LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.CommaSeparatedValuesFileDescriptor", "Comma Separated Values File ({0})"),
+				"transcription", string.Empty, action);
 		}
 
 		private void OnToolboxInterlinearExportMenuItem_Click(object sender, EventArgs e)
@@ -543,10 +550,12 @@ namespace SayMore.Transcription.UI
 			var mediaFileName = Path.GetFileName(AssociatedComponentFile.PathToAnnotatedFile);
 			var action = new Action<string>(path => ToolboxTranscriptionExporter.Export(_file.ParentElement.Id, mediaFileName, path, (((AnnotationComponentFile)_file).Tiers)));
 
-			DoSimpleExportDialog(".txt", "Toolbox Standard Format File", "interlinear", "Toolbox", action);
+			DoSimpleExportDialog(".txt",
+				LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.CommaSeparatedValuesFileDescriptor", "Toolbox Standard Format File ({0})"),
+				"interlinear", "Toolbox", action);
 		}
 
-		private void DoSimpleExportDialog(string defaultExt, string fileTypeName, string suffix, string namedSettingsFolder, Action<string> action)
+		private void DoSimpleExportDialog(string defaultExt, string fileTypeDescriptor, string suffix, string namedSettingsFolder, Action<string> action)
 		{
 			if (!defaultExt.StartsWith("."))
 				throw new ArgumentException("Default extension should start with \".\"!");
@@ -556,7 +565,8 @@ namespace SayMore.Transcription.UI
 
 			try
 			{
-				var filter = string.Format("{0} ({1})|{1}", fileTypeName, "*" + defaultExt);
+				var formattedFileDescriptor = string.Format(fileTypeDescriptor, "*" + defaultExt);
+				var filter = string.Format("{0}|{1}", formattedFileDescriptor, "*" + defaultExt);
 				var fileName = _file.ParentElement.Id + ComponentRole.kFileSuffixSeparator + suffix + defaultExt;
 
 				using (var dlg = new SaveFileDialog())

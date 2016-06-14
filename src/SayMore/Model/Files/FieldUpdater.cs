@@ -60,7 +60,7 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// This method is used to update all files of the given type when a filed is being
+		/// This method is used to update all files of the given type when a field is being
 		/// renamed or deleted. The ComponentFile supplied should be the one that was "active"
 		/// when the delete or rename occurred (it will be skipped since it is assumed that the
 		/// change was already done there).

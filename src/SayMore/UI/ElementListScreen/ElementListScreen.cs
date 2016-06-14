@@ -138,6 +138,12 @@ namespace SayMore.UI.ElementListScreen
 			if (!_model.VerifyAllElementsStillExist())
 				LoadElementList();
 
+			if (_model.FileLoadErrors.Any())
+			{
+				using (var dlg = new FileLoadErrorsReportDlg(_model.FileLoadErrors))
+					dlg.ShowDialog(this);
+			}
+
 			// Do this in case some of the meta data changed (e.g. audio file was edited)
 			// while the program was deactivated.
 			Refresh();

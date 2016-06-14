@@ -223,5 +223,19 @@ namespace SayMore.Utilities
 			GetShortPathName(path, shortBuilder, (uint)shortBuilder.Capacity);
 			return shortBuilder.ToString();
 		}
+
+		public const string kTextFileExtension = ".txt";
+
+		public static string LocalizedVersionOfTextFileDescriptor
+		{
+			get { return LocalizationManager.GetString("CommonToMultipleViews.TextFileDescriptor", "Text File ({0})"); }
+		}
+
+		public const string kAllFilesFilter = "*.*";
+
+		public static string LocalizedVersionOfAllFilesDescriptor
+		{
+			get { return LocalizationManager.GetString("CommonToMultipleViews.AllFilesDescriptor", "All Files ({0})"); }
+		}
 	}
 }

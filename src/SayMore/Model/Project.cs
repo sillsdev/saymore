@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using DesktopAnalytics;
@@ -21,6 +22,7 @@ using SIL.Archiving.IMDI;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Model.Files;
+using SayMore.UI;
 
 namespace SayMore.Model
 {
@@ -449,6 +451,12 @@ namespace SayMore.Model
 		public static string[] GetAllProjectSettingsFiles(string path)
 		{
 			return Directory.GetFiles(path, "*." + ProjectSettingsFileExtension, SearchOption.AllDirectories);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public List<XmlException> FileLoadErrors
+		{
+			get { return _sessionsRepoFactory(Path.GetDirectoryName(SettingsFilePath), Session.kFolderName, _sessionFileType).FileLoadErrors; }
 		}
 
 		internal IEnumerable<Session> GetAllSessions()

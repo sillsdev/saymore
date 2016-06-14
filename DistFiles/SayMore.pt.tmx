@@ -258,12 +258,12 @@
         <seg>Adicionar Arquivos</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.FileTypeString">
+    <tu tuid="CommonToMultipleViews.AllFilesDescriptor">
       <tuv xml:lang="en">
-        <seg>All Files (*.*)</seg>
+        <seg>All Files ({0})</seg>
       </tuv>
       <tuv xml:lang="pt">
-        <seg>Todos os Arquivos (*.*)</seg>
+        <seg>Todos os Arquivos ({0})</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFilesButtonText">

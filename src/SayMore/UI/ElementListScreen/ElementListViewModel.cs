@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using L10NSharp;
 using SayMore.Model;
 using SayMore.Model.Files;
@@ -174,6 +176,12 @@ namespace SayMore.UI.ElementListScreen
 		public virtual string PathToSessionsFolder
 		{
 			get { return _repository.PathToFolder; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public List<XmlException> FileLoadErrors
+		{
+			get { return _repository.FileLoadErrors; }
 		}
 
 		/// ------------------------------------------------------------------------------------

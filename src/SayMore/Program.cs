@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Configuration;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Diagnostics;
 using System.IO;
@@ -12,6 +11,7 @@ using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Xml;
 using DesktopAnalytics;
 using L10NSharp;
 using SIL.Code;
@@ -32,6 +32,7 @@ namespace SayMore
 	static class Program
 	{
 		public const string kCompanyAbbrev = "SIL";
+		public const int kFileLoadError = 13;
 
 		/// <summary>
 		/// We have one project open at a time, and this helps us bootstrap the project and
@@ -356,6 +357,16 @@ namespace SayMore
 			// SP-767: some project changes not being saved before archiving
 			SaveProjectMetadata();
 			_projectContext.Project.ArchiveProjectUsingIMDI(parentForm);
+		}
+
+		public static List<XmlException> FileLoadErrors
+		{
+			get 
+			{
+				if (_projectContext == null || _projectContext.Project == null) // This can happen during unit testing
+					return new List<XmlException>(0);
+				return _projectContext.Project.FileLoadErrors;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

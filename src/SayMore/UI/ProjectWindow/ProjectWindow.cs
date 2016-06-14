@@ -169,6 +169,12 @@ namespace SayMore.UI.ProjectWindow
 			_viewTabGroup.SetActiveView(_viewTabGroup.Tabs[0]);
 		}
 
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			ReportAnyFileLoadErrors();
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
@@ -234,6 +240,18 @@ namespace SayMore.UI.ProjectWindow
 		private void HandleArchiveProjectMenuItemClick(object sender, EventArgs e)
 		{
 			Program.ArchiveProjectUsingIMDI(this);
+			ReportAnyFileLoadErrors();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ReportAnyFileLoadErrors()
+		{
+			var loadErrors = Program.FileLoadErrors;
+			if (loadErrors.Any())
+			{
+				using (var dlg = new FileLoadErrorsReportDlg(loadErrors))
+					dlg.ShowDialog(this);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

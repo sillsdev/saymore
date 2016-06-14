@@ -258,12 +258,12 @@
         <seg>Добавление файлов</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.FileTypeString">
+    <tu tuid="CommonToMultipleViews.AllFilesDescriptor">
       <tuv xml:lang="en">
-        <seg>All Files (*.*)</seg>
+        <seg>All Files ({0})</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>Все файлы (*.*)</seg>
+        <seg>Все файлы {0})</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFilesButtonText">

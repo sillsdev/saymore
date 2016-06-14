@@ -70,7 +70,6 @@ namespace SayMore.UI.Overview
 		{
 			get { throw new NotImplementedException(); }
 		}
-
 		#endregion
 
 		private void InitializeFileGrid()

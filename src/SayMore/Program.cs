@@ -26,6 +26,7 @@ using SayMore.UI;
 using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
 using SayMore.Model;
+using SIL.WritingSystems;
 
 namespace SayMore
 {
@@ -215,6 +216,8 @@ namespace SayMore
 				if (!startedWithCommandLineProject)
 					StartUpShellBasedOnMostRecentUsedIfPossible();
 
+				Sldr.Initialize();
+
 				try
 				{
 					Application.Run();
@@ -229,6 +232,7 @@ namespace SayMore
 				finally
 				{
 					ReleaseMutexForThisProject();
+					Sldr.Cleanup();
 				}
 			}
 		}

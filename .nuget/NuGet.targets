@@ -13,7 +13,7 @@
 		<RequireRestoreConsent Condition=" '$(RequireRestoreConsent)' != 'false' ">true</RequireRestoreConsent>
 
 		<!-- Download NuGet.exe if it does not already exist -->
-		<DownloadNuGetExe Condition=" '$(DownloadNuGetExe)' == '' ">false</DownloadNuGetExe>
+		<DownloadNuGetExe Condition=" '$(DownloadNuGetExe)' == '' ">true</DownloadNuGetExe>
 	</PropertyGroup>
 
 	<ItemGroup Condition=" '$(PackageSources)' == '' ">
@@ -25,14 +25,10 @@
 		-->
 	</ItemGroup>
 
-	<PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
-		<!-- Windows specific commands -->
-		<NuGetToolsPath>$([System.IO.Path]::Combine($(SolutionDir), ".nuget"))</NuGetToolsPath>
-	</PropertyGroup>
-
-	<PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
-		<!-- We need to launch nuget.exe with the mono command if we're not on windows -->
-		<NuGetToolsPath>$(SolutionDir).nuget</NuGetToolsPath>
+	<PropertyGroup>
+		<NuGetToolsPath>$(MSBuildThisFileDirectory)</NuGetToolsPath>
+		<PackagesConfig Condition="'$(OS)'=='Windows_NT'">$(ProjectDir)packages.config</PackagesConfig>
+		<PackagesConfig Condition="'$(OS)'!='Windows_NT'">$(ProjectDir)/packages.config</PackagesConfig>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -89,8 +85,10 @@
 		<MsBuild Targets="_DownloadNuGet" Projects="$(MSBuildThisFileFullPath)" Properties="Configuration=NOT_IMPORTANT;DownloadNuGetExe=$(DownloadNuGetExe)" />
 	</Target>
 
-	<Target Name="_DownloadNuGet">
-		<DownloadNuGet OutputFilename="$(NuGetExePath)" Condition=" '$(DownloadNuGetExe)' == 'true' AND !Exists('$(NuGetExePath)')" />
+	<Target Name="_DownloadNuGet" Condition=" '$(DownloadNuGetExe)' == 'true' AND !Exists('$(NuGetExePath)')">
+		<DownloadNuGet OutputFilename="$(NuGetExePath)" Condition="'$(OS)' == 'Windows_NT'" />
+		<Exec Command="wget https://nuget.org/NuGet.exe" WorkingDirectory="$(NuGetToolsPath)"
+			Condition="'$(OS)' != 'Windows_NT'" />
 	</Target>
 
 	<Target Name="RestorePackages" DependsOnTargets="CheckPrerequisites">

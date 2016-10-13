@@ -447,8 +447,11 @@ namespace SayMoreTests.Transcription.Model
 			var timeList = _helper.GetTimeSlots();
 			Assert.AreEqual(0.010f, timeList["ts1"]);
 			Assert.AreEqual(0.020f, timeList["ts2"]);
-			Assert.AreEqual((20 + (17f / 3)) / 1000f, timeList["ts3"]);
-			Assert.AreEqual((20 + (17f / 3) + (17f / 3)) / 1000f, timeList["ts4"]);
+			// Because the calculation to get the expected result is slightly different from the actual calculation in
+			// production code, there is a slight rounding error difference in the 64-bit floating-point math, so we
+			// arbitrarily round to 7 decimal places when comparing them.
+			Assert.AreEqual(Math.Round((20 + (17f / 3)) / 1000f, 7), Math.Round(timeList["ts3"], 7));
+			Assert.AreEqual(Math.Round((20 + (17f / 3) + (17f / 3)) / 1000f, 7), Math.Round(timeList["ts4"], 7));
 			Assert.AreEqual(0.037f, timeList["ts5"]);
 		}
 

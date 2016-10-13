@@ -94,10 +94,13 @@ namespace SayMore.UI.ElementListScreen
 					//we parse it and then generate it because we're trying to migrate old, locale-specific dates to ISO8601 dates
 					return DateTimeExtensions.ParseDateTimePermissivelyWithException(dateString).ToISO8601TimeFormatDateOnlyString();
 				}
+#if DEBUG
 				catch (Exception e)
 				{
-#if DEBUG
 					ErrorReport.NotifyUserOfProblem(e, "only seeing because your'e in DEBUG mode");
+#else
+				catch (Exception)
+				{
 #endif
 					return DateTime.MinValue.ToISO8601TimeFormatDateOnlyString();
 				}

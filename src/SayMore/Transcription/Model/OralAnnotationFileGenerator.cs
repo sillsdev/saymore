@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.UI;
@@ -76,10 +75,16 @@ namespace SayMore.Transcription.Model
 				{
 					var oralAnnotationFile = timeTier.MediaFileName +
 						Settings.Default.OralAnnotationGeneratedFileSuffix;
-					File.Create(oralAnnotationFile);
-					FileSystemUtils.WaitForFileRelease(oralAnnotationFile);
-					return true;
+
+					// SP-699: The process cannot access the file because it is being used by another process
+					if (File.Exists(oralAnnotationFile))
+						FileSystemUtils.WaitForFileRelease(oralAnnotationFile);
+
+					File.Create(oralAnnotationFile).Dispose();
+					return false;
 				}
+
+				Analytics.Track("Generating Oral Annotation File");
 
 				using (var generator = new OralAnnotationFileGenerator(timeTier,
 					tierCollection.GetIsSegmentIgnored, parentControlForDialog))
@@ -237,7 +242,10 @@ namespace SayMore.Transcription.Model
 			finally
 			{
 				try { _audioFileWriter.Dispose(); }
-				catch { }
+				catch (Exception error)
+				{
+					Logger.WriteEvent("Handled Exception thrown while trying to dispose _audioFileWriter in OralAnnotationFileGenerator.CreateInterleavedAudiFile:\r\n{0}", error.ToString());
+				}
 				_audioFileWriter = null;
 
 				if (File.Exists(tmpOutputFile))

@@ -1,5 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <UsingTask TaskName="StampAssemblies" AssemblyFile="$(teamcity_build_checkoutDir)/build/Palaso.BuildTasks.dll" />
+  <UsingTask TaskName="UpdateBuildTypeFile" AssemblyFile="$(teamcity_build_checkoutDir)/build/Palaso.BuildTasks.dll" />
   <UsingTask TaskName="MakeWixForDirTree" AssemblyFile="$(teamcity_build_checkoutDir)/build/Palaso.BuildTasks.dll" />
   <UsingTask TaskName="Split" AssemblyFile="$(teamcity_build_checkoutDir)/build/Palaso.BuildTasks.dll" />
   <UsingTask TaskName="FileUpdate" AssemblyFile="$(teamcity_build_checkoutDir)/build/Palaso.BuildTasks.dll" />
@@ -24,7 +25,6 @@
 	<Message Text="Version: $(Version)" Importance="high"/>
   </Target>
 
-
   <Target Name="SetAssemblyVersion" DependsOnTargets="VersionNumbers">
 	  <ItemGroup>
 		<AssemblyInfoFiles Include="$(teamcity_build_checkoutDir)/src/**/assemblyinfo.cs"/>
@@ -32,7 +32,17 @@
 	  <StampAssemblies Version="$(Version)" InputAssemblyPaths="@(AssemblyInfoFiles)" />
 	</Target>
 
-  <Target Name="Build" DependsOnTargets="SetAssemblyVersion">
+  <Target Name="SetBuildType" DependsOnTargets="VersionNumbers">
+
+	  <Message Text="RELEASE_TYPE: $(RELEASE_TYPE)" Importance="high"/>
+
+	  <ItemGroup>
+		<BuildTypeFiles Include="$(teamcity_build_checkoutDir)/src/**/BuildType.cs"/>
+	  </ItemGroup>
+	  <UpdateBuildTypeFile BuildType="$(RELEASE_TYPE)" BuildTypePaths="@(BuildTypeFiles)" />
+	</Target>
+
+  <Target Name="Build" DependsOnTargets="SetAssemblyVersion;SetBuildType">
 	<MSBuild Projects="$(teamcity_build_checkoutDir)/SayMore.sln"
 			 Targets="Rebuild"
 			 Properties="Configuration=Release" />
@@ -41,7 +51,7 @@
 
   <Target Name="Test" DependsOnTargets ="Build">
 	<ItemGroup>
-	  <TestAssemblies Include="$(teamcity_build_checkoutDir)/output/release/*Tests.dll;"  Exclude="**\obj\**;**\SpongeTests.dll" />
+	  <TestAssemblies Include="$(teamcity_build_checkoutDir)/output/release/*Tests.dll;"/>
 	</ItemGroup>
 	<NUnitTeamCity Assemblies="@(TestAssemblies)" ExcludeCategory="SkipOnTeamCity" />
   </Target>
@@ -99,6 +109,8 @@
 
 	<!-- remove an existing one with the same name, if necessary -->
 	<Delete Files="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).msi" TreatErrorsAsWarnings="false" />
+
+	<Exec Command='sign "$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.msi"'></Exec>
 
 	<Copy SourceFiles="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.msi"
 		  DestinationFiles="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).msi"

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using SIL.Reporting;
 using SayMore.Utilities;
 
 namespace SayMore.Media
@@ -54,7 +55,7 @@ namespace SayMore.Media
 			{
 				prs = null;
 				if (processFailedToStartErrorMsg != null)
-					Palaso.Reporting.ErrorReport.NotifyUserOfProblem(processFailedToStartErrorMsg);
+					SIL.Reporting.ErrorReport.NotifyUserOfProblem(processFailedToStartErrorMsg);
 			}
 
 			prs.StandardInput.AutoFlush = true;
@@ -92,7 +93,10 @@ namespace SayMore.Media
 					PriorityClass = ProcessPriorityClass.High;
 					s_processIds[StartInfo.FileName].Add(Id);
 				}
-				catch { }
+				catch (Exception e)
+				{
+					Logger.WriteEvent("Handled exception in ExternalProcess.StartProcess:\r\n{0}", e.ToString());
+				}
 
 				return true;
 			}

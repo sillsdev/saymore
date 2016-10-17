@@ -5,7 +5,8 @@ using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.Reporting;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
@@ -26,6 +27,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		/// ------------------------------------------------------------------------------------
 		public WelcomeDialog(WelcomeDialogViewModel viewModel)
 		{
+			Logger.WriteEvent("WelcomeDialog constructor");
+
 			InitializeComponent();
 
 			Font = SystemFonts.MessageBoxFont; //use the default OS UI font
@@ -38,7 +41,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 				Settings.Default.WelcomeDialog = FormSettings.Create(this);
 			}
 
-			tsOptions.Renderer = new Palaso.UI.WindowsForms.NoToolStripBorderRenderer();
+			tsOptions.Renderer = new SIL.Windows.Forms.NoToolStripBorderRenderer();
 			tsOptions.BackColorBegin = Color.White;
 			tsOptions.BackColorEnd = Color.White;
 			DialogResult = DialogResult.Cancel;
@@ -92,7 +95,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		/// ------------------------------------------------------------------------------------
 		private void LocalizationInitiated()
 		{
-			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text);
+			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text, BuildType.Current);
 
 			_linkSILWebsite.Text = String.Format(_linkSILWebsite.Text, Application.CompanyName);
 			_linkSayMoreWebsite.Text = String.Format(_linkSayMoreWebsite.Text, Application.ProductName);
@@ -123,7 +126,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		{
 			base.OnFormClosing(e);
 			Settings.Default.Save();
-			LocalizeItemDlg.StringsLocalized -= LocalizationInitiated;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -211,13 +213,13 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			using (var pen = new Pen(AppColors.BarBorder))
 				e.Graphics.DrawLine(pen, 0, rc.Bottom, rc.Right, rc.Bottom);
 
-			rc = new Rectangle(new Point(_labelSubTitle.Left - 6, 18), Resources.SayMoreText.Size);
+			rc = new Rectangle(new Point(_labelSubTitle.Left - 6, 18), ResourceImageCache.SayMoreText.Size);
 			//rc.Inflate(-4, -4);
-			e.Graphics.DrawImage(Resources.SayMoreText, rc);
+			e.Graphics.DrawImage(ResourceImageCache.SayMoreText, rc);
 
 			// Draw the application's logo image.
-			rc = new Rectangle(new Point(pnlOptions.Left - 10, 0), Resources.LargeSayMoreLogo.Size);
-			e.Graphics.DrawImage(Resources.LargeSayMoreLogo, rc);
+			rc = new Rectangle(new Point(pnlOptions.Left - 10, 0), ResourceImageCache.LargeSayMoreLogo.Size);
+			e.Graphics.DrawImage(ResourceImageCache.LargeSayMoreLogo, rc);
 		}
 	}
 }

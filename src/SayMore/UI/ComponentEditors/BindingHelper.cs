@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Extensions;
+using SIL.Extensions;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.UI.LowLevelControls;
@@ -15,7 +15,7 @@ namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// This is kind of an experiment at the moment...
+	/// Component for binding extensible key/value fields on a control to a ComponentFile.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[ProvideProperty("IsBound", typeof(Control))]
@@ -292,8 +292,8 @@ namespace SayMore.UI.ComponentEditors
 
 				}
 
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
-					new Palaso.Reporting.ShowOncePerSessionBasedOnExactMessagePolicy(), error,
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(
+					new SIL.Reporting.ShowOncePerSessionBasedOnExactMessagePolicy(), error,
 						"SayMore had a problem displaying the {0}, which had a value of {1}." + Environment.NewLine +
 						"Message " + error.Message + Environment.NewLine +
 						"You should report this problem to the developers by clicking 'Details' below.",
@@ -315,20 +315,14 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string SetValue(string key, string value)
+		public void SetValues(IEnumerable<KeyValuePair<string, string>> values)
 		{
-			string failureMessage;
 			ComponentFile.MetadataValueChanged -= HandleValueChangedOutsideBinder;
-			var modifiedValue = ComponentFile.SetStringValue(key, value, out failureMessage);
+			foreach (KeyValuePair<string, string> kvp in values)
+				ComponentFile.SetStringValue(kvp.Key, kvp.Value);
 			ComponentFile.MetadataValueChanged += HandleValueChangedOutsideBinder;
 
-			if (failureMessage != null)
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
-
-			//enchance: don't save so often, leave it to some higher level
 			SaveNow();
-
-			return modifiedValue;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -357,6 +351,7 @@ namespace SayMore.UI.ComponentEditors
 			if (TranslateBoundValueBeingSaved != null)
 			{
 				var args = new TranslateBoundValueBeingSavedArgs(ctrl);
+				TranslateBoundValueBeingSaved(this, args);
 				newValue = args.NewValue;
 				gotNewValueFromDelegate = (newValue != null);
 			}
@@ -377,7 +372,7 @@ namespace SayMore.UI.ComponentEditors
 					if (ctrl is DatePicker)
 						newValue = ((DatePicker)ctrl).GetISO8601DateValueOrNull();
 					else
-						newValue = DateTime.Parse(newValue, CultureInfo.CurrentCulture).ToISO8601DateOnlyString();
+						newValue = DateTime.Parse(newValue, CultureInfo.CurrentCulture).ToISO8601TimeFormatDateOnlyString();
 				}
 			}
 
@@ -386,13 +381,17 @@ namespace SayMore.UI.ComponentEditors
 			if (oldValue != null && oldValue == newValue)
 				return;
 
-			string failureMessage;
+			string failureMessage = null;
 
 			ComponentFile.MetadataValueChanged -= HandleValueChangedOutsideBinder;
 
+			// SP-742: Save changes before renaming the file ("Could not find a part of the path 'C:\...\NameOf.session'.")
+			if (_componentFileIdControl == ctrl)
+				SaveNow();
+
 			newValue = (_componentFileIdControl == ctrl ?
 				ComponentFile.TryChangeChangeId(newValue, out failureMessage) :
-				ComponentFile.SetStringValue(key, newValue, out failureMessage));
+				ComponentFile.SetStringValue(key, newValue));
 
 			ComponentFile.MetadataValueChanged += HandleValueChangedOutsideBinder;
 
@@ -400,7 +399,7 @@ namespace SayMore.UI.ComponentEditors
 				ctrl.Text = newValue;
 
 			if (failureMessage != null)
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
 
 			//enchance: don't save so often, leave it to some higher level
 			if (_componentFileIdControl != ctrl)
@@ -425,7 +424,8 @@ namespace SayMore.UI.ComponentEditors
 		private void SaveNow()
 		{
 			ComponentFile.Save();
-			if (OnDataSaved != null) OnDataSaved();
+			if (OnDataSaved != null)
+				OnDataSaved();
 		}
 	}
 

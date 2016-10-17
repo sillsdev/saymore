@@ -2,31 +2,39 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Configuration;
 using System.Drawing;
 using System.Linq;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Xml;
+using DesktopAnalytics;
 using L10NSharp;
-using Palaso.Code;
-using Palaso.Extensions;
-using Palaso.IO;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.Miscellaneous;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.Code;
+using SIL.Extensions;
+using SIL.IO;
+using SIL.Reporting;
+using SIL.Windows.Forms.Miscellaneous;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media;
 using SayMore.Properties;
 using SayMore.UI;
+using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
 using SayMore.Model;
-using SayMore.Utilities;
+using SIL.WritingSystems;
 
 namespace SayMore
 {
 	static class Program
 	{
+		public const string kCompanyAbbrev = "SIL";
+		public const int kFileLoadError = 13;
+
 		/// <summary>
 		/// We have one project open at a time, and this helps us bootstrap the project and
 		/// properly dispose of various things when the project is closed.
@@ -42,7 +50,13 @@ namespace SayMore
 		public delegate void PersonMetadataChangedHandler();
 		public static event PersonMetadataChangedHandler PersonDataChanged;
 
-		/// ------------------------------------------------------------------------------------
+		private static List<Exception> _pendingExceptionsToReportToAnalytics = new List<Exception>();
+
+		private static bool s_handlingFirstChanceExceptionThreadsafe = false;
+		private static bool s_handlingFirstChanceExceptionUnsafe = false;
+		private static int s_countOfContiguousFirstChanceOutOfMemoryExceptions = 0;
+
+			/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -69,10 +83,35 @@ namespace SayMore
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
+			// The following not only get the location of the settings file used for the analytics stuff. It also
+			// detects corruption and deletes it if needed so SayMore doesn't crash.
+			var analyticsConfigFilePath = GetAnalyticsConfigFilePath(); // Analytics settings.
+
+			if ((Control.ModifierKeys & Keys.Shift) > 0 && !string.IsNullOrEmpty(analyticsConfigFilePath))
+			{
+				var confirmationString = LocalizationManager.GetString("MainWindow.ConfirmDeleteUserSettingsFile",
+					"Do you want to delete your user settings? (This will clear your most-recently-used project list, window positions, UI language settings, etc. It will not affect your SayMore project data.)");
+
+				if (DialogResult.Yes ==
+					MessageBox.Show(confirmationString, "SayMore", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
+				{
+					File.Delete(analyticsConfigFilePath);
+					File.Delete(new PortableSettingsProvider().GetFullSettingsFilePath());
+				}
+			}
+
 			//bring in settings from any previous version
-			//NB: this code doesn't actually work, becuase for some reason Saymore uses its own settings code,
+			//NB: this code doesn't actually work, because for some reason Saymore uses its own settings code,
 			//(which emits a "settings" file rather than "user.config"),
 			//and which apparently doesn't use the application version to trigger the following technique:
+			// Insight from Tom: Looks like ALL user settings in SayMore use the PortableSettingsProvider. I think the
+			// idea of this was to facilitate installing SayMore to a thumb drive or whatever, so it could be totally
+			// portable. This provider does not attach version numbers to the settings files (or the cryptic GUIDs or
+			// whatever to their containing folders), so once NeedUpgrade gets set to false (the very first time SayMore
+			// is run), it will never again be true. It's easy enough to store NeedUpgrade in the normal
+			// user.config file by removing the attribute in Settings.Designer.cs that causes it to be handled by the
+			// custom provider. But PortableSettingsProvider would need to implement IApplicationSettingsProvider and
+			// implement Upgrade in an appropriate way to handle this.
 			if (Settings.Default.NeedUpgrade) //TODO: this doesn't get triggered with David's custom settings
 			{
 				//see http://stackoverflow.com/questions/3498561/net-applicationsettingsbase-should-i-call-upgrade-every-time-i-load
@@ -81,13 +120,15 @@ namespace SayMore
 				Settings.Default.Save();
 			}
 			//so, as a hack because this is biting our users *now*.
-			//this hack is begins the damage control started above, when from 1.6.52 to 1.6.53, we changed the namespace
+			//this hack begins the damage control started above, when from 1.6.52 to 1.6.53, we changed the namespace
 			//of the grid settings. It removes the old settings, talks to the user, and waits for the user to restart.
 			else
 			{
 				try
 				{
+					// ReSharper disable once NotAccessedVariable
 					var x = Settings.Default.SessionsListGrid; //we want this to throw if the last version used the SILGrid, and this one uses the BetterGrid
+					// ReSharper disable once RedundantAssignment
 					x = Settings.Default.PersonListGrid;
 				}
 				catch (Exception)
@@ -98,7 +139,7 @@ namespace SayMore
 						ErrorReport.NotifyUserOfProblem("We apologize for the inconvenience, but to complete this upgrade, SayMore needs to exit. Please run it again to complete the upgrade.");
 
 						var s = Application.LocalUserAppDataPath;
-						s = s.Substring(0, s.IndexOf("Local") + 5);
+						s = s.Substring(0, s.IndexOf("Local", StringComparison.InvariantCultureIgnoreCase) + 5);
 						path = s.CombineForPath("SayMore", "SayMore.Settings");
 						File.Delete(path);
 
@@ -109,7 +150,7 @@ namespace SayMore
 
 						//Application.Restart(); won't work, because the settings will still get saved
 
-						System.Environment.FailFast("SayMore quitting hard to prevent old settings from being saved again.");
+						Environment.FailFast("SayMore quitting hard to prevent old settings from being saved again.");
 					}
 					catch (Exception error)
 					{
@@ -123,7 +164,7 @@ namespace SayMore
 
 			//this hack is a continuation of the damage control started above, when from 1.6.52 to 1.6.53, we changed the namespace
 			//of the grid settings.
-			if(File.Exists(MRULatestReminderFilePath))
+			if (File.Exists(MRULatestReminderFilePath))
 			{
 				var path = File.ReadAllText(MRULatestReminderFilePath).Trim();
 				if(File.Exists(path))
@@ -137,39 +178,76 @@ namespace SayMore
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(false);
 
+			Logger.Init();
+			AppDomain.CurrentDomain.FirstChanceException += FirstChanceHandler;
+			Logger.WriteEvent(ApplicationContainer.GetVersionInfo("SayMore version {0}.{1}.{2} {3}    Built on {4}", BuildType.Current));
+			Logger.WriteEvent("Visual Styles State: {0}", Application.VisualStyleState);
 			SetUpErrorHandling();
-			SetUpReporting();
 
-			bool startedWithCommandLineProject = false;
-			var args = Environment.GetCommandLineArgs();
-			var firstTimeArg = args.FirstOrDefault(x => x.ToLower().StartsWith("-i"));
-			if (firstTimeArg != null)
+			var userInfo = new UserInfo();
+
+#if DEBUG
+			// Always track if this is a debug build, but track to a different segment.io project
+			using (new Analytics("twa75xkko9", userInfo))
+#else
+			// If this is a release build, then allow an environment variable to be set to false
+			// so that testers aren't generating false analytics
+			string feedbackSetting = System.Environment.GetEnvironmentVariable("FEEDBACK");
+
+			var allowTracking = string.IsNullOrEmpty(feedbackSetting) || feedbackSetting.ToLower() == "yes" || feedbackSetting.ToLower() == "true";
+
+			using (new Analytics("jtfe7dyef3", userInfo, allowTracking))
+#endif
 			{
-				using (var dlg = new FirstTimeRunDialog("put filename here"))
-					dlg.ShowDialog();
-			}
-			else if (args.Length > 1)
-			{
-				var possibleProjFile = args[1];
-				startedWithCommandLineProject =
-					possibleProjFile.EndsWith(Settings.Default.ProjectFileExtension) &&
-					File.Exists(possibleProjFile) &&
-					OpenProjectWindow(possibleProjFile);
-			}
+				foreach (var exception in _pendingExceptionsToReportToAnalytics)
+					Analytics.ReportException(exception);
 
-			if (!startedWithCommandLineProject)
-				StartUpShellBasedOnMostRecentUsedIfPossible();
+				bool startedWithCommandLineProject = false;
+				var args = Environment.GetCommandLineArgs();
+				if (args.Length > 1)
+				{
+					var possibleProjFile = args[1];
+					startedWithCommandLineProject =
+						possibleProjFile.EndsWith(Settings.Default.ProjectFileExtension) &&
+							File.Exists(possibleProjFile) &&
+							OpenProjectWindow(possibleProjFile);
+				}
 
+				if (!startedWithCommandLineProject)
+					StartUpShellBasedOnMostRecentUsedIfPossible();
+
+				Sldr.Initialize();
+
+				try
+				{
+					Application.Run();
+					Settings.Default.Save();
+					Logger.WriteEvent("SayMore shutting down");
+					if (s_countOfContiguousFirstChanceOutOfMemoryExceptions > 1)
+						Logger.WriteEvent("Total number of contiguous OutOfMemoryExceptions: {0}", s_countOfContiguousFirstChanceOutOfMemoryExceptions);
+					Logger.ShutDown();
+
+					SafelyDisposeProjectContext();
+				}
+				finally
+				{
+					ReleaseMutexForThisProject();
+					Sldr.Cleanup();
+				}
+			}
+		}
+
+		public static string GetAnalyticsConfigFilePath()
+		{
 			try
 			{
-				Application.Run();
-				Settings.Default.Save();
-
-				SafelyDisposeProjectContext();
+				return ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
 			}
-			finally
+			catch (ConfigurationErrorsException e)
 			{
-				ReleaseMutexForThisProject();
+				_pendingExceptionsToReportToAnalytics.Add(e);
+				File.Delete(e.Filename);
+				return e.Filename;
 			}
 		}
 
@@ -272,8 +350,8 @@ namespace SayMore
 			get
 			{
 				var s = Application.LocalUserAppDataPath;
-				s = s.Substring(0, s.IndexOf("Local") + 5);
-				return s.CombineForPath("SayMore", "lastFilePath.txt");
+				s = s.Substring(0, s.IndexOf("Local", StringComparison.InvariantCultureIgnoreCase) + 5);
+				return Path.Combine(s, "SayMore", "lastFilePath.txt");
 			}
 		}
 
@@ -281,15 +359,41 @@ namespace SayMore
 		public static void ArchiveProjectUsingIMDI(Form parentForm)
 		{
 			// SP-767: some project changes not being saved before archiving
+			SaveProjectMetadata();
+			_projectContext.Project.ArchiveProjectUsingIMDI(parentForm);
+		}
+
+		public static List<XmlException> FileLoadErrors
+		{
+			get 
+			{
+				if (_projectContext == null || _projectContext.Project == null) // This can happen during unit testing
+					return new List<XmlException>(0);
+				return _projectContext.Project.FileLoadErrors;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public delegate void SaveDelegate();
+
+		/// ------------------------------------------------------------------------------------
+		public static void SaveProjectMetadata()
+		{
+			// This can happen during unit testing
+			if (_projectContext == null) return;
+
 			var views = _projectContext.ProjectWindow.Views;
 			foreach (var view in views)
 			{
-				var save = view.HasMethod("Save");
-				if (save != null)
-					save.Invoke(view, null);
-			}
+				var savable = view as ISaveable;
+				if (savable == null) continue;
 
-			_projectContext.Project.ArchiveProjectUsingIMDI(parentForm);
+				// this can happen when creating new session from device
+				if (view.InvokeRequired)
+					view.Invoke(new SaveDelegate(savable.Save));
+				else
+					savable.Save();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -309,11 +413,11 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public static string SilCommonDataFolder
 		{
-			get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SIL"); }
+			get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), kCompanyAbbrev); }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string AppDataFolder
+		public static string CommonAppDataFolder
 		{
 			get { return Path.Combine(SilCommonDataFolder, Application.ProductName); }
 		}
@@ -348,6 +452,8 @@ namespace SayMore
 		{
 			Debug.Assert(_projectContext == null);
 
+			Logger.WriteEvent("Attempting to open project {0}", projectPath);
+
 			try
 			{
 				if (!ObtainTokenForThisProject(projectPath))
@@ -365,6 +471,12 @@ namespace SayMore
 				_pathOfLoadedProjectFile = projectPath;
 				Application.Idle += SaveLastOpenedProjectInMRUList;
 				return true;
+			}
+			catch (OutOfMemoryException oomex)
+			{
+				Logger.WriteEvent("Out of memory exception in Program.OpenProjectWindow:\r\n{0}", oomex.ToString());
+				MessageBox.Show(oomex.ToString());
+				Application.Exit();
 			}
 			catch (Exception e)
 			{
@@ -391,6 +503,8 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		private static void HandleProjectWindowActivated(object sender, EventArgs e)
 		{
+			Logger.WriteEvent("Project window activated for project {0}", _projectContext.Project.Name);
+
 			_projectContext.ProjectWindow.Activated -= HandleProjectWindowActivated;
 			_applicationContainer.CloseSplashScreen();
 
@@ -416,12 +530,15 @@ namespace SayMore
 
 			_applicationContainer.CloseSplashScreen();
 
-			var msg = LocalizationManager.GetString("MainWindow.LoadingProjectErrorMsg",
+			var msg = string.Format(LocalizationManager.GetString("MainWindow.LoadingProjectErrorMsg",
 				"{0} had a problem loading the {1} project. Please report this problem " +
-				"to the developers by clicking 'Details' below.");
-
-			ErrorReport.NotifyUserOfProblem(new ShowAlwaysPolicy(), error, msg,
+				"to the developers by clicking 'Details' below."),
 				Application.ProductName, Path.GetFileNameWithoutExtension(projectPath));
+
+			Logger.WriteEvent(msg);
+			Logger.WriteEvent("Details:\r\n{0}", error);
+
+			ErrorReport.NotifyUserOfProblem(new ShowAlwaysPolicy(), error, msg);
 
 			Settings.Default.MRUList.Remove(projectPath);
 			MruFiles.Initialize(Settings.Default.MRUList);
@@ -431,7 +548,6 @@ namespace SayMore
 		static void ChooseAnotherProject(object sender, EventArgs e)
 		{
 			Application.Idle -= ChooseAnotherProject;
-			_applicationContainer.CloseSplashScreen();
 
 			while (true)
 			{
@@ -543,7 +659,9 @@ namespace SayMore
 		{
 			var path = FileLocator.GetFileDistributedWithApplication("SayMore.chm");
 			Help.ShowHelp(new Label(), path, topicLink);
-			UsageReporter.SendNavigationNotice("Help: " + topicLink);
+
+			Analytics.Track("Show Help Topic", new Dictionary<string, string> {
+				{"topicLink", topicLink}});
 		}
 
 
@@ -557,24 +675,51 @@ namespace SayMore
 			ErrorReport.EmailAddress = "issues@saymore.palaso.org";
 			ErrorReport.AddStandardProperties();
 			ExceptionHandler.Init();
+			ExceptionHandler.AddDelegate((w, e) => Analytics.ReportException(e.Exception));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void SetUpReporting()
+		static void FirstChanceHandler(object source, FirstChanceExceptionEventArgs e)
 		{
-			if (Settings.Default.Reporting == null)
+			// Never try to handle another one if we're already handling one. It will probably just make things worse.
+			// This check is outside the lock, just in case the attempt to get the lock throws an exception. It's not
+			// perfect, but it's better than nothing.
+			if (s_handlingFirstChanceExceptionUnsafe)
+				return;
+			s_handlingFirstChanceExceptionUnsafe = true;
+
+			lock (_applicationContainer)
 			{
-				Settings.Default.Reporting = new ReportingSettings();
-				Settings.Default.Save();
+				// Never try to handle another one if we're already handling one. It will probably just make things worse.
+				if (s_handlingFirstChanceExceptionThreadsafe)
+					return;
+				s_handlingFirstChanceExceptionThreadsafe = true;
+				if (!((e.Exception is MissingMethodException) && e.Exception.Message.Contains(".ShortcutKeys")))
+				{
+					if (e.Exception is OutOfMemoryException)
+					{
+						if (s_countOfContiguousFirstChanceOutOfMemoryExceptions > 0)
+							s_countOfContiguousFirstChanceOutOfMemoryExceptions++;
+						else
+						{
+							Logger.WriteEvent("FirstChanceException event: {0}", e.Exception.ToString());
+							s_countOfContiguousFirstChanceOutOfMemoryExceptions = 1;
+						}
+					}
+					else
+					{
+						if (s_countOfContiguousFirstChanceOutOfMemoryExceptions > 1)
+						{
+							Logger.WriteEvent("Total number of contiguous OutOfMemoryExceptions: {0}", s_countOfContiguousFirstChanceOutOfMemoryExceptions);
+							s_countOfContiguousFirstChanceOutOfMemoryExceptions = 0;
+						}
+						Logger.WriteEvent("FirstChanceException event: {0}", e.Exception.ToString());
+					}
+				}
+				s_handlingFirstChanceExceptionThreadsafe = false;
 			}
 
-			UsageReporter.Init(Settings.Default.Reporting, "saymore.palaso.org", "UA-22170471-3",
-#if DEBUG
- true
-#else
-				false
-#endif
-);
+			s_handlingFirstChanceExceptionUnsafe = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -625,5 +770,6 @@ namespace SayMore
 			var handler = PersonDataChanged;
 			if (handler != null) handler();
 		}
+
 	}
 }

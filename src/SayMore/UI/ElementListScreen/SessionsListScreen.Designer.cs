@@ -10,19 +10,6 @@ namespace SayMore.UI.ElementListScreen
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
-
 		#region Component Designer generated code
 
 		/// <summary> 
@@ -40,9 +27,11 @@ namespace SayMore.UI.ElementListScreen
 			this._sessionComponentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._labelClickNewHelpPrompt = new System.Windows.Forms.Label();
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			((System.ComponentModel.ISupportInitialize)(this._elementListSplitter)).BeginInit();
 			this._elementListSplitter.Panel1.SuspendLayout();
 			this._elementListSplitter.Panel2.SuspendLayout();
 			this._elementListSplitter.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._componentsSplitter)).BeginInit();
 			this._componentsSplitter.Panel1.SuspendLayout();
 			this._componentsSplitter.Panel2.SuspendLayout();
 			this._componentsSplitter.SuspendLayout();
@@ -115,6 +104,7 @@ namespace SayMore.UI.ElementListScreen
 			this._sessionsListPanel.HeaderPanelBottomBorderColor = System.Drawing.SystemColors.ControlDark;
 			this.locExtender.SetLocalizableToolTip(this._sessionsListPanel, null);
 			this.locExtender.SetLocalizationComment(this._sessionsListPanel, null);
+			this.locExtender.SetLocalizationPriority(this._sessionsListPanel, L10NSharp.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this._sessionsListPanel, "SessionsView.SessionsList.HeadingText");
 			this._sessionsListPanel.Location = new System.Drawing.Point(0, 0);
 			this._sessionsListPanel.MinimumSize = new System.Drawing.Size(165, 0);
@@ -179,6 +169,7 @@ namespace SayMore.UI.ElementListScreen
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
+			this.locExtender.PrefixForNewItems = null;
 			// 
 			// SessionsListScreen
 			// 
@@ -194,9 +185,11 @@ namespace SayMore.UI.ElementListScreen
 			this._elementListSplitter.Panel1.ResumeLayout(false);
 			this._elementListSplitter.Panel1.PerformLayout();
 			this._elementListSplitter.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this._elementListSplitter)).EndInit();
 			this._elementListSplitter.ResumeLayout(false);
 			this._componentsSplitter.Panel1.ResumeLayout(false);
 			this._componentsSplitter.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this._componentsSplitter)).EndInit();
 			this._componentsSplitter.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);

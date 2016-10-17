@@ -230,11 +230,8 @@
     <Setting Name="NeedUpgrade" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="Reporting" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="Palaso.Reporting.ReportingSettings" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="FileTypesToAllowLoadingInBrowserEditor" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">htm;html;xml;txt;pdf;lift</Value>
+      <Value Profile="(Default)">htm;html;xml;txt;pdf</Value>
     </Setting>
     <Setting Name="RampContributorRoles" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">author;compiler;consultant;developer;editor;facilitator;illustrator;interviewer;photographer;recorder;researcher;signer;speaker;transcriber;translator</Value>
@@ -370,6 +367,24 @@
     </Setting>
     <Setting Name="ProjectOtherDocumentsComponentGrid" Provider="Palaso.UI.WindowsForms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LastExportDestinationFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LastToolboxExportDestinationFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LastAudacityExportDestinationFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LastFlexInterlinearExportDestinationFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="AdditionalFieldsToHide" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Interactivity|Planning Type|Task</Value>
+    </Setting>
+    <Setting Name="LoadComponentFileIcons" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

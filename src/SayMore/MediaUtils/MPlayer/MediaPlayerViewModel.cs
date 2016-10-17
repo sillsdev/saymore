@@ -3,15 +3,14 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using Palaso.Reporting;
 using L10NSharp;
 using SayMore.Utilities;
 
+// ReSharper disable once CheckNamespace
 namespace SayMore.Media.MPlayer
 {
 	/// ----------------------------------------------------------------------------------------
@@ -22,7 +21,7 @@ namespace SayMore.Media.MPlayer
 		public Action PlaybackResumed;
 		public Action VolumeChanged;
 
-		public delegate void PlaybackEndedEventHandler(object sender, bool EndedBecauseEOF);
+		public delegate void PlaybackEndedEventHandler(object sender, bool endedBecauseEOF);
 		public event PlaybackEndedEventHandler PlaybackEnded;
 		public event EventHandler PlaybackStarted;
 		public event EventHandler MediaQueued;
@@ -134,12 +133,6 @@ namespace SayMore.Media.MPlayer
 			LoadFile(filename, 0f, 0f);
 		}
 
-		[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-		static extern uint GetShortPathName(
-		   [MarshalAs(UnmanagedType.LPTStr)]string lpszLongPath,
-		   [MarshalAs(UnmanagedType.LPTStr)]StringBuilder lpszShortPath,
-		   uint cchBuffer);
-
 		/// ------------------------------------------------------------------------------------
 		public void LoadFile(string filename, float playbackStartPosition, float playbackLength)
 		{
@@ -148,9 +141,7 @@ namespace SayMore.Media.MPlayer
 			// On Windows, We can't get unicode over the command-line barrier, so
 			// instead create 8.3 filename, which, happily, will have no non-english characters
 			// for any part of the path.
-			var shortBuilder = new StringBuilder(300);
-			GetShortPathName(filename, shortBuilder, (uint)shortBuilder.Capacity);
-			filename = shortBuilder.ToString();
+			filename = FileSystemUtils.GetShortName(filename);
 
 			if (string.IsNullOrEmpty(filename))
 			{
@@ -359,7 +350,7 @@ namespace SayMore.Media.MPlayer
 
 			_mplayerProcess.FileOpenedByProcess = MediaFile;
 			_stdIn = _mplayerProcess.StandardInput;
-			_stdIn.WriteLine(string.Format("loadfile \"{0}\" ", MediaFile));
+			_stdIn.WriteLine("loadfile \"{0}\" ", MediaFile);
 
 			HasPlaybackStarted = true;
 
@@ -428,7 +419,7 @@ namespace SayMore.Media.MPlayer
 			Speed = speed;
 
 			if (_stdIn != null)
-				_stdIn.WriteLine(string.Format("speed_set {0} ", Speed / 100d));
+				_stdIn.WriteLine("speed_set {0} ", Speed / 100d);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -457,7 +448,7 @@ namespace SayMore.Media.MPlayer
 		private void SendVolumeMessageToPlayer()
 		{
 			if (_stdIn != null)
-				_stdIn.WriteLine(string.Format("volume {0} 1 ", IsVolumeMuted ? 0 : Volume));
+				_stdIn.WriteLine("volume {0} 1 ", IsVolumeMuted ? 0 : Volume);
 		}
 
 		#endregion

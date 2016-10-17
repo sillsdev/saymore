@@ -61,7 +61,7 @@ namespace SayMore.Model.Files
 					"There was a problem opening the file\r\n\r\n'{0}'\r\n\r\n" +
 					"Make sure there is an application associated with this type of file.");
 
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error,  msg, path);
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(error,  msg, path);
 			}
 		}
 

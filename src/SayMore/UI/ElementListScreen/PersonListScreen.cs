@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
+using SIL.Reporting;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ProjectWindow;
@@ -13,9 +15,10 @@ namespace SayMore.UI.ElementListScreen
 	{
 		/// ------------------------------------------------------------------------------------
 		public PersonListScreen(ElementListViewModel<Person> presentationModel,
-			PersonGrid.Factory personGridFactory)
-			: base(presentationModel)
+			PersonGrid.Factory personGridFactory) : base(presentationModel)
 		{
+			Logger.WriteEvent("PersonListScreen constructor");
+
 			_elementsGrid = personGridFactory();
 			_elementsGrid.Name = "PersonGrid";
 			InitializeComponent();
@@ -24,8 +27,7 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			Initialize(_componentsSplitter.Panel2, _personComponentFileGrid, _peopleListPanel);
-			_personComponentFileGrid.InitializeGrid("PersonScreen",
-				LocalizationManager.GetString("PeopleView.FileList.AddPersonButtonToolTip", "Add Files for the Person"));
+			_personComponentFileGrid.InitializeGrid("PersonScreen");
 
 			InitializeMenus();
 
@@ -43,6 +45,13 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.HeaderPanelBackColor1 = Settings.Default.PersonEditorsButtonBackgroundColor2;
 			_elementsListPanel.HeaderPanelBackColor2 = Settings.Default.PersonEditorsButtonBackgroundColor1;
 			_elementsListPanel.HeaderPanelBottomBorderColor = Settings.Default.PersonEditorsBorderColor;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleStringsLocalized()
+		{
+			_personComponentFileGrid.AddFileButtonTooltipText =
+				LocalizationManager.GetString("PeopleView.FileList.AddPersonButtonToolTip", "Add Files for the Person");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,7 +92,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public Image Image
 		{
-			get { return Resources.People; }
+			get { return ResourceImageCache.People; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -117,6 +126,7 @@ namespace SayMore.UI.ElementListScreen
 		public override void ViewActivated(bool firstTime)
 		{
 			base.ViewActivated(firstTime);
+			Enabled = true;
 
 			if (firstTime)
 			{
@@ -126,6 +136,12 @@ namespace SayMore.UI.ElementListScreen
 				if (Settings.Default.PersonScreenComponentsSplitterPos > 0)
 					_componentsSplitter.SplitterDistance = Settings.Default.PersonScreenComponentsSplitterPos;
 			}
+		}
+
+		public override void ViewDeactivated()
+		{
+			base.ViewDeactivated();
+			Enabled = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

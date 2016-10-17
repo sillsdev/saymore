@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using L10NSharp;
 
 namespace SayMore.Transcription.UI
 {
@@ -23,9 +24,10 @@ namespace SayMore.Transcription.UI
 			if (_grid != null)
 			{
 				_grid.CellMouseLeave += HandleGridCellMouseLeave;
+				_grid.RowEnter += HandleGridRowEnter;
 				_grid.HandleDestroyed += HandleGridHandleDestroyed;
 				if (RowIndex >= 0)
-					ToolTipText = _grid.GetTimeRangeForRow(RowIndex).ToString();
+					SetToolTipText(_grid.CurrentCellAddress.Y);
 			}
 		}
 
@@ -33,6 +35,7 @@ namespace SayMore.Transcription.UI
 		void HandleGridHandleDestroyed(object sender, EventArgs e)
 		{
 			_grid.CellMouseLeave -= HandleGridCellMouseLeave;
+			_grid.RowEnter -= HandleGridRowEnter;
 			_grid.HandleDestroyed -= HandleGridHandleDestroyed;
 		}
 
@@ -73,13 +76,39 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleGridCellMouseLeave(object sender, DataGridViewCellEventArgs e)
+		private void HandleGridCellMouseLeave(object sender, DataGridViewCellEventArgs e)
 		{
 			if (!_grid.Disposing && !_grid.IsDisposed && e.ColumnIndex == ColumnIndex && e.RowIndex == RowIndex)
 			{
 				IsMouseIsOverButtonArea = false;
 				_grid.InvalidateCell(this);
 			}
+		}
+
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridRowEnter(object sender, DataGridViewCellEventArgs e)
+		{
+			if (_grid.Disposing || _grid.IsDisposed || RowIndex < 0)
+				return;
+
+			SetToolTipText(e.RowIndex);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetToolTipText(int currentRowIndex)
+		{
+			string timeRange = _grid.GetTimeRangeForRow(RowIndex).ToString();
+
+			if (RowIndex == currentRowIndex)
+			{
+				ToolTipText =
+					String.Format(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotationEditor.SegmentTooltip",
+						"Segment range: {0}\r\nPress {1} to Play/Pause",
+						"First parameter is time range of the segment (e.g., 00.0-02.1); Second parameter is \"F2\""), timeRange, "F2");
+			}
+			else
+				ToolTipText = timeRange;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -114,7 +143,9 @@ namespace SayMore.Transcription.UI
 			rc.X = rc.Y = 0;
 			rc.Width = _grid.Columns[ColumnIndex].Width;
 
+			rc = GetButtonRectangle(rc);
 			var overButtonArea = GetButtonRectangle(rc).Contains(e.Location);
+			//_grid.ShowF2ToolTip = overButtonArea || _grid.PlaybackInProgress;
 
 			if (IsMouseIsOverButtonArea == overButtonArea)
 				return;

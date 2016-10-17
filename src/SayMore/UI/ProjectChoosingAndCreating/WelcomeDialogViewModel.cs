@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Model;
 using SayMore.Properties;
 
@@ -54,7 +54,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 
 			// If this is the first time the program has been run, then stuff
 			// the sample project(s) into the MRU list.
-			var path = Path.Combine(Program.AppDataFolder, "Samples");
+			var path = Path.Combine(Program.CommonAppDataFolder, "Samples");
 
 			if (Directory.Exists(path))
 			{

@@ -1,6 +1,6 @@
 using System.Drawing;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using SayMore.UI.ComponentEditors;
 
 namespace SayMoreTests.UI.ComponentEditors

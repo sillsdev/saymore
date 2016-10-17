@@ -3,8 +3,8 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using NUnit.Framework;
-using Palaso.TestUtilities;
-using Palaso.UI.WindowsForms;
+using SIL.TestUtilities;
+using SIL.Windows.Forms;
 using SayMore.Media.MPlayer;
 using SayMoreTests.Model.Files;
 

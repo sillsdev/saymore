@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using SIL.Reporting;
 using SayMore.Media.Audio;
 
 namespace SayMore.Transcription.UI
@@ -26,6 +27,7 @@ namespace SayMore.Transcription.UI
 		{
 			DoubleBuffered = true;
 
+			Logger.WriteEvent("OralAnnotationWaveViewer constructor");
 			InitializeComponent();
 			InitializeWaveControl();
 
@@ -83,12 +85,19 @@ namespace SayMore.Transcription.UI
 		public void LoadAnnotationAudioFile(string filename)
 		{
 			_waveControl.AllowDrawing = true;
-			_waveControl.Initialize(filename);
+			_waveControl.LoadFile(filename);
 			_waveControl.AutoScrollPosition = new Point(0, AutoScrollPosition.Y);
 			_waveControl.SetCursor(0);
 
 			// SP-782: Audio Track labels not initialized properly after oral annotation created
 			ArrangeLabels();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ResetWaveControlCursor()
+		{
+			_waveControl.AutoScrollPosition = new Point(0, AutoScrollPosition.Y);
+			_waveControl.SetCursor(0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -104,6 +113,12 @@ namespace SayMore.Transcription.UI
 		{
 			get { return _waveControl.ZoomPercentage; }
 			set { _waveControl.ZoomPercentage = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool WaveControlLoaded
+		{
+			get { return _waveControl != null && _waveControl.WaveStream != null; }
 		}
 
 		/// ------------------------------------------------------------------------------------

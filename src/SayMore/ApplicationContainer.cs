@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Windows;
+using System.Windows.Forms;
 using Autofac;
 using L10NSharp;
-using Palaso.IO;
+using SIL.IO;
 using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -47,7 +47,7 @@ namespace SayMore
 				.As<ICommand>()
 				.Where(t => t.GetInterfaces().Contains(typeof(ICommand))).InstancePerLifetimeScope();
 
-			builder.RegisterInstance<LocalizationManager>(CreateLocalizationManager()).SingleInstance();
+			builder.RegisterInstance(CreateLocalizationManager()).SingleInstance();
 
 
 			//			var filesTypes = GetFilesTypes(parentContainer);
@@ -64,7 +64,7 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string GetVersionInfo(string fmt)
+		public static string GetVersionInfo(string fmt, BuildType.VersionType buildType)
 		{
 			var asm = Assembly.GetExecutingAssembly();
 			var ver = asm.GetName().Version;
@@ -72,8 +72,33 @@ namespace SayMore
 			file = file.TrimStart('/');
 			var fi = new FileInfo(file);
 
-			return string.Format(fmt, ver.Major, ver.Minor,
-				ver.Build, fi.LastWriteTime.ToString("dd-MMM-yyyy"));
+			return string.Format(fmt, ver.Major, ver.Minor, ver.Build,
+				GetBuildTypeDescriptor(buildType), fi.LastWriteTime.ToString("dd-MMM-yyyy"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetBuildTypeDescriptor(BuildType.VersionType buildType)
+		{
+			string type;
+			switch (buildType)
+			{
+				case BuildType.VersionType.Debug:
+					type = "Debug"; // Not localizable
+					break;
+				case BuildType.VersionType.Alpha:
+					type = LocalizationManager.GetString("BuildType.Alpha", "Alpha");
+					break;
+				case BuildType.VersionType.Beta:
+					type = LocalizationManager.GetString("BuildType.Beta", "Beta");
+					break;
+				case BuildType.VersionType.ReleaseCandidate:
+					type = LocalizationManager.GetString("BuildType.ReleaseCandidate", "Release Candidate");
+					break;
+				default:
+					return string.Empty;
+			}
+
+			return string.Format("({0})", type);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -81,7 +106,7 @@ namespace SayMore
 		{
 			if (_splashScreen == null)
 			{
-				_splashScreen = new UI.SplashScreen();
+				_splashScreen = new SplashScreen();
 				_splashScreen.ShowWithoutFade();
 			}
 		}
@@ -160,20 +185,23 @@ namespace SayMore
 			}
 		}
 
-		public  LocalizationManager CreateLocalizationManager()
+		public LocalizationManager CreateLocalizationManager()
 		{
 			var installedStringFileFolder = Path.GetDirectoryName(FileLocator.GetFileDistributedWithApplication("SayMore.es.tmx"));
+			var relativePathForWritingTmxFiles = Path.Combine(Program.kCompanyAbbrev, Application.ProductName);
+
+			LocalizationManager.DeleteOldTmxFiles(kSayMoreLocalizationId,
+				Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), relativePathForWritingTmxFiles),
+				installedStringFileFolder);
+
 			var localizationManager = LocalizationManager.Create(Settings.Default.UserInterfaceLanguage, kSayMoreLocalizationId,
-				"SayMore", System.Windows.Forms.Application.ProductVersion, installedStringFileFolder, Program.AppDataFolder,
-				Resources.SayMore, "issues@saymore.palaso.org", "SayMore", "SIL.Archiving");
+				"SayMore", Application.ProductVersion, installedStringFileFolder, relativePathForWritingTmxFiles,
+				Resources.SayMore, "issues@saymore.palaso.org", "SayMore", "SIL.Archiving", "SIL.Windows.Forms.FileSystem");
+
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
+
 			return localizationManager;
 		}
-
-//        public LocalizationManager LocalizationManager
-//        {
-//            get { return _container.Resolve<LocalizationManager>(); }
-//        }
 
 		/// ------------------------------------------------------------------------------------
 		public static IDictionary<string, IXmlFieldSerializer> XmlFieldSerializers

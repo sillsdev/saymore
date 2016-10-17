@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Properties;
 
@@ -28,12 +28,23 @@ namespace SayMore.UI.ElementListScreen
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
 			Program.PersonDataChanged -= Program_PersonDataChanged;
+			base.OnHandleDestroyed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override GridSettings GridSettings
 		{
-			get { return Settings.Default.PersonListGrid; }
+			get
+			{
+				try
+				{
+					return Settings.Default.PersonListGrid;
+				}
+				catch
+				{
+					return new GridSettings();
+				}
+			}
 			set { Settings.Default.PersonListGrid = value; }
 		}
 
@@ -52,10 +63,7 @@ namespace SayMore.UI.ElementListScreen
 		protected override object GetValueForField(ProjectElement element, string fieldName)
 		{
 			if (fieldName == "display name")
-			{
-				var txt = base.GetValueForField(element, "code").ToString();
-				return string.IsNullOrEmpty(txt) ? base.GetValueForField(element, "id") : txt;
-			}
+				return element.UiId;
 
 			if (fieldName != "consent")
 				return base.GetValueForField(element, fieldName);
@@ -79,7 +87,7 @@ namespace SayMore.UI.ElementListScreen
 			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 &&
 				Columns[e.ColumnIndex].DataPropertyName == "consent")
 			{
-				var element = _items.ElementAt(e.RowIndex);
+				var element = Items.ElementAt(e.RowIndex);
 				this[e.ColumnIndex, e.RowIndex].ToolTipText =
 					((Person)element).GetToolTipForInformedConsentType();
 			}

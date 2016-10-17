@@ -17,9 +17,12 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (components != null))
+			if (disposing)
 			{
-				components.Dispose();
+				if (components != null)
+					components.Dispose();
+
+				LocalizeItemDlg.StringsLocalized -= LocalizationInitiated;
 			}
 			base.Dispose(disposing);
 		}
@@ -207,7 +210,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._labelVersionInfo.Name = "_labelVersionInfo";
 			this._labelVersionInfo.Size = new System.Drawing.Size(191, 13);
 			this._labelVersionInfo.TabIndex = 1;
-			this._labelVersionInfo.Text = "Version {0}.{1}.{2} (Beta)    Built on {3}";
+			this._labelVersionInfo.Text = "Version {0}.{1}.{2} {3}    Built on {4}";
 			// 
 			// _labelSubTitle
 			// 

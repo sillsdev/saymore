@@ -5,8 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.UI.WindowsForms.FileSystem;
-using Palaso.UI.WindowsForms.Miscellaneous;
+using L10NSharp.UI;
+using SIL.Windows.Forms.FileSystem;
+using SIL.Windows.Forms.Miscellaneous;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Model;
@@ -64,14 +65,14 @@ namespace SayMore.UI.ElementListScreen
 
 			_tabControlImages = new ImageList();
 			_tabControlImages.ColorDepth = ColorDepth.Depth32Bit;
-			_tabControlImages.ImageSize = Resources.PlayTabImage.Size;
-			_tabControlImages.Images.Add("Notes", Resources.NotesTabImage);
-			_tabControlImages.Images.Add("Play", Resources.PlayTabImage);
-			_tabControlImages.Images.Add("Person", Resources.PersonFileImage);
-			_tabControlImages.Images.Add("Session", Resources.SessionFileImage);
-			_tabControlImages.Images.Add("Image", Resources.ImageFileImage);
-			_tabControlImages.Images.Add("Video", Resources.VideoFileImage);
-			_tabControlImages.Images.Add("Audio", Resources.AudioFileImage);
+			_tabControlImages.ImageSize = ResourceImageCache.PlayTabImage.Size;
+			_tabControlImages.Images.Add("Notes", ResourceImageCache.NotesTabImage);
+			_tabControlImages.Images.Add("Play", ResourceImageCache.PlayTabImage);
+			_tabControlImages.Images.Add("Person", ResourceImageCache.PersonFileImage);
+			_tabControlImages.Images.Add("Session", ResourceImageCache.SessionFileImage);
+			_tabControlImages.Images.Add("Image", ResourceImageCache.ImageFileImage);
+			_tabControlImages.Images.Add("Video", ResourceImageCache.VideoFileImage);
+			_tabControlImages.Images.Add("Audio", ResourceImageCache.AudioFileImage);
 
 			_elementsGrid.IsOKToSelectDifferentElement = GetIsOKToLeaveCurrentEditor;
 			_elementsGrid.DeleteAction = DeleteSelectedElements;
@@ -84,7 +85,7 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.ListControl = _elementsGrid;
 
 			_componentFilesControl = componentGrid;
-			_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
+			_componentFilesControl.AfterComponentSelectionChanged = HandleAfterComponentFileSelected;
 			_componentFilesControl.FilesAdded = HandleFilesAddedToComponentGrid;
 			_componentFilesControl.FileDeletionAction = (file) => _model.DeleteComponentFile(file);
 			_componentFilesControl.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
@@ -94,6 +95,27 @@ namespace SayMore.UI.ElementListScreen
 			_componentFilesControl.IsOKToDoFileOperation = GetIsOKToLeaveCurrentEditor;
 
 			LoadElementList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			HandleStringsLocalized();
+			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
+			base.OnHandleDestroyed(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleStringsLocalized()
+		{
+			// Overridden in derived classes
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -115,6 +137,12 @@ namespace SayMore.UI.ElementListScreen
 
 			if (!_model.VerifyAllElementsStillExist())
 				LoadElementList();
+
+			if (_model.FileLoadErrors.Any())
+			{
+				using (var dlg = new FileLoadErrorsReportDlg(_model.FileLoadErrors))
+					dlg.ShowDialog(this);
+			}
 
 			// Do this in case some of the meta data changed (e.g. audio file was edited)
 			// while the program was deactivated.
@@ -144,19 +172,26 @@ namespace SayMore.UI.ElementListScreen
 			// problem. Disabling the component file grid prevents the user from being able
 			// to select another component file until we enable the grid again when we're
 			// done with everything we need to do in this method.
+			// REVIEW: This still doesn't seem to work!
 			_componentFilesControl.Enabled = false;
 
-			_model.DeactivateComponentEditors();
-			_model.SetSelectedComponentFile(index);
-			ShowSelectedComponentFileEditors();
-			_model.ActivateComponentEditors();
+			try
+			{
+				_model.DeactivateComponentEditors();
+				if (index < 0)
+					return;
+				_model.SetSelectedComponentFile(index);
+				ShowSelectedComponentFileEditors();
+				_model.ActivateComponentEditors();
 
-			if (AfterComponentFileSelected != null)
-				AfterComponentFileSelected(_model.SelectedComponentFile);
-
-			_componentFilesControl.Enabled = true;
-
-			WaitCursor.Hide();
+				if (AfterComponentFileSelected != null)
+					AfterComponentFileSelected(_model.SelectedComponentFile);
+			}
+			finally
+			{
+				_componentFilesControl.Enabled = true;
+				WaitCursor.Hide();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -222,7 +257,7 @@ namespace SayMore.UI.ElementListScreen
 		protected void UpdateComponentFileList()
 		{
 			var componentsOfSelectedElement = _model.GetComponentsOfSelectedElement().ToArray();
-			_componentFilesControl.AfterComponentSelected = null;
+			_componentFilesControl.AfterComponentSelectionChanged = null;
 			_componentFilesControl.UpdateComponentFileList(componentsOfSelectedElement);
 
 			foreach (var componentFile in componentsOfSelectedElement)
@@ -242,7 +277,7 @@ namespace SayMore.UI.ElementListScreen
 			}
 			else
 			{
-				_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
+				_componentFilesControl.AfterComponentSelectionChanged = HandleAfterComponentFileSelected;
 				_componentFilesControl.SelectComponent(0);
 				ShowSelectedComponentFileEditors();
 			}
@@ -396,7 +431,11 @@ namespace SayMore.UI.ElementListScreen
 			// row enter event doesn't get fired because the row index hasn't changed.
 			// Therefore, we check to see if the first component editor's file is the
 			// new one. If not then set it to the new file.
-			var newComponentFile = _model.GetComponentFile(0);
+			var componentFiles = _model.SelectedElement.GetComponentFiles();
+			if (componentFiles.Length == 0)
+				return; // SayMore is probably shutting down.
+
+			var newComponentFile = componentFiles[0];
 			if (newComponentFile != firstEditor.ComponentFile)
 				firstEditor.SetComponentFile(newComponentFile);
 
@@ -408,14 +447,12 @@ namespace SayMore.UI.ElementListScreen
 		{
 			int itemCount = _elementsGrid.SelectedRows.Count;
 
-			var msg = (itemCount == 1 ?
-				LocalizationManager.GetString("MainWindow.DeleteOneItemMsg", "{0}", "For deleting sessions and people items") :
-				LocalizationManager.GetString("MainWindow.DeleteMultipleItemsMsg", "{0} items", "For deleting sessions and people items"));
+			var msg = LocalizationManager.GetString("MainWindow.DeleteOneItemMsg", "{0}", "For deleting sessions and people items");
 
 			msg = (itemCount > 1 ? string.Format(msg, itemCount) :
 				string.Format(msg, _elementsGrid.GetCurrentElement().Id));
 
-			return ConfirmRecycleDialog.JustConfirm(msg);
+			return ConfirmRecycleDialog.JustConfirm(msg, itemCount > 1, ApplicationContainer.kSayMoreLocalizationId);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -492,6 +529,8 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public virtual void ViewDeactivated()
 		{
+			if (_selectedEditorsTabControl != null)
+				((ComponentEditorTabPage)(_selectedEditorsTabControl.SelectedTab)).EditorProvider.PrepareToDeactivate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -508,6 +547,28 @@ namespace SayMore.UI.ElementListScreen
 
 			var editor = SelectedComponentEditorsTabControl.CurrentEditor;
 			return (editor == null || editor.IsOKToLeaveEditor);
+		}
+
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				if (components != null)
+					components.Dispose();
+
+				_elementsGrid.SelectedElementChanged -= HandleSelectedElementChanged;
+				_elementsListPanel.NewButtonClicked -= HandleAddingNewElement;
+				_elementsListPanel.DeleteButtonClicked -= HandleDeletingSelectedElements;
+
+				var frm = FindForm();
+				if (frm != null)
+					frm.Activated -= HandleParentFormActivated;
+			}
+			base.Dispose(disposing);
 		}
 	}
 }

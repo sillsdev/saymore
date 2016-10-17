@@ -17,6 +17,7 @@ namespace SayMore.UI.ComponentEditors
 
 		public Action ComponentFileChanged;
 		public List<FieldInstance> RowData { get; private set; }
+		public bool AllowUserToAddRows = true;
 
 		private Dictionary<string, IEnumerable<string>> _autoCompleteLists = new Dictionary<string,IEnumerable<string>>();
 		private readonly IMultiListDataProvider _autoCompleteProvider;
@@ -48,6 +49,15 @@ namespace SayMore.UI.ComponentEditors
 			RowData = new List<FieldInstance>();
 			LoadFields();
 
+			file.PostGenerateOralAnnotationFileAction += generated =>
+			{
+				if (generated)
+				{
+					RowData = new List<FieldInstance>();
+					LoadFields();
+				}
+			};
+
 			if (ComponentFileChanged != null)
 				ComponentFileChanged();
 		}
@@ -63,7 +73,7 @@ namespace SayMore.UI.ComponentEditors
 
 			_fieldDefsForFile = factoryFields
 				.Union(_fieldGatherer.GetAllFieldsForFileType(FileType)
-				.Where(f => !factoryFields.Any(e => e.Key == f.Key)));
+				.Where(f => factoryFields.All(e => e.Key != f.Key)));
 
 			foreach (var field in _fieldDefsForFile)
 			{
@@ -216,12 +226,8 @@ namespace SayMore.UI.ComponentEditors
 			if (value == RowData[index].ValueAsString)
 				return;
 
-			string failureMessage;
-			value = _file.SetStringValue(RowData[index].FieldId, value, out failureMessage);
-			if (failureMessage != null)
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
-			else
-				RowData[index].Value = value;
+			value = _file.SetStringValue(RowData[index].FieldId, value);
+			RowData[index].Value = value;
 
 			_fieldGatherer.SuspendProcessing();
 			_file.Save();

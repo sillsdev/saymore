@@ -5,7 +5,8 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.UI.WindowsForms;
+using SIL.Reporting;
+using SIL.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 
@@ -35,6 +36,8 @@ namespace SayMore.UI.ElementListScreen
 		public ComponentFileRenamingDialog(ComponentFile componentFile,
 			IEnumerable<ComponentRole> componentRoles) : this()
 		{
+			Logger.WriteEvent("ComponentFileRenamingDialog constructor. componentFile = {0}", componentFile);
+
 			_componentFile = componentFile;
 			_componentRoles = componentRoles.ToArray();
 
@@ -133,7 +136,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			var fmt = LocalizationManager.GetString(
 				"DialogBoxes.ComponentFileRenamingDlg.NewFileNameMsg",
-				"New file: {0}", "Displayed under the text box.", "Parameter is file name.");
+				"New file: {0}", "Displayed under the text box.; Parameter is file name.");
 
 			var validMsg = (_textBox.Text.Trim() == string.Empty ?
 				string.Empty : string.Format(fmt, NewFilePath));

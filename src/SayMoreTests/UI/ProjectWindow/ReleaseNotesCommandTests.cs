@@ -7,6 +7,7 @@ namespace SayMoreTests.UI.ProjectWindow
 	public class ReleaseNotesCommandTests
 	{
 		[Test]
+		[RequiresSTA]
 		public void Execute_LaunchAndClose_DoesNotCrash()
 		{
 			var tester = new ModalFormTester();

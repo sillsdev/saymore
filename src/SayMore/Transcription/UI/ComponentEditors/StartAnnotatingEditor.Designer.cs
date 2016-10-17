@@ -347,7 +347,7 @@ namespace SayMore.Transcription.UI
 			this._radioButtonAutoSegmenter.Size = new System.Drawing.Size(188, 17);
 			this._radioButtonAutoSegmenter.TabIndex = 11;
 			this._radioButtonAutoSegmenter.TabStop = true;
-			this._radioButtonAutoSegmenter.Text = "Use auto segmenter (experimental)";
+			this._radioButtonAutoSegmenter.Text = "Use auto segmenter";
 			this._radioButtonAutoSegmenter.UseVisualStyleBackColor = true;
 			// 
 			// locExtender

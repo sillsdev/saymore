@@ -1,12 +1,16 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq.Expressions;
+using System.Text;
 using System.Xml.Serialization;
-using Palaso.IO;
-using Palaso.Xml;
+using SIL.IO;
+using SIL.Xml;
 using SayMore.Media.MPlayer;
+using SayMore.Model.Files;
 using SayMore.Properties;
 using MediaInfoLib;
+using SayMore.Utilities;
 
 namespace SayMore.Media
 {
@@ -54,8 +58,11 @@ namespace SayMore.Media
 		{
 			var finfo = new FileInfo(mediaFile);
 			if (!finfo.Exists || finfo.Length == 0)
-				return null;
-
+			{
+				var emptyMediaFileInfo = new MediaFileInfo();
+				emptyMediaFileInfo.Audio = new AudioInfo(); // SP-1007
+				return emptyMediaFileInfo;
+			}
 			var info = new MediaInfo();
 			if (info.Open(mediaFile) == 0)
 				return null;
@@ -82,6 +89,25 @@ namespace SayMore.Media
 			info.Option("Inform", "HTML");
 			string output = info.Inform();
 			info.Close();
+			// SP-985: The following makes it easier for end-users to get the 8.3, which may be needed
+			// to diagnose MPlayer issues.
+			if (verbose)
+			{
+				var i = output.IndexOf(mediaFile, StringComparison.Ordinal);
+				if (i > 0)
+				{
+					i = output.IndexOf("</tr>", i, StringComparison.OrdinalIgnoreCase);
+					if (i > 0)
+					{
+						i += "</tr>".Length;
+						var sb = new StringBuilder(output);
+						sb.Insert(i, String.Format("{0}  <tr>{0}    <td><i>MPlayer path :</i></td>{0}    <td colspan=\"3\">{1}</td>{0}</tr>{0}",
+							Environment.NewLine,
+							FileSystemUtils.GetShortName(mediaFile).Replace('\\', '/')));
+						output = sb.ToString();
+					}
+				}
+			}
 			return output;
 		}
 
@@ -100,7 +126,11 @@ namespace SayMore.Media
 		{
 			get
 			{
-				return (Video == null || Audio.DurationInSeconds > Video.DurationInSeconds) ?
+				if (Audio == null)
+					return Video == null ? 0 : Video.DurationInSeconds;
+				if (Video == null)
+					return Audio.DurationInSeconds;
+				return Audio.DurationInSeconds > Video.DurationInSeconds ?
 					Audio.DurationInSeconds : Video.DurationInSeconds;
 			}
 		}
@@ -142,6 +172,12 @@ namespace SayMore.Media
 		{
 			get
 			{
+				// SP-1024: Audio should not normally be null, but if something happens to the
+				// media file or the XML file thjat this object loads from, we don't want it
+				// to crash. (Calling code seems to be capable of dealing with empty string.)
+				if (Audio == null)
+					return String.Empty;
+
 				if (Audio.Encoding == "MPEG Audio")
 				{
 					if (Audio.EncodingProfile == "Layer 3")
@@ -385,7 +421,7 @@ namespace SayMore.Media
 	//        else
 	//        {
 	//            prs = null;
-	//            Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Gathering audio/video " +
+	//            SIL.Reporting.ErrorReport.NotifyUserOfProblem("Gathering audio/video " +
 	//                "statistics failed. Please verify that MPlayer is installed in the folder '{0}'.",
 	//                Path.GetDirectoryName(path));
 	//        }

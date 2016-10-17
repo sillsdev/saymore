@@ -1,8 +1,8 @@
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using Palaso.Reporting;
-using Palaso.TestUtilities;
+using SIL.Reporting;
+using SIL.TestUtilities;
 using Moq;
 using SayMore.Model;
 using SayMore.Model.Files;
@@ -18,7 +18,7 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 		private string _srcFolder;
 		private string _sessionsFolder;
 		private ElementListViewModel<Session> _sessionPresentationModel;
-		private NewSessionsFromFileDlgViewModel _model;
+		private TestNewSessionsFromFileDlgViewModel _model;
 
 		// TODO: Need tests for CreateSingleSession() and some other stuff.
 
@@ -37,7 +37,7 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 			repo.Setup(e => e.PathToFolder).Returns(_sessionsFolder);
 
 			_sessionPresentationModel = new ElementListViewModel<Session>(repo.Object);
-			_model = new NewSessionsFromFileDlgViewModel(_sessionPresentationModel, CreateNewComponentFile);
+			_model = new TestNewSessionsFromFileDlgViewModel(_sessionPresentationModel, CreateNewComponentFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -190,5 +190,16 @@ namespace SayMoreTests.UI.NewEventsFromFiles
 				Assert.AreEqual(Path.Combine(_sessionsFolder, @"pepsi\pepsi_Source.wmv"), pairs[@"c:\newSessionSrc\pepsi.wmv"]);
 			}
 		}
+	}
+
+	internal class TestNewSessionsFromFileDlgViewModel : NewSessionsFromFileDlgViewModel
+	{
+		internal TestNewSessionsFromFileDlgViewModel(ElementListViewModel<Session> sessionPresentationModel,
+			NewComponentFile.NewComponentFileFactory newComponentFileFactory) :
+				base(sessionPresentationModel, newComponentFileFactory)
+		{
+		}
+
+		internal System.Collections.Generic.List<NewComponentFile> Files { get { return m_files; } }
 	}
 }

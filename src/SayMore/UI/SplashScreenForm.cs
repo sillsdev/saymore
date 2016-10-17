@@ -18,8 +18,9 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
-using Palaso.UI.WindowsForms;
-using Palaso.UI.WindowsForms.Extensions;
+using SIL.Reporting;
+using SIL.Windows.Forms;
+using SIL.Windows.Forms.Extensions;
 using SayMore.Properties;
 using SayMore.Utilities;
 using Timer = System.Windows.Forms.Timer;
@@ -43,7 +44,6 @@ namespace SayMore.UI
 		private EventWaitHandle m_waitHandle;
 		protected Panel m_panel;
 		protected PictureBox pictureBox1;
-		protected Label lblVersion;
 		protected Label lblMessage;
 		protected Label lblCopyright;
 		protected Label lblProductName;
@@ -51,7 +51,7 @@ namespace SayMore.UI
 		private bool m_showStandardSILContent = true;
 		protected Label lblBuildNumber;
 		private readonly bool m_showBuildNum;
-		private readonly VersionType m_versionType;
+		private readonly BuildType.VersionType m_versionType;
 		private readonly string m_versionFmt;
 		private PictureBox picLoadingWheel;
 		private readonly string m_buildFmt;
@@ -65,22 +65,23 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		public SplashScreenForm()
 		{
+			Logger.WriteEvent("Starting to construct SplashScreenForm.");
+
 			InitializeComponent();
 
 			ShowStandardSILContent = false;
 
-			_logoTextLeft = Resources.LargeSayMoreLogo.Size.Width + 40;
-			_labelLoading.Location = new Point(_logoTextLeft, kLogoTextImageTop + Resources.SayMoreText.Height);
+			_logoTextLeft = ResourceImageCache.LargeSayMoreLogo.Size.Width + 40;
+			_labelLoading.Location = new Point(_logoTextLeft, kLogoTextImageTop + ResourceImageCache.SayMoreText.Height);
 
-			Width = Resources.LargeSayMoreLogo.Size.Width + Resources.SayMoreText.Width + 80;
-			Height = Resources.LargeSayMoreLogo.Size.Height + kLogoTextImageTop + 30;
+			Width = ResourceImageCache.LargeSayMoreLogo.Size.Width + ResourceImageCache.SayMoreText.Width + 80;
+			Height = ResourceImageCache.LargeSayMoreLogo.Size.Height + kLogoTextImageTop + 30;
 
-			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text);
+			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text, BuildType.Current);
 
-			m_versionFmt = lblVersion.Text;
+			m_versionFmt = _labelVersionInfo.Text;
 			m_buildFmt = lblBuildNumber.Text;
 			lblCopyright.Font = SystemInformation.MenuFont;
-			lblVersion.Font = SystemInformation.MenuFont;
 			lblMessage.Font = SystemInformation.MenuFont;
 			lblBuildNumber.Font = SystemInformation.MenuFont;
 			Opacity = 0;
@@ -91,7 +92,7 @@ namespace SayMore.UI
 		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SplashScreenForm(bool showBuildNum, VersionType versionType) : this()
+		public SplashScreenForm(bool showBuildNum, BuildType.VersionType versionType) : this()
 		{
 			m_showBuildNum = showBuildNum;
 			m_versionType = versionType;
@@ -131,6 +132,8 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		public virtual void RealShow(EventWaitHandle waitHandle, bool useFading)
 		{
+			Logger.WriteEvent("Showing SplashScreenForm.");
+
 			m_waitHandle = waitHandle;
 			InitControlLabels();
 			m_useFading = useFading;
@@ -166,6 +169,7 @@ namespace SayMore.UI
 				m_timer.Stop();
 
 			Close();
+			Logger.WriteEvent("Closed SplashScreenForm.");
 		}
 		#endregion
 
@@ -207,37 +211,6 @@ namespace SayMore.UI
 		#region Public properties set automatically in constructor for .Net apps
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// The product version which appears in the App Version label on the splash screen
-		/// </summary>
-		/// <remarks>
-		/// .Net clients should not set this. It will be ignored. They should set the
-		/// AssemblyFileVersion attribute in AssemblyInfo.cs of the executable.
-		/// </remarks>
-		/// ------------------------------------------------------------------------------------
-		public virtual void SetProdVersion(string value)
-		{
-			string version = value;
-			if (string.IsNullOrEmpty(version))
-			{
-				var ver = new Version(Application.ProductVersion);
-				version = ver.ToString(3);
-			}
-
-			var verType = string.Empty;
-			if (m_versionType == VersionType.Alpha)
-				verType = "Test Version";
-			else if (m_versionType == VersionType.Beta)
-				verType = "Beta";
-
-#if DEBUG
-			lblVersion.Text = string.Format(m_versionFmt, version, "(Debug version)", verType);
-#else
-			lblVersion.Text = string.Format(m_versionFmt, version, string.Empty, verType);
-#endif
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// The copyright info which appears in the Copyright label on the splash screen
 		/// </summary>
 		/// <remarks>
@@ -249,7 +222,6 @@ namespace SayMore.UI
 		{
 			lblCopyright.Text = value.Replace("(C)", "©");
 		}
-
 		#endregion
 
 		#region Non-public methods
@@ -332,8 +304,6 @@ namespace SayMore.UI
 				var bldDate = File.GetCreationTime(Application.ExecutablePath);
 				lblBuildNumber.Text = string.Format(m_buildFmt, bldDate.ToString("dd-MMM-yyyy"));
 
-				SetProdVersion(null);
-
 				if (assembly == null)
 					assembly = Assembly.GetExecutingAssembly();
 
@@ -381,13 +351,13 @@ namespace SayMore.UI
 				e.Graphics.DrawLine(pen, 0, rc.Bottom, rc.Right, rc.Bottom);
 
 			// Draw the application's logo image.
-			rc = new Rectangle(new Point(30, 0), Resources.LargeSayMoreLogo.Size);
-			e.Graphics.DrawImage(Resources.LargeSayMoreLogo, rc);
+			rc = new Rectangle(new Point(30, 0), ResourceImageCache.LargeSayMoreLogo.Size);
+			e.Graphics.DrawImage(ResourceImageCache.LargeSayMoreLogo, rc);
 
 			// Draw logo text.
-			rc = new Rectangle(new Point(_logoTextLeft, kLogoTextImageTop), Resources.SayMoreText.Size);
-			//rc = new Rectangle(new Point(_logoTextLeft, 18), Resources.SayMoreText.Size);
-			e.Graphics.DrawImage(Resources.SayMoreText, rc);
+			rc = new Rectangle(new Point(_logoTextLeft, kLogoTextImageTop), ResourceImageCache.SayMoreText.Size);
+			//rc = new Rectangle(new Point(_logoTextLeft, 18), ResourceImageCache.SayMoreText.Size);
+			e.Graphics.DrawImage(ResourceImageCache.SayMoreText, rc);
 
 			// Draw border around window.
 			rc = new Rectangle(0, 0, ClientSize.Width - 1, ClientSize.Height - 1);

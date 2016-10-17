@@ -1,4 +1,4 @@
-using Palaso.UI.WindowsForms.Widgets;
+using SIL.Windows.Forms.Widgets;
 
 namespace SayMore.UI.LowLevelControls
 {
@@ -31,7 +31,7 @@ namespace SayMore.UI.LowLevelControls
 		private void InitializeComponent()
 		{
 			this._progressBar = new System.Windows.Forms.ProgressBar();
-			this._labelStatus = new Palaso.UI.WindowsForms.Widgets.BetterLabel();
+			this._labelStatus = new SIL.Windows.Forms.Widgets.BetterLabel();
 			this.SuspendLayout();
 			// 
 			// _progressBar

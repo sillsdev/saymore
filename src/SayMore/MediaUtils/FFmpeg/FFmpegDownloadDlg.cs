@@ -4,9 +4,10 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.IO;
-using Palaso.UI.WindowsForms;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.IO;
+using SIL.Reporting;
+using SIL.Windows.Forms;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
 
@@ -29,6 +30,7 @@ namespace SayMore.Media.FFmpeg
 		/// ------------------------------------------------------------------------------------
 		public FFmpegDownloadDlg()
 		{
+			Logger.WriteEvent("FFmpegDownloadDlg constructor");
 			InitializeComponent();
 			InitializeDownloadLinkLabel();
 

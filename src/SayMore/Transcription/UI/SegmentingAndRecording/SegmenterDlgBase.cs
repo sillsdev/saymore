@@ -7,9 +7,9 @@ using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
 using NAudio.Wave;
-using Palaso.UI.WindowsForms;
-using Palaso.UI.WindowsForms.Miscellaneous;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.Windows.Forms;
+using SIL.Windows.Forms.Miscellaneous;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -31,20 +31,26 @@ namespace SayMore.Transcription.UI
 			Manual,
 		}
 
-		protected readonly ToolTip _tooltip = new ToolTip();
 		protected readonly SegmenterDlgBaseViewModel _viewModel;
 		protected string _segmentNumberFormat;
 		protected string _segmentXofYFormat;
 		protected Timer _timer;
 		protected TimeSpan _timeAtBeginningOfBoundaryMove = TimeSpan.FromSeconds(1).Negate();
+		protected TimeSpan _startTimeOfSegmentWhoseEndIsMoving = TimeSpan.FromSeconds(1).Negate();
 		protected bool _moreReliableDesignMode;
-		private WaveControlBasic _waveControl;
+		private WaveControlWithMovableBoundaries _waveControl;
 		protected SegmentDefinitionMode _newSegmentDefinedBy;
 
 		private Image _hotPlayInSegmentButton;
 		private Image _normalPlayInSegmentButton;
-		protected Size _playButtonSize = Resources.ListenToSegment.Size;
+		protected Size _playButtonSize = ResourceImageCache.ListenToSegment.Size;
 		private Rectangle _lastPlayButtonRc;
+
+		protected PercentageFormatter _pctFormatter = new PercentageFormatter();
+		private bool _changeActiveControlOnEnter;
+		private bool _inHandleZoomKeyDown;
+		private bool _closeDlgRequested;
+
 
 		public event Action SegmentIgnored;
 
@@ -63,7 +69,7 @@ namespace SayMore.Transcription.UI
 
 			WaitCursor.Show();
 
-			_toolStripStatus.Renderer = new Palaso.UI.WindowsForms.NoToolStripBorderRenderer();
+			_toolStripStatus.Renderer = new SIL.Windows.Forms.NoToolStripBorderRenderer();
 			_panelWaveControl.BackColor = Settings.Default.BarColorBorder;
 
 			_buttonCancel.Click += delegate { Close(); };
@@ -109,10 +115,11 @@ namespace SayMore.Transcription.UI
 			_tableLayoutOuter.RowStyles.Add(new RowStyle(SizeType.Absolute, HeightOfTableLayoutButtonRow));
 			_tableLayoutOuter.RowStyles.Add(new RowStyle());
 
-			_normalPlayInSegmentButton = Resources.ListenToSegment;
+			_normalPlayInSegmentButton = ResourceImageCache.ListenToSegment;
 			_hotPlayInSegmentButton = PaintingHelper.MakeHotImage(_normalPlayInSegmentButton);
 
 			_waveControl = CreateWaveControl();
+			InitializeZoomCombo(); // For efficiency, do this before initializing the wave control.
 			InitializeWaveControl();
 			_waveControl.Dock = DockStyle.Fill;
 			_panelWaveControl.Controls.Add(_waveControl);
@@ -133,9 +140,6 @@ namespace SayMore.Transcription.UI
 					waveFormat.BitsPerSample, waveFormat.Encoding);
 			};
 
-			InitializeZoomComboItems();
-			_comboBoxZoom.Text = _comboBoxZoom.Items[0] as string;
-			_comboBoxZoom.Font = Program.DialogFont;
 			_labelZoom.Font = Program.DialogFont;
 			_labelSegmentXofY.Font = Program.DialogFont;
 			_labelSegmentNumber.Font = Program.DialogFont;
@@ -149,21 +153,13 @@ namespace SayMore.Transcription.UI
 			_undoToolStripMenuItem.Height *= 2;
 			_ignoreToolStripMenuItem.Height = _undoToolStripMenuItem.Height;
 
-			// If we ever get zooming working again, remove the following two
-			// lines and uncomment the three below them.
-			_labelZoom.Visible = false;
-			_comboBoxZoom.Visible = false;
-			//_waveControl.ZoomPercentage = 300; //ZoomPercentage;
-			// var pctFormatter = new PercentageFormatter();
-			//_comboBoxZoom.Text = pctFormatter.Format(ZoomPercentage);
-
 			HandleStringsLocalized();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void InitializeWaveControl()
 		{
-			_waveControl.Initialize(_viewModel.OrigWaveStream as WaveFileReader);
+			_waveControl.LoadFile(_viewModel.OrigWaveStream as WaveFileReader);
 			_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
 			_waveControl.Painter.SetIgnoredRegions(_viewModel.GetIgnoredSegmentRanges());
 			_waveControl.PostPaintAction = HandleWaveControlPostPaint;
@@ -173,14 +169,12 @@ namespace SayMore.Transcription.UI
 			_waveControl.MouseMove += HandleWaveControlMouseMove;
 			_waveControl.MouseLeave += HandleWaveControlMouseLeave;
 			_waveControl.MouseClick += HandleWaveControlMouseClick;
+			_waveControl.MouseDown += (sender, args) => KillTimer();
 			_waveControl.Controls.Add(_currentSegmentMenuStrip);
 			_currentSegmentMenuStrip.UseWaitCursor = false;
 			_waveControl.Controls.Add(_lastSegmentMenuStrip);
 			_lastSegmentMenuStrip.UseWaitCursor = false;
-
-			var waveCtrl = _waveControl as WaveControlWithMovableBoundaries;
-			if (waveCtrl != null)
-				waveCtrl.CanBoundaryBeMoved = (b, disregardAnnotations) => !_viewModel.IsBoundaryPermanent(b, disregardAnnotations);
+			_waveControl.CanBoundaryBeMoved = CanBoundaryBeMoved;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -192,13 +186,24 @@ namespace SayMore.Transcription.UI
 
 				if (components != null)
 					components.Dispose();
+
+				if (_waveControl != null)
+				{
+					_waveControl.PlaybackStarted -= OnPlaybackStarted;
+					_waveControl.PlaybackUpdate -= OnPlayingback;
+					_waveControl.PlaybackStopped -= OnPlaybackStopped;
+					_waveControl.MouseMove -= HandleWaveControlMouseMove;
+					_waveControl.MouseLeave -= HandleWaveControlMouseLeave;
+					_waveControl.MouseClick -= HandleWaveControlMouseClick;
+					_waveControl.FormatNotSupportedMessageProvider = null;
+				}
 			}
 
 			base.Dispose(disposing);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual WaveControlBasic CreateWaveControl()
+		protected virtual WaveControlWithMovableBoundaries CreateWaveControl()
 		{
 			throw new NotImplementedException();
 		}
@@ -208,14 +213,29 @@ namespace SayMore.Transcription.UI
 		{
 			_segmentXofYFormat = _labelSegmentXofY.Text;
 			_segmentNumberFormat = _labelSegmentNumber.Text;
+			var zoomToolTip = LocalizationManager.GetLocalizedToolTipForControl(_comboBoxZoom);
+			if (!string.IsNullOrEmpty(zoomToolTip))
+				_tooltip.SetToolTip(_labelZoom, zoomToolTip);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializeZoomComboItems()
+		private void InitializeZoomCombo()
 		{
-			var pctFormatter = new PercentageFormatter();
 			_comboBoxZoom.Items.AddRange((new [] {100, 125, 150, 175, 200, 250, 300, 500, 750, 1000})
-				.Select(pctFormatter.Format).Cast<Object>().ToArray());
+				.Select(_pctFormatter.Format).Cast<Object>().ToArray());
+
+			_comboBoxZoom.Font = Program.DialogFont;
+			ZoomPercentage = DefaultZoomPercentage;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual float DefaultZoomPercentage
+		{
+			get
+			{
+				double value;
+				return _pctFormatter.Format(_comboBoxZoom.Items[0] as string, out value) != null ? (float)value : 100f;
+			}
 		}
 		#endregion
 
@@ -251,7 +271,7 @@ namespace SayMore.Transcription.UI
 
 
 		/// ------------------------------------------------------------------------------------
-		protected Rectangle PlayOrigButtonRectangle
+		protected virtual Rectangle PlayOrigButtonRectangle
 		{
 			get
 			{
@@ -308,7 +328,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected Segment HotSegment
+		protected AnnotationSegment HotSegment
 		{
 			get
 			{
@@ -347,14 +367,18 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual float ZoomPercentage
 		{
-			get { throw new NotImplementedException(); }
-			set { throw new NotImplementedException(); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual bool ShouldShadePlaybackAreaDuringPlayback
-		{
-			get { return true; }
+			get { return _waveControl.ZoomPercentage; }
+			set
+			{
+				bool setZoomText = string.IsNullOrEmpty(_waveControl.Text);
+				if (!_waveControl.ZoomPercentage.Equals(value))
+				{
+					_waveControl.ZoomPercentage = value;
+					setZoomText = true;
+				}
+				if (setZoomText)
+					SetZoomTextInComboBox();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -394,9 +418,6 @@ namespace SayMore.Transcription.UI
 			e.Cancel = true;
 			StopAllMedia();
 
-			if (!_moreReliableDesignMode)
-				ZoomPercentage = _waveControl.ZoomPercentage;
-
 			// Cancel means the user closed the form using the X or Alt+F4. In that
 			// case whether they want to save changes is ambiguous. So ask them.
 			if (DialogResult == DialogResult.Cancel && _viewModel.WereChangesMade)
@@ -411,6 +432,16 @@ namespace SayMore.Transcription.UI
 				if (DialogResult == DialogResult.Cancel)
 					return;
 				DialogResult = DialogResult.OK;
+			}
+
+			if (_waveControl.IsPlaying)
+			{
+				// This is weird, but if we close the dialog while playing, OnPlayingBack gets called and
+				// throws an ObjectDisposedException even though the dlg is only being destroyed and has not
+				// yet been disposed. Stopping playback is asynchronous, so we just need to note that the user
+				// wishes to close and wait for playback to stop.
+				_closeDlgRequested = true;
+				return;
 			}
 
 			e.Cancel = false;
@@ -429,14 +460,14 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleTableLayoutButtonsPaint(object sender, PaintEventArgs e)
 		{
-			//using (var br = new LinearGradientBrush(_tableLayoutButtons.ClientRectangle,
-			//    AppColors.BarEnd, AppColors.BarBegin, 0f))
-			//{
-			//        e.Graphics.FillRectangle(br, _tableLayoutButtons.ClientRectangle);
-			//}
-
 			using (var pen = new Pen(AppColors.BarBorder))
 				e.Graphics.DrawLine(pen, 0, 0, _tableLayoutButtons.Width, 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool CanBoundaryBeMoved(TimeSpan boundary, bool disregardAnnotations)
+		{
+			return !_viewModel.IsBoundaryPermanent(boundary, disregardAnnotations);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -448,14 +479,24 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnPlayingback(WaveControlBasic ctrl, TimeSpan current, TimeSpan total)
 		{
-			_labelTimeDisplay.Text = MediaPlayerViewModel.GetTimeDisplay(
-				(float)current.TotalSeconds, (float)total.TotalSeconds);
+			if (InvokeRequired)
+			{
+				Invoke(new Action(() => OnPlayingback(ctrl, current, total)));
+			}
+			else
+			{
+				_labelTimeDisplay.Text = MediaPlayerViewModel.GetTimeDisplay(
+					(float) current.TotalSeconds, (float) total.TotalSeconds);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnPlaybackStopped(WaveControlBasic ctrl, TimeSpan start, TimeSpan end)
 		{
-			UpdateDisplay();
+			if (_closeDlgRequested)
+				Close();
+			else
+				UpdateDisplay();
 		}
 
 		#region Methods for adjusting/saving/playing within segment boundaries
@@ -515,9 +556,19 @@ namespace SayMore.Transcription.UI
 			g.DrawImage(img, rc);
 		}
 
+		private Point _lastMousePosition;
+		private Point _lastWaveControlScrollPosition;
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleWaveControlMouseMove(object sender, MouseEventArgs e)
 		{
+			// This is utter insanity, but we're constantly getting mouse move events when the
+			// mouse isn't moving, and the processing here is using all the CPU. If nothing
+			// has changed, let's just get out of here.
+			if (e.Location == _lastMousePosition && _waveControl.AutoScrollPosition == _lastWaveControlScrollPosition)
+				return;
+			_lastMousePosition = e.Location;
+			_lastWaveControlScrollPosition = _waveControl.AutoScrollPosition;
+
 			bool enableIgnoreMenu = false;
 			var rcHotSegment = HotSegmentRectangle;
 			if (rcHotSegment != Rectangle.Empty)
@@ -606,7 +657,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void PlaySource(Segment segment)
+		protected virtual void PlaySource(AnnotationSegment segment)
 		{
 			_waveControl.Play(segment.TimeRange);
 		}
@@ -615,7 +666,7 @@ namespace SayMore.Transcription.UI
 		private void HandleIgnoreToolStripMenuItemCheckedChanged(object sender, EventArgs e)
 		{
 			_ignoreToolStripMenuItem.Image = _ignoreToolStripMenuItem.Checked ?
-				Resources.CheckedBox : Resources.UncheckedBox;
+				ResourceImageCache.CheckedBox : ResourceImageCache.UncheckedBox;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -637,8 +688,9 @@ namespace SayMore.Transcription.UI
 #if DEBUG
 					throw new Exception(
 						"How can this be null? It has happened twice, and it makes no sense! Now using above logic instead of HotSegment.");
-#endif
+#else
 					return;
+#endif
 				}
 			}
 			else
@@ -703,8 +755,13 @@ namespace SayMore.Transcription.UI
 			// Make sure the playback doesn't start before the beginning of the segment.
 			var boundaries = _viewModel.GetSegmentEndBoundaries().ToList();
 			var i = boundaries.IndexOf(boundary);
-			if (i > 0 && playbackStartTime < boundaries[i - 1])
-				playbackStartTime = boundaries[i - 1];
+			_startTimeOfSegmentWhoseEndIsMoving = TimeSpan.FromSeconds(1).Negate();
+			if (i > 0)
+			{
+				_startTimeOfSegmentWhoseEndIsMoving = boundaries[i - 1];
+				if (playbackStartTime < _startTimeOfSegmentWhoseEndIsMoving)
+					playbackStartTime = _startTimeOfSegmentWhoseEndIsMoving;
+			}
 
 			_timer = new Timer();
 			_timer.Interval = Settings.Default.MillisecondsToDelayPlaybackAfterAdjustingSegmentBoundary;
@@ -713,12 +770,11 @@ namespace SayMore.Transcription.UI
 				if (!_waveControl.IsPlaying)
 				{
 					_waveControl.Play(playbackStartTime, boundary);
+					_waveControl.PlaybackStopped -= PlaybackShortPortionUpToBoundary;
 					_waveControl.PlaybackStopped += PlaybackShortPortionUpToBoundary;
 				}
 
-				_timer.Stop();
-				_timer.Dispose();
-				_timer = null;
+				KillTimer();
 			};
 
 			_timer.Start();
@@ -734,16 +790,19 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual void StopAllMedia()
 		{
+			KillTimer();
+			_waveControl.Stop();
+		}
+
+		private void KillTimer()
+		{
 			if (_timer != null)
 			{
 				_timer.Stop();
 				_timer.Dispose();
 				_timer = null;
 			}
-
-			_waveControl.Stop();
 		}
-
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -791,25 +850,71 @@ namespace SayMore.Transcription.UI
 
 		#region Low level keyboard handling
 		/// ------------------------------------------------------------------------------------
+		protected bool ZoomComboIsActiveControl
+		{
+			get { return ActiveControl == _comboBoxZoom; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyDown(Keys key)
 		{
 			if (!ContainsFocus)
 				return true;
 
+			bool ctrlKeyPressed = (ModifierKeys & Keys.Control) != 0;
+
+			if (!ctrlKeyPressed && ZoomComboIsActiveControl)
+				return false;
+
 			switch (key)
 			{
 				case Keys.Right:
-					OnAdjustBoundaryUsingArrowKey(Settings.Default.MillisecondsToAdvanceSegmentBoundaryOnRightArrow);
-					return true;
+					if (ActiveControl == _waveControl)
+					{
+						OnAdjustBoundaryUsingArrowKey(Settings.Default.MillisecondsToAdvanceSegmentBoundaryOnRightArrow);
+						return true;
+					}
+					break;
 
 				case Keys.Left:
-					OnAdjustBoundaryUsingArrowKey(-Settings.Default.MillisecondsToBackupSegmentBoundaryOnLeftArrow);
-					return true;
+					if (ActiveControl == _waveControl)
+					{
+						OnAdjustBoundaryUsingArrowKey(-Settings.Default.MillisecondsToBackupSegmentBoundaryOnLeftArrow);
+						return true;
+					}
+					break;
 
-				case Keys.Z:
-					if ((ModifierKeys & Keys.Control) == 0 && _undoToolStripMenuItem.Enabled)
+				case Keys.Z: // For some reason, they want a plain Z to also function as an undo.
+					if (!ctrlKeyPressed && _undoToolStripMenuItem.Enabled)
 					{
 						_undoToolStripMenuItem.PerformClick();
+						return true;
+					}
+					break;
+
+				case Keys.D1:
+				case Keys.NumPad1:
+					if (ctrlKeyPressed)
+					{
+						ZoomPercentage += 10;
+						return true;
+					}
+					break;
+
+				case Keys.D2:
+				case Keys.NumPad2:
+					if (ctrlKeyPressed)
+					{
+						ZoomPercentage = 100f;
+						return true;
+					}
+					break;
+
+				case Keys.D3:
+				case Keys.NumPad3:
+					if (ctrlKeyPressed)
+					{
+						ZoomPercentage -= 10;
 						return true;
 					}
 					break;
@@ -829,6 +934,18 @@ namespace SayMore.Transcription.UI
 				_timeAtBeginningOfBoundaryMove = TimeSpan.FromSeconds(1).Negate();
 			}
 
+			if (key == Keys.Enter && _changeActiveControlOnEnter)
+			{
+				if (ZoomComboIsActiveControl)
+				{
+					// By now, the new zoom value has been successfully applied, so activate the
+					// wave control. If we keep the zoom control focused, then SPACE and ENTER
+					// will get "eaten" by this control and won't behave as the user expects.
+					ActiveControl = _waveControl;
+				}
+				_changeActiveControlOnEnter = false;
+			}
+
 			return result;
 		}
 
@@ -838,41 +955,51 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleZoomComboValidating(object sender, CancelEventArgs e)
 		{
-			SetZoom();
+			e.Cancel = !SetZoom();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleZoomSelectedIndexChanged(object sender, EventArgs e)
 		{
+			if (_inHandleZoomKeyDown)
+				return;
 			SetZoom();
+			// Can't make the wave control active if it hasn't yet been added to the form.
+			if (!_comboBoxZoom.DroppedDown && _waveControl.Parent != null)
+				ActiveControl = _waveControl;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleZoomKeyDown(object sender, KeyEventArgs e)
 		{
+			_inHandleZoomKeyDown = true;
 			if (e.KeyCode == Keys.Enter)
 			{
 				e.Handled = true;
 				e.SuppressKeyPress = true;
-				SetZoom();
+				_changeActiveControlOnEnter = SetZoom();
 			}
+			_inHandleZoomKeyDown = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void SetZoom()
+		private bool SetZoom()
 		{
-			var pctFormatter = new PercentageFormatter();
 			double newValue;
-			string formattedPercentage = pctFormatter.Format(_comboBoxZoom.Text, out newValue);
-			if (formattedPercentage != null)
+			if (_pctFormatter.Format(_comboBoxZoom.Text, out newValue) != null)
 			{
-				_waveControl.ZoomPercentage = (float) newValue;
-				_comboBoxZoom.Text = formattedPercentage;
+				ZoomPercentage = (float)newValue;
+				return ZoomPercentage.Equals((float)newValue);
 			}
-			else
-				_comboBoxZoom.Text = pctFormatter.Format(_waveControl.ZoomPercentage);
+			SetZoomTextInComboBox();
+			return false;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		protected void SetZoomTextInComboBox()
+		{
+			_comboBoxZoom.Text = _pctFormatter.Format(_waveControl.ZoomPercentage / 100f);
+		}
 		#endregion
 	}
 }

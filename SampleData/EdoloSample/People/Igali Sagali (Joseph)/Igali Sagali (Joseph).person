@@ -7,7 +7,7 @@
   <education type="string">Grade 1</education>
   <primaryOccupation type="string">Subsistence Farmer</primaryOccupation>
   <gender type="string">Male</gender>
-  <birthYear type="string">36/4</birthYear>
+  <birthYear type="string">1972</birthYear>
   <fathersLanguage type="string">Edolo</fathersLanguage>
   <mothersLanguage type="string">Edolo</mothersLanguage>
 </Person>

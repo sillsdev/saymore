@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
-using Palaso.Media.Naudio;
-using Palaso.Media.Naudio.UI;
+using SIL.Media.Naudio;
+using SIL.Media.Naudio.UI;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 

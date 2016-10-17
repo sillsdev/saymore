@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using SayMore;
 using SayMore.Model;
 using SayMore.Model.Files;
@@ -60,6 +60,7 @@ namespace SayMoreTests
 		/// This is mostly a "smoke test" for the Dependency Injection System
 		/// </summary>
 		[Test][Category("SkipOnTeamCity")]
+		[RequiresSTA]
 		public void CreateProjectContext_ProjectWindowIsNotNull()
 		{
 			using (var appContext = new ApplicationContainer())
@@ -78,6 +79,7 @@ namespace SayMoreTests
 
 
 		[Test][Category("SkipOnTeamCity")]
+		[RequiresSTA]
 		public void CreateProjectContext_CanCreateTwoProjectsConsecutively()
 		{
 			using (var appContext = new ApplicationContainer())
@@ -96,6 +98,7 @@ namespace SayMoreTests
 		}
 
 		[Test][Category("SkipOnTeamCity")]
+		[RequiresSTA]
 		public void ContainerSanityCheck_CanGet_ComponentFile_Factory()
 		{
 			using (var appContext = new ApplicationContainer())

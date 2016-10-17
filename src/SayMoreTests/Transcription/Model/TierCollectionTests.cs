@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using SayMore.Transcription.Model;
 using SayMoreTests.Model.Files;
 
@@ -269,7 +269,7 @@ namespace SayMoreTests.Transcription.Model
 		public void GetTranscriptionTier_TierExists_ReturnsIt()
 		{
 			var tier = _collection.GetTranscriptionTier();
-			Assert.AreEqual(TextTier.ElanTranscriptionTierId, tier.DisplayName);
+			Assert.AreEqual(TextTier.ElanTranscriptionTierId, tier.Id);
 			Assert.AreEqual(TierType.Transcription, tier.TierType);
 		}
 
@@ -417,15 +417,15 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void GetTotalAnnotatedTime_FullyAnnotated_ReturnsLengthOfMediaFile()
 		{
-			_collection.GetTimeTier().Segments.Insert(0, new Segment(_collection.GetTimeTier(), 0, 10));
+			_collection.GetTimeTier().Segments.Insert(0, new AnnotationSegment(_collection.GetTimeTier(), 0, 10));
 			_collection.GetTimeTier().AddSegment(40, (float)_collection.GetTimeTier().TotalTime.TotalSeconds);
 
 			var transcriptionTier = _collection.GetTranscriptionTier();
-			transcriptionTier.Segments.Insert(0, new Segment(transcriptionTier, "0"));
+			transcriptionTier.Segments.Insert(0, new AnnotationSegment(transcriptionTier, "0"));
 			transcriptionTier.AddSegment("4");
 
 			var translationTier = _collection.GetFreeTranslationTier();
-			translationTier.Segments.Insert(0, new Segment(translationTier, "translation of 0"));
+			translationTier.Segments.Insert(0, new AnnotationSegment(translationTier, "translation of 0"));
 			translationTier.Segments[3].Text = "Now I'm not empty anymore";
 			translationTier.AddSegment("translation of 4");
 

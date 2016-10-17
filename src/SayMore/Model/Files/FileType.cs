@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.IO;
-using Palaso.UI.WindowsForms.ClearShare;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.IO;
+using SIL.Windows.Forms.ClearShare;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Media;
 using SayMore.Media.Audio;
 using SayMore.Model.Fields;
@@ -16,7 +17,6 @@ using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
 using SayMore.UI;
 using SayMore.UI.ComponentEditors;
-using SayMore.UI.Overview;
 
 namespace SayMore.Model.Files
 {
@@ -37,9 +37,9 @@ namespace SayMore.Model.Files
 			new Dictionary<int, IEnumerable<IEditorProvider>>();
 
 		public string Name { get; protected set; }
-		public virtual string TypeDescription { get; protected set; }
-		public virtual Image SmallIcon { get; protected set; }
-		public virtual string FileSize { get; protected set; }
+		public virtual string TypeDescription { get { return null; } }
+		public virtual Image SmallIcon { get { return null; } }
+		public virtual string FileSize { get { return null; } }
 
 		/// ------------------------------------------------------------------------------------
 		public static FileType Create(string name, string matchForEndOfFileName)
@@ -220,10 +220,15 @@ namespace SayMore.Model.Files
 		private readonly Func<PersonBasicEditor.Factory> _personBasicEditorFactoryLazy;
 		private readonly Func<PersonContributionEditor.Factory> _personContributionEditorFactoryLazy;
 
+		public const string kCode = "code";
+		public const string kGender = "gender";
+		public const string kEducation = "education";
+		public const string kPrimaryOccupation = "primaryOccupation";
+
 		/// ------------------------------------------------------------------------------------
 		/// <param name="personBasicEditorFactoryLazy">This is to get us around a circular
 		/// dependency error in autofac.  NB: when we move to .net 4, this can be replaced by
-		/// Lazy<Func<PersonBasicEditor.Factory></param>
+		/// <!--Lazy<Func<PersonBasicEditor.Factory>--></param>
 		/// <param name="personRoleEditorFactoryLazy"></param>
 		/// ------------------------------------------------------------------------------------
 		public PersonFileType(Func<PersonBasicEditor.Factory> personBasicEditorFactoryLazy,
@@ -255,7 +260,7 @@ namespace SayMore.Model.Files
 				foreach (var fieldId in new[]
 				{
 					"id",
-					"code",
+					kCode,
 					"nickName",
 					"primaryLanguage",
 					"primaryLanguageLearnedIn",
@@ -274,10 +279,10 @@ namespace SayMore.Model.Files
 					"pbOtherLangMother2",
 					"pbOtherLangMother1",
 					"birthYear",
-					"gender",
+					kGender,
 					"howToContact",
-					"education",
-					"primaryOccupation",
+					kEducation,
+					kPrimaryOccupation,
 					"picture",
 					"privacyProtection",
 					"birthYear",
@@ -291,7 +296,7 @@ namespace SayMore.Model.Files
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
 			var col = BetterGrid.CreateTextBoxColumn("id");
-			col.HeaderText = "_L10N_:PeopleView.PeopleList.ColumnHeadings.Person!Person";
+			col.HeaderText = @"_L10N_:PeopleView.PeopleList.ColumnHeadings.Person!Person";
 			col.DataPropertyName = "display name";
 			col.ReadOnly = true;
 			col.Frozen = true;
@@ -299,7 +304,7 @@ namespace SayMore.Model.Files
 			yield return col;
 
 			col = BetterGrid.CreateImageColumn("consent");
-			col.HeaderText = "_L10N_:PeopleView.PeopleList.ColumnHeadings.Consent!Consent";
+			col.HeaderText = @"_L10N_:PeopleView.PeopleList.ColumnHeadings.Consent!Consent";
 			col.DataPropertyName = "consent";
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
@@ -329,7 +334,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get { return Resources.PersonFileImage; }
+			get { return ResourceImageCache.PersonFileImage; }
 		}
 	}
 
@@ -372,7 +377,7 @@ namespace SayMore.Model.Files
 		/// </summary>
 		/// <param name="sessionBasicEditorFactoryLazy">This is to get us around a circular
 		/// dependency error in autofac. NB: when we move to .net 4, this can be replaced by
-		/// Lazy<Func<SessionBasicEditor.Factory></param>
+		/// <!--Lazy<Func<SessionBasicEditor.Factory>--></param>
 		/// <param name="statusAndStagesEditorFactoryLazy"></param>
 		/// ------------------------------------------------------------------------------------
 		public SessionFileType(Func<SessionBasicEditor.Factory> sessionBasicEditorFactoryLazy,
@@ -447,35 +452,35 @@ namespace SayMore.Model.Files
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
 			var col = BetterGrid.CreateTextBoxColumn("id");
-			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Id!Id";
+			col.HeaderText = @"_L10N_:SessionsView.SessionsList.ColumnHeadings.Id!Id";
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = BetterGrid.CreateTextBoxColumn(kTitleFieldName);
-			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Title!Title";
+			col.HeaderText = @"_L10N_:SessionsView.SessionsList.ColumnHeadings.Title!Title";
 			col.DataPropertyName = kTitleFieldName;
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = BetterGrid.CreateImageColumn(kStagesFieldName);
-			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Stages!Stages";
+			col.HeaderText = @"_L10N_:SessionsView.SessionsList.ColumnHeadings.Stages!Stages";
 			col.DataPropertyName = kStagesFieldName;
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = BetterGrid.CreateImageColumn(kStatusFieldName);
-			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Status!Status";
+			col.HeaderText = @"_L10N_:SessionsView.SessionsList.ColumnHeadings.Status!Status";
 			col.DataPropertyName = kStatusFieldName;
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = BetterGrid.CreateTextBoxColumn(kDateFieldName);
-			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Date!Date";
+			col.HeaderText = @"_L10N_:SessionsView.SessionsList.ColumnHeadings.Date!Date";
 			col.DataPropertyName = kDateFieldName;
 			col.ReadOnly = true;
 			col.Visible = false;
@@ -483,7 +488,7 @@ namespace SayMore.Model.Files
 			yield return col;
 
 			col = BetterGrid.CreateTextBoxColumn(kGenreFieldName);
-			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Genre!Genre";
+			col.HeaderText = @"_L10N_:SessionsView.SessionsList.ColumnHeadings.Genre!Genre";
 			col.DataPropertyName = kGenreFieldName;
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
@@ -491,7 +496,7 @@ namespace SayMore.Model.Files
 			yield return col;
 
 			col = BetterGrid.CreateTextBoxColumn(kLocationFieldName);
-			col.HeaderText = "_L10N_:SessionsView.SessionsList.ColumnHeadings.Location!Location";
+			col.HeaderText = @"_L10N_:SessionsView.SessionsList.ColumnHeadings.Location!Location";
 			col.DataPropertyName = kLocationFieldName;
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
@@ -523,7 +528,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get { return Resources.SessionFileImage; }
+			get { return ResourceImageCache.SessionFileImage; }
 		}
 	}
 
@@ -742,14 +747,14 @@ namespace SayMore.Model.Files
 				Key = "Bit_Depth",
 				Suffix = "bits",
 				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.BitDepthSuffix", "bits"),
-				DataItemChooser = (info => info.BitsPerSample == 0 ? null : info.BitsPerSample.ToString()),
+				DataItemChooser = (info => info.BitsPerSample == 0 ? null : info.BitsPerSample.ToString(CultureInfo.InvariantCulture)),
 				GetFormatedStatProvider = GetStringStatistic
 			};
 
 			yield return new ComputedFieldInfo
 			{
 				Key = "Channels",
-				DataItemChooser = (info => info.Channels.ToString()),
+				DataItemChooser = (info => info.Channels.ToString(CultureInfo.InvariantCulture)),
 				GetFormatedStatProvider = GetChannelsStatistic,
 			};
 
@@ -851,9 +856,12 @@ namespace SayMore.Model.Files
 
 			var contributor = new Contribution(value, role);
 			contributor.Date = file.GetCreateDate();
-			collection.Add(contributor);
-			string failureMessage;
-			file.SetValue("contributions", collection, out failureMessage);
+			if (collection != null)
+			{
+				collection.Add(contributor);
+				string failureMessage;
+				file.SetValue("contributions", collection, out failureMessage);
+			}
 			file.RemoveField(fieldId);
 			file.Save();
 		}
@@ -888,12 +896,20 @@ namespace SayMore.Model.Files
 			if (path.EndsWith(Settings.Default.StandardAudioFileSuffix))
 				return path;
 
+			var dirName = Path.GetDirectoryName(path);
+			if (dirName == null) return path;
+
 			var pcmPath = Path.GetFileNameWithoutExtension(path);
-			if (pcmPath.EndsWith(Path.GetFileNameWithoutExtension(Settings.Default.StandardAudioFileSuffix)))
-				return Path.Combine(Path.GetDirectoryName(path), pcmPath + ".wav");
+			var testPath = Path.GetFileNameWithoutExtension(Settings.Default.StandardAudioFileSuffix);
+
+			if (testPath != null)
+			{
+				if (pcmPath.EndsWith(testPath))
+					return Path.Combine(dirName, pcmPath + ".wav");
+			}
 
 			pcmPath += Settings.Default.StandardAudioFileSuffix;
-			return Path.Combine(Path.GetDirectoryName(path), pcmPath);
+			return Path.Combine(dirName, pcmPath);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -976,7 +992,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get {return Resources.AudioFileImage;}
+			get {return ResourceImageCache.AudioFileImage;}
 		}
 	}
 
@@ -1050,7 +1066,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get { return Resources.VideoFileImage; }
+			get { return ResourceImageCache.VideoFileImage; }
 		}
 	}
 
@@ -1090,7 +1106,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get { return Resources.ImageFileImage; }
+			get { return ResourceImageCache.ImageFileImage; }
 		}
 	}
 

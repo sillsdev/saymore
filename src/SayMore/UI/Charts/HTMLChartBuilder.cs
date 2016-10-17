@@ -7,6 +7,7 @@ using L10NSharp;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.UI.Overview.Statistics;
+using SIL.Reporting;
 
 namespace SayMore.UI.Charts
 {
@@ -14,10 +15,9 @@ namespace SayMore.UI.Charts
 	public class HTMLChartBuilder
 	{
 		public const string kNonBreakingSpace = "&nbsp;";
-		protected const int kPixelsPerMinute = 20;
 
-		protected readonly StatisticsViewModel _statsViewModel;
-		protected StringBuilder _htmlText = new StringBuilder(6000);
+		private readonly StatisticsViewModel _statsViewModel;
+		protected readonly StringBuilder _htmlText = new StringBuilder(6000);
 
 		/// ------------------------------------------------------------------------------------
 		public HTMLChartBuilder(StatisticsViewModel statsViewModel)
@@ -27,41 +27,65 @@ namespace SayMore.UI.Charts
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// This is used mainly for tests.
+		/// This is used only for tests.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string HtmlContent
 		{
-			get { return _htmlText.ToString(); }
+			get
+			{
+				lock (_htmlText)
+					return _htmlText.ToString();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public string GetStatisticsCharts()
 		{
-			_htmlText.Length = 0;
+			lock (_htmlText)
+			{
+				string fallbackHtml = _htmlText.ToString();
+				try
+				{
+					_htmlText.Length = 0;
 
-			OpenHtml();
+					OpenHtml();
 
-			var text = LocalizationManager.GetString("ProgressView.HeadingText", "SayMore statistics for {0}", "Parameter is project name.");
-			WriteHtmlHead(string.Format(text, _statsViewModel.ProjectName));
+					var text = LocalizationManager.GetString("ProgressView.HeadingText", "SayMore statistics for {0}",
+						"Parameter is project name.");
+					WriteHtmlHead(string.Format(text, _statsViewModel.ProjectName));
 
-			OpenBody();
-			WriteOverviewSection();
-			WriteStageChart();
+					OpenBody();
+					WriteOverviewSection();
+					WriteStageChart();
 
-			var backColors = GetStatusSegmentColors();
-			var textColors = backColors.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
-			text = LocalizationManager.GetString("ProgressView.ByGenreHeadingText", "By Genre");
-			WriteChartByFieldPair(text, SessionFileType.kGenreFieldName, SessionFileType.kStatusFieldName, backColors, textColors);
+					var backColors = GetStatusSegmentColors();
+					var textColors = backColors.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
+					text = LocalizationManager.GetString("ProgressView.ByGenreHeadingText", "By Genre");
+					WriteChartByFieldPair(text, SessionFileType.kGenreFieldName, SessionFileType.kStatusFieldName, backColors,
+						textColors);
 
-			CloseBody();
-			CloseHtml();
+					CloseBody();
+					CloseHtml();
 
-			return _htmlText.ToString();
+					return _htmlText.ToString();
+				}
+				catch (ChartBarSegmentInfo.CollectionModifiedException e)
+				{
+					// SP-1020: It's possible that the Sessions collection has changed on another (probably UI) thread. Because
+					// of the number of layers involved and the overall poor design, it's virtually impossible to ensure that
+					// the sessions collection is properly locked to prevent this. But since a change in the number of sessions
+					// should cause a new update to the HTML anyway, we'll just return our previous value and let the next one
+					// try again.
+					Logger.WriteEvent("Exception in HTMLChartBuilder.GetStatisticsCharts:\r\n{0}", e.ToString());
+					DesktopAnalytics.Analytics.ReportException(e);
+					return fallbackHtml;
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void WriteStageChart()
+		private void WriteStageChart()
 		{
 			var sessionsByStage = _statsViewModel.SessionInformant.GetSessionsCategorizedByStage()
 				.Where(r => r.Key.Id != ComponentRole.kConsentComponentRoleId);
@@ -75,7 +99,7 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected IDictionary<string, Color> GetStatusSegmentColors()
+		private IDictionary<string, Color> GetStatusSegmentColors()
 		{
 			var statusColors = new Dictionary<string, Color>();
 
@@ -89,7 +113,7 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void WriteOverviewSection()
+		private void WriteOverviewSection()
 		{
 			var text = LocalizationManager.GetString("ProgressView.OverviewHeadingText", "Overview");
 			WriteHeading(text);
@@ -121,7 +145,7 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void WriteChartByFieldPair(string chartHeading, string primaryField,
+		private void WriteChartByFieldPair(string chartHeading, string primaryField,
 			string secondaryField, IDictionary<string, Color> colors, IDictionary<string, Color> textColors)
 		{
 			var outerList =
@@ -136,7 +160,7 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void WriteChartForList(string chartHeading,
+		private void WriteChartForList(string chartHeading,
 			IEnumerable<ChartBarInfo> barInfoList,
 			IDictionary<string, Color> legendColors, bool writeLegend)
 		{
@@ -159,7 +183,7 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void WriteChartEntry(ChartBarInfo barInfo)
+		private void WriteChartEntry(ChartBarInfo barInfo)
 		{
 			OpenTableRow();
 			WriteTableCell("rowheading", barInfo.FieldValue);
@@ -181,7 +205,7 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected string WriteBar(ChartBarInfo barInfo)
+		private string WriteBar(ChartBarInfo barInfo)
 		{
 			foreach (var seg in barInfo.Segments)
 			{
@@ -194,7 +218,7 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void WriteBarSegment(ChartBarSegmentInfo barSegInfo)
+		private void WriteBarSegment(ChartBarSegmentInfo barSegInfo)
 		{
 			// Only segments total time if it's size is 5% or more of the total width of the table.
 			var segmentText = (barSegInfo.SegmentSize >= 5 ?
@@ -205,7 +229,7 @@ namespace SayMore.UI.Charts
 				LocalizationManager.GetString("ProgressView.SummaryTotalsTextForSegment2", "{0}: {1} sessions totaling {2} minutes"));
 
 			var tooltipText = string.Format(fmt, barSegInfo.FieldValue,
-				barSegInfo.Sessions.Count(), barSegInfo.TotalTime);
+				barSegInfo.GetSessionCount(), barSegInfo.TotalTime);
 
 			WriteTableCell(null, barSegInfo.SegmentSize, barSegInfo.BackColor,
 				barSegInfo.TextColor, tooltipText, segmentText);
@@ -226,7 +250,7 @@ namespace SayMore.UI.Charts
 				foreach (var kvp in colors)
 				{
 					WriteTableCell("legendblock", 0, kvp.Value, null);
-					WriteTableCell("legendtext", Session.GetLocalizedStatus(kvp.Key));
+					WriteTableCell("legendtext", kvp.Key);
 				}
 
 				CloseTableRow();
@@ -250,19 +274,19 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void OpenHtml()
+		private void OpenHtml()
 		{
 			_htmlText.Append(XMLDocTypeInfo);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void CloseHtml()
+		private void CloseHtml()
 		{
 			_htmlText.Append("</html>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void WriteHtmlHead(string htmlDocTitle)
+		private void WriteHtmlHead(string htmlDocTitle)
 		{
 			_htmlText.AppendFormat(
 				"<head>" +
@@ -274,37 +298,40 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void OpenBody()
+		protected void OpenBody()
 		{
-			_htmlText.Append("<body>");
+			lock (_htmlText)
+			{
+				_htmlText.Append("<body>");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void CloseBody()
+		protected void CloseBody()
 		{
 			_htmlText.Append("</body>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void WriteHeading(string heading)
+		protected void WriteHeading(string heading)
 		{
 			_htmlText.AppendFormat("<h2>{0}</h2>", heading);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void OpenTable()
+		protected void OpenTable()
 		{
 			OpenTable(null, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void OpenTable(string className)
+		protected void OpenTable(string className)
 		{
 			OpenTable(className, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void OpenTable(string className, int width)
+		private void OpenTable(string className, int width)
 		{
 			_htmlText.Append("<table cellspacing=\"0\" cellpadding=\"0\"");
 
@@ -320,31 +347,31 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void CloseTable()
+		protected void CloseTable()
 		{
 			_htmlText.Append("</table>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void OpenTableHead()
+		protected void OpenTableHead()
 		{
 			_htmlText.Append("<thead>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void CloseTableHead()
+		protected void CloseTableHead()
 		{
 			_htmlText.Append("</thead>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void OpenTableRow()
+		protected void OpenTableRow()
 		{
 			_htmlText.Append("<tr>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void OpenTableRow(string className)
+		protected void OpenTableRow(string className)
 		{
 			_htmlText.Append("<tr");
 
@@ -356,57 +383,57 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void CloseTableRow()
+		protected void CloseTableRow()
 		{
 			_htmlText.Append("</tr>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void WriteTableRowHead(string content)
+		protected void WriteTableRowHead(string content)
 		{
 			content = (content ?? string.Empty);
 			_htmlText.AppendFormat("<th scope=\"row\">{0}</th>", content.Trim());
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void OpenTableBody()
+		protected void OpenTableBody()
 		{
 			_htmlText.Append("<tbody>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void CloseTableBody()
+		protected void CloseTableBody()
 		{
 			_htmlText.Append("</tbody>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void WriteTableCell(string content)
+		protected void WriteTableCell(string content)
 		{
 			WriteTableCell(null, 0, Color.Empty, content);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void WriteTableCell(string className, string content)
+		protected void WriteTableCell(string className, string content)
 		{
 			WriteTableCell(className, 0, Color.Empty, content);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void WriteTableCell(string className, int width, Color bkgndColor, string content)
+		protected void WriteTableCell(string className, int width, Color bkgndColor, string content)
 		{
 			WriteTableCell(className, width, bkgndColor, null, content);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void WriteTableCell(string className, int width, Color bkgndColor,
+		protected void WriteTableCell(string className, int width, Color bkgndColor,
 			string tooltip, string content)
 		{
 			WriteTableCell(className, width, bkgndColor, Color.Empty, tooltip, content);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void WriteTableCell(string className, int width, Color bkgndColor,
+		protected void WriteTableCell(string className, int width, Color bkgndColor,
 			Color textColor, string tooltip, string content)
 		{
 			content = (content ?? string.Empty);
@@ -416,31 +443,25 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void OpenTableCell()
-		{
-			OpenTableCell(null, 0, Color.Empty);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void OpenTableCell(string className)
+		protected void OpenTableCell(string className)
 		{
 			OpenTableCell(className, 0, Color.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void OpenTableCell(string className, int width, Color bkgndColor)
+		private void OpenTableCell(string className, int width, Color bkgndColor)
 		{
 			OpenTableCell(className, width, bkgndColor, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void OpenTableCell(string className, int width, Color bkgndColor, string tooltip)
+		private void OpenTableCell(string className, int width, Color bkgndColor, string tooltip)
 		{
 			OpenTableCell(className, width, bkgndColor, Color.Empty, tooltip);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void OpenTableCell(string className, int width, Color bkgndColor,
+		private void OpenTableCell(string className, int width, Color bkgndColor,
 			Color textColor, string tooltip)
 		{
 			className = (className ?? string.Empty);
@@ -480,11 +501,10 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void CloseTableCell()
+		protected void CloseTableCell()
 		{
 			_htmlText.Append("</td>");
 		}
-
 		#endregion
 	}
 }

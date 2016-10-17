@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Palaso.UI.WindowsForms;
+using SIL.Windows.Forms;
 using SayMore.Utilities;
 
 namespace SayMore.UI.LowLevelControls
@@ -44,6 +44,8 @@ namespace SayMore.UI.LowLevelControls
 			HeaderPanelBottomBorderColor = SystemColors.ControlDark;
 
 			InitializeComponent();
+
+			_headerLabel.MouseDown += (sender, args) => base.OnMouseDown(args);
 
 			if (DesignMode)
 				return;

@@ -23,9 +23,9 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 	  <MajorUpgrade   Schedule="afterInstallInitialize"
 	  DowngradeErrorMessage="A later version of SayMore is already installed. If you really want to downgrade, first uninstall SayMore, then do this install again."/>
 
-	<Upgrade Id ="$(var.Property_UpgradeCode)" >
-	  <UpgradeVersion Minimum ="$(var.Property_ProductVersion)" OnlyDetect ="yes" Property ="NEWVERSIONDETECTED" />
-	  <UpgradeVersion Minimum ="0.0.0" IncludeMinimum ="yes" Maximum ="$(var.Property_ProductVersion)" IncludeMaximum ="no" Property ="OLDERVERSIONBEINGUPGRADED" />
+	<Upgrade Id="$(var.Property_UpgradeCode)" >
+	  <UpgradeVersion Minimum="$(var.Property_ProductVersion)" OnlyDetect="yes" Property="NEWVERSIONDETECTED" />
+	  <UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="$(var.Property_ProductVersion)" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED" />
 	</Upgrade >
 
 	<!-- show the license page -->
@@ -49,16 +49,16 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	</Condition>
 
 	<!--because of bug, this needs to be 1 -->
-	<Property Id ="ALLUSERS">1</Property>
+	<Property Id="ALLUSERS">1</Property>
 
 	<Directory Id="TARGETDIR" Name="SourceDir">
 
 	  <Directory Id="CommonAppDataFolder">
 		<Directory Id="SILCommonAppData" Name="SIL">
-		  <Directory Id="SayMoreCommonAppData" Name="SayMore">
+		  <!--<Directory Id="SayMoreCommonAppData" Name="SayMore">
 			<Directory Id="SampleDataDir" Name="Samples">
 			</Directory>
-		  </Directory>
+		  </Directory>-->
 
 		  <Directory Id="SILArchivingAppData" Name="Archiving">
 			<Directory Id="SILArchivingIMDIAppData" Name="IMDI">
@@ -109,10 +109,10 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 
 	  <Directory Id='ProgramMenuFolder' Name='Programs'>
 		<Directory Id='SayMoreShortcutDir' Name='SayMore'>
-		  <Component Id ='removeShortcutDir' Guid ="{88000306-EB15-4458-8264-97C1F888AD1F}">
-			<RemoveFolder Id ="shortcutDirRemover" On ="uninstall"/>
-			<RegistryKey Id="keyPathForRemoveShortcutDir" Action ="createAndRemoveOnUninstall" Root="HKCU" Key="SOFTWARE\SayMore\Components\SayMoreShortcutDir">
-			  <RegistryValue Type ="string" Value =""  Action ="write" KeyPath ="yes"/>
+		  <Component Id='removeShortcutDir' Guid="{88000306-EB15-4458-8264-97C1F888AD1F}">
+			<RemoveFolder Id="shortcutDirRemover" On="uninstall"/>
+			<RegistryKey Id="keyPathForRemoveShortcutDir" Action="createAndRemoveOnUninstall" Root="HKCU" Key="SOFTWARE\SayMore\Components\SayMoreShortcutDir">
+			  <RegistryValue Type="string" Value=""  Action="write" KeyPath="yes"/>
 			</RegistryKey>
 		  </Component>
 
@@ -124,7 +124,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 
 		  <Component Id="SayMore.exe" Guid="{73493982-C68A-4f01-93BC-5F92B380CF89}">
 			<Registry Root="HKCU" Key="SOFTWARE\SayMore\Components\SayMore.exe" KeyPath="yes" />
-
 			<File Id="SayMore.exe" Name="SayMore.exe"  Source="..\..\output\release\SayMore.exe" />
 			<!--- todo: icons for saymore files -->
 
@@ -132,15 +131,15 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 
 			<!--- todo:
 					  any connections between file types and saymore
-					<RemoveRegistryKey Action ='removeOnUninstall' Root ='HKCR' Key ='.lift'/>
-					<RemoveRegistryKey Action ='removeOnUninstall' Root ='HKCR' Key ='SayMore.LIFTFile'/>
+					<RemoveRegistryKey Action='removeOnUninstall' Root='HKCR' Key='.lift'/>
+					<RemoveRegistryKey Action='removeOnUninstall' Root='HKCR' Key='SayMore.LIFTFile'/>
 -->
 
 			<!-- another way:                 <Registry Id='LuaReg8' Root='HKCR' Key='VisualStudio.luaproj.8.0\Shell\Open\Command' Action='write'
 					 Type='string' Value='"[ENVPATH_2005]" "%1"'/> -->
 
 			<Shortcut Id="startmenuShortcut"  Directory="SayMoreShortcutDir" Name="SayMore"
-				 WorkingDirectory="ProgramDir" Target="[!SayMore.exe]"  Icon ="SayMore.exe" />
+				 WorkingDirectory="ProgramDir" Target="[!SayMore.exe]"  Icon="SayMore.exe" />
 
 			<ProgId Id="SayMore.sprjfile" Description="SayMore project file">
 			  <Extension Id="sprj" ContentType="application/sprj">
@@ -149,65 +148,158 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			</ProgId>
 		  </Component>
 
+		  <Component Id="SayMore.exe.config" Guid="{ED9F146C-E16F-4487-976B-7592203DB1B0}">
+			<File Id="SayMore.exe.config" Name="SayMore.exe.config" KeyPath="no" Source="..\..\output\release\SayMore.exe.config" />
+		  </Component>
+
+		  <Component Id="SayMore.pdb" Guid="{B9DCC992-6EF4-4528-A10A-F0B9BF13FF34}">
+			<File Id="SayMore.pdb" Name="SayMore.pdb" KeyPath="yes" Source="..\..\output\release\SayMore.pdb" />
+		  </Component>
+
+		  <Component Id="SIL.Core.dll" Guid="{12EDC44D-4D29-4719-A826-CA629E5DA42E}">
+			<File Id="SIL.Core.dll" Name="SIL.Core.dll" KeyPath="yes" Source="..\..\output\release\SIL.Core.dll" />
+		  </Component>
+
+		  <Component Id="SIL.Core.pdb" Guid="{D70B068F-F087-4626-A1BD-2B5A1BFA528D}">
+			<File Id="SIL.Core.pdb" Name="SIL.Core.pdb" KeyPath="yes" Source="..\..\output\release\SIL.Core.pdb" />
+		  </Component>
+
+		  <Component Id="SIL.Archiving.dll" Guid="{FC6955FD-A9BC-4317-8E82-402182F781F6}">
+			<File Id="SIL.Archiving.dll" Name="SIL.Archiving.dll" KeyPath="yes" Source="..\..\output\release\SIL.Archiving.dll" />
+		  </Component>
+
+		  <Component Id="SIL.Archiving.pdb" Guid="{B3EF3C9C-622A-4484-9EDC-B71D12C954CE}">
+			<File Id="SIL.Archiving.pdb" Name="SIL.Archiving.pdb" KeyPath="yes" Source="..\..\output\release\SIL.Archiving.pdb" />
+		  </Component>
+
+		  <Component Id="SIL.Windows.Forms.dll" Guid="{11BF5D98-4FD3-4F6B-B17B-083B7351BDD0}">
+			<File Id="SIL.Windows.Forms.dll" Name="SIL.Windows.Forms.dll" KeyPath="yes" Source="..\..\output\release\SIL.Windows.Forms.dll" />
+		  </Component>
+
+		  <Component Id="SIL.Windows.Forms.pdb" Guid="{5BCCFC24-75AA-4F32-97D2-8F929D74F4EB}">
+			<File Id="SIL.Windows.Forms.pdb" Name="SIL.Windows.Forms.pdb" KeyPath="yes" Source="..\..\output\release\SIL.Windows.Forms.pdb" />
+		  </Component>
+
+		  <Component Id="SIL.Windows.Forms.WritingSystems.dll" Guid="{BBAD7C1A-06BF-4306-8001-DAD0A8C4EF59}">
+			<File Id="SIL.Windows.Forms.WritingSystems.dll" Name="SIL.Windows.Forms.WritingSystems.dll" KeyPath="yes" Source="..\..\output\release\SIL.Windows.Forms.WritingSystems.dll" />
+		  </Component>
+
+		  <Component Id="SIL.Windows.Forms.WritingSystems.pdb" Guid="{130158FD-7EDE-4B1F-BDEC-1D4FEF8AC714}">
+			<File Id="SIL.Windows.Forms.WritingSystems.pdb" Name="SIL.Windows.Forms.WritingSystems.pdb" KeyPath="yes" Source="..\..\output\release\SIL.Windows.Forms.WritingSystems.pdb" />
+		  </Component>
+
+		  <Component Id="SIL.Media.dll" Guid="{24293684-98EC-4D21-A6D1-C87D3E928079}">
+			<File Id="SIL.Media.dll" Name="SIL.Media.dll" KeyPath="yes" Source="..\..\output\release\SIL.Media.dll" />
+		  </Component>
+
+		  <Component Id="SIL.Media.pdb" Guid="{E2CDFE42-994B-428A-8C04-434D9D9B419A}">
+			<File Id="SIL.Media.pdb" Name="SIL.Media.pdb" KeyPath="yes" Source="..\..\output\release\SIL.Media.pdb" />
+		  </Component>
+
+		  <Component Id="SIL.WritingSystems.dll" Guid="{F8F4F43F-D329-448A-9269-773F8E1E9519}">
+			<File Id="SIL.WritingSystems.dll" Name="SIL.WritingSystems.dll" KeyPath="yes" Source="..\..\output\release\SIL.WritingSystems.dll" />
+		  </Component>
+
+		  <Component Id="SIL.WritingSystems.pdb" Guid="{D90D106F-6705-410A-83CC-617CFDB03F47}">
+			<File Id="SIL.WritingSystems.pdb" Name="SIL.WritingSystems.pdb" KeyPath="yes" Source="..\..\output\release\SIL.WritingSystems.pdb" />
+		  </Component>
+
+		  <Component Id="DesktopAnalytics.dll" Guid="{05CAD372-4D95-48E9-8557-F9EAA9B1F729}">
+			<File Id="DesktopAnalytics.dll" Name="DesktopAnalytics.dll" KeyPath="yes" Source="..\..\output\release\DesktopAnalytics.dll" />
+		  </Component>
+
+		  <Component Id="Analytics.NET.dll" Guid="{AAE1DDDF-4A33-4BC0-ACE9-F09B13A89CAE}">
+			<File Id="Analytics.NET.dll" Name="Analytics.NET.dll" KeyPath="yes" Source="..\..\output\release\Analytics.NET.dll" />
+		  </Component>
+
+		  <Component Id="Newtonsoft.Json.dll" Guid="{F6A4D568-9E51-4FF0-9F5E-EEC1C15D6068}">
+			<File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" KeyPath="yes" Source="..\..\output\release\Newtonsoft.Json.dll" />
+		  </Component>
+
+		  <Component Id="L10NSharp.dll" Guid="{112CE0A5-3B37-488E-95C0-21F5E9609211}">
+			<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="yes" Source="..\..\output\release\L10NSharp.dll" />
+		  </Component>
+
+		  <Component Id="L10NSharp.pdb" Guid="{B4D8681E-B2C8-4FD7-8832-DF717F74F9C4}">
+			<File Id="L10NSharp.pdb" Name="L10NSharp.pdb" KeyPath="yes" Source="..\..\output\release\L10NSharp.pdb" />
+		  </Component>
+
 		  <Component Id="autofac.dll" Guid="{BB025B7C-B3CA-435e-9A4B-192373EE12DB}">
 			<File Id="autofac.dll" Name="autofac.dll" KeyPath="yes" Source="..\..\output\release\autofac.dll" />
 		  </Component>
+
 		  <Component Id="NAudio.dll" Guid="{BB025B7C-B3CA-435e-9A4B-192373EE12AA}">
 			<File Id="NAudio.dll" Name="NAudio.dll" KeyPath="yes" Source="..\..\output\release\NAudio.dll" />
 		  </Component>
+
 		  <Component Id="Ionic.Zip.dll" Guid="{7F9026D4-188B-4C67-87E9-777FEE4A3E16}">
 			<File Id="Ionic.Zip.dll" Name="Ionic.Zip.dll" KeyPath="yes" Source="..\..\output\release\Ionic.Zip.dll" />
 		  </Component>
-		  <Component Id="L10NSharp.dll" Guid="{92419CBC-BA15-4dfd-B57E-399BEC7FE926}">
-			<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="yes" Source="..\..\output\release\L10NSharp.dll" />
-		  </Component>
-		  <Component Id="Palaso.dll" Guid="{C46C492A-304B-47b8-A13A-7CE4896B5634}">
-			<File Id="Palaso.dll" Name="Palaso.dll" KeyPath="yes" Source="..\..\output\release\Palaso.dll" />
-		  </Component>
-		  <Component Id="SIL.Archiving.dll" Guid="{B8A59AC6-8B9E-4117-8330-D48A24DAFD13}">
-			<File Id="SIL.Archiving.dll" Name="SIL.Archiving.dll" KeyPath="yes" Source="..\..\output\release\SIL.Archiving.dll" />
-		  </Component>
-		  <Component Id="PalasoUIWindowsForms.dll" Guid="{47046B6E-668C-4a4d-A866-719922C142B5}">
-			<File Id="PalasoUIWindowsForms.dll" Name="PalasoUIWindowsForms.dll" KeyPath="yes" Source="..\..\output\release\PalasoUIWindowsForms.dll" />
-		  </Component>
-		  <Component Id="Palaso.Media.dll" Guid="{742F2F76-3978-4d83-BC98-C7585B6F69D8}">
-			<File Id="Palaso.Media.dll" Name="Palaso.Media.dll" KeyPath="yes" Source="..\..\output\release\Palaso.Media.dll" />
-		  </Component>
-		  <Component Id="SayMore.exe.config" Guid="{ECCD0940-AC00-4f18-91DD-5223878373BB}">
-			 <File Id="SayMore.exe.config" Name="SayMore.exe.config" KeyPath="yes" Source="..\..\output\release\SayMore.exe.config" />
-		  </Component>
+
 		  <Component Id="MediaInfo.dll" Guid="B87CF78F-0226-4F5B-B7DC-C13899E934E5">
 			<File Id="MediaInfo.dll" Name="MediaInfo.dll" KeyPath="yes" Source="..\..\lib\MediaInfo.dll" />
+		  </Component>
+
+		  <Component Id="icu.net.dll" Guid="{29D1CCBC-5212-47A0-AC02-01CE5F92CCBB}">
+			<File Id="icu.net.dll" Name="icu.net.dll" KeyPath="yes" Source="..\..\output\release\icu.net.dll" />
+		  </Component>
+
+		  <Component Id="icudt54.dll" Guid="{01542986-7EAD-4828-B89D-E26584FE61AD}">
+			<File Id="icudt54.dll" Name="icudt54.dll" KeyPath="yes" Source="..\..\output\release\icudt54.dll" />
+		  </Component>
+
+		  <Component Id="icuin54.dll" Guid="{6696A708-44C1-420C-B950-1856411C8BD5}">
+			<File Id="icuin54.dll" Name="icuin54.dll" KeyPath="yes" Source="..\..\output\release\icuin54.dll" />
+		  </Component>
+
+		  <Component Id="icuuc54.dll" Guid="{DAD81B91-A1CF-4E47-B612-BAF9024372CC}">
+			<File Id="icuuc54.dll" Name="icuuc54.dll" KeyPath="yes" Source="..\..\output\release\icuuc54.dll" />
+		  </Component>
+
+		  <Component Id="MarkdownDeep.dll" Guid="{ed7e13b3-7a16-4af9-8d5b-ea7f7cb9bf03}">
+			<File Id="MarkdownDeep.dll" Name="MarkdownDeep.dll" KeyPath="yes" Source="..\..\output\release\MarkdownDeep.dll" />
 		  </Component>
 		</Directory>
 	  </Directory>
 	</Directory>
 
-
 	<Feature Id="ProductFeature" Level="1" Title="Basic Stuff">
-	  <ComponentRef Id ="removeShortcutDir"/>
-
+	  <ComponentRef Id="removeShortcutDir"/>
+	  <ComponentRef Id="SayMore.exe" />
+	  <ComponentRef Id="SayMore.exe.config"/>
+	  <ComponentRef Id="SayMore.pdb"/>
+	  <ComponentRef Id="SIL.Core.dll"/>
+	  <ComponentRef Id="SIL.Core.pdb"/>
+	  <ComponentRef Id="SIL.Archiving.dll"/>
+	  <ComponentRef Id="SIL.Archiving.pdb"/>
+	  <ComponentRef Id="SIL.Windows.Forms.dll"/>
+	  <ComponentRef Id="SIL.Windows.Forms.pdb"/>
+	  <ComponentRef Id="SIL.Media.dll"/>
+	  <ComponentRef Id="SIL.Media.pdb"/>
+	  <ComponentRef Id="SIL.WritingSystems.dll"/>
+	  <ComponentRef Id="SIL.WritingSystems.pdb"/>
+	  <ComponentRef Id="SIL.Windows.Forms.WritingSystems.dll"/>
+	  <ComponentRef Id="SIL.Windows.Forms.WritingSystems.pdb"/>
+	  <ComponentRef Id="DesktopAnalytics.dll"/>
+	  <ComponentRef Id="Analytics.NET.dll"/>
+	  <ComponentRef Id="Newtonsoft.Json.dll"/>
+	  <ComponentRef Id="L10NSharp.dll"/>
+	  <ComponentRef Id="L10NSharp.pdb"/>
 	  <ComponentRef Id="autofac.dll"/>
 	  <ComponentRef Id="NAudio.dll"/>
 	  <ComponentRef Id="Ionic.Zip.dll"/>
-	  <ComponentRef Id="L10NSharp.dll"/>
-	  <ComponentRef Id="Palaso.dll"/>
-	  <ComponentRef Id="PalasoUIWindowsForms.dll" />
-	  <ComponentRef Id="Palaso.Media.dll" />
-	  <ComponentRef Id="SIL.Archiving.dll" />
 	  <ComponentRef Id="MediaInfo.dll" />
-	  <ComponentRef Id="SayMore.exe" />
-	  <ComponentRef Id="SayMore.exe.config" />
 	  <ComponentRef Id="IMDILists" />
-
-
-
-	  <ComponentGroupRef Id ="DistFiles"/>
-	  <ComponentGroupRef Id ="SampleData"/>
-
+	  <ComponentRef Id="icu.net.dll"/>
+	  <ComponentRef Id="icudt54.dll"/>
+	  <ComponentRef Id="icuin54.dll"/>
+	  <ComponentRef Id="icuuc54.dll"/>
+		<ComponentRef Id="MarkdownDeep.dll"/>
+		<ComponentGroupRef Id="DistFiles"/>
 	</Feature>
+
 	<Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
-	<Icon Id="SayMore.exe" SourceFile ="..\..\output\release\SayMore.exe" />
+	<Icon Id="SayMore.exe" SourceFile="..\..\output\release\SayMore.exe" />
 	<Property Id="ARPPRODUCTICON" Value="SayMore.exe" />
 
 	<!-- what you see in add/remove programs control panel -->
@@ -217,6 +309,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	<CustomAction Id="LaunchSayMore"
 				  FileKey="SayMore.exe"
 				  ExeCommand=""
+				  Impersonate="no"
 				  Return="asyncNoWait"/>
 
 	<InstallExecuteSequence>

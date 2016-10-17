@@ -1,15 +1,17 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Linq;
+using DesktopAnalytics;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.Media.Naudio;
-using Palaso.Media.Naudio.UI;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.Media.Naudio;
+using SIL.Media.Naudio.UI;
+using SIL.Reporting;
+using SIL.Windows.Forms;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Media.MPlayer;
 using SayMore.Properties;
@@ -48,7 +50,7 @@ namespace SayMore.Transcription.UI
 		private TimeSpan _elapsedRecordingTime;
 		private TimeSpan _annotationPlaybackLength;
 		private TimeSpan _lastAnnotationPlaybackPosition;
-		private Segment _segmentWhoseAnnotationIsBeingPlayedBack;
+		private AnnotationSegment _segmentWhoseAnnotationIsBeingPlayedBack;
 		private Font _annotationSegmentFont;
 		private TimeRange _segmentBeingRecorded;
 		private bool _listeningOrRecordingUsingSpaceBar;
@@ -86,6 +88,49 @@ namespace SayMore.Transcription.UI
 		protected OralAnnotationRecorderBaseDlg(OralAnnotationRecorderDlgViewModel viewModel)
 			: base(viewModel)
 		{
+			int listenToOriginalRecordingDownWidth = -1, listenToOriginalRecording = -1,
+				recordingOralAnnotationInProgressWidth = -1, recordOralAnnotationWidth = -1,
+				green_checkWidth = -1, information_redWidth = -1, information_blueWidth = -1;
+
+			try
+			{
+				// SP-950: Check for corrupt resources, out of memory, or ???
+				listenToOriginalRecordingDownWidth = ResourceImageCache.ListenToOriginalRecordingDown.Width;
+				listenToOriginalRecording = ResourceImageCache.ListenToOriginalRecording.Width;
+				recordingOralAnnotationInProgressWidth = ResourceImageCache.RecordingOralAnnotationInProgress.Width;
+				recordOralAnnotationWidth = ResourceImageCache.RecordOralAnnotation.Width;
+				green_checkWidth = ResourceImageCache.Green_check.Width;
+				information_redWidth = ResourceImageCache.Information_red.Width;
+				information_blueWidth = ResourceImageCache.Information_blue.Width;
+				Logger.WriteEvent(string.Format("SP-950 Debug Info: listenToOriginalRecordingDownWidth = {0}; listenToOriginalRecording = {1}; " +
+					"recordingOralAnnotationInProgressWidth = {2}; recordOralAnnotationWidth = {3}; green_checkWidth = {4}; " +
+					"information_redWidth = {5}; information_blueWidth = {6};",
+					listenToOriginalRecordingDownWidth, listenToOriginalRecording, recordingOralAnnotationInProgressWidth, recordOralAnnotationWidth,
+					green_checkWidth, information_redWidth, information_blueWidth));
+				Analytics.Track(string.Format("OARBD: {0}; {1}; {2}; {3}; {4}; {5}; {6};",
+					listenToOriginalRecordingDownWidth, listenToOriginalRecording, recordingOralAnnotationInProgressWidth, recordOralAnnotationWidth,
+					green_checkWidth, information_redWidth, information_blueWidth));
+			}
+			catch (Exception e)
+			{
+				ErrorReport.ReportNonFatalExceptionWithMessage(e,
+					"Problem with Image from resources. Please report this information to help us fix a difficult bug! SP-950 Debug info: " +
+					"listenToOriginalRecordingDownWidth = {0}; " +
+					"listenToOriginalRecording = {1}; " +
+					"recordingOralAnnotationInProgressWidth = {2}; " +
+					"recordOralAnnotationWidth = {3}; " +
+					"green_checkWidth = {4}; " +
+					"information_redWidth = {5}; " +
+					"information_blueWidth = {6}",
+					listenToOriginalRecordingDownWidth,
+					listenToOriginalRecording,
+					recordingOralAnnotationInProgressWidth,
+					recordOralAnnotationWidth,
+					green_checkWidth,
+					information_redWidth,
+					information_blueWidth);
+			}
+
 			AudioUtils.NAudioExceptionThrown += HandleNAudioExceptionThrown;
 
 			InitializeComponent();
@@ -326,7 +371,7 @@ namespace SayMore.Transcription.UI
 
 			_normalPlaySourceButton = _labelListenButton.Image;
 			_normalRecordAnnotationButton = _labelRecordButton.Image;
-			_normalRerecordAnnotationButton = Resources.RerecordOralAnnotation;
+			_normalRerecordAnnotationButton = ResourceImageCache.RerecordOralAnnotation;
 			_hotPlaySourceButton = PaintingHelper.MakeHotImage(_normalPlaySourceButton);
 			_hotRecordAnnotationButton = PaintingHelper.MakeHotImage(_normalRecordAnnotationButton);
 			_hotRerecordAnnotationButton = PaintingHelper.MakeHotImage(_normalRerecordAnnotationButton);
@@ -403,7 +448,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override WaveControlBasic CreateWaveControl()
+		protected override WaveControlWithMovableBoundaries CreateWaveControl()
 		{
 			_waveControl = new WaveControlWithRangeSelection();
 			_waveControl.BottomReservedAreaBorderColor = Settings.Default.DataEntryPanelColorBorder;
@@ -527,28 +572,33 @@ namespace SayMore.Transcription.UI
 		{
 			_recDeviceIndicator.UpdateDisplay();
 
-			_labelListenButton.Image = (_waveControl.IsPlaying && _playingBackUsingHoldDownButton ?
-				Resources.ListenToOriginalRecordingDown : Resources.ListenToOriginalRecording);
+			if (_waveControl.IsPlaying && _playingBackUsingHoldDownButton)
+				SetLabelImage(_labelListenButton, ResourceImageCache.ListenToOriginalRecordingDown, "ListenToOriginalRecordingDown");
+			else
+				SetLabelImage(_labelListenButton, ResourceImageCache.ListenToOriginalRecording, "ListenToOriginalRecording");
 
-			_labelRecordButton.Image = (ViewModel.GetIsRecording() ?
-				Resources.RecordingOralAnnotationInProgress : Resources.RecordOralAnnotation);
+			if (ViewModel.GetIsRecording())
+				SetLabelImage(_labelRecordButton, ResourceImageCache.RecordingOralAnnotationInProgress, "RecordingOralAnnotationInProgress");
+			else
+				SetLabelImage(_labelRecordButton, ResourceImageCache.RecordOralAnnotation, "RecordOralAnnotation");
 
 			_labelListenButton.Enabled = !ViewModel.GetIsRecording() &&
-				(ViewModel.CurrentUnannotatedSegment != null || !ViewModel.GetIsFullyAnnotated());
+										(ViewModel.CurrentUnannotatedSegment != null || !ViewModel.GetIsFullyAnnotated());
 
 			_labelRecordButton.Enabled = (ViewModel.GetSelectedSegmentIsLongEnough() &&
-				_userHasListenedToSelectedSegment &&
-				AudioUtils.GetCanRecordAudio(true) &&
-				!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying());
+										_userHasListenedToSelectedSegment &&
+										AudioUtils.GetCanRecordAudio(true) &&
+										!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying());
 
 			_labelListenHint.Visible = _spaceBarMode == SpaceBarMode.Listen && _labelListenButton.Enabled;
-			_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record && _labelRecordButton.Enabled && !_reRecording && _recordingErrorMessage == null;
+			_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record && _labelRecordButton.Enabled && !_reRecording &&
+										_recordingErrorMessage == null;
 
 			if (_spaceBarMode == SpaceBarMode.Done && _recordingErrorMessage == null)
 			{
 				if (!_labelFinishedHint.Visible)
 				{
-					_pictureIcon.Image = Resources.Green_check;
+					SetLabelImage(_pictureIcon, ResourceImageCache.Green_check, "Green_check");
 					_labelFinishedHint.Visible = true;
 					_tableLayoutButtons.Controls.Add(_labelFinishedHint, 1, 0);
 					_tableLayoutButtons.SetRowSpan(_labelFinishedHint, 3);
@@ -561,7 +611,7 @@ namespace SayMore.Transcription.UI
 
 				if (_labelErrorInfo.Visible)
 				{
-					_pictureIcon.Image = Resources.Information_red;
+					SetLabelImage(_pictureIcon, ResourceImageCache.Information_red, "Information_red");
 					if (_labelFinishedHint.Visible)
 					{
 						_labelFinishedHint.Visible = false;
@@ -571,7 +621,7 @@ namespace SayMore.Transcription.UI
 				}
 				else
 				{
-					_pictureIcon.Image = Resources.Information_blue;
+					SetLabelImage(_pictureIcon, ResourceImageCache.Information_blue, "Information_blue");
 				}
 
 				float percentage = (_labelErrorInfo.Visible) ? 50 : 100;
@@ -579,7 +629,34 @@ namespace SayMore.Transcription.UI
 				_tableLayoutButtons.RowStyles[1].Height = (_labelListenHint.Visible) ? percentage : 0;
 				_tableLayoutButtons.RowStyles[2].Height = (_labelRecordHint.Visible) ? percentage : 0;
 			}
+
 			base.UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This is an attempt to track down SP-950
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetLabelImage(Control control, Bitmap image, string name)
+		{
+			try
+			{
+				Label label = control as Label;
+				if (label != null)
+					label.Image = image;
+				else
+				{
+					((PictureBox) control).Image = image;
+				}
+			}
+			catch (Exception e)
+			{
+				Analytics.Track("SetImageLabelError", new Dictionary<string, string> { { "name", name } });
+				ErrorReport.ReportNonFatalExceptionWithMessage(e,
+					"Problem setting Image from resources: Control: {0}; Image: {1}", control.Name, name);
+				Analytics.ReportException(e);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -618,6 +695,7 @@ namespace SayMore.Transcription.UI
 				return;
 
 			_labelSegmentNumber.Visible = false;
+			_tableLayoutZoom.Visible = false;
 			_labelSegmentXofY.Visible = true;
 			_labelSegmentXofY.Text = string.Format(_segmentXofYFormat,
 				ViewModel.TimeTier.GetIndexOfSegment(currentSegment) + 1, _viewModel.GetSegmentCount());
@@ -742,13 +820,21 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnPlaybackStopped(ctrl, start, end);
 
-			if (!ViewModel.GetSelectedTimeRange().Contains(end))
+			var selectedTimeRange = ViewModel.GetSelectedTimeRange();
+			if (!selectedTimeRange.Contains(end, true))
 			{
-				if (HotSegment != null)
-					_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
-				else if (ViewModel.GetHasNewSegment())
+				if (ViewModel.GetHasNewSegment())
 					_waveControl.SetCursor(end);
+				else if (_startTimeOfSegmentWhoseEndIsMoving < TimeSpan.Zero)
+				{
+					// If this isn't the end of playback for a moving segment, then we set
+					// the cursor back to the start of the selected time
+					// range in hopes of keeping the user on track with the task of recording.
+					_waveControl.SetCursor(selectedTimeRange.Start);
+				}
 			}
+
+			_startTimeOfSegmentWhoseEndIsMoving = TimeSpan.FromSeconds(1).Negate();
 
 			if (end > ViewModel.GetEndOfLastSegment())
 			{
@@ -762,7 +848,7 @@ namespace SayMore.Transcription.UI
 			}
 
 			if (end == ViewModel.GetSelectedTimeRange().End &&
-				(ViewModel.CurrentUnannotatedSegment != null/* || ViewModel.GetSelectedSegmentIsLongEnough()*/))
+				(ViewModel.CurrentUnannotatedSegment != null))
 			{
 				InvalidateBottomReservedRectangleForCurrentUnannotatedSegment();
 				_userHasListenedToSelectedSegment = true;
@@ -875,6 +961,12 @@ namespace SayMore.Transcription.UI
 			if (!playSource && !playAnnotation)
 				return;
 
+			// Normally playing gets stopped by mouse down, but if the mouse down happens
+			// and then playing starts (e.g., by pressing 'b') before the mouse comes up,
+			// we just ignore this.
+			if (_waveControl.IsPlaying)
+				return;
+
 			var segMouseOver = _waveControl.GetSegmentForX(e.X);
 
 			StopAnnotationPlayBackIfNeeded();
@@ -889,11 +981,9 @@ namespace SayMore.Transcription.UI
 
 				_segmentWhoseAnnotationIsBeingPlayedBack = segment;
 
-				var path = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
-				_annotationPlaybackLength = ViewModel.SegmentsAnnotationSamplesToDraw.First(
-					h => h.AudioFilePath == path).AudioDuration;
-
 				KillRecordingErrorMessage();
+
+				_annotationPlaybackLength = ViewModel.GetAnnotationFileAudioDuration(segment);
 
 				ViewModel.StartAnnotationPlayback(segment, HandleAnnotationPlaybackProgress, () =>
 				{
@@ -918,7 +1008,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void PlaySource(Segment segment)
+		protected override void PlaySource(AnnotationSegment segment)
 		{
 			ViewModel.PlaySource(_waveControl, ctrl =>
 				{
@@ -933,7 +1023,7 @@ namespace SayMore.Transcription.UI
 		private void HandleVideoHelpButtonClick(object sender, EventArgs e)
 		{
 			MessageBox.Show("Sorry, we don't actually have a video for this yet. Contributions welcome!");
-			UsageReporter.SendNavigationNotice("Video Help requested in " + ViewModel.AnnotationType + " dialog box.");
+			Analytics.Track("Video Help requested in " + ViewModel.AnnotationType + " dialog box.");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -971,7 +1061,7 @@ namespace SayMore.Transcription.UI
 			_spaceBarMode = ViewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
 			if (_labelFinishedHint.Visible && _spaceBarMode != SpaceBarMode.Done)
 			{
-				_pictureIcon.Image = Resources.Information_blue;
+				_pictureIcon.Image = ResourceImageCache.Information_blue;
 				_labelFinishedHint.Visible = false;
 				_tableLayoutButtons.Controls.Remove(_labelFinishedHint);
 				AcceptButton = null;
@@ -981,7 +1071,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private Rectangle GetBottomReservedRectangleForSegment(Segment segment)
+		private Rectangle GetBottomReservedRectangleForSegment(AnnotationSegment segment)
 		{
 			return _waveControl.Painter.GetBottomReservedRectangleForTimeRange(segment.TimeRange);
 		}
@@ -1183,7 +1273,8 @@ namespace SayMore.Transcription.UI
 		private int GetAnnotationPlaybackCursorX(TimeSpan playbackPosition)
 		{
 			var rc = GetAnnotationPlaybackRectangle();
-			var pixelPerMillisecond = rc.Width / _annotationPlaybackLength.TotalMilliseconds;
+			var pixelPerMillisecond = _annotationPlaybackLength.TotalMilliseconds.Equals(0) ? 0 :
+				rc.Width / _annotationPlaybackLength.TotalMilliseconds;
 
 			return rc.X + (int)(Math.Ceiling(playbackPosition.TotalMilliseconds * pixelPerMillisecond));
 		}
@@ -1222,7 +1313,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void DrawOralAnnotationWave(PaintEventArgs e, Rectangle rc, Segment segment)
+		private void DrawOralAnnotationWave(PaintEventArgs e, Rectangle rc, AnnotationSegment segment)
 		{
 			// The reason we wrap this in a try/catch block is because in some rare cases
 			// when an audio error occurs (e.g. unplugging the mic. while recording) we'll
@@ -1463,7 +1554,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetDoesSegmentHaveAnnotationFile(Segment segment)
+		public bool GetDoesSegmentHaveAnnotationFile(AnnotationSegment segment)
 		{
 			return ViewModel.GetDoesSegmentHaveAnnotationFile(segment);
 		}
@@ -1587,6 +1678,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRecordAnnotationMouseDown(object sender, MouseEventArgs e)
 		{
+			ScrollInPreparationForListenOrRecord(_labelRecordButton);
+
 			// SP-703: Presumably some sort of NAudio error got the Recorder to be set to null
 			// but the exact timing somehow still allowed us to get here. If we upgrade to
 			// NAudio 1.6 or later, we probably won't need this check.

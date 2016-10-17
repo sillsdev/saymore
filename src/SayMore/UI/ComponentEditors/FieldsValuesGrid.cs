@@ -1,13 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
-using Palaso.UI.WindowsForms;
+using SIL.Windows.Forms;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -18,11 +20,14 @@ namespace SayMore.UI.ComponentEditors
 		private readonly Font _factoryFieldFont;
 		private readonly Color _focusedSelectionBackColor;
 		private bool _adjustHeightToFitRows = true;
-		private readonly L10NSharpExtender _locExtender;
+		protected readonly L10NSharpExtender _locExtender;
 
 		/// ------------------------------------------------------------------------------------
-		public FieldsValuesGrid(FieldsValuesGridViewModel model)
+		public FieldsValuesGrid(FieldsValuesGridViewModel model, string name)
 		{
+			Name = name;
+
+			// ReSharper disable once UseObjectOrCollectionInitializer
 			_locExtender = new L10NSharpExtender();
 			_locExtender.LocalizationManagerId = "SayMore";
 			_locExtender.SetLocalizingId(this, "FieldsAndValuesGrid");
@@ -30,7 +35,7 @@ namespace SayMore.UI.ComponentEditors
 			VirtualMode = true;
 			Font = Program.DialogFont;
 			_factoryFieldFont = new Font(Font, FontStyle.Bold);
-			AllowUserToAddRows = true;
+
 			AllowUserToDeleteRows = true;
 			MultiSelect = false;
 			Margin = new Padding(0, Margin.Top, 0, Margin.Bottom);
@@ -46,8 +51,10 @@ namespace SayMore.UI.ComponentEditors
 
 			AddColumns();
 
-			// Add one for new row.
-			RowCount = _model.RowData.Count + 1;
+			RowCount = _model.RowData.Count;
+
+			// setting AllowUserToAddRows=True will add a blank line
+			AllowUserToAddRows = _model.AllowUserToAddRows;
 
 			AutoResizeRows();
 
@@ -58,6 +65,12 @@ namespace SayMore.UI.ComponentEditors
 			{
 				((GridSettings)Settings.Default[_model.GridSettingsName]).InitializeGrid(this);
 			}
+		}
+
+		public override sealed Font Font
+		{
+			get { return base.Font; }
+			set { base.Font = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -84,7 +97,6 @@ namespace SayMore.UI.ComponentEditors
 
 			SetSelectionColors(true);
 			CurrentCell = (_model.GetIdForIndex(0) == null ? this[0, 0] : this[1, 0]);
-
 			// This prevents the grid from stealing focus at startup when it shouldn't.
 			// The problem arises in the following way: The OnCellFormatting gets called,
 			// even when the grid does not have focus. In the CellFormatting event, cells
@@ -94,6 +106,7 @@ namespace SayMore.UI.ComponentEditors
 			// if the grid does not have focus, it thinks it should, because the editor
 			// just got shown. Therefore, the grid will steal the focus from another
 			// control at startup.
+			// ReSharper disable once RedundantCheckBeforeAssignment
 			if (EditMode != DataGridViewEditMode.EditOnEnter)
 				EditMode = DataGridViewEditMode.EditOnEnter;
 		}
@@ -110,7 +123,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			var saveAdjustHeightToFitRows = _adjustHeightToFitRows;
 			_adjustHeightToFitRows = false;
-			RowCount = _model.RowData.Count + 1;
+			RowCount = _model.RowData.Count + (AllowUserToAddRows ? 1 : 0);
 			CurrentCell = this[0, 0];
 			_adjustHeightToFitRows = saveAdjustHeightToFitRows;
 
@@ -121,21 +134,33 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void AddColumns()
+		protected void AddColumns()
 		{
-			var col = CreateTextBoxColumn("colField");
-			col.HeaderText = "_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Field!Field";
+			var col = NewTextBoxColumn("colField");
+			col.HeaderText = @"_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Field!Field";
 			col.Width = 125;
 			col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 			Columns.Add(col);
 
-			col = CreateTextBoxColumn("colValue");
-			col.HeaderText = "_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Value!Value";
+			col = NewTextBoxColumn("colValue");
+			col.HeaderText = @"_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Value!Value";
 			col.Width = 175;
 			col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 			Columns.Add(col);
 
 			_locExtender.EndInit();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>SP-848: The text box editing control is displaying a black background on some Windows 8.1 computers</summary>
+		private static DataGridViewColumn NewTextBoxColumn(string name)
+		{
+			var column = new CustomDataGridTextBoxColumn();
+			var cell = new CustomDataGridTextBoxCell();
+			column.CellTemplate = cell;
+			column.Name = name;
+			column.HeaderText = name;
+			return column;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -169,33 +194,31 @@ namespace SayMore.UI.ComponentEditors
 			// REVIEW: For some reason, when the grid does not have focus, sometimes
 			// setting a cell's readonly property to true gives the grid focus.
 
-			if (_model == null)
+			if (_model != null)
 			{
-				base.OnCellFormatting(e);
-				return;
-			}
+				var isReadOnly = _model.IsIndexForReadOnlyField(e.RowIndex);
+				var isCustom = _model.IsIndexForCustomField(e.RowIndex);
 
-			var isReadOnly = _model.IsIndexForReadOnlyField(e.RowIndex);
-			var isCustom = _model.IsIndexForCustomField(e.RowIndex);
-
-			if (string.IsNullOrEmpty(_model.GetIdForIndex(e.RowIndex)) && ColumnCount > 1)
-				this[1, e.RowIndex].ReadOnly = true;
-			else if (e.RowIndex < NewRowIndex)
-			{
-				if (e.ColumnIndex == 0)
+				if (string.IsNullOrEmpty(_model.GetIdForIndex(e.RowIndex)) && ColumnCount > 1)
+					this[1, e.RowIndex].ReadOnly = true;
+				else if ((NewRowIndex < 0) || (e.RowIndex < NewRowIndex))
 				{
-					this[0, e.RowIndex].ReadOnly = !isCustom;
-					if (!isCustom)
-						e.CellStyle.Font = _factoryFieldFont;
-				}
-				else
-				{
-					this[1, e.RowIndex].ReadOnly = isReadOnly;
-					if (isReadOnly)
-						this[1, e.RowIndex].Style.ForeColor = Color.Gray;
+					if (e.ColumnIndex == 0)
+					{
+						this[0, e.RowIndex].ReadOnly = !isCustom;
+						if (!isCustom)
+							e.CellStyle.Font = _factoryFieldFont;
+					}
+					else
+					{
+						this[1, e.RowIndex].ReadOnly = isReadOnly;
+						if (isReadOnly)
+						{
+							this[1, e.RowIndex].Style.ForeColor = Color.Gray;
+						}
+					}
 				}
 			}
-
 			base.OnCellFormatting(e);
 		}
 
@@ -204,14 +227,15 @@ namespace SayMore.UI.ComponentEditors
 		{
 			base.OnEditingControlShowing(e);
 
-			var txtBox = e.Control as TextBox;
-
 			// if not a text box, return now
+			var txtBox = e.Control as TextBox;
 			if (txtBox == null) return;
 
 			if (CurrentCellAddress.X == 0)
 			{
+				txtBox.KeyPress -= HandleCellEditBoxKeyPress;
 				txtBox.KeyPress += HandleCellEditBoxKeyPress;
+				txtBox.HandleDestroyed -= HandleCellEditBoxHandleDestroyed;
 				txtBox.HandleDestroyed += HandleCellEditBoxHandleDestroyed;
 				txtBox.AutoCompleteMode = AutoCompleteMode.None;
 			}
@@ -349,49 +373,6 @@ namespace SayMore.UI.ComponentEditors
 			base.OnRowsRemoved(e);
 			AdjustHeight();
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//protected override void OnRowValidating(DataGridViewCellCancelEventArgs e)
-		//{
-		//    var fieldId = _model.GetIdForIndex(e.RowIndex);
-		//    var fieldValue = _model.GetValueForIndex(e.RowIndex);
-
-		//    if (e.RowIndex < NewRowIndex && string.IsNullOrEmpty(fieldId) && !string.IsNullOrEmpty(fieldValue))
-		//    {
-		//        Utils.MsgBox("You must enter a field name.");
-		//        e.Cancel = true;
-		//    }
-
-		//    base.OnRowValidating(e);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//protected override void OnUserDeletingRow(DataGridViewRowCancelEventArgs e)
-		//{
-		//    int indexOfRowToDelete;
-
-		//    if (_model.CanDeleteRow(e.Row.Index, out indexOfRowToDelete))
-		//    {
-		//        if (indexOfRowToDelete >= 0)
-		//        {
-		//            var idToDelete = e.Row.Cells[0].Value as string;
-		//            if (AskUserToVerifyRemovingFieldEverywhere(idToDelete))
-		//                _model.RemoveFieldFromEntireProject(indexOfRowToDelete);
-		//            else
-		//            {
-		//                e.Cancel = true;
-		//                SystemSounds.Beep.Play();
-		//            }
-		//        }
-		//    }
-		//    else
-		//    {
-		//        e.Cancel = true;
-		//        SystemSounds.Beep.Play();
-		//    }
-
-		//    base.OnUserDeletingRow(e);
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		private static bool AskUserToVerifyRemovingFieldEverywhere(string id)

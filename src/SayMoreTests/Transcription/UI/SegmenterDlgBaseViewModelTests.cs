@@ -24,7 +24,7 @@ namespace SayMoreTests.Transcription.UI
 		[SetUp]
 		public void Setup()
 		{
-			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
+			SIL.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 
 			_tempAudioFile = MediaFileInfoTests.GetLongerTestAudioFile();
 			_timeTier = new TimeTier(_tempAudioFile);

@@ -1,0 +1,1 @@
+This Edolo Sample data was done for version 1. It doesn't have any of the annonation or metadata added in versions after that. So for version 3 we removed it from the installer. It is still used by a unit test, though, so we haven't deleted it.

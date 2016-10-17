@@ -4,8 +4,10 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.ComponentModel;
+using System.Text;
 using System.Windows.Forms;
 using L10NSharp;
+using SIL.Reporting;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
@@ -26,12 +28,19 @@ namespace SayMore.UI.ComponentEditors
 		private FieldsValuesGridViewModel _gridViewModel;
 		private readonly ImageFileType _imgFileType;
 
+		private bool _loaded;
+
+		// SP-846: Do not save parent languages while setting them
+		private bool _loadingLanguages = false;
+
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer,
 			ImageFileType imgFileType)
 			: base(file, null, imageKey)
 		{
+			Logger.WriteEvent("PersonBasicEditor constructor. file = {0}", file);
+
 			InitializeComponent();
 			Name = "PersonEditor";
 
@@ -64,12 +73,10 @@ namespace SayMore.UI.ComponentEditors
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
 
-			LoadPersonsPicture();
-			LoadParentLanguages();
-
 			_id.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelFullName); };
 			_birthYear.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelBirthYear); };
-			ValidateBirthYear();
+
+			LoadAndValidatePersonInfo();
 
 			_binder.OnDataSaved += _binder_OnDataSaved;
 		}
@@ -78,7 +85,6 @@ namespace SayMore.UI.ComponentEditors
 		{
 			Program.OnPersonDataChanged();
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -94,7 +100,7 @@ namespace SayMore.UI.ComponentEditors
 				if (!string.IsNullOrEmpty(path))
 				{
 					if (Directory.Exists(path))
-					SaveParentLanguages();
+						SaveParentLanguages();
 				}
 			}
 
@@ -109,7 +115,7 @@ namespace SayMore.UI.ComponentEditors
 			_gridViewModel = new CustomFieldsValuesGridViewModel(_file, autoCompleteProvider,
 				fieldGatherer);
 
-			_gridCustomFields = new FieldsValuesGrid(_gridViewModel) {Dock = DockStyle.Top};
+			_gridCustomFields = new FieldsValuesGrid(_gridViewModel, "PersonBasicEditor._gridCustomFields") { Dock = DockStyle.Top };
 			_panelGrid.AutoSize = true;
 			_panelGrid.Controls.Add(_gridCustomFields);
 		}
@@ -117,20 +123,25 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public override void SetComponentFile(ComponentFile file)
 		{
-			if (_file != null && File.Exists(_file.PathToAnnotatedFile) &&
-				file.PathToAnnotatedFile != _file.PathToAnnotatedFile)
-			{
-				SaveParentLanguages();
-			}
+			_loaded = false;
 
 			base.SetComponentFile(file);
 
 			if (_gridViewModel != null)
 				_gridViewModel.SetComponentFile(file);
 
+			LoadAndValidatePersonInfo();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void LoadAndValidatePersonInfo()
+		{
 			LoadPersonsPicture();
 			LoadParentLanguages();
+
 			ValidateBirthYear();
+
+			_loaded = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -173,27 +184,56 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void LoadParentLanguages()
 		{
+			_loadingLanguages = true;
+
+			// SP-824: Parent language flags not clearing correctly
+			foreach (var pb in _fatherButtons)
+				pb.Selected = false;
+
+			foreach (var pb in _motherButtons)
+				pb.Selected = false;
+
+
+			// SP-810: Parent language data not saving correctly
 			var fathersLanguage = _binder.GetValue("fathersLanguage");
-			var pb = _fatherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == fathersLanguage);
-			if (pb != null)
-				pb.Selected = true;
+			if (!string.IsNullOrEmpty(fathersLanguage))
+			{
+				var pb = _fatherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == fathersLanguage);
+				if (pb != null)
+					pb.Selected = true;
+			}
 
 			var mothersLanguage = _binder.GetValue("mothersLanguage");
-			pb = _motherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == mothersLanguage);
-			if (pb != null)
-				pb.Selected = true;
+			if (!string.IsNullOrEmpty(mothersLanguage))
+			{
+				var pb = _motherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == mothersLanguage);
+				if (pb != null)
+					pb.Selected = true;
+			}
+
+			_loadingLanguages = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void SaveParentLanguages()
 		{
-			var pb = _fatherButtons.SingleOrDefault(x => x.Selected);
-			if (pb != null)
-				_binder.SetValue("fathersLanguage", ((TextBox)pb.Tag).Text.Trim());
+			if (!_loadingLanguages)
+				_binder.SetValues(GetParentLanguageKeyValuePairs());
+		}
 
-			pb = _motherButtons.SingleOrDefault(x => x.Selected);
-			if (pb != null)
-				_binder.SetValue("mothersLanguage", ((TextBox)pb.Tag).Text.Trim());
+		/// ------------------------------------------------------------------------------------
+		private IEnumerable<KeyValuePair<string, string>> GetParentLanguageKeyValuePairs()
+		{
+			yield return new KeyValuePair<string, string>("fathersLanguage",
+				GetParentLanguageName(_fatherButtons.SingleOrDefault(x => x.Selected)));
+			yield return new KeyValuePair<string, string>("mothersLanguage",
+				GetParentLanguageName(_motherButtons.SingleOrDefault(x => x.Selected)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string GetParentLanguageName(ParentButton pb)
+		{
+			return pb == null ? null : ((TextBox)pb.Tag).Text.Trim();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -210,14 +250,30 @@ namespace SayMore.UI.ComponentEditors
 				HandleMothersLanguageChanging);
 		}
 
+		// SP-810:  Parent language data not saving correctly
+		void HandleParentLanguageSelectedChanged(object sender, EventArgs e)
+		{
+			if (_loaded)
+				SaveParentLanguages();
+		}
+
 		/// ------------------------------------------------------------------------------------
-		private static void HandleParentLanguageChange(IEnumerable<ParentButton> buttons,
+		private void HandleLanguageValidated(object sender, EventArgs e)
+		{
+			HandleParentLanguageSelectedChanged(_fatherButtons.Single(pb => pb.Tag == sender), e);
+			HandleParentLanguageSelectedChanged(_motherButtons.Single(pb => pb.Tag == sender), e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleParentLanguageChange(IEnumerable<ParentButton> buttons,
 			ParentButton selectedButton, CancelEventHandler changeHandler)
 		{
 			foreach (var pb in buttons.Where(x => x != selectedButton))
 			{
+				pb.SelectedChanged -= HandleParentLanguageSelectedChanged;
 				pb.SelectedChanging -= changeHandler;
 				pb.Selected = false;
+				pb.SelectedChanged += HandleParentLanguageSelectedChanged;
 				pb.SelectedChanging += changeHandler;
 			}
 		}
@@ -345,7 +401,7 @@ namespace SayMore.UI.ComponentEditors
 					"PeopleView.MetadataEditor.ErrorChangingPersonsPhotoMsg",
 					"There was an error changing the person's photo.");
 
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error, msg);
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(error, msg);
 			}
 
 			Program.ResumeBackgroundProcesses(true);
@@ -364,7 +420,7 @@ namespace SayMore.UI.ComponentEditors
 				var picFile = GetPictureFile();
 
 				if (picFile == null)
-					_personsPicture.Image = Resources.kimidNoPhoto;
+					_personsPicture.Image = ResourceImageCache.kimidNoPhoto;
 				else
 				{
 					// Do this instead of using the Load method because Load keeps a lock on the file.
@@ -380,7 +436,7 @@ namespace SayMore.UI.ComponentEditors
 				var msg = LocalizationManager.GetString("PeopleView.MetadataEditor.ErrorLoadingPersonsPhotoMsg",
 					"There was an error loading the person's photo.");
 
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
 			}
 
 			Program.ResumeAudioVideoBackgroundProcesses(true);
@@ -398,7 +454,7 @@ namespace SayMore.UI.ComponentEditors
 			if (!_personsPicture.ClientRectangle.Contains(_personsPicture.PointToClient(MousePosition)))
 				return;
 
-			var img = Resources.kimidChangePicture;
+			var img = ResourceImageCache.kimidChangePicture;
 			var rc = _personsPicture.ClientRectangle;
 
 			if (rc.Width > rc.Height)
@@ -492,7 +548,15 @@ namespace SayMore.UI.ComponentEditors
 		{
 			if (args.BoundControl == _gender)
 			{
-				_gender.SelectedIndex = (args.ValueFromFile == "Male" ? 0 : 1);
+				// Because of a former bug (SP-847), gender metadata was saved as localized
+				// string instead of English, so when retrieving, recognize those versions of the
+				// values for "Male" as well.
+				string valueFromFile = args.ValueFromFile.Normalize(NormalizationForm.FormD);
+				_gender.SelectedIndex = (valueFromFile == "Male" ||
+					valueFromFile == "Macho" ||
+					valueFromFile == "Mâle".Normalize(NormalizationForm.FormD) ||
+					valueFromFile == "Мужской".Normalize(NormalizationForm.FormD) ||
+					valueFromFile == "男性".Normalize(NormalizationForm.FormD) ? 0 : 1);
 				args.Handled = true;
 			}
 		}

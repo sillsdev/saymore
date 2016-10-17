@@ -21,10 +21,10 @@ namespace SayMore.UI.LowLevelControls
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListPanel));
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
-			this._outerPanel = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
+			this._outerPanel = new SIL.Windows.Forms.Widgets.EnhancedPanel();
 			this._buttonsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this._buttonNew = new System.Windows.Forms.Button();
-			this._headerLabel = new Palaso.UI.WindowsForms.Widgets.HeaderLabel();
+			this._headerLabel = new SIL.Windows.Forms.Widgets.HeaderLabel();
 			this._buttonColChooser = new SayMore.UI.LowLevelControls.ColumnChooserButton();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._outerPanel.SuspendLayout();
@@ -106,7 +106,7 @@ namespace SayMore.UI.LowLevelControls
 			this._headerLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this._headerLabel.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._headerLabel, null);
-			this.locExtender.SetLocalizationComment(this._headerLabel, "Localized in controls that host this one.");
+			this.locExtender.SetLocalizationComment(this._headerLabel, "Do not translate - Localized in subclass");
 			this.locExtender.SetLocalizationPriority(this._headerLabel, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._headerLabel, "UI.ListPanel._headerLabel");
 			this._headerLabel.Location = new System.Drawing.Point(0, 0);
@@ -117,7 +117,7 @@ namespace SayMore.UI.LowLevelControls
 			this._headerLabel.ShowWindowBackgroudOnTopAndRightEdge = true;
 			this._headerLabel.Size = new System.Drawing.Size(168, 23);
 			this._headerLabel.TabIndex = 0;
-			this._headerLabel.Text = "Items";
+			this._headerLabel.Text = "Change this text";
 			this._headerLabel.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleHeaderPanelPaint);
 			// 
 			// _buttonColChooser
@@ -164,8 +164,8 @@ namespace SayMore.UI.LowLevelControls
 
 		#endregion
 
-		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _outerPanel;
-		private Palaso.UI.WindowsForms.Widgets.HeaderLabel _headerLabel;
+		private SIL.Windows.Forms.Widgets.EnhancedPanel _outerPanel;
+		private SIL.Windows.Forms.Widgets.HeaderLabel _headerLabel;
 		private L10NSharpExtender locExtender;
 		public System.Windows.Forms.Button _buttonNew;
 		private System.Windows.Forms.FlowLayoutPanel _buttonsFlowLayoutPanel;

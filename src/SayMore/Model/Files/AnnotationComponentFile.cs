@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using Palaso.IO;
-using Palaso.UI.WindowsForms.FileSystem;
+using SIL.IO;
+using SIL.Reporting;
+using SIL.Windows.Forms.FileSystem;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 
@@ -32,7 +34,7 @@ namespace SayMore.Model.Files
 			InitializeFileInfo();
 			Load();
 
-			SmallIcon = Resources.ElanIcon;
+			SmallIcon = ResourceImageCache.ElanIcon;
 
 			var oralAnnotationFilePath = GetSuggestedPathToOralAnnotationFile();
 			if (File.Exists(oralAnnotationFilePath))
@@ -115,6 +117,7 @@ namespace SayMore.Model.Files
 			}
 			catch (Exception e)
 			{
+				Logger.WriteEvent("Handled Exception in AnnotationComponentFile.TryLoadAndReturnException:\r\n{0}", e.ToString());
 				Tiers = savTiers;
 				return e;
 			}
@@ -180,9 +183,9 @@ namespace SayMore.Model.Files
 						ConfirmRecycleDialog.Recycle(file.FullName);
 					Directory.Delete(segmentAnnotationFileFolder, true);
 				}
-// ReSharper disable once EmptyGeneralCatchClause
-				catch
+				catch (Exception e)
 				{
+					Logger.WriteEvent("Handled Exception in AnnotationComponentFile.Delete:\r\n{0}", e.ToString());
 				}
 			}
 

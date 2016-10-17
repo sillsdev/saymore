@@ -2,14 +2,14 @@
 
 ##IMDI Archiving
 
-SayMore users contributing to archives can now export SayMore data to a folder that conforms to  [IMDI](http://tla.mpi.nl/imdi-metadata/) format. You can then open the folder in IMDI applications like [ARBIL](http://tla.mpi.nl/tools/tla-tools/arbil/) for further annotation and submission.
+SayMore users contributing to archives can now export SayMore data to a folder that conforms to [IMDI](http://tla.mpi.nl/imdi-metadata/) format. You can then open the folder in IMDI applications like [ARBIL](http://tla.mpi.nl/tools/tla-tools/arbil/) for further annotation and submission.
 
-##Project Level Metdata
+##Project Tab
 
-SayMore 3 adds a "Project" tab for the first time, along with these Project-level fields:
+SayMore 3 adds a "Project" tab for the first time:
 
+### Project Metadata
 * Title
-* Funding Project Title
 * Description
 * Vernacular Language
 * Location/Address
@@ -17,12 +17,32 @@ SayMore 3 adds a "Project" tab for the first time, along with these Project-leve
 * Country
 * Continent
 * Contact Person
-* Content Type
-* Applications
+* Funding Project Title
 * Date Available
 * Rights Holder
 * Depositor
-* Releated Publications
+
+### Project Access Protocols
+
+In previous versions of SayMore, you could type whatever you liked in the "Access" field. Now, you have three options:
+
+ 1. You can choose from a number of access protocols and SayMore will restrict your choices to their closed vocabulary:
+- SIL REAP
+- [ELAR](http://www.elar-archive.org/using-elar/access-protocol.php) -  Endangered Languages Archive
+- TLA - The Language Archive
+- ANLA - Alaska Native Language Archive
+- AILLA - The Archive of the Indigenous Languages of Latin America
+- AILCA - The Archive of Indigenous Languages and Cultures of Asia
+
+ 2. You can set up a custom set of choices.
+
+ 3. Or you can still just let yourself type in whatever you want, as with version 2.
+
+### Project Documents
+Add files that describe the project, how it was funded, etc.
+
+### Progress Charts
+Progress, which was on its own tab in Version 2, has been moved and is now a sub item under the new Project tab.
 
 ##New Session Fields
 
@@ -33,66 +53,64 @@ SayMore 3 adds a "Project" tab for the first time, along with these Project-leve
  * Location region
  * Location address
  * Sub-Genre
- * Interactivity
  * Planning Type
- * Involvement
  * Social Context
  * Task
 
+ * New "Oral Translation Speaker" role
+
 ##New Person Fields
 
- * Nick Name
- * Privacy Protection
+ * Nickname
+ * Code (for projects that want to assign an alphanumeric id to each speaker)
+ * Ethnic Group
 
 ##New Person Tab: Contributions
 
  * The Contributions Tab automatically lists each session where the person is listed as a participant, and each file where they have been assigned a role under the file's _Contributors_ tab.
 
-##Standard Access Protocols
+##Manual Segmenter Dialog
+* Added a play button to individual segments
+* Can now zoom in for finer control
 
-In previous versions of SayMore, you could type whatever you like in the "Access" field. Now, you have three options:
-
- 1. You can choose from the [FURCS](http://www.elar-archive.org/using-elar/access-protocol.php) or "REAP" Access Protocols, and SayMore will restrict your choices to the their closed vocabulary.
-
- 1. You can set up a custom set of choices.
-
- 1. Or you can still just let yourself type in whatever you want, as with version 2.
+##Known Issues in Version 3.0
+[Allowable Country values are inconsistently allowed](http://jira.palaso.org/issues/browse/SP-819)
 
 ##Thanks
 Sarah Moeller and Tim Gaved served as consultants and _champions_ for this release.
 
 # What's New in Version 2
 
-Version 1 of SayMore helped you get everything organized. Version 2 add many  tools for helping you record, transcribe, convert, export, and archive.  Optionally, you can also enlist native speakers to do time-aligned "oral  annotation" steps, as used by the Basic Oral Language Documentation approach. In what follows, we summarize the changes made since Version 1:
+Version 1 of SayMore helped you get everything organized. Version 2 add many tools for helping you record, transcribe, convert, export, and archive. Optionally, you can also enlist native speakers to do time-aligned "oral annotation" steps, as used by the Basic Oral Language Documentation approach. In what follows, we summarize the changes made since Version 1:
 
 You can now record new sessions directly in SayMore.
 
-> _We <strong>plead</strong> with you to avoid using your laptop's built-in microphone; if you  are willing to give up usefulness for future phonetic research, an OK USB  headset can be had for US$35 or less in many countries. Note that the very  popular Zoom H2's can also be plugged in and used as a microphone (in a lower  quality mode)._
+> _We <strong>plead</strong> with you to avoid using your laptop's built-in microphone; if you are willing to give up usefulness for future phonetic research, an OK USB headset can be had for US$35 or less in many countries. Note that the very popular Zoom H2's can also be plugged in and used as a microphone (in a lower quality mode)._
 
-All recording tools now feature a level meter which also indicates which device  SayMore is recording from, to reduce the chances that you think you're recording  from, say, a headset, but really the computer is listening to the laptop's  built-in microphone.
+All recording tools now feature a level meter which also indicates which device SayMore is recording from, to reduce the chances that you think you're recording from, say, a headset, but really the computer is listening to the laptop's built-in microphone.
 
-* SayMore now has an easy-to-use transcription tool, which looks like a table.  Each row is a "segment". Before you can transcribe, you need to make these  segments, and you can do that in one of 3 ways:
+* SayMore now has an easy-to-use transcription tool, which looks like a table. Each row is a "segment". Before you can transcribe, you need to make these segments, and you can do that in one of 3 ways:
 
-	1) If you're doing BOLD, just set a native speaker up with the CarefulSpeech  tool. Each chunk of speech he/she repeats becomes a segment.
+	1) If you're doing BOLD, just set a native speaker up with the CarefulSpeech tool. Each chunk of speech he/she repeats becomes a segment.
 
 	2) You can use the Manual Segmenter
 
 	3) Try our experimental Auto-segmenter
 
-* In the Transcription tool, you can now choose what audio is played when the  cursor is in the row. Original recording, careful recording or oral translation.
+* In the Transcription tool, you can now choose what audio is played when the cursor is in the row. Original recording, careful recording or oral translation.
 
 ##Oral Annotation
 
-The Careful Speech and Oral Translation tools, which support the BOLD way of  working, are designed to be super simple so that you can quickly train a native  speaker to do these tasks:
+The Careful Speech and Oral Translation tools, which support the BOLD way of working, are designed to be super simple so that you can quickly train a native speaker to do these tasks:
 
 * A single key (space bar) is all that is needed to do the whole task.
-* If there are segments you don't want to annotate, you can mark them as  "ignored".
+* If there are segments you don't want to annotate, you can mark them as "ignored".
 
 ##File Format Handling
-Many audio and video formats can now be converted to standard, future-friendly  formats, right in SayMore.
+Many audio and video formats can now be converted to standard, future-friendly formats, right in SayMore.
 
 ##Export
-In addition to the ELAN file compatibility, Audacity import, and FLEx export,  this version adds the following exports:
+In addition to the ELAN file compatibility, Audacity import, and FLEx export, this version adds the following exports:
 
 * Plain text
 * CSV (comma-separated-value) for spreadsheets
@@ -100,22 +118,22 @@ In addition to the ELAN file compatibility, Audacity import, and FLEx export,  t
 * SRT Subtitle format
 
 ##MetaData
-As before, SayMore tries to figure out which recordings have gone through which  stages of the workflow. If it gets it wrong, then you can use the new "status  and Stages" tab can now manually take control of the stage for each session.
+As before, SayMore tries to figure out which recordings have gone through which stages of the workflow. If it gets it wrong, then you can use the new "status and Stages" tab can now manually take control of the stage for each session.
 
-### New features in version 1.5:
+# New features in version 1.5:
 
-Built-in "Careful Speech" and "Oral Translation" tools for those  doing BOLD (Basic Oral Language Documentation).
+Built-in "Careful Speech" and "Oral Translation" tools for those doing BOLD (Basic Oral Language Documentation).
 
-### New features in version 1.3:
+# New features in version 1.3:
 
-Built-inTranscription, stored using ELAN's file format, with export for  FieldWorks Language Explorer (FLEx) interlinear.
+Built-in Transcription, stored using ELAN's file format, with export for FieldWorks Language Explorer (FLEx) interlinear.
 
-### New features in version 1.1:
+# New features in version 1.1:
 
 Built-in packaging for REAP, SIL's Corporate Archive
 
 
-### New features in version 0.9:
+## New features in version 0.9:
 
 Documentation.(thanks Marlon!)
 
@@ -143,7 +161,7 @@ You can now select participants for an event by ticking the boxes next to their 
 
 ### Known Problems
 
-Some users are finding they cannot rename media files, because the process which  shows them (MediaPlayer.exe) is holding on to them when it should not.&nbsp;  Apparently a symptom of this is that multiple MediaPlayers can be found running  in the Windows process list.&nbsp; However, we have not yet been able to make  this happen on developer machines, which makes it very hard to fix.&nbsp; If you  can reliably make it happen, please contacting us!
+Some users are finding they cannot rename media files, because the process which shows them (MediaPlayer.exe) is holding on to them when it should not. Apparently a symptom of this is that multiple MediaPlayers can be found running in the Windows process list. However, we have not yet been able to make this happen on developer machines, which makes it very hard to fix. If you can reliably make it happen, please contacting us!
 
 ### Known Limitations
 

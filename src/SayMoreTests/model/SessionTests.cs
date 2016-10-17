@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using Moq;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;

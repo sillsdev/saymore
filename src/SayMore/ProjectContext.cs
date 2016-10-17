@@ -182,14 +182,16 @@ namespace SayMore
 			_presetGatherer.Dispose();
 			_autoCompleteValueGatherer.Dispose();
 			_fieldGatherer.Dispose();
-			_scope.Dispose();
-			_scope = null;
 
 			if (ProjectWindow != null)
 			{
 				ProjectWindow.Dispose();
 				ProjectWindow = null;
 			}
+
+			_scope.Dispose();
+			_scope = null;
+			GC.Collect();
 		}
 
 		/// ------------------------------------------------------------------------------------

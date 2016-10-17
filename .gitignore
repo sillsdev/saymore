@@ -39,8 +39,6 @@ src/SayMore/Model/Files/DataGathering/BackgroundFileProcessor.cs.orig
 src/SayMore/UI/Overview/Statistics/StatisticsViewModel.cs.orig
 DistFiles/SayMore.chm
 SayMore.chm
-lib/dotnet/Palaso.*
-lib/dotnet/PalasoUIWindowsForms.*
 src/SayMore/obj/*
 src/SayMoreTests/obj/*
 src/Sponge/obj/*
@@ -72,3 +70,15 @@ lib/dotnet/icu*
 lib/dotnet/Interop*
 lib/dotnet/Ionic*
 lib/dotnet/nunit*
+DistFiles/SayMore.en.tmx
+Packages.dgml
+packages/L10NSharp.*/*
+packages/Newtonsoft.Json*
+packages/DesktopAnalytics*
+packages/MarkdownDeep*
+packages/Autofac.*
+packages/NAudio.*
+packages/Analytics*
+lib/dotnet/SIL.*.dll
+lib/dotnet/SIL.*.pdb
+.nuget/NuGet.exe

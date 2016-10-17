@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
@@ -20,6 +20,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public AudioVideoPlayer(ComponentFile file, string imageKey) : base(file, null, imageKey)
 		{
+			Logger.WriteEvent("AudioVideoPlayer constructor. file = {0}; imageKey = {1}", file, imageKey);
 			InitializeComponent();
 			Name = "AudioVideoPlayer";
 
@@ -29,7 +30,15 @@ namespace SayMore.UI.ComponentEditors
 			_mediaPlayer.Dock = DockStyle.Fill;
 			Controls.Add(_mediaPlayer);
 
+			FinishInitializing(file);
+		}
+
+		private void FinishInitializing(ComponentFile file)
+		{
 			SetComponentFile(file);
+
+			// SP-831: tab is being localized before the file has been set in the base class
+			HandleStringsLocalized();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -57,6 +66,9 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
+			// SP-831: tab is being localized before the file has been set in the base class
+			if (_file == null) return;
+
 			TabText = (_file.FileType.IsVideo ?
 				LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.TabText-Video", "Video") :
 				LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.TabText-Audio", "Audio"));
@@ -122,7 +134,7 @@ namespace SayMore.UI.ComponentEditors
 		///// ------------------------------------------------------------------------------------
 		//private static void HandleMediaError(object sender, _WMPOCXEvents_MediaErrorEvent e)
 		//{
-		//    Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Media error: " + e.pMediaObject);
+		//    SIL.Reporting.ErrorReport.NotifyUserOfProblem("Media error: " + e.pMediaObject);
 		//}
 
 		/// ------------------------------------------------------------------------------------

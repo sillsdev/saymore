@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.Reporting;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using Palaso.Extensions;
+using SIL.Extensions;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -18,6 +18,7 @@ namespace SayMore.UI.ElementListScreen
 
 		private readonly StagesDataProvider _stagesDataProvider;
 		private readonly StagesControlToolTip _tooltip;
+		private readonly Dictionary<string, object> _statusIcons = new Dictionary<string, object>();
 
 		/// ------------------------------------------------------------------------------------
 		public SessionsGrid(StagesDataProvider stagesDataProvider, StagesControlToolTip toolTip)
@@ -29,7 +30,17 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public override GridSettings GridSettings
 		{
-			get { return Settings.Default.SessionsListGrid; }
+			get
+			{
+				try
+				{
+					return Settings.Default.SessionsListGrid;
+				}
+				catch
+				{
+					return new GridSettings();
+				}
+			}
 			set { Settings.Default.SessionsListGrid = value; }
 		}
 
@@ -39,7 +50,14 @@ namespace SayMore.UI.ElementListScreen
 			if (fieldName == SessionFileType.kStatusFieldName)
 			{
 				var value = element.MetaDataFile.GetStringValue(fieldName, string.Empty, false);
-				return Resources.ResourceManager.GetObject("Status" + Session.GetStatusAsEnumParsableString(value));
+				var objectName = "Status" + Session.GetStatusAsEnumParsableString(value);
+				object obj;
+				if (!_statusIcons.TryGetValue(objectName, out obj))
+				{
+					obj = ResourceImageCache.GetBitmap(objectName);
+					_statusIcons[objectName] = obj;
+				}
+				return obj;
 			}
 
 			if (fieldName == SessionFileType.kStagesFieldName)
@@ -74,14 +92,17 @@ namespace SayMore.UI.ElementListScreen
 				try
 				{
 					//we parse it and then generate it because we're trying to migrate old, locale-specific dates to ISO8601 dates
-					return DateTimeExtensions.ParseDateTimePermissivelyWithException(dateString).ToISO8601DateOnlyString();
+					return DateTimeExtensions.ParseDateTimePermissivelyWithException(dateString).ToISO8601TimeFormatDateOnlyString();
 				}
+#if DEBUG
 				catch (Exception e)
 				{
-#if DEBUG
 					ErrorReport.NotifyUserOfProblem(e, "only seeing because your'e in DEBUG mode");
+#else
+				catch (Exception)
+				{
 #endif
-					return DateTime.MinValue.ToISO8601DateOnlyString();
+					return DateTime.MinValue.ToISO8601TimeFormatDateOnlyString();
 				}
 			}
 
@@ -92,7 +113,7 @@ namespace SayMore.UI.ElementListScreen
 		public override IEnumerable<ToolStripMenuItem> GetMenuCommands()
 		{
 			// RAMP Archive
-			var menu = new ToolStripMenuItem(string.Empty, Resources.RampIcon,
+			var menu = new ToolStripMenuItem(string.Empty, ResourceImageCache.RampIcon,
 				(s, e) => {
 					var session = (Session)GetCurrentElement();
 					if (session != null)
@@ -100,7 +121,7 @@ namespace SayMore.UI.ElementListScreen
 				});
 
 			menu.Text = LocalizationManager.GetString("SessionsView.SessionsList.RampArchiveMenuText",
-				"Archive with RAMP (SIL)...", null, menu);
+				"Archive with RAMP (&SIL)...", null, menu);
 
 			// Since this item isn't going to be added to an actual menu yet, we can't hook up the
 			// code to enable/disable it yet. When it is added to a menu, if that menu is a drop-down
@@ -123,7 +144,7 @@ namespace SayMore.UI.ElementListScreen
 				});
 
 			menu.Text = LocalizationManager.GetString("SessionsView.SessionsList.IMDIArchiveMenuText",
-				"Archive using IMDI...", null, menu);
+				"Archive using &IMDI...", null, menu);
 
 			// Since this item isn't going to be added to an actual menu yet, we can't hook up the
 			// code to enable/disable it yet. When it is added to a menu, if that menu is a drop-down
@@ -153,7 +174,7 @@ namespace SayMore.UI.ElementListScreen
 			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 &&
 				Columns[e.ColumnIndex].DataPropertyName == SessionFileType.kStagesFieldName)
 			{
-				var element = _items.ElementAt(e.RowIndex);
+				var element = Items.ElementAt(e.RowIndex);
 				var pt = MousePosition;
 				pt.Offset(5, 5);
 				_tooltip.Show(pt, element.GetCompletedStages());
@@ -178,7 +199,7 @@ namespace SayMore.UI.ElementListScreen
 			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 &&
 				Columns[e.ColumnIndex].DataPropertyName == SessionFileType.kStatusFieldName)
 			{
-				var statusText = base.GetValueForField(_items.ElementAt(e.RowIndex), SessionFileType.kStatusFieldName);
+				var statusText = base.GetValueForField(Items.ElementAt(e.RowIndex), SessionFileType.kStatusFieldName);
 
 				e.ToolTipText = string.Format(
 					LocalizationManager.GetString("SessionsView.SessionStatus.TooltipFormatText", "Status: {0}"), statusText);

@@ -2,9 +2,11 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
+using SIL.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Model;
 using SayMore.Properties;
+using SayMore.UI.ComponentEditors;
 using SayMore.UI.SessionRecording;
 using SayMore.UI.NewSessionsFromFiles;
 using SayMore.UI.ProjectWindow;
@@ -22,6 +24,8 @@ namespace SayMore.UI.ElementListScreen
 			SessionsGrid.Factory sessionGridFactory)
 			: base(presentationModel)
 		{
+			Logger.WriteEvent("PersonListScreen constructor");
+
 			_elementsGrid = sessionGridFactory();
 			_elementsGrid.Name = "SessionsGrid";
 			_newSessionsFromFileDlgViewModel = newSessionsFromFileDlgViewModel;
@@ -31,8 +35,7 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			Initialize(_componentsSplitter.Panel2, _sessionComponentFileGrid, _sessionsListPanel);
-			_sessionComponentFileGrid.InitializeGrid("SessionScreen",
-				LocalizationManager.GetString("SessionsView.FileList.AddSessionsButtonToolTip", "Add Files to the Session"));
+			_sessionComponentFileGrid.InitializeGrid("SessionScreen");
 
 			_elementsListPanel.InsertButton(1, _buttonNewFromFiles);
 			_elementsListPanel.InsertButton(2, _buttonNewFromRecording);
@@ -53,6 +56,13 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.HeaderPanelBackColor1 = Settings.Default.SessionEditorsButtonBackgroundColor2;
 			_elementsListPanel.HeaderPanelBackColor2 = Settings.Default.SessionEditorsButtonBackgroundColor1;
 			_elementsListPanel.HeaderPanelBottomBorderColor = Settings.Default.SessionEditorsBorderColor;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleStringsLocalized()
+		{
+			_sessionComponentFileGrid.AddFileButtonTooltipText =
+				LocalizationManager.GetString("SessionsView.FileList.AddSessionsButtonToolTip", "Add Files to the Session");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -123,6 +133,8 @@ namespace SayMore.UI.ElementListScreen
 		{
 			base.ViewActivated(firstTime);
 
+			Enabled = true;
+
 			if (firstTime)
 			{
 				if (Settings.Default.SessionScreenElementsListSplitterPos > 0)
@@ -134,9 +146,16 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override void ViewDeactivated()
+		{
+			base.ViewDeactivated();
+			Enabled = false;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public Image Image
 		{
-			get { return Resources.Sessions; }
+			get { return ResourceImageCache.Sessions; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -165,12 +184,10 @@ namespace SayMore.UI.ElementListScreen
 			using (var viewModel = _newSessionsFromFileDlgViewModel(_model))
 			using (var dlg = new NewSessionsFromFilesDlg(viewModel))
 			{
-				viewModel.Dialog = dlg;
-
 				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
 					LoadElementList(viewModel.FirstNewSessionAdded);
 
-				FindForm().Focus();
+				SetFocusOnId();
 			}
 		}
 
@@ -189,8 +206,41 @@ namespace SayMore.UI.ElementListScreen
 				var newSession = _model.CreateNewElement();
 				viewModel.MoveRecordingToSessionFolder(newSession);
 				LoadElementList(newSession);
-				FindForm().Focus();
+
+				SetFocusOnId();
 			}
+		}
+
+		/// <summary>SP-55: Set focus to id field after creating a new session, and select the text</summary>
+		private void SetFocusOnId()
+		{
+			var frm = FindForm();
+			if (frm == null)
+				return;
+
+			frm.Focus();
+
+			var editors = Program.GetControlsOfType<SessionBasicEditor>(frm);
+			foreach (var editor in editors)
+				editor.Focus();
+		}
+
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			_componentsSplitter.Panel2.ControlAdded -= HandleFirstSetOfComponentEditorsAdded;
+			_componentsSplitter.Panel2.ControlRemoved -= HandleLastSetOfComponentEditorsRemoved;
+
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+
+
+			base.Dispose(disposing);
 		}
 	}
 

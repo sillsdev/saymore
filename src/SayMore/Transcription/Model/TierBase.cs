@@ -33,10 +33,10 @@ namespace SayMore.Transcription.Model
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	public class SegmentCollection : Collection<Segment>
+	public class SegmentCollection : Collection<AnnotationSegment>
 	{
 		/// ------------------------------------------------------------------------------------
-		public Segment GetLast()
+		public AnnotationSegment GetLast()
 		{
 			return (Count == 0 ? null : this[Count - 1]);
 		}
@@ -110,7 +110,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool TryGetSegment(int index, out Segment segment)
+		public virtual bool TryGetSegment(int index, out AnnotationSegment segment)
 		{
 			segment = null;
 

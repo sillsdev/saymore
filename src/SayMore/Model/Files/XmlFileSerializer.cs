@@ -5,9 +5,11 @@ using System.IO;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
-using Palaso.Reporting;
+using L10NSharp;
+using SIL.Reporting;
 using SayMore.Model.Fields;
-using Palaso.Xml;
+using SIL.Xml;
+using SayMore.Utilities;
 
 namespace SayMore.Model.Files
 {
@@ -33,6 +35,24 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public void Save(IEnumerable<FieldInstance> fields, string path, string rootElementName)
 		{
+			var giveUpTime = DateTime.Now.AddSeconds(15);
+
+			// SP-872: Access to the path is denied
+			if (File.Exists(path))
+			{
+				var result = FileSystemUtils.WaitForFileRelease(path, true);
+				if (result != FileSystemUtils.WaitForReleaseResult.Free)
+				{
+					if (result == FileSystemUtils.WaitForReleaseResult.TimedOut)
+					{
+						var msg = LocalizationManager.GetString("CommonToMultipleViews.FileIsReadOnlyOrLocked",
+							"SayMore is not able to write to the file \"{0}.\" It is read-only or locked.");
+						ErrorReport.ReportNonFatalMessageWithStackTrace(msg, path);
+					}
+					return;
+				}
+			}
+
 			var root = new XElement(rootElementName); // TODO: could use actual name
 
 			XElement customFieldsElement = null;
@@ -66,21 +86,38 @@ namespace SayMore.Model.Files
 					root.Add(element);
 			}
 
-			var giveUpTime = DateTime.Now.AddSeconds(5);
 			bool attemptedRetry = false;
 
 			while (true)
 			{
 				try
 				{
+					// SP-692: Could not find a part of the path ... in mscorlib
+					// This can happen if the object was renamed, resulting in the directory being renamed.
+					GC.Collect();
+					var dir = Path.GetDirectoryName(path);
+					if (dir == null) return;
+					if (!Directory.Exists(dir)) throw new DirectoryNotFoundException(dir);
+
 					root.Save(path);
 					break;
 				}
-				catch (IOException)
+				catch (IOException e)
 				{
+					if (e.GetType() != typeof(IOException))
+						throw;
+
 					// Guarantee that it retries at least once
 					if (attemptedRetry && DateTime.Now >= giveUpTime)
-						throw;
+					{
+						// SP-896: Apparently the file that was just judged to be writable above has now been locked
+						// by some other process and is no longer writable. Pretty annoying when you think about it.
+						// I can't reproduce this error, but the only other thing I can think to do is make it non-
+						// fatal (as it is above if it was not released within the 10-second wait time) and hope the
+						// user can find some way to fix it or will have better luck next time.
+						ErrorReport.ReportNonFatalException(e);
+						return;
+					}
 
 					attemptedRetry = true;
 					Thread.Sleep(100);
@@ -133,7 +170,7 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Create an empty copy of the file if it isn't there.
+		/// Create an "empty" (with just a root element) copy of the file if it isn't there.
 		/// </summary>
 		/// <returns>true if the file had to be created</returns>
 		/// ------------------------------------------------------------------------------------
@@ -163,15 +200,23 @@ namespace SayMore.Model.Files
 					doc.Load(path);
 					break;
 				}
-				catch (IOException)
+				catch (IOException e)
 				{
+					if (e.GetType() != typeof(IOException))
+						throw;
+
 					if (DateTime.Now >= giveUpTime)
 					{
-						Logger.WriteEvent("IO Exception path: " + path ?? "null");
+						Logger.WriteEvent("IO Exception path: " + (path ?? "null"));
 						throw;
 					}
 
 					Thread.Sleep(100);
+				}
+				catch (XmlException xmlException)
+				{
+					// By default XmlExceptions (or at least some of them) don't contain the path name.
+					throw new XmlException("Failed to load XML file: " + (path ?? "null"), xmlException);
 				}
 			}
 

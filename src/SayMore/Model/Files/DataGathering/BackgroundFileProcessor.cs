@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using L10NSharp;
+using SIL.Reporting;
 using ThreadState = System.Threading.ThreadState;
 
 namespace SayMore.Model.Files.DataGathering
@@ -51,6 +53,7 @@ namespace SayMore.Model.Files.DataGathering
 		private readonly Queue<FileSystemEventArgs> _pendingFileEvents;
 		private volatile int _suspendEventProcessingCount;
 		private readonly object _lockObj = new object();
+		private readonly object _lockSuspendObj = new object();
 
 		public event EventHandler NewDataAvailable;
 		public event EventHandler FinishedProcessingAllFiles;
@@ -71,7 +74,6 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			if (_workerThread != null)
 				_workerThread.Abort(); //will eventually lead to it stopping
-
 			_workerThread = null;
 		}
 
@@ -84,7 +86,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public virtual void SuspendProcessing()
 		{
-			lock (_lockObj)
+			lock (_lockSuspendObj)
 			{
 				_suspendEventProcessingCount++;
 			}
@@ -100,7 +102,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public virtual void ResumeProcessing(bool processAllPendingEventsNow)
 		{
-			lock (_lockObj)
+			lock (_lockSuspendObj)
 			{
 				if (_suspendEventProcessingCount > 0)
 					_suspendEventProcessingCount--;
@@ -119,7 +121,9 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool GetDoIncludeFile(string path)
 		{
-			return (_typesOfFilesToProcess.Any(t => t.IsMatch(path)));
+			var fileName = Path.GetFileName(path);
+			return (fileName != null && !fileName.StartsWith(".") &&
+				(_typesOfFilesToProcess.Any(t => t.IsMatch(path))));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -167,6 +171,7 @@ namespace SayMore.Model.Files.DataGathering
 						if (_restartRequested)
 						{
 							_restartRequested = false;
+							Status = kWorkingStatus;
 							ProcessAllFiles();
 						}
 
@@ -188,7 +193,7 @@ namespace SayMore.Model.Files.DataGathering
 			}
 			catch (Exception error)
 			{
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error, "Background file watching failed.");
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(error, "Background file watching failed.");
 			}
 		}
 
@@ -237,8 +242,9 @@ namespace SayMore.Model.Files.DataGathering
 			catch (Exception e)
 			{
 				Debug.WriteLine(e.Message);
+				Logger.WriteEvent("Handled Exception in {0}.ProcessingFileEvent:\r\n{1}", GetType().Name, e.ToString());
 #if  DEBUG
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, "Error gathering data");
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(e, "Error gathering data");
 #endif
 				//nothing here is worth crashing over
 			}
@@ -250,7 +256,15 @@ namespace SayMore.Model.Files.DataGathering
 			lock (((ICollection)_fileToDataDictionary).SyncRoot)
 			{
 				T stats;
-				return (_fileToDataDictionary.TryGetValue(filePath, out stats) ? stats : null);
+				if (_fileToDataDictionary.TryGetValue(filePath, out stats))
+					return stats;
+
+				if (GetDoIncludeFile(filePath))
+				{
+					CollectDataForFile(filePath);
+					return (_fileToDataDictionary.TryGetValue(filePath, out stats) ? stats : null);
+				}
+				return null;
 			}
 		}
 
@@ -259,11 +273,11 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			T fileData = null;
 
+			var priorStatus = Status;
 			Status = kWorkingStatus;
 
 			try
 			{
-				Debug.WriteLine("processing " + path);
 				var actualPath = GetActualPath(path);
 
 				if (!ShouldStop && File.Exists(actualPath))
@@ -283,15 +297,33 @@ namespace SayMore.Model.Files.DataGathering
 			}
 			catch (Exception e)
 			{
+				// REVIEW: What specific types of (common?) exceptions were we hoping to ignore here. This represents a lot of code with
+				// a lot of possible errors that could be ignored.
+
 				Debug.WriteLine(e.Message);
+
+				// To try to solve SP-898 and SP-915, I'm ensuring that we DO report any ArgumentException or OutOfMemoryException.
+				// If this starts catching stuff we'd really rather ignore, this part of the try-catch block can maybe be moved into
+				// ComponentFile.GetSmallIconAndFileType to catch errors in the call to Icon.ToBitmap.
+				Logger.WriteEvent("Exception caught in {0}.CollectDataForFile. path = {1}\r\nException: {2}", GetType(), path, e.ToString());
+				if (e is ArgumentException || e is OutOfMemoryException)
+				{
+					ErrorReport.NotifyUserOfProblem(new ShowOncePerSessionBasedOnExactMessagePolicy(), e,
+						string.Format(LocalizationManager.GetString("MainWindow.AutoCompleteValueGathererError",
+						"An error of type {0} ocurred trying to gather information from file: {1}",
+						"Parameter 0 is an exception type; parameter 1 is a file name"), e.GetType(), path));
+				}
+				else
+				{
 #if  DEBUG
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, "Error gathering data");
+					ErrorReport.NotifyUserOfProblem(e, "Error gathering data");
 #endif
+				}
 				//nothing here is worth crashing over
 			}
 
 			OnNewDataAvailable(fileData);
-			Status = kUpToDataStatus;
+			Status = priorStatus;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -379,13 +411,17 @@ namespace SayMore.Model.Files.DataGathering
 
 		private static List<string> WalkDirectoryTree(string topLevelFolder, SearchOption searchOption)
 		{
-			string[] files = null;
+			IEnumerable<string> files = null;
 			var returnVal = new List<string>();
 			// First, process all the files directly under this folder
 			try
 			{
-				//files = root.GetFiles("*.*");
-				files = Directory.GetFiles(topLevelFolder, "*.*");
+				// SP-879: Crash reading .DS_Store file on MacOS
+				files = Directory.GetFiles(topLevelFolder, "*.*").Where(name =>
+				{
+					var fileName = Path.GetFileName(name);
+					return fileName != null && !fileName.StartsWith(".");
+				});
 				returnVal.AddRange(files);
 			}
 			catch (UnauthorizedAccessException)

@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using L10NSharp;
 using SayMore.Transcription.UI;
 
 namespace SayMore.Transcription.Model
@@ -14,13 +13,19 @@ namespace SayMore.Transcription.Model
 		public const string ElanTranslationTierId = "Phrase Free Translation";
 
 		public static string TranscriptionTierDisplayName =
-			LocalizationManager.GetString("SessionsView.Transcription.TierDisplayNames.Transcription", "Transcription");
+			@"_L10N_:SessionsView.Transcription.TierDisplayNames.Transcription!Transcription";
 
 		public static string FreeTranslationTierDisplayName =
-			LocalizationManager.GetString("SessionsView.Transcription.TierDisplayNames.FreeTranslation", "Free Translation");
+			@"_L10N_:SessionsView.Transcription.TierDisplayNames.FreeTranslation!Free Translation";
 
 		/// ------------------------------------------------------------------------------------
 		public TextTier(string id) : base(id, tier => AnnotationColumnProvider(id, tier))
+		{
+			SetLinguisticType();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetLinguisticType()
 		{
 			LinguisticType = "Translation";
 		}
@@ -79,9 +84,9 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment AddSegment(string text)
+		public AnnotationSegment AddSegment(string text)
 		{
-			var segment = new Segment(this, text ?? string.Empty);
+			var segment = new AnnotationSegment(this, text ?? string.Empty);
 			Segments.Add(segment);
 			return segment;
 		}

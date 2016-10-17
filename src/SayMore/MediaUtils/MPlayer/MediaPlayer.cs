@@ -4,8 +4,9 @@ using System.ComponentModel.Design;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using SIL.Reporting;
 using SayMore.UI.LowLevelControls;
-using Palaso.UI.WindowsForms;
+using SIL.Windows.Forms;
 
 namespace SayMore.Media.MPlayer
 {
@@ -17,6 +18,7 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		public MediaPlayer()
 		{
+			Logger.WriteEvent("MediaPlayer constructor");
 			InitializeComponent();
 			DoubleBuffered = true;
 
@@ -116,7 +118,7 @@ namespace SayMore.Media.MPlayer
 			_buttonPlay.Visible = _viewModel.IsPlayButtonVisible;
 			_buttonStop.Enabled = _viewModel.IsStopEnabled;
 			_buttonVolume.Image = (_viewModel.IsVolumeMuted ?
-				Properties.Resources.MuteVolume : Properties.Resources.Volume);
+				ResourceImageCache.MuteVolume : ResourceImageCache.Volume);
 		}
 
 		/// ------------------------------------------------------------------------------------

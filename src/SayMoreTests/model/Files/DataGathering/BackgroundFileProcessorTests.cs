@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 
@@ -64,6 +64,21 @@ namespace SayMoreTests.Model.Files.DataGathering
 
 		[Test]
 		[Category("SkipOnTeamCity")]
+		public void GetData_LinuxHiddenFile_FileNotReturned()
+		{
+			var hiddenFile = WriteLinuxHidden(".DS_Store", "DS_Store file");
+			using (var processor = CreateGenericProcessor())
+			{
+				processor.Start();
+				WaitUntilNotBusy(processor);
+
+				Assert.AreEqual(0, processor.GetAllFileData().Count());
+				Assert.IsNull(processor.GetFileData(hiddenFile));
+			}
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
 		public void Start_OneRelevantFileExists_FiresNewDataAvailableEvent()
 		{
 			WriteTestWav(@"first");
@@ -109,6 +124,14 @@ namespace SayMoreTests.Model.Files.DataGathering
 			File.WriteAllText(path, contents);
 			return path;
 		}
+
+		private string WriteLinuxHidden(string fileName, string contents)
+		{
+			var path = _folder.Combine(fileName);
+			File.WriteAllText(path, contents);
+			return path;
+		}
+
 		private string RenameTestWav()
 		{
 			var destPath = _folder.Combine("test1.wav");
@@ -120,6 +143,13 @@ namespace SayMoreTests.Model.Files.DataGathering
 		{
 			return new TestProcessor(_folder.Path,
 				new FileType[] { new AudioFileType(null, () => null, () => null) },
+				MakeDictionaryFromFile);
+		}
+
+		private TestProcessor CreateGenericProcessor()
+		{
+			return new TestProcessor(_folder.Path,
+				new[] { new FileType(null, p => true) },
 				MakeDictionaryFromFile);
 		}
 

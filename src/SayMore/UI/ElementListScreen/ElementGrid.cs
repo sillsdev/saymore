@@ -5,11 +5,12 @@ using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.Extensions;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.Extensions;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Model.Files;
-using Palaso.UI.WindowsForms;
+using SIL.Reporting;
+using SIL.Windows.Forms;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -25,7 +26,7 @@ namespace SayMore.UI.ElementListScreen
 		public Action DeleteAction;
 
 		protected FileType _fileType;
-		protected IEnumerable<ProjectElement> _items = new ProjectElement[] { };
+		private IEnumerable<ProjectElement> _items = new ProjectElement[] { };
 		protected ContextMenuStrip _contextMenuStrip = new ContextMenuStrip();
 		protected readonly L10NSharpExtender _locExtender;
 
@@ -127,7 +128,8 @@ namespace SayMore.UI.ElementListScreen
 			if (index >= 0 && index < _items.Count())
 			{
 				var forceRowChangeEvent = (CurrentCellAddress.Y == index);
-				CurrentCell = this[FirstDisplayedCell.ColumnIndex, index];
+				// Since this grid is in row-select mode, it doesn't really matter which column gets selected.
+				CurrentCell = this[0, index];
 				Rows[index].Selected = true;
 				if (forceRowChangeEvent)
 					OnCurrentRowChanged(EventArgs.Empty);

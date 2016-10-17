@@ -2,9 +2,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using Palaso.UI.WindowsForms;
-using Palaso.UI.WindowsForms.Extensions;
-using Palaso.Extensions;
+using SIL.Windows.Forms;
+using SIL.Windows.Forms.Extensions;
+using SIL.Extensions;
 
 namespace SayMore.UI.ProjectWindow
 {

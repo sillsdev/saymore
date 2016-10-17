@@ -9,7 +9,7 @@ namespace SayMore.Transcription.Model
 	{
 		private readonly string _mediaFile;
 
-		public IEnumerable<Segment> Segments { get; private set; }
+		public IEnumerable<AnnotationSegment> Segments { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public AudacityLabelHelper(IEnumerable<string> allLabelLines, string mediaFile) :
@@ -32,7 +32,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<Segment> FixUpLabelInfo(List<Segment> segments)
+		public IEnumerable<AnnotationSegment> FixUpLabelInfo(List<AnnotationSegment> segments)
 		{
 			for (int i = 0; i < segments.Count; i++)
 			{
@@ -58,15 +58,15 @@ namespace SayMore.Transcription.Model
 			// If the label file didn't have a label at the beginning of the
 			// file (i.e. offset zero), treat offset zero as an implicit label.
 			if (segments.Count > 0 && segments[0].Start > 0)
-				segments.Insert(0, new Segment { Start = 0, End = segments[0].Start });
+				segments.Insert(0, new AnnotationSegment { Start = 0, End = segments[0].Start });
 
 			return segments;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment CreateSingleSegment(string[] labelInfo)
+		public AnnotationSegment CreateSingleSegment(string[] labelInfo)
 		{
-			var seg = new Segment(null);
+			var seg = new AnnotationSegment(null);
 
 			if (labelInfo.Length >= 3)
 				seg.Text = labelInfo[2];

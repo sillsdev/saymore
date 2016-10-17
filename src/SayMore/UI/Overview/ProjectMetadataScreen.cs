@@ -1,20 +1,25 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.UI.WindowsForms.WritingSystems;
+using SIL.Reporting;
+using SIL.Windows.Forms.WritingSystems;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;
 using SIL.Archiving.IMDI.Lists;
 
 namespace SayMore.UI.Overview
 {
-	public partial class ProjectMetadataScreen : EditorBase, ISayMoreView
+	public partial class ProjectMetadataScreen : EditorBase, ISayMoreView, ISaveable
 	{
+		private IMDIItemList _countryList;
 
 		public ProjectMetadataScreen()
 		{
+			Logger.WriteEvent("ProjectMetadataScreen constructor");
+
 			InitializeComponent();
 
 			// position the Description and Vernacular label correctly
@@ -25,17 +30,15 @@ namespace SayMore.UI.Overview
 			_tableLayout.RowStyles[4].Height = rowHeight;
 
 			// continent list
-			var continentList = ListConstructor.GetClosedList(ListType.Continents);
+			var continentList = ListConstructor.GetClosedList(ListType.Continents, true, ListConstructor.RemoveUnknown.RemoveAll);
 			_continent.DataSource = continentList;
 			_continent.DisplayMember = "Text";
 			_continent.ValueMember = "Value";
 			SizeContinentComboBox(_continent);
 
-			// country list
-			var countryList = ListConstructor.GetList(ListType.Countries, false, Localize);
-			_country.DataSource = countryList;
-			_country.DisplayMember = "Text";
-			_country.ValueMember = "Value";
+			// Data-binding doesn't work correctly for country  because it is an open list.
+			// Items populated in HandleStringsLocalized.
+			_countryList = ListConstructor.GetList(ListType.Countries, false, Localize, ListConstructor.RemoveUnknown.RemoveAll);
 
 			_linkHelp.Click += (s, e) =>
 				Program.ShowHelpTopic("/User_Interface/Tabs/About_This_Project_User_Interface_terms.htm");
@@ -45,9 +48,33 @@ namespace SayMore.UI.Overview
 		protected override void HandleStringsLocalized()
 		{
 			base.HandleStringsLocalized();
-			IMDIItemList countryList = _country.DataSource as IMDIItemList;
-			if (countryList != null)
-				countryList.Localize(Localize);
+
+			if (_country == null || _countryList == null)
+			{
+				Load += (o, args) => ResetCountryList();
+				return;
+			}
+			ResetCountryList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ResetCountryList()
+		{
+			//int iCountry = _country.SelectedIndex;
+			var selectedCountry = _country.SelectedItem as IMDIListItem;
+
+			//_country.Items.Clear();
+			_country.DataSource = null;
+			_countryList.Localize(Localize);
+			_countryList.Sort();
+			//_country.Items.AddRange(_countryList.Select(c => c.Text).Cast<object>().ToArray());
+
+			_country.DataSource = _countryList;
+			_country.DisplayMember = "Text";
+			_country.ValueMember = "Value";
+
+			if (selectedCountry != null)
+				_country.SelectedItem = _countryList.FindByValue(selectedCountry.Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -63,9 +90,14 @@ namespace SayMore.UI.Overview
 		/// 3) "Definition" or "Text"; 4) default (English) value.
 		private string Localize(string listName, string item, string property, string defaultValue)
 		{
-			return LocalizationManager.GetDynamicString("SayMore",
+			// SP-844: List from Arbil contains "Holy Seat" rather than "Holy See"
+			var value = LocalizationManager.GetDynamicString("SayMore",
 				string.Format("CommonToMultipleViews.ListItems.{0}.{1}.{2}", listName, item, property),
 				defaultValue);
+
+			//if (value.StartsWith("Holy Seat")) value = value.Replace("Holy Seat", "Holy See");
+
+			return value;
 		}
 
 		#region ISayMoreView Members
@@ -104,25 +136,29 @@ namespace SayMore.UI.Overview
 		{
 			get { throw new NotImplementedException(); }
 		}
-
 		#endregion
 
+		/// ------------------------------------------------------------------------------------
 		private void _linkSelectVernacular_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			using (var dialog = new LookupISOCodeDialog { Force3LetterCodes = true })
+			// REVIEW: Do we need Force3LetterCodes? Can't find it in new implementation.
+			// using (var dialog = new LanguageLookupDialog { Force3LetterCodes = true, ShowDesiredLanguageNameField = true })
+			using (var dialog = new LanguageLookupDialog { IsDesiredLanguageNameFieldVisible = true })
 			{
 				var result = dialog.ShowDialog();
-				if (result == DialogResult.OK)
-					_labelSelectedVernacular.Text = dialog.SelectedLanguage.Code + @": " + dialog.SelectedLanguage.DesiredName;
+				if (result == DialogResult.OK && dialog.SelectedLanguage != null)
+					_labelSelectedVernacular.Text = dialog.SelectedLanguage.LanguageTag + @": " + dialog.DesiredLanguageName; // REVIEW: This line was modified to get it to build
 			}
 
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void ProjectMetadataScreen_Leave(object sender, EventArgs e)
 		{
 			Save();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void ProjectMetadataScreen_Load(object sender, EventArgs e)
 		{
 			// show values from project file
@@ -132,24 +168,43 @@ namespace SayMore.UI.Overview
 
 			_projectTitle.Text = project.Title;
 			_fundingProjectTitle.Text = project.FundingProjectTitle;
-			_description.Text = project.ProjectDescription;
+
+			// SP-815: Line breaks are not being displayed after reopening project
+			if (project.ProjectDescription == null) project.ProjectDescription = string.Empty;
+			_description.Text = project.ProjectDescription.Replace("\n", Environment.NewLine);
+
 			_labelSelectedVernacular.Text = project.VernacularISO3CodeAndName;
 			_location.Text = project.Location;
 			_region.Text = project.Region;
-			_country.Text = project.Country;
+			int iCountry = -1;
+			for (int i = 0; i < _countryList.Count; i++)
+			{
+				if (_countryList[i].Value == project.Country)
+				{
+					iCountry = i;
+					break;
+				}
+			}
+			if (iCountry >= 0)
+				_country.SelectedIndex = iCountry;
+			else
+				_country.Text = project.Country;
 
 			foreach (var item in _continent.Items.Cast<object>().Where(i => i.ToString() == project.Continent))
 				_continent.SelectedItem = item;
 
 			_contactPerson.Text = project.ContactPerson;
-			_contentType.Text = project.ContentType;
-			_applications.Text = project.Applications;
 			_dateAvailable.SetValue(project.DateAvailable);
 			_rightsHolder.Text = project.RightsHolder;
 			_depositor.Text = project.Depositor;
-			_relatedPublications.Text = project.RelatedPublications;
+
+			foreach (Control control in Controls)
+			{
+				control.Validated += delegate { Save(); };
+			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void SizeContinentComboBox(ComboBox comboBox)
 		{
 			var maxWidth = 0;
@@ -163,29 +218,38 @@ namespace SayMore.UI.Overview
 			comboBox.Width = maxWidth + 30;
 		}
 
-		internal void Save()
+		/// ------------------------------------------------------------------------------------
+		/// <summary>The country value to persist in metadata</summary>
+		/// ------------------------------------------------------------------------------------
+		private string SelectedCountry
+		{
+			get
+			{
+				if (_country.SelectedIndex >= 0)
+					return _countryList[_country.SelectedIndex].Value;
+				return _country.Text;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Save()
 		{
 			// check for changes
-			var changed = false;
 			var project = Program.CurrentProject;
-
-			if (_projectTitle.Text != project.Title ||
+			string country = SelectedCountry;
+			var changed = (_projectTitle.Text != project.Title ||
 				_fundingProjectTitle.Text != project.FundingProjectTitle ||
 				_description.Text != project.ProjectDescription ||
 				_labelSelectedVernacular.Text != project.VernacularISO3CodeAndName ||
 				_location.Text != project.Location ||
 				_region.Text != project.Region ||
-				_country.Text != project.Country ||
+				country != project.Country ||
 				_continent.Text != project.Continent ||
 				_contactPerson.Text != project.ContactPerson ||
-				_contentType.Text != project.ContentType ||
-				_applications.Text != project.Applications ||
 				_dateAvailable.Text != project.DateAvailable ||
 				_rightsHolder.Text != project.RightsHolder ||
-				_depositor.Text != project.Depositor ||
-				_relatedPublications.Text != project.RelatedPublications
-				)
-				changed = true;
+				_depositor.Text != project.Depositor
+				);
 
 			if (!changed) return;
 
@@ -196,17 +260,21 @@ namespace SayMore.UI.Overview
 			project.VernacularISO3CodeAndName = _labelSelectedVernacular.Text;
 			project.Location = _location.Text;
 			project.Region = _region.Text;
-			project.Country = _country.Text;
+			project.Country = country;
 			project.Continent = _continent.Text;
 			project.ContactPerson = _contactPerson.Text;
-			project.ContentType = _contentType.Text;
-			project.Applications = _applications.Text;
 
 			project.DateAvailable = _dateAvailable.GetISO8601DateValueOrNull();
 			project.RightsHolder = _rightsHolder.Text;
 			project.Depositor = _depositor.Text;
-			project.RelatedPublications = _relatedPublications.Text;
 			project.Save();
+		}
+
+		private void ProjectMetadataScreen_VisibleChanged(object sender, EventArgs e)
+		{
+			// In Project page, Country text should not be selected.
+			if (_country.SelectionLength > 0)
+				_country.SelectionLength = 0;
 		}
 	}
 }

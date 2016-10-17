@@ -2,21 +2,28 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using NAudio.Wave;
-using Palaso.IO;
+using SIL.IO;
 using L10NSharp;
+using SayMore.Utilities;
 
+// ReSharper disable once CheckNamespace
 namespace SayMore.Media.MPlayer
 {
 	#region MPlayerHelper class
 	/// ----------------------------------------------------------------------------------------
 	public static class MPlayerHelper
 	{
+		// used to prevent multi-threading exception on StringBuilder
+		// SP-725: Index was out of range. Must be non-negative and less than the size of the collection. Parameter name: chunkLength
+		private static readonly object LockToken = new object();
+
 		[Flags]
 		public enum ConversionResult
 		{
@@ -48,6 +55,7 @@ namespace SayMore.Media.MPlayer
 			float volume, int speed, bool resampleToMono, int hwndVideo, int bitsPerSample)
 		{
 			var mplayerConfigPath = Path.Combine(GetPathToThisAssembly(), "MPlayerSettings.conf");
+			IFormatProvider invariantNumberFormatter = CultureInfo.InvariantCulture.NumberFormat;
 
 			if (File.Exists(mplayerConfigPath))
 			{
@@ -63,17 +71,17 @@ namespace SayMore.Media.MPlayer
 				yield return "-autosync 100";
 				yield return "-priority abovenormal";
 				yield return "-osdlevel 0";
-				yield return string.Format("-volume {0}", volume);
+				yield return string.Format(invariantNumberFormatter, "-volume {0}", volume);
 				yield return (resampleToMono ? "-af pan=1:1:1:1,scaletempo" : "-af scaletempo");
 
 				if (speed != 100)
-					yield return string.Format("-speed {0}", speed / 100d);
+					yield return string.Format(invariantNumberFormatter, "-speed {0}", speed / 100d);
 
 				if (startPosition > 0f)
-					yield return string.Format("-ss {0}", startPosition);
+					yield return string.Format(invariantNumberFormatter, "-ss {0}", startPosition);
 
 				if (duration > 0f)
-					yield return string.Format("-endpos {0}", duration);
+					yield return string.Format(invariantNumberFormatter, "-endpos {0}", duration);
 
 				// A window handle of -1 means we're only playing back
 				// the audio portion of a video file.
@@ -87,7 +95,7 @@ namespace SayMore.Media.MPlayer
 #if !__MonoCS__
 					yield return "-vo gl";
 #endif
-					yield return string.Format("-wid {0}", hwndVideo);
+					yield return string.Format(invariantNumberFormatter, "-wid {0}", hwndVideo);
 				}
 #if !__MonoCS__
 				if (bitsPerSample > 16)
@@ -138,6 +146,12 @@ namespace SayMore.Media.MPlayer
 		{
 			output = null;
 
+			// problem with non-ascii characters, convert to 8.3 path
+			mediaInPath = FileSystemUtils.GetShortName(mediaInPath);
+
+			// output to temp file, with 8.3 path
+			var tempFile = Path.GetTempFileName();
+
 			mediaInPath = mediaInPath.Replace('\\', '/');
 			if (preferredOutputFormat == null)
 			{
@@ -146,7 +160,7 @@ namespace SayMore.Media.MPlayer
 					return ConversionResult.ConversionFailed;
 				preferredOutputFormat = new WaveFormat(info.SamplesPerSecond, info.BitsPerSample, info.Channels);
 			}
-			var args = GetArgumentsToCreatePcmAudio(mediaInPath, audioOutPath, preferredOutputFormat);
+			var args = GetArgumentsToCreatePcmAudio(mediaInPath, tempFile, preferredOutputFormat);
 			var finishedProcessing = false;
 			var result = ConversionResult.InProgress;
 			var outputBuilder = new StringBuilder();
@@ -157,7 +171,10 @@ namespace SayMore.Media.MPlayer
 					{
 						if (e.Data != null)
 						{
-							outputBuilder.AppendLine(e.Data);
+							lock (LockToken)
+							{
+								outputBuilder.AppendLine(e.Data);
+							}
 							if (debugOutput != null)
 								debugOutput.AddText(e.Data);
 						}
@@ -167,7 +184,10 @@ namespace SayMore.Media.MPlayer
 					{
 						if (e.Data != null)
 						{
-							outputBuilder.AppendLine(e.Data);
+							lock (LockToken)
+							{
+								outputBuilder.AppendLine(e.Data);
+							}
 							if (debugOutput != null)
 								debugOutput.AddText(e.Data);
 							if (e.Data == "Seek failed")
@@ -186,9 +206,22 @@ namespace SayMore.Media.MPlayer
 			prs.Dispose();
 			if (result != ConversionResult.ConversionFailed)
 			{
+				// copy to requested file name
+				if (File.Exists(tempFile))
+					File.Copy(tempFile, audioOutPath);
+
 				result |= ConversionResult.FinishedConverting;
-				output = outputBuilder.ToString();
+
+				lock (LockToken)
+				{
+					output = outputBuilder.ToString();
+				}
 			}
+
+			// delete the temp file
+			if (File.Exists(tempFile))
+				File.Delete(tempFile);
+
 			return result;
 		}
 

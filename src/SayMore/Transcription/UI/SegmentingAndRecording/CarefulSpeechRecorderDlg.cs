@@ -1,3 +1,5 @@
+using SIL.Reporting;
+
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------
@@ -7,6 +9,7 @@ namespace SayMore.Transcription.UI
 		public CarefulSpeechRecorderDlg(OralAnnotationRecorderDlgViewModel viewModel)
 			: base(viewModel)
 		{
+			Logger.WriteEvent("CarefulSpeechRecorderDlg constructor. ComponentFile = {0}", viewModel.ComponentFile);
 			InitializeComponent();
 			Opacity = 0D;
 

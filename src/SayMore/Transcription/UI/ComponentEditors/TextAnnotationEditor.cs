@@ -1,14 +1,18 @@
 using System;
-using System.Linq;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
-using System.Windows.Media;
+using System.Linq;
+using DesktopAnalytics;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.Extensions;
+using L10NSharp.UI;
+using SayMore.Media;
+using SIL.Reporting;
+using SIL.Windows.Forms.Extensions;
 using SayMore.Media.Audio;
+using SayMore.Media.FFmpeg;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -16,12 +20,10 @@ using SayMore.Transcription.Model.Exporters;
 using SayMore.UI.ComponentEditors;
 using SayMore.Media.MPlayer;
 using SayMore.Model;
-using Palaso.UI.WindowsForms;
-using SayMore.Media;
-using SayMore.Media.FFmpeg;
-using System.Collections.Generic;
-using Color = System.Drawing.Color;
+using SayMore.Utilities;
+using SIL.IO;
 
+// ReSharper disable once CheckNamespace
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------
@@ -29,9 +31,10 @@ namespace SayMore.Transcription.UI
 	{
 		public delegate TextAnnotationEditor Factory(ComponentFile file, string imageKey);
 
-		private readonly TextAnnotationEditorGrid _grid;
+		private TextAnnotationEditorGrid _grid;
 		private readonly VideoPanel _videoPanel;
 		private FileSystemWatcher _watcher;
+		private DateTime _lastWriteTime;
 		private bool _isFirstTimeActivated = true;
 		private Project _project;
 
@@ -39,6 +42,7 @@ namespace SayMore.Transcription.UI
 		public TextAnnotationEditor(ComponentFile file, string imageKey, Project project)
 			: base(file, null, imageKey)
 		{
+			Logger.WriteEvent("TextAnnotationEditor constructor. file = {0}; imagekey = {1}", file, imageKey);
 			InitializeComponent();
 			Name = "Annotations";
 			_toolStrip.Renderer = new NoToolStripBorderRenderer();
@@ -46,14 +50,8 @@ namespace SayMore.Transcription.UI
 			_comboPlaybackSpeed.Font = Program.DialogFont;
 
 			_project = project;
-			_grid = new TextAnnotationEditorGrid(project.TranscriptionFont, project.FreeTranslationFont);
-			_grid.TranscriptionFontChanged += font =>
-			{
-				_project.TranscriptionFont = font;
-				_project.Save();
-			};
-			_grid.Dock = DockStyle.Fill;
-			_splitter.Panel2.Controls.Add(_grid);
+
+			InitializeGrid();
 
 			LoadPlaybackSpeedCombo();
 			_comboPlaybackSpeed.SelectedIndexChanged += HandlePlaybackSpeedValueChanged;
@@ -69,12 +67,36 @@ namespace SayMore.Transcription.UI
 
 			_buttonHelp.Click += delegate
 			{
-				Program.ShowHelpTopic("/Using_Tools/Sessions_tab/Annotations_tab/Working_with_annotations.htm");
+				// SP-887: Change Help link for Annotations
+				Program.ShowHelpTopic("/Using_Tools/Sessions_tab/Annotations_tab/Annotations_tab_overview.htm");
+			};
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InitializeGrid()
+		{
+			_grid = new TextAnnotationEditorGrid(_project.TranscriptionFont, _project.FreeTranslationFont);
+
+			_grid.TranscriptionFontChanged += font =>
+			{
+				_project.TranscriptionFont = font;
+				_project.Save();
 			};
 
-			// Be sure to restart the pprogram whenever there is a new video added.
-			_exportVideoTranscription.Enabled = !string.IsNullOrEmpty(GetVideoFilePath());
-			_exportFreeTranslationVideoMenuItem.Enabled = _exportVideoTranscription.Enabled;
+			// SP-873: Translation font not saving
+			_grid.TranslationFontChanged += font =>
+			{
+				_project.FreeTranslationFont = font;
+				_project.Save();
+			};
+
+			L10NSharpExtender gridLocExtender = new L10NSharpExtender();
+			gridLocExtender.LocalizationManagerId = "SayMore";
+			gridLocExtender.SetLocalizingId(_grid, "TextAnnotationEditorGrid");
+			gridLocExtender.EndInit();
+
+			_grid.Dock = DockStyle.Fill;
+			_splitter.Panel2.Controls.Add(_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -98,26 +120,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void LoadPlaybackSpeedCombo()
 		{
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct", "100%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct", "90%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.80Pct", "80%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.70Pct", "70%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.60Pct", "60%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.50Pct", "50%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.40Pct", "40%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.30Pct", "30%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.20Pct", "20%"));
-			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.10Pct", "10%"));
+			var pctFormatter = new PercentageFormatter();
+
+			for (int i = 10; i > 0; i--)
+				_comboPlaybackSpeed.Items.Add(pctFormatter.Format(i * 10));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -131,14 +137,14 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override void SetComponentFile(ComponentFile file)
+		public override sealed void SetComponentFile(ComponentFile file)
 		{
 			Deactivated();
 
 			this.SetWindowRedraw(false);
 			base.SetComponentFile(file);
 
-			var annotationFile = file as AnnotationComponentFile;
+			var annotationFile = (AnnotationComponentFile)file;
 			_splitter.Panel1Collapsed = annotationFile.GetIsAnnotatingAudioFile();
 
 			var exception = annotationFile.TryLoadAndReturnException();
@@ -255,16 +261,37 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void OnFLexTextExportClick(object sender, EventArgs e)
 		{
+			Analytics.Track("Export FlexText initiated");
+
 			var file = (AnnotationComponentFile)_file;
-			var mediaFileName = Path.GetFileName(file.GetPathToAssociatedMediaFile());
+			var fullMediaFileName = file.GetPathToAssociatedMediaFile();
+			var mediaFileName = Path.GetFileName(fullMediaFileName);
+			var sourceFileName = string.Empty;
+
+			if (mediaFileName == null) return;
+
+			// SP-869: "Sequence contains no matching element" if the source media file does not contain the text "source" in the name
+			var componentFile =
+				file.ParentElement.GetComponentFiles().FirstOrDefault(
+					compfile => compfile.GetAssignedRoles().Any(r => r.Id == ComponentRole.kSourceComponentRoleId));
+
+			if (componentFile != null)
+			{
+				// In case the media file is the source file we don't want two references to it.
+				if (componentFile.PathToAnnotatedFile != mediaFileName)
+					sourceFileName = componentFile.PathToAnnotatedFile;
+			}
 
 			using (var dlg = new ExportToFieldWorksInterlinearDlg(mediaFileName))
 			{
 				if (dlg.ShowDialog() == DialogResult.Cancel)
+				{
+					Analytics.Track("Export FlexText cancelled");
 					return;
+				}
 
 				FLExTextExporter.Save(dlg.FileName, mediaFileName,
-					file.Tiers, dlg.TranscriptionWs.Id, dlg.FreeTranslationWs.Id);
+					file.Tiers, dlg.TranscriptionWs.Id, dlg.FreeTranslationWs.Id, fullMediaFileName, sourceFileName);
 			}
 		}
 
@@ -272,9 +299,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		void SetupWatchingForFileChanges()
 		{
-			_watcher = new FileSystemWatcher(
-				Path.GetDirectoryName(_file.PathToAnnotatedFile),
-				Path.GetFileName(_file.PathToAnnotatedFile));
+			var dirName = Path.GetDirectoryName(_file.PathToAnnotatedFile);
+			if (dirName == null) return;
+
+			var fileName = Path.GetFileName(_file.PathToAnnotatedFile);
+
+			_watcher = new FileSystemWatcher(dirName, fileName);
 
 			_watcher.IncludeSubdirectories = false;
 			_watcher.EnableRaisingEvents = true;
@@ -301,14 +331,36 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleAnnotationFileChanged(object sender, FileSystemEventArgs e)
 		{
-			Invoke(new EventHandler((s, args) =>
+			int attempts = 0;
+			do
 			{
-				_file.Load();
-				_grid.Load(_file as AnnotationComponentFile);
-				_grid.SetColumnFonts(_project.TranscriptionFont, _project.FreeTranslationFont);
-			}));
+				try
+				{
+					var writeTime = File.GetLastWriteTime(e.FullPath);
+					if (_lastWriteTime != writeTime)
+					{
+						_file.Load();
+						Invoke(new EventHandler((s, args) =>
+						{
+							_grid.Load(_file as AnnotationComponentFile);
+							_grid.SetColumnFonts(_project.TranscriptionFont, _project.FreeTranslationFont);
+						}));
+						_lastWriteTime = writeTime;
+					}
+					break;
+				}
+				catch (IOException ex)
+				{
+					if (++attempts < 3)
+					{
+						Logger.WriteEvent("Exception during attempt #{0} to load file in TextAnnotationEditor.HandleAnnotationFileChanged:\r\n{1}", attempts, ex.ToString());
+						Thread.Sleep(100 * attempts);
+					}
+					else
+						throw;
+				}
+			} while (attempts < 3);
 		}
-
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -403,11 +455,19 @@ namespace SayMore.Transcription.UI
 
 		private void OnExportElanMenuItem_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Actually, SayMore already stores this information in ELAN format (.eaf). Simply double click the annotations file to edit it in ELAN.");
+			Analytics.Track("Export ELAN");
+
+			var msg =
+				LocalizationManager.GetString(
+					"SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMessage",
+					"Actually, SayMore already stores this information in ELAN format (.eaf). Simply double click the annotations file to edit it in ELAN.");
+			MessageBox.Show(msg);
 		}
 
 		private void OnExportSubtitlesFreeTranslation(object sender, EventArgs e)
 		{
+			Analytics.Track("Export Free Translation Subtitles");
+
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var contentTier = ((AnnotationComponentFile) _file).Tiers.GetFreeTranslationTier();
 			DoExportSubtitleDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix", "freeTranslation_subtitle"), timeTier, contentTier);
@@ -415,6 +475,8 @@ namespace SayMore.Transcription.UI
 
 		private void OnExportSubtitlesVernacular(object sender, EventArgs e)
 		{
+			Analytics.Track("Export Transcription Subtitles");
+
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var contentTier = ((AnnotationComponentFile)_file).Tiers.GetTranscriptionTier();
 			DoExportSubtitleDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.transcriptionFilenameSuffix", "transcription_subtitle"), timeTier, contentTier);
@@ -422,37 +484,34 @@ namespace SayMore.Transcription.UI
 
 		private void OnExportVideoFreeTranslation(object sender, EventArgs e)
 		{
-			// The string has to be worked out
-			string fileNameSuffix = "freeTranslation";
-			DoExportVideoDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix", fileNameSuffix));
+			DoExportVideoDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix",
+				"freeTranslation"), ((AnnotationComponentFile)_file).Tiers.GetFreeTranslationTier());
 		}
 
 		private void OnExportVideoTranscription(object sender, EventArgs e)
 		{
-			// The string has to be worked out
-			string fileNameSuffix = "transcription";
-			DoExportVideoDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.transcriptionFilenameSuffix", fileNameSuffix));
+			DoExportVideoDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.transcriptionFilenameSuffix",
+				"transcription"), ((AnnotationComponentFile)_file).Tiers.GetTranscriptionTier());
 		}
 
 		private void DoExportSubtitleDialog(string fileNameSuffix, TimeTier timeTier, TextTier textTeir)
 		{
 			textTeir.AddTimeRangeData(timeTier);
 
-			var filter =  "SRT Subtitle File (*.srt)|*.srt";
-			var fileName =_file.ParentElement.Id + ComponentRole.kFileSuffixSeparator + fileNameSuffix + ".srt";
 			var action = new Action<string>(path => SRTFormatSubTitleExporter.Export(path, textTeir));
 
-			DoSimpleExportDialog(".srt", filter, fileName, action);
-			//DoSimpleExportDialog(".ass", filter, fileName, action);
+			DoSimpleExportDialog(".srt",
+				LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.TranscriptionFileDescriptor", "SRT Subtitle File ({0})"),
+				fileNameSuffix, string.Empty, action);
 		}
 
-		private void DoExportVideoDialog(string fileNameSuffix)
+		private void DoExportVideoDialog(string fileNameSuffix, TextTier contentTier)
 		{
 			// check whether FFmpeg is installed, if not, give a chance to install
 			// this routine can be potentially moved to an earlier spot
 			if (!FFmpegDownloadHelper.DoesFFmpegForSayMoreExist)
 			{
-				// TODO: Display an explanatory MessageBox
+				// TODO: Ask user Yes/No question. Make localizable.
 				MessageBox.Show("FFMPEG is required to export video with subtitle. The software can be downloaded now.");
 				using (var dlg = new FFmpegDownloadDlg())
 					dlg.ShowDialog(this);
@@ -462,18 +521,18 @@ namespace SayMore.Transcription.UI
 
 			// ffmpeg requires FONTCONFIG_PATH environment variable set.
 			// this routine can be potentially moved to an earlier spot
-			var fontConfigPath = Palaso.IO.FileLocator.GetDirectoryDistributedWithApplication("mplayer", "fonts");
+			var fontConfigPath = FileLocator.GetDirectoryDistributedWithApplication("mplayer", "fonts");
 			Environment.SetEnvironmentVariable("FONTCONFIG_PATH ", fontConfigPath);
 
 			/*
 			Enumerate the video files in the session to try to
 			determine which one to add subtitles to. The assumption is that if there is exactly one
-			video in the session whose name matches the ‚Äúbase name‚Äù of the standard audio WAV file
+			video in the session whose name matches the ìbase nameî of the standard audio WAV file
 			being annotated, then we can just use it without prompting the user.
-			However, there are a couple edge cases I‚Äôm not sure about:
+			However, there are a couple edge cases Iím not sure about:
 
 			1) If there are two or more videos with the same name but having different
-			video formats (AVI, MP4, etc.), I‚Äôm assuming we need to ask the user which one to use?
+			video formats (AVI, MP4, etc.), Iím assuming we need to ask the user which one to use?
 			Or is there one particular format that we can safely assume to be the preferred one?
 			(Presumably all the different videos would be the same content, so the end result will be essentially the same no matter which one we use, but the quality could be different.)
 
@@ -520,7 +579,6 @@ namespace SayMore.Transcription.UI
 			// produce a subtitle file to be merged into a video
 			// this file will be created in a temp folder and later will be deleted
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
-			var contentTier = ((AnnotationComponentFile)_file).Tiers.GetFreeTranslationTier();
 			contentTier.AddTimeRangeData(timeTier);
 			var tempDir = Path.GetTempPath();
 			var subtitleFilePath = tempDir + "\\" + _file.ParentElement.Id + "_tmp.srt";
@@ -531,12 +589,12 @@ namespace SayMore.Transcription.UI
 			var outVideoPath = _file.ParentElement.Id + ComponentRole.kFileSuffixSeparator + fileNameSuffix;
 			var filter = "Video (*.mp4;*.mkv)|*.mp4;*mkv";
 
-			var action = new Action<string>(path => TestFormatVideoExporter.Export(path, inVideoPath, subtitleFilePath));
+			var action = new Action<string>(path => SubtitledVideoExporter.Export(path, inVideoPath, subtitleFilePath));
 			string extension = Path.GetExtension(inVideoPath);
 			DoSimpleVideoExportDialog(extension, filter, outVideoPath, action);
 
 			// delete the temporary subtitle file
-			File.Delete(subtitleFilePath);
+			RobustFile.Delete(subtitleFilePath);
 		}
 
 		private string GetVideoFilePath()
@@ -546,68 +604,93 @@ namespace SayMore.Transcription.UI
 			if (index < 1) return null;
 
 			var inVideoPath = _file.PathToAnnotatedFile.Substring(0, index) + ".mp4";
-			return File.Exists(inVideoPath) ? inVideoPath : null;
+			if (!File.Exists(inVideoPath))
+			{
+				inVideoPath = _file.ParentElement.GetComponentFiles()
+					.Select(file => MediaFileInfo.GetInfo(file.PathToAnnotatedFile))
+					.FirstOrDefault(i => i != null && i.IsVideo)?.MediaFilePath;
+			}
+			return inVideoPath;
 		}
 
 		private void OnAudacityExportFreeTranslation(object sender, EventArgs e)
 		{
+			Analytics.Track("Export Free Translation to Audacity");
+
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var textTeir = ((AnnotationComponentFile)_file).Tiers.GetFreeTranslationTier();
 			textTeir.AddTimeRangeData(timeTier);
-			var filter = "Text File (*.txt)|*.txt";
-			var suffix = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslationFilenameSuffix", "audacity_freeTranslation");
-			var fileName = _file.ParentElement.Id + "_" + suffix + ".txt";
+			var suffix = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslationFilenameSuffix",
+				"audacity_freeTranslation", "Probably does not need to be localized");
 			var action = new Action<string>(path => AudacityExporter.Export(path, textTeir));
 
-			DoSimpleExportDialog(".txt", filter, fileName, action);
+			DoSimpleExportDialog(FileSystemUtils.kTextFileExtension, FileSystemUtils.LocalizedVersionOfTextFileDescriptor,
+				suffix, "Audacity", action);
 		}
 
 		private void OnAudacityExportTranscription(object sender, EventArgs e)
 		{
+			Analytics.Track("Export Transcription to Audacity");
+
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
 			var textTeir = ((AnnotationComponentFile)_file).Tiers.GetTranscriptionTier();
 			textTeir.AddTimeRangeData(timeTier);
 
-			var filter = "Text File (*.txt)|*.txt";
-			var suffix = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscriptionFilenameSuffix", "audacity_transcription");
-			var fileName = _file.ParentElement.Id + "_"+suffix+".txt";
+			var suffix = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscriptionFilenameSuffix",
+				"audacity_transcription", "Probably does not need to be localized");
 			var action = new Action<string>(path => AudacityExporter.Export(path, textTeir));
 
-			DoSimpleExportDialog(".txt", filter, fileName, action);
+			DoSimpleExportDialog(FileSystemUtils.kTextFileExtension, FileSystemUtils.LocalizedVersionOfTextFileDescriptor,
+				suffix, "Audacity", action);
 		}
 
 		private void OnPlainTextExportMenuItem_Click(object sender, EventArgs e)
 		{
-			var filter = "Text File (*.txt)|*.txt";
-			var fileName = _file.ParentElement.Id + "_transcription.txt";
+			Analytics.Track("Export Plain Text");
+
 			var action = new Action<string>(path => PlainTextTranscriptionExporter.Export(path, (((AnnotationComponentFile) _file).Tiers)));
 
-			DoSimpleExportDialog(".txt", filter, fileName, action);
+			DoSimpleExportDialog(FileSystemUtils.kTextFileExtension, FileSystemUtils.LocalizedVersionOfTextFileDescriptor,
+				"transcription", string.Empty, action);
 		}
 
 		private void OnCsvExportMenuItem_Click(object sender, EventArgs e)
 		{
-			var filter = "Comma Separated Values File (*.csv)|*.csv";
-			var fileName = _file.ParentElement.Id + "_transcription.csv";
+			Analytics.Track("Export CSV");
+
 			var action = new Action<string>(path => CSVTranscriptionExporter.Export(path, (((AnnotationComponentFile) _file).Tiers)));
 
-			DoSimpleExportDialog(".csv", filter, fileName, action);
+			DoSimpleExportDialog(".csv",
+				LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.CommaSeparatedValuesFileDescriptor", "Comma Separated Values File ({0})"),
+				"transcription", string.Empty, action);
 		}
 
 		private void OnToolboxInterlinearExportMenuItem_Click(object sender, EventArgs e)
 		{
-			var filter = "Toolbox Standard Format File (*.txt)|*.txt";
-			var fileName = _file.ParentElement.Id + "_interlinear.txt";
+			Analytics.Track("Export Toolbox Interlinear");
+
 			var mediaFileName = Path.GetFileName(AssociatedComponentFile.PathToAnnotatedFile);
 			var action = new Action<string>(path => ToolboxTranscriptionExporter.Export(_file.ParentElement.Id, mediaFileName, path, (((AnnotationComponentFile)_file).Tiers)));
 
-			DoSimpleExportDialog(".txt", filter, fileName, action);
+			DoSimpleExportDialog(".txt",
+				LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.CommaSeparatedValuesFileDescriptor", "Toolbox Standard Format File ({0})"),
+				"interlinear", "Toolbox", action);
 		}
 
-		private static void DoSimpleExportDialog(string defaultExt, string filter, string fileName, Action<string> action)
+		private void DoSimpleExportDialog(string defaultExt, string fileTypeDescriptor, string suffix, string namedSettingsFolder, Action<string> action)
 		{
+			if (!defaultExt.StartsWith("."))
+				throw new ArgumentException("Default extension should start with \".\"!");
+
+			namedSettingsFolder = string.Format("Last{0}ExportDestinationFolder", namedSettingsFolder);
+			string folder = GetDefaultExportFolder(namedSettingsFolder);
+
 			try
 			{
+				var formattedFileDescriptor = string.Format(fileTypeDescriptor, "*" + defaultExt);
+				var filter = string.Format("{0}|{1}", formattedFileDescriptor, "*" + defaultExt);
+				var fileName = _file.ParentElement.Id + ComponentRole.kFileSuffixSeparator + suffix + defaultExt;
+
 				using (var dlg = new SaveFileDialog())
 				{
 					dlg.AddExtension = true;
@@ -617,9 +700,13 @@ namespace SayMore.Transcription.UI
 					dlg.Filter = filter;
 					dlg.FileName = fileName;
 					dlg.RestoreDirectory = true;
-					dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+					dlg.InitialDirectory = folder ?? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
 					if (DialogResult.OK != dlg.ShowDialog())
 						return;
+
+					if (namedSettingsFolder != null)
+						Settings.Default[namedSettingsFolder] = Path.GetDirectoryName(dlg.FileName);
 
 					action(dlg.FileName);
 					Process.Start("Explorer", "/select, \"" + dlg.FileName + "\"");
@@ -633,6 +720,33 @@ namespace SayMore.Transcription.UI
 					throw;
 				ErrorReport.NotifyUserOfProblem(error, "There was a problem creating that file.\r\n\r\n" + error.Message);
 			}
+		}
+
+		internal static string GetDefaultExportFolder(string namedSettingsFolder)
+		{
+			string folder = null;
+			if (namedSettingsFolder != null)
+			{
+				try
+				{
+					folder = (string)Settings.Default[namedSettingsFolder];
+					if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
+					{
+						if (namedSettingsFolder != "LastExportDestinationFolder")
+						{
+							// Try the "generic" one.
+							folder = (string) Settings.Default["LastExportDestinationFolder"];
+						}
+						if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
+							folder = null;
+					}
+				}
+				catch
+				{
+					folder = null;
+				}
+			}
+			return folder;
 		}
 
 		private static void DoSimpleVideoExportDialog(string defaultExt, string filter, string fileName, Action<string> action)
@@ -654,7 +768,8 @@ namespace SayMore.Transcription.UI
 						return;
 
 					action(dlg.FileName);
-					Process.Start("Explorer", "/select, \"" + dlg.FileName + "\"");
+					if (File.Exists(dlg.FileName))
+						Process.Start("Explorer", "/select, \"" + dlg.FileName + "\"");
 				}
 			}
 			catch (Exception error)

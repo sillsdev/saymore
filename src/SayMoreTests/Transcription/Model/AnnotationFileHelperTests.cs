@@ -6,8 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using NUnit.Framework;
-using Palaso.Reporting;
-using Palaso.TestUtilities;
+using SIL.Reporting;
+using SIL.TestUtilities;
 using SayMore.Transcription.Model;
 using SayMoreTests.Model.Files;
 
@@ -447,8 +447,11 @@ namespace SayMoreTests.Transcription.Model
 			var timeList = _helper.GetTimeSlots();
 			Assert.AreEqual(0.010f, timeList["ts1"]);
 			Assert.AreEqual(0.020f, timeList["ts2"]);
-			Assert.AreEqual((20 + (17f / 3)) / 1000f, timeList["ts3"]);
-			Assert.AreEqual((20 + (17f / 3) + (17f / 3)) / 1000f, timeList["ts4"]);
+			// Because the calculation to get the expected result is slightly different from the actual calculation in
+			// production code, there is a slight rounding error difference in the 64-bit floating-point math, so we
+			// arbitrarily round to 7 decimal places when comparing them.
+			Assert.AreEqual(Math.Round((20 + (17f / 3)) / 1000f, 7), Math.Round(timeList["ts3"], 7));
+			Assert.AreEqual(Math.Round((20 + (17f / 3) + (17f / 3)) / 1000f, 7), Math.Round(timeList["ts4"], 7));
 			Assert.AreEqual(0.037f, timeList["ts5"]);
 		}
 
@@ -985,6 +988,17 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void CorrectLastUsedAnnotationIdIfNecessary_AdditionalNonSayMorePropertyExists_DoesNotThrowException()
+		{
+			LoadEafFile(false);
+			var header = _helper.GetOrCreateHeader();
+			var element = new XElement("PROPERTY", new XAttribute("NAME", "UnexpectedProperty"), "whatever");
+			header.AddFirst(element);
+			_helper.CorrectLastUsedAnnotationIdIfNecessary();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void GetOrCreateTranscriptionTierElement_ElementDoesNotExist_CreatesIt()
 		{
 			LoadEafFile();
@@ -1030,7 +1044,7 @@ namespace SayMoreTests.Transcription.Model
 			Assert.AreEqual(0, elements.Length);
 			Assert.AreEqual(0, _helper.GetTimeSlots().Count);
 
-			_helper.CreateTranscriptionAnnotationElement(new Segment(null, 3f, 5.4f));
+			_helper.CreateTranscriptionAnnotationElement(new AnnotationSegment(null, 3f, 5.4f));
 
 			elements = _helper.GetTranscriptionTierAnnotations().Select(kvp => kvp.Value).ToArray();
 			Assert.AreEqual(1, elements.Length);

@@ -66,6 +66,7 @@ namespace SayMore.Model.Files
 				if (!finfo.Exists || finfo.Length == 0)
 					option = GenerateOption.RegenerateNow;
 			}
+
 			AssociatedComponentFile.GenerateOralAnnotationFile(eafFile.Tiers, parentOfProgressPopup, option);
 		}
 	}

@@ -16,7 +16,7 @@ namespace SayMore.Model.Files
 		public delegate ProjectElementComponentFile Factory(ProjectElement parentElement,
 			FileType fileType, XmlFileSerializer xmlFileSerializer, string rootElementName);
 
-		//protected readonly ProjectElement _parentElement;
+		private string _oldUiId = null;
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectElementComponentFile(ProjectElement parentElement,
@@ -53,26 +53,37 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>Sets the gievn string value and returns whether it was set exactly as
+		/// <summary>Sets the given string value and returns whether it was set exactly as
 		/// requested.</summary>
 		/// <returns><c>false</c> if the value is changed or the set operation fails</returns>
 		/// ------------------------------------------------------------------------------------
 		public virtual bool TrySetStringValue(string key, string newValue)
 		{
-			string failureMessage;
-			return (SetStringValue(key, newValue, out failureMessage) == newValue &&
-				string.IsNullOrEmpty(failureMessage));
+			return (SetStringValue(key, newValue) == newValue);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string SetStringValue(string key, string newValue, out string failureMessage)
+		public override string SetStringValue(string key, string newValue)
 		{
 			if (key == SessionFileType.kStatusFieldName)
 				newValue = Session.GetStatusAsEnumParsableString(newValue);
 			else if (key == SessionFileType.kGenreFieldName)
 				newValue = GenreDefinition.TranslateNameToId(newValue);
+			else if (key == PersonFileType.kCode)
+				_oldUiId = ParentElement.UiId;
 
-			return base.SetStringValue(key, newValue, out failureMessage);
+			return base.SetStringValue(key, newValue);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnAfterSave(object sender)
+		{
+			base.OnAfterSave(sender);
+			if (_oldUiId != null)
+			{
+				ParentElement.NotifyOtherElementsOfUiIdChange(_oldUiId);
+				_oldUiId = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -82,11 +93,19 @@ namespace SayMore.Model.Files
 
 			if (ParentElement.Id != newId)
 			{
-				var oldId = ParentElement.Id;
-				if (ParentElement.TryChangeIdAndSave(newId, out failureMessage))
+				Program.SuspendBackgroundProcesses();
+				try
 				{
-					LoadFileSizeAndDateModified();
-					OnIdChanged("id", oldId, newId);
+					var oldId = ParentElement.Id;
+					if (ParentElement.TryChangeIdAndSave(newId, out failureMessage))
+					{
+						LoadFileSizeAndDateModified();
+						OnIdChanged("id", oldId, newId);
+					}
+				}
+				finally
+				{
+					Program.ResumeBackgroundProcesses(false);
 				}
 			}
 

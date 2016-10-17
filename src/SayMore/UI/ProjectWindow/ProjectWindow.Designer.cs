@@ -25,6 +25,7 @@ namespace SayMore.UI.ProjectWindow
 			this._toolStripSeparator0 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuExportSessions = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuExportPeople = new System.Windows.Forms.ToolStripMenuItem();
+			this.archiveIMDIProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuChangeUILanguage = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuShowMPlayerDebugWindow = new System.Windows.Forms.ToolStripMenuItem();
@@ -35,7 +36,6 @@ namespace SayMore.UI.ProjectWindow
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuAbout = new System.Windows.Forms.ToolStripMenuItem();
-			this.archiveIMDIProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._viewTabGroup = new SayMore.UI.ProjectWindow.ViewTabGroup();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._mainMenuStrip.SuspendLayout();
@@ -80,7 +80,7 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizingId(this._menuProject, "MainWindow._menuProject");
 			this._menuProject.Name = "_menuProject";
 			this._menuProject.Size = new System.Drawing.Size(56, 20);
-			this._menuProject.Text = "&Project";
+			this._menuProject.Text = "Pro&ject";
 			this._menuProject.DropDownClosed += new System.EventHandler(this.HandleProjectMenuDropDownClosed);
 			this._menuProject.Click += new System.EventHandler(this.HandleProjectMenuClick);
 			// 
@@ -107,7 +107,7 @@ namespace SayMore.UI.ProjectWindow
 			this._menuExportSessions.Name = "_menuExportSessions";
 			this._menuExportSessions.Size = new System.Drawing.Size(254, 22);
 			this._menuExportSessions.Tag = "exportSessions";
-			this._menuExportSessions.Text = "Export Sessions...";
+			this._menuExportSessions.Text = "Export &Sessions...";
 			this._menuExportSessions.Click += new System.EventHandler(this.HandleCommandMenuItemClick);
 			// 
 			// _menuExportPeople
@@ -118,8 +118,18 @@ namespace SayMore.UI.ProjectWindow
 			this._menuExportPeople.Name = "_menuExportPeople";
 			this._menuExportPeople.Size = new System.Drawing.Size(254, 22);
 			this._menuExportPeople.Tag = "exportPeople";
-			this._menuExportPeople.Text = "Export People...";
+			this._menuExportPeople.Text = "Export &People...";
 			this._menuExportPeople.Click += new System.EventHandler(this.HandleCommandMenuItemClick);
+			// 
+			// archiveIMDIProjectToolStripMenuItem
+			// 
+			this.locExtender.SetLocalizableToolTip(this.archiveIMDIProjectToolStripMenuItem, null);
+			this.locExtender.SetLocalizationComment(this.archiveIMDIProjectToolStripMenuItem, null);
+			this.locExtender.SetLocalizingId(this.archiveIMDIProjectToolStripMenuItem, "ProjectWindow.archiveUsingIMDIToolStripMenuItem");
+			this.archiveIMDIProjectToolStripMenuItem.Name = "archiveIMDIProjectToolStripMenuItem";
+			this.archiveIMDIProjectToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+			this.archiveIMDIProjectToolStripMenuItem.Text = "&Archive using IMDI...";
+			this.archiveIMDIProjectToolStripMenuItem.Click += new System.EventHandler(this.HandleArchiveProjectMenuItemClick);
 			// 
 			// _toolStripSeparator1
 			// 
@@ -133,7 +143,7 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizingId(this._menuChangeUILanguage, "MainWindow._menuChangeUILanguage");
 			this._menuChangeUILanguage.Name = "_menuChangeUILanguage";
 			this._menuChangeUILanguage.Size = new System.Drawing.Size(254, 22);
-			this._menuChangeUILanguage.Text = "Change User Interface Language...";
+			this._menuChangeUILanguage.Text = "&Change User Interface Language...";
 			this._menuChangeUILanguage.Click += new System.EventHandler(this.HandleChangeUILanguageMenuClick);
 			// 
 			// _menuShowMPlayerDebugWindow
@@ -184,7 +194,7 @@ namespace SayMore.UI.ProjectWindow
 			this._menuReleaseNotes.Name = "_menuReleaseNotes";
 			this._menuReleaseNotes.Size = new System.Drawing.Size(156, 22);
 			this._menuReleaseNotes.Tag = "releaseNotes";
-			this._menuReleaseNotes.Text = "Release Notes...";
+			this._menuReleaseNotes.Text = "Release &Notes...";
 			this._menuReleaseNotes.Click += new System.EventHandler(this.HandleCommandMenuItemClick);
 			// 
 			// toolStripSeparator1
@@ -212,16 +222,6 @@ namespace SayMore.UI.ProjectWindow
 			this._menuAbout.Text = "&About...";
 			this._menuAbout.Click += new System.EventHandler(this.HandleHelpAboutClick);
 			// 
-			// archiveIMDIProjectToolStripMenuItem
-			// 
-			this.locExtender.SetLocalizableToolTip(this.archiveIMDIProjectToolStripMenuItem, null);
-			this.locExtender.SetLocalizationComment(this.archiveIMDIProjectToolStripMenuItem, null);
-			this.locExtender.SetLocalizingId(this.archiveIMDIProjectToolStripMenuItem, "ProjectWindow.archiveUsingIMDIToolStripMenuItem");
-			this.archiveIMDIProjectToolStripMenuItem.Name = "archiveIMDIProjectToolStripMenuItem";
-			this.archiveIMDIProjectToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-			this.archiveIMDIProjectToolStripMenuItem.Text = "&Archive using IMDI...";
-			this.archiveIMDIProjectToolStripMenuItem.Click += new System.EventHandler(this.HandleArchiveProjectMenuItemClick);
-			// 
 			// _viewTabGroup
 			// 
 			this._viewTabGroup.BackColor = System.Drawing.SystemColors.Control;
@@ -245,11 +245,11 @@ namespace SayMore.UI.ProjectWindow
 			this.Controls.Add(this._mainMenuStrip);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "MainWindow.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "MainWindow.WindowTitleWithProject");
 			this.MainMenuStrip = this._mainMenuStrip;
 			this.MinimumSize = new System.Drawing.Size(600, 450);
 			this.Name = "ProjectWindow";
-			this.Text = "{0} - SayMore {1}.{2}.{3} (Beta)";
+			this.Text = "{0} - SayMore {1}.{2}.{3} {4}";
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this._mainMenuStrip.ResumeLayout(false);
 			this._mainMenuStrip.PerformLayout();

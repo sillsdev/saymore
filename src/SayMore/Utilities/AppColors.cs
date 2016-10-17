@@ -28,67 +28,6 @@ namespace SayMore.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Replaces one color with another in the specified image. This returns a new image
-		/// so it's up to the caller to dispose of the original as necessary.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Image ReplaceColor(Image bmpOrig, Color clrOld, Color clrNew)
-		{
-			// This is a pretty brute-force (and slow) way to do this.
-			// Perhaps there's a better way.
-			var bmp = new Bitmap(bmpOrig);
-			for (int y = 0; y < bmp.Height; y++)
-			{
-				for (int x = 0; x < bmp.Width; x++)
-				{
-					var clr = bmp.GetPixel(x, y);
-					if (clr == clrOld)
-						bmp.SetPixel(x, y, clrNew);
-				}
-			}
-
-			return bmp;
-		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Paints the background of the specified control using the data entry background
-		///// color scheme.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static void PaintDataEntryBackground(object sender, PaintEventArgs e)
-		//{
-		//    Rectangle rc = ((Control)sender).ClientRectangle;
-		//    PaintDataEntryBackground(e.Graphics, rc, BorderSides.All);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Paints the background of the specified control using the data entry background
-		///// color scheme.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static void PaintDataEntryBackground(Graphics g, Rectangle rc, BorderSides sides)
-		//{
-		//    //using (var br = new LinearGradientBrush(rc, DataEntryPanelBegin, DataEntryPanelEnd, 45f))
-		//    //    g.FillRectangle(br, rc);
-
-		//    var clrDark = ColorHelper.CalculateColor(Settings.Default.PersonEditorsBorderColor, Color.White, 150);
-
-
-		//    using (var br = new LinearGradientBrush(rc,
-		//        Settings.Default.PersonEditorsBackgroundColor,
-		//        clrDark, 135f))
-		//    {
-		//        g.FillRectangle(br, rc);
-		//    }
-
-		//    PaintBorder(g, Settings.Default.PersonEditorsBorderColor, rc, sides);
-		//    //			PaintDataEntryBorder(g, rc, sides);
-		//}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Paints the border of the specified control using the data entry background
 		/// color scheme.
 		/// </summary>

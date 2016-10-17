@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Palaso.UI.WindowsForms.ClearShare;
+using SIL.Windows.Forms.ClearShare;
 
 namespace SayMoreTests.Model.Fields
 {

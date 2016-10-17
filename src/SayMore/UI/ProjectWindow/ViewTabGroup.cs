@@ -5,9 +5,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.UI.WindowsForms;
-using Palaso.UI.WindowsForms.Extensions;
-using Palaso.UI.WindowsForms.Widgets;
+using SIL.Windows.Forms;
+using SIL.Windows.Forms.Extensions;
+using SIL.Windows.Forms.Widgets;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -160,7 +160,7 @@ namespace SayMore.UI.ProjectWindow
 			int top = ((_panelHdrBand.Height - _panelHdrBand.Padding.Bottom - 18) / 2);
 
 			// Create a left scrolling button.
-			_buttonLeft = new Palaso.UI.WindowsForms.Widgets.XButton();
+			_buttonLeft = new SIL.Windows.Forms.Widgets.XButton();
 			_buttonLeft.DrawLeftArrowButton = true;
 			_buttonLeft.Size = new Size(18, 18);
 			_buttonLeft.Anchor = AnchorStyles.Right | AnchorStyles.Top;
@@ -169,7 +169,7 @@ namespace SayMore.UI.ProjectWindow
 			_panelScroll.Controls.Add(_buttonLeft);
 
 			// Create a right scrolling button.
-			_buttonRight = new Palaso.UI.WindowsForms.Widgets.XButton();
+			_buttonRight = new SIL.Windows.Forms.Widgets.XButton();
 			_buttonRight.DrawRightArrowButton = true;
 			_buttonRight.Size = new Size(18, 18);
 			_buttonRight.Anchor = AnchorStyles.Right | AnchorStyles.Top;

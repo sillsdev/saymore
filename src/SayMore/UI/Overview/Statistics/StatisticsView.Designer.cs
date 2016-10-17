@@ -29,10 +29,9 @@ namespace SayMore.UI.Overview.Statistics
         private void InitializeComponent()
         {
 			this.components = new System.ComponentModel.Container();
-			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this._webBrowser = new System.Windows.Forms.WebBrowser();
-			this._panelBrowser = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
-			this._panelWorking = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
+			this._panelBrowser = new SIL.Windows.Forms.Widgets.EnhancedPanel();
+			this._panelWorking = new SIL.Windows.Forms.Widgets.EnhancedPanel();
 			this._tableLayoutWorking = new System.Windows.Forms.TableLayoutPanel();
 			this._labelWorking = new System.Windows.Forms.Label();
 			this._pictureWorking = new System.Windows.Forms.PictureBox();
@@ -49,12 +48,6 @@ namespace SayMore.UI.Overview.Statistics
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._toolStripActions.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// timer1
-			// 
-			this.timer1.Enabled = true;
-			this.timer1.Interval = 500;
-			this.timer1.Tick += new System.EventHandler(this.HandleTimerTick);
 			// 
 			// _webBrowser
 			// 
@@ -210,7 +203,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._buttonRefresh.Name = "_buttonRefresh";
 			this._buttonRefresh.Padding = new System.Windows.Forms.Padding(1);
 			this._buttonRefresh.Size = new System.Drawing.Size(23, 22);
-			this._buttonRefresh.Text = "Refresh";
+			this._buttonRefresh.Text = "&Refresh";
 			this._buttonRefresh.ToolTipText = "Refresh View";
 			this._buttonRefresh.Click += new System.EventHandler(this.HandleRefreshButtonClicked);
 			// 
@@ -238,6 +231,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._buttonSave.Padding = new System.Windows.Forms.Padding(1);
 			this._buttonSave.Size = new System.Drawing.Size(37, 22);
 			this._buttonSave.Text = "Save";
+			this._buttonSave.ToolTipText = "Save";
 			this._buttonSave.Click += new System.EventHandler(this.HandleSaveButtonClicked);
 			// 
 			// _buttonPrint
@@ -282,13 +276,12 @@ namespace SayMore.UI.Overview.Statistics
 
         #endregion
 
-		private System.Windows.Forms.Timer timer1;
 		private System.Windows.Forms.WebBrowser _webBrowser;
 		private SayMore.UI.LowLevelControls.ElementBar _toolStripActions;
 		private System.Windows.Forms.ToolStripButton _buttonRefresh;
-		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _panelBrowser;
+		private SIL.Windows.Forms.Widgets.EnhancedPanel _panelBrowser;
 		private System.Windows.Forms.Label _labelWorking;
-		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _panelWorking;
+		private SIL.Windows.Forms.Widgets.EnhancedPanel _panelWorking;
 		private System.Windows.Forms.PictureBox _pictureWorking;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutWorking;
 		private L10NSharp.UI.L10NSharpExtender locExtender;

@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using SayMore.Transcription.Model;
 using SayMoreTests.Model.Files.DataGathering;
 

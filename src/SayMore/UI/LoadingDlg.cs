@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.Miscellaneous;
+using SIL.Reporting;
+using SIL.Windows.Forms.Miscellaneous;
 using SayMore.Utilities;
 
 namespace SayMore.UI
@@ -22,6 +23,8 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		public LoadingDlg()
 		{
+			Logger.WriteEvent("LoadingDlg constructor");
+
 			InitializeComponent();
 			_linkCancel.Font = Program.DialogFont;
 			BackColor = Color.White;
@@ -88,7 +91,7 @@ namespace SayMore.UI
 					return;
 				_labelLoading.Text = msg;
 				_exception = e;
-				_pictureLoading.Image = (e == null ? _originalGif : Properties.Resources.kimidWarning);
+				_pictureLoading.Image = (e == null ? _originalGif : ResourceImageCache.kimidWarning);
 			}
 		}
 
@@ -98,7 +101,10 @@ namespace SayMore.UI
 			if (e.Cancelled)
 			{
 				DialogResult = DialogResult.Cancel;
-				UsageReporter.ReportException(false, "User cancelled operation", _exception, _labelLoading.Text);
+				Analytics.Track("User cancelled operation", new Dictionary<string, string> {
+					{"_labelLoading.Text", _labelLoading.Text} });
+				if (_exception != null)
+					Analytics.ReportException(_exception);
 			}
 			else if (e.Error != null)
 			{

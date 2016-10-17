@@ -205,7 +205,7 @@ namespace Nini.Ini
 			}
 			catch (Exception e)
 			{
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, "There was a problem saving mercurial settings to "+_filePath+". ");
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(e, "There was a problem saving mercurial settings to "+_filePath+". ");
 				return false;
 			}
 		}

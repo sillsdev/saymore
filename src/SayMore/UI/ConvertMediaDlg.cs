@@ -5,8 +5,9 @@ using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.UI.WindowsForms;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.Reporting;
+using SIL.Windows.Forms;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media.FFmpeg;
 using SayMore.Properties;
 
@@ -36,6 +37,7 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		public ConvertMediaDlg(ConvertMediaDlgViewModel viewModel) : this()
 		{
+			Logger.WriteEvent("ConvertMediaDlg constructor. file = {0}", viewModel.InputFile);
 			_viewModel = viewModel;
 
 			_showOutput = Settings.Default.ShowFFmpegDetailsWhenConvertingMedia;
@@ -128,8 +130,6 @@ namespace SayMore.UI
 				DialogResult = DialogResult.OK;
 
 			base.OnClosing(e);
-			if (!e.Cancel)
-				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -253,6 +253,8 @@ namespace SayMore.UI
 					}
 					break;
 			}
+
+			Logger.WriteEvent("Media Conversion Finished. {0}", _labelStatus.Text);
 
 			_labelStatus.TextAlign = ContentAlignment.MiddleCenter;
 			_textBoxOutput.AppendText(_labelStatus.Text);

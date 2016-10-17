@@ -112,17 +112,17 @@ namespace SayMore.Transcription.Model
 		private int GetCountOfContiguousAnnotatedSegments(OralAnnotationType type)
 		{
 			var timeTier = GetTimeTier();
-			var transcriptionTier = GetTranscriptionTier(false);
-			Segment transcriptionSegment;
-			Func<Segment, string> GetPathToAnnotationFile = (type == OralAnnotationType.CarefulSpeech) ?
-				(Func<Segment, string>)timeTier.GetFullPathToCarefulSpeechFile :
-				(Func<Segment, string>)timeTier.GetFullPathToOralTranslationFile;
+			var transcriptionTier = GetTranscriptionTier();
+			AnnotationSegment transcriptionSegment;
+			Func<AnnotationSegment, string> getPathToAnnotationFile = (type == OralAnnotationType.CarefulSpeech) ?
+				timeTier.GetFullPathToCarefulSpeechFile :
+				(Func<AnnotationSegment, string>)timeTier.GetFullPathToOralTranslationFile;
 
 			int iSegment = 0;
 			while (iSegment < timeTier.Segments.Count && ((transcriptionTier != null &&
 				transcriptionTier.TryGetSegment(iSegment, out transcriptionSegment) &&
 				SegmentIsIgnored(transcriptionSegment)) ||
-				File.Exists(GetPathToAnnotationFile(timeTier.Segments[iSegment]))))
+				File.Exists(getPathToAnnotationFile(timeTier.Segments[iSegment]))))
 			{
 				iSegment++;
 			}
@@ -131,7 +131,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool SegmentIsIgnored(Segment transcriptionSegment)
+		private bool SegmentIsIgnored(AnnotationSegment transcriptionSegment)
 		{
 			return transcriptionSegment.Text == kIgnoreSegment
 				|| transcriptionSegment.Text == "%junk%" /*old indicator*/;
@@ -154,14 +154,14 @@ namespace SayMore.Transcription.Model
 		{
 			var timeTier = GetTimeTier();
 
-			var newSeg = timeTier.AppendSegment(boundary);
+			timeTier.AppendSegment(boundary);
 			//var i = timeTier.GetIndexOfSegment(newSeg);
 
 			var transcriptionTier = GetTranscriptionTier();
 			foreach (var tier in this.OfType<TextTier>())
 			{
 				var text = (tier == transcriptionTier) ? kIgnoreSegment : string.Empty;
-				tier.Segments.Add(new Segment(tier, text));
+				tier.Segments.Add(new AnnotationSegment(tier, text));
 			}
 		}
 
@@ -192,7 +192,7 @@ namespace SayMore.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		public BoundaryModificationResult InsertTierSegment(float boundary,
-			Func<Segment, bool, bool, bool> allowDeletionOfOralAnnotations = null)
+			Func<AnnotationSegment, bool, bool, bool> allowDeletionOfOralAnnotations = null)
 		{
 			var timeTier = GetTimeTier();
 
@@ -209,7 +209,7 @@ namespace SayMore.Transcription.Model
 				var transcription = GetIsSegmentIgnored(i) ? kIgnoreSegment : string.Empty;
 				foreach (var tier in this.OfType<TextTier>())
 				{
-					tier.Segments.Insert(i, new Segment(tier,
+					tier.Segments.Insert(i, new AnnotationSegment(tier,
 						(tier.TierType == TierType.Transcription) ? transcription : string.Empty));
 				}
 			}
@@ -223,34 +223,34 @@ namespace SayMore.Transcription.Model
 			if (!timeTier.Segments.Any())
 				return false;
 
-			var segment = timeTier.GetSegmentHavingEndBoundary(boundary);
-			if (segment == null && TimeSpan.FromSeconds(boundary) > timeTier.Segments.Last().TimeRange.End)
+			var precedingSegment = timeTier.GetSegmentHavingEndBoundary(boundary);
+			if (precedingSegment == null && TimeSpan.FromSeconds(boundary) > timeTier.Segments.Last().TimeRange.End)
 				return false;
 
-			int i = timeTier.GetIndexOfSegment(segment);
+			var i = timeTier.GetIndexOfSegment(precedingSegment);
 
 			if (PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent)
 			{
+				// ReSharper disable once LoopCanBeConvertedToQuery
 				foreach (TextTier textTier in this.OfType<TextTier>())
 				{
 					var segments = textTier.Segments;
-					if (segments != null && segments.Count > i)
-					{
-						if (!string.IsNullOrEmpty(segments[i].Text) ||
-							segments.Count > i + 1 && !string.IsNullOrEmpty(segments[i + 1].Text))
-							return true;
-					}
+					if (segments == null || i < 0 || segments.Count <= i)
+						continue;
+					if (!string.IsNullOrEmpty(segments[i].Text) ||
+						segments.Count > i + 1 && !string.IsNullOrEmpty(segments[i + 1].Text))
+						return true;
 				}
 			}
 
-			if (File.Exists(segment.GetFullPathToCarefulSpeechFile()) ||
-				File.Exists(segment.GetFullPathToOralTranslationFile()))
+			// SP-891: Object reference not set to an instance of an object
+			if (precedingSegment != null && precedingSegment.GetHasAnyOralAnnotation())
 				return true;
 
 			if (timeTier.Segments.Count > i + 1)
 			{
-				segment = timeTier.Segments[i + 1];
-				return segment.GetHasAnyOralAnnotation();
+				var followingSegment = timeTier.Segments[i + 1];
+				return followingSegment.GetHasAnyOralAnnotation();
 			}
 
 			return false;
@@ -262,7 +262,9 @@ namespace SayMore.Transcription.Model
 			TextTier textTier = (type == TextAnnotationType.Transcription ? GetTranscriptionTier() :
 				GetFreeTranslationTier());
 			TimeSpan totalTime = TimeSpan.Zero;
-			for (int i = 0; i < GetTimeTier().Segments.Count; i++)
+
+			// ReSharper disable once LoopCanBeConvertedToQuery
+			for (var i = 0; i < GetTimeTier().Segments.Count; i++)
 			{
 				if (!string.IsNullOrEmpty(textTier.Segments[i].Text))
 					totalTime += GetTimeTier().Segments[i].TimeRange.Duration;

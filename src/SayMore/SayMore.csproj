@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SayMore</RootNamespace>
     <AssemblyName>SayMore</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ApplicationIcon>SayMore.ico</ApplicationIcon>
     <FileUpgradeFlags>
@@ -32,7 +32,10 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,6 +48,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <WarningsAsErrors>0114</WarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -55,39 +59,61 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=2.5.1.827, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+    <Reference Include="Analytics.NET, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Analytics.2.0.2\lib\Analytics.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac, Version=4.1.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.4.1.1\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DesktopAnalytics, Version=1.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DesktopAnalytics.1.2.3\lib\net40\DesktopAnalytics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="icu.net, Version=1.2.0.0, Culture=neutral, PublicKeyToken=416fdd914afa6b66, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\Autofac.dll</HintPath>
+      <HintPath>..\..\lib\dotnet\icu.net.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\dotnet\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="L10NSharp, Version=1.1.4835.17235, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="L10NSharp, Version=2.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\L10NSharp.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio, Version=1.5.4.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="MarkdownDeep, Version=1.5.4615.26275, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MarkdownDeep.NET.1.5\lib\.NetFramework 3.5\MarkdownDeep.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NAudio">
       <HintPath>..\..\lib\dotnet\NAudio.dll</HintPath>
     </Reference>
-    <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
-    </Reference>
-    <Reference Include="Palaso.Media, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\Palaso.Media.dll</HintPath>
-    </Reference>
-    <Reference Include="PalasoUIWindowsForms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\PalasoUIWindowsForms.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="SIL.Archiving">
       <HintPath>..\..\lib\dotnet\SIL.Archiving.dll</HintPath>
+    </Reference>
+    <Reference Include="SIL.Core">
+      <HintPath>..\..\lib\dotnet\SIL.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SIL.Media">
+      <HintPath>..\..\lib\dotnet\SIL.Media.dll</HintPath>
+    </Reference>
+    <Reference Include="SIL.Windows.Forms">
+      <HintPath>..\..\lib\dotnet\SIL.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="SIL.Windows.Forms.WritingSystems">
+      <HintPath>..\..\lib\dotnet\SIL.Windows.Forms.WritingSystems.dll</HintPath>
+    </Reference>
+    <Reference Include="SIL.WritingSystems">
+      <HintPath>..\..\lib\dotnet\SIL.WritingSystems.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -109,6 +135,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildType.cs" />
     <Compile Include="MediaUtils\Audio\AudioFileHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -116,6 +143,7 @@
     <Compile Include="MediaUtils\Audio\WaveFileReaderWrapper.cs" />
     <Compile Include="Model\ArchivingHelper.cs" />
     <Compile Include="Model\IIMDIArchivable.cs" />
+    <Compile Include="ResourceImageCache.cs" />
     <Compile Include="Transcription\Model\AutoSegmenter.cs" />
     <Compile Include="MediaUtils\Audio\OralAnnotationPlaybackWaveStream.cs" />
     <Compile Include="MediaUtils\Audio\WaveControls\WaveControlBasic.cs">
@@ -191,12 +219,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Transcription\Model\Exporters\AudacityExporter.cs" />
-    <Compile Include="Transcription\Model\Exporters\TestFormatVideoExporter.cs" />
+    <Compile Include="Transcription\Model\Exporters\SubtitledVideoExporter.cs" />
     <Compile Include="Transcription\Model\Exporters\ToolboxTranscriptionExporter.cs" />
     <Compile Include="Transcription\Model\Exporters\SRTFormatSubTitleExporter.cs" />
     <Compile Include="Transcription\Model\Exporters\PlainTextTranscriptionExporter.cs" />
     <Compile Include="Transcription\Model\Exporters\CSVTranscriptionExporter.cs" />
-    <Compile Include="Transcription\Model\Segment.cs" />
+    <Compile Include="Transcription\Model\AnnotationSegment.cs" />
     <Compile Include="Transcription\Model\TierCollection.cs" />
     <Compile Include="Transcription\Model\TimeRange.cs" />
     <Compile Include="Transcription\Model\TimeTier.cs" />
@@ -453,9 +481,16 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\ElementListScreen\StagesDataProvider.cs" />
+    <Compile Include="UI\FileLoadErrorsReportDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FileLoadErrorsReportDlg.Designer.cs">
+      <DependentUpon>FileLoadErrorsReportDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\LowLevelControls\AutoCompleteTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\LowLevelControls\CustomDataGridTextBoxCell.cs" />
     <Compile Include="UI\LowLevelControls\MultiValueAutoCompleteComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -566,9 +601,7 @@
     <Compile Include="MediaUtils\MPlayer\MPlayerDebuggingOutputWindow.Designer.cs">
       <DependentUpon>MPlayerDebuggingOutputWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="MediaUtils\MPlayer\MPlayerHelper.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="MediaUtils\MPlayer\MPlayerHelper.cs" />
     <Compile Include="MediaUtils\MPlayer\VideoPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -632,18 +665,6 @@
       <DependentUpon>SessionsListScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Command.cs" />
-    <Compile Include="UI\ProjectWindow\AboutDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\ProjectWindow\AboutDialog.designer.cs">
-      <DependentUpon>AboutDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\ProjectWindow\FirstTimeRunDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\ProjectWindow\FirstTimeRunDialog.Designer.cs">
-      <DependentUpon>FirstTimeRunDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\ProjectWindow\MissingFFmpegPopup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -773,6 +794,9 @@
     <EmbeddedResource Include="UI\ElementListScreen\ElementListScreen.resx">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\FileLoadErrorsReportDlg.resx">
+      <DependentUpon>FileLoadErrorsReportDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Overview\ProjectAccessScreen.resx">
       <DependentUpon>ProjectAccessScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -832,7 +856,9 @@
     <EmbeddedResource Include="UI\SplashScreenForm.resx">
       <DependentUpon>SplashScreenForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -904,6 +930,18 @@
     <None Include="Resources\SessionComponentFile.png" />
     <None Include="Resources\SayMoreLogo 16x16.png" />
     <None Include="Resources\SayMoreLogo.png" />
+    <Content Include="..\..\lib\dotnet\icudt54.dll">
+      <Link>icudt54.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\lib\dotnet\icuin54.dll">
+      <Link>icuin54.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\lib\dotnet\icuuc54.dll">
+      <Link>icuuc54.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="SayMore.ico" />
     <EmbeddedResource Include="UI\ComponentEditors\BasicFieldGridEditor.resx">
       <DependentUpon>BasicFieldGridEditor.cs</DependentUpon>
@@ -937,15 +975,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Overview\ProgressScreen.resx">
       <DependentUpon>ProgressScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Overview\Statistics\StatisticsView.resx">
       <DependentUpon>StatisticsView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\ProjectWindow\AboutDialog.resx">
-      <DependentUpon>AboutDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\ProjectWindow\FirstTimeRunDialog.resx">
-      <DependentUpon>FirstTimeRunDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectWindow\MissingFFmpegPopup.resx">
       <DependentUpon>MissingFFmpegPopup.cs</DependentUpon>
@@ -981,7 +1014,6 @@
     <None Include="Resources\VSliderThumbDisabled.png" />
     <None Include="Resources\VSliderThumbPressed.png" />
     <None Include="Resources\Stop.png" />
-    <None Include="Resources\ComponentStageColorBlockTemplate.png" />
     <None Include="Resources\AudioInformedConsent.png" />
     <None Include="Resources\NoInformedConsent.png" />
     <None Include="Resources\VideoInformedConsent.png" />
@@ -1003,7 +1035,6 @@
     <None Include="Resources\Add.png" />
     <None Include="Resources\Delete.png" />
     <None Include="Resources\ramp.png" />
-    <None Include="Resources\EmptyMets.xml" />
     <None Include="Resources\PlaySegment.png" />
     <None Include="Resources\StopSegment.png" />
     <None Include="Resources\ElanIcon.png" />
@@ -1049,6 +1080,7 @@
     <None Include="Resources\UncheckedBox.png" />
     <None Include="Resources\SayMoreText.png" />
     <None Include="Resources\project.png" />
+    <Content Include="Resources\SILInBlue76.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />
@@ -1108,4 +1140,11 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
 </Project>

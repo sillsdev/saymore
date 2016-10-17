@@ -1,15 +1,32 @@
 using System;
-using System.Collections.Specialized;
+using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using Palaso.IO;
-using SayMore.Properties;
+using DesktopAnalytics;
+using SIL.IO;
+using SIL.Reporting;
+using L10NSharp;
 
 namespace SayMore.Utilities
 {
 	public class FileSystemUtils
 	{
+		[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+		static extern uint GetShortPathName(
+		   [MarshalAs(UnmanagedType.LPTStr)]string lpszLongPath,
+		   [MarshalAs(UnmanagedType.LPTStr)]StringBuilder lpszShortPath,
+		   uint cchBuffer);
+
+		public enum WaitForReleaseResult
+		{
+			Free,
+			ReadOnly,
+			TimedOut,
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public static bool GetIsAudioVideo(string path)
 		{
@@ -22,9 +39,9 @@ namespace SayMore.Utilities
 		/// for 10 seconds.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void WaitForFileRelease(string filePath)
+		public static WaitForReleaseResult WaitForFileRelease(string filePath)
 		{
-			WaitForFileRelease(filePath, Thread.CurrentThread);
+			return WaitForFileRelease(filePath, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -33,9 +50,9 @@ namespace SayMore.Utilities
 		/// for 10 seconds.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void WaitForFileRelease(string filePath, Thread callingThread)
+		public static WaitForReleaseResult WaitForFileRelease(string filePath, bool reportErrorIfReadOnly)
 		{
-			WaitForFileRelease(filePath, callingThread, 10000);
+			return WaitForFileRelease(filePath, 10000, reportErrorIfReadOnly);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -43,18 +60,8 @@ namespace SayMore.Utilities
 		/// Waits up to the specified time for a lock on a file to be released.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void WaitForFileRelease(string filePath, int millisecondsToWait)
-		{
-			WaitForFileRelease(filePath, Thread.CurrentThread, millisecondsToWait);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Waits up to the specified time for a lock on a file to be released.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void WaitForFileRelease(string filePath, Thread callingThread,
-			int millisecondsToWait)
+		public static WaitForReleaseResult WaitForFileRelease(string filePath,
+			int millisecondsToWait, bool reportErrorIfReadOnly)
 		{
 			var timeout = DateTime.Now.AddMilliseconds(millisecondsToWait);
 
@@ -62,13 +69,34 @@ namespace SayMore.Utilities
 			while (DateTime.Now < timeout)
 			{
 				if (!FileUtils.IsFileLocked(filePath))
-					return;
+					return WaitForReleaseResult.Free;
 
-				if (callingThread == Thread.CurrentThread)
-					Application.DoEvents();
-				else
-					Thread.Sleep(100);
+				try
+				{
+					FileInfo finfo = new FileInfo(filePath);
+					if (finfo.IsReadOnly)
+					{
+						// No point in waiting. User isn't likely to change this in the next 10 seconds.
+						if (reportErrorIfReadOnly)
+						{
+							var msg = LocalizationManager.GetString("CommonToMultipleViews.FileIsReadOnly",
+								"SayMore is not able to write to the file \"{0}.\" It is read-only.");
+							// ENHANCE: Should we offer to overwrite anyway?
+							ErrorReport.ReportNonFatalMessageWithStackTrace(msg, filePath);
+						}
+						return WaitForReleaseResult.ReadOnly;
+					}
+				}
+				catch
+				{
+					// Oh, well. We tried.
+				}
+
+				Application.DoEvents();
 			}
+			Analytics.Track("WaitForFileRelease Timeout", new Dictionary<string, string> {
+				{"filePath", filePath} });
+			return WaitForReleaseResult.TimedOut;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -187,6 +215,27 @@ namespace SayMore.Utilities
 			}
 
 			return false;
+		}
+
+		public static string GetShortName(string path)
+		{
+			var shortBuilder = new StringBuilder(300);
+			GetShortPathName(path, shortBuilder, (uint)shortBuilder.Capacity);
+			return shortBuilder.ToString();
+		}
+
+		public const string kTextFileExtension = ".txt";
+
+		public static string LocalizedVersionOfTextFileDescriptor
+		{
+			get { return LocalizationManager.GetString("CommonToMultipleViews.TextFileDescriptor", "Text File ({0})"); }
+		}
+
+		public const string kAllFilesFilter = "*.*";
+
+		public static string LocalizedVersionOfAllFilesDescriptor
+		{
+			get { return LocalizationManager.GetString("CommonToMultipleViews.AllFilesDescriptor", "All Files ({0})"); }
 		}
 	}
 }

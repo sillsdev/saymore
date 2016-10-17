@@ -1,15 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using DesktopAnalytics;
 using L10NSharp;
-using Palaso.Extensions;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms;
+using SIL.Extensions;
+using SIL.Reporting;
+using SIL.Windows.Forms;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.Overview;
 using SIL.Archiving;
@@ -18,6 +22,7 @@ using SIL.Archiving.IMDI;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Model.Files;
+using SayMore.UI;
 
 namespace SayMore.Model
 {
@@ -28,9 +33,9 @@ namespace SayMore.Model
 	/// people, and another of sessions.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class Project : IAutoSegmenterSettings, IIMDIArchivable
+	public class Project : IAutoSegmenterSettings, IIMDIArchivable, IDisposable
 	{
-		private readonly ElementRepository<Session>.Factory _sessionsRepoFactory;
+		private ElementRepository<Session>.Factory _sessionsRepoFactory;
 		private readonly SessionFileType _sessionFileType;
 		private string _accessProtocol;
 		private bool _accessProtocolChanged;
@@ -40,7 +45,9 @@ namespace SayMore.Model
 		public string Name { get; protected set; }
 
 		public Font TranscriptionFont { get; set; }
+		private bool _needToDisposeTranscriptionFont;
 		public Font FreeTranslationFont { get; set; }
+		private bool _needToDisposeFreeTranslationFont;
 
 		public int AutoSegmenterMinimumSegmentLengthInMilliseconds { get; set; }
 		public int AutoSegmenterMaximumSegmentLengthInMilliseconds { get; set; }
@@ -79,6 +86,8 @@ namespace SayMore.Model
 						Directory.CreateDirectory(projectDirectory);
 				}
 
+				Title = Name;
+
 				saveNeeded = true;
 			}
 
@@ -104,7 +113,20 @@ namespace SayMore.Model
 				AutoSegmenterOptimumLengthClampingFactor = Settings.Default.DefaultAutoSegmenterOptimumLengthClampingFactor;
 			}
 
-			if (saveNeeded) Save();
+			if (saveNeeded)
+				Save();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Dispose()
+		{
+			_sessionsRepoFactory = null;
+			if (_needToDisposeTranscriptionFont)
+				TranscriptionFont.Dispose();
+			TranscriptionFont = null;
+			if (_needToDisposeFreeTranslationFont)
+				FreeTranslationFont.Dispose();
+			FreeTranslationFont = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -149,7 +171,7 @@ namespace SayMore.Model
 			//{
 			//    // TODO: should probably be more informative and give the user
 			//    // a chance to "unlock" the folder and retry.
-			//    //Palaso.Reporting.ErrorReport.ReportFatalException(e);
+			//    //SIL.Reporting.ErrorReport.ReportFatalException(e);
 			//    throw;  //by rethrowing, we allow the higher levels to do what they are supposed to, which is to
 			//    //say "sorry, couldn't open that." If we have more info to give here, we could do that via a non-fatal error.
 			//}
@@ -250,15 +272,36 @@ namespace SayMore.Model
 			project.Add(new XElement("Continent", Continent.NullTrim() ?? "Unspecified"));
 			project.Add(new XElement("ContactPerson", ContactPerson.NullTrim()));
 			project.Add(new XElement("AccessProtocol", AccessProtocol.NullTrim()));
-			project.Add(new XElement("ContentType", ContentType.NullTrim()));
-			project.Add(new XElement("Applications", Applications.NullTrim()));
 			project.Add(new XElement("DateAvailable", DateAvailable.NullTrim()));
 			project.Add(new XElement("RightsHolder", RightsHolder.NullTrim()));
 			project.Add(new XElement("Depositor", Depositor.NullTrim()));
-			project.Add(new XElement("RelatedPublications", RelatedPublications.NullTrim()));
 			project.Add(new XElement("IMDIOutputDirectory", IMDIOutputDirectory.NullTrim()));
 
-			project.Save(SettingsFilePath);
+			int retryCount = 1;
+			Exception error;
+			do
+			{
+				try
+				{
+					error = null;
+					project.Save(SettingsFilePath);
+					break;
+				}
+				catch (Exception e)
+				{
+					error = e;
+					if (retryCount-- == 0)
+						break;
+					Thread.Sleep(250);
+				}
+			} while (true);
+
+			if (error != null)
+			{
+				ErrorReport.NotifyUserOfProblem(error,
+					LocalizationManager.GetString("MainWindow.ProblemSavingSayMoreProject",
+						"There was a problem saving the SayMore project:\r\n\r\n{0}"), SettingsFilePath);
+			}
 
 			if (_accessProtocolChanged)
 			{
@@ -267,12 +310,27 @@ namespace SayMore.Model
 
 				_accessProtocolChanged = false;
 			}
-
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
+			// SP-791: Invalid URI: The hostname could not be parsed.
+			Uri settingsUri;
+			if (!Uri.TryCreate(SettingsFilePath, UriKind.Absolute, out settingsUri))
+			{
+				var msg = LocalizationManager.GetString("DialogBoxes.LoadProject.InvalidPath", "SayMore is not able to open the project file. \"{0}\" is not a valid path.");
+				ErrorReport.ReportNonFatalMessageWithStackTrace(msg, SettingsFilePath);
+
+				// allow the user to select a different project
+				var prs = new Process();
+				prs.StartInfo.FileName = Application.ExecutablePath;
+				prs.StartInfo.Arguments = "-nl";
+				prs.Start();
+
+				Environment.Exit(0);
+			}
+
 			var project = XElement.Load(SettingsFilePath);
 
 			var settingValue = GetStringSettingValue(project, "Iso639Code", null);
@@ -285,12 +343,16 @@ namespace SayMore.Model
 
 			settingValue = GetStringSettingValue(project, "transcriptionFont", null);
 			if (!string.IsNullOrEmpty(settingValue))
+			{
 				TranscriptionFont = FontHelper.MakeFont(settingValue);
-
+				_needToDisposeTranscriptionFont = true;
+			}
 			settingValue = GetStringSettingValue(project, "freeTranslationFont", null);
 			if (!string.IsNullOrEmpty(settingValue))
+			{
 				FreeTranslationFont = FontHelper.MakeFont(settingValue);
-
+				_needToDisposeFreeTranslationFont = true;
+			}
 			var autoSegmenterSettings = project.Element("AutoSegmentersettings");
 			if (autoSegmenterSettings != null)
 			{
@@ -316,12 +378,9 @@ namespace SayMore.Model
 			AccessProtocol = GetStringSettingValue(project, "AccessProtocol", string.Empty);
 			_accessProtocolChanged = false;
 
-			ContentType = GetStringSettingValue(project, "ContentType", string.Empty);
-			Applications = GetStringSettingValue(project, "Applications", string.Empty);
 			DateAvailable = GetStringSettingValue(project, "DateAvailable", string.Empty);
 			RightsHolder = GetStringSettingValue(project, "RightsHolder", string.Empty);
 			Depositor = GetStringSettingValue(project, "Depositor", string.Empty);
-			RelatedPublications = GetStringSettingValue(project, "RelatedPublications", string.Empty);
 
 			IMDIOutputDirectory = GetStringSettingValue(project, "IMDIOutputDirectory", string.Empty);
 		}
@@ -394,6 +453,12 @@ namespace SayMore.Model
 			return Directory.GetFiles(path, "*." + ProjectSettingsFileExtension, SearchOption.AllDirectories);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public List<XmlException> FileLoadErrors
+		{
+			get { return _sessionsRepoFactory(Path.GetDirectoryName(SettingsFilePath), Session.kFolderName, _sessionFileType).FileLoadErrors; }
+		}
+
 		internal IEnumerable<Session> GetAllSessions()
 		{
 			ElementRepository<Session> sessionRepo = _sessionsRepoFactory(Path.GetDirectoryName(SettingsFilePath), Session.kFolderName, _sessionFileType);
@@ -442,12 +507,6 @@ namespace SayMore.Model
 		public string ContactPerson { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public string ContentType { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		public string Applications { get; set; }
-
-		/// ------------------------------------------------------------------------------------
 		public string DateAvailable { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -455,9 +514,6 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		public string Depositor { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		public string RelatedPublications { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public string IMDIOutputDirectory { get; set; }
@@ -528,6 +584,8 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		internal void ArchiveProjectUsingIMDI(Form parentForm)
 		{
+			Analytics.Track("Archive Project using IMDI");
+
 			ArchivingHelper.ArchiveUsingIMDI(this);
 		}
 

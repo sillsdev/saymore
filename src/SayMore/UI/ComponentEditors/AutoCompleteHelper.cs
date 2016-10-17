@@ -126,6 +126,17 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				if (_provider != null)
+					_provider.NewDataAvailable -= HandleNewDataAvailable;
+			}
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void AddSupport(Control control)
 		{
 			control.Validated += HandleControlValidated;

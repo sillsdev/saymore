@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using Palaso.UI.WindowsForms.Extensions;
+using SIL.Windows.Forms.Extensions;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -42,6 +42,14 @@ namespace SayMore.UI.ComponentEditors
 				var page = SelectedTab as ComponentEditorTabPage;
 				return (page != null ? page.EditorProvider : null);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnDeselecting(TabControlCancelEventArgs e)
+		{
+			base.OnDeselecting(e);
+			if (!e.Cancel && CurrentEditor != null)
+				CurrentEditor.PrepareToDeactivate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -94,8 +102,12 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private bool GetAreAppropriateEditorsAlreadyVisible(ICollection<Type> desiredEditorTypes)
 		{
+			// SP-823: The editor is being replaced instead of being reused, resulting in incorrect control tab order
+			//return TabPages.Cast<TabPage>().All(tp =>
+			//    (from object ctrl in tp.Controls select desiredEditorTypes.Contains(ctrl)).FirstOrDefault());
+
 			return TabPages.Cast<TabPage>().All(tp =>
-				(from object ctrl in tp.Controls select desiredEditorTypes.Contains(ctrl)).FirstOrDefault());
+				(from object ctrl in tp.Controls select desiredEditorTypes.Contains(ctrl.GetType())).FirstOrDefault());
 		}
 	}
 }

@@ -1,83 +1,87 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using L10NSharp.UI;
+using SIL.Reporting;
 
 namespace SayMore.UI.Overview.Statistics
 {
 	public partial class StatisticsView : UserControl
 	{
 		private readonly StatisticsViewModel _model;
-		private bool _updateDisplayNeeded;
 
 		/// ------------------------------------------------------------------------------------
 		public StatisticsView(StatisticsViewModel model)
 		{
+			Logger.WriteEvent("StatisticsView constructor");
+
 			_model = model;
 			InitializeComponent();
 
 			_panelWorking.BorderStyle = BorderStyle.None;
-			LocalizeItemDlg.StringsLocalized += UpdateDisplay;
 		}
 
 		// SP-788: "Cannot access a disposed object" when changing UI language
+		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
 			base.OnHandleDestroyed(e);
 
 			LocalizeItemDlg.StringsLocalized -= UpdateDisplay;
-
-			if (timer1 != null)
-			{
-				timer1.Dispose();
-				timer1 = null;
-			}
-
-			if (_webBrowser != null)
-			{
-				_webBrowser.Dispose();
-				_webBrowser = null;
-			}
+			_model.FinishedGatheringStatisticsForAllFiles -= HandleNewDataAvailable;
+			_model.NewStatisticsAvailable -= HandleNewDataAvailable;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void InitializeView()
 		{
-			_model.FinishedGatheringStatisticsForAllFiles += HandleFinishedGatheringStatisticsForAllFiles;
+			_model.FinishedGatheringStatisticsForAllFiles += HandleNewDataAvailable;
 
-			if (!_model.IsDataUpToDate)
-				UpdateStatusDisplay();
-			else
+			UpdateStatusDisplay(true);
+			if (_model.IsDataUpToDate)
 			{
 				_model.NewStatisticsAvailable += HandleNewDataAvailable;
 				UpdateDisplay();
 			}
+
+			LocalizeItemDlg.StringsLocalized += UpdateDisplay;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void UpdateDisplay()
+		private void UpdateDisplay()
 		{
-			_updateDisplayNeeded = false;
-
 			if (_webBrowser.DocumentStream != null)
 				_webBrowser.DocumentStream.Dispose();
+			UpdateStatusDisplay(true);
+			Thread updateDisplayThread = new Thread(() =>
+				{
+					var htmlData = new MemoryStream(Encoding.UTF8.GetBytes(_model.HTMLString));
 
-			_webBrowser.DocumentStream = new MemoryStream(Encoding.UTF8.GetBytes(_model.HTMLString));
+					Invoke(new Action(() =>
+						{
+							_webBrowser.DocumentStream = htmlData;
 
-			if (_webBrowser.Document != null) _webBrowser.Document.Encoding = "utf-8";
-			UpdateStatusDisplay();
-			_model.NewStatisticsAvailable -= HandleNewDataAvailable;
-			_model.NewStatisticsAvailable += HandleNewDataAvailable;
+							if (_webBrowser.Document != null)
+								_webBrowser.Document.Encoding = "utf-8";
+
+							UpdateStatusDisplay(false);
+							_model.NewStatisticsAvailable -= HandleNewDataAvailable;
+							_model.NewStatisticsAvailable += HandleNewDataAvailable;
+						}));
+				});
+			updateDisplayThread.Name = "StatisticsView.UpdateDisplay";
+			updateDisplayThread.IsBackground = true;
+			updateDisplayThread.Start();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateStatusDisplay()
+		private void UpdateStatusDisplay(bool working)
 		{
-			var showRefreshButton = _model.IsDataUpToDate;
-			_buttonRefresh.Visible = showRefreshButton;
-			_panelWorking.Visible = !showRefreshButton;
+			_buttonRefresh.Visible = !working;
+			_panelWorking.Visible = working;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -157,28 +161,10 @@ namespace SayMore.UI.Overview.Statistics
 			if (_model.IsBusy)
 				return;
 
+			UpdateStatusDisplay(true);
 			_model.NewStatisticsAvailable -= HandleNewDataAvailable;
 			_model.Refresh();
 			_webBrowser.DocumentText = string.Empty;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleTimerTick(object sender, EventArgs e)
-		{
-			UpdateStatusDisplay();
-
-			if (_updateDisplayNeeded)
-				UpdateDisplay();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		void HandleFinishedGatheringStatisticsForAllFiles(object sender, EventArgs e)
-		{
-			// Can't actually call UpdateDisplay from here because this event is fired from
-			// a background (data gathering) thread and updating the browser control on the
-			// background thread is a no-no. UpdateDisplay will be called when the timer
-			// tick fires.
-			_updateDisplayNeeded = true;
 		}
 
 		/// ----------------------------------------------------------------------------------
@@ -188,7 +174,7 @@ namespace SayMore.UI.Overview.Statistics
 			// a background (data gathering) thread and updating the browser control on the
 			// background thread is a no-no. UpdateDisplay will be called when the timer
 			// tick fires.
-			_updateDisplayNeeded = true;
+			BeginInvoke(new Action(UpdateDisplay));
 		}
 	}
 }

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using L10NSharp;
-using Palaso.Reporting;
 using SayMore.UI;
 using SayMore.UI.LowLevelControls;
 
@@ -27,16 +27,31 @@ namespace SayMore.Transcription.Model.Exporters
 		private readonly string _outputFilePath;
 		private BackgroundWorker _worker;
 		private readonly int _segmentCount;
+		private int _currentSegment;
+		private readonly string _mediaFileGuid;
+		private readonly string _mediaFilePath;
+		private readonly string _sourceFileGuid;
+		private readonly string _sourceFilePath;
+
 
 		/// ------------------------------------------------------------------------------------
 		public FLExTextExporter(string outputFilePath, string title,
-			TierCollection tierCollection, string wsTranscriptionId, string wsFreeTranslationId)
+			TierCollection tierCollection, string wsTranscriptionId, string wsFreeTranslationId,
+			string mediaFilePath, string sourceFilePath)
 		{
 			_outputFilePath = outputFilePath;
 			_title = title;
 			_tierCollection = (tierCollection ?? new TierCollection());
 			_wsTranscriptionId = wsTranscriptionId;
 			_wsFreeTranslationId = wsFreeTranslationId;
+			_mediaFileGuid = Guid.NewGuid().ToString();
+			_mediaFilePath = mediaFilePath;
+			if (!string.IsNullOrEmpty(sourceFilePath))
+			{
+				_sourceFileGuid = Guid.NewGuid().ToString();
+				_sourceFilePath = sourceFilePath;
+			}
+			_currentSegment = 1;
 
 			var textTier = _tierCollection.GetTranscriptionTier();
 			if (textTier != null)
@@ -70,6 +85,7 @@ namespace SayMore.Transcription.Model.Exporters
 		/// ------------------------------------------------------------------------------------
 		public void Start()
 		{
+			// ReSharper disable once UseObjectOrCollectionInitializer
 			_worker = new BackgroundWorker();
 			_worker.WorkerSupportsCancellation = true;
 			_worker.WorkerReportsProgress = true;
@@ -125,11 +141,29 @@ namespace SayMore.Transcription.Model.Exporters
 		{
 			var rootElement = CreateRootElement();
 
-			rootElement.Element("interlinear-text").Element("paragraphs").Add(
-				CreateParagraphElements());
+			var interlinear = rootElement.Element("interlinear-text");
+			if (interlinear != null)
+			{
+				var paragraphs = interlinear.Element("paragraphs");
+				if (paragraphs != null)
+					paragraphs.Add(CreateParagraphElements());
 
-			rootElement.Element("interlinear-text").Add(CreateLanguagesElement(
-				new[] { _wsTranscriptionId, _wsFreeTranslationId }));
+				interlinear.Add(CreateLanguagesElement(
+					new[] { _wsTranscriptionId, _wsFreeTranslationId }));
+
+				interlinear.Add(
+					new XElement("media-files", new XAttribute("offset-type", ""),
+						new XElement("media", new XAttribute("guid", _mediaFileGuid), new XAttribute("location", _mediaFilePath))));
+
+				var mediafiles = interlinear.Element("media-files");
+				if (mediafiles != null)
+				{
+					if (!string.IsNullOrEmpty(_sourceFilePath)) mediafiles.Add(
+					new XElement("media", new XAttribute("guid", _sourceFileGuid), new XAttribute("location", _sourceFilePath)));
+				}
+
+			}
+
 
 			return rootElement;
 		}
@@ -167,36 +201,50 @@ namespace SayMore.Transcription.Model.Exporters
 
 			var segmentList = transcriptionTier.Segments.ToArray();
 
+			var timeTier = _tierCollection.GetTimeTier();
+
+			var timeSegmentList = timeTier.Segments.ToArray();
+
+
 			for (int i = 0; i < segmentList.Length; i++)
 			{
 				// _worker will be null during tests.
 				if (_worker != null)
 					_worker.ReportProgress(i + 1);
 
-				Segment freeTranslationSegment;
-				translationTier.TryGetSegment(i, out freeTranslationSegment);
-				yield return CreateSingleParagraphElement(segmentList[i].Text,
-					(freeTranslationSegment != null ? freeTranslationSegment.Text : null));
+				int startTime = (int)Math.Round(timeSegmentList[i].Start * 1000);
+				int endTime = (int)Math.Round(timeSegmentList[i].End * 1000);
+
+				if (translationTier != null)
+				{
+					AnnotationSegment freeTranslationSegment;
+					translationTier.TryGetSegment(i, out freeTranslationSegment);
+					yield return CreateSingleParagraphElement(segmentList[i].Text,
+						(freeTranslationSegment != null ? freeTranslationSegment.Text : null),
+						startTime.ToString(CultureInfo.InvariantCulture),
+						endTime.ToString(CultureInfo.InvariantCulture)
+						);
+				}
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public XElement CreateSingleParagraphElement(string transcription, string freeTranslation)
+		public XElement CreateSingleParagraphElement(string transcription, string freeTranslation, string start, string end)
 		{
-			var transcriptionElement = CreateSingleWordElement(transcription);
-			var phraseElement = new XElement("phrase", transcriptionElement);
+			var phraseElement = new XElement("phrase",
+				new XAttribute("begin-time-offset", start), new XAttribute("end-time-offset", end), new XAttribute("media-file", _mediaFileGuid));
 
-			if (freeTranslation != null)
+			// SP-890: Segments marked "ignore" should export as "..." in FLEx export
+			phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "segnum", _currentSegment++.ToString(CultureInfo.InvariantCulture)));
+			bool ignored = transcription == TierCollection.kIgnoreSegment;
+			phraseElement.Add(CreateItemElement(_wsTranscriptionId, "txt", (ignored ? "..." : transcription)));
+
+			if (!ignored && freeTranslation != null)
 				phraseElement.Add(CreateItemElement(_wsFreeTranslationId, "gls", freeTranslation));
 
-			return new XElement("paragraph", new XElement("phrases", phraseElement));
-		}
+			phraseElement.Add(new XElement("words", null));
 
-		/// ------------------------------------------------------------------------------------
-		public XElement CreateSingleWordElement(string text)
-		{
-			return new XElement("words", new XElement("word",
-				CreateItemElement(_wsTranscriptionId, "txt", text)));
+			return new XElement("paragraph", new XElement("phrases", phraseElement));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -208,10 +256,11 @@ namespace SayMore.Transcription.Model.Exporters
 
 		/// ------------------------------------------------------------------------------------
 		public static void Save(string outputFilePath, string title, TierCollection tierCollection,
-			string wsTranscriptionId, string wsFreeTranslationId)
+			string wsTranscriptionId, string wsFreeTranslationId,
+			string mediaFilePath, string sourceFilePath)
 		{
 			var helper = new FLExTextExporter(outputFilePath, title,
-				tierCollection, wsTranscriptionId, wsFreeTranslationId);
+				tierCollection, wsTranscriptionId, wsFreeTranslationId, mediaFilePath, sourceFilePath);
 
 			var caption = LocalizationManager.GetString(
 					"SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.Caption",
@@ -222,8 +271,6 @@ namespace SayMore.Transcription.Model.Exporters
 				dlg.StartPosition = FormStartPosition.CenterScreen;
 				dlg.ShowDialog();
 			}
-
-			UsageReporter.SendNavigationNotice("Export to FieldWorks.");
 		}
 	}
 }

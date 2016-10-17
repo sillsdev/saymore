@@ -5,7 +5,8 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
-using Palaso.UI.WindowsForms;
+using SIL.Reporting;
+using SIL.Windows.Forms;
 using SayMore.Transcription.Model;
 
 namespace SayMore.Media.Audio
@@ -217,15 +218,7 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void SetVirtualWidth(int width)
-		{
-			VirtualWidth = width;
-			PixelPerMillisecond = (width - kRightDisplayPadding) / _totalTime.TotalMilliseconds;
-			SetSamplesPerPixel(_numberOfSamples / ((double)width - kRightDisplayPadding));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public virtual void SetPixelsPerSecond(int value)
+		public virtual void SetPixelsPerSecond(double value)
 		{
 			PixelPerMillisecond = value / 1000.0;
 			VirtualWidth = (int)(PixelPerMillisecond * _totalTime.TotalMilliseconds) + kRightDisplayPadding;
@@ -262,24 +255,6 @@ namespace SayMore.Media.Audio
 				_samplesToDraw = AudioFileHelper.GetSamples(new WaveFileReaderWrapper(_waveStream),
 					(uint)(VirtualWidth - kRightDisplayPadding));
 			}
-
-			//_numberOfSamples = _samples.Length;
-			//_samplesToDraw = new[] { new List<float[]>((int)(_numberOfSamples / (long)SamplesPerPixel)) };
-
-			//for (int sample = 0; sample < _numberOfSamples; sample += (int)SamplesPerPixel)
-			//{
-			//    var biggestSample = float.MinValue;
-			//    var smallestSample = float.MaxValue;
-
-			//    // Find the max and min peaks for this pixel
-			//    for (int i = 0; i < SamplesPerPixel && sample + i < _numberOfSamples; i++)
-			//    {
-			//        biggestSample = Math.Max(biggestSample, _samples[sample + i]);
-			//        smallestSample = Math.Min(smallestSample, _samples[sample + i]);
-			//    }
-
-			//    _samplesToDraw[0].Add(new[] { biggestSample, smallestSample });
-			//}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -394,7 +369,7 @@ namespace SayMore.Media.Audio
 			DrawWave(e, rc);
 			DrawBottomArea(e, rc);
 			ShadeIgnoredSegments(e);
-			DrawSegmentBoundaries(e.Graphics, rc.Height + BottomReservedAreaHeight);
+			DrawSegmentBoundaries(e, rc.Height + BottomReservedAreaHeight);
 			DrawCursor(e.Graphics, rc);
 
 			if (_movedBoundary > TimeSpan.Zero)
@@ -487,10 +462,17 @@ namespace SayMore.Media.Audio
 					e.Graphics.DrawLine(pen, rc.X, xAxis, rc.Right, xAxis);
 			}
 
-			// If samples per pixel is small or less than zero,
-			// we are out of zoom range, so don't display anything
+			// If samples per pixel is small or less than zero, we are out of zoom range, so don't display anything.
 			if (SamplesPerPixel <= 0.0000000001d)
 				return;
+			// SP-998: If _smaplesToDraw is null, it apparently hasn't been set yet. Not sure how this can happen,
+			// and we haven't been able to reproduce it, but let's hope it's a timing issue and
+			// the problem magically corrects itself.
+			if (_samplesToDraw == null)
+			{
+				Logger.WriteEvent("DrawWave called with null _samplesToDraw. Possible timing issue? (See SP-998)");
+				return;
+			}
 
 			// Samples will span from some value between -1 and +1, inclusively.
 			// The top of the client area represents +1 and the bottom represents -1.
@@ -607,13 +589,18 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void DrawSegmentBoundaries(Graphics g, int clientHeight)
+		protected virtual void DrawSegmentBoundaries(PaintEventArgs e, int clientHeight)
 		{
-			if (_segmentBoundaries == null)
+			if (_segmentBoundaries == null || !_segmentBoundaries.Any())
 				return;
 
-			foreach (var boundary in _segmentBoundaries)
-				DrawBoundary(g, clientHeight, boundary);
+			var graphics = e.Graphics;
+
+			var startTime = ConvertXCoordinateToTime(e.ClipRectangle.Left - 1);
+			var endTime = ConvertXCoordinateToTime(e.ClipRectangle.Right + 1);
+
+			foreach (var boundary in _segmentBoundaries.Where(s => s >= startTime && s <= endTime))
+				DrawBoundary(graphics, clientHeight, boundary);
 		}
 
 		/// ------------------------------------------------------------------------------------

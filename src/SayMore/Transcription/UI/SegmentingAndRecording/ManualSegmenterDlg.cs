@@ -3,10 +3,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.Miscellaneous;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.Reporting;
+using SIL.Windows.Forms.Miscellaneous;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -39,6 +40,8 @@ namespace SayMore.Transcription.UI
 						viewModel.DiscardChanges();
 						return null;
 					}
+
+					Analytics.Track("Changes made using Manual Segmentation");
 
 					var annotationFile = file.GetAnnotationFile();
 
@@ -94,11 +97,10 @@ namespace SayMore.Transcription.UI
 		public ManualSegmenterDlg(ManualSegmenterDlgViewModel viewModel, int segmentToHighlight)
 			: base(viewModel)
 		{
+			Logger.WriteEvent("ManualSegmenterDlg constructor. ComponentFile = {0}; segmentToHighlight = ", viewModel.ComponentFile, segmentToHighlight);
 			InitializeComponent();
 			_tableLayoutButtons.BackColor = Settings.Default.BarColorEnd;
 			Opacity = 0D;
-
-			viewModel.AllowDeletionOfOralAnnotations = AllowDeletionOfOralAnnotations;
 
 			viewModel.AllowDeletionOfOralAnnotations = AllowDeletionOfOralAnnotations;
 
@@ -127,6 +129,21 @@ namespace SayMore.Transcription.UI
 					_waveControl.EnsureTimeIsVisible(endOfPreviousSegment);
 				};
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override float DefaultZoomPercentage
+		{
+			get { return Settings.Default.ZoomPercentageInManualSegmenterDlg; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnFormClosing(FormClosingEventArgs e)
+		{
+			if (!_moreReliableDesignMode)
+				Settings.Default.ZoomPercentageInManualSegmenterDlg = ZoomPercentage;
+
+			base.OnFormClosing(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -195,6 +212,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool AllowDeletionOfOralAnnotations(bool hasCarefulSpeech, bool hasOralTranslation)
 		{
+			StopAllMedia();
 			var msg = LocalizationManager.GetString(
 				"DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotationsForAddedBreak",
 				"Adding a segment break here would split a segment which has existing oral " +
@@ -267,7 +285,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool ConfirmOralAnnotationDeletion(Segment segmentPreceding, Segment segmentFollowing)
+		private bool ConfirmOralAnnotationDeletion(AnnotationSegment segmentPreceding, AnnotationSegment segmentFollowing)
 		{
 			string msg;
 			if (segmentFollowing == null)
@@ -380,6 +398,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
+			base.HandleStringsLocalized();
 			UpdateDisplay();
 		}
 
@@ -390,7 +409,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override WaveControlBasic CreateWaveControl()
+		protected override WaveControlWithMovableBoundaries CreateWaveControl()
 		{
 			_waveControl = new WaveControlWithBoundarySelection();
 
@@ -401,6 +420,7 @@ namespace SayMore.Transcription.UI
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
 			_waveControl.BoundaryMouseDown += delegate { UpdateDisplay(); };
 			_waveControl.CursorTimeChanged += delegate { UpdateDisplay(); };
+
 			return _waveControl;
 		}
 
@@ -412,16 +432,14 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override float ZoomPercentage
+		protected override Rectangle PlayOrigButtonRectangle
 		{
-			get { return Settings.Default.ZoomPercentageInManualSegmenterDlg; }
-			set { Settings.Default.ZoomPercentageInManualSegmenterDlg = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override bool ShouldShadePlaybackAreaDuringPlayback
-		{
-			get { return false; }
+			get
+			{
+				if (_waveControl.IsPlayingToEndOfMedia)
+					return new Rectangle();
+				return base.PlayOrigButtonRectangle;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -440,6 +458,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void UpdateDisplay()
 		{
+			if (InvokeRequired)
+			{
+				Invoke(new Action(UpdateDisplay));
+				return;
+			}
+
 			_buttonListenToOriginal.Visible = !_waveControl.IsPlaying;
 			_buttonStopOriginal.Visible = _waveControl.IsPlaying;
 
@@ -470,6 +494,13 @@ namespace SayMore.Transcription.UI
 		{
 			return (_waveControl.GetCursorTime() == TimeSpan.Zero ?
 				_waveControl.GetSelectedBoundary() : base.GetCurrentTimeForTimeDisplay());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override bool CanBoundaryBeMoved(TimeSpan boundary, bool disregardAnnotations)
+		{
+			return (IsBoundaryMovingInProgressUsingArrowKeys && boundary == GetBoundaryToAdjustOnArrowKeys()) ||
+				base.CanBoundaryBeMoved(boundary, disregardAnnotations);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -515,7 +546,7 @@ namespace SayMore.Transcription.UI
 			TimeSpan time1, TimeSpan time2)
 		{
 			base.PlaybackShortPortionUpToBoundary(ctrl, time1, time2);
-			_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
+			_waveControl.SetCursor(_startTimeOfSegmentWhoseEndIsMoving);
 		}
 
 		#region Low level keyboard handling
@@ -542,25 +573,24 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyUp(Keys key)
 		{
-			if (!ContainsFocus)
-				return true;
-
-			if (key == Keys.Space)
+			if (ContainsFocus && !ZoomComboIsActiveControl)
 			{
-				if (_justStoppedusingSpace)
-					_justStoppedusingSpace = false;
-				else if (!_waveControl.IsPlaying)
+				if (key == Keys.Space)
 				{
-					_buttonListenToOriginal.PerformClick();
+					if (_justStoppedusingSpace)
+						_justStoppedusingSpace = false;
+					else if (!_waveControl.IsPlaying)
+					{
+						_buttonListenToOriginal.PerformClick();
+						return true;
+					}
+				}
+
+				if (key == Keys.Enter)
+				{
+					_buttonAddSegmentBoundary.PerformClick();
 					return true;
 				}
-				return false;
-			}
-
-			if (key == Keys.Enter)
-			{
-				_buttonAddSegmentBoundary.PerformClick();
-				return true;
 			}
 
 			return base.OnLowLevelKeyUp(key);

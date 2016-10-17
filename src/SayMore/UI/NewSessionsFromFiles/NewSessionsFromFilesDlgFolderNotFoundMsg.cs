@@ -1,5 +1,6 @@
 using System.IO;
 using System.Windows.Forms;
+using SIL.Reporting;
 
 namespace SayMore.UI.NewSessionsFromFiles
 {
@@ -17,6 +18,8 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// ------------------------------------------------------------------------------------
 		public NewSessionsFromFilesDlgFolderNotFoundMsg()
 		{
+			Logger.WriteEvent("NewSessionsFromFilesDlgFolderNotFoundMsg constructor");
+
 			InitializeComponent();
 			Dock = DockStyle.Fill;
 

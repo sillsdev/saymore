@@ -1,14 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.IO;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.Media.Naudio;
-using Palaso.Media.Naudio.UI;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.Media.Naudio;
+using SIL.Media.Naudio.UI;
+using SIL.Reporting;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
@@ -27,6 +29,8 @@ namespace SayMore.UI.SessionRecording
 		/// ------------------------------------------------------------------------------------
 		public SessionRecorderDlg()
 		{
+			Logger.WriteEvent("SessionRecorderDlg constructor");
+
 			InitializeComponent();
 
 			_recordedLengthLabelFormat = _labelRecLength.Text;
@@ -142,7 +146,6 @@ namespace SayMore.UI.SessionRecording
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			_viewModel.CloseAll();
-			LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 			base.OnFormClosing(e);
 		}
 
@@ -171,9 +174,9 @@ namespace SayMore.UI.SessionRecording
 						if (MessageBox.Show(failureMsg, Application.ProductName, MessageBoxButtons.RetryCancel,
 							MessageBoxIcon.Warning) == DialogResult.Cancel)
 						{
-							UsageReporter.ReportException(false,
-								"Cancelled by user after 1 automatic retry and " + (retry - 1) + "retries requested by the user",
-								failure, failureMsg);
+							Analytics.Track("Session Recording Cancelled", new Dictionary<string, string> {
+								{"failureMsg", failureMsg}, {"Automatic retries", "1"}, {"User-requested retries", (retry - 1).ToString()} });
+							Analytics.ReportException(failure);
 							retry = 0;
 						}
 					}

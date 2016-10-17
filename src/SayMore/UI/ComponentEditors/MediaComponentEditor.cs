@@ -5,7 +5,7 @@ using System.ComponentModel.Design;
 using System.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
-using Palaso.UI.WindowsForms;
+using SIL.Windows.Forms;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -43,7 +43,7 @@ namespace SayMore.UI.ComponentEditors
 			_gridViewModel = new FieldsValuesGridViewModel(_file, autoCompleteProvider,
 				fieldGatherer, key => !"notes contributions".Contains(key));
 
-			_grid = new FieldsValuesGrid(_gridViewModel);
+			_grid = new FieldsValuesGrid(_gridViewModel, "MediaComponentEditor._grid");
 			_grid.Dock = DockStyle.Fill;
 			_tableLayout.Controls.Add(_grid, 0, 1);
 			_grid.BringToFront();

@@ -20,7 +20,6 @@ namespace SayMore.UI
 			this.picLoadingWheel = new System.Windows.Forms.PictureBox();
 			this.lblBuildNumber = new System.Windows.Forms.Label();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
-			this.lblVersion = new System.Windows.Forms.Label();
 			this.lblMessage = new System.Windows.Forms.Label();
 			this.lblCopyright = new System.Windows.Forms.Label();
 			this.lblProductName = new System.Windows.Forms.Label();
@@ -42,7 +41,6 @@ namespace SayMore.UI
 			this.m_panel.Controls.Add(this.picLoadingWheel);
 			this.m_panel.Controls.Add(this.lblBuildNumber);
 			this.m_panel.Controls.Add(this.pictureBox1);
-			this.m_panel.Controls.Add(this.lblVersion);
 			this.m_panel.Controls.Add(this.lblMessage);
 			this.m_panel.Controls.Add(this.lblCopyright);
 			this.m_panel.Controls.Add(this.lblProductName);
@@ -88,18 +86,6 @@ namespace SayMore.UI
 			this.pictureBox1.Size = new System.Drawing.Size(100, 50);
 			this.pictureBox1.TabIndex = 2;
 			this.pictureBox1.TabStop = false;
-			// 
-			// lblVersion
-			// 
-			this.lblVersion.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.lblVersion, null);
-			this.locExtender.SetLocalizationComment(this.lblVersion, null);
-			this.locExtender.SetLocalizingId(this.lblVersion, "UI.SplashScreen.lblVersion");
-			this.lblVersion.Location = new System.Drawing.Point(0, 0);
-			this.lblVersion.Name = "lblVersion";
-			this.lblVersion.Size = new System.Drawing.Size(100, 23);
-			this.lblVersion.TabIndex = 3;
-			this.lblVersion.UseMnemonic = false;
 			// 
 			// lblMessage
 			// 
@@ -164,9 +150,9 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizingId(this._labelVersionInfo, "DialogBoxes.SplashScreen.VersionInfoLabel");
 			this._labelVersionInfo.Location = new System.Drawing.Point(11, 168);
 			this._labelVersionInfo.Name = "_labelVersionInfo";
-			this._labelVersionInfo.Size = new System.Drawing.Size(191, 13);
+			this._labelVersionInfo.Size = new System.Drawing.Size(174, 13);
 			this._labelVersionInfo.TabIndex = 5;
-			this._labelVersionInfo.Text = "Version {0}.{1}.{2} (Beta)    Built on {3}";
+			this._labelVersionInfo.Text = "Version {0}.{1}.{2} {3}    Built on {4}";
 			// 
 			// locExtender
 			// 

@@ -5,16 +5,17 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms;
-using Palaso.UI.WindowsForms.Extensions;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.Reporting;
+using SIL.Windows.Forms;
+using SIL.Windows.Forms.Extensions;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Media.MPlayer;
-using GridSettings = Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings;
+using GridSettings = SIL.Windows.Forms.Widgets.BetterGrid.GridSettings;
 
 namespace SayMore.Transcription.UI
 {
@@ -39,9 +40,12 @@ namespace SayMore.Transcription.UI
 		private AnnotationComponentFile _annotationFile;
 		private readonly List<AnnotationPlaybackInfo> _mediaFileQueue = new List<AnnotationPlaybackInfo>();
 		private int _annotationPlaybackLoopCount;
-		private Action _playbackProgressReportingAction;
+		private Action _playbackProgressReportingAction = () => { };
+//		private ToolTip _toolTip = new ToolTip();
+//		private bool _paused = false;
 
 		private System.Threading.Timer _delayBeginRowPlayingTimer;
+		private bool _resizingColumnHeaders;
 
 		/// ------------------------------------------------------------------------------------
 		public TextAnnotationEditorGrid(Font transcriptionFont, Font translationFont)
@@ -52,6 +56,7 @@ namespace SayMore.Transcription.UI
 			ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			AllowUserToResizeRows = false;
+			RowHeadersVisible = false;
 			EditMode = DataGridViewEditMode.EditOnEnter;
 			ClipboardCopyMode = DataGridViewClipboardCopyMode.Disable;
 			FullRowFocusRectangleColor = DefaultCellStyle.SelectionBackColor;
@@ -67,10 +72,40 @@ namespace SayMore.Transcription.UI
 			PlayerViewModel.SetVolume(100);
 			PlayerViewModel.SetSpeed(Settings.Default.AnnotationEditorPlaybackSpeedIndex);
 
-			SetPlaybackProgressReportAction(null);
-
 			SetColumnFonts(transcriptionFont, translationFont);
 		}
+
+		///// ------------------------------------------------------------------------------------
+		//internal bool ShowF2ToolTip
+		//{
+		//    set
+		//    {
+		//        if (value)
+		//        {
+		//            ShowCellToolTips = false;
+		//            ToolTip = PlaybackInProgress && !_paused ?
+		//                LocalizationManager.GetString("SessionsView.Transcription.TextAnnotationEditor.F2ToPause",
+		//                    "F2: Pause") :
+		//                LocalizationManager.GetString("SessionsView.Transcription.TextAnnotationEditor.F2ToPlay",
+		//                    "F2: Play");
+		//        }
+		//        else
+		//        {
+		//            ShowCellToolTips = true;
+		//            ToolTip = string.Empty;
+		//        }
+		//    }
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		//private string ToolTip
+		//{
+		//    set
+		//    {
+		//        if (_toolTip.GetToolTip(this) != value)
+		//            _toolTip.SetToolTip(this, value);
+		//    }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		public void Load(AnnotationComponentFile file)
@@ -85,15 +120,24 @@ namespace SayMore.Transcription.UI
 			if (_annotationFile == null || !_annotationFile.Tiers.Any())
 				return;
 
-			int rowCount = 0;
-
-			foreach (var tier in _annotationFile.Tiers)
-				rowCount = Math.Max(rowCount, AddColumnForTier(tier));
-			RowCount = rowCount;
+			RowCount = _annotationFile.Tiers.Select(AddColumnForTier).Concat(new[] { 0 }).Max();
 			Font = Columns[0].DefaultCellStyle.Font;
 
 			this.SetWindowRedraw(true);
-			Invalidate();
+			if (IsHandleCreated)
+				Invalidate();
+			else
+			{
+				try
+				{
+					CreateHandle();
+				}
+				catch (ObjectDisposedException)
+				{
+					// This probably can't happen, but just in case
+					return;
+				}
+			}
 
 			if (Settings.Default.SegmentGrid != null)
 				Settings.Default.SegmentGrid.InitializeGrid(this);
@@ -117,7 +161,20 @@ namespace SayMore.Transcription.UI
 			if (targetRow < 0 || !Visible || Height <= ColumnHeadersHeight)
 				return;
 
-			FirstDisplayedScrollingRowIndex = targetRow;
+			try
+			{
+				FirstDisplayedScrollingRowIndex = targetRow;
+			}
+			catch (InvalidOperationException)
+			{
+				// SP-942: There is an edge case where Height > ColumnHeadersHeight, but the
+				// DataGridView still thinks it doesn't have enough room to display anything.
+				// I suspect that the border thickness is coming into play, but I can't figure
+				// out what the actual calculation should be. Ironically, unless I'm catching
+				// exceptions in the debugger, I never see this exception, even though there is
+				// no apparent try-catch in the call stack. But a real user got this exception,
+				// so this catch should prevent this problem.
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -174,7 +231,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Font TranlationFont
+		public Font TranslationFont
 		{
 			set
 			{
@@ -301,6 +358,8 @@ namespace SayMore.Transcription.UI
 		protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
 		{
 			base.OnColumnWidthChanged(e);
+			if (_resizingColumnHeaders)
+				return;
 			BeginInvoke((Action)ResizeColumnHeaders);
 
 			// If this control doesn't have focus or all three standard columns have not yet
@@ -312,8 +371,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void ResizeColumnHeaders()
 		{
+			_resizingColumnHeaders = true;
 			AutoResizeColumnHeadersHeight();
 			ColumnHeadersHeight += 8;
+			_resizingColumnHeaders = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -387,19 +448,6 @@ namespace SayMore.Transcription.UI
 			Stop();
 
 			base.OnEditingControlShowing(e);
-			//TextBox ec = EditingControl as TextBox;
-			//if (ec != null)
-			//{
-			//    int currentHeight = CurrentRow.Height;
-			//    int currentMinHeight = CurrentRow.MinimumHeight;
-			//    CurrentRow.MinimumHeight = currentHeight + 40;
-			//    ec.MinimumSize = new Size(0, ec.Height + 40);
-			//    CellEndEdit += delegate { CurrentRow.MinimumHeight = currentMinHeight; };
-			//    //ec.TextChanged += delegate
-			//    //{
-			//    //    Rows[CurrentRow.Index].Height = ec.TextLength / 2;
-			//    //};
-			//}
 
 			SchedulePlaybackForCell();
 		}
@@ -420,9 +468,23 @@ namespace SayMore.Transcription.UI
 				var minHeight = RowTemplate.Height * 3;
 				if (CurrentRow != null && CurrentRow.Height < minHeight)
 					CurrentRow.MinimumHeight = minHeight;
+
+				//ShowF2ToolTip = (Columns[e.ColumnIndex] is TextAnnotationColumn);
 				return;
 			}
 			SchedulePlaybackForCell();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>This is a fix for SP-960, needed to fully display the last row of the text
+		/// annotation grid when the row has been resized in response to the user entering it.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnRowHeightChanged(DataGridViewRowEventArgs e)
+		{
+			base.OnRowHeightChanged(e);
+			if (CurrentRow == e.Row && e.Row.Index == RowCount - 1)
+				FirstDisplayedScrollingRowIndex = e.Row.Index;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -548,7 +610,8 @@ namespace SayMore.Transcription.UI
 
 			PlayerViewModel.PlaybackStarted += HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded += HandleMediaPlaybackEnded;
-			PlayerViewModel.PlaybackPositionChanged = (pos => Invoke(_playbackProgressReportingAction));
+			PlayerViewModel.PlaybackPositionChanged = HandleMediaPlaybackPositionChanged;
+			//_paused = false;
 			PlayerViewModel.Play();
 			PlaybackInProgress = true;
 			return true;
@@ -572,6 +635,7 @@ namespace SayMore.Transcription.UI
 		public void Stop()
 		{
 			PlaybackInProgress = false;
+			//_paused = false;
 			_annotationPlaybackLoopCount = 0;
 
 			DisableTimer();
@@ -592,12 +656,15 @@ namespace SayMore.Transcription.UI
 				return;
 
 			DisableTimer();
+			//_paused = !_paused;
 			PlayerViewModel.Pause();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleMediaPlaybackEnded(object sender, bool EndedBecauseEOF)
 		{
+			//_paused = false;
+
 			if (InvokeRequired)
 				Invoke(_playbackProgressReportingAction);
 			else
@@ -611,6 +678,10 @@ namespace SayMore.Transcription.UI
 				if (_mediaFileQueue.Count > 0)
 					_mediaFileQueue.RemoveAt(0);
 			}
+
+
+			if (!Visible)
+				return;
 
 			if (!InternalPlay())
 			{
@@ -630,10 +701,28 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleMediaPlayStarted(object sender, EventArgs e)
 		{
+			if (_playbackProgressReportingAction == null)
+			{
+				// SP-952/SP-953: This is theoretically impossible, but it seems to have happened
+				// twice to a real user. I've moved the initialization of this field up to where
+				// it should be even more impossible, but for safety's sake, I'm also checking
+				// for null here.
+				Analytics.Track("Error: _playbackProgressReportingAction is null in HandleMediaPlayStarted");
+				return;
+			}
 			if (InvokeRequired)
 				Invoke(_playbackProgressReportingAction);
 			else
 				_playbackProgressReportingAction();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleMediaPlaybackPositionChanged(float pos)
+		{
+			if (!Visible)
+				Stop();
+			else
+				Invoke(_playbackProgressReportingAction);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -711,6 +800,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public TimeRange GetTimeRangeForRow(int rowIndex)
 		{
+			// SP-912: Index was out of range. Must be non-negative and less than the size of the collection.
+			// (This is happening after a segment is deleted)
+			if (rowIndex >= _annotationFile.Tiers.GetTimeTier().Segments.Count)
+				return new TimeRange(TimeSpan.Zero, TimeSpan.Zero);
+
 			return _annotationFile.Tiers.GetTimeTier().Segments[rowIndex].TimeRange;
 		}
 		#endregion

@@ -4,15 +4,16 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.LowLevelControls;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using NUnit.Extensions.Forms;
 using NUnit.Framework;
+using SayMore.UI.ProjectWindow;
 
 namespace SayMoreTests.UI.ProjectWindow
 {
@@ -28,7 +29,7 @@ namespace SayMoreTests.UI.ProjectWindow
 		[SetUp]
 		public void TestSetup()
 		{
-			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
+			SIL.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 
 			_projectsFolder = new TemporaryFolder("SayMoreSmokeTest");
 			PortableSettingsProvider.SettingsFileFolder = _projectsFolder.Combine("Settings");
@@ -91,6 +92,7 @@ namespace SayMoreTests.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[NUnit.Framework.Category("SkipOnTeamCity")]
+		[RequiresSTA]
 		public void Application_WalkThrough_DoesNotCrash()
 		{
 			CopySampleProject();
@@ -212,6 +214,7 @@ namespace SayMoreTests.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[NUnit.Framework.Category("SkipOnTeamCity")]
+		[RequiresSTA]
 		public void Application_CreateProject_DoesNotCrash()
 		{
 			CreateProject();
@@ -314,7 +317,26 @@ namespace SayMoreTests.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private ListPanel GetListPanelByName(string listPanelName)
 		{
-			return _projectContext.ProjectWindow.Controls.Find(listPanelName, true)[0] as ListPanel;
+			var pnl = _projectContext.ProjectWindow.Controls.Find(listPanelName, true)[0] as ListPanel;
+
+			if (pnl == null) return null;
+
+			// enable the tab so the button can be clicked
+			var parent = pnl.Parent;
+
+			while (!(parent is Form))
+			{
+				if (parent is ISayMoreView)
+				{
+					parent.Enabled = true;
+					break;
+				}
+
+				parent = parent.Parent;
+			}
+
+			// ISayMoreView
+			return pnl;
 		}
 	}
 }

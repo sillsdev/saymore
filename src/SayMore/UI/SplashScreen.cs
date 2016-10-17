@@ -15,13 +15,6 @@ using System.Windows.Forms;
 
 namespace SayMore.UI
 {
-	public enum VersionType
-	{
-		Alpha,
-		Beta,
-		Production
-	}
-
 	#region ISplashScreen interface
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -52,16 +45,6 @@ namespace SayMore.UI
 
 		/// ----------------------------------------------------------------------------------------
 		void Refresh();
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// The product version which appears in the App Version label on the splash screen
-		/// </summary>
-		/// <remarks>
-		/// .Net clients should not set this. It will be ignored.
-		/// </remarks>
-		/// ------------------------------------------------------------------------------------
-		string ProdVersion {set;}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -102,39 +85,12 @@ namespace SayMore.UI
 		private Thread m_thread;
 		private SplashScreenForm _splashScreenForm;
 		internal EventWaitHandle m_waitHandle;
-		private bool m_showBuildNum;
-		private VersionType m_versionType;
-		#endregion
-
-		#region Constructor
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Default Constructor for SplashScreen
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SplashScreen()
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SplashScreen(bool showBuildNum, VersionType versionType)
-		{
-			m_showBuildNum = showBuildNum;
-			m_versionType = versionType;
-		}
-
 		#endregion
 
 		#region Public Methods
 		/// ------------------------------------------------------------------------------------
 		void ISplashScreen.Show(bool showBuildDate, bool isBetaVersion)
 		{
-			m_showBuildNum = showBuildDate;
-			m_versionType = (isBetaVersion ? VersionType.Beta : VersionType.Production);
 			InternalShow();
 		}
 
@@ -318,27 +274,6 @@ namespace SayMore.UI
 		#region Public properties set automatically in constructor for .Net apps
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// The product version which appears in the App Version label on the splash screen
-		/// </summary>
-		/// <remarks>
-		/// .Net clients should not set this. It will be ignored. They should set the
-		/// AssemblyFileVersion attribute in AssemblyInfo.cs of the executable.
-		/// </remarks>
-		/// ------------------------------------------------------------------------------------
-		string ISplashScreen.ProdVersion
-		{
-			set
-			{
-				Debug.Assert(_splashScreenForm != null);
-				lock (_splashScreenForm)
-				{
-					_splashScreenForm.Invoke(new MethodWithStringDelegate(_splashScreenForm.SetProdVersion), value);
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// The copyright info which appears in the Copyright label on the splash screen
 		/// </summary>
 		/// <remarks>
@@ -357,7 +292,6 @@ namespace SayMore.UI
 				}
 			}
 		}
-
 		#endregion
 
 		#region private/protected methods

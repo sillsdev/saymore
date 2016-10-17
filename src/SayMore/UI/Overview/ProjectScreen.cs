@@ -3,13 +3,19 @@ using System.Drawing;
 using L10NSharp;
 using System.Windows.Forms;
 using L10NSharp.UI;
+using SIL.Reporting;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;
 
 namespace SayMore.UI.Overview
 {
-	public partial class ProjectScreen : UserControl, ISayMoreView
+	public interface ISaveable
+	{
+		void Save();
+	}
+
+	public partial class ProjectScreen : UserControl, ISayMoreView, ISaveable
 	{
 		private readonly ProgressScreen _progressView;
 		private readonly ProjectMetadataScreen _metadataView;
@@ -21,6 +27,8 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		public ProjectScreen(ProjectMetadataScreen metadataView, ProjectAccessScreen accessView, ProgressScreen progressView, ProjectDescriptionDocsScreen descriptionDocsView, ProjectOtherDocsScreen otherDocsView)
 		{
+			Logger.WriteEvent("ProjectScreen constructor");
+
 			_metadataView = metadataView;
 			_progressView = progressView;
 			_accessView = accessView;
@@ -62,16 +70,30 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		private void HandleStringsLocalized()
 		{
-			var currentRow = _projectPages.CurrentCellAddress.Y;
-			_projectPages.RowCount = 0;
-			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.AboutProjectViewTitle", "About This Project") });
-			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.AccessProtocolViewTitle", "Access Protocol") });
-			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.DescriptionDocumentsTitle", "Description Documents") });
-			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.OtherDocumentsTitle", "Other Documents") });
-			_projectPages.AddRow(new object[] { LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress") });
+			// Just to be safe and prevent re-entrant call.
+			_projectPages.RowEnter -= _projectPages_RowEnter;
 
-			if (currentRow >= 0)
-				_projectPages.CurrentCell = _projectPages.Rows[currentRow].Cells[0];
+			string[] viewNames = {
+				LocalizationManager.GetString("ProjectView.AboutProjectViewTitle", "About This Project"),
+				LocalizationManager.GetString("ProjectView.AccessProtocolViewTitle", "Access Protocol"),
+				LocalizationManager.GetString("ProjectView.DescriptionDocumentsTitle", "Description Documents"),
+				LocalizationManager.GetString("ProjectView.OtherDocumentsTitle", "Other Documents"),
+				LocalizationManager.GetString("ProjectView.ProgressViewTitle", "Progress")
+			};
+
+			if (_projectPages.RowCount != viewNames.Length)
+			{
+				_projectPages.RowCount = 0;
+				foreach (string viewName in viewNames)
+					_projectPages.AddRow(new object[] {viewName});
+			}
+			else
+			{
+				for (int i = 0; i < viewNames.Length; i++)
+					_projectPages.Rows[i].Cells[0].Value = viewNames[i];
+			}
+
+			_projectPages.RowEnter += _projectPages_RowEnter;
 		}
 
 		#region ISayMoreView Members
@@ -86,14 +108,19 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		public void ViewActivated(bool firstTime)
 		{
-			// set the access code choices for sessions
-			foreach (var editor in Program.GetControlsOfType<SessionBasicEditor>(Program.ProjectWindow))
-				editor.SetAccessProtocol();
+			Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void ViewDeactivated()
 		{
+			_accessView.Save();
+
+			// set the access code choices for sessions
+			foreach (var editor in Program.GetControlsOfType<SessionBasicEditor>(Program.ProjectWindow))
+				editor.SetAccessProtocol();
+
+			Enabled = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -111,13 +138,14 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		public Image Image
 		{
-			get { return Resources.project; }
+			get { return ResourceImageCache.project; }
 		}
 
 // ReSharper disable once UnusedAutoPropertyAccessor.Local
 		public ToolStripMenuItem MainMenuItem { get; private set; }
 		#endregion
 
+		/// ------------------------------------------------------------------------------------
 		private void _projectPages_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			switch (e.RowIndex)
@@ -146,6 +174,7 @@ namespace SayMore.UI.Overview
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void ShowControl(Control control)
 		{
 			while (_splitter.Panel2.Controls.Count > 0)
@@ -155,7 +184,8 @@ namespace SayMore.UI.Overview
 			control.Dock = DockStyle.Fill;
 		}
 
-		internal void Save()
+		/// ------------------------------------------------------------------------------------
+		public void Save()
 		{
 			_metadataView.Save();
 			_accessView.Save();

@@ -1,9 +1,10 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Extensions;
-using Palaso.Reporting;
+using SIL.Extensions;
+using SIL.Reporting;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 using SayMore.UI.Overview;
@@ -29,6 +30,12 @@ namespace SayMore.Model
 			if (string.IsNullOrEmpty(destFolder))
 				destFolder = Path.Combine(NewProjectDlgViewModel.ParentFolderPathForNewProject, "IMDI Packages");
 
+			// SP-813: If project was moved, the stored IMDI path may not be valid, or not accessible
+			if (!CheckForAccessiblePath(destFolder))
+			{
+				destFolder = Path.Combine(NewProjectDlgViewModel.ParentFolderPathForNewProject, "IMDI Packages");
+			}
+
 			// now that we added a separate title field for projects, make sure it's not empty
 			var title = string.IsNullOrEmpty(element.Title) ? element.Id : element.Title;
 
@@ -53,6 +60,31 @@ namespace SayMore.Model
 					Program.CurrentProject.Save();
 				}
 			}
+		}
+
+		/// <remarks>SP-813: If project was moved, the stored IMDI path may not be valid, or not accessible</remarks>
+		static internal bool CheckForAccessiblePath(string directory)
+		{
+			try
+			{
+				if (!Directory.Exists(directory))
+					Directory.CreateDirectory(directory);
+
+				var file = Path.Combine(directory, "Export.imdi");
+
+				if (File.Exists(file)) File.Delete(file);
+
+				File.WriteAllText(file, @"Export.imdi");
+
+				if (File.Exists(file)) File.Delete(file);
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.Message);
+				return false;
+			}
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -129,7 +161,7 @@ namespace SayMore.Model
 			// session date
 			stringVal = saymoreSession.MetaDataFile.GetStringValue("date", null);
 			if (!string.IsNullOrEmpty(stringVal))
-				imdiSession.SetDate(DateTime.Parse(stringVal).ToISO8601DateOnlyString());
+				imdiSession.SetDate(DateTime.Parse(stringVal).ToISO8601TimeFormatDateOnlyString());
 
 			// session situation
 			stringVal = saymoreSession.MetaDataFile.GetStringValue("situation", null);
@@ -150,6 +182,7 @@ namespace SayMore.Model
 				imdiSession.AddKeyValuePair(item.FieldId, item.ValueAsString);
 
 			// actors
+			var actors = new ArchivingActorCollection();
 			var persons = saymoreSession.GetAllPersonsInSession();
 			foreach (var person in persons)
 			{
@@ -169,12 +202,13 @@ namespace SayMore.Model
 				ArchivingActor actor = new ArchivingActor
 				{
 					FullName = person.Id,
-					Name = person.MetaDataFile.GetStringValue("nickName", person.Id),
+					Name = person.MetaDataFile.GetStringValue(PersonFileType.kCode, person.Id),
 					BirthDate = birthYear,
-					Gender = person.MetaDataFile.GetStringValue("gender", null),
-					Education = person.MetaDataFile.GetStringValue("education", null),
-					Occupation = person.MetaDataFile.GetStringValue("primaryOccupation", null),
-					Anonymize = protect
+					Gender = person.MetaDataFile.GetStringValue(PersonFileType.kGender, null),
+					Education = person.MetaDataFile.GetStringValue(PersonFileType.kEducation, null),
+					Occupation = person.MetaDataFile.GetStringValue(PersonFileType.kPrimaryOccupation, null),
+					Anonymize = protect,
+					Role = "Participant"
 				};
 
 				// do this to get the ISO3 codes for the languages because they are not in saymore
@@ -205,8 +239,35 @@ namespace SayMore.Model
 					actor.Files.Add(CreateArchivingFile(file));
 
 				// add actor to imdi session
-				imdiSession.AddActor(actor);
+				actors.Add(actor);
 			}
+
+			// get contributors
+			foreach (var contributor in saymoreSession.GetAllContributorsInSession())
+			{
+				var actr = actors.FirstOrDefault(a => a.Name == contributor.Name);
+				if (actr == null)
+				{
+					actors.Add(contributor);
+				}
+				else
+				{
+					if (actr.Role == "Participant")
+					{
+						actr.Role = contributor.Role;
+					}
+					else
+					{
+						if (!actr.Role.Contains(contributor.Role))
+							actr.Role += ", " + contributor.Role;
+					}
+				}
+
+			}
+
+			// add actors to imdi session
+			foreach (var actr in actors)
+				imdiSession.AddActor(actr);
 
 			// session files
 			var files = saymoreSession.GetSessionFilesToArchive(model.GetType());
@@ -237,7 +298,7 @@ namespace SayMore.Model
 			package.AddDescription(new LanguageString(saymoreProject.ProjectDescription, null));
 
 			// content type
-			package.ContentType = saymoreProject.ContentType;
+			package.ContentType = null;
 
 			// funding project
 			package.FundingProject = new ArchivingProject
@@ -250,7 +311,7 @@ namespace SayMore.Model
 			package.Author = saymoreProject.ContactPerson;
 
 			// applications
-			package.Applications = saymoreProject.Applications;
+			package.Applications = null;
 
 			// access date
 			package.Access.DateAvailable = saymoreProject.DateAvailable;
@@ -260,9 +321,6 @@ namespace SayMore.Model
 
 			// publisher
 			package.Publisher = saymoreProject.Depositor;
-
-			// related publications
-			package.AddKeyValuePair("Related Publications", saymoreProject.RelatedPublications);
 
 			// subject language
 			if (!string.IsNullOrEmpty(saymoreProject.VernacularISO3CodeAndName))

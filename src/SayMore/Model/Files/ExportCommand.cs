@@ -79,7 +79,7 @@ namespace SayMore.Model.Files
 			{
 				var msg = LocalizationManager.GetString("MainWindow.Export.ExportFailureMsg",
 					"Something went wrong with the export.");
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
 			}
 
 #if GenericCsvExperiment	//	See: https://trello.com/c/xb6dN2I9/193-more-complete-csv-export
@@ -93,7 +93,7 @@ namespace SayMore.Model.Files
 			{
 				var msg = LocalizationManager.GetString("MainWindow.Export.ExportFailureMsg",
 					"Something went wrong with the export.");
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
 			}
 #endif
 		}

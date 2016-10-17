@@ -2,8 +2,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
-using Palaso.UI.WindowsForms.Widgets;
+using SIL.Reporting;
+using SIL.Windows.Forms.PortableSettingsProvider;
+using SIL.Windows.Forms.Widgets;
 using SayMore.Model.Files;
 using SayMore.Properties;
 
@@ -18,6 +19,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public ImageViewer(ComponentFile file) : base(file, null, "Image")
 		{
+			Logger.WriteEvent("ImageViewer constructor. file = {0}", file);
 			InitializeComponent();
 			Name = "ImageViewer";
 
@@ -34,8 +36,18 @@ namespace SayMore.UI.ComponentEditors
 			_panelImage.Scroll += HandleImagePanelScroll;
 			_panelImage.MouseClick += HandleImagePanelMouseClick;
 			_panelImage.MouseDoubleClick += HandleImagePanelMouseClick;
+			_panelImage.HandleDestroyed += _panelImage_HandleDestroyed;
 
 			SetComponentFile(file);
+		}
+
+		void _panelImage_HandleDestroyed(object sender, EventArgs e)
+		{
+			if (_model != null)
+			{
+				_model.Dispose();
+				_model = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -52,6 +64,12 @@ namespace SayMore.UI.ComponentEditors
 		{
 			var clickZoomPercentages = PortableSettingsProvider.GetIntArrayFromString(
 				Settings.Default.ImageViewerClickImageZoomPercentages);
+
+			if (_model != null)
+			{
+				_model.Dispose();
+				_model = null;
+			}
 
 			_model = new ImageViewerViewModel(imageFileName, clickZoomPercentages);
 		}

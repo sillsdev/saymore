@@ -5,9 +5,9 @@ using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.UI.WindowsForms.ClearShare.WinFormsUI;
-using Palaso.UI.WindowsForms.Widgets;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.Windows.Forms.ClearShare.WinFormsUI;
+using SIL.Windows.Forms.Widgets;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 
 namespace SayMore.UI.LowLevelControls
 {
@@ -22,7 +22,7 @@ namespace SayMore.UI.LowLevelControls
 		public ColumnChooserButton()
 		{
 			AutoSize = false;
-			Image = Properties.Resources.ColumnChooser;
+			Image = ResourceImageCache.ColumnChooser;
 			Size = new Size(Image.Width + 4, Image.Height + 4);
 			Text = string.Empty;
 

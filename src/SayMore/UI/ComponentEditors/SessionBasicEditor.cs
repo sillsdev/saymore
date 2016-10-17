@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
+using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Extensions;
+using SIL.Extensions;
+using SIL.Reporting;
 using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -26,7 +28,7 @@ namespace SayMore.UI.ComponentEditors
 		private FieldsValuesGrid _gridCustomFields;
 		private FieldsValuesGrid _gridAdditionalFields;
 		private FieldsValuesGridViewModel _gridViewModel;
-		private FieldsValuesGridViewModel _additionalFieldsGridViewModel;
+		private AdditionalFieldsValuesGridViewModel _additionalFieldsGridViewModel;
 		private readonly PersonInformant _personInformant;
 		private readonly AutoCompleteValueGatherer _autoCompleteProvider;
 		private bool _genreFieldEntered;
@@ -39,6 +41,8 @@ namespace SayMore.UI.ComponentEditors
 			PersonInformant personInformant)
 			: base(file, null, imageKey)
 		{
+			Logger.WriteEvent("PersonBasicEditor constructor. file = {0}", file);
+
 			InitializeComponent();
 			Name = "SessionEditor";
 
@@ -48,6 +52,7 @@ namespace SayMore.UI.ComponentEditors
 			_autoCompleteProvider.NewDataAvailable += LoadGenreList;
 
 			_binder.TranslateBoundValueBeingRetrieved += HandleBinderTranslateBoundValueBeingRetrieved;
+			_binder.TranslateBoundValueBeingSaved += HandleBinderTranslateBoundValueBeingSaved;
 
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
@@ -63,6 +68,23 @@ namespace SayMore.UI.ComponentEditors
 			InitializeGrid(autoCompleteProvider, fieldGatherer);
 
 			file.AfterSave += file_AfterSave;
+
+			if (_personInformant != null)
+				_personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// We get this message from the person informant when a person's UI ID has changed.
+		/// When that happens, we just need to update the Text in the participant control. No
+		/// change is needed (or desirable) in the underlying metadata.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandlePersonsUiIdChanged(object sender, ElementIdChangedArgs e)
+		{
+			var allParticipants = FieldInstance.GetMultipleValuesFromText(_participants.Text);
+			var newNames = allParticipants.Select(name => (name == e.OldId ? e.NewId : name));
+			_participants.Text = FieldInstance.GetTextFromMultipleValues(newNames);
 		}
 
 		static void file_AfterSave(object sender, EventArgs e)
@@ -129,18 +151,33 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnParentTabControlVisibleChanged()
+		{
+			OnEditorAndChildrenLostFocus();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnEditorAndChildrenLostFocus()
+		{
+			PrepareToDeactivate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void PrepareToDeactivate()
+		{
+			if (_participants.Popup.IsShowing)
+				_participants.Popup.ClosePopup();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider,
 			FieldGatherer fieldGatherer)
 		{
 			// additional fields grid
 			_additionalFieldsGridViewModel = new AdditionalFieldsValuesGridViewModel(_file, autoCompleteProvider,
-				fieldGatherer);
+				fieldGatherer) {AllowUserToAddRows = false};
 
-			_gridAdditionalFields = new FieldsValuesGrid(_additionalFieldsGridViewModel)
-			{
-				Dock = DockStyle.Top,
-				AllowUserToAddRows = false
-			};
+			_gridAdditionalFields = new FieldsValuesGrid(_additionalFieldsGridViewModel, "SessionBasicEditor._gridAdditionalFields") { Dock = DockStyle.Top };
 
 			// to get a more helpful exception output than the default DataGrid error message
 			_gridAdditionalFields.DataError += _gridAdditionalFields_DataError;
@@ -148,30 +185,19 @@ namespace SayMore.UI.ComponentEditors
 			_panelAdditionalGrid.AutoSize = true;
 			_panelAdditionalGrid.Controls.Add(_gridAdditionalFields);
 
-			// interactivity cell
-			AddDropdownCell(ListType.ContentInteractivity, 0);
-
-			// involvement cell
-			AddDropdownCell(ListType.ContentInvolvement, 1);
-
-			// set country dropdown
-			AddDropdownCell(ListType.Countries, 2);
-
-			// set continent dropdown
-			AddDropdownCell(ListType.Continents, 3);
-
-			// planning type cell
-			AddDropdownCell(ListType.ContentPlanningType, 6);
-
-			// social context cell
-			AddDropdownCell(ListType.ContentSocialContext, 8);
+			for (int i = 0; i < _gridAdditionalFields.RowCount; i++)
+			{
+				var listType = _additionalFieldsGridViewModel.GetListType(i);
+				if (listType != null)
+					AddDropdownCell(listType, i);
+			}
 
 			_gridAdditionalFields.EditingControlShowing += _gridAdditionalFields_EditingControlShowing;
 			// custom fields grid
 			_gridViewModel = new CustomFieldsValuesGridViewModel(_file, autoCompleteProvider,
 				fieldGatherer);
 
-			_gridCustomFields = new FieldsValuesGrid(_gridViewModel) {Dock = DockStyle.Top};
+			_gridCustomFields = new FieldsValuesGrid(_gridViewModel, "SessionBasicEditor._gridCustomFields") { Dock = DockStyle.Top };
 			_panelGrid.AutoSize = true;
 			_panelGrid.Controls.Add(_gridCustomFields);
 		}
@@ -239,6 +265,48 @@ namespace SayMore.UI.ComponentEditors
 				var toolTipText = ((IMDIListItem)_moreFieldsComboBox.Items[e.Index]).Definition;
 				if (toolTipText != text && _gridAdditionalFields.CurrentRow != null && _moreFieldsComboBox.DroppedDown)
 				{
+					// SP-799:  Tooltip text too long for netbook screen
+					var form = FindForm();
+					if (form != null)
+					{
+						// get the number of segments
+						var screenWidth = Screen.FromHandle(form.Handle).WorkingArea.Width - 100;
+						var maxWidth = screenWidth < 600 ? screenWidth : 600;
+						var textWidth = e.Graphics.MeasureString(toolTipText, SystemFonts.DefaultFont).Width;
+						var segments = (int)(Math.Ceiling(textWidth / maxWidth));
+
+						if (segments > 1)
+						{
+							var shorterTip = new StringBuilder();
+							var testTip = string.Empty;
+							var words = toolTipText.Split(new[] {' '});
+
+							foreach (var word in words)
+							{
+								var testWidth = e.Graphics.MeasureString(testTip + " " + word, SystemFonts.DefaultFont).Width;
+
+								// if the new word makes it too long, start a new line
+								if (testWidth > maxWidth)
+								{
+									shorterTip.AppendLine(testTip);
+									testTip = string.Empty;
+								}
+
+								// add the new word to the test string
+								if (string.IsNullOrEmpty(testTip))
+									testTip = word;
+								else
+									testTip += " " + word;
+							}
+
+							// if there are any left overs, add them now
+							if (!string.IsNullOrEmpty(testTip))
+								shorterTip.AppendLine(testTip);
+
+							toolTipText = shorterTip.ToString();
+						}
+					}
+
 					_moreFieldsToolTip.Show(toolTipText, _moreFieldsComboBox, e.Bounds.Right,
 						e.Bounds.Bottom + _gridAdditionalFields.CurrentRow.Height + 5);
 				}
@@ -252,13 +320,19 @@ namespace SayMore.UI.ComponentEditors
 		/// <summary>This gives a more helpful exception output than the default DataGrid error message</summary>
 		void _gridAdditionalFields_DataError(object sender, DataGridViewDataErrorEventArgs e)
 		{
-			Debug.Print(e.Exception.Message);
-			throw new Exception(e.Exception.Message, e.Exception);
+			var frm = FindForm();
+			if (frm == null) return;
+
+			// this happens if the cell value is not in the dropdown list
+			if (e.Exception is ArgumentException) return;
+
+			MessageBox.Show(frm, e.Exception.Message, frm.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			//throw new Exception(e.Exception.Message, e.Exception);
 		}
 
 		private void AddDropdownCell(string listType, int row)
 		{
-			var list = ListConstructor.GetList(listType, true, Localize);
+			var list = ListConstructor.GetList(listType, true, Localize, ListConstructor.RemoveUnknown.RemoveAll);
 
 			var currentValue = _gridAdditionalFields[1, row].Value.ToString();
 
@@ -297,9 +371,14 @@ namespace SayMore.UI.ComponentEditors
 		/// 3) "Definition" or "Text"; 4) default (English) value.
 		private string Localize(string listName, string item, string property, string defaultValue)
 		{
-			return LocalizationManager.GetDynamicString("SayMore",
+			// SP-844: List from Arbil contains "Holy Seat" rather than "Holy See"
+			var value = LocalizationManager.GetDynamicString("SayMore",
 				string.Format("CommonToMultipleViews.ListItems.{0}.{1}.{2}", listName, item, property),
 				defaultValue);
+
+			if (value.StartsWith("Holy Seat")) value = value.Replace("Holy Seat", "Holy See");
+
+			return value;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -320,8 +399,10 @@ namespace SayMore.UI.ComponentEditors
 			if (_genre.Items.Count == 0)
 				LoadGenreList(_autoCompleteProvider, null);
 
-			if (_accessOptions != null)
-				SetAccessCodeListAndValue();
+			if (_accessOptions == null)
+				SetAccessProtocol();
+
+			SetAccessCodeListAndValue();
 
 			base.Activated();
 		}
@@ -386,7 +467,11 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public void SetAccessProtocol()
 		{
-			if (Program.CurrentProject == null) return;
+			if (Program.CurrentProject == null)
+			{
+				GetDataInBackground();
+				return;
+			}
 
 			var accessProtocol = Program.CurrentProject.AccessProtocol;
 			var protocols = AccessProtocols.LoadStandardAndCustom();
@@ -412,6 +497,31 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			SetAccessCodeListAndValue();
+		}
+
+		private void GetDataInBackground()
+		{
+			using (BackgroundWorker backgroundWorker = new BackgroundWorker())
+			{
+				backgroundWorker.DoWork += backgroundWorker_DoWork;
+				backgroundWorker.RunWorkerCompleted += backgroundWorker_RunWorkerCompleted;
+				backgroundWorker.RunWorkerAsync();
+			}
+		}
+
+		void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			SetAccessProtocol();
+		}
+
+		void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+		{
+			var count = 0;
+			while ((Program.CurrentProject == null) && (count < 50))
+			{
+				Thread.Sleep(100);
+				count++;
+			}
 		}
 
 		/// <summary>do this in case the access protocol for the project changed and
@@ -447,16 +557,57 @@ namespace SayMore.UI.ComponentEditors
 				_access.SelectedItem = item;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Replace comma with correct delimiter in MultiValueDropDownBox
+		/// Replace comma with correct delimiter in MultiValueDropDownBox. Translate full names
+		/// of persons into strings acceptable to show in UI (use "code" instead of Full Name
+		/// when available).
 		/// </summary>
-		private static void HandleBinderTranslateBoundValueBeingRetrieved(object sender,
+		/// ------------------------------------------------------------------------------------
+		private void HandleBinderTranslateBoundValueBeingRetrieved(object sender,
 			TranslateBoundValueBeingRetrievedArgs args)
 		{
 			if (!(args.BoundControl is MultiValueDropDownBox)) return;
 
 			if (args.ValueFromFile.Contains(","))
 				args.TranslatedValue = args.ValueFromFile.Replace(",", FieldInstance.kDefaultMultiValueDelimiter.ToString(CultureInfo.InvariantCulture));
+
+			if (args.BoundControl == _participants)
+			{
+				var val = args.TranslatedValue ?? args.ValueFromFile;
+				if (!string.IsNullOrEmpty(val))
+				{
+					var participantNames = FieldInstance.GetMultipleValuesFromText(val).ToArray();
+					for (int index = 0; index < participantNames.Length; index++)
+						participantNames[index] = _personInformant.GetUiIdByName(participantNames[index]);
+
+					args.TranslatedValue = FieldInstance.GetTextFromMultipleValues(participantNames);
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// When the binding helper gets to writing field values to the metadata file, we need
+		/// to make sure the English values for male and female are written to the file, not
+		/// the localized values for male and female (which is what is in the gender combo box).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleBinderTranslateBoundValueBeingSaved(object sender,
+			TranslateBoundValueBeingSavedArgs args)
+		{
+			if (args.BoundControl == _participants)
+			{
+				var participantNames = FieldInstance.GetMultipleValuesFromText(_participants.Text).ToArray();
+				for (int index = 0; index < participantNames.Length; index++)
+				{
+					var person = _personInformant.GetPersonByNameOrCode(participantNames[index]);
+					if (person != null)
+						participantNames[index] = person.Id;
+				}
+
+				args.NewValue = FieldInstance.GetTextFromMultipleValues(participantNames);
+			}
 		}
 	}
 }

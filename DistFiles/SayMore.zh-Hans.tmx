@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="zh-Hans" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.2.5141.16548" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="zh-Hans" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="2.0.5196.24814" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-appversion">2.0.0.0</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -218,12 +218,12 @@
         <seg>添加文件</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.FileTypeString">
+    <tu tuid="CommonToMultipleViews.AllFilesDescriptor">
       <tuv xml:lang="en">
-        <seg>All Files (*.*)</seg>
+        <seg>All Files ({0})</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>所有文件(*.*)</seg>
+        <seg>所有文件({0})</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFilesButtonText">
@@ -2348,7 +2348,7 @@
     </tu>
     <tu tuid="MainWindow._menuExportPeople">
       <tuv xml:lang="en">
-        <seg>Export People...</seg>
+        <seg>Export &amp;People...</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>输出人员</seg>
@@ -2356,7 +2356,7 @@
     </tu>
     <tu tuid="MainWindow._menuExportSessions">
       <tuv xml:lang="en">
-        <seg>Export Sessions...</seg>
+        <seg>Export &amp;Sessions...</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>输出任务</seg>
@@ -2388,7 +2388,7 @@
     </tu>
     <tu tuid="MainWindow._menuReleaseNotes">
       <tuv xml:lang="en">
-        <seg>Release Notes...</seg>
+        <seg>Release &amp;Notes...</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>发布说明</seg>
@@ -2556,7 +2556,7 @@
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelBirthYear">
       <tuv xml:lang="en">
-        <seg>Birth Year</seg>
+        <seg>Birth &amp;Year</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>&amp;出生年月</seg>
@@ -2684,7 +2684,7 @@
     </tu>
     <tu tuid="PeopleView.PeopleList.HeadingText">
       <tuv xml:lang="en">
-        <seg>Items</seg>
+        <seg>People</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>人员</seg>
@@ -2958,7 +2958,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelId">
       <tuv xml:lang="en">
-        <seg>Id</seg>
+        <seg>&amp;Id</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>序号</seg>
@@ -2966,7 +2966,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelLocation">
       <tuv xml:lang="en">
-        <seg>Location</seg>
+        <seg>&amp;Location</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>地点</seg>
@@ -2974,7 +2974,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelParticipants">
       <tuv xml:lang="en">
-        <seg>People</seg>
+        <seg>Pe&amp;ople</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>人员</seg>
@@ -2982,7 +2982,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelSetting">
       <tuv xml:lang="en">
-        <seg>Setting</seg>
+        <seg>S&amp;etting</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>设置</seg>
@@ -2990,7 +2990,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelSituation">
       <tuv xml:lang="en">
-        <seg>Situation</seg>
+        <seg>Sit&amp;uation</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>位置</seg>
@@ -2998,7 +2998,7 @@
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelTitle">
       <tuv xml:lang="en">
-        <seg>Title</seg>
+        <seg>&amp;Title</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>标题</seg>
@@ -3158,7 +3158,7 @@
     </tu>
     <tu tuid="SessionsView.SessionsList.HeadingText">
       <tuv xml:lang="en">
-        <seg>Items</seg>
+        <seg>Sessions</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
         <seg>任务</seg>
@@ -3550,10 +3550,10 @@
     </tu>
     <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonAutoSegmenter">
       <tuv xml:lang="en">
-        <seg>Use auto segmenter (experimental)</seg>
+        <seg>Use auto segmenter</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>使用自动分段(测试)</seg>
+        <seg>使用自动分段</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.StartAnnotatingTab._radioButtonCarefulSpeech">

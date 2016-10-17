@@ -23,8 +23,8 @@ namespace SayMore.UI.Overview
 			this.tsbGenre = new System.Windows.Forms.ToolStripButton();
 			this.tsbContributor = new System.Windows.Forms.ToolStripButton();
 			this.tsbTasks = new System.Windows.Forms.ToolStripButton();
-			this._sidebar = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
-			this._projectPages = new Palaso.UI.WindowsForms.Widgets.BetterGrid.BetterGrid();
+			this._sidebar = new SIL.Windows.Forms.Widgets.EnhancedPanel();
+			this._projectPages = new SIL.Windows.Forms.Widgets.BetterGrid.BetterGrid();
 			this._splitter = new System.Windows.Forms.SplitContainer();
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colPageNames = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -149,7 +149,6 @@ namespace SayMore.UI.Overview
 			this._projectPages.TabIndex = 0;
 			this._projectPages.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this._projectPages.WaterMark = "!";
-			this._projectPages.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this._projectPages_RowEnter);
 			//
 			// _splitter
 			//
@@ -206,8 +205,8 @@ namespace SayMore.UI.Overview
 		private System.Windows.Forms.ToolStripButton tsbContributor;
 		private System.Windows.Forms.ToolStripButton tsbTasks;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _sidebar;
-		private Palaso.UI.WindowsForms.Widgets.BetterGrid.BetterGrid _projectPages;
+		private SIL.Windows.Forms.Widgets.EnhancedPanel _sidebar;
+		private SIL.Windows.Forms.Widgets.BetterGrid.BetterGrid _projectPages;
 		private System.Windows.Forms.SplitContainer _splitter;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colPageNames;
 

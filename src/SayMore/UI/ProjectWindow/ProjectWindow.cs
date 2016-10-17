@@ -1,3 +1,12 @@
+// --------------------------------------------------------------------------------------------
+#region // Copyright (c) 2014, SIL International. All Rights Reserved.
+// <copyright from='2011' to='2014' company='SIL International'>
+//		Copyright (c) 2014, SIL International. All Rights Reserved.
+//
+//		Distributable under the terms of the MIT License (http://sil.mit-license.org/)
+// </copyright>
+#endregion
+// --------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,12 +16,12 @@ using System.Linq;
 using System.Media;
 using System.Reflection;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.IO;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
-using SayMore.UI.ElementListScreen;
+using SIL.IO;
+using SIL.Reporting;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
@@ -33,7 +42,7 @@ namespace SayMore.UI.ProjectWindow
 		private readonly IEnumerable<ICommand> _commands;
 		private readonly UILanguageDlg.Factory _uiLanguageDialogFactory;
 		private MPlayerDebuggingOutputWindow _outputDebuggingWindow;
-		internal SessionsListScreen SessionsListScreen;
+		private string _titleFmt;
 
 		public bool UserWantsToOpenADifferentProject { get; set; }
 
@@ -46,9 +55,12 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private ProjectWindow()
 		{
+			Logger.WriteEvent("ProjectWindow constructor");
+
 			ExceptionHandler.AddDelegate(AudioUtils.HandleGlobalNAudioException);
 
 			InitializeComponent();
+			_titleFmt = Text;
 			_menuShowMPlayerDebugWindow.Tag = _menuProject.DropDownItems.IndexOf(_menuShowMPlayerDebugWindow);
 			_menuProject.DropDownItems.Remove(_menuShowMPlayerDebugWindow);
 		}
@@ -77,15 +89,18 @@ namespace SayMore.UI.ProjectWindow
 			{
 				vw.AddTabToTabGroup(_viewTabGroup);
 
-				var screen = vw as SessionsListScreen;
-				if (screen != null)
-					SessionsListScreen = screen;
-
 				if (vw.MainMenuItem != null)
 				{
 					vw.MainMenuItem.Enabled = false;
 					_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_mainMenuHelp), vw.MainMenuItem);
 				}
+
+				//------------------------------------------------------------------------------------
+				// 19 FEB 2014, Phil Hopper: Disable the hidden tabs because Alt+Key is activating
+				// buttons that are not on the active (visible) tab.  Use vw.ViewActivated() and
+				// vw.ViewDeactivated() to enable and disable tabs at the appropriate time.
+				//------------------------------------------------------------------------------------
+				((UserControl)vw).Enabled = false;
 			}
 
 			SetWindowText();
@@ -106,13 +121,28 @@ namespace SayMore.UI.ProjectWindow
 			}
 		}
 
+		internal int SelectedTabIndex()
+		{
+			for (var i = 0; i < _viewTabGroup.Tabs.Count; i++)
+				if (_viewTabGroup.Tabs[i].Selected) return i;
+
+			return -1;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
 			{
+				LocalizeItemDlg.StringsLocalized -= SetWindowText;
+
 				ExceptionHandler.RemoveDelegate(AudioUtils.HandleGlobalNAudioException);
-				components.Dispose();
+
+				if (components != null)
+					components.Dispose();
+
+				if (_viewTabGroup != null)
+					_viewTabGroup.Tabs.Clear();
 			}
 
 			base.Dispose(disposing);
@@ -126,8 +156,8 @@ namespace SayMore.UI.ProjectWindow
 		private void SetWindowText()
 		{
 			var ver = Assembly.GetExecutingAssembly().GetName().Version;
-			var fmt = LocalizationManager.GetString("MainWindow.WindowTitleWithProject", "{0} - SayMore {1}.{2}.{3} (Beta)");
-			Text = string.Format(fmt, ProjectName, ver.Major, ver.Minor, ver.Build);
+			Text = string.Format(_titleFmt, ProjectName, ver.Major, ver.Minor, ver.Build,
+				ApplicationContainer.GetBuildTypeDescriptor(BuildType.Current));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -137,6 +167,12 @@ namespace SayMore.UI.ProjectWindow
 			base.OnLoad(e);
 
 			_viewTabGroup.SetActiveView(_viewTabGroup.Tabs[0]);
+		}
+
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			ReportAnyFileLoadErrors();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -149,9 +185,6 @@ namespace SayMore.UI.ProjectWindow
 			}
 
 			base.OnFormClosing(e);
-
-			if (!e.Cancel)
-				LocalizeItemDlg.StringsLocalized -= SetWindowText;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -175,13 +208,14 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void HandleHelpAboutClick(object sender, EventArgs e)
 		{
-			using (var dlg = new Palaso.UI.WindowsForms.SIL.SILAboutBox(FileLocator.GetFileDistributedWithApplication("aboutbox.htm")))
+			using (var dlg = new SIL.Windows.Forms.Miscellaneous.SILAboutBox(FileLocator.GetFileDistributedWithApplication("aboutbox.htm")))
 				dlg.ShowDialog();
 		}
+
 		/// ------------------------------------------------------------------------------------
 		private void HandleHelpClick(object sender, EventArgs e)
 		{
-			//nb: when the file is in our source code, and not in the program directory, windows security will squak and then not show content.
+			//nb: when the file is in our source code, and not in the program directory, windows security will squawk and then not show content.
 			var path = FileLocator.GetFileDistributedWithApplication(false,"SayMore.chm");
 			try
 			{
@@ -192,7 +226,7 @@ namespace SayMore.UI.ProjectWindow
 				//user cancelling a security warning here shouldn't lead to a crash
 				Debug.Print(ex.Message);
 			}
-			UsageReporter.SendNavigationNotice("Help");
+			Analytics.Track("Show Help from main menu");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -206,6 +240,18 @@ namespace SayMore.UI.ProjectWindow
 		private void HandleArchiveProjectMenuItemClick(object sender, EventArgs e)
 		{
 			Program.ArchiveProjectUsingIMDI(this);
+			ReportAnyFileLoadErrors();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ReportAnyFileLoadErrors()
+		{
+			var loadErrors = Program.FileLoadErrors;
+			if (loadErrors.Any())
+			{
+				using (var dlg = new FileLoadErrorsReportDlg(loadErrors))
+					dlg.ShowDialog(this);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -273,7 +319,7 @@ namespace SayMore.UI.ProjectWindow
 			if (view.MainMenuItem != null)
 				view.MainMenuItem.Enabled = true;
 
-			UsageReporter.SendNavigationNotice(view.NameForUsageReporting);
+			Analytics.Track(view.NameForUsageReporting + "View Activated");
 		}
 
 		/// ------------------------------------------------------------------------------------

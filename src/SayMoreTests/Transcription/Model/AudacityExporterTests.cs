@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using Palaso.IO;
+using SIL.IO;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.Model.Exporters;
 
@@ -15,7 +15,7 @@ namespace SayMoreTests.Transcription.Model
 		[SetUp]
 		public void TestSetup()
 		{
-			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
+			SIL.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 		}
 
 		[Test]
@@ -68,9 +68,9 @@ namespace SayMoreTests.Transcription.Model
 		private TextTier CreateTier()
 		{
 			var tier = new TextTier(TextTier.ElanTranscriptionTierId);
-			tier.Segments.Add(new Segment(tier){Start=0, End=1,Text="one"});
-			tier.Segments.Add(new Segment(tier) { Start = (float) 1.456, End = (float) 2.6789, Text = "two" });
-			tier.Segments.Add(new Segment(tier) { Start = 2, End = 3, Text = "three" });
+			tier.Segments.Add(new AnnotationSegment(tier){Start=0, End=1,Text="one"});
+			tier.Segments.Add(new AnnotationSegment(tier) { Start = (float) 1.456, End = (float) 2.6789, Text = "two" });
+			tier.Segments.Add(new AnnotationSegment(tier) { Start = 2, End = 3, Text = "three" });
 
 			return tier;
 		}

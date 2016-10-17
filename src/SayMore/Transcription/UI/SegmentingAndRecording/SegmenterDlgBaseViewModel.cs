@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using L10NSharp;
 using NAudio.Wave;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -12,6 +12,7 @@ using SayMore.Transcription.Model;
 using SayMore.UI.NewSessionsFromFiles;
 using SayMore.Utilities;
 
+// ReSharper disable once CheckNamespace
 namespace SayMore.Transcription.UI
 {
 	public class SegmenterDlgBaseViewModel : IDisposable
@@ -232,12 +233,12 @@ namespace SayMore.Transcription.UI
 		public Func<bool, bool, bool> AllowDeletionOfOralAnnotations { get; set; }
 		public TierCollection Tiers { get; protected set; }
 		public TimeTier TimeTier { get; protected set; }
-		public HashSet<AudioFileHelper> SegmentsAnnotationSamplesToDraw { get; private set; }
 		public Action OralAnnotationWaveAreaRefreshAction { get; set; }
 
 		public string TempOralAnnotationsFolder { get; protected set; }
 		public string OralAnnotationsFolder { get; protected set; }
 
+		protected readonly HashSet<AudioFileHelper> _segmentsAnnotationSamplesToDraw = new HashSet<AudioFileHelper>();
 		protected List<string> _oralAnnotationFilesBeforeChanges = new List<string>();
 		protected readonly UndoStack _undoStack = new UndoStack();
 		private List<string> _oralAnnotationFilesToDelete;
@@ -246,7 +247,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public SegmenterDlgBaseViewModel(ComponentFile file)
 		{
-			SegmentsAnnotationSamplesToDraw = new HashSet<AudioFileHelper>();
 			ComponentFile = file;
 			OrigWaveStream = new WaveFileReader(ComponentFile.PathToAnnotatedFile);
 
@@ -289,6 +289,7 @@ namespace SayMore.Transcription.UI
 			{
 				Directory.Delete(TempOralAnnotationsFolder, true);
 			}
+// ReSharper disable once EmptyGeneralCatchClause
 			catch { }
 		}
 
@@ -311,10 +312,13 @@ namespace SayMore.Transcription.UI
 		{
 			FileSystemUtils.WaitForFileRelease(path);
 
-			if (File.Exists(path))
+			lock (_segmentsAnnotationSamplesToDraw)
 			{
-				File.Delete(path);
-				SegmentsAnnotationSamplesToDraw.RemoveWhere(h => h.AudioFilePath == path);
+				if (File.Exists(path))
+				{
+					File.Delete(path);
+					_segmentsAnnotationSamplesToDraw.RemoveWhere(h => h.AudioFilePath == path);
+				}
 			}
 		}
 
@@ -346,15 +350,38 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected void RestorePreviousVersionOfAnnotation(string dstFile)
 		{
-			var backupFile = Path.Combine(TempOralAnnotationsFolder, Path.GetFileName(dstFile));
+			var fileName = Path.GetFileName(dstFile);
+			if (fileName == null) return;
+
+			var backupFile = Path.Combine(TempOralAnnotationsFolder, fileName);
 			if (File.Exists(backupFile))
 			{
-				int versionNumber = GetLatestBackupNumberForFile(dstFile);
+				var versionNumber = GetLatestBackupNumberForFile(dstFile);
 				if (versionNumber > 0)
 					backupFile += kBackupVersionPrefix + versionNumber;
 				if (File.Exists(dstFile))
+				{
+					// SP-714: Access denied trying to delete file
+					FileSystemUtils.WaitForFileRelease(dstFile);
 					File.Delete(dstFile);
-				File.Move(backupFile, dstFile);
+				}
+
+				try
+				{
+					File.Move(backupFile, dstFile);
+				}
+				catch (IOException e)
+				{
+					// SP-988: We think the lock around _segmentsAnnotationSamplesToDraw (in
+					// the call to this method) may now effectively prevent this error, but just
+					// in case, we're reporting it as non-fatal. If the user ignores this error,
+					// the only "bad" thing that happens is we fail to restore a backup. But since
+					// this can only happen if something (presumably some other thread in SM)
+					// creates a new version of the file right after we check for its existence
+					// and/or delete it, something else is probably happening or about to happen
+					// that will overwrite the file anyway.
+					ErrorReport.ReportNonFatalException(e);
+				}
 			}
 			else
 				EraseAnnotation(dstFile);
@@ -408,6 +435,7 @@ namespace SayMore.Transcription.UI
 			if (_oralAnnotationFilesBeforeChanges.Count == 0)
 				return;
 
+			// ReSharper disable once AssignNullToNotNullAttribute - Path.GetFileName(f)
 			var filesToRestore = (from f in _oralAnnotationFilesBeforeChanges
 								  let srcfile = Path.Combine(TempOralAnnotationsFolder, Path.GetFileName(f))
 								  where File.Exists(srcfile)
@@ -432,7 +460,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual string ProgramAreaForUsageReporting
 		{
-			get { return "ManualSegmentation"; }
+			get { return "Manual Segmentation"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -453,7 +481,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ----------------------------------------------------------------------------------------
-		public Segment GetSegment(int index)
+		public AnnotationSegment GetSegment(int index)
 		{
 			return (index < 0 || index >= TimeTier.Segments.Count ?
 				null : TimeTier.Segments[index]);
@@ -540,7 +568,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool UpdateSegmentBoundary(Segment seg, TimeSpan newEndTime)
+		private bool UpdateSegmentBoundary(AnnotationSegment seg, TimeSpan newEndTime)
 		{
 			var origTimeRange = seg.TimeRange.Copy();
 
@@ -567,7 +595,8 @@ namespace SayMore.Transcription.UI
 					{
 						BackupOralAnnotationSegmentFile(file, true);
 						Action<SegmentChange> undoActionOrig = undoAction;
-						undoAction = c => { undoActionOrig(c); RestorePreviousVersionOfAnnotation(file); };
+						var file1 = file;
+						undoAction = c => { undoActionOrig(c); RestorePreviousVersionOfAnnotation(file1); };
 					}
 					_oralAnnotationFilesToDelete = null;
 				}
@@ -580,7 +609,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool ConfirmDeletionOfOralAnnotations(Segment segment, bool hasCarefulSpeech, bool hasOralTranslation)
+		protected bool ConfirmDeletionOfOralAnnotations(AnnotationSegment segment, bool hasCarefulSpeech, bool hasOralTranslation)
 		{
 			if (AllowDeletionOfOralAnnotations == null || !AllowDeletionOfOralAnnotations(hasCarefulSpeech, hasOralTranslation))
 				return false;
@@ -599,7 +628,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetIgnoredFlagForSegment(Segment segment, bool ignore)
+		public void SetIgnoredFlagForSegment(AnnotationSegment segment, bool ignore)
 		{
 			if (segment != null)
 			{
@@ -632,7 +661,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual Action GetActionToRestoreStateWhenUndoingAnIgnore(Segment segment)
+		protected virtual Action GetActionToRestoreStateWhenUndoingAnIgnore(AnnotationSegment segment)
 		{
 			return () => { };
 		}
@@ -647,7 +676,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetIsSegmentIgnored(Segment segment)
+		public bool GetIsSegmentIgnored(AnnotationSegment segment)
 		{
 			return GetIsSegmentIgnored(TimeTier.GetIndexOfSegment(segment));
 		}
@@ -702,7 +731,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void OnSegmentDeleted(Segment segment)
+		protected virtual void OnSegmentDeleted(AnnotationSegment segment)
 		{
 			_undoStack.Push(new SegmentChange(SegmentChangeType.Deletion, segment.TimeRange.Copy(), null, null));
 		}
@@ -710,7 +739,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void OnSegmentBoundaryChanged()
 		{
-			SegmentsAnnotationSamplesToDraw.Clear();
+			lock(_segmentsAnnotationSamplesToDraw)
+				_segmentsAnnotationSamplesToDraw.Clear();
 
 			if (OralAnnotationWaveAreaRefreshAction != null)
 				OralAnnotationWaveAreaRefreshAction();

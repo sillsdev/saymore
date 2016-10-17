@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Palaso.UI.WindowsForms.Miscellaneous;
+using SIL.Windows.Forms.Miscellaneous;
 using SayMore.Media.Audio;
 using SayMore.Model.Files;
 
@@ -97,6 +97,8 @@ namespace SayMore.Transcription.Model
 			{
 				timeTier.AppendSegment((float)segment.TotalSeconds);
 			}
+
+			StreamReader.Close();
 
 			WaitCursor.Hide();
 

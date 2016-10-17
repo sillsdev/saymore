@@ -4,12 +4,14 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
-using Palaso.Code;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.FileSystem;
-using Palaso.UI.WindowsForms.Miscellaneous;
+using SIL.Code;
+using SIL.Reporting;
+using SIL.Windows.Forms.FileSystem;
+using SIL.Windows.Forms.Miscellaneous;
 using SayMore.Media.Audio;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
@@ -28,7 +30,7 @@ namespace SayMore.Model.Files
 	/// etc.). Each of these is represented by an object of this class.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class ComponentFile
+	public class ComponentFile : IDisposable
 	{
 		#region Windows API stuff
 #if !__MonoCS__
@@ -70,10 +72,10 @@ namespace SayMore.Model.Files
 		private AnnotationComponentFile _annotationFile;
 
 		protected IEnumerable<ComponentRole> _componentRoles;
-		private readonly XmlFileSerializer _xmlFileSerializer;
-		private readonly IProvideAudioVideoFileStatistics _statisticsProvider;
-		private readonly PresetGatherer _presetProvider;
-		private readonly FieldUpdater _fieldUpdater;
+		private XmlFileSerializer _xmlFileSerializer;
+		private IProvideAudioVideoFileStatistics _statisticsProvider;
+		private PresetGatherer _presetProvider;
+		private FieldUpdater _fieldUpdater;
 
 		public ProjectElement ParentElement { get; protected set; }
 		public string RootElementName { get; protected set; }
@@ -105,7 +107,7 @@ namespace SayMore.Model.Files
 			FieldUpdater fieldUpdater)
 		{
 			ParentElement = parentElement;
-			PathToAnnotatedFile = pathToAnnotatedFile;
+			SetPathToFile(pathToAnnotatedFile);
 			_componentRoles = componentRoles;
 			_xmlFileSerializer = xmlFileSerializer;
 			_statisticsProvider = statisticsProvider;
@@ -127,7 +129,7 @@ namespace SayMore.Model.Files
 			RootElementName = "MetaData";
 
 			if (File.Exists(_metaDataPath))
-				Load();
+				LoadNow();
 
 			InitializeFileInfo();
 		}
@@ -136,6 +138,16 @@ namespace SayMore.Model.Files
 		public ComponentFile()
 		{
 			_componentRoles = ApplicationContainer.ComponentRoles;
+		}
+
+		public void LoadNow()
+		{
+			Load();
+		}
+
+		private void SetPathToFile(string pathToAnnotatedFile)
+		{
+			PathToAnnotatedFile = pathToAnnotatedFile;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -150,7 +162,7 @@ namespace SayMore.Model.Files
 			RootElementName = rootElementName;
 			ParentElement = parentElement;
 			//The annotated file is the same as the annotation file; there isn't a pair of files for session/person
-			PathToAnnotatedFile = filePath;
+			SetPathToFile(filePath);
 			FileType = fileType;
 			_xmlFileSerializer = xmlFileSerializer;
 			_metaDataPath = filePath;
@@ -167,7 +179,7 @@ namespace SayMore.Model.Files
 
 			FileType =
 				fTypes.FirstOrDefault(t => t.IsMatch(pathToAnnotatedFile)) ??
-				fTypes.FirstOrDefault(t => t.IsForUnknownFileTypes);
+				fTypes.Single(t => t.IsForUnknownFileTypes);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -292,9 +304,12 @@ namespace SayMore.Model.Files
 					return TimeSpan.Zero;
 
 				var stats = StatisticsProvider.GetFileData(PathToAnnotatedFile);
+
 				if (stats == null || stats.Duration == default(TimeSpan))
 				{
 					string duration = GetStringValue("Duration", string.Empty);
+					if (duration == "Not Generated")
+						return TimeSpan.Zero;
 					return string.IsNullOrEmpty(duration) ? TimeSpan.Zero : TimeSpan.Parse(duration);
 				}
 
@@ -322,7 +337,23 @@ namespace SayMore.Model.Files
 		protected void LoadFileSizeAndDateModified()
 		{
 			// Initialize file's display size. File should only not exist during tests.
-			var fi = new FileInfo(PathToAnnotatedFile);
+			FileInfo fi = null;
+			try
+			{
+				fi = new FileInfo(PathToAnnotatedFile);
+			}
+			catch (Exception e)
+			{
+				if (e is PathTooLongException || e is ArgumentException)
+				{
+					ErrorReport.ReportNonFatalExceptionWithMessage(e,
+						LocalizationManager.GetString("CommonToMultipleViews.FileList.CannotRenameFileErrorMsg",
+						"{0} could not load the file: {1}"),
+						Application.ProductName, PathToAnnotatedFile);
+					return;
+				}
+				throw;
+			}
 			FileSize = (fi.Exists ? GetDisplayableFileSize(fi.Length) : "0 KB");
 
 			// display the file time using the current culture, same as windows explorer
@@ -339,10 +370,16 @@ namespace SayMore.Model.Files
 
 			if (computedFieldInfo != null && StatisticsProvider != null)
 			{
-				// Get the computed value (if there is one).
-				computedValue = computedFieldInfo.GetFormatedStatProvider(
-					StatisticsProvider.GetFileData(PathToAnnotatedFile),
-					computedFieldInfo.DataItemChooser, computedFieldInfo.Suffix);
+				var mediaFileInfo = StatisticsProvider.GetFileData(PathToAnnotatedFile);
+				if (mediaFileInfo != null)
+				{
+					if (mediaFileInfo.Audio == null &&
+						PathToAnnotatedFile.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix))
+						return "Not Generated";
+					// Get the computed value (if there is one).
+					computedValue = computedFieldInfo.GetFormatedStatProvider(
+						mediaFileInfo, computedFieldInfo.DataItemChooser, computedFieldInfo.Suffix);
+				}
 			}
 
 			// Get the value from the metadata file.
@@ -358,11 +395,7 @@ namespace SayMore.Model.Files
 					// REVIEW: We probably don't want to save the formatted value to the
 					// metadata file, which is what we're doing here. In the future we'll
 					// probably want to change things to save the raw computed value.
-					string failureMessage;
-					SetStringValue(key, computedValue, out failureMessage);
-					if (failureMessage != null)
-						ErrorReport.NotifyUserOfProblem(failureMessage);
-
+					SetStringValue(key, computedValue);
 					Save();
 					return computedValue;
 				}
@@ -383,9 +416,9 @@ namespace SayMore.Model.Files
 		/// Sets the value for persisting, and returns the same value, potentially modified
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual string SetStringValue(string key, string newValue, out string failureMessage)
+		public virtual string SetStringValue(string key, string newValue)
 		{
-			return SetStringValue(new FieldInstance(key, newValue), out failureMessage);
+			return SetStringValue(new FieldInstance(key, newValue));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -426,10 +459,8 @@ namespace SayMore.Model.Files
 		/// Sets the value for persisting, and returns the same value, potentially modified
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual string SetStringValue(FieldInstance newFieldInstance, out string failureMessage)
+		public virtual string SetStringValue(FieldInstance newFieldInstance)
 		{
-			failureMessage = null;
-
 			newFieldInstance.Value = (newFieldInstance.ValueAsString ?? string.Empty).Trim();
 			var oldFieldValue = MetaDataFieldValues.Find(v => v.FieldId == newFieldInstance.FieldId);
 
@@ -478,6 +509,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		// ReSharper disable once VirtualMemberNeverOverriden.Global - Do not remove "virtual" - Mocked in tests
 		public virtual void Save()
 		{
 			Save(_metaDataPath);
@@ -493,7 +525,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void OnBeforeSave(object sender)
+		protected void OnBeforeSave(object sender)
 		{
 			if (BeforeSave != null)
 				BeforeSave(sender, EventArgs.Empty);
@@ -712,8 +744,9 @@ namespace SayMore.Model.Files
 						return null;
 					}
 
+					Analytics.Track("Changes made using Oral Annotation Recorder");
+
 					var eafFileName = viewModel.Tiers.Save(PathToAnnotatedFile);
-					WaitCursor.Show();
 					GenerateOralAnnotationFile(viewModel.Tiers, frm, GenerateOption.ClearAndRegenerateOnDemand);
 					return eafFileName;
 				}
@@ -721,7 +754,6 @@ namespace SayMore.Model.Files
 			finally
 			{
 				Program.ResumeBackgroundProcesses(true);
-				WaitCursor.Hide();
 			}
 		}
 
@@ -732,21 +764,23 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void GenerateOralAnnotationFile(TierCollection tiers, Control parentOfProgressPopup, GenerateOption option)
+		public bool GenerateOralAnnotationFile(TierCollection tiers, Control parentOfProgressPopup, GenerateOption option)
 		{
-			if (PreGenerateOralAnnotationFileAction != null)
-				PreGenerateOralAnnotationFileAction();
-
 			bool generated = false;
 			// subclass OralAnnotationComponentFile will handle the case of JIT generation
 			if (option != GenerateOption.GenerateIfNeeded)
 			{
+				if (PreGenerateOralAnnotationFileAction != null)
+					PreGenerateOralAnnotationFileAction();
+
 				generated = OralAnnotationFileGenerator.Generate(tiers, parentOfProgressPopup,
 					option == GenerateOption.ClearAndRegenerateOnDemand);
 			}
 
 			if (PostGenerateOralAnnotationFileAction != null)
 				PostGenerateOralAnnotationFileAction(generated);
+
+			return generated;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -813,6 +847,10 @@ namespace SayMore.Model.Files
 				if (_annotationFile != null)
 					_annotationFile.RenameAnnotatedFile(GetSuggestedPathToAnnotationFile());
 			}
+			catch (PathTooLongException pathTooLong)
+			{
+				throw new PathTooLongException(pathTooLong.Message + Environment.NewLine + newPath, pathTooLong);
+			}
 			catch (Exception e)
 			{
 				var msg = LocalizationManager.GetString("CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg",
@@ -832,6 +870,21 @@ namespace SayMore.Model.Files
 		public override string ToString()
 		{
 			return PathToAnnotatedFile;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Dispose()
+		{
+			if (_annotationFile != null)
+				_annotationFile.Dispose();
+			_annotationFile = null;
+
+			_xmlFileSerializer = null;
+			_statisticsProvider = null;
+			_presetProvider = null;
+			_fieldUpdater = null;
+			MetaDataFieldValues = null;
+			ParentElement = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -907,32 +960,56 @@ namespace SayMore.Model.Files
 
 #if !__MonoCS__
 			var ext = Path.GetExtension(fullFilePath);
-			if (s_fileTypes.TryGetValue(ext, out fileType))
-			{
-				smallIcon = s_smallFileIcons[ext];
+			if (ext == null)
 				return;
-			}
 
-			var shinfo = new SHFILEINFO();
-			try
+			ext = ext.ToLowerInvariant();
+
+			lock (s_fileTypes)
 			{
-				SHGetFileInfo(fullFilePath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_TYPENAME |
-						SHGFI_SMALLICON | SHGFI_ICON | SHGFI_DISPLAYNAME);
+				if (s_fileTypes.TryGetValue(ext, out fileType))
+				{
+					smallIcon = s_smallFileIcons[ext];
+					return;
+				}
+
+				uint shGetFileInfoFlags = SHGFI_TYPENAME | SHGFI_DISPLAYNAME;
+
+				if (Settings.Default.LoadComponentFileIcons)
+				{
+					shGetFileInfoFlags |= SHGFI_SMALLICON | SHGFI_ICON;
+					Logger.WriteEvent("Getting icon and file type for file {0} (type: {1})", fullFilePath, ext);
+				}
+				else
+				{
+					Logger.WriteEvent("Getting file type for file {0} (type: {1})", fullFilePath, ext);
+				}
+
+				var shinfo = new SHFILEINFO();
+				try
+				{
+					SHGetFileInfo(fullFilePath, 0, ref shinfo, (uint) Marshal.SizeOf(shinfo), shGetFileInfoFlags);
+				}
+				catch (Exception e)
+				{
+					Logger.WriteEvent("Error calling SHGetFileInfo with path: {0}\r\nException: {1}", fullFilePath, e);
+					if (e is OutOfMemoryException)
+						throw;
+				}
+
+				// This should only be zero during tests.
+				if (Settings.Default.LoadComponentFileIcons && shinfo.hIcon != IntPtr.Zero)
+				{
+					var icon = Icon.FromHandle(shinfo.hIcon);
+					smallIcon = icon.ToBitmap();
+					DestroyIcon(shinfo.hIcon);
+				}
+
+				fileType = shinfo.szTypeName;
+
+				s_fileTypes[ext] = fileType;
+				s_smallFileIcons[ext] = smallIcon;
 			}
-			catch { }
-
-			// This should only be zero during tests.
-			if (shinfo.hIcon != IntPtr.Zero)
-			{
-				var icon = Icon.FromHandle(shinfo.hIcon);
-				smallIcon = icon.ToBitmap();
-				DestroyIcon(shinfo.hIcon);
-			}
-
-			fileType = shinfo.szTypeName;
-
-			s_fileTypes[ext] = fileType;
-			s_smallFileIcons[ext] = smallIcon;
 #else
 			// REVIEW: Figure out a better way to get this in Mono.
 			Icon icon = Icon.ExtractAssociatedIcon(fullFilePath);
@@ -974,13 +1051,7 @@ namespace SayMore.Model.Files
 		public void UsePreset(IDictionary<string, string> preset)
 		{
 			foreach (KeyValuePair<string, string> pair in preset)
-			{
-				string failureStringMessage;
-				SetStringValue(pair.Key, pair.Value, out failureStringMessage);
-
-				if (!string.IsNullOrEmpty(failureStringMessage))
-					ErrorReport.NotifyUserOfProblem(failureStringMessage);
-			}
+				SetStringValue(pair.Key, pair.Value);
 
 			Save();
 		}
@@ -1006,7 +1077,7 @@ namespace SayMore.Model.Files
 					"{0} and subordinate files",
 					"Used to format a string that will indicate that subordinate files (i.e., annotation files)" +
 					" will also be moved to the recycle bin. Parameter is the name (without path) of the main file being deleted."), uiFileName);
-			if (askForConfirmation && !ConfirmRecycleDialog.JustConfirm(uiFileName))
+			if (askForConfirmation && !ConfirmRecycleDialog.JustConfirm(uiFileName, file.HasSubordinateFiles, ApplicationContainer.kSayMoreLocalizationId))
 				return false;
 
 			return file.Delete();

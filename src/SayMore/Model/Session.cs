@@ -4,9 +4,11 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.UI.WindowsForms.ClearShare;
+using SIL.Reporting;
+using SIL.Windows.Forms.ClearShare;
+using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -25,7 +27,6 @@ namespace SayMore.Model
 	/// ----------------------------------------------------------------------------------------
 	public class Session : ProjectElement, IIMDIArchivable
 	{
-// ReSharper disable once InconsistentNaming
 		public static string kFolderName = "Sessions";
 
 		public enum Status
@@ -58,7 +59,7 @@ namespace SayMore.Model
 		{
 			_personInformant = personInformant;
 
-// ReSharper disable DoNotCallOverridableMethodsInConstructor
+			// ReSharper disable DoNotCallOverridableMethodsInConstructor
 
 			// Using a 1-minute fudge factor is a bit of a kludge, but when a session is created from an
 			// existing media file, it already has an ID, and there's no other way to tell it's "new".
@@ -69,6 +70,9 @@ namespace SayMore.Model
 				MetaDataFile.GetStringValue(SessionFileType.kContinentFieldName, null) == null &&
 				MetaDataFile.GetStringValue(SessionFileType.kAddressFieldName, null) == null)
 			{
+				// SP-876: Project Data not displayed in new sessions until after a restart.
+				Program.SaveProjectMetadata();
+
 				if (!string.IsNullOrEmpty(project.Country))
 					MetaDataFile.TrySetStringValue(SessionFileType.kCountryFieldName, project.Country);
 				if (!string.IsNullOrEmpty(project.Region))
@@ -86,7 +90,21 @@ namespace SayMore.Model
 			}
 // ReSharper restore DoNotCallOverridableMethodsInConstructor
 			if (_personInformant != null)
+			{
 				_personInformant.PersonNameChanged += HandlePersonsNameChanged;
+				_personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void Dispose()
+		{
+			base.Dispose();
+			if (_personInformant != null)
+			{
+				_personInformant.PersonNameChanged -= HandlePersonsNameChanged;
+				_personInformant.PersonUiIdChanged -= HandlePersonsUiIdChanged;
+			}
 		}
 
 		#region Properties
@@ -155,16 +173,28 @@ namespace SayMore.Model
 		{
 			statusAsText = GetStatusAsEnumParsableString(statusAsText);
 
-			if (statusAsText == Status.Incoming.ToString())
-				return LocalizationManager.GetString("SessionsView.SessionStatus.Incoming", "Incoming");
+			Status status;
+			if (Enum.TryParse(statusAsText, out status))
+				return GetLocalizedStatus(status);
+			throw new ArgumentException(string.Format("Value {0} is not valid status.", statusAsText), "statusAsText");
+		}
 
-			if (statusAsText == Status.In_Progress.ToString())
-				return LocalizationManager.GetString("SessionsView.SessionStatus.InProgress", "In Progress");
-
-			if (statusAsText == Status.Finished.ToString())
-				return LocalizationManager.GetString("SessionsView.SessionStatus.Finished", "Finished");
-
-			return LocalizationManager.GetString("SessionsView.SessionStatus.Skipped", "Skipped");
+		/// ------------------------------------------------------------------------------------
+		public static string GetLocalizedStatus(Status status)
+		{
+			switch (status)
+			{
+				case Status.Incoming:
+					return LocalizationManager.GetString("SessionsView.SessionStatus.Incoming", "Incoming");
+				case Status.In_Progress:
+					return LocalizationManager.GetString("SessionsView.SessionStatus.InProgress", "In Progress");
+				case Status.Finished:
+					return LocalizationManager.GetString("SessionsView.SessionStatus.Finished", "Finished");
+				case Status.Skipped:
+					return LocalizationManager.GetString("SessionsView.SessionStatus.Skipped", "Skipped");
+				default:
+					throw new ArgumentException(string.Format("Value {0} is not valid status.", status), "status");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -225,12 +255,51 @@ namespace SayMore.Model
 			var allParticipants = GetAllParticipants();
 			var newNames = allParticipants.Select(name => (name == e.OldId ? e.NewId : name));
 
-			string failureMessage;
 			MetaDataFile.SetStringValue(SessionFileType.kParticipantsFieldName,
-				FieldInstance.GetTextFromMultipleValues(newNames), out failureMessage);
+				FieldInstance.GetTextFromMultipleValues(newNames));
 
-			if (failureMessage != null)
-				ErrorReport.NotifyUserOfProblem(failureMessage);
+			MetaDataFile.Save();
+
+			ProcessContributorNameChange(e);
+		}
+
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// We get this message from the person informant when a person's UI ID has changed.
+		/// When that happens, we need to update any matching contributors in any metadata files
+		/// for any of this session's media files.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandlePersonsUiIdChanged(object sender, ElementIdChangedArgs e)
+		{
+			ProcessContributorNameChange(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ProcessContributorNameChange(ElementIdChangedArgs e)
+		{
+			foreach (var file in GetComponentFiles().Where(f => (f.FileType as FileTypeWithContributors) != null))
+			{
+				var values = file.MetaDataFieldValues.FirstOrDefault(v => v.FieldId == "contributions");
+				if (values == null)
+					continue;
+
+				var contributions = values.Value as ContributionCollection;
+				if (contributions == null)
+					continue;
+
+				foreach (var contribution in contributions.Where(contribution => contribution.ContributorName == e.OldId))
+					contribution.ContributorName = e.NewId;
+
+				string failureMessage;
+				file.SetValue("contributions", contributions, out failureMessage);
+
+				if (failureMessage == null)
+					file.Save();
+				else
+					ErrorReport.NotifyUserOfProblem(failureMessage);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -243,13 +312,38 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<Person> GetAllPersonsInSession()
 		{
-			return GetAllParticipants().Select(n => _personInformant.GetPersonByNameOrCode(n)).Where(p => p != null);
+			return GetAllParticipants().Select(n => _personInformant.GetPersonByNameOrCode(n)).Where(p => p != null).ToList();
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<ArchivingActor> GetAllContributorsInSession()
+		{
+			// files that might have contributors
+			foreach (var file in GetComponentFiles().Where(f => (f.FileType as FileTypeWithContributors) != null))
+			{
+				var values = file.MetaDataFieldValues.FirstOrDefault(v => v.FieldId == "contributions");
+				if (values == null) continue;
+
+				var contributions = values.Value as ContributionCollection;
+				if (contributions == null) continue;
+
+				foreach (var contribution in contributions)
+					yield return new ArchivingActor
+					{
+						FullName = contribution.ContributorName,
+						Name = contribution.ContributorName,
+						Role = contribution.Role.Name
+					};
+			}
+		}
+
 
 		#region Archiving
 		/// ------------------------------------------------------------------------------------
 		public void ArchiveUsingRAMP()
 		{
+			Analytics.Track("Archive Session using RAMP");
+
 			var model = new RampArchivingDlgViewModel(Application.ProductName, Title, Id,
 				ArchiveInfoDetails, SetFilesToArchive, GetFileDescription);
 
@@ -271,6 +365,8 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void ArchiveUsingIMDI()
 		{
+			Analytics.Track("Archive Session using IMDI");
+
 			ArchivingHelper.ArchiveUsingIMDI(this);
 		}
 

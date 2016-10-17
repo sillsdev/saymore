@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Palaso.Code;
-using Palaso.UI.WindowsForms.FileSystem;
+using System.Xml;
+using SIL.Code;
+using SIL.Windows.Forms.FileSystem;
 using SayMore.Model.Files;
+using SayMore.UI.ProjectWindow;
 
 namespace SayMore.Model
 {
@@ -57,20 +59,29 @@ namespace SayMore.Model
 			if (!Directory.Exists(_rootFolder))
 				Directory.CreateDirectory(_rootFolder);
 
+			FileLoadErrors = new List<XmlException>();
+
 			RefreshItemList();
 		}
 
 		[Obsolete("For Mocking Only")]
 		public ElementRepository(){}
 
+		public List<XmlException> FileLoadErrors { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Updates the list of items by looking in the file system for all the subfolders
 		/// in the project's folder corresponding to this repository.
 		/// </summary>
+		/// <remarks>Any file load errors ocurring during this call will be noted in
+		/// FileLoadErrors. Caller is responsible for checking this and handling them as
+		/// appropriate.</remarks>
 		/// ------------------------------------------------------------------------------------
 		public void RefreshItemList()
 		{
+			FileLoadErrors.Clear();
+
 			var folders = new HashSet<string>(Directory.GetDirectories(_rootFolder));
 
 			// Go through the existing sessions we have and remove
@@ -84,13 +95,22 @@ namespace SayMore.Model
 			// Add any items we don't already have
 			foreach (var path in folders)
 			{
-				var item = _items.FirstOrDefault(x => x.FolderPath == path);
-				if (item == null)
+				if (!_items.Any(x => x.FolderPath == path))
 				{
 					var elementPath = Path.GetDirectoryName(path);
-					var elementId = path.Remove(0, elementPath.Length).TrimStart(Path.DirectorySeparatorChar);
-					var element = _elementFactory(elementPath, elementId, OnElementIdChanged);
-					_items.Add(element);
+					var elementId = path.Substring(elementPath.Length + 1);
+					try
+					{
+						var element = _elementFactory(elementPath, elementId, OnElementIdChanged);
+						_items.Add(element);
+					}
+					catch(Exception exception)
+					{
+						var xmlException = exception.InnerException as XmlException;
+						if (xmlException == null)
+							throw;
+						FileLoadErrors.Add(xmlException);
+					}
 				}
 			}
 		}

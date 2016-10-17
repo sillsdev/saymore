@@ -1,4 +1,6 @@
 
+using L10NSharp.UI;
+
 namespace SayMore.UI.SessionRecording
 {
 	partial class SessionRecorderDlg
@@ -14,9 +16,12 @@ namespace SayMore.UI.SessionRecording
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (components != null))
+			if (disposing)
 			{
-				components.Dispose();
+				if (components != null)
+					components.Dispose();
+
+				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 			}
 			base.Dispose(disposing);
 		}
@@ -34,7 +39,7 @@ namespace SayMore.UI.SessionRecording
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._labelRecordingFormat = new System.Windows.Forms.Label();
 			this._buttonCancel = new System.Windows.Forms.Button();
-			this._panelPeakMeter = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
+			this._panelPeakMeter = new SIL.Windows.Forms.Widgets.EnhancedPanel();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this._buttonRecord = new System.Windows.Forms.ToolStripButton();
 			this._buttonPlayback = new System.Windows.Forms.ToolStripButton();
@@ -197,7 +202,7 @@ namespace SayMore.UI.SessionRecording
 			this._buttonPlayback.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this._buttonPlayback.Name = "_buttonPlayback";
 			this._buttonPlayback.Size = new System.Drawing.Size(225, 24);
-			this._buttonPlayback.Text = "Playback Recording";
+			this._buttonPlayback.Text = "Play Back Recording";
 			this._buttonPlayback.Click += new System.EventHandler(this.HandlePlaybackButtonClick);
 			//
 			// _buttonStop
@@ -274,7 +279,7 @@ namespace SayMore.UI.SessionRecording
 		private System.Windows.Forms.ToolStripButton _buttonRecord;
 		private System.Windows.Forms.ToolStripButton _buttonPlayback;
 		private System.Windows.Forms.Button _buttonCancel;
-		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _panelPeakMeter;
+		private SIL.Windows.Forms.Widgets.EnhancedPanel _panelPeakMeter;
 		private System.Windows.Forms.ToolStripButton _buttonStop;
 		private System.Windows.Forms.Button _buttonOK;
 		private System.Windows.Forms.Label _labelRecLength;

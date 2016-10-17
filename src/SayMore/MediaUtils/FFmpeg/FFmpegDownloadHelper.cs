@@ -3,9 +3,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using Ionic.Zip;
 using L10NSharp;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SayMore.UI.LowLevelControls;
 
 namespace SayMore.Media.FFmpeg
@@ -59,7 +60,15 @@ namespace SayMore.Media.FFmpeg
 		/// ------------------------------------------------------------------------------------
 		public static string FFmpegForSayMoreParentFolder
 		{
-			get { return Program.AppDataFolder; }
+			get
+			{
+#if DEBUG
+				//Program.CommonAppDataFolder; gives some resharper folder during tests
+				return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),"SIL/SayMore");
+#else
+				return Program.CommonAppDataFolder;
+#endif
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -108,13 +117,13 @@ namespace SayMore.Media.FFmpeg
 		{
 			_canceled = true;
 			_worker.CancelAsync();
-			UsageReporter.SendNavigationNotice("FFmpeg download cancelled.");
+			Analytics.Track("FFmpeg download cancelled");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Start()
 		{
-			UsageReporter.SendNavigationNotice("FFmpeg download started.");
+			Analytics.Track("FFmpeg download started");
 
 			if (OnUpdateStatus != null)
 				OnUpdateStatus(this, EventArgs.Empty);

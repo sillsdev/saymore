@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Xml.Linq;
+using DesktopAnalytics;
 using L10NSharp;
-using Palaso.IO;
-using Palaso.Reporting;
-using Palaso.Xml;
+using SIL.IO;
+using SIL.Reporting;
+using SIL.Xml;
 using SayMore.Media;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.Utilities;
 
 namespace SayMore.Transcription.Model
 {
@@ -82,7 +85,14 @@ namespace SayMore.Transcription.Model
 				var root = XElement.Load(fileName);
 				return root.Name.LocalName == "ANNOTATION_DOCUMENT";
 			}
-			catch { }
+			catch (IOException)
+			{
+				throw;
+			}
+			catch (Exception e)
+			{
+				Logger.WriteEvent("Handled Exception in AnnotationFileHelper.GetIsElanFile:\r\n{0}", e.ToString());
+			}
 
 			return false;
 		}
@@ -310,46 +320,66 @@ namespace SayMore.Transcription.Model
 
 		#region Methods for reading/writing lastUsedAnnotationId
 		/// ------------------------------------------------------------------------------------
-		public string GetNextAvailableAnnotationIdAndIncrement()
+		/// <summary>
+		/// First: this forces the header to get created if necessary.
+		/// Then: if there is an existing "lastUsedAnnotationId" PROPERTY element, this method
+		/// returns it. Otherwise, it creates a new one and sets the value as requested (and
+		/// returns null).
+		/// </summary>
+		/// <param name="valueToUseIfCreating">This value is ignored if there is an existing
+		/// "lastUsedAnnotationId" PROPERTY element</param>
+		/// <returns>The existing "lastUsedAnnotationId" PROPERTY element; otherwise null (if a
+		/// new one was created and assigned the given value)</returns>
+		/// ------------------------------------------------------------------------------------
+		private XElement GetOrCreateLastUsedAnnotationIdPropertyElement(int valueToUseIfCreating)
 		{
 			var header = GetOrCreateHeader();
 
-			if (header.Element("PROPERTY") == null || header.Element("PROPERTY").Attribute("NAME") == null ||
-				header.Element("PROPERTY").Attribute("NAME").Value != "lastUsedAnnotationId")
+			var lastUsedAnnotationIdPropertyElement = header.Elements("PROPERTY")
+				.SingleOrDefault(e => e.Attribute("NAME") != null && e.Attribute("NAME").Value == "lastUsedAnnotationId");
+
+			if (lastUsedAnnotationIdPropertyElement != null)
+				return lastUsedAnnotationIdPropertyElement;
+
+			lastUsedAnnotationIdPropertyElement = new XElement("PROPERTY", new XAttribute("NAME", "lastUsedAnnotationId"),
+				valueToUseIfCreating);
+			header.Add(lastUsedAnnotationIdPropertyElement);
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetNextAvailableAnnotationIdAndIncrement()
+		{
+			int id = 1;
+			var lastUsedAnnotationIdPropertyElement = GetOrCreateLastUsedAnnotationIdPropertyElement(id);
+
+			if (lastUsedAnnotationIdPropertyElement != null)
 			{
-				header.Add(new XElement("PROPERTY", new XAttribute("NAME", "lastUsedAnnotationId"), 0));
+				int.TryParse(lastUsedAnnotationIdPropertyElement.Value, out id);
+				id = Math.Max(id, 0);
+				lastUsedAnnotationIdPropertyElement.SetValue(++id);
 			}
-
-			var element = header.Elements("PROPERTY")
-				.Single(e => e.Attribute("NAME") != null && e.Attribute("NAME").Value == "lastUsedAnnotationId");
-
-			int id;
-			if (!int.TryParse(element.Value, out id))
-				id = 0;
-
-			element.SetValue(++id);
 			return string.Format("a{0}", id);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetLastUsedAnnotationId(int id)
 		{
+			// REVIEW: Looks like it doesn't actually matter, but the logic here requires
+			// non-negative, but the message says it must be striclty GREATER THAN 0. Changing
+			// the check to id <= 0 causes lots of test failures (although it seems to be in
+			// keeping with the behavior of GetNextAvailableAnnotationIdAndIncrement which uses
+			// 1 as the initial value when creating a new LastUsedAnnotationId property element).
 			if (id < 0)
 			{
 				var msg = "{0} is an invalid value for the last used annotation id. Must be greater than zero.";
 				throw new ArgumentOutOfRangeException(string.Format(msg, id));
 			}
 
-			// Forces the header and lastUsedAnnotationId elements to get created.
-			GetNextAvailableAnnotationIdAndIncrement();
-			var header = Root.Element("HEADER");
-
-			var elements = (from element in header.Elements("PROPERTY")
-							let attrib = element.Attributes("NAME").FirstOrDefault(a => a.Value == "lastUsedAnnotationId")
-							where attrib != null
-							select element).ToArray();
-
-			elements[0].SetValue(id);
+			// Forces the header and lastUsedAnnotationId elements to get created, if necessary.
+			var lastUsedAnnotationIdPropertyElement = GetOrCreateLastUsedAnnotationIdPropertyElement(id);
+			if (lastUsedAnnotationIdPropertyElement != null)
+				lastUsedAnnotationIdPropertyElement.SetValue(id);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -386,7 +416,7 @@ namespace SayMore.Transcription.Model
 		/// and returns the id of the annotation added.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string CreateTranscriptionAnnotationElement(Segment seg)
+		public string CreateTranscriptionAnnotationElement(AnnotationSegment seg)
 		{
 			var timeSlotRef1 = GetOrCreateTimeOrderElementAndReturnId(seg.Start);
 			var timeSlotRef2 = GetOrCreateTimeOrderElementAndReturnId(seg.End);
@@ -461,7 +491,7 @@ namespace SayMore.Transcription.Model
 				}
 			}
 
-			return kvpList.OrderBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+			return kvpList.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -567,9 +597,12 @@ namespace SayMore.Transcription.Model
 			var mediaFileName = eafFileName.Remove(eafFileName.Length - kAnnotationsEafFileSuffix.Length);
 			if (File.Exists(Path.Combine(sessionFolder, mediaFileName)))
 			{
-				UsageReporter.SendEvent("AnnotationFileHelper", "EnsureMediaFileIsCorrect",
-					string.Format("Automatic repair of Media File URL ({0})in annotatios.eaf file: {1}",
-					_mediaFileName, AnnotationFileName), null, 0);
+				Analytics.Track("AnnotationFileHelper EnsureMediaFileIsCorrect Automatic repair of Media File URL",
+					new Dictionary<string, string> {
+						{"_mediaFileName",  _mediaFileName},
+						{"AnnotationFileName",  AnnotationFileName}
+					});
+
 				SetMediaFile(mediaFileName);
 				Save();
 			}
@@ -703,7 +736,7 @@ namespace SayMore.Transcription.Model
 
 			for (int i = 0; i < timeSegments.Length; i++)
 			{
-				var annotationId = CreateTranscriptionAnnotationElement(new Segment
+				var annotationId = CreateTranscriptionAnnotationElement(new AnnotationSegment
 				{
 					Start = timeSegments[i].Start,
 					End = timeSegments[i].End,
@@ -716,7 +749,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void SaveFromSegments(IEnumerable<Segment> segments)
+		private void SaveFromSegments(IEnumerable<AnnotationSegment> segments)
 		{
 			RemoveTimeSlots();
 			RemoveAnnotationsFromTier(TextTier.ElanTranscriptionTierId);
@@ -743,14 +776,24 @@ namespace SayMore.Transcription.Model
 			if (!Directory.Exists(folder))
 				Directory.CreateDirectory(folder);
 
-			try
+			int attempts = 0;
+			do
 			{
-				Root.Save(AnnotationFileName);
-			}
-			catch (Exception e)
-			{
-				ErrorReport.ReportNonFatalException(e);
-			}
+				try
+				{
+					// SP-702/SP-989: file is being used by another process
+					FileSystemUtils.WaitForFileRelease(AnnotationFileName, true);
+					Root.Save(AnnotationFileName);
+					break;
+				}
+				catch (IOException e)
+				{
+					if (++attempts < 3)
+						Logger.WriteEvent("Exception during attempt #{0} to save file in AnnotationFileHelper.Save:\r\n{1}", attempts, e.ToString());
+					else
+						ErrorReport.ReportNonFatalException(e);
+				}
+			} while (attempts < 3);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -790,18 +833,18 @@ namespace SayMore.Transcription.Model
 			{
 				var labelHelper = new AudacityLabelHelper(File.ReadAllLines(segmentFileName), mediaFileName);
 				helper.SaveFromSegments(labelHelper.Segments);
-				UsageReporter.SendNavigationNotice("Annotations/Import segment file");
+				Analytics.Track("AnnotationFileHelper Import segment file");
 			}
 			else
 			{
-				UsageReporter.SendNavigationNotice("Annotations/Import ELAN file");
+				Analytics.Track("AnnotationFileHelper Import ELAN file");
 			}
 
 			return helper.AnnotationFileName;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static AnnotationFileHelper GetOrCreateFile(string eafFile, string mediaFileName)
+		private static AnnotationFileHelper GetOrCreateFile(string eafFile, string mediaFileName)
 		{
 			if (string.IsNullOrEmpty(eafFile))
 				eafFile = ComputeEafFileNameFromOralAnnotationFile(mediaFileName);

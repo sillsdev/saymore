@@ -1,7 +1,8 @@
 using System;
 using System.Windows.Forms;
-using Palaso.UI.WindowsForms;
-using Palaso.UI.WindowsForms.PortableSettingsProvider;
+using SIL.Reporting;
+using SIL.Windows.Forms;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Properties;
 
 namespace SayMore.Media.MPlayer
@@ -19,6 +20,7 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		public MPlayerDebuggingOutputWindow()
 		{
+			Logger.WriteEvent("MPlayerDebuggingOutputWindow constructor");
 			InitializeComponent();
 			_buttonClose.Click += delegate { Close(); };
 		}
@@ -51,9 +53,12 @@ namespace SayMore.Media.MPlayer
 		{
 			Invoke((MethodInvoker)delegate
 			{
-				_textOutput.AppendText(text + Environment.NewLine);
-				_textOutput.SelectionLength = 0;
-				_textOutput.SelectionStart = _textOutput.Text.Length;
+				if (!_textOutput.IsDisposed)
+				{
+					_textOutput.AppendText(text + Environment.NewLine);
+					_textOutput.SelectionLength = 0;
+					_textOutput.SelectionStart = _textOutput.Text.Length;
+				}
 			});
 		}
 

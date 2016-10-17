@@ -35,11 +35,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public void GatherFieldsForFileNow(string path)
 		{
-			// REVIEW: I'm not sure this lock is necessary, but just to make sure...
-			lock (new object())
-			{
-				CollectDataForFile(path);
-			}
+			CollectDataForFile(path);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -115,6 +111,9 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public FileTypeFields(string path, Func<ProjectElement, string, ComponentFile> componentFileFactory)
 		{
+			// this happens sometimes when a component file is renamed
+			if (!File.Exists(path)) return;
+
 			var file = componentFileFactory(null, path);
 			FileType = file.FileType.GetType();
 			FieldKeys = file.MetaDataFieldValues.Select(field => field.FieldId);

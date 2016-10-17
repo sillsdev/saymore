@@ -2,7 +2,7 @@ using System.IO;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.UI.ElementListScreen;
@@ -24,7 +24,7 @@ namespace SayMoreTests.UI.ElementListScreen
 		[SetUp]
 		public void Setup()
 		{
-			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
+			SIL.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 			_tmpFolder = new TemporaryFolder("elementRepoTestFolder");
 
 			var peter = new Mock<Person>();
@@ -230,7 +230,7 @@ namespace SayMoreTests.UI.ElementListScreen
 		[Test]
 		public void VerifyAllElementsStillExist_OneRemoved_ReturnsFalse()
 		{
-			using (new Palaso.Reporting.ErrorReport.NonFatalErrorReportExpected())
+			using (new SIL.Reporting.ErrorReport.NonFatalErrorReportExpected())
 			{
 				Directory.Delete(_tmpFolder.Combine(Person.kFolderName, "paul"));
 				Assert.IsFalse(_model.VerifyAllElementsStillExist());
@@ -243,7 +243,7 @@ namespace SayMoreTests.UI.ElementListScreen
 		public void DeleteComponentFile_PassesGoodFile_RemovesFile()
 		{
 			_model.SetSelectedElement(_model.Elements.ElementAt(1) as Person);
-			var file = _model.GetComponentFile(1);
+			var file = _model.SelectedElement.GetComponentFiles()[1];
 			Assert.IsTrue(_model.SelectedElement.DeleteComponentFile(file, false));
 			Assert.IsFalse(File.Exists(file.PathToAnnotatedFile));
 			Assert.IsFalse(File.Exists(file.PathToAnnotatedFile + ".meta"));

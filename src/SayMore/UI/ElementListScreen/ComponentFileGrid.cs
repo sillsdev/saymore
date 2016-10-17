@@ -9,11 +9,12 @@ using System.Media;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.UI.WindowsForms.Widgets.BetterGrid;
+using SIL.Reporting;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using GridSettings = Palaso.UI.WindowsForms.Widgets.BetterGrid.GridSettings;
-using Palaso.UI.WindowsForms;
+using GridSettings = SIL.Windows.Forms.Widgets.BetterGrid.GridSettings;
+using SIL.Windows.Forms;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -24,8 +25,8 @@ namespace SayMore.UI.ElementListScreen
 		private string _gridColSettingPrefix;
 		private bool _handlingForceRefresh;
 
-		/// <summary>When the user selects a different component, this is called</summary>
-		public Action<int> AfterComponentSelected;
+		/// <summary>When the user selects a different component (or no component is selected!), this is called</summary>
+		public Action<int> AfterComponentSelectionChanged;
 
 		/// <summary>
 		/// When the user chooses a menu command, this is called after the command is issued.
@@ -46,9 +47,11 @@ namespace SayMore.UI.ElementListScreen
 		{
 			ShowContextMenu = true;
 
+			Logger.WriteEvent("ComponentFileGrid constructor");
+
 			InitializeComponent();
 			Font = Program.DialogFont;
-			_toolStripActions.Renderer = new Palaso.UI.WindowsForms.NoToolStripBorderRenderer();
+			_toolStripActions.Renderer = new SIL.Windows.Forms.NoToolStripBorderRenderer();
 
 			try
 			{
@@ -105,11 +108,15 @@ namespace SayMore.UI.ElementListScreen
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public void InitializeGrid(string settingPrefix, string addFileButtonTooltipText)
+		public string AddFileButtonTooltipText
 		{
-			_buttonAddFiles.ToolTipText = addFileButtonTooltipText;
+			get { return _buttonAddFiles.ToolTipText; }
+			set { _buttonAddFiles.ToolTipText = value; }
+		}
 
+		/// ------------------------------------------------------------------------------------
+		public void InitializeGrid(string settingPrefix)
+		{
 			_gridColSettingPrefix = settingPrefix;
 
 			if (Settings.Default.Properties[_gridColSettingPrefix + "ComponentGrid"] != null)
@@ -125,7 +132,6 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 			if (!DesignMode)
 				Settings.Default[_gridColSettingPrefix + "ComponentGrid"] = GridSettings.Create(_grid);
 
@@ -364,7 +370,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleFileGridCurrentRowChanged(object sender, EventArgs e)
 		{
-			if (!Disposing)
+			if (!IsDisposed && !Disposing)
 				ForceRefresh();
 		}
 
@@ -377,8 +383,8 @@ namespace SayMore.UI.ElementListScreen
 			_handlingForceRefresh = true;
 			BuildMenuCommands(_grid.CurrentCellAddress.Y);
 
-			if (null != AfterComponentSelected && _grid.CurrentCellAddress.Y >= 0)
-				AfterComponentSelected(_grid.CurrentCellAddress.Y);
+			if (null != AfterComponentSelectionChanged)
+				AfterComponentSelectionChanged(_grid.CurrentCellAddress.Y);
 
 			_handlingForceRefresh = false;
 		}
@@ -599,7 +605,14 @@ namespace SayMore.UI.ElementListScreen
 				return;
 			}
 
-			file.Rename(PostMenuCommandRefreshAction);
+			try
+			{
+				file.Rename(PostMenuCommandRefreshAction);
+			}
+			catch (PathTooLongException ex)
+			{
+				MessageBox.Show(FindForm(), ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -630,7 +643,7 @@ namespace SayMore.UI.ElementListScreen
 			if (index == newList.Count)
 				index--;
 
-			UpdateComponentFileList(newList, newList[index]);
+			UpdateComponentFileList(newList, index >= 0 ? newList[index] : null);
 			ForceRefresh();
 		}
 

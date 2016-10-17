@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using SIL.TestUtilities;
 using System.Linq;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -221,7 +221,7 @@ namespace SayMoreTests.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void Save_CannotCreateFile_Throws()
+		public void Save_DirectoryNotFound_Throws()
 		{
 			Assert.Throws<DirectoryNotFoundException>(() =>
 				_serializer.Save(_fields, _parentFolder.Combine("notthere", "test.txt"), "x"));

@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.UI.WindowsForms;
+using SIL.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Utilities;
 
@@ -27,6 +27,7 @@ namespace SayMore.UI.ComponentEditors
 		event Action<string> TabTextChanged;
 		IEnumerable<Control> ChildControls { get; }
 		ComponentFile ComponentFile { get; }
+		void PrepareToDeactivate();
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -55,6 +56,7 @@ namespace SayMore.UI.ComponentEditors
 			Layout += HandleLayout;
 
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+			HandleStringsLocalized();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -62,7 +64,15 @@ namespace SayMore.UI.ComponentEditors
 		{
 			_file = file;
 			Initialize(tabText, imageKey);
-			HandleStringsLocalized();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
+
+			base.Dispose(disposing);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -132,6 +142,11 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public virtual void PrepareToDeactivate()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public Control Control
 		{
 			get { return this; }
@@ -160,10 +175,20 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleDestroyed(EventArgs e)
+		protected override void OnHandleCreated(EventArgs e)
 		{
-			base.OnHandleDestroyed(e);
-			LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
+			base.OnHandleCreated(e);
+
+			var parent = Parent;
+			while (parent != null)
+			{
+				if (parent is TabControl)
+				{
+					parent.VisibleChanged += (sender, args) => OnParentTabControlVisibleChanged();
+					break;
+				}
+				parent = parent.Parent;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -263,6 +288,10 @@ namespace SayMore.UI.ComponentEditors
 		{
 		}
 
+		/// ------------------------------------------------------------------------------------
+		protected virtual void OnParentTabControlVisibleChanged()
+		{
+		}
 		#endregion
 
 		/// ------------------------------------------------------------------------------------

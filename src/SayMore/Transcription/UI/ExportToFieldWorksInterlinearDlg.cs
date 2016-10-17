@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
-using Palaso.WritingSystems;
+using SIL.Reporting;
+using SIL.WritingSystems;
 using SayMore.Properties;
-using SayMore.Transcription.Model;
-using Palaso.Extensions;
 
 namespace SayMore.Transcription.UI
 {
@@ -43,13 +40,14 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public ExportToFieldWorksInterlinearDlg()
 		{
+			Logger.WriteEvent("ExportToFieldWorksInterlinearDlg constructor");
 			InitializeComponent();
 
 			_labelTranscriptionColumnHeadingText.Text =
-				string.Format(_labelTranscriptionColumnHeadingText.Text, TextTier.ElanTranscriptionTierId);
+				string.Format(_labelTranscriptionColumnHeadingText.Text, LocalizationManager.GetString("SessionsView.Transcription.TierDisplayNames.Transcription", "Transcription"));
 
 			_labelFreeTranslationColumnHeadingText.Text =
-				string.Format(_labelFreeTranslationColumnHeadingText.Text, TextTier.FreeTranslationTierDisplayName);
+				string.Format(_labelFreeTranslationColumnHeadingText.Text, LocalizationManager.GetString("SessionsView.Transcription.TierDisplayNames.FreeTranslation", "Free Translation"));
 
 			_labelOverview.Font = Program.DialogFont;
 			_labelTranscriptionColumnHeadingText.Font = Program.DialogFont;
@@ -62,10 +60,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<WritingSystemDefinition> GetAvailableWritingSystems()
 		{
-			//TODO: someday, this may be safe to call. But not yet.
-			//return (new LdmlInFolderWritingSystemRepository()).AllWritingSystems;
-
-			var globalPath = Path.Combine(Program.SilCommonDataFolder, "WritingSystemStore"); //NB: flex 7.1 is using this. Palaso head has WritingSystemRepository/2 instead. Sigh...
+			var globalPath = Path.Combine(Program.SilCommonDataFolder, "WritingSystemStore");
+				//NB: flex 7.1 is using this. Palaso head has WritingSystemRepository/2 instead. Sigh...
 
 			if (!Directory.Exists(globalPath))
 			{
@@ -77,31 +73,10 @@ namespace SayMore.Transcription.UI
 					"The parameter is a folder path");
 
 				ErrorReport.NotifyUserOfProblem(msg, globalPath);
-				yield return WritingSystemDefinition.Parse("en");
+				return new[] {new WritingSystemDefinition("en")};
 			}
-			else
-			{
-				foreach (string path in Directory.GetFiles(globalPath, "*.ldml"))
-				{
-					var name = Path.GetFileNameWithoutExtension(path);
-					WritingSystemDefinition x=null;
-					try
-					{
-						x = WritingSystemDefinition.Parse(name);
-					}
-					catch (Exception e)
-					{
-						var msg = LocalizationManager.GetString(
-							"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.OldWritingSystemsFoundMsg",
-							"Sorry, the writing system {0} does not conform to current standards. Please first upgrade to FLEx 7.1 or greater.");
-
-						ErrorReport.NotifyUserOfProblem(e, msg, name);
-					}
-
-					if (x != null)
-						yield return x;
-				}
-			}
+			var repo = LdmlInFolderWritingSystemRepository.Initialize(globalPath);
+			return repo.AllWritingSystems;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -127,6 +102,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleExportButtonClick(object sender, EventArgs e)
 		{
+			var folder = TextAnnotationEditor.GetDefaultExportFolder("LastFlexInterlinearExportDestinationFolder");
 			using (var dlg = new SaveFileDialog())
 			{
 				dlg.Title = LocalizationManager.GetString(
@@ -140,10 +116,14 @@ namespace SayMore.Transcription.UI
 				dlg.FileName = FileName;
 				dlg.OverwritePrompt = true;
 				dlg.CheckPathExists = true;
+				dlg.AutoUpgradeEnabled = true;
+				dlg.RestoreDirectory = true;
+				dlg.InitialDirectory = folder ?? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
 					FileName = dlg.FileName;
+					Settings.Default.LastFlexInterlinearExportDestinationFolder = Path.GetDirectoryName(FileName);
 					DialogResult = DialogResult.OK;
 					Close();
 				}
@@ -162,8 +142,8 @@ namespace SayMore.Transcription.UI
 			TranscriptionWs = _comboTranscriptionWs.SelectedItem as DisplayFriendlyWritingSystem;
 			FreeTranslationWs = _comboTranslationWs.SelectedItem as DisplayFriendlyWritingSystem;
 
-			Settings.Default.TranscriptionWsForFWInterlinearExport = TranscriptionWs.Id;
-			Settings.Default.FreeTranslationWsForFWInterlinearExport = FreeTranslationWs.Id;
+			if (TranscriptionWs != null) Settings.Default.TranscriptionWsForFWInterlinearExport = TranscriptionWs.Id;
+			if (FreeTranslationWs != null) Settings.Default.FreeTranslationWsForFWInterlinearExport = FreeTranslationWs.Id;
 
 			UpdateDisplay();
 		}
@@ -177,13 +157,13 @@ namespace SayMore.Transcription.UI
 		private void ExportToFieldWorksInterlinearDlg_Load(object sender, EventArgs e)
 		{
 			var wsList = GetAvailableWritingSystems()
-				.Select(ws => new DisplayFriendlyWritingSystem { Id = ws.Id, Name = ws.LanguageName }).ToArray();
+				.Select(ws => new DisplayFriendlyWritingSystem { Id = ws.Id, Name = ws.Language.Name }).ToArray();
 
 			if (wsList.Length == 0)
 			{
 				var msg = LocalizationManager.GetString("DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg2",
 					"SayMore was unable to find any Writing Systems on this computer. Make sure FLEx version 7.1 or greater is " +
-					"installed as has been run at least once. For now, you can export as English, and fix that up after you " +
+					"installed and has been run at least once. For now, you can export as English, and fix that up after you " +
 					"have imported into FLEx.");
 
 				ErrorReport.NotifyUserOfProblem(msg);

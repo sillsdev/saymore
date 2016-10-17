@@ -2,8 +2,8 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
-using Palaso.Extensions;
-using Palaso.UI.WindowsForms.Extensions;
+using SIL.Extensions;
+using SIL.Windows.Forms.Extensions;
 
 namespace SayMore.UI.LowLevelControls
 {
@@ -27,7 +27,7 @@ namespace SayMore.UI.LowLevelControls
 		public string GetISO8601DateValueOrNull()
 		{
 			return (_value == null ? null :
-				DateTime.Parse(_value, CultureInfo.CurrentCulture).ToISO8601DateOnlyString());
+				DateTime.Parse(_value, CultureInfo.CurrentCulture).ToISO8601TimeFormatDateOnlyString());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -105,9 +105,10 @@ namespace SayMore.UI.LowLevelControls
 			if (_value != null)
 				return;
 
-			_ignoreEvents = true;
+			// SP-807: Date field will not keep today's date
+			//_ignoreEvents = true;
 			base.Text = DateTime.Today.ToShortDateString();
-			_ignoreEvents = false;
+			//_ignoreEvents = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

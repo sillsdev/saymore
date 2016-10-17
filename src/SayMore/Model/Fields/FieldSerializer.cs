@@ -57,7 +57,7 @@ namespace SayMore.Model.Fields
 			if (!expectedObjType.IsInstanceOfType(obj))
 			{
 				var msg = string.Format("obj is not of type '{0}'.", expectedObjType);
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(msg);
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(msg);
 				return element;
 			}
 

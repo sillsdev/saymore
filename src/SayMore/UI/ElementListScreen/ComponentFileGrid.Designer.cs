@@ -1,3 +1,5 @@
+using L10NSharp.UI;
+
 namespace SayMore.UI.ElementListScreen
 {
 	partial class ComponentFileGrid
@@ -13,9 +15,12 @@ namespace SayMore.UI.ElementListScreen
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (components != null))
+			if (disposing)
 			{
-				components.Dispose();
+				if (components != null)
+					components.Dispose();
+
+				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 			}
 			base.Dispose(disposing);
 		}
@@ -36,7 +41,7 @@ namespace SayMore.UI.ElementListScreen
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentFileGrid));
 			this._contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this._menuDeleteFile = new System.Windows.Forms.ToolStripMenuItem();
-			this._panelOuter = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
+			this._panelOuter = new SIL.Windows.Forms.Widgets.EnhancedPanel();
 			this._grid = new SayMore.UI.ElementListScreen.InternalComponentFileGrid();
 			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
 			this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -321,7 +326,7 @@ namespace SayMore.UI.ElementListScreen
 
 		private InternalComponentFileGrid _grid;
 		private System.Windows.Forms.ContextMenuStrip _contextMenuStrip;
-		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _panelOuter;
+		private SIL.Windows.Forms.Widgets.EnhancedPanel _panelOuter;
 		private System.Windows.Forms.ToolStrip _toolStripActions;
 		private System.Windows.Forms.ToolStripDropDownButton _buttonOpen;
 		private System.Windows.Forms.ToolStripButton _buttonRename;

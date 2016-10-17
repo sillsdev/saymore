@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -7,6 +8,7 @@ using L10NSharp;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Utilities;
+using SIL.Reporting;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -59,7 +61,7 @@ namespace SayMore.UI.ComponentEditors
 				// The browser takes a moment to finish navigating and thus
 				// to release the file pointed to by the previous URL.
 				Cursor = Cursors.WaitCursor;
-				FileSystemUtils.WaitForFileRelease(file.PathToAnnotatedFile, Thread.CurrentThread);
+				FileSystemUtils.WaitForFileRelease(file.PathToAnnotatedFile);
 				Cursor = Cursors.Default;
 			});
 
@@ -144,7 +146,18 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		void HandleFileLinkClick(object sender, HtmlElementEventArgs e)
 		{
-			Process.Start(_browser.Tag as string);
+			var filePath = (string)_browser.Tag;
+			Logger.WriteEvent("Browser link clicked. Opening file: " + filePath);
+			try
+			{
+				Process.Start(filePath);
+			}
+			catch (Exception ex)
+			{
+				ErrorReport.NotifyUserOfProblem(ex,
+					LocalizationManager.GetString("CommonToMultipleViews.GenericFileTypeViewer.FailedToOpen",
+					"Failed to open file: {0}"), filePath);
+			}
 		}
 
 		#endregion

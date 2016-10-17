@@ -190,14 +190,14 @@ namespace SayMore.UI.LowLevelControls
 			if (Enabled)
 			{
 				_thumb = (_orientation == Orientation.Horizontal ?
-					Properties.Resources.HSliderThumb : Properties.Resources.VSliderThumb);
+					ResourceImageCache.HSliderThumb : ResourceImageCache.VSliderThumb);
 
 				_margin = (_orientation == Orientation.Horizontal ? _thumb.Width : _thumb.Height);
 			}
 			else
 			{
 				_thumb = (_orientation == Orientation.Horizontal ?
-					Properties.Resources.HSliderThumbDisabled : Properties.Resources.VSliderThumbDisabled);
+					ResourceImageCache.HSliderThumbDisabled : ResourceImageCache.VSliderThumbDisabled);
 
 				_margin = (_orientation == Orientation.Horizontal ? _thumb.Width : _thumb.Height);
 			}
@@ -333,7 +333,7 @@ namespace SayMore.UI.LowLevelControls
 				if (_mouseDown)
 				{
 					img = (_orientation == Orientation.Horizontal ?
-						Properties.Resources.HSliderThumbMousePressed : Properties.Resources.VSliderThumbPressed);
+						ResourceImageCache.HSliderThumbMousePressed : ResourceImageCache.VSliderThumbPressed);
 				}
 
 				using (var br = new LinearGradientBrush(rc, Color.SlateGray, Color.LightSteelBlue, angle))

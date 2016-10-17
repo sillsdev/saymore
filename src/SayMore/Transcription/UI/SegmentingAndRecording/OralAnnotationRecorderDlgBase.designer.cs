@@ -23,7 +23,7 @@ namespace SayMore.Transcription.UI
 			this._pictureRecording = new System.Windows.Forms.PictureBox();
 			this._labelErrorInfo = new System.Windows.Forms.Label();
 			this._labelRecordHint = new System.Windows.Forms.Label();
-			this._panelPeakMeter = new Palaso.UI.WindowsForms.Widgets.EnhancedPanel();
+			this._panelPeakMeter = new SIL.Windows.Forms.Widgets.EnhancedPanel();
 			this._labelListenHint = new System.Windows.Forms.Label();
 			this._labelFinishedHint = new System.Windows.Forms.Label();
 			this._pictureIcon = new System.Windows.Forms.PictureBox();
@@ -325,13 +325,13 @@ namespace SayMore.Transcription.UI
 			this.Cursor = System.Windows.Forms.Cursors.Default;
 			this.KeyPreview = true;
 			this.locExtender.SetLocalizableToolTip(this, null);
-			this.locExtender.SetLocalizationComment(this, "Localized in subclass");
-			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationComment(this, "Do not translate - Localized in subclass");
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.High);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.WindowTitle");
 			this.MinimumSize = new System.Drawing.Size(446, 526);
 			this.Name = "OralAnnotationRecorderBaseDlg";
 			this.Opacity = 1D;
-			this.Text = "Change my text";
+			this.Text = "Change this text";
 			this.Controls.SetChildIndex(this._tableLayoutMediaButtons, 0);
 			this.Controls.SetChildIndex(this._labelErrorInfo, 0);
 			this.Controls.SetChildIndex(this._labelListenHint, 0);
@@ -365,7 +365,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.PictureBox _pictureRecording;
 		private System.Windows.Forms.Label _labelErrorInfo;
 		private System.Windows.Forms.Label _labelRecordHint;
-		private Palaso.UI.WindowsForms.Widgets.EnhancedPanel _panelPeakMeter;
+		private SIL.Windows.Forms.Widgets.EnhancedPanel _panelPeakMeter;
 		private System.Windows.Forms.Label _labelListenHint;
 		private System.Windows.Forms.Label _labelFinishedHint;
 		private System.Windows.Forms.Timer _checkForRecordingDevice;

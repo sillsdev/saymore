@@ -1,5 +1,5 @@
 using System.Drawing;
-using Palaso.UI.WindowsForms;
+using SIL.Windows.Forms;
 
 namespace SayMore.Transcription.UI
 {
@@ -13,8 +13,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		static StandardAudioButtons()
 		{
-			PlayButtonImage = CreateMediaControlImage(Properties.Resources.PlaySegment);
-			StopButtonImage = CreateMediaControlImage(Properties.Resources.StopSegment);
+			PlayButtonImage = CreateMediaControlImage(ResourceImageCache.PlaySegment);
+			StopButtonImage = CreateMediaControlImage(ResourceImageCache.StopSegment);
 			HotPlayButtonImage = PaintingHelper.MakeHotImage(PlayButtonImage);
 			HotStopButtonImage = PaintingHelper.MakeHotImage(StopButtonImage);
 		}

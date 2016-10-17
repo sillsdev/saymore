@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Code;
+using SIL.Code;
 using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI.NewSessionsFromFiles
@@ -245,7 +245,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 				var msg = LocalizationManager.GetString("Miscellaneous.CopyFilesControl.UnchangedFileMsg",
 					"The file {0} appears unchanged since it was copied before, so it will be skipped.");
 
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(msg, Path.GetFileName(dstFile));
+				SIL.Reporting.ErrorReport.NotifyUserOfProblem(msg, Path.GetFileName(dstFile));
 				_totalBytesCopied += finfo.Length;
 				ReportProgress(1, null);
 				return true;

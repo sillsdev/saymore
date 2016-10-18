@@ -82,3 +82,4 @@ packages/Analytics*
 lib/dotnet/SIL.*.dll
 lib/dotnet/SIL.*.pdb
 .nuget/NuGet.exe
+build/Palaso.BuildTasks.dll

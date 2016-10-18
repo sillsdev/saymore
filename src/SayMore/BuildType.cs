@@ -4,8 +4,11 @@ namespace SayMore
 	{
 		public enum VersionType
 		{
+			// Do not delete "unused" types. The "Current" type can be set using a parameter on TeamCity via
+			// Palaso.BuildTasks.UpdateBuildTypeFile.UpdateBuildTypeFile.
 			Debug,
 			Alpha,
+			AlphaTest,
 			Beta,
 			ReleaseCandidate,
 			Release,

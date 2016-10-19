@@ -276,27 +276,13 @@ namespace SayMore.UI
 			try
 			{
 				// Set the Application label to the name of the app
-				object[] attributes;
-				Assembly assembly = Assembly.GetEntryAssembly();
 
-				if (assembly != null)
-				{
-					string productName = Application.ProductName;
-
-					if (string.IsNullOrEmpty(productName))
-					{
-						attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-						productName = (attributes.Length > 0) ? ((AssemblyTitleAttribute)attributes[0]).Title : "Unknown";
-					}
-
-					lblProductName.Text = productName;
-					Text = productName;
-				}
+				lblProductName.Text = Text = Program.ProductName;
 
 				lblBuildNumber.Visible = m_showBuildNum;
 
 				// The build number is just the number of days since 01/01/2000
-				var ver = new Version(Application.ProductVersion);
+				// var ver = new Version(Application.ProductVersion);
 				//var bldDate = (ver.Build == 0 ?
 				//    File.GetCreationTime(Application.ExecutablePath) :
 				//    new DateTime(2000, 1, 1).Add(new TimeSpan(ver.Build, 0, 0, 0)));
@@ -304,20 +290,18 @@ namespace SayMore.UI
 				var bldDate = File.GetCreationTime(Application.ExecutablePath);
 				lblBuildNumber.Text = string.Format(m_buildFmt, bldDate.ToString("dd-MMM-yyyy"));
 
-				if (assembly == null)
-					assembly = Assembly.GetExecutingAssembly();
+				Assembly assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
 
-				attributes = assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+				var attributes = assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
 
 				// Get copyright information from assembly info. By doing this we don't have to
 				// update the splash screen each year. If we can't find the copyright in the
-				// assembly info, use generic one (which might be out of date)
+				// assembly info, use a range ending in the current year (Is this even legal?).
 				var copyRight = attributes.Length > 0 ?
 					((AssemblyCopyrightAttribute)attributes[0]).Copyright :
-					string.Format("(C) 2002-{0} SIL International", DateTime.Now.Year);
+					$"(C) 2002-{DateTime.Now.Year} SIL International";
 
-				lblCopyright.Text = string.Format(lblCopyright.Text,
-					copyRight.Replace("(C)", "©"), "\n");
+				lblCopyright.Text = string.Format(lblCopyright.Text, copyRight.Replace("(C)", "©"), "\n");
 			}
 			catch
 			{

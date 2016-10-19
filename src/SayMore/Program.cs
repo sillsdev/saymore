@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading;
@@ -27,6 +28,7 @@ using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
 using SayMore.Model;
 using SIL.WritingSystems;
+using static System.String;
 
 namespace SayMore
 {
@@ -55,8 +57,9 @@ namespace SayMore
 		private static bool s_handlingFirstChanceExceptionThreadsafe = false;
 		private static bool s_handlingFirstChanceExceptionUnsafe = false;
 		private static int s_countOfContiguousFirstChanceOutOfMemoryExceptions = 0;
+		private static string s_productName;
 
-			/// ------------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -87,13 +90,13 @@ namespace SayMore
 			// detects corruption and deletes it if needed so SayMore doesn't crash.
 			var analyticsConfigFilePath = GetAnalyticsConfigFilePath(); // Analytics settings.
 
-			if ((Control.ModifierKeys & Keys.Shift) > 0 && !string.IsNullOrEmpty(analyticsConfigFilePath))
+			if ((Control.ModifierKeys & Keys.Shift) > 0 && !IsNullOrEmpty(analyticsConfigFilePath))
 			{
 				var confirmationString = LocalizationManager.GetString("MainWindow.ConfirmDeleteUserSettingsFile",
 					"Do you want to delete your user settings? (This will clear your most-recently-used project list, window positions, UI language settings, etc. It will not affect your SayMore project data.)");
 
 				if (DialogResult.Yes ==
-					MessageBox.Show(confirmationString, "SayMore", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
+					MessageBox.Show(confirmationString, ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
 				{
 					File.Delete(analyticsConfigFilePath);
 					File.Delete(new PortableSettingsProvider().GetFullSettingsFilePath());
@@ -194,7 +197,7 @@ namespace SayMore
 			// so that testers aren't generating false analytics
 			string feedbackSetting = System.Environment.GetEnvironmentVariable("FEEDBACK");
 
-			var allowTracking = string.IsNullOrEmpty(feedbackSetting) || feedbackSetting.ToLower() == "yes" || feedbackSetting.ToLower() == "true";
+			var allowTracking = IsNullOrEmpty(feedbackSetting) || feedbackSetting.ToLower() == "yes" || feedbackSetting.ToLower() == "true";
 
 			using (new Analytics("jtfe7dyef3", userInfo, allowTracking))
 #endif
@@ -313,7 +316,7 @@ namespace SayMore
 						return true;
 				}
 
-				ErrorReport.NotifyUserOfProblem(String.Format(
+				ErrorReport.NotifyUserOfProblem(Format(
 					LocalizationManager.GetString("MainWindow.ProjectOpenInOtherSayMore",
 					"Another instance of SayMore is already open with this project:\r\n{0}\r\n\r\nIf you cannot find that instance of SayMore, restart your computer."),
 					pathToSayMoreProjectFile));
@@ -530,7 +533,7 @@ namespace SayMore
 
 			_applicationContainer.CloseSplashScreen();
 
-			var msg = string.Format(LocalizationManager.GetString("MainWindow.LoadingProjectErrorMsg",
+			var msg = Format(LocalizationManager.GetString("MainWindow.LoadingProjectErrorMsg",
 				"{0} had a problem loading the {1} project. Please report this problem " +
 				"to the developers by clicking 'Details' below."),
 				Application.ProductName, Path.GetFileNameWithoutExtension(projectPath));
@@ -722,32 +725,32 @@ namespace SayMore
 			s_handlingFirstChanceExceptionUnsafe = false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public static string ProjectSettingsFile
-		{
-			get
-			{
-				return _projectContext.Project.SettingsFilePath;
-			}
-		}
+		public static string ProjectSettingsFile => _projectContext.Project.SettingsFilePath;
+		public static Project CurrentProject => _projectContext?.Project;
+		public static ProjectWindow ProjectWindow => _projectContext?.ProjectWindow;
 
-		/// ------------------------------------------------------------------------------------
-		public static Project CurrentProject
+		public static string ProductName
 		{
 			get
 			{
-				return _projectContext == null ? null : _projectContext.Project;
-			}
-		}
+				if (s_productName == null)
+				{
+					// Probably could just use Application.ProductName, but the fallback logic here is different.
 
-		/// ------------------------------------------------------------------------------------
-		public static ProjectWindow ProjectWindow
-		{
-			get
-			{
-				if ((_projectContext == null) || (_projectContext.ProjectWindow == null))
-					return null;
-				return _projectContext.ProjectWindow;
+					Assembly assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+
+					object[] attributes = assembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+					if (attributes.Length > 0)
+						s_productName = ((AssemblyProductAttribute)attributes[0]).Product;
+
+					if (IsNullOrEmpty(s_productName))
+					{
+						attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+						s_productName = (attributes.Length > 0) ? ((AssemblyTitleAttribute) attributes[0]).Title :
+							"SayMore"; // hard-coded fallback
+					}
+				}
+				return s_productName;
 			}
 		}
 

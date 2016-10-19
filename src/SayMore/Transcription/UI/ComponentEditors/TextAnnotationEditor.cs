@@ -454,11 +454,10 @@ namespace SayMore.Transcription.UI
 		{
 			Analytics.Track("Export ELAN");
 
-			var msg =
-				LocalizationManager.GetString(
-					"SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMessage",
-					"Actually, SayMore already stores this information in ELAN format (.eaf). Simply double click the annotations file to edit it in ELAN.");
-			MessageBox.Show(msg);
+			var msg = LocalizationManager.GetString(
+				"SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMessage",
+				"Actually, SayMore already stores this information in ELAN format (.eaf). Simply double click the annotations file to edit it in ELAN.");
+			MessageBox.Show(this, msg, Program.ProductName);
 		}
 
 		private void OnExportSubtitlesFreeTranslation(object sender, EventArgs e)

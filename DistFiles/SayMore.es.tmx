@@ -4225,7 +4225,7 @@
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadNeededLabel">
       <tuv xml:lang="en">
-        <seg>The selected conversion '{0}' requires FFmpeg which must be installed.</seg>
+        <seg>The selected conversion '{0}' requires FFmpeg, which must be installed.</seg>
       </tuv>
       <tuv xml:lang="es">
         <seg>La conversión seleccionada '{0}' requiere el programa FFmpeg, el cual debe ser instalado.</seg>

@@ -4274,7 +4274,7 @@ A или запись согласия covering
     </tu>
     <tu tuid="DialogBoxes.ConvertMediaDlg.DownloadNeededLabel">
       <tuv xml:lang="en">
-        <seg>The selected conversion '{0}' requires FFmpeg which must be installed.</seg>
+        <seg>The selected conversion '{0}' requires FFmpeg, which must be installed.</seg>
       </tuv>
       <tuv xml:lang="ru">
         <seg>Выбранное конвертирование «{0}» требует установку FFmpeg.</seg>

@@ -51,7 +51,7 @@
 
   <Target Name="Test" DependsOnTargets ="Build">
 	<ItemGroup>
-	  <TestAssemblies Include="$(teamcity_build_checkoutDir)/output/release/*Tests.dll;"  Exclude="**\obj\**;**\SpongeTests.dll" />
+	  <TestAssemblies Include="$(teamcity_build_checkoutDir)/output/release/*Tests.dll;"/>
 	</ItemGroup>
 	<NUnitTeamCity Assemblies="@(TestAssemblies)" ExcludeCategory="SkipOnTeamCity" />
   </Target>

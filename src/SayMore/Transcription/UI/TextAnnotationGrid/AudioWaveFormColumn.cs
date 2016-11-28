@@ -70,18 +70,27 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleGridEditControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
 		{
-			if (_gridEditControl != null)
-				_gridEditControl.KeyDown -= HandleKeyDown;
+			lock (this)
+			{
+				if (_gridEditControl != null)
+					_gridEditControl.KeyDown -= HandleKeyDown;
 
-			_gridEditControl = e.Control;
-			_gridEditControl.KeyDown += HandleKeyDown;
+				_gridEditControl = e.Control;
+				_gridEditControl.KeyDown += HandleKeyDown;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleGridCellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
-			_gridEditControl.KeyDown -= HandleKeyDown;
-			_gridEditControl = null;
+			lock (this)
+			{
+				if (_gridEditControl != null)
+				{
+					_gridEditControl.KeyDown -= HandleKeyDown;
+					_gridEditControl = null;
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

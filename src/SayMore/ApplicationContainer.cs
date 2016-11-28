@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
 using Autofac;
 using L10NSharp;
@@ -14,6 +15,7 @@ using SayMore.Properties;
 using SayMore.UI;
 using SayMore.UI.ProjectChoosingAndCreating;
 using SayMore.Utilities;
+using static System.Char;
 
 namespace SayMore
 {
@@ -95,10 +97,18 @@ namespace SayMore
 					type = LocalizationManager.GetString("BuildType.ReleaseCandidate", "Release Candidate");
 					break;
 				default:
-					return string.Empty;
+					string sBuildType = buildType.ToString();
+					var sb = new StringBuilder(sBuildType);
+					for (int i = 1; i < sBuildType.Length; i++)
+					{
+						if (IsUpper(sb[i]))
+							sb.Insert(i++, ' ');
+					}
+					type = LocalizationManager.GetDynamicString("SayMore", "BuildType." + sBuildType, sb.ToString());
+					break;
 			}
 
-			return string.Format("({0})", type);
+			return $"({type})";
 		}
 
 		/// ------------------------------------------------------------------------------------

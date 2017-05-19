@@ -244,16 +244,16 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<File Id="icu.net.dll" Name="icu.net.dll" KeyPath="yes" Source="..\..\output\release\icu.net.dll" />
 		  </Component>
 
-		  <Component Id="icudt54.dll" Guid="{01542986-7EAD-4828-B89D-E26584FE61AD}">
-			<File Id="icudt54.dll" Name="icudt54.dll" KeyPath="yes" Source="..\..\output\release\icudt54.dll" />
+		  <Component Id="icudt56.dll" Guid="{90910874-9f21-435e-b077-a0fdf9595133}">
+			<File Id="icudt56.dll" Name="icudt56.dll" KeyPath="yes" Source="..\..\output\release\icudt56.dll" />
 		  </Component>
 
-		  <Component Id="icuin54.dll" Guid="{6696A708-44C1-420C-B950-1856411C8BD5}">
-			<File Id="icuin54.dll" Name="icuin54.dll" KeyPath="yes" Source="..\..\output\release\icuin54.dll" />
+		  <Component Id="icuin56.dll" Guid="{9fe48270-f8e3-435c-af17-9d958eb8b085}">
+			<File Id="icuin56.dll" Name="icuin56.dll" KeyPath="yes" Source="..\..\output\release\icuin56.dll" />
 		  </Component>
 
-		  <Component Id="icuuc54.dll" Guid="{DAD81B91-A1CF-4E47-B612-BAF9024372CC}">
-			<File Id="icuuc54.dll" Name="icuuc54.dll" KeyPath="yes" Source="..\..\output\release\icuuc54.dll" />
+		  <Component Id="icuuc56.dll" Guid="{cea27289-e508-4bb4-a380-466afb096f5c}">
+			<File Id="icuuc56.dll" Name="icuuc56.dll" KeyPath="yes" Source="..\..\output\release\icuuc56.dll" />
 		  </Component>
 
 		  <Component Id="MarkdownDeep.dll" Guid="{ed7e13b3-7a16-4af9-8d5b-ea7f7cb9bf03}">
@@ -291,9 +291,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	  <ComponentRef Id="MediaInfo.dll" />
 	  <ComponentRef Id="IMDILists" />
 	  <ComponentRef Id="icu.net.dll"/>
-	  <ComponentRef Id="icudt54.dll"/>
-	  <ComponentRef Id="icuin54.dll"/>
-	  <ComponentRef Id="icuuc54.dll"/>
+	  <ComponentRef Id="icudt56.dll"/>
+	  <ComponentRef Id="icuin56.dll"/>
+	  <ComponentRef Id="icuuc56.dll"/>
 		<ComponentRef Id="MarkdownDeep.dll"/>
 		<ComponentGroupRef Id="DistFiles"/>
 	</Feature>

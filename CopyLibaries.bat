@@ -4,9 +4,9 @@ if NOT EXIST ..\%palaso% set palaso=palaso
 
 copy /Y ..\%palaso%\output\debug\icu.net.dll.config lib\dotnet
 copy /Y ..\%palaso%\output\debug\icu.net.dll lib\dotnet
-copy /Y ..\%palaso%\output\debug\icudt54.dll lib\dotnet
-copy /Y ..\%palaso%\output\debug\icuin54.dll lib\dotnet
-copy /Y ..\%palaso%\output\debug\icuuc54.dll lib\dotnet
+copy /Y ..\%palaso%\output\debug\icudt56.dll lib\dotnet
+copy /Y ..\%palaso%\output\debug\icuin56.dll lib\dotnet
+copy /Y ..\%palaso%\output\debug\icuuc56.dll lib\dotnet
 copy /Y ..\%palaso%\output\debug\SIL.Core.dll lib\dotnet
 copy /Y ..\%palaso%\output\debug\SIL.Core.pdb lib\dotnet
 copy /Y ..\%palaso%\output\debug\Interop.WIA.dll lib\dotnet
@@ -24,9 +24,9 @@ copy /Y ..\%palaso%\output\debug\SIL.Windows.Forms.WritingSystems.pdb lib\dotnet
 copy /Y ..\%palaso%\output\debug\SIL.WritingSystems.dll lib\dotnet
 copy /Y ..\%palaso%\output\debug\SIL.WritingSystems.pdb lib\dotnet
 copy /Y ..\%palaso%\output\debug\icu.net.dll lib\dotnet
-copy /Y ..\%palaso%\output\debug\icudt54.dll lib\dotnet
-copy /Y ..\%palaso%\output\debug\icuin54.dll lib\dotnet
-copy /Y ..\%palaso%\output\debug\icuuc54.dll lib\dotnet
+copy /Y ..\%palaso%\output\debug\icudt56.dll lib\dotnet
+copy /Y ..\%palaso%\output\debug\icuin56.dll lib\dotnet
+copy /Y ..\%palaso%\output\debug\icuuc56.dll lib\dotnet
 
 copy /Y ..\L10NSharp\Output\Debug\L10NSharp.dll lib\dotnet
 copy /Y ..\L10NSharp\Output\Debug\L10NSharp.pdb lib\dotnet

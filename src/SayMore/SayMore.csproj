@@ -929,16 +929,16 @@
     <None Include="Resources\SessionComponentFile.png" />
     <None Include="Resources\SayMoreLogo 16x16.png" />
     <None Include="Resources\SayMoreLogo.png" />
-    <Content Include="..\..\lib\dotnet\icudt54.dll">
-      <Link>icudt54.dll</Link>
+    <Content Include="..\..\lib\dotnet\icudt56.dll">
+      <Link>icudt56.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\lib\dotnet\icuin54.dll">
-      <Link>icuin54.dll</Link>
+    <Content Include="..\..\lib\dotnet\icuin56.dll">
+      <Link>icuin56.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\lib\dotnet\icuuc54.dll">
-      <Link>icuuc54.dll</Link>
+    <Content Include="..\..\lib\dotnet\icuuc56.dll">
+      <Link>icuuc56.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="SayMore.ico" />

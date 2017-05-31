@@ -70,10 +70,6 @@
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="NUnitForms, Version=0.7.5678.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\common\NUnitForms.dll</HintPath>
-    </Reference>
     <Reference Include="SIL.Archiving, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\SIL.Archiving.dll</HintPath>
@@ -168,8 +164,6 @@
     <Compile Include="MediaUtils\MPlayer\MediaPlayerViewModelTests.cs" />
     <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFileDlgViewModelTests.cs" />
     <Compile Include="UI\Overview\Statistics\StatisticsViewModelTests.cs" />
-    <Compile Include="UI\ProjectWindow\AppSmokeTests.cs" />
-    <Compile Include="UI\ProjectWindow\ReleaseNotesCommandTests.cs" />
     <Compile Include="Utilities\PercentageFormatterTests.cs" />
     <Compile Include="Utilities\JSONUtilsTests.cs" />
   </ItemGroup>
@@ -194,6 +188,7 @@
   <ItemGroup>
     <Folder Include="Statistics\" />
     <Folder Include="UI\Archiving\" />
+    <Folder Include="UI\ProjectWindow\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\shortVideo.wmv" />

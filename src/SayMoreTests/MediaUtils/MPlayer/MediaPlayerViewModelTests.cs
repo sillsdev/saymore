@@ -7,6 +7,7 @@ using SIL.TestUtilities;
 using SIL.Windows.Forms;
 using SayMore.Media.MPlayer;
 using SayMoreTests.Model.Files;
+using SIL.Reflection;
 
 namespace SayMoreTests.Media.MPlayer
 {

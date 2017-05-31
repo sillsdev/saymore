@@ -78,7 +78,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\SIL.Archiving.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+    <Reference Include="SIL.Core">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\SIL.Core.dll</HintPath>
     </Reference>

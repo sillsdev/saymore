@@ -84,3 +84,4 @@ lib/dotnet/SIL.*.pdb
 .nuget/NuGet.exe
 build/Palaso.BuildTasks.dll
 lib/dotnet/NAudio.dll
+BuildDir/*

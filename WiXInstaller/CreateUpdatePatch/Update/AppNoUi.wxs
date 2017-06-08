@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+
+<!-- This file is used for creating a BASE product installation.  
+	 In other words this is for Paratext 8.0 only.  
+	 Every other Paratext 8.X.Y.Z will be a Major Upgrade, Minor Upgrade, or Small Update of this installation.
+			Previously hardcoded Product Id='7DF4AEC5-44FF-4B2F-BC92-3C60B187BA86' 
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <Product  Name='$(var.ApplicationName) $(var.MajorVersion) Packages' 
+			Id='$(var.ProductCode)' 
+			UpgradeCode='$(var.UpgradeCode)'
+			Language='1033' 
+			Codepage='1252' 
+			Version='$(var.VersionNumber)' 
+			Manufacturer='$(var.Manufacturer)'>
+			
+    <Package Id='*' 
+			Keywords='Installer' 
+			Description="$(var.ApplicationName) $(var.MajorVersion).$(var.MinorVersion) Installer"
+			Comments='comments' 
+			Manufacturer='$(var.Manufacturer)'
+			InstallerVersion='300' 
+			Languages='1033' 
+			Compressed='yes' 
+			SummaryCodepage='1252' 
+			InstallPrivileges='elevated' 
+			InstallScope='perMachine'/>
+		
+  
+    <Upgrade Id='$(var.UpgradeCode)'>
+      <UpgradeVersion OnlyDetect='yes' Property='SELFFOUND'
+        Minimum='$(var.VersionNumber)' IncludeMinimum='yes' 
+		Maximum='$(var.VersionNumber)' IncludeMaximum='yes'/>
+      <UpgradeVersion OnlyDetect='yes' Property='NEWERFOUND'
+        Minimum='$(var.VersionNumber)' IncludeMinimum='no' />
+	  <UpgradeVersion OnlyDetect='no' Property='PREVIOUSFOUND'
+        Minimum='0.0.0' IncludeMinimum='yes'
+        Maximum='$(var.VersionNumber)' IncludeMaximum='no' />
+    </Upgrade>
+
+    <Icon Id="Installer_Icon.ico" SourceFile="..\resources\Installer.ico" />
+    <Icon Id="Application_Icon.ico" SourceFile="..\resources\App.ico" />
+	<Property Id="BUNDLE_ID_GUID" Value='DefaultValue'/>
+	<Property Id="FULL_VERSION_NUMBER" Value='$(var.VersionNumber)'/>
+	<Property Id="ARPPRODUCTICON" Value="Installer_Icon.ico" />
+	<Property Id='ARPNOREMOVE'>1</Property>
+	<Property Id="DISPLAYNAME" Value="$(var.ApplicationName) $(var.MajorVersion)" />
+	
+	<Binary Id="MyCustomActionsDll" 
+		SourceFile="../CustomActions/CustomActions/bin/Release/CustomActions.CA.dll" />			
+
+	<CustomAction Id='AlreadyUpdated' Error='Version [ProductVersion] of [ProductName] is already installed.' />
+    <CustomAction Id='NoDowngrade' Error='A later version of [ProductName] is already installed.' />
+	
+	<InstallExecuteSequence>
+	    <RemoveExistingProducts Before="InstallInitialize" />
+        <Custom Action='AlreadyUpdated' After='FindRelatedProducts'>SELFFOUND</Custom>
+        <Custom Action='NoDowngrade' After='FindRelatedProducts'>NEWERFOUND</Custom>		
+	</InstallExecuteSequence> 
+
+	<Media Id='1' Cabinet='AppTemplate.cab' EmbedCab='yes' DiskPrompt="CD-ROM #1" />
+    <Property Id='DiskPrompt' Value="$(var.ApplicationName) $(var.MajorVersion).$(var.MinorVersion) Installation [1]" />
+	
+    <Directory Id='TARGETDIR' Name='SourceDir'>
+		<Directory Id='DATAFOLDER' Name='.' ComponentGuidGenerationSeed='$(var.CompGGS)' />
+		<Directory Id='FontsFolder'/>
+		<Directory Id="DesktopFolder" Name="Desktop">
+		</Directory>
+
+		<Directory Id='ProgramFilesFolder'>
+			<Directory Id='APPFOLDER' Name='$(var.ApplicationName) $(var.MajorVersion)' >						
+				<Component Id='RegKeyValues' Guid='*'>
+				  <RegistryKey Root='HKLM' Key='SOFTWARE\$(var.ApplicationName)\$(var.MajorVersion)'>
+					<RegistryValue Name="Program_Files_Directory_$(var.ApplicationName)" Type='string' Value='[APPFOLDER]'/>
+					<RegistryValue Name="$(var.ApplicationName)Version" Type='string' Value='$(var.VersionNumber)'/>
+				  </RegistryKey>
+				</Component>
+			</Directory>
+		</Directory>	 
+    </Directory>		
+
+	
+	<Feature Id='Application' Title='$(var.ApplicationName) $(var.MajorVersion).$(var.MinorVersion) Application and Resources' Description='Installing $(var.ApplicationName) Application and Resources' 
+		Level='1' ConfigurableDirectory='APPFOLDER'>
+	  <ComponentGroupRef Id="HarvestedAppFiles" />
+	  <ComponentRef Id='RegKeyValues'/>
+    </Feature>
+
+	<Feature Id='DataFiles' Title='$(var.ApplicationName) $(var.MajorVersion).$(var.MinorVersion) Data Folder Resources' Description='Installing $(var.ApplicationName) Data Folder' 
+		Level='1' ConfigurableDirectory='DATAFOLDER'>
+	  <ComponentGroupRef Id="HarvestedDataFiles" />
+    </Feature>
+	
+  </Product>
+</Wix>

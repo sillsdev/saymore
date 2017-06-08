@@ -1,0 +1,324 @@
+<?xml version="1.0"?>
+
+<project name="Saymore" default="BuildCompleteRelease">
+
+	<!-- ########################################################################################################## -->
+	<!-- ### Configuration properties - Review and edit these values as needed.                                 ### -->
+	<!-- ########################################################################################################## -->
+
+	<property name="ProductName" value="SayMore" />
+	<property name="VersionSeg1" value="3" />
+	<property name="VersionSeg2" value="1" />
+	<property name="VersionSeg3" value="4" />
+	<property name="VersionSeg4" value="1" />  <!-- each base build is revision 1. Don't change this.-->
+	<property name="CopyrightYear" value="2017" />
+	<property name="Manufacturer" value="SIL International" />
+	<property name="CertPath" value="../ia.p12" />
+	
+	<!-- ########################################################################################################## -->
+	<!-- ### PRODUCT ID GUID definition : This value must be unique for each base build.  Furthermore, every    ### -->
+	<!-- ### base build must get its own unique third number (minor version) in the version number sequence.    ### -->
+	<!-- ########################################################################################################## -->
+
+	<!-- ${ProductName} 3.1.4.X (${ProductName} build)-->
+	<property name="ProductIdGuid" value="F0E785FE-B1C9-4035-88CD-54E417540093" />
+
+	<!-- ########################################################################################################## -->
+	<!-- ### UPGRADE CODE GUID definition : This value must be the same for every version of this product.      ### -->
+	<!-- ### Each product should have its own upgrade code.  This allows installers and patches to upgrade      ### -->
+	<!-- ### one another because they share a common upgrade code.                                              ### -->
+	<!-- ########################################################################################################## -->
+	<property name="UpgradeCodeGuid" value="A640E833-886F-4382-9A98-F71AAFD81F3A" />
+
+	<!-- ########################################################################################################## -->
+	<!-- ### CompGGS definition : Component Generation GUID Seed. It's a WiX thing...                           ### -->
+	<!-- ### Each product should have its own ComopGGS value.                                                   ### -->
+	<!-- ########################################################################################################## -->
+	<property name="CompGGS" value="C1797EA1-C535-4EBC-A0C7-BC8F890C1267" />
+
+	<!-- ########################################################################################################## -->
+	<!-- ### Property definitions                                                                               ### -->	
+	<!-- ########################################################################################################## -->
+
+    <property name="MajorVersion" value="${VersionSeg1}.${VersionSeg2}" />    
+    <property name="MinorVersion" value="${MajorVersion}.${VersionSeg3}" />
+    <property name="Revision" value="${MinorVersion}.${VersionSeg4}" />
+    <property name="MSBUILD" value="C:\Program Files (x86)\MSBuild\14.0\Bin\MsBuild.exe" />
+    <property name="CFG" value="Release" />	
+    <property name="Platform" value="x86" />	
+
+	<!-- Build Directories -->
+    <property name="Installers.Base.Dir" value="./BuildDir" />	
+    <property name="Product.Build.Dir" value="${Installers.Base.Dir}/${ProductName} ${MajorVersion} Build" />
+    <property name="Product.BuildMaster.Dir" value="${Installers.Base.Dir}/${ProductName} Build Master" />
+	
+	<!-- ########################################################################################################## -->
+    <!-- ### Top Level Targets                                                                                  ### -->
+	<!-- ########################################################################################################## -->
+
+    <target name="BuildRelease">
+		<call target="GetDotNetFiles" />
+		<call target="ResetBuildNumberFile" />
+		<call target="CleanMasterOutputDir" />
+		<call target="BuildProductMain" />
+        <call target="BuildProductBaseMsi" />
+		<call target="CopyBuildToMaster" />
+    </target>
+
+    <target name="BuildPatch">
+		<call target="BuildProductMain" />
+        <call target="BuildProductPatchMsp" />
+    </target>
+	
+	<!-- ########################################################################################################## -->
+    <!-- ### Build Targets                                                                                      ### -->
+	<!-- ########################################################################################################## -->
+	
+	<target name="BuildProductMain">
+        <call target="BuildProduct" />
+        <call target="MakeInstallBuildFolders" />
+        <call target="CopyFilesToInstall" />
+		<call target="WriteVersionFile" />
+	</target>
+
+    <target name="BuildProduct">
+        <call target="Clean" />
+        <call target="UpdateVersion" />
+        <call target="ProductCompile" />
+    </target>
+
+	<!-- ########################################################################################################## -->
+    <!-- ### Compile Targets                                                                                    ### -->
+	<!-- ########################################################################################################## -->
+
+    <target name="ProductCompile">
+        <exec program="${MSBUILD}">
+            <arg value="${ProductName}.sln" />
+            <!--<arg value="/target:Build" />-->
+            <arg value="/property:Configuration=${CFG}" />
+            <!--<arg value="/property:Platform=${Platform}" />-->
+            <!--<arg value="/property:AllowUnsafeBlocks=true" />-->
+            <arg value="/verbosity:quiet" />
+            <!--<arg value="/fileLogger" />-->
+        </exec>
+
+        <exec program="${MSBUILD}">
+            <arg value="./WixInstaller/CustomActions/CustomActions.sln" />
+            <arg value="/target:CustomActions" />
+            <arg value="/property:Configuration=${CFG}" />
+            <arg value="/property:Platform=${Platform}" />
+            <arg value="/verbosity:quiet" />
+        </exec>
+	</target>
+
+	<!-- As new compile targets are added, include the relative file path below so they can be cleaned -->
+    <target name="Clean">
+	
+		<delete dir="./output/Debug" />
+		<delete dir="./output/Release" />
+        <!-- <foreach item="String" in="${ProductName},${ProductName}/WixInstaller/CustomActions/CustomActions" 
+                           delim="," property="Project">
+            <delete dir="${Project}/bin" />
+            <delete dir="${Project}/obj" />
+        </foreach> -->
+    </target>
+	
+	<!-- ########################################################################################################## -->
+    <!-- ### Build Folders and Copy Targets                                                                     ### -->
+	<!-- ########################################################################################################## -->
+
+	<target name="CleanMasterOutputDir">
+		<delete dir="${Product.BuildMaster.Dir}" />
+	</target>
+
+    <target name="MakeInstallBuildFolders">
+		<if test="${not directory::exists(Installers.Base.Dir)}" >  <!-- ./BuildDir -->
+			<mkdir dir="${Installers.Base.Dir}" />
+		</if>
+		
+        <delete dir="${Product.Build.Dir}" />	<!-- ./BuildDir/Sample 1.0 Build -->
+
+        <!-- <copy todir="${Product.Build.Dir}">
+            <fileset basedir="${Installers.Base.Dir}/${ProductName} Build Master">
+                <include name="**/*" />
+            </fileset>
+        </copy> -->
+    </target>
+
+    <target name="CopyFilesToInstall">
+        <call target="CopyFilesToInstallation1" />
+        <call target="CopyFilesToInstallation2" />
+    </target>
+
+    <target name="CopyFilesToInstallation1">
+        <attrib readonly="false">
+            <fileset>
+                <include name="${Product.Build.Dir}/**/*" />
+            </fileset>
+        </attrib>
+
+        <copy todir="${Product.Build.Dir}/objects/${ProductName}">  <!-- copy in new stuff -->
+            <fileset basedir="output/${CFG}">
+                <include name="**/*" />
+            </fileset>
+        </copy>
+
+		<copy todir="${Product.Build.Dir}/objects/${ProductName}">
+            <fileset basedir="DistFiles">
+                <include name="**/*" />
+            </fileset>
+        </copy>
+		
+        <copy todir="${Product.Build.Dir}/objects/${ProductName} Data Folder">
+            <fileset basedir="SampleData">
+                <include name="**/*" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="CopyFilesToInstallation2" >
+        <attrib readonly="false">
+            <fileset>
+                <include name="${Product.Build.Dir}/objects/**/*" />
+            </fileset>
+        </attrib>
+    </target>
+
+	<target name="CopyBuildToMaster" >
+        <copy todir="${Product.BuildMaster.Dir}/Objects" >
+            <fileset basedir="${Product.Build.Dir}/Objects">
+                <include name="**/*" />
+            </fileset>
+        </copy>
+	</target>
+
+	<target name="GetDotNetFiles" >
+		<!-- download .net 4.5.1 if it is not already there -->
+		<if test="${not file::exists('./WixInstaller/libs/NDP451-KB2858728-x86-x64-AllOS-ENU.exe')}">
+			<get src="http://go.microsoft.com/fwlink/?LinkId=322115" 
+			dest="./WixInstaller/libs/NDP451-KB2858728-x86-x64-AllOS-ENU.exe" />
+		</if>
+		<!-- download VisualC++ 10 runtime if it is not already there -->
+		<if test="${not file::exists('./WixInstaller/libs/vcredist_x86.exe')}">
+			<get src="https://download.microsoft.com/download/5/B/C/5BC5DBB3-652D-4DCE-B14A-475AB85EEF6E/vcredist_x86.exe" 
+			dest="./WixInstaller/libs/vcredist_x86.exe" />
+		</if>
+		<!-- download VisualC++ 11 runtime if it is not already there -->
+		<if test="${not file::exists('./WixInstaller/libs/vcredist_2012_x86.exe')}">
+			<get src="https://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x86.exe" 
+			dest="./WixInstaller/libs/vcredist_2012_x86.exe" />
+		</if>
+		<!-- download VisualC++ 12 runtime if it is not already there -->
+		<if test="${not file::exists('./WixInstaller/libs/vcredist_2013_x86.exe')}">
+			<get src="http://download.microsoft.com/download/0/5/6/056dcda9-d667-4e27-8001-8a0c6971d6b1/vcredist_x86.exe" 
+			dest="./WixInstaller/libs/vcredist_2013_x86.exe" />
+		</if>
+	</target>
+	
+	<!-- ########################################################################################################## -->
+    <!-- ### Version numbering Targets                                                                          ### -->
+	<!-- ########################################################################################################## -->
+
+    <target name="UpdateVersion">
+        <version buildtype="Increment" />
+        <property name="Revision" value="${MinorVersion}.${buildnumber.build}" />
+
+        <asminfo output="src/SayMore/Properties/AssemblyInfo.cs" language="CSharp">
+            <imports>
+                <import namespace="System.Reflection" />
+                <import namespace="System.Runtime.CompilerServices" />
+                <import namespace="System.Runtime.InteropServices" />
+            </imports>
+            <attributes>
+				<attribute type="AssemblyTitle" value='"SayMore"' asis="true"/>
+				<attribute type="AssemblyDescription" value="&quot;&quot;" asis="true" />
+				<attribute type="AssemblyConfiguration" value="&quot;&quot;" asis="true" />
+				<attribute type="AssemblyCompany" value='"SIL International"' asis="true"/>
+				<attribute type="AssemblyProduct" value='"SayMore"' asis="true"/>
+				<attribute type="AssemblyCopyright" value='"Copyright © 2017 SIL International"' asis="true"/>
+				<attribute type="AssemblyTrademark" value="&quot;&quot;" asis="true" />
+				<attribute type="AssemblyCulture" value="&quot;&quot;" asis="true" />
+				<attribute type="ComVisible" value="false" asis="true" />
+				<attribute type="Guid" value='"f83ce30d-c534-4127-8ba5-7cfd5f4998bb"' asis="true" />
+                <attribute type="AssemblyVersion" value='"${Revision}"' asis="true"/>
+                <attribute type="AssemblyFileVersion" value='"${Revision}"' asis="true"/>
+            </attributes>
+        </asminfo>
+    </target>
+
+    <target name="WriteVersionFile">
+        <property name="Revision" value="${MinorVersion}.${buildnumber.build}" />
+        <delete file="${Product.Build.Dir}/objects/${ProductName}/CurrentVersion.number" />
+        <echo file="${Product.Build.Dir}/objects/${ProductName}/CurrentVersion.number">${Revision}</echo>
+    </target>
+	
+	<target name="ResetBuildNumberFile">
+        <property name="ResetVersion" value="${MajorVersion}.0.0" />
+        <delete file="./build.number" />
+        <echo file="./build.number">${ResetVersion}</echo>
+	</target>
+
+	
+	<!-- ########################################################################################################## -->
+    <!-- ### Build Wix Product Targets                                                                          ### -->
+	<!-- ########################################################################################################## -->
+
+	<target name="ReadCertPassFile">
+		<loadfile file="certpass.txt" property="CertPass" />
+	</target>
+	
+	<target name="BuildProductBaseMsi">
+		<call target="ReadCertPassFile" />
+        <property name="MsiFile" value="${ProductName}_${Revision}.msi" />
+		<exec program="buildBaseInstaller.bat" basedir="./WixInstaller/BaseInstallerBuild" >
+			<arg value="${ProductName}" />
+			<arg value="${VersionSeg1}" />
+			<arg value="${VersionSeg2}" />
+			<arg value="${VersionSeg3}" />
+			<arg value="${VersionSeg4}" />
+			<arg value="${ProductIdGuid}" />
+			<arg value="${UpgradeCodeGuid}" />
+			<arg value="../../${Product.Build.Dir}/Objects/${ProductName}" />
+			<arg value="../../${Product.Build.Dir}/Objects/${ProductName} Data Folder" />
+			<arg value="${CertPath}" />
+			<arg value="&quot;${CertPass}&quot;" />
+			<arg value="${CopyrightYear}" />
+			<arg value="${Manufacturer}" />
+		</exec>
+		
+        <move todir="${Installers.Base.Dir}" >
+            <fileset basedir="./WixInstaller/BaseInstallerBuild">
+                <include name="**/${ProductName}_*.exe" />
+                <include name="**/${ProductName}_*.msi" />
+            </fileset>
+        </move>
+	</target>
+
+	<target name="BuildProductPatchMsp">
+		<call target="ReadCertPassFile" />
+		<loadfile file="${Product.BuildMaster.Dir}/Objects/${ProductName}/CurrentVersion.number" property="BaseVersion" />
+        <property name="MspFile" value="${ProductName}_${Revision}.msp" />
+				
+		<exec program="buildPatch.bat" basedir="./WixInstaller/CreateUpdatePatch" >
+			<arg value="${ProductName}" />
+			<arg value="${BaseVersion}" />  
+			<arg value="${Revision}" />
+			<arg value="../../${Product.BuildMaster.Dir}/Objects/${ProductName}" />
+			<arg value="../../${Product.Build.Dir}/Objects/${ProductName}" />
+			<arg value="../../${Product.BuildMaster.Dir}/Objects/${ProductName} Data Folder" />
+			<arg value="../../${Product.Build.Dir}/Objects/${ProductName} Data Folder" />
+			<arg value="${ProductIdGuid}" />
+			<arg value="${UpgradeCodeGuid}" />
+			<arg value="${CompGGS}" />
+			<arg value="${CertPath}" />
+			<arg value="&quot;${CertPass}&quot;" />
+			<arg value="${Manufacturer}" />
+		</exec>
+		
+        <move todir="${Installers.Base.Dir}" >
+            <fileset basedir="./WixInstaller/CreateUpdatePatch">
+                <include name="**/*.msp" />
+            </fileset>
+        </move>
+	</target>
+</project>

@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+    <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" 
+		xmlns:bal="http://schemas.microsoft.com/wix/BalExtension" 
+		xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+    	xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension"
+		xmlns:dep="http://schemas.microsoft.com/wix/DependencyExtension">
+		<Bundle
+			Name='$(var.ApplicationName) $(var.TruncatedVersion)' 			
+			Version='$(var.VersionNumber)'
+			UpgradeCode='$(var.UpgradeCode)'
+			Tag='$(var.ApplicationName)Bundle'
+			IconSourceFile='..\resources\Installer.ico'			
+			Copyright='Copyright© $(var.Year), $(var.Manufacturer)'
+			Manufacturer='$(var.Manufacturer)'>
+
+			<bal:Condition Message="XP is no longer supported."> (VersionNT &gt;= v6.0) </bal:Condition>
+
+			<BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense">
+				<Payload SourceFile="TemplateLicense.htm" />
+			</BootstrapperApplicationRef>	
+
+			<!--<RelatedBundle Id='$(var.UpgradeCode)' Action='Detect'/>-->
+			
+			<WixVariable Id="WixStdbaLicenseUrl" Value="TemplateLicense.htm" />
+			<WixVariable Id="WixStdbaLogo" Value="..\resources\bundle_background.bmp" />
+			<WixVariable Id="WixStdbaThemeXml" Value="TemplateBundleTheme.xml" />
+			<WixVariable Id="WixStdbaThemeWxl" Value="TemplateBundleTheme.wxl" />
+		
+			<Chain>
+				<!--<PackageGroupRef Id="Netfx451" />
+				<PackageGroupRef Id="redist_vc10" />
+				<PackageGroupRef Id="redist_vc11" />
+				<PackageGroupRef Id="redist_vc12" />
+				<RollbackBoundary /> -->
+				<PackageGroupRef Id='AppPackageGroup'/>
+			</Chain>
+		</Bundle>
+	  
+		<Fragment Id='AppFragment'>
+			<PackageGroup Id='AppPackageGroup'>
+				<MsiPackage Id='AppMsiPackage'
+					DisplayName='$(var.ApplicationName) $(var.VersionNumber)'
+					DisplayInternalUI='yes'
+					ForcePerMachine='yes'
+					InstallCondition='1'
+					SourceFile='$(var.ApplicationName)_$(var.VersionNumber).msi'
+					Visible='yes'
+					Vital='yes'>
+				</MsiPackage>
+			</PackageGroup>
+		</Fragment>
+	  
+		<Fragment>
+			<util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\Net Framework Setup\NDP\v4\Full" Value="Version" Variable="Netfx45FullVersion" />
+			<util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\Net Framework Setup\NDP\v4\Full" Value="Version" Variable="Netfx45x64FullVersion" Win64="yes" />
+			
+			<PackageGroup Id="Netfx451">
+				<ExePackage Id="Netfx451" Cache="no" Compressed="yes" PerMachine="yes" Permanent="yes" Vital="yes" InstallCommand="/q /norestart"
+					SourceFile="..\libs\NDP451-KB2858728-x86-x64-AllOS-ENU.exe"
+					DetectCondition="(Netfx45FullVersion=&quot;4.5.50938&quot;) AND (NOT VersionNT64 OR (Netfx45x64FullVersion=&quot;4.5.50938&quot;))"
+					InstallCondition="(VersionNT >= v6.0 OR VersionNT64 >= v6.0) AND (NOT (Netfx45FullVersion &gt;= &quot;4.5.50938&quot; OR Netfx45x64FullVersion &gt;= &quot;4.5.50938&quot;))">
+					<ExitCode Behavior="forceReboot" Value="1641" />
+					<ExitCode Behavior="forceReboot" Value="3010" />			
+					<ExitCode Behavior="error" Value="5100" />
+					<ExitCode Behavior="error" Value="1603" />
+					<ExitCode Behavior="success" Value="0" />			
+				</ExePackage>
+			</PackageGroup>		
+		</Fragment>
+		
+	<Fragment>
+		<util:RegistrySearch Root="HKLM"
+                     Key="SOFTWARE\Microsoft\VisualStudio\10.0\VC\VCRedist\x86"
+                     Variable="CPP2010Redist"
+                     Value="Installed"
+                     Result="value"/>
+
+		<PackageGroup Id="redist_vc10">
+		<ExePackage Id="vc10" Cache="no" PerMachine="yes" Vital="yes" Compressed="yes" Permanent="yes"
+                  SourceFile="..\libs\vcredist_x86.exe"
+                  InstallCommand="/quiet /norestart"
+				  DetectCondition="CPP2010Redist"
+                  />
+		</PackageGroup>
+	</Fragment>	
+	
+	<Fragment>
+		<util:RegistrySearch Root="HKLM"
+                     Key="SOFTWARE\Microsoft\VisualStudio\11.0\VC\Runtimes\x86"
+                     Variable="CPP2011Redist"
+                     Value="Installed"
+                     Result="value"/>
+
+		<PackageGroup Id="redist_vc11">
+		<ExePackage Id="vc11" Cache="no" PerMachine="yes" Vital="yes" Compressed="yes" Permanent="yes"
+                  SourceFile="..\libs\vcredist_2012_x86.exe"
+                  InstallCommand="/quiet /norestart"
+				  DetectCondition="CPP2011Redist"
+                  />
+		</PackageGroup>
+	</Fragment>	
+	
+	<Fragment>
+		<util:RegistrySearch Root="HKLM"
+                     Key="SOFTWARE\Microsoft\VisualStudio\12.0\VC\Runtimes\x86"
+                     Variable="CPP2012Redist"
+                     Value="Installed"
+                     Result="value"/>
+
+		<PackageGroup Id="redist_vc12">
+		<ExePackage Id="vc12" Cache="no" PerMachine="yes" Vital="yes" Compressed="yes" Permanent="yes"
+                  SourceFile="..\libs\vcredist_2013_x86.exe"
+                  InstallCommand="/quiet /norestart"
+				  DetectCondition="CPP2012Redist"
+                  />
+		</PackageGroup>
+	</Fragment>		
+		
+    </Wix>

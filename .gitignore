@@ -85,3 +85,9 @@ lib/dotnet/SIL.*.pdb
 build/Palaso.BuildTasks.dll
 lib/dotnet/NAudio.dll
 BuildDir/*
+WixInstaller/libs/*
+build.number
+msbuild.log
+WixInstaller/CustomActions/CustomActions/bin/*
+WixInstaller/CustomActions/CustomActions/obj/*
+WixInstaller/resources/*.ttf

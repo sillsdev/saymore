@@ -9,7 +9,7 @@ namespace SayMore.Transcription.Model.Exporters
 	{
 		public static void Export(string outputFilePath, TierCollection tiers)
 		{
-			const string ktimeFormat = "hh\\:mm\\:ss\\:ff";
+			const string ktimeFormat = "hh\\:mm\\:ss\\.ff"; //ISO 8601 and what ELAN import expects
 			using (var stream = File.CreateText(outputFilePath))
 			{
 				int count = tiers.GetTimeTier().Segments.Count;

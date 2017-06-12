@@ -87,10 +87,11 @@
 	  <ComponentRef Id='RegKeyValues'/>
     </Feature>
 
+	<!--
 	<Feature Id='DataFiles' Title='$(var.ApplicationName) $(var.MajorVersion).$(var.MinorVersion) Data Folder Resources' Description='Installing $(var.ApplicationName) Data Folder' 
 		Level='1' ConfigurableDirectory='DATAFOLDER'>
 	  <ComponentGroupRef Id="HarvestedDataFiles" />
     </Feature>
-	
+	-->
   </Product>
 </Wix>

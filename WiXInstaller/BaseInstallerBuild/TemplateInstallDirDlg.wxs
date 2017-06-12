@@ -34,6 +34,7 @@
 				</Control>
 
 				<!-- Users of this repo should edit the text field in the following line. -->
+				<!--
                 <Control Id="ProjFolderLabel" Type="Text" X="20" Y="140" Width="290" Height="15" NoPrefix="yes" Text="My Paratext Projects folder:" />
                 <Control Id="ProjFolder" Type="PathEdit" X="20" Y="160" Width="320" Height="18" Property="WIXUI_PROJECTSDIR" Indirect="yes" >
 					<Condition Action="enable"><![CDATA[DATAFOLDERFOUND <> "AlreadyExisting"]]></Condition>
@@ -44,6 +45,7 @@
 					<Condition Action="disable"><![CDATA[DATAFOLDERFOUND = "AlreadyExisting"]]></Condition>
 				</Control>
 				<Control Id="ProjFolderExplanation" Type="Text" X="96" Y="180" Width="244" Height="30" NoPrefix="yes" Text="[EXPLANATIONTEXT]"/>
+				-->
             </Dialog>
         </UI>
     </Fragment>

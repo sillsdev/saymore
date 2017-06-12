@@ -146,8 +146,8 @@
 	<UIRef Id="WixUI_ErrorProgressText" />
 
     <Directory Id='TARGETDIR' Name='SourceDir'>
-		<Directory Id='DATAFOLDER' Name='.' />
-		<Directory Id='FontsFolder'/>
+		<!--<Directory Id='DATAFOLDER' Name='.' />-->
+		<!--<Directory Id='FontsFolder'/>-->
 		<Directory Id="DesktopFolder" Name="Desktop">
 			<Component Id="ApplicationShortcutDesktop" Guid="*">
 				<Shortcut Id="ApplicationDesktopShortcut"
@@ -206,6 +206,7 @@
 		</Component>
 	</DirectoryRef>
 
+	<!--
 	<DirectoryRef Id='FontsFolder'>
 	  <Component Id='Font1' Guid='*' Permanent='yes'>
 		<Condition>DOULOS_INSTALLED="False"</Condition>
@@ -264,6 +265,7 @@
 		<File Id='SILEzraOTSR' Source='..\resources\SILEOTSR.ttf' TrueType='yes'/>
 	  </Component>
 	</DirectoryRef>
+	-->
 	
 	<!-- A "typical" install will install featues of level 3 and below.  A "complete" install will install features of level 1000 and below.
 		 A "custom" install will display the tree view with items of value "3" and below selected by default. -->	
@@ -278,19 +280,22 @@
 			<ComponentRef Id='AppIcon'/>
 		</Feature>
 		
+		<!--
 		<Feature Id='DataFiles' Title='Default Data' Description='Default data files distributed with the application.' 
 			Level='1' ConfigurableDirectory='DATAFOLDER' AllowAdvertise="no" InstallDefault="source" Absent='allow' TypicalDefault="install" >
 		  <ComponentGroupRef Id="HarvestedDataFiles" />
 		</Feature>
-	
-		<Feature Id='DesktopShortcut' Title='Desktop Shortuct' Description='Creates a shortcut on the desktop.' Level='3' ConfigurableDirectory='APPFOLDER' AllowAdvertise="no" InstallDefault="source" Absent='allow' TypicalDefault="install" >
+		-->
+		
+		<Feature Id='DesktopShortcut' Title='Desktop Shortuct' Description='Creates a shortcut on the desktop.' Level='1' ConfigurableDirectory='APPFOLDER' AllowAdvertise="no" InstallDefault="source" Absent='allow' TypicalDefault="install" >
 			<ComponentRef Id='ApplicationShortcutDesktop'/>
 		</Feature>
 		
-		<Feature Id='MenuShortcut' Title='Start Menu Shortuct' Description='Creates a shortcut in the Start menu.' Level='3' ConfigurableDirectory='APPFOLDER' AllowAdvertise="no" InstallDefault="source" Absent='allow' TypicalDefault="install" >
+		<Feature Id='MenuShortcut' Title='Start Menu Shortuct' Description='Creates a shortcut in the Start menu.' Level='1' ConfigurableDirectory='APPFOLDER' AllowAdvertise="no" InstallDefault="source" Absent='allow' TypicalDefault="install" >
 			<ComponentRef Id='ApplicationShortcutMenu' />
 		</Feature>
 
+		<!-- Fonts not needed for saymore
 		<Feature Id='Fonts' Title='Related Fonts' Description='Installing fonts used by the application.' Level='3' AllowAdvertise="no" InstallDefault="source" Absent='allow' TypicalDefault="install" >
 		  <ComponentRef Id='Font1'/>
 		  <ComponentRef Id='Font2'/>
@@ -307,6 +312,7 @@
 		  <ComponentRef Id='Font13'/>
 		  <ComponentRef Id='Font14'/>
 		</Feature>
+		-->
 	</Feature>
   </Product>
 </Wix>

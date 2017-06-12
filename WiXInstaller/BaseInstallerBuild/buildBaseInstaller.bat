@@ -48,9 +48,9 @@ heat.exe dir %APPBUILDDIR% -cg HarvestedAppFiles -gg -scom -sreg -sfrag -srd -sw
 heat.exe dir %APPDATADIR% -cg HarvestedDataFiles -gg -scom -sreg -sfrag -srd -sw5150 -sw5151 -dr DATAFOLDER -var var.APPDATADIR -t KeyPathFix.xsl -out DataHarvest.wxs
 
 @REM Compile (candle) and Link (light) the MSI file.
-candle.exe -dApplicationName=%AppName% -dManufacturer=%Manufacturer% -dVersionNumber=%Version% -dMajorVersion=%Major% -dMinorVersion=%Minor% -dAPPBUILDDIR=%APPBUILDDIR% -dAPPDATADIR=%APPDATADIR% -dUpgradeCode=%UPGRADECODEGUID% -dProductCode=%PRODUCTIDGUID% -dShortcutTargetName=%ShortcutTargetName% TemplateFramework.wxs AppHarvest.wxs DataHarvest.wxs WixUI_TemplateDialogFlow.wxs TemplateInstallDirDlg.wxs TemplateProgressDlg.wxs TemplateWelcomeDlg.wxs TemplateCustomizeDlg.wxs TemplateSetupTypeDlg.wxs
+candle.exe -dApplicationName=%AppName% -dManufacturer=%Manufacturer% -dVersionNumber=%Version% -dMajorVersion=%Major% -dMinorVersion=%Minor% -dAPPBUILDDIR=%APPBUILDDIR% -dAPPDATADIR=%APPDATADIR% -dUpgradeCode=%UPGRADECODEGUID% -dProductCode=%PRODUCTIDGUID% -dShortcutTargetName=%ShortcutTargetName% TemplateFramework.wxs AppHarvest.wxs DataHarvest.wxs WixUI_TemplateDialogFlow.wxs TemplateInstallDirDlg.wxs TemplateProgressDlg.wxs TemplateWelcomeDlg.wxs
 
-light.exe TemplateFramework.wixobj AppHarvest.wixobj DataHarvest.wixobj WixUI_TemplateDialogFlow.wixobj TemplateInstallDirDlg.wixobj TemplateProgressDlg.wixobj TemplateWelcomeDlg.wixobj TemplateCustomizeDlg.wixobj TemplateSetupTypeDlg.wixobj -ext WixUIExtension -ext WixUtilExtension.dll -cultures:en-us -loc TemplateWixUI_en-us.wxl -sw1076 -out %AppName%_%Version%.msi
+light.exe TemplateFramework.wixobj AppHarvest.wixobj DataHarvest.wixobj WixUI_TemplateDialogFlow.wixobj TemplateInstallDirDlg.wixobj TemplateProgressDlg.wixobj TemplateWelcomeDlg.wixobj -ext WixUIExtension -ext WixUtilExtension.dll -cultures:en-us -loc TemplateWixUI_en-us.wxl -sw1076 -out %AppName%_%Version%.msi
 
 signtool.exe sign /f %CERTPATH% /p %CERTPASS% %AppName%_%Version%.msi
 

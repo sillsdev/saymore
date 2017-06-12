@@ -50,6 +50,7 @@
 		</PackageGroup>
 	</Fragment>
 	  	  
+	<!--
 	<?define NetFx451MinRelease = 378675?>
 	<?define NetFx451WebLink =  http://go.microsoft.com/fwlink/?LinkId=322115 ?>
 	<?define NetFx451RedistLink = http://go.microsoft.com/fwlink/?LinkId=322116 ?>
@@ -96,7 +97,9 @@
 			</ExePackage>
 		</PackageGroup>
 	</Fragment>
-
+	-->
+	
+	<!--
 	<?define VC10RedistWebLink =  https://download.microsoft.com/download/5/B/C/5BC5DBB3-652D-4DCE-B14A-475AB85EEF6E/vcredist_x86.exe ?>
 	<?define VC11RedistWebLink =  https://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x86.exe ?>
 	<?define VC12RedistWebLink =  http://download.microsoft.com/download/0/5/6/056dcda9-d667-4e27-8001-8a0c6971d6b1/vcredist_x86.exe ?>
@@ -169,4 +172,5 @@
 			</ExePackage>
 		</PackageGroup>
 	</Fragment>		
+	-->
 </Wix>

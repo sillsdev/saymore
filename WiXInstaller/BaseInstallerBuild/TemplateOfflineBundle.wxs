@@ -50,6 +50,7 @@
 			</PackageGroup>
 		</Fragment>
 	  
+		<!--
 		<Fragment>
 			<util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\Net Framework Setup\NDP\v4\Full" Value="Version" Variable="Netfx45FullVersion" />
 			<util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\Net Framework Setup\NDP\v4\Full" Value="Version" Variable="Netfx45x64FullVersion" Win64="yes" />
@@ -67,7 +68,9 @@
 				</ExePackage>
 			</PackageGroup>		
 		</Fragment>
+		-->
 		
+	<!--
 	<Fragment>
 		<util:RegistrySearch Root="HKLM"
                      Key="SOFTWARE\Microsoft\VisualStudio\10.0\VC\VCRedist\x86"
@@ -115,5 +118,5 @@
                   />
 		</PackageGroup>
 	</Fragment>		
-		
-    </Wix>
+	-->
+</Wix>

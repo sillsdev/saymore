@@ -91,3 +91,4 @@ msbuild.log
 WixInstaller/CustomActions/CustomActions/bin/*
 WixInstaller/CustomActions/CustomActions/obj/*
 WixInstaller/resources/*.ttf
+lib/dotnet/Palaso*.dll

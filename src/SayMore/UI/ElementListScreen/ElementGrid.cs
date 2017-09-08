@@ -135,8 +135,7 @@ namespace SayMore.UI.ElementListScreen
 				if (FirstDisplayedCell != null)
 					columnIndex = FirstDisplayedCell.ColumnIndex;
 				Debug.Assert(columnIndex >= 0, "Either all columnns are hidden (which should be impossible), or else this is in unit tests maybe.");
-				if (columnIndex >= 0)
-					CurrentCell = this[columnIndex, index];
+				CurrentCell = this[columnIndex, index];
 				Rows[index].Selected = true;
 				if (forceRowChangeEvent)
 					OnCurrentRowChanged(EventArgs.Empty);

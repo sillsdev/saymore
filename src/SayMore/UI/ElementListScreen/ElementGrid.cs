@@ -134,7 +134,7 @@ namespace SayMore.UI.ElementListScreen
 				var columnIndex = CurrentCellAddress.X;
 				if (FirstDisplayedCell != null)
 					columnIndex = FirstDisplayedCell.ColumnIndex;
-				Debug.Assert(columnIndex >= 0, "Either all columnns are hidden (which should be impossible), or else this is in unit tests maybe.");
+				Debug.Assert(columnIndex >= 0, "Either all columns are hidden (which should be impossible), or else this is in unit tests maybe.");
 				if (columnIndex < 0)
 				{
 					// This should fix things up for unit tests on TeamCity (where there is no display so no column is

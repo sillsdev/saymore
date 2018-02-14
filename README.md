@@ -1,6 +1,6 @@
 # Users
 
-You're in the wrong place. Head over to http://saymore.palaso.org.
+You're in the wrong place. Head over to https://software.sil.org/saymore/.
 
 ## Testers
 
@@ -11,7 +11,7 @@ Please see [Tips for Testing Palaso Software](https://docs.google.com/document/d
 ## Getting dependencies
 
 1. Ensure you have something that can run bash scripts
-1. Run build/get-dependencies.sh
+1. Run build/getDependencies-windows.sh
 1. Ensure you have Nuget
 1. Building the solution should automatically pull down the nuget dependencies.
 
@@ -25,4 +25,4 @@ Reports can be entered in https://jira.sil.org/projects/SP/issues.  They can be 
 
 ## Continuous Build System
 
-Each time code is checked in, an automatic build begins on our [TeamCity build server](http://build.palaso.org/project.html?projectId=project16&tab=projectOverview), running all the unit tests. Similarly, when there is a new version of some SayMore dependency (e.g. Palaso, LocalizationManager), that server automatically rebuilds SayMore . This automatic build doesn't publish a new installer, however. That kind of build is launched manually, by pressing a button on the TeamCity page.  This "publish" process builds SayMore , makes and installer, rsyncs it to the distribution server, and writes out a little bit of html which the [SayMore download page](http://SayMore.palaso.org/download/) then displays to the user.
+Each time code is checked in, an automatic build begins on our [TeamCity build server](http://build.palaso.org/project.html?projectId=project16&tab=projectOverview), running all the unit tests. Similarly, when there is a new version of some SayMore dependency (e.g. Palaso, LocalizationManager), that server automatically rebuilds SayMore . This automatic build doesn't publish a new installer, however. That kind of build is launched manually, by pressing a button on the TeamCity page.  This "publish" process builds SayMore , makes and installer, rsyncs it to the distribution server, and writes out a little bit of html which the [SayMore download page](http://software.sil.org/saymore/download/) then displays to the user.

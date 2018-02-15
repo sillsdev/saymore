@@ -368,7 +368,7 @@ namespace SayMore
 
 		public static List<XmlException> FileLoadErrors
 		{
-			get 
+			get
 			{
 				if (_projectContext == null || _projectContext.Project == null) // This can happen during unit testing
 					return new List<XmlException>(0);
@@ -422,7 +422,12 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public static string CommonAppDataFolder
 		{
+			//Application.ProductName gives some resharper folder during tests
+#if DEBUG
+			get { return Path.Combine(SilCommonDataFolder, "Saymore"); }
+#else
 			get { return Path.Combine(SilCommonDataFolder, Application.ProductName); }
+#endif
 		}
 
 		/// ------------------------------------------------------------------------------------

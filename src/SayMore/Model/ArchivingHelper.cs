@@ -160,8 +160,12 @@ namespace SayMore.Model
 
 			// session date
 			stringVal = saymoreSession.MetaDataFile.GetStringValue("date", null);
+			var sessionDateTime = DateTime.MinValue;
 			if (!string.IsNullOrEmpty(stringVal))
-				imdiSession.SetDate(DateTime.Parse(stringVal).ToISO8601TimeFormatDateOnlyString());
+			{
+				sessionDateTime = DateTime.Parse(stringVal);
+				imdiSession.SetDate(sessionDateTime.ToISO8601TimeFormatDateOnlyString());
+			}
 
 			// session situation
 			stringVal = saymoreSession.MetaDataFile.GetStringValue("situation", null);
@@ -187,29 +191,7 @@ namespace SayMore.Model
 			foreach (var person in persons)
 			{
 
-				// is this person protected
-				var protect = bool.Parse(person.MetaDataFile.GetStringValue("privacyProtection", "false"));
-
-				// display message if the birth year is not valid
-				var birthYear = person.MetaDataFile.GetStringValue("birthYear", string.Empty).Trim();
-				if (!birthYear.IsValidBirthYear())
-				{
-					var msg = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.InvalidBirthYearMsg",
-						"The Birth Year for {0} should be either blank or a 4 digit number.");
-					model.AdditionalMessages[string.Format(msg, person.Id)] = ArchivingDlgViewModel.MessageType.Warning;
-				}
-
-				ArchivingActor actor = new ArchivingActor
-				{
-					FullName = person.Id,
-					Name = person.MetaDataFile.GetStringValue(PersonFileType.kCode, person.Id),
-					BirthDate = birthYear,
-					Gender = person.MetaDataFile.GetStringValue(PersonFileType.kGender, null),
-					Education = person.MetaDataFile.GetStringValue(PersonFileType.kEducation, null),
-					Occupation = person.MetaDataFile.GetStringValue(PersonFileType.kPrimaryOccupation, null),
-					Anonymize = protect,
-					Role = "Participant"
-				};
+				var actor = InitializeActor(model, person, sessionDateTime);
 
 				// do this to get the ISO3 codes for the languages because they are not in saymore
 				var language = LanguageList.FindByEnglishName(person.MetaDataFile.GetStringValue("primaryLanguage", null));
@@ -273,6 +255,46 @@ namespace SayMore.Model
 			var files = saymoreSession.GetSessionFilesToArchive(model.GetType());
 			foreach (var file in files)
 				imdiSession.AddFile(CreateArchivingFile(file));
+		}
+
+		internal static ArchivingActor InitializeActor(ArchivingDlgViewModel model, Person person, DateTime sessionDateTime)
+		{
+			// is this person protected
+			var protect = bool.Parse(person.MetaDataFile.GetStringValue("privacyProtection", "false"));
+
+			// display message if the birth year is not valid
+			var birthYear = person.MetaDataFile.GetStringValue("birthYear", string.Empty).Trim();
+			int age = 0;
+			if (!birthYear.IsValidBirthYear() || string.IsNullOrEmpty(birthYear))
+			{
+				var msg = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.InvalidBirthYearMsg",
+					"The Birth Year for {0} should be a 4 digit number. It is used to calculate the age for the IMDI export.");
+				model.AdditionalMessages[string.Format(msg, person.Id)] = ArchivingDlgViewModel.MessageType.Warning;
+			}
+			else
+			{
+				age = string.IsNullOrEmpty(birthYear) ? 0 : sessionDateTime.Year - int.Parse(birthYear);
+				if (age < 2 || age > 130)
+				{
+					var msg = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.InvalidAgeMsg",
+						"The age for {0} must be between 2 and 130");
+					model.AdditionalMessages[string.Format(msg, person.Id)] = ArchivingDlgViewModel.MessageType.Warning;
+				}
+			}
+
+			ArchivingActor actor = new ArchivingActor
+			{
+				FullName = person.Id,
+				Name = person.MetaDataFile.GetStringValue(PersonFileType.kCode, person.Id),
+				BirthDate = birthYear,
+				Age = age.ToString(),
+				Gender = person.MetaDataFile.GetStringValue(PersonFileType.kGender, null),
+				Education = person.MetaDataFile.GetStringValue(PersonFileType.kEducation, null),
+				Occupation = person.MetaDataFile.GetStringValue(PersonFileType.kPrimaryOccupation, null),
+				Anonymize = protect,
+				Role = "Participant"
+			};
+			return actor;
 		}
 
 		private static string GetFieldValue(ComponentFile file, string valueName)

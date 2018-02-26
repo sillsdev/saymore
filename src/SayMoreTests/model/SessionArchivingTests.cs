@@ -199,6 +199,29 @@ namespace SayMoreTests.Utilities
 			Assert.AreEqual(_dummyProjectName, projname);
 		}
 
+		[Test]
+		public void InitializeActor_AgeTest()
+		{
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
+			var person = new Mock<Person>();
+			person.Setup(p => p.MetaDataFile.GetStringValue("privacyProtection", "false")).Returns("false");
+			person.Setup(p => p.MetaDataFile.GetStringValue("birthYear", string.Empty)).Returns(string.Empty);
+			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, DateTime.MinValue);
+			Assert.AreEqual("0",actor.Age);
+			model.VerifyAll();
+		}
+
+		[Test]
+		public void InitializeActor_Age68Test()
+		{
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
+			var person = new Mock<Person>();
+			person.Setup(p => p.MetaDataFile.GetStringValue("privacyProtection", "false")).Returns("false");
+			person.Setup(p => p.MetaDataFile.GetStringValue("birthYear", string.Empty)).Returns("1950");
+			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, new DateTime(2018, 1,1));
+			Assert.AreEqual("68", actor.Age);
+			model.VerifyAll();
+		}
 		#endregion
 	}
 

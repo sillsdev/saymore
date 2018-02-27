@@ -21,6 +21,8 @@ namespace SayMore.Model
 {
 	static class ArchivingHelper
 	{
+		internal static ArchivingLanguage _defaultLanguage;
+
 		/// ------------------------------------------------------------------------------------
 		internal static void ArchiveUsingIMDI(IIMDIArchivable element)
 		{
@@ -194,20 +196,15 @@ namespace SayMore.Model
 				var actor = InitializeActor(model, person, sessionDateTime);
 
 				// do this to get the ISO3 codes for the languages because they are not in saymore
-				var language = LanguageList.FindByEnglishName(person.MetaDataFile.GetStringValue("primaryLanguage", null));
-				if (language != null)
-					actor.PrimaryLanguage = new ArchivingLanguage(language.Iso3Code, language.EnglishName);
-
-				language = LanguageList.FindByEnglishName(person.MetaDataFile.GetStringValue("mothersLanguage", null));
-				if (language != null)
-					actor.MotherTongueLanguage = new ArchivingLanguage(language.Iso3Code, language.EnglishName);
+				actor.PrimaryLanguage = GetOneLanguage(person.MetaDataFile.GetStringValue("primaryLanguage", null));
+				actor.MotherTongueLanguage = GetOneLanguage(person.MetaDataFile.GetStringValue("mothersLanguage", null));
 
 				// otherLanguage0 - otherLanguage3
 				for (var i = 0; i < 4; i++)
 				{
-					language = LanguageList.FindByEnglishName(person.MetaDataFile.GetStringValue("otherLanguage" + i, null));
-					if (language != null)
-						actor.Iso3Languages.Add(new ArchivingLanguage(language.Iso3Code, language.EnglishName));
+					var languageKey = person.MetaDataFile.GetStringValue("otherLanguage" + i, null);
+					if (string.IsNullOrEmpty(languageKey)) continue;
+					actor.Iso3Languages.Add(GetOneLanguage(languageKey));
 				}
 
 				// custom person fields
@@ -255,6 +252,28 @@ namespace SayMore.Model
 			var files = saymoreSession.GetSessionFilesToArchive(model.GetType());
 			foreach (var file in files)
 				imdiSession.AddFile(CreateArchivingFile(file));
+		}
+
+		internal static ArchivingLanguage GetOneLanguage(string languageKey)
+		{
+			ArchivingLanguage returnValue = null;
+			var language = LanguageList.FindByEnglishName(languageKey);
+			if (language == null || language.Iso3Code == "und")
+				if (!string.IsNullOrEmpty(languageKey) && languageKey.Length == 3)
+					language = LanguageList.FindByISO3Code(languageKey);
+			if (language != null && language.Iso3Code != "und" && !string.IsNullOrEmpty(language.EnglishName))
+				returnValue = new ArchivingLanguage(language.Iso3Code, language.Definition)
+				{
+					EnglishName = language.EnglishName
+				};
+			else if (_defaultLanguage != null)
+			{
+				returnValue = new ArchivingLanguage(_defaultLanguage.Iso3Code, _defaultLanguage.LanguageName)
+				{
+					EnglishName = _defaultLanguage.EnglishName
+				};
+			}
+			return returnValue;
 		}
 
 		internal static ArchivingActor InitializeActor(ArchivingDlgViewModel model, Person person, DateTime sessionDateTime)
@@ -353,10 +372,11 @@ namespace SayMore.Model
 					var language = LanguageList.FindByISO3Code(parts[0]);
 
 					// SP-765:  Allow codes from Ethnologue that are not in the Arbil list
-					if ((language == null) || (string.IsNullOrEmpty(language.EnglishName)))
-						package.ContentIso3Languages.Add(new ArchivingLanguage(parts[0], parts[1], parts[1]));
+					if (string.IsNullOrEmpty(language?.EnglishName))
+						_defaultLanguage = new ArchivingLanguage(parts[0], parts[1], parts[1]);
 					else
-						package.ContentIso3Languages.Add(new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName));
+						_defaultLanguage = new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName);
+					package.ContentIso3Languages.Add(_defaultLanguage);
 				}
 			}
 

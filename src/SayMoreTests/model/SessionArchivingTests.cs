@@ -202,25 +202,76 @@ namespace SayMoreTests.Utilities
 		[Test]
 		public void InitializeActor_AgeTest()
 		{
-			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
+				false, null, @"C:\my_imdi_folder");
 			var person = new Mock<Person>();
 			person.Setup(p => p.MetaDataFile.GetStringValue("privacyProtection", "false")).Returns("false");
 			person.Setup(p => p.MetaDataFile.GetStringValue("birthYear", string.Empty)).Returns(string.Empty);
 			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, DateTime.MinValue);
-			Assert.AreEqual("0",actor.Age);
+			Assert.AreEqual("0", actor.Age);
 			model.VerifyAll();
 		}
 
 		[Test]
 		public void InitializeActor_Age68Test()
 		{
-			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
+				false, null, @"C:\my_imdi_folder");
 			var person = new Mock<Person>();
 			person.Setup(p => p.MetaDataFile.GetStringValue("privacyProtection", "false")).Returns("false");
 			person.Setup(p => p.MetaDataFile.GetStringValue("birthYear", string.Empty)).Returns("1950");
-			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, new DateTime(2018, 1,1));
+			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, new DateTime(2018, 1, 1));
 			Assert.AreEqual("68", actor.Age);
+			person.VerifyAll();
 			model.VerifyAll();
+		}
+
+		[Test]
+		public void GetOneLanguage_DefinedIsoTest()
+		{
+			var returnValue = ArchivingHelper.GetOneLanguage("eng");
+			Assert.AreEqual("eng", returnValue.Iso3Code);
+			Assert.AreEqual("English", returnValue.LanguageName);
+			Assert.AreEqual("English", returnValue.EnglishName);
+		}
+
+		[Test]
+		public void GetOneLanguage_DefinedNameTest()
+		{
+			var returnValue = ArchivingHelper.GetOneLanguage("English");
+			Assert.AreEqual("eng", returnValue.Iso3Code);
+			Assert.AreEqual("English", returnValue.LanguageName);
+			Assert.AreEqual("English", returnValue.EnglishName);
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetOneLanguage_UndefinedIsoTest()
+		{
+			var returnValue = ArchivingHelper.GetOneLanguage("tru");
+			Assert.AreEqual("tru", returnValue.Iso3Code);
+			Assert.AreEqual("Turoyo", returnValue.LanguageName);
+			Assert.AreEqual("Turoyo", returnValue.EnglishName);
+		}
+
+		[Test]
+		public void GetOneLanguage_DefaultIsoTest()
+		{
+			ArchivingHelper._defaultLanguage = new ArchivingLanguage("tru", "Turoyo", "Turoyo");
+			var returnValue = ArchivingHelper.GetOneLanguage("tru");
+			Assert.AreEqual("tru", returnValue.Iso3Code);
+			Assert.AreEqual("Turoyo", returnValue.LanguageName);
+			Assert.AreEqual("Turoyo", returnValue.EnglishName);
+		}
+
+		[Test]
+		public void GetOneLanguage_DefaultNameTest()
+		{
+			ArchivingHelper._defaultLanguage = new ArchivingLanguage("tru", "Turoyo", "Turoyo");
+			var returnValue = ArchivingHelper.GetOneLanguage("Turoyo");
+			Assert.AreEqual("tru", returnValue.Iso3Code);
+			Assert.AreEqual("Turoyo", returnValue.LanguageName);
+			Assert.AreEqual("Turoyo", returnValue.EnglishName);
 		}
 		#endregion
 	}

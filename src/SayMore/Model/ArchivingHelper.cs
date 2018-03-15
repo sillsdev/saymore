@@ -261,6 +261,7 @@ namespace SayMore.Model
 			var files = saymoreSession.GetSessionFilesToArchive(model.GetType());
 			foreach (var file in files)
 			{
+				if (file.EndsWith(Settings.Default.MetadataFileExtension, StringComparison.InvariantCulture)) continue;
 				imdiSession.AddFile(CreateArchivingFile(file));
 				var info = saymoreSession.GetComponentFiles().FirstOrDefault(componentFile => componentFile.PathToAnnotatedFile == file);
 				if (info == null || !info.FileType.IsAudioOrVideo) continue;

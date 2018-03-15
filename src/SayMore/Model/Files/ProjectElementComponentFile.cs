@@ -145,7 +145,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<FieldInstance> GetCustomFields()
+		public virtual IEnumerable<FieldInstance> GetCustomFields()
 		{
 			return MetaDataFieldValues.Where(
 				val => val.FieldId.StartsWith(XmlFileSerializer.kCustomFieldIdPrefix));

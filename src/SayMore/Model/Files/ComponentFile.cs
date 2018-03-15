@@ -140,6 +140,14 @@ namespace SayMore.Model.Files
 			_componentRoles = ApplicationContainer.ComponentRoles;
 		}
 
+		[Obsolete("For Mocking Only")]
+		public ComponentFile(FileType fileType)
+		{
+			_componentRoles = ApplicationContainer.ComponentRoles;
+			FileType = fileType;
+			MetaDataFieldValues = new List<FieldInstance>();
+		}
+
 		public void LoadNow()
 		{
 			Load();

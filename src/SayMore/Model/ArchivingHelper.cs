@@ -16,6 +16,7 @@ using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
 using SayMore.Properties;
 using SIL.Archiving.IMDI.Lists;
+using SIL.Archiving.IMDI.Schema;
 using Application = System.Windows.Forms.Application;
 
 namespace SayMore.Model
@@ -259,7 +260,21 @@ namespace SayMore.Model
 			// session files
 			var files = saymoreSession.GetSessionFilesToArchive(model.GetType());
 			foreach (var file in files)
+			{
 				imdiSession.AddFile(CreateArchivingFile(file));
+				var info = saymoreSession.GetComponentFiles().FirstOrDefault(componentFile => componentFile.PathToAnnotatedFile == file);
+				if (info == null || !info.FileType.IsAudioOrVideo) continue;
+				var device = (from infoValue in info.MetaDataFieldValues
+					where infoValue.FieldId == "Device"
+					select infoValue.ValueAsString).FirstOrDefault();
+				if (!string.IsNullOrEmpty(device))
+					imdiSession.AddFileKeyValuePair(file, "RecordingEquipment", device);
+				var microphone = (from infoValue in info.MetaDataFieldValues
+					where infoValue.FieldId == "Microphone"
+					select infoValue.ValueAsString).FirstOrDefault();
+				if (!string.IsNullOrEmpty(microphone))
+					imdiSession.AddFileKeyValuePair(file, "RecordingEquipment", microphone);
+			}
 		}
 
 		internal static ArchivingLanguage GetOneLanguage(string languageKey)

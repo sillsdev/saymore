@@ -274,6 +274,12 @@ namespace SayMore.Model
 			var files = saymoreSession.GetSessionFilesToArchive(model.GetType());
 			foreach (var file in files)
 			{
+				if (file.ToUpper().EndsWith(".MOV", StringComparison.InvariantCulture))
+				{
+					var msg = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.MovFileIncluded",
+						"MOV file contained in {0} session.");
+					model.AdditionalMessages[string.Format(msg, saymoreSession.Id)] = ArchivingDlgViewModel.MessageType.Error;
+				}
 				if (file.EndsWith(Settings.Default.MetadataFileExtension, StringComparison.InvariantCulture)) continue;
 				imdiSession.AddFile(CreateArchivingFile(file));
 				var info = saymoreSession.GetComponentFiles().FirstOrDefault(componentFile => componentFile.PathToAnnotatedFile == file);

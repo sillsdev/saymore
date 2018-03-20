@@ -181,6 +181,11 @@ namespace SayMore.Model
 				imdiSession.SetDate(sessionDateTime.ToISO8601TimeFormatDateOnlyString());
 			}
 
+			// session languages
+			if (_defaultLanguage != null)
+				imdiSession.AddContentLanguage(_defaultLanguage, new LanguageString("Content Language", analysisLanguage));
+			imdiSession.AddContentLanguage(new ArchivingLanguage(analysisLanguage), new LanguageString("Working Language", analysisLanguage));
+
 			// session situation
 			stringVal = saymoreSession.MetaDataFile.GetStringValue("situation", null);
 			if (!string.IsNullOrEmpty(stringVal))

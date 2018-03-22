@@ -145,6 +145,7 @@ namespace SayMore.Model
 		{
 			var sessionFile = saymoreSession.MetaDataFile;
 			var analysisLanguage = AnalysisLanguage();
+			var analysisLanguageId = LanguageList.FindByISO3Code(analysisLanguage).Id;
 
 			// create IMDI session
 			var imdiSession = model.AddSession(saymoreSession.Id);
@@ -169,7 +170,7 @@ namespace SayMore.Model
 			// session description (synopsis)
 			var stringVal = saymoreSession.MetaDataFile.GetStringValue("synopsis", null);
 			if (!string.IsNullOrEmpty(stringVal))
-				imdiSession.AddDescription(new LanguageString { Value = stringVal });
+				imdiSession.AddDescription(new LanguageString { Value = stringVal, Iso3LanguageId = analysisLanguage});
 
 			// session date
 			stringVal = saymoreSession.MetaDataFile.GetStringValue("date", null);
@@ -281,13 +282,28 @@ namespace SayMore.Model
 				}
 				if (file.EndsWith(Settings.Default.MetadataFileExtension, StringComparison.InvariantCulture)) continue;
 				imdiSession.AddFile(CreateArchivingFile(file));
-				if (_Package != null)
-					imdiSession.AddFileAccess(file, _Package);
 				var info = saymoreSession.GetComponentFiles().FirstOrDefault(componentFile => componentFile.PathToAnnotatedFile == file);
 				if (info == null) continue;
+				if (_Package != null)
+				{
+					var conditions = (from infoValue in info.MetaDataFieldValues
+						where infoValue.FieldId.ToLower().Contains("conditions_of_access")
+						select infoValue.ValueAsString).FirstOrDefault();
+					var restrictions = (from infoValue in info.MetaDataFieldValues
+						where infoValue.FieldId.ToLower().Contains("restrictions")
+						select infoValue.ValueAsString).FirstOrDefault();
+					imdiSession.AddFileAccess(file, _Package, new LanguageString{Value = conditions, Iso3LanguageId = analysisLanguageId}, new LanguageString{Value = restrictions, Iso3LanguageId = analysisLanguageId});
+				}
+				var status = GetFieldValue(sessionFile, "status") == "Finished" ? "Stable" : "In Progress";
+				imdiSession.AddFileKeyValuePair(file, "Status", status);
 				var notes = (from infoValue in info.MetaDataFieldValues
 						where infoValue.FieldId == "notes"
 						select infoValue.ValueAsString).FirstOrDefault();
+				var additionalInfo = (from infoValue in info.MetaDataFieldValues
+					where infoValue.FieldId.ToLower().Contains("additionalinformationobject")
+					select infoValue.ValueAsString).FirstOrDefault();
+				if (!string.IsNullOrEmpty(additionalInfo))
+					imdiSession.AddFileKeyValuePair(file, "AdditionalInformationObject", additionalInfo);
 				if (!string.IsNullOrEmpty(notes))
 					imdiSession.AddFileDescription(file, new LanguageString{Value = notes, Iso3LanguageId = analysisLanguage});
 				if (!info.FileType.IsAudioOrVideo) continue;

@@ -196,15 +196,19 @@ namespace SayMore.Model
 				var actor = InitializeActor(model, person, sessionDateTime);
 
 				// do this to get the ISO3 codes for the languages because they are not in saymore
-				actor.PrimaryLanguage = GetOneLanguage(person.MetaDataFile.GetStringValue("primaryLanguage", null));
-				actor.MotherTongueLanguage = GetOneLanguage(person.MetaDataFile.GetStringValue("mothersLanguage", null));
+				var language = GetOneLanguage(person.MetaDataFile.GetStringValue("primaryLanguage", null));
+				if (language != null) actor.PrimaryLanguage = language;
+				language = GetOneLanguage(person.MetaDataFile.GetStringValue("mothersLanguage", null));
+				if (language != null) actor.MotherTongueLanguage = language;
 
 				// otherLanguage0 - otherLanguage3
 				for (var i = 0; i < 4; i++)
 				{
 					var languageKey = person.MetaDataFile.GetStringValue("otherLanguage" + i, null);
 					if (string.IsNullOrEmpty(languageKey)) continue;
-					actor.Iso3Languages.Add(GetOneLanguage(languageKey));
+					language = GetOneLanguage(languageKey);
+					if (language == null) continue;
+					actor.Iso3Languages.Add(language);
 				}
 
 				// custom person fields

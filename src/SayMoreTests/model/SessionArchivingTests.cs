@@ -227,7 +227,7 @@ namespace SayMoreTests.Utilities
 		}
 
 		[Test]
-		public void GetOneLanguage_DefinedIsoTest()
+		public void GetOneLanguage_DefinedIso_ReturnsCodeAndName()
 		{
 			var returnValue = ArchivingHelper.GetOneLanguage("eng");
 			Assert.AreEqual("eng", returnValue.Iso3Code);
@@ -236,7 +236,7 @@ namespace SayMoreTests.Utilities
 		}
 
 		[Test]
-		public void GetOneLanguage_DefinedNameTest()
+		public void GetOneLanguage_DefinedName_ReturnsCodeAndName()
 		{
 			var returnValue = ArchivingHelper.GetOneLanguage("English");
 			Assert.AreEqual("eng", returnValue.Iso3Code);
@@ -246,16 +246,23 @@ namespace SayMoreTests.Utilities
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetOneLanguage_UndefinedIsoTest()
+		public void GetOneLanguage_UndefinedIso_ReturnsNull()
 		{
+			ArchivingHelper._defaultLanguage = null;
 			var returnValue = ArchivingHelper.GetOneLanguage("tru");
-			Assert.AreEqual("tru", returnValue.Iso3Code);
-			Assert.AreEqual("Turoyo", returnValue.LanguageName);
-			Assert.AreEqual("Turoyo", returnValue.EnglishName);
+			Assert.IsNull(returnValue);
 		}
 
 		[Test]
-		public void GetOneLanguage_DefaultIsoTest()
+		public void GetOneLanguage_UnDefinedName_ReturnsNull()
+		{
+			ArchivingHelper._defaultLanguage = null;
+			var returnValue = ArchivingHelper.GetOneLanguage("Turoyo");
+			Assert.IsNull(returnValue);
+		}
+
+		[Test]
+		public void GetOneLanguage_DefaultIso_ReturnsCodeAndName()
 		{
 			ArchivingHelper._defaultLanguage = new ArchivingLanguage("tru", "Turoyo", "Turoyo");
 			var returnValue = ArchivingHelper.GetOneLanguage("tru");
@@ -265,13 +272,41 @@ namespace SayMoreTests.Utilities
 		}
 
 		[Test]
-		public void GetOneLanguage_DefaultNameTest()
+		public void GetOneLanguage_DefaultName_ReturnsCodeAndName()
 		{
 			ArchivingHelper._defaultLanguage = new ArchivingLanguage("tru", "Turoyo", "Turoyo");
 			var returnValue = ArchivingHelper.GetOneLanguage("Turoyo");
 			Assert.AreEqual("tru", returnValue.Iso3Code);
 			Assert.AreEqual("Turoyo", returnValue.LanguageName);
 			Assert.AreEqual("Turoyo", returnValue.EnglishName);
+		}
+
+		/// <see cref="en.wikipedia.org/wiki/List_of_ISO_639-2_codes"/>
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetOneLanguage_PrivateUseIso_ReturnsNull()
+		{
+			ArchivingHelper._defaultLanguage = null;
+			var returnValue = ArchivingHelper.GetOneLanguage("qaa");
+			Assert.IsNull(returnValue);
+		}
+
+		/// <see cref="en.wikipedia.org/wiki/List_of_ISO_639-2_codes"/>
+		[Test]
+		public void GetOneLanguage_MissingIso_ReturnsNull()
+		{
+			ArchivingHelper._defaultLanguage = null;
+			var returnValue = ArchivingHelper.GetOneLanguage("mis");
+			Assert.IsNull(returnValue);
+		}
+
+		/// <see cref="en.wikipedia.org/wiki/List_of_ISO_639-2_codes"/>
+		[Test]
+		public void GetOneLanguage_UndeterminedIso_ReturnsNull()
+		{
+			ArchivingHelper._defaultLanguage = null;
+			var returnValue = ArchivingHelper.GetOneLanguage("und");
+			Assert.IsNull(returnValue);
 		}
 		#endregion
 	}

@@ -220,6 +220,11 @@ namespace SayMore.Model
 					actor.Iso3Languages.Add(language);
 				}
 
+				// ethnic group
+				var ethnicGroup = person.MetaDataFile.GetStringValue("ethnicGroup", null);
+				if (ethnicGroup != null)
+					actor.EthnicGroup = ethnicGroup;
+
 				// custom person fields
 				foreach (var item in person.MetaDataFile.GetCustomFields())
 					actor.AddKeyValuePair(item.FieldId, item.ValueAsString);
@@ -351,7 +356,7 @@ namespace SayMore.Model
 				Name = saymoreProject.FundingProjectTitle
 			};
 
-			// athor
+			// author
 			package.Author = saymoreProject.ContactPerson;
 
 			// applications

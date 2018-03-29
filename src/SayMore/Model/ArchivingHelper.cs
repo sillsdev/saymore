@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -204,16 +205,7 @@ namespace SayMore.Model
 			var persons = saymoreSession.GetAllPersonsInSession();
 			foreach (var person in persons)
 			{
-				var roles = (from archivingActor in saymoreSession.GetAllContributorsInSession()
-							 where archivingActor.Name == person.Id
-							 select archivingActor.Role).ToList();
-				if (roles.Count == 0)
-				{
-					var msg = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PersonNotParticipating", "Participant {0} has no role in {1} session.");
-					model.AdditionalMessages[string.Format(msg, person.Id, saymoreSession.Id)] = ArchivingDlgViewModel.MessageType.Error;
-				}
-
-				var actor = InitializeActor(model, person, sessionDateTime);
+				var actor = InitializeActor(model, person, saymoreSession, sessionDateTime);
 
 				// do this to get the ISO3 codes for the languages because they are not in saymore
 				var language = GetOneLanguage(person.MetaDataFile.GetStringValue("primaryLanguage", null));
@@ -345,7 +337,7 @@ namespace SayMore.Model
 			return returnValue;
 		}
 
-		internal static ArchivingActor InitializeActor(ArchivingDlgViewModel model, Person person, DateTime sessionDateTime)
+		internal static ArchivingActor InitializeActor(ArchivingDlgViewModel model, Person person, Session saymoreSession, DateTime sessionDateTime)
 		{
 			// is this person protected
 			var protect = bool.Parse(person.MetaDataFile.GetStringValue("privacyProtection", "false"));
@@ -370,7 +362,19 @@ namespace SayMore.Model
 				}
 			}
 
-			ArchivingActor actor = new ArchivingActor
+			var roles = (from archivingActor in saymoreSession.GetAllContributorsInSession()
+				where archivingActor.Name == person.Id
+				select archivingActor.Role).ToList();
+			if (roles.Count == 0)
+			{
+				var msg = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PersonNotParticipating", "Participant {0} has no role in {1} session.");
+				model.AdditionalMessages[string.Format(msg, person.Id, saymoreSession.Id)] = ArchivingDlgViewModel.MessageType.Error;
+			}
+
+			var role = string.Join(", ", new SortedSet<string>(roles));
+			role = string.IsNullOrEmpty(role) ? "Participant" : role;
+
+			var actor = new ArchivingActor
 			{
 				FullName = person.Id,
 				Name = person.MetaDataFile.GetStringValue(PersonFileType.kCode, person.Id),
@@ -381,7 +385,7 @@ namespace SayMore.Model
 				Education = person.MetaDataFile.GetStringValue(PersonFileType.kEducation, null),
 				Occupation = person.MetaDataFile.GetStringValue(PersonFileType.kPrimaryOccupation, null),
 				Anonymize = protect,
-				Role = "Participant"
+				Role = role
 			};
 			return actor;
 		}

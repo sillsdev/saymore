@@ -1,5 +1,6 @@
 obj/*
 output/*
+.vs*
 *.suo
 *.user
 _ReSharper*
@@ -65,7 +66,7 @@ Thumbs.db
 src/AutoSegmenter/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 lib/dotnet/L10NSharp*
 lib/dotnet/SilUtils.dll
-lib/dotnet/SIL.Archiving.*
+lib/dotnet/SIL.*
 lib/dotnet/icu*
 lib/dotnet/Interop*
 lib/dotnet/Ionic*
@@ -82,5 +83,5 @@ packages/Analytics*
 lib/dotnet/SIL.*.dll
 lib/dotnet/SIL.*.pdb
 .nuget/NuGet.exe
-build/SIL.BuildTasks.dll
+build/SIL.BuildTasks.*
 lib/dotnet/NAudio.dll

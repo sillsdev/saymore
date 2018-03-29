@@ -170,7 +170,7 @@ namespace SayMore.Model
 			// session situation
 			stringVal = saymoreSession.MetaDataFile.GetStringValue("situation", null);
 			if (!string.IsNullOrEmpty(stringVal))
-				imdiSession.AddKeyValuePair("Situation", stringVal);
+				imdiSession.AddContentKeyValuePair("Situation", stringVal);
 
 			imdiSession.Genre = GetFieldValue(sessionFile, "genre");
 			imdiSession.SubGenre = GetFieldValue(sessionFile, "additional_Sub-Genre");
@@ -183,7 +183,7 @@ namespace SayMore.Model
 
 			// custom session fields
 			foreach (var item in saymoreSession.MetaDataFile.GetCustomFields())
-				imdiSession.AddKeyValuePair(item.FieldId, item.ValueAsString);
+				imdiSession.AddContentKeyValuePair(item.FieldId, item.ValueAsString);
 
 			// actors
 			var actors = new ArchivingActorCollection();

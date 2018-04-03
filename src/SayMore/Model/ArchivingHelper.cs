@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -15,13 +16,16 @@ using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
 using SayMore.Properties;
 using SIL.Archiving.IMDI.Lists;
+using SIL.WritingSystems;
 using Application = System.Windows.Forms.Application;
 
 namespace SayMore.Model
 {
 	static class ArchivingHelper
 	{
+		internal static IMDIPackage _Package;
 		internal static ArchivingLanguage _defaultLanguage;
+		internal static LanguageLookup _LanguageLookup = new LanguageLookup();
 
 		/// ------------------------------------------------------------------------------------
 		internal static void ArchiveUsingIMDI(IIMDIArchivable element)
@@ -140,6 +144,8 @@ namespace SayMore.Model
 		private static void AddIMDISession(Session saymoreSession, ArchivingDlgViewModel model)
 		{
 			var sessionFile = saymoreSession.MetaDataFile;
+			var analysisLanguage = AnalysisLanguage();
+			var analysisLanguageId = LanguageList.FindByISO3Code(analysisLanguage).Id;
 
 			// create IMDI session
 			var imdiSession = model.AddSession(saymoreSession.Id);
@@ -155,10 +161,16 @@ namespace SayMore.Model
 
 			imdiSession.Location = new ArchivingLocation { Address = address, Region = region, Country = country, Continent = continent };
 
+			// session project
+			if (_Package != null)
+			{
+				imdiSession.AddProject(_Package);
+			}
+
 			// session description (synopsis)
 			var stringVal = saymoreSession.MetaDataFile.GetStringValue("synopsis", null);
 			if (!string.IsNullOrEmpty(stringVal))
-				imdiSession.AddDescription(new LanguageString { Value = stringVal });
+				imdiSession.AddDescription(new LanguageString { Value = stringVal, Iso3LanguageId = analysisLanguage});
 
 			// session date
 			stringVal = saymoreSession.MetaDataFile.GetStringValue("date", null);
@@ -183,17 +195,18 @@ namespace SayMore.Model
 			imdiSession.SocialContext = GetFieldValue(sessionFile, "additional_Social_Context");
 			imdiSession.Task = GetFieldValue(sessionFile, "additional_Task");
 
+			imdiSession.AddContentDescription(new LanguageString{Value = GetFieldValue(sessionFile, "notes"), Iso3LanguageId = analysisLanguage});
+
 			// custom session fields
 			foreach (var item in saymoreSession.MetaDataFile.GetCustomFields())
-				imdiSession.AddContentKeyValuePair(item.FieldId, item.ValueAsString);
+				imdiSession.AddContentKeyValuePair(item.FieldId.Substring(XmlFileSerializer.kCustomFieldIdPrefix.Length), item.ValueAsString);
 
 			// actors
 			var actors = new ArchivingActorCollection();
 			var persons = saymoreSession.GetAllPersonsInSession();
 			foreach (var person in persons)
 			{
-
-				var actor = InitializeActor(model, person, sessionDateTime);
+				var actor = InitializeActor(model, person, saymoreSession, sessionDateTime);
 
 				// do this to get the ISO3 codes for the languages because they are not in saymore
 				var language = GetOneLanguage(person.MetaDataFile.GetStringValue("primaryLanguage", null));
@@ -211,9 +224,14 @@ namespace SayMore.Model
 					actor.Iso3Languages.Add(language);
 				}
 
+				// ethnic group
+				var ethnicGroup = person.MetaDataFile.GetStringValue("ethnicGroup", null);
+				if (ethnicGroup != null)
+					actor.EthnicGroup = ethnicGroup;
+
 				// custom person fields
 				foreach (var item in person.MetaDataFile.GetCustomFields())
-					actor.AddKeyValuePair(item.FieldId, item.ValueAsString);
+					actor.AddKeyValuePair(item.FieldId.Substring(XmlFileSerializer.kCustomFieldIdPrefix.Length), item.ValueAsString);
 
 				// actor files
 				var actorFiles = Directory.GetFiles(person.FolderPath)
@@ -223,39 +241,94 @@ namespace SayMore.Model
 
 				// add actor to imdi session
 				actors.Add(actor);
+				imdiSession.AddActor(actor);
+
+				// actor contact address
+				var actorAddress = person.MetaDataFile.GetStringValue("howToContact", null);
+				if (actorAddress != null)
+				{
+					imdiSession.AddActorContact(actor, new ArchivingContact
+					{
+						Address = actorAddress
+					});
+				}
+
+				// Description (notes)
+				var notes = (from metaDataFieldValue in person.MetaDataFile.MetaDataFieldValues where metaDataFieldValue.FieldId == "notes" select metaDataFieldValue.ValueAsString).FirstOrDefault();
+				if (!string.IsNullOrEmpty(notes))
+					imdiSession.AddActorDescription(actor, new LanguageString { Value = notes, Iso3LanguageId = analysisLanguage });
 			}
 
 			// get contributors
 			foreach (var contributor in saymoreSession.GetAllContributorsInSession())
 			{
 				var actr = actors.FirstOrDefault(a => a.Name == contributor.Name);
-				if (actr == null)
-				{
-					actors.Add(contributor);
-				}
-				else
-				{
-					if (actr.Role == "Participant")
-					{
-						actr.Role = contributor.Role;
-					}
-					else
-					{
-						if (!actr.Role.Contains(contributor.Role))
-							actr.Role += ", " + contributor.Role;
-					}
-				}
-
+				if (actr != null) continue;
+				var msg = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PersonNotParticipating",
+					"{0} is listed as a contributor but not a participant in {1} session.");
+				model.AdditionalMessages[string.Format(msg, contributor.Name, saymoreSession.Id)] = ArchivingDlgViewModel.MessageType.Error;
+				imdiSession.AddActor(contributor);
 			}
-
-			// add actors to imdi session
-			foreach (var actr in actors)
-				imdiSession.AddActor(actr);
 
 			// session files
 			var files = saymoreSession.GetSessionFilesToArchive(model.GetType());
 			foreach (var file in files)
+			{
+				if (file.ToUpper().EndsWith(".MOV", StringComparison.InvariantCulture))
+				{
+					var msg = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.MovFileIncluded",
+						"MOV file contained in {0} session.");
+					model.AdditionalMessages[string.Format(msg, saymoreSession.Id)] = ArchivingDlgViewModel.MessageType.Error;
+				}
+				if (file.EndsWith(Settings.Default.MetadataFileExtension, StringComparison.InvariantCulture)) continue;
 				imdiSession.AddFile(CreateArchivingFile(file));
+				var info = saymoreSession.GetComponentFiles().FirstOrDefault(componentFile => componentFile.PathToAnnotatedFile == file);
+				if (info == null) continue;
+				if (_Package != null)
+				{
+					var conditions = (from infoValue in info.MetaDataFieldValues
+						where infoValue.FieldId.ToLower().Contains("conditions_of_access")
+						select infoValue.ValueAsString).FirstOrDefault();
+					var restrictions = (from infoValue in info.MetaDataFieldValues
+						where infoValue.FieldId.ToLower().Contains("restrictions")
+						select infoValue.ValueAsString).FirstOrDefault();
+					imdiSession.AddFileAccess(file, _Package, new LanguageString{Value = conditions, Iso3LanguageId = analysisLanguageId}, new LanguageString{Value = restrictions, Iso3LanguageId = analysisLanguageId});
+				}
+				var status = GetFieldValue(sessionFile, "status") == "Finished" ? "Stable" : "In Progress";
+				imdiSession.AddFileKeyValuePair(file, "Status", status);
+				var notes = (from infoValue in info.MetaDataFieldValues
+						where infoValue.FieldId == "notes"
+						select infoValue.ValueAsString).FirstOrDefault();
+				var additionalInfo = (from infoValue in info.MetaDataFieldValues
+					where infoValue.FieldId.ToLower().Contains("additionalinformationobject")
+					select infoValue.ValueAsString).FirstOrDefault();
+				if (!string.IsNullOrEmpty(additionalInfo))
+					imdiSession.AddFileKeyValuePair(file, "AdditionalInformationObject", additionalInfo);
+				if (!string.IsNullOrEmpty(notes))
+					imdiSession.AddFileDescription(file, new LanguageString{Value = notes, Iso3LanguageId = analysisLanguage});
+				if (!info.FileType.IsAudioOrVideo) continue;
+				var device = (from infoValue in info.MetaDataFieldValues
+					where infoValue.FieldId == "Device"
+					select infoValue.ValueAsString).FirstOrDefault();
+				if (!string.IsNullOrEmpty(device))
+					imdiSession.AddFileKeyValuePair(file, "RecordingEquipment", device);
+				var microphone = (from infoValue in info.MetaDataFieldValues
+					where infoValue.FieldId == "Microphone"
+					select infoValue.ValueAsString).FirstOrDefault();
+				if (!string.IsNullOrEmpty(microphone))
+					imdiSession.AddFileKeyValuePair(file, "RecordingEquipment", microphone);
+				var duration = (from infoValue in info.MetaDataFieldValues
+					where infoValue.FieldId == "Duration"
+					select infoValue.ValueAsString).FirstOrDefault();
+				if (!string.IsNullOrEmpty(duration))
+					imdiSession.AddMediaFileTimes(file, "00:00:00", duration);
+			}
+		}
+
+		private static string AnalysisLanguage()
+		{
+			var analysisLanguage = Settings.Default.UserInterfaceLanguage;
+			return analysisLanguage.Length != 2 ? analysisLanguage : _LanguageLookup.GetLanguageFromCode(analysisLanguage).ThreeLetterTag;
 		}
 
 		internal static ArchivingLanguage GetOneLanguage(string languageKey)
@@ -280,7 +353,7 @@ namespace SayMore.Model
 			return returnValue;
 		}
 
-		internal static ArchivingActor InitializeActor(ArchivingDlgViewModel model, Person person, DateTime sessionDateTime)
+		internal static ArchivingActor InitializeActor(ArchivingDlgViewModel model, Person person, Session saymoreSession, DateTime sessionDateTime)
 		{
 			// is this person protected
 			var protect = bool.Parse(person.MetaDataFile.GetStringValue("privacyProtection", "false"));
@@ -305,17 +378,30 @@ namespace SayMore.Model
 				}
 			}
 
-			ArchivingActor actor = new ArchivingActor
+			var roles = (from archivingActor in saymoreSession.GetAllContributorsInSession()
+				where archivingActor.Name == person.Id
+				select archivingActor.Role).ToList();
+			if (roles.Count == 0)
+			{
+				var msg = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PersonNotParticipating", "Participant {0} has no role in {1} session.");
+				model.AdditionalMessages[string.Format(msg, person.Id, saymoreSession.Id)] = ArchivingDlgViewModel.MessageType.Error;
+			}
+
+			var role = string.Join(", ", new SortedSet<string>(roles));
+			role = string.IsNullOrEmpty(role) ? "Participant" : role;
+
+			var actor = new ArchivingActor
 			{
 				FullName = person.Id,
 				Name = person.MetaDataFile.GetStringValue(PersonFileType.kCode, person.Id),
+				Code = person.MetaDataFile.GetStringValue(PersonFileType.kCode, null),
 				BirthDate = birthYear,
 				Age = age.ToString(),
 				Gender = person.MetaDataFile.GetStringValue(PersonFileType.kGender, null),
 				Education = person.MetaDataFile.GetStringValue(PersonFileType.kEducation, null),
 				Occupation = person.MetaDataFile.GetStringValue(PersonFileType.kPrimaryOccupation, null),
 				Anonymize = protect,
-				Role = "Participant"
+				Role = role
 			};
 			return actor;
 		}
@@ -352,7 +438,7 @@ namespace SayMore.Model
 				Name = saymoreProject.FundingProjectTitle
 			};
 
-			// athor
+			// author
 			package.Author = saymoreProject.ContactPerson;
 
 			// applications
@@ -405,6 +491,8 @@ namespace SayMore.Model
 				if (files.Length > 0)
 					AddDocumentsSession(ProjectOtherDocsScreen.kArchiveSessionName, files, model);
 			}
+
+			_Package = package;
 		}
 
 		private static ArchivingFile CreateArchivingFile(string fileName)

@@ -202,25 +202,111 @@ namespace SayMoreTests.Utilities
 		[Test]
 		public void InitializeActor_AgeTest()
 		{
-			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
+				false, null, @"C:\my_imdi_folder");
 			var person = new Mock<Person>();
 			person.Setup(p => p.MetaDataFile.GetStringValue("privacyProtection", "false")).Returns("false");
 			person.Setup(p => p.MetaDataFile.GetStringValue("birthYear", string.Empty)).Returns(string.Empty);
 			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, DateTime.MinValue);
-			Assert.AreEqual("0",actor.Age);
+			Assert.AreEqual("0", actor.Age);
 			model.VerifyAll();
 		}
 
 		[Test]
 		public void InitializeActor_Age68Test()
 		{
-			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
+				false, null, @"C:\my_imdi_folder");
 			var person = new Mock<Person>();
 			person.Setup(p => p.MetaDataFile.GetStringValue("privacyProtection", "false")).Returns("false");
 			person.Setup(p => p.MetaDataFile.GetStringValue("birthYear", string.Empty)).Returns("1950");
-			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, new DateTime(2018, 1,1));
+			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, new DateTime(2018, 1, 1));
 			Assert.AreEqual("68", actor.Age);
+			person.VerifyAll();
 			model.VerifyAll();
+		}
+
+		[Test]
+		public void GetOneLanguage_DefinedIso_ReturnsCodeAndName()
+		{
+			var returnValue = ArchivingHelper.GetOneLanguage("eng");
+			Assert.AreEqual("eng", returnValue.Iso3Code);
+			Assert.AreEqual("English", returnValue.LanguageName);
+			Assert.AreEqual("English", returnValue.EnglishName);
+		}
+
+		[Test]
+		public void GetOneLanguage_DefinedName_ReturnsCodeAndName()
+		{
+			var returnValue = ArchivingHelper.GetOneLanguage("English");
+			Assert.AreEqual("eng", returnValue.Iso3Code);
+			Assert.AreEqual("English", returnValue.LanguageName);
+			Assert.AreEqual("English", returnValue.EnglishName);
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetOneLanguage_UndefinedIso_ReturnsNull()
+		{
+			ArchivingHelper._defaultLanguage = null;
+			var returnValue = ArchivingHelper.GetOneLanguage("tru");
+			Assert.IsNull(returnValue);
+		}
+
+		[Test]
+		public void GetOneLanguage_UnDefinedName_ReturnsNull()
+		{
+			ArchivingHelper._defaultLanguage = null;
+			var returnValue = ArchivingHelper.GetOneLanguage("Turoyo");
+			Assert.IsNull(returnValue);
+		}
+
+		[Test]
+		public void GetOneLanguage_DefaultIso_ReturnsCodeAndName()
+		{
+			ArchivingHelper._defaultLanguage = new ArchivingLanguage("tru", "Turoyo", "Turoyo");
+			var returnValue = ArchivingHelper.GetOneLanguage("tru");
+			Assert.AreEqual("tru", returnValue.Iso3Code);
+			Assert.AreEqual("Turoyo", returnValue.LanguageName);
+			Assert.AreEqual("Turoyo", returnValue.EnglishName);
+		}
+
+		[Test]
+		public void GetOneLanguage_DefaultName_ReturnsCodeAndName()
+		{
+			ArchivingHelper._defaultLanguage = new ArchivingLanguage("tru", "Turoyo", "Turoyo");
+			var returnValue = ArchivingHelper.GetOneLanguage("Turoyo");
+			Assert.AreEqual("tru", returnValue.Iso3Code);
+			Assert.AreEqual("Turoyo", returnValue.LanguageName);
+			Assert.AreEqual("Turoyo", returnValue.EnglishName);
+		}
+
+		/// <see cref="en.wikipedia.org/wiki/List_of_ISO_639-2_codes"/>
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetOneLanguage_PrivateUseIso_ReturnsNull()
+		{
+			ArchivingHelper._defaultLanguage = null;
+			var returnValue = ArchivingHelper.GetOneLanguage("qaa");
+			Assert.IsNull(returnValue);
+		}
+
+		/// <see cref="en.wikipedia.org/wiki/List_of_ISO_639-2_codes"/>
+		[Test]
+		public void GetOneLanguage_MissingIso_ReturnsNull()
+		{
+			ArchivingHelper._defaultLanguage = null;
+			var returnValue = ArchivingHelper.GetOneLanguage("mis");
+			Assert.IsNull(returnValue);
+		}
+
+		/// <see cref="en.wikipedia.org/wiki/List_of_ISO_639-2_codes"/>
+		[Test]
+		public void GetOneLanguage_UndeterminedIso_ReturnsNull()
+		{
+			ArchivingHelper._defaultLanguage = null;
+			var returnValue = ArchivingHelper.GetOneLanguage("und");
+			Assert.IsNull(returnValue);
 		}
 		#endregion
 	}

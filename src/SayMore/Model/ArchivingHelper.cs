@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -192,6 +193,14 @@ namespace SayMore.Model
 			var persons = saymoreSession.GetAllPersonsInSession();
 			foreach (var person in persons)
 			{
+				var roles = (from archivingActor in saymoreSession.GetAllContributorsInSession()
+							 where archivingActor.Name == person.Id
+							 select archivingActor.Role).ToList();
+				if (roles.Count == 0)
+				{
+					var msg = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PersonNotParticipating", "Participant {0} has no role in {1} session.");
+					model.AdditionalMessages[string.Format(msg, person.Id, saymoreSession.Id)] = ArchivingDlgViewModel.MessageType.Error;
+				}
 
 				var actor = InitializeActor(model, person, sessionDateTime);
 
@@ -231,21 +240,11 @@ namespace SayMore.Model
 				var actr = actors.FirstOrDefault(a => a.Name == contributor.Name);
 				if (actr == null)
 				{
+					var msg = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PersonNotParticipating",
+						"{0} is listed as a contributor but not a participant in {1} session.");
+					model.AdditionalMessages[string.Format(msg, contributor.Name, saymoreSession.Id)] = ArchivingDlgViewModel.MessageType.Error;
 					actors.Add(contributor);
 				}
-				else
-				{
-					if (actr.Role == "Participant")
-					{
-						actr.Role = contributor.Role;
-					}
-					else
-					{
-						if (!actr.Role.Contains(contributor.Role))
-							actr.Role += ", " + contributor.Role;
-					}
-				}
-
 			}
 
 			// add actors to imdi session

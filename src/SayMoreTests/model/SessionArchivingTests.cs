@@ -200,27 +200,29 @@ namespace SayMoreTests.Utilities
 		}
 
 		[Test]
-		public void InitializeActor_AgeTest()
+		public void InitializeActor_NoBirthYear_Age0()
 		{
 			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
 				false, null, @"C:\my_imdi_folder");
 			var person = new Mock<Person>();
+			var session = new Mock<Session>();
 			person.Setup(p => p.MetaDataFile.GetStringValue("privacyProtection", "false")).Returns("false");
 			person.Setup(p => p.MetaDataFile.GetStringValue("birthYear", string.Empty)).Returns(string.Empty);
-			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, DateTime.MinValue);
+			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, session.Object, DateTime.MinValue);
 			Assert.AreEqual("0", actor.Age);
 			model.VerifyAll();
 		}
 
 		[Test]
-		public void InitializeActor_Age68Test()
+		public void InitializeActor_Birth1950Current2018_Age68()
 		{
 			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
 				false, null, @"C:\my_imdi_folder");
 			var person = new Mock<Person>();
+			var session = new Mock<Session>();
 			person.Setup(p => p.MetaDataFile.GetStringValue("privacyProtection", "false")).Returns("false");
 			person.Setup(p => p.MetaDataFile.GetStringValue("birthYear", string.Empty)).Returns("1950");
-			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, new DateTime(2018, 1, 1));
+			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, session.Object, new DateTime(2018, 1, 1));
 			Assert.AreEqual("68", actor.Age);
 			person.VerifyAll();
 			model.VerifyAll();

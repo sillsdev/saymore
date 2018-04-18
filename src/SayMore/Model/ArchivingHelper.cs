@@ -21,6 +21,7 @@ namespace SayMore.Model
 {
 	static class ArchivingHelper
 	{
+		internal static IMDIPackage _Package;
 		internal static ArchivingLanguage _defaultLanguage;
 
 		/// ------------------------------------------------------------------------------------
@@ -155,6 +156,12 @@ namespace SayMore.Model
 
 			imdiSession.Location = new ArchivingLocation { Address = address, Region = region, Country = country, Continent = continent };
 
+			// session project
+			if (_Package != null)
+			{
+				imdiSession.AddProject(_Package);
+			}
+
 			// session description (synopsis)
 			var stringVal = saymoreSession.MetaDataFile.GetStringValue("synopsis", null);
 			if (!string.IsNullOrEmpty(stringVal))
@@ -255,7 +262,11 @@ namespace SayMore.Model
 			// session files
 			var files = saymoreSession.GetSessionFilesToArchive(model.GetType());
 			foreach (var file in files)
+			{
 				imdiSession.AddFile(CreateArchivingFile(file));
+				if (_Package != null)
+					imdiSession.AddFileAccess(file, _Package);
+			}
 		}
 
 		internal static ArchivingLanguage GetOneLanguage(string languageKey)
@@ -405,6 +416,8 @@ namespace SayMore.Model
 				if (files.Length > 0)
 					AddDocumentsSession(ProjectOtherDocsScreen.kArchiveSessionName, files, model);
 			}
+
+			_Package = package;
 		}
 
 		private static ArchivingFile CreateArchivingFile(string fileName)

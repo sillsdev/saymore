@@ -211,7 +211,7 @@ namespace SayMoreTests.Utilities
 		}
 
 		[Test]
-		public void InitializeActor_AgeTest()
+		public void InitializeActor_NoBirthYear_ExpectUnspecifiedAge()
 		{
 			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
 				false, null, @"C:\my_imdi_folder");
@@ -219,12 +219,12 @@ namespace SayMoreTests.Utilities
 			person.Setup(p => p.MetaDataFile.GetStringValue("privacyProtection", "false")).Returns("false");
 			person.Setup(p => p.MetaDataFile.GetStringValue("birthYear", string.Empty)).Returns(string.Empty);
 			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, DateTime.MinValue);
-			Assert.AreEqual("0", actor.Age);
+			Assert.AreEqual("Unspecified", actor.Age);
 			model.VerifyAll();
 		}
 
 		[Test]
-		public void InitializeActor_Age68Test()
+		public void InitializeActor_AgeEqualBirthYearMinusSessionYear_Expect68()
 		{
 			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
 				false, null, @"C:\my_imdi_folder");

@@ -302,7 +302,7 @@ namespace SayMore.Model
 
 			// display message if the birth year is not valid
 			var birthYear = person.MetaDataFile.GetStringValue("birthYear", string.Empty).Trim();
-			int age = 0;
+			var age = 0;
 			if (!birthYear.IsValidBirthYear() || string.IsNullOrEmpty(birthYear))
 			{
 				var msg = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.InvalidBirthYearMsg",
@@ -320,12 +320,12 @@ namespace SayMore.Model
 				}
 			}
 
-			ArchivingActor actor = new ArchivingActor
+			var actor = new ArchivingActor
 			{
 				FullName = person.Id,
 				Name = person.MetaDataFile.GetStringValue(PersonFileType.kCode, person.Id),
 				BirthDate = birthYear,
-				Age = age.ToString(),
+				Age = age > 0 ? age.ToString() : "Unspecified",
 				Gender = person.MetaDataFile.GetStringValue(PersonFileType.kGender, null),
 				Education = person.MetaDataFile.GetStringValue(PersonFileType.kEducation, null),
 				Occupation = person.MetaDataFile.GetStringValue(PersonFileType.kPrimaryOccupation, null),

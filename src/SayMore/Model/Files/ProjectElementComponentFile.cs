@@ -27,7 +27,7 @@ namespace SayMore.Model.Files
 		}
 
 		[Obsolete("For Mocking Only")]
-		public ProjectElementComponentFile(){}
+		public ProjectElementComponentFile():base(null) {}
 
 		/// ------------------------------------------------------------------------------------
 		public string GetStringValue(string key, string defaultValue, bool localized)
@@ -145,7 +145,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<FieldInstance> GetCustomFields()
+		public virtual IEnumerable<FieldInstance> GetCustomFields()
 		{
 			return MetaDataFieldValues.Where(
 				val => val.FieldId.StartsWith(XmlFileSerializer.kCustomFieldIdPrefix));

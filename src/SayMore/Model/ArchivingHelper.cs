@@ -137,7 +137,7 @@ namespace SayMore.Model
 			}
 		}
 
-		private static void AddIMDISession(Session saymoreSession, ArchivingDlgViewModel model)
+		internal static void AddIMDISession(Session saymoreSession, ArchivingDlgViewModel model)
 		{
 			var sessionFile = saymoreSession.MetaDataFile;
 

@@ -31,7 +31,7 @@ namespace SayMoreTests.Transcription.UI
 			var annotationFile = new Mock<AnnotationComponentFile>();
 			annotationFile.Setup(a => a.Tiers).Returns(new TierCollection { tier });
 
-			_componentFile = new Mock<ComponentFile>();
+			_componentFile = new Mock<ComponentFile>(null);
 			_componentFile.Setup(f => f.PathToAnnotatedFile).Returns(_tempAudioFile);
 			_componentFile.Setup(f => f.GetAnnotationFile()).Returns(annotationFile.Object);
 

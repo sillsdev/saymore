@@ -9,9 +9,11 @@ using SIL.TestUtilities;
 using SIL.Archiving.IMDI;
 using SayMore;
 using SayMore.Model;
+using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SIL.Archiving;
 using SayMore.Properties;
+using Session = SayMore.Model.Session;
 
 namespace SayMoreTests.Utilities
 {
@@ -23,6 +25,9 @@ namespace SayMoreTests.Utilities
 		private DummySession _session;
 		private Mock<Person> _person;
 		private Mock<PersonInformant> _personInformant;
+		private readonly Mock<ProjectElementComponentFile> _personMetaFile = new Mock<ProjectElementComponentFile>();
+		private readonly Mock<ProjectElementComponentFile> _fileMetaFile = new Mock<ProjectElementComponentFile>();
+		private string _mp3FullName = String.Empty;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
@@ -51,6 +56,11 @@ namespace SayMoreTests.Utilities
 			_person = new Mock<Person>();
 			_person.Setup(p => p.FolderPath).Returns(Path.Combine(Path.Combine(_tmpFolder.Path, Person.kFolderName), "ddo-person"));
 			_person.Setup(p => p.Id).Returns("ddo-person");
+			_personMetaFile.Setup(m => m.GetStringValue(PersonFileType.kCode, It.IsAny<string>())).Returns("1");
+			_personMetaFile.Setup(m => m.GetStringValue("privacyProtection", It.IsAny<string>())).Returns("false");
+			_personMetaFile.Setup(m => m.GetStringValue("birthYear", It.IsAny<string>())).Returns("2000");
+			_person.Setup(p => p.MetaDataFile).Returns(_personMetaFile.Object);
+
 
 			_personInformant = new Mock<PersonInformant>();
 			_personInformant.Setup(i => i.GetPersonByNameOrCode("ddo-person")).Returns(_person.Object);
@@ -62,7 +72,8 @@ namespace SayMoreTests.Utilities
 			Directory.CreateDirectory(folder);
 			File.CreateText(Path.Combine(folder, "ddo.session")).Close();
 			File.CreateText(Path.Combine(folder, "ddo.mpg")).Close();
-			File.CreateText(Path.Combine(folder, "ddo.mp3")).Close();
+			_mp3FullName = Path.Combine(folder, "ddo.mp3");
+			File.CreateText(_mp3FullName).Close();
 			File.CreateText(Path.Combine(folder, "ddo.pdf")).Close();
 			_session = new DummySession(parentFolder, "ddo", _personInformant.Object);
 
@@ -149,13 +160,13 @@ namespace SayMoreTests.Utilities
 		{
 			var sourceRoleArray = new[] { ApplicationContainer.ComponentRoles.First(r => r.Id == ComponentRole.kSourceComponentRoleId) };
 
-			var sourceMediaFile1 = new Mock<ComponentFile>();
+			var sourceMediaFile1 = new Mock<ComponentFile>(null);
 			sourceMediaFile1.Setup(f => f.DurationSeconds).Returns(new TimeSpan(0, 50, 10));
 			sourceMediaFile1.Setup(f => f.GetAssignedRoles()).Returns(sourceRoleArray);
-			var sourceMediaFile2 = new Mock<ComponentFile>();
+			var sourceMediaFile2 = new Mock<ComponentFile>(null);
 			sourceMediaFile2.Setup(f => f.DurationSeconds).Returns(new TimeSpan(3, 20, 3));
 			sourceMediaFile2.Setup(f => f.GetAssignedRoles()).Returns(sourceRoleArray);
-			var sourceMediaFile3 = new Mock<ComponentFile>();
+			var sourceMediaFile3 = new Mock<ComponentFile>(null);
 			sourceMediaFile3.Setup(f => f.DurationSeconds).Returns(new TimeSpan(0, 4, 27));
 			sourceMediaFile3.Setup(f => f.GetAssignedRoles()).Returns(sourceRoleArray);
 
@@ -169,17 +180,17 @@ namespace SayMoreTests.Utilities
 		{
 			var sourceRoleArray = new[] { ApplicationContainer.ComponentRoles.First(r => r.Id == ComponentRole.kSourceComponentRoleId) };
 
-			var sourceMediaFile1 = new Mock<ComponentFile>();
+			var sourceMediaFile1 = new Mock<ComponentFile>(null);
 			sourceMediaFile1.Setup(f => f.DurationSeconds).Returns(new TimeSpan(0, 50, 10));
 			sourceMediaFile1.Setup(f => f.GetAssignedRoles()).Returns(sourceRoleArray);
-			var sourceMediaFile2 = new Mock<ComponentFile>();
+			var sourceMediaFile2 = new Mock<ComponentFile>(null);
 			sourceMediaFile2.Setup(f => f.DurationSeconds).Returns(new TimeSpan(3, 20, 3));
 			sourceMediaFile2.Setup(f => f.GetAssignedRoles()).Returns(new[]
 				{
 					ApplicationContainer.ComponentRoles.First(r => r.Id == ComponentRole.kConsentComponentRoleId),
 					ApplicationContainer.ComponentRoles.First(r => r.Id == ComponentRole.kSourceComponentRoleId)
 				});
-			var sourceMediaFile3 = new Mock<ComponentFile>();
+			var sourceMediaFile3 = new Mock<ComponentFile>(null);
 			sourceMediaFile3.Setup(f => f.DurationSeconds).Returns(new TimeSpan(0, 4, 27));
 			sourceMediaFile3.Setup(f => f.GetAssignedRoles()).Returns(new[]
 				{
@@ -308,6 +319,29 @@ namespace SayMoreTests.Utilities
 			var returnValue = ArchivingHelper.GetOneLanguage("und");
 			Assert.IsNull(returnValue);
 		}
+
+		[Test]
+		public void AddIMDISession_RecordingEquipment_EquipmentInKeysOfModelIMDISession()
+		{
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
+				false, null, @"C:\my_imdi_folder");
+			var imdiSession = new Mock<SIL.Archiving.IMDI.Schema.Session>(MockBehavior.Strict);
+			imdiSession.Object.Name = "ddo";
+			model.Setup(m => m.AddSession(_session.Id)).Returns(imdiSession.Object);
+			var fileType = new Mock<FileType>(MockBehavior.Strict, "mp3", null);
+			fileType.Setup(t => t.IsAudioOrVideo).Returns(true);
+			var sourceMediaFile1 = new Mock<ComponentFile>(MockBehavior.Strict, fileType.Object);
+			sourceMediaFile1.Setup(f => f.PathToAnnotatedFile).Returns(_mp3FullName);
+			sourceMediaFile1.Object.MetaDataFieldValues.Add(new FieldInstance("Device", "Computer"));
+			sourceMediaFile1.Object.MetaDataFieldValues.Add(new FieldInstance("Microphone", "Zoom"));
+			_session._mediaFiles = new [] {sourceMediaFile1.Object};
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var eqCount = (from f in imdiSession.Object.Resources.MediaFile
+				from k in f.Keys.Key
+				where k.Name == "RecordingEquipment"
+				select k.Name).Count();
+			Assert.AreEqual(2, eqCount);
+		}
 		#endregion
 	}
 
@@ -326,7 +360,21 @@ namespace SayMoreTests.Utilities
 				_participants = new[] {"ddo-person"};
 			else
 				_participants = actors;
-			_metaFile.Setup(m => m.GetStringValue(SessionFileType.kTitleFieldName, null)).Returns(name);
+			_metaFile.Setup(m => m.GetStringValue(SessionFileType.kTitleFieldName, It.IsAny<string>())).Returns(name);
+			foreach (var key in new[] {
+				SessionFileType.kGenreFieldName,
+				SessionFileType.kSubGenreFieldName,
+				SessionFileType.kAccessFieldName,
+				SessionFileType.kInteractivityFieldName,
+				SessionFileType.kInvolvementFieldName,
+				SessionFileType.kPlanningTypeFieldName,
+				SessionFileType.kSocialContextFieldName,
+				SessionFileType.kTaskFieldName
+				})
+			{
+				_metaFile.Setup(m => m.GetStringValue(key, It.IsAny<string>())).Returns("x");
+			}
+			_metaFile.Setup(m => m.GetCustomFields()).Returns(new List<FieldInstance>());
 		}
 
 		public override IEnumerable<string> GetAllParticipants()

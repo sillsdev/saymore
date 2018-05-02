@@ -18,7 +18,7 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		[Obsolete("For Mocking Only")]
-		public AnnotationComponentFile() { }
+		public AnnotationComponentFile():base(null) { }
 
 		/// ------------------------------------------------------------------------------------
 		public AnnotationComponentFile(ProjectElement parentElement,

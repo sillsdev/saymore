@@ -342,6 +342,22 @@ namespace SayMoreTests.Utilities
 				select k.Name).Count();
 			Assert.AreEqual(2, eqCount);
 		}
+
+		[Test]
+		public void AddIMDISession_SetEthnicGroup_PersonHasEthnicGroup()
+		{
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
+				false, null, @"C:\my_imdi_folder");
+			var imdiSession = new Mock<SIL.Archiving.IMDI.Schema.Session>(MockBehavior.Strict);
+			imdiSession.Object.Name = "ddo";
+			model.Setup(m => m.AddSession(_session.Id)).Returns(imdiSession.Object);
+			_session._mediaFiles = new ComponentFile[0];
+			const string SampleEthnicGroup = "Ewondo";
+			_personMetaFile.Setup(m => m.GetStringValue("ethnicGroup", It.IsAny<string>())).Returns(SampleEthnicGroup);
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var actor = imdiSession.Object.MDGroup.Actors.Actor.FirstOrDefault();
+			Assert.AreEqual(SampleEthnicGroup, actor.EthnicGroup);
+		}
 		#endregion
 	}
 

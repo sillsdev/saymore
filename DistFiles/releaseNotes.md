@@ -1,3 +1,6 @@
+## Version NEXT
+Added Turkish UI Translations from Stevan Vanderwerf
+
 ## Version 3.1
 When doing an IMDI export,you can now select a "metadata only" option.
 When exporting a transcription as CSV, the time format now conforms to the ISO 8601 standard (hh:mm:ss.ff instead of hh:mm:ss:ff).

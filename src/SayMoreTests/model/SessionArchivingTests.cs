@@ -13,6 +13,8 @@ using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SIL.Archiving;
 using SayMore.Properties;
+using SIL.Media.Naudio;
+using SIL.Windows.Forms.ClearShare;
 using Session = SayMore.Model.Session;
 
 namespace SayMoreTests.Utilities
@@ -140,7 +142,7 @@ namespace SayMoreTests.Utilities
 		public void SetFilesToArchive_ParticipantFileDoesNotExist_DoesNotCrash()
 		{
 			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
-			_session._participants = new[] { "ddo-person", "non-existant-person" };
+			_session.Participants = new[] { "ddo-person", "non-existant-person" };
 
 			model.Setup(s => s.AddFileGroup(string.Empty,
 				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new [] {"ddo.session", "ddo.mpg", "ddo.mp3", "ddo.pdf"}).Count() == 4),
@@ -170,7 +172,7 @@ namespace SayMoreTests.Utilities
 			sourceMediaFile3.Setup(f => f.DurationSeconds).Returns(new TimeSpan(0, 4, 27));
 			sourceMediaFile3.Setup(f => f.GetAssignedRoles()).Returns(sourceRoleArray);
 
-			_session._mediaFiles = new[] { sourceMediaFile1.Object, sourceMediaFile2.Object, sourceMediaFile3.Object };
+			_session.MediaFiles = new[] { sourceMediaFile1.Object, sourceMediaFile2.Object, sourceMediaFile3.Object };
 			Assert.AreEqual(new TimeSpan(4, 14, 40), _session.GetTotalDurationOfSourceMedia());
 		}
 
@@ -197,7 +199,7 @@ namespace SayMoreTests.Utilities
 					ApplicationContainer.ComponentRoles.First(r => r.Id == ComponentRole.kConsentComponentRoleId)
 				});
 
-			_session._mediaFiles = new[] { sourceMediaFile1.Object, sourceMediaFile2.Object, sourceMediaFile3.Object };
+			_session.MediaFiles = new[] { sourceMediaFile1.Object, sourceMediaFile2.Object, sourceMediaFile3.Object };
 			Assert.AreEqual(new TimeSpan(4, 10, 13), _session.GetTotalDurationOfSourceMedia());
 		}
 
@@ -321,20 +323,18 @@ namespace SayMoreTests.Utilities
 		}
 
 		[Test]
+		public void AnalysisLanguage_DefaultCase_ReturnsEnglishCode()
+		{
+			Assert.AreEqual("eng", ArchivingHelper.AnalysisLanguage());
+		}
+
+		[Test]
 		public void AddIMDISession_RecordingEquipment_EquipmentInKeysOfModelIMDISession()
 		{
-			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
-				false, null, @"C:\my_imdi_folder");
-			var imdiSession = new Mock<SIL.Archiving.IMDI.Schema.Session>(MockBehavior.Strict);
-			imdiSession.Object.Name = "ddo";
-			model.Setup(m => m.AddSession(_session.Id)).Returns(imdiSession.Object);
-			var fileType = new Mock<FileType>(MockBehavior.Strict, "mp3", null);
-			fileType.Setup(t => t.IsAudioOrVideo).Returns(true);
-			var sourceMediaFile1 = new Mock<ComponentFile>(MockBehavior.Strict, fileType.Object);
-			sourceMediaFile1.Setup(f => f.PathToAnnotatedFile).Returns(_mp3FullName);
+			var sourceMediaFile1 = IMDIMediaFileSetup();
 			sourceMediaFile1.Object.MetaDataFieldValues.Add(new FieldInstance("Device", "Computer"));
 			sourceMediaFile1.Object.MetaDataFieldValues.Add(new FieldInstance("Microphone", "Zoom"));
-			_session._mediaFiles = new [] {sourceMediaFile1.Object};
+			var model = AddIMDISessionTestSetup(out var imdiSession, sourceMediaFile1.Object);
 			ArchivingHelper.AddIMDISession(_session, model.Object);
 			var eqCount = (from f in imdiSession.Object.Resources.MediaFile
 				from k in f.Keys.Key
@@ -346,26 +346,180 @@ namespace SayMoreTests.Utilities
 		[Test]
 		public void AddIMDISession_SetEthnicGroup_PersonHasEthnicGroup()
 		{
-			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
-				false, null, @"C:\my_imdi_folder");
-			var imdiSession = new Mock<SIL.Archiving.IMDI.Schema.Session>(MockBehavior.Strict);
-			imdiSession.Object.Name = "ddo";
-			model.Setup(m => m.AddSession(_session.Id)).Returns(imdiSession.Object);
-			_session._mediaFiles = new ComponentFile[0];
-			const string SampleEthnicGroup = "Ewondo";
-			_personMetaFile.Setup(m => m.GetStringValue("ethnicGroup", It.IsAny<string>())).Returns(SampleEthnicGroup);
+			const string sampleEthnicGroup = "Ewondo";
+			_personMetaFile.Setup(m => m.GetStringValue("ethnicGroup", It.IsAny<string>())).Returns(sampleEthnicGroup);
+			var model = AddIMDISessionTestSetup(out var imdiSession);
 			ArchivingHelper.AddIMDISession(_session, model.Object);
 			var actor = imdiSession.Object.MDGroup.Actors.Actor.FirstOrDefault();
-			Assert.AreEqual(SampleEthnicGroup, actor.EthnicGroup);
+			Assert.AreEqual(sampleEthnicGroup, actor.EthnicGroup);
+		}
+
+		public void AddIMDISession_AddSituation_AddSituationAsContentKey()
+		{
+			const string sampleSituation = "village hut recording";
+			_session.MetaFile.Setup(f => f.GetStringValue("situation", It.IsAny<string>())).Returns(sampleSituation);
+			var model = AddIMDISessionTestSetup(out var imdiSession);
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var situationValue = (from k in imdiSession.Object.MDGroup.Content.Keys.Key
+				where k.Name == "Situation"		// The keyword in the saymore session is lowercase but in Imdi we chose uppercase
+				select k.Value).FirstOrDefault();
+			Assert.AreEqual(sampleSituation, situationValue);
+		}
+
+		[Test]
+		public void AddIMDISession_SessionCustomField_AddCustomKeyValueAsContentKeyValue()
+		{
+			const string sampleKey = "SampleKey";
+			const string sampleValue = "My Sample Value";
+			_session.MetaFile.Setup(f => f.GetCustomFields()).Returns(new[] {new FieldInstance(XmlFileSerializer.kCustomFieldIdPrefix + sampleKey, sampleValue)});
+			var model = AddIMDISessionTestSetup(out var imdiSession);
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var val = (from k in imdiSession.Object.MDGroup.Content.Keys.Key
+				where k.Name == sampleKey
+				select k.Value).FirstOrDefault();
+			Assert.AreEqual(sampleValue, val);
+		}
+
+		[Test]
+		public void AddIMDISession_PersonCustomField_AddCustomKeyValueAsPersonKeyValue()
+		{
+			const string sampleKey = "SampleKey";
+			const string sampleValue = "My Sample Value";
+			_personMetaFile.Setup(f => f.GetCustomFields()).Returns(new[] { new FieldInstance(XmlFileSerializer.kCustomFieldIdPrefix + sampleKey, sampleValue) });
+			var model = AddIMDISessionTestSetup(out var imdiSession);
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var val = (from a in imdiSession.Object.MDGroup.Actors.Actor
+				from k in a.Keys.Key
+				where k.Name == sampleKey
+				select k.Value).FirstOrDefault();
+			Assert.AreEqual(sampleValue, val);
+		}
+
+		[Test]
+		public void AddIMDISession_AddNotes_AddContentDescription()
+		{
+			const string sampleNote = "Recording was made externally";
+			_session.MetaFile.Setup(f => f.GetStringValue("notes", It.IsAny<string>())).Returns(sampleNote);
+			var model = AddIMDISessionTestSetup(out var imdiSession);
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var val = (from d in imdiSession.Object.MDGroup.Content.Description
+				select d.Value).FirstOrDefault();
+			Assert.AreEqual(sampleNote, val);
+		}
+
+		[Test]
+		public void AddIMDISession_PersonNotes_AddPersonDescription()
+		{
+			const string sampleValue = "I met him in college";
+			_personMetaFile.Object.MetaDataFieldValues.Add(new FieldInstance("notes", sampleValue));
+			var model = AddIMDISessionTestSetup(out var imdiSession);
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var val = (from a in imdiSession.Object.MDGroup.Actors.Actor
+				from d in a.Description
+				select d.Value).FirstOrDefault();
+			Assert.AreEqual(sampleValue, val);
+		}
+
+		[Test]
+		public void AddIMDISession_AddResourceNotes_AddAsResourceDescription()
+		{
+			const string sampleNote = "A personal history";
+			var sourceMediaFile1 = IMDIMediaFileSetup();
+			sourceMediaFile1.Object.MetaDataFieldValues.Add(new FieldInstance("notes", sampleNote));
+			var model = AddIMDISessionTestSetup(out var imdiSession, sourceMediaFile1.Object);
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var val = (from f in imdiSession.Object.Resources.MediaFile
+				from d in f.Description
+				where d.Value != null
+				select d.Value).FirstOrDefault();
+			Assert.AreEqual(sampleNote, val);
+		}
+
+		[Test]
+		public void AddIMDISession_PersonContact_AddActorContactAddress()
+		{
+			const string sampleValue = "house next to flag pole";
+			_personMetaFile.Setup(m => m.GetStringValue("howToContact", It.IsAny<string>())).Returns(sampleValue);
+			var model = AddIMDISessionTestSetup(out var imdiSession);
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var val = (from a in imdiSession.Object.MDGroup.Actors.Actor
+				where a.Contact != null
+				select a.Contact.Address).FirstOrDefault();
+			Assert.AreEqual(sampleValue, val);
+		}
+
+		[Test]
+		public void AddIMDISession_ExportSessionContributors_SessionContributorsIncluded()
+		{
+			const string samplePerson = "Jane Doe";
+			var contributionCollection = new Mock<ContributionCollection>(MockBehavior.Strict);
+			contributionCollection.Object.Add(new Contribution(samplePerson, new Role("rdr", "Reader", null)));
+			var sourceMediaFile1 = IMDIMediaFileSetup();
+			sourceMediaFile1.Object.MetaDataFieldValues.Add(new FieldInstance("contributions", contributionCollection.Object));
+			var model = AddIMDISessionTestSetup(out var imdiSession, sourceMediaFile1.Object);
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var val = (from a in imdiSession.Object.MDGroup.Actors.Actor
+				from n in a.Name
+				where n == samplePerson
+				select n).FirstOrDefault();
+			Assert.AreEqual(samplePerson, val);
+		}
+
+		[Test]
+		public void AddIMDISession_MediaDuration_IMDIMediaFileDurationSet()
+		{
+			const string sampleDuration = "06:03:00";
+			var sourceMediaFile1 = IMDIMediaFileSetup();
+			sourceMediaFile1.Object.MetaDataFieldValues.Add(new FieldInstance("Duration", sampleDuration));
+			var model = AddIMDISessionTestSetup(out var imdiSession, sourceMediaFile1.Object);
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var val = (from f in imdiSession.Object.Resources.MediaFile
+				where f.TimePosition.End != null
+				where f.TimePosition.End != "Unspecified"
+				select f.TimePosition.End).FirstOrDefault();
+			Assert.AreEqual(sampleDuration, val);
+		}
+
+		[Test]
+		public void AddIMDISession_PersonCode_AddActorHasSameCode()
+		{
+			const string sampleCode = "123";
+			_personMetaFile.Setup(m => m.GetStringValue(PersonFileType.kCode, It.IsAny<string>())).Returns(sampleCode);
+			var model = AddIMDISessionTestSetup(out var imdiSession);
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var val = (from a in imdiSession.Object.MDGroup.Actors.Actor
+				where !string.IsNullOrEmpty(a.Code)
+				select a.Code).FirstOrDefault();
+			Assert.AreEqual(sampleCode, val);
+		}
+
+		private Mock<IMDIArchivingDlgViewModel> AddIMDISessionTestSetup(out Mock<SIL.Archiving.IMDI.Schema.Session> imdiSession, ComponentFile mediaFile = null)
+		{
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
+				false, null, @"C:\my_imdi_folder");
+			imdiSession = new Mock<SIL.Archiving.IMDI.Schema.Session>(MockBehavior.Strict);
+			imdiSession.Object.Name = "ddo";
+			model.Setup(m => m.AddSession(_session.Id)).Returns(imdiSession.Object);
+			_session.MediaFiles = mediaFile == null ? new ComponentFile[0] : new[] { mediaFile };
+			return model;
+		}
+
+		private Mock<ComponentFile> IMDIMediaFileSetup()
+		{
+			var fileType = new Mock<AudioFileType>(null, null, null);
+			fileType.Setup(t => t.IsAudioOrVideo).Returns(true);
+			var sourceMediaFile1 = new Mock<ComponentFile>(MockBehavior.Strict, fileType.Object);
+			sourceMediaFile1.Setup(f => f.PathToAnnotatedFile).Returns(_mp3FullName);
+			return sourceMediaFile1;
 		}
 		#endregion
 	}
 
 	public class DummySession : Session
 	{
-		public string[] _participants;
-		private readonly Mock<ProjectElementComponentFile> _metaFile = new Mock<ProjectElementComponentFile>();
-		public ComponentFile[] _mediaFiles;
+		public string[] Participants;
+		public readonly Mock<ProjectElementComponentFile> MetaFile = new Mock<ProjectElementComponentFile>();
+		public ComponentFile[] MediaFiles;
 
 		public DummySession(string parentFolder, string name, PersonInformant personInformant, params string [] actors) : base(parentFolder, name + "-session", null, new SessionFileType(() => null, () => null),
 				MakeComponent, new XmlFileSerializer(null), (w, x, y, z) =>
@@ -373,34 +527,21 @@ namespace SayMoreTests.Utilities
 					ApplicationContainer.ComponentRoles, personInformant, null)
 		{
 			if (actors == null || actors.Length == 0)
-				_participants = new[] {"ddo-person"};
+				Participants = new[] {"ddo-person"};
 			else
-				_participants = actors;
-			_metaFile.Setup(m => m.GetStringValue(SessionFileType.kTitleFieldName, It.IsAny<string>())).Returns(name);
-			foreach (var key in new[] {
-				SessionFileType.kGenreFieldName,
-				SessionFileType.kSubGenreFieldName,
-				SessionFileType.kAccessFieldName,
-				SessionFileType.kInteractivityFieldName,
-				SessionFileType.kInvolvementFieldName,
-				SessionFileType.kPlanningTypeFieldName,
-				SessionFileType.kSocialContextFieldName,
-				SessionFileType.kTaskFieldName
-				})
-			{
-				_metaFile.Setup(m => m.GetStringValue(key, It.IsAny<string>())).Returns("x");
-			}
-			_metaFile.Setup(m => m.GetCustomFields()).Returns(new List<FieldInstance>());
+				Participants = actors;
+			MetaFile.Setup(m => m.GetStringValue(SessionFileType.kTitleFieldName, It.IsAny<string>())).Returns(name);
+			MetaFile.Setup(m => m.GetCustomFields()).Returns(new List<FieldInstance>());
 		}
 
 		public override IEnumerable<string> GetAllParticipants()
 		{
-			return _participants;
+			return Participants;
 		}
 
 		public override ProjectElementComponentFile MetaDataFile
 		{
-			get { return _metaFile.Object; }
+			get { return MetaFile.Object; }
 		}
 
 		public override ComponentFile[] GetComponentFiles()
@@ -416,7 +557,7 @@ namespace SayMoreTests.Utilities
 					// This is the actual person or session data
 					_componentFiles.Add(MetaDataFile);
 
-					foreach (ComponentFile componentFile in _mediaFiles)
+					foreach (ComponentFile componentFile in MediaFiles)
 						_componentFiles.Add(componentFile);
 				}
 				return _componentFiles.ToArray();

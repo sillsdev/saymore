@@ -164,6 +164,14 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<File Id="SIL.Core.pdb" Name="SIL.Core.pdb" KeyPath="yes" Source="..\..\output\release\SIL.Core.pdb" />
 		  </Component>
 
+		  <Component Id="SIL.Core.Desktop.dll" Guid="{1630985D-85A6-4105-A778-CB1734D937C5}">
+			<File Id="SIL.Core.Desktop.dll" Name="SIL.Core.Desktop.dll" KeyPath="yes" Source="..\..\output\release\SIL.Core.Desktop.dll" />
+		  </Component>
+
+		  <Component Id="SIL.Core.Desktop.pdb" Guid="{8EA9C902-BB07-46F5-B9E8-FD9E7350FFCA}">
+			<File Id="SIL.Core.Desktop.pdb" Name="SIL.Core.Desktop.pdb" KeyPath="yes" Source="..\..\output\release\SIL.Core.Desktop.pdb" />
+		  </Component>
+
 		  <Component Id="SIL.Archiving.dll" Guid="{FC6955FD-A9BC-4317-8E82-402182F781F6}">
 			<File Id="SIL.Archiving.dll" Name="SIL.Archiving.dll" KeyPath="yes" Source="..\..\output\release\SIL.Archiving.dll" />
 		  </Component>
@@ -224,8 +232,8 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<File Id="L10NSharp.pdb" Name="L10NSharp.pdb" KeyPath="yes" Source="..\..\output\release\L10NSharp.pdb" />
 		  </Component>
 
-		  <Component Id="autofac.dll" Guid="{BB025B7C-B3CA-435e-9A4B-192373EE12DB}">
-			<File Id="autofac.dll" Name="autofac.dll" KeyPath="yes" Source="..\..\output\release\autofac.dll" />
+		  <Component Id="Autofac.dll" Guid="{BB025B7C-B3CA-435e-9A4B-192373EE12DB}">
+			<File Id="Autofac.dll" Name="Autofac.dll" KeyPath="yes" Source="..\..\output\release\Autofac.dll" />
 		  </Component>
 
 		  <Component Id="NAudio.dll" Guid="{BB025B7C-B3CA-435e-9A4B-192373EE12AA}">
@@ -270,6 +278,8 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	  <ComponentRef Id="SayMore.pdb"/>
 	  <ComponentRef Id="SIL.Core.dll"/>
 	  <ComponentRef Id="SIL.Core.pdb"/>
+	  <ComponentRef Id="SIL.Core.Desktop.dll"/>
+	  <ComponentRef Id="SIL.Core.Desktop.pdb"/>
 	  <ComponentRef Id="SIL.Archiving.dll"/>
 	  <ComponentRef Id="SIL.Archiving.pdb"/>
 	  <ComponentRef Id="SIL.Windows.Forms.dll"/>
@@ -285,7 +295,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	  <ComponentRef Id="Newtonsoft.Json.dll"/>
 	  <ComponentRef Id="L10NSharp.dll"/>
 	  <ComponentRef Id="L10NSharp.pdb"/>
-	  <ComponentRef Id="autofac.dll"/>
+	  <ComponentRef Id="Autofac.dll"/>
 	  <ComponentRef Id="NAudio.dll"/>
 	  <ComponentRef Id="Ionic.Zip.dll"/>
 	  <ComponentRef Id="MediaInfo.dll" />

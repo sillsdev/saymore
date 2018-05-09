@@ -190,7 +190,25 @@ namespace SayMore.Model
 
 			// custom session fields (the custom prefix is used internally)
 			foreach (var item in saymoreSession.MetaDataFile.GetCustomFields())
-				imdiSession.AddContentKeyValuePair(item.FieldId.Substring(XmlFileSerializer.kCustomFieldIdPrefix.Length), item.ValueAsString);
+			{
+				var fieldId = item.FieldId.Substring(XmlFileSerializer.kCustomFieldIdPrefix.Length);
+				if (fieldId == "ELAR Topic")
+				{
+					imdiSession.AddContentKeyValuePair(fieldId.Substring(5), item.ValueAsString);
+				}
+				else if (fieldId == "ELAR Keyword")
+				{
+					fieldId = fieldId.Substring(5);
+					foreach (var kw in item.ValueAsString.Split(','))
+					{
+						imdiSession.AddContentKeyValuePair(fieldId, kw.Trim());
+					}
+				}
+				else
+				{
+					imdiSession.AddContentKeyValuePair(fieldId, item.ValueAsString);
+				}
+			}
 
 			// actors
 			var actors = new ArchivingActorCollection();

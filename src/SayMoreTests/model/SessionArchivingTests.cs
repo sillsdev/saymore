@@ -381,6 +381,34 @@ namespace SayMoreTests.Utilities
 		}
 
 		[Test]
+		public void AddIMDISession_SessionElarTopicKeyword_AddSingleTopicMultipleKeywords()
+		{
+			const string sampleTopic = "ELAR Topic";
+			const string sampleTopicValue = "My Topic";
+			const string sampleKeyword = "ELAR Keyword";
+			const string sampleKeywordValue = "Village, Uncolonized";
+			_session.MetaFile.Setup(f => f.GetCustomFields()).Returns(new[]
+			{
+				new FieldInstance(XmlFileSerializer.kCustomFieldIdPrefix + sampleTopic, sampleTopicValue),
+				new FieldInstance(XmlFileSerializer.kCustomFieldIdPrefix + sampleKeyword, sampleKeywordValue)
+			});
+			var model = AddIMDISessionTestSetup(out var imdiSession);
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var val = (from k in imdiSession.Object.MDGroup.Content.Keys.Key
+				where k.Name == "Topic"
+				select k.Value).FirstOrDefault();
+			Assert.AreEqual(sampleTopicValue, val);
+			var val1 = (from k in imdiSession.Object.MDGroup.Content.Keys.Key
+				where k.Name == "Keyword"
+				select k.Value).FirstOrDefault();
+			Assert.AreEqual("Village", val1);
+			var val2 = (from k in imdiSession.Object.MDGroup.Content.Keys.Key
+				where k.Value == "Uncolonized"
+				select k.Name).FirstOrDefault();
+			Assert.AreEqual("Keyword", val2);
+		}
+
+		[Test]
 		public void AddIMDISession_PersonCustomField_AddCustomKeyValueAsPersonKeyValue()
 		{
 			const string sampleKey = "SampleKey";

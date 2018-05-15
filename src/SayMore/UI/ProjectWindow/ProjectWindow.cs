@@ -244,6 +244,13 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleArchiveWithRAMPProjectMenuItemClick(object sender, EventArgs e)
+		{
+			Program.ArchiveProjectUsingRAMP(this);
+			ReportAnyFileLoadErrors();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void ReportAnyFileLoadErrors()
 		{
 			var loadErrors = Program.FileLoadErrors;

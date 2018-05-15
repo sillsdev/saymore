@@ -25,7 +25,8 @@ namespace SayMore.UI.ProjectWindow
 			this._toolStripSeparator0 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuExportSessions = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuExportPeople = new System.Windows.Forms.ToolStripMenuItem();
-			this.archiveIMDIProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+		    this.archiveRAMPProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.archiveIMDIProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuChangeUILanguage = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuShowMPlayerDebugWindow = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,6 +70,7 @@ namespace SayMore.UI.ProjectWindow
             this._toolStripSeparator0,
             this._menuExportSessions,
             this._menuExportPeople,
+			this.archiveRAMPProjectToolStripMenuItem,
             this.archiveIMDIProjectToolStripMenuItem,
             this._toolStripSeparator1,
             this._menuChangeUILanguage,
@@ -130,10 +132,21 @@ namespace SayMore.UI.ProjectWindow
 			this.archiveIMDIProjectToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
 			this.archiveIMDIProjectToolStripMenuItem.Text = "&Archive using IMDI...";
 			this.archiveIMDIProjectToolStripMenuItem.Click += new System.EventHandler(this.HandleArchiveProjectMenuItemClick);
-			// 
-			// _toolStripSeparator1
-			// 
-			this._toolStripSeparator1.Name = "_toolStripSeparator1";
+            // 
+		    // archiveRAMPProjectToolStripMenuItem
+            // 
+            this.locExtender.SetLocalizableToolTip(this.archiveRAMPProjectToolStripMenuItem, null);
+		    this.locExtender.SetLocalizationComment(this.archiveRAMPProjectToolStripMenuItem, null);
+		    this.locExtender.SetLocalizingId(this.archiveRAMPProjectToolStripMenuItem, "ProjectWindow.archiveRAMPProjectToolStripMenuItem");
+			this.archiveRAMPProjectToolStripMenuItem.Image = ResourceImageCache.RampIcon;
+			this.archiveRAMPProjectToolStripMenuItem.Name = "archiveRAMPProjectToolStripMenuItem";
+		    this.archiveRAMPProjectToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+		    this.archiveRAMPProjectToolStripMenuItem.Text = "&Archive with RAMP (SIL)...";
+		    this.archiveRAMPProjectToolStripMenuItem.Click += new System.EventHandler(this.HandleArchiveWithRAMPProjectMenuItemClick);
+            // 
+            // _toolStripSeparator1
+            // 
+            this._toolStripSeparator1.Name = "_toolStripSeparator1";
 			this._toolStripSeparator1.Size = new System.Drawing.Size(251, 6);
 			// 
 			// _menuChangeUILanguage
@@ -279,6 +292,7 @@ namespace SayMore.UI.ProjectWindow
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem _menuShowMPlayerDebugWindow;
 		private System.Windows.Forms.ToolStripMenuItem archiveIMDIProjectToolStripMenuItem;
-	}
+	    private System.Windows.Forms.ToolStripMenuItem archiveRAMPProjectToolStripMenuItem;
+    }
 }
 

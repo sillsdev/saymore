@@ -366,6 +366,13 @@ namespace SayMore
 			_projectContext.Project.ArchiveProjectUsingIMDI(parentForm);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public static void ArchiveProjectUsingRAMP(Form parentForm)
+		{
+			SaveProjectMetadata();
+			_projectContext.Project.ArchiveProjectUsingRAMP(parentForm);
+		}
+
 		public static List<XmlException> FileLoadErrors
 		{
 			get 

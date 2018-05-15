@@ -15,6 +15,7 @@ using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
 using SayMore.Properties;
 using SIL.Archiving.IMDI.Lists;
+using SIL.Windows.Forms.ClearShare;
 using SIL.WritingSystems;
 using Application = System.Windows.Forms.Application;
 
@@ -66,6 +67,32 @@ namespace SayMore.Model
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		internal static void ArchiveUsingRAMP(IRAMPArchivable element)
+		{
+			// now that we added a separate title field for projects, make sure it's not empty
+			var title = string.IsNullOrEmpty(element.Title) ? element.Id : element.Title;
+
+			var model = new RampArchivingDlgViewModel(Application.ProductName, title, element.Id,
+				element.ArchiveInfoDetails, element.SetFilesToArchive, element.GetFileDescription)
+			{
+				FileCopyOverride = FileCopySpecialHandler
+			};
+			model.AppSpecificFilenameNormalization = element.CustomFilenameNormalization;
+			model.OverrideDisplayInitialSummary = fileLists => element.DisplayInitialArchiveSummary(fileLists, model);
+			model.HandleNonFatalError = (exception, s) => ErrorReport.NotifyUserOfProblem(exception, s);
+
+			element.InitializeModel(model);
+			element.SetAdditionalMetsData(model);
+
+			using (var dlg = new ArchivingDlg(model, ApplicationContainer.kSayMoreLocalizationId,
+				Program.DialogFont, Settings.Default.ArchivingDialog))
+			{
+				dlg.ShowDialog();
+				Settings.Default.ArchivingDialog = dlg.FormSettings;
+			}
+		}
+
 		/// <remarks>SP-813: If project was moved, the stored IMDI path may not be valid, or not accessible</remarks>
 		static internal bool CheckForAccessiblePath(string directory)
 		{
@@ -97,7 +124,7 @@ namespace SayMore.Model
 			if (path == null) return false;
 			var ext = Path.GetExtension(path).ToLower();
 			bool imdi = typeof(IMDIArchivingDlgViewModel).IsAssignableFrom(typeOfArchive);
-			return (ext != ".pfsx" && (!imdi || (ext != metadataFileExtension)));
+			return (ext != ".pfsx" && ext != ".sprj" && (!imdi || (ext != metadataFileExtension)));
 		}
 
 		/// ------------------------------------------------------------------------------------

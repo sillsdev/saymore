@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml.Linq;
 using Moq;
 using NUnit.Framework;
@@ -12,6 +13,8 @@ using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMoreTests.Utilities;
+using SIL.Archiving;
+using Ionic.Zip;
 
 namespace SayMoreTests.Model
 {
@@ -266,6 +269,42 @@ namespace SayMoreTests.Model
 			model.VerifyAll();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[RequiresSTA]
+		public void SetFilesToArchiveOnRAMP_GetsSessionAndPersonFilesInZipFile()
+		{
+			var prj = CreateProject(_parentFolder);
+			string person1 = CreateMockedPerson("ddo");
+			string person2 = CreateMockedPerson("tlb");
+			string person3 = CreateMockedPerson("tws");
+			_dummySessions.Add(CreateDummySession("The Frog Dance", person1, person2));
+			_dummySessions.Add(CreateDummySession("Underwater Marriage", person2));
+			_dummySessions.Add(CreateDummySession("Why Rice Can't Fly", person1, person3));
+			var model = new Mock<RampArchivingDlgViewModel>(MockBehavior.Default, "SayMore", "ddo",
+				"ddo-session", "whatever", null, new Func<string, string, string>((a, b) => a));
+
+			// sessions
+			model.Setup(s => s.AddSession(_dummySessions[0].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[0].Id });
+			model.Setup(s => s.AddSession(_dummySessions[1].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[1].Id });
+			model.Setup(s => s.AddSession(_dummySessions[2].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[2].Id });
+
+			// session files
+			model.Setup(s => s.AddFileGroup(_dummySessions[0].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[0].Title)));
+			model.Setup(s => s.AddFileGroup(_dummySessions[1].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[1].Title)));
+			model.Setup(s => s.AddFileGroup(_dummySessions[2].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[2].Title)));
+
+			// contributor files
+			model.Setup(s => s.AddFileGroup("\n" + person1, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
+			model.Setup(s => s.AddFileGroup("\n" + person2, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
+			model.Setup(s => s.AddFileGroup("\n" + person3, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
+
+			prj.SetFilesToArchive(model.Object);
+			var zipFilePath = Path.Combine(prj.FolderPath, "Sessions.zip");
+			Assert.IsTrue(File.Exists(zipFilePath), "Sessions zip file not found");
+			Assert.IsTrue(CheckZipFileContents(zipFilePath), "File zipping process is not completed, Some file are missing.");
+		}
+
 		///// ------------------------------------------------------------------------------------
 		//[Test]
 		//[Category("SkipOnTeamCity")]
@@ -328,6 +367,28 @@ namespace SayMoreTests.Model
 			var session = new DummySession(parentFolder, name, _personInformant.Object, actors);
 
 			return session;
+		}
+
+		private bool CheckZipFileContents(string pathToZipFolder)
+		{
+			using (var zip = ZipFile.Read(pathToZipFolder))
+			{
+				string[] fileLists = {"foo.sprj", "People/", "People/ddo-person/", "People/ddo-person/ddoPic.jpg", "People/ddo-person/ddoVoice.wav", "People/tlb-person/",
+					"People/tlb-person/tlbPic.jpg", "People/tlb-person/tlbVoice.wav", "People/tws-person/", "People/tws-person/twsPic.jpg", "People/tws-person/twsVoice.wav",
+					"Sessions/", "Sessions/The Frog Dance-session/", "Sessions/The Frog Dance-session/The Frog Dance.mp3", "Sessions/The Frog Dance-session/The Frog Dance.mpg",
+					"Sessions/The Frog Dance-session/The Frog Dance.pdf", "Sessions/Underwater Marriage-session/", "Sessions/Underwater Marriage-session/Underwater Marriage.mp3",
+					"Sessions/Underwater Marriage-session/Underwater Marriage.mpg", "Sessions/Underwater Marriage-session/Underwater Marriage.pdf", "Sessions/Why Rice Can't Fly-session/",
+					"Sessions/Why Rice Can't Fly-session/Why Rice Can't Fly.mp3", "Sessions/Why Rice Can't Fly-session/Why Rice Can't Fly.mpg", "Sessions/Why Rice Can't Fly-session/Why Rice Can't Fly.pdf"};
+
+				foreach (ZipEntry e in zip.Entries)
+				{
+					if (!fileLists.Contains(e.FileName))
+					{
+						return false;
+					}
+				}
+			}
+			return true;
 		}
 		#endregion
 	}

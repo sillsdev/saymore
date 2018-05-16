@@ -207,10 +207,14 @@ namespace SayMore.UI.ComponentEditors
 		{
 			foreach (Control ctrl in parent.Controls)
 			{
-				if (ctrl.Name.StartsWith("_label"))
-					ctrl.Font = fnt;
-				else
-					SetLabelFonts(ctrl, fnt);
+				// ProjectMetadataScreen should only use the font designs set within it
+				if (parent.Name != "ProjectMetadataScreen")
+				{
+					if (ctrl.Name.StartsWith("_label"))
+						ctrl.Font = fnt;
+					else
+						SetLabelFonts(ctrl, fnt);
+				}
 			}
 		}
 

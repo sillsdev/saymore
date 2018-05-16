@@ -139,20 +139,6 @@ namespace SayMore.UI.Overview
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		private void _linkSelectVernacular_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			// REVIEW: Do we need Force3LetterCodes? Can't find it in new implementation.
-			// using (var dialog = new LanguageLookupDialog { Force3LetterCodes = true, ShowDesiredLanguageNameField = true })
-			using (var dialog = new LanguageLookupDialog { IsDesiredLanguageNameFieldVisible = true })
-			{
-				var result = dialog.ShowDialog();
-				if (result == DialogResult.OK && dialog.SelectedLanguage != null)
-					_labelSelectedVernacular.Text = dialog.SelectedLanguage.LanguageTag + @": " + dialog.DesiredLanguageName; // REVIEW: This line was modified to get it to build
-			}
-
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void ProjectMetadataScreen_Leave(object sender, EventArgs e)
 		{
 			Save();
@@ -173,7 +159,8 @@ namespace SayMore.UI.Overview
 			if (project.ProjectDescription == null) project.ProjectDescription = string.Empty;
 			_description.Text = project.ProjectDescription.Replace("\n", Environment.NewLine);
 
-			_labelSelectedVernacular.Text = project.VernacularISO3CodeAndName;
+			_labelSelectedContentLanguage.Text = project.VernacularISO3CodeAndName;
+			_labelSelectedWorkingLanguage.Text = project.AnalysisISO3CodeAndName;
 			_location.Text = project.Location;
 			_region.Text = project.Region;
 			int iCountry = -1;
@@ -240,7 +227,8 @@ namespace SayMore.UI.Overview
 			var changed = (_projectTitle.Text != project.Title ||
 				_fundingProjectTitle.Text != project.FundingProjectTitle ||
 				_description.Text != project.ProjectDescription ||
-				_labelSelectedVernacular.Text != project.VernacularISO3CodeAndName ||
+				_labelSelectedContentLanguage.Text != project.VernacularISO3CodeAndName ||
+				_labelSelectedWorkingLanguage.Text != project.AnalysisISO3CodeAndName ||
 				_location.Text != project.Location ||
 				_region.Text != project.Region ||
 				country != project.Country ||
@@ -257,7 +245,8 @@ namespace SayMore.UI.Overview
 			project.Title = _projectTitle.Text;
 			project.FundingProjectTitle = _fundingProjectTitle.Text;
 			project.ProjectDescription = _description.Text;
-			project.VernacularISO3CodeAndName = _labelSelectedVernacular.Text;
+			project.VernacularISO3CodeAndName = _labelSelectedContentLanguage.Text;
+			project.AnalysisISO3CodeAndName = _labelSelectedWorkingLanguage.Text;
 			project.Location = _location.Text;
 			project.Region = _region.Text;
 			project.Country = country;
@@ -275,6 +264,30 @@ namespace SayMore.UI.Overview
 			// In Project page, Country text should not be selected.
 			if (_country.SelectionLength > 0)
 				_country.SelectionLength = 0;
+		}
+
+		private void _linkSelectWorkingLanguage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			// REVIEW: Do we need Force3LetterCodes? Can't find it in new implementation.
+			// using (var dialog = new LanguageLookupDialog { Force3LetterCodes = true, ShowDesiredLanguageNameField = true })
+			using (var dialog = new LanguageLookupDialog { IsDesiredLanguageNameFieldVisible = true })
+			{
+				var result = dialog.ShowDialog();
+				if (result == DialogResult.OK && dialog.SelectedLanguage != null)
+					_labelSelectedWorkingLanguage.Text = dialog.SelectedLanguage.LanguageTag + @": " + dialog.DesiredLanguageName; // REVIEW: This line was modified to get it to build
+			}
+		}
+
+		private void _linkSelectContentLanguage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			// REVIEW: Do we need Force3LetterCodes? Can't find it in new implementation.
+			// using (var dialog = new LanguageLookupDialog { Force3LetterCodes = true, ShowDesiredLanguageNameField = true })
+			using (var dialog = new LanguageLookupDialog { IsDesiredLanguageNameFieldVisible = true })
+			{
+				var result = dialog.ShowDialog();
+				if (result == DialogResult.OK && dialog.SelectedLanguage != null)
+					_labelSelectedContentLanguage.Text = dialog.SelectedLanguage.LanguageTag + @": " + dialog.DesiredLanguageName; // REVIEW: This line was modified to get it to build
+			}
 		}
 	}
 }

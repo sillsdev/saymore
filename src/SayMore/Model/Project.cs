@@ -266,6 +266,7 @@ namespace SayMore.Model
 			project.Add(new XElement("FundingProjectTitle", FundingProjectTitle.NullTrim()));
 			project.Add(new XElement("ProjectDescription", ProjectDescription.NullTrim()));
 			project.Add(new XElement("VernacularISO3CodeAndName", VernacularISO3CodeAndName.NullTrim()));
+			project.Add(new XElement("AnalysisISO3CodeAndName", AnalysisISO3CodeAndName.NullTrim()));
 			project.Add(new XElement("Location", Location.NullTrim()));
 			project.Add(new XElement("Region", Region.NullTrim()));
 			project.Add(new XElement("Country", Country.NullTrim() ?? "Unspecified"));
@@ -370,6 +371,7 @@ namespace SayMore.Model
 			FundingProjectTitle = GetStringSettingValue(project, "FundingProjectTitle", string.Empty);
 			ProjectDescription = GetStringSettingValue(project, "ProjectDescription", string.Empty);
 			VernacularISO3CodeAndName = GetStringSettingValue(project, "VernacularISO3CodeAndName", string.Empty);
+			AnalysisISO3CodeAndName = GetStringSettingValue(project, "AnalysisISO3CodeAndName", ArchivingHelper.AnalysisLanguage());
 			Location = GetStringSettingValue(project, "Location", string.Empty);
 			Region = GetStringSettingValue(project, "Region", string.Empty);
 			Country = GetStringSettingValue(project, "Country", "Unspecified");
@@ -490,6 +492,9 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		public string VernacularISO3CodeAndName { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string AnalysisISO3CodeAndName { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public string Location { get; set; }

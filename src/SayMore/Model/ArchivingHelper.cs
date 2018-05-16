@@ -142,7 +142,7 @@ namespace SayMore.Model
 		internal static void AddIMDISession(Session saymoreSession, ArchivingDlgViewModel model)
 		{
 			var sessionFile = saymoreSession.MetaDataFile;
-			var analysisLanguage = AnalysisLanguage();
+			var analysisLanguage = (Program.CurrentProject != null) ? Program.CurrentProject.AnalysisISO3CodeAndName : AnalysisLanguage();
 
 			// create IMDI session
 			var imdiSession = model.AddSession(saymoreSession.Id);
@@ -454,6 +454,24 @@ namespace SayMore.Model
 					else
 						_defaultLanguage = new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName);
 					package.ContentIso3Languages.Add(_defaultLanguage);
+				}
+			}
+
+			// analysis language
+			if (!string.IsNullOrEmpty(saymoreProject.AnalysisISO3CodeAndName))
+			{
+				var parts = saymoreProject.AnalysisISO3CodeAndName.SplitTrimmed(':').ToArray();
+				if (parts.Length == 2)
+				{
+					var language = LanguageList.FindByISO3Code(parts[0]);
+
+					// SP-765:  Allow codes from Ethnologue that are not in the Arbil list
+					if (string.IsNullOrEmpty(language?.EnglishName))
+						_defaultLanguage = new ArchivingLanguage(parts[0], parts[1], parts[1]);
+					else
+						_defaultLanguage = new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName);
+					//package.AnalysisISO3CodeAndName.Add(_defaultLanguage);
+					package.MetadataIso3Languages.Add(_defaultLanguage);
 				}
 			}
 

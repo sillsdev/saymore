@@ -172,6 +172,11 @@ namespace SayMore.Model
 				imdiSession.SetDate(sessionDateTime.ToISO8601TimeFormatDateOnlyString());
 			}
 
+			// session languages
+			if (_defaultLanguage != null)
+				imdiSession.AddContentLanguage(_defaultLanguage, new LanguageString("Content Language", analysisLanguage));
+			imdiSession.AddContentLanguage(new ArchivingLanguage(analysisLanguage), new LanguageString("Working Language", analysisLanguage));
+
 			// session situation
 			stringVal = saymoreSession.MetaDataFile.GetStringValue("situation", null);
 			if (!string.IsNullOrEmpty(stringVal))
@@ -449,10 +454,9 @@ namespace SayMore.Model
 					var language = LanguageList.FindByISO3Code(parts[0]);
 
 					// SP-765:  Allow codes from Ethnologue that are not in the Arbil list
-					if (string.IsNullOrEmpty(language?.EnglishName))
-						_defaultLanguage = new ArchivingLanguage(parts[0], parts[1], parts[1]);
-					else
-						_defaultLanguage = new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName);
+					_defaultLanguage = string.IsNullOrEmpty(language?.EnglishName) ?
+						new ArchivingLanguage(parts[0], parts[1], parts[1]) :
+						new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName);
 					package.ContentIso3Languages.Add(_defaultLanguage);
 				}
 			}
@@ -466,12 +470,17 @@ namespace SayMore.Model
 					var language = LanguageList.FindByISO3Code(parts[0]);
 
 					// SP-765:  Allow codes from Ethnologue that are not in the Arbil list
-					if (string.IsNullOrEmpty(language?.EnglishName))
-						_defaultLanguage = new ArchivingLanguage(parts[0], parts[1], parts[1]);
-					else
-						_defaultLanguage = new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName);
-					//package.AnalysisISO3CodeAndName.Add(_defaultLanguage);
-					package.MetadataIso3Languages.Add(_defaultLanguage);
+					var archiveAnalysisLangauge = string.IsNullOrEmpty(language?.EnglishName) ?
+						new ArchivingLanguage(parts[0], parts[1], parts[1]) :
+						new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName);
+					package.MetadataIso3Languages.Add(archiveAnalysisLangauge);
+				} else if (parts.Length == 1)
+				{
+					var language = LanguageList.FindByISO3Code(parts[0]);
+					if (!string.IsNullOrEmpty(language?.EnglishName))
+					{
+						package.MetadataIso3Languages.Add(new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName));
+					}
 				}
 			}
 

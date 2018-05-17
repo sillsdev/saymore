@@ -436,6 +436,25 @@ namespace SayMoreTests.Utilities
 		}
 
 		[Test]
+		public void AddIMDISession_ContentLanguage_AddTruToContentLanguagesWithDescription()
+		{
+			const string sampleLanguageCodeAndName = "tru:Truoyo";
+			var imdiProject = new Mock<Project>(MockBehavior.Strict, Path.Combine(Path.GetTempPath(), "foo", "foo." + Project.ProjectSettingsFileExtension), null, null);
+			var imdiPackage = new Mock<IMDIPackage>(false, string.Empty);
+			imdiProject.Object.VernacularISO3CodeAndName = sampleLanguageCodeAndName;
+			var model = AddIMDISessionTestSetup(out var imdiSession);
+			model.Setup(p => p.ArchivingPackage).Returns(imdiPackage.Object);
+			ArchivingHelper.AddIMDIProjectData(imdiProject.Object, model.Object);
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var val = (from c in imdiSession.Object.MDGroup.Content.Languages.Language
+				from n in c.Name
+				from d in c.Description
+				where d.Value.Contains("Content")
+				select n.Value).FirstOrDefault();
+			Assert.IsTrue(sampleLanguageCodeAndName.Contains(val));
+		}
+
+		[Test]
 		public void AddIMDISession_PersonNotes_AddPersonDescription()
 		{
 			const string sampleValue = "I met him in college";

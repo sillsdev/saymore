@@ -269,24 +269,22 @@ namespace SayMore.UI.Overview
 		private void _linkSelectWorkingLanguage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			// REVIEW: Do we need Force3LetterCodes? Can't find it in new implementation.
-			// using (var dialog = new LanguageLookupDialog { Force3LetterCodes = true, ShowDesiredLanguageNameField = true })
 			using (var dialog = new LanguageLookupDialog { IsDesiredLanguageNameFieldVisible = true })
 			{
 				var result = dialog.ShowDialog();
 				if (result == DialogResult.OK && dialog.SelectedLanguage != null)
-					_labelSelectedWorkingLanguage.Text = dialog.SelectedLanguage.LanguageTag + @": " + dialog.DesiredLanguageName; // REVIEW: This line was modified to get it to build
+					_labelSelectedWorkingLanguage.Text = $@"{dialog.SelectedLanguage.LanguageTag}: {dialog.DesiredLanguageName}";
 			}
 		}
 
 		private void _linkSelectContentLanguage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			// REVIEW: Do we need Force3LetterCodes? Can't find it in new implementation.
-			// using (var dialog = new LanguageLookupDialog { Force3LetterCodes = true, ShowDesiredLanguageNameField = true })
 			using (var dialog = new LanguageLookupDialog { IsDesiredLanguageNameFieldVisible = true })
 			{
 				var result = dialog.ShowDialog();
 				if (result == DialogResult.OK && dialog.SelectedLanguage != null)
-					_labelSelectedContentLanguage.Text = dialog.SelectedLanguage.LanguageTag + @": " + dialog.DesiredLanguageName; // REVIEW: This line was modified to get it to build
+					_labelSelectedContentLanguage.Text = $@"{dialog.SelectedLanguage.LanguageTag}: {dialog.DesiredLanguageName}";
 			}
 		}
 	}

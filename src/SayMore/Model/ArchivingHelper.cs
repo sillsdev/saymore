@@ -22,8 +22,8 @@ namespace SayMore.Model
 {
 	static class ArchivingHelper
 	{
-		internal static ArchivingLanguage _defaultLanguage;
 		internal static LanguageLookup _LanguageLookup = new LanguageLookup();
+		internal static Project Project = null; // Set for testing
 
 		/// ------------------------------------------------------------------------------------
 		internal static void ArchiveUsingIMDI(IIMDIArchivable element)
@@ -142,7 +142,11 @@ namespace SayMore.Model
 		internal static void AddIMDISession(Session saymoreSession, ArchivingDlgViewModel model)
 		{
 			var sessionFile = saymoreSession.MetaDataFile;
-			var analysisLanguage = (Program.CurrentProject != null) ? Program.CurrentProject.AnalysisISO3CodeAndName : AnalysisLanguage();
+			if (Project == null)
+				Project = Program.CurrentProject;
+			var analysisLanguage = (Project != null) ? Project.AnalysisISO3CodeAndName : AnalysisLanguage();
+			if (analysisLanguage.Contains(":"))
+				analysisLanguage = analysisLanguage.Split(':')[0];
 
 			// create IMDI session
 			var imdiSession = model.AddSession(saymoreSession.Id);
@@ -171,6 +175,14 @@ namespace SayMore.Model
 				sessionDateTime = DateTime.Parse(stringVal);
 				imdiSession.SetDate(sessionDateTime.ToISO8601TimeFormatDateOnlyString());
 			}
+
+			// session languages
+			if (Project != null)
+			{
+				var vernacularLanguage = ParseLanguage(Project.VernacularISO3CodeAndName, null);
+				imdiSession.AddContentLanguage(vernacularLanguage, new LanguageString("Content Language", analysisLanguage));
+			}
+			imdiSession.AddContentLanguage(new ArchivingLanguage(analysisLanguage), new LanguageString("Working Language", analysisLanguage));
 
 			// session situation
 			stringVal = saymoreSession.MetaDataFile.GetStringValue("situation", null);
@@ -325,9 +337,9 @@ namespace SayMore.Model
 		internal static string AnalysisLanguage()
 		{
 			var analysisLanguage = Settings.Default.UserInterfaceLanguage;
-			return analysisLanguage.Length != 2
-				? analysisLanguage
-				: _LanguageLookup.GetLanguageFromCode(analysisLanguage).ThreeLetterTag;
+			if (analysisLanguage.Length == 2)
+				analysisLanguage = _LanguageLookup.GetLanguageFromCode(analysisLanguage).ThreeLetterTag;
+			return $@"{analysisLanguage}: {_LanguageLookup.GetLanguageFromCode(analysisLanguage).DesiredName}";
 		}
 
 		internal static ArchivingLanguage GetOneLanguage(string languageKey)
@@ -342,11 +354,12 @@ namespace SayMore.Model
 				{
 					EnglishName = language.EnglishName
 				};
-			else if (_defaultLanguage != null)
+			else if (Project != null)
 			{
-				returnValue = new ArchivingLanguage(_defaultLanguage.Iso3Code, _defaultLanguage.LanguageName)
+				var archivingLanguage = ParseLanguage(Project.VernacularISO3CodeAndName, null);
+				returnValue = new ArchivingLanguage(archivingLanguage.Iso3Code, archivingLanguage.LanguageName)
 				{
-					EnglishName = _defaultLanguage.EnglishName
+					EnglishName = archivingLanguage.EnglishName
 				};
 			}
 			return returnValue;
@@ -399,7 +412,7 @@ namespace SayMore.Model
 			return string.IsNullOrEmpty(stringVal) ? null : stringVal;
 		}
 
-		private static void AddIMDIProjectData(Project saymoreProject, ArchivingDlgViewModel model)
+		internal static void AddIMDIProjectData(Project saymoreProject, ArchivingDlgViewModel model)
 		{
 			var package = (IMDIPackage) model.ArchivingPackage;
 
@@ -443,36 +456,13 @@ namespace SayMore.Model
 			// subject language
 			if (!string.IsNullOrEmpty(saymoreProject.VernacularISO3CodeAndName))
 			{
-				var parts = saymoreProject.VernacularISO3CodeAndName.SplitTrimmed(':').ToArray();
-				if (parts.Length == 2)
-				{
-					var language = LanguageList.FindByISO3Code(parts[0]);
-
-					// SP-765:  Allow codes from Ethnologue that are not in the Arbil list
-					if (string.IsNullOrEmpty(language?.EnglishName))
-						_defaultLanguage = new ArchivingLanguage(parts[0], parts[1], parts[1]);
-					else
-						_defaultLanguage = new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName);
-					package.ContentIso3Languages.Add(_defaultLanguage);
-				}
+				ParseLanguage(saymoreProject.VernacularISO3CodeAndName, package);
 			}
 
 			// analysis language
 			if (!string.IsNullOrEmpty(saymoreProject.AnalysisISO3CodeAndName))
 			{
-				var parts = saymoreProject.AnalysisISO3CodeAndName.SplitTrimmed(':').ToArray();
-				if (parts.Length == 2)
-				{
-					var language = LanguageList.FindByISO3Code(parts[0]);
-
-					// SP-765:  Allow codes from Ethnologue that are not in the Arbil list
-					if (string.IsNullOrEmpty(language?.EnglishName))
-						_defaultLanguage = new ArchivingLanguage(parts[0], parts[1], parts[1]);
-					else
-						_defaultLanguage = new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName);
-					//package.AnalysisISO3CodeAndName.Add(_defaultLanguage);
-					package.MetadataIso3Languages.Add(_defaultLanguage);
-				}
+				ParseLanguage(saymoreProject.AnalysisISO3CodeAndName, package);
 			}
 
 			// project description documents
@@ -496,6 +486,33 @@ namespace SayMore.Model
 				if (files.Length > 0)
 					AddDocumentsSession(ProjectOtherDocsScreen.kArchiveSessionName, files, model);
 			}
+		}
+
+		private static ArchivingLanguage ParseLanguage(string languageDesignator, IArchivingPackage package)
+		{
+			ArchivingLanguage archivingLanguage = null;
+			var parts = languageDesignator.SplitTrimmed(':').ToArray();
+			if (parts.Length == 2)
+			{
+				var language = LanguageList.FindByISO3Code(parts[0]);
+
+				// SP-765:  Allow codes from Ethnologue that are not in the Arbil list
+				archivingLanguage = string.IsNullOrEmpty(language?.EnglishName)
+					? new ArchivingLanguage(parts[0], parts[1], parts[1])
+					: new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName);
+				package?.MetadataIso3Languages.Add(archivingLanguage);
+			}
+			else if (parts.Length == 1)
+			{
+				var language = LanguageList.FindByISO3Code(parts[0]);
+				if (!string.IsNullOrEmpty(language?.EnglishName))
+				{
+					archivingLanguage = new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName);
+					package?.MetadataIso3Languages.Add(archivingLanguage);
+				}
+			}
+
+			return archivingLanguage;
 		}
 
 		private static ArchivingFile CreateArchivingFile(string fileName)

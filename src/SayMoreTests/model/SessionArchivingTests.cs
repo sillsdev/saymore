@@ -261,7 +261,7 @@ namespace SayMoreTests.Utilities
 		[Category("SkipOnTeamCity")]
 		public void GetOneLanguage_UndefinedIso_ReturnsNull()
 		{
-			ArchivingHelper._defaultLanguage = null;
+			ArchivingHelper.Project = null;
 			var returnValue = ArchivingHelper.GetOneLanguage("tru");
 			Assert.IsNull(returnValue);
 		}
@@ -269,7 +269,7 @@ namespace SayMoreTests.Utilities
 		[Test]
 		public void GetOneLanguage_UnDefinedName_ReturnsNull()
 		{
-			ArchivingHelper._defaultLanguage = null;
+			ArchivingHelper.Project = null;
 			var returnValue = ArchivingHelper.GetOneLanguage("Turoyo");
 			Assert.IsNull(returnValue);
 		}
@@ -277,21 +277,27 @@ namespace SayMoreTests.Utilities
 		[Test]
 		public void GetOneLanguage_DefaultIso_ReturnsCodeAndName()
 		{
-			ArchivingHelper._defaultLanguage = new ArchivingLanguage("tru", "Turoyo", "Turoyo");
+			var project = new Mock<Project>(MockBehavior.Strict, Path.Combine(Path.GetTempPath(), "foo", "foo." + Project.ProjectSettingsFileExtension), null, null);
+			project.Object.VernacularISO3CodeAndName = "tru:Turoyo";
+			ArchivingHelper.Project = project.Object;
 			var returnValue = ArchivingHelper.GetOneLanguage("tru");
 			Assert.AreEqual("tru", returnValue.Iso3Code);
 			Assert.AreEqual("Turoyo", returnValue.LanguageName);
 			Assert.AreEqual("Turoyo", returnValue.EnglishName);
+			ArchivingHelper.Project = null;
 		}
 
 		[Test]
 		public void GetOneLanguage_DefaultName_ReturnsCodeAndName()
 		{
-			ArchivingHelper._defaultLanguage = new ArchivingLanguage("tru", "Turoyo", "Turoyo");
+			var project = new Mock<Project>(MockBehavior.Strict, Path.Combine(Path.GetTempPath(), "foo", "foo." + Project.ProjectSettingsFileExtension), null, null);
+			project.Object.VernacularISO3CodeAndName = "tru:Turoyo";
+			ArchivingHelper.Project = project.Object;
 			var returnValue = ArchivingHelper.GetOneLanguage("Turoyo");
 			Assert.AreEqual("tru", returnValue.Iso3Code);
 			Assert.AreEqual("Turoyo", returnValue.LanguageName);
 			Assert.AreEqual("Turoyo", returnValue.EnglishName);
+			ArchivingHelper.Project = null;
 		}
 
 		/// <see cref="en.wikipedia.org/wiki/List_of_ISO_639-2_codes"/>
@@ -299,7 +305,7 @@ namespace SayMoreTests.Utilities
 		[Category("SkipOnTeamCity")]
 		public void GetOneLanguage_PrivateUseIso_ReturnsNull()
 		{
-			ArchivingHelper._defaultLanguage = null;
+			ArchivingHelper.Project = null;
 			var returnValue = ArchivingHelper.GetOneLanguage("qaa");
 			Assert.IsNull(returnValue);
 		}
@@ -308,7 +314,7 @@ namespace SayMoreTests.Utilities
 		[Test]
 		public void GetOneLanguage_MissingIso_ReturnsNull()
 		{
-			ArchivingHelper._defaultLanguage = null;
+			ArchivingHelper.Project = null;
 			var returnValue = ArchivingHelper.GetOneLanguage("mis");
 			Assert.IsNull(returnValue);
 		}
@@ -317,7 +323,7 @@ namespace SayMoreTests.Utilities
 		[Test]
 		public void GetOneLanguage_UndeterminedIso_ReturnsNull()
 		{
-			ArchivingHelper._defaultLanguage = null;
+			ArchivingHelper.Project = null;
 			var returnValue = ArchivingHelper.GetOneLanguage("und");
 			Assert.IsNull(returnValue);
 		}
@@ -325,7 +331,7 @@ namespace SayMoreTests.Utilities
 		[Test]
 		public void AnalysisLanguage_DefaultCase_ReturnsEnglishCode()
 		{
-			Assert.AreEqual("eng", ArchivingHelper.AnalysisLanguage());
+			Assert.AreEqual("eng: English", ArchivingHelper.AnalysisLanguage());
 		}
 
 		[Test]
@@ -433,6 +439,44 @@ namespace SayMoreTests.Utilities
 			var val = (from d in imdiSession.Object.MDGroup.Content.Description
 				select d.Value).FirstOrDefault();
 			Assert.AreEqual(sampleNote, val);
+		}
+
+		[Test]
+		public void AddIMDISession_ContentLanguage_AddTruToContentLanguagesWithContentDescription()
+		{
+			const string sampleLanguageCodeAndName = "tru:Turoyo";
+			var project = new Mock<Project>(MockBehavior.Strict, Path.Combine(Path.GetTempPath(), "foo", "foo." + Project.ProjectSettingsFileExtension), null, null);
+			project.Object.VernacularISO3CodeAndName = sampleLanguageCodeAndName;
+			project.Object.AnalysisISO3CodeAndName = "eng:English";
+			var model = AddIMDISessionTestSetup(out var imdiSession);
+			ArchivingHelper.Project = project.Object;
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var val = (from c in imdiSession.Object.MDGroup.Content.Languages.Language
+				from n in c.Name
+				from d in c.Description
+				where d.Value.Contains("Content")
+				select n.Value).FirstOrDefault();
+			Assert.IsTrue(sampleLanguageCodeAndName.Contains(val));
+			ArchivingHelper.Project = null;
+		}
+
+		[Test]
+		public void AddIMDISession_WorkingLanguage_AddFraToContentLanguagesWithWorkingDescription()
+		{
+			const string sampleLanguageCodeAndName = "fra:French";
+			var project = new Mock<Project>(MockBehavior.Strict, Path.Combine(Path.GetTempPath(), "foo", "foo." + Project.ProjectSettingsFileExtension), null, null);
+			project.Object.VernacularISO3CodeAndName = "tru:Turoyo";
+			project.Object.AnalysisISO3CodeAndName = sampleLanguageCodeAndName;
+			var model = AddIMDISessionTestSetup(out var imdiSession);
+			ArchivingHelper.Project = project.Object;
+			ArchivingHelper.AddIMDISession(_session, model.Object);
+			var val = (from c in imdiSession.Object.MDGroup.Content.Languages.Language
+				from n in c.Name
+				from d in c.Description
+				where d.Value.Contains("Working")
+				select n.Value).FirstOrDefault();
+			Assert.IsTrue(sampleLanguageCodeAndName.Contains(val));
+			ArchivingHelper.Project = null;
 		}
 
 		[Test]

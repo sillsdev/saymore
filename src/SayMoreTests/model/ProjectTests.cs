@@ -14,7 +14,6 @@ using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMoreTests.Utilities;
 using SIL.Archiving;
-using Ionic.Zip;
 using NAudio.Wave;
 
 namespace SayMoreTests.Model

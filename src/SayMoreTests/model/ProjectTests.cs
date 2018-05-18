@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml.Linq;
 using Moq;
 using NUnit.Framework;
@@ -12,6 +13,9 @@ using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMoreTests.Utilities;
+using SIL.Archiving;
+using Ionic.Zip;
+using NAudio.Wave;
 
 namespace SayMoreTests.Model
 {
@@ -264,6 +268,54 @@ namespace SayMoreTests.Model
 
 			prj.SetFilesToArchive(model.Object);
 			model.VerifyAll();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[RequiresSTA]
+		public void SetFilesToArchiveOnRAMP_MockAProjectWithThreePeople_TestNumberOfFilesForEachPerson()
+		{
+			var prj = CreateProject(_parentFolder);
+			string person1 = CreateMockedPerson("ddo");
+			string person2 = CreateMockedPerson("tlb");
+			string person3 = CreateMockedPerson("tws");
+			_dummySessions.Add(CreateDummySession("The Frog Dance", person1, person2));
+			_dummySessions.Add(CreateDummySession("Underwater Marriage", person2));
+			_dummySessions.Add(CreateDummySession("Why Rice Can't Fly", person1, person3));
+			var model = new Mock<RampArchivingDlgViewModel>(MockBehavior.Default, "SayMore", "ddo",
+				"ddo-session", "whatever", null, new Func<string, string, string>((a, b) => a));
+
+			// sessions
+			model.Setup(s => s.AddSession(_dummySessions[0].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[0].Id });
+			model.Setup(s => s.AddSession(_dummySessions[1].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[1].Id });
+			model.Setup(s => s.AddSession(_dummySessions[2].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[2].Id });
+
+			// session files
+			model.Setup(s => s.AddFileGroup(_dummySessions[0].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[0].Title)));
+			model.Setup(s => s.AddFileGroup(_dummySessions[1].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[1].Title)));
+			model.Setup(s => s.AddFileGroup(_dummySessions[2].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[2].Title)));
+
+			// contributor files
+			model.Setup(s => s.AddFileGroup("\n" + person1, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
+			model.Setup(s => s.AddFileGroup("\n" + person2, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
+			model.Setup(s => s.AddFileGroup("\n" + person3, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
+
+			model.Setup(f => f.AddFileGroup(It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<string>()))
+				.Callback((string groupId, IEnumerable<string> files, string msg) => TrackFiles(groupId, files, msg));
+
+			prj.SetFilesToArchive(model.Object);
+			Assert.AreEqual(11, _fileList.Count);
+			Assert.AreEqual(4, (from f in _fileList where f.Contains(person1) select f).Count());
+			Assert.AreEqual(4, (from f in _fileList where f.Contains(person2) select f).Count());
+			Assert.AreEqual(2, (from f in _fileList where f.Contains(person3) select f).Count());
+			_fileList.Clear();
+		}
+
+		private readonly List<string> _fileList = new List<string>();
+
+		private void TrackFiles(string groupId, IEnumerable<string> files, string msg)
+		{
+			_fileList.AddRange(files);
 		}
 
 		///// ------------------------------------------------------------------------------------

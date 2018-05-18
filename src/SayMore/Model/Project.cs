@@ -4,12 +4,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using DesktopAnalytics;
+using Ionic.Zip;
 using L10NSharp;
 using SIL.Extensions;
 using SIL.Reporting;
@@ -23,6 +25,7 @@ using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Model.Files;
 using SayMore.UI;
+using SIL.Windows.Forms.ClearShare;
 
 namespace SayMore.Model
 {
@@ -33,7 +36,7 @@ namespace SayMore.Model
 	/// people, and another of sessions.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class Project : IAutoSegmenterSettings, IIMDIArchivable, IDisposable
+	public class Project : IAutoSegmenterSettings, IIMDIArchivable, IRAMPArchivable, IDisposable
 	{
 		private ElementRepository<Session>.Factory _sessionsRepoFactory;
 		private readonly SessionFileType _sessionFileType;
@@ -313,6 +316,54 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public string GetFileDescription(string key, string file)
+		{
+			var description = (key == string.Empty ? "SayMore Session File" : "SayMore Contributor File");
+
+			if (file.ToLower().EndsWith(Settings.Default.SessionFileExtension))
+				description = "SayMore Session Metadata (XML)";
+			else if (file.ToLower().EndsWith(Settings.Default.PersonFileExtension))
+				description = "SayMore Contributor Metadata (XML)";
+			else if (file.ToLower().EndsWith(Settings.Default.MetadataFileExtension))
+				description = "SayMore File Metadata (XML)";
+
+			return description;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetAdditionalMetsData(RampArchivingDlgViewModel model)
+		{
+			foreach (var session in GetAllSessions())
+			{
+				model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
+				model.SetDomains(SilDomain.Ling_LanguageDocumentation);
+
+				var value = session.MetaDataFile.GetStringValue(SessionFileType.kDateFieldName, null);
+				if (!string.IsNullOrEmpty(value))
+					model.SetCreationDate(value);
+
+				// Return the session's note as the abstract portion of the package's description.
+				value = session.MetaDataFile.GetStringValue(SessionFileType.kSynopsisFieldName, null);
+				if (!string.IsNullOrEmpty(value))
+					model.SetAbstract(value, string.Empty);
+
+				// Set contributors
+				var contributions = session.MetaDataFile.GetValue("contributions", null) as ContributionCollection;
+				if (contributions != null && contributions.Count > 0)
+					model.SetContributors(contributions);
+
+				// Return total duration of source audio/video recordings.
+				TimeSpan totalDuration = session.GetTotalDurationOfSourceMedia();
+				if (totalDuration.Ticks > 0)
+					model.SetAudioVideoExtent(string.Format("Total Length of Source Recordings: {0}", totalDuration.ToString()));
+
+				//First session details are enough for "Archive RAMP (SIL)..." from Project menu
+				break;
+			}
+		}
+
+
+		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
 			// SP-791: Invalid URI: The hostname could not be parsed.
@@ -406,6 +457,13 @@ namespace SayMore.Model
 			var attrib = project.Attribute(attribName);
 			double val;
 			return (attrib != null && Double.TryParse(attrib.Value, out val)) ? val : default(double);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void CustomFilenameNormalization(string key, string file, StringBuilder bldr)
+		{
+			if (key != string.Empty)
+				bldr.Insert(0, "__Contributors__");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -544,8 +602,13 @@ namespace SayMore.Model
 			ArchivingHelper.SetIMDIMetadataToArchive(this, model);
 		}
 
+		public void InitializeModel(RampArchivingDlgViewModel model)
+		{
+			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
+		}
+
 		/// ------------------------------------------------------------------------------------
-		private void DisplayInitialArchiveSummary(IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists, ArchivingDlgViewModel model)
+		public void DisplayInitialArchiveSummary(IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists, ArchivingDlgViewModel model)
 		{
 			foreach (var message in model.AdditionalMessages)
 				model.DisplayMessage(message.Key + "\n", message.Value);
@@ -569,11 +632,11 @@ namespace SayMore.Model
 
 			foreach (var kvp in fileLists)
 			{
-				var element = (kvp.Key.StartsWith("\n") ?
+				var element = (kvp.Key.StartsWith("\n") || kvp.Key.Length > 0 ?
 					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor") :
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Session"));
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Sessions"));
 
-				model.DisplayMessage(string.Format(fmt, element, (kvp.Key.StartsWith("\n") ? kvp.Key.Substring(1) : kvp.Key)),
+				model.DisplayMessage(string.Format(fmt, element, (kvp.Key.StartsWith("\n") || kvp.Key.Length > 0 ? kvp.Key.Substring(1) : Title)),
 					ArchivingDlgViewModel.MessageType.Progress);
 
 				foreach (var file in kvp.Value.Item1)
@@ -590,63 +653,119 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		internal void ArchiveProjectUsingRAMP(Form parentForm)
+		{
+			Analytics.Track("Archive Project using RAMP");
+			ArchivingHelper.ArchiveUsingRAMP(this);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void SetFilesToArchive(ArchivingDlgViewModel model)
 		{
-			Dictionary<string, HashSet<string>> contributorFiles = new Dictionary<string, HashSet<string>>();
-			Type archiveType = model.GetType();
-			foreach (var session in GetAllSessions())
+			if (model is RampArchivingDlgViewModel)
 			{
-				model.AddFileGroup(session.Id, session.GetSessionFilesToArchive(archiveType), session.AddingSessionFilesProgressMsg);
-				foreach (var person in session.GetParticipantFilesToArchive(model.GetType()))
+				Dictionary<string, HashSet<string>> contributorFiles = new Dictionary<string, HashSet<string>>();
+				model.AddFileGroup(string.Empty, GetSessionFilesToArchive(model.GetType()), AddingSessionFilesProgressMsg);
+				var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
+				foreach (var session in GetAllSessions())
 				{
-					if (!contributorFiles.ContainsKey(person.Key))
-						contributorFiles.Add(person.Key, new HashSet<string>());
+					foreach (var person in session.GetParticipantFilesToArchive(model.GetType()))
+					{
+						model.AddFileGroup(person.Key, person.Value, string.Format(fmt, person.Key));
 
-					foreach (var file in person.Value)
-						contributorFiles[person.Key].Add(file);
-				}
+						if (!contributorFiles.ContainsKey(person.Key))
+							contributorFiles.Add(person.Key, new HashSet<string>());
 
-				IArchivingSession s = model.AddSession(session.Id);
-				s.Location.Address = session.MetaDataFile.GetStringValue(SessionFileType.kLocationFieldName, string.Empty);
-				s.Title = session.Title;
-			}
-
-			// project description documents
-			var docsPath = Path.Combine(FolderPath, ProjectDescriptionDocsScreen.kFolderName);
-			if (Directory.Exists(docsPath))
-			{
-				var files = Directory.GetFiles(docsPath, "*.*", SearchOption.TopDirectoryOnly);
-
-				// the directory exists and contains files
-				if (files.Length > 0)
-				{
-					model.AddFileGroup(ProjectDescriptionDocsScreen.kArchiveSessionName, files,
-						LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingProjectDescriptionDocumentsToIMDIArchiveProgressMsg",
-							"Adding Project Description Documents..."));
+						foreach (var file in person.Value)
+							contributorFiles[person.Key].Add(file);
+					}
 				}
 			}
-
-			// other project documents
-			docsPath = Path.Combine(FolderPath, ProjectOtherDocsScreen.kFolderName);
-			if (Directory.Exists(docsPath))
+			else
 			{
-				var files = Directory.GetFiles(docsPath, "*.*", SearchOption.TopDirectoryOnly);
-
-				// the directory exists and contains files
-				if (files.Length > 0)
+				Dictionary<string, HashSet<string>> contributorFiles = new Dictionary<string, HashSet<string>>();
+				Type archiveType = model.GetType();
+				foreach (var session in GetAllSessions())
 				{
-					model.AddFileGroup(ProjectOtherDocsScreen.kArchiveSessionName, files,
-						LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingOtherProjectDocumentsToIMDIArchiveProgressMsg",
-							"Adding Other Project Documents..."));
+					model.AddFileGroup(session.Id, session.GetSessionFilesToArchive(archiveType),
+						session.AddingSessionFilesProgressMsg);
+					foreach (var person in session.GetParticipantFilesToArchive(model.GetType()))
+					{
+						if (!contributorFiles.ContainsKey(person.Key))
+							contributorFiles.Add(person.Key, new HashSet<string>());
+
+						foreach (var file in person.Value)
+							contributorFiles[person.Key].Add(file);
+					}
+
+					IArchivingSession s = model.AddSession(session.Id);
+					s.Location.Address = session.MetaDataFile.GetStringValue(SessionFileType.kLocationFieldName, string.Empty);
+					s.Title = session.Title;
+				}
+
+				// project description documents
+				var docsPath = Path.Combine(FolderPath, ProjectDescriptionDocsScreen.kFolderName);
+				if (Directory.Exists(docsPath))
+				{
+					var files = Directory.GetFiles(docsPath, "*.*", SearchOption.TopDirectoryOnly);
+
+					// the directory exists and contains files
+					if (files.Length > 0)
+					{
+						model.AddFileGroup(ProjectDescriptionDocsScreen.kArchiveSessionName, files,
+							LocalizationManager.GetString(
+								"DialogBoxes.ArchivingDlg.AddingProjectDescriptionDocumentsToIMDIArchiveProgressMsg",
+								"Adding Project Description Documents..."));
+					}
+				}
+
+				// other project documents
+				docsPath = Path.Combine(FolderPath, ProjectOtherDocsScreen.kFolderName);
+				if (Directory.Exists(docsPath))
+				{
+					var files = Directory.GetFiles(docsPath, "*.*", SearchOption.TopDirectoryOnly);
+
+					// the directory exists and contains files
+					if (files.Length > 0)
+					{
+						model.AddFileGroup(ProjectOtherDocsScreen.kArchiveSessionName, files,
+							LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingOtherProjectDocumentsToIMDIArchiveProgressMsg",
+								"Adding Other Project Documents..."));
+					}
+				}
+
+				foreach (var key in contributorFiles.Keys)
+				{
+					model.AddFileGroup("\n" + key, contributorFiles[key],
+						LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesToIMDIArchiveProgressMsg",
+							"Adding Files for Contributors..."));
 				}
 			}
+		}
 
-			foreach (var key in contributorFiles.Keys)
+		/// ------------------------------------------------------------------------------------
+		public string AddingSessionFilesProgressMsg
+		{
+			get
 			{
-				model.AddFileGroup("\n" + key, contributorFiles[key],
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesToIMDIArchiveProgressMsg",
-					"Adding Files for Contributors..."));
+				return string.Format(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg",
+					"Adding Files for Session '{0}'"), Title);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<string> GetSessionFilesToArchive(Type typeOfArchive)
+		{
+			using (ZipFile zip = new ZipFile())
+			{
+				// RAMP packages must not be compressed or RAMP can't read them.
+				zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None;
+				zip.AddDirectory(FolderPath);
+				zip.Save(Path.Combine(FolderPath, "Sessions.zip"));
+			}
+			var filesInDir = Directory.GetFiles(FolderPath);
+			return filesInDir.Where(f => ArchivingHelper.IncludeFileInArchive(f, typeOfArchive, Settings.Default.SessionFileExtension));
+
 		}
 		#endregion
 	}

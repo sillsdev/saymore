@@ -25,7 +25,7 @@ namespace SayMore.Model
 	/// the session.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class Session : ProjectElement, IIMDIArchivable
+	public class Session : ProjectElement, IIMDIArchivable, IRAMPArchivable
 	{
 		public static string kFolderName = "Sessions";
 
@@ -417,6 +417,11 @@ namespace SayMore.Model
 			ArchivingHelper.SetIMDIMetadataToArchive(this, model);
 		}
 
+		public void InitializeModel(RampArchivingDlgViewModel model)
+		{
+			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public void SetFilesToArchive(ArchivingDlgViewModel model)
 		{
@@ -429,7 +434,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void DisplayInitialArchiveSummary(IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists, ArchivingDlgViewModel model)
+		public void DisplayInitialArchiveSummary(IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists, ArchivingDlgViewModel model)
 		{
 			foreach (var message in model.AdditionalMessages)
 				model.DisplayMessage(message.Key + "\n", message.Value);
@@ -493,7 +498,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void SetAdditionalMetsData(RampArchivingDlgViewModel model)
+		public void SetAdditionalMetsData(RampArchivingDlgViewModel model)
 		{
 			model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
 			model.SetDomains(SilDomain.Ling_LanguageDocumentation);
@@ -521,7 +526,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string GetFileDescription(string key, string file)
+		public string GetFileDescription(string key, string file)
 		{
 			var description = (key == string.Empty ? "SayMore Session File" : "SayMore Contributor File");
 
@@ -536,7 +541,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void CustomFilenameNormalization(string key, string file, StringBuilder bldr)
+		public void CustomFilenameNormalization(string key, string file, StringBuilder bldr)
 		{
 			if (key != string.Empty)
 				bldr.Insert(0, "__Contributors__");

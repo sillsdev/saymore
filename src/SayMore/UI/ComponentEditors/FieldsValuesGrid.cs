@@ -344,8 +344,16 @@ namespace SayMore.UI.ComponentEditors
 			else
 			{
 				string oldId;
+
 				if (!_model.GetShouldAskToRemoveFieldEverywhere(e.RowIndex, e.Value as string, out oldId))
+				{
+					if (e.Value == null)
+					{
+						RowCount--;
+						return;
+					}
 					_model.SaveIdForIndex(e.RowIndex, e.Value as string);
+				}
 				else
 				{
 					if (AskUserToVerifyRemovingFieldEverywhere(oldId))

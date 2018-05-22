@@ -344,8 +344,21 @@ namespace SayMore.UI.ComponentEditors
 			else
 			{
 				string oldId;
+
 				if (!_model.GetShouldAskToRemoveFieldEverywhere(e.RowIndex, e.Value as string, out oldId))
-					_model.SaveIdForIndex(e.RowIndex, e.Value as string);
+				{
+					//SP-1815 Crash deleting custom field
+					//If Custom-field is empty, We should not add the value to the model.
+					//We decrement the row count to remove the row with empty value from the grid
+					if (!string.IsNullOrEmpty(e.Value as string))
+					{
+						_model.SaveIdForIndex(e.RowIndex, e.Value as string);
+					}
+					else
+					{
+						RowCount--;
+					}
+				}
 				else
 				{
 					if (AskUserToVerifyRemovingFieldEverywhere(oldId))

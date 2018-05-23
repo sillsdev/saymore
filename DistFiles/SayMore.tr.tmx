@@ -7157,22 +7157,10 @@ Avrupa</seg>
         <seg>Depozitör kontrolü</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.C">
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.O">
       <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
-        <seg>only Community members are allowed access (normally requires application to Depositor)</seg>
-      </tuv>
-      <tuv xml:lang="tr">
-        <seg>Yalnızca Topluluk üyelerine erişim izni verilmektedir (normalde Depozitöre başvuru gerektirir)</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.R">
-      <prop type="x-dynamic">true</prop>
-      <tuv xml:lang="en">
-        <seg>Researchers and Community members are allowed access</seg>
-      </tuv>
-      <tuv xml:lang="tr">
-        <seg>Araştırmacılar ve Topluluk üyeleri erişim izin verilir</seg>
+        <seg>Open to unregistered visitors</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.S">
@@ -7180,17 +7168,11 @@ Avrupa</seg>
       <tuv xml:lang="en">
         <seg>only Subscribers are allowed access (requires application to Depositor)</seg>
       </tuv>
-      <tuv xml:lang="tr">
-        <seg>Yalnızca üyelere erişim izin verilir (Depozitöre başvuru gerektirir)</seg>
-      </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.U">
       <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
-        <seg>all Users can access</seg>
-      </tuv>
-      <tuv xml:lang="tr">
-        <seg>tüm Kullanıcılar erişebilir</seg>
+        <seg>all ordinary Users can access</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.AccessProtocol.REAP.">

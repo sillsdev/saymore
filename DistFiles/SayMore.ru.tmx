@@ -7201,22 +7201,10 @@ A или запись согласия covering
         <seg>Kонтроль депонента</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.C">
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.O">
       <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
-        <seg>only Community members are allowed access (normally requires application to Depositor)</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>Только абонентам разрешен доступ (обычно требуется заявление Депозитору)</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.R">
-      <prop type="x-dynamic">true</prop>
-      <tuv xml:lang="en">
-        <seg>Researchers and Community members are allowed access</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg> Доступ разрешен исследователям и членам общественности</seg>
+        <seg>Open to unregistered visitors</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.S">
@@ -7224,17 +7212,11 @@ A или запись согласия covering
       <tuv xml:lang="en">
         <seg>only Subscribers are allowed access (requires application to Depositor)</seg>
       </tuv>
-      <tuv xml:lang="ru">
-        <seg>Только абонентам разрешен доступ (требуется заявление Депозитору)</seg>
-      </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.U">
       <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
-        <seg>all Users can access</seg>
-      </tuv>
-      <tuv xml:lang="ru">
-        <seg>все пользователи могут получить доступ</seg>
+        <seg>all ordinary Users can access</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.AccessProtocol.REAP.">

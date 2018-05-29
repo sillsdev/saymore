@@ -169,9 +169,33 @@ namespace SayMore.UI.ComponentEditors
 		{
 			string failureMessage;
 			_file.SetValue("contributions", _model.Contributions, out failureMessage);
+			_file.SetValue(SessionFileType.kParticipantsFieldName, GetParticipants(), out failureMessage);
 			_file.Save();
+
+			var frm = FindForm();
+			if (frm == null)
+				return;
+
+			//Set the people list whenever changes happen in Contributors list
+			foreach (var editor in Program.GetControlsOfType<SessionBasicEditor>(Program.ProjectWindow))
+				editor.SetPeople(GetParticipants());
+
 			if (failureMessage != null)
 				SIL.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+		}
+
+		/// --------------------------------------------------------------------------------------
+		/// Get the participants list from the Sessions contributions
+		/// --------------------------------------------------------------------------------------
+		private string GetParticipants()
+		{
+			string participants = string.Empty;
+			foreach (Contribution contributor in _model.Contributions)
+			{
+				participants += contributor.ContributorName + " (" + contributor.Role.Name + "); ";
+			}
+
+			return participants;
 		}
 
 		/// ------------------------------------------------------------------------------------

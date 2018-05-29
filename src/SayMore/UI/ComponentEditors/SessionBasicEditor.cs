@@ -56,7 +56,6 @@ namespace SayMore.UI.ComponentEditors
 
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
-			_participants.JITListAcquisition = HandleParticipantJustInTimeListAcquisition;
 
 			_id.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelId); };
 			_date.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelDate); };
@@ -68,6 +67,7 @@ namespace SayMore.UI.ComponentEditors
 			InitializeGrid(autoCompleteProvider, fieldGatherer);
 
 			file.AfterSave += file_AfterSave;
+
 
 			if (_personInformant != null)
 				_personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
@@ -154,19 +154,6 @@ namespace SayMore.UI.ComponentEditors
 		protected override void OnParentTabControlVisibleChanged()
 		{
 			OnEditorAndChildrenLostFocus();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnEditorAndChildrenLostFocus()
-		{
-			PrepareToDeactivate();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public override void PrepareToDeactivate()
-		{
-			if (_participants.Popup.IsShowing)
-				_participants.Popup.ClosePopup();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -393,6 +380,7 @@ namespace SayMore.UI.ComponentEditors
 				_gridViewModel.SetComponentFile(file);
 		}
 
+
 		/// ------------------------------------------------------------------------------------
 		public override void Activated()
 		{
@@ -462,6 +450,12 @@ namespace SayMore.UI.ComponentEditors
 			{
 				_genre.Text = _genre.Text.ToUpperFirstLetter();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetPeople(string participantsList)
+		{
+			_participants.Text = participantsList;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -607,6 +601,22 @@ namespace SayMore.UI.ComponentEditors
 				}
 
 				args.NewValue = FieldInstance.GetTextFromMultipleValues(participantNames);
+			}
+		}
+
+		private void _participants_Click(object sender, EventArgs e)
+		{
+			var frm = FindForm();
+			if (frm == null)
+				return;
+
+			var tabPages = ((ElementListScreen.ElementListScreen<Session>)frm.ActiveControl).SelectedComponentEditorsTabControl.TabPages;
+			foreach (TabPage tab in tabPages)
+			{
+				if (tab.ImageKey != @"Contributor") continue;
+				((ElementListScreen.ElementListScreen<Session>)frm.ActiveControl).SelectedComponentEditorsTabControl.SelectedTab = tab;
+				tab.Focus();
+				break;
 			}
 		}
 	}

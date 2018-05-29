@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
@@ -38,6 +39,8 @@ namespace SayMore.UI.ComponentEditors
 
 			InitializeGrid();
 
+			InsertLinkLabelBack(imageKey);
+
 			Controls.Add(_contributorsControl);
 
 			file.AfterSave += file_AfterSave;
@@ -46,6 +49,42 @@ namespace SayMore.UI.ComponentEditors
 
 			if (personInformant != null)
 				personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
+		}
+
+		private void InsertLinkLabelBack(string imageKey)
+		{
+			if (imageKey != null)
+			{
+				LinkLabel linkBack = new LinkLabel();
+				linkBack.BackColor = Color.Transparent;
+				linkBack.ForeColor = Color.Black;
+				linkBack.LinkColor = Color.Black;
+				linkBack.DisabledLinkColor = Color.Black;
+				linkBack.TextAlign = ContentAlignment.TopRight;
+				linkBack.Dock = DockStyle.Right;
+				linkBack.Text = "\u003C";
+				linkBack.Name = "linkBack";
+				linkBack.Font = new Font("Segoe UI Symbol", 16);
+				linkBack.LinkBehavior = LinkBehavior.NeverUnderline;
+				linkBack.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleLinkClick);
+				Controls.Add(linkBack);
+			}
+		}
+
+		private void HandleLinkClick(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			var frm = FindForm();
+			if (frm == null)
+				return;
+
+			var tabPages = ((ElementListScreen.ElementListScreen<Session>)frm.ActiveControl).SelectedComponentEditorsTabControl.TabPages;
+			foreach (TabPage tab in tabPages)
+			{
+				if (tab.ImageKey != @"Session") continue;
+				((ElementListScreen.ElementListScreen<Session>)frm.ActiveControl).SelectedComponentEditorsTabControl.SelectedTab = tab;
+				tab.Focus();
+				break;
+			}
 		}
 
 		/// <remarks>SP-874: Not able to open L10NSharp with Alt-Shift-click</remarks>
@@ -169,9 +208,33 @@ namespace SayMore.UI.ComponentEditors
 		{
 			string failureMessage;
 			_file.SetValue("contributions", _model.Contributions, out failureMessage);
+			_file.SetValue(SessionFileType.kParticipantsFieldName, GetParticipants(), out failureMessage);
 			_file.Save();
+
+			var frm = FindForm();
+			if (frm == null)
+				return;
+
+			//Set the people list whenever changes happen in Contributors list
+			foreach (var editor in Program.GetControlsOfType<SessionBasicEditor>(Program.ProjectWindow))
+				editor.SetPeople(GetParticipants());
+
 			if (failureMessage != null)
 				SIL.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+		}
+
+		/// --------------------------------------------------------------------------------------
+		/// Get the participants list from the Sessions contributions
+		/// --------------------------------------------------------------------------------------
+		private string GetParticipants()
+		{
+			string participants = string.Empty;
+			foreach (Contribution contributor in _model.Contributions)
+			{
+				participants += contributor.ContributorName + " (" + contributor.Role.Name + "); ";
+			}
+
+			return participants;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -370,6 +370,7 @@ namespace SayMore.Model.Files
 
 		private readonly Func<SessionBasicEditor.Factory> _sessionBasicEditorFactoryLazy;
 		private readonly Func<StatusAndStagesEditor.Factory> _statusAndStagesEditorFactoryLazy;
+		private readonly Func<ContributorsEditor.Factory> _sessionContributorEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -381,11 +382,12 @@ namespace SayMore.Model.Files
 		/// <param name="statusAndStagesEditorFactoryLazy"></param>
 		/// ------------------------------------------------------------------------------------
 		public SessionFileType(Func<SessionBasicEditor.Factory> sessionBasicEditorFactoryLazy,
-			Func<StatusAndStagesEditor.Factory> statusAndStagesEditorFactoryLazy)
+			Func<StatusAndStagesEditor.Factory> statusAndStagesEditorFactoryLazy, Func<ContributorsEditor.Factory> sessionContributorEditorFactoryLazy)
 			: base("Session", p => p.ToLower().EndsWith(Settings.Default.SessionFileExtension.ToLower()))
 		{
 			_sessionBasicEditorFactoryLazy = sessionBasicEditorFactoryLazy;
 			_statusAndStagesEditorFactoryLazy = statusAndStagesEditorFactoryLazy;
+			_sessionContributorEditorFactoryLazy = sessionContributorEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -509,6 +511,7 @@ namespace SayMore.Model.Files
 		{
 			yield return _sessionBasicEditorFactoryLazy()(file, "Session");
 			yield return _statusAndStagesEditorFactoryLazy()(file, "StatusAndStages");
+			yield return _sessionContributorEditorFactoryLazy()(file, "Contributor");
 			yield return new NotesEditor(file);
 		}
 

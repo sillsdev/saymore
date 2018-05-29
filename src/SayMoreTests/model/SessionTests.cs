@@ -82,7 +82,7 @@ namespace SayMoreTests.Model
 				ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Source", Color.Empty, Color.Empty));
 
 			return new Session(_parentFolder.Path, "dummyId", null,
-				new SessionFileType(() => null, () => null), componentFactory,
+				new SessionFileType(() => null, () => null, () => null), componentFactory,
 				new XmlFileSerializer(null), factory, componentRoles, personInformant.Object, project);
 
 			//ComponentFile.CreateMinimalComponentFileForTests

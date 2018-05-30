@@ -604,7 +604,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 		}
 
-		private void _participants_Click(object sender, EventArgs e)
+		private void HandlePeopleEditClick(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			var frm = FindForm();
 			if (frm == null)

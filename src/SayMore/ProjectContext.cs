@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Windows.Navigation;
+using System.Xml;
 using Autofac;
 using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
+using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
@@ -42,6 +46,8 @@ namespace SayMore
 
 			Project = _scope.Resolve<Func<string, Project>>()(projectSettingsPath);
 
+			SetContributorsListToSession(Project.SessionsFolder);
+
 			var peopleRepoFactory = _scope.Resolve<ElementRepository<Person>.Factory>();
 			peopleRepoFactory(rootDirectoryPath, Person.kFolderName, _scope.Resolve<PersonFileType>());
 
@@ -72,6 +78,79 @@ namespace SayMore
 			};
 
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath, views);
+		}
+
+		///-------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Set the contributor list to the session file from the metafiles
+		/// </summary>
+		/// <param name="sessionsFolder">Session folder path</param>
+		///-------------------------------------------------------------------------------------------------------
+		public static void SetContributorsListToSession(string sessionsFolder)
+		{
+			if (!Directory.Exists(sessionsFolder) || Path.GetFileName(sessionsFolder).ToLower() != "sessions")
+			{
+				return;
+			}
+			var dirLists = Directory.GetDirectories(sessionsFolder);
+			foreach (var sessionFldrPath in dirLists)
+			{
+				var sessionDoc = new XmlDocument();
+				List<KeyValuePair<string, string>> namesList = new List<KeyValuePair<string, string>>();
+				List<string> contributorLists = new List<string>();
+				var filesInDir = Directory.GetFiles(sessionFldrPath);
+				var sessionFile = filesInDir.Where(x => x.Contains(".session")).FirstOrDefault();
+				if (sessionFile == null) return;
+				var metaFilesList = filesInDir.Where(f => f.Contains(Settings.Default.MetadataFileExtension)).ToList();
+				sessionDoc.Load(sessionFile);
+				XmlNode root = sessionDoc.DocumentElement;
+				XmlNode contributionsNode = root.SelectSingleNode("contributions");
+				contributionsNode?.ParentNode?.RemoveChild(contributionsNode); //Remove the contributions node
+				if (root.LastChild != null)
+				{
+					foreach (var metaFile in metaFilesList)
+					{
+						var metaFileDoc = new XmlDocument();
+						metaFileDoc.Load(metaFile);
+						XmlNodeList nodelist = metaFileDoc.SelectNodes("//contributor");
+						if (nodelist != null)
+						{
+							foreach (XmlNode node in nodelist)
+							{
+								var name = node["name"]?.InnerText;
+								var role = node["role"]?.InnerText;
+								if (!namesList.Contains(new KeyValuePair<string, string>(name, role)))
+								{
+									namesList.Add(new KeyValuePair<string, string>(name, role));
+									contributorLists.Add(node.OuterXml);
+								}
+							}
+						}
+					}
+
+					string participants = string.Empty;
+					var newContributionsNode = sessionDoc.CreateElement("contributions");
+					newContributionsNode.SetAttribute("type", "xml");
+					foreach (string contributor in contributorLists)
+					{
+						newContributionsNode.InnerXml += contributor;
+					}
+
+					XmlNode participantsNode = root.SelectSingleNode("participants");
+					foreach (KeyValuePair<string, string> name in namesList)
+					{
+						participants += name.Key + " (" + name.Value + ");";
+					}
+
+					if (participantsNode != null && participants.Length > 0)
+					{
+						participantsNode.InnerText = participants;
+					}
+
+					root.InsertAfter(newContributionsNode, root.LastChild);
+					sessionDoc.Save(sessionFile);
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

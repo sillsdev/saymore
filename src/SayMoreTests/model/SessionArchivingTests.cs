@@ -593,7 +593,7 @@ namespace SayMoreTests.Utilities
 		public readonly Mock<ProjectElementComponentFile> MetaFile = new Mock<ProjectElementComponentFile>();
 		public ComponentFile[] MediaFiles;
 
-		public DummySession(string parentFolder, string name, PersonInformant personInformant, params string [] actors) : base(parentFolder, name + "-session", null, new SessionFileType(() => null, () => null),
+		public DummySession(string parentFolder, string name, PersonInformant personInformant, params string[] actors) : base(parentFolder, name + "-session", null, new SessionFileType(() => null, () => null, () => null),
 				MakeComponent, new XmlFileSerializer(null), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
 					ApplicationContainer.ComponentRoles, personInformant, null)

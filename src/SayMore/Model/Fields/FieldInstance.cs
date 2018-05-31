@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -204,7 +203,7 @@ namespace SayMore.Model.Fields
 			var list = text.Split(new[] { kDefaultMultiValueDelimiter, kAlternateMultiValueDelimiter },
 				StringSplitOptions.RemoveEmptyEntries);
 
-			list = GetAutoCompleteList(list);
+			list = ListWithoutRoles(list);
 
 			return (from val in list
 					where val.Trim() != string.Empty
@@ -213,32 +212,18 @@ namespace SayMore.Model.Fields
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// People name will be comes with role because of new feature,
-		/// We cropping the name from the list
+		/// Unique sorted list of names with role removed from name if present
 		/// </summary>
 		/// <param name="list">list of names</param>
 		/// <returns>names list without role</returns>
 		/// ------------------------------------------------------------------------------------
-		private static string[] GetAutoCompleteList(IEnumerable<string> list)
+		private static string[] ListWithoutRoles(IEnumerable<string> list)
 		{
-			var autoCompList = list.ToArray();
-			List<string> listNames = new List<string>();
-			if (list.Count(x => x.Contains("(")) > 0)
-			{
-				foreach (string name in list)
-				{
-					string cName = name;
-					if (name.Contains(" ("))
-					{
-						cName = name.Substring(0, name.IndexOf(" (", StringComparison.Ordinal));
-					}
-					if (!listNames.Contains(cName))
-						listNames.Add(cName);
-				}
-				autoCompList = listNames.ToArray();
-			}
-
-			return autoCompList;
+			if (list.Any(name => name.Contains(" (")))
+				return new SortedSet<string>(from name in list
+					let i = name.IndexOf(" (", StringComparison.Ordinal)
+					select i >= 0 ? name.Substring(0, i) : name).ToArray();
+			return list.ToArray();
 		}
 
 		/// ------------------------------------------------------------------------------------

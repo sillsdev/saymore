@@ -10,6 +10,7 @@ using SIL.Windows.Forms.ClearShare.WinFormsUI;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 
 
 namespace SayMore.UI.ComponentEditors
@@ -20,6 +21,8 @@ namespace SayMore.UI.ComponentEditors
 		public delegate ContributorsEditor Factory(ComponentFile file, string imageKey);
 
 		protected ContributorsListControl _contributorsControl;
+		protected TableLayoutPanel _tableLayout;
+		protected LinkLabel _linkBack;
 		protected ContributorsListControlViewModel _model;
 
 		/// ------------------------------------------------------------------------------------
@@ -31,6 +34,9 @@ namespace SayMore.UI.ComponentEditors
 			Name = "Contributors";
 
 			_model = new ContributorsListControlViewModel(autoCompleteProvider, SaveContributors);
+			var dataGridView = new DataGridView();
+			dataGridView.Columns[dataGridView.Columns.Add("date", "date")].Visible = false;
+			_model.ContributorsGridSettings = GridSettings.Create(dataGridView);
 
 			// ReSharper disable once UseObjectOrCollectionInitializer
 			_contributorsControl = new ContributorsListControl(_model);
@@ -39,9 +45,7 @@ namespace SayMore.UI.ComponentEditors
 
 			InitializeGrid();
 
-			InsertLinkLabelBack(imageKey);
-
-			Controls.Add(_contributorsControl);
+			AddControls(imageKey);
 
 			file.AfterSave += file_AfterSave;
 
@@ -51,23 +55,44 @@ namespace SayMore.UI.ComponentEditors
 				personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
 		}
 
-		private void InsertLinkLabelBack(string imageKey)
+		private void AddControls(string imageKey)
 		{
 			if (imageKey != null)
 			{
-				LinkLabel linkBack = new LinkLabel();
-				linkBack.BackColor = Color.Transparent;
-				linkBack.ForeColor = Color.Black;
-				linkBack.LinkColor = Color.Black;
-				linkBack.DisabledLinkColor = Color.Black;
-				linkBack.TextAlign = ContentAlignment.TopRight;
-				linkBack.Dock = DockStyle.Right;
-				linkBack.Text = "\u003C";
-				linkBack.Name = "linkBack";
-				linkBack.Font = new Font("Segoe UI Symbol", 16);
-				linkBack.LinkBehavior = LinkBehavior.NeverUnderline;
-				linkBack.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleLinkClick);
-				Controls.Add(linkBack);
+				_tableLayout = new TableLayoutPanel
+				{
+					Name = "_tableLayout",
+					Dock = DockStyle.Top,
+					AutoSize = true,
+					BackColor = Color.Transparent,
+					ColumnCount = 1,
+					RowCount = 2
+				};
+				_tableLayout.ColumnStyles.Add(new ColumnStyle());
+				_tableLayout.Location = new Point(0, 0);
+				_linkBack = new LinkLabel
+				{
+					Name = "_linkBack",
+					Dock = DockStyle.Left,
+					AutoSize = true,
+					LinkBehavior = LinkBehavior.NeverUnderline,
+					BackColor = Color.Transparent,
+					ForeColor = Color.Black,
+					LinkColor = Color.Black,
+					DisabledLinkColor = Color.Black,
+					TextAlign = ContentAlignment.TopLeft,
+					Anchor = AnchorStyles.Left,
+					Text = "<",
+					Font = new Font("Segoe UI Symbol", 16)
+				};
+				_linkBack.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleLinkClick);
+				_tableLayout.Controls.Add(_linkBack, 0, 0);
+				_tableLayout.Controls.Add(_contributorsControl, 0, 1);
+				Controls.Add(_tableLayout);
+			}
+			else
+			{
+				Controls.Add(_contributorsControl);
 			}
 		}
 

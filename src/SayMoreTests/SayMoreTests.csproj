@@ -205,6 +205,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="model\Data\Qustan059-1.pdf.meta" />
+    <EmbeddedResource Include="model\Data\Qustan059.session" />
+    <EmbeddedResource Include="model\Data\Qustan059.WAV.meta" />
+    <EmbeddedResource Include="model\Data\Qustan059_Source.mp4.meta" />
     <None Include="packages.config" />
     <None Include="Resources\longerSound.wav" />
   </ItemGroup>

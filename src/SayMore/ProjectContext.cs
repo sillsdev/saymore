@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Navigation;
+using System.Text;
 using System.Xml;
 using Autofac;
 using SayMore.Model;
@@ -95,61 +95,65 @@ namespace SayMore
 			var dirLists = Directory.GetDirectories(sessionsFolder);
 			foreach (var sessionFldrPath in dirLists)
 			{
-				var sessionDoc = new XmlDocument();
-				List<KeyValuePair<string, string>> namesList = new List<KeyValuePair<string, string>>();
-				List<string> contributorLists = new List<string>();
+				var namesList = new SortedSet<string>();
+				var contributorLists = new StringBuilder();
 				var filesInDir = Directory.GetFiles(sessionFldrPath);
-				var sessionFile = filesInDir.Where(x => x.Contains(".session")).FirstOrDefault();
+				var sessionFile = filesInDir.FirstOrDefault(f => f.EndsWith(".session"));
 				if (sessionFile == null) return;
-				var metaFilesList = filesInDir.Where(f => f.Contains(Settings.Default.MetadataFileExtension)).ToList();
-				sessionDoc.Load(sessionFile);
-				XmlNode root = sessionDoc.DocumentElement;
-				XmlNode contributionsNode = root.SelectSingleNode("contributions");
-				contributionsNode?.ParentNode?.RemoveChild(contributionsNode); //Remove the contributions node
-				if (root.LastChild != null)
+				var metaFilesList = filesInDir.Where(f => f.EndsWith(Settings.Default.MetadataFileExtension)).ToList();
+				var sessionDoc = new XmlDocument();
+				using (var sessionReader = XmlReader.Create(sessionFile))
 				{
-					foreach (var metaFile in metaFilesList)
-					{
-						var metaFileDoc = new XmlDocument();
-						metaFileDoc.Load(metaFile);
-						XmlNodeList nodelist = metaFileDoc.SelectNodes("//contributor");
-						if (nodelist != null)
-						{
-							foreach (XmlNode node in nodelist)
-							{
-								var name = node["name"]?.InnerText;
-								var role = node["role"]?.InnerText;
-								if (!namesList.Contains(new KeyValuePair<string, string>(name, role)))
-								{
-									namesList.Add(new KeyValuePair<string, string>(name, role));
-									contributorLists.Add(node.OuterXml);
-								}
-							}
-						}
-					}
-
-					string participants = string.Empty;
-					var newContributionsNode = sessionDoc.CreateElement("contributions");
-					newContributionsNode.SetAttribute("type", "xml");
-					foreach (string contributor in contributorLists)
-					{
-						newContributionsNode.InnerXml += contributor;
-					}
-
-					XmlNode participantsNode = root.SelectSingleNode("participants");
-					foreach (KeyValuePair<string, string> name in namesList)
-					{
-						participants += name.Key + " (" + name.Value + ");";
-					}
-
-					if (participantsNode != null && participants.Length > 0)
-					{
-						participantsNode.InnerText = participants;
-					}
-
-					root.InsertAfter(newContributionsNode, root.LastChild);
-					sessionDoc.Save(sessionFile);
+					sessionDoc.Load(sessionReader);
 				}
+				LoadContributors(sessionDoc, namesList, contributorLists);
+				var root = sessionDoc.DocumentElement;
+				var contributionsNode = root?.SelectSingleNode("contributions");
+				contributionsNode?.ParentNode?.RemoveChild(contributionsNode); //Remove the contributions node
+				if (root?.LastChild == null) continue;
+				foreach (var metaFile in metaFilesList)
+				{
+					var metaFileDoc = new XmlDocument();
+					using (var metaReader = XmlReader.Create(metaFile))
+					{
+						metaFileDoc.Load(metaReader);
+					}
+					LoadContributors(metaFileDoc, namesList, contributorLists);
+				}
+
+				var participantsNode = root?.SelectSingleNode("participants") as XmlElement;
+				if (participantsNode == null)
+				{
+					participantsNode = sessionDoc.CreateElement("participants");
+					participantsNode.SetAttribute("type", "string");
+					root.InsertAfter(participantsNode, root.LastChild);
+				}
+				participantsNode.InnerText = string.Join("; ", namesList);
+
+				var newContributionsNode = sessionDoc.CreateElement("contributions");
+				newContributionsNode.SetAttribute("type", "xml");
+				newContributionsNode.InnerXml = contributorLists.ToString();
+				root.InsertAfter(newContributionsNode, root.LastChild);
+				using (var sessionOutput = XmlWriter.Create(sessionFile, new XmlWriterSettings{Indent = true}))
+				{
+					sessionDoc.Save(sessionOutput);
+				}
+			}
+		}
+
+		private static void LoadContributors(XmlNode xmlDoc, SortedSet<string> namesList, StringBuilder contributorLists)
+		{
+
+			var nodelist = xmlDoc.SelectNodes("//contributor");
+			if (nodelist == null) return;
+			foreach (XmlNode node in nodelist)
+			{
+				var name = node["name"]?.InnerText;
+				var role = node["role"]?.InnerText;
+				var item = $@"{name} ({role})";
+				if (namesList.Contains(item)) continue;
+				namesList.Add(item);
+				contributorLists.Append(node.OuterXml);
 			}
 		}
 

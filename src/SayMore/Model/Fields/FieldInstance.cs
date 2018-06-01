@@ -203,7 +203,7 @@ namespace SayMore.Model.Fields
 			var list = text.Split(new[] { kDefaultMultiValueDelimiter, kAlternateMultiValueDelimiter },
 				StringSplitOptions.RemoveEmptyEntries);
 
-			list = ListWithoutRoles(list);
+			list = NamesWithoutRoles(list);
 
 			return (from val in list
 					where val.Trim() != string.Empty
@@ -217,7 +217,7 @@ namespace SayMore.Model.Fields
 		/// <param name="list">list of names</param>
 		/// <returns>names list without role</returns>
 		/// ------------------------------------------------------------------------------------
-		private static string[] ListWithoutRoles(IEnumerable<string> list)
+		private static string[] NamesWithoutRoles(IEnumerable<string> list)
 		{
 			if (list.Any(name => name.Contains(" (")))
 				return new SortedSet<string>(from name in list

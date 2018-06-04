@@ -135,8 +135,8 @@ namespace SayMoreTests.Model
 		{
 			var lists = _informant.GetCategorizedSessionsByField(SessionFileType.kGenreFieldName);
 			Assert.AreEqual(2, lists.Count);
-			Assert.AreEqual(1, (from i in lists where i.Key.ToLower().Contains("formulaic_discourse") select i.Key).Count());
-			Assert.AreEqual(1, (from i in lists where i.Key.ToLower().Contains("singing") select i.Key).Count());
+			Assert.AreEqual(2, lists["Formulaic Discourse"].Count());
+			Assert.AreEqual(3, lists["Singing"].Count());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -146,8 +146,8 @@ namespace SayMoreTests.Model
 			var inList = _sessionRepo.AllItems.Where(x => x.Id != "04");
 			var lists = SessionWorkflowInformant.GetCategorizedSessionsFromListByField(inList, SessionFileType.kGenreFieldName);
 			Assert.AreEqual(2, lists.Count);
-			Assert.AreEqual(1, (from i in lists where i.Key.ToLower().Contains("formulaic_discourse") select i.Key).Count());
-			Assert.AreEqual(1, (from i in lists where i.Key.ToLower().Contains("singing") select i.Key).Count());
+			Assert.AreEqual(2, lists["Formulaic Discourse"].Count());
+			Assert.AreEqual(2, lists["Singing"].Count());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -159,14 +159,14 @@ namespace SayMoreTests.Model
 			// A list for each genre
 			Assert.AreEqual(2, genrelist.Count);
 
-			Assert.AreEqual(1, (from i in genrelist where i.Key.ToLower().Contains("formulaic_discourse") select i.Key).Count());
-			Assert.AreEqual(1, (from i in genrelist where i.Key.ToLower().Contains("singing") select i.Key).Count());
+			Assert.AreEqual(1, genrelist["Formulaic Discourse"].Count);
+			Assert.AreEqual(3, genrelist["Singing"].Count);
 
 			// A list of sessions for each status within each genre
-			Assert.AreEqual(1, (from i in genrelist where i.Key.ToLower().Contains("formulaic_discourse") from v in i.Value where v.Key.ToLower().Contains("incoming") select v.Key).Count());
-			Assert.AreEqual(1, (from i in genrelist where i.Key.ToLower().Contains("singing") from v in i.Value where v.Key.ToLower().Contains("incoming") select v.Key).Count());
-			Assert.AreEqual(1, (from i in genrelist where i.Key.ToLower().Contains("singing") from v in i.Value where v.Key.ToLower().Contains("in progress") select v.Key).Count());
-			Assert.AreEqual(1, (from i in genrelist where i.Key.ToLower().Contains("singing") from v in i.Value where v.Key.ToLower().Contains("finished") select v.Key).Count());
+			Assert.AreEqual(2, genrelist["Formulaic Discourse"]["Incoming"].Count());
+			Assert.AreEqual(1, genrelist["Singing"]["Incoming"].Count());
+			Assert.AreEqual(1, genrelist["Singing"]["In Progress"].Count());
+			Assert.AreEqual(1, genrelist["Singing"]["Finished"].Count());
 		}
 
 		/// ------------------------------------------------------------------------------------

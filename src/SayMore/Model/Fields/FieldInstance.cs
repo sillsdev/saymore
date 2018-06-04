@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -204,9 +203,27 @@ namespace SayMore.Model.Fields
 			var list = text.Split(new[] { kDefaultMultiValueDelimiter, kAlternateMultiValueDelimiter },
 				StringSplitOptions.RemoveEmptyEntries);
 
+			list = NamesWithoutRoles(list);
+
 			return (from val in list
 					where val.Trim() != string.Empty
 					select val.Trim());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Unique sorted list of names with role removed from name if present
+		/// </summary>
+		/// <param name="list">list of names</param>
+		/// <returns>names list without role</returns>
+		/// ------------------------------------------------------------------------------------
+		private static string[] NamesWithoutRoles(IEnumerable<string> list)
+		{
+			if (list.Any(name => name.Contains(" (")))
+				return new SortedSet<string>(from name in list
+					let i = name.IndexOf(" (", StringComparison.Ordinal)
+					select i >= 0 ? name.Substring(0, i) : name).ToArray();
+			return list.ToArray();
 		}
 
 		/// ------------------------------------------------------------------------------------

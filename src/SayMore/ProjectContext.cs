@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Xml;
 using Autofac;
 using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
+using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
@@ -42,6 +46,8 @@ namespace SayMore
 
 			Project = _scope.Resolve<Func<string, Project>>()(projectSettingsPath);
 
+			SetContributorsListToSession(Project.SessionsFolder);
+
 			var peopleRepoFactory = _scope.Resolve<ElementRepository<Person>.Factory>();
 			peopleRepoFactory(rootDirectoryPath, Person.kFolderName, _scope.Resolve<PersonFileType>());
 
@@ -72,6 +78,83 @@ namespace SayMore
 			};
 
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath, views);
+		}
+
+		///-------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Set the contributor list to the session file from the metafiles
+		/// </summary>
+		/// <param name="sessionsFolder">Session folder path</param>
+		///-------------------------------------------------------------------------------------------------------
+		public static void SetContributorsListToSession(string sessionsFolder)
+		{
+			if (!Directory.Exists(sessionsFolder) || Path.GetFileName(sessionsFolder).ToLower() != "sessions")
+			{
+				return;
+			}
+			var dirLists = Directory.GetDirectories(sessionsFolder);
+			foreach (var sessionFldrPath in dirLists)
+			{
+				var namesList = new SortedSet<string>();
+				var contributorLists = new StringBuilder();
+				var filesInDir = Directory.GetFiles(sessionFldrPath);
+				var sessionFile = filesInDir.FirstOrDefault(f => f.EndsWith(".session"));
+				if (sessionFile == null) return;
+				var metaFilesList = filesInDir.Where(f => f.EndsWith(Settings.Default.MetadataFileExtension)).ToList();
+				var sessionDoc = new XmlDocument();
+				using (var sessionReader = XmlReader.Create(sessionFile))
+				{
+					sessionDoc.Load(sessionReader);
+				}
+				LoadContributors(sessionDoc, namesList, contributorLists);
+				var root = sessionDoc.DocumentElement;
+				var contributionsNode = root?.SelectSingleNode("contributions");
+				contributionsNode?.ParentNode?.RemoveChild(contributionsNode); //Remove the contributions node
+				if (root?.LastChild == null) continue;
+				foreach (var metaFile in metaFilesList)
+				{
+					var metaFileDoc = new XmlDocument();
+					using (var metaReader = XmlReader.Create(metaFile))
+					{
+						metaFileDoc.Load(metaReader);
+					}
+					LoadContributors(metaFileDoc, namesList, contributorLists);
+				}
+
+				var participantsNode = root?.SelectSingleNode("participants") as XmlElement;
+				if (participantsNode == null)
+				{
+					participantsNode = sessionDoc.CreateElement("participants");
+					participantsNode.SetAttribute("type", "string");
+					root.InsertAfter(participantsNode, root.LastChild);
+				}
+				participantsNode.InnerText = string.Join("; ", namesList);
+
+				var newContributionsNode = sessionDoc.CreateElement("contributions");
+				newContributionsNode.SetAttribute("type", "xml");
+				newContributionsNode.InnerXml = contributorLists.ToString();
+				root.InsertAfter(newContributionsNode, root.LastChild);
+				using (var sessionOutput = XmlWriter.Create(sessionFile, new XmlWriterSettings{Indent = true}))
+				{
+					sessionDoc.Save(sessionOutput);
+				}
+			}
+		}
+
+		private static void LoadContributors(XmlNode xmlDoc, SortedSet<string> namesList, StringBuilder contributorLists)
+		{
+
+			var nodelist = xmlDoc.SelectNodes("//contributor");
+			if (nodelist == null) return;
+			foreach (XmlNode node in nodelist)
+			{
+				var name = node["name"]?.InnerText;
+				var role = node["role"]?.InnerText;
+				var item = $@"{name} ({role})";
+				if (namesList.Contains(item)) continue;
+				namesList.Add(item);
+				contributorLists.Append(node.OuterXml);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

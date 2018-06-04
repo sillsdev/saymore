@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Reflection;
+using System.Xml;
 using System.Xml.Linq;
 using Moq;
 using NUnit.Framework;
@@ -14,7 +15,6 @@ using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMoreTests.Utilities;
 using SIL.Archiving;
-using NAudio.Wave;
 
 namespace SayMoreTests.Model
 {
@@ -329,6 +329,24 @@ namespace SayMoreTests.Model
 		//}
 		#endregion
 
+		[Test]
+		[RequiresSTA]
+		public void SetContributorsListToSession_ContributorsInMetaAndSession_AllContributorsInSession()
+		{
+			WriteXmlResource("Qustan059.session");  // Two contributors: Iskender Demirel, Lahdo Agirman
+			WriteXmlResource("Qustan059.WAV.meta"); // One contributor: Greg Trihus
+			WriteXmlResource("Qustan059_Source.mp4.meta"); // Two contributors: Eliyo Acar, Lahdo Agirman
+			WriteXmlResource("Qustan059-1.pdf.meta");   // One contributor: Eliyo Acar
+			ProjectContext.SetContributorsListToSession(Path.GetDirectoryName(SessionScenarioPath));
+			var sessionXml = new XmlDocument();
+			using (var xmlReader = XmlReader.Create(Path.Combine(SessionScenarioPath, "Qustan059.session")))
+			{
+				sessionXml.Load(xmlReader);
+			}
+			Assert.AreEqual(4, sessionXml.SelectNodes("//contributor").Count, "Expecting four contributors: Eliyo Acar, Greg Trihus, Iskender Demirel, Lahdo Agirman");
+			Assert.AreEqual(4, sessionXml.SelectSingleNode("//participants").InnerText.Split(';').Length, "Expecting four participants (with roles): Iskender Demirel, Lahdo Agirman, Greg Trihus, Eliyo Acar");
+		}
+
 		#region Private helper methods
 		private ProjectContext CreateProjectContext(ApplicationContainer appContext)
 		{
@@ -380,6 +398,30 @@ namespace SayMoreTests.Model
 
 			return session;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		private static string SessionScenarioPath = null;
+		private void WriteXmlResource(string file)
+		{
+			if (SessionScenarioPath == null)
+			{
+				SessionScenarioPath = Path.Combine(_parentFolder.Path, "sessions");
+				if (!Directory.Exists(SessionScenarioPath))
+					Directory.CreateDirectory(SessionScenarioPath);
+				SessionScenarioPath = Path.Combine(SessionScenarioPath, "ContributorsScenario");
+				if (!Directory.Exists(SessionScenarioPath))
+					Directory.CreateDirectory(SessionScenarioPath);
+			}
+			using (var sessionData =
+				new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("SayMoreTests.model.Data." + file)))
+			{
+				using (var sessionFile = new StreamWriter(Path.Combine(SessionScenarioPath, file)))
+				{
+					sessionFile.Write(sessionData.ReadToEnd());
+				}
+			}
+		}
+
 		#endregion
 	}
 }

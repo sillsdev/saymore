@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
@@ -9,6 +10,7 @@ using SIL.Windows.Forms.ClearShare.WinFormsUI;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
+using SIL.Windows.Forms.Widgets.BetterGrid;
 
 
 namespace SayMore.UI.ComponentEditors
@@ -19,6 +21,8 @@ namespace SayMore.UI.ComponentEditors
 		public delegate ContributorsEditor Factory(ComponentFile file, string imageKey);
 
 		protected ContributorsListControl _contributorsControl;
+		protected TableLayoutPanel _tableLayout;
+		protected LinkLabel _linkBack;
 		protected ContributorsListControlViewModel _model;
 
 		/// ------------------------------------------------------------------------------------
@@ -30,6 +34,9 @@ namespace SayMore.UI.ComponentEditors
 			Name = "Contributors";
 
 			_model = new ContributorsListControlViewModel(autoCompleteProvider, SaveContributors);
+			var dataGridView = new DataGridView();
+			dataGridView.Columns[dataGridView.Columns.Add("date", "date")].Visible = false;
+			_model.ContributorsGridSettings = GridSettings.Create(dataGridView);
 
 			// ReSharper disable once UseObjectOrCollectionInitializer
 			_contributorsControl = new ContributorsListControl(_model);
@@ -38,7 +45,15 @@ namespace SayMore.UI.ComponentEditors
 
 			InitializeGrid();
 
-			Controls.Add(_contributorsControl);
+			// imageKey == "Contributor" when ContributorsEditor is lazy loaded for the session file type
+			if (imageKey != null)
+			{
+				AddSessionControls();
+			}
+			else
+			{
+				Controls.Add(_contributorsControl);
+			}
 
 			file.AfterSave += file_AfterSave;
 
@@ -46,6 +61,56 @@ namespace SayMore.UI.ComponentEditors
 
 			if (personInformant != null)
 				personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
+		}
+
+		private void AddSessionControls()
+		{
+			_tableLayout = new TableLayoutPanel
+			{
+				Name = "_tableLayout",
+				Dock = DockStyle.Top,
+				AutoSize = true,
+				BackColor = Color.Transparent,
+				ColumnCount = 1,
+				RowCount = 2
+			};
+			_tableLayout.ColumnStyles.Add(new ColumnStyle());
+			_tableLayout.Location = new Point(0, 0);
+			_linkBack = new LinkLabel
+			{
+				Name = "_linkBack",
+				Dock = DockStyle.Left,
+				AutoSize = true,
+				LinkBehavior = LinkBehavior.NeverUnderline,
+				BackColor = Color.Transparent,
+				ForeColor = Color.Black,
+				LinkColor = Color.Black,
+				DisabledLinkColor = Color.Black,
+				TextAlign = ContentAlignment.TopLeft,
+				Anchor = AnchorStyles.Left,
+				Text = "<",
+				Font = new Font("Segoe UI Symbol", 16)
+			};
+			_linkBack.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleLinkClick);
+			_tableLayout.Controls.Add(_linkBack, 0, 0);
+			_tableLayout.Controls.Add(_contributorsControl, 0, 1);
+			Controls.Add(_tableLayout);
+		}
+
+		private void HandleLinkClick(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			var frm = FindForm();
+			if (frm == null)
+				return;
+
+			var tabPages = ((ElementListScreen.ElementListScreen<Session>)frm.ActiveControl).SelectedComponentEditorsTabControl.TabPages;
+			foreach (TabPage tab in tabPages)
+			{
+				if (tab.ImageKey != @"Session") continue;
+				((ElementListScreen.ElementListScreen<Session>)frm.ActiveControl).SelectedComponentEditorsTabControl.SelectedTab = tab;
+				tab.Focus();
+				break;
+			}
 		}
 
 		/// <remarks>SP-874: Not able to open L10NSharp with Alt-Shift-click</remarks>
@@ -169,9 +234,33 @@ namespace SayMore.UI.ComponentEditors
 		{
 			string failureMessage;
 			_file.SetValue("contributions", _model.Contributions, out failureMessage);
+			_file.SetValue(SessionFileType.kParticipantsFieldName, GetParticipants(), out failureMessage);
 			_file.Save();
+
+			var frm = FindForm();
+			if (frm == null)
+				return;
+
+			//Set the people list whenever changes happen in Contributors list
+			foreach (var editor in Program.GetControlsOfType<SessionBasicEditor>(Program.ProjectWindow))
+				editor.SetPeople(GetParticipants());
+
 			if (failureMessage != null)
 				SIL.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+		}
+
+		/// --------------------------------------------------------------------------------------
+		/// Get the participants list from the Sessions contributions
+		/// --------------------------------------------------------------------------------------
+		private string GetParticipants()
+		{
+			string participants = string.Empty;
+			foreach (Contribution contributor in _model.Contributions)
+			{
+				participants += contributor.ContributorName + " (" + contributor.Role.Name + "); ";
+			}
+
+			return participants;
 		}
 
 		/// ------------------------------------------------------------------------------------

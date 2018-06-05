@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Xml;
 using L10NSharp;
 using SIL.Extensions;
 using SIL.Reporting;
@@ -17,6 +18,7 @@ using SayMore.Model.Files.DataGathering;
 using SayMore.UI.LowLevelControls;
 using SIL.Archiving.Generic.AccessProtocol;
 using SIL.Archiving.IMDI.Lists;
+using SIL.Windows.Forms.ClearShare;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -34,6 +36,7 @@ namespace SayMore.UI.ComponentEditors
 		private bool _genreFieldEntered;
 		private List<AccessOption> _accessOptions;
 		private DataGridViewComboBoxEditingControl _moreFieldsComboBox;
+		private bool _isAccessOptionChanged = true;
 
 		/// ------------------------------------------------------------------------------------
 		public SessionBasicEditor(ComponentFile file, string imageKey,
@@ -391,7 +394,6 @@ namespace SayMore.UI.ComponentEditors
 				SetAccessProtocol();
 
 			SetAccessCodeListAndValue();
-
 			base.Activated();
 		}
 
@@ -522,6 +524,8 @@ namespace SayMore.UI.ComponentEditors
 		/// the current value of "access" is no longer in the list</summary>
 		private void SetAccessCodeListAndValue()
 		{
+			_isAccessOptionChanged = false; //To avoid of calling comboBox event
+
 			var currentAccessCode = _file.GetStringValue("access", string.Empty);
 
 			if (_access.DropDownStyle == ComboBoxStyle.DropDown)
@@ -533,22 +537,25 @@ namespace SayMore.UI.ComponentEditors
 			// get the saved list. use .ToList() to copy the list rather than modify the original
 			var choices = _accessOptions.ToList();
 
+			_access.DataSource = choices;
+			_access.DisplayMember = "DisplayMember";
+			_access.ValueMember = "ValueMember";
+
+			currentAccessCode = HandleAccessProtocols(currentAccessCode);
+
 			// is the selected item in the list
 			var found = choices.Any(i => i.ToString() == currentAccessCode);
 
 			if (!found)
 			{
-				choices.Insert(0, new AccessOption { OptionName = "-----" });
-				choices.Insert(0, new AccessOption { OptionName = currentAccessCode });
+				currentAccessCode = _access.Items[0].ToString();
 			}
-
-			_access.DataSource = choices;
-			_access.DisplayMember = "DisplayMember";
-			_access.ValueMember = "ValueMember";
 
 			// select the current code
 			foreach (var item in _access.Items.Cast<object>().Where(item => ((AccessOption)item).ValueMember == currentAccessCode))
 				_access.SelectedItem = item;
+
+			_isAccessOptionChanged = true; //To enable of calling comboBox event
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -617,6 +624,124 @@ namespace SayMore.UI.ComponentEditors
 				((ElementListScreen.ElementListScreen<Session>)frm.ActiveControl).SelectedComponentEditorsTabControl.SelectedTab = tab;
 				tab.Focus();
 				break;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Method to save the new AccessProtocol node and update the existing AccessProtocol node when option get changed
+		/// </summary>
+		/// <param name="accessCode">Previous AccessCode</param>
+		/// <returns>New AccessCode</returns>
+		/// ------------------------------------------------------------------------------------
+		private string HandleAccessProtocols(string accessCode)
+		{
+			string currentAccessCode = accessCode;
+			if (Program.CurrentProject == null) return currentAccessCode;
+
+			string sessionFile = _file.PathToAnnotatedFile;
+			var accessProtocol = Program.CurrentProject.AccessProtocol;
+
+			var choices = _accessOptions.ToList();
+
+			var sessionDoc = new XmlDocument();
+			using (var sessionReader = XmlReader.Create(sessionFile))
+			{
+				sessionDoc.Load(sessionReader);
+			}
+			XmlNode root = sessionDoc.DocumentElement;
+			XmlNode accessRootNode = root.SelectSingleNode("access");
+			XmlNode accessProtocolsNode = root.SelectSingleNode("AccessProtocols") ?? sessionDoc.CreateElement("AccessProtocols");
+			var isAccessProtocolExists = root.SelectSingleNode("//AccessProtocols/AccessProtocol[@Name='" + accessProtocol + "']");
+			if (isAccessProtocolExists == null)
+			{
+				var accessProtocolNode = sessionDoc.CreateElement("AccessProtocol");
+				accessProtocolNode.SetAttribute("Name", Program.CurrentProject.AccessProtocol);
+				XmlElement accessNode = sessionDoc.CreateElement("access");
+				accessNode.SetAttribute("type", "string");
+				accessNode.InnerText = choices[0].OptionName;
+				currentAccessCode = accessNode.InnerText;
+				accessProtocolNode.AppendChild(accessNode);
+				accessProtocolsNode.InsertAfter(accessProtocolNode, accessProtocolsNode.LastChild);
+				root.InsertAfter(accessProtocolsNode, root.LastChild);
+			}
+			else
+			{
+				var accessNode = isAccessProtocolExists.SelectSingleNode("access");
+				if (accessNode != null)
+				{
+					currentAccessCode = accessNode.InnerText;
+					var found = choices.Any(i => i.ToString() == accessNode.InnerText);
+					if (!found)
+					{
+						currentAccessCode = choices[0].OptionName;
+					}
+					accessNode.InnerText = currentAccessCode;
+				}
+			}
+			var accessInMetaFile = _file.MetaDataFieldValues.Find(v => v.FieldId == "access");
+			if (accessInMetaFile != null)
+			{
+				accessInMetaFile.Value = currentAccessCode;
+				_file.Save();
+			}
+
+			if (accessRootNode != null) accessRootNode.InnerText = currentAccessCode;
+
+			using (var sessionOutput = XmlWriter.Create(sessionFile, new XmlWriterSettings { Indent = true }))
+			{
+				sessionDoc.Save(sessionOutput);
+			}
+
+			return currentAccessCode;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// AccessProtocol and Access node get updated when the options are changed by the user on Dropdownlist
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void _access_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (!_isAccessOptionChanged || Program.CurrentProject == null) return;
+
+			var accessInMetaFile = _file.MetaDataFieldValues.Find(v => v.FieldId == "access");
+			if (accessInMetaFile == null || accessInMetaFile.Value.ToString() == _access.Text)
+				return;
+
+			string sessionFile = _file.PathToAnnotatedFile;
+			var choices = _accessOptions.ToList();
+			var sessionDoc = new XmlDocument();
+			using (var sessionReader = XmlReader.Create(sessionFile))
+			{
+				sessionDoc.Load(sessionReader);
+			}
+			XmlNode root = sessionDoc.DocumentElement;
+			if (root != null)
+			{
+				XmlNode accessRootNode = root.SelectSingleNode("access");
+				var isAccessProtocolExists = sessionDoc.SelectSingleNode("//AccessProtocols/AccessProtocol[@Name='" + Program.CurrentProject.AccessProtocol + "']");
+				if (isAccessProtocolExists != null)
+				{
+					string optionSelected = string.Empty;
+					var accessNode = isAccessProtocolExists.SelectSingleNode("access");
+					if (accessNode != null)
+					{
+						optionSelected = choices.FirstOrDefault(i => i.Description.ToString() == _access.Text)?.OptionName;
+						if (optionSelected != null) accessNode.InnerText = optionSelected;
+					}
+
+					accessInMetaFile.Value = optionSelected;
+					_file.Save();
+
+					if (accessRootNode != null && optionSelected != null)
+						accessRootNode.InnerText = optionSelected;
+				}
+			}
+
+			using (var sessionOutput = XmlWriter.Create(sessionFile, new XmlWriterSettings { Indent = true }))
+			{
+				sessionDoc.Save(sessionOutput);
 			}
 		}
 	}

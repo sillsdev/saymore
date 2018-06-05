@@ -46,7 +46,7 @@ namespace SayMore
 
 			Project = _scope.Resolve<Func<string, Project>>()(projectSettingsPath);
 
-			SetContributorsListToSession(Project.SessionsFolder);
+			SetContributorsListAndMigrateAccessProtocolToSession(Project.SessionsFolder, Project.AccessProtocol);
 
 			var peopleRepoFactory = _scope.Resolve<ElementRepository<Person>.Factory>();
 			peopleRepoFactory(rootDirectoryPath, Person.kFolderName, _scope.Resolve<PersonFileType>());
@@ -80,13 +80,14 @@ namespace SayMore
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath, views);
 		}
 
-		///-------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Set the contributor list to the session file from the metafiles
-		/// </summary>
-		/// <param name="sessionsFolder">Session folder path</param>
-		///-------------------------------------------------------------------------------------------------------
-		public static void SetContributorsListToSession(string sessionsFolder)
+		/// -------------------------------------------------------------------------------------------------------
+		///  <summary>
+		///  Set the contributor list to the session file from the metafiles
+		///  </summary>
+		///  <param name="sessionsFolder">Session folder path</param>
+		/// <param name="accessProtocol">Current AccessProtocol Name</param>
+		/// -------------------------------------------------------------------------------------------------------
+		public static void SetContributorsListAndMigrateAccessProtocolToSession(string sessionsFolder, string accessProtocol)
 		{
 			if (!Directory.Exists(sessionsFolder) || Path.GetFileName(sessionsFolder).ToLower() != "sessions")
 			{
@@ -134,6 +135,23 @@ namespace SayMore
 				newContributionsNode.SetAttribute("type", "xml");
 				newContributionsNode.InnerXml = contributorLists.ToString();
 				root.InsertAfter(newContributionsNode, root.LastChild);
+
+				//Insert the AccessProtocol Node with the Access Node
+				var accessProtocolsNode = root?.SelectSingleNode("AccessProtocols") as XmlElement;
+				if (accessProtocolsNode == null)
+				{
+					XmlNode access = root?.SelectSingleNode("access") as XmlElement;
+					accessProtocolsNode = sessionDoc.CreateElement("AccessProtocols");
+					var accessProtocolNode = sessionDoc.CreateElement("AccessProtocol");
+					accessProtocolNode.SetAttribute("Name", accessProtocol);
+					XmlElement accessNode = sessionDoc.CreateElement("access");
+					accessNode.SetAttribute("type", "string");
+					if (access != null) accessNode.InnerText = access.InnerText;
+					accessProtocolNode.AppendChild(accessNode);
+					accessProtocolsNode.AppendChild(accessProtocolNode);
+					root.InsertAfter(accessProtocolsNode, root.LastChild);
+				}
+
 				using (var sessionOutput = XmlWriter.Create(sessionFile, new XmlWriterSettings{Indent = true}))
 				{
 					sessionDoc.Save(sessionOutput);

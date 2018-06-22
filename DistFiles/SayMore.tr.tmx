@@ -5,6 +5,22 @@
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
   <body>
+    <tu tuid="ArchivingDlg._chkMetadataOnly">
+      <tuv xml:lang="en">
+        <seg>Metadata only</seg>
+      </tuv>
+      <tuv xml:lang="tr">
+        <seg>Yalnızca meta veriler</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ArchivingDlg._chkMetadataOnly_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Select this to prevent copying actual data files into archive</seg>
+      </tuv>
+      <tuv xml:lang="tr">
+        <seg>Gerçek veri dosyaları Arşiv kopyalamayı önlemek için bu seçeneği kullanın</seg>
+      </tuv>
+    </tu>
     <tu tuid="BuildType.Alpha">
       <tuv xml:lang="en">
         <seg>Alpha</seg>
@@ -27,6 +43,14 @@
       </tuv>
       <tuv xml:lang="tr">
         <seg>Sürüm adayı</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.AllFilesDescriptor">
+      <tuv xml:lang="en">
+        <seg>All Files ({0})</seg>
+      </tuv>
+      <tuv xml:lang="tr">
+        <seg>Tüm dosyalar ({0})</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.AttemptedRetriesMsg">
@@ -68,7 +92,7 @@
         <seg>***This record had an ambiguous {0}, produced by a bug in an old version of SayMore. The date was "{1}". SayMore has attempted to interpret the date, but might have swapped the day and month. Please accept our apologies for this error. After you have fixed the date or confirmed that it is correct, please delete this message.</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>*** Bu kayıtta SayMore'un eski bir sürümündeki bir açık tarafından üretilen {0} belirsizliği vardı. Tarih "{1}" idi. SayMore tarihi yorumlamaya çalıştı ancak gün ve ay değiştirilmiş olabilir. Lütfen bu hatayla ilgili özürlerimizi kabul edin. Tarihi düzelttikten veya doğru olduğundan emin olduktan sonra, lütfen bu mesajı silin.</seg>
+        <seg>*** Bu kayıtta SayMore'un eski bir sürümündeki bir hata tarafından üretilen {0} bir belirsizliği vardı. Tarih "{1}" idi. SayMore tarihi doğru tahmin etmeyi çalıştı fakat gün ve ayların yerleri değiştirilmiş olabilir. Lütfen bu hatayla ilgili özürlerimizi kabul edin. Tarihinin doğru olduğundan emin olduktan sonra, lütfen bu mesajı silin.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ChangeIdFailureMsg">
@@ -77,7 +101,7 @@
         <seg>Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Bir klasör bu klasöre veya içindeki bir dosyaya bağlı, bu nedenle yeniden adlandırılamaz. Bu programı yeniden başlatmayı veya bilgisayarı yeniden başlatmayı deneyebilirsiniz.</seg>
+        <seg>Bir şey bu klasörü veya içindeki bir dosyayı kullanıyor, bu nedenle yeniden adlandırılamaz. Bu programı yeniden başlatmayı veya bilgisayarı yeniden başlatmayı deneyebilirsiniz.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ContributorsEditor.MissingContributorNameMsg">
@@ -85,7 +109,7 @@
         <seg>Enter a name.</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Ad girin.</seg>
+        <seg>Bir ad girin.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ContributorsEditor.MissingContributorRoleMsg">
@@ -151,7 +175,7 @@
         <seg>Audio Bit Rate</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Ses Bit hızı</seg>
+        <seg>Ses Bit Hızı</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.BitDepth">
@@ -215,7 +239,7 @@
         <seg>Sample Rate</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Örnek Oranı</seg>
+        <seg>Örnekleme Hızı</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.VideoBitRate">
@@ -223,7 +247,7 @@
         <seg>Video Bit Rate</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Video Bit hızı</seg>
+        <seg>Video Bit Hızı</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.VerifyDeleteFieldQuestion">
@@ -255,7 +279,7 @@
         <seg>Add Files</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Dosya ekleme</seg>
+        <seg>Dosya Ekle</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.FileTypeString">
@@ -263,7 +287,7 @@
         <seg>All Files (*.*)</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Tüm dosyalar (*.*)</seg>
+        <seg>Tüm Dosyalar (*.*)</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFilesButtonText">
@@ -271,7 +295,7 @@
         <seg>Add Files...</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Dosyaları ekle...</seg>
+        <seg>Dosyalar Ekle...</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.AddFilesPrompt">
@@ -279,7 +303,7 @@
         <seg>Add additional files related to this session by\ndragging them here or clicking the 'Add Files' button.</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Bu oturumla ilgili ek dosyalar eklemek için onları buraya\nsürükleyin veya 'Dosya Ekle’ye tıklayın.</seg>
+        <seg>Bu oturumla ilgili ek dosyalar eklemek için onları buraya\nsürükleyin veya 'Dosyalar Ekle’ye tıklayın.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CannotOpenFileInApplicationErrorMsg">
@@ -295,7 +319,7 @@
         <seg>{0} could not load the file: {1}</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>{0} dosyayı yükleyemedi: {1}</seg>
+        <seg>{0} {1} adlı dosyayı yükleyemedi</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg">
@@ -319,7 +343,7 @@
         <seg>Date Modified</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Değiştirme tarihi</seg>
+        <seg>Değiştirilme Tarihi</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.ColumnHeadings.FileDuration">
@@ -367,7 +391,7 @@
         <seg>Convert Selected File</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Seçili Dosya Dönüştür</seg>
+        <seg>Seçili Dosyayı Dönüştür</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.Convert.ConvertMenuText">
@@ -391,7 +415,7 @@
         <seg>&amp;Delete File...</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>&amp;Dosyayı Sil...</seg>
+        <seg>Dosyayı &amp;Sil...</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.DeleteSubordinateFilesFormat">
@@ -400,7 +424,7 @@
         <seg>{0} and subordinate files</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>{0} ve alt dosya</seg>
+        <seg>{0} ve alt dosyaları</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.FileAlreadyExistsMessage">
@@ -416,7 +440,7 @@
         <seg>{0} Bytes</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>{0} bayt</seg>
+        <seg>{0} Bayt</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.FileSizeBytesAbbreviation">
@@ -488,7 +512,7 @@
         <seg>Open Selected File</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Seçili dosyayı aç</seg>
+        <seg>Seçili Dosyayı Aç</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.Open.OpenInAssociatedProgramMenuText">
@@ -496,7 +520,7 @@
         <seg>Open in Program Associated with this File ...</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Bu Dosyayla Birlikte Açılan Program ...</seg>
+        <seg>Bu Dosyayla İlişkili Programda Aç...</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.Open.ShowInFileExplorerMenuText">
@@ -504,7 +528,7 @@
         <seg>Show in File Explorer...</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Dosya Gezgininde göster...</seg>
+        <seg>Dosya Gezgininde Göster...</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.FileList.RenameButtonText">
@@ -520,7 +544,15 @@
         <seg>Rename Selected File</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Seçilen Dosyayı Yeniden Adlandırın</seg>
+        <seg>Seçili Dosyayı Yeniden Adlandırın</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FailedToOpen">
+      <tuv xml:lang="en">
+        <seg>Failed to open file: {0}</seg>
+      </tuv>
+      <tuv xml:lang="tr">
+        <seg>Dosya Açılamadı: {0}</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileLinkMsg">
@@ -528,7 +560,7 @@
         <seg>Open {0} in its associated program.</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>{0} ilgili programda açın.</seg>
+        <seg>{0} ilişkili programında açın.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileNameMsg">
@@ -585,7 +617,7 @@
         <seg>Speech events consists of verbal interaction between at least two participants. Comments: The event may or may not include an investigator.</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Konuşma etkinlikleri, en az iki katılımcı arasındaki sözlü etkileşimden oluşur. Notlar: Etkinlik bir araştırmacı içerebilir veya içermeyebilir.</seg>
+        <seg>Konuşma olayları, en az iki katılımcı arasındaki sözlü etkileşimden oluşur. Notlar: Olay bir araştırmacı içerebilir veya içermeyebilir.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ListItems.Content-Interactivity.Interactive.Text">
@@ -621,7 +653,7 @@
         <seg>Primarily monologic speech punctuated by repeated interjections from the hearer(s).</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Dinleyici(ler)den gelen tekrarlanan atımlarla noktalanan öncelikli monolog konuşma.</seg>
+        <seg>Dinleyici(ler)den gelen tekrarlanan ünlemlerle noktalanan öncelikli monolog konuşma.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ListItems.Content-Interactivity.Semi-interactive.Text">
@@ -657,7 +689,7 @@
         <seg>Investigator asks speaker(s) to produce isolated phonemes/ words/ utterances / grammatical structures.</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Araştırmacı, konuşmacı(lar)'dan yalıtılmış fonem/sözcük/ifade/gramer yapısı üretmesini ister.</seg>
+        <seg>Araştırmacı, konuşmacı(lar)'dan yalıtılmış fonem/sözcük/ifade/gramer yapıları üretmesini ister.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ListItems.Content-Involvement.Elicited.Text">
@@ -675,7 +707,7 @@
         <seg>No outside observer is present.</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Hiçbir dış gözlemci mevcut değil.</seg>
+        <seg>Hiçbir dış gözlemcisi mevcut değil.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ListItems.Content-Involvement.No-observer.Text">
@@ -693,7 +725,7 @@
         <seg>The researcher does not interfere verbally with the speech event (other than the researcher's mere presence).</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Araştırmacı konuşma etkinliğiyle olayla sözlü müdahale etmez (sadece araştırmacının bulunması dışında).</seg>
+        <seg>Araştırmacı konuşma olayla sözlü olarak müdahale etmez (araştırmacının orada bulunması dışında).</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ListItems.Content-Involvement.Non-elicited.Text">
@@ -702,7 +734,7 @@
         <seg>Non-elicited</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Sağlanmamış</seg>
+        <seg>Temin Edilmemiş</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ListItems.Content-Involvement.Unknown.Text">
@@ -729,7 +761,7 @@
         <seg>The speaker prepares in detail the structure and content of his/her "performance" in advance Comments: This differs from 'Elicitation' (involvement), where the performer/consultant is given a framework but does not necessary plan his/her answer.</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Konuşmacı, "performansının" yapısını ve içeriğini önceden hazırlar: Notlar: Bu, icracı/danışmana bir çerçeve verildiğinde ve cevabını planlamadığında yaptığı 'Çıkartım' (katılım)'dan farklıdır.</seg>
+        <seg>Konuşmacı, "performansının" yapısını ve içeriğini önceden hazırlar. Notlar: Bu, icracı/danışmana bir çerçeve verildiğinde fakat cevabını planlamadan yaptığı 'Temin etmek' (etkileşim)'dan farklıdır.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ListItems.Content-PlanningType.Planned.Text">
@@ -738,7 +770,7 @@
         <seg>Planned</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Planlanan</seg>
+        <seg>Planlanmış</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ListItems.Content-PlanningType.Semi-spontaneous.Definition">
@@ -828,7 +860,7 @@
         <seg>Public</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Kamu</seg>
+        <seg>Kamuya Açık</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ListItems.Content-SocialContext.Unknown.Text">
@@ -4158,6 +4190,14 @@ Avrupa</seg>
         <seg>{0} Geri Dönüşüm Kutusu'na taşınır.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.ConfirmRecycleDialog.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Confirm Delete</seg>
+      </tuv>
+      <tuv xml:lang="tr">
+        <seg>Silmeyi Onayla</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.ConfirmRecycleDialog.cancelBtn">
       <prop type="x-nolongerused">true</prop>
       <tuv xml:lang="en">
@@ -5880,6 +5920,23 @@ Avrupa</seg>
         <seg>{0} Web adresini ziyaret edin.</seg>
       </tuv>
     </tu>
+    <tu tuid="MainWindow.AutoCompleteValueGathererError">
+      <note>Parameter 0 is an exception type; parameter 1 is a file name</note>
+      <tuv xml:lang="en">
+        <seg>An error of type {0} ocurred trying to gather information from file: {1}</seg>
+      </tuv>
+      <tuv xml:lang="tr">
+        <seg>Dosya {1}'den bilgi toplamaya çalışılırken {0} türünde bir hata oluştu</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.ConfirmDeleteUserSettingsFile">
+      <tuv xml:lang="en">
+        <seg>Do you want to delete your user settings? (This will clear your most-recently-used project list, window positions, UI language settings, etc. It will not affect your SayMore project data.)</seg>
+      </tuv>
+      <tuv xml:lang="tr">
+        <seg>Kullanıcı ayarlarını gerçekten silmek ister miziniz? (SayMore proje verileriniz etkilenmeyecek. En son kullanılan proje listesi, pencere pozisyonları, kullanıcı arabirimi ayarıları, vs silinecek.) </seg>
+      </tuv>
+    </tu>
     <tu tuid="MainWindow.DeleteOneItemMsg">
       <note>For deleting sessions and people items</note>
       <tuv xml:lang="en">
@@ -5894,7 +5951,7 @@ Avrupa</seg>
         <seg>&amp;Delete Person...</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>&amp;Sil Kişi...</seg>
+        <seg>&amp;Kişi Sil...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.DeleteSessionMenuText">
@@ -5902,7 +5959,7 @@ Avrupa</seg>
         <seg>&amp;Delete Session...</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Sil &amp;Oturum...</seg>
+        <seg>&amp;Oturum Sil...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.ElementNoLongerExistsMsg">
@@ -5934,7 +5991,7 @@ Avrupa</seg>
         <seg>Export Data</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Dışa Aktar Veriler</seg>
+        <seg> Veriler Dışa Aktar</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.LoadingProjectErrorMsg">
@@ -5942,7 +5999,7 @@ Avrupa</seg>
         <seg>{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>{0}, {1} projesini yüklerken bir sorunla karşılaştı. Lütfen 'Ayrıntılar'ı tıklayarak bu sorunu geliştiricilere bildirin.</seg>
+        <seg>{0}, {1} projesini yüklerken bir sorunla karşılaştı. Lütfen 'Ayrıntılar'ı tıklayarak bu sorunu yazılım geliştiricilerine bildirin.</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.ProblemOpeningSayMoreProject">
@@ -5974,7 +6031,7 @@ Avrupa</seg>
         <seg>The folders for the following elements have been removed from your computer.\nTherefore, SayMore will remove them from the list.\n\n{0}</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Aşağıdaki öğeler için klasörler bilgisayarınızdan kaldırılmıştır.\nBu nedenle SayMore bunları listeden kaldıracaktır.\n\n{0}</seg>
+        <seg>Aşağıdaki öğelerin klasörleri bilgisayarınızdan kaldırılmıştır.\nBu nedenle SayMore onları listeden kaldıracaktır.\n\n{0}</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.ViewTabsScrollLeftToolTipText">
@@ -5998,7 +6055,7 @@ Avrupa</seg>
         <seg>Waiting for other instance of SayMore to finish...</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Tamamlamak için SayMore'un diğer örneğini bekliyor...</seg>
+        <seg>SayMore'un diğer örneğinin tamamlanması bekleniyor...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow.WindowTitleWithProject">
@@ -6030,7 +6087,7 @@ Avrupa</seg>
         <seg>&amp;Change User Interface Language...</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>&amp;Kullanıcı Arabirimi Dilini Değiştir...</seg>
+        <seg>Kullanıcı Arabirimi &amp;Dilini Değiştir...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._menuExit">
@@ -6038,7 +6095,7 @@ Avrupa</seg>
         <seg>E&amp;xit</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Ç&amp;ıkış</seg>
+        <seg>&amp;Çıkış</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._menuExportPeople">
@@ -6046,7 +6103,7 @@ Avrupa</seg>
         <seg>Export &amp;People...</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Dışa Aktar &amp;Kişiler...</seg>
+        <seg>&amp;Kişiler Dışa Aktar...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._menuExportSessions">
@@ -6054,7 +6111,7 @@ Avrupa</seg>
         <seg>Export &amp;Sessions...</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Dışa Aktar &amp;Oturumlar...</seg>
+        <seg>&amp;Oturumlar Dışa Aktar...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._menuHelp">
@@ -6070,7 +6127,7 @@ Avrupa</seg>
         <seg>&amp;Open/Create Project...</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Projesı &amp;Açma/Oluşturma...</seg>
+        <seg>Proje &amp;Aç/Oluştur...</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._menuProject">
@@ -6078,7 +6135,7 @@ Avrupa</seg>
         <seg>Pro&amp;ject</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Pro&amp;je</seg>
+        <seg>&amp;Proje</seg>
       </tuv>
     </tu>
     <tu tuid="MainWindow._menuReleaseNotes">
@@ -6086,7 +6143,7 @@ Avrupa</seg>
         <seg>Release &amp;Notes...</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Sürüm &amp;Notları...</seg>
+        <seg>&amp;Sürüm Notları...</seg>
       </tuv>
     </tu>
     <tu tuid="Miscellaneous.CopyFilesControl.CopyFailedMsg">
@@ -6382,7 +6439,7 @@ Avrupa</seg>
         <seg>Ho&amp;w to Contact</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Ba&amp;şvurma</seg>
+        <seg>&amp;İletişim Bilgisi</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelID">
@@ -6422,7 +6479,7 @@ Avrupa</seg>
         <seg>Learned &amp;In:</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>Bundan &amp;Öğrendim:</seg>
+        <seg>Nerede &amp;Öğrenildi:</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.MetadataEditor._labelPrimaryOccupation">
@@ -6999,7 +7056,7 @@ Avrupa</seg>
         <seg>&amp;Archive using IMDI...</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>&amp;IMDI kullanarak arşiv et...</seg>
+        <seg>IMDI'yi kullanarak  &amp;arşiv et...</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.ContributorsEditor.CommentColumnTitle">
@@ -7157,10 +7214,22 @@ Avrupa</seg>
         <seg>Depozitör kontrolü</seg>
       </tuv>
     </tu>
-    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.O">
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.C">
       <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
-        <seg>Open to unregistered visitors</seg>
+        <seg>only Community members are allowed access (normally requires application to Depositor)</seg>
+      </tuv>
+      <tuv xml:lang="tr">
+        <seg>Yalnızca Topluluk üyelerine erişim izni verilmektedir (normalde Depozitöre başvuru gerektirir)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.R">
+      <prop type="x-dynamic">true</prop>
+      <tuv xml:lang="en">
+        <seg>Researchers and Community members are allowed access</seg>
+      </tuv>
+      <tuv xml:lang="tr">
+        <seg>Araştırmacılar ve Topluluk üyeleri erişim izin verilir</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.S">
@@ -7168,11 +7237,17 @@ Avrupa</seg>
       <tuv xml:lang="en">
         <seg>only Subscribers are allowed access (requires application to Depositor)</seg>
       </tuv>
+      <tuv xml:lang="tr">
+        <seg>Yalnızca üyelere erişim izin verilir (Depozitöre başvuru gerektirir)</seg>
+      </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.AccessProtocol.ELAR.U">
       <prop type="x-dynamic">true</prop>
       <tuv xml:lang="en">
-        <seg>all ordinary Users can access</seg>
+        <seg>all Users can access</seg>
+      </tuv>
+      <tuv xml:lang="tr">
+        <seg>tüm Kullanıcılar erişebilir</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor.AccessProtocol.REAP.">
@@ -7522,7 +7597,7 @@ Avrupa</seg>
         <seg>S&amp;etting</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>A&amp;yar</seg>
+        <seg>O&amp;rtam</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.MetadataEditor._labelSituation">
@@ -8365,7 +8440,7 @@ Avrupa</seg>
         <seg>&amp;Careful Speech...</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>&amp;Dikkatli Konuşması...</seg>
+        <seg>&amp;Dikkatli Konuşma...</seg>
       </tuv>
     </tu>
     <tu tuid="SessionsView.Transcription.TextAnnotationEditor.CopyColumnTextToClipboardMenuText">

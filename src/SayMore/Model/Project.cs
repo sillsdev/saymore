@@ -765,6 +765,7 @@ namespace SayMore.Model
 			{
 				// RAMP packages must not be compressed or RAMP can't read them.
 				zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None;
+				zip.UseZip64WhenSaving = Zip64Option.AsNecessary;
 				zip.AddDirectory(FolderPath);
 				zip.Save(Path.Combine(FolderPath, "Sessions.zip"));
 			}

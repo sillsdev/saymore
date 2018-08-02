@@ -174,6 +174,8 @@ namespace SayMore.Model
 			var analysisLanguage = (Project != null) ? Project.AnalysisISO3CodeAndName : AnalysisLanguage();
 			if (analysisLanguage.Contains(":"))
 				analysisLanguage = analysisLanguage.Split(':')[0];
+			if (analysisLanguage.Length == 2)
+				analysisLanguage = _LanguageLookup.GetLanguageFromCode(analysisLanguage).ThreeLetterTag;
 
 			// create IMDI session
 			var imdiSession = model.AddSession(saymoreSession.Id);

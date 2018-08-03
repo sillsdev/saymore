@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
+using SayMore.Model.Fields;
 using SIL.Extensions;
 using SIL.Reporting;
 using SayMore.Model.Files;
@@ -15,7 +16,6 @@ using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
 using SayMore.Properties;
 using SIL.Archiving.IMDI.Lists;
-using SIL.Windows.Forms.ClearShare;
 using SIL.WritingSystems;
 using Application = System.Windows.Forms.Application;
 
@@ -253,10 +253,13 @@ namespace SayMore.Model
 			// actors
 			var actors = new ArchivingActorCollection();
 			var persons = saymoreSession.GetAllPersonsInSession();
+			var allParticipantsWithRoles = (from p in saymoreSession.MetaDataFile.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty).Split(FieldInstance.kDefaultMultiValueDelimiter)
+											where p.Trim() != string.Empty
+											select p.Trim()).ToList();
 			foreach (var person in persons)
 			{
 
-				var actor = InitializeActor(model, person, sessionDateTime);
+				var actor = InitializeActor(model, person, sessionDateTime, GetRole(person.Id, actors, allParticipantsWithRoles));
 
 				// do this to get the ISO3 codes for the languages because they are not in saymore
 				var language = GetOneLanguage(ForceIso639ThreeChar(person.MetaDataFile.GetStringValue("primaryLanguage", null)));
@@ -362,6 +365,29 @@ namespace SayMore.Model
 			}
 		}
 
+		private static string GetRole(string personId, ArchivingActorCollection actors, System.Collections.Generic.IEnumerable<string> allParticipantsWithRoles)
+		{
+			return (from p in allParticipantsWithRoles
+				where p.StartsWith(personId + " (")
+				let openParen = p.IndexOf("(", StringComparison.InvariantCulture)
+				let closeParen = p.IndexOf(")", StringComparison.InvariantCulture)
+				select p.Substring(openParen + 1, closeParen - openParen - 1))
+				.FirstOrDefault(role => !PersonHasRole(personId, actors, role));
+		}
+
+		private static bool PersonHasRole(string personId, ArchivingActorCollection actors, string role)
+		{
+			if (actors.Count == 0)
+				return false;
+			foreach (var a in actors)
+			{
+				if (a.FullName == personId && a.Role == role)
+					return true;
+			}
+
+			return false;
+		}
+
 		private static string ForceIso639ThreeChar(string analysisLanguage)
 		{
 			if (analysisLanguage?.Length == 2)
@@ -398,7 +424,7 @@ namespace SayMore.Model
 			return returnValue;
 		}
 
-		internal static ArchivingActor InitializeActor(ArchivingDlgViewModel model, Person person, DateTime sessionDateTime)
+		internal static ArchivingActor InitializeActor(ArchivingDlgViewModel model, Person person, DateTime sessionDateTime, string role)
 		{
 			// is this person protected
 			var protect = bool.Parse(person.MetaDataFile.GetStringValue("privacyProtection", "false"));
@@ -434,7 +460,7 @@ namespace SayMore.Model
 				Education = person.MetaDataFile.GetStringValue(PersonFileType.kEducation, null),
 				Occupation = person.MetaDataFile.GetStringValue(PersonFileType.kPrimaryOccupation, null),
 				Anonymize = protect,
-				Role = "Participant"
+				Role = role,
 			};
 			return actor;
 		}

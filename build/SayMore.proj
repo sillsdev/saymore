@@ -1,9 +1,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <UsingTask TaskName="StampAssemblies" AssemblyFile="$(teamcity_build_checkoutDir)/packages/SIL.BuildTasks.2.0.2/tools/SIL.BuildTasks.dll" />
-  <UsingTask TaskName="UpdateBuildTypeFile" AssemblyFile="$(teamcity_build_checkoutDir)/packages/SIL.BuildTasks.2.0.2/tools/SIL.BuildTasks.dll" />
-  <UsingTask TaskName="MakeWixForDirTree" AssemblyFile="$(teamcity_build_checkoutDir)/packages/SIL.BuildTasks.2.0.2/tools/SIL.BuildTasks.dll" />
-  <UsingTask TaskName="Split" AssemblyFile="$(teamcity_build_checkoutDir)/packages/SIL.BuildTasks.2.0.2/tools/SIL.BuildTasks.dll" />
-  <UsingTask TaskName="FileUpdate" AssemblyFile="$(teamcity_build_checkoutDir)/packages/SIL.BuildTasks.2.0.2/tools/SIL.BuildTasks.dll" />
+  <UsingTask TaskName="StampAssemblies" AssemblyFile="$(teamcity_build_checkoutDir)/packages/SIL.BuildTasks.2.1.0/tools/SIL.BuildTasks.dll" />
+  <UsingTask TaskName="UpdateBuildTypeFile" AssemblyFile="$(teamcity_build_checkoutDir)/packages/SIL.BuildTasks.2.1.0/tools/SIL.BuildTasks.dll" />
+  <UsingTask TaskName="MakeWixForDirTree" AssemblyFile="$(teamcity_build_checkoutDir)/packages/SIL.BuildTasks.2.1.0/tools/SIL.BuildTasks.dll" />
+  <UsingTask TaskName="Split" AssemblyFile="$(teamcity_build_checkoutDir)/packages/SIL.BuildTasks.2.1.0/tools/SIL.BuildTasks.dll" />
+  <UsingTask TaskName="FileUpdate" AssemblyFile="$(teamcity_build_checkoutDir)/packages/SIL.BuildTasks.2.1.0/tools/SIL.BuildTasks.dll" />
   <UsingTask TaskName="NUnitTeamCity" AssemblyFile="$(teamcity_dotnet_nunitlauncher_msbuild_task)" Condition="'$(teamcity_version)' != ''"/>
 
 

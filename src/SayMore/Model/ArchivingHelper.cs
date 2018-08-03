@@ -364,7 +364,7 @@ namespace SayMore.Model
 
 		private static string ForceIso639ThreeChar(string analysisLanguage)
 		{
-			if (analysisLanguage.Length == 2)
+			if (analysisLanguage?.Length == 2)
 				analysisLanguage = _LanguageLookup.GetLanguageFromCode(analysisLanguage).ThreeLetterTag;
 			return analysisLanguage;
 		}

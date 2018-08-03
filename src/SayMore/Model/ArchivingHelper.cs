@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -253,9 +254,11 @@ namespace SayMore.Model
 			// actors
 			var actors = new ArchivingActorCollection();
 			var persons = saymoreSession.GetAllPersonsInSession();
-			var allParticipantsWithRoles = (from p in saymoreSession.MetaDataFile.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty).Split(FieldInstance.kDefaultMultiValueDelimiter)
+			var allParticipantsWithRoles = saymoreSession.MetaDataFile.MetaDataFieldValues.Count > 0?
+				(from p in saymoreSession.MetaDataFile.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty).Split(FieldInstance.kDefaultMultiValueDelimiter)
 											where p.Trim() != string.Empty
-											select p.Trim()).ToList();
+											select p.Trim()).ToList()
+				: new List<string>();
 			foreach (var person in persons)
 			{
 

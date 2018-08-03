@@ -220,7 +220,7 @@ namespace SayMoreTests.Utilities
 			var person = new Mock<Person>();
 			person.Setup(p => p.MetaDataFile.GetStringValue("privacyProtection", "false")).Returns("false");
 			person.Setup(p => p.MetaDataFile.GetStringValue("birthYear", string.Empty)).Returns(string.Empty);
-			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, DateTime.MinValue);
+			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, DateTime.MinValue, "Particpant");
 			Assert.AreEqual("Unspecified", actor.Age);
 			model.VerifyAll();
 		}
@@ -233,7 +233,7 @@ namespace SayMoreTests.Utilities
 			var person = new Mock<Person>();
 			person.Setup(p => p.MetaDataFile.GetStringValue("privacyProtection", "false")).Returns("false");
 			person.Setup(p => p.MetaDataFile.GetStringValue("birthYear", string.Empty)).Returns("1950");
-			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, new DateTime(2018, 1, 1));
+			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, new DateTime(2018, 1, 1), "Participant");
 			Assert.AreEqual("68", actor.Age);
 			person.VerifyAll();
 			model.VerifyAll();

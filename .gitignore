@@ -1,16 +1,14 @@
-obj/*
-output/*
+obj/
+output/**
+**/bin/**
 .vs*
 *.suo
 *.user
 _ReSharper*
-src/Sponge2/bin/*
 design/Mockups 17Nov09.pdf
 del.txt
 bugs.txt
-src/Sponge/bin/*
 src/Sponge2/Sponge2.csproj.John
-src/SayMore/bin/*
 src/SayMore/Sponge2.csproj.John
 src/Installer/bin/Release/SayMoreInstaller.wixpdb
 AttemptAtRemovingGenericRepositories/*
@@ -20,7 +18,6 @@ MPlayer for Windows/*
 _UpgradeReport_Files/*
 Misc. Art Work/*
 things to test.txt
-src/SayMore/Model/Files/FileType.cs.orig
 REAP-RAMP Notes.docx
 OtherChartLayoutIdeas.xlsx
 mplayerWrapper-v0.2.zip
@@ -31,26 +28,17 @@ RAMP, REAP, METS/METSUCCSC.ppt
 Thailand Report and Estimated Timeline for 2010-2011 work.pdf
 build/TestInstallerBuild - Copy.bat
 UpgradeLog.XML
-artwork/SayMoreText.svg.orig
 RAMP, REAP, METS/cat_mets.ppt
 UpgradeLog2.XML
 Interface Design Strategies for Computer-Assisted Speech Transcription.pdf
-src/SayMore/Model/Files/ComponentFile.cs.orig
-src/SayMore/Model/Files/DataGathering/BackgroundFileProcessor.cs.orig
-src/SayMore/UI/Overview/Statistics/StatisticsViewModel.cs.orig
 DistFiles/SayMore.chm
 SayMore.chm
-src/SayMore/obj/*
-src/SayMoreTests/obj/*
-src/Sponge/obj/*
-src/SpongeTests/obj/*
 
 HG Setup.eml
-src/SayMore/SayMore.csproj.orig
+*.orig
 RAMP Stuff/*
 lib/dotnet/SilTools.pdb
 RAMP Fields.docx
-src/SayMore/Program.cs.orig
 Chiang Mai SayMore Data/*
 DistFiles/AutoSegmenter/*
 Sample Transcriber Files/*
@@ -73,13 +61,7 @@ lib/dotnet/Ionic*
 lib/dotnet/nunit*
 DistFiles/SayMore.en.tmx
 Packages.dgml
-packages/L10NSharp.*/*
-packages/Newtonsoft.Json*
-packages/DesktopAnalytics*
-packages/MarkdownDeep*
-packages/Autofac.*
-packages/NAudio.*
-packages/Analytics*
+packages/*
 lib/dotnet/SIL.*.dll
 lib/dotnet/SIL.*.pdb
 .nuget/NuGet.exe

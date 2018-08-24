@@ -1,17 +1,33 @@
-## Version NEXT
-Added Turkish UI Translations from Stevan Vanderwerf
+## Version 3.2
+* Added Turkish UI Translations from Stevan Vanderwerf
+* Added Native American Language Collection
+* Allowed both content and working languages can be set on project screen.
+* Allowed contributors and roles to be declared at the session level.
+* Updated ELAR access options to OUS.
+* Fixed age validation error.
+* Fixed actor language export in IMDI.
+* Updated IMDI export: topic, keyword, 
+* Removed .meta files from IMDI export.
+* Export genre and ethnicity to IMDI.
+* Export recording equipment to IMDI.
+* Export notes fields to IMDI.
+* All periods but last one replaced with underscore in file names exported to IMDI.
+* Researcher involvement and planning type corrected for IMDI.
+* Included recording length in IMDI export.
+* Fixed RAMP info link on export to RAMP.
+* Allowed RAMP export of entire project.
 
 ## Version 3.1
 When doing an IMDI export,you can now select a "metadata only" option.
 When exporting a transcription as CSV, the time format now conforms to the ISO 8601 standard (hh:mm:ss.ff instead of hh:mm:ss:ff).
 
-#What's New in Version 3
+# What's New in Version 3
 
-##IMDI Archiving
+## IMDI Archiving
 
 SayMore users contributing to archives can now export SayMore data to a folder that conforms to [IMDI](http://tla.mpi.nl/imdi-metadata/) format. You can then open the folder in IMDI applications like [ARBIL](http://tla.mpi.nl/tools/tla-tools/arbil/) for further annotation and submission.
 
-##Project Tab
+## Project Tab
 
 SayMore 3 adds a "Project" tab for the first time:
 
@@ -66,7 +82,7 @@ Progress, which was on its own tab in Version 2, has been moved and is now a sub
 
  * New "Oral Translation Speaker" role
 
-##New Person Fields
+## New Person Fields
 
  * Nickname
  * Code (for projects that want to assign an alphanumeric id to each speaker)
@@ -76,14 +92,14 @@ Progress, which was on its own tab in Version 2, has been moved and is now a sub
 
  * The Contributions Tab automatically lists each session where the person is listed as a participant, and each file where they have been assigned a role under the file's _Contributors_ tab.
 
-##Manual Segmenter Dialog
+## Manual Segmenter Dialog
 * Added a play button to individual segments
 * Can now zoom in for finer control
 
-##Known Issues in Version 3.0
+## Known Issues in Version 3.0
 [Allowable Country values are inconsistently allowed](http://jira.palaso.org/issues/browse/SP-819)
 
-##Thanks
+## Thanks
 Sarah Moeller and Tim Gaved served as consultants and _champions_ for this release.
 
 # What's New in Version 2
@@ -106,17 +122,17 @@ All recording tools now feature a level meter which also indicates which device 
 
 * In the Transcription tool, you can now choose what audio is played when the cursor is in the row. Original recording, careful recording or oral translation.
 
-##Oral Annotation
+## Oral Annotation
 
 The Careful Speech and Oral Translation tools, which support the BOLD way of working, are designed to be super simple so that you can quickly train a native speaker to do these tasks:
 
 * A single key (space bar) is all that is needed to do the whole task.
 * If there are segments you don't want to annotate, you can mark them as "ignored".
 
-##File Format Handling
+## File Format Handling
 Many audio and video formats can now be converted to standard, future-friendly formats, right in SayMore.
 
-##Export
+## Export
 In addition to the ELAN file compatibility, Audacity import, and FLEx export, this version adds the following exports:
 
 * Plain text
@@ -124,7 +140,7 @@ In addition to the ELAN file compatibility, Audacity import, and FLEx export, th
 * SFM (Toolbox)
 * SRT Subtitle format
 
-##MetaData
+## MetaData
 As before, SayMore tries to figure out which recordings have gone through which stages of the workflow. If it gets it wrong, then you can use the new "status and Stages" tab can now manually take control of the stage for each session.
 
 # New features in version 1.5:

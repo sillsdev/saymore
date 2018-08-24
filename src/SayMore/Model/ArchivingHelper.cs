@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
+using SayMore.Model.Fields;
 using SIL.Extensions;
 using SIL.Reporting;
 using SayMore.Model.Files;
@@ -15,7 +17,6 @@ using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
 using SayMore.Properties;
 using SIL.Archiving.IMDI.Lists;
-using SIL.Windows.Forms.ClearShare;
 using SIL.WritingSystems;
 using Application = System.Windows.Forms.Application;
 
@@ -174,6 +175,7 @@ namespace SayMore.Model
 			var analysisLanguage = (Project != null) ? Project.AnalysisISO3CodeAndName : AnalysisLanguage();
 			if (analysisLanguage.Contains(":"))
 				analysisLanguage = analysisLanguage.Split(':')[0];
+			analysisLanguage = ForceIso639ThreeChar(analysisLanguage);
 
 			// create IMDI session
 			var imdiSession = model.AddSession(saymoreSession.Id);
@@ -206,7 +208,7 @@ namespace SayMore.Model
 			// session languages
 			if (Project != null)
 			{
-				var vernacularLanguage = ParseLanguage(Project.VernacularISO3CodeAndName, null);
+				var vernacularLanguage = ParseLanguage(ForceIso639ThreeChar(Project.VernacularISO3CodeAndName), null);
 				if (vernacularLanguage != null)
 					imdiSession.AddContentLanguage(vernacularLanguage, new LanguageString("Content Language", analysisLanguage));
 			}
@@ -253,15 +255,20 @@ namespace SayMore.Model
 			// actors
 			var actors = new ArchivingActorCollection();
 			var persons = saymoreSession.GetAllPersonsInSession();
+			var allParticipantsWithRoles = saymoreSession.MetaDataFile.MetaDataFieldValues.Count > 0?
+				(from p in saymoreSession.MetaDataFile.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty).Split(FieldInstance.kDefaultMultiValueDelimiter)
+											where p.Trim() != string.Empty
+											select p.Trim()).ToList()
+				: new List<string>();
 			foreach (var person in persons)
 			{
 
-				var actor = InitializeActor(model, person, sessionDateTime);
+				var actor = InitializeActor(model, person, sessionDateTime, GetRole(person.Id, actors, allParticipantsWithRoles));
 
 				// do this to get the ISO3 codes for the languages because they are not in saymore
-				var language = GetOneLanguage(person.MetaDataFile.GetStringValue("primaryLanguage", null));
+				var language = GetOneLanguage(ForceIso639ThreeChar(person.MetaDataFile.GetStringValue("primaryLanguage", null)));
 				if (language != null) actor.PrimaryLanguage = language;
-				language = GetOneLanguage(person.MetaDataFile.GetStringValue("mothersLanguage", null));
+				language = GetOneLanguage(ForceIso639ThreeChar(person.MetaDataFile.GetStringValue("mothersLanguage", null)));
 				if (language != null) actor.MotherTongueLanguage = language;
 
 				// otherLanguage0 - otherLanguage3
@@ -270,7 +277,7 @@ namespace SayMore.Model
 					var languageKey = person.MetaDataFile.GetStringValue("otherLanguage" + i, null);
 					if (string.IsNullOrEmpty(languageKey))
 						continue;
-					language = GetOneLanguage(languageKey);
+					language = GetOneLanguage(ForceIso639ThreeChar(languageKey));
 					if (language == null)
 						continue;
 					actor.Iso3Languages.Add(language);
@@ -362,11 +369,39 @@ namespace SayMore.Model
 			}
 		}
 
+		private static string GetRole(string personId, ArchivingActorCollection actors, System.Collections.Generic.IEnumerable<string> allParticipantsWithRoles)
+		{
+			return (from p in allParticipantsWithRoles
+				where p.StartsWith(personId + " (")
+				let openParen = p.IndexOf("(", StringComparison.InvariantCulture)
+				let closeParen = p.IndexOf(")", StringComparison.InvariantCulture)
+				select p.Substring(openParen + 1, closeParen - openParen - 1))
+				.FirstOrDefault(role => !PersonHasRole(personId, actors, role));
+		}
+
+		private static bool PersonHasRole(string personId, ArchivingActorCollection actors, string role)
+		{
+			if (actors.Count == 0)
+				return false;
+			foreach (var a in actors)
+			{
+				if (a.FullName == personId && a.Role == role)
+					return true;
+			}
+
+			return false;
+		}
+
+		private static string ForceIso639ThreeChar(string analysisLanguage)
+		{
+			if (analysisLanguage?.Length == 2)
+				analysisLanguage = _LanguageLookup.GetLanguageFromCode(analysisLanguage).ThreeLetterTag;
+			return analysisLanguage;
+		}
+
 		internal static string AnalysisLanguage()
 		{
-			var analysisLanguage = Settings.Default.UserInterfaceLanguage;
-			if (analysisLanguage.Length == 2)
-				analysisLanguage = _LanguageLookup.GetLanguageFromCode(analysisLanguage).ThreeLetterTag;
+			var analysisLanguage = ForceIso639ThreeChar(Settings.Default.UserInterfaceLanguage);
 			return $@"{analysisLanguage}: {_LanguageLookup.GetLanguageFromCode(analysisLanguage).DesiredName}";
 		}
 
@@ -378,14 +413,14 @@ namespace SayMore.Model
 				if (!string.IsNullOrEmpty(languageKey) && languageKey.Length == 3)
 					language = LanguageList.FindByISO3Code(languageKey);
 			if (language != null && language.Iso3Code != "und" && !string.IsNullOrEmpty(language.EnglishName))
-				returnValue = new ArchivingLanguage(language.Iso3Code, language.Definition)
+				returnValue = new ArchivingLanguage(ForceIso639ThreeChar(language.Iso3Code), language.Definition)
 				{
 					EnglishName = language.EnglishName
 				};
 			else if (Project != null)
 			{
-				var archivingLanguage = ParseLanguage(Project.VernacularISO3CodeAndName, null);
-				returnValue = new ArchivingLanguage(archivingLanguage.Iso3Code, archivingLanguage.LanguageName)
+				var archivingLanguage = ParseLanguage(ForceIso639ThreeChar(Project.VernacularISO3CodeAndName), null);
+				returnValue = new ArchivingLanguage(ForceIso639ThreeChar(archivingLanguage.Iso3Code), archivingLanguage.LanguageName)
 				{
 					EnglishName = archivingLanguage.EnglishName
 				};
@@ -393,7 +428,7 @@ namespace SayMore.Model
 			return returnValue;
 		}
 
-		internal static ArchivingActor InitializeActor(ArchivingDlgViewModel model, Person person, DateTime sessionDateTime)
+		internal static ArchivingActor InitializeActor(ArchivingDlgViewModel model, Person person, DateTime sessionDateTime, string role)
 		{
 			// is this person protected
 			var protect = bool.Parse(person.MetaDataFile.GetStringValue("privacyProtection", "false"));
@@ -429,7 +464,7 @@ namespace SayMore.Model
 				Education = person.MetaDataFile.GetStringValue(PersonFileType.kEducation, null),
 				Occupation = person.MetaDataFile.GetStringValue(PersonFileType.kPrimaryOccupation, null),
 				Anonymize = protect,
-				Role = "Participant"
+				Role = role,
 			};
 			return actor;
 		}
@@ -526,8 +561,8 @@ namespace SayMore.Model
 
 				// SP-765:  Allow codes from Ethnologue that are not in the Arbil list
 				archivingLanguage = string.IsNullOrEmpty(language?.EnglishName)
-					? new ArchivingLanguage(parts[0], parts[1], parts[1])
-					: new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName);
+					? new ArchivingLanguage(ForceIso639ThreeChar(parts[0]), parts[1], parts[1])
+					: new ArchivingLanguage(ForceIso639ThreeChar(language.Iso3Code), parts[1], language.EnglishName);
 				package?.MetadataIso3Languages.Add(archivingLanguage);
 			}
 			else if (parts.Length == 1)
@@ -535,7 +570,7 @@ namespace SayMore.Model
 				var language = LanguageList.FindByISO3Code(parts[0]);
 				if (!string.IsNullOrEmpty(language?.EnglishName))
 				{
-					archivingLanguage = new ArchivingLanguage(language.Iso3Code, parts[1], language.EnglishName);
+					archivingLanguage = new ArchivingLanguage(ForceIso639ThreeChar(language.Iso3Code), parts[1], language.EnglishName);
 					package?.MetadataIso3Languages.Add(archivingLanguage);
 				}
 			}

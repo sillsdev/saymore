@@ -19,7 +19,7 @@ namespace SayMore
 #if DEBUG
 			get { return VersionType.Debug; }
 #else
-			get { return VersionType.Alpha; }
+			get { return VersionType.ReleaseCandidate; }
 #endif
 		}
 	}

@@ -19,6 +19,11 @@
 	{"label":"O","description":"Open to unregistered visitors"},
 	{"label":"U","description":"all ordinary Users can access"},
 	{"label":"S","description":"only Subscribers are allowed access (requires application to Depositor)"}]},
+{"protocol":"NAL","documentation":"nal.html","choices":[
+	{"label":"Level 1","description":"Open Access"},
+	{"label":"Level 2","description":"Onsite only"},
+	{"label":"Level 3","description":"Time limit"},
+	{"label":"Level 4","description":"Depositor control"}]},
 {"protocol":"REAP","documentation":"reap.html","choices":[
 	{"label":"","description":"<unknown>"},
 	{"label":"Entity curators","description":"Restricted to Entity curators"},

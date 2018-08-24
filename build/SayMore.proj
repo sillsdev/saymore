@@ -3,6 +3,7 @@
 	<RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
 	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
 	<BuildTasksDll>$(RootDir)/packages/SIL.BuildTasks 2.1.0/tools/SIL.BuildTasks.dll</BuildTasksDll>
+	<Configuration>Release</Configuration>
 	<RestartBuild Condition="!Exists('$(BuildTasksDll)')">true</RestartBuild>
 	<RestartBuild Condition="Exists('$(BuildTasksDll)')">false</RestartBuild>
   </PropertyGroup>

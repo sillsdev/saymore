@@ -2,7 +2,7 @@
   <PropertyGroup>
 	<RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
 	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
-	<BuildTasksDll>$(RootDir)/packages/SIL.BuildTasks/tools/SIL.BuildTasks.dll</BuildTasksDll>
+	<BuildTasksDll>$(RootDir)/packages/SIL.BuildTasks 2.1.0/tools/SIL.BuildTasks.dll</BuildTasksDll>
 	<RestartBuild Condition="!Exists('$(BuildTasksDll)')">true</RestartBuild>
 	<RestartBuild Condition="Exists('$(BuildTasksDll)')">false</RestartBuild>
   </PropertyGroup>
@@ -37,7 +37,7 @@
     <Message Text="BuildTasksDll=$(BuildTasksDll)"/>
 	<Message Text="RestartBuild=$(RestartBuild)"/>
     <Message Text="Configuration=$(Configuration)"/>
-    <Exec Command='$(NuGetCommand) install SIL.BuildTasks -excludeVersion -version 2.1.0 -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
+    <Exec Command='$(NuGetCommand) install SIL.BuildTasks -version 2.1.0 -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BuildInternal"
       Properties="Configuration=$(Configuration)" Condition="$(RestartBuild)" />
   </Target>

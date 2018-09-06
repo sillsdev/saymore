@@ -1,11 +1,19 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <UsingTask TaskName="StampAssemblies" AssemblyFile="$(teamcity_build_checkoutDir)/packages/SIL.BuildTasks.2.1.0/tools/SIL.BuildTasks.dll" />
-  <UsingTask TaskName="UpdateBuildTypeFile" AssemblyFile="$(teamcity_build_checkoutDir)/packages/SIL.BuildTasks.2.1.0/tools/SIL.BuildTasks.dll" />
-  <UsingTask TaskName="MakeWixForDirTree" AssemblyFile="$(teamcity_build_checkoutDir)/packages/SIL.BuildTasks.2.1.0/tools/SIL.BuildTasks.dll" />
-  <UsingTask TaskName="Split" AssemblyFile="$(teamcity_build_checkoutDir)/packages/SIL.BuildTasks.2.1.0/tools/SIL.BuildTasks.dll" />
-  <UsingTask TaskName="FileUpdate" AssemblyFile="$(teamcity_build_checkoutDir)/packages/SIL.BuildTasks.2.1.0/tools/SIL.BuildTasks.dll" />
+  <PropertyGroup>
+	<RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
+	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
+	<BuildTasksDll>$(RootDir)/packages/SIL.BuildTasks.2.1.0/tools/SIL.BuildTasks.dll</BuildTasksDll>
+	<Configuration>Release</Configuration>
+	<RestartBuild Condition="!Exists('$(BuildTasksDll)')">true</RestartBuild>
+	<RestartBuild Condition="Exists('$(BuildTasksDll)')">false</RestartBuild>
+  </PropertyGroup>
+	
+  <UsingTask TaskName="StampAssemblies" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
+  <UsingTask TaskName="UpdateBuildTypeFile" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
+  <UsingTask TaskName="MakeWixForDirTree" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
+  <UsingTask TaskName="Split" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
+  <UsingTask TaskName="FileUpdate" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
   <UsingTask TaskName="NUnitTeamCity" AssemblyFile="$(teamcity_dotnet_nunitlauncher_msbuild_task)" Condition="'$(teamcity_version)' != ''"/>
-
 
   <Target Name="VersionNumbers">
 	<Message Text="BUILD_NUMBER: $(BUILD_NUMBER)" Importance="high"/>
@@ -22,6 +30,17 @@
 	</CreateProperty>
 
 	<Message Text="Version: $(Version)" Importance="high"/>
+  </Target>
+  
+  <Import Project="../.nuget/NuGet.targets" />
+	
+  <Target Name="RestoreBuildTasks" DependsOnTargets="CheckPrerequisites">
+    <Message Text="BuildTasksDll=$(BuildTasksDll)"/>
+	<Message Text="RestartBuild=$(RestartBuild)"/>
+    <Message Text="Configuration=$(Configuration)"/>
+    <Exec Command='$(NuGetCommand) install SIL.BuildTasks -version 2.1.0 -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BuildInternal"
+      Properties="Configuration=$(Configuration)" Condition="$(RestartBuild)" />
   </Target>
 
   <Target Name="SetAssemblyVersion" DependsOnTargets="VersionNumbers">
@@ -40,8 +59,13 @@
 	  </ItemGroup>
 	  <UpdateBuildTypeFile BuildType="$(RELEASE_TYPE)" BuildTypePaths="@(BuildTypeFiles)" />
 	</Target>
+	
+  <Target Name="Build">
+	<CallTarget Targets="RestoreBuildTasks"/>
+	<CallTarget Targets="BuildInternal" Condition="!$(RestartBuild)" />
+  </Target>
 
-  <Target Name="Build" DependsOnTargets="SetAssemblyVersion;SetBuildType">
+  <Target Name="BuildInternal" DependsOnTargets="SetAssemblyVersion;SetBuildType">
 	<MSBuild Projects="$(teamcity_build_checkoutDir)/SayMore.sln"
 			 Targets="Rebuild"
 			 Properties="Configuration=Release" />

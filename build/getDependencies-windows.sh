@@ -30,10 +30,10 @@ where_curl=$(type -P curl)
 where_wget=$(type -P wget)
 if [ "$where_curl" != "" ]
 then
-copy_curl $1 $2
+copy_curl "$1" "$2"
 elif [ "$where_wget" != "" ]
 then
-copy_wget $1 $2
+copy_wget "$1" "$2"
 else
 echo "Missing curl or wget"
 exit 1
@@ -45,9 +45,9 @@ copy_curl() {
 echo "curl: $2 <= $1"
 if [ -e "$2" ] && [ "$force" != "1" ]
 then
-curl -# -L -z $2 -o $2 $1
+curl -# -L -z "$2" -o "$2" "$1"
 else
-curl -# -L -o $2 $1
+curl -# -L -o "$2" "$1"
 fi
 }
 
@@ -56,7 +56,7 @@ echo "wget: $2 <= $1"
 f1=$(basename $1)
 f2=$(basename $2)
 cd $(dirname $2)
-wget -q -L -N $1
+wget -q -L -N "$1"
 # wget has no true equivalent of curl's -o option.
 # Different versions of wget handle (or not) % escaping differently.
 # A URL query is the only reason why $f1 and $f2 should differ.
@@ -90,19 +90,16 @@ cd -
 #     URL: http://build.palaso.org/viewType.html?buildTypeId=Libpalaso_PalasoWin32masterNostrongnameContinuous
 #     clean: false
 #     revision: latest.lastSuccessful
-#     paths: {"SIL.BuildTasks.dll"=>"build/", "Ionic.Zip.dll"=>"lib/dotnet", "icu.net.dll.config"=>"lib/dotnet", "icu.net.dll"=>"lib/dotnet", "x86/icu*.dll"=>"lib/dotnet", "L10NSharp.dll"=>"lib/dotnet", "L10NSharp.pdb"=>"lib/dotnet", "SIL.Core.dll"=>"lib/dotnet", "SIL.Core.pdb"=>"lib/dotnet", "SIL.Media.dll"=>"lib/dotnet", "SIL.Media.pdb"=>"lib/dotnet", "SIL.Windows.Forms.dll"=>"lib/dotnet", "SIL.Windows.Forms.pdb"=>"lib/dotnet", "SIL.Archiving.dll"=>"lib/dotnet", "SIL.Archiving.pdb"=>"lib/dotnet", "SIL.TestUtilities.dll"=>"lib/dotnet", "SIL.TestUtilities.pdb"=>"lib/dotnet", "SIL.WritingSystems.dll"=>"lib/dotnet", "SIL.WritingSystems.pdb"=>"lib/dotnet", "SIL.Windows.Forms.WritingSystems.dll"=>"lib/dotnet", "SIL.Windows.Forms.WritingSystems.pdb"=>"lib/dotnet"}
-#     VCS: https://github.com/sillsdev/libpalaso.git []
+#     paths: {"icu.net.dll"=>"lib/dotnet", "x86/icu*.dll"=>"lib/dotnet", "L10NSharp.dll"=>"lib/dotnet", "L10NSharp.pdb"=>"lib/dotnet", "SIL.Core.dll"=>"lib/dotnet", "SIL.Core.pdb"=>"lib/dotnet", "SIL.Core.Desktop.dll"=>"lib/dotnet", "SIL.Core.Desktop.pdb"=>"lib/dotnet", "SIL.Media.dll"=>"lib/dotnet", "SIL.Media.pdb"=>"lib/dotnet", "SIL.Windows.Forms.dll"=>"lib/dotnet", "SIL.Windows.Forms.pdb"=>"lib/dotnet", "SIL.Archiving.dll"=>"lib/dotnet", "SIL.Archiving.pdb"=>"lib/dotnet", "SIL.TestUtilities.dll"=>"lib/dotnet", "SIL.TestUtilities.pdb"=>"lib/dotnet", "SIL.WritingSystems.dll"=>"lib/dotnet", "SIL.WritingSystems.pdb"=>"lib/dotnet", "SIL.Windows.Forms.WritingSystems.dll"=>"lib/dotnet", "SIL.Windows.Forms.WritingSystems.pdb"=>"lib/dotnet"}
+#     VCS: https://github.com/sillsdev/libpalaso.git [master]
 
 # make sure output directories exist
 mkdir -p ../DistFiles
-mkdir -p ../build/
 mkdir -p ../lib/dotnet
 
 # download artifact dependencies
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt402/latest.lastSuccessful/NAudio.dll ../lib/dotnet/NAudio.dll
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt76/latest.lastSuccessful/SayMore.chm ../DistFiles/SayMore.chm
-copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterNostrongnameContinuous/latest.lastSuccessful/Ionic.Zip.dll ../lib/dotnet/Ionic.Zip.dll
-copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterNostrongnameContinuous/latest.lastSuccessful/icu.net.dll.config ../lib/dotnet/icu.net.dll.config
 copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterNostrongnameContinuous/latest.lastSuccessful/icu.net.dll ../lib/dotnet/icu.net.dll
 copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterNostrongnameContinuous/latest.lastSuccessful/x86/icudt56.dll ../lib/dotnet/icudt56.dll
 copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterNostrongnameContinuous/latest.lastSuccessful/x86/icuin56.dll ../lib/dotnet/icuin56.dll

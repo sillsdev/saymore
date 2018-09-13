@@ -172,7 +172,7 @@ namespace SayMore.Model
 			var sessionFile = saymoreSession.MetaDataFile;
 			if (Project == null)
 				Project = Program.CurrentProject;
-			var analysisLanguage = (Project != null) ? Project.AnalysisISO3CodeAndName : AnalysisLanguage();
+			var analysisLanguage = string.IsNullOrEmpty(Project?.AnalysisISO3CodeAndName) ? AnalysisLanguage() : Project.AnalysisISO3CodeAndName;
 			if (analysisLanguage.Contains(":"))
 				analysisLanguage = analysisLanguage.Split(':')[0];
 			analysisLanguage = ForceIso639ThreeChar(analysisLanguage);

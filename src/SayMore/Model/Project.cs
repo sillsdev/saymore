@@ -233,7 +233,6 @@ namespace SayMore.Model
 		public void Save()
 		{
 			var project = new XElement("Project");
-			project.Add(new XElement("Iso639Code", Iso639Code.NullTrim()));
 
 			project.Add(!TranscriptionFont.Equals(Program.DialogFont)
 				? new XElement("transcriptionFont", FontHelper.FontToString(TranscriptionFont))
@@ -385,15 +384,7 @@ namespace SayMore.Model
 
 			var project = XElement.Load(SettingsFilePath);
 
-			var settingValue = GetStringSettingValue(project, "Iso639Code", null);
-
-			if (string.IsNullOrEmpty(settingValue))
-				settingValue = GetStringSettingValue(project, "IsoCode", null); //old value when we were called "Sponge"
-
-			if (!string.IsNullOrEmpty(settingValue))
-				Iso639Code = settingValue;
-
-			settingValue = GetStringSettingValue(project, "transcriptionFont", null);
+			var settingValue = GetStringSettingValue(project, "transcriptionFont", null);
 			if (!string.IsNullOrEmpty(settingValue))
 			{
 				TranscriptionFont = FontHelper.MakeFont(settingValue);
@@ -467,14 +458,6 @@ namespace SayMore.Model
 			if (key != string.Empty)
 				bldr.Insert(0, "__Contributors__");
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This is, roughly, the "ethnologue code", taken either from 639-2 (2 letters),
-		/// or, more often, 639-3 (3 letters)
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string Iso639Code { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

@@ -177,6 +177,8 @@ namespace SayMore.Model
 				analysisLanguage = AnalysisLanguage();
 			if (analysisLanguage.Contains(":"))
 				analysisLanguage = analysisLanguage.Split(':')[0];
+			// In case of things like pt-PT; no-op if no hyphen
+			analysisLanguage = analysisLanguage.Split('-')[0];
 			analysisLanguage = ForceIso639ThreeChar(analysisLanguage);
 
 			// create IMDI session

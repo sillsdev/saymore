@@ -218,10 +218,10 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.Controls.Add(this._labelSituation, 0, 8);
 			this._tableLayout.Controls.Add(this._labelDate, 1, 0);
 			this._tableLayout.Controls.Add(this._date, 1, 1);
-			this._tableLayout.Controls.Add(this._labelCustomFields, 1, 10);
 			this._tableLayout.Controls.Add(this._panelGrid, 1, 11);
 			this._tableLayout.Controls.Add(this.tableLayoutPanel1, 1, 5);
 			this._tableLayout.Controls.Add(this.tableLayoutPanel2, 0, 4);
+			this._tableLayout.Controls.Add(this._labelCustomFields, 1, 10);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Top;
 			this._tableLayout.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._tableLayout.Location = new System.Drawing.Point(7, 7);
@@ -397,8 +397,8 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._labelCustomFields, null);
 			this.locExtender.SetLocalizationComment(this._labelCustomFields, null);
 			this.locExtender.SetLocalizingId(this._labelCustomFields, "SessionsView.MetadataEditor._labelCustomFields");
-			this._labelCustomFields.Location = new System.Drawing.Point(157, 364);
-			this._labelCustomFields.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
+			this._labelCustomFields.Location = new System.Drawing.Point(162, 364);
+			this._labelCustomFields.Margin = new System.Windows.Forms.Padding(5, 5, 5, 0);
 			this._labelCustomFields.Name = "_labelCustomFields";
 			this._labelCustomFields.Size = new System.Drawing.Size(79, 13);
 			this._labelCustomFields.TabIndex = 18;
@@ -408,10 +408,10 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this._panelGrid.Location = new System.Drawing.Point(157, 380);
-			this._panelGrid.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
+			this._panelGrid.Location = new System.Drawing.Point(162, 380);
+			this._panelGrid.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
 			this._panelGrid.Name = "_panelGrid";
-			this._panelGrid.Size = new System.Drawing.Size(153, 60);
+			this._panelGrid.Size = new System.Drawing.Size(148, 60);
 			this._panelGrid.TabIndex = 19;
 			// 
 			// tableLayoutPanel1
@@ -425,7 +425,8 @@ namespace SayMore.UI.ComponentEditors
 			this.tableLayoutPanel1.Controls.Add(this._labelAccess, 0, 3);
 			this.tableLayoutPanel1.Controls.Add(this._genre, 0, 2);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(160, 117);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(157, 117);
+			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 5;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 53.06123F));
@@ -433,7 +434,7 @@ namespace SayMore.UI.ComponentEditors
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(152, 119);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(158, 119);
 			this.tableLayoutPanel1.TabIndex = 11;
 			// 
 			// _location
@@ -450,7 +451,7 @@ namespace SayMore.UI.ComponentEditors
 			this._location.Location = new System.Drawing.Point(5, 3);
 			this._location.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._location.Name = "_location";
-			this._location.Size = new System.Drawing.Size(147, 22);
+			this._location.Size = new System.Drawing.Size(153, 22);
 			this._location.TabIndex = 0;
 			this._autoCompleteHelper.SetUpdateGatherer(this._location, false);
 			// 
@@ -462,8 +463,8 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._labelGenre, null);
 			this.locExtender.SetLocalizationComment(this._labelGenre, null);
 			this.locExtender.SetLocalizingId(this._labelGenre, "SessionsView.MetadataEditor._labelGenre");
-			this._labelGenre.Location = new System.Drawing.Point(0, 28);
-			this._labelGenre.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
+			this._labelGenre.Location = new System.Drawing.Point(5, 28);
+			this._labelGenre.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelGenre.Name = "_labelGenre";
 			this._labelGenre.Size = new System.Drawing.Size(38, 13);
 			this._labelGenre.TabIndex = 1;
@@ -482,7 +483,7 @@ namespace SayMore.UI.ComponentEditors
 			this._access.Location = new System.Drawing.Point(5, 94);
 			this._access.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._access.Name = "_access";
-			this._access.Size = new System.Drawing.Size(147, 21);
+			this._access.Size = new System.Drawing.Size(153, 21);
 			this._access.TabIndex = 4;
 			// 
 			// _labelAccess

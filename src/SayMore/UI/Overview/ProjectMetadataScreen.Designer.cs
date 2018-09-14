@@ -104,11 +104,11 @@ namespace SayMore.UI.Overview
 			this._tableLayout.AutoSize = true;
 			this._tableLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._tableLayout.ColumnCount = 5;
-			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.11235F));
-			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.11617F));
-			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.84007F));
-			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.57654F));
-			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.35487F));
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayout.Controls.Add(this._projectTitle, 1, 3);
 			this._tableLayout.Controls.Add(this.flowLayoutPanel1, 1, 4);
 			this._tableLayout.Controls.Add(this._linkHelp, 4, 0);
@@ -166,7 +166,7 @@ namespace SayMore.UI.Overview
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 12F));
-			this._tableLayout.Size = new System.Drawing.Size(915, 584);
+			this._tableLayout.Size = new System.Drawing.Size(961, 584);
 			this._tableLayout.TabIndex = 0;
 			// 
 			// _projectTitle
@@ -177,7 +177,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizationComment(this._projectTitle, null);
 			this.locExtender.SetLocalizationPriority(this._projectTitle, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._projectTitle, "ProjectView.MetadataScreen._projectTitle");
-			this._projectTitle.Location = new System.Drawing.Point(134, 43);
+			this._projectTitle.Location = new System.Drawing.Point(156, 43);
 			this._projectTitle.Name = "_projectTitle";
 			this._projectTitle.Size = new System.Drawing.Size(349, 29);
 			this._projectTitle.TabIndex = 0;
@@ -186,7 +186,7 @@ namespace SayMore.UI.Overview
 			// 
 			this.flowLayoutPanel1.AutoSize = true;
 			this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(131, 100);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(153, 100);
 			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(0, 0);
@@ -199,7 +199,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._linkHelp, null);
 			this.locExtender.SetLocalizationComment(this._linkHelp, null);
 			this.locExtender.SetLocalizingId(this._linkHelp, "ProjectView.MetadataScreen._linkHelp");
-			this._linkHelp.Location = new System.Drawing.Point(798, 3);
+			this._linkHelp.Location = new System.Drawing.Point(844, 3);
 			this._linkHelp.Name = "_linkHelp";
 			this._linkHelp.Size = new System.Drawing.Size(111, 13);
 			this._linkHelp.TabIndex = 0;
@@ -217,7 +217,7 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel1.Controls.Add(this._labelSelectedWorkingLanguage, 1, 0);
 			this.tableLayoutPanel1.Controls.Add(this._linkSelectContentLanguage, 0, 1);
 			this.tableLayoutPanel1.Controls.Add(this._linkSelectWorkingLanguage, 1, 1);
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(131, 100);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(153, 100);
 			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 2;
@@ -294,7 +294,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizationComment(this._location, null);
 			this.locExtender.SetLocalizationPriority(this._location, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._location, "ProjectView.MetadataScreen._location");
-			this._location.Location = new System.Drawing.Point(655, 43);
+			this._location.Location = new System.Drawing.Point(701, 43);
 			this._location.Multiline = true;
 			this._location.Name = "_location";
 			this._location.Size = new System.Drawing.Size(254, 54);
@@ -308,7 +308,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizationComment(this._region, null);
 			this.locExtender.SetLocalizationPriority(this._region, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._region, "ProjectView.MetadataScreen._region");
-			this._region.Location = new System.Drawing.Point(655, 103);
+			this._region.Location = new System.Drawing.Point(701, 103);
 			this._region.Name = "_region";
 			this._region.Size = new System.Drawing.Size(254, 29);
 			this._region.TabIndex = 4;
@@ -321,7 +321,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizationComment(this._description, null);
 			this.locExtender.SetLocalizationPriority(this._description, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._description, "ProjectView.MetadataScreen._description");
-			this._description.Location = new System.Drawing.Point(134, 151);
+			this._description.Location = new System.Drawing.Point(156, 151);
 			this._description.Multiline = true;
 			this._description.Name = "_description";
 			this._description.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -336,7 +336,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizationComment(this._depositor, null);
 			this.locExtender.SetLocalizationPriority(this._depositor, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._depositor, "ProjectView.MetadataScreen._depositor");
-			this._depositor.Location = new System.Drawing.Point(655, 459);
+			this._depositor.Location = new System.Drawing.Point(701, 459);
 			this._depositor.Name = "_depositor";
 			this._depositor.Size = new System.Drawing.Size(254, 29);
 			this._depositor.TabIndex = 10;
@@ -349,7 +349,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizationComment(this._rightsHolder, null);
 			this.locExtender.SetLocalizationPriority(this._rightsHolder, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._rightsHolder, "ProjectView.MetadataScreen._rightsHolder");
-			this._rightsHolder.Location = new System.Drawing.Point(655, 413);
+			this._rightsHolder.Location = new System.Drawing.Point(701, 413);
 			this._rightsHolder.Name = "_rightsHolder";
 			this._rightsHolder.Size = new System.Drawing.Size(254, 29);
 			this._rightsHolder.TabIndex = 9;
@@ -364,7 +364,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizationComment(this._dateAvailable, null);
 			this.locExtender.SetLocalizationPriority(this._dateAvailable, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._dateAvailable, "ProjectView.MetadataScreen._dateAvailable");
-			this._dateAvailable.Location = new System.Drawing.Point(655, 367);
+			this._dateAvailable.Location = new System.Drawing.Point(701, 367);
 			this._dateAvailable.Name = "_dateAvailable";
 			this._dateAvailable.Size = new System.Drawing.Size(254, 29);
 			this._dateAvailable.TabIndex = 8;
@@ -378,7 +378,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizationComment(this._fundingProjectTitle, null);
 			this.locExtender.SetLocalizationPriority(this._fundingProjectTitle, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._fundingProjectTitle, "ProjectView.MetadataScreen._fundingProjectTitle");
-			this._fundingProjectTitle.Location = new System.Drawing.Point(655, 321);
+			this._fundingProjectTitle.Location = new System.Drawing.Point(701, 321);
 			this._fundingProjectTitle.Name = "_fundingProjectTitle";
 			this._fundingProjectTitle.Size = new System.Drawing.Size(254, 29);
 			this._fundingProjectTitle.TabIndex = 7;
@@ -391,7 +391,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizationComment(this._contactPerson, null);
 			this.locExtender.SetLocalizationPriority(this._contactPerson, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._contactPerson, "ProjectView.MetadataScreen._contactPerson");
-			this._contactPerson.Location = new System.Drawing.Point(134, 262);
+			this._contactPerson.Location = new System.Drawing.Point(156, 262);
 			this._contactPerson.Name = "_contactPerson";
 			this._contactPerson.Size = new System.Drawing.Size(349, 29);
 			this._contactPerson.TabIndex = 2;
@@ -403,7 +403,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._labelProjectBasics, null);
 			this.locExtender.SetLocalizationComment(this._labelProjectBasics, null);
 			this.locExtender.SetLocalizingId(this._labelProjectBasics, "ProjectView.MetadataScreen._labelProjectBasics");
-			this._labelProjectBasics.Location = new System.Drawing.Point(134, 16);
+			this._labelProjectBasics.Location = new System.Drawing.Point(156, 16);
 			this._labelProjectBasics.Name = "_labelProjectBasics";
 			this._labelProjectBasics.Size = new System.Drawing.Size(92, 16);
 			this._labelProjectBasics.TabIndex = 24;
@@ -416,7 +416,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._labelMainLocation, null);
 			this.locExtender.SetLocalizationComment(this._labelMainLocation, null);
 			this.locExtender.SetLocalizingId(this._labelMainLocation, "ProjectView.MetadataScreen._labelMainLocation");
-			this._labelMainLocation.Location = new System.Drawing.Point(655, 16);
+			this._labelMainLocation.Location = new System.Drawing.Point(701, 16);
 			this._labelMainLocation.Name = "_labelMainLocation";
 			this._labelMainLocation.Size = new System.Drawing.Size(96, 16);
 			this._labelMainLocation.TabIndex = 26;
@@ -430,7 +430,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._labelResponsibilities, null);
 			this.locExtender.SetLocalizationComment(this._labelResponsibilities, null);
 			this.locExtender.SetLocalizingId(this._labelResponsibilities, "ProjectView.MetadataScreen._labelResponsibilities");
-			this._labelResponsibilities.Location = new System.Drawing.Point(655, 288);
+			this._labelResponsibilities.Location = new System.Drawing.Point(701, 288);
 			this._labelResponsibilities.Name = "_labelResponsibilities";
 			this._labelResponsibilities.Size = new System.Drawing.Size(254, 17);
 			this._labelResponsibilities.TabIndex = 27;
@@ -444,7 +444,7 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel2.Controls.Add(this._labelsubOrSimilar, 0, 1);
 			this.tableLayoutPanel2.Controls.Add(this._labelAddress, 0, 0);
 			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Right;
-			this.tableLayoutPanel2.Location = new System.Drawing.Point(505, 43);
+			this.tableLayoutPanel2.Location = new System.Drawing.Point(551, 43);
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
 			this.tableLayoutPanel2.RowCount = 3;
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -490,12 +490,12 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel3.Controls.Add(this._labelsubLikeStateOrProvince, 0, 1);
 			this.tableLayoutPanel3.Controls.Add(this._labelRegion, 0, 0);
 			this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
-			this.tableLayoutPanel3.Location = new System.Drawing.Point(505, 103);
+			this.tableLayoutPanel3.Location = new System.Drawing.Point(521, 103);
 			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
 			this.tableLayoutPanel3.RowCount = 2;
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45.23809F));
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 54.76191F));
-			this.tableLayoutPanel3.Size = new System.Drawing.Size(144, 42);
+			this.tableLayoutPanel3.Size = new System.Drawing.Size(174, 42);
 			this.tableLayoutPanel3.TabIndex = 29;
 			// 
 			// _labelsubLikeStateOrProvince
@@ -505,7 +505,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._labelsubLikeStateOrProvince, null);
 			this.locExtender.SetLocalizationComment(this._labelsubLikeStateOrProvince, null);
 			this.locExtender.SetLocalizingId(this._labelsubLikeStateOrProvince, "ProjectView.MetadataScreen._labelsubLikeStateOrProvince");
-			this._labelsubLikeStateOrProvince.Location = new System.Drawing.Point(27, 18);
+			this._labelsubLikeStateOrProvince.Location = new System.Drawing.Point(57, 18);
 			this._labelsubLikeStateOrProvince.Name = "_labelsubLikeStateOrProvince";
 			this._labelsubLikeStateOrProvince.Size = new System.Drawing.Size(114, 24);
 			this._labelsubLikeStateOrProvince.TabIndex = 33;
@@ -520,7 +520,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizableToolTip(this._labelRegion, null);
 			this.locExtender.SetLocalizationComment(this._labelRegion, null);
 			this.locExtender.SetLocalizingId(this._labelRegion, "ProjectView.MetadataScreen._labelRegion");
-			this._labelRegion.Location = new System.Drawing.Point(90, 0);
+			this._labelRegion.Location = new System.Drawing.Point(120, 0);
 			this._labelRegion.Name = "_labelRegion";
 			this._labelRegion.Size = new System.Drawing.Size(51, 18);
 			this._labelRegion.TabIndex = 8;
@@ -535,7 +535,7 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel4.Controls.Add(this._labelsubOfTheProject, 0, 1);
 			this.tableLayoutPanel4.Controls.Add(this._labelDescription, 0, 0);
 			this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Right;
-			this.tableLayoutPanel4.Location = new System.Drawing.Point(6, 151);
+			this.tableLayoutPanel4.Location = new System.Drawing.Point(28, 151);
 			this.tableLayoutPanel4.Name = "tableLayoutPanel4";
 			this.tableLayoutPanel4.RowCount = 3;
 			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -580,7 +580,7 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel5.Controls.Add(this._labelsubPerson1, 0, 1);
 			this.tableLayoutPanel5.Controls.Add(this._labelContact, 0, 0);
 			this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Right;
-			this.tableLayoutPanel5.Location = new System.Drawing.Point(6, 262);
+			this.tableLayoutPanel5.Location = new System.Drawing.Point(28, 262);
 			this.tableLayoutPanel5.Name = "tableLayoutPanel5";
 			this.tableLayoutPanel5.RowCount = 2;
 			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -624,7 +624,7 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel6.Controls.Add(this._labelsubTitle, 0, 1);
 			this.tableLayoutPanel6.Controls.Add(this._labelFundingProject, 0, 0);
 			this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Right;
-			this.tableLayoutPanel6.Location = new System.Drawing.Point(505, 321);
+			this.tableLayoutPanel6.Location = new System.Drawing.Point(551, 321);
 			this.tableLayoutPanel6.Name = "tableLayoutPanel6";
 			this.tableLayoutPanel6.RowCount = 2;
 			this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 48.14815F));
@@ -668,7 +668,7 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel9.Controls.Add(this._labelsubDate, 0, 1);
 			this.tableLayoutPanel9.Controls.Add(this._labelDateAvailable, 0, 0);
 			this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Right;
-			this.tableLayoutPanel9.Location = new System.Drawing.Point(505, 367);
+			this.tableLayoutPanel9.Location = new System.Drawing.Point(551, 367);
 			this.tableLayoutPanel9.Name = "tableLayoutPanel9";
 			this.tableLayoutPanel9.RowCount = 2;
 			this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -712,7 +712,7 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel7.Controls.Add(this._labelRightsHolder, 0, 0);
 			this.tableLayoutPanel7.Controls.Add(this._labelsubPerson2, 0, 1);
 			this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Right;
-			this.tableLayoutPanel7.Location = new System.Drawing.Point(505, 413);
+			this.tableLayoutPanel7.Location = new System.Drawing.Point(551, 413);
 			this.tableLayoutPanel7.Name = "tableLayoutPanel7";
 			this.tableLayoutPanel7.RowCount = 2;
 			this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 53.84615F));
@@ -757,7 +757,7 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel8.Controls.Add(this._labelsubPerson3, 0, 1);
 			this.tableLayoutPanel8.Controls.Add(this._labelDepositor, 0, 0);
 			this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Right;
-			this.tableLayoutPanel8.Location = new System.Drawing.Point(505, 459);
+			this.tableLayoutPanel8.Location = new System.Drawing.Point(551, 459);
 			this.tableLayoutPanel8.Name = "tableLayoutPanel8";
 			this.tableLayoutPanel8.RowCount = 2;
 			this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -802,7 +802,7 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel10.Controls.Add(this._labelsubLong, 0, 1);
 			this.tableLayoutPanel10.Controls.Add(this._labelProjectTitle, 0, 0);
 			this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Right;
-			this.tableLayoutPanel10.Location = new System.Drawing.Point(6, 43);
+			this.tableLayoutPanel10.Location = new System.Drawing.Point(28, 43);
 			this.tableLayoutPanel10.Name = "tableLayoutPanel10";
 			this.tableLayoutPanel10.RowCount = 3;
 			this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -820,11 +820,11 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizationComment(this._labelsubLong, null);
 			this.locExtender.SetLocalizationPriority(this._labelsubLong, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelsubLong, "ProjectMetadataScreen._labelsubLong");
-			this._labelsubLong.Location = new System.Drawing.Point(86, 17);
+			this._labelsubLong.Location = new System.Drawing.Point(88, 17);
 			this._labelsubLong.Name = "_labelsubLong";
-			this._labelsubLong.Size = new System.Drawing.Size(33, 17);
+			this._labelsubLong.Size = new System.Drawing.Size(31, 17);
 			this._labelsubLong.TabIndex = 37;
-			this._labelsubLong.Text = "Long";
+			this._labelsubLong.Text = "long";
 			this._labelsubLong.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// _labelProjectTitle
@@ -851,7 +851,7 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel11.Controls.Add(this._labelContinent, 0, 1);
 			this.tableLayoutPanel11.Controls.Add(this._labelCountry, 0, 0);
 			this.tableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Right;
-			this.tableLayoutPanel11.Location = new System.Drawing.Point(505, 151);
+			this.tableLayoutPanel11.Location = new System.Drawing.Point(551, 151);
 			this.tableLayoutPanel11.Name = "tableLayoutPanel11";
 			this.tableLayoutPanel11.RowCount = 3;
 			this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 36.19048F));
@@ -897,7 +897,7 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel12.Controls.Add(this._continent, 0, 0);
 			this.tableLayoutPanel12.Controls.Add(this._country, 0, 0);
-			this.tableLayoutPanel12.Location = new System.Drawing.Point(652, 148);
+			this.tableLayoutPanel12.Location = new System.Drawing.Point(698, 148);
 			this.tableLayoutPanel12.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this.tableLayoutPanel12.Name = "tableLayoutPanel12";
 			this.tableLayoutPanel12.RowCount = 2;
@@ -952,7 +952,7 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "ProjectView.MetadataScreen");
 			this.Name = "ProjectMetadataScreen";
-			this.Size = new System.Drawing.Size(929, 598);
+			this.Size = new System.Drawing.Size(975, 598);
 			this.Load += new System.EventHandler(this.ProjectMetadataScreen_Load);
 			this.VisibleChanged += new System.EventHandler(this.ProjectMetadataScreen_VisibleChanged);
 			this.Leave += new System.EventHandler(this.ProjectMetadataScreen_Leave);

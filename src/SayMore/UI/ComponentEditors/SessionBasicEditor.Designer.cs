@@ -81,7 +81,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelId.Location = new System.Drawing.Point(0, 0);
 			this._labelId.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
 			this._labelId.Name = "_labelId";
-			this._labelId.Size = new System.Drawing.Size(23, 19);
+			this._labelId.Size = new System.Drawing.Size(18, 13);
 			this._labelId.TabIndex = 0;
 			this._labelId.Text = "&ID";
 			// 
@@ -96,10 +96,10 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizationComment(this._id, null);
 			this.locExtender.SetLocalizationPriority(this._id, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._id, "SessionBasicEditor._id");
-			this._id.Location = new System.Drawing.Point(0, 22);
+			this._id.Location = new System.Drawing.Point(0, 16);
 			this._id.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._id.Name = "_id";
-			this._id.Size = new System.Drawing.Size(152, 26);
+			this._id.Size = new System.Drawing.Size(152, 22);
 			this._id.TabIndex = 1;
 			this._autoCompleteHelper.SetUpdateGatherer(this._id, false);
 			// 
@@ -111,10 +111,10 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._labelTitle, null);
 			this.locExtender.SetLocalizationComment(this._labelTitle, null);
 			this.locExtender.SetLocalizingId(this._labelTitle, "SessionsView.MetadataEditor._labelTitle");
-			this._labelTitle.Location = new System.Drawing.Point(0, 56);
+			this._labelTitle.Location = new System.Drawing.Point(0, 46);
 			this._labelTitle.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelTitle.Name = "_labelTitle";
-			this._labelTitle.Size = new System.Drawing.Size(34, 19);
+			this._labelTitle.Size = new System.Drawing.Size(28, 13);
 			this._labelTitle.TabIndex = 4;
 			this._labelTitle.Text = "&Title";
 			// 
@@ -129,10 +129,10 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizationComment(this._title, null);
 			this.locExtender.SetLocalizationPriority(this._title, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._title, "SessionBasicEditor._title");
-			this._title.Location = new System.Drawing.Point(0, 78);
+			this._title.Location = new System.Drawing.Point(0, 62);
 			this._title.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._title.Name = "_title";
-			this._title.Size = new System.Drawing.Size(152, 26);
+			this._title.Size = new System.Drawing.Size(152, 22);
 			this._title.TabIndex = 5;
 			this._autoCompleteHelper.SetUpdateGatherer(this._title, false);
 			// 
@@ -149,7 +149,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizationComment(this._situation, null);
 			this.locExtender.SetLocalizationPriority(this._situation, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._situation, "SessionBasicEditor._situation");
-			this._situation.Location = new System.Drawing.Point(0, 293);
+			this._situation.Location = new System.Drawing.Point(0, 260);
 			this._situation.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._situation.Multiline = true;
 			this._situation.Name = "_situation";
@@ -166,10 +166,10 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._labelSynopsis, null);
 			this.locExtender.SetLocalizationComment(this._labelSynopsis, null);
 			this.locExtender.SetLocalizingId(this._labelSynopsis, "SessionsView.MetadataEditor._labelDescription");
-			this._labelSynopsis.Location = new System.Drawing.Point(162, 271);
+			this._labelSynopsis.Location = new System.Drawing.Point(162, 244);
 			this._labelSynopsis.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelSynopsis.Name = "_labelSynopsis";
-			this._labelSynopsis.Size = new System.Drawing.Size(78, 19);
+			this._labelSynopsis.Size = new System.Drawing.Size(66, 13);
 			this._labelSynopsis.TabIndex = 14;
 			this._labelSynopsis.Text = "Desc&ription";
 			// 
@@ -186,7 +186,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizationComment(this._synopsis, null);
 			this.locExtender.SetLocalizationPriority(this._synopsis, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._synopsis, "SessionBasicEditor._synopsis");
-			this._synopsis.Location = new System.Drawing.Point(162, 293);
+			this._synopsis.Location = new System.Drawing.Point(162, 260);
 			this._synopsis.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._synopsis.Multiline = true;
 			this._synopsis.Name = "_synopsis";
@@ -239,7 +239,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.Size = new System.Drawing.Size(315, 482);
+			this._tableLayout.Size = new System.Drawing.Size(315, 443);
 			this._tableLayout.TabIndex = 0;
 			this._tableLayout.TabStop = true;
 			// 
@@ -251,10 +251,10 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._labelMoreFields, null);
 			this.locExtender.SetLocalizationComment(this._labelMoreFields, null);
 			this.locExtender.SetLocalizingId(this._labelMoreFields, "SessionsView.MetadataEditor._labelMoreFields");
-			this._labelMoreFields.Location = new System.Drawing.Point(0, 397);
+			this._labelMoreFields.Location = new System.Drawing.Point(0, 364);
 			this._labelMoreFields.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelMoreFields.Name = "_labelMoreFields";
-			this._labelMoreFields.Size = new System.Drawing.Size(80, 19);
+			this._labelMoreFields.Size = new System.Drawing.Size(67, 13);
 			this._labelMoreFields.TabIndex = 16;
 			this._labelMoreFields.Text = "&More Fields";
 			// 
@@ -262,7 +262,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._panelAdditionalGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this._panelAdditionalGrid.Location = new System.Drawing.Point(0, 419);
+			this._panelAdditionalGrid.Location = new System.Drawing.Point(0, 380);
 			this._panelAdditionalGrid.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._panelAdditionalGrid.Name = "_panelAdditionalGrid";
 			this._panelAdditionalGrid.Size = new System.Drawing.Size(152, 60);
@@ -275,7 +275,6 @@ namespace SayMore.UI.ComponentEditors
 			this._participants.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._participants.BackColor = System.Drawing.SystemColors.Window;
 			this._participants.Dock = System.Windows.Forms.DockStyle.Top;
-			this._participants.Enabled = false;
 			this._participants.Font = new System.Drawing.Font("Segoe UI", 9F);
 			this._binder.SetIsBound(this._participants, true);
 			this._binder.SetIsComponentFileId(this._participants, false);
@@ -283,13 +282,15 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizationComment(this._participants, null);
 			this.locExtender.SetLocalizationPriority(this._participants, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._participants, "SessionBasicEditor._participants");
-			this._participants.Location = new System.Drawing.Point(0, 144);
+			this._participants.Location = new System.Drawing.Point(0, 117);
 			this._participants.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._participants.Multiline = true;
 			this._participants.Name = "_participants";
+			this._participants.ReadOnly = true;
 			this._participants.Size = new System.Drawing.Size(152, 112);
 			this._participants.TabIndex = 9;
 			this._autoCompleteHelper.SetUpdateGatherer(this._participants, false);
+			this._participants.Click += new System.EventHandler(this.HandlePeopleEditClick);
 			// 
 			// _labelLocation
 			// 
@@ -300,10 +301,10 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._labelLocation, null);
 			this.locExtender.SetLocalizationComment(this._labelLocation, null);
 			this.locExtender.SetLocalizingId(this._labelLocation, "SessionsView.MetadataEditor._labelLocation");
-			this._labelLocation.Location = new System.Drawing.Point(162, 122);
+			this._labelLocation.Location = new System.Drawing.Point(162, 101);
 			this._labelLocation.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelLocation.Name = "_labelLocation";
-			this._labelLocation.Size = new System.Drawing.Size(61, 19);
+			this._labelLocation.Size = new System.Drawing.Size(51, 13);
 			this._labelLocation.TabIndex = 10;
 			this._labelLocation.Text = "&Location";
 			this._labelLocation.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -316,10 +317,10 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._labelSetting, null);
 			this.locExtender.SetLocalizationComment(this._labelSetting, null);
 			this.locExtender.SetLocalizingId(this._labelSetting, "SessionsView.MetadataEditor._labelSetting");
-			this._labelSetting.Location = new System.Drawing.Point(162, 56);
+			this._labelSetting.Location = new System.Drawing.Point(162, 46);
 			this._labelSetting.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelSetting.Name = "_labelSetting";
-			this._labelSetting.Size = new System.Drawing.Size(52, 19);
+			this._labelSetting.Size = new System.Drawing.Size(44, 13);
 			this._labelSetting.TabIndex = 6;
 			this._labelSetting.Text = "S&etting";
 			// 
@@ -334,10 +335,10 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizationComment(this._setting, null);
 			this.locExtender.SetLocalizationPriority(this._setting, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._setting, "SessionBasicEditor._setting");
-			this._setting.Location = new System.Drawing.Point(162, 78);
+			this._setting.Location = new System.Drawing.Point(162, 62);
 			this._setting.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._setting.Name = "_setting";
-			this._setting.Size = new System.Drawing.Size(153, 26);
+			this._setting.Size = new System.Drawing.Size(153, 22);
 			this._setting.TabIndex = 7;
 			this._autoCompleteHelper.SetUpdateGatherer(this._setting, false);
 			// 
@@ -349,10 +350,10 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._labelSituation, null);
 			this.locExtender.SetLocalizationComment(this._labelSituation, null);
 			this.locExtender.SetLocalizingId(this._labelSituation, "SessionsView.MetadataEditor._labelSituation");
-			this._labelSituation.Location = new System.Drawing.Point(0, 271);
+			this._labelSituation.Location = new System.Drawing.Point(0, 244);
 			this._labelSituation.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelSituation.Name = "_labelSituation";
-			this._labelSituation.Size = new System.Drawing.Size(63, 19);
+			this._labelSituation.Size = new System.Drawing.Size(54, 13);
 			this._labelSituation.TabIndex = 12;
 			this._labelSituation.Text = "Sit&uation";
 			// 
@@ -367,7 +368,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelDate.Location = new System.Drawing.Point(162, 0);
 			this._labelDate.Margin = new System.Windows.Forms.Padding(5, 0, 3, 0);
 			this._labelDate.Name = "_labelDate";
-			this._labelDate.Size = new System.Drawing.Size(38, 19);
+			this._labelDate.Size = new System.Drawing.Size(31, 13);
 			this._labelDate.TabIndex = 2;
 			this._labelDate.Text = "&Date";
 			// 
@@ -382,10 +383,10 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizationComment(this._date, null);
 			this.locExtender.SetLocalizationPriority(this._date, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._date, "SessionBasicEditor._date");
-			this._date.Location = new System.Drawing.Point(162, 22);
+			this._date.Location = new System.Drawing.Point(162, 16);
 			this._date.Margin = new System.Windows.Forms.Padding(5, 3, 2, 3);
 			this._date.Name = "_date";
-			this._date.Size = new System.Drawing.Size(102, 26);
+			this._date.Size = new System.Drawing.Size(102, 22);
 			this._date.TabIndex = 3;
 			// 
 			// _labelCustomFields
@@ -396,10 +397,10 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._labelCustomFields, null);
 			this.locExtender.SetLocalizationComment(this._labelCustomFields, null);
 			this.locExtender.SetLocalizingId(this._labelCustomFields, "SessionsView.MetadataEditor._labelCustomFields");
-			this._labelCustomFields.Location = new System.Drawing.Point(157, 397);
+			this._labelCustomFields.Location = new System.Drawing.Point(157, 364);
 			this._labelCustomFields.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelCustomFields.Name = "_labelCustomFields";
-			this._labelCustomFields.Size = new System.Drawing.Size(95, 19);
+			this._labelCustomFields.Size = new System.Drawing.Size(79, 13);
 			this._labelCustomFields.TabIndex = 18;
 			this._labelCustomFields.Text = "&Custom Fields";
 			// 
@@ -407,7 +408,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this._panelGrid.Location = new System.Drawing.Point(157, 419);
+			this._panelGrid.Location = new System.Drawing.Point(157, 380);
 			this._panelGrid.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._panelGrid.Name = "_panelGrid";
 			this._panelGrid.Size = new System.Drawing.Size(153, 60);
@@ -424,7 +425,7 @@ namespace SayMore.UI.ComponentEditors
 			this.tableLayoutPanel1.Controls.Add(this._labelAccess, 0, 3);
 			this.tableLayoutPanel1.Controls.Add(this._genre, 0, 2);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(160, 144);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(160, 117);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 5;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 53.06123F));
@@ -449,7 +450,7 @@ namespace SayMore.UI.ComponentEditors
 			this._location.Location = new System.Drawing.Point(5, 3);
 			this._location.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._location.Name = "_location";
-			this._location.Size = new System.Drawing.Size(147, 26);
+			this._location.Size = new System.Drawing.Size(147, 22);
 			this._location.TabIndex = 0;
 			this._autoCompleteHelper.SetUpdateGatherer(this._location, false);
 			// 
@@ -464,7 +465,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelGenre.Location = new System.Drawing.Point(0, 28);
 			this._labelGenre.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelGenre.Name = "_labelGenre";
-			this._labelGenre.Size = new System.Drawing.Size(46, 16);
+			this._labelGenre.Size = new System.Drawing.Size(38, 13);
 			this._labelGenre.TabIndex = 1;
 			this._labelGenre.Text = "&Genre";
 			// 
@@ -481,7 +482,7 @@ namespace SayMore.UI.ComponentEditors
 			this._access.Location = new System.Drawing.Point(5, 94);
 			this._access.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._access.Name = "_access";
-			this._access.Size = new System.Drawing.Size(147, 27);
+			this._access.Size = new System.Drawing.Size(147, 21);
 			this._access.TabIndex = 4;
 			// 
 			// _labelAccess
@@ -495,7 +496,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelAccess.Location = new System.Drawing.Point(5, 75);
 			this._labelAccess.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelAccess.Name = "_labelAccess";
-			this._labelAccess.Size = new System.Drawing.Size(49, 16);
+			this._labelAccess.Size = new System.Drawing.Size(40, 13);
 			this._labelAccess.TabIndex = 3;
 			this._labelAccess.Text = "&Access";
 			// 
@@ -513,7 +514,7 @@ namespace SayMore.UI.ComponentEditors
 			this._genre.Location = new System.Drawing.Point(5, 47);
 			this._genre.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._genre.Name = "_genre";
-			this._genre.Size = new System.Drawing.Size(104, 27);
+			this._genre.Size = new System.Drawing.Size(104, 21);
 			this._genre.TabIndex = 2;
 			this._genre.Leave += new System.EventHandler(this.HideTextSelection);
 			// 
@@ -528,11 +529,11 @@ namespace SayMore.UI.ComponentEditors
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel2.Controls.Add(this._labelParticipants, 0, 0);
 			this.tableLayoutPanel2.Controls.Add(this.linkPeopleEdit, 1, 0);
-			this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 110);
+			this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 90);
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
 			this.tableLayoutPanel2.RowCount = 1;
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(151, 28);
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(151, 21);
 			this.tableLayoutPanel2.TabIndex = 8;
 			// 
 			// _labelParticipants
@@ -546,7 +547,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelParticipants.Location = new System.Drawing.Point(0, 5);
 			this._labelParticipants.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelParticipants.Name = "_labelParticipants";
-			this._labelParticipants.Size = new System.Drawing.Size(49, 19);
+			this._labelParticipants.Size = new System.Drawing.Size(42, 13);
 			this._labelParticipants.TabIndex = 0;
 			this._labelParticipants.Text = "Pe&ople";
 			// 
@@ -564,9 +565,9 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this.linkPeopleEdit, null);
 			this.locExtender.SetLocalizationComment(this.linkPeopleEdit, null);
 			this.locExtender.SetLocalizingId(this.linkPeopleEdit, "linkPeopleEdit");
-			this.linkPeopleEdit.Location = new System.Drawing.Point(116, 0);
+			this.linkPeopleEdit.Location = new System.Drawing.Point(122, 0);
 			this.linkPeopleEdit.Name = "linkPeopleEdit";
-			this.linkPeopleEdit.Size = new System.Drawing.Size(32, 28);
+			this.linkPeopleEdit.Size = new System.Drawing.Size(26, 21);
 			this.linkPeopleEdit.TabIndex = 1;
 			this.linkPeopleEdit.TabStop = true;
 			this.linkPeopleEdit.Text = "✎";
@@ -580,7 +581,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// SessionBasicEditor
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._tableLayout);
 			this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

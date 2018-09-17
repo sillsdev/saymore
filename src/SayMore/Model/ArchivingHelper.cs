@@ -270,9 +270,9 @@ namespace SayMore.Model
 				var actor = InitializeActor(model, person, sessionDateTime, GetRole(person.Id, actors, allParticipantsWithRoles));
 
 				// do this to get the ISO3 codes for the languages because they are not in saymore
-				var language = GetOneLanguage(ForceIso639ThreeChar(person.MetaDataFile.GetStringValue("primaryLanguage", null)));
+				var language = GetOneLanguage(ForceIso639ThreeChar(person.MetaDataFile.GetStringValue("primaryLanguage", null)), false);
 				if (language != null) actor.PrimaryLanguage = language;
-				language = GetOneLanguage(ForceIso639ThreeChar(person.MetaDataFile.GetStringValue("mothersLanguage", null)));
+				language = GetOneLanguage(ForceIso639ThreeChar(person.MetaDataFile.GetStringValue("mothersLanguage", null)), false);
 				if (language != null) actor.MotherTongueLanguage = language;
 
 				// otherLanguage0 - otherLanguage3
@@ -409,7 +409,7 @@ namespace SayMore.Model
 			return $@"{analysisLanguage}: {_LanguageLookup.GetLanguageFromCode(analysisLanguage).DesiredName}";
 		}
 
-		internal static ArchivingLanguage GetOneLanguage(string languageKey)
+		internal static ArchivingLanguage GetOneLanguage(string languageKey, bool returnProjectVernacularAsDefault = true)
 		{
 			ArchivingLanguage returnValue = null;
 			var language = LanguageList.FindByEnglishName(languageKey);
@@ -421,7 +421,7 @@ namespace SayMore.Model
 				{
 					EnglishName = language.EnglishName
 				};
-			else if (Project != null)
+			else if (Project != null && returnProjectVernacularAsDefault)
 			{
 				var archivingLanguage = ParseLanguage(ForceIso639ThreeChar(Project.VernacularISO3CodeAndName), null);
 				returnValue = new ArchivingLanguage(ForceIso639ThreeChar(archivingLanguage.Iso3Code), archivingLanguage.LanguageName)

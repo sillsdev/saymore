@@ -421,15 +421,7 @@ namespace SayMore.Model
 				{
 					EnglishName = language.EnglishName
 				};
-			else if (Project != null)
-			{
-				var archivingLanguage = ParseLanguage(ForceIso639ThreeChar(Project.VernacularISO3CodeAndName), null);
-				returnValue = new ArchivingLanguage(ForceIso639ThreeChar(archivingLanguage.Iso3Code), archivingLanguage.LanguageName)
-				{
-					EnglishName = archivingLanguage.EnglishName
-				};
-			}
-			return returnValue;
+		return returnValue;
 		}
 
 		internal static ArchivingActor InitializeActor(ArchivingDlgViewModel model, Person person, DateTime sessionDateTime, string role)

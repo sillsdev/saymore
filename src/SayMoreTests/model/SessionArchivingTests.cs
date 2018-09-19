@@ -275,29 +275,17 @@ namespace SayMoreTests.Utilities
 		}
 
 		[Test]
-		public void GetOneLanguage_DefaultIso_ReturnsCodeAndName()
+		public void GetOneLanguage_UnknownLanguageCodeOrName_ReturnsNull()
 		{
+			// Putting a language on the project because at one time this was a default value for GetOneLanguage.
+			// But even if the project has a language, and unknown language is unknown.
 			var project = new Mock<Project>(MockBehavior.Strict, Path.Combine(Path.GetTempPath(), "foo", "foo." + Project.ProjectSettingsFileExtension), null, null);
 			project.Object.VernacularISO3CodeAndName = "tru:Turoyo";
 			ArchivingHelper.Project = project.Object;
 			var returnValue = ArchivingHelper.GetOneLanguage("tru");
-			Assert.AreEqual("tru", returnValue.Iso3Code);
-			Assert.AreEqual("Turoyo", returnValue.LanguageName);
-			Assert.AreEqual("Turoyo", returnValue.EnglishName);
-			ArchivingHelper.Project = null;
-		}
-
-		[Test]
-		public void GetOneLanguage_DefaultName_ReturnsCodeAndName()
-		{
-			var project = new Mock<Project>(MockBehavior.Strict, Path.Combine(Path.GetTempPath(), "foo", "foo." + Project.ProjectSettingsFileExtension), null, null);
-			project.Object.VernacularISO3CodeAndName = "tru:Turoyo";
-			ArchivingHelper.Project = project.Object;
-			var returnValue = ArchivingHelper.GetOneLanguage("Turoyo");
-			Assert.AreEqual("tru", returnValue.Iso3Code);
-			Assert.AreEqual("Turoyo", returnValue.LanguageName);
-			Assert.AreEqual("Turoyo", returnValue.EnglishName);
-			ArchivingHelper.Project = null;
+			Assert.That(returnValue, Is.Null);
+			returnValue = ArchivingHelper.GetOneLanguage("Turoyo");
+			Assert.That(returnValue, Is.Null);
 		}
 
 		/// <see cref="en.wikipedia.org/wiki/List_of_ISO_639-2_codes"/>

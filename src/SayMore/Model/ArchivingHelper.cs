@@ -172,18 +172,15 @@ namespace SayMore.Model
 			var sessionFile = saymoreSession.MetaDataFile;
 			if (Project == null)
 				Project = Program.CurrentProject;
-			var analysisLanguage = Project?.AnalysisISO3CodeAndName;
-			if (string.IsNullOrEmpty(analysisLanguage))
-				analysisLanguage = AnalysisLanguage();
-			if (analysisLanguage.Contains(":"))
-				analysisLanguage = analysisLanguage.Split(':')[0];
-			// In case of things like pt-PT; no-op if no hyphen
-			analysisLanguage = analysisLanguage.Split('-')[0];
-			analysisLanguage = ForceIso639ThreeChar(analysisLanguage);
+			var analysisLanguage = GetAnalysisLanguageIdentifier(Project);
 
 			// create IMDI session
 			var imdiSession = model.AddSession(saymoreSession.Id);
 			imdiSession.Title = saymoreSession.Title;
+
+			// set its Project. (Depends on prior call to AddIMDIProject to populate the model's ArchivingPackage
+			// with Project data.)
+			imdiSession.AddProject(model.ArchivingPackage as ArchivingPackage);
 
 			// session location
 			var address = saymoreSession.MetaDataFile.GetStringValue("additional_Location_Address", null);
@@ -373,6 +370,19 @@ namespace SayMore.Model
 			}
 		}
 
+		private static string GetAnalysisLanguageIdentifier(Project saymoreProject)
+		{
+			var analysisLanguage = saymoreProject?.AnalysisISO3CodeAndName;
+			if (string.IsNullOrEmpty(analysisLanguage))
+				analysisLanguage = AnalysisLanguage();
+			if (analysisLanguage.Contains(":"))
+				analysisLanguage = analysisLanguage.Split(':')[0];
+			// In case of things like pt-PT; no-op if no hyphen
+			analysisLanguage = analysisLanguage.Split('-')[0];
+			analysisLanguage = ForceIso639ThreeChar(analysisLanguage);
+			return analysisLanguage;
+		}
+
 		private static string GetRole(string personId, ArchivingActorCollection actors, System.Collections.Generic.IEnumerable<string> allParticipantsWithRoles)
 		{
 			return (from p in allParticipantsWithRoles
@@ -485,7 +495,7 @@ namespace SayMore.Model
 			};
 
 			// description
-			package.AddDescription(new LanguageString(saymoreProject.ProjectDescription, null));
+			package.AddDescription(new LanguageString(saymoreProject.ProjectDescription, GetAnalysisLanguageIdentifier(saymoreProject)));
 
 			// content type
 			package.ContentType = null;

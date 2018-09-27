@@ -13,6 +13,7 @@ using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SIL.Archiving;
 using SayMore.Properties;
+using SIL.Archiving.Generic;
 using SIL.Media.Naudio;
 using SIL.Windows.Forms.ClearShare;
 using Session = SayMore.Model.Session;
@@ -561,6 +562,12 @@ namespace SayMoreTests.Utilities
 			imdiSession.Object.Name = "ddo";
 			model.Setup(m => m.AddSession(_session.Id)).Returns(imdiSession.Object);
 			_session.MediaFiles = mediaFile == null ? new ComponentFile[0] : new[] { mediaFile };
+			// We have to use real objects here because ArchivingPackage.FundingProject is not virtual.
+			// We typically need an ArchivingPackage with a FundingProject because Session.AddProject()
+			// uses FundingProject.Name.
+			var ap = new IMDIPackage(false, "");
+			model.Setup(m => m.ArchivingPackage).Returns(ap);
+			ap.FundingProject = new ArchivingProject();
 			return model;
 		}
 

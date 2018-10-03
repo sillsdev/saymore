@@ -1,6 +1,6 @@
 # Users
 
-You're in the wrong place. Head over to https://software.sil.org/saymore/ to get to download the installer and general information. Head to https://community.software.sil.org/c/saymore to interact with other users and get support for using the program.
+You're in the wrong place. Head over to https://software.sil.org/saymore/ to download the installer and get general information. Visit https://community.software.sil.org/c/saymore to interact with other users and get support for using the program.
 
 ## Testers
 

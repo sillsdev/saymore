@@ -263,7 +263,7 @@ namespace SayMoreTests.Utilities
 		public void GetOneLanguage_UndefinedIso_ReturnsNull()
 		{
 			ArchivingHelper.Project = null;
-			var returnValue = ArchivingHelper.GetOneLanguage("tru");
+			var returnValue = ArchivingHelper.GetOneLanguage("qba");
 			Assert.IsNull(returnValue);
 		}
 
@@ -271,7 +271,7 @@ namespace SayMoreTests.Utilities
 		public void GetOneLanguage_UnDefinedName_ReturnsNull()
 		{
 			ArchivingHelper.Project = null;
-			var returnValue = ArchivingHelper.GetOneLanguage("Turoyo");
+			var returnValue = ArchivingHelper.GetOneLanguage("Phony Language");
 			Assert.IsNull(returnValue);
 		}
 
@@ -281,11 +281,20 @@ namespace SayMoreTests.Utilities
 			// Putting a language on the project because at one time this was a default value for GetOneLanguage.
 			// But even if the project has a language, and unknown language is unknown.
 			var project = new Mock<Project>(MockBehavior.Strict, Path.Combine(Path.GetTempPath(), "foo", "foo." + Project.ProjectSettingsFileExtension), null, null);
+			// tru:Turoyo is now covered by our ISO language code data.
 			project.Object.VernacularISO3CodeAndName = "tru:Turoyo";
 			ArchivingHelper.Project = project.Object;
 			var returnValue = ArchivingHelper.GetOneLanguage("tru");
-			Assert.That(returnValue, Is.Null);
+			Assert.That(returnValue, Is.Not.Null);
 			returnValue = ArchivingHelper.GetOneLanguage("Turoyo");
+			Assert.That(returnValue, Is.Not.Null);
+			// So try a fake language that really should be unknown.
+			var project2 = new Mock<Project>(MockBehavior.Strict, Path.Combine(Path.GetTempPath(), "foo", "foo." + Project.ProjectSettingsFileExtension), null, null);
+			project2.Object.VernacularISO3CodeAndName = "qqq:Phoniness";
+			ArchivingHelper.Project = project2.Object;
+			returnValue = ArchivingHelper.GetOneLanguage("qqq");
+			Assert.That(returnValue, Is.Null);
+			returnValue = ArchivingHelper.GetOneLanguage("Phoniness");
 			Assert.That(returnValue, Is.Null);
 		}
 
@@ -295,7 +304,13 @@ namespace SayMoreTests.Utilities
 		public void GetOneLanguage_PrivateUseIso_ReturnsNull()
 		{
 			ArchivingHelper.Project = null;
+			// The first code in the private area is actually defined for us.
 			var returnValue = ArchivingHelper.GetOneLanguage("qaa");
+			Assert.IsNotNull(returnValue);
+			Assert.AreEqual(returnValue.EnglishName, "Language Not Listed");
+			Assert.AreEqual(returnValue.Iso3Code, "qaa");
+			// But the second and following codes are undefined.
+			returnValue = ArchivingHelper.GetOneLanguage("qab");
 			Assert.IsNull(returnValue);
 		}
 
@@ -304,7 +319,7 @@ namespace SayMoreTests.Utilities
 		public void GetOneLanguage_MissingIso_ReturnsNull()
 		{
 			ArchivingHelper.Project = null;
-			var returnValue = ArchivingHelper.GetOneLanguage("mis");
+			var returnValue = ArchivingHelper.GetOneLanguage("qzz");
 			Assert.IsNull(returnValue);
 		}
 

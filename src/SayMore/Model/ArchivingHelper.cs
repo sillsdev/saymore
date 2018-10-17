@@ -178,9 +178,13 @@ namespace SayMore.Model
 			var imdiSession = model.AddSession(saymoreSession.Id);
 			imdiSession.Title = saymoreSession.Title;
 
-			// set its Project. (Depends on prior call to AddIMDIProject to populate the model's ArchivingPackage
-			// with Project data.)
-			imdiSession.AddProject(model.ArchivingPackage as ArchivingPackage);
+			// set its Project, if we can. (Depends on prior call to AddIMDIProject to populate the model's ArchivingPackage
+			// with Project data. If that didn't happen, e.g., when exporting just a session, we don't have access to
+			// any project data, so just leave it out.)
+			if (model.ArchivingPackage?.FundingProject != null)
+			{
+				imdiSession.AddProject(model.ArchivingPackage as ArchivingPackage);
+			}
 
 			// session location
 			var address = saymoreSession.MetaDataFile.GetStringValue("additional_Location_Address", null);

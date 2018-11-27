@@ -76,7 +76,7 @@
 	<ItemGroup>
 	  <TestAssemblies Include="$(teamcity_build_checkoutDir)/output/release/*Tests.dll;"/>
 	</ItemGroup>
-	<NUnitTeamCity Assemblies="@(TestAssemblies)" ExcludeCategory="SkipOnTeamCity" />
+	<NUnitTeamCity Assemblies="@(TestAssemblies)" NUnitVersion="NUnit-2.6.3" ExcludeCategory="SkipOnTeamCity" />
   </Target>
 
   <Target Name="UpdateDownloadInfo" DependsOnTargets="VersionNumbers" >

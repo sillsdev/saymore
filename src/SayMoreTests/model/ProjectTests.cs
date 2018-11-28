@@ -315,13 +315,13 @@ namespace SayMoreTests.Model
 
 		[Test]
 		[RequiresSTA]
-		public void SetContributorsListToSession_ContributorsInMetaAndSession_AllContributorsInSession()
+		public void SetContributorsListAndMigrateAccessProtocolToSession_ContributorsInMetaAndSession_AllContributorsInSession()
 		{
 			WriteXmlResource("Qustan059.session");  // Two contributors: Iskender Demirel, Lahdo Agirman
 			WriteXmlResource("Qustan059.WAV.meta"); // One contributor: Greg Trihus
 			WriteXmlResource("Qustan059_Source.mp4.meta"); // Two contributors: Eliyo Acar, Lahdo Agirman
 			WriteXmlResource("Qustan059-1.pdf.meta");   // One contributor: Eliyo Acar
-			ProjectContext.SetContributorsListToSession(Path.GetDirectoryName(SessionScenarioPath));
+			ProjectContext.SetContributorsListAndMigrateAccessProtocolToSession(Path.GetDirectoryName(SessionScenarioPath), "REAP");
 			var sessionXml = new XmlDocument();
 			using (var xmlReader = XmlReader.Create(Path.Combine(SessionScenarioPath, "Qustan059.session")))
 			{
@@ -329,6 +329,20 @@ namespace SayMoreTests.Model
 			}
 			Assert.AreEqual(4, sessionXml.SelectNodes("//contributor").Count, "Expecting four contributors: Eliyo Acar, Greg Trihus, Iskender Demirel, Lahdo Agirman");
 			Assert.AreEqual(4, sessionXml.SelectSingleNode("//participants").InnerText.Split(';').Length, "Expecting four participants (with roles): Iskender Demirel, Lahdo Agirman, Greg Trihus, Eliyo Acar");
+		}
+
+		[Test]
+		[RequiresSTA]
+		public void SetContributorsListAndMigrateAccessProtocolToSession_MigrateAccessProtocol_NewAccessProtocolNodeCreated()
+		{
+			WriteXmlResource("Qustan059.session");
+			ProjectContext.SetContributorsListAndMigrateAccessProtocolToSession(Path.GetDirectoryName(SessionScenarioPath), "REAP");
+			var sessionXml = new XmlDocument();
+			using (var xmlReader = XmlReader.Create(Path.Combine(SessionScenarioPath, "Qustan059.session")))
+			{
+				sessionXml.Load(xmlReader);
+			}
+			Assert.AreEqual("S", sessionXml.SelectSingleNode("//AccessProtocols").InnerText, "Value should contain inside the AccessProtocols node");
 		}
 
 		#region Private helper methods
@@ -393,9 +407,9 @@ namespace SayMoreTests.Model
 				if (!Directory.Exists(SessionScenarioPath))
 					Directory.CreateDirectory(SessionScenarioPath);
 				SessionScenarioPath = Path.Combine(SessionScenarioPath, "ContributorsScenario");
-				if (!Directory.Exists(SessionScenarioPath))
-					Directory.CreateDirectory(SessionScenarioPath);
 			}
+			if (!Directory.Exists(SessionScenarioPath))
+				Directory.CreateDirectory(SessionScenarioPath);
 			using (var sessionData =
 				new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("SayMoreTests.model.Data." + file)))
 			{

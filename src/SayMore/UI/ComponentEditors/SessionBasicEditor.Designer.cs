@@ -485,6 +485,7 @@ namespace SayMore.UI.ComponentEditors
 			this._access.Name = "_access";
 			this._access.Size = new System.Drawing.Size(153, 21);
 			this._access.TabIndex = 4;
+			this._access.SelectedIndexChanged += new System.EventHandler(this._access_SelectedIndexChanged);
 			// 
 			// _labelAccess
 			// 

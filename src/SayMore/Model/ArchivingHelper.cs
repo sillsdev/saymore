@@ -24,7 +24,17 @@ namespace SayMore.Model
 {
 	static class ArchivingHelper
 	{
-		internal static LanguageLookup _LanguageLookup = new LanguageLookup();
+		private static LanguageLookup _languageLookup;
+
+		internal static LanguageLookup _LanguageLookup
+		{
+			get
+			{
+				if (_languageLookup == null)
+					_languageLookup = new LanguageLookup();
+				return _languageLookup;
+			}
+		}
 		internal static Project Project = null; // Set for testing
 
 		/// ------------------------------------------------------------------------------------

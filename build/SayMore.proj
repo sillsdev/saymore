@@ -7,7 +7,7 @@
 	<RestartBuild Condition="!Exists('$(BuildTasksDll)')">true</RestartBuild>
 	<RestartBuild Condition="Exists('$(BuildTasksDll)')">false</RestartBuild>
   </PropertyGroup>
-	
+
   <UsingTask TaskName="StampAssemblies" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
   <UsingTask TaskName="UpdateBuildTypeFile" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
   <UsingTask TaskName="MakeWixForDirTree" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
@@ -31,9 +31,9 @@
 
 	<Message Text="Version: $(Version)" Importance="high"/>
   </Target>
-  
+
   <Import Project="../.nuget/NuGet.targets" />
-	
+
   <Target Name="RestoreBuildTasks" DependsOnTargets="CheckPrerequisites">
     <Message Text="BuildTasksDll=$(BuildTasksDll)"/>
 	<Message Text="RestartBuild=$(RestartBuild)"/>
@@ -59,7 +59,7 @@
 	  </ItemGroup>
 	  <UpdateBuildTypeFile BuildType="$(RELEASE_TYPE)" BuildTypePaths="@(BuildTypeFiles)" />
 	</Target>
-	
+
   <Target Name="Build">
 	<CallTarget Targets="RestoreBuildTasks"/>
 	<CallTarget Targets="BuildInternal" Condition="!$(RestartBuild)" />
@@ -76,7 +76,7 @@
 	<ItemGroup>
 	  <TestAssemblies Include="$(teamcity_build_checkoutDir)/output/release/*Tests.dll;"/>
 	</ItemGroup>
-	<NUnitTeamCity Assemblies="@(TestAssemblies)" ExcludeCategory="SkipOnTeamCity" />
+	<NUnitTeamCity Assemblies="@(TestAssemblies)" ExcludeCategory="SkipOnTeamCity" NUnitVersion="NUnit-2.6.3"/>
   </Target>
 
   <Target Name="UpdateDownloadInfo" DependsOnTargets="VersionNumbers" >

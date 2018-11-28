@@ -307,7 +307,7 @@ namespace SayMoreTests.Utilities
 			// The first code in the private area is actually defined for us.
 			var returnValue = ArchivingHelper.GetOneLanguage("qaa");
 			Assert.IsNotNull(returnValue);
-			Assert.AreEqual(returnValue.EnglishName, "Language Not Listed");
+			Assert.AreEqual(returnValue.EnglishName, "Unlisted Language");
 			Assert.AreEqual(returnValue.Iso3Code, "qaa");
 			// But the second and following codes are undefined.
 			returnValue = ArchivingHelper.GetOneLanguage("qab");

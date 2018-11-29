@@ -219,12 +219,12 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		private bool GetShouldReportHaveConsent()
 		{
-			var allParticipants = MetaDataFile.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty);
-			var personNames = FieldInstance.GetMultipleValuesFromText(allParticipants).ToArray();
-			bool allParticipantsHaveConsent = personNames.Length > 0;
+			var contributions = MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
+			var personNames = contributions.Select(c => c.ContributorName).ToArray();
+			bool allContributorsHaveConsent = personNames.Length > 0;
 
 			return personNames.All(name => _personInformant.GetHasInformedConsent(name)) &&
-				allParticipantsHaveConsent;
+			       allContributorsHaveConsent;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -305,8 +305,8 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<string> GetAllParticipants()
 		{
-			var allParticipants = MetaDataFile.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty);
-			return FieldInstance.GetMultipleValuesFromText(allParticipants);
+			var contributions = MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
+			return contributions?.Select(c => c.ContributorName);
 		}
 
 		/// ------------------------------------------------------------------------------------

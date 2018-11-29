@@ -331,6 +331,52 @@ namespace SayMoreTests.Model
 			Assert.AreEqual(4, sessionXml.SelectSingleNode("//participants").InnerText.Split(';').Length, "Expecting four participants (with roles): Iskender Demirel, Lahdo Agirman, Greg Trihus, Eliyo Acar");
 		}
 
+		[Test]
+		[RequiresSTA]
+		public void SetContributorsListToSession_LegacyFile_AddsContributors_KeepsParticipants()
+		{
+			WriteXmlResource("OldSession.session");  // Two contributors: Iskender Demirel, Lahdo Agirman
+			ProjectContext.SetContributorsListToSession(Path.GetDirectoryName(SessionScenarioPath));
+			var sessionXml = new XmlDocument();
+			using (var xmlReader = XmlReader.Create(Path.Combine(SessionScenarioPath, "OldSession.session")))
+			{
+				sessionXml.Load(xmlReader);
+			}
+			var participants = sessionXml.SelectSingleNode("//participants").InnerText.Split(';').Select(x => x.Trim());
+			Assert.AreEqual(2, participants.Count(), "Expecting two participants (without roles): Iskender Demirel, Lahdo Agirman");
+			Assert.That(participants, Has.Member("Iskender Demirel"));
+			Assert.That(participants, Has.Member("Lahdo Agirman"));
+			Assert.AreEqual(2, sessionXml.SelectNodes("//contributions/contributor").Count, "Expecting two contributors: Iskender Demirel, Lahdo Agirman");
+		}
+
+		[Test]
+		[RequiresSTA]
+		public void SetContributorsListToSession_MergesParticpantsAndContributors()
+		{
+			WriteXmlResource("MixedSession.session");  // Two contributors: Iskender Demirel, Lahdo Agirman; two participants, Iskender Demirel and Joe
+			ProjectContext.SetContributorsListToSession(Path.GetDirectoryName(SessionScenarioPath));
+			var sessionXml = new XmlDocument();
+			using (var xmlReader = XmlReader.Create(Path.Combine(SessionScenarioPath, "MixedSession.session")))
+			{
+				sessionXml.Load(xmlReader);
+			}
+			var participants = sessionXml.SelectSingleNode("//participants").InnerText.Split(';').Select(x => x.Trim());
+			Assert.AreEqual(3, participants.Count(), "Expecting two participants (without roles): Iskender Demirel, Lahdo Agirman, Joe");
+			Assert.That(participants, Has.Member("Iskender Demirel"));
+			Assert.That(participants, Has.Member("Lahdo Agirman"));
+			Assert.That(participants, Has.Member("Joe"));
+			var contributors = sessionXml.SelectNodes("//contributions/contributor").Cast<XmlElement>();
+			Assert.AreEqual(3, contributors.Count(), "Expecting three contributors: Iskender Demirel, Lahdo Agirman, Joe");
+			var iskender = contributors.FirstOrDefault(n =>
+				n.GetElementsByTagName("name").Cast<XmlElement>().First().InnerText == "Iskender Demirel");
+			Assert.That(iskender, Is.Not.Null);
+			Assert.That(iskender.GetElementsByTagName("role").Cast<XmlElement>().First().InnerText, Is.EqualTo("consultant"), "Should have kept the role from existing contributor");
+			var joe = contributors.FirstOrDefault(n =>
+				n.GetElementsByTagName("name").Cast<XmlElement>().First().InnerText == "Joe");
+			Assert.That(joe, Is.Not.Null);
+			Assert.That(joe.GetElementsByTagName("role").Cast<XmlElement>().First().InnerText, Is.EqualTo("participant"), "Should have supplied a default role for Joe");
+		}
+
 		#region Private helper methods
 		private ProjectContext CreateProjectContext(ApplicationContainer appContext)
 		{
@@ -389,13 +435,12 @@ namespace SayMoreTests.Model
 		{
 			if (SessionScenarioPath == null)
 			{
-				SessionScenarioPath = Path.Combine(_parentFolder.Path, "sessions");
-				if (!Directory.Exists(SessionScenarioPath))
-					Directory.CreateDirectory(SessionScenarioPath);
-				SessionScenarioPath = Path.Combine(SessionScenarioPath, "ContributorsScenario");
-				if (!Directory.Exists(SessionScenarioPath))
-					Directory.CreateDirectory(SessionScenarioPath);
+				SessionScenarioPath = Path.Combine(_parentFolder.Path, "sessions", "ContributorsScenario");
 			}
+
+			if (!Directory.Exists(SessionScenarioPath))
+					Directory.CreateDirectory(SessionScenarioPath);
+
 			using (var sessionData =
 				new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("SayMoreTests.model.Data." + file)))
 			{

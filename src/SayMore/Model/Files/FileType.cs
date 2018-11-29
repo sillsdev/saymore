@@ -355,6 +355,7 @@ namespace SayMore.Model.Files
 		public const string kGenreFieldName = "genre";
 		public const string kParticipantsFieldName = "participants";
 		public const string kTitleFieldName = "title";
+		public const string kContributionsFieldName = "contributions";
 
 		// additional fields
 		public const string kCountryFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Location_Country";

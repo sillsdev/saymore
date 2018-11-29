@@ -331,6 +331,69 @@ namespace SayMoreTests.Model
 			Assert.AreEqual(4, sessionXml.SelectSingleNode("//participants").InnerText.Split(';').Length, "Expecting four participants (with roles): Iskender Demirel, Lahdo Agirman, Greg Trihus, Eliyo Acar");
 		}
 
+		[Test]
+		[RequiresSTA]
+		public void SetContributorsListToSession_LegacyFile_AddsContributors_KeepsParticipants()
+		{
+			WriteXmlResource("OldSession.session");  // Two contributors: Iskender Demirel, Lahdo Agirman
+			ProjectContext.SetContributorsListToSession(Path.GetDirectoryName(SessionScenarioPath));
+			var sessionXml = new XmlDocument();
+			using (var xmlReader = XmlReader.Create(Path.Combine(SessionScenarioPath, "OldSession.session")))
+			{
+				sessionXml.Load(xmlReader);
+			}
+			var participants = sessionXml.SelectSingleNode("//participants").InnerText.Split(';').Select(x => x.Trim());
+			Assert.AreEqual(2, participants.Count(), "Expecting two participants (without roles): Iskender Demirel, Lahdo Agirman");
+			Assert.That(participants, Has.Member("Iskender Demirel"));
+			Assert.That(participants, Has.Member("Lahdo Agirman"));
+			var contributors = sessionXml.SelectNodes("//contributions/contributor").Cast<XmlElement>();
+			Assert.AreEqual(2, contributors.Count(), "Expecting two contributors: Iskender Demirel, Lahdo Agirman");
+			var iskender = contributors.FirstOrDefault(n =>
+				n.GetElementsByTagName("name").Cast<XmlElement>().First().InnerText == "Iskender Demirel");
+			Assert.That(iskender, Is.Not.Null);
+			// This verifies the current behavior, making sure it doesn't change unexpectedly.
+			// However, it's by no means certain that this is the most helpful role to assign
+			// someone who was previously a participant of unknown role. If 'unknown' at some
+			// point becomes a valid role we migth want to switch to it; or if we make it OK
+			// not to specify a role.
+			Assert.That(iskender.GetElementsByTagName("role").Cast<XmlElement>().First().InnerText, Is.EqualTo("participant"));
+		}
+
+		[Test]
+		[RequiresSTA]
+		public void SetContributorsListToSession_MergesParticpantsAndContributors()
+		{
+			// File has two contributors: Iskender Demirel, Lahdo Agirman; two participants, Iskender Demirel and Joe
+			// Iskender has a different role in the two lists. I don't ever expect this to happen, because the only
+			// program ever to write roles into participants was a beta of SayMore which kept the two consistent.
+			// For this reason I have not made the code smart enough to create an additional contributor with a different
+			// role in this case; however, the test does verify that the contributor version wins and the presence of a
+			// role in participants doesn't mess things up. For the same reason I have not made the code use
+			// role information from the participants at all, even when adding to contributors.
+			WriteXmlResource("MixedSession.session");
+			ProjectContext.SetContributorsListToSession(Path.GetDirectoryName(SessionScenarioPath));
+			var sessionXml = new XmlDocument();
+			using (var xmlReader = XmlReader.Create(Path.Combine(SessionScenarioPath, "MixedSession.session")))
+			{
+				sessionXml.Load(xmlReader);
+			}
+			var participants = sessionXml.SelectSingleNode("//participants").InnerText.Split(';').Select(x => x.Trim());
+			Assert.AreEqual(3, participants.Count(), "Expecting two participants (without roles): Iskender Demirel, Lahdo Agirman, Joe");
+			Assert.That(participants, Has.Member("Iskender Demirel"));
+			Assert.That(participants, Has.Member("Lahdo Agirman"));
+			Assert.That(participants, Has.Member("Joe"));
+			var contributors = sessionXml.SelectNodes("//contributions/contributor").Cast<XmlElement>();
+			Assert.AreEqual(3, contributors.Count(), "Expecting three contributors: Iskender Demirel, Lahdo Agirman, Joe");
+			var iskender = contributors.FirstOrDefault(n =>
+				n.GetElementsByTagName("name").Cast<XmlElement>().First().InnerText == "Iskender Demirel");
+			Assert.That(iskender, Is.Not.Null);
+			Assert.That(iskender.GetElementsByTagName("role").Cast<XmlElement>().First().InnerText, Is.EqualTo("consultant"), "Should have kept the role from existing contributor");
+			var joe = contributors.FirstOrDefault(n =>
+				n.GetElementsByTagName("name").Cast<XmlElement>().First().InnerText == "Joe");
+			Assert.That(joe, Is.Not.Null);
+			Assert.That(joe.GetElementsByTagName("role").Cast<XmlElement>().First().InnerText, Is.EqualTo("participant"), "Should have supplied a default role for Joe");
+		}
+
 		#region Private helper methods
 		private ProjectContext CreateProjectContext(ApplicationContainer appContext)
 		{
@@ -389,13 +452,12 @@ namespace SayMoreTests.Model
 		{
 			if (SessionScenarioPath == null)
 			{
-				SessionScenarioPath = Path.Combine(_parentFolder.Path, "sessions");
-				if (!Directory.Exists(SessionScenarioPath))
-					Directory.CreateDirectory(SessionScenarioPath);
-				SessionScenarioPath = Path.Combine(SessionScenarioPath, "ContributorsScenario");
-				if (!Directory.Exists(SessionScenarioPath))
-					Directory.CreateDirectory(SessionScenarioPath);
+				SessionScenarioPath = Path.Combine(_parentFolder.Path, "sessions", "ContributorsScenario");
 			}
+
+			if (!Directory.Exists(SessionScenarioPath))
+					Directory.CreateDirectory(SessionScenarioPath);
+
 			using (var sessionData =
 				new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("SayMoreTests.model.Data." + file)))
 			{

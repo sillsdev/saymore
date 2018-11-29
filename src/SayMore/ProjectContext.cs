@@ -96,6 +96,7 @@ namespace SayMore
 			foreach (var sessionFldrPath in dirLists)
 			{
 				var namesList = new SortedSet<string>();
+				var nameRolesList = new SortedSet<string>();
 				var contributorLists = new StringBuilder();
 				var filesInDir = Directory.GetFiles(sessionFldrPath);
 				var sessionFile = filesInDir.FirstOrDefault(f => f.EndsWith(".session"));
@@ -106,9 +107,9 @@ namespace SayMore
 				{
 					sessionDoc.Load(sessionReader);
 				}
-				LoadContributors(sessionDoc, namesList, contributorLists);
+				LoadContributors(sessionDoc, namesList, nameRolesList, contributorLists);
 				var root = sessionDoc.DocumentElement;
-				var contributionsNode = root?.SelectSingleNode("contributions");
+				var contributionsNode = root?.SelectSingleNode(SessionFileType.kContributionsFieldName);
 				contributionsNode?.ParentNode?.RemoveChild(contributionsNode); //Remove the contributions node
 				if (root?.LastChild == null) continue;
 				foreach (var metaFile in metaFilesList)
@@ -118,7 +119,7 @@ namespace SayMore
 					{
 						metaFileDoc.Load(metaReader);
 					}
-					LoadContributors(metaFileDoc, namesList, contributorLists);
+					LoadContributors(metaFileDoc, namesList, nameRolesList, contributorLists);
 				}
 
 				var participantsNode = root?.SelectSingleNode("participants") as XmlElement;
@@ -130,7 +131,7 @@ namespace SayMore
 				}
 				participantsNode.InnerText = string.Join("; ", namesList);
 
-				var newContributionsNode = sessionDoc.CreateElement("contributions");
+				var newContributionsNode = sessionDoc.CreateElement(SessionFileType.kContributionsFieldName);
 				newContributionsNode.SetAttribute("type", "xml");
 				newContributionsNode.InnerXml = contributorLists.ToString();
 				root.InsertAfter(newContributionsNode, root.LastChild);
@@ -141,19 +142,54 @@ namespace SayMore
 			}
 		}
 
-		private static void LoadContributors(XmlNode xmlDoc, SortedSet<string> namesList, StringBuilder contributorLists)
+		private static void LoadContributors(XmlNode xmlDoc, SortedSet<string> namesList, SortedSet<string> nameRolesList, StringBuilder contributorLists)
 		{
 
 			var nodelist = xmlDoc.SelectNodes("//contributor");
-			if (nodelist == null) return;
 			foreach (XmlNode node in nodelist)
 			{
 				var name = node["name"]?.InnerText;
 				var role = node["role"]?.InnerText;
 				var item = $@"{name} ({role})";
-				if (namesList.Contains(item)) continue;
-				namesList.Add(item);
+				if (nameRolesList.Contains(item)) continue;
+				nameRolesList.Add(item);
 				contributorLists.Append(node.OuterXml);
+				namesList.Add(name); // Set will avoid duplicates.
+			}
+			// Check the participants list. Normally this legacy field is derived from contributions.
+			// However, if this is a file from an older version of SayMore, it may not have contributions;
+			// we need to migrate it. It might also have been edited outside SayMore and have
+			// participants that are not known contributors, even though it has a contributions element.
+			// So add in any participants we don't already have in some form.
+			var particpantsNode = xmlDoc.SelectSingleNode("//participants");
+			if (particpantsNode == null)
+				return;
+			foreach (var participant in particpantsNode.InnerText.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+			{
+				var name = participant.Trim();
+
+				// SayMore briefly had a state where roles were appended in parens to names in participants.
+				// We don't want to create new contributors with names like Joe (consultant).
+				// This fix could be unfortunate if someone wants to use a name like "Sally Smith (nee Jones)"
+				// but we decided the danger of not handling the messed up data files was greater.
+				var paren = name.IndexOf("(");
+				if (paren >= 0)
+					name = name.Substring(0, paren).Trim();
+				// If we already have this person, with any role, we won't add again, since we don't have
+				// any definite role information in the participants field
+				if (name == "" || namesList.Contains(name))
+					continue;
+
+				// We have no way of knowing a role. But various code assumes it's not empty.
+				// Since we created this contributor on the basis of finding a name in the participants list,
+				// it seems a reasonable default to make the role 'participant'.
+				// The specified date seems to be the one SayMore always uses. I don't even know what the
+				// date of a contributor is supposed to mean.
+				var item = $@"{name} (participant)";
+				nameRolesList.Add(item);
+				contributorLists.Append(
+					$"<contributor><name>{name}</name><role>participant</role><date>0001-01-01</date><notes></notes></contributor>");
+				namesList.Add(name); // Set will avoid duplicates.
 			}
 		}
 

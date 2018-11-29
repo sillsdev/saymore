@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Session>
+	<title type="string">Beth Qustan Remained Unconquered</title>
+	<participants type="string">Iskender Demirel (editor);Joe;</participants>
+	<access type="string">S</access>
+	<status type="string">Finished</status>
+	<stage_consent type="string">NotComplete</stage_consent>
+	<contributions type="xml">
+		<contributor>
+			<name>Iskender Demirel</name>
+			<role>consultant</role>
+			<date>0001-01-01</date>
+			<notes>
+			</notes>
+		</contributor>
+		<contributor>
+			<name>Lahdo Agirman</name>
+			<role>consultant</role>
+			<date>2018-02-23</date>
+			<notes>
+			</notes>
+		</contributor>
+	</contributions>
+</Session>

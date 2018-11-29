@@ -307,7 +307,7 @@ namespace SayMoreTests.Utilities
 			// The first code in the private area is actually defined for us.
 			var returnValue = ArchivingHelper.GetOneLanguage("qaa");
 			Assert.IsNotNull(returnValue);
-			Assert.AreEqual(returnValue.EnglishName, "Language Not Listed");
+			Assert.AreEqual("Unlisted Language", returnValue.EnglishName);
 			Assert.AreEqual(returnValue.Iso3Code, "qaa");
 			// But the second and following codes are undefined.
 			returnValue = ArchivingHelper.GetOneLanguage("qab");
@@ -532,6 +532,12 @@ namespace SayMoreTests.Utilities
 			contributionCollection.Object.Add(new Contribution(samplePerson, new Role("rdr", "Reader", null)));
 			var sourceMediaFile1 = IMDIMediaFileSetup();
 			sourceMediaFile1.Object.MetaDataFieldValues.Add(new FieldInstance("contributions", contributionCollection.Object));
+			_session.MetaFile.Setup(m => m.GetStringValue(SessionFileType.kParticipantsFieldName, It.IsAny<string>())).Returns("ddo-person (Editor)");
+			_session.MetaFile.Object.MetaDataFieldValues.Add(new FieldInstance("participants", "ddo-person (Editor)"));
+			var sessionContributions = new Mock<ContributionCollection>(MockBehavior.Strict);
+			sessionContributions.Object.Add(new Contribution("ddo-person", new Role("edt", "Editor", null)));
+			_session.MetaFile.Setup(m => m.GetValue(SessionFileType.kContributionsFieldName, null))
+				.Returns(sessionContributions.Object);
 			var model = AddIMDISessionTestSetup(out var imdiSession, sourceMediaFile1.Object);
 			ArchivingHelper.AddIMDISession(_session, model.Object);
 			var val = (from a in imdiSession.Object.MDGroup.Actors.Actor
@@ -539,6 +545,8 @@ namespace SayMoreTests.Utilities
 				where n == samplePerson
 				select n).FirstOrDefault();
 			Assert.AreEqual(samplePerson, val);
+			var actor = imdiSession.Object.MDGroup.Actors.Actor.FirstOrDefault(a => a.FullName.Contains("ddo-person"));
+			Assert.That(actor.Role.Value, Is.EqualTo("Editor"));
 		}
 
 		[Test]

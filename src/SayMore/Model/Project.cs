@@ -348,7 +348,7 @@ namespace SayMore.Model
 					model.SetAbstract(value, string.Empty);
 
 				// Set contributors
-				var contributions = session.MetaDataFile.GetValue("contributions", null) as ContributionCollection;
+				var contributions = session.MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
 				if (contributions != null && contributions.Count > 0)
 					model.SetContributors(contributions);
 

@@ -219,12 +219,14 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		private bool GetShouldReportHaveConsent()
 		{
-			var allParticipants = MetaDataFile.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty);
-			var personNames = FieldInstance.GetMultipleValuesFromText(allParticipants).ToArray();
-			bool allParticipantsHaveConsent = personNames.Length > 0;
+			var contributions = MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
+			var personNames = contributions?.Select(c => c.ContributorName).ToArray();
+			if (personNames == null)
+				return false;
+			bool allContributorsHaveConsent = personNames.Length > 0;
 
 			return personNames.All(name => _personInformant.GetHasInformedConsent(name)) &&
-				allParticipantsHaveConsent;
+			       allContributorsHaveConsent;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -281,7 +283,7 @@ namespace SayMore.Model
 		{
 			foreach (var file in GetComponentFiles().Where(f => (f.FileType as FileTypeWithContributors) != null))
 			{
-				var values = file.MetaDataFieldValues.FirstOrDefault(v => v.FieldId == "contributions");
+				var values = file.MetaDataFieldValues.FirstOrDefault(v => v.FieldId == SessionFileType.kContributionsFieldName);
 				if (values == null)
 					continue;
 
@@ -293,7 +295,7 @@ namespace SayMore.Model
 					contribution.ContributorName = e.NewId;
 
 				string failureMessage;
-				file.SetValue("contributions", contributions, out failureMessage);
+				file.SetValue(SessionFileType.kContributionsFieldName, contributions, out failureMessage);
 
 				if (failureMessage == null)
 					file.Save();
@@ -305,8 +307,8 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<string> GetAllParticipants()
 		{
-			var allParticipants = MetaDataFile.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty);
-			return FieldInstance.GetMultipleValuesFromText(allParticipants);
+			var contributions = MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
+			return contributions?.Select(c => c.ContributorName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -321,7 +323,7 @@ namespace SayMore.Model
 			// files that might have contributors
 			foreach (var file in GetComponentFiles().Where(f => (f.FileType as FileTypeWithContributors) != null))
 			{
-				var values = file.MetaDataFieldValues.FirstOrDefault(v => v.FieldId == "contributions");
+				var values = file.MetaDataFieldValues.FirstOrDefault(v => v.FieldId == SessionFileType.kContributionsFieldName);
 				if (values == null) continue;
 
 				var contributions = values.Value as ContributionCollection;
@@ -513,7 +515,7 @@ namespace SayMore.Model
 				model.SetAbstract(value, string.Empty);
 
 			// Set contributors
-			var contributions = MetaDataFile.GetValue("contributions", null) as ContributionCollection;
+			var contributions = MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
 			if (contributions != null && contributions.Count > 0)
 				model.SetContributors(contributions);
 

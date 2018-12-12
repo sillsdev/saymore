@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using SayMore.Model.Files;
 using SIL.Windows.Forms.ClearShare;
 
 namespace SayMoreTests.Model.Fields
@@ -39,14 +40,14 @@ namespace SayMoreTests.Model.Fields
 		public void GetValueForKey_EmptyList_ReturnsNull()
 		{
 			_contributions = new ContributionCollection();
-			Assert.IsNull(_contributions.GetValueForKey("contributions"));
+			Assert.IsNull(_contributions.GetValueForKey(SessionFileType.kContributionsFieldName));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetValueForKey_CorrectKey_ReturnsNameString()
 		{
-			var names = _contributions.GetValueForKey("contributions");
+			var names = _contributions.GetValueForKey(SessionFileType.kContributionsFieldName);
 			Assert.IsTrue(names.Contains("Leroy"));
 			Assert.IsTrue(names.Contains("Jed"));
 			Assert.IsTrue(names.Contains("Art"));

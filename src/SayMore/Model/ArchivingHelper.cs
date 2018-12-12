@@ -17,6 +17,7 @@ using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
 using SayMore.Properties;
 using SIL.Archiving.IMDI.Lists;
+using SIL.Windows.Forms.ClearShare;
 using SIL.WritingSystems;
 using Application = System.Windows.Forms.Application;
 
@@ -270,15 +271,13 @@ namespace SayMore.Model
 			// actors
 			var actors = new ArchivingActorCollection();
 			var persons = saymoreSession.GetAllPersonsInSession();
-			var allParticipantsWithRoles = saymoreSession.MetaDataFile.MetaDataFieldValues.Count > 0?
-				(from p in saymoreSession.MetaDataFile.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty).Split(FieldInstance.kDefaultMultiValueDelimiter)
-											where p.Trim() != string.Empty
-											select p.Trim()).ToList()
-				: new List<string>();
+			var contributions =
+				saymoreSession.MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
+
 			foreach (var person in persons)
 			{
 
-				var actor = InitializeActor(model, person, sessionDateTime, GetRole(person.Id, actors, allParticipantsWithRoles));
+				var actor = InitializeActor(model, person, sessionDateTime, GetRole(person.Id, actors, contributions));
 
 				// do this to get the ISO3 codes for the languages because they are not in saymore
 				var language = GetOneLanguage(ForceIso639ThreeChar(person.MetaDataFile.GetStringValue("primaryLanguage", null)));
@@ -397,14 +396,9 @@ namespace SayMore.Model
 			return analysisLanguage;
 		}
 
-		private static string GetRole(string personId, ArchivingActorCollection actors, System.Collections.Generic.IEnumerable<string> allParticipantsWithRoles)
+		private static string GetRole(string personId, ArchivingActorCollection actors, ContributionCollection contributions)
 		{
-			return (from p in allParticipantsWithRoles
-				where p.StartsWith(personId + " (")
-				let openParen = p.IndexOf("(", StringComparison.InvariantCulture)
-				let closeParen = p.IndexOf(")", StringComparison.InvariantCulture)
-				select p.Substring(openParen + 1, closeParen - openParen - 1))
-				.FirstOrDefault(role => !PersonHasRole(personId, actors, role));
+			return contributions?.Where(c => c.ContributorName == personId).Select(c => c.Role).FirstOrDefault()?.Name;
 		}
 
 		private static bool PersonHasRole(string personId, ArchivingActorCollection actors, string role)

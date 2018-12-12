@@ -187,10 +187,59 @@ namespace SayMore.UI.ComponentEditors
 			else
 			{
 				ctrl.Validating += HandleValidatingControl;
+				ValidateOnHide(ctrl);
 				if (ctrl == _componentFileIdControl)
 					ctrl.KeyPress += HandleIdFieldKeyPress;
 			}
 		}
+
+		HashSet<Control> _validateOnHideControls = new HashSet<Control>();
+
+		private bool _runningValidations;
+		// If the control or any of its parents gets hidden, e.g., by switching to another tab,
+		// perform validation, even if the new tab does not assign focus to something, which
+		// would normally trigger it. This ensures some important side effects of validation
+		// don't get skipped (e.g., updating a Person's name in Contributors).
+		void ValidateOnHide(Control start)
+		{
+			var ctrl = start;
+			// We don't need to start doing this until the main window gets activated.
+			// This prevents any unexpected side effects or loops during startup.
+			var form = ctrl.FindForm();
+			if (form != null)
+			{
+				form.Activated -= StartValidating; // avoid duplicates
+				form.Activated += StartValidating;
+			}
+			while (ctrl != null && !_validateOnHideControls.Contains(ctrl))
+			{
+				_validateOnHideControls.Add(ctrl);
+				var localCopy = ctrl; // ctrl will have changed value by the time the event is raised
+				ctrl.VisibleChanged += (sender, args) =>
+				{
+					if (_runningValidations && !localCopy.Visible)
+					{
+						// Somehow the validation process triggers something becoming invisible,
+						// which can become an infinite loop. Waiting until the application is next
+						// idle before we trigger any more seems to be enough to break the loop
+						// (maybe after a couple of cycles).
+						_runningValidations = false;
+						Application.Idle += StartValidating;
+						localCopy.FindForm()?.ValidateChildren();
+					}
+				};
+				// And if it later gets added to some other parent, we need to add that to the process.
+				ctrl.ParentChanged += (sender, args) => { ValidateOnHide(localCopy.Parent); };
+				ctrl = ctrl.Parent;
+			}
+		}
+
+		private void StartValidating(object o, EventArgs eventArgs)
+		{
+			Application.Idle -= StartValidating;
+			_runningValidations = true;
+		}
+
 
 		/// ------------------------------------------------------------------------------------
 		private void UnBindControl(Control ctrl, bool removeFromBoundControlCollection)

@@ -175,7 +175,7 @@ namespace SayMore.UI.ComponentEditors
 		public override sealed void SetComponentFile(ComponentFile file)
 		{
 			base.SetComponentFile(file);
-			_model.SetContributionList(file.GetValue("contributions", null) as ContributionCollection);
+			_model.SetContributionList(file.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -233,8 +233,11 @@ namespace SayMore.UI.ComponentEditors
 		private void SaveContributors()
 		{
 			string failureMessage;
-			_file.SetValue("contributions", _model.Contributions, out failureMessage);
-			_file.SetValue(SessionFileType.kParticipantsFieldName, GetParticipants(), out failureMessage);
+			_file.SetValue(SessionFileType.kContributionsFieldName, _model.Contributions, out failureMessage);
+			// We maintain this redundant field mainly for compatibility with older versions of SayMore and
+			// other programs (e.g., SayMoreJs) that use the file format. There may also still be a few
+			// things in SayMore itself which expect it to exist, though we are trying to eliminate them.
+			_file.SetValue(SessionFileType.kParticipantsFieldName, GetParticipants(false), out failureMessage);
 			_file.Save();
 
 			var frm = FindForm();
@@ -242,8 +245,9 @@ namespace SayMore.UI.ComponentEditors
 				return;
 
 			//Set the people list whenever changes happen in Contributors list
+			// We want to display these with their roles.
 			foreach (var editor in Program.GetControlsOfType<SessionBasicEditor>(Program.ProjectWindow))
-				editor.SetPeople(GetParticipants());
+				editor.SetPeople(GetParticipants(true));
 
 			if (failureMessage != null)
 				SIL.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
@@ -252,12 +256,16 @@ namespace SayMore.UI.ComponentEditors
 		/// --------------------------------------------------------------------------------------
 		/// Get the participants list from the Sessions contributions
 		/// --------------------------------------------------------------------------------------
-		private string GetParticipants()
+		private string GetParticipants(bool withRoles)
 		{
 			string participants = string.Empty;
+			var names = new HashSet<string>();
 			foreach (Contribution contributor in _model.Contributions)
 			{
-				participants += contributor.ContributorName + " (" + contributor.Role.Name + "); ";
+				if (!withRoles && names.Contains(contributor.ContributorName))
+					continue;
+				names.Add(contributor.ContributorName);
+				participants += contributor.ContributorName + (withRoles? " (" + contributor.Role.Name + "); " : "; ");
 			}
 
 			return participants;

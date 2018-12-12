@@ -17,6 +17,7 @@ using SayMore.Model.Files.DataGathering;
 using SayMore.UI.LowLevelControls;
 using SIL.Archiving.Generic.AccessProtocol;
 using SIL.Archiving.IMDI.Lists;
+using SIL.Windows.Forms.ClearShare;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -82,9 +83,18 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void HandlePersonsUiIdChanged(object sender, ElementIdChangedArgs e)
 		{
-			var allParticipants = FieldInstance.GetMultipleValuesFromText(_participants.Text);
-			var newNames = allParticipants.Select(name => (name == e.OldId ? e.NewId : name));
-			_participants.Text = FieldInstance.GetTextFromMultipleValues(newNames);
+			// We want to update the control to a form of participants that has roles
+			// in parens. This is derived from Contributions. But the names of the contributors
+			// are upated by another, independent handler of the same event, which may
+			// (currently does) happen AFTER this one. So we delay the update until the
+			// app is next idle to make sure the contributions have been updated first.
+			Application.Idle += UpdateParticipants;
+		}
+
+		private void UpdateParticipants(object sender, EventArgs eventArgs)
+		{
+			Application.Idle -= UpdateParticipants;
+			_participants.Text = GetParticipantsWithRolesFromContributions();
 		}
 
 		static void file_AfterSave(object sender, EventArgs e)
@@ -561,23 +571,34 @@ namespace SayMore.UI.ComponentEditors
 		private void HandleBinderTranslateBoundValueBeingRetrieved(object sender,
 			TranslateBoundValueBeingRetrievedArgs args)
 		{
-			if (!(args.BoundControl is MultiValueDropDownBox)) return;
-
-			if (args.ValueFromFile.Contains(","))
-				args.TranslatedValue = args.ValueFromFile.Replace(",", FieldInstance.kDefaultMultiValueDelimiter.ToString(CultureInfo.InvariantCulture));
-
-			if (args.BoundControl == _participants)
+			if (args.BoundControl is MultiValueDropDownBox)
 			{
-				var val = args.TranslatedValue ?? args.ValueFromFile;
-				if (!string.IsNullOrEmpty(val))
-				{
-					var participantNames = FieldInstance.GetMultipleValuesFromText(val).ToArray();
-					for (int index = 0; index < participantNames.Length; index++)
-						participantNames[index] = _personInformant.GetUiIdByName(participantNames[index]);
-
-					args.TranslatedValue = FieldInstance.GetTextFromMultipleValues(participantNames);
-				}
+				if (args.ValueFromFile.Contains(","))
+					args.TranslatedValue = args.ValueFromFile.Replace(",",
+						FieldInstance.kDefaultMultiValueDelimiter.ToString(CultureInfo.InvariantCulture));
+			} else if (args.BoundControl == _participants)
+			{
+				args.TranslatedValue = GetParticipantsWithRolesFromContributions();
 			}
+		}
+
+		private string GetParticipantsWithRolesFromContributions()
+		{
+			// We want to display the partipants with their roles, which means using data really from
+			// the contributions field, because we don't want the value really stored in participants,
+			// a list of names we maintain for backwards compatibility, to include the roles.
+			// Note that this value should only be displayed in the _participants control,
+			// not stored in the <participants> field (as was done briefly, breaking backwards
+			// compatibility and causing problems for other programs that use the file).
+			// (If the user could edit the field, we'd have to watch out that the binding helper didn't
+			// copy the edited names-with-roles into the file. But attempts to edit this field
+			// trigger a switch to the Contributors tab.)
+			var contributions = _file.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
+			if (contributions == null)
+				return "";
+			var participantsWithRoles = string.Join("; ",
+				contributions.Select(c => c.ContributorName + " (" + c.Role.Name.ToLowerInvariant() + ")"));
+			return participantsWithRoles;
 		}
 
 		/// ------------------------------------------------------------------------------------

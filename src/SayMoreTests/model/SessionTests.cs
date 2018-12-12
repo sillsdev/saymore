@@ -10,6 +10,7 @@ using SayMore.Model.Files;
 using System.Linq;
 using System.Collections.Generic;
 using SayMore.Utilities;
+using SIL.Windows.Forms.ClearShare;
 
 namespace SayMoreTests.Model
 {
@@ -46,10 +47,14 @@ namespace SayMoreTests.Model
 				{
 					var file = new Mock<ProjectElementComponentFile>();
 					file.Setup(f => f.Save());
-					file.Setup(
-						f => f.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty)).
-						Returns(participants.Count() > 0 ? participants.Aggregate((a, b) => a + ";" + b) : string.Empty
-						);
+					//file.Setup(
+					//	f => f.GetStringValue(SessionFileType.kParticipantsFieldName, string.Empty)).
+					//	Returns(participants.Count() > 0 ? participants.Aggregate((a, b) => a + ";" + b) : string.Empty
+					//	);
+					var contributions = new Mock<ContributionCollection>(MockBehavior.Strict);
+					foreach (var p in participants)
+						contributions.Object.Add(new Contribution(p, new Role("par", "Participant", null)));
+					file.Setup(f => f.GetValue(SessionFileType.kContributionsFieldName, null)).Returns(contributions.Object);
 
 					if (additionalSetup != null)
 					{

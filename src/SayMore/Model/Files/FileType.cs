@@ -190,7 +190,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual bool GetShowInPresetOptions(string key)
 		{
-			return (!GetIsCustomFieldId(key) && !GetIsReadonly(key) && key != "contributions");
+			return (!GetIsCustomFieldId(key) && !GetIsReadonly(key) && key != SessionFileType.kContributionsFieldName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -355,6 +355,7 @@ namespace SayMore.Model.Files
 		public const string kGenreFieldName = "genre";
 		public const string kParticipantsFieldName = "participants";
 		public const string kTitleFieldName = "title";
+		public const string kContributionsFieldName = "contributions";
 
 		// additional fields
 		public const string kCountryFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Location_Country";
@@ -434,7 +435,7 @@ namespace SayMore.Model.Files
 					kGenreFieldName,
 					kParticipantsFieldName,
 					kTitleFieldName,
-					"contributions",
+					kContributionsFieldName,
 					kInteractivityFieldName,
 					kInvolvementFieldName,
 					kCountryFieldName,
@@ -701,7 +702,7 @@ namespace SayMore.Model.Files
 
 				yield return new FieldDefinition("Device");
 				yield return new FieldDefinition("Microphone");
-				yield return new FieldDefinition("contributions");
+				yield return new FieldDefinition(SessionFileType.kContributionsFieldName);
 			}
 		}
 
@@ -855,7 +856,7 @@ namespace SayMore.Model.Files
 			var system = new OlacSystem();
 			var role = system.GetRoleByCodeOrThrow(roleCode);
 			var collection =
-				file.GetValue("contributions", new ContributionCollection()) as ContributionCollection;
+				file.GetValue(SessionFileType.kContributionsFieldName, new ContributionCollection()) as ContributionCollection;
 
 			var contributor = new Contribution(value, role);
 			contributor.Date = file.GetCreateDate();
@@ -863,7 +864,7 @@ namespace SayMore.Model.Files
 			{
 				collection.Add(contributor);
 				string failureMessage;
-				file.SetValue("contributions", collection, out failureMessage);
+				file.SetValue(SessionFileType.kContributionsFieldName, collection, out failureMessage);
 			}
 			file.RemoveField(fieldId);
 			file.Save();

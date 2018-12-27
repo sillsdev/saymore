@@ -220,25 +220,29 @@ namespace SayMore.Model.Files
 				}
 			}
 
-			var root = doc.ChildNodes[1];
-			fields.AddRange(root.ChildNodes.Cast<XmlNode>()
-				.Select(node => GetFieldFromNode(node, fileType.GetIsCustomFieldId))
-				.Where(fieldInstance => fieldInstance != null));
-
-			var customFieldList = root.SelectSingleNode(kCustomFieldsElement);
-			if (customFieldList != null)
+			if (doc.ChildNodes.Count > 1) // if it has children, and not just, e.g., <Person/>
 			{
-				fields.AddRange(customFieldList.ChildNodes.Cast<XmlNode>()
-					.Select(node => new FieldInstance(kCustomFieldIdPrefix + node.Name, FieldInstance.kStringType,
-					CleanupLineBreaks(node.InnerText))));
-			}
+				var root = doc.ChildNodes[1];
 
-			var additionalFieldList = root.SelectSingleNode(kAdditionalFieldsElement);
-			if (additionalFieldList != null)
-			{
-				fields.AddRange(additionalFieldList.ChildNodes.Cast<XmlNode>()
-					.Select(node => new FieldInstance(kAdditionalFieldIdPrefix + node.Name, FieldInstance.kStringType,
-					CleanupLineBreaks(node.InnerText))));
+				fields.AddRange(root.ChildNodes.Cast<XmlNode>()
+					.Select(node => GetFieldFromNode(node, fileType.GetIsCustomFieldId))
+					.Where(fieldInstance => fieldInstance != null));
+
+				var customFieldList = root.SelectSingleNode(kCustomFieldsElement);
+				if (customFieldList != null)
+				{
+					fields.AddRange(customFieldList.ChildNodes.Cast<XmlNode>()
+						.Select(node => new FieldInstance(kCustomFieldIdPrefix + node.Name, FieldInstance.kStringType,
+							CleanupLineBreaks(node.InnerText))));
+				}
+
+				var additionalFieldList = root.SelectSingleNode(kAdditionalFieldsElement);
+				if (additionalFieldList != null)
+				{
+					fields.AddRange(additionalFieldList.ChildNodes.Cast<XmlNode>()
+						.Select(node => new FieldInstance(kAdditionalFieldIdPrefix + node.Name, FieldInstance.kStringType,
+							CleanupLineBreaks(node.InnerText))));
+				}
 			}
 		}
 

@@ -308,7 +308,9 @@ namespace SayMore.Model
 		public virtual IEnumerable<string> GetAllParticipants()
 		{
 			var contributions = MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
-			return contributions?.Select(c => c.ContributorName);
+			if (contributions == null)
+				return new string[0]; // don't just use ? to return null, that isn't enumerable, callers will fail.
+			return contributions.Select(c => c.ContributorName);
 		}
 
 		/// ------------------------------------------------------------------------------------

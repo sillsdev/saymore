@@ -2,6 +2,7 @@
   <PropertyGroup>
 	<RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
 	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
+	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'==''">3.2.0</BUILD_NUMBER>
 	<BuildTasksDll>$(RootDir)/packages/SIL.BuildTasks.2.1.0/tools/SIL.BuildTasks.dll</BuildTasksDll>
 	<Configuration>Release</Configuration>
 	<RestartBuild Condition="!Exists('$(BuildTasksDll)')">true</RestartBuild>
@@ -45,7 +46,7 @@
 
   <Target Name="SetAssemblyVersion" DependsOnTargets="VersionNumbers">
 	  <ItemGroup>
-		<AssemblyInfoFiles Include="$(teamcity_build_checkoutDir)/src/**/assemblyinfo.cs"/>
+		<AssemblyInfoFiles Include="$(RootDir)/src/**/assemblyinfo.cs"/>
 	  </ItemGroup>
 	  <StampAssemblies Version="$(Version)" InputAssemblyPaths="@(AssemblyInfoFiles)" />
 	</Target>
@@ -55,7 +56,7 @@
 	  <Message Text="RELEASE_TYPE: $(RELEASE_TYPE)" Importance="high"/>
 
 	  <ItemGroup>
-		<BuildTypeFiles Include="$(teamcity_build_checkoutDir)/src/**/BuildType.cs"/>
+		<BuildTypeFiles Include="$(RootDir)/src/**/BuildType.cs"/>
 	  </ItemGroup>
 	  <UpdateBuildTypeFile BuildType="$(RELEASE_TYPE)" BuildTypePaths="@(BuildTypeFiles)" />
 	</Target>
@@ -66,7 +67,7 @@
   </Target>
 
   <Target Name="BuildInternal" DependsOnTargets="SetAssemblyVersion;SetBuildType">
-	<MSBuild Projects="$(teamcity_build_checkoutDir)/SayMore.sln"
+	<MSBuild Projects="$(RootDir)/SayMore.sln"
 			 Targets="Rebuild"
 			 Properties="Configuration=Release" />
 	<Message Text="Build Complete"/>
@@ -74,7 +75,7 @@
 
   <Target Name="Test" DependsOnTargets ="Build">
 	<ItemGroup>
-	  <TestAssemblies Include="$(teamcity_build_checkoutDir)/output/release/*Tests.dll;"/>
+	  <TestAssemblies Include="$(RootDir)/output/release/*Tests.dll;"/>
 	</ItemGroup>
 	<NUnitTeamCity Assemblies="@(TestAssemblies)" NUnitVersion="NUnit-2.6.3" ExcludeCategory="SkipOnTeamCity" />
   </Target>
@@ -82,12 +83,12 @@
   <Target Name="UpdateDownloadInfo" DependsOnTargets="VersionNumbers" >
 
 	<!-- copy it so we aren't modifying the original, which then is a pain on dev machines -->
-	<Copy SourceFiles ="$(teamcity_build_checkoutDir)\src\installer\template.download_info"
-		DestinationFiles ="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).download_info"/>
+	<Copy SourceFiles ="$(RootDir)\src\installer\template.download_info"
+		DestinationFiles ="$(RootDir)\output\installer\SayMoreInstaller.$(Version).download_info"/>
 
 	<!-- replace some parts of the file with the version number & date -->
 
-	<FileUpdate File="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).download_info"
+	<FileUpdate File="$(RootDir)\output\installer\SayMoreInstaller.$(Version).download_info"
 	DatePlaceHolder='_DATE_'
 	DateFormat='yyyy-MM-dd'
 	Regex='_VERSION_'
@@ -108,37 +109,37 @@
 	<!-- set the version number in the installer configuration program.  Perhaps there's a way to just send in the variables rather than this brute-force
 		changing of the script, but I haven't figured that out. -->
 
-	<FileUpdate File="$(teamcity_build_checkoutDir)\src\Installer\Installer.wxs" Regex='Property_ProductVersion = ".*"'
+	<FileUpdate File="$(RootDir)\src\Installer\Installer.wxs" Regex='Property_ProductVersion = ".*"'
 				ReplacementText ="Property_ProductVersion = &quot;$(Version)&quot;" />
 
 
 	<Message Text="Making Installer Version: $(Version)" Importance="high"  />
 
-	<MSBuild Projects="$(teamcity_build_checkoutDir)\src\Installer\Installer.wixproj"/>
+	<MSBuild Projects="$(RootDir)\src\Installer\Installer.wixproj"/>
 
 	<!-- remove an existing one with the same name, if necessary -->
-	<Delete Files="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).msi" TreatErrorsAsWarnings="false" />
+	<Delete Files="$(RootDir)\output\installer\SayMoreInstaller.$(Version).msi" TreatErrorsAsWarnings="false" />
 
-	<Exec Command='sign "$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.msi"'></Exec>
+	<Exec Command='sign "$(RootDir)\output\installer\SayMoreInstaller.msi"'></Exec>
 
-	<Copy SourceFiles="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.msi"
-		  DestinationFiles="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).msi"
+	<Copy SourceFiles="$(RootDir)\output\installer\SayMoreInstaller.msi"
+		  DestinationFiles="$(RootDir)\output\installer\SayMoreInstaller.$(Version).msi"
 		  />
 
 	<!-- remove the installer which has no version number (wouldn't need this if the copy above was a move, instead) -->
-	<Delete Files="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.msi" TreatErrorsAsWarnings="false" />
+	<Delete Files="$(RootDir)\output\installer\SayMoreInstaller.msi" TreatErrorsAsWarnings="false" />
 
   </Target>
 
   <Target Name="MakeWixForSampleData">
-	<MakeDir ContinueOnError ="true" Directories ="$(teamcity_build_checkoutDir)\output\Installer\"/>
+	<MakeDir ContinueOnError ="true" Directories ="$(RootDir)\output\Installer\"/>
 
 	<MakeWixForDirTree
 				DirectoryReferenceId="SampleDataDir"
 				GiveAllPermissions="true"
 				ComponentGroupId="SampleData"
-				RootDirectory="$(teamcity_build_checkoutDir)\SampleData"
-				OutputFilePath="$(teamcity_build_checkoutDir)\output\Installer\GeneratedSampleDataFiles.wxs"
+				RootDirectory="$(RootDir)\SampleData"
+				OutputFilePath="$(RootDir)\output\Installer\GeneratedSampleDataFiles.wxs"
 				MatchRegExPattern=".*"
 				>
 	  <!--what does this do?-->
@@ -150,8 +151,8 @@
 	<MakeWixForDirTree
 				DirectoryReferenceId="ProgramDir"
 					ComponentGroupId="DistFiles"
-						RootDirectory="$(teamcity_build_checkoutDir)\DistFiles"
-				OutputFilePath="$(teamcity_build_checkoutDir)\output\Installer\GeneratedDistFiles.wxs"
+						RootDirectory="$(RootDir)\DistFiles"
+				OutputFilePath="$(RootDir)\output\Installer\GeneratedDistFiles.wxs"
 				MatchRegExPattern=".*"
 				>
 	  <!--what does this do?-->

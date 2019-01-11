@@ -82,10 +82,11 @@
 		<MsBuild Targets="_DownloadNuGet" Projects="$(MSBuildThisFileFullPath)" Properties="Configuration=NOT_IMPORTANT;DownloadNuGetExe=$(DownloadNuGetExe)" />
 	</Target>
 
-	<Target Name="_DownloadNuGet" Condition=" '$(DownloadNuGetExe)' == 'true' AND !Exists('$(NuGetExePath)')">
-		<DownloadNuGet OutputFilename="$(NuGetExePath)" Condition="'$(OS)' == 'Windows_NT'" />
-		<Exec Command="wget https://nuget.org/NuGet.exe" WorkingDirectory="$(NuGetToolsPath)"
-			Condition="'$(OS)' != 'Windows_NT'" />
+	<Target Name="_DownloadNuGet" Condition=" '$(DownloadNuGetExe)' == 'true'">
+		<Exec Command="$(NuGetExePath) update -self" Condition="Exists('$(NuGetExePath)')" />
+		<DownloadNuGet OutputFilename="$(NuGetExePath)" Condition="'$(OS)' == 'Windows_NT' AND !Exists('$(NuGetExePath)')" />
+		<Exec Command="wget https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" WorkingDirectory="$(NuGetToolsPath)"
+			Condition="'$(OS)' != 'Windows_NT' AND !Exists('$(NuGetExePath)')" />
 	</Target>
 
 	<Target Name="RestorePackages" DependsOnTargets="CheckPrerequisites">
@@ -106,7 +107,7 @@
 			  Condition=" '$(OS)' == 'Windows_NT' " />
 	</Target>
 
-	<UsingTask TaskName="DownloadNuGet" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+	<UsingTask TaskName="DownloadNuGet" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" Condition=" '$(OS)' == 'Windows_NT' ">
 		<ParameterGroup>
 			<OutputFilename ParameterType="System.String" Required="true" />
 		</ParameterGroup>
@@ -124,7 +125,7 @@
 
 					Log.LogMessage("Downloading latest version of NuGet.exe...");
 					WebClient webClient = new WebClient();
-					webClient.DownloadFile("https://www.nuget.org/nuget.exe", OutputFilename);
+					webClient.DownloadFile("https://dist.nuget.org/win-x86-commandline/latest/nuget.exe", OutputFilename);
 
 					return true;
 				}

@@ -1,137 +1,164 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <UsingTask TaskName="StampAssemblies" AssemblyFile="$(teamcity_build_checkoutDir)/build/SIL.BuildTasks.dll" />
-  <UsingTask TaskName="UpdateBuildTypeFile" AssemblyFile="$(teamcity_build_checkoutDir)/build/SIL.BuildTasks.dll" />
-  <UsingTask TaskName="MakeWixForDirTree" AssemblyFile="$(teamcity_build_checkoutDir)/build/SIL.BuildTasks.dll" />
-  <UsingTask TaskName="Split" AssemblyFile="$(teamcity_build_checkoutDir)/build/SIL.BuildTasks.dll" />
-  <UsingTask TaskName="FileUpdate" AssemblyFile="$(teamcity_build_checkoutDir)/build/SIL.BuildTasks.dll" />
+  <PropertyGroup>
+    <RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
+    <RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
+    <BuildTasksDll>$(RootDir)/packages/SIL.BuildTasks/tools/SIL.BuildTasks.dll</BuildTasksDll>
+    <Solution>SayMore.sln</Solution>
+    <ApplicationName>SayMore</ApplicationName>
+    <Configuration>Release</Configuration>
+    <RestartBuild Condition="!Exists('$(BuildTasksDll)')">true</RestartBuild>
+    <RestartBuild Condition="Exists('$(BuildTasksDll)')">false</RestartBuild>
+  </PropertyGroup>
+
+  <UsingTask TaskName="StampAssemblies" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
+  <UsingTask TaskName="UpdateBuildTypeFile" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
+  <UsingTask TaskName="MakeWixForDirTree" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
+  <UsingTask TaskName="Split" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
+  <UsingTask TaskName="FileUpdate" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
   <UsingTask TaskName="NUnitTeamCity" AssemblyFile="$(teamcity_dotnet_nunitlauncher_msbuild_task)" Condition="'$(teamcity_version)' != ''"/>
 
+  <Import Project="../.nuget/NuGet.targets" />
 
+  <Target Name="RestoreBuildTasks" DependsOnTargets="CheckPrerequisites">
+    <Message Text="Calling nuget restore" />
+    <Exec Command='$(NuGetCommand) restore ../$(Solution)' />
+    <Exec Command='$(NuGetCommand) install SIL.BuildTasks -excludeVersion -version 1.0.2 -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
+    <Message Text="RestartBuild=$(RestartBuild)"/>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BuildInternal"
+      Properties="Configuration=$(Configuration)" Condition="$(RestartBuild)" />
+  </Target>
+  
   <Target Name="VersionNumbers">
-	<Message Text="BUILD_NUMBER: $(BUILD_NUMBER)" Importance="high"/>
+    <Message Text="BUILD_NUMBER: $(BUILD_NUMBER)" Importance="high"/>
 
-	<Split Input="$(BUILD_NUMBER)" Delimiter="." OutputSubString="2">
-	  <Output TaskParameter="ReturnValue" PropertyName="BuildCounter" />
-	</Split>
+    <Split Input="$(BUILD_NUMBER)" Delimiter="." OutputSubString="2">
+      <Output TaskParameter="ReturnValue" PropertyName="BuildCounter" />
+    </Split>
+    <Split Input="$(BUILD_NUMBER)" Delimiter="." OutputSubString="3">
+      <Output TaskParameter="ReturnValue" PropertyName="BuildHash" />
+    </Split>
 
-	<Message Text="BuildCounter: $(BuildCounter)" Importance="high"/>
+    <Message Text="BuildCounter: $(BuildCounter)" Importance="high"/>
+    <Message Text="BuildHash: $(BuildHash)" Importance="high"/>
+    
 
-	<!-- Note, after some thought, we've decided this is the best place to keep the version number (not on TeamCity, not in the assemblies).     -->
-	<CreateProperty Value="3.1.$(BuildCounter)">
-	  <Output PropertyName="Version" TaskParameter="Value"/>
-	</CreateProperty>
-
-	<Message Text="Version: $(Version)" Importance="high"/>
+    <!-- Note, after some thought, we've decided this is the best place to keep the version number (not on TeamCity, not in the assemblies).     -->
+    <CreateProperty Value="3.1.$(BuildCounter)">
+      <Output PropertyName="Version" TaskParameter="Value"/>
+    </CreateProperty>
+    <CreateProperty Value="$(Version).$(BuildHash)">
+      <Output PropertyName="FullVersion" TaskParameter="Value"/>
+    </CreateProperty>
+    
+    <Message Text="Version: $(Version)" Importance="high"/>
+    <Message Text="FullVersion: $(FullVersion)" Importance="high"/>
   </Target>
 
+
+
   <Target Name="SetAssemblyVersion" DependsOnTargets="VersionNumbers">
-	  <ItemGroup>
-		<AssemblyInfoFiles Include="$(teamcity_build_checkoutDir)/src/**/assemblyinfo.cs"/>
-	  </ItemGroup>
-	  <StampAssemblies Version="$(Version)" InputAssemblyPaths="@(AssemblyInfoFiles)" />
-	</Target>
+    <ItemGroup>
+      <AssemblyInfoFiles Include="$(teamcity_build_checkoutDir)/src/**/assemblyinfo.cs"/>
+    </ItemGroup>
+    <StampAssemblies Version="$(Version)" InputAssemblyPaths="@(AssemblyInfoFiles)" />
+  </Target>
 
-  <Target Name="SetBuildType" DependsOnTargets="VersionNumbers">
+  <Target Name="Build">
+    <CallTarget Targets="RestoreBuildTasks"/>
+    <CallTarget Targets="BuildInternal" Condition="!$(RestartBuild)" />
+  </Target>
 
-	  <Message Text="RELEASE_TYPE: $(RELEASE_TYPE)" Importance="high"/>
-
-	  <ItemGroup>
-		<BuildTypeFiles Include="$(teamcity_build_checkoutDir)/src/**/BuildType.cs"/>
-	  </ItemGroup>
-	  <UpdateBuildTypeFile BuildType="$(RELEASE_TYPE)" BuildTypePaths="@(BuildTypeFiles)" />
-	</Target>
-
-  <Target Name="Build" DependsOnTargets="SetAssemblyVersion;SetBuildType">
-	<MSBuild Projects="$(teamcity_build_checkoutDir)/SayMore.sln"
-			 Targets="Rebuild"
-			 Properties="Configuration=Release" />
-	<Message Text="Build Complete"/>
+  <Target Name="BuildInternal" DependsOnTargets="SetAssemblyVersion">
+    <MSBuild Projects="$(teamcity_build_checkoutDir)/SayMore.sln"
+         Targets="Rebuild"
+         Properties="Configuration=Release" />
+    <Message Text="Build Complete"/>
   </Target>
 
   <Target Name="Test" DependsOnTargets ="Build">
-	<ItemGroup>
-	  <TestAssemblies Include="$(teamcity_build_checkoutDir)/output/release/*Tests.dll;"/>
-	</ItemGroup>
-	<NUnitTeamCity Assemblies="@(TestAssemblies)" ExcludeCategory="SkipOnTeamCity" />
+    <ItemGroup>
+      <TestAssemblies Include="$(teamcity_build_checkoutDir)/output/release/*Tests.dll;"/>
+    </ItemGroup>
+    <NUnitTeamCity Assemblies="@(TestAssemblies)" NUnitVersion="NUnit-2.6.3" ExcludeCategory="SkipOnTeamCity" />
   </Target>
 
   <Target Name="UpdateDownloadInfo" DependsOnTargets="VersionNumbers" >
 
-	<!-- copy it so we aren't modifying the original, which then is a pain on dev machines -->
-	<Copy SourceFiles ="$(teamcity_build_checkoutDir)\src\installer\template.download_info"
-		DestinationFiles ="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).download_info"/>
+    <!-- copy it so we aren't modifying the original, which then is a pain on dev machines -->
+    <Copy SourceFiles ="$(teamcity_build_checkoutDir)\src\installer\template.download_info"
+      DestinationFiles ="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).download_info"/>
 
-	<!-- replace some parts of the file with the version number & date -->
+    <!-- replace some parts of the file with the version number & date -->
 
-	<FileUpdate File="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).download_info"
-	DatePlaceHolder='_DATE_'
-	DateFormat='yyyy-MM-dd'
-	Regex='_VERSION_'
-	ReplacementText ="$(Version)" />
+    <FileUpdate File="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).download_info"
+    DatePlaceHolder='_DATE_'
+    DateFormat='yyyy-MM-dd'
+    Regex='_VERSION_'
+    ReplacementText ="$(Version)" />
 
   </Target>
 
   <Target Name="Upload" DependsOnTargets="UpdateDownloadInfo; Installer" >
 
-	<Message Text="Attempting rsync of SayMoreInstaller.$(Version).*" Importance="high"/>
-	<Exec Command ='"c:\program files\cwRsync\bin\rsync.exe" -vzlt --chmod=Dug=rwx,Fu=rw,go=r --stats --rsync-path="sudo -u vu2004 rsync" -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=/cygdrive/c/BuildAgent/conf/bob.key -l root"  "../output/Installer/SayMoreInstaller.$(Version).msi" root@software.sil.org:/var/www/virtual/software.sil.org/htdocs/downloads/r/saymore/' />
-	<Exec Command ='"c:\program files\cwRsync\bin\rsync.exe" -vzlt --chmod=Dug=rwx,Fu=rw,go=r --stats --rsync-path="sudo -u vu2004 rsync" -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=/cygdrive/c/BuildAgent/conf/bob.key -l root"  "../output/Installer/SayMoreInstaller.$(Version).download_info" root@software.sil.org:/var/www/virtual/software.sil.org/htdocs/downloads/r/saymore/' />
+    <Message Text="Attempting rsync of SayMoreInstaller.$(Version).*" Importance="high"/>
+    <Exec Command ='"c:\program files\cwRsync\bin\rsync.exe" -vzlt --chmod=Dug=rwx,Fu=rw,go=r --stats --rsync-path="sudo -u vu2004 rsync" -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=/cygdrive/c/BuildAgent/conf/bob.key -l root"  "../output/Installer/SayMoreInstaller.$(Version).msi" root@software.sil.org:/var/www/virtual/software.sil.org/htdocs/downloads/r/saymore/' />
+    <Exec Command ='"c:\program files\cwRsync\bin\rsync.exe" -vzlt --chmod=Dug=rwx,Fu=rw,go=r --stats --rsync-path="sudo -u vu2004 rsync" -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=/cygdrive/c/BuildAgent/conf/bob.key -l root"  "../output/Installer/SayMoreInstaller.$(Version).download_info" root@software.sil.org:/var/www/virtual/software.sil.org/htdocs/downloads/r/saymore/' />
 
   </Target>
 
-  <Target Name="Installer" DependsOnTargets="VersionNumbers; MakeWixForSampleData; MakeWixForDistFiles; Build ">
+  <Target Name="Installer" DependsOnTargets="VersionNumbers; MakeWixForSampleData; MakeWixForDistFiles; Build">
 
-	<!-- set the version number in the installer configuration program.  Perhaps there's a way to just send in the variables rather than this brute-force
+    <!-- set the version number in the installer configuration program.  Perhaps there's a way to just send in the variables rather than this brute-force
 		changing of the script, but I haven't figured that out. -->
 
-	<FileUpdate File="$(teamcity_build_checkoutDir)\src\Installer\Installer.wxs" Regex='Property_ProductVersion = ".*"'
-				ReplacementText ="Property_ProductVersion = &quot;$(Version)&quot;" />
+    <FileUpdate File="$(teamcity_build_checkoutDir)\src\Installer\Installer.wxs" Regex='Property_ProductVersion = ".*"'
+          ReplacementText ="Property_ProductVersion = &quot;$(Version)&quot;" />
 
 
-	<Message Text="Making Installer Version: $(Version)" Importance="high"  />
+    <Message Text="Making Installer Version: $(Version)" Importance="high"  />
 
-	<MSBuild Projects="$(teamcity_build_checkoutDir)\src\Installer\Installer.wixproj"/>
+    <MSBuild Projects="$(teamcity_build_checkoutDir)\src\Installer\Installer.wixproj"/>
 
-	<!-- remove an existing one with the same name, if necessary -->
-	<Delete Files="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).msi" TreatErrorsAsWarnings="false" />
+    <!-- remove an existing one with the same name, if necessary -->
+    <Delete Files="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).msi" TreatErrorsAsWarnings="false" />
 
-	<Exec Command='sign "$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.msi"'></Exec>
+    <Exec Command='sign "$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.msi"'></Exec>
 
-	<Copy SourceFiles="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.msi"
-		  DestinationFiles="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).msi"
+    <Copy SourceFiles="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.msi"
+        DestinationFiles="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).msi"
 		  />
 
-	<!-- remove the installer which has no version number (wouldn't need this if the copy above was a move, instead) -->
-	<Delete Files="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.msi" TreatErrorsAsWarnings="false" />
+    <!-- remove the installer which has no version number (wouldn't need this if the copy above was a move, instead) -->
+    <Delete Files="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.msi" TreatErrorsAsWarnings="false" />
 
   </Target>
 
   <Target Name="MakeWixForSampleData">
-	<MakeDir ContinueOnError ="true" Directories ="$(teamcity_build_checkoutDir)\output\Installer\"/>
+    <MakeDir ContinueOnError ="true" Directories ="$(teamcity_build_checkoutDir)\output\Installer\"/>
 
-	<MakeWixForDirTree
-				DirectoryReferenceId="SampleDataDir"
-				GiveAllPermissions="true"
-				ComponentGroupId="SampleData"
-				RootDirectory="$(teamcity_build_checkoutDir)\SampleData"
-				OutputFilePath="$(teamcity_build_checkoutDir)\output\Installer\GeneratedSampleDataFiles.wxs"
-				MatchRegExPattern=".*"
+    <MakeWixForDirTree
+          DirectoryReferenceId="SampleDataDir"
+          GiveAllPermissions="true"
+          ComponentGroupId="SampleData"
+          RootDirectory="$(teamcity_build_checkoutDir)\SampleData"
+          OutputFilePath="$(teamcity_build_checkoutDir)\output\Installer\GeneratedSampleDataFiles.wxs"
+          MatchRegExPattern=".*"
 				>
-	  <!--what does this do?-->
-	  <Output TaskParameter="OutputFilePath" ItemName="Compile" />
-	</MakeWixForDirTree>
+      <!--what does this do?-->
+      <Output TaskParameter="OutputFilePath" ItemName="Compile" />
+    </MakeWixForDirTree>
   </Target>
 
   <Target Name="MakeWixForDistFiles">
-	<MakeWixForDirTree
-				DirectoryReferenceId="ProgramDir"
-					ComponentGroupId="DistFiles"
-						RootDirectory="$(teamcity_build_checkoutDir)\DistFiles"
-				OutputFilePath="$(teamcity_build_checkoutDir)\output\Installer\GeneratedDistFiles.wxs"
-				MatchRegExPattern=".*"
+    <MakeWixForDirTree
+          DirectoryReferenceId="ProgramDir"
+            ComponentGroupId="DistFiles"
+              RootDirectory="$(teamcity_build_checkoutDir)\DistFiles"
+          OutputFilePath="$(teamcity_build_checkoutDir)\output\Installer\GeneratedDistFiles.wxs"
+          MatchRegExPattern=".*"
 				>
-	  <!--what does this do?-->
-	  <Output TaskParameter="OutputFilePath" ItemName="Compile" />
-	</MakeWixForDirTree>
+      <!--what does this do?-->
+      <Output TaskParameter="OutputFilePath" ItemName="Compile" />
+    </MakeWixForDirTree>
   </Target>
 </Project>

@@ -157,11 +157,11 @@ namespace SayMore.Transcription.UI
 			_grid.SetColumnFonts(_project.TranscriptionFont, _project.FreeTranslationFont);
 
 			// check if there are oral translation or careful speach audio files
-			var annotationsDirName = annotationFile.AssociatedComponentFile.PathToAnnotatedFile + "_Annotations";
+			var annotationsDirName = annotationFile.AssociatedComponentFile.PathToAnnotatedFile + Settings.Default.OralAnnotationsFolderSuffix;
 			if (Directory.Exists(annotationsDirName))
 			{
-				_carefulSpeachAudioExportMenuItem.Enabled = (Directory.GetFiles(annotationsDirName, "*_Careful.wav").Length > 0);
-				_oralTranslationAudioExportMenuItem.Enabled = (Directory.GetFiles(annotationsDirName, "*_Translation.wav").Length > 0);
+				_carefulSpeachAudioExportMenuItem.Enabled = (Directory.GetFiles(annotationsDirName, "*" + Settings.Default.OralAnnotationCarefulSegmentFileSuffix).Length > 0);
+				_oralTranslationAudioExportMenuItem.Enabled = (Directory.GetFiles(annotationsDirName, "*" + Settings.Default.OralAnnotationTranslationSegmentFileSuffix).Length > 0);
 			}
 			else
 			{
@@ -571,11 +571,7 @@ namespace SayMore.Transcription.UI
 		{
 			Analytics.Track("Export Careful Speech Audio");
 
-			var annotationFile = (AnnotationComponentFile)_file;
-			var annotationsDirName = annotationFile.AssociatedComponentFile.PathToAnnotatedFile + "_Annotations";
-
-
-			var action = new Action<string>(path => AnnotationAudioExporter.Export(annotationsDirName, "*_Careful.wav", path));
+			var action = GetAnnotationAudioExporterAction(Settings.Default.OralAnnotationCarefulSegmentFileSuffix);
 
 			DoSimpleExportDialog(".mp3",
 				LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.CarefulSpeechFileDescriptor", "Careful Speech File ({0})"),
@@ -586,15 +582,18 @@ namespace SayMore.Transcription.UI
 		{
 			Analytics.Track("Export Oral Annotation Audio");
 
-			var annotationFile = (AnnotationComponentFile)_file;
-			var annotationsDirName = annotationFile.AssociatedComponentFile.PathToAnnotatedFile + "_Annotations";
-
-
-			var action = new Action<string>(path => AnnotationAudioExporter.Export(annotationsDirName, "*_Translation.wav", path));
+			var action = GetAnnotationAudioExporterAction(Settings.Default.OralAnnotationTranslationSegmentFileSuffix);
 
 			DoSimpleExportDialog(".mp3",
 				LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.OralTranslationFileDescriptor", "Oral Translation File ({0})"),
 				"OralTranslation", "OralTranslation", action);
+		}
+
+		private Action<string> GetAnnotationAudioExporterAction(string suffix)
+		{
+			var annotationFile = (AnnotationComponentFile)_file;
+			var annotationsDirName = annotationFile.AssociatedComponentFile.PathToAnnotatedFile + Settings.Default.OralAnnotationsFolderSuffix;
+			return new Action<string>(path => AnnotationAudioExporter.Export(annotationsDirName, "*" + suffix, path));
 		}
 
 		private void DoSimpleExportDialog(string defaultExt, string fileTypeDescriptor, string suffix, string namedSettingsFolder, Action<string> action)
@@ -629,7 +628,9 @@ namespace SayMore.Transcription.UI
 						Settings.Default[namedSettingsFolder] = Path.GetDirectoryName(dlg.FileName);
 
 					action(dlg.FileName);
-					Process.Start("Explorer", "/select, \"" + dlg.FileName + "\"");
+
+					if (File.Exists(dlg.FileName))
+						Process.Start("Explorer", "/select, \"" + dlg.FileName + "\"");
 				}
 			}
 			catch (Exception error)

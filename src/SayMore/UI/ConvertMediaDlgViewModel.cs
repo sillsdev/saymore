@@ -38,7 +38,6 @@ namespace SayMore.UI
 		public ConvertMediaUIState ConversionState { get; private set; }
 		public MediaFileInfo MediaInfo { get; private set; }
 		public string OutputFileCreated { get; private set; }
-		public readonly string OutputFile;
 
 		private Thread _workerThread;
 		private ExternalProcess _process;
@@ -46,6 +45,7 @@ namespace SayMore.UI
 		private TimeSpan _prevReportedTime;
 		private StringBuilder _conversionOutput;
 		private string _codecError;
+		private readonly string _outputFile;
 
 		/// ------------------------------------------------------------------------------------
 		public ConvertMediaDlgViewModel(string inputFile, string initialConversionName)
@@ -64,10 +64,12 @@ namespace SayMore.UI
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public ConvertMediaDlgViewModel(string inputFile, string initialConversionName, string outputFile) : this(inputFile, initialConversionName)
 		{
-			OutputFile = outputFile;
+			_outputFile = outputFile;
 		}
+
 		/// ------------------------------------------------------------------------------------
 		public Exception ConversionException
 		{
@@ -96,8 +98,8 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		public string GetNewOutputFileName(bool returnFileNameOnly)
 		{
-			if (!string.IsNullOrEmpty(OutputFile))
-				return OutputFile;
+			if (!string.IsNullOrEmpty(_outputFile))
+				return _outputFile;
 
 			if (SelectedConversion == null)
 				return null;
@@ -140,8 +142,8 @@ namespace SayMore.UI
 
 			if (outputFile == null)
 			{
-				if (!string.IsNullOrEmpty(OutputFile))
-					outputFile = OutputFile;
+				if (!string.IsNullOrEmpty(_outputFile))
+					outputFile = _outputFile;
 				else
 					outputFile = GetNewOutputFileName(false);
 			}

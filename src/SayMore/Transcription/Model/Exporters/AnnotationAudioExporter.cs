@@ -61,7 +61,7 @@ namespace SayMore.Transcription.Model.Exporters
 					CombineChunks(sorted.Values, tempFile.Path);
 
 					// convert to MP3
-					ExportMediaDlg.Show(tempFile.Path, "Extract audio to mono mp3 audio file (low quality)", outputFilePath);
+					ConvertMediaDlg.Show(tempFile.Path, "Extract audio to mono mp3 audio file (low quality)", outputFilePath);
 				}
 			}
             finally

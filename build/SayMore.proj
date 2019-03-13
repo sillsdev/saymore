@@ -15,8 +15,10 @@
   <UsingTask TaskName="MakeWixForDirTree" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
   <UsingTask TaskName="Split" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
   <UsingTask TaskName="FileUpdate" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
-  <UsingTask TaskName="NUnitTeamCity" AssemblyFile="$(teamcity_dotnet_nunitlauncher_msbuild_task)" Condition="'$(teamcity_version)' != ''"/>
-
+  <UsingTask TaskName="NUnit3"
+    AssemblyFile="$(RootDir)/packages/SIL.BuildTasks/tools/SIL.BuildTasks.dll"
+    Condition="Exists('$(RootDir)/packages/SIL.BuildTasks/tools/SIL.BuildTasks.dll')" />
+	
   <Import Project="../.nuget/NuGet.targets" />
 
   <Target Name="RestoreBuildTasks" DependsOnTargets="CheckPrerequisites">
@@ -79,7 +81,24 @@
     <ItemGroup>
       <TestAssemblies Include="$(teamcity_build_checkoutDir)/output/release/*Tests.dll;"/>
     </ItemGroup>
-    <NUnitTeamCity Assemblies="@(TestAssemblies)" NUnitVersion="NUnit-2.6.3" ExcludeCategory="SkipOnTeamCity" />
+	<NUnit3 Condition="'$(teamcity_version)' == ''"
+			Assemblies="@(TestAssemblies)"
+			ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.8.0/tools"
+			ExcludeCategory="$(excludedCategories)"
+			WorkingDirectory="$(RootDir)/output/$(Configuration)"
+			Force32Bit="$(useNUnit-x86)"
+			Verbose="true"
+			OutputXmlFile="$(RootDir)/output/$(Configuration)/TestResults.xml"
+			UseNUnit3Xml = "true"
+			TeamCity="false"/>
+		<NUnit3 Condition="'$(teamcity_version)' != ''"
+			Assemblies="@(TestAssemblies)"
+			ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.8.0/tools"
+			ExcludeCategory="SkipOnTeamCity,$(excludedCategories)"
+			WorkingDirectory="$(RootDir)/output/$(Configuration)"
+			Force32Bit="$(useNUnit-x86)"
+			Verbose="true"
+			TeamCity="true"/>
   </Target>
 
   <Target Name="UpdateDownloadInfo" DependsOnTargets="VersionNumbers" >

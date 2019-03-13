@@ -141,12 +141,7 @@ namespace SayMore.UI
 			}
 
 			if (outputFile == null)
-			{
-				if (!string.IsNullOrEmpty(_outputFile))
-					outputFile = _outputFile;
-				else
-					outputFile = GetNewOutputFileName(false);
-			}
+				outputFile = GetNewOutputFileName(false);
 
 			var commandLine = BuildCommandLine(outputFile, preferredOutputFormat);
 			ConversionState = ConvertMediaUIState.Converting;

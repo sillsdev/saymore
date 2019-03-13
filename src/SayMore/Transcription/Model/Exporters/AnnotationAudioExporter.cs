@@ -113,10 +113,11 @@ namespace SayMore.Transcription.Model.Exporters
 			{
 				throw;
 			}
-			catch (FormatException)
+			catch (FormatException formatError)
 			{
-				var msg = "At least one of the source files is not WAV format.{2}{2}File name: \"{0}\"{2}{2}The files are located in \"{1}\".";
-				throw new FormatException(string.Format(msg, Path.GetFileName(currentFileName), Path.GetDirectoryName(currentFileName), Environment.NewLine));
+				var msg = string.Format("At least one of the source files is not WAV format.{2}{2}File name: \"{0}\"{2}{2}The files are located in \"{1}\".",
+					Path.GetFileName(currentFileName), Path.GetDirectoryName(currentFileName), Environment.NewLine);
+				throw new FormatException(msg, formatError);
 			}
 			catch (Exception error)
 			{

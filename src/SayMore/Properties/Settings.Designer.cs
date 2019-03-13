@@ -1421,5 +1421,16 @@ namespace SayMore.Properties {
                 this["LastCarefulSpeechExportDestinationFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings ExportMediaDlg {
+            get {
+                return ((global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings)(this["ExportMediaDlg"]));
+            }
+            set {
+                this["ExportMediaDlg"] = value;
+            }
+        }
     }
 }

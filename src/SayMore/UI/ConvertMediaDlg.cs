@@ -95,14 +95,6 @@ namespace SayMore.UI
 				};
 			}
 
-			_buttonDownload.Click += delegate
-			{
-				using (var dlg = new FFmpegDownloadDlg())
-					dlg.ShowDialog(this);
-				_viewModel.SetConversionStateBasedOnPresenceOfFfmpegForSayMore();
-				UpdateDisplay();
-			};
-
 			if (_autoRun)
 			{
 				SetupForAutoRun();
@@ -127,7 +119,6 @@ namespace SayMore.UI
 				};
 			}
 
-			_labelDownloadNeeded.Tag = _labelDownloadNeeded.Text;
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
 
 			Program.SuspendBackgroundProcesses();
@@ -157,7 +148,6 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleStringsLocalized()
 		{
-			_labelDownloadNeeded.Tag = _labelDownloadNeeded.Text;
 			UpdateDisplay();
 		}
 
@@ -193,7 +183,6 @@ namespace SayMore.UI
 			_labelFileToConvertValue.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
 			_labelOutputFile.Font = Program.DialogFont;
 			_labelOutputFileValue.Font = _labelFileToConvertValue.Font;
-			_labelDownloadNeeded.Font = Program.DialogFont;
 			_comboAvailableConversions.Font = Program.DialogFont;
 			_labelStatus.Font = _labelFileToConvertValue.Font;
 		}
@@ -225,10 +214,6 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		private void UpdateDisplay()
 		{
-			_labelDownloadNeeded.Text = String.Format(_labelDownloadNeeded.Tag as string,
-				_comboAvailableConversions.SelectedItem);
-
-			_tableLayoutFFmpegMissing.Visible = (_viewModel.ConversionState == ConvertMediaUIState.FFmpegDownloadNeeded);
 			_progressBar.Visible = (_viewModel.ConversionState & ConvertMediaUIState.Converting) > 0;
 			_buttonClose.Visible = (_viewModel.ConversionState & ConvertMediaUIState.FinishedConverting) != 0;
 			_buttonCancel.Visible = !_buttonClose.Visible;

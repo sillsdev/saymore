@@ -12,6 +12,7 @@ using SIL.Reporting;
 using SayMore.Media;
 using SayMore.Media.FFmpeg;
 using SayMore.Utilities;
+using SIL.IO;
 
 namespace SayMore.UI
 {
@@ -60,7 +61,7 @@ namespace SayMore.UI
 				AvailableConversions = FFmpegConversionInfo.GetConversions(inputFile).OrderBy(c => c.Name).ToArray();
 				SelectedConversion = AvailableConversions.FirstOrDefault(c => c.Name == initialConversionName) ?? AvailableConversions[0];
 
-				SetConversionStateBasedOnPresenceOfFfmpegForSayMore();
+				ConversionState = ConvertMediaUIState.WaitingToConvert;
 			}
 		}
 
@@ -86,13 +87,6 @@ namespace SayMore.UI
 		public string ConversionOutput
 		{
 			get { return _conversionOutput.ToString(); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void SetConversionStateBasedOnPresenceOfFfmpegForSayMore()
-		{
-			ConversionState = (FFmpegDownloadHelper.DoesFFmpegForSayMoreExist ?
-				ConvertMediaUIState.WaitingToConvert : ConvertMediaUIState.FFmpegDownloadNeeded);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -219,7 +213,7 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		private void DoConversion(object commandLine)
 		{
-			var exePath = FFmpegDownloadHelper.FullPathToFFmpegForSayMoreExe;
+			var exePath = FileLocator.GetFileDistributedWithApplication("FFmpeg", "ffmpeg.exe");
 			_conversionOutput = new StringBuilder(exePath);
 			_conversionOutput.Append(commandLine);
 

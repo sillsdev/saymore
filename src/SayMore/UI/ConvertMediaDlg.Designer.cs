@@ -38,10 +38,6 @@ namespace SayMore.UI
 			this._labelOverview = new System.Windows.Forms.Label();
 			this._labelFileToConvert = new System.Windows.Forms.Label();
 			this._labelAvailableConversions = new System.Windows.Forms.Label();
-			this._tableLayoutFFmpegMissing = new System.Windows.Forms.TableLayoutPanel();
-			this._pictureInformation = new System.Windows.Forms.PictureBox();
-			this._labelDownloadNeeded = new System.Windows.Forms.Label();
-			this._buttonDownload = new System.Windows.Forms.Button();
 			this._labelFileToConvertValue = new System.Windows.Forms.Label();
 			this._comboAvailableConversions = new System.Windows.Forms.ComboBox();
 			this._labelStatus = new System.Windows.Forms.Label();
@@ -58,8 +54,6 @@ namespace SayMore.UI
 			this._labelOutputFileValue = new System.Windows.Forms.Label();
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayoutOuter.SuspendLayout();
-			this._tableLayoutFFmpegMissing.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this._pictureInformation)).BeginInit();
 			this._flowLayoutBottomButtons.SuspendLayout();
 			this._flowLayoutShowHideButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -73,21 +67,19 @@ namespace SayMore.UI
 			this._tableLayoutOuter.Controls.Add(this._labelOverview, 0, 0);
 			this._tableLayoutOuter.Controls.Add(this._labelFileToConvert, 0, 1);
 			this._tableLayoutOuter.Controls.Add(this._labelAvailableConversions, 0, 3);
-			this._tableLayoutOuter.Controls.Add(this._tableLayoutFFmpegMissing, 1, 4);
 			this._tableLayoutOuter.Controls.Add(this._labelFileToConvertValue, 1, 1);
 			this._tableLayoutOuter.Controls.Add(this._comboAvailableConversions, 1, 3);
-			this._tableLayoutOuter.Controls.Add(this._labelStatus, 0, 5);
-			this._tableLayoutOuter.Controls.Add(this._progressBar, 0, 6);
-			this._tableLayoutOuter.Controls.Add(this._flowLayoutBottomButtons, 0, 9);
-			this._tableLayoutOuter.Controls.Add(this._flowLayoutShowHideButtons, 0, 7);
-			this._tableLayoutOuter.Controls.Add(this._textBoxOutput, 0, 8);
+			this._tableLayoutOuter.Controls.Add(this._labelStatus, 0, 4);
+			this._tableLayoutOuter.Controls.Add(this._progressBar, 0, 5);
+			this._tableLayoutOuter.Controls.Add(this._flowLayoutBottomButtons, 0, 8);
+			this._tableLayoutOuter.Controls.Add(this._flowLayoutShowHideButtons, 0, 6);
+			this._tableLayoutOuter.Controls.Add(this._textBoxOutput, 0, 7);
 			this._tableLayoutOuter.Controls.Add(this._labelOutputFile, 0, 2);
 			this._tableLayoutOuter.Controls.Add(this._labelOutputFileValue, 1, 2);
 			this._tableLayoutOuter.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._tableLayoutOuter.Location = new System.Drawing.Point(15, 15);
 			this._tableLayoutOuter.Name = "_tableLayoutOuter";
-			this._tableLayoutOuter.RowCount = 8;
-			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutOuter.RowCount = 9;
 			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -145,68 +137,6 @@ namespace SayMore.UI
 			this._labelAvailableConversions.TabIndex = 0;
 			this._labelAvailableConversions.Text = "Available Conversions:";
 			// 
-			// _tableLayoutFFmpegMissing
-			// 
-			this._tableLayoutFFmpegMissing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._tableLayoutFFmpegMissing.AutoSize = true;
-			this._tableLayoutFFmpegMissing.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this._tableLayoutFFmpegMissing.ColumnCount = 3;
-			this._tableLayoutFFmpegMissing.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayoutFFmpegMissing.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayoutFFmpegMissing.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayoutFFmpegMissing.Controls.Add(this._pictureInformation, 0, 0);
-			this._tableLayoutFFmpegMissing.Controls.Add(this._labelDownloadNeeded, 1, 0);
-			this._tableLayoutFFmpegMissing.Controls.Add(this._buttonDownload, 2, 0);
-			this._tableLayoutFFmpegMissing.Location = new System.Drawing.Point(119, 133);
-			this._tableLayoutFFmpegMissing.Margin = new System.Windows.Forms.Padding(0);
-			this._tableLayoutFFmpegMissing.Name = "_tableLayoutFFmpegMissing";
-			this._tableLayoutFFmpegMissing.RowCount = 1;
-			this._tableLayoutFFmpegMissing.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayoutFFmpegMissing.Size = new System.Drawing.Size(360, 26);
-			this._tableLayoutFFmpegMissing.TabIndex = 15;
-			// 
-			// _pictureInformation
-			// 
-			this._pictureInformation.Image = global::SayMore.Properties.Resources.InfoBlue24x24;
-			this.locExtender.SetLocalizableToolTip(this._pictureInformation, null);
-			this.locExtender.SetLocalizationComment(this._pictureInformation, null);
-			this.locExtender.SetLocalizationPriority(this._pictureInformation, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._pictureInformation, "ConvertMediaDlg._pictureInformation");
-			this._pictureInformation.Location = new System.Drawing.Point(0, 0);
-			this._pictureInformation.Margin = new System.Windows.Forms.Padding(0);
-			this._pictureInformation.Name = "_pictureInformation";
-			this._pictureInformation.Size = new System.Drawing.Size(24, 24);
-			this._pictureInformation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-			this._pictureInformation.TabIndex = 13;
-			this._pictureInformation.TabStop = false;
-			// 
-			// _labelDownloadNeeded
-			// 
-			this._labelDownloadNeeded.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._labelDownloadNeeded.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._labelDownloadNeeded, null);
-			this.locExtender.SetLocalizationComment(this._labelDownloadNeeded, null);
-			this.locExtender.SetLocalizingId(this._labelDownloadNeeded, "DialogBoxes.ConvertMediaDlg.DownloadNeededLabel");
-			this._labelDownloadNeeded.Location = new System.Drawing.Point(29, 0);
-			this._labelDownloadNeeded.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-			this._labelDownloadNeeded.Name = "_labelDownloadNeeded";
-			this._labelDownloadNeeded.Size = new System.Drawing.Size(251, 26);
-			this._labelDownloadNeeded.TabIndex = 14;
-			this._labelDownloadNeeded.Text = "The selected conversion \'{0}\' requires FFmpeg, which must be installed.";
-			// 
-			// _buttonDownload
-			// 
-			this.locExtender.SetLocalizableToolTip(this._buttonDownload, null);
-			this.locExtender.SetLocalizationComment(this._buttonDownload, null);
-			this.locExtender.SetLocalizingId(this._buttonDownload, "DialogBoxes.ConvertMediaDlg.DownloadButton");
-			this._buttonDownload.Location = new System.Drawing.Point(285, 0);
-			this._buttonDownload.Margin = new System.Windows.Forms.Padding(0);
-			this._buttonDownload.Name = "_buttonDownload";
-			this._buttonDownload.Size = new System.Drawing.Size(75, 26);
-			this._buttonDownload.TabIndex = 15;
-			this._buttonDownload.Text = "Install...";
-			this._buttonDownload.UseVisualStyleBackColor = true;
-			// 
 			// _labelFileToConvertValue
 			// 
 			this._labelFileToConvertValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -246,7 +176,7 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizationComment(this._labelStatus, null);
 			this.locExtender.SetLocalizationPriority(this._labelStatus, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelStatus, "ConvertMediaDlg._labelStatus");
-			this._labelStatus.Location = new System.Drawing.Point(0, 159);
+			this._labelStatus.Location = new System.Drawing.Point(0, 133);
 			this._labelStatus.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this._labelStatus.Name = "_labelStatus";
 			this._labelStatus.Size = new System.Drawing.Size(479, 13);
@@ -257,7 +187,7 @@ namespace SayMore.UI
 			// 
 			this._progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutOuter.SetColumnSpan(this._progressBar, 2);
-			this._progressBar.Location = new System.Drawing.Point(0, 175);
+			this._progressBar.Location = new System.Drawing.Point(0, 149);
 			this._progressBar.Margin = new System.Windows.Forms.Padding(0);
 			this._progressBar.Name = "_progressBar";
 			this._progressBar.Size = new System.Drawing.Size(479, 17);
@@ -338,7 +268,7 @@ namespace SayMore.UI
 			this._tableLayoutOuter.SetColumnSpan(this._flowLayoutShowHideButtons, 2);
 			this._flowLayoutShowHideButtons.Controls.Add(this._buttonShowOutput);
 			this._flowLayoutShowHideButtons.Controls.Add(this._buttonHideOutput);
-			this._flowLayoutShowHideButtons.Location = new System.Drawing.Point(0, 204);
+			this._flowLayoutShowHideButtons.Location = new System.Drawing.Point(0, 178);
 			this._flowLayoutShowHideButtons.Margin = new System.Windows.Forms.Padding(0, 12, 0, 5);
 			this._flowLayoutShowHideButtons.Name = "_flowLayoutShowHideButtons";
 			this._flowLayoutShowHideButtons.Size = new System.Drawing.Size(479, 26);
@@ -391,14 +321,14 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizationComment(this._textBoxOutput, null);
 			this.locExtender.SetLocalizationPriority(this._textBoxOutput, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._textBoxOutput, "ConvertMediaDlg._textBoxOutput");
-			this._textBoxOutput.Location = new System.Drawing.Point(0, 235);
+			this._textBoxOutput.Location = new System.Drawing.Point(0, 209);
 			this._textBoxOutput.Margin = new System.Windows.Forms.Padding(0);
 			this._textBoxOutput.MinimumSize = new System.Drawing.Size(4, 24);
 			this._textBoxOutput.Multiline = true;
 			this._textBoxOutput.Name = "_textBoxOutput";
 			this._textBoxOutput.ReadOnly = true;
 			this._textBoxOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this._textBoxOutput.Size = new System.Drawing.Size(479, 67);
+			this._textBoxOutput.Size = new System.Drawing.Size(479, 93);
 			this._textBoxOutput.TabIndex = 22;
 			this._textBoxOutput.Visible = false;
 			this._textBoxOutput.WordWrap = false;
@@ -459,9 +389,6 @@ namespace SayMore.UI
 			this.Text = "Convert Media";
 			this._tableLayoutOuter.ResumeLayout(false);
 			this._tableLayoutOuter.PerformLayout();
-			this._tableLayoutFFmpegMissing.ResumeLayout(false);
-			this._tableLayoutFFmpegMissing.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this._pictureInformation)).EndInit();
 			this._flowLayoutBottomButtons.ResumeLayout(false);
 			this._flowLayoutBottomButtons.PerformLayout();
 			this._flowLayoutShowHideButtons.ResumeLayout(false);
@@ -479,10 +406,6 @@ namespace SayMore.UI
 		private System.Windows.Forms.Button _buttonClose;
 		private System.Windows.Forms.Label _labelFileToConvert;
 		private System.Windows.Forms.Button _buttonBeginConversion;
-		private System.Windows.Forms.PictureBox _pictureInformation;
-		private System.Windows.Forms.Label _labelDownloadNeeded;
-		private System.Windows.Forms.TableLayoutPanel _tableLayoutFFmpegMissing;
-		private System.Windows.Forms.Button _buttonDownload;
 		private System.Windows.Forms.Label _labelFileToConvertValue;
 		private System.Windows.Forms.ComboBox _comboAvailableConversions;
 		private System.Windows.Forms.Label _labelStatus;

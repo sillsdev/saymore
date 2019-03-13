@@ -45,6 +45,7 @@ namespace SayMore.UI
 		private TimeSpan _prevReportedTime;
 		private StringBuilder _conversionOutput;
 		private string _codecError;
+		private readonly string _outputFile;
 
 		/// ------------------------------------------------------------------------------------
 		public ConvertMediaDlgViewModel(string inputFile, string initialConversionName)
@@ -61,6 +62,12 @@ namespace SayMore.UI
 
 				SetConversionStateBasedOnPresenceOfFfmpegForSayMore();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public ConvertMediaDlgViewModel(string inputFile, string initialConversionName, string outputFile) : this(inputFile, initialConversionName)
+		{
+			_outputFile = outputFile;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -91,6 +98,9 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		public string GetNewOutputFileName(bool returnFileNameOnly)
 		{
+			if (!string.IsNullOrEmpty(_outputFile))
+				return _outputFile;
+
 			if (SelectedConversion == null)
 				return null;
 
@@ -132,6 +142,7 @@ namespace SayMore.UI
 
 			if (outputFile == null)
 				outputFile = GetNewOutputFileName(false);
+
 			var commandLine = BuildCommandLine(outputFile, preferredOutputFormat);
 			ConversionState = ConvertMediaUIState.Converting;
 

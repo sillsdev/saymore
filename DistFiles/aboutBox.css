@@ -1,20 +1,27 @@
-BODY
+body
 {
-	font-family: arial;
-	font-size: 8pt;
+	margin-top: 0;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
 	width: 335px;
 }
-H1
+h1
 {
-	font-size: 10pt;
+	margin: 16px 0 8px;
+	font-size: 14px;
 }
-P, LI
+p
 {
 	text-align: left;
-	margin-top: 6px;
+	margin: 0 0 6px;
+	line-height: 17px;
 }
-UL, LI
+a, a:hover, a:active, a:visited 
 {
-	list-style-type: none;
-	padding-left: 0px;
+	color: rgb(0, 65, 130);
+	font-weight: 700;
+}
+.single p 
+{
+	margin-bottom: 1px;
 }

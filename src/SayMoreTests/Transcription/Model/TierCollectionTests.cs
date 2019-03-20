@@ -25,7 +25,7 @@ namespace SayMoreTests.Transcription.Model
 
 			_collection = new TierCollection(mediaFile);
 			_collection.Clear();
-			var timeTier = new TimeTier("timeTier", mediaFile);
+			var timeTier = new TimeTier("Source", mediaFile);
 			_collection.Add(timeTier);
 
 			var transcriptionTier = new TextTier(TextTier.ElanTranscriptionTierId);
@@ -252,7 +252,7 @@ namespace SayMoreTests.Transcription.Model
 		{
 			var tier = _collection.GetTimeTier();
 			Assert.AreEqual(string.Empty, tier.DisplayName);
-			Assert.AreEqual("timeTier", tier.Id);
+			Assert.AreEqual("Source", tier.Id);
 			Assert.AreEqual(TierType.Time, tier.TierType);
 		}
 
@@ -340,12 +340,14 @@ namespace SayMoreTests.Transcription.Model
 				var savedEafFile = _collection.Save(mediafile);
 				Assert.AreEqual(expectedEafFile, savedEafFile);
 				var tiers = AnnotationFileHelper.Load(savedEafFile).GetTierCollection();
-				Assert.AreEqual(4, tiers.Count);
 
-				for (int i = 0; i < tiers.Count; i++)
+				// We expect only 3 tiers in the saved file, because the AnnotationFileHelper only saves
+				// the Transcription and Free Translation tiers. The "otherTextTier" is discarded.
+				Assert.AreEqual(3, tiers.Count);
+
+				for (var i = 0; i < tiers.Count; i++)
 					CheckTier(_collection[i], tiers[i]);
 			}
-			catch { }
 			finally
 			{
 				try { File.Delete(mediafile); } catch { }

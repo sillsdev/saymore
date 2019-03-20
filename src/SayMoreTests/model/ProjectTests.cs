@@ -15,6 +15,7 @@ using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMoreTests.Utilities;
 using SIL.Archiving;
+using System.Threading;
 
 namespace SayMoreTests.Model
 {
@@ -143,6 +144,21 @@ namespace SayMoreTests.Model
 			_parentFolder = null;
 		}
 
+		[Test, Apartment(ApartmentState.STA)]
+		public void Load_AfterSave_IsoPreserved()
+		{
+			string settingsPath = _parentFolder.Combine("foo." + Project.ProjectSettingsFileExtension);
+			var project = new Project(settingsPath, GetSessionRepo,
+				_projectContext.ResolveForTests<SessionFileType>());
+			project.Iso639Code = "abc";
+			project.Save();
+
+			var project2 = new Project(settingsPath,
+				_projectContext.ResolveForTests<ElementRepository<Session>.Factory>(),
+				_projectContext.ResolveForTests<SessionFileType>());
+			Assert.AreEqual("abc", project2.Iso639Code);
+		}
+
 		private ElementRepository<Session> GetSessionRepo(string projectDirectory, string elementGroupName, FileType type)
 		{
 			var repo = new Mock<ElementRepository<Session>>(projectDirectory, elementGroupName, type,
@@ -201,17 +217,17 @@ namespace SayMoreTests.Model
 		}
 		*/
 
-		[Test, ExpectedException(typeof(ArgumentException))]
+		[Test]
 		[Ignore("Instantiating a project will create the necessary folders. Is this test of any use?")]
 		public void Constructor_ParentFolderDoesNotExist_Throws()
 		{
 			var path = _parentFolder.Combine("NotThere", "foo", "foo." + Project.ProjectSettingsFileExtension);
-			new Project(path, _projectContext.ResolveForTests<ElementRepository<Session>.Factory>(),
-				_projectContext.ResolveForTests<SessionFileType>());
+
+			Assert.Throws<ArgumentException>(() => new Project(path, _projectContext.ResolveForTests<ElementRepository<Session>.Factory>(),
+				_projectContext.ResolveForTests<SessionFileType>()));
 		}
 
-		[Test]
-		[RequiresSTA]
+		[Test, Apartment(ApartmentState.STA)]
 		public void Constructor_EverythingOk_CreatesFolderAndSettingsFile()
 		{
 			CreateProject(_parentFolder);
@@ -220,8 +236,7 @@ namespace SayMoreTests.Model
 
 		#region SetFilesToArchive Tests
 		/// ------------------------------------------------------------------------------------
-		[Test]
-		[RequiresSTA]
+		[Test, Apartment(ApartmentState.STA)]
 		public void SetFilesToArchive_GetsCorrectSessionAndPersonFiles()
 		{
 			var prj = CreateProject(_parentFolder);

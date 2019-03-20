@@ -80,8 +80,10 @@ packages/MarkdownDeep*
 packages/Autofac.*
 packages/NAudio.*
 packages/Analytics*
+packages/NUnit*
 lib/dotnet/SIL.*.dll
 lib/dotnet/SIL.*.pdb
 .nuget/NuGet.exe
 build/SIL.BuildTasks.dll
 lib/dotnet/NAudio.dll
+*.playlist

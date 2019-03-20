@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildProjectDirectory)\..\</SolutionDir>
+		<SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildProjectDirectory)/../</SolutionDir>
 
 		<!-- Enable the restore command to run before builds -->
 		<RestorePackages Condition="  '$(RestorePackages)' == '' ">false</RestorePackages>
@@ -49,16 +49,13 @@
 		<NuGetCommand Condition=" '$(OS)' == 'Windows_NT'">"$(NuGetExePath)"</NuGetCommand>
 		<NuGetCommand Condition=" '$(OS)' != 'Windows_NT' ">mono --runtime=v4.0.30319 "$(NuGetExePath)"</NuGetCommand>
 
-		<PackageOutputDir Condition="$(PackageOutputDir) == ''">$(TargetDir.Trim('\\'))</PackageOutputDir>
+		<PackageOutputDir Condition="$(PackageOutputDir) == ''">$(TargetDir).Trim('\\', '/')</PackageOutputDir>
 
 		<RequireConsentSwitch Condition=" $(RequireRestoreConsent) == 'true' ">-RequireConsent</RequireConsentSwitch>
 		<NonInteractiveSwitch Condition=" '$(VisualStudioVersion)' != '' AND '$(OS)' == 'Windows_NT' ">-NonInteractive</NonInteractiveSwitch>
 
-		<PaddedSolutionDir Condition=" '$(OS)' == 'Windows_NT'">"$(SolutionDir) "</PaddedSolutionDir>
-		<PaddedSolutionDir Condition=" '$(OS)' != 'Windows_NT' ">"$(SolutionDir)"</PaddedSolutionDir>
-
 		<!-- Commands -->
-		<RestoreCommand>$(NuGetCommand) install "$(PackagesConfig)" -source "$(PackageSources)"  $(NonInteractiveSwitch) $(RequireConsentSwitch) -solutionDir $(PaddedSolutionDir)</RestoreCommand>
+		<RestoreCommand>$(NuGetCommand) install "$(PackagesConfig)" -source "$(PackageSources)"  $(NonInteractiveSwitch) $(RequireConsentSwitch) -solutionDir $(SolutionDir).</RestoreCommand>
 		<BuildCommand>$(NuGetCommand) pack "$(ProjectPath)" -Properties "Configuration=$(Configuration);Platform=$(Platform)" $(NonInteractiveSwitch) -OutputDirectory "$(PackageOutputDir)" -symbols</BuildCommand>
 
 		<!-- We need to ensure packages are restored prior to assembly resolve -->
@@ -85,10 +82,11 @@
 		<MsBuild Targets="_DownloadNuGet" Projects="$(MSBuildThisFileFullPath)" Properties="Configuration=NOT_IMPORTANT;DownloadNuGetExe=$(DownloadNuGetExe)" />
 	</Target>
 
-	<Target Name="_DownloadNuGet" Condition=" '$(DownloadNuGetExe)' == 'true' AND !Exists('$(NuGetExePath)')">
-		<DownloadNuGet OutputFilename="$(NuGetExePath)" Condition="'$(OS)' == 'Windows_NT'" />
-		<Exec Command="wget https://nuget.org/NuGet.exe" WorkingDirectory="$(NuGetToolsPath)"
-			Condition="'$(OS)' != 'Windows_NT'" />
+	<Target Name="_DownloadNuGet" Condition=" '$(DownloadNuGetExe)' == 'true'">
+		<Exec Command="$(NuGetExePath) update -self" Condition="Exists('$(NuGetExePath)')" />
+		<DownloadNuGet OutputFilename="$(NuGetExePath)" Condition="'$(OS)' == 'Windows_NT' AND !Exists('$(NuGetExePath)')" />
+		<Exec Command="wget https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" WorkingDirectory="$(NuGetToolsPath)"
+			Condition="'$(OS)' != 'Windows_NT' AND !Exists('$(NuGetExePath)')" />
 	</Target>
 
 	<Target Name="RestorePackages" DependsOnTargets="CheckPrerequisites">
@@ -109,7 +107,7 @@
 			  Condition=" '$(OS)' == 'Windows_NT' " />
 	</Target>
 
-	<UsingTask TaskName="DownloadNuGet" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+	<UsingTask TaskName="DownloadNuGet" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" Condition=" '$(OS)' == 'Windows_NT' ">
 		<ParameterGroup>
 			<OutputFilename ParameterType="System.String" Required="true" />
 		</ParameterGroup>
@@ -127,7 +125,7 @@
 
 					Log.LogMessage("Downloading latest version of NuGet.exe...");
 					WebClient webClient = new WebClient();
-					webClient.DownloadFile("https://www.nuget.org/nuget.exe", OutputFilename);
+					webClient.DownloadFile("https://dist.nuget.org/win-x86-commandline/latest/nuget.exe", OutputFilename);
 
 					return true;
 				}

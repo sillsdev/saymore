@@ -1,4 +1,3 @@
-using L10NSharp.UI;
 
 namespace SayMore.UI
 {
@@ -19,8 +18,6 @@ namespace SayMore.UI
 			{
 				if (components != null)
 					components.Dispose();
-
-				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
 			}
 			base.Dispose(disposing);
 		}

@@ -19,14 +19,13 @@ namespace SayMore.UI
 	[Flags]
 	public enum ConvertMediaUIState
 	{
-		FFmpegDownloadNeeded = 0,
-		WaitingToConvert = 1,
-		Converting = 2,
-		ConversionCancelled = 4,
-		ConversionFailed = 8,
-		FinishedConverting = 16,
-		PossibleError = 32,
-		InvalidMediaFile = 64,
+		WaitingToConvert = 0,
+		Converting = 1,
+		ConversionCancelled = 2,
+		ConversionFailed = 4,
+		FinishedConverting = 8,
+		PossibleError = 16,
+		InvalidMediaFile = 32,
 		AllFinishedStates = ConversionCancelled | ConversionFailed | FinishedConverting
 	}
 

@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.UI;
 using SIL.Reporting;
 using SIL.Windows.Forms;
 using SIL.Windows.Forms.PortableSettingsProvider;
@@ -119,8 +118,6 @@ namespace SayMore.UI
 				};
 			}
 
-			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
-
 			Program.SuspendBackgroundProcesses();
 		}
 
@@ -143,12 +140,6 @@ namespace SayMore.UI
 
 			Text = LocalizationManager.GetString("DialogBoxes.ConvertMediaDlg.ExportAudioTitle",
 					"Exporting Audio....");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleStringsLocalized()
-		{
-			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -218,12 +209,9 @@ namespace SayMore.UI
 			_buttonClose.Visible = (_viewModel.ConversionState & ConvertMediaUIState.FinishedConverting) != 0;
 			_buttonCancel.Visible = !_buttonClose.Visible;
 
-			_labelStatus.Visible =
-					(_viewModel.ConversionState != ConvertMediaUIState.FFmpegDownloadNeeded &&
-					_viewModel.ConversionState != ConvertMediaUIState.WaitingToConvert);
+			_labelStatus.Visible = (_viewModel.ConversionState != ConvertMediaUIState.WaitingToConvert);
 
-			var outputAvailable = _viewModel.ConversionState != ConvertMediaUIState.FFmpegDownloadNeeded &&
-					_viewModel.ConversionState != ConvertMediaUIState.WaitingToConvert &&
+			var outputAvailable = _viewModel.ConversionState != ConvertMediaUIState.WaitingToConvert &&
 					_viewModel.ConversionState != ConvertMediaUIState.InvalidMediaFile;
 
 			if (_autoRun)
@@ -236,8 +224,7 @@ namespace SayMore.UI
 			{
 				_labelOutputFile.Visible = _labelOutputFileValue.Visible = _viewModel.MediaInfo != null;
 
-				_buttonBeginConversion.Enabled = (_viewModel.ConversionState != ConvertMediaUIState.FFmpegDownloadNeeded &&
-                                                 (_viewModel.ConversionState & ConvertMediaUIState.Converting) == 0 &&
+				_buttonBeginConversion.Enabled = ((_viewModel.ConversionState & ConvertMediaUIState.Converting) == 0 &&
                                                  (_viewModel.ConversionState & ConvertMediaUIState.FinishedConverting) == 0 &&
                                                  _comboAvailableConversions.SelectedItem != null);
 

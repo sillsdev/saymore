@@ -12,7 +12,6 @@ using SIL.Media.Naudio.UI;
 using SIL.Progress;
 using SIL.Reporting;
 using SIL.Windows.Forms.Miscellaneous;
-using SayMore.Media.FFmpeg;
 using SayMore.Media.MPlayer;
 using SayMore.Properties;
 using SayMore.UI;
@@ -348,10 +347,6 @@ namespace SayMore.Media.Audio
 					ReportPossibleConversionProblem(output);
 				return true;
 			}
-
-			// If ffmpeg is available, then try it as a fallback, since Mplayer had problems.
-			if (!FFmpegDownloadHelper.DoesFFmpegForSayMoreExist)
-				return false;
 
 			var model = new ConvertMediaDlgViewModel(inputMediaFile,
 					ConvertMediaDlg.GetFactoryExtractToStandardPcmConversionName());

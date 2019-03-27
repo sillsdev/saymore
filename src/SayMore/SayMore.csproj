@@ -164,13 +164,6 @@
     <Compile Include="MediaUtils\Audio\WaveSegmentStream.cs" />
     <Compile Include="MediaUtils\Audio\WaveStreamProvider.cs" />
     <Compile Include="MediaUtils\FFmpeg\FFmpegConversionInfo.cs" />
-    <Compile Include="MediaUtils\FFmpeg\FFmpegDownloadDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MediaUtils\FFmpeg\FFmpegDownloadDlg.designer.cs">
-      <DependentUpon>FFmpegDownloadDlg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MediaUtils\FFmpeg\FFmpegDownloadHelper.cs" />
     <Compile Include="MediaUtils\MediaInfoDLL.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Model\SessionWorkflowInformant.cs" />
@@ -696,9 +689,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\PercentageFormatter.cs" />
-    <EmbeddedResource Include="MediaUtils\FFmpeg\FFmpegDownloadDlg.resx">
-      <DependentUpon>FFmpegDownloadDlg.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\ComponentEditors\ConvertToStandardAudioEditor.resx">
       <DependentUpon>ConvertToStandardAudioEditor.cs</DependentUpon>
     </EmbeddedResource>

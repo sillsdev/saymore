@@ -144,21 +144,6 @@ namespace SayMoreTests.Model
 			_parentFolder = null;
 		}
 
-		[Test, Apartment(ApartmentState.STA)]
-		public void Load_AfterSave_IsoPreserved()
-		{
-			string settingsPath = _parentFolder.Combine("foo." + Project.ProjectSettingsFileExtension);
-			var project = new Project(settingsPath, GetSessionRepo,
-				_projectContext.ResolveForTests<SessionFileType>());
-			project.Iso639Code = "abc";
-			project.Save();
-
-			var project2 = new Project(settingsPath,
-				_projectContext.ResolveForTests<ElementRepository<Session>.Factory>(),
-				_projectContext.ResolveForTests<SessionFileType>());
-			Assert.AreEqual("abc", project2.Iso639Code);
-		}
-
 		private ElementRepository<Session> GetSessionRepo(string projectDirectory, string elementGroupName, FileType type)
 		{
 			var repo = new Mock<ElementRepository<Session>>(projectDirectory, elementGroupName, type,

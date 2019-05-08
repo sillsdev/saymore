@@ -24,6 +24,7 @@ namespace SayMore.Model
 		{
 			get
 			{
+				// The MetaDataFile object will be null if the last Person was just deleted.
 				if (MetaDataFile == null)
 					return Id;
 

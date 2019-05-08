@@ -60,8 +60,15 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<WritingSystemDefinition> GetAvailableWritingSystems()
 		{
+			// FLEx 9 uses C:\ProgramData\SIL\WritingSystemRepository
+			var repoPath = Path.Combine(Program.SilCommonDataFolder, "WritingSystemRepository");
+			if (Directory.Exists(repoPath))
+			{
+				var globalRepo = GlobalWritingSystemRepository.Initialize();
+				return globalRepo.AllWritingSystems;
+			}
+
 			var globalPath = Path.Combine(Program.SilCommonDataFolder, "WritingSystemStore");
-				//NB: flex 7.1 is using this. Palaso head has WritingSystemRepository/2 instead. Sigh...
 
 			if (!Directory.Exists(globalPath))
 			{

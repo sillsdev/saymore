@@ -24,6 +24,9 @@ namespace SayMore.Model
 		{
 			get
 			{
+				if (MetaDataFile == null)
+					return Id;
+
 				var code = MetaDataFile.GetStringValue(PersonFileType.kCode, Id);
 				return string.IsNullOrEmpty(code) ? Id : code;
 			}

@@ -52,6 +52,28 @@ namespace SayMore.Model.Files
 					return;
 				}
 			}
+			else
+			{
+				// SP-692: Could not find a part of the path ... in mscorlib
+				// This can happen if the object was renamed, resulting in the directory being renamed.
+				var dir = Path.GetDirectoryName(path);
+				if (dir == null) return;
+				if (!Directory.Exists(dir))
+				{
+					// Do not throw an exception if the session or person was deleted, just return now.
+					var parentDir = Path.GetDirectoryName(dir);
+					if (parentDir == null)
+						throw new DirectoryNotFoundException(dir);
+
+					var dirName = new DirectoryInfo(parentDir).Name;
+					if (Directory.Exists(parentDir) && 
+						(dirName == Session.kFolderName ||
+						 dirName == Person.kFolderName))
+						return;
+
+					throw new DirectoryNotFoundException(dir);
+				}
+			}
 
 			var root = new XElement(rootElementName); // TODO: could use actual name
 
@@ -92,13 +114,7 @@ namespace SayMore.Model.Files
 			{
 				try
 				{
-					// SP-692: Could not find a part of the path ... in mscorlib
-					// This can happen if the object was renamed, resulting in the directory being renamed.
 					GC.Collect();
-					var dir = Path.GetDirectoryName(path);
-					if (dir == null) return;
-					if (!Directory.Exists(dir)) throw new DirectoryNotFoundException(dir);
-
 					root.Save(path);
 					break;
 				}

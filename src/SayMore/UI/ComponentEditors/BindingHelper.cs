@@ -229,7 +229,11 @@ namespace SayMore.UI.ComponentEditors
 					}
 				};
 				// And if it later gets added to some other parent, we need to add that to the process.
-				ctrl.ParentChanged += (sender, args) => { ValidateOnHide(localCopy.Parent); };
+				ctrl.ParentChanged += (sender, args) =>
+				{
+					if (localCopy.Parent != null)
+						ValidateOnHide(localCopy.Parent);
+				};
 				ctrl = ctrl.Parent;
 			}
 		}

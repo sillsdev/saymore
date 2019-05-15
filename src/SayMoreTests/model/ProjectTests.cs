@@ -15,6 +15,7 @@ using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMoreTests.Utilities;
 using SIL.Archiving;
+using System.Threading;
 
 namespace SayMoreTests.Model
 {
@@ -201,17 +202,17 @@ namespace SayMoreTests.Model
 		}
 		*/
 
-		[Test, ExpectedException(typeof(ArgumentException))]
+		[Test]
 		[Ignore("Instantiating a project will create the necessary folders. Is this test of any use?")]
 		public void Constructor_ParentFolderDoesNotExist_Throws()
 		{
 			var path = _parentFolder.Combine("NotThere", "foo", "foo." + Project.ProjectSettingsFileExtension);
-			new Project(path, _projectContext.ResolveForTests<ElementRepository<Session>.Factory>(),
-				_projectContext.ResolveForTests<SessionFileType>());
+
+			Assert.Throws<ArgumentException>(() => new Project(path, _projectContext.ResolveForTests<ElementRepository<Session>.Factory>(),
+				_projectContext.ResolveForTests<SessionFileType>()));
 		}
 
-		[Test]
-		[RequiresSTA]
+		[Test, Apartment(ApartmentState.STA)]
 		public void Constructor_EverythingOk_CreatesFolderAndSettingsFile()
 		{
 			CreateProject(_parentFolder);
@@ -220,8 +221,7 @@ namespace SayMoreTests.Model
 
 		#region SetFilesToArchive Tests
 		/// ------------------------------------------------------------------------------------
-		[Test]
-		[RequiresSTA]
+		[Test, Apartment(ApartmentState.STA)]
 		public void SetFilesToArchive_GetsCorrectSessionAndPersonFiles()
 		{
 			var prj = CreateProject(_parentFolder);
@@ -254,8 +254,7 @@ namespace SayMoreTests.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[Test]
-		[RequiresSTA]
+		[Test, Apartment(ApartmentState.STA)]
 		public void SetFilesToArchiveOnRAMP_MockAProjectWithThreePeople_TestNumberOfFilesForEachPerson()
 		{
 			var prj = CreateProject(_parentFolder);
@@ -313,8 +312,7 @@ namespace SayMoreTests.Model
 		//}
 		#endregion
 
-		[Test]
-		[RequiresSTA]
+		[Test, Apartment(ApartmentState.STA)]
 		public void SetContributorsListToSession_ContributorsInMetaAndSession_AllContributorsInSession()
 		{
 			WriteXmlResource("Qustan059.session");  // Two contributors: Iskender Demirel, Lahdo Agirman
@@ -331,8 +329,7 @@ namespace SayMoreTests.Model
 			Assert.AreEqual(4, sessionXml.SelectSingleNode("//participants").InnerText.Split(';').Length, "Expecting four participants (with roles): Iskender Demirel, Lahdo Agirman, Greg Trihus, Eliyo Acar");
 		}
 
-		[Test]
-		[RequiresSTA]
+		[Test, Apartment(ApartmentState.STA)]
 		public void SetContributorsListToSession_LegacyFile_AddsContributors_KeepsParticipants()
 		{
 			WriteXmlResource("OldSession.session");  // Two contributors: Iskender Demirel, Lahdo Agirman
@@ -359,8 +356,7 @@ namespace SayMoreTests.Model
 			Assert.That(iskender.GetElementsByTagName("role").Cast<XmlElement>().First().InnerText, Is.EqualTo("participant"));
 		}
 
-		[Test]
-		[RequiresSTA]
+		[Test, Apartment(ApartmentState.STA)]
 		public void SetContributorsListToSession_MergesParticpantsAndContributors()
 		{
 			// File has two contributors: Iskender Demirel, Lahdo Agirman; two participants, Iskender Demirel and Joe

@@ -8,13 +8,13 @@
 	<RestartBuild Condition="!Exists('$(BuildTasksDll)')">true</RestartBuild>
 	<RestartBuild Condition="Exists('$(BuildTasksDll)')">false</RestartBuild>
   </PropertyGroup>
-	
+
   <UsingTask TaskName="StampAssemblies" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
   <UsingTask TaskName="UpdateBuildTypeFile" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
   <UsingTask TaskName="MakeWixForDirTree" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
   <UsingTask TaskName="Split" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
   <UsingTask TaskName="FileUpdate" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
-  <UsingTask TaskName="NUnitTeamCity" AssemblyFile="$(teamcity_dotnet_nunitlauncher_msbuild_task)" Condition="'$(teamcity_version)' != ''"/>
+  <UsingTask TaskName="NUnit3" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
 
   <Target Name="VersionNumbers">
 	<Message Text="BUILD_NUMBER: $(BUILD_NUMBER)" Importance="high"/>
@@ -32,9 +32,9 @@
 
 	<Message Text="Version: $(Version)" Importance="high"/>
   </Target>
-  
+
   <Import Project="../.nuget/NuGet.targets" />
-	
+
   <Target Name="RestoreBuildTasks" DependsOnTargets="CheckPrerequisites">
     <Message Text="BuildTasksDll=$(BuildTasksDll)"/>
 	<Message Text="RestartBuild=$(RestartBuild)"/>
@@ -60,7 +60,7 @@
 	  </ItemGroup>
 	  <UpdateBuildTypeFile BuildType="$(RELEASE_TYPE)" BuildTypePaths="@(BuildTypeFiles)" />
 	</Target>
-	
+
   <Target Name="Build">
 	<CallTarget Targets="RestoreBuildTasks"/>
 	<CallTarget Targets="BuildInternal" Condition="!$(RestartBuild)" />
@@ -77,7 +77,23 @@
 	<ItemGroup>
 	  <TestAssemblies Include="$(RootDir)/output/release/*Tests.dll;"/>
 	</ItemGroup>
-	<NUnitTeamCity Assemblies="@(TestAssemblies)" NUnitVersion="NUnit-2.6.3" ExcludeCategory="SkipOnTeamCity" />
+	<NUnit3 Condition="'$(teamcity_version)' == ''"
+		Assemblies="@(TestAssemblies)"
+		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.10.0/tools"
+		ExcludeCategory="$(excludedCategories)"
+		WorkingDirectory="$(RootDir)/output/$(Configuration)"
+		Force32Bit="$(useNUnit-x86)"
+		Verbose="true"
+		OutputXmlFile="$(RootDir)/output/$(Configuration)/TestResults.xml"
+		UseNUnit3Xml = "true"
+		TeamCity="false"/>
+	<NUnit3 Condition="'$(teamcity_version)' != ''"
+		Assemblies="@(TestAssemblies)"
+		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.10.0/tools"
+		ExcludeCategory="SkipOnTeamCity,$(excludedCategories)"
+		WorkingDirectory="$(RootDir)/output/$(Configuration)"
+		Force32Bit="$(useNUnit-x86)"
+		Verbose="true"/>
   </Target>
 
   <Target Name="UpdateDownloadInfo" DependsOnTargets="VersionNumbers" >
@@ -120,7 +136,7 @@
 	<!-- remove an existing one with the same name, if necessary -->
 	<Delete Files="$(RootDir)\output\installer\SayMoreInstaller.$(Version).msi" TreatErrorsAsWarnings="false" />
 
-	<Exec Command='sign "$(RootDir)\output\installer\SayMoreInstaller.msi"'></Exec>
+	<Exec Command='sign /d "SayMoreInstaller.$(Version).msi" "$(RootDir)\output\installer\SayMoreInstaller.msi"'></Exec>
 
 	<Copy SourceFiles="$(RootDir)\output\installer\SayMoreInstaller.msi"
 		  DestinationFiles="$(RootDir)\output\installer\SayMoreInstaller.$(Version).msi"

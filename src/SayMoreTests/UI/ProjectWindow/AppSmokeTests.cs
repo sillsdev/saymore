@@ -14,6 +14,7 @@ using SIL.TestUtilities;
 using NUnit.Extensions.Forms;
 using NUnit.Framework;
 using SayMore.UI.ProjectWindow;
+using System.Threading;
 
 namespace SayMoreTests.UI.ProjectWindow
 {
@@ -90,9 +91,8 @@ namespace SayMoreTests.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[Test]
+		[Test, Apartment(ApartmentState.STA)]
 		[NUnit.Framework.Category("SkipOnTeamCity")]
-		[RequiresSTA]
 		public void Application_WalkThrough_DoesNotCrash()
 		{
 			CopySampleProject();
@@ -212,9 +212,8 @@ namespace SayMoreTests.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[Test]
+		[Test, Apartment(ApartmentState.STA)]
 		[NUnit.Framework.Category("SkipOnTeamCity")]
-		[RequiresSTA]
 		public void Application_CreateProject_DoesNotCrash()
 		{
 			CreateProject();

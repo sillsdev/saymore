@@ -1,13 +1,14 @@
 using NUnit.Extensions.Forms;
 using NUnit.Framework;
 using SayMore.UI.ProjectWindow;
+using System.Threading;
 
 namespace SayMoreTests.UI.ProjectWindow
 {
+	[TestFixture]
 	public class ReleaseNotesCommandTests
 	{
-		[Test]
-		[RequiresSTA]
+		[Test, Apartment(ApartmentState.STA)]
 		public void Execute_LaunchAndClose_DoesNotCrash()
 		{
 			var tester = new ModalFormTester();

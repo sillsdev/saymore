@@ -28,6 +28,9 @@ namespace SayMore.Transcription.UI
             this._exportSubtitlesTranscription = new System.Windows.Forms.ToolStripMenuItem();
             this._csvExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._toolboxInterlinearExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._carefulSpeachAudioExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._oralTranslationAudioExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._toolStripSeparator0 = new System.Windows.Forms.ToolStripSeparator();
             this._buttonResegment = new System.Windows.Forms.ToolStripButton();
             this._buttonRecordings = new System.Windows.Forms.ToolStripDropDownButton();
             this._buttonCarefulSpeech = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,7 +90,10 @@ namespace SayMore.Transcription.UI
             this._exportFreeTranslationSubtitlesMenuItem,
             this._exportSubtitlesTranscription,
             this._csvExportMenuItem,
-            this._toolboxInterlinearExportMenuItem});
+            this._toolboxInterlinearExportMenuItem,
+            this._toolStripSeparator0,
+            this._carefulSpeachAudioExportMenuItem,
+            this._oralTranslationAudioExportMenuItem});
             this._exportMenu.Image = global::SayMore.Properties.Resources.InterlinearExport;
             this._exportMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.locExtender.SetLocalizableToolTip(this._exportMenu, null);
@@ -198,6 +204,26 @@ namespace SayMore.Transcription.UI
             this._toolboxInterlinearExportMenuItem.Size = new System.Drawing.Size(277, 22);
             this._toolboxInterlinearExportMenuItem.Text = "Toolbox File...";
             this._toolboxInterlinearExportMenuItem.Click += new System.EventHandler(this.OnToolboxInterlinearExportMenuItem_Click);
+            // 
+            // _carefulSpeachAudioExportMenuItem
+            // 
+            this.locExtender.SetLocalizableToolTip(this._carefulSpeachAudioExportMenuItem, null);
+            this.locExtender.SetLocalizationComment(this._carefulSpeachAudioExportMenuItem, null);
+            this.locExtender.SetLocalizingId(this._carefulSpeachAudioExportMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.CarefulSpeachAudioExport");
+            this._carefulSpeachAudioExportMenuItem.Name = "_carefulSpeachAudioExportMenuItem";
+            this._carefulSpeachAudioExportMenuItem.Size = new System.Drawing.Size(277, 22);
+            this._carefulSpeachAudioExportMenuItem.Text = "Careful Speech Audio...";
+            this._carefulSpeachAudioExportMenuItem.Click += new System.EventHandler(this.OnCarefulSpeachAudioExportMenuItem_Click);
+            // 
+            // _oralTranslationAudioExportMenuItem
+            // 
+            this.locExtender.SetLocalizableToolTip(this._oralTranslationAudioExportMenuItem, null);
+            this.locExtender.SetLocalizationComment(this._oralTranslationAudioExportMenuItem, null);
+            this.locExtender.SetLocalizingId(this._oralTranslationAudioExportMenuItem, "SessionsView.Transcription.TextAnnotation.ExportMenu.OralTranslationAudioExport");
+            this._oralTranslationAudioExportMenuItem.Name = "_oralTranslationAudioExportMenuItem";
+            this._oralTranslationAudioExportMenuItem.Size = new System.Drawing.Size(277, 22);
+            this._oralTranslationAudioExportMenuItem.Text = "Oral Translation Audio...";
+            this._oralTranslationAudioExportMenuItem.Click += new System.EventHandler(this.OnOralTranslationAudioExportMenuItem_Click);
             // 
             // _buttonResegment
             // 
@@ -323,6 +349,9 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripMenuItem _csvExportMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem _exportElanMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem _toolboxInterlinearExportMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem _carefulSpeachAudioExportMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem _oralTranslationAudioExportMenuItem;
+		private System.Windows.Forms.ToolStripSeparator _toolStripSeparator0;
 		private System.Windows.Forms.ToolStripComboBox _comboPlaybackSpeed;
 		private System.Windows.Forms.SplitContainer _splitter;
         private System.Windows.Forms.ToolStripMenuItem _audacityExportTranscription;

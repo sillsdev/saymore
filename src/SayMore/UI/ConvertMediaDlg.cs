@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.UI;
 using SIL.Reporting;
 using SIL.Windows.Forms;
 using SIL.Windows.Forms.PortableSettingsProvider;
@@ -18,6 +17,7 @@ namespace SayMore.UI
 		private readonly ConvertMediaDlgViewModel _viewModel;
 		private string _conversionInProgressStatusFormat;
 		private bool _showOutput;
+		private bool _autoRun;
 
 		/// ------------------------------------------------------------------------------------
 		public static string Show(string inputFile, string initialConversionName)
@@ -25,6 +25,13 @@ namespace SayMore.UI
 			var viewModel = new ConvertMediaDlgViewModel(inputFile, initialConversionName);
 			using (var dlg = new ConvertMediaDlg(viewModel))
 				return (dlg.ShowDialog() == DialogResult.Cancel ? null : viewModel.OutputFileCreated);
+		}
+
+		public static void Show(string inputFile, string initialConversionName, string outputFile)
+		{
+			var viewModel = new ConvertMediaDlgViewModel(inputFile, initialConversionName, outputFile);
+			using (var dlg = new ConvertMediaDlg(viewModel, true))
+				dlg.ShowDialog();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -35,12 +42,16 @@ namespace SayMore.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ConvertMediaDlg(ConvertMediaDlgViewModel viewModel) : this()
+		public ConvertMediaDlg(ConvertMediaDlgViewModel viewModel, bool autoRun=false) : this()
 		{
 			Logger.WriteEvent("ConvertMediaDlg constructor. file = {0}", viewModel.InputFile);
 			_viewModel = viewModel;
+			_autoRun = autoRun;
 
-			_showOutput = Settings.Default.ShowFFmpegDetailsWhenConvertingMedia;
+			if (_autoRun)
+				_showOutput = true;
+			else
+				_showOutput = Settings.Default.ShowFFmpegDetailsWhenConvertingMedia;
 
 			if (Settings.Default.ConvertMediaDlg == null)
 			{
@@ -59,17 +70,21 @@ namespace SayMore.UI
 			else
 			{
 				_labelOutputFileValue.Text = _viewModel.GetNewOutputFileName(true);
-				_comboAvailableConversions.Items.AddRange(_viewModel.AvailableConversions);
-				_comboAvailableConversions.SelectedItem = _viewModel.SelectedConversion;
-				_comboAvailableConversions.SelectionChangeCommitted += delegate
-				{
-					_viewModel.SelectedConversion = _comboAvailableConversions.SelectedItem as FFmpegConversionInfo;
-					_labelOutputFileValue.Text = _viewModel.GetNewOutputFileName(true);
-					UpdateDisplay();
-				};
-
-				_buttonBeginConversion.Click += HandleBeginConversionClick;
 				_buttonCancel.Click += delegate { _viewModel.Cancel(); };
+
+				if (!_autoRun)
+				{
+					_comboAvailableConversions.Items.AddRange(_viewModel.AvailableConversions);
+					_comboAvailableConversions.SelectedItem = _viewModel.SelectedConversion;
+					_comboAvailableConversions.SelectionChangeCommitted += delegate
+					{
+						_viewModel.SelectedConversion = _comboAvailableConversions.SelectedItem as FFmpegConversionInfo;
+						_labelOutputFileValue.Text = _viewModel.GetNewOutputFileName(true);
+						UpdateDisplay();
+					};
+
+					_buttonBeginConversion.Click += HandleBeginConversionClick;
+				}			
 
 				_buttonCancel.MouseMove += delegate
 				{
@@ -79,37 +94,52 @@ namespace SayMore.UI
 				};
 			}
 
-			_buttonDownload.Click += delegate
+			if (_autoRun)
 			{
-				using (var dlg = new FFmpegDownloadDlg())
-					dlg.ShowDialog(this);
-				_viewModel.SetConversionStateBasedOnPresenceOfFfmpegForSayMore();
-				UpdateDisplay();
-			};
+				SetupForAutoRun();
 
-			_buttonShowOutput.Click += delegate
+				Shown += delegate
+				{
+					BeginConversion();
+				};
+			}
+			else
 			{
-				_showOutput = true;
-				UpdateDisplay();
-			};
+				_buttonShowOutput.Click += delegate
+				{
+					_showOutput = true;
+					UpdateDisplay();
+				};
 
-			_buttonHideOutput.Click += delegate
-			{
-				_showOutput = false;
-				UpdateDisplay();
-			};
-
-			_labelDownloadNeeded.Tag = _labelDownloadNeeded.Text;
-			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+				_buttonHideOutput.Click += delegate
+				{
+					_showOutput = false;
+					UpdateDisplay();
+				};
+			}
 
 			Program.SuspendBackgroundProcesses();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleStringsLocalized()
+		private void SetupForAutoRun()
 		{
-			_labelDownloadNeeded.Tag = _labelDownloadNeeded.Text;
-			UpdateDisplay();
+			int[] rowsToHide = { 0, 1, 3, 4 };
+
+			foreach (var i in rowsToHide)
+			{
+				_tableLayoutOuter.RowStyles[i].SizeType = SizeType.Absolute;
+				_tableLayoutOuter.RowStyles[i].Height = 0;
+			}
+
+			_comboAvailableConversions.Visible = false;
+			_buttonBeginConversion.Visible = false;
+			_flowLayoutShowHideButtons.Visible = false;
+
+			_textBoxOutput.Margin = new Padding(0, 8, 0, 0);
+
+			Text = LocalizationManager.GetString("DialogBoxes.ConvertMediaDlg.ExportAudioTitle",
+					"Exporting Audio....");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -123,7 +153,9 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClosing(CancelEventArgs e)
 		{
-			Settings.Default.ShowFFmpegDetailsWhenConvertingMedia = _showOutput;
+			if (!_autoRun)
+				Settings.Default.ShowFFmpegDetailsWhenConvertingMedia = _showOutput;
+
 			Program.ResumeBackgroundProcesses(true);
 
 			if ((_viewModel.ConversionState & ConvertMediaUIState.FinishedConverting) > 0)
@@ -142,7 +174,6 @@ namespace SayMore.UI
 			_labelFileToConvertValue.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
 			_labelOutputFile.Font = Program.DialogFont;
 			_labelOutputFileValue.Font = _labelFileToConvertValue.Font;
-			_labelDownloadNeeded.Font = Program.DialogFont;
 			_comboAvailableConversions.Font = Program.DialogFont;
 			_labelStatus.Font = _labelFileToConvertValue.Font;
 		}
@@ -174,41 +205,42 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		private void UpdateDisplay()
 		{
-			_labelDownloadNeeded.Text = String.Format(_labelDownloadNeeded.Tag as string,
-				_comboAvailableConversions.SelectedItem);
-
-			_labelOutputFile.Visible = _labelOutputFileValue.Visible = _viewModel.MediaInfo != null;
-
-			_buttonBeginConversion.Enabled =
-				(_viewModel.ConversionState != ConvertMediaUIState.FFmpegDownloadNeeded &&
-				(_viewModel.ConversionState & ConvertMediaUIState.Converting) == 0 &&
-				(_viewModel.ConversionState & ConvertMediaUIState.FinishedConverting) == 0 &&
-				_comboAvailableConversions.SelectedItem != null);
-
-			_comboAvailableConversions.Enabled = _buttonBeginConversion.Enabled;
-			_tableLayoutFFmpegMissing.Visible = (_viewModel.ConversionState == ConvertMediaUIState.FFmpegDownloadNeeded);
 			_progressBar.Visible = (_viewModel.ConversionState & ConvertMediaUIState.Converting) > 0;
 			_buttonClose.Visible = (_viewModel.ConversionState & ConvertMediaUIState.FinishedConverting) != 0;
 			_buttonCancel.Visible = !_buttonClose.Visible;
 
-			_labelStatus.Visible =
-				(_viewModel.ConversionState != ConvertMediaUIState.FFmpegDownloadNeeded &&
-				_viewModel.ConversionState != ConvertMediaUIState.WaitingToConvert);
+			_labelStatus.Visible = (_viewModel.ConversionState != ConvertMediaUIState.WaitingToConvert);
 
-			var outputAvailable = _viewModel.ConversionState != ConvertMediaUIState.FFmpegDownloadNeeded &&
-				_viewModel.ConversionState != ConvertMediaUIState.WaitingToConvert &&
-				_viewModel.ConversionState != ConvertMediaUIState.InvalidMediaFile;
+			var outputAvailable = _viewModel.ConversionState != ConvertMediaUIState.WaitingToConvert &&
+					_viewModel.ConversionState != ConvertMediaUIState.InvalidMediaFile;
 
-			_buttonShowOutput.Visible = (!_showOutput && outputAvailable);
-			_buttonHideOutput.Visible = (_showOutput && outputAvailable);
-
-			if (_textBoxOutput.Visible != _buttonHideOutput.Visible)
+			if (_autoRun)
 			{
-				_textBoxOutput.Visible = _buttonHideOutput.Visible;
-				if (_textBoxOutput.Visible)
-					MinimumSize = new Size(MinimumSize.Width, MinimumSize.Height + 50);
-				else
-					MinimumSize = new Size(MinimumSize.Width, MinimumSize.Height - 50);
+				_labelOutputFile.Visible = true;
+				_textBoxOutput.Visible = true;
+				MinimumSize = new Size(MinimumSize.Width, MinimumSize.Height + 50);
+			}
+			else
+			{
+				_labelOutputFile.Visible = _labelOutputFileValue.Visible = _viewModel.MediaInfo != null;
+
+				_buttonBeginConversion.Enabled = ((_viewModel.ConversionState & ConvertMediaUIState.Converting) == 0 &&
+                                                 (_viewModel.ConversionState & ConvertMediaUIState.FinishedConverting) == 0 &&
+                                                 _comboAvailableConversions.SelectedItem != null);
+
+				_comboAvailableConversions.Enabled = _buttonBeginConversion.Enabled;
+
+				_buttonShowOutput.Visible = (!_showOutput && outputAvailable);
+				_buttonHideOutput.Visible = (_showOutput && outputAvailable);
+
+				if (_textBoxOutput.Visible != _buttonHideOutput.Visible)
+				{
+					_textBoxOutput.Visible = _buttonHideOutput.Visible;
+					if (_textBoxOutput.Visible)
+						MinimumSize = new Size(MinimumSize.Width, MinimumSize.Height + 50);
+					else
+						MinimumSize = new Size(MinimumSize.Width, MinimumSize.Height - 50);
+				}
 			}
 
 			if ((_viewModel.ConversionState & ConvertMediaUIState.AllFinishedStates) > 0)
@@ -330,6 +362,24 @@ namespace SayMore.UI
 			_labelStatus.Text = String.Format(_conversionInProgressStatusFormat,
 				convertedSoFar.ToString(@"hh\:mm\:ss"),
 				_viewModel.MediaInfo.Duration.ToString(@"hh\:mm\:ss"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void BeginConversion()
+		{
+			UseWaitCursor = true;
+			_textBoxOutput.Clear();
+			_progressBar.Maximum = (int)_viewModel.MediaInfo.Duration.TotalSeconds;
+			_labelStatus.Visible = false;
+			_labelStatus.ForeColor = SystemColors.ControlText;
+			_labelStatus.TextAlign = ContentAlignment.MiddleLeft;
+
+			_conversionInProgressStatusFormat = LocalizationManager.GetString(
+				"DialogBoxes.ConvertMediaDlg.ConversionProgressStatusMsgFormat",
+				"{0} of {1} Converted...");
+
+			_viewModel.BeginConversion(HandleUpdateDisplayDuringConversion);
+			UpdateDisplay();
 		}
 	}
 }

@@ -39,19 +39,6 @@ namespace SayMoreTests.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void EnsureFFmpegExists()
-		{
-			if (FFmpegDownloadHelper.DoesFFmpegForSayMoreExist)
-				return;
-
-			var msg = "FFmpeg not found. Download from: '{0}' and unzip contents to '{1}'.";
-
-			throw new FileNotFoundException(string.Format(msg,
-				FFmpegDownloadHelper.GetFFmpegForSayMoreUrl(false),
-				FFmpegDownloadHelper.FFmpegForSayMoreParentFolder));
-		}
-
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetNewOutputFileName_OutputFileDoesNotExist_ReturnedNameDiffersOnlyByExtension()
 		{
@@ -111,7 +98,6 @@ namespace SayMoreTests.UI
 		[Category("SkipOnTeamCity")]
 		public void BeginConversion_WhenOutputFileNotSpecified_CreatesInferredOutputFile()
 		{
-			EnsureFFmpegExists();
 			_model.BeginConversion(null);
 			Assert.IsTrue(File.Exists(_tempFolder.Combine("test.mp3")));
 
@@ -124,7 +110,6 @@ namespace SayMoreTests.UI
 		[Category("SkipOnTeamCity")]
 		public void BeginConversion_WhenOutputFileIsSpecified_CreatesSpecifiedOutputFile()
 		{
-			EnsureFFmpegExists();
 			_model.BeginConversion(null, _tempFolder.Combine("blah.mp3"));
 			Assert.IsTrue(File.Exists(_tempFolder.Combine("blah.mp3")));
 		}
@@ -134,7 +119,6 @@ namespace SayMoreTests.UI
 		[Category("SkipOnTeamCity")]
 		public void BeginConversion_WithReportingAction_ReportingActionCalledWithCommandLine()
 		{
-			EnsureFFmpegExists();
 			var goodCallBack = false;
 			_model.BeginConversion((t, s) =>
 			{
@@ -150,7 +134,6 @@ namespace SayMoreTests.UI
 		[Category("SkipOnTeamCity")]
 		public void BeginConversion_WithReportingAction_ReportsProgressingTime()
 		{
-			EnsureFFmpegExists();
 			var currentTime = default(TimeSpan);
 			var timesIncreased = true;
 			_model.BeginConversion((t, s) =>

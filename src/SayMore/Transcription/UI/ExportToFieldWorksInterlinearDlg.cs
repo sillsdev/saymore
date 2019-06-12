@@ -82,8 +82,23 @@ namespace SayMore.Transcription.UI
 				ErrorReport.NotifyUserOfProblem(msg, globalPath);
 				return new[] {new WritingSystemDefinition("en")};
 			}
-			var repo = LdmlInFolderWritingSystemRepository.Initialize(globalPath);
-			return repo.AllWritingSystems;
+
+			try
+			{
+				var repo = LdmlInFolderWritingSystemRepository.Initialize(globalPath);
+				return repo.AllWritingSystems;
+			}
+			catch (Exception ex)
+			{
+				var msg = LocalizationManager.GetString(
+					"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FLExWritingSystemRepositoryMsg",
+					"There was a problem initializing the Writing System Repository: \"{0}\"." +
+					"We recommend that you let the code be 'en' (English), then change it inside of FLEx.",
+					"The parameter is an error message");
+
+				ErrorReport.NotifyUserOfProblem(msg, ex.Message);
+				return new[] {new WritingSystemDefinition("en")};
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

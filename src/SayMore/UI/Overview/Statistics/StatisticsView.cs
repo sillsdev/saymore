@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using L10NSharp.TMXUtils;
 using Microsoft.Win32;
 using L10NSharp.UI;
 using SIL.Reporting;
@@ -30,7 +31,7 @@ namespace SayMore.UI.Overview.Statistics
 		{
 			base.OnHandleDestroyed(e);
 
-			LocalizeItemDlg.StringsLocalized -= UpdateDisplay;
+			LocalizeItemDlg<TMXDocument>.StringsLocalized -= UpdateDisplay;
 			_model.FinishedGatheringStatisticsForAllFiles -= HandleNewDataAvailable;
 			_model.NewStatisticsAvailable -= HandleNewDataAvailable;
 		}
@@ -47,7 +48,7 @@ namespace SayMore.UI.Overview.Statistics
 				UpdateDisplay();
 			}
 
-			LocalizeItemDlg.StringsLocalized += UpdateDisplay;
+			LocalizeItemDlg<TMXDocument>.StringsLocalized += UpdateDisplay;
 		}
 
 		/// ------------------------------------------------------------------------------------

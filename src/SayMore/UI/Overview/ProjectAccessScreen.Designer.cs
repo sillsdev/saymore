@@ -1,3 +1,4 @@
+using L10NSharp.TMXUtils;
 using L10NSharp.UI;
 
 namespace SayMore.UI.Overview
@@ -17,7 +18,7 @@ namespace SayMore.UI.Overview
 		{
 			if (disposing)
 			{
-				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
+				LocalizeItemDlg<TMXDocument>.StringsLocalized -= HandleStringsLocalized;
 				if (components != null)
 					components.Dispose();
 			}

@@ -18,6 +18,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
+using L10NSharp.TMXUtils;
 using L10NSharp.UI;
 using SIL.IO;
 using SIL.Reporting;
@@ -104,7 +105,7 @@ namespace SayMore.UI.ProjectWindow
 			}
 
 			SetWindowText();
-			LocalizeItemDlg.StringsLocalized += SetWindowText;
+			LocalizeItemDlg<TMXDocument>.StringsLocalized += SetWindowText;
 
 			foreach (var tab in _viewTabGroup.Tabs.Where(tab => tab.View is ProjectScreen))
 				_viewTabGroup.SetActiveView(tab);
@@ -134,7 +135,7 @@ namespace SayMore.UI.ProjectWindow
 		{
 			if (disposing)
 			{
-				LocalizeItemDlg.StringsLocalized -= SetWindowText;
+				LocalizeItemDlg<TMXDocument>.StringsLocalized -= SetWindowText;
 
 				ExceptionHandler.RemoveDelegate(AudioUtils.HandleGlobalNAudioException);
 

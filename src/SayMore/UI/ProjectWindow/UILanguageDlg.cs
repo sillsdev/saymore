@@ -1,4 +1,3 @@
-using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using L10NSharp;
@@ -8,13 +7,13 @@ namespace SayMore.UI.ProjectWindow
 {
 	public partial class UILanguageDlg : Form
 	{
-		private readonly LocalizationManager _localizationManager;
+		private readonly ILocalizationManager _localizationManager;
 
 		public delegate UILanguageDlg Factory(); //autofac uses this
 		public string UILanguage { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public UILanguageDlg(LocalizationManager localizationManager)
+		public UILanguageDlg(ILocalizationManager localizationManager)
 		{
 			Logger.WriteEvent("UILanguageDlg constructor");
 
@@ -46,7 +45,7 @@ namespace SayMore.UI.ProjectWindow
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			if (DialogResult == DialogResult.OK)
-				UILanguage = ((CultureInfo)_comboUILanguage.SelectedItem).Name;
+				UILanguage = ((L10NCultureInfo)_comboUILanguage.SelectedItem).Name;
 
 			base.OnFormClosing(e);
 		}

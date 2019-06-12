@@ -4,6 +4,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
+using L10NSharp.TMXUtils;
 using L10NSharp.UI;
 using SIL.Reporting;
 using SIL.Windows.Forms.PortableSettingsProvider;
@@ -48,7 +49,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 
 			LoadMRUButtons();
 
-			LocalizeItemDlg.StringsLocalized += LocalizationInitiated;
+			LocalizeItemDlg<TMXDocument>.StringsLocalized += LocalizationInitiated;
 			LocalizationInitiated();
 		}
 

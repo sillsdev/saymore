@@ -21,7 +21,7 @@ namespace SayMore.UI.ProjectWindow
 
 		public override void Execute()
 		{
-			var path = FileLocator.GetFileDistributedWithApplication("ReleaseNotes.md");
+			var path = FileLocationUtilities.GetFileDistributedWithApplication("ReleaseNotes.md");
 			using (var dlg = new ShowReleaseNotesDialog(System.Windows.Forms.Application.OpenForms.Count > 0 ? System.Windows.Forms.Application.OpenForms[0].Icon : null, path))
 			{
 				dlg.ShowDialog();

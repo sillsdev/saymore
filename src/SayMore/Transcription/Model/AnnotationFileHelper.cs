@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Xml.Linq;
 using DesktopAnalytics;
 using L10NSharp;
@@ -825,7 +824,7 @@ namespace SayMore.Transcription.Model
 			var isElanFile = GetIsElanFile(segmentFileName);
 			var eafFile = ComputeEafFileNameFromOralAnnotationFile(mediaFileName);
 			File.Copy(isElanFile ? segmentFileName :
-				FileLocator.GetFileDistributedWithApplication("annotationTemplate.etf"), eafFile);
+				FileLocationUtilities.GetFileDistributedWithApplication("annotationTemplate.etf"), eafFile);
 
 			var helper = GetOrCreateFile(eafFile, mediaFileName);
 
@@ -853,7 +852,7 @@ namespace SayMore.Transcription.Model
 
 			if (!fileExisted)
 			{
-				File.Copy(FileLocator.GetFileDistributedWithApplication("annotationTemplate.etf"), eafFile, true);
+				File.Copy(FileLocationUtilities.GetFileDistributedWithApplication("annotationTemplate.etf"), eafFile, true);
 				ChangeMediaFileName(eafFile, mediaFileName);
 			}
 

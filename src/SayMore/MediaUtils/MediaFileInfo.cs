@@ -1,13 +1,11 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.Linq.Expressions;
 using System.Text;
 using System.Xml.Serialization;
 using SIL.IO;
 using SIL.Xml;
 using SayMore.Media.MPlayer;
-using SayMore.Model.Files;
 using SayMore.Properties;
 using MediaInfoLib;
 using SayMore.Utilities;
@@ -50,7 +48,7 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public static string MediaInfoProgramPath
 		{
-			get { return FileLocator.GetFileDistributedWithApplication("MediaInfo", "MediaInfo.exe"); }
+			get { return FileLocationUtilities.GetFileDistributedWithApplication("MediaInfo", "MediaInfo.exe"); }
 		}
 
 		/// ------------------------------------------------------------------------------------

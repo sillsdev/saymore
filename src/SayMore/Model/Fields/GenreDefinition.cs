@@ -98,7 +98,7 @@ namespace SayMore.Model.Fields
 			{
 				if (s_allTypes == null)
 				{
-					var path = FileLocator.GetFileDistributedWithApplication("Genres.xml");
+					var path = FileLocationUtilities.GetFileDistributedWithApplication("Genres.xml");
 					s_allTypes = Load(path) ?? new List<GenreDefinition>();
 					s_allTypes.Add(UnknownType);
 				}

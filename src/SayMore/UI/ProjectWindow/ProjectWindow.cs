@@ -208,7 +208,7 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void HandleHelpAboutClick(object sender, EventArgs e)
 		{
-			using (var dlg = new SIL.Windows.Forms.Miscellaneous.SILAboutBox(FileLocator.GetFileDistributedWithApplication("aboutbox.htm")))
+			using (var dlg = new SIL.Windows.Forms.Miscellaneous.SILAboutBox(FileLocationUtilities.GetFileDistributedWithApplication("aboutbox.htm")))
 				dlg.ShowDialog();
 		}
 
@@ -216,7 +216,7 @@ namespace SayMore.UI.ProjectWindow
 		private void HandleHelpClick(object sender, EventArgs e)
 		{
 			//nb: when the file is in our source code, and not in the program directory, windows security will squawk and then not show content.
-			var path = FileLocator.GetFileDistributedWithApplication(false,"SayMore.chm");
+			var path = FileLocationUtilities.GetFileDistributedWithApplication(false,"SayMore.chm");
 			try
 			{
 				Process.Start(path);

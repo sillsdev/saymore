@@ -34,7 +34,7 @@ namespace SayMore.UI.Overview
 
 		private string GetBaseUriDirectory()
 		{
-			var fileName = FileLocator.GetFileDistributedWithApplication("Archiving", AccessProtocols.kProtocolFileName);
+			var fileName = FileLocationUtilities.GetFileDistributedWithApplication("Archiving", AccessProtocols.kProtocolFileName);
 			return Path.GetDirectoryName(fileName);
 		}
 

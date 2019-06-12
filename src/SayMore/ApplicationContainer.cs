@@ -197,7 +197,7 @@ namespace SayMore
 
 		public LocalizationManager CreateLocalizationManager()
 		{
-			var installedStringFileFolder = Path.GetDirectoryName(FileLocator.GetFileDistributedWithApplication("SayMore.es.tmx"));
+			var installedStringFileFolder = Path.GetDirectoryName(FileLocationUtilities.GetFileDistributedWithApplication("SayMore.es.tmx"));
 			var relativePathForWritingTmxFiles = Path.Combine(Program.kCompanyAbbrev, Application.ProductName);
 
 			LocalizationManager.DeleteOldTmxFiles(kSayMoreLocalizationId,

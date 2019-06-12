@@ -68,7 +68,7 @@ namespace SayMore.Utilities
 			// Now wait until the process lets go of the file.
 			while (DateTime.Now < timeout)
 			{
-				if (!FileUtils.IsFileLocked(filePath))
+				if (!FileHelper.IsLocked(filePath))
 					return WaitForReleaseResult.Free;
 
 				try

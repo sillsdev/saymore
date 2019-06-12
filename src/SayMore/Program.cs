@@ -666,7 +666,7 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public static void ShowHelpTopic(string topicLink)
 		{
-			var path = FileLocator.GetFileDistributedWithApplication("SayMore.chm");
+			var path = FileLocationUtilities.GetFileDistributedWithApplication("SayMore.chm");
 			Help.ShowHelp(new Label(), path, topicLink);
 
 			Analytics.Track("Show Help Topic", new Dictionary<string, string> {

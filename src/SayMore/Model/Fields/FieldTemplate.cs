@@ -56,7 +56,7 @@ namespace SayMore.Model.Fields
 		{
 			if (s_list == null)
 			{
-				string path = FileLocator.GetFileDistributedWithApplication("FieldTemplatesTemplates.xml");
+				string path = FileLocationUtilities.GetFileDistributedWithApplication("FieldTemplatesTemplates.xml");
 
 				// TODO: Do something when there's an exception returned.
 				Exception e;

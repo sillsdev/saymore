@@ -212,7 +212,7 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		private void DoConversion(object commandLine)
 		{
-			var exePath = FileLocator.GetFileDistributedWithApplication("FFmpeg", "ffmpeg.exe");
+			var exePath = FileLocationUtilities.GetFileDistributedWithApplication("FFmpeg", "ffmpeg.exe");
 			_conversionOutput = new StringBuilder(exePath);
 			_conversionOutput.Append(commandLine);
 

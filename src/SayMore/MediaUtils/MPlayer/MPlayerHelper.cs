@@ -36,7 +36,7 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		public static string MPlayerPath
 		{
-			get { return FileLocator.GetFileDistributedWithApplication("mplayer", "mplayer.exe"); }
+			get { return FileLocationUtilities.GetFileDistributedWithApplication("mplayer", "mplayer.exe"); }
 		}
 
 		/// ------------------------------------------------------------------------------------

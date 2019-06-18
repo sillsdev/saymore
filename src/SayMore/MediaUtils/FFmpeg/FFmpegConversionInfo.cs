@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using Nini.Ini;
 using SIL.IO;
-using SayMore.Properties;
 using SayMore.UI;
 
 namespace SayMore.Media.FFmpeg
@@ -19,7 +18,7 @@ namespace SayMore.Media.FFmpeg
 		/// ------------------------------------------------------------------------------------
 		public static IEnumerable<FFmpegConversionInfo> GetConversions(string fileToConvert)
 		{
-			var iniFile = FileLocator.GetFileDistributedWithApplication("FFmpegConversions.ini");
+			var iniFile = FileLocationUtilities.GetFileDistributedWithApplication("FFmpegConversions.ini");
 			var ffmpegConversions = new IniDocument(iniFile);
 			var typeToShow = string.Empty;
 

@@ -27,6 +27,7 @@ using SayMore.UI;
 using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
 using SayMore.Model;
+using SayMore.Utilities;
 using SIL.WritingSystems;
 using static System.String;
 
@@ -235,6 +236,7 @@ namespace SayMore
 				{
 					ReleaseMutexForThisProject();
 					Sldr.Cleanup();
+					FileSyncHelper.RestartAllStoppedClients();
 				}
 			}
 		}

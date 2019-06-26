@@ -699,6 +699,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\FileSyncHelper.cs" />
     <Compile Include="Utilities\PercentageFormatter.cs" />
     <EmbeddedResource Include="Transcription\UI\ComponentEditors\ConvertToStandardAudioEditor.resx">
       <DependentUpon>ConvertToStandardAudioEditor.cs</DependentUpon>

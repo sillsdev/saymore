@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
+using L10NSharp.TMXUtils;
 using L10NSharp.UI;
 using SIL.Windows.Forms;
 using SayMore.Model.Files;
@@ -55,7 +56,7 @@ namespace SayMore.UI.ComponentEditors
 			ControlRemoved += HandleControlRemoved;
 			Layout += HandleLayout;
 
-			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+			LocalizeItemDlg<TMXDocument>.StringsLocalized += HandleStringsLocalized;
 			HandleStringsLocalized();
 		}
 
@@ -70,7 +71,7 @@ namespace SayMore.UI.ComponentEditors
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
-				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
+				LocalizeItemDlg<TMXDocument>.StringsLocalized -= HandleStringsLocalized;
 
 			base.Dispose(disposing);
 		}

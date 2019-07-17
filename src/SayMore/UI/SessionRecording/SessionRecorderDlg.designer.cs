@@ -1,4 +1,5 @@
 
+using L10NSharp.TMXUtils;
 using L10NSharp.UI;
 
 namespace SayMore.UI.SessionRecording
@@ -21,7 +22,7 @@ namespace SayMore.UI.SessionRecording
 				if (components != null)
 					components.Dispose();
 
-				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
+				LocalizeItemDlg<TMXDocument>.StringsLocalized -= HandleStringsLocalized;
 			}
 			base.Dispose(disposing);
 		}

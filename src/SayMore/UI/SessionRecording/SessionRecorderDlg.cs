@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
+using L10NSharp.TMXUtils;
 using L10NSharp.UI;
 using SIL.Media.Naudio;
 using SIL.Media.Naudio.UI;
@@ -89,7 +90,7 @@ namespace SayMore.UI.SessionRecording
 			_peakMeter = AudioUtils.CreatePeakMeterControl(_panelPeakMeter);
 			SetupRecordingDeviceButton();
 
-			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+			LocalizeItemDlg<TMXDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------

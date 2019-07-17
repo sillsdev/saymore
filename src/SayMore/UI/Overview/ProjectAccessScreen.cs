@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
+using L10NSharp.TMXUtils;
 using L10NSharp.UI;
 using SIL.IO;
 using SIL.Reporting;
@@ -26,7 +27,7 @@ namespace SayMore.UI.Overview
 
 			// access protocol list
 			HandleStringsLocalized();
-			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+			LocalizeItemDlg<TMXDocument>.StringsLocalized += HandleStringsLocalized;
 
 			_linkHelp.Click += (s, e) =>
 				Program.ShowHelpTopic("/Using_Tools/Project_tab/Choose_Access_Protocol.htm");

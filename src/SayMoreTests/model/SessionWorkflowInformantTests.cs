@@ -24,6 +24,13 @@ namespace SayMoreTests.Model
 			_informant = new SessionWorkflowInformant(_sessionRepo, s_componentRoles);
 		}
 
+		//[TearDown]
+		//public void TearDown()
+		//{
+		//	_tmxFolder.Dispose();
+		//	_tmxFolder = null;
+		//}
+
 		/// ------------------------------------------------------------------------------------
 		public static ProjectElementComponentFile GetMockedProjectElementComponentFile(
 			IEnumerable<KeyValuePair<string, string>> fieldsAndValues)
@@ -133,40 +140,49 @@ namespace SayMoreTests.Model
 		[Test]
 		public void GetCategorizedSessionsByField_PassGenre_ReturnsTwoLists()
 		{
-			var lists = _informant.GetCategorizedSessionsByField(SessionFileType.kGenreFieldName);
-			Assert.AreEqual(2, lists.Count);
-			Assert.AreEqual(2, lists["Formulaic Discourse"].Count());
-			Assert.AreEqual(3, lists["Singing"].Count());
+			using (new ApplicationContainer())
+			{
+				var lists = _informant.GetCategorizedSessionsByField(SessionFileType.kGenreFieldName);
+				Assert.AreEqual(2, lists.Count);
+				Assert.AreEqual(2, lists["Formulaic Discourse"].Count());
+				Assert.AreEqual(3, lists["Singing"].Count());
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetCategorizedSessionsFromListByField_FromSpecifiedList_ReturnsTwoLists()
 		{
-			var inList = _sessionRepo.AllItems.Where(x => x.Id != "04");
-			var lists = SessionWorkflowInformant.GetCategorizedSessionsFromListByField(inList, SessionFileType.kGenreFieldName);
-			Assert.AreEqual(2, lists.Count);
-			Assert.AreEqual(2, lists["Formulaic Discourse"].Count());
-			Assert.AreEqual(2, lists["Singing"].Count());
+			using (new ApplicationContainer())
+			{
+				var inList = _sessionRepo.AllItems.Where(x => x.Id != "04");
+				var lists = SessionWorkflowInformant.GetCategorizedSessionsFromListByField(inList, SessionFileType.kGenreFieldName);
+				Assert.AreEqual(2, lists.Count);
+				Assert.AreEqual(2, lists["Formulaic Discourse"].Count());
+				Assert.AreEqual(2, lists["Singing"].Count());
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetCategorizedSessionsFromDoubleKey_PassGenreAndStatus_Return()
 		{
-			var genrelist = _informant.GetCategorizedSessionsFromDoubleKey(SessionFileType.kGenreFieldName, SessionFileType.kStatusFieldName);
+			using (new ApplicationContainer())
+			{
+				var genreList = _informant.GetCategorizedSessionsFromDoubleKey(SessionFileType.kGenreFieldName, SessionFileType.kStatusFieldName);
 
-			// A list for each genre
-			Assert.AreEqual(2, genrelist.Count);
+				// A list for each genre
+				Assert.AreEqual(2, genreList.Count);
 
-			Assert.AreEqual(1, genrelist["Formulaic Discourse"].Count);
-			Assert.AreEqual(3, genrelist["Singing"].Count);
+				Assert.AreEqual(1, genreList["Formulaic Discourse"].Count);
+				Assert.AreEqual(3, genreList["Singing"].Count);
 
-			// A list of sessions for each status within each genre
-			Assert.AreEqual(2, genrelist["Formulaic Discourse"]["Incoming"].Count());
-			Assert.AreEqual(1, genrelist["Singing"]["Incoming"].Count());
-			Assert.AreEqual(1, genrelist["Singing"]["In Progress"].Count());
-			Assert.AreEqual(1, genrelist["Singing"]["Finished"].Count());
+				// A list of sessions for each status within each genre
+				Assert.AreEqual(2, genreList["Formulaic Discourse"]["Incoming"].Count());
+				Assert.AreEqual(1, genreList["Singing"]["Incoming"].Count());
+				Assert.AreEqual(1, genreList["Singing"]["In Progress"].Count());
+				Assert.AreEqual(1, genreList["Singing"]["Finished"].Count());
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

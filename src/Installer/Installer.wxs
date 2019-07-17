@@ -228,10 +228,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="yes" Source="..\..\output\release\L10NSharp.dll" />
 		  </Component>
 
-		  <Component Id="L10NSharp.pdb" Guid="{B4D8681E-B2C8-4FD7-8832-DF717F74F9C4}">
-			<File Id="L10NSharp.pdb" Name="L10NSharp.pdb" KeyPath="yes" Source="..\..\output\release\L10NSharp.pdb" />
-		  </Component>
-
 		  <Component Id="Autofac.dll" Guid="{BB025B7C-B3CA-435e-9A4B-192373EE12DB}">
 			<File Id="Autofac.dll" Name="Autofac.dll" KeyPath="yes" Source="..\..\output\release\Autofac.dll" />
 		  </Component>
@@ -294,7 +290,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	  <ComponentRef Id="Analytics.NET.dll"/>
 	  <ComponentRef Id="Newtonsoft.Json.dll"/>
 	  <ComponentRef Id="L10NSharp.dll"/>
-	  <ComponentRef Id="L10NSharp.pdb"/>
 	  <ComponentRef Id="Autofac.dll"/>
 	  <ComponentRef Id="NAudio.dll"/>
 	  <ComponentRef Id="DotNetZip.dll"/>

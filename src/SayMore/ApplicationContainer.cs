@@ -20,7 +20,7 @@ using static System.Char;
 namespace SayMore
 {
 	/// <summary>
-	/// This is sortof a wrapper around the DI container. I'm not thrilled with the name I've
+	/// This is sort of a wrapper around the DI container. I'm not thrilled with the name I've
 	/// used (jh).
 	/// </summary>
 	public class ApplicationContainer : IDisposable
@@ -195,16 +195,16 @@ namespace SayMore
 			}
 		}
 
-		public LocalizationManager CreateLocalizationManager()
+		public ILocalizationManager CreateLocalizationManager()
 		{
 			var installedStringFileFolder = Path.GetDirectoryName(FileLocationUtilities.GetFileDistributedWithApplication("SayMore.es.tmx"));
 			var relativePathForWritingTmxFiles = Path.Combine(Program.kCompanyAbbrev, Application.ProductName);
 
-			LocalizationManager.DeleteOldTmxFiles(kSayMoreLocalizationId,
+			LocalizationManager.DeleteOldTranslationFiles(kSayMoreLocalizationId,
 				Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), relativePathForWritingTmxFiles),
 				installedStringFileFolder);
 
-			var localizationManager = LocalizationManager.Create(Settings.Default.UserInterfaceLanguage, kSayMoreLocalizationId,
+			var localizationManager = LocalizationManager.Create(TranslationMemory.Tmx, Settings.Default.UserInterfaceLanguage, kSayMoreLocalizationId,
 				"SayMore", Application.ProductVersion, installedStringFileFolder, relativePathForWritingTmxFiles,
 				Resources.SayMore, "issues@saymore.palaso.org", "SayMore", "SIL.Archiving", "SIL.Windows.Forms.FileSystem");
 

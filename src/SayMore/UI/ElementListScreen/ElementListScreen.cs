@@ -5,11 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
+using L10NSharp.TMXUtils;
 using L10NSharp.UI;
 using SIL.Windows.Forms.FileSystem;
 using SIL.Windows.Forms.Miscellaneous;
 using SayMore.Model.Files;
-using SayMore.Properties;
 using SayMore.Model;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.LowLevelControls;
@@ -102,13 +102,13 @@ namespace SayMore.UI.ElementListScreen
 		{
 			base.OnHandleCreated(e);
 			HandleStringsLocalized();
-			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+			LocalizeItemDlg<TMXDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
+			LocalizeItemDlg<TMXDocument>.StringsLocalized -= HandleStringsLocalized;
 			base.OnHandleDestroyed(e);
 		}
 

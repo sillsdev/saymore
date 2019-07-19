@@ -4,22 +4,24 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using L10NSharp;
 using SayMore.Model.Fields;
 
 namespace SayMore.Model.Files
 {
-	public class ExportSessionsCommand: ExportCommand
+	public class ExportSessionsCommand : ExportCommand
 	{
 		public ExportSessionsCommand(ElementRepository<Session> sessions)
 			: base("exportSessions", sessions.AllItems.ToArray())
 		{
 		}
 	}
-	public class ExportPeoplCommand : ExportCommand
+
+	public class ExportPeopleCommand : ExportCommand
 	{
-		public ExportPeoplCommand(ElementRepository<Person> people)
+		public ExportPeopleCommand(ElementRepository<Person> people)
 			: base("exportPeople", people.AllItems.ToArray())
 		{
 		}
@@ -28,10 +30,10 @@ namespace SayMore.Model.Files
 	/// <summary>
 	/// Exports metadata to file (currently, only csv)
 	/// </summary>
-	public class ExportCommand :Command
+	public class ExportCommand : Command
 	{
 		private readonly IEnumerable<ProjectElement> _elements;
-		private char _delimeter = ',';
+		private const char kDelimiter = ',';
 
 		public ExportCommand(string id, IEnumerable<ProjectElement> elements)
 			: base(id)
@@ -113,7 +115,7 @@ namespace SayMore.Model.Files
 					if (!File.Exists(sidecarFilePath))
 						continue;
 
-					//Review. Doing this becuase if it's not a meta, this serializer thing isn't going to be able to read it
+					//Review. Doing this because if it's not a meta, this serializer thing isn't going to be able to read it
 					if (!sidecarFilePath.EndsWith(Settings.Default.MetadataFileExtension))
 						continue;
 
@@ -135,26 +137,25 @@ namespace SayMore.Model.Files
 		//Get the data of the ProjectElement (i.e. session or person) as a CSV
 		public string GetFileString(IEnumerable<ProjectElement> elements)
 		{
-			return GetFileString(
-				elements.Select(element => element.ExportFields)
-					.Cast<IEnumerable<FieldInstance>>().ToList());
+			return GetFileString(elements.Select(element => element.ExportFields).ToList());
 		}
 
 		public string GetFileString(IEnumerable<IEnumerable<FieldInstance>> setsOfFields)
 		{
 			var builder = new StringBuilder();
-			IEnumerable<string> keys = GetKeys(setsOfFields);
+			var fieldSets = setsOfFields as IEnumerable<FieldInstance>[] ?? setsOfFields.ToArray();
+			var keys = GetKeys(fieldSets).ToArray();
 
 			builder.AppendLine(GetHeader(keys));
-			foreach (var fields in setsOfFields)
+			foreach (var fields in fieldSets)
 			{
 				builder.AppendLine(GetValueLine(keys, fields));
 			}
 			return builder.ToString();
 		}
 
-		/* This is really embarrasing. Someone with linq skills should rewrite it */
-		private IEnumerable<string> GetKeys(IEnumerable<IEnumerable<FieldInstance>> setsOfFields)
+		/* This is really embarrassing. Someone with linq skills should rewrite it */
+		private static IEnumerable<string> GetKeys(IEnumerable<IEnumerable<FieldInstance>> setsOfFields)
 		{
 			var lists = from e in setsOfFields
 						select e.Select(z=> z.FieldId);
@@ -167,46 +168,50 @@ namespace SayMore.Model.Files
 			return allKeys.Distinct();
 		}
 
-		private string GetHeader(IEnumerable<string> keys)
+		private static string GetHeader(IEnumerable<string> keys)
 		{
 			var builder = new StringBuilder();
 
-			foreach (string key in keys)
+			foreach (var key in keys)
 			{
-				builder.Append(MassageIfNeeded(key) + _delimeter);
+				builder.Append(MassageIfNeeded(key) + kDelimiter);
 			}
-			return builder.ToString().TrimEnd(_delimeter);
+			return builder.ToString().TrimEnd(kDelimiter);
 		}
 
-		private string GetValueLine(IEnumerable<string> keys, IEnumerable<FieldInstance> fields)
+		private static string GetValueLine(IEnumerable<string> keys, IEnumerable<FieldInstance> fields)
 		{
 			var builder = new StringBuilder();
+			var fieldArray = fields.ToArray();
 
-			foreach(string key in keys)
+			foreach(var key in keys)
 			{
-				var f= fields.FirstOrDefault(x=> x.FieldId == key);
+				var f = fieldArray.FirstOrDefault(x=> x.FieldId == key);
 				if (f == null)
 				{
-					builder.Append(string.Empty + _delimeter);
+					builder.Append(string.Empty + kDelimiter);
 				}
 				else
 				{
-					builder.Append(MassageIfNeeded(f.ValueAsString) + _delimeter);
+					// f.ValueAsString can return null. Handling this case in MassageIfNeeded()
+					builder.Append(MassageIfNeeded(f.ValueAsString) + kDelimiter);
 				}
 			}
-			return builder.ToString().TrimEnd(_delimeter);
+			return builder.ToString().TrimEnd(kDelimiter);
 		}
 
-		private string MassageIfNeeded(string value)
+		private static string MassageIfNeeded(string value)
 		{
+			// SP-2116: ArgumentNullException when exporting sessions
+			if (string.IsNullOrEmpty(value))
+				return string.Empty;
+
 			var x = value;
-			if(x.Contains(_delimeter))
-			{
-				x= '"' + x + '"';
-			}
-			x = x.Replace("\r\n", " ");
-			x = x.Replace('\n', ' ');  //could have been entered on linux, but now we're outputing on windows
-			return x;
+			if(x.Contains(kDelimiter))
+				x = '"' + x + '"';
+
+			// Replace both Windows and Linux line endings
+			return Regex.Replace(x, @"\r*\n", " ", RegexOptions.None);
 		}
 
 	}

@@ -30,41 +30,43 @@ namespace SayMore.Utilities
 		/// Checks if the file is being synced, and prompts user to disable syncing if it is.
 		/// </summary>
 		/// <param name="filePath"></param>
-		public static void PromptToStopSync(string filePath)
+		/// <returns>If a client is stopped, the client is returned, otherwise SyncClient.None</returns>
+		public static SyncClient PromptToStopSync(string filePath)
 		{
 			var client = IsSynched(filePath);
 
-			string confirmationString;
+			var confirmationMsg = LocalizationManager.GetString("MainWindow.ConfirmStopFileSync",
+				"It looks like this project is in a directory that is being synchronized with {0}. This is known to cause problems due to files being locked. Would you like to disable Dropbox temporarily until you close SayMore?");
+
+			string clientName;
 
 			switch (client)
 			{
 				case SyncClient.Dropbox:
-					confirmationString = LocalizationManager.GetString("MainWindow.ConfirmStopDropboxSync",
-						"It looks like this project is in a directory that is being synchronized with Dropbox. This is known to cause problems due to files being locked. Would you like to disable Dropbox temporarily until you close SayMore?");
+					clientName = "Dropbox";
 					break;
 
 				case SyncClient.GoogleDrive:
-					confirmationString = LocalizationManager.GetString("MainWindow.ConfirmStopGoogleDriveSync",
-						"It looks like this project is in a directory that is being synchronized with Google Drive. This is known to cause problems due to files being locked. Would you like to disable Google Drive temporarily until you close SayMore?");
+					clientName = "Google Drive";
 					break;
 
 				case SyncClient.OneDrive:
-					confirmationString = LocalizationManager.GetString("MainWindow.ConfirmStopOneDriveSync",
-						"It looks like this project is in a directory that is being synchronized with OneDrive. This is known to cause problems due to files being locked. Would you like to disable OneDrive temporarily until you close SayMore?");
+					clientName = "OneDrive";
 					break;
 
 				case SyncClient.None:
-					return;
+					return client;
 
 				default:
-					return;
+					return SyncClient.None;
 			}
 
-			if (DialogResult.No == MessageBox.Show(confirmationString, Program.ProductName, MessageBoxButtons.YesNo,
-				    MessageBoxIcon.Question))
-				return;
+			if (DialogResult.No == MessageBox.Show(string.Format(confirmationMsg, clientName), Program.ProductName,
+				    MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+				return SyncClient.None;
 
 			StopClient(client);
+			return client;
 		}
 
 		/// <summary>
@@ -78,15 +80,15 @@ namespace SayMore.Utilities
 				StringSplitOptions.RemoveEmptyEntries);
 
 			// Dropbox
-			if (IsThisClient(pathParts, SyncClient.Dropbox))
+			if (IsClientActiveAndSynchingThisPath(pathParts, SyncClient.Dropbox))
 				return SyncClient.Dropbox;
 
 			// Google Drive
-			if (IsThisClient(pathParts, SyncClient.GoogleDrive))
+			if (IsClientActiveAndSynchingThisPath(pathParts, SyncClient.GoogleDrive))
 				return SyncClient.GoogleDrive;
 
 			// OneDrive
-			if (IsThisClient(pathParts, SyncClient.OneDrive))
+			if (IsClientActiveAndSynchingThisPath(pathParts, SyncClient.OneDrive))
 				return SyncClient.OneDrive;
 
 			return SyncClient.None;
@@ -119,13 +121,7 @@ namespace SayMore.Utilities
 				case SyncClient.OneDrive:
 					if (!_stoppedOneDrive)
 					{
-						// OneDrive has an off switch
-						var exeFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "OneDrive", "OneDrive.exe");
-						if (File.Exists(exeFile))
-						{
-							LaunchWithCmd(exeFile, "/shutdown");
-							_stoppedOneDrive = true;
-						}
+						StartStopOneDrive(true);
 					}
 					break;
 			}
@@ -160,14 +156,7 @@ namespace SayMore.Utilities
 
 			if (_stoppedOneDrive)
 			{
-				var exeFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "OneDrive", "OneDrive.exe");
-
-				if (File.Exists(exeFile))
-				{
-					// the '/background' switch stops it from opening the OneDrive directory in Explorer
-					LaunchWithCmd(exeFile, "/background");
-					_stoppedOneDrive = false;
-				}
+				StartStopOneDrive(false);
 			}
 		}
 
@@ -212,7 +201,7 @@ namespace SayMore.Utilities
 		/// <param name="pathParts"></param>
 		/// <param name="client"></param>
 		/// <returns></returns>
-		private static bool IsThisClient(string[] pathParts, SyncClient client)
+		private static bool IsClientActiveAndSynchingThisPath(string[] pathParts, SyncClient client)
 		{
 			string dirNameLower;
 
@@ -310,13 +299,26 @@ namespace SayMore.Utilities
 				if (File.Exists(exeFile))
 					return exeFile;
 			}
-			
+
 			exeFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), relativePath);
 
 			if (File.Exists(exeFile))
 				return exeFile;
 
 			return string.Empty;
+		}
+
+		private static void StartStopOneDrive(bool stop)
+		{
+			var exeFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "OneDrive", "OneDrive.exe");
+
+			if (!File.Exists(exeFile)) return;
+
+			var option = (stop ? "/shutdown" : "/background");
+
+			LaunchWithCmd(exeFile, option);
+
+			_stoppedOneDrive = stop;
 		}
 	}
 }

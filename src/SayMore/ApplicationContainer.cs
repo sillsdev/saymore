@@ -245,7 +245,6 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public ProjectContext CreateProjectContext(string projectSettingsPath)
 		{
-			FileSyncHelper.PromptToStopSync(projectSettingsPath);
 			return new ProjectContext(projectSettingsPath, _container);
 		}
 	}

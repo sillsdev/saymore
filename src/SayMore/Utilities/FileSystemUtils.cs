@@ -237,5 +237,23 @@ namespace SayMore.Utilities
 		{
 			get { return LocalizationManager.GetString("CommonToMultipleViews.AllFilesDescriptor", "All Files ({0})"); }
 		}
+
+		public static void RobustDelete(string filePath)
+		{
+			if (!File.Exists(filePath)) return;
+
+			try
+			{
+				RobustFile.Delete(filePath);
+			}
+			catch (IOException)
+			{
+				if (FileSyncHelper.PromptToStopSync(filePath) == FileSyncHelper.SyncClient.None)
+					throw;
+
+				// now that file synching is disabled, try again
+				RobustFile.Delete(filePath);
+			}
+		}
 	}
 }

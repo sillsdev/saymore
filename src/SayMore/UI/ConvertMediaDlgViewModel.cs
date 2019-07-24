@@ -261,8 +261,7 @@ namespace SayMore.UI
 		{
 			if (OutputFileCreated != null && File.Exists(OutputFileCreated))
 			{
-				FileSystemUtils.WaitForFileRelease(OutputFileCreated);
-				File.Delete(OutputFileCreated);
+				FileSystemUtils.RobustDelete(OutputFileCreated);
 			}
 		}
 

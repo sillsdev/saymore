@@ -359,11 +359,15 @@ namespace SayMore.Transcription.UI
 				var versionNumber = GetLatestBackupNumberForFile(dstFile);
 				if (versionNumber > 0)
 					backupFile += kBackupVersionPrefix + versionNumber;
-				if (File.Exists(dstFile))
+
+				try
 				{
-					// SP-714: Access denied trying to delete file
-					FileSystemUtils.WaitForFileRelease(dstFile);
-					File.Delete(dstFile);
+					FileSystemUtils.RobustDelete(dstFile);
+				}
+				catch (Exception e)
+				{
+					ErrorReport.ReportNonFatalException(e);
+					return;
 				}
 
 				try

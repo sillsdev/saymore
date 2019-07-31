@@ -330,7 +330,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="MinimumSegmentLengthInMilliseconds" Provider="SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">850</Value>
+      <Value Profile="(Default)">500</Value>
     </Setting>
     <Setting Name="FFmpegDownloadDlg" Provider="SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SIL.Windows.Forms.PortableSettingsProvider.FormSettings" Scope="User">
       <Value Profile="(Default)" />

@@ -339,7 +339,7 @@ namespace SayMore.UI.Overview
 			this._depositor.Location = new System.Drawing.Point(701, 459);
 			this._depositor.Name = "_depositor";
 			this._depositor.Size = new System.Drawing.Size(254, 29);
-			this._depositor.TabIndex = 10;
+			this._depositor.TabIndex = 9;
 			// 
 			// _rightsHolder
 			// 
@@ -352,7 +352,7 @@ namespace SayMore.UI.Overview
 			this._rightsHolder.Location = new System.Drawing.Point(701, 413);
 			this._rightsHolder.Name = "_rightsHolder";
 			this._rightsHolder.Size = new System.Drawing.Size(254, 29);
-			this._rightsHolder.TabIndex = 9;
+			this._rightsHolder.TabIndex = 8;
 			// 
 			// _dateAvailable
 			// 
@@ -367,7 +367,7 @@ namespace SayMore.UI.Overview
 			this._dateAvailable.Location = new System.Drawing.Point(701, 367);
 			this._dateAvailable.Name = "_dateAvailable";
 			this._dateAvailable.Size = new System.Drawing.Size(254, 29);
-			this._dateAvailable.TabIndex = 8;
+			this._dateAvailable.TabIndex = 7;
 			this._dateAvailable.Value = new System.DateTime(2013, 12, 18, 9, 55, 23, 0);
 			// 
 			// _fundingProjectTitle
@@ -381,7 +381,7 @@ namespace SayMore.UI.Overview
 			this._fundingProjectTitle.Location = new System.Drawing.Point(701, 321);
 			this._fundingProjectTitle.Name = "_fundingProjectTitle";
 			this._fundingProjectTitle.Size = new System.Drawing.Size(254, 29);
-			this._fundingProjectTitle.TabIndex = 7;
+			this._fundingProjectTitle.TabIndex = 6;
 			// 
 			// _contactPerson
 			// 
@@ -904,7 +904,8 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.58823F));
 			this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 49.41177F));
 			this.tableLayoutPanel12.Size = new System.Drawing.Size(260, 85);
-			this.tableLayoutPanel12.TabIndex = 40;
+			this.tableLayoutPanel12.TabIndex = 5;
+			this.tableLayoutPanel12.TabStop = true;
 			// 
 			// _continent
 			// 
@@ -920,7 +921,7 @@ namespace SayMore.UI.Overview
 			this._continent.MaximumSize = new System.Drawing.Size(254, 0);
 			this._continent.Name = "_continent";
 			this._continent.Size = new System.Drawing.Size(254, 29);
-			this._continent.TabIndex = 6;
+			this._continent.TabIndex = 2;
 			// 
 			// _country
 			// 
@@ -934,7 +935,7 @@ namespace SayMore.UI.Overview
 			this._country.Location = new System.Drawing.Point(3, 3);
 			this._country.Name = "_country";
 			this._country.Size = new System.Drawing.Size(254, 29);
-			this._country.TabIndex = 5;
+			this._country.TabIndex = 1;
 			// 
 			// locExtender
 			// 

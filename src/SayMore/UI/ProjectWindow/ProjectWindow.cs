@@ -45,6 +45,8 @@ namespace SayMore.UI.ProjectWindow
 		private MPlayerDebuggingOutputWindow _outputDebuggingWindow;
 		private string _titleFmt;
 
+		private static string[] _keyDownTypes = {"TextBox", "ComboBox", "DatePicker"};
+
 		public bool UserWantsToOpenADifferentProject { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -61,9 +63,51 @@ namespace SayMore.UI.ProjectWindow
 			ExceptionHandler.AddDelegate(AudioUtils.HandleGlobalNAudioException);
 
 			InitializeComponent();
+			// ReSharper disable once VirtualMemberCallInConstructor
 			_titleFmt = Text;
 			_menuShowMPlayerDebugWindow.Tag = _menuProject.DropDownItems.IndexOf(_menuShowMPlayerDebugWindow);
 			_menuProject.DropDownItems.Remove(_menuShowMPlayerDebugWindow);
+
+			KeyPreview = true;
+			KeyDown += Project_KeyDown;
+		}
+
+		private static Control FindFocusedControl(Control control)
+		{
+			var container = control as IContainerControl;
+			while (container != null)
+			{
+				control = container.ActiveControl;
+				container = control as IContainerControl;
+			}
+			return control;
+		}
+
+		private void Project_KeyDown(object sender, KeyEventArgs e)
+		{
+			var control = FindFocusedControl((Control)sender);
+
+			if (!_keyDownTypes.Contains(control.GetType().Name)) return;
+			if (e.KeyCode != Keys.Return) return;
+
+			// skip multiline text boxes
+			if (control is TextBox txt)
+			{
+				if (txt.Multiline) return;
+			}
+			
+			// prevent the ding
+			e.SuppressKeyPress = true;
+
+			// go to the next control in the tab order
+			var next = GetNextControl(control, true);
+			while (next != null)
+			{
+				if (_keyDownTypes.Contains(next.GetType().Name)) break;
+				next = GetNextControl(next, true);
+			}
+
+			next?.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -27,6 +27,7 @@ using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
 using SayMore.UI.Overview;
+using SayMore.Utilities;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -44,8 +45,6 @@ namespace SayMore.UI.ProjectWindow
 		private readonly UILanguageDlg.Factory _uiLanguageDialogFactory;
 		private MPlayerDebuggingOutputWindow _outputDebuggingWindow;
 		private string _titleFmt;
-
-		private static string[] _keyDownTypes = {"TextBox", "ComboBox", "DatePicker"};
 
 		public bool UserWantsToOpenADifferentProject { get; set; }
 
@@ -67,9 +66,6 @@ namespace SayMore.UI.ProjectWindow
 			_titleFmt = Text;
 			_menuShowMPlayerDebugWindow.Tag = _menuProject.DropDownItems.IndexOf(_menuShowMPlayerDebugWindow);
 			_menuProject.DropDownItems.Remove(_menuShowMPlayerDebugWindow);
-
-			KeyPreview = true;
-			KeyDown += Project_KeyDown;
 		}
 
 		private static Control FindFocusedControl(Control control)
@@ -83,31 +79,29 @@ namespace SayMore.UI.ProjectWindow
 			return control;
 		}
 
-		private void Project_KeyDown(object sender, KeyEventArgs e)
+		protected override bool ProcessDialogKey(Keys keyData)
 		{
-			var control = FindFocusedControl((Control)sender);
+			if (keyData != Keys.Enter)
+				return base.ProcessDialogKey(keyData);
 
-			if (!_keyDownTypes.Contains(control.GetType().Name)) return;
-			if (e.KeyCode != Keys.Return) return;
+			var control = FindFocusedControl(this);
 
-			// skip multiline text boxes
-			if (control is TextBox txt)
-			{
-				if (txt.Multiline) return;
-			}
-			
-			// prevent the ding
-			e.SuppressKeyPress = true;
+			if (!control.ShouldTreatEnterAsTab())
+				return base.ProcessDialogKey(keyData);
 
 			// go to the next control in the tab order
 			var next = GetNextControl(control, true);
 			while (next != null)
 			{
-				if (_keyDownTypes.Contains(next.GetType().Name)) break;
+				if (next.ShouldTabToMe())
+					break;
+
 				next = GetNextControl(next, true);
 			}
 
 			next?.Focus();
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

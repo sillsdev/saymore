@@ -5,6 +5,7 @@ using L10NSharp;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
+using SayMore.Properties;
 using SayMore.UI.Charts;
 
 namespace SayMore.UI.Overview.Statistics
@@ -101,20 +102,19 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		private long GetTotalComponentRoleFileSizes(ComponentRole role)
 		{
-			long bytes = 0;
-			foreach (var info in _backgroundStatisticsGather.GetAllFileData())
-			{
-				if (role.IsMatch(info.MediaFilePath))
-					bytes += info.LengthInBytes;
-			}
-
-			return bytes;
+			// do not include the generated oral annotation file in the calculations
+			return _backgroundStatisticsGather.GetAllFileData()
+				.Where(i => !i.MediaFilePath.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix))
+				.Where(info => role.IsMatch(info.MediaFilePath))
+				.Sum(info => info.LengthInBytes);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public TimeSpan GetRecordingDurations(ComponentRole role)
 		{
+			// do not include the generated oral annotation file in the calculations
 			var total = _backgroundStatisticsGather.GetAllFileData()
+				.Where(i => !i.MediaFilePath.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix))
 				.Where(info => role.IsMatch(info.MediaFilePath))
 				.Aggregate(TimeSpan.Zero, (current, info) => current + info.Duration);
 

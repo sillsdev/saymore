@@ -487,14 +487,16 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Returns the sum of all media file durations in the project element.
+		/// Returns the sum of all media file durations in the project element,
+		/// except the oralAnnotations.wav file.
 		/// </summary>
 		/// <remarks>Needs to be virtual to allow mocking in tests</remarks>
 		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan GetTotalMediaDuration()
 		{
 			var totalTime = TimeSpan.Zero;
-			return GetComponentFiles().Aggregate(totalTime, (current, file) => current + file.DurationSeconds);
+			var files = GetComponentFiles().Where(f => !f.FileName.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix));
+			return files.Aggregate(totalTime, (current, file) => current + file.DurationSeconds);
 		}
 
 		/// ------------------------------------------------------------------------------------

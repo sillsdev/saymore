@@ -1862,11 +1862,18 @@ namespace SayMore.Transcription.UI
 				var rc = HotSegmentRectangle;
 				var hotSegment = HotSegment;
 
-				return (hotSegment == null || !GetDoesSegmentHaveAnnotationFile(hotSegment) ||
-					rc.IsEmpty || _playButtonSize.Width + 6 > rc.Width ?
-					Rectangle.Empty :
-					new Rectangle(rc.X + 6, rc.Bottom - 5 - _playButtonSize.Height,
-					_playButtonSize.Width, _playButtonSize.Height));
+				if (hotSegment == null || !GetDoesSegmentHaveAnnotationFile(hotSegment) ||
+				    rc.IsEmpty || _playButtonSize.Width + 6 > rc.Width)
+					return Rectangle.Empty;
+
+				// SP-1000: Reduce minimum segment size
+				// Reducing the minimum segment size below 850 ms requires repositioning the Play Annotation button
+				if (rc.Width < 80)
+					return new Rectangle(rc.Right - 6 - _playButtonSize.Width, rc.Bottom - 40 - _playButtonSize.Height,
+						_playButtonSize.Width, _playButtonSize.Height);
+
+				return new Rectangle(rc.X + 6, rc.Bottom - 5 - _playButtonSize.Height,
+					_playButtonSize.Width, _playButtonSize.Height);
 			}
 		}
 		#endregion

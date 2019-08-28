@@ -1160,7 +1160,7 @@ namespace SayMore.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("850")]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
         public int MinimumSegmentLengthInMilliseconds {
             get {
                 return ((int)(this["MinimumSegmentLengthInMilliseconds"]));

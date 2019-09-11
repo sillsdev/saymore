@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using L10NSharp;
+using SayMore.Media;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
@@ -103,23 +104,24 @@ namespace SayMore.UI.Overview.Statistics
 		private long GetTotalComponentRoleFileSizes(ComponentRole role)
 		{
 			// do not include the generated oral annotation file in the calculations
-			return _backgroundStatisticsGather.GetAllFileData()
-				.Where(i => !i.MediaFilePath.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix))
-				.Where(info => role.IsMatch(info.MediaFilePath))
-				.Sum(info => info.LengthInBytes);
+			return GetFilteredFileData(role).Sum(info => info.LengthInBytes);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public TimeSpan GetRecordingDurations(ComponentRole role)
 		{
 			// do not include the generated oral annotation file in the calculations
-			var total = _backgroundStatisticsGather.GetAllFileData()
-				.Where(i => !i.MediaFilePath.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix))
-				.Where(info => role.IsMatch(info.MediaFilePath))
-				.Aggregate(TimeSpan.Zero, (current, info) => current + info.Duration);
+			var total = GetFilteredFileData(role).Aggregate(TimeSpan.Zero, (current, info) => current + info.Duration);
 
 			// Trim off the milliseconds so it doesn't get too geeky
 			return new TimeSpan(total.Hours, total.Minutes, total.Seconds);
+		}
+
+		private IEnumerable<MediaFileInfo> GetFilteredFileData(ComponentRole role)
+		{
+			return _backgroundStatisticsGather.GetAllFileData()
+				.Where(i => !i.MediaFilePath.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix) &&
+				            role.IsMatch(i.MediaFilePath));
 		}
 
 		/// ------------------------------------------------------------------------------------

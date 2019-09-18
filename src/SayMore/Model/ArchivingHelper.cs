@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using SayMore.Model.Fields;
 using SIL.Extensions;
 using SIL.Reporting;
 using SayMore.Model.Files;
@@ -106,7 +104,7 @@ namespace SayMore.Model
 		}
 
 		/// <remarks>SP-813: If project was moved, the stored IMDI path may not be valid, or not accessible</remarks>
-		static internal bool CheckForAccessiblePath(string directory)
+		internal static bool CheckForAccessiblePath(string directory)
 		{
 			try
 			{
@@ -140,7 +138,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		static internal bool FileCopySpecialHandler(ArchivingDlgViewModel model, string source, string dest)
+		internal static bool FileCopySpecialHandler(ArchivingDlgViewModel model, string source, string dest)
 		{
 			if (!source.EndsWith(AnnotationFileHelper.kAnnotationsEafFileSuffix))
 				return false;
@@ -439,7 +437,7 @@ namespace SayMore.Model
 				{
 					EnglishName = language.EnglishName
 				};
-		return returnValue;
+			return returnValue;
 		}
 
 		internal static ArchivingActor InitializeActor(ArchivingDlgViewModel model, Person person, DateTime sessionDateTime, string role)

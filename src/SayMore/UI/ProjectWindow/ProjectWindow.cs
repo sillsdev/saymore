@@ -89,7 +89,9 @@ namespace SayMore.UI.ProjectWindow
 			if (!control.ShouldTreatEnterAsTab())
 				return base.ProcessDialogKey(keyData);
 
-			// go to the next control in the tab order
+			// Go to the next control in the tab order.
+			// The purpose for this to move to the next input field, so we are purposely
+			// skipping over buttons and hyperlink controls.
 			var next = GetNextControl(control, true);
 			while (next != null)
 			{
@@ -99,7 +101,12 @@ namespace SayMore.UI.ProjectWindow
 				next = GetNextControl(next, true);
 			}
 
-			next?.Focus();
+			// If no suitable control was found, perhaps we need to wrap back to the first
+			// control. SelectNextControl() will do that.
+			if (next == null)
+				SelectNextControl(control, true, true, true, true);
+			else
+				next.Focus();
 
 			return true;
 		}

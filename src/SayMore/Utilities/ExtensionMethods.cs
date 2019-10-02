@@ -30,10 +30,7 @@ namespace SayMore.Utilities
 		/// <returns></returns>
 		public static bool ShouldTreatEnterAsTab(this Control ctrl)
 		{
-			if (ctrl is ComboBox)
-				return true;
-
-			if (ctrl is DatePicker)
+			if (ctrl is ComboBox || ctrl is DatePicker)
 				return true;
 
 			// Enter is valid input for a multi-line text box
@@ -50,19 +47,10 @@ namespace SayMore.Utilities
 		/// <returns></returns>
 		public static bool ShouldTabToMe(this Control ctrl)
 		{
-			if (ctrl is ComboBox)
-				return true;
-
-			if (ctrl is DatePicker)
-				return true;
-
-			if (ctrl is TextBox)
-				return true;
-
-			if (ctrl is DataGridView)
-				return true;
-
-			return false;
+			return ctrl is ComboBox || 
+			       ctrl is DatePicker || 
+			       ctrl is TextBox || 
+			       ctrl is DataGridView;
 		}
 	}
 }

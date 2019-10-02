@@ -2,7 +2,10 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Windows.Forms;
+using L10NSharp;
+using SIL.Reporting;
 
 namespace SayMore.UI.LowLevelControls
 {
@@ -170,8 +173,19 @@ namespace SayMore.UI.LowLevelControls
 		{
 			value = (float)Math.Round(value, 4);
 
-			if (value < 0 || value > Maximum)
-				throw new ArgumentOutOfRangeException("value");
+			if (value < 0)
+			{
+				var msg = LocalizationManager.GetString("CommonToMultipleViews.Slider.ValueIsNegative", "Attempted to set slider to a negative value: {0}.");
+				ErrorReport.NotifyUserOfProblem(msg, value.ToString(CultureInfo.InvariantCulture));
+				return false;
+			}
+
+			if (value > Maximum)
+			{
+				var msg = LocalizationManager.GetString("CommonToMultipleViews.Slider.ValueGreaterThanMaximum", "Attempted to set slider to a value ({0}) which is greater than the maximum ({1}).");
+				ErrorReport.NotifyUserOfProblem(msg, value.ToString(CultureInfo.InvariantCulture), Maximum.ToString(CultureInfo.InvariantCulture));
+				return false;
+			}
 
 			if (value == _value && IsHandleCreated)
 				return false;

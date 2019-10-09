@@ -27,6 +27,7 @@ using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
 using SayMore.UI.Overview;
+using SayMore.Utilities;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -61,9 +62,53 @@ namespace SayMore.UI.ProjectWindow
 			ExceptionHandler.AddDelegate(AudioUtils.HandleGlobalNAudioException);
 
 			InitializeComponent();
+			// ReSharper disable once VirtualMemberCallInConstructor
 			_titleFmt = Text;
 			_menuShowMPlayerDebugWindow.Tag = _menuProject.DropDownItems.IndexOf(_menuShowMPlayerDebugWindow);
 			_menuProject.DropDownItems.Remove(_menuShowMPlayerDebugWindow);
+		}
+
+		private static Control FindFocusedControl(Control control)
+		{
+			var container = control as IContainerControl;
+			while (container != null)
+			{
+				control = container.ActiveControl;
+				container = control as IContainerControl;
+			}
+			return control;
+		}
+
+		protected override bool ProcessDialogKey(Keys keyData)
+		{
+			if (keyData != Keys.Enter)
+				return base.ProcessDialogKey(keyData);
+
+			var control = FindFocusedControl(this);
+
+			if (!control.ShouldTreatEnterAsTab())
+				return base.ProcessDialogKey(keyData);
+
+			// Go to the next control in the tab order.
+			// The purpose for this to move to the next input field, so we are purposely
+			// skipping over buttons and hyperlink controls.
+			var next = GetNextControl(control, true);
+			while (next != null)
+			{
+				if (next.ShouldTabToMe())
+					break;
+
+				next = GetNextControl(next, true);
+			}
+
+			// If no suitable control was found, perhaps we need to wrap back to the first
+			// control. SelectNextControl() will do that.
+			if (next == null)
+				SelectNextControl(control, true, true, true, true);
+			else
+				next.Focus();
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

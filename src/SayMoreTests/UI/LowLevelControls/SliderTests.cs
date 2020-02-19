@@ -24,34 +24,22 @@ namespace SayMoreTests.UI.LowLevelControls
 		}
 
 		[Test]
-		public void SetValueWithoutEvent_ValueNegative_NonFatalErrorReported()
+		public void SetValueWithoutEvent_ValueNegative_ValueSetToZero()
 		{
-			ErrorReport.IsOkToInteractWithUser = false;
-
-			using (var rpt = new ErrorReport.NonFatalErrorReportExpected())
+			using (var slider = new Slider())
 			{
-				using (var slider = new Slider())
-				{
-					var result = slider.SetValueWithoutEvent(-2);
-					Assert.IsFalse(result);
-					Assert.AreEqual("Attempted to set slider to a negative value: -2.", rpt.Message);
-				}
+				slider.SetValueWithoutEvent(-2);
+				Assert.AreEqual(0, slider.Value);
 			}
 		}
 
 		[Test]
-		public void SetValueWithoutEvent_ValueGreaterThanMaximum_NonFatalErrorReported()
+		public void SetValueWithoutEvent_ValueGreaterThanMaximum_ValueSetToMaximum()
 		{
-			ErrorReport.IsOkToInteractWithUser = false;
-
-			using (var rpt = new ErrorReport.NonFatalErrorReportExpected())
+			using (var slider = new Slider())
 			{
-				using (var slider = new Slider())
-				{
-					var result = slider.SetValueWithoutEvent(1000);
-					Assert.IsFalse(result);
-					Assert.AreEqual("Attempted to set slider to a value (1000) which is greater than the maximum (100).", rpt.Message);
-				}
+				slider.SetValueWithoutEvent(1000);
+				Assert.AreEqual(100, slider.Value);
 			}
 		}
 	}

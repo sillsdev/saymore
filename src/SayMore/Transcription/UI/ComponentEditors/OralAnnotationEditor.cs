@@ -239,6 +239,7 @@ namespace SayMore.Transcription.UI
 		public override void PrepareToDeactivate()
 		{
 			StopPlayback();
+			_oralAnnotationWaveViewer.CloseAudioStream();
 			base.PrepareToDeactivate();
 		}
 

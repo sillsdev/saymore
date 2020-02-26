@@ -708,10 +708,18 @@ namespace SayMoreTests.Transcription.Model
 		public void ChangeSegmentsEndBoundary_NewBoundaryTooCloseToNextSegEnd_ReturnsNotSuccess()
 		{
 			var segment = _tier.Segments[1];
+			var endOfNextSegment = _tier.Segments[2].End;
+
+			/*
+			 * We are adding and subtracting 0.01 seconds to mitigate floating-point errors
+			 * that can cause the tests to fail when they should indeed pass.
+			 *
+			 * Example: 40 - 39.15f = 0.8499985 (instead of 0.850)
+			 */
 			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(segment,
-				39.99f - SayMore.Properties.Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f));
+				(endOfNextSegment - 0.01f) - SayMore.Properties.Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f));
 			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _tier.ChangeSegmentsEndBoundary(segment,
-				40f - SayMore.Properties.Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f));
+				(endOfNextSegment + 0.01f)  - SayMore.Properties.Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f));
 		}
 
 		/// ------------------------------------------------------------------------------------

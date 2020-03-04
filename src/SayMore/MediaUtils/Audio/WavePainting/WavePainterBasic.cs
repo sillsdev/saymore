@@ -494,6 +494,13 @@ namespace SayMore.Media.Audio
 				{
 					var sampleAmplitudes = _samplesToDraw[sampleToDraw, channel];
 
+					if (sampleAmplitudes == null)
+					{
+						var event_msg = "'sampleAmplitudes' was null; 'sampleToDraw' or 'channel' possibly off by one (See SP-1799).\r\n   sampleToDraw = {0}\r\n   channel = {1}\r\n   dimensions = _samplesToDraw[{2}, {3}]";
+						Logger.WriteEvent(event_msg, sampleToDraw, channel, _samplesToDraw.GetLength(0), _samplesToDraw.GetLength(1));
+						continue;
+					}
+
 					if (sampleAmplitudes.Item1.Equals(0f) && sampleAmplitudes.Item2.Equals(0f))
 						continue;
 

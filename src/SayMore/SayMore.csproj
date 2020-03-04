@@ -887,7 +887,6 @@
     <Compile Include="UI\ProjectWindow\ViewTabGroup.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\SendReceive\SendReceiveScreen.cs" />
     <Compile Include="UI\SplashScreen.cs" />
     <Compile Include="UI\SplashScreenForm.cs">
       <SubType>Form</SubType>
@@ -1125,9 +1124,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\Archiving\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

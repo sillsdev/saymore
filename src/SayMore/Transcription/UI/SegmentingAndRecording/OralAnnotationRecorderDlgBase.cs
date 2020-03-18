@@ -17,6 +17,7 @@ using SayMore.Media.Audio;
 using SayMore.Media.MPlayer;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using SIL.Media;
 
 namespace SayMore.Transcription.UI
 {

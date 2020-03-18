@@ -4,6 +4,7 @@ using SIL.Media.Naudio;
 using SIL.Media.Naudio.UI;
 using SayMore.Media.Audio;
 using SayMore.Properties;
+using SIL.Media;
 
 namespace SayMore.Transcription.UI
 {

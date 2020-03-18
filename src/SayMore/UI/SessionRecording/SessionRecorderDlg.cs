@@ -8,13 +8,13 @@ using DesktopAnalytics;
 using L10NSharp;
 using L10NSharp.TMXUtils;
 using L10NSharp.UI;
-using SIL.Media.Naudio;
 using SIL.Media.Naudio.UI;
 using SIL.Reporting;
 using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
+using SIL.Media;
 
 namespace SayMore.UI.SessionRecording
 {

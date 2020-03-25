@@ -173,7 +173,7 @@ namespace SayMore
 					new ComponentRole(typeof(Session), ComponentRole.kOralTranslationComponentRoleId,
 						LocalizationManager.GetString("SessionsView.SessionsList.Stages.OralTranslation", "Oral Translation"),
 						ComponentRole.MeasurementTypes.Time,
-						FileSystemUtils.GetIsAudioVideo, ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "OralTranslation",
+						FileSystemUtils.GetIsAudioVideo, ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Translation",
 						Settings.Default.WorkflowStageColor4,
 						Settings.Default.WorkflowStageTextColor4);
 

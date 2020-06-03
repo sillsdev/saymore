@@ -112,14 +112,6 @@
 
   </Target>
 
-  <Target Name="Upload" DependsOnTargets="UpdateDownloadInfo; Installer" >
-
-	<Message Text="Attempting rsync of SayMoreInstaller.$(Version).*" Importance="high"/>
-	<Exec Command ='"c:\program files\cwRsync\bin\rsync.exe" -vzlt --chmod=Dug=rwx,Fu=rw,go=r --stats --rsync-path="sudo -u vu2004 rsync" -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=/cygdrive/c/BuildAgent/conf/bob.key -l root"  "../output/Installer/SayMoreInstaller.$(Version).msi" root@software.sil.org:/var/www/virtual/software.sil.org/htdocs/downloads/r/saymore/' />
-	<Exec Command ='"c:\program files\cwRsync\bin\rsync.exe" -vzlt --chmod=Dug=rwx,Fu=rw,go=r --stats --rsync-path="sudo -u vu2004 rsync" -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=/cygdrive/c/BuildAgent/conf/bob.key -l root"  "../output/Installer/SayMoreInstaller.$(Version).download_info" root@software.sil.org:/var/www/virtual/software.sil.org/htdocs/downloads/r/saymore/' />
-
-  </Target>
-
   <Target Name="Installer" DependsOnTargets="VersionNumbers; MakeWixForSampleData; MakeWixForDistFiles; Build ">
 
 	<!-- set the version number in the installer configuration program.  Perhaps there's a way to just send in the variables rather than this brute-force

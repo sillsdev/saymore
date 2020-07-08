@@ -8,6 +8,7 @@ using SIL.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Model;
 using SayMore.Model.Files;
+using SIL.Media;
 
 namespace SayMore.UI.SessionRecording
 {

@@ -28,6 +28,7 @@ using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
 using SayMore.Model;
 using SayMore.Utilities;
+using SIL.Windows.Forms.Reporting;
 using SIL.WritingSystems;
 using static System.String;
 
@@ -685,7 +686,7 @@ namespace SayMore
 
 			ErrorReport.EmailAddress = "issues@saymore.palaso.org";
 			ErrorReport.AddStandardProperties();
-			ExceptionHandler.Init();
+			ExceptionHandler.Init(new WinFormsExceptionHandler());
 			ExceptionHandler.AddDelegate((w, e) => Analytics.ReportException(e.Exception));
 		}
 

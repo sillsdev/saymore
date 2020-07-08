@@ -159,14 +159,8 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="Analytics.NET.dll" Guid="{AAE1DDDF-4A33-4BC0-ACE9-F09B13A89CAE}">
 				<File Id="Analytics.NET.dll" Name="Analytics.NET.dll" KeyPath="yes" Source="..\..\output\release\Analytics.NET.dll" />
 			</Component>
-			<Component Id="AtkSharp.dll" Guid="{64EB50E6-3501-4CAC-AB7A-E52E359EEE96}">
-				<File Id="AtkSharp.dll" Name="AtkSharp.dll" KeyPath="yes" Source="..\..\output\release\AtkSharp.dll" />
-			</Component>
 			<Component Id="Autofac.dll" Guid="{BB025B7C-B3CA-435E-9A4B-192373EE12DB}">
 				<File Id="Autofac.dll" Name="Autofac.dll" KeyPath="yes" Source="..\..\output\release\Autofac.dll" />
-			</Component>
-			<Component Id="CairoSharp.dll" Guid="{0BF4FB08-9525-40B6-8C42-6456779679D4}">
-				<File Id="CairoSharp.dll" Name="CairoSharp.dll" KeyPath="yes" Source="..\..\output\release\CairoSharp.dll" />
 			</Component>
 			<Component Id="DesktopAnalytics.dll" Guid="{05CAD372-4D95-48E9-8557-F9EAA9B1F729}">
 				<File Id="DesktopAnalytics.dll" Name="DesktopAnalytics.dll" KeyPath="yes" Source="..\..\output\release\DesktopAnalytics.dll" />
@@ -179,18 +173,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			</Component>
 			<Component Id="Enchant.Net.dll" Guid="{505D07A1-5D29-405A-9B1F-2066F7CC0AB5}">
 				<File Id="Enchant.Net.dll" Name="Enchant.Net.dll" KeyPath="yes" Source="..\..\output\release\Enchant.Net.dll" />
-			</Component>
-			<Component Id="GdkSharp.dll" Guid="{848BD331-9949-4585-9CE6-3A580212806E}">
-				<File Id="GdkSharp.dll" Name="GdkSharp.dll" KeyPath="yes" Source="..\..\output\release\GdkSharp.dll" />
-			</Component>
-			<Component Id="GioSharp.dll" Guid="{9C98DC7C-BBEF-4046-8C74-825B667C4220}">
-				<File Id="GioSharp.dll" Name="GioSharp.dll" KeyPath="yes" Source="..\..\output\release\GioSharp.dll" />
-			</Component>
-			<Component Id="GLibSharp.dll" Guid="{22C2016D-D394-435A-B586-DCED177B48D2}">
-				<File Id="GLibSharp.dll" Name="GLibSharp.dll" KeyPath="yes" Source="..\..\output\release\GLibSharp.dll" />
-			</Component>
-			<Component Id="GtkSharp.dll" Guid="{B9DE6F41-9644-4186-BCF4-06DAB1C432B0}">
-				<File Id="GtkSharp.dll" Name="GtkSharp.dll" KeyPath="yes" Source="..\..\output\release\GtkSharp.dll" />
 			</Component>
 			<Component Id="ibusdotnet.dll" Guid="{1E2EA590-3063-4131-9CEC-208BEED18D54}">
 				<File Id="ibusdotnet.dll" Name="ibusdotnet.dll" KeyPath="yes" Source="..\..\output\release\ibusdotnet.dll" />
@@ -555,10 +537,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="System.Xml.XPath.XDocument.dll" Guid="{31063AAE-DF19-4392-A413-9B5F7ADFFAC0}">
 				<File Id="System.Xml.XPath.XDocument.dll" Name="System.Xml.XPath.XDocument.dll" KeyPath="yes" Source="..\..\output\release\System.Xml.XPath.XDocument.dll" />
 			</Component>
-			<Component Id="TagLibSharp.dll" Guid="{A2BECB2C-53D5-4F3F-95FB-D795383B089C}">
-				<File Id="TagLibSharp.dll" Name="TagLibSharp.dll" KeyPath="yes" Source="..\..\output\release\TagLibSharp.dll" />
-			</Component>
-
 		  
 			<Directory Id="SayMoreLibDir" Name="lib">
 		  
@@ -615,17 +593,11 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="SayMore.exe.config"/>
 		<ComponentRef Id="SayMore.pdb"/>
 	  	<ComponentRef Id="Analytics.NET.dll"/>
-		<ComponentRef Id="AtkSharp.dll"/>
 		<ComponentRef Id="Autofac.dll"/>
-		<ComponentRef Id="CairoSharp.dll"/>
 		<ComponentRef Id="DesktopAnalytics.dll"/>
 		<ComponentRef Id="DialogAdapters.dll"/>
 		<ComponentRef Id="DotNetZip.dll"/>
 		<ComponentRef Id="Enchant.Net.dll"/>
-		<ComponentRef Id="GdkSharp.dll"/>
-		<ComponentRef Id="GioSharp.dll"/>
-		<ComponentRef Id="GLibSharp.dll"/>
-		<ComponentRef Id="GtkSharp.dll"/>
 		<ComponentRef Id="ibusdotnet.dll"/>
 		<ComponentRef Id="icu.net.dll"/>
 		<ComponentRef Id="L10NSharp.dll"/>
@@ -747,7 +719,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="System.Xml.XmlSerializer.dll"/>
 		<ComponentRef Id="System.Xml.XPath.dll"/>
 		<ComponentRef Id="System.Xml.XPath.XDocument.dll"/>
-		<ComponentRef Id="TagLibSharp.dll"/>
 		<ComponentRef Id="icudt59.x64"/>
 		<ComponentRef Id="icuin59.x64"/>
 		<ComponentRef Id="icuuc59.x64"/>

@@ -231,9 +231,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="Newtonsoft.Json.dll" Guid="{F6A4D568-9E51-4FF0-9F5E-EEC1C15D6068}">
 				<File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" KeyPath="yes" Source="..\..\output\release\Newtonsoft.Json.dll" />
 			</Component>
-			<Component Id="PangoSharp.dll" Guid="{3EA2217F-6FD9-487E-BAFA-A579955CD67C}">
-				<File Id="PangoSharp.dll" Name="PangoSharp.dll" KeyPath="yes" Source="..\..\output\release\PangoSharp.dll" />
-			</Component>
 			<Component Id="SIL.Archiving.dll" Guid="{FC6955FD-A9BC-4317-8E82-402182F781F6}">
 				<File Id="SIL.Archiving.dll" Name="SIL.Archiving.dll" KeyPath="yes" Source="..\..\output\release\SIL.Archiving.dll" />
 			</Component>
@@ -642,7 +639,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="NDesk.DBus.dll"/>
 		<ComponentRef Id="netstandard.dll"/>
 		<ComponentRef Id="Newtonsoft.Json.dll"/>  
-		<ComponentRef Id="PangoSharp.dll"/>
 		<ComponentRef Id="SIL.Archiving.dll"/>
 		<ComponentRef Id="SIL.Core.Desktop.dll"/>
 		<ComponentRef Id="SIL.Core.dll"/>

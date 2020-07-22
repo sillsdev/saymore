@@ -254,6 +254,7 @@
     <Compile Include="UI\ConvertMediaDlgViewModelTests.cs" />
     <Compile Include="UI\ElementListScreen\ElementGridTests.cs" />
     <Compile Include="UI\ElementListScreen\ElementListViewModelTests.cs" />
+    <Compile Include="UI\LowLevelControls\SliderTests.cs" />
     <Compile Include="UI\SessionRecording\SessionRecorderDlgViewModelTests.cs" />
     <Compile Include="UI\LowLevelControls\ListPanelTests.cs" />
     <Compile Include="UI\LowLevelControls\MultiValuePickerPopupTests.cs" />

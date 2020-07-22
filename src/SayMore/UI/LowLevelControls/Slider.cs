@@ -2,7 +2,10 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Windows.Forms;
+using L10NSharp;
+using SIL.Reporting;
 
 namespace SayMore.UI.LowLevelControls
 {
@@ -170,8 +173,11 @@ namespace SayMore.UI.LowLevelControls
 		{
 			value = (float)Math.Round(value, 4);
 
-			if (value < 0 || value > Maximum)
-				throw new ArgumentOutOfRangeException("value");
+			if (value < 0)
+				value = 0;
+
+			if (value > Maximum)
+				value = Maximum;
 
 			if (value == _value && IsHandleCreated)
 				return false;

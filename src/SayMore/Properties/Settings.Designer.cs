@@ -1071,7 +1071,7 @@ namespace SayMore.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        [global::System.Configuration.DefaultSettingValueAttribute("460")]
         public int MinimumAnnotationSegmentLengthInMilliseconds {
             get {
                 return ((int)(this["MinimumAnnotationSegmentLengthInMilliseconds"]));
@@ -1160,7 +1160,7 @@ namespace SayMore.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        [global::System.Configuration.DefaultSettingValueAttribute("460")]
         public int MinimumSegmentLengthInMilliseconds {
             get {
                 return ((int)(this["MinimumSegmentLengthInMilliseconds"]));

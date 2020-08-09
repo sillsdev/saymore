@@ -286,6 +286,11 @@ namespace SayMore.Transcription.UI
 			if (rc.IsEmpty || _playButtonSize.Width + 6 > rc.Width)
 				return Rectangle.Empty;
 
+			if (rc.Width < 45)
+				return new Rectangle(rc.X + 3,
+					rc.Bottom - MarginFromBottomOfPlayOrigButton - _playButtonSize.Height,
+					_playButtonSize.Width, _playButtonSize.Height);
+
 			return new Rectangle(rc.X + 6,
 				rc.Bottom - MarginFromBottomOfPlayOrigButton - _playButtonSize.Height,
 				_playButtonSize.Width, _playButtonSize.Height);

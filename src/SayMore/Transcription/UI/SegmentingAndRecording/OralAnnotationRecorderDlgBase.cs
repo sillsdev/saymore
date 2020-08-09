@@ -8,7 +8,6 @@ using DesktopAnalytics;
 using L10NSharp;
 using L10NSharp.TMXUtils;
 using L10NSharp.UI;
-using SIL.Media.Naudio;
 using SIL.Media.Naudio.UI;
 using SIL.Reporting;
 using SIL.Windows.Forms;
@@ -1550,6 +1549,16 @@ namespace SayMore.Transcription.UI
 				return Rectangle.Empty;
 			}
 
+			// SP-1000: Reduce minimum segment size
+			// Reducing the minimum segment size below 850 ms requires repositioning the Play Annotation button
+			if (rc.Width < 45)
+				return new Rectangle(rc.Left + 3, rc.Bottom - 5 - rerecordButtonSize.Height,
+					rerecordButtonSize.Width, rerecordButtonSize.Height);
+
+			if (rc.Width < 80)
+				return new Rectangle(rc.Left + 6, rc.Bottom - 5 - rerecordButtonSize.Height,
+					rerecordButtonSize.Width, rerecordButtonSize.Height);
+
 			return new Rectangle(rc.Right - 6 - rerecordButtonSize.Width,
 				rc.Bottom - 5 - rerecordButtonSize.Height,
 				rerecordButtonSize.Width, rerecordButtonSize.Height);
@@ -1869,8 +1878,12 @@ namespace SayMore.Transcription.UI
 
 				// SP-1000: Reduce minimum segment size
 				// Reducing the minimum segment size below 850 ms requires repositioning the Play Annotation button
+				if (rc.Width < 45)
+					return new Rectangle(rc.Left + 3, rc.Bottom - 40 - _playButtonSize.Height,
+						_playButtonSize.Width, _playButtonSize.Height);
+
 				if (rc.Width < 80)
-					return new Rectangle(rc.Right - 6 - _playButtonSize.Width, rc.Bottom - 40 - _playButtonSize.Height,
+					return new Rectangle(rc.Left + 6, rc.Bottom - 40 - _playButtonSize.Height,
 						_playButtonSize.Width, _playButtonSize.Height);
 
 				return new Rectangle(rc.X + 6, rc.Bottom - 5 - _playButtonSize.Height,

@@ -283,17 +283,47 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected Rectangle GetPlayOrigButtonRectangleForSegment(Rectangle rc)
 		{
-			if (rc.IsEmpty || _playButtonSize.Width + 6 > rc.Width)
+			return GetButtonRectangleForSegment(rc, _playButtonSize.Width, _playButtonSize.Height, MarginFromBottomOfPlayOrigButton, 1);
+		}
+
+		protected static Rectangle GetButtonRectangleForSegment(Rectangle rc, int btnWidth, int btnHeight, int bottomMargin, int buttonCount)
+		{
+			if (rc.IsEmpty || btnWidth + 6 > rc.Width)
 				return Rectangle.Empty;
 
-			if (rc.Width < 45)
-				return new Rectangle(rc.X + 3,
-					rc.Bottom - MarginFromBottomOfPlayOrigButton - _playButtonSize.Height,
-					_playButtonSize.Width, _playButtonSize.Height);
+			// set the default top and left
+			var buttonRectangleTop = rc.Bottom - bottomMargin - btnHeight;
+			var buttonLeftMargin = 6;
+			const int buttonSpacing = 8;
 
-			return new Rectangle(rc.X + 6,
-				rc.Bottom - MarginFromBottomOfPlayOrigButton - _playButtonSize.Height,
-				_playButtonSize.Width, _playButtonSize.Height);
+			// does the left margin need to be reduced?
+			if (rc.Width < btnWidth + buttonSpacing)
+				buttonLeftMargin = 3;
+
+			// calculate the left position of the buttons
+			var actualLeft = rc.X + buttonLeftMargin;
+			int buttonRectangleLeft;
+
+			if (actualLeft * -1 + btnWidth + buttonLeftMargin > rc.Width)
+			{
+				// the segment is scrolled too far to the left for the buttons to be fully visible and inside the segment
+				buttonRectangleLeft = rc.X + rc.Width - btnWidth - buttonLeftMargin;
+			}
+			else
+			{
+				// if the left margin of the segment is not visible, make sure the button is visible
+				buttonRectangleLeft = actualLeft < buttonLeftMargin ? buttonLeftMargin : actualLeft;
+			}
+
+			// do the buttons need to be stacked?
+			if (buttonCount == 2 && rc.Width + actualLeft < btnWidth * 2 + buttonSpacing * 2)
+				buttonRectangleTop -= btnHeight + buttonSpacing;
+
+			var x = new Rectangle(buttonRectangleLeft,
+				buttonRectangleTop,
+				btnWidth,btnHeight);
+
+			return x;
 		}
 
 		/// ------------------------------------------------------------------------------------

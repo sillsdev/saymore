@@ -286,7 +286,7 @@ namespace SayMore.Transcription.UI
 			return GetButtonRectangleForSegment(rc, _playButtonSize.Width, _playButtonSize.Height, MarginFromBottomOfPlayOrigButton, 1);
 		}
 
-		protected static Rectangle GetButtonRectangleForSegment(Rectangle rc, int btnWidth, int btnHeight, int bottomMargin, int buttonCount)
+		protected static Rectangle GetButtonRectangleForSegment(Rectangle rc, int btnWidth, int btnHeight, int bottomMargin, int buttonNumber)
 		{
 			if (rc.IsEmpty || btnWidth + 6 > rc.Width)
 				return Rectangle.Empty;
@@ -316,8 +316,15 @@ namespace SayMore.Transcription.UI
 			}
 
 			// do the buttons need to be stacked?
-			if (buttonCount == 2 && rc.Width + actualLeft < btnWidth * 2 + buttonSpacing * 2)
-				buttonRectangleTop -= btnHeight + buttonSpacing;
+			if (rc.Width + actualLeft < btnWidth * 2 + buttonSpacing * 2)
+			{
+				if (buttonNumber == 2)
+					buttonRectangleTop -= btnHeight + buttonSpacing;
+			}
+			else if (buttonNumber == 3)
+			{
+				buttonRectangleLeft = rc.Right - buttonLeftMargin - btnWidth;
+			}
 
 			var x = new Rectangle(buttonRectangleLeft,
 				buttonRectangleTop,

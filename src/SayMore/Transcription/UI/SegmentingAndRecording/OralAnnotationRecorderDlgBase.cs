@@ -1543,25 +1543,10 @@ namespace SayMore.Transcription.UI
 			var rc = HotSegmentRectangle;
 			var rerecordButtonSize = _normalRerecordAnnotationButton.Size;
 
-			if (rc.IsEmpty || rerecordButtonSize.Width + 6 > rc.Width ||
-				(!GetDoesSegmentHaveAnnotationFile(HotSegment) && !ViewModel.GetIsRecording()))
-			{
+			if (!GetDoesSegmentHaveAnnotationFile(HotSegment) && !ViewModel.GetIsRecording())
 				return Rectangle.Empty;
-			}
 
-			// SP-1000: Reduce minimum segment size
-			// Reducing the minimum segment size below 850 ms requires repositioning the Play Annotation button
-			if (rc.Width < 45)
-				return new Rectangle(rc.Left + 3, rc.Bottom - 5 - rerecordButtonSize.Height,
-					rerecordButtonSize.Width, rerecordButtonSize.Height);
-
-			if (rc.Width < 80)
-				return new Rectangle(rc.Left + 6, rc.Bottom - 5 - rerecordButtonSize.Height,
-					rerecordButtonSize.Width, rerecordButtonSize.Height);
-
-			return new Rectangle(rc.Right - 6 - rerecordButtonSize.Width,
-				rc.Bottom - 5 - rerecordButtonSize.Height,
-				rerecordButtonSize.Width, rerecordButtonSize.Height);
+			return GetButtonRectangleForSegment(rc, rerecordButtonSize.Width, rerecordButtonSize.Height, base.MarginFromBottomOfPlayOrigButton, 3);
 		}
 
 		/// ------------------------------------------------------------------------------------

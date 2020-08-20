@@ -119,8 +119,9 @@ namespace SayMore.UI.Overview.Statistics
 
 		private IEnumerable<MediaFileInfo> GetFilteredFileData(ComponentRole role)
 		{
+			// SP-2171: i.MediaFilePath will be empty if the file is zero length (see MediaFileInfo.GetInfo()). This happens often with the generated oral annotation file.
 			return _backgroundStatisticsGather.GetAllFileData()
-				.Where(i => !i.MediaFilePath.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix) &&
+				.Where(i => !string.IsNullOrEmpty(i.MediaFilePath) && !i.MediaFilePath.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix) &&
 				            role.IsMatch(i.MediaFilePath));
 		}
 

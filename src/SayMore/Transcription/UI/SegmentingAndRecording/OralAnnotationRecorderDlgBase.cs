@@ -8,7 +8,6 @@ using DesktopAnalytics;
 using L10NSharp;
 using L10NSharp.TMXUtils;
 using L10NSharp.UI;
-using SIL.Media.Naudio;
 using SIL.Media.Naudio.UI;
 using SIL.Reporting;
 using SIL.Windows.Forms;
@@ -1544,15 +1543,11 @@ namespace SayMore.Transcription.UI
 			var rc = HotSegmentRectangle;
 			var rerecordButtonSize = _normalRerecordAnnotationButton.Size;
 
-			if (rc.IsEmpty || rerecordButtonSize.Width + 6 > rc.Width ||
-				(!GetDoesSegmentHaveAnnotationFile(HotSegment) && !ViewModel.GetIsRecording()))
-			{
+			if (!GetDoesSegmentHaveAnnotationFile(HotSegment) && !ViewModel.GetIsRecording())
 				return Rectangle.Empty;
-			}
 
-			return new Rectangle(rc.Right - 6 - rerecordButtonSize.Width,
-				rc.Bottom - 5 - rerecordButtonSize.Height,
-				rerecordButtonSize.Width, rerecordButtonSize.Height);
+			return GetButtonRectangleForSegment(rc, base.MarginFromBottomOfPlayOrigButton,
+				new [] {_playButtonSize, _normalRerecordAnnotationButton.Size}, 1);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1863,18 +1858,11 @@ namespace SayMore.Transcription.UI
 				var rc = HotSegmentRectangle;
 				var hotSegment = HotSegment;
 
-				if (hotSegment == null || !GetDoesSegmentHaveAnnotationFile(hotSegment) ||
-				    rc.IsEmpty || _playButtonSize.Width + 6 > rc.Width)
+				if (hotSegment == null || !GetDoesSegmentHaveAnnotationFile(hotSegment))
 					return Rectangle.Empty;
 
-				// SP-1000: Reduce minimum segment size
-				// Reducing the minimum segment size below 850 ms requires repositioning the Play Annotation button
-				if (rc.Width < 80)
-					return new Rectangle(rc.Right - 6 - _playButtonSize.Width, rc.Bottom - 40 - _playButtonSize.Height,
-						_playButtonSize.Width, _playButtonSize.Height);
-
-				return new Rectangle(rc.X + 6, rc.Bottom - 5 - _playButtonSize.Height,
-					_playButtonSize.Width, _playButtonSize.Height);
+				return GetButtonRectangleForSegment(rc, base.MarginFromBottomOfPlayOrigButton,
+					new [] {_playButtonSize, _normalRerecordAnnotationButton.Size}, 0);
 			}
 		}
 		#endregion

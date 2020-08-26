@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -283,54 +285,109 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected Rectangle GetPlayOrigButtonRectangleForSegment(Rectangle rc)
 		{
-			return GetButtonRectangleForSegment(rc, _playButtonSize.Width, _playButtonSize.Height, MarginFromBottomOfPlayOrigButton, 1);
+			return GetButtonRectangleForSegment(rc, MarginFromBottomOfPlayOrigButton,
+				new[] {_playButtonSize});
 		}
 
-		protected static Rectangle GetButtonRectangleForSegment(Rectangle rc, int btnWidth, int btnHeight, int bottomMargin, int buttonNumber)
+		/// ------------------------------------------------------------------------------------
+		protected Rectangle GetButtonRectangleForSegment(Rectangle rcSegment, int bottomMargin,
+			IReadOnlyList<Size> buttonSizes, int index = 0)
 		{
-			if (rc.IsEmpty || btnWidth + 6 > rc.Width)
-				return Rectangle.Empty;
+			return GetButtonRectangleForSegment(rcSegment, bottomMargin, buttonSizes,
+				_waveControl.Painter.Control.ClientRectangle.Right, index);
+		}
 
-			// set the default top and left
-			var buttonRectangleTop = rc.Bottom - bottomMargin - btnHeight;
-			var buttonLeftMargin = 6;
-			const int buttonSpacing = 8;
+		public const int kNormalHorizontalMargin = 6;
+		public const int kMinimalHorizontalMargin = 3;
+		public const int kButtonSpacing = 8;
 
-			// does the left margin need to be reduced?
-			if (rc.Width < btnWidth + buttonSpacing)
-				buttonLeftMargin = 3;
+		/// ------------------------------------------------------------------------------------
+		public static Rectangle GetButtonRectangleForSegment(Rectangle rcSegment, int bottomMargin,
+			IReadOnlyList<Size> buttonSizes, int visibleRightEdge, int index, int indexOfFirstRightAlignedButton = 1)
+		{
+			Debug.Assert(buttonSizes.Count == 1 || indexOfFirstRightAlignedButton < buttonSizes.Count);
 
-			// calculate the left position of the buttons
-			var actualLeft = rc.X + buttonLeftMargin;
+			var btnWidth = buttonSizes[index].Width;
+			var btnHeight = buttonSizes[index].Height;
+
+			if (rcSegment.IsEmpty || btnWidth + (kMinimalHorizontalMargin * 2) > rcSegment.Width)
+				return Rectangle.Empty; // No way to fit the button, even with minimal margins
+
+			// Set the default top
+			var buttonRectangleTop = rcSegment.Bottom - bottomMargin - btnHeight;
+			
+			// Calculate the right margin. Ideally, we want 6 pixels, but we'll go as low as 3 if we
+			// can fit it that way. (We used to go even lower if the segment was scrolled off to the
+			// left, but that feels unnecessarily complex and inconsistent.)
+			var visibleSegmentLeft = Math.Max(rcSegment.Left, 0);
+			var visibleSegmentRight = Math.Min(visibleRightEdge, rcSegment.Right);
+			var idealLeft = visibleSegmentLeft + kNormalHorizontalMargin;
+			var idealRight = visibleSegmentRight - kNormalHorizontalMargin;
 			int buttonRectangleLeft;
-
-			if (actualLeft * -1 + btnWidth + buttonLeftMargin > rc.Width)
-			{
-				// the segment is scrolled too far to the left for the buttons to be fully visible and inside the segment
-				buttonRectangleLeft = rc.X + rc.Width - btnWidth - buttonLeftMargin;
-			}
+			if (btnWidth < idealRight - idealLeft)
+				buttonRectangleLeft = idealLeft;
 			else
 			{
-				// if the left margin of the segment is not visible, make sure the button is visible
-				buttonRectangleLeft = actualLeft < buttonLeftMargin ? buttonLeftMargin : actualLeft;
+				//var visibleWidthOfButton = Math.Min(btnWidth, idealRight);
+				var hiddenPortionOfButton = idealRight >= btnWidth ? 0 : btnWidth - idealRight;
+				buttonRectangleLeft = Math.Min(idealLeft, idealRight - btnWidth);
+				if (hiddenPortionOfButton <= 0)
+				{
+					// Nothing is hidden. If hidden portion is negative, we want to slide the button left
+					// so it aligns (with margin) to the left side of the visible portion of the segment.
+					buttonRectangleLeft += hiddenPortionOfButton;
+					// REVIEW: Not sure if this is what we want, but it's what the unit tests expect (and
+					// what the program previously did). Should we only consider using reduced margins
+					// when the entire segment is visible?
+					if (rcSegment.Left >= 0)
+					{
+						// Use reduced margins if necessary
+						if (buttonRectangleLeft - visibleSegmentLeft < (kNormalHorizontalMargin - kMinimalHorizontalMargin) * 2)
+							buttonRectangleLeft = visibleSegmentLeft + kMinimalHorizontalMargin;
+					}
+				}
+				else if (hiddenPortionOfButton < (kNormalHorizontalMargin - kMinimalHorizontalMargin) * 2)
+				{
+					// Only a little bit of the button is hidden. We can reduce the right margin and get it
+					// 100% into view.
+					buttonRectangleLeft += kMinimalHorizontalMargin;
+				}
 			}
 
-			// do the buttons need to be stacked?
-			if (rc.Width + actualLeft < btnWidth * 2 + buttonSpacing * 2)
+			// If trying to lay out more than one button in the row, do they instead need to be stacked?
+			if (buttonSizes.Count > 1)
 			{
-				if (buttonNumber == 2)
-					buttonRectangleTop -= btnHeight + buttonSpacing;
-			}
-			else if (buttonNumber == 3)
-			{
-				buttonRectangleLeft = rc.Right - buttonLeftMargin - btnWidth;
+				var widthOfAllButtonsProperlySpaced = buttonSizes.Sum(b => b.Width) + kButtonSpacing * (buttonSizes.Count - 1);
+				var visibleSegmentWidth = visibleSegmentRight - visibleSegmentLeft;
+				// Our calculation of the horizontal margins above already switched them to the narrower ones if needed.
+				if (visibleSegmentWidth < widthOfAllButtonsProperlySpaced + kMinimalHorizontalMargin * 2)
+				{
+					// Yes. Move all but the last button up
+					buttonRectangleTop -= buttonSizes.Skip(index + 1).Sum(b => b.Height + kButtonSpacing);
+					Debug.Assert(buttonRectangleTop >= rcSegment.Top);
+				}
+				else
+				{
+					// No. First see if we need narrower margins.
+					var useNarrowMargins = visibleSegmentWidth < widthOfAllButtonsProperlySpaced + (kNormalHorizontalMargin * 2);
+					if (index < indexOfFirstRightAlignedButton)
+					{
+						if (useNarrowMargins)
+							buttonRectangleLeft -= (kNormalHorizontalMargin - kMinimalHorizontalMargin);
+						buttonRectangleLeft += buttonSizes.Take(index).Sum(b => b.Width + kButtonSpacing);
+					}
+					else
+					{
+						var rightEdge = useNarrowMargins ? visibleSegmentRight - kMinimalHorizontalMargin : idealRight;
+						// Align to the right.
+						buttonRectangleLeft = rightEdge - buttonSizes.Skip(index).Sum(b => b.Width) + kButtonSpacing * (index - indexOfFirstRightAlignedButton);
+					}
+				}
 			}
 
-			var x = new Rectangle(buttonRectangleLeft,
+			return new Rectangle(buttonRectangleLeft,
 				buttonRectangleTop,
-				btnWidth,btnHeight);
-
-			return x;
+				btnWidth, btnHeight);
 		}
 
 		/// ------------------------------------------------------------------------------------

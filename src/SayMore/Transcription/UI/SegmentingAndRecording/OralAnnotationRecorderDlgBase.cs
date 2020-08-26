@@ -1546,7 +1546,8 @@ namespace SayMore.Transcription.UI
 			if (!GetDoesSegmentHaveAnnotationFile(HotSegment) && !ViewModel.GetIsRecording())
 				return Rectangle.Empty;
 
-			return GetButtonRectangleForSegment(rc, rerecordButtonSize.Width, rerecordButtonSize.Height, base.MarginFromBottomOfPlayOrigButton, 3);
+			return GetButtonRectangleForSegment(rc, base.MarginFromBottomOfPlayOrigButton,
+				new [] {_playButtonSize, _normalRerecordAnnotationButton.Size}, 1);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1860,7 +1861,8 @@ namespace SayMore.Transcription.UI
 				if (hotSegment == null || !GetDoesSegmentHaveAnnotationFile(hotSegment))
 					return Rectangle.Empty;
 
-				return GetButtonRectangleForSegment(rc, _playButtonSize.Width, _playButtonSize.Height, base.MarginFromBottomOfPlayOrigButton, 2);
+				return GetButtonRectangleForSegment(rc, base.MarginFromBottomOfPlayOrigButton,
+					new [] {_playButtonSize, _normalRerecordAnnotationButton.Size}, 0);
 			}
 		}
 		#endregion

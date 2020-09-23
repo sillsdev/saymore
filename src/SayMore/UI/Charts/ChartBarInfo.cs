@@ -18,6 +18,7 @@ namespace SayMore.UI.Charts
 		public IEnumerable<ChartBarSegmentInfo> Segments { get; set; }
 		public int TotalSessions { get; protected set; }
 		public int TotalTime { get; protected set; }
+		public TimeSpan TotalTimeSpan  { get; protected set; }
 		public int BarSize { get; protected set; } // This is a percentage of the total table width.
 		public override string ToString() { return FieldValue; }
 
@@ -62,6 +63,7 @@ namespace SayMore.UI.Charts
 			{
 				TotalSessions = Segments.Sum(s => s.GetSessionCount());
 				TotalTime = Segments.Sum(s => s.TotalTime);
+				TotalTimeSpan = new TimeSpan(Segments.Sum(s => s.TotalTimeSpan.Ticks));
 
 				foreach (var seg in Segments)
 				{
@@ -110,6 +112,7 @@ namespace SayMore.UI.Charts
 		public Color BackColor { get; protected set; }
 		public Color TextColor { get; protected set; }
 		public int TotalTime { get; protected set; }
+		public TimeSpan TotalTimeSpan  { get; protected set; }
 		public int SegmentSize { get; set; } // This is a percentage of the full bar's width.
 		public override string ToString() { return FieldValue; }
 
@@ -127,6 +130,7 @@ namespace SayMore.UI.Charts
 			{
 				var minutesInSegment = GetMinutesInSegment();
 				TotalTime = (int)Math.Ceiling(minutesInSegment);
+				TotalTimeSpan = TimeSpan.FromMinutes(minutesInSegment);
 			}
 			catch (InvalidOperationException)
 			{

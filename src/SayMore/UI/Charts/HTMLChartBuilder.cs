@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using L10NSharp;
@@ -209,7 +210,7 @@ namespace SayMore.UI.Charts
 		{
 			foreach (var seg in barInfo.Segments)
 			{
-				if (seg.TotalTime > 0)
+				if (seg.TotalTimeSpan.Ticks > 0)
 					WriteBarSegment(seg);
 			}
 
@@ -222,7 +223,7 @@ namespace SayMore.UI.Charts
 		{
 			// Only segments total time if it's size is 5% or more of the total width of the table.
 			var segmentText = (barSegInfo.SegmentSize >= 5 ?
-				barSegInfo.TotalTime.ToString() : kNonBreakingSpace);
+				Math.Ceiling(barSegInfo.TotalTimeSpan.TotalMinutes).ToString(CultureInfo.InvariantCulture) : kNonBreakingSpace);
 
 			var fmt = (string.IsNullOrEmpty(barSegInfo.FieldValue) ?
 				LocalizationManager.GetString("ProgressView.SummaryTotalsTextForSegment1", "{0}{1} sessions totaling {2}") :

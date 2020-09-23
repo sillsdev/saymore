@@ -48,7 +48,7 @@ namespace SayMoreTests.UI.Charts
 		public void ChartBarSegmentInfo_Construct_CalculatesCorrectTotalTime()
 		{
 			var seg = CreateBasicBarSegment("fieldname", "fieldvalue");
-			Assert.AreEqual(95, seg.TotalTime);
+			Assert.AreEqual(95, Math.Ceiling(seg.TotalTimeSpan.TotalMinutes));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -146,7 +146,7 @@ namespace SayMoreTests.UI.Charts
 			var colors = segs.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
 
 			var barInfo = new ChartBarInfo("Narrative", string.Empty, segs, colors, colors);
-			Assert.AreEqual(190, barInfo.TotalTime);
+			Assert.AreEqual(190, Math.Ceiling(barInfo.TotalTimeSpan.TotalMinutes));
 			Assert.AreEqual(6, barInfo.TotalSessions);
 		}
 

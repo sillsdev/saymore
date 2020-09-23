@@ -17,7 +17,7 @@ namespace SayMore.UI.Charts
 		public string FieldValue { get; set; }
 		public IEnumerable<ChartBarSegmentInfo> Segments { get; set; }
 		public int TotalSessions { get; protected set; }
-		public int TotalTime { get; protected set; }
+		public TimeSpan TotalTimeSpan  { get; protected set; }
 		public int BarSize { get; protected set; } // This is a percentage of the total table width.
 		public override string ToString() { return FieldValue; }
 
@@ -61,11 +61,11 @@ namespace SayMore.UI.Charts
 			try
 			{
 				TotalSessions = Segments.Sum(s => s.GetSessionCount());
-				TotalTime = Segments.Sum(s => s.TotalTime);
+				TotalTimeSpan = new TimeSpan(Segments.Sum(s => s.TotalTimeSpan.Ticks));
 
 				foreach (var seg in Segments)
 				{
-					seg.SegmentSize = (int)Math.Round(((seg.TotalTime / (float)TotalTime) * 100),
+					seg.SegmentSize = (int)Math.Round((Math.Ceiling(seg.TotalTimeSpan.TotalMinutes) / Math.Ceiling(TotalTimeSpan.TotalMinutes)) * 100,
 						MidpointRounding.AwayFromZero);
 				}
 			}
@@ -82,11 +82,11 @@ namespace SayMore.UI.Charts
 		public static void CalculateBarSizes(IEnumerable<ChartBarInfo> barInfoList)
 		{
 			var barInfo = barInfoList.ToArray();
-			var largestBarTime = (barInfo.Length == 0 ? 0 : barInfo.Max(bi => bi.TotalTime));
+			var largestBarTime = (barInfo.Length == 0 ? 0 : barInfo.Max(bi => Math.Ceiling(bi.TotalTimeSpan.TotalMinutes)));
 
 			foreach (var bi in barInfo)
 			{
-				bi.BarSize = (int)Math.Round(((bi.TotalTime / (float)largestBarTime) * 100),
+				bi.BarSize = (int)Math.Round(((Math.Ceiling(bi.TotalTimeSpan.TotalMinutes) / largestBarTime) * 100),
 					MidpointRounding.AwayFromZero);
 			}
 		}
@@ -109,7 +109,7 @@ namespace SayMore.UI.Charts
 		public string FieldValue { get; protected set; }
 		public Color BackColor { get; protected set; }
 		public Color TextColor { get; protected set; }
-		public int TotalTime { get; protected set; }
+		public TimeSpan TotalTimeSpan  { get; protected set; }
 		public int SegmentSize { get; set; } // This is a percentage of the full bar's width.
 		public override string ToString() { return FieldValue; }
 
@@ -126,7 +126,7 @@ namespace SayMore.UI.Charts
 			try
 			{
 				var minutesInSegment = GetMinutesInSegment();
-				TotalTime = (int)Math.Ceiling(minutesInSegment);
+				TotalTimeSpan = TimeSpan.FromMinutes(minutesInSegment);
 			}
 			catch (InvalidOperationException)
 			{

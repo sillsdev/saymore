@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using L10NSharp;
@@ -94,7 +95,7 @@ namespace SayMore.UI.Charts
 				x => new ChartBarInfo(x.Key.Name, x.Value, x.Key.Color, x.Key.TextColor))).ToList();
 
 			ChartBarInfo.CalculateBarSizes(barInfoList);
-			var text = LocalizationManager.GetString("ProgressView.ByStagesHeadingText", "By Stages");
+			var text = LocalizationManager.GetString("ProgressView.ByStagesHeadingText", "Completed Stages");
 			WriteChartForList(text, barInfoList, null, false);
 		}
 
@@ -209,12 +210,12 @@ namespace SayMore.UI.Charts
 		{
 			foreach (var seg in barInfo.Segments)
 			{
-				if (seg.TotalTime > 0)
+				if (seg.TotalTimeSpan.Ticks > 0)
 					WriteBarSegment(seg);
 			}
 
-			var text = LocalizationManager.GetString("ProgressView.SummaryTotalsTextForOneBar", "{0} sessions totaling {1} minutes");
-			return string.Format(text, barInfo.TotalSessions, barInfo.TotalTime);
+			var text = LocalizationManager.GetString("ProgressView.SummaryTotalsTextForOneBar", "{0} sessions totaling {1}");
+			return string.Format(text, barInfo.TotalSessions, barInfo.TotalTimeSpan.ToString());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -222,14 +223,14 @@ namespace SayMore.UI.Charts
 		{
 			// Only segments total time if it's size is 5% or more of the total width of the table.
 			var segmentText = (barSegInfo.SegmentSize >= 5 ?
-				barSegInfo.TotalTime.ToString() : kNonBreakingSpace);
+				Math.Ceiling(barSegInfo.TotalTimeSpan.TotalMinutes).ToString(CultureInfo.InvariantCulture) : kNonBreakingSpace);
 
 			var fmt = (string.IsNullOrEmpty(barSegInfo.FieldValue) ?
-				LocalizationManager.GetString("ProgressView.SummaryTotalsTextForSegment1", "{0}{1} sessions totaling {2} minutes") :
-				LocalizationManager.GetString("ProgressView.SummaryTotalsTextForSegment2", "{0}: {1} sessions totaling {2} minutes"));
+				LocalizationManager.GetString("ProgressView.SummaryTotalsTextForSegment1", "{0}{1} sessions totaling {2}") :
+				LocalizationManager.GetString("ProgressView.SummaryTotalsTextForSegment2", "{0}: {1} sessions totaling {2}"));
 
 			var tooltipText = string.Format(fmt, barSegInfo.FieldValue,
-				barSegInfo.GetSessionCount(), barSegInfo.TotalTime);
+				barSegInfo.GetSessionCount(), barSegInfo.TotalTimeSpan.ToString());
 
 			WriteTableCell(null, barSegInfo.SegmentSize, barSegInfo.BackColor,
 				barSegInfo.TextColor, tooltipText, segmentText);

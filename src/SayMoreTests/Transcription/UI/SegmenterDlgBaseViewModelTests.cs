@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Moq;
 using NUnit.Framework;
 using SayMore.Model.Files;
@@ -1061,7 +1059,7 @@ namespace SayMoreTests.Transcription.UI
 			int buttonWidth, int buttonHeight, int bottomMargin)
 		{
 			// Note: Current design should prevent this.
-			var rect = new Rectangle(0, 0, buttonWidth + SegmenterDlgBase.kMinimalHorizontalMargin * 2 - 1, buttonHeight + bottomMargin);
+			var rect = new Rectangle(0, 0, buttonWidth + SegmenterDlgBase.kMinimalHorizontalMargin * 2 - (int)(buttonWidth * 0.2) - 1, buttonHeight + bottomMargin);
 			Assert.AreEqual(Rectangle.Empty,
 				SegmenterDlgBase.GetButtonRectangleForSegment(rect, bottomMargin, new[] {new Size(buttonWidth, buttonHeight)}, 1000, 0));
 		}
@@ -1127,7 +1125,7 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[TestCase(32, -8, 0, ExpectedResult = 1)] // 36 pixels visible in segment. Entire button visible.
-		[TestCase(10, -12, 2, ExpectedResult = 0)] // 12 pixels visible in segment. Entire button visible, no visible left margin
+		[TestCase(10, -12, 2, ExpectedResult = -1)] // 12 pixels visible in segment. Entire button visible, no visible left margin
 		[TestCase(20, -28, 12, ExpectedResult = -10)] // 16 pixels visible in segment. 20-10 = 10 pixels of button visible. (Don't bother with reduced margins.)
 		public int GetButtonRectangleForSegment_SingleButtonFitsInRectangleThatIsScrolledTooFarLeftToAllowFullLeftMargin_ReducedOrClippedLeftPosition(
 			int buttonWidth, int boundingRectangleLeft, int extraWidth)

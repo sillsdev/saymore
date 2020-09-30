@@ -307,11 +307,27 @@ namespace SayMore.Transcription.UI
 		{
 			Debug.Assert(buttonSizes.Count == 1 || indexOfFirstRightAlignedButton < buttonSizes.Count);
 
+			if (rcSegment.IsEmpty)
+				return Rectangle.Empty;
+
 			var btnWidth = buttonSizes[index].Width;
 			var btnHeight = buttonSizes[index].Height;
 
-			if (rcSegment.IsEmpty || btnWidth + (kMinimalHorizontalMargin * 2) > rcSegment.Width)
-				return Rectangle.Empty; // No way to fit the button, even with minimal margins
+			var testWidth = btnWidth + (kMinimalHorizontalMargin * 2);
+			if (testWidth > rcSegment.Width)
+			{
+				// try shrinking the button to fit the space available
+				var diffX = testWidth - rcSegment.Width;
+
+				// only allow 20% reduction in size
+				if (diffX / (float)btnWidth > 0.2)
+					return Rectangle.Empty;
+
+				// reduce the height by the same percent
+				var diffY = (int)Math.Ceiling(diffX * (float)btnHeight / btnWidth);
+				btnWidth -= diffX;
+				btnHeight -= diffY;
+			}
 
 			// Set the default top
 			var buttonRectangleTop = rcSegment.Bottom - bottomMargin - btnHeight;

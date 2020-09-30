@@ -787,15 +787,15 @@ namespace SayMoreTests.Transcription.Model
 		public void InsertSegmentBoundary_NewBoundaryTooCloseToPrecedingBoundary_ReturnsNotSuccess()
 		{
 			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _tier.InsertSegmentBoundary(20.4f));
-			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _tier.InsertSegmentBoundary(20.49f));
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _tier.InsertSegmentBoundary(20.45f));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void InsertSegmentBoundary_NewBoundaryTooCloseToFollowingBoundary_ReturnsNotSuccess()
 		{
-			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _tier.InsertSegmentBoundary(29.501f));
-			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _tier.InsertSegmentBoundary(29.51f));
+			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _tier.InsertSegmentBoundary(29.541f));
+			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _tier.InsertSegmentBoundary(29.55f));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -803,7 +803,7 @@ namespace SayMoreTests.Transcription.Model
 		public void InsertSegmentBoundary_WhenNoSegmentsAndNewBoundaryTooSmall_ReturnsNotSuccess()
 		{
 			_tier.Segments.Clear();
-			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _tier.InsertSegmentBoundary(0.4999f));
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _tier.InsertSegmentBoundary(0.4599f));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -902,7 +902,7 @@ namespace SayMoreTests.Transcription.Model
 		public void CanBoundaryMoveLeft_MoveWillResultInTooShortSegment_ReturnsFalse()
 		{
 			Assert.IsFalse(_tier.CanBoundaryMoveLeft(12f, 2.0f));
-			Assert.IsFalse(_tier.CanBoundaryMoveLeft(12f, 1.501f));
+			Assert.IsFalse(_tier.CanBoundaryMoveLeft(12f, 1.541f));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -933,7 +933,7 @@ namespace SayMoreTests.Transcription.Model
 		public void CanBoundaryMoveRight_MoveWillResultInTooShortSegment_ReturnsFalse()
 		{
 			Assert.IsFalse(_tier.CanBoundaryMoveRight(28f, 2.01f, 100f));
-			Assert.IsFalse(_tier.CanBoundaryMoveRight(28f, 1.501f, 100f));
+			Assert.IsFalse(_tier.CanBoundaryMoveRight(28f, 1.541f, 100f));
 		}
 
 		/// ------------------------------------------------------------------------------------

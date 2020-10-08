@@ -47,7 +47,7 @@ namespace SayMore.Media.Audio
 		private Color ImmovableBoundaryColor
 		{
 			// ENHANCE: Get the inverse of the normal border color, rather than hard-coding blue.
-			// See http://stackoverflow.com/questions/1165107/how-do-i-invert-a-colour-color-c-net
+			// See https://stackoverflow.com/questions/1165107/how-do-i-invert-a-colour-color-c-net
 			get { return Color.Blue; }
 		}
 

@@ -1,6 +1,6 @@
 //
 // Red Information red.svg icon attribution:
-// Ezekiel63745 at en.wikipedia [CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0) or GFDL (http://www.gnu.org/copyleft/fdl.html)], via Wikimedia Commons
+// Ezekiel63745 at en.wikipedia [CC-BY-SA-3.0 (https://creativecommons.org/licenses/by-sa/3.0) or GFDL (https://www.gnu.org/copyleft/fdl.html)], via Wikimedia Commons
 //
 
 using System;

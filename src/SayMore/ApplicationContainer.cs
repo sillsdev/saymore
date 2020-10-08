@@ -206,7 +206,7 @@ namespace SayMore
 
 			var localizationManager = LocalizationManager.Create(TranslationMemory.Tmx, Settings.Default.UserInterfaceLanguage, kSayMoreLocalizationId,
 				"SayMore", Application.ProductVersion, installedStringFileFolder, relativePathForWritingTmxFiles,
-				Resources.SayMore, "issues@saymore.palaso.org", "SayMore", "SIL.Archiving", "SIL.Windows.Forms.FileSystem");
+				Resources.SayMore, "sil.saymore@gmail.com", "SayMore", "SIL.Archiving", "SIL.Windows.Forms.FileSystem");
 
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 

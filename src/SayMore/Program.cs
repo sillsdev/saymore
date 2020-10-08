@@ -69,10 +69,10 @@ namespace SayMore
 		[STAThread]
 		static void Main()
 		{
-			// I had put the following line of code in to fix a SP-436 after reading this article:
-			// http://stackoverflow.com/questions/4077822/net-4-0-and-the-dreaded-onuserpreferencechanged-hang
+			// I had put the following line of code in to fix SP-436 after reading this article:
+			// https://stackoverflow.com/questions/4077822/net-4-0-and-the-dreaded-onuserpreferencechanged-hang
 			// Microsoft.Win32.SystemEvents.UserPreferenceChanged += delegate { };
-			// But then I found this page: http://www.aaronlerch.com/blog/2008/12/15/debugging-ui/
+			// But then I found this page: https://www.aaronlerch.com/blog/2008/12/15/debugging-ui/
 			// which describes how to find out where the actual problem is.
 			Thread.CurrentThread.Name = "UI";
 
@@ -82,7 +82,7 @@ namespace SayMore
 			// bold, so we'll create our own, forcing the style to regular, which seems to work.
 			// Don't use SystemFonts.DefaultFont because that always returns "Microsoft Sans Serif"
 			// and SystemFonts.DialogFont always returns "Tahoma", regardless of OS.
-			// See: http://benhollis.net/blog/2007/04/11/setting-the-correct-default-font-in-net-windows-forms-apps/
+			// See: https://benhollis.net/blog/2007/04/11/setting-the-correct-default-font-in-net-windows-forms-apps/
 			_dialogFont = new Font(SystemFonts.MessageBoxFont, FontStyle.Regular);
 
 			Application.EnableVisualStyles();
@@ -119,7 +119,7 @@ namespace SayMore
 			// implement Upgrade in an appropriate way to handle this.
 			if (Settings.Default.NeedUpgrade) //TODO: this doesn't get triggered with David's custom settings
 			{
-				//see http://stackoverflow.com/questions/3498561/net-applicationsettingsbase-should-i-call-upgrade-every-time-i-load
+				//see https://stackoverflow.com/questions/3498561/net-applicationsettingsbase-should-i-call-upgrade-every-time-i-load
 				Settings.Default.Upgrade();	//TODO: and this doesn't seem to actually do anything with David's custom settings
 				Settings.Default.NeedUpgrade = false;
 				Settings.Default.Save();

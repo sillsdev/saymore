@@ -269,8 +269,8 @@ namespace SayMore.UI.Charts
 			get
 			{
 				return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" " +
-					"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" +
-					"<html xml:lang=\"en\" lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\">";
+					"\"https://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" +
+					"<html xml:lang=\"en\" lang=\"en\" xmlns=\"https://www.w3.org/1999/xhtml\">";
 			}
 		}
 

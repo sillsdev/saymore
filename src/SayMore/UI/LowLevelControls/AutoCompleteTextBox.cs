@@ -1,7 +1,7 @@
 //--------------------------------------------------------------------------------
 // This custom textbox control was developed by Peter Holpar and downloaded from
 // CodePlex. It is licensed under Microsoft Public License (Ms-PL). Details here:
-// http://autocompletetexboxcs.codeplex.com/license
+// https://autocompletetexboxcs.codeplex.com/license
 // Significant modifications made by Tom Bogle to adapt it for use in SayMore.
 //--------------------------------------------------------------------------------
 using System;

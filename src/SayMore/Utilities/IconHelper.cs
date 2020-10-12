@@ -1,7 +1,7 @@
 // ---------------------------------------------------------------------------------------------
 // <remarks>
 // The code in this file was taken from:
-// http://stackoverflow.com/questions/616718/how-do-i-get-common-file-type-icons-in-c
+// https://stackoverflow.com/questions/616718/how-do-i-get-common-file-type-icons-in-c
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;

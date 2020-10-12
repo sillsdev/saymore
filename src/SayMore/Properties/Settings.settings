@@ -54,7 +54,7 @@
       <Value Profile="(Default)">www.sil.org</Value>
     </Setting>
     <Setting Name="ProgramsWebSite" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://saymore.palaso.org/</Value>
+      <Value Profile="(Default)">https://software.sil.org/saymore/</Value>
     </Setting>
     <Setting Name="PersonScreenElementListSpiltterPos" Provider="SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>

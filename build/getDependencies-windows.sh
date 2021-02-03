@@ -71,14 +71,7 @@ cd -
 # URL: http://build.palaso.org/viewType.html?buildTypeId=bt34
 # VCS: https://github.com/sillsdev/SayMore.git [master]
 # dependencies:
-# [0] build: NAudio continuous (bt402)
-#     project: NAudio
-#     URL: http://build.palaso.org/viewType.html?buildTypeId=bt402
-#     clean: false
-#     revision: latest.lastSuccessful
-#     paths: {"NAudio.dll"=>"lib/dotnet"}
-#     VCS: https://github.com/sillsdev/naudio.git [master]
-# [1] build: SayMore-Documentation (bt76)
+# [0] build: SayMore-Documentation (bt76)
 #     project: SayMore
 #     URL: http://build.palaso.org/viewType.html?buildTypeId=bt76
 #     clean: false
@@ -88,9 +81,7 @@ cd -
 
 # make sure output directories exist
 mkdir -p ../DistFiles
-mkdir -p ../lib/dotnet
 
 # download artifact dependencies
-copy_auto http://build.palaso.org/guestAuth/repository/download/bt402/latest.lastSuccessful/NAudio.dll ../lib/dotnet/NAudio.dll
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt76/latest.lastSuccessful/SayMore.chm ../DistFiles/SayMore.chm
 # End of script

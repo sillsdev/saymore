@@ -4,14 +4,12 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
 using SIL.Code;
 using SIL.Reporting;
 using SIL.Windows.Forms.FileSystem;
-using SIL.Windows.Forms.Miscellaneous;
 using SayMore.Media.Audio;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
@@ -20,6 +18,7 @@ using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
 using SayMore.UI.ElementListScreen;
 using SayMore.Utilities;
+using System.ComponentModel;
 
 namespace SayMore.Model.Files
 {
@@ -65,6 +64,9 @@ namespace SayMore.Model.Files
 		public delegate void ValueChangedHandler(ComponentFile file, string fieldId, object oldValue, object newValue);
 		public event ValueChangedHandler IdChanged;
 		public event ValueChangedHandler MetadataValueChanged;
+
+		public delegate void RenamingHandler(ComponentFile sender, CancelEventArgs e);
+		public event RenamingHandler StartingRename;
 
 		public event EventHandler BeforeSave;
 		public event EventHandler AfterSave;
@@ -783,6 +785,20 @@ namespace SayMore.Model.Files
 				PostGenerateOralAnnotationFileAction(generated);
 
 			return generated;
+		}
+
+		public bool IsOkayToRename 
+		{
+			get
+			{
+				if (StartingRename != null)
+				{
+					var args = new CancelEventArgs();
+					StartingRename(this, args);
+					return !args.Cancel;
+				}
+				return true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

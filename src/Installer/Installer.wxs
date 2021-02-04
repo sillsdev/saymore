@@ -18,7 +18,7 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 			 Version="$(var.Property_ProductVersion)" Manufacturer="SIL"
 			 UpgradeCode="$(var.Property_UpgradeCode)">
 
-	<Package  Compressed="yes" InstallerVersion="200" />
+	<Package  Compressed="yes" InstallerVersion="200" InstallScope="perMachine" />
 
 	  <MajorUpgrade   Schedule="afterInstallInitialize"
 	  DowngradeErrorMessage="A later version of SayMore is already installed. If you really want to downgrade, first uninstall SayMore, then do this install again."/>
@@ -47,9 +47,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	<Condition Message="Before SayMore can install, you need to install Microsoft's free .NET Framework 4.0 Client Profile.  A full discussion of SayMore's requirements can be found at SayMore.palaso.org.">
 	  <![CDATA[Installed OR (NETFRAMEWORK40CLIENT OR NETFRAMEWORK40FULL)]]>
 	</Condition>
-
-	<!--because of bug, this needs to be 1 -->
-	<Property Id="ALLUSERS">1</Property>
 
 	<Directory Id="TARGETDIR" Name="SourceDir">
 
@@ -111,7 +108,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<Directory Id='SayMoreShortcutDir' Name='SayMore'>
 		  <Component Id='removeShortcutDir' Guid="{88000306-EB15-4458-8264-97C1F888AD1F}">
 			<RemoveFolder Id="shortcutDirRemover" On="uninstall"/>
-			<RegistryKey Id="keyPathForRemoveShortcutDir" Action="createAndRemoveOnUninstall" Root="HKCU" Key="SOFTWARE\SayMore\Components\SayMoreShortcutDir">
+			<RegistryKey Root="HKCU" Key="SOFTWARE\SayMore\Components\SayMoreShortcutDir">
 			  <RegistryValue Type="string" Value=""  Action="write" KeyPath="yes"/>
 			</RegistryKey>
 		  </Component>
@@ -123,7 +120,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<Directory Id="ProgramDir" Name="SayMore">
 
 			<Component Id="SayMore.exe" Guid="{73493982-C68A-4F01-93BC-5F92B380CF89}">
-				<Registry Root="HKCU" Key="SOFTWARE\SayMore\Components\SayMore.exe" KeyPath="yes" />
+				<RegistryValue Root="HKCU" Key="SOFTWARE\SayMore\Components\SayMore.exe" Name="installed" Type="integer" Value="1" KeyPath="yes" />
 				<File Id="SayMore.exe" Name="SayMore.exe"  Source="..\..\output\release\SayMore.exe" />
 				<!--- todo: icons for saymore files -->
 
@@ -738,15 +735,11 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	<Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
 	<Icon Id="SayMore.exe" SourceFile="..\..\output\release\SayMore.exe" />
 	<Property Id="ARPPRODUCTICON" Value="SayMore.exe" />
-
 	<!-- what you see in add/remove programs control panel -->
-
-
 
 	<CustomAction Id="LaunchSayMore"
 				  FileKey="SayMore.exe"
 				  ExeCommand=""
-				  Impersonate="no"
 				  Return="asyncNoWait"/>
 
 	<InstallExecuteSequence>

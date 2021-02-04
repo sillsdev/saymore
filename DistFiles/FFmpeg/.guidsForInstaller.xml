@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
 <InstallerMetadata>
-  <File Id="SampleDataDir.EdoloSample" Guid="8e0bff36-9c4b-4534-831f-3ef1a5f57d1d" />
-  <File Id="SampleDataDir.EdoloSample.EdoloSample.sprj" Guid="303b1041-5240-499c-8826-10f78ca9f84f" />
+  <File Id="ProgramDir.FFmpeg.ffmpeg.exe" Guid="7af85cb4-327c-42f2-85bf-f52eb2212d82" />
 </InstallerMetadata>

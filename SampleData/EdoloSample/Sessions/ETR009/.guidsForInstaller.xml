@@ -1,18 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
 <InstallerMetadata>
-  <File Id="ETR009.event" Guid="3044507e-4748-46a5-85bd-9b458df60fa2" />
-  <File Id="ETR009Snippet_Careful.mp3" Guid="8074137f-1d18-491b-9c46-24fb49d4fab4" />
-  <File Id="ETR009Snippet_Careful.mp3.meta" Guid="86ecb16c-046a-45fc-90a1-e42e7e37fcb0" />
-  <File Id="ETR009_Careful.wav" Guid="8a10cf5f-bb46-42f9-985b-f50472703775" />
-  <File Id="ETR009_Careful.wav.meta" Guid="e9f84f96-cf90-4207-89db-ed0935b40494" />
-  <File Id="ETR009_Tiny.mp4" Guid="40c3872e-7a1b-4e19-9b5f-681373e2d33d" />
-  <File Id="ETR009_Tiny.mp4.meta" Guid="e879639d-8eba-46a6-bfec-ad393097b545" />
-  <File Id="SceneAroundCamera.JPG" Guid="f35bebdc-3898-4967-9610-0fc4a6cf46bb" />
-  <File Id="SceneAroundCamera.JPG.meta" Guid="cbb80fc4-87c3-4462-9820-dfd4af791e32" />
-  <File Id="SceneHouse.JPG" Guid="a1061653-3486-4759-82ed-b2345987a91b" />
-  <File Id="ETR009_Careful.mp3" Guid="c78a1086-9bbb-4d01-836e-b81706632eed" />
-  <File Id="ETR009_Careful.mp3.meta" Guid="2b137ebd-3ddc-4e8a-9d5e-e40b73e36027" />
-  <File Id="SceneHouse.JPG.meta" Guid="55bbd030-833b-40b0-8dce-b718b148e8cc" />
-   <File Id="SampleDataDir.EdoloSample.Events.ETR009" Guid="d1753742-81e7-4e35-92d0-c61043bbecad" />
+  <File Id="SampleDataDir.EdoloSample.Events.ETR009" Guid="d1753742-81e7-4e35-92d0-c61043bbecad" />
+  <File Id="SampleDataDir.EdoloSample.Sessions.ETR009" Guid="b0824e37-c8e2-4390-ad32-b932d316de08" />
+  <File Id="DataDir.EdoloSample.Sessions.ETR009.ETR009.session" Guid="536b14c3-bad6-47b1-bdd7-5a1bf94b8287" />
+  <File Id="Dir.EdoloSample.Sessions.ETR009.ETR009_Careful.mp3" Guid="c78a1086-9bbb-4d01-836e-b81706632eed" />
+  <File Id="doloSample.Sessions.ETR009.ETR009_Careful.mp3.meta" Guid="2b137ebd-3ddc-4e8a-9d5e-e40b73e36027" />
+  <File Id="doloSample.Sessions.ETR009.ETR009_Careful.wav.meta" Guid="e9f84f96-cf90-4207-89db-ed0935b40494" />
+  <File Id="ataDir.EdoloSample.Sessions.ETR009.ETR009_Tiny.mp4" Guid="40c3872e-7a1b-4e19-9b5f-681373e2d33d" />
+  <File Id="r.EdoloSample.Sessions.ETR009.ETR009_Tiny.mp4.meta" Guid="e879639d-8eba-46a6-bfec-ad393097b545" />
+  <File Id="_.EdoloSample.Sessions.ETR009.SceneAroundCamera.JPG" Guid="f35bebdc-3898-4967-9610-0fc4a6cf46bb" />
+  <File Id="oSample.Sessions.ETR009.SceneAroundCamera.JPG.meta" Guid="cbb80fc4-87c3-4462-9820-dfd4af791e32" />
+  <File Id="DataDir.EdoloSample.Sessions.ETR009.SceneHouse.JPG" Guid="a1061653-3486-4759-82ed-b2345987a91b" />
+  <File Id="ir.EdoloSample.Sessions.ETR009.SceneHouse.JPG.meta" Guid="55bbd030-833b-40b0-8dce-b718b148e8cc" />
 </InstallerMetadata>

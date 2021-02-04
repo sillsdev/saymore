@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
 <InstallerMetadata>
-  <File Id="License.html" Guid="1E7D95CB-3F23-43B6-868D-D4D76F52CE53" />
+  <File Id="ProgramDir.MediaInfo.License.html" Guid="1E7D95CB-3F23-43B6-868D-D4D76F52CE53" />
 </InstallerMetadata>

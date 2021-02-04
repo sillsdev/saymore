@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
+<InstallerMetadata>
+  <File Id="ProgramDir.Archiving.es.ailca.html" Guid="f54408c7-c62e-4a0f-af58-7c654f368869" />
+  <File Id="ProgramDir.Archiving.es.ailla.html" Guid="7944631a-ce8a-4e44-a0fc-8a0630bf7daa" />
+  <File Id="ProgramDir.Archiving.es.anla.html" Guid="732d0819-d25b-43d2-805b-f364e1517434" />
+  <File Id="ProgramDir.Archiving.es.elar.html" Guid="d0fbc27f-2b0e-4114-b331-6f5f8d1dc033" />
+  <File Id="ProgramDir.Archiving.es.reap.html" Guid="6aba98e3-0a71-44aa-b4f9-521b8f5992d2" />
+  <File Id="ProgramDir.Archiving.es.tla.html" Guid="75489d15-23c8-41aa-9ad0-5e40254fbb73" />
+</InstallerMetadata>

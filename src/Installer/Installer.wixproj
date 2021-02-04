@@ -6,6 +6,7 @@
 	<SchemaVersion>2.0</SchemaVersion>
 	<OutputName>SayMoreInstaller</OutputName>
 	<OutputType>Package</OutputType>
+	<DefineSolutionProperties>false</DefineSolutionProperties>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 	<OutputPath>..\..\output\installer\</OutputPath>
@@ -62,7 +63,6 @@
   <ItemGroup>
 	<Compile Include="Installer.wxs" />
 	<Compile Include="..\..\output\installer\GeneratedDistFiles.wxs" />
-	<Compile Include="..\..\output\installer\GeneratedSampleDataFiles.wxs" />
   </ItemGroup>
   <ItemGroup>
 	<WixExtension Include="WixUtilExtension">

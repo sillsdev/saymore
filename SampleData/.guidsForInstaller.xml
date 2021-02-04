@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
 <InstallerMetadata>
+  <File Id="SampleDataDir.ReadMe.txt" Guid="90909b01-0617-4380-9877-3c762eafef34" />
   <File Id="SampleDataDir" Guid="a38f85f1-fcf3-4c3c-a0e2-e73cfae3b628" />
 </InstallerMetadata>

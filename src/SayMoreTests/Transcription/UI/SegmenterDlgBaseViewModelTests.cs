@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Moq;
 using NUnit.Framework;
 using SayMore.Model.Files;

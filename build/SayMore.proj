@@ -79,7 +79,7 @@
 	</ItemGroup>
 	<NUnit3 Condition="'$(teamcity_version)' == ''"
 		Assemblies="@(TestAssemblies)"
-		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.11.1/tools"
+		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.12.0/tools"
 		ExcludeCategory="$(excludedCategories)"
 		WorkingDirectory="$(RootDir)/output/$(Configuration)"
 		Force32Bit="$(useNUnit-x86)"
@@ -89,7 +89,7 @@
 		TeamCity="false"/>
 	<NUnit3 Condition="'$(teamcity_version)' != ''"
 		Assemblies="@(TestAssemblies)"
-		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.11.1/tools"
+		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.12.0/tools"
 		ExcludeCategory="SkipOnTeamCity,$(excludedCategories)"
 		WorkingDirectory="$(RootDir)/output/$(Configuration)"
 		Force32Bit="$(useNUnit-x86)"
@@ -112,7 +112,7 @@
 
   </Target>
 
-  <Target Name="Installer" DependsOnTargets="VersionNumbers; MakeWixForSampleData; MakeWixForDistFiles; Build ">
+  <Target Name="Installer" DependsOnTargets="VersionNumbers; MakeWixForDistFiles; Build ">
 
 	<!-- set the version number in the installer configuration program.  Perhaps there's a way to just send in the variables rather than this brute-force
 		changing of the script, but I haven't figured that out. -->
@@ -139,6 +139,9 @@
 
   </Target>
 
+  <!-- The "Installer" Target used to depend on this, but the Edolo Sample data was removed
+       in version 3 of SayMore, so there is no need to continue to generate this WIX include
+	   file. (See SampleData\ReadMe.txt)
   <Target Name="MakeWixForSampleData">
 	<MakeDir ContinueOnError ="true" Directories ="$(RootDir)\output\Installer\"/>
 
@@ -150,12 +153,14 @@
 				OutputFilePath="$(RootDir)\output\Installer\GeneratedSampleDataFiles.wxs"
 				MatchRegExPattern=".*"
 				>
-	  <!--what does this do?-->
 	  <Output TaskParameter="OutputFilePath" ItemName="Compile" />
 	</MakeWixForDirTree>
   </Target>
+  -->
 
   <Target Name="MakeWixForDistFiles">
+	<MakeDir ContinueOnError ="true" Directories ="$(RootDir)\output\Installer\"/>
+	
 	<MakeWixForDirTree
 				DirectoryReferenceId="ProgramDir"
 					ComponentGroupId="DistFiles"

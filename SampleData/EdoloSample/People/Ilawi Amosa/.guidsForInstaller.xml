@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
 <InstallerMetadata>
-  <File Id="Ilawi_Amosa.person" Guid="52d2aef2-ba40-488a-a04e-71a23725029d" />
-  <File Id="Ilawi_Amosa_Consent.JPG" Guid="f9552ff4-b720-427a-b72e-113321ae10e3" />
-  <File Id="Ilawi_Amosa_Photo.jpg" Guid="fb505f58-771f-4d3e-92e3-f4ba9207eb09" />
   <File Id="SampleDataDir.EdoloSample.People.Ilawi_Amosa" Guid="db434943-a80e-47ed-8094-d9686ae0693f" />
+  <File Id="_.EdoloSample.People.Ilawi_Amosa.Ilawi_Amosa.person" Guid="52d2aef2-ba40-488a-a04e-71a23725029d" />
+  <File Id="oSample.People.Ilawi_Amosa.Ilawi_Amosa_Consent.JPG" Guid="f9552ff4-b720-427a-b72e-113321ae10e3" />
+  <File Id="oloSample.People.Ilawi_Amosa.Ilawi_Amosa_Photo.jpg" Guid="fb505f58-771f-4d3e-92e3-f4ba9207eb09" />
 </InstallerMetadata>

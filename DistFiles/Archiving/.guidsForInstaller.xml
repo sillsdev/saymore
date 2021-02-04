@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
+<InstallerMetadata>
+  <File Id="ProgramDir.Archiving.AccessProtocols.json" Guid="95fc40cc-02ad-4681-a4b1-aeaeea7c0bb7" />
+  <File Id="ProgramDir.Archiving.ailca.html" Guid="575f1670-19f6-45be-8e61-31f9bddf763f" />
+  <File Id="ProgramDir.Archiving.ailla.html" Guid="0fc24a3c-e9a0-4d4a-9a54-f58100f17f6c" />
+  <File Id="ProgramDir.Archiving.anla.html" Guid="21b27b74-c047-4b25-adb8-dd96e187b667" />
+  <File Id="ProgramDir.Archiving.elar.html" Guid="117725f5-d09c-4e4c-96b2-5f5d072fbf3e" />
+  <File Id="ProgramDir.Archiving.nal.html" Guid="5ec55d41-3fbd-444d-94ce-3c3aae4dc17f" />
+  <File Id="ProgramDir.Archiving.reap.html" Guid="b11e4049-62f6-4ad3-b14b-992c2d844c40" />
+  <File Id="ProgramDir.Archiving.tla.html" Guid="2132ae7d-2840-47f3-b7fb-311299f6ee46" />
+</InstallerMetadata>

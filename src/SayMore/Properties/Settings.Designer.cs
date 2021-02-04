@@ -12,7 +12,7 @@ namespace SayMore.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -1164,18 +1164,6 @@ namespace SayMore.Properties {
         public int MinimumSegmentLengthInMilliseconds {
             get {
                 return ((int)(this["MinimumSegmentLengthInMilliseconds"]));
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings FFmpegDownloadDlg {
-            get {
-                return ((global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings)(this["FFmpegDownloadDlg"]));
-            }
-            set {
-                this["FFmpegDownloadDlg"] = value;
             }
         }
         

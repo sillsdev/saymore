@@ -67,12 +67,9 @@ namespace SayMore.UI.ComponentEditors
 
 		private void File_StartingRename(ComponentFile sender, CancelEventArgs e)
 		{
-			e.Cancel = !IsOKToLeaveEditor;
+			e.Cancel = !_contributorsControl.Validate();
 			if (e.Cancel)
-			{
 				_contributorsControl.Focus();
-				_contributorsControl.Validate();
-			}
 		}
 
 		private void AddSessionControls()

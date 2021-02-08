@@ -33,6 +33,8 @@ namespace SayMore.UI.ComponentEditors
 			InitializeComponent();
 			Name = "Contributors";
 
+			file.StartingRename += File_StartingRename;
+
 			_model = new ContributorsListControlViewModel(autoCompleteProvider, SaveContributors);
 			var dataGridView = new DataGridView();
 			dataGridView.Columns[dataGridView.Columns.Add("date", "date")].Visible = false;
@@ -61,6 +63,13 @@ namespace SayMore.UI.ComponentEditors
 
 			if (personInformant != null)
 				personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
+		}
+
+		private void File_StartingRename(ComponentFile sender, CancelEventArgs e)
+		{
+			e.Cancel = !_contributorsControl.Validate();
+			if (e.Cancel)
+				_contributorsControl.Focus();
 		}
 
 		private void AddSessionControls()
@@ -174,7 +183,9 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public override sealed void SetComponentFile(ComponentFile file)
 		{
+			_file.StartingRename -= File_StartingRename;
 			base.SetComponentFile(file);
+			file.StartingRename += File_StartingRename;
 			_model.SetContributionList(file.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection);
 		}
 

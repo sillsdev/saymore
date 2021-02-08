@@ -570,7 +570,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			// Clicking on a ToolStripItem doesn't take focus from whatever control had
 			// focus, but there are times in SayMore where it is important for a component
-			// editor to loose focus when one of these component file grid buttons is
+			// editor to lose focus when one of these component file grid buttons is
 			// clicked. Therefore, pass on focus to the grid if any of our ToolStripItems
 			// are clicked. See SP-285.
 			if (!_grid.Focused)
@@ -601,7 +601,7 @@ namespace SayMore.UI.ElementListScreen
 			var index = _grid.CurrentCellAddress.Y;
 			var file = (index >= 0 && index < _files.Count() ? _files.ElementAt(index) : null);
 
-			if (file == null)
+			if (file == null || !file.IsOkayToRename)
 			{
 				SystemSounds.Beep.Play();
 				return;

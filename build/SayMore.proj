@@ -112,7 +112,7 @@
 
   </Target>
 
-  <Target Name="Installer" DependsOnTargets="VersionNumbers; MakeWixForDistFiles; Build ">
+  <Target Name="Installer" DependsOnTargets="VersionNumbers; UpdateDownloadInfo; MakeWixForDistFiles; Build ">
 
 	<!-- set the version number in the installer configuration program.  Perhaps there's a way to just send in the variables rather than this brute-force
 		changing of the script, but I haven't figured that out. -->

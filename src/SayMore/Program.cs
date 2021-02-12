@@ -684,7 +684,7 @@ namespace SayMore
 			Application.ThreadException += (sender, args) => ExternalProcess.CleanUpAllProcesses();
 			AppDomain.CurrentDomain.UnhandledException += (sender, args) => ExternalProcess.CleanUpAllProcesses();
 
-			ErrorReport.EmailAddress = "issues@saymore.palaso.org";
+			ErrorReport.EmailAddress = "saymore_issues@sil.org";
 			ErrorReport.AddStandardProperties();
 			ExceptionHandler.Init(new WinFormsExceptionHandler());
 			ExceptionHandler.AddDelegate((w, e) => Analytics.ReportException(e.Exception));

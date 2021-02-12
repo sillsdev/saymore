@@ -21,7 +21,7 @@ See the [SayMore Trello Board](https://trello.com/board/saymore/4f1213c597586fed
 
 ## Bug Reports
 
-Reports can be entered in https://jira.sil.org/projects/SP/issues.  They can be entered there via email by sending to issues at saymore dot palaso dot org.
+Reports can be entered in https://jira.sil.org/projects/SP/issues.  They can be entered there via email by sending to saymore_issues@sil.org.
 
 ## Continuous Build System
 

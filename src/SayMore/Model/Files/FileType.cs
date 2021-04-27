@@ -716,7 +716,7 @@ namespace SayMore.Model.Files
 			{
 				Key = "Duration",
 				DataItemChooser = (info => info.Duration),
-				GetFormatedStatProvider = GetDurationStatistic
+				GetFormattedStatProvider = GetDurationStatistic
 			};
 
 			yield return new ComputedFieldInfo
@@ -725,7 +725,7 @@ namespace SayMore.Model.Files
 				Suffix = "kbps",
 				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.AudioBitRateSuffix", "kbps"),
 				DataItemChooser = (info => info.Audio.KilobitsPerSecond),
-				GetFormatedStatProvider = GetStringStatistic
+				GetFormattedStatProvider = GetStringStatistic
 			};
 
 			yield return new ComputedFieldInfo
@@ -734,7 +734,7 @@ namespace SayMore.Model.Files
 				Suffix = "kbps",
 				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.VideoBitRateSuffix", "kbps"),
 				DataItemChooser = (info => info.VideoKilobitsPerSecond),
-				GetFormatedStatProvider = GetStringStatistic
+				GetFormattedStatProvider = GetStringStatistic
 			};
 
 			yield return new ComputedFieldInfo
@@ -743,7 +743,7 @@ namespace SayMore.Model.Files
 				Suffix = "Hz",
 				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.SampleRateSuffix", "Hz"),
 				DataItemChooser = (info => info.SamplesPerSecond),
-				GetFormatedStatProvider = GetStringStatistic
+				GetFormattedStatProvider = GetStringStatistic
 			};
 
 			yield return new ComputedFieldInfo
@@ -752,21 +752,21 @@ namespace SayMore.Model.Files
 				Suffix = "bits",
 				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.BitDepthSuffix", "bits"),
 				DataItemChooser = (info => info.BitsPerSample == 0 ? null : info.BitsPerSample.ToString(CultureInfo.InvariantCulture)),
-				GetFormatedStatProvider = GetStringStatistic
+				GetFormattedStatProvider = GetStringStatistic
 			};
 
 			yield return new ComputedFieldInfo
 			{
 				Key = "Channels",
 				DataItemChooser = (info => info.Channels.ToString(CultureInfo.InvariantCulture)),
-				GetFormatedStatProvider = GetChannelsStatistic,
+				GetFormattedStatProvider = GetChannelsStatistic,
 			};
 
 			yield return new ComputedFieldInfo
 			{
 				Key = "Resolution",
 				DataItemChooser = (info => info.Resolution),
-				GetFormatedStatProvider = GetStringStatistic
+				GetFormattedStatProvider = GetStringStatistic
 			};
 
 			yield return new ComputedFieldInfo
@@ -775,7 +775,7 @@ namespace SayMore.Model.Files
 				Suffix = "frames/second",
 				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.FrameRateSuffix", "frames/second"),
 				DataItemChooser = (info => info.FramesPerSecond),
-				GetFormatedStatProvider = GetStringStatistic
+				GetFormattedStatProvider = GetStringStatistic
 			};
 		}
 
@@ -1125,7 +1125,7 @@ namespace SayMore.Model.Files
 		public Func<MediaFileInfo, object> DataItemChooser;
 
 		public Func<MediaFileInfo, Func<MediaFileInfo, object>,
-			string, string> GetFormatedStatProvider { get; set; }
+			string, string> GetFormattedStatProvider { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public ComputedFieldInfo()

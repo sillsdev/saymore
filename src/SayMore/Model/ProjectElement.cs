@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using L10NSharp;
+using SayMore.Media;
 using SIL.Code;
 using SIL.Reporting;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
+using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 
@@ -494,9 +496,22 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan GetTotalMediaDuration()
 		{
-			var totalTime = TimeSpan.Zero;
 			var files = GetComponentFiles().Where(f => !f.FileName.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix));
-			return files.Aggregate(totalTime, (current, file) => current + file.DurationSeconds);
+			var totalTime = new TimeSpan();
+			var mediaFilesAlreadyProcessed = new HashSet<MediaFileInfo>(new SourceAndStandardAudioCoalescingComparer());
+			foreach (var file in files)
+			{
+				var mediaFileInfo = file.MediaFileInfo;
+				if (mediaFileInfo != null)
+				{
+					if (mediaFilesAlreadyProcessed.Contains(mediaFileInfo))
+						continue;
+					mediaFilesAlreadyProcessed.Add(mediaFileInfo);
+				}
+				totalTime += file.DurationSeconds;
+			}
+
+			return totalTime;
 		}
 
 		/// ------------------------------------------------------------------------------------

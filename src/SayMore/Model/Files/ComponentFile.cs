@@ -19,6 +19,7 @@ using SayMore.Transcription.UI;
 using SayMore.UI.ElementListScreen;
 using SayMore.Utilities;
 using System.ComponentModel;
+using SayMore.Media;
 
 namespace SayMore.Model.Files
 {
@@ -299,6 +300,8 @@ namespace SayMore.Model.Files
 			get { return 0; }
 		}
 
+		public MediaFileInfo MediaFileInfo => StatisticsProvider?.GetFileData(PathToAnnotatedFile);
+
 		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan DurationSeconds
 		{
@@ -307,9 +310,9 @@ namespace SayMore.Model.Files
 				if (StatisticsProvider == null)
 					return TimeSpan.Zero;
 
-				var stats = StatisticsProvider.GetFileData(PathToAnnotatedFile);
+				var stats = MediaFileInfo;
 
-				if (stats == null || stats.Duration == default(TimeSpan))
+				if (stats == null || stats.Duration == default)
 				{
 					string duration = GetStringValue("Duration", string.Empty);
 					if (duration == "Not Generated")
@@ -381,7 +384,7 @@ namespace SayMore.Model.Files
 						PathToAnnotatedFile.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix))
 						return "Not Generated";
 					// Get the computed value (if there is one).
-					computedValue = computedFieldInfo.GetFormatedStatProvider(
+					computedValue = computedFieldInfo.GetFormattedStatProvider(
 						mediaFileInfo, computedFieldInfo.DataItemChooser, computedFieldInfo.Suffix);
 				}
 			}

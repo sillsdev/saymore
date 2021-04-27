@@ -241,6 +241,7 @@
     <Compile Include="MediaUtils\Audio\AudioUtils.cs" />
     <Compile Include="MediaUtils\Audio\WaveFileReaderWrapper.cs" />
     <Compile Include="Model\ArchivingHelper.cs" />
+    <Compile Include="Model\Files\DataGathering\SourceAndStandardAudioCoalescingComparer.cs" />
     <Compile Include="Model\IIMDIArchivable.cs" />
     <Compile Include="Model\IRAMPArchivable.cs" />
     <Compile Include="ResourceImageCache.cs" />
@@ -1053,6 +1054,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Overview\Statistics\StatisticsView.resx">
       <DependentUpon>StatisticsView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectWindow\ShowHtmlDialog.resx">
       <DependentUpon>ShowHtmlDialog.cs</DependentUpon>

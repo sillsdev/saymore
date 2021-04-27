@@ -71,6 +71,8 @@ namespace SayMore.UI.Overview.Statistics
 							UpdateStatusDisplay(false);
 							_model.NewStatisticsAvailable -= HandleNewDataAvailable;
 							_model.NewStatisticsAvailable += HandleNewDataAvailable;
+
+							_detectContextMenuRefreshTimer.Enabled = true;
 						}));
 				});
 			updateDisplayThread.Name = "StatisticsView.UpdateDisplay";
@@ -81,6 +83,7 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		private void UpdateStatusDisplay(bool working)
 		{
+			_detectContextMenuRefreshTimer.Enabled = false;
 			_buttonRefresh.Visible = !working;
 			_panelWorking.Visible = working;
 		}
@@ -176,6 +179,16 @@ namespace SayMore.UI.Overview.Statistics
 			// background thread is a no-no. UpdateDisplay will be called when the timer
 			// tick fires.
 			BeginInvoke(new Action(UpdateDisplay));
+		}
+
+		private void _detectContextMenuRefreshTimer_Tick(object sender, EventArgs e)
+		{
+			if (_webBrowser.DocumentText == "<HTML></HTML>\0")
+			{
+				// User must have used F5 or the context menu to refresh. This doesn't work,
+				// so now let's trigger the rel refresh.
+				HandleRefreshButtonClicked(sender, e);
+			}
 		}
 	}
 }

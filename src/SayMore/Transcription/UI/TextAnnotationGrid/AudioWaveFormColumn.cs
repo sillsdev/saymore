@@ -44,7 +44,15 @@ namespace SayMore.Transcription.UI
 			//_grid.Enter += HandleGridEnter;
 			_grid.CellEnter += HandleCellEnter;
 			_grid.PreProcessMouseClick += HandleGridPreProcessMouseClick;
-			_grid.SetPlaybackProgressReportAction(() => _grid.InvalidateCell(Index, _grid.CurrentCellAddress.Y));
+			_grid.SetPlaybackProgressReportAction(() =>
+			{
+				// SP-2214/SP-2218/SP-2221/SP-2225/SP-2226
+				// Although I could not figure out how to reproduce this, this is certainly the fix.
+				// At worst (unlikely), it could result in some kind of display issue, but it will
+				// avoid the crash.
+				if (_grid.CurrentCellAddress != null)
+					_grid.InvalidateCell(Index, _grid.CurrentCellAddress.Y);
+			});
 
 			//_grid.PlaybackSpeedChanged += HandlePlaybackSpeedChanged;
 

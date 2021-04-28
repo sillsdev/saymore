@@ -180,8 +180,8 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="L10NSharp.dll" Guid="{112CE0A5-3B37-488E-95C0-21F5E9609211}">
 				<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="yes" Source="..\..\output\release\L10NSharp.dll" />
 			</Component>
-			<Component Id="MarkdownDeep.dll" Guid="{ED7E13B3-7A16-4AF9-8D5B-EA7F7CB9BF03}">
-				<File Id="MarkdownDeep.dll" Name="MarkdownDeep.dll" KeyPath="yes" Source="..\..\output\release\MarkdownDeep.dll" />
+			<Component Id="Markdig.Signed.dll" Guid="{4150698F-FCAE-4E04-901D-2EBE162B8C3F}">
+				<File Id="Markdig.Signed.dll" Name="Markdig.Signed.dll" KeyPath="yes" Source="..\..\output\release\Markdig.Signed.dll" />
 			</Component>
 			<Component Id="MediaInfo.dll" Guid="{B87CF78F-0226-4F5B-B7DC-C13899E934E5}">
 				<File Id="MediaInfo.dll" Name="MediaInfo.dll" KeyPath="yes" Source="..\..\output\release\MediaInfo.dll" />

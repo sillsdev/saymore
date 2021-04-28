@@ -360,6 +360,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="System.Linq.Queryable.dll" Guid="{94FD68FF-E396-4F79-A3F6-A351882F4638}">
 				<File Id="System.Linq.Queryable.dll" Name="System.Linq.Queryable.dll" KeyPath="yes" Source="..\..\output\release\System.Linq.Queryable.dll" />
 			</Component>
+			<Component Id="System.Memory.dll" Guid="{8140AA12-F237-490B-9602-1CC480AE6B4C}">
+				<File Id="System.Memory.dll" Name="System.Memory.dll" KeyPath="yes" Source="..\..\output\release\System.Memory.dll" />
+			</Component>
 			<Component Id="System.Net.Http.dll" Guid="{CD647AAC-3B20-4296-97AD-88D674C7415E}">
 				<File Id="System.Net.Http.dll" Name="System.Net.Http.dll" KeyPath="yes" Source="..\..\output\release\System.Net.Http.dll" />
 			</Component>
@@ -659,6 +662,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="System.Linq.Parallel.dll"/>
 		<ComponentRef Id="System.Linq.Queryable.dll"/>
 		<ComponentRef Id="System.Net.Http.dll"/>
+		<ComponentRef Id="System.Memory.dll"/>
 		<ComponentRef Id="System.Net.NameResolution.dll"/>
 		<ComponentRef Id="System.Net.NetworkInformation.dll"/>
 		<ComponentRef Id="System.Net.Ping.dll"/>

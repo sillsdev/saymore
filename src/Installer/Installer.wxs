@@ -598,7 +598,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="ibusdotnet.dll"/>
 		<ComponentRef Id="icu.net.dll"/>
 		<ComponentRef Id="L10NSharp.dll"/>
-		<ComponentRef Id="MarkdownDeep.dll"/>
+		<ComponentRef Id="Markdig.Signed.dll"/>
 		<ComponentRef Id="MediaInfo.dll"/>
 		<ComponentRef Id="Microsoft.Bcl.AsyncInterfaces.dll"/>
 		<ComponentRef Id="Microsoft.DotNet.PlatformAbstractions.dll"/>

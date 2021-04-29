@@ -180,8 +180,8 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="L10NSharp.dll" Guid="{112CE0A5-3B37-488E-95C0-21F5E9609211}">
 				<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="yes" Source="..\..\output\release\L10NSharp.dll" />
 			</Component>
-			<Component Id="MarkdownDeep.dll" Guid="{ED7E13B3-7A16-4AF9-8D5B-EA7F7CB9BF03}">
-				<File Id="MarkdownDeep.dll" Name="MarkdownDeep.dll" KeyPath="yes" Source="..\..\output\release\MarkdownDeep.dll" />
+			<Component Id="Markdig.Signed.dll" Guid="{4150698F-FCAE-4E04-901D-2EBE162B8C3F}">
+				<File Id="Markdig.Signed.dll" Name="Markdig.Signed.dll" KeyPath="yes" Source="..\..\output\release\Markdig.Signed.dll" />
 			</Component>
 			<Component Id="MediaInfo.dll" Guid="{B87CF78F-0226-4F5B-B7DC-C13899E934E5}">
 				<File Id="MediaInfo.dll" Name="MediaInfo.dll" KeyPath="yes" Source="..\..\output\release\MediaInfo.dll" />
@@ -359,6 +359,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			</Component>
 			<Component Id="System.Linq.Queryable.dll" Guid="{94FD68FF-E396-4F79-A3F6-A351882F4638}">
 				<File Id="System.Linq.Queryable.dll" Name="System.Linq.Queryable.dll" KeyPath="yes" Source="..\..\output\release\System.Linq.Queryable.dll" />
+			</Component>
+			<Component Id="System.Memory.dll" Guid="{8140AA12-F237-490B-9602-1CC480AE6B4C}">
+				<File Id="System.Memory.dll" Name="System.Memory.dll" KeyPath="yes" Source="..\..\output\release\System.Memory.dll" />
 			</Component>
 			<Component Id="System.Net.Http.dll" Guid="{CD647AAC-3B20-4296-97AD-88D674C7415E}">
 				<File Id="System.Net.Http.dll" Name="System.Net.Http.dll" KeyPath="yes" Source="..\..\output\release\System.Net.Http.dll" />
@@ -598,7 +601,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="ibusdotnet.dll"/>
 		<ComponentRef Id="icu.net.dll"/>
 		<ComponentRef Id="L10NSharp.dll"/>
-		<ComponentRef Id="MarkdownDeep.dll"/>
+		<ComponentRef Id="Markdig.Signed.dll"/>
 		<ComponentRef Id="MediaInfo.dll"/>
 		<ComponentRef Id="Microsoft.Bcl.AsyncInterfaces.dll"/>
 		<ComponentRef Id="Microsoft.DotNet.PlatformAbstractions.dll"/>
@@ -659,6 +662,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="System.Linq.Parallel.dll"/>
 		<ComponentRef Id="System.Linq.Queryable.dll"/>
 		<ComponentRef Id="System.Net.Http.dll"/>
+		<ComponentRef Id="System.Memory.dll"/>
 		<ComponentRef Id="System.Net.NameResolution.dll"/>
 		<ComponentRef Id="System.Net.NetworkInformation.dll"/>
 		<ComponentRef Id="System.Net.Ping.dll"/>

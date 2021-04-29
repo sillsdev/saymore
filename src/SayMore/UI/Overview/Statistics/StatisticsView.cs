@@ -72,7 +72,7 @@ namespace SayMore.UI.Overview.Statistics
 							_model.NewStatisticsAvailable -= HandleNewDataAvailable;
 							_model.NewStatisticsAvailable += HandleNewDataAvailable;
 
-							_detectContextMenuRefreshTimer.Enabled = true;
+							_timerDetectBrowserRefreshedUsingContextMenu.Enabled = true;
 						}));
 				});
 			updateDisplayThread.Name = "StatisticsView.UpdateDisplay";
@@ -83,7 +83,7 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		private void UpdateStatusDisplay(bool working)
 		{
-			_detectContextMenuRefreshTimer.Enabled = false;
+			_timerDetectBrowserRefreshedUsingContextMenu.Enabled = false;
 			_buttonRefresh.Visible = !working;
 			_panelWorking.Visible = working;
 		}

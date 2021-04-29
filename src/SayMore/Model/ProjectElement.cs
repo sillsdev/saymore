@@ -498,17 +498,21 @@ namespace SayMore.Model
 		{
 			var files = GetComponentFiles().Where(f => !f.FileName.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix));
 			var totalTime = new TimeSpan();
+			// SP-2228: This hashset uses a NON-STANDARD IEqualityComparer that considers two media files
+			// to be EQUAL even if they are different files as long as one appears to be the original
+			// and the other is a derived "Standard Audio" version. That prevents us from double-counting
+			// the duration.
 			var mediaFilesAlreadyProcessed = new HashSet<MediaFileInfo>(new SourceAndStandardAudioCoalescingComparer());
 			foreach (var file in files)
 			{
-				var mediaFileInfo = file.MediaFileInfo;
+				var mediaFileInfo = file.GetMediaFileInfoOrNull();
 				if (mediaFileInfo != null)
 				{
 					if (mediaFilesAlreadyProcessed.Contains(mediaFileInfo))
 						continue;
 					mediaFilesAlreadyProcessed.Add(mediaFileInfo);
 				}
-				totalTime += file.DurationSeconds;
+				totalTime += file.GetDurationSeconds(mediaFileInfo);
 			}
 
 			return totalTime;

@@ -300,7 +300,8 @@ namespace SayMore.Model.Files
 			get { return 0; }
 		}
 
-		public MediaFileInfo MediaFileInfo => StatisticsProvider?.GetFileData(PathToAnnotatedFile);
+		/// ------------------------------------------------------------------------------------
+		public MediaFileInfo GetMediaFileInfoOrNull() => StatisticsProvider?.GetFileData(PathToAnnotatedFile);
 
 		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan DurationSeconds
@@ -310,19 +311,30 @@ namespace SayMore.Model.Files
 				if (StatisticsProvider == null)
 					return TimeSpan.Zero;
 
-				var stats = MediaFileInfo;
+				var stats = GetMediaFileInfoOrNull();
 
-				if (stats == null || stats.Duration == default)
-				{
-					string duration = GetStringValue("Duration", string.Empty);
-					if (duration == "Not Generated")
-						return TimeSpan.Zero;
-					return string.IsNullOrEmpty(duration) ? TimeSpan.Zero : TimeSpan.Parse(duration);
-				}
-
-				//trim off the milliseconds so it doesn't get too geeky
-				return TimeSpan.FromSeconds((int)stats.Duration.TotalSeconds);
+				return GetDurationSeconds(stats);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// This method is exposed as a convenience so a caller that has already called
+		/// GetMediaFileInfo, does not need to re-get it when accessing the DurationSeconds
+		/// property. The MediaFileInfo object supplied here is expected be the information from
+		/// GetMediaFileInfo.
+		/// ------------------------------------------------------------------------------------
+		internal TimeSpan GetDurationSeconds(MediaFileInfo stats)
+		{
+			if (stats == null || stats.Duration == default)
+			{
+				string duration = GetStringValue("Duration", string.Empty);
+				if (duration == "Not Generated")
+					return TimeSpan.Zero;
+				return string.IsNullOrEmpty(duration) ? TimeSpan.Zero : TimeSpan.Parse(duration);
+			}
+
+			//trim off the milliseconds so it doesn't get too geeky
+			return TimeSpan.FromSeconds((int)stats.Duration.TotalSeconds);
 		}
 
 		public string DurationString

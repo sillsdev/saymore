@@ -1,7 +1,10 @@
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
+using L10NSharp;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
+using SIL.Reporting;
 
 namespace SayMore.Media.Audio
 {
@@ -68,7 +71,7 @@ namespace SayMore.Media.Audio
 
 		/// ------------------------------------------------------------------------------------
 		public static Tuple<float, float>[,] GetSamples(IWaveStreamReader stream,
-			uint numberOfSamplesToReturn)
+			uint numberOfSamplesToReturn) // , string sourceForErrorReporting
 		{
 			var sampleCount = stream.SampleCount;
 			if (numberOfSamplesToReturn == 0 || sampleCount == 0 ||
@@ -98,8 +101,13 @@ namespace SayMore.Media.Audio
 			int sampleIndex = 0;
 			int read;
 			long totalRead = 0;
-			while (sampleIndex < numberOfSamplesToReturn && (read = stream.Read(buffer, valuesToRead)) > 0)
+			while (sampleIndex < numberOfSamplesToReturn)
 			{
+				if ((read = stream.Read(buffer, valuesToRead)) == 0)
+				{
+					ErrorReport.NotifyUserOfProblem(LocalizationManager.GetString("", "Fewer samples than requested were found in\r\n{sourceForErrorReporting}.\r\nFile may be corrupt. Requested samples: {numberOfSamplesToReturn}. Actual samples returned: {sampleIndex}"));
+					break;
+				}
 				for (var c = 0; c < stream.NativeChannelCount; c++)
 				{
 					var biggestSample = float.MinValue;

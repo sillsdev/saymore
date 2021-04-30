@@ -28,9 +28,9 @@ namespace SayMore.Transcription.UI
 			// ENHANCE: I made the Dispose method for this class disposes of the Image. However,
 			// Dispose !never! gets called. This is not a huge bitmap, of course, but this
 			// constructor can get called quite a few times. It gets squirreled away in the _editors
-			// hastable in FileType using a cryptic hashcode from ElementListViewModel. But FileType
+			// hashtable in FileType using a cryptic hashcode from ElementListViewModel. But FileType
 			// is never disposed, nor is the hashtable ever cleared. So even when changing projects,
-			// it just contionues to grow. I'm not exactly sure how to fix this memory leak because
+			// it just continues to grow. I'm not exactly sure how to fix this memory leak because
 			// there's no obvious time when it makes sense to clear FileType._editors. I tried
 			// discarding editor providers for all component files of the selected element every time
 			// SelectedElement changed, but that caused the Contributors editor to appear blank and

@@ -8,9 +8,11 @@ using SIL.IO;
 using SIL.Reporting;
 using SIL.TestUtilities;
 using SayMore;
+using SayMore.Media;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SIL.Reflection;
 
 namespace SayMoreTests.Model
 {
@@ -391,15 +393,26 @@ namespace SayMoreTests.Model
 		public void GetTotalMediaDuration_HasMediaFiles_ReturnsCorrectDuration()
 		{
 			var file1 = new Mock<ComponentFile>(MockBehavior.Default, FileType.Create("Audio", ".wav")){ CallBase = true };
-			file1.Setup(f => f.DurationSeconds).Returns(new TimeSpan(0, 3, 22));
+			var timespan1 = new TimeSpan(0, 3, 22);
+			file1.Setup(f => f.DurationSeconds).Returns(timespan1);
+			var mediaFileInfo1 = MediaFileInfo.GetInfo("dummy1.mp3");
+			mediaFileInfo1.Audio = new MediaFileInfo.AudioInfo { DurationInMilliseconds = (long)timespan1.TotalMilliseconds };
+			ReflectionHelper.SetProperty(mediaFileInfo1, "MediaFilePath", "test_Source.wav");
+			file1.Setup(f => f.GetMediaFileInfoOrNull()).Returns(mediaFileInfo1);
 			file1.Setup(f => f.FileName).Returns("test_Source.wav");
 
 			var file2 = new Mock<ComponentFile>(MockBehavior.Default, FileType.Create("Text", ".txt")){ CallBase = true };
 			file2.Setup(f => f.DurationSeconds).Returns(new TimeSpan(0));
+			//file2.Setup(f => f.GetMediaFileInfoOrNull()).Returns((MediaFileInfo)null);
 			file2.Setup(f => f.FileName).Returns("test_Text.txt");
 
 			var file3 = new Mock<ComponentFile>(MockBehavior.Default, FileType.Create("Audio", ".wav")){ CallBase = true };
-			file3.Setup(f => f.DurationSeconds).Returns(new TimeSpan(0, 4, 14));
+			var timespan3 = new TimeSpan(0, 4, 14);
+			file3.Setup(f => f.DurationSeconds).Returns(timespan3);
+			var mediaFileInfo3 = MediaFileInfo.GetInfo("0_to_10.25_Careful.wav");
+			mediaFileInfo3.Audio = new MediaFileInfo.AudioInfo { DurationInMilliseconds = (long)timespan3.TotalMilliseconds };
+			ReflectionHelper.SetProperty(mediaFileInfo3, "MediaFilePath", "0_to_10.25_Careful.wav");
+			file3.Setup(f => f.GetMediaFileInfoOrNull()).Returns(mediaFileInfo3);
 			file3.Setup(f => f.FileName).Returns("0_to_10.25_Careful.wav");
 
 			var session = new Mock<Session>(){ CallBase = true };

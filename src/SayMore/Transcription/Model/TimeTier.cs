@@ -296,7 +296,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsAcceptableSegmentLength(float start, float end)
 		{
-			return end - start >= Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f;
+			return Math.Round(((end - start) * 1000f - Settings.Default.MinimumSegmentLengthInMilliseconds) * 100f) >= 0 ;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -165,19 +165,19 @@ namespace SayMoreTests.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void InsertTierSegment_BoundaryIsTooCloseToPrevious_ReturnsNotSuccess()
+		[TestCase(10.459f)]
+		[TestCase(30.4f)]
+		public void InsertTierSegment_BoundaryIsTooCloseToPrevious_ReturnsNotSuccess(float newSegmentLoc)
 		{
-			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(10.49f));
-			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(30.4f));
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(newSegmentLoc));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void InsertTierSegment_BoundaryIsTooCloseToNext_ReturnsNotSuccess()
+		[TestCase(19.541f)]
+		[TestCase(29.541f)]
+		public void InsertTierSegment_BoundaryIsTooCloseToNext_ReturnsNotSuccess(float newSegmentLoc)
 		{
-			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _collection.InsertTierSegment(19.501f));
-			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _collection.InsertTierSegment(29.501f));
+			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _collection.InsertTierSegment(newSegmentLoc));
 		}
 
 		/// ------------------------------------------------------------------------------------

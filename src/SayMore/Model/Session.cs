@@ -219,7 +219,8 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		private bool GetShouldReportHaveConsent()
 		{
-			var contributions = MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
+			// MetaDataFile can be null if this Session is already disposed (when called via OnPaint). 
+			var contributions = MetaDataFile?.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
 			var personNames = contributions?.Select(c => c.ContributorName).ToArray();
 			if (personNames == null)
 				return false;

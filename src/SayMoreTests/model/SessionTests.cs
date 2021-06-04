@@ -95,7 +95,7 @@ namespace SayMoreTests.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void Constructor_NewSession_PojectLocationInfoCopiedToSessionAndGenreSetToUnknown()
+		public void Constructor_NewSession_ProjectLocationInfoCopiedToSessionAndGenreSetToUnknown()
 		{
 			var project = new Project(_parentFolder.Combine("foo", "foo." + Project.ProjectSettingsFileExtension), null, null);
 			project.Country = "Fred";

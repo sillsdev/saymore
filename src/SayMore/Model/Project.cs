@@ -655,10 +655,13 @@ namespace SayMore.Model
 				Dictionary<string, HashSet<string>> contributorFiles = new Dictionary<string, HashSet<string>>();
 				model.AddFileGroup(string.Empty, GetSessionFilesToArchive(model.GetType()), AddingSessionFilesProgressMsg);
 				var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
+				var participants = new HashSet<string>();
 				foreach (var session in GetAllSessions())
 				{
 					foreach (var person in session.GetParticipantFilesToArchive(model.GetType()))
 					{
+						if (!participants.Add(person.Key))
+							continue;
 						model.AddFileGroup(person.Key, person.Value, string.Format(fmt, person.Key));
 
 						if (!contributorFiles.ContainsKey(person.Key))

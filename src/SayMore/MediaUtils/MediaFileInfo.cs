@@ -117,7 +117,7 @@ namespace SayMore.Media
 		/// Gets the total duration in seconds. For audio files, the duration is always the
 		/// duration of the audio. For video files, it is the total duration, counting from the
 		/// start of the first track to the end of the last track (audio and video tracks are
-		/// not guaranteed to start and end simultaneouly).
+		/// not guaranteed to start and end simultaneously).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public float DurationInSeconds

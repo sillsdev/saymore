@@ -41,6 +41,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._buttonCopy = new System.Windows.Forms.ToolStripButton();
 			this._buttonSave = new System.Windows.Forms.ToolStripButton();
 			this._buttonPrint = new System.Windows.Forms.ToolStripButton();
+			this._timerDetectBrowserRefreshedUsingContextMenu = new System.Windows.Forms.Timer(this.components);
 			this._panelBrowser.SuspendLayout();
 			this._panelWorking.SuspendLayout();
 			this._tableLayoutWorking.SuspendLayout();
@@ -247,6 +248,10 @@ namespace SayMore.UI.Overview.Statistics
 			this._buttonPrint.Text = "Print";
 			this._buttonPrint.Click += new System.EventHandler(this.HandlePrintButtonClicked);
 			// 
+			// _detectContectMenuRefreshTimer
+			// 
+			this._timerDetectBrowserRefreshedUsingContextMenu.Tick += new System.EventHandler(this._detectContextMenuRefreshTimer_Tick);
+			// 
 			// StatisticsView
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -288,5 +293,6 @@ namespace SayMore.UI.Overview.Statistics
 		private System.Windows.Forms.ToolStripButton _buttonCopy;
 		private System.Windows.Forms.ToolStripButton _buttonSave;
 		private System.Windows.Forms.ToolStripButton _buttonPrint;
-    }
+		private System.Windows.Forms.Timer _timerDetectBrowserRefreshedUsingContextMenu;
+	}
 }

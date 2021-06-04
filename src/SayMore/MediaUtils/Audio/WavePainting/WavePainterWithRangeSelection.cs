@@ -17,8 +17,8 @@ namespace SayMore.Media.Audio
 		private readonly Dictionary<Color, TimeRange> _selectedRegions = new Dictionary<Color, TimeRange>();
 
 		/// ------------------------------------------------------------------------------------
-		public WavePainterWithRangeSelection(Control ctrl, WaveFileReader stream) :
-			base(ctrl, stream)
+		public WavePainterWithRangeSelection(Control ctrl, WaveFileReader stream, string source) :
+			base(ctrl, stream, source)
 		{
 			UnsegmentedBackgroundColor = Color.Transparent;
 			SegmentedBackgroundColor = Color.Transparent;

@@ -23,9 +23,9 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override WavePainterBasic GetNewWavePainter(WaveFileReader stream)
+		protected override WavePainterBasic GetNewWavePainter(WaveFileReader stream, string source)
 		{
-			return new WavePainterWithRangeSelection(this, stream);
+			return new WavePainterWithRangeSelection(this, stream, source);
 		}
 
 		/// ------------------------------------------------------------------------------------

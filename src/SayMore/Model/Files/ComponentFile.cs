@@ -301,7 +301,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public MediaFileInfo GetMediaFileInfoOrNull() => StatisticsProvider?.GetFileData(PathToAnnotatedFile);
+		public virtual MediaFileInfo GetMediaFileInfoOrNull() => StatisticsProvider?.GetFileData(PathToAnnotatedFile);
 
 		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan DurationSeconds

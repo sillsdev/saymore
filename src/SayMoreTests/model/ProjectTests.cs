@@ -286,9 +286,9 @@ namespace SayMoreTests.Model
 				.Callback((string groupId, IEnumerable<string> files, string msg) => TrackFiles(groupId, files, msg));
 
 			prj.SetFilesToArchive(model.Object);
-			Assert.AreEqual(11, _fileList.Count);
-			Assert.AreEqual(4, (from f in _fileList where f.Contains(person1) select f).Count());
-			Assert.AreEqual(4, (from f in _fileList where f.Contains(person2) select f).Count());
+			Assert.AreEqual(7, _fileList.Count);
+			Assert.AreEqual(2, (from f in _fileList where f.Contains(person1) select f).Count());
+			Assert.AreEqual(2, (from f in _fileList where f.Contains(person2) select f).Count());
 			Assert.AreEqual(2, (from f in _fileList where f.Contains(person3) select f).Count());
 			_fileList.Clear();
 		}

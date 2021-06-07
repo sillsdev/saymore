@@ -1125,7 +1125,8 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[TestCase(32, -8, 0, ExpectedResult = 1)] // 36 pixels visible in segment. Entire button visible.
-		[TestCase(10, -12, 2, ExpectedResult = 0)] // 12 pixels visible in segment. Entire button visible, no visible left margin
+		[TestCase(10, -11, 2, ExpectedResult = 0)] // 13 pixels visible in segment. Entire button visible, no visible left margin
+		[TestCase(10, -12, 2, ExpectedResult = -1)] // 12 pixels visible in segment. Button clipped by 1 pixel on left to allow for minimim right margin
 		[TestCase(20, -28, 12, ExpectedResult = -10)] // 16 pixels visible in segment. 20-10 = 10 pixels of button visible. (Don't bother with reduced margins.)
 		public int GetButtonRectangleForSegment_SingleButtonFitsInRectangleThatIsScrolledTooFarLeftToAllowFullLeftMargin_ReducedOrClippedLeftPosition(
 			int buttonWidth, int boundingRectangleLeft, int extraWidth)

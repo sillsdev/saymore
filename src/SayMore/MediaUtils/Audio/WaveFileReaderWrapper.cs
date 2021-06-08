@@ -14,6 +14,11 @@ namespace SayMore.Media.Audio
 	public interface IWaveStreamReader
 	{
 		/// ------------------------------------------------------------------------------------
+		/// Just used for ToString implementation (for error reporting)
+		/// ------------------------------------------------------------------------------------
+		string Source { get; }
+
+		/// ------------------------------------------------------------------------------------
 		long SampleCount { get; }
 
 		/// ------------------------------------------------------------------------------------
@@ -62,14 +67,18 @@ namespace SayMore.Media.Audio
 		{
 			_createdReader = true;
 			_reader = new WaveFileReader(audioPath);
+			Source = audioPath;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public WaveFileReaderWrapper(WaveFileReader reader)
+		public WaveFileReaderWrapper(WaveFileReader reader, string source)
 		{
 			_createdReader = false;
 			_reader = reader;
+			Source = source;
 		}
+
+		public string Source { get; }
 
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
@@ -86,7 +95,6 @@ namespace SayMore.Media.Audio
 		{
 			get { return _reader.TotalTime; }
 		}
-
 		/// ------------------------------------------------------------------------------------
 		public long SampleCount
 		{
@@ -148,5 +156,7 @@ namespace SayMore.Media.Audio
 			_sampleChannel = null;
 			_reader.Close();
 		}
+
+		public override string ToString() => Source;
 	}
 }

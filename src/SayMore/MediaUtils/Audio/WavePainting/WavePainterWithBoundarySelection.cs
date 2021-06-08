@@ -21,8 +21,7 @@ namespace SayMore.Media.Audio
 
 		/// ------------------------------------------------------------------------------------
 		public WavePainterWithBoundarySelection(WaveControlWithMovableBoundaries ctrl,
-			WaveFileReader stream) :
-			base(ctrl, stream)
+			WaveFileReader stream, string source) : base(ctrl, stream, source)
 		{
 			Initialize(ctrl);
 		}

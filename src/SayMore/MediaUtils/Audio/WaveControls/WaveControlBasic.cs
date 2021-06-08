@@ -100,7 +100,7 @@ namespace SayMore.Media.Audio
 		{
 			try
 			{
-				LoadFile(new WaveFileReader(audioFileName));
+				LoadFile(new WaveFileReader(audioFileName), audioFileName);
 			}
 			catch
 			{
@@ -110,7 +110,7 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void LoadFile(WaveFileReader stream)
+		public void LoadFile(WaveFileReader stream, string source)
 		{
 			if (Painter != null)
 				Painter.Dispose();
@@ -122,7 +122,7 @@ namespace SayMore.Media.Audio
 			_playbackStream = (PlaybackStreamProvider == null ?
 				WaveStream : PlaybackStreamProvider(WaveStream));
 
-			Painter = GetNewWavePainter(stream);
+			Painter = GetNewWavePainter(stream, source);
 
 			Painter.BottomReservedAreaHeight = _savedBottomReservedAreaHeight;
 			Painter.BottomReservedAreaColor = _bottomReservedAreaColor;
@@ -163,9 +163,9 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual WavePainterBasic GetNewWavePainter(WaveFileReader stream)
+		protected virtual WavePainterBasic GetNewWavePainter(WaveFileReader stream, string source)
 		{
-			return new WavePainterBasic(this, stream);
+			return new WavePainterBasic(this, stream, source);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -49,6 +49,9 @@ namespace SayMoreTests.Transcription.Model
 			}
 
 			/// ------------------------------------------------------------------------------------
+			public string Source => GetType().Name;
+
+			/// ------------------------------------------------------------------------------------
 			public long SampleCount
 			{
 				get { return _samples.Length / _channels; }
@@ -102,6 +105,8 @@ namespace SayMoreTests.Transcription.Model
 			public void Close()
 			{
 			}
+
+			public override string ToString() => Source;
 		}
 
 		DummyWaveStream _sampleProvider;

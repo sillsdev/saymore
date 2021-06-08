@@ -8,9 +8,11 @@ using SIL.IO;
 using SIL.Reporting;
 using SIL.TestUtilities;
 using SayMore;
+using SayMore.Media;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SIL.Reflection;
 
 namespace SayMoreTests.Model
 {
@@ -390,41 +392,43 @@ namespace SayMoreTests.Model
 		[Test]
 		public void GetTotalMediaDuration_HasMediaFiles_ReturnsCorrectDuration()
 		{
-			var file1 = new Mock<ComponentFile>(MockBehavior.Default, FileType.Create("Audio", ".wav")){ CallBase = true };
-			file1.Setup(f => f.DurationSeconds).Returns(new TimeSpan(0, 3, 22));
-			file1.Setup(f => f.FileName).Returns("test_Source.wav");
+			var file1 = CreateMockWavFile(new TimeSpan(0, 3, 22), "testSource");
 
 			var file2 = new Mock<ComponentFile>(MockBehavior.Default, FileType.Create("Text", ".txt")){ CallBase = true };
 			file2.Setup(f => f.DurationSeconds).Returns(new TimeSpan(0));
 			file2.Setup(f => f.FileName).Returns("test_Text.txt");
 
-			var file3 = new Mock<ComponentFile>(MockBehavior.Default, FileType.Create("Audio", ".wav")){ CallBase = true };
-			file3.Setup(f => f.DurationSeconds).Returns(new TimeSpan(0, 4, 14));
-			file3.Setup(f => f.FileName).Returns("0_to_10.25_Careful.wav");
+			var file3 = CreateMockWavFile(new TimeSpan(0, 4, 14), "0_to_10.25_Careful.wav");
 
-			var session = new Mock<Session>(){ CallBase = true };
-			session.Setup(e => e.GetComponentFiles()).Returns(new[] { file1.Object, file2.Object, file3.Object });
+			var session = new Mock<Session> { CallBase = true };
+			session.Setup(e => e.GetComponentFiles()).Returns(new[] { file1, file2.Object, file3 });
 
 			Assert.AreEqual(new TimeSpan(0, 7, 36), session.Object.GetTotalMediaDuration());
+		}
+
+		private ComponentFile CreateMockWavFile(TimeSpan timeSpan, string name)
+		{
+			if (!name.EndsWith(".wav"))
+				name += ".wav";
+			var file = new Mock<ComponentFile>(MockBehavior.Default, FileType.Create("Audio", ".wav")){ CallBase = true };
+			file.Setup(f => f.DurationSeconds).Returns(timeSpan);
+			var mediaFileInfo1 = MediaFileInfo.GetInfo(name);
+			mediaFileInfo1.Audio = new MediaFileInfo.AudioInfo { DurationInMilliseconds = (long)timeSpan.TotalMilliseconds };
+			ReflectionHelper.SetProperty(mediaFileInfo1, "MediaFilePath", name);
+			file.Setup(f => f.GetMediaFileInfoOrNull()).Returns(mediaFileInfo1);
+			file.Setup(f => f.FileName).Returns(name);
+			return file.Object;
 		}
 
 		[Test]
 		public void GetTotalMediaDuration_HasOralAnnotationGeneratedFile_ReturnsCorrectDuration()
 		{
-			var file1 = new Mock<ComponentFile>(MockBehavior.Default, FileType.Create("Audio", ".wav")){ CallBase = true };
-			file1.Setup(f => f.DurationSeconds).Returns(new TimeSpan(0, 3, 22));
-			file1.Setup(f => f.FileName).Returns("test_Source.wav");
-
-			var file2 = new Mock<ComponentFile>(MockBehavior.Default, FileType.Create("Audio", ".wav")){ CallBase = true };
-			file2.Setup(f => f.DurationSeconds).Returns(new TimeSpan(0, 10, 37));
-			file2.Setup(f => f.FileName).Returns("test_Source" + Settings.Default.OralAnnotationGeneratedFileSuffix);
-
-			var file3 = new Mock<ComponentFile>(MockBehavior.Default, FileType.Create("Audio", ".wav")){ CallBase = true };
-			file3.Setup(f => f.DurationSeconds).Returns(new TimeSpan(0, 4, 14));
-			file3.Setup(f => f.FileName).Returns("0_to_10.25_Careful.wav");
-
-			var session = new Mock<Session>(){ CallBase = true };
-			session.Setup(e => e.GetComponentFiles()).Returns(new[] { file1.Object, file2.Object, file3.Object });
+			var session = new Mock<Session> { CallBase = true };
+			session.Setup(e => e.GetComponentFiles()).Returns(new[] {
+				CreateMockWavFile(new TimeSpan(0, 3, 22), "test_Source"),
+				CreateMockWavFile(new TimeSpan(0, 10, 37), "test_Source" + Settings.Default.OralAnnotationGeneratedFileSuffix),
+				CreateMockWavFile(new TimeSpan(0, 4, 14), "0_to_10.25_Careful") 
+			});
 
 			Assert.AreEqual(new TimeSpan(0, 7, 36), session.Object.GetTotalMediaDuration());
 		}

@@ -93,7 +93,8 @@
 		ExcludeCategory="SkipOnTeamCity,$(excludedCategories)"
 		WorkingDirectory="$(RootDir)/output/$(Configuration)"
 		Force32Bit="$(useNUnit-x86)"
-		Verbose="true"/>
+		Verbose="true"
+		TeamCity="true"/>
   </Target>
 
   <Target Name="UpdateDownloadInfo" DependsOnTargets="VersionNumbers" >

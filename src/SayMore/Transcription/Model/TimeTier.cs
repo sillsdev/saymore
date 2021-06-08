@@ -294,9 +294,27 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>Determines whether a segment that starts and ends at the specified points
+		/// (in seconds) in an audio file would long enough to be an acceptable/reasonable
+		/// length segment. 
+		/// </summary>
+		/// <param name="start">Start of (proposed or actual) segment, in seconds</param>
+		/// <param name="end">End of (proposed or actual) segment, in seconds</param>
+		/// <remarks>The "minimum" length is more of a practical minimum, determined by what
+		/// can be reasonably displayed in the UI, rather than an absolute theoretical minimum.
+		/// Having a minimum also prevents ridiculously short segments that couldn't possibly
+		/// contain a useful utterance.
+		/// </remarks>
+		/// ------------------------------------------------------------------------------------
 		public bool GetIsAcceptableSegmentLength(float start, float end)
 		{
-			return end - start >= Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f;
+			// Because the floating point arithmetic can result in rounding errors at a level
+			// of precision greater than is represented by the minimum length, we usse rounding
+			// to prevent this method from returning false simply because of a lack of precision
+			// in storing floating point numbers. (In practice, we probably don't care which way
+			// it goes at the ragged edge of the cutoff, but this keeps unit tests from failing
+			// in unpredictably bizarre ways.)
+			return Math.Round(((end - start) * 1000f - Settings.Default.MinimumSegmentLengthInMilliseconds) * 100f) >= 0 ;
 		}
 
 		/// ------------------------------------------------------------------------------------

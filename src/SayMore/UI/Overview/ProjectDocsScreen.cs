@@ -16,6 +16,7 @@ namespace SayMore.UI.Overview
 {
 	public abstract partial class ProjectDocsScreen : EditorBase, ISayMoreView
 	{
+		private const string kOfficeTempPrefix = "~$";
 		protected abstract string FolderName { get; }
 		protected abstract string ArchiveSessionName { get; }
 
@@ -136,10 +137,11 @@ namespace SayMore.UI.Overview
 			return true;
 		}
 
-		private IEnumerable<ComponentFile> GetFiles()
+		private IReadOnlyCollection<ComponentFile> GetFiles()
 		{
 			var dir = Path.Combine(Program.CurrentProject.FolderPath, FolderName);
-			if (!Directory.Exists(dir)) yield break;
+			if (!Directory.Exists(dir))
+				return new ComponentFile[0];
 
 			var unknownFileType = new FileType[]
 			{new UnknownFileType(null, null), new AudioFileType(null, null, null), new VideoFileType(null, null, null), new ImageFileType(null, null) };
@@ -147,8 +149,8 @@ namespace SayMore.UI.Overview
 			var blankSerializer = new XmlFileSerializer(null);
 
 			var files = Directory.GetFiles(dir);
-			foreach (var file in files.Where(f => !f.EndsWith(Settings.Default.MetadataFileExtension)))
-				yield return new ComponentFile(null, file, unknownFileType, blankRoles, blankSerializer, null, null, null);
+			return files.Where(f => !f.EndsWith(Settings.Default.MetadataFileExtension) && !f.StartsWith(kOfficeTempPrefix))
+				.Select(f => new ComponentFile(null, f, unknownFileType, blankRoles, blankSerializer, null, null, null)).ToArray();
 		}
 
 		private void ProjectDescriptionDocsScreen_Load(object sender, EventArgs e)

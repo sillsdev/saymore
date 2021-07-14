@@ -23,7 +23,7 @@ namespace SayMore.UI.ElementListScreen
 	/// ----------------------------------------------------------------------------------------
 	public partial class ComponentFileGrid : UserControl
 	{
-		private IEnumerable<ComponentFile> _files;
+		private IReadOnlyCollection<ComponentFile> _files;
 		private string _gridColSettingPrefix;
 		private bool _handlingForceRefresh;
 
@@ -211,7 +211,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		void HandleFileGridCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
 		{
-			if (e.ColumnIndex < 0 || e.ColumnIndex > 1 || e.RowIndex < 0)
+			if (e.ColumnIndex < 0 || e.ColumnIndex > 1 || e.RowIndex < 0 || e.RowIndex >= _files.Count())
 				return;
 
 			var file = _files.ElementAt(e.RowIndex);
@@ -394,6 +394,8 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleFileGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
+			if (e.ColumnIndex < 0 || e.ColumnIndex >= _grid.ColumnCount || e.RowIndex < 0 || e.RowIndex >= _files.Count())
+				return;
 			var propName = _grid.Columns[e.ColumnIndex].DataPropertyName;
 			var currFile = _files.ElementAt(e.RowIndex);
 			e.Value = (currFile == null ? null : ReflectionHelper.GetProperty(currFile, propName));
@@ -457,13 +459,13 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void UpdateComponentFileList(IEnumerable<ComponentFile> componentFiles)
+		public void UpdateComponentFileList(IReadOnlyCollection<ComponentFile> componentFiles)
 		{
 			UpdateComponentFileList(componentFiles, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateComponentFileList(IEnumerable<ComponentFile> componentFiles,
+		private void UpdateComponentFileList(IReadOnlyCollection<ComponentFile> componentFiles,
 			ComponentFile fileToSelectAfterUpdate)
 		{
 			if (fileToSelectAfterUpdate == null)
@@ -478,6 +480,7 @@ namespace SayMore.UI.ElementListScreen
 			// event in the process of changing the row count but it fires it for rows that
 			// are no longer supposed to exist. This tends to happen when the row count was
 			// previously higher than the new value.
+			// Note (TomB): Possibly related to SP-2233.
 			_grid.CellValueNeeded -= HandleFileGridCellValueNeeded;
 			_grid.CurrentCell = null;
 			_grid.RowCount = _files.Count();

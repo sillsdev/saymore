@@ -112,7 +112,7 @@ namespace SayMore.Transcription.Model
 			//(StreamReader.SampleCount > uint.MaxValue) ? uint.MaxValue : (uint)StreamReader.SampleCount;
 			if (requestedSamples > 0)
 			{
-				var samples = AudioFileHelper.GetSamples(StreamReader, requestedSamples); //, _file.PathToAnnotatedFile
+				var samples = AudioFileHelper.GetSamples(StreamReader, requestedSamples);
 				uint remainingSamples = (uint)samples.GetLength(0);
 
 				if (remainingSamples > 0)

@@ -1,7 +1,10 @@
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
+using L10NSharp;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
+using SIL.Reporting;
 
 namespace SayMore.Media.Audio
 {
@@ -28,7 +31,7 @@ namespace SayMore.Media.Audio
 		{
 			get
 			{
-				if (_audioDuration == default(TimeSpan))
+				if (_audioDuration == default)
 				{
 					using (var stream = new WaveFileReaderWrapper(AudioFilePath))
 					{
@@ -92,14 +95,24 @@ namespace SayMore.Media.Audio
 			// back in synch. The buffer needs to be big enough to hold the extra sample for the times through the loop
 			// when we're reading the higher number of samples.
 			double idealSamplesProcessed = 0;
-			var buffer = new float[(int)(Math.Ceiling(samplesPerAggregate)) * channels];
-			int valuesToRead = (int)(Math.Floor(samplesPerAggregate)) * channels;
+			var buffer = new float[(int)Math.Ceiling(samplesPerAggregate) * channels];
+			int valuesToRead = (int)Math.Floor(samplesPerAggregate) * channels;
 
-			int sampleIndex = 0;
-			int read;
 			long totalRead = 0;
-			while (sampleIndex < numberOfSamplesToReturn && (read = stream.Read(buffer, valuesToRead)) > 0)
+			for (int sampleIndex = 0; sampleIndex < numberOfSamplesToReturn; sampleIndex++)
 			{
+				int read;
+				if ((read = stream.Read(buffer, valuesToRead)) == 0)
+				{
+					ErrorReport.NotifyUserOfProblem(new ShowOncePerSessionBasedOnExactMessagePolicy(),
+						string.Format(LocalizationManager.GetString("SoundFileUtils.UnexpectedEndOfStream",
+							"Fewer values than requested were found in\r\n{0}.\r\nFile may be corrupt. Requested values: {1}. Actual values returned: {2}",
+							"Param 0: Name of the file used as the source of the data stream;" +
+							"Param 1: Number of values requested;" +
+							"Param 2: Number of values read"),
+							stream, numberOfSamplesToReturn, totalRead * channels));
+					break;
+				}
 				for (var c = 0; c < stream.NativeChannelCount; c++)
 				{
 					var biggestSample = float.MinValue;
@@ -115,13 +128,11 @@ namespace SayMore.Media.Audio
 				}
 
 				// See big comment above.
-				valuesToRead = (int)(Math.Floor(samplesPerAggregate)) * channels;
+				valuesToRead = (int)Math.Floor(samplesPerAggregate) * channels;
 				totalRead += (read / channels);
 				idealSamplesProcessed += samplesPerAggregate;
 				if (totalRead < Math.Floor(idealSamplesProcessed))
 					valuesToRead += channels;
-
-				sampleIndex++;
 			}
 
 			return samplesToReturn;

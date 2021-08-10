@@ -44,6 +44,7 @@ namespace SayMore.Media.Audio
 		protected int _channels = 1;
 		protected long _numberOfSamples;
 		protected WaveFileReader _waveStream;
+		private readonly string _source;
 		protected TimeSpan _movedBoundary;
 		protected TimeSpan _movedBoundarysOrigTime;
 		protected bool _allowDrawing = true;
@@ -54,15 +55,16 @@ namespace SayMore.Media.Audio
 		protected readonly List<TimeRange> _ignoredRegions = new List<TimeRange>();
 
 		/// ------------------------------------------------------------------------------------
-		public WavePainterBasic(WaveFileReader stream) : this(null, stream)
+		public WavePainterBasic(WaveFileReader stream, string source) : this(null, stream, source)
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public WavePainterBasic(Control ctrl, WaveFileReader stream) :
+		public WavePainterBasic(Control ctrl, WaveFileReader stream, string source) :
 			this(ctrl, new float[0], stream.TotalTime)
 		{
 			_waveStream = stream;
+			_source = source;
 			_channels = _waveStream.WaveFormat.Channels;
 			_numberOfSamples = _waveStream.SampleCount;
 		}
@@ -252,7 +254,7 @@ namespace SayMore.Media.Audio
 
 			if (_waveStream != null)
 			{
-				_samplesToDraw = AudioFileHelper.GetSamples(new WaveFileReaderWrapper(_waveStream),
+				_samplesToDraw = AudioFileHelper.GetSamples(new WaveFileReaderWrapper(_waveStream, _source),
 					(uint)(VirtualWidth - kRightDisplayPadding));
 			}
 		}

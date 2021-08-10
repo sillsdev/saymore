@@ -106,7 +106,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<TimeSpan> GetNaturalBreaks()
+		internal IEnumerable<TimeSpan> GetNaturalBreaks()
 		{
 			uint requestedSamples = (uint)StreamReader.TotalTime.TotalMilliseconds;
 			//(StreamReader.SampleCount > uint.MaxValue) ? uint.MaxValue : (uint)StreamReader.SampleCount;
@@ -192,7 +192,11 @@ namespace SayMore.Transcription.Model
 		{
 			double score = 0;
 			for (int c = 0; c < samples.GetLength(1); c++)
-				score += Math.Abs(samples[targetBreak, c].Item1) + Math.Abs(samples[targetBreak, c].Item2);
+			{
+				var sample = samples[targetBreak, c];
+				if (sample != null)
+					score += Math.Abs(sample.Item1) + Math.Abs(sample.Item2);
+			}
 			return score;
 		}
 

@@ -162,7 +162,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void InitializeWaveControl()
 		{
-			_waveControl.LoadFile(_viewModel.OrigWaveStream as WaveFileReader);
+			_waveControl.LoadFile(_viewModel.OrigWaveStream as WaveFileReader, _viewModel.ComponentFile.PathToAnnotatedFile);
 			_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
 			_waveControl.Painter.SetIgnoredRegions(_viewModel.GetIgnoredSegmentRanges());
 			_waveControl.PostPaintAction = HandleWaveControlPostPaint;

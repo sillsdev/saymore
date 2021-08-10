@@ -9,15 +9,10 @@ namespace SayMore.Media.Audio
 	public class WaveControlWithBoundarySelection : WaveControlWithMovableBoundaries
 	{
 		/// ------------------------------------------------------------------------------------
-		protected override WavePainterBasic GetNewWavePainter(WaveFileReader stream)
+		protected override WavePainterBasic GetNewWavePainter(WaveFileReader stream, string source)
 		{
-			return new WavePainterWithBoundarySelection(this, stream);
+			return new WavePainterWithBoundarySelection(this, stream, source);
 		}
-
-		//protected override WavePainterBasic GetNewWavePainter(IEnumerable<float> samples, TimeSpan totalTime)
-		//{
-		//    return new WavePainterWithBoundarySelection(this, samples, totalTime);
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		protected WavePainterWithBoundarySelection MyPainter

@@ -11,6 +11,7 @@ using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;
+using SIL.IO;
 
 namespace SayMore.UI.Overview
 {
@@ -109,15 +110,18 @@ namespace SayMore.UI.Overview
 
 			// make sure the directory exists
 			var dir = Path.Combine(Program.CurrentProject.FolderPath, FolderName);
-			if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+			if (!Directory.Exists(dir))
+				Directory.CreateDirectory(dir);
 
 			// copy the selected files to the directory
 			foreach (var file in files)
 			{
-				var fileName = (new FileInfo(file)).Name;
+				var fileName = Path.GetFileName(file);
 				var newFile = Path.Combine(dir, fileName);
 
 				// make sure the files don't already exist
+				if (file == newFile)
+					continue;
 				if (File.Exists(newFile))
 				{
 					var txt = LocalizationManager.GetString("CommonToMultipleViews.FileList.FileAlreadyExistsMessage",
@@ -129,7 +133,15 @@ namespace SayMore.UI.Overview
 				}
 
 				// copy the file
-				File.Copy(file, newFile, true);
+				try
+				{
+					RobustFile.Copy(file, newFile, true);
+				}
+				catch (Exception e)
+				{
+					Console.WriteLine(e);
+					ErrorReport.ReportNonFatalException(e);
+				}
 			}
 
 			_descriptionFileGrid.UpdateComponentFileList(GetFiles());

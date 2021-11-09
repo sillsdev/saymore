@@ -783,6 +783,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\FileSyncHelper.cs" />
     <Compile Include="Utilities\PercentageFormatter.cs" />
+    <Compile Include="Utilities\RobustFontHelper.cs" />
     <EmbeddedResource Include="Transcription\UI\ComponentEditors\ConvertToStandardAudioEditor.resx">
       <DependentUpon>ConvertToStandardAudioEditor.cs</DependentUpon>
     </EmbeddedResource>

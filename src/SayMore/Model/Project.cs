@@ -24,7 +24,7 @@ using SIL.Archiving.IMDI;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Model.Files;
-using SayMore.UI;
+using SayMore.Utilities;
 using SIL.Windows.Forms.ClearShare;
 
 namespace SayMore.Model
@@ -387,14 +387,18 @@ namespace SayMore.Model
 			var settingValue = GetStringSettingValue(project, "transcriptionFont", null);
 			if (!string.IsNullOrEmpty(settingValue))
 			{
-				TranscriptionFont = FontHelper.MakeFont(settingValue);
-				_needToDisposeTranscriptionFont = true;
+				TranscriptionFont = RobustFontHelper.MakeFont(settingValue, e =>
+					HandleFontCreationError(LocalizationManager.GetString("Project.TranscriptionFontDescription", "Transcription",
+						"Used as a parameter in Project.FontCreationError"), settingValue, e));
+				_needToDisposeTranscriptionFont = TranscriptionFont != null;
 			}
 			settingValue = GetStringSettingValue(project, "freeTranslationFont", null);
 			if (!string.IsNullOrEmpty(settingValue))
 			{
-				FreeTranslationFont = FontHelper.MakeFont(settingValue);
-				_needToDisposeFreeTranslationFont = true;
+				FreeTranslationFont = RobustFontHelper.MakeFont(settingValue, e =>
+					HandleFontCreationError(LocalizationManager.GetString("Project.FreeTranslationFontDescription", "Free Translation",
+						"Used as a parameter in Project.FontCreationError"), settingValue, e));
+				_needToDisposeFreeTranslationFont = FreeTranslationFont != null;
 			}
 			var autoSegmenterSettings = project.Element("AutoSegmentersettings");
 			if (autoSegmenterSettings != null)
@@ -427,6 +431,34 @@ namespace SayMore.Model
 			Depositor = GetStringSettingValue(project, "Depositor", string.Empty);
 
 			IMDIOutputDirectory = GetStringSettingValue(project, "IMDIOutputDirectory", string.Empty);
+		}
+
+		private void HandleFontCreationError(string description, string settingValue, Exception error)
+		{
+			string msg = GetFontErrorMessage(description, settingValue);
+			if (error == null)
+			{
+				ErrorReport.ReportNonFatalMessageWithStackTrace(msg + Environment.NewLine +
+					LocalizationManager.GetString("Project.FontCreationFallback",
+						"A font with the specified font family was successfully created using a " +
+						"fallback size. Please examine the font settings and choose a suitable " +
+						"font. If after doing so, you continue to see this warning, please send " +
+						"in this report."));
+			}
+			else
+			{
+				ErrorReport.ReportNonFatalExceptionWithMessage(error, msg);
+			}
+		}
+
+		private static string GetFontErrorMessage(string description, string settingValue)
+		{
+			return string.Format(LocalizationManager.GetString("Project.FontCreationError",
+					"An error occurred trying to create the {0} font from settings: {1}",
+					"Param 0: name of setting or description of font being created;" +
+					"Param 1: settings string used to attempt to create the font (This is essentially human-readable, " +
+					"but it will not be localized, since it is a string the computer interprets.)"),
+				description, settingValue);
 		}
 
 		/// ------------------------------------------------------------------------------------

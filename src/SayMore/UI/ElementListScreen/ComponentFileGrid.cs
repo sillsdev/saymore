@@ -553,8 +553,8 @@ namespace SayMore.UI.ElementListScreen
 				dlg.InitialDirectory = folder;
 				dlg.CheckFileExists = true;
 				dlg.CheckPathExists = true;
-				if (dlg.ShowDialog(this) == DialogResult.OK && FilesAdded != null)
-					FilesAdded(dlg.FileNames);
+				if (dlg.ShowDialog(this) == DialogResult.OK)
+					FilesAdded?.Invoke(dlg.FileNames);
 
 				if (!string.IsNullOrEmpty(dlg.FileName))
 					Settings.Default.LastFolderForComponentFileAdd = Path.GetDirectoryName(dlg.FileName);

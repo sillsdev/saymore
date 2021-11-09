@@ -138,7 +138,7 @@ namespace SayMore.Transcription.UI
 		{
 			using (var dlg = new FontDialog())
 			{
-				dlg.Font = (DefaultCellStyle.Font);
+				dlg.Font = DefaultCellStyle.Font;
 
 				try //strange, but twice we've found situations where ShowDialog crashes on windows
 				{

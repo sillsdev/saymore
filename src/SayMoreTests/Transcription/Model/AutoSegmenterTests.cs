@@ -118,7 +118,7 @@ namespace SayMoreTests.Transcription.Model
 		{
 			_sampleProvider = new DummyWaveStream();
 			_settings.Setup(s => s.AutoSegmenterMinimumSegmentLengthInMilliseconds).Returns(850);
-			_settings.Setup(s => s.AutoSegmenterPreferrerdPauseLengthInMilliseconds).Returns(250);
+			_settings.Setup(s => s.AutoSegmenterPreferredPauseLengthInMilliseconds).Returns(250);
 			_settings.Setup(s => s.AutoSegmenterOptimumLengthClampingFactor).Returns(0.000004);
 		}
 
@@ -178,7 +178,7 @@ namespace SayMoreTests.Transcription.Model
 			});
 			_sampleProvider.TotalTime = duration;
 
-			_settings.Setup(s => s.AutoSegmenterPreferrerdPauseLengthInMilliseconds).Returns(10);
+			_settings.Setup(s => s.AutoSegmenterPreferredPauseLengthInMilliseconds).Returns(10);
 			_settings.Setup(s => s.AutoSegmenterMaximumSegmentLengthInMilliseconds).Returns(1200);
 
 			var segmenter =new AutoSegmenter(_sampleProvider, _settings.Object);
@@ -206,7 +206,7 @@ namespace SayMoreTests.Transcription.Model
 			});
 			_sampleProvider.TotalTime = duration;
 
-			_settings.Setup(s => s.AutoSegmenterPreferrerdPauseLengthInMilliseconds).Returns(10);
+			_settings.Setup(s => s.AutoSegmenterPreferredPauseLengthInMilliseconds).Returns(10);
 			_settings.Setup(s => s.AutoSegmenterMaximumSegmentLengthInMilliseconds).Returns(2000);
 			var segmenter =new AutoSegmenter(_sampleProvider, _settings.Object);
 			var breaks = segmenter.GetNaturalBreaks().ToArray();
@@ -233,7 +233,7 @@ namespace SayMoreTests.Transcription.Model
 			});
 			_sampleProvider.TotalTime = duration;
 
-			_settings.Setup(s => s.AutoSegmenterPreferrerdPauseLengthInMilliseconds).Returns(10);
+			_settings.Setup(s => s.AutoSegmenterPreferredPauseLengthInMilliseconds).Returns(10);
 			_settings.Setup(s => s.AutoSegmenterMaximumSegmentLengthInMilliseconds).Returns(2200);
 
 			var segmenter =new AutoSegmenter(_sampleProvider, _settings.Object);
@@ -279,7 +279,7 @@ namespace SayMoreTests.Transcription.Model
 
 			_sampleProvider.TotalTime = duration;
 
-			_settings.Setup(s => s.AutoSegmenterPreferrerdPauseLengthInMilliseconds).Returns(10);
+			_settings.Setup(s => s.AutoSegmenterPreferredPauseLengthInMilliseconds).Returns(10);
 			_settings.Setup(s => s.AutoSegmenterMaximumSegmentLengthInMilliseconds).Returns(6000);
 
 			var segmenter =new AutoSegmenter(_sampleProvider, _settings.Object);

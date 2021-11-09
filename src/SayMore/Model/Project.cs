@@ -24,7 +24,6 @@ using SIL.Archiving.IMDI;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Model.Files;
-using SayMore.UI;
 using SIL.Windows.Forms.ClearShare;
 
 namespace SayMore.Model
@@ -45,7 +44,7 @@ namespace SayMore.Model
 
 		public delegate Project Factory(string desiredOrExistingFilePath);
 
-		public string Name { get; protected set; }
+		public string Name { get; }
 
 		public Font TranscriptionFont { get; set; }
 		private bool _needToDisposeTranscriptionFont;
@@ -54,7 +53,7 @@ namespace SayMore.Model
 
 		public int AutoSegmenterMinimumSegmentLengthInMilliseconds { get; set; }
 		public int AutoSegmenterMaximumSegmentLengthInMilliseconds { get; set; }
-		public int AutoSegmenterPreferrerdPauseLengthInMilliseconds { get; set; }
+		public int AutoSegmenterPreferredPauseLengthInMilliseconds { get; set; }
 		public double AutoSegmenterOptimumLengthClampingFactor { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -103,16 +102,16 @@ namespace SayMore.Model
 			if (AutoSegmenterMinimumSegmentLengthInMilliseconds < Settings.Default.MinimumSegmentLengthInMilliseconds ||
 				AutoSegmenterMaximumSegmentLengthInMilliseconds <= 0 ||
 				AutoSegmenterMinimumSegmentLengthInMilliseconds >= AutoSegmenterMaximumSegmentLengthInMilliseconds ||
-				AutoSegmenterPreferrerdPauseLengthInMilliseconds <= 0 ||
-				AutoSegmenterPreferrerdPauseLengthInMilliseconds > AutoSegmenterMaximumSegmentLengthInMilliseconds ||
+				AutoSegmenterPreferredPauseLengthInMilliseconds <= 0 ||
+				AutoSegmenterPreferredPauseLengthInMilliseconds > AutoSegmenterMaximumSegmentLengthInMilliseconds ||
 				AutoSegmenterOptimumLengthClampingFactor <= 0)
 			{
 				saveNeeded = AutoSegmenterMinimumSegmentLengthInMilliseconds != 0 || AutoSegmenterMaximumSegmentLengthInMilliseconds != 0 ||
-					AutoSegmenterPreferrerdPauseLengthInMilliseconds != 0 || !AutoSegmenterOptimumLengthClampingFactor.Equals(0) || saveNeeded;
+					AutoSegmenterPreferredPauseLengthInMilliseconds != 0 || !AutoSegmenterOptimumLengthClampingFactor.Equals(0) || saveNeeded;
 
 				AutoSegmenterMinimumSegmentLengthInMilliseconds = Settings.Default.DefaultAutoSegmenterMinimumSegmentLengthInMilliseconds;
 				AutoSegmenterMaximumSegmentLengthInMilliseconds = Settings.Default.DefaultAutoSegmenterMaximumSegmentLengthInMilliseconds;
-				AutoSegmenterPreferrerdPauseLengthInMilliseconds = Settings.Default.DefaultAutoSegmenterPreferrerdPauseLengthInMilliseconds;
+				AutoSegmenterPreferredPauseLengthInMilliseconds = Settings.Default.DefaultAutoSegmenterPreferrerdPauseLengthInMilliseconds;
 				AutoSegmenterOptimumLengthClampingFactor = Settings.Default.DefaultAutoSegmenterOptimumLengthClampingFactor;
 			}
 
@@ -134,7 +133,7 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Renames the project's Events folder to Sessions; rename's all its session files
+		/// Renames the project's Events folder to Sessions; renames all its session files
 		/// to have "session" extensions rather than "event" extensions; renames the Event
 		/// tags in those files to "Session".
 		/// </summary>
@@ -217,17 +216,11 @@ namespace SayMore.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string SessionsFolder
-		{
-			get { return Path.Combine(ProjectFolder, Session.kFolderName); }
-		}
+		public string SessionsFolder => Path.Combine(ProjectFolder, Session.kFolderName);
 
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		protected string ProjectFolder
-		{
-			get { return Path.GetDirectoryName(SettingsFilePath); }
-		}
+		protected string ProjectFolder => Path.GetDirectoryName(SettingsFilePath);
 
 		/// ------------------------------------------------------------------------------------
 		public void Save()
@@ -247,12 +240,12 @@ namespace SayMore.Model
 
 			if (AutoSegmenterMinimumSegmentLengthInMilliseconds != Settings.Default.DefaultAutoSegmenterMinimumSegmentLengthInMilliseconds ||
 				AutoSegmenterMaximumSegmentLengthInMilliseconds != Settings.Default.DefaultAutoSegmenterMaximumSegmentLengthInMilliseconds ||
-				AutoSegmenterPreferrerdPauseLengthInMilliseconds != Settings.Default.DefaultAutoSegmenterPreferrerdPauseLengthInMilliseconds ||
+				AutoSegmenterPreferredPauseLengthInMilliseconds != Settings.Default.DefaultAutoSegmenterPreferrerdPauseLengthInMilliseconds ||
 				!AutoSegmenterOptimumLengthClampingFactor.Equals(Settings.Default.DefaultAutoSegmenterOptimumLengthClampingFactor))
 			{
 				autoSegmenterSettings.Add(new XAttribute("minSegmentLength", AutoSegmenterMinimumSegmentLengthInMilliseconds));
 				autoSegmenterSettings.Add(new XAttribute("maxSegmentLength", AutoSegmenterMaximumSegmentLengthInMilliseconds));
-				autoSegmenterSettings.Add(new XAttribute("preferrerdPauseLength", AutoSegmenterPreferrerdPauseLengthInMilliseconds));
+				autoSegmenterSettings.Add(new XAttribute("preferrerdPauseLength", AutoSegmenterPreferredPauseLengthInMilliseconds));
 				autoSegmenterSettings.Add(new XAttribute("optimumLengthClampingFactor", AutoSegmenterOptimumLengthClampingFactor));
 			}
 			else
@@ -403,7 +396,7 @@ namespace SayMore.Model
 					"minSegmentLength");
 				AutoSegmenterMaximumSegmentLengthInMilliseconds = GetIntAttributeValue(autoSegmenterSettings,
 					"maxSegmentLength");
-				AutoSegmenterPreferrerdPauseLengthInMilliseconds = GetIntAttributeValue(autoSegmenterSettings,
+				AutoSegmenterPreferredPauseLengthInMilliseconds = GetIntAttributeValue(autoSegmenterSettings,
 					"preferrerdPauseLength");
 				AutoSegmenterOptimumLengthClampingFactor = GetDoubleAttributeValue(autoSegmenterSettings,
 					"optimumLengthClampingFactor");

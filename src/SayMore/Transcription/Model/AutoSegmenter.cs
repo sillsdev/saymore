@@ -29,7 +29,7 @@ namespace SayMore.Transcription.Model
 		/// to use as a break.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		int AutoSegmenterPreferrerdPauseLengthInMilliseconds { get; }
+		int AutoSegmenterPreferredPauseLengthInMilliseconds { get; }
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The larger this number, the more strongly the auto-segmenter will favor possible
@@ -119,7 +119,7 @@ namespace SayMore.Transcription.Model
 				{
 					uint lastBreak = 0;
 					var millisecondsPerSample = StreamReader.TotalTime.TotalMilliseconds / remainingSamples;
-					_adjacentSamplesToFactorIntoAdjustedScore = (uint)(_settings.AutoSegmenterPreferrerdPauseLengthInMilliseconds / millisecondsPerSample);
+					_adjacentSamplesToFactorIntoAdjustedScore = (uint)(_settings.AutoSegmenterPreferredPauseLengthInMilliseconds / millisecondsPerSample);
 					var minSamplesPerSegment = (uint)(_settings.AutoSegmenterMinimumSegmentLengthInMilliseconds / millisecondsPerSample);
 					var maxSamplesPerSegment = (uint)(_settings.AutoSegmenterMaximumSegmentLengthInMilliseconds / millisecondsPerSample);
 

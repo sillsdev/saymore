@@ -531,12 +531,28 @@
         <seg>Abrir {0} em programa associado.</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileNameMsg">
+    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileNameMsgPreamble">
       <tuv xml:lang="en">
-        <seg>&lt;HTML&gt;SayMore attempted to load:&lt;br /&gt;&lt;br /&gt;&lt;b&gt;File:&lt;/b&gt; {0}&lt;br /&gt;&lt;nobr&gt;&lt;b&gt;Folder:&lt;/b&gt; {1}&lt;/nobr&gt;&lt;/HTML&gt;</seg>
+        <seg>{0} attempted to load:</seg>
       </tuv>
       <tuv xml:lang="pt">
-        <seg>&lt;HTML&gt;SayMore tentou carregar: &lt;br/&gt;&lt;br/&gt;&lt;b&gt;Arquivo: &lt;/b&gt; {0}&lt;br /&gt;&lt;nobr&gt;&lt;b&gt;Pasta:&lt;/b&gt; {1}&lt;/nobr&gt;&lt;/HTML&gt;</seg>
+        <seg>{0} tentou carregar:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileLabel">
+      <tuv xml:lang="en">
+        <seg>File:</seg>
+      </tuv>
+      <tuv xml:lang="pt">
+        <seg>Arquivo:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FolderLabel">
+      <tuv xml:lang="en">
+        <seg>Folder:</seg>
+      </tuv>
+      <tuv xml:lang="pt">
+        <seg>Pasta:</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.TabText">

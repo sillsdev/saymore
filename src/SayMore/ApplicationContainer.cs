@@ -15,6 +15,7 @@ using SayMore.Properties;
 using SayMore.UI;
 using SayMore.UI.ProjectChoosingAndCreating;
 using SayMore.Utilities;
+using SIL.Reporting;
 using static System.Char;
 
 namespace SayMore
@@ -209,6 +210,8 @@ namespace SayMore
 				Resources.SayMore, "sil.saymore@gmail.com", "SayMore", "SIL.Archiving", "SIL.Windows.Forms.FileSystem");
 
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
+
+			Logger.WriteEvent("Initial UI Locale: " + Settings.Default.UserInterfaceLanguage);
 
 			return localizationManager;
 		}

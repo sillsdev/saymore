@@ -316,6 +316,7 @@ namespace SayMore.UI.ProjectWindow
 					return;
 
 				Settings.Default.UserInterfaceLanguage = dlg.UILanguage;
+				Logger.WriteEvent("Changed UI Locale to: " + Settings.Default.UserInterfaceLanguage);
 				LocalizationManager.SetUILanguage(dlg.UILanguage, true);
 			}
 		}

@@ -472,7 +472,7 @@
         <seg>Open {0} in its associated program.</seg>
       </tuv>
       <tuv xml:lang="zh-Hans">
-        <seg>在关联程序中打开</seg>
+        <seg>在其关联的程序中打开 {0}。</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.TabText">

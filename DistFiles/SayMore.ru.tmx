@@ -528,15 +528,31 @@
         <seg>Open {0} in its associated program.</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>&lt;html&gt;&lt;body&gt;Нажмите &lt;a href="file:///{0}"&gt;&lt;b&gt;здесь, чтобы открыть «{1}»&lt;/b&gt;&lt;/a&gt; в связанной с ним программе.&lt;/body&gt;&lt;/html&gt;</seg>
+        <seg>Откройте {0} в связанной с ним программе.</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileNameMsg">
+    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileNameMsgPreamble">
       <tuv xml:lang="en">
-        <seg>&lt;HTML&gt;SayMore attempted to load:&lt;br /&gt;&lt;br /&gt;&lt;b&gt;File:&lt;/b&gt; {0}&lt;br /&gt;&lt;nobr&gt;&lt;b&gt;Folder:&lt;/b&gt; {1}&lt;/nobr&gt;&lt;/HTML&gt;</seg>
+        <seg>{0} attempted to load:</seg>
       </tuv>
       <tuv xml:lang="ru">
-        <seg>&lt;html&gt;SayMore пытался загрузить:&lt;br&gt;&lt;br&gt;&lt;b&gt;Файл:&lt;/b&gt; {0}&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Папку:&lt;/b&gt; {1}&lt;/nobr&gt;&lt;/html&gt;</seg>
+        <seg>{0} пытался загрузить:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileLabel">
+      <tuv xml:lang="en">
+        <seg>File:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FolderLabel">
+      <tuv xml:lang="en">
+        <seg>Folder:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Папку:</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.TabText">

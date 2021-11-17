@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using SayMore.Model.Files;
@@ -85,13 +84,40 @@ namespace SayMore.UI.ComponentEditors
 			_browser.DocumentCompleted += HandleBrowserLoadCompleted;
 			_browser.Navigate("about:blank");
 
-			var msg = LocalizationManager.GetString("CommonToMultipleViews.GenericFileTypeViewer.FileNameMsg",
-				"<HTML>SayMore attempted to load:<br /><br /><b>File:</b> {0}<br /><nobr><b>Folder:</b> {1}</nobr></HTML>");
+			// REVIEW (TomB): Having just now fixed this so that localizing this is easier and
+			// less error-prone, I find that it is apparently impossible to get this HTML to be
+			// displayed. Looked back 10 years in the history and since this code was added on
+			// 6/21/2010, despite lots of editing, the basic logic represented here is unchanged.
+			// It's entirely possible that changing/differening browser behavior is the reason
+			// for it, so I'm going to play it safe and leave it here, but I'm guessing it can
+			// go away (and almost certainly isn't worth localizing). I am wrapping it in a try-
+			// catch block so that if there are future localization gaffs that would cause format
+			// errors they will be silently ignored. Can't see bringing down SayMore for an error
+			// that might occur in useless code.
+			try
+			{
+				var msgPreamble = string.Format(LocalizationManager.GetString(
+						"CommonToMultipleViews.GenericFileTypeViewer.FileNameMsgPreamble",
+						"{0} attempted to load:", "Param is \"SayMore\" (program name)"),
+					Program.ProductName);
+				var fileLabel = LocalizationManager.GetString(
+					"CommonToMultipleViews.GenericFileTypeViewer.FileLabel", "File:");
+				var folderLabel = LocalizationManager.GetString(
+					"CommonToMultipleViews.GenericFileTypeViewer.FolderLabel", "Folder:");
 
-			msg = msg.Replace("\n", "<br />");
+				var msg = "<HTML>" + msgPreamble + "<br /><br /><b>" +
+					fileLabel + "</b> {0}<br /><nobr><b>" +
+					folderLabel + "</b> {1}</nobr></HTML>";
 
-			_browser.DocumentText = string.Format(msg,
-				Path.GetFileName(filePath), Path.GetDirectoryName(filePath));
+				msg = msg.Replace("\n", "<br />");
+
+				_browser.DocumentText = string.Format(msg,
+					Path.GetFileName(filePath), Path.GetDirectoryName(filePath));
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

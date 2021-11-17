@@ -37,8 +37,7 @@ namespace SayMore.Model.Fields
 
 			var contributionCollection = GetElementFromXml(xmlBlob).Elements("contributor").Select(e =>
 			{
-				Role role;
-				_olacSystem.TryGetRoleByCode(e.Element("role").Value, out role);
+				_olacSystem.TryGetRoleByCode(e.Element("role").Value, out var role);
 				var contrib = new Contribution(e.Element("name").Value, role);
 				// We have this permissive business because we released versions of SayMore (prior to 1.1.120) which used the local
 				// format, rather than a universal one.
@@ -51,11 +50,11 @@ namespace SayMore.Model.Fields
 				{
 					Logger.WriteEvent("Handled exception in ContributionSerializer.Deserialize:\r\n{0}", exception.ToString());
 					contrib.Date = DateTime.MinValue;
-					// looked like it would take hours to change scores of methods to propogate a progress thing (e.g. ErrorCollector) down this far. Sigh...  progress.WriteError("SayMore had trouble understanding the date '{0}', on a contribution by {1}. For now, it was replaced by {2}", d, contrib.ContributorName, contrib.Date.ToString(CultureInfo.CurrentCulture));
+					// looked like it would take hours to change scores of methods to propagate a progress thing (e.g. ErrorCollector) down this far. Sigh...  progress.WriteError("SayMore had trouble understanding the date '{0}', on a contribution by {1}. For now, it was replaced by {2}", d, contrib.ContributorName, contrib.Date.ToString(CultureInfo.CurrentCulture));
 				}
 				contrib.Comments = e.Element("notes")?.Value;
 				return contrib;
-			});
+			}).ToArray();
 
 			return (contributionCollection.Any()) ? new ContributionCollection(contributionCollection) : null;
 		}

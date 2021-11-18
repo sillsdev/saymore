@@ -584,7 +584,7 @@ namespace SayMore.UI.ComponentEditors
 
 		private string GetParticipantsWithRolesFromContributions()
 		{
-			// We want to display the partipants with their roles, which means using data really from
+			// We want to display the participants with their roles, which means using data really from
 			// the contributions field, because we don't want the value really stored in participants,
 			// a list of names we maintain for backwards compatibility, to include the roles.
 			// Note that this value should only be displayed in the _participants control,

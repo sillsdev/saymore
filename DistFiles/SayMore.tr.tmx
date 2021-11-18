@@ -563,12 +563,28 @@
         <seg>{0} ilişkili programında açın.</seg>
       </tuv>
     </tu>
-    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileNameMsg">
+    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileNameMsgPreamble">
       <tuv xml:lang="en">
-        <seg>&lt;HTML&gt;SayMore attempted to load:&lt;br /&gt;&lt;br /&gt;&lt;b&gt;File:&lt;/b&gt; {0}&lt;br /&gt;&lt;nobr&gt;&lt;b&gt;Folder:&lt;/b&gt; {1}&lt;/nobr&gt;&lt;/HTML&gt;</seg>
+        <seg>{0} attempted to load:</seg>
       </tuv>
       <tuv xml:lang="tr">
-        <seg>&lt;HTML&gt;SayMore yüklemeye çalıştı:&lt;br /&gt;&lt;br /&gt;&lt;b&gt;Dosya:&lt;/b&gt; {0}&lt;br /&gt;&lt;nobr&gt;&lt;b&gt;Klasör:&lt;/b&gt; {1}&lt;/nobr&gt;&lt;/HTML&gt;</seg>
+        <seg>{0} yüklemeye çalıştı:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileLabel">
+      <tuv xml:lang="en">
+        <seg>File:</seg>
+      </tuv>
+      <tuv xml:lang="tr">
+        <seg>Dosya:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FolderLabel">
+      <tuv xml:lang="en">
+        <seg>Folder:</seg>
+      </tuv>
+      <tuv xml:lang="tr">
+        <seg>Klasör:</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.TabText">

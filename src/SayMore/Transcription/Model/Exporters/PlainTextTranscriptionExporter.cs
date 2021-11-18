@@ -6,7 +6,7 @@ namespace SayMore.Transcription.Model.Exporters
 	/// <summary>
 	/// Exports the text of a tier to an SRT format text file
 	/// </summary>
-	public class PlainTextTranscriptionExporter
+	public static class PlainTextTranscriptionExporter
 	{
 		public static void Export(string outputFilePath, TierCollection tiers)
 		{

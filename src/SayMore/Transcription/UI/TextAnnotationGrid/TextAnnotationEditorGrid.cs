@@ -566,8 +566,19 @@ namespace SayMore.Transcription.UI
 			if (AnnotationPlaybackInfoProvider == null)
 				return;
 
-			var currCol = Columns[CurrentCellAddress.X] as TextAnnotationColumnWithMenu;
-			var playbackType = (currCol != null ? currCol.PlaybackType : AudioRecordingType.Source);
+			// The check below to ensure that CurrentCellAddress.X is in ranges seems unnecessary.
+			// However, an out-of-range value seems to be the likely explanation for the error
+			// reported in SP-2219/SP-2220. This does not normally fire on the UI thread, so also
+			// adding this Invoke to ensure that CurrentCellAddress is not in some weird state.
+			int iCol = 0;
+			if (InvokeRequired)
+				Invoke(new Action(() => iCol = CurrentCellAddress.X));
+			else
+				iCol = CurrentCellAddress.X;
+
+			TextAnnotationColumnWithMenu currCol = iCol >= 0 && iCol < ColumnCount ?
+				Columns[iCol] as TextAnnotationColumnWithMenu : null;
+			var playbackType = currCol?.PlaybackType ?? AudioRecordingType.Source;
 
 			lock (_mediaFileQueue)
 			{

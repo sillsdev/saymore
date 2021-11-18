@@ -124,7 +124,10 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		private void UpdateTimeDisplay(float position)
 		{
-			_labelTime.Text = _viewModel.GetTimeDisplay(position);
+			if (InvokeRequired)
+				Invoke(new Action(() => _labelTime.Text = _viewModel.GetTimeDisplay(position)));
+			else
+				_labelTime.Text = _viewModel.GetTimeDisplay(position);
 		}
 
 		#endregion
@@ -243,28 +246,32 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		private void HandleMediaQueued(object sender, EventArgs e)
 		{
-			// Sometimes we get here when shutting down happens very quickly after, for
-			// example closeing a dialog that was open from a ComponentFile command.
-			if (_sliderTime.IsDisposed)
-				return;
+			Invoke((Action)delegate {
+				
+				// Sometimes we get here when shutting down happens very quickly after, for
+				// example closing a dialog that was open from a ComponentFile command.
+				if (_sliderTime.IsDisposed)
+					return;
 
-			Invoke((Action)(delegate {
 				_sliderTime.SetValueWithoutEvent(0);
 				_sliderTime.Maximum = _viewModel.GetTotalMediaDuration();
 				_sliderTime.Enabled = true;
 				UpdateTimeDisplay(0);
 				UpdateButtons();
-			}));
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandlePlaybackPositionChanged(float position)
 		{
-			if (!_sliderTime.UserIsMoving)
+			Invoke((Action)delegate
 			{
-				UpdateTimeDisplay(position);
-				_sliderTime.SetValueWithoutEvent(position);
-			}
+				if (!_sliderTime.UserIsMoving)
+				{
+					UpdateTimeDisplay(position);
+					_sliderTime.SetValueWithoutEvent(position);
+				}
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------

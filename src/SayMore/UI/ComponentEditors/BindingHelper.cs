@@ -130,7 +130,6 @@ namespace SayMore.UI.ComponentEditors
 			if (isFileId)
 				_componentFileIdControl = ctrl;
 		}
-
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -167,6 +166,14 @@ namespace SayMore.UI.ComponentEditors
 				ctrl.Font = Program.DialogFont;
 				BindControl(ctrl);
 			}
+		}
+
+		public void Unbind()
+		{
+			foreach (var ctrl in _boundControls)
+				UnBindControl(ctrl, false);
+			_boundControls.Clear();
+			ComponentFile = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -364,7 +371,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public string GetValue(string key)
 		{
-			return ComponentFile.GetStringValue(key, string.Empty);
+			return ComponentFile?.GetStringValue(key, string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------

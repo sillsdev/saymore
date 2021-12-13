@@ -137,7 +137,14 @@ namespace SayMore.UI.ElementListScreen
 			if (_currentEditorProviders.Any(editor => !editor.ComponentFileDeletionInitiated(file)))
 				return false;
 
-			return SelectedElement.DeleteComponentFile(file, true);
+			if (SelectedElement.DeleteComponentFile(file, true))
+			{
+				foreach (var editorProvider in _currentEditorProviders.Where(e => e.ComponentFile.PathToAnnotatedFile == file.PathToAnnotatedFile))
+					editorProvider.Unbind();
+				return true;
+			}
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------

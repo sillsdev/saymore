@@ -29,6 +29,7 @@ namespace SayMore.UI.ComponentEditors
 		IEnumerable<Control> ChildControls { get; }
 		ComponentFile ComponentFile { get; }
 		void PrepareToDeactivate();
+		void Unbind();
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -134,6 +135,14 @@ namespace SayMore.UI.ComponentEditors
 
 			if (_binder != null && _file != null)
 				_binder.SetComponentFile(_file);
+		}
+
+		/// <summary>
+		/// Allows for unbinding when a component file has been deleted.
+		/// </summary>
+		public void Unbind()
+		{
+			_binder?.Unbind();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -71,6 +71,7 @@ namespace SayMore.Model.Files
 
 		public event EventHandler BeforeSave;
 		public event EventHandler AfterSave;
+		public event EventHandler Deleted;
 
 		private AnnotationComponentFile _annotationFile;
 
@@ -79,6 +80,15 @@ namespace SayMore.Model.Files
 		private IProvideAudioVideoFileStatistics _statisticsProvider;
 		private PresetGatherer _presetProvider;
 		private FieldUpdater _fieldUpdater;
+		/// <summary>
+		/// Gets whether the underlying file was deleted (through SayMore).
+		/// </summary>
+		/// <remarks>Perhaps it would be just as good to set PathToAnnotatedFile to null,
+		/// since there's probably no need for the path after its been deleted, but
+		/// by keeping it, it is possible to report what the name WAS in case an
+		/// invalid operation is attempted on the deleted file.
+		/// </remarks>
+		public bool IsDeleted { get; private set; }
 
 		public ProjectElement ParentElement { get; protected set; }
 		public string RootElementName { get; }
@@ -224,6 +234,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual DateTime GetCreateDate()
 		{
+			if (PathToAnnotatedFile == null)
+				return default;
 			var fi = new FileInfo(PathToAnnotatedFile);
 			return fi.CreationTime;
 		}
@@ -234,10 +246,8 @@ namespace SayMore.Model.Files
 		/// Gets a value indicating whether or not the component file can have transcriptions.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual bool GetCanHaveAnnotationFile()
-		{
-			return (FileType.IsAudioOrVideo);
-		}
+		public virtual bool GetCanHaveAnnotationFile() =>
+			FileType.IsAudioOrVideo && PathToAnnotatedFile != null;
 
 		/// ------------------------------------------------------------------------------------
 		public virtual bool GetNeedsConvertingToStandardAudio()
@@ -284,7 +294,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public bool GetDoesHaveAnnotationFile()
 		{
-			return (GetCanHaveAnnotationFile() && GetAnnotationFile() != null);
+			return GetCanHaveAnnotationFile() && GetAnnotationFile() != null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -369,6 +379,9 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected void LoadFileSizeAndDateModified()
 		{
+			if (IsDeleted)
+				throw new InvalidOperationException($"Cannot load {PathToAnnotatedFile} because it was previously deleted.");
+
 			// Initialize file's display size. File should only not exist during tests.
 			FileInfo fi = null;
 			try
@@ -548,6 +561,8 @@ namespace SayMore.Model.Files
 		// ReSharper disable once VirtualMemberNeverOverriden.Global - Do not remove "virtual" - Mocked in tests
 		public virtual void Save()
 		{
+			if (IsDeleted)
+				throw new InvalidOperationException($"Cannot save {_metaDataPath} because it was previously deleted.");
 			Save(_metaDataPath);
 		}
 
@@ -861,6 +876,9 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual void RenameAnnotatedFile(string newPath)
 		{
+			if (IsDeleted)
+				throw new InvalidOperationException($"Cannot rename {_metaDataPath} because it was previously deleted.");
+
 			try
 			{
 				// some types don't have a separate sidecar file (e.g. Person, Session)
@@ -1146,6 +1164,9 @@ namespace SayMore.Model.Files
 			// Delete the underlying component file.
 			if (!ConfirmRecycleDialog.Recycle(path))
 				return false;
+
+			IsDeleted = true;
+			Deleted?.Invoke(this, new EventArgs());
 
 			// Delete the file's metadata file.
 			var metaPath = path + Settings.Default.MetadataFileExtension;

@@ -43,6 +43,8 @@ namespace SayMore.UI.ComponentEditors
 			InitializeComponent();
 			Name = "PersonEditor";
 
+			_file.Deleted += OnFileDeleted;
+
 			_imgFileType = imgFileType;
 
 			_fatherButtons.AddRange(new[] {_pbPrimaryLangFather, _pbOtherLangFather0,
@@ -80,6 +82,11 @@ namespace SayMore.UI.ComponentEditors
 			_binder.OnDataSaved += _binder_OnDataSaved;
 		}
 
+		private void OnFileDeleted(object sender, EventArgs args)
+		{
+			_loaded = false;
+		}
+
 		void _binder_OnDataSaved()
 		{
 			Program.OnPersonDataChanged();
@@ -93,7 +100,9 @@ namespace SayMore.UI.ComponentEditors
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
 			// Check that the person still exists.
-			if (_file.PathToAnnotatedFile != null)
+			// Note: I don't see where the PathToAnnotatedFile ever gets set to null (at least
+			// for a person file), but I've added a way to mark it as deleted.
+			if (_file.PathToAnnotatedFile != null && !_file.IsDeleted)
 			{
 				var path = Path.GetDirectoryName(_file.PathToAnnotatedFile);
 				if (!string.IsNullOrEmpty(path))
@@ -124,10 +133,15 @@ namespace SayMore.UI.ComponentEditors
 		{
 			_loaded = false;
 
+			if (_file != null)
+				_file.Deleted -= OnFileDeleted;
+
 			base.SetComponentFile(file);
 
 			if (_gridViewModel != null)
 				_gridViewModel.SetComponentFile(file);
+
+			_file.Deleted += OnFileDeleted;
 
 			LoadAndValidatePersonInfo();
 		}

@@ -157,7 +157,7 @@ namespace SayMore.UI.ElementListScreen
 		/// Called by the component file grid when the user chooses a different file
 		/// </summary>
 		/// review: why use index, why not the object?
-		/// Answser: If the object is used, the caller of this delegate would have to get the object
+		/// Answer: If the object is used, the caller of this delegate would have to get the object
 		/// this way: _model.GetComponentFile(index). Using the index here is really just
 		/// passing off to the model the inevitable job of indexing into the component file list.
 		/// The grid (i.e. the only object calling this delegate so far) does not keep a
@@ -168,7 +168,7 @@ namespace SayMore.UI.ElementListScreen
 			WaitCursor.Show();
 
 			// Fixes SP-288: Problem was that while the generated annotation file was loading
-			// in its editor, clicking on another component file triggers a reentrant
+			// in its editor, clicking on another component file triggers a re-entrant
 			// problem. Disabling the component file grid prevents the user from being able
 			// to select another component file until we enable the grid again when we're
 			// done with everything we need to do in this method.
@@ -319,7 +319,7 @@ namespace SayMore.UI.ElementListScreen
 		/// The tab controls are cached in a dictionary whose key is the file type name.
 		/// The process of showing the editors for a component file is just a matter of
 		/// hiding the tab control containing the previously selected file's editors and
-		/// unhiding the tab control containing the selected file's editors.
+		/// showing the tab control containing the selected file's editors.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected void ShowSelectedComponentFileEditors()
@@ -334,7 +334,7 @@ namespace SayMore.UI.ElementListScreen
 			var editorProviders = _model.GetComponentEditorProviders().ToArray();
 			ComponentEditorsTabControl tabCtrl;
 
-			// Check if editiors for the current file type have been shown yet. If not then
+			// Check if editors for the current file type have been shown yet. If not then
 			// load a new tab control for this file type containing the appropriate editors.
 			if (!_tabControls.TryGetValue(currProviderKey, out tabCtrl))
 			{

@@ -81,7 +81,7 @@ namespace SayMore.Model.Files
 		private FieldUpdater _fieldUpdater;
 
 		public ProjectElement ParentElement { get; protected set; }
-		public string RootElementName { get; protected set; }
+		public string RootElementName { get; }
 		public virtual string PathToAnnotatedFile { get; protected set; }
 		public List<FieldInstance> MetaDataFieldValues { get; protected set; }
 		public FileType FileType { get; protected set; }
@@ -119,7 +119,7 @@ namespace SayMore.Model.Files
 
 			DetermineFileType(pathToAnnotatedFile, fileTypes);
 
-			// we musn't do anything to remove the existing extension, as that is needed
+			// We mustn't do anything to remove the existing extension, as that is needed
 			// to keep, say, foo.wav and foo.txt separate. Instead, we just append ".meta"
 			//_metaDataPath = ComputeMetaDataPath(pathToAnnotatedFile);
 
@@ -185,7 +185,21 @@ namespace SayMore.Model.Files
 			FileType =
 				fTypes.FirstOrDefault(t => t.IsMatch(pathToAnnotatedFile)) ??
 				fTypes.Single(t => t.IsForUnknownFileTypes);
+
+			// SP-2245: There is unlikely any reason why a user would do this intentionally, but
+			// they *can* and one apparently did by accident, wich led to a crash. Who knows what
+			// else could go wrong, so let's at least log the situation to make it easier to debug
+			// future problems.
+			if (IsPersonOrSessionFileLocatedInWrongFolder)
+			{
+				Logger.WriteEvent($"WARNING: {FileType.Name} file ({pathToAnnotatedFile}) located " +
+					$"inside {ParentElement.RootElementName} {ParentElement.Id}!");
+			}
 		}
+
+		private bool IsPersonOrSessionFileLocatedInWrongFolder => ParentElement != null &&
+			((FileType is PersonFileType && ParentElement.RootElementName == Session.kRootElement) ||
+				(FileType is SessionFileType && ParentElement.RootElementName == Person.kRootElement));
 
 		/// ------------------------------------------------------------------------------------
 		protected void InitializeFileInfo()
@@ -382,6 +396,9 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetStringValue(string key, string defaultValue)
 		{
+			if (key == "id" && IsPersonOrSessionFileLocatedInWrongFolder)
+				return Path.GetFileNameWithoutExtension(PathToAnnotatedFile);
+
 			string computedValue = null;
 
 			var computedFieldInfo =
@@ -568,7 +585,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string TryChangeChangeId(string newId, out string failureMessage)
 		{
-			throw new NotImplementedException();
+			throw new NotImplementedException($"Class {GetType()} does not know how to change the ID ({newId}).");
 		}
 
 		/// ------------------------------------------------------------------------------------

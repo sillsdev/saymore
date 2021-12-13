@@ -27,6 +27,7 @@ namespace SayMore.Model
 	/// ----------------------------------------------------------------------------------------
 	public class Session : ProjectElement, IIMDIArchivable, IRAMPArchivable
 	{
+		internal const string kRootElement = "Session";
 		public static string kFolderName = "Sessions";
 
 		public enum Status
@@ -121,10 +122,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string RootElementName
-		{
-			get { return "Session"; }
-		}
+		public override string RootElementName => kRootElement;
 
 		/// ------------------------------------------------------------------------------------
 		protected static string ExtensionWithoutPeriodStatic

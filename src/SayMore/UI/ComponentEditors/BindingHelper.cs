@@ -261,7 +261,7 @@ namespace SayMore.UI.ComponentEditors
 					ctrl.KeyPress -= HandleIdFieldKeyPress;
 			}
 
-			if (removeFromBoundControlCollection &&  _boundControls != null && _boundControls.Contains(ctrl))
+			if (removeFromBoundControlCollection && _boundControls != null && _boundControls.Contains(ctrl))
 				_boundControls.Remove(ctrl);
 		}
 

@@ -11,6 +11,7 @@ namespace SayMore.Model
 	/// ----------------------------------------------------------------------------------------
 	public class Person : ProjectElement
 	{
+		internal const string kRootElement = "Person";
 		public static string kFolderName = "People";
 
 		public enum Status
@@ -51,10 +52,7 @@ namespace SayMore.Model
 		public Person(){}
 
 		/// ------------------------------------------------------------------------------------
-		public override string RootElementName
-		{
-			get { return "Person"; }
-		}
+		public override string RootElementName => kRootElement;
 
 		/// ------------------------------------------------------------------------------------
 		protected override string ExtensionWithoutPeriod

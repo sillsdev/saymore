@@ -13,6 +13,7 @@ using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
+using SIL.Reporting;
 
 namespace SayMore
 {
@@ -102,11 +103,7 @@ namespace SayMore
 				var sessionFile = filesInDir.FirstOrDefault(f => f.EndsWith(".session"));
 				if (sessionFile == null) return;
 				var metaFilesList = filesInDir.Where(f => f.EndsWith(Settings.Default.MetadataFileExtension)).ToList();
-				var sessionDoc = new XmlDocument();
-				using (var sessionReader = XmlReader.Create(sessionFile))
-				{
-					sessionDoc.Load(sessionReader);
-				}
+				var sessionDoc = LoadXmlDocument(sessionFile);
 				LoadContributors(sessionDoc, namesList, nameRolesList, contributorLists);
 				var root = sessionDoc.DocumentElement;
 				var contributionsNode = root?.SelectSingleNode(SessionFileType.kContributionsFieldName);
@@ -114,11 +111,7 @@ namespace SayMore
 				if (root?.LastChild == null) continue;
 				foreach (var metaFile in metaFilesList)
 				{
-					var metaFileDoc = new XmlDocument();
-					using (var metaReader = XmlReader.Create(metaFile))
-					{
-						metaFileDoc.Load(metaReader);
-					}
+					var metaFileDoc = LoadXmlDocument(metaFile);
 					LoadContributors(metaFileDoc, namesList, nameRolesList, contributorLists);
 				}
 
@@ -140,6 +133,25 @@ namespace SayMore
 					sessionDoc.Save(sessionOutput);
 				}
 			}
+		}
+
+		private static XmlDocument LoadXmlDocument(string xmlFile)
+		{
+			var doc = new XmlDocument();
+			using (var reader = XmlReader.Create(xmlFile))
+			{
+				try
+				{
+					doc.Load(reader);
+				}
+				catch (XmlException e)
+				{
+					Logger.WriteError($"Error loading {xmlFile}", e);
+					throw;
+				}
+			}
+
+			return doc;
 		}
 
 		private static void LoadContributors(XmlNode xmlDoc, SortedSet<string> namesList, SortedSet<string> nameRolesList, StringBuilder contributorLists)

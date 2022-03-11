@@ -11,6 +11,7 @@ using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using static System.String;
 
 namespace SayMore.Model
 {
@@ -27,6 +28,8 @@ namespace SayMore.Model
 	/// </summary>
 	public abstract class ProjectElement : IDisposable
 	{
+		internal const string kMacOsxResourceFilePrefix = "._";
+		
 		/// <summary>
 		/// This lets us make componentFile instances without knowing all the inputs they need
 		/// </summary>
@@ -239,10 +242,10 @@ namespace SayMore.Model
 			var fmt = DefaultElementNamePrefix + " {0:D2}";
 
 			int i = 1;
-			var name = string.Format(fmt, i);
+			var name = Format(fmt, i);
 
 			while (Directory.Exists(Path.Combine(ParentFolderPath, name)))
-				name = string.Format(fmt, ++i);
+				name = Format(fmt, ++i);
 
 			return name;
 		}
@@ -256,7 +259,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual string DefaultStatusValue
 		{
-			get { return string.Empty; }
+			get { return Empty; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -371,9 +374,18 @@ namespace SayMore.Model
 			if (_id == newId)
 				return true;
 
-			if (newId == string.Empty)
+			if (newId == Empty)
 			{
 				failureMessage = NoIdSaveFailureMessage;
+				return false;
+			}
+
+			if (newId.StartsWith(kMacOsxResourceFilePrefix))
+			{
+				failureMessage = Format(LocalizationManager.GetString("CommonToMultipleViews.ChangeIdDotDash",
+					"To avoid possible conflicts with files created by Mac OSX, names cannot begin with \"{0}\".",
+					"Param is the literal string \"._\""),
+					kMacOsxResourceFilePrefix);
 				return false;
 			}
 
@@ -381,7 +393,7 @@ namespace SayMore.Model
 			string newFolderPath = Path.Combine(parent, newId);
 			if (Directory.Exists(newFolderPath))
 			{
-				failureMessage = string.Format(AlreadyExistsSaveFailureMessage, Id, newId);
+				failureMessage = Format(AlreadyExistsSaveFailureMessage, Id, newId);
 				return false;
 			}
 
@@ -418,7 +430,7 @@ namespace SayMore.Model
 							// need to make sure the annotation file is updated internally so it's
 							// pointing to the renamed media file. This fixes SP-399.
 							var newMediaFileName = newFileName.Replace(
-								AnnotationFileHelper.kAnnotationsEafFileSuffix, string.Empty);
+								AnnotationFileHelper.kAnnotationsEafFileSuffix, Empty);
 
 							AnnotationFileHelper.ChangeMediaFileName(newFileName, newMediaFileName);
 						}

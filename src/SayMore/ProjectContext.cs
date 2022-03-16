@@ -101,22 +101,32 @@ namespace SayMore
 				var contributorLists = new StringBuilder();
 				var filesInDir = Directory.GetFiles(sessionFldrPath);
 				var sessionFile = filesInDir.FirstOrDefault(f => f.EndsWith(".session"));
-				if (sessionFile == null) return;
-				var metaFilesList = filesInDir.Where(f => f.EndsWith(Settings.Default.MetadataFileExtension)).ToList();
+				if (sessionFile == null)
+					return;
+
+				// SP-2260:We really NEVER want to deal with files that start with ._, but since
+				// previous versions of SayMore and certain other ways of creating session files
+				// could have resulted in session files that do, we will not exclude ._*.meta
+				// files if the session file itself starts with ._
+				var doesNotHaveIllegalPrefix = Path.GetFileName(sessionFile).StartsWith(ProjectElement.kMacOsxResourceFilePrefix) ?
+					(Func<string, bool>)(fileName => true) :
+					fileName => !Path.GetFileName(fileName).StartsWith(ProjectElement.kMacOsxResourceFilePrefix);
+				var metaFilesList = filesInDir.Where(f => doesNotHaveIllegalPrefix(f) &&
+					f.EndsWith(Settings.Default.MetadataFileExtension)).ToList();
 				var sessionDoc = LoadXmlDocument(sessionFile);
 				LoadContributors(sessionDoc, namesList, nameRolesList, contributorLists);
 				var root = sessionDoc.DocumentElement;
 				var contributionsNode = root?.SelectSingleNode(SessionFileType.kContributionsFieldName);
 				contributionsNode?.ParentNode?.RemoveChild(contributionsNode); //Remove the contributions node
-				if (root?.LastChild == null) continue;
+				if (root?.LastChild == null)
+					continue;
 				foreach (var metaFile in metaFilesList)
 				{
 					var metaFileDoc = LoadXmlDocument(metaFile);
 					LoadContributors(metaFileDoc, namesList, nameRolesList, contributorLists);
 				}
 
-				var participantsNode = root?.SelectSingleNode("participants") as XmlElement;
-				if (participantsNode == null)
+				if (!(root.SelectSingleNode("participants") is XmlElement participantsNode))
 				{
 					participantsNode = sessionDoc.CreateElement("participants");
 					participantsNode.SetAttribute("type", "string");

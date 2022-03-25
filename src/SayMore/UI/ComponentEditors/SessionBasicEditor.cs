@@ -631,13 +631,40 @@ namespace SayMore.UI.ComponentEditors
 			if (frm == null)
 				return;
 
-			var tabPages = ((ElementListScreen.ElementListScreen<Session>)frm.ActiveControl).SelectedComponentEditorsTabControl.TabPages;
-			foreach (TabPage tab in tabPages)
+			// The Contributors tab is the correct place to edit the people info, so we want
+			// to switch to that tab, but only if everything validates on this tab. This
+			// code plus the two methods it sets up to handle things keeps us from switching
+			// tabs and reporting the validation error twice if validation fails.
+			_participants.GotFocus += SwitchToContributorsTab;
+			_binder.ValidationFailed += AbortSwitchToContributorsBecauseValidationFailed;
+		}
+
+		private void AbortSwitchToContributorsBecauseValidationFailed(BindingHelper sender,
+			Control controlThatFailedValidation)
+		{
+			_participants.GotFocus -= SwitchToContributorsTab;
+		}
+
+		private void SwitchToContributorsTab(object sender, EventArgs e)
+		{
+			_participants.GotFocus -= SwitchToContributorsTab;
+
+			var frm = FindForm();
+			if (frm == null)
+				return;
+
+			var sessionEditorTabControl =
+				((ElementListScreen.ElementListScreen<Session>)frm.ActiveControl)
+				.SelectedComponentEditorsTabControl;
+
+			foreach (TabPage tab in sessionEditorTabControl.TabPages)
 			{
-				if (tab.ImageKey != @"Contributor") continue;
-				((ElementListScreen.ElementListScreen<Session>)frm.ActiveControl).SelectedComponentEditorsTabControl.SelectedTab = tab;
-				tab.Focus();
-				break;
+				if (tab.ImageKey == @"Contributor")
+				{
+					sessionEditorTabControl.SelectedTab = tab;
+					tab.Focus();
+					break;
+				}
 			}
 		}
 	}

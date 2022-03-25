@@ -87,7 +87,7 @@
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.BindingHelper.AmbiguousDateNote">
-      <note>Text appended to the note for an element with an ambigous date field value</note>
+      <note>Text appended to the note for an element with an ambiguous date field value</note>
       <tuv xml:lang="en">
         <seg>***This record had an ambiguous {0}, produced by a bug in an old version of SayMore. The date was "{1}". SayMore has attempted to interpret the date, but might have swapped the day and month. Please accept our apologies for this error. After you have fixed the date or confirmed that it is correct, please delete this message.</seg>
       </tuv>

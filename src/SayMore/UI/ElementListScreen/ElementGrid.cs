@@ -10,7 +10,6 @@ using SIL.Extensions;
 using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SIL.Reporting;
 using SIL.Windows.Forms;
 
 namespace SayMore.UI.ElementListScreen
@@ -273,7 +272,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			base.OnCellMouseDown(e);
 
-			if (e.Button != MouseButtons.Right || e.RowIndex < 0)
+			if (e.Button != MouseButtons.Right || e.RowIndex < 0 || !IsOKToSelectDifferentElement())
 				return;
 
 			if (e.RowIndex != CurrentCellAddress.Y)

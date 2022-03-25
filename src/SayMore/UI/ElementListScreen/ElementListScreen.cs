@@ -399,7 +399,8 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleAddingNewElement(object sender, EventArgs e)
 		{
-			AfterNewItemAdded(_model.CreateNewElement());
+			if (_elementsGrid.IsOKToSelectDifferentElement())
+				AfterNewItemAdded(_model.CreateNewElement());
 		}
 
 		/// ------------------------------------------------------------------------------------

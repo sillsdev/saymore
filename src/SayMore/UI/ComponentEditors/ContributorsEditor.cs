@@ -20,6 +20,7 @@ namespace SayMore.UI.ComponentEditors
 	{
 		public delegate ContributorsEditor Factory(ComponentFile file, string imageKey);
 
+		private bool _active;
 		protected ContributorsListControl _contributorsControl;
 		protected TableLayoutPanel _tableLayout;
 		protected LinkLabel _linkBack;
@@ -181,18 +182,42 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override sealed void SetComponentFile(ComponentFile file)
+		public override void Deactivated()
+		{
+			base.Deactivated();
+			// SP-2267: This happens when a different file is being associated with the
+			// contributors editor. Usually we try to prevent this if the editor is dirty and
+			// cannot validate and save, but in the case where the associated session was just
+			// deleted, we can safely discard the changes as they are now clearly irrelevant.
+			// REVIEW: I have checked all the possible scenarios I can think of and I *think*
+			// I've handled them properly. But there is still one scenario I have not been able
+			// to reproduce (see SP-2186, SP-2265, SP-2266). It is possible that we will get
+			// here for that scenario and for other possible future scenarios. Although that
+			// might not be optimal, it might manage to avoid a crash.
+			_active = false; // see HandleValidatingContributor
+			if (_contributorsControl.InEditMode)
+				_contributorsControl.Grid.CancelEdit(); // This probably does nothing.
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public sealed override void SetComponentFile(ComponentFile file)
 		{
 			_file.StartingRename -= File_StartingRename;
 			base.SetComponentFile(file);
 			file.StartingRename += File_StartingRename;
 			_model.SetContributionList(file.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection);
+			_active = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private KeyValuePair<string, string> HandleValidatingContributor(ContributorsListControl sender,
 			Contribution contribution, CancelEventArgs e)
 		{
+			// If we are not active, we do not want to return an error, but we also don't want
+			// to save. We just want to discard any changes.
+			if (!_active)
+				return default;
+
 			var kvp = CheckIfContributorIsValid(contribution);
 			e.Cancel = !string.IsNullOrEmpty(kvp.Key);
 
@@ -213,6 +238,12 @@ namespace SayMore.UI.ComponentEditors
 					(contribution.IsEmpty && _contributorsControl.InNewContributionRow))
 				{
 					return true;
+				}
+
+				if (_contributorsControl.InEditMode)
+				{
+					if (!_contributorsControl.Validate())
+						return false;
 				}
 
 				return string.IsNullOrEmpty(CheckIfContributorIsValid(contribution).Key);

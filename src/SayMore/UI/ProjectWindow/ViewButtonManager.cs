@@ -128,21 +128,19 @@ namespace SayMore.UI.ProjectWindow
 			if (btn == currbtn)
 				return;
 
-			var newVw = (btn == null ? null : _controls[btn]);
+			var newVw = _controls[btn];
 
 			// Now make sure we can leave the current view.
 			foreach (var vw in Views)
 			{
-				var ctrl = vw as Control;
-				if (ctrl != null && !ctrl.IsHandleCreated)
+				if (vw is Control ctrl && !ctrl.IsHandleCreated)
 					continue;
 
 				if (vw != newVw && !vw.IsOKToLeaveView(true))
 					return;
 			}
 
-			if (_toolStripOwner != null)
-				_toolStripOwner.SetWindowRedraw(false);
+			_toolStripOwner?.SetWindowRedraw(false);
 
 			if (currbtn != null && _controls.ContainsKey(currbtn))
 			{
@@ -153,19 +151,16 @@ namespace SayMore.UI.ProjectWindow
 					((ISayMoreView)_controls[currbtn]).ViewDeactivated();
 			}
 
-			if (btn != null)
-			{
-				btn.Checked = true;
-				newVw.Visible = true;
-				newVw.BringToFront();
-			}
+			btn.Checked = true;
+			newVw.Visible = true;
+			newVw.BringToFront();
 
 			if (_toolStripOwner != null)
 				_toolStripOwner.SetWindowRedraw(true);
 
-			if (newVw is ISayMoreView)
+			if (newVw is ISayMoreView sayMoreView)
 			{
-				((ISayMoreView)newVw).ViewActivated(!_hasBeenActivatedList[newVw]);
+				sayMoreView.ViewActivated(!_hasBeenActivatedList[newVw]);
 				_hasBeenActivatedList[newVw] = true;
 			}
 		}

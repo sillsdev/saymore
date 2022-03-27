@@ -583,6 +583,9 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleConvertButtonClick(object sender, EventArgs e)
 		{
+			if (!GetIsOKToPerformFileOperation())
+				return;
+
 			var index = _grid.CurrentCellAddress.Y;
 			var file = (index >= 0 && index < _files.Count() ? _files.ElementAt(index) : null);
 

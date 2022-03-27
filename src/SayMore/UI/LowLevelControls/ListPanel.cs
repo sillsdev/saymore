@@ -153,22 +153,7 @@ namespace SayMore.UI.LowLevelControls
 
 		/// ------------------------------------------------------------------------------------
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public Button NewButton
-		{
-			get { return _buttonNew; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Call delete handler delegates and remove the selected items if the delegate
-		/// returns true.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleDeleteButtonClick(object sender, EventArgs e)
-		{
-			if (DeleteButtonClicked != null)
-				DeleteButtonClicked(sender, e);
-		}
+		public Button NewButton => _buttonNew;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -177,8 +162,7 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private void HandleNewButtonClick(object sender, EventArgs e)
 		{
-			if (NewButtonClicked != null)
-				NewButtonClicked(this, e);
+			NewButtonClicked?.Invoke(this, e);
 		}
 
 		/// ------------------------------------------------------------------------------------

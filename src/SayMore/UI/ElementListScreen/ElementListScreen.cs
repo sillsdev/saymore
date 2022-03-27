@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -157,7 +158,7 @@ namespace SayMore.UI.ElementListScreen
 		/// Called by the component file grid when the user chooses a different file
 		/// </summary>
 		/// review: why use index, why not the object?
-		/// Answser: If the object is used, the caller of this delegate would have to get the object
+		/// Answer: If the object is used, the caller of this delegate would have to get the object
 		/// this way: _model.GetComponentFile(index). Using the index here is really just
 		/// passing off to the model the inevitable job of indexing into the component file list.
 		/// The grid (i.e. the only object calling this delegate so far) does not keep a
@@ -398,7 +399,8 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleAddingNewElement(object sender, EventArgs e)
 		{
-			AfterNewItemAdded(_model.CreateNewElement());
+			if (_elementsGrid.IsOKToSelectDifferentElement())
+				AfterNewItemAdded(_model.CreateNewElement());
 		}
 
 		/// ------------------------------------------------------------------------------------

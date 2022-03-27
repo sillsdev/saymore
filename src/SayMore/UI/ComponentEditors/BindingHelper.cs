@@ -28,6 +28,9 @@ namespace SayMore.UI.ComponentEditors
 		public event EventHandler<TranslateBoundValueBeingSavedArgs> TranslateBoundValueBeingSaved;
 		public event EventHandler<TranslateBoundValueBeingRetrievedArgs> TranslateBoundValueBeingRetrieved;
 
+		public delegate void ValidationFailedHandler(BindingHelper sender, Control controlThatDidNotValidate);
+		public event ValidationFailedHandler ValidationFailed;
+
 		public delegate void DataSavedHandler();
 		public event DataSavedHandler OnDataSaved;
 
@@ -273,7 +276,7 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Called when something happens (like chosing a preset) which modifies the values
+		/// Called when something happens (like choosing a preset) which modifies the values
 		/// of the file directly, and we need to update the UI
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -301,24 +304,14 @@ namespace SayMore.UI.ComponentEditors
 					stringValue = (args.TranslatedValue ?? stringValue);
 				}
 
-				var box = ctrl as CheckBox;
-				if (box != null)
+				if (ctrl is CheckBox box)
 				{
-					bool isChecked;
-					bool.TryParse(stringValue, out isChecked);
+					bool.TryParse(stringValue, out var isChecked);
 					box.Checked = isChecked;
 				}
 				else
 				{
-					var dtp = ctrl as DatePicker;
-					if (dtp != null)
-					{
-						ctrl.Text = stringValue;
-					}
-					else
-					{
-						ctrl.Text = stringValue;
-					}
+					ctrl.Text = stringValue;
 				}
 			}
 			catch (Exception error)
@@ -337,7 +330,7 @@ namespace SayMore.UI.ComponentEditors
 							"***This record had an ambiguous {0}, produced by a bug in an old version of SayMore. The date was \"{1}\". " +
 							"SayMore has attempted to interpret the date, but might have swapped the day and month. " +
 							"Please accept our apologies for this error. After you have fixed the date or confirmed that it is correct, please delete this message.",
-							"Text appended to the note for an element with an ambigous date field value"), key, error.Message);
+							"Text appended to the note for an element with an ambiguous date field value"), key, error.Message);
 
 					//this will save that new value, and this note
 					HandleValidatingControl(ctrl,new CancelEventArgs());
@@ -452,11 +445,17 @@ namespace SayMore.UI.ComponentEditors
 				ctrl.Text = newValue;
 
 			if (failureMessage != null)
+			{
+				e.Cancel = true;
+				ValidationFailed?.Invoke(this, ctrl);
 				SIL.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
-
-			//enchance: don't save so often, leave it to some higher level
-			if (_componentFileIdControl != ctrl)
-				SaveNow();
+			}
+			else
+			{
+				// ENHANCE: don't save so often, leave it to some higher level
+				if (_componentFileIdControl != ctrl)
+					SaveNow();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

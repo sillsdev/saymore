@@ -394,7 +394,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleFileGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
-			if (e.ColumnIndex < 0 || e.ColumnIndex >= _grid.ColumnCount || e.RowIndex < 0 || e.RowIndex >= _files.Count())
+			if (e.ColumnIndex < 0 || e.ColumnIndex >= _grid.ColumnCount || e.RowIndex < 0 || e.RowIndex >= _files.Count)
 				return;
 			var propName = _grid.Columns[e.ColumnIndex].DataPropertyName;
 			var currFile = _files.ElementAt(e.RowIndex);
@@ -470,8 +470,12 @@ namespace SayMore.UI.ElementListScreen
 		{
 			if (fileToSelectAfterUpdate == null)
 			{
-				fileToSelectAfterUpdate = (_grid.CurrentCellAddress.Y >= 0 && _files.Any() ?
-					_files.ElementAt(_grid.CurrentCellAddress.Y) : null);
+				// SP-1760: If the user deletes files in explorer that are being shown in the
+				// component file list, it's possible for the current row to suddenly go out of
+				// range.
+				fileToSelectAfterUpdate =
+					_grid.CurrentCellAddress.Y >= 0 && _files.Count > _grid.CurrentCellAddress.Y ?
+					_files.ElementAt(_grid.CurrentCellAddress.Y) : null;
 			}
 
 			_files = componentFiles;

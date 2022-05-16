@@ -1,5 +1,5 @@
 using L10NSharp;
-using L10NSharp.TMXUtils;
+using L10NSharp.XLiffUtils;
 using L10NSharp.UI;
 using SayMore.UI.LowLevelControls;
 
@@ -23,7 +23,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 				if (components != null)
 					components.Dispose();
 
-				LocalizeItemDlg<TMXDocument>.StringsLocalized -= LocalizationInitiated;
+				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= LocalizationInitiated;
 			}
 			base.Dispose(disposing);
 		}

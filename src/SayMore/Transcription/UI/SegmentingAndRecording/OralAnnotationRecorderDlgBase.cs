@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Linq;
 using DesktopAnalytics;
 using L10NSharp;
-using L10NSharp.TMXUtils;
+using L10NSharp.XLiffUtils;
 using L10NSharp.UI;
 using SIL.Media.Naudio.UI;
 using SIL.Reporting;
@@ -219,7 +219,7 @@ namespace SayMore.Transcription.UI
 					_waveControl.Dispose();
 				AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrown;
 
-				LocalizeItemDlg<TMXDocument>.StringsLocalized -= HandleStringsLocalized;
+				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= HandleStringsLocalized;
 			}
 
 			base.Dispose(disposing);
@@ -392,7 +392,7 @@ namespace SayMore.Transcription.UI
 
 			_annotationSegmentFont = FontHelper.MakeFont(Program.DialogFont, 8, FontStyle.Bold);
 
-			LocalizeItemDlg<TMXDocument>.StringsLocalized += HandleStringsLocalized;
+			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
 		private const int kNumberOfRows = 4;

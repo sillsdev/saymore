@@ -153,7 +153,34 @@ namespace SayMore.Model
 
 				foreach (var filename in otherFiles)
 				{
-					var newComponentFile = _componentFileFactory(this, filename);
+					ComponentFile newComponentFile = null;
+					try
+					{
+						newComponentFile = _componentFileFactory(this, filename);
+					}
+					catch (Exception e)
+					{
+						// SP-2269: If this appears to be a temp file, we'll log it but it's
+						// probably not worth even notifying the user. If it is no longer needed,
+						// it would perhaps be "nice" for them to go clean it up, but there's a
+						// chance that the temp file is actually in use by another program, so
+						// there's a risk of them just making things worse.
+						if (Path.GetFileName(filename).StartsWith("~$"))
+						{
+							Logger.WriteError("Skipping apparent temp file that could not be" +
+								$" loaded: {filename}", e);
+						}
+						else
+						{
+							ErrorReport.NotifyUserOfProblem(e,
+								LocalizationManager.GetString(
+									"CommonToMultipleViews.GenericFileTypeViewer.FailedToLoadOtherFile",
+									"Failed to load file:\r{0}\rIf this is not an essential" +
+									" file, you can safely delete it and/or ignore this error."),
+								filename);
+						}
+						continue;
+					}
 					_componentFiles.Add(newComponentFile);
 
 					var annotationFile = newComponentFile.GetAnnotationFile();
@@ -214,16 +241,11 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string FolderPath
-		{
-			get { return Path.Combine(ParentFolderPath, Id); }
-		}
+		public virtual string FolderPath => Path.Combine(ParentFolderPath, Id);
 
 		/// ------------------------------------------------------------------------------------
-		public string SettingsFilePath
-		{
-			get { return Path.Combine(FolderPath, Id + "." + ExtensionWithoutPeriod); }
-		}
+		public string SettingsFilePath =>
+			Path.Combine(FolderPath, Id + "." + ExtensionWithoutPeriod);
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<FieldInstance> ExportFields

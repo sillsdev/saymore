@@ -18,4 +18,10 @@
   <File Id="ProgramDir.SayMore.tr.tmx" Guid="7248fbda-98cd-4c09-a5c2-7c79642dfe3a" />
   <File Id="ProgramDir.SayMore.zh_Hans.tmx" Guid="97c9cb3d-4995-43ca-a914-742a04d6ab90" />
   <File Id="ProgramDir.SessionFileInfoTemplates.xml" Guid="79c9620d-5ae8-4fbb-bdcf-3a88a57c9ae0" />
+  <File Id="ProgramDir.SayMore.es.xlf" Guid="ba5a04a9-3330-49e6-8f70-30f912c3014b" />
+  <File Id="ProgramDir.SayMore.fr.xlf" Guid="ca34e91c-f353-46ec-b2b0-d36a4e75c19e" />
+  <File Id="ProgramDir.SayMore.pt.xlf" Guid="d3416ab2-5182-43a4-9e30-9b5a45879849" />
+  <File Id="ProgramDir.SayMore.ru.xlf" Guid="20115c37-b91b-4588-906d-4b4f000ea913" />
+  <File Id="ProgramDir.SayMore.tr.xlf" Guid="343d1f82-031c-42f9-b873-46fb5db088ac" />
+  <File Id="ProgramDir.SayMore.zh_CN.xlf" Guid="1acbab75-5630-4e0a-b131-058f47674c09" />
 </InstallerMetadata>

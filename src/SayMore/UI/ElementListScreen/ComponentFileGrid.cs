@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.TMXUtils;
+using L10NSharp.XLiffUtils;
 using L10NSharp.UI;
 using SIL.Reporting;
 using SIL.Windows.Forms.Widgets.BetterGrid;
@@ -91,7 +91,7 @@ namespace SayMore.UI.ElementListScreen
 
 			_menuDeleteFile.Click += ((s, e) => DeleteFile());
 
-			LocalizeItemDlg<TMXDocument>.StringsLocalized += HandleStringsLocalized;
+			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------

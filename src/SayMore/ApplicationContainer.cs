@@ -17,6 +17,8 @@ using SayMore.UI.ProjectChoosingAndCreating;
 using SayMore.Utilities;
 using SIL.Reporting;
 using static System.Char;
+using static System.Environment.SpecialFolder;
+using Resources = SayMore.Properties.Resources;
 
 namespace SayMore
 {
@@ -198,16 +200,19 @@ namespace SayMore
 
 		public ILocalizationManager CreateLocalizationManager()
 		{
-			var installedStringFileFolder = Path.GetDirectoryName(FileLocationUtilities.GetFileDistributedWithApplication("SayMore.es.tmx"));
-			var relativePathForWritingTmxFiles = Path.Combine(Program.kCompanyAbbrev, Application.ProductName);
+			var installedStringFileFolder = Path.GetDirectoryName(FileLocationUtilities.GetFileDistributedWithApplication("SayMore.es.xlf"));
+			var relativePathForWritingLocalizationFiles = Path.Combine(Program.kCompanyAbbrev, Application.ProductName);
 
 			LocalizationManager.DeleteOldTranslationFiles(kSayMoreLocalizationId,
-				Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), relativePathForWritingTmxFiles),
-				installedStringFileFolder);
+				Path.Combine(Environment.GetFolderPath(CommonApplicationData),
+					relativePathForWritingLocalizationFiles), installedStringFileFolder);
 
-			var localizationManager = LocalizationManager.Create(TranslationMemory.Tmx, Settings.Default.UserInterfaceLanguage, kSayMoreLocalizationId,
-				"SayMore", Application.ProductVersion, installedStringFileFolder, relativePathForWritingTmxFiles,
-				Resources.SayMore, "sil.saymore@gmail.com", "SayMore", "SIL.Archiving", "SIL.Windows.Forms.FileSystem");
+			var localizationManager = LocalizationManager.Create(TranslationMemory.XLiff,
+				Settings.Default.UserInterfaceLanguage, kSayMoreLocalizationId,
+				"SayMore", Application.ProductVersion, installedStringFileFolder,
+				relativePathForWritingLocalizationFiles, Resources.SayMore,
+				"sil.saymore@gmail.com", "SayMore", "SIL.Archiving",
+				"SIL.Windows.Forms.FileSystem");
 
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 

@@ -1,3 +1,6 @@
+## Version 3.3
+Localization files are now stored in the XLIFF format (v. 1.2). If you have custom localizations saved in TMX format, please contact sil.saymore@gmail.com for help.
+
 ## Version 3.2
 * Added Turkish UI Translations from Stevan Vanderwerf
 * Added Native American Language Collection
@@ -16,6 +19,7 @@
 * Included recording length in IMDI export.
 * Fixed RAMP info link on export to RAMP.
 * Allowed RAMP export of entire project.
+* Eliminated need to download FFMpeg separately.
 
 ## Version 3.1
 When doing an IMDI export,you can now select a "metadata only" option.

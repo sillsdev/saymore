@@ -59,10 +59,13 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			_sessionComponentFileGrid.AddFileButtonTooltipText =
-				LocalizationManager.GetString("SessionsView.FileList.AddSessionsButtonToolTip", "Add Files to the Session");
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			{
+				_sessionComponentFileGrid.AddFileButtonTooltipText = LocalizationManager.GetString(
+					"SessionsView.FileList.AddSessionsButtonToolTip", "Add Files to the Session");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -57,7 +57,7 @@ namespace SayMore.UI.ComponentEditors
 			Layout += HandleLayout;
 
 			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
-			HandleStringsLocalized();
+			HandleStringsLocalized(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -193,15 +193,14 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleStringsLocalized()
+		protected virtual void HandleStringsLocalized(ILocalizationManager lm)
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected string GetPropertiesTabText()
-		{
-			return LocalizationManager.GetString("CommonToMultipleViews.PropertiesEditor.TabText", "Properties");
-		}
+		protected string GetPropertiesTabText() =>
+			LocalizationManager.GetString("CommonToMultipleViews.PropertiesEditor.TabText",
+				"Properties");
 
 		/// ------------------------------------------------------------------------------------
 		private static void SetLabelFonts(Control parent, Font fnt)

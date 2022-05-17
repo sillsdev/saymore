@@ -175,7 +175,7 @@ namespace SayMore.Model
 							ErrorReport.NotifyUserOfProblem(e,
 								LocalizationManager.GetString(
 									"CommonToMultipleViews.GenericFileTypeViewer.FailedToLoadOtherFile",
-									"Failed to load file:\r{0}\rIf this is not an essential" +
+									"Failed to load file:\r\n{0}\r\nIf this is not an essential" +
 									" file, you can safely delete it and/or ignore this error."),
 								filename);
 						}
@@ -279,10 +279,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string DefaultStatusValue
-		{
-			get { return Empty; }
-		}
+		public virtual string DefaultStatusValue => Empty;
 
 		/// ------------------------------------------------------------------------------------
 		public void Save()
@@ -364,16 +361,12 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual string NoIdSaveFailureMessage
-		{
-			get { throw new NotImplementedException(); }
-		}
+		protected virtual string NoIdSaveFailureMessage =>
+			throw new NotImplementedException();
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual string AlreadyExistsSaveFailureMessage
-		{
-			get { throw new NotImplementedException(); }
-		}
+		protected virtual string AlreadyExistsSaveFailureMessage => 
+			throw new NotImplementedException();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -599,12 +592,12 @@ namespace SayMore.Model
 			}
 
 			return (modifyComputedListWithUserOverrides ?
-				GetCompletedStagesModifedByUserOverrides(completedRoles.Values) :
+				GetCompletedStagesModifiedByUserOverrides(completedRoles.Values) :
 				completedRoles.Values);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected IEnumerable<ComponentRole> GetCompletedStagesModifedByUserOverrides(
+		protected IEnumerable<ComponentRole> GetCompletedStagesModifiedByUserOverrides(
 			IEnumerable<ComponentRole> autoComputedCompletedRoles)
 		{
 			// Return the auto-computed roles for which the user has kept the auto-compute setting.

@@ -209,8 +209,17 @@ namespace SayMore.Transcription.UI
 			if (!_isFirstTimeActivated)
 				return;
 
-			SetComponentFile(_file);
 			_isFirstTimeActivated = false;
+
+			if (InvokeRequired)
+				Invoke(new Action(InitializeForFirstTimeActivation));
+			else
+				InitializeForFirstTimeActivation();
+		}
+
+		private void InitializeForFirstTimeActivation()
+		{
+			SetComponentFile(_file);
 			_labelCursorTime.Font = Program.DialogFont;
 		}
 
@@ -273,10 +282,16 @@ namespace SayMore.Transcription.UI
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			TabText = LocalizationManager.GetString("SessionsView.Transcription.GeneratedOralAnnotationView.TabText", "Generated Audio");
-			base.HandleStringsLocalized();
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			{
+				TabText = LocalizationManager.GetString(
+					"SessionsView.Transcription.GeneratedOralAnnotationView.TabText",
+					"Generated Audio");
+			}
+
+			base.HandleStringsLocalized(lm);
 		}
 	}
 }

@@ -186,15 +186,20 @@ namespace SayMore.Transcription.UI
 
 			_isFirstTimeActivated = false;
 
+			if (InvokeRequired)
+				Invoke(new Action(InitializeForFirstTimeActivation));
+			else
+				InitializeForFirstTimeActivation();
+		}
+
+		private void InitializeForFirstTimeActivation()
+		{
 			_grid.FirstTimeColumnInitialization();
 
 			if (Settings.Default.AnnotationEditorSpiltterPos > 0)
 				_splitter.SplitterDistance = Settings.Default.AnnotationEditorSpiltterPos;
 
-			_splitter.SplitterMoved += delegate
-			{
-				Settings.Default.AnnotationEditorSpiltterPos = _splitter.SplitterDistance;
-			};
+			_splitter.SplitterMoved += delegate { Settings.Default.AnnotationEditorSpiltterPos = _splitter.SplitterDistance; };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -455,12 +460,15 @@ namespace SayMore.Transcription.UI
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			TabText = LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			{
+				TabText = LocalizationManager.GetString(
+					"SessionsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
+			}
 
-			base.HandleStringsLocalized();
+			base.HandleStringsLocalized(lm);
 		}
 
 		private void OnExportElanMenuItem_Click(object sender, EventArgs e)

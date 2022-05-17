@@ -50,7 +50,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			LoadMRUButtons();
 
 			LocalizeItemDlg<XLiffDocument>.StringsLocalized += LocalizationInitiated;
-			LocalizationInitiated();
+			LocalizationInitiated(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -94,8 +94,11 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		/// constructor and after strings are localized in the string localizing dialog box.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LocalizationInitiated()
+		private void LocalizationInitiated(ILocalizationManager lm)
 		{
+			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
+				return;
+
 			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text, BuildType.Current);
 
 			_linkSILWebsite.Text = String.Format(_linkSILWebsite.Text, Application.CompanyName);

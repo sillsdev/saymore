@@ -115,34 +115,22 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override string ExtensionWithoutPeriod
-		{
-			get { return ExtensionWithoutPeriodStatic; }
-		}
+		protected override string ExtensionWithoutPeriod => ExtensionWithoutPeriodStatic;
 
 		/// ------------------------------------------------------------------------------------
-		public override string RootElementName
-		{
-			get { return "Session"; }
-		}
+		public override string RootElementName => "Session";
 
 		/// ------------------------------------------------------------------------------------
-		protected static string ExtensionWithoutPeriodStatic
-		{
-			get { return Settings.Default.SessionFileExtension.TrimStart('.'); }
-		}
+		protected static string ExtensionWithoutPeriodStatic => 
+			Settings.Default.SessionFileExtension.TrimStart('.');
 
 		/// ------------------------------------------------------------------------------------
-		public override string DefaultElementNamePrefix
-		{
-			get { return LocalizationManager.GetString("SessionsView.Miscellaneous.NewSessionNamePrefix", "New Session"); }
-		}
+		public override string DefaultElementNamePrefix => LocalizationManager.GetString(
+			"SessionsView.Miscellaneous.NewSessionNamePrefix", "New Session");
 
 		/// ------------------------------------------------------------------------------------
-		protected override string NoIdSaveFailureMessage
-		{
-			get { return LocalizationManager.GetString("SessionsView.Miscellaneous.NoIdSaveFailureMessage", "You must specify a session id."); }
-		}
+		protected override string NoIdSaveFailureMessage => LocalizationManager.GetString(
+			"SessionsView.Miscellaneous.NoIdSaveFailureMessage", "You must specify a session id.");
 
 		/// ------------------------------------------------------------------------------------
 		protected override string AlreadyExistsSaveFailureMessage
@@ -155,10 +143,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string DefaultStatusValue
-		{
-			get { return Status.Incoming.ToString(); }
-		}
+		public override string DefaultStatusValue => Status.Incoming.ToString();
 
 		#endregion
 
@@ -212,8 +197,8 @@ namespace SayMore.Model
 			if (GetShouldReportHaveConsent())
 			   list.Insert(0, ComponentRoles.First(r => r.Id == ComponentRole.kConsentComponentRoleId));
 
-			return (modifyComputedListWithUserOverrides ?
-				GetCompletedStagesModifedByUserOverrides(list) : list);
+			return modifyComputedListWithUserOverrides ?
+				GetCompletedStagesModifiedByUserOverrides(list) : list;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -282,7 +267,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		private void ProcessContributorNameChange(ElementIdChangedArgs e)
 		{
-			foreach (var file in GetComponentFiles().Where(f => (f.FileType as FileTypeWithContributors) != null))
+			foreach (var file in GetComponentFiles().Where(f => f.FileType is FileTypeWithContributors))
 			{
 				var values = file.MetaDataFieldValues.FirstOrDefault(v => v.FieldId == SessionFileType.kContributionsFieldName);
 				if (values == null)
@@ -295,8 +280,7 @@ namespace SayMore.Model
 				foreach (var contribution in contributions.Where(contribution => contribution.ContributorName == e.OldId))
 					contribution.ContributorName = e.NewId;
 
-				string failureMessage;
-				file.SetValue(SessionFileType.kContributionsFieldName, contributions, out failureMessage);
+				file.SetValue(SessionFileType.kContributionsFieldName, contributions, out var failureMessage);
 
 				if (failureMessage == null)
 					file.Save();
@@ -394,14 +378,9 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string AddingSessionFilesProgressMsg
-		{
-			get
-			{
-				return string.Format(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg",
-					"Adding Files for Session '{0}'"), Title);
-			}
-		}
+		public string AddingSessionFilesProgressMsg =>
+			string.Format(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg",
+				"Adding Files for Session '{0}'"), Title);
 
 		/// ------------------------------------------------------------------------------------
 		public IDictionary<string, IEnumerable<string>> GetParticipantFilesToArchive(Type typeOfArchive)

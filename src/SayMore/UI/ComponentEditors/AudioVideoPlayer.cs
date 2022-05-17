@@ -38,7 +38,7 @@ namespace SayMore.UI.ComponentEditors
 			SetComponentFile(file);
 
 			// SP-831: tab is being localized before the file has been set in the base class
-			HandleStringsLocalized();
+			HandleStringsLocalized(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -64,16 +64,22 @@ namespace SayMore.UI.ComponentEditors
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
 			// SP-831: tab is being localized before the file has been set in the base class
-			if (_file == null) return;
+			if (_file == null)
+				return;
 
-			TabText = (_file.FileType.IsVideo ?
-				LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.TabText-Video", "Video") :
-				LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.TabText-Audio", "Audio"));
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			{
+				TabText = _file.FileType.IsVideo ?
+					LocalizationManager.GetString(
+						"CommonToMultipleViews.MediaPlayer.TabText-Video", "Video") :
+					LocalizationManager.GetString(
+						"CommonToMultipleViews.MediaPlayer.TabText-Audio", "Audio");
+			}
 
-			base.HandleStringsLocalized();
+			base.HandleStringsLocalized(lm);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -455,12 +455,15 @@ namespace SayMore.Transcription.UI
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			TabText = LocalizationManager.GetString(
-				"SessionsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			{
+				TabText = LocalizationManager.GetString(
+					"SessionsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
+			}
 
-			base.HandleStringsLocalized();
+			base.HandleStringsLocalized(lm);
 		}
 
 		private void OnExportElanMenuItem_Click(object sender, EventArgs e)

@@ -49,10 +49,7 @@ namespace SayMore.UI.ProjectWindow
 		public bool UserWantsToOpenADifferentProject { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		private string ProjectName
-		{
-			get { return Path.GetFileNameWithoutExtension(_projectPath); }
-		}
+		private string ProjectName => Path.GetFileNameWithoutExtension(_projectPath);
 
 		/// ------------------------------------------------------------------------------------
 		private ProjectWindow()
@@ -167,14 +164,6 @@ namespace SayMore.UI.ProjectWindow
 			}
 		}
 
-		internal int SelectedTabIndex()
-		{
-			for (var i = 0; i < _viewTabGroup.Tabs.Count; i++)
-				if (_viewTabGroup.Tabs[i].Selected) return i;
-
-			return -1;
-		}
-
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
@@ -199,11 +188,15 @@ namespace SayMore.UI.ProjectWindow
 		/// Sets the localized window title texts.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SetWindowText()
+		private void SetWindowText(ILocalizationManager lm = null)
 		{
-			var ver = Assembly.GetExecutingAssembly().GetName().Version;
-			Text = string.Format(_titleFmt, ProjectName, ver.Major, ver.Minor, ver.Build,
-				ApplicationContainer.GetBuildTypeDescriptor(BuildType.Current));
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			{
+				var ver = Assembly.GetExecutingAssembly().GetName().Version;
+				_titleFmt = Text;
+				Text = string.Format(_titleFmt, ProjectName, ver.Major, ver.Minor, ver.Build,
+					ApplicationContainer.GetBuildTypeDescriptor(BuildType.Current));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -366,8 +359,7 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void HandleViewActivated(ViewTabGroup sender, ViewTab activatedTab)
 		{
-			var view = activatedTab.View as ISayMoreView;
-			if (view == null)
+			if (!(activatedTab.View is ISayMoreView view))
 				return;
 
 			if (view.MainMenuItem != null)
@@ -379,8 +371,7 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void HandleViewDeactivated(ViewTabGroup sender, ViewTab deactivatedTab)
 		{
-			var view = deactivatedTab.View as ISayMoreView;
-			if (view != null && view.MainMenuItem != null)
+			if (deactivatedTab.View is ISayMoreView view && view.MainMenuItem != null)
 				view.MainMenuItem.Enabled = false;
 		}
 	}

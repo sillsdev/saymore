@@ -102,7 +102,7 @@ namespace SayMore.UI.ElementListScreen
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
-			HandleStringsLocalized();
+			HandleStringsLocalized(null);
 			LocalizeItemDlg<TMXDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
@@ -114,7 +114,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleStringsLocalized()
+		protected virtual void HandleStringsLocalized(ILocalizationManager lm)
 		{
 			// Overridden in derived classes
 		}

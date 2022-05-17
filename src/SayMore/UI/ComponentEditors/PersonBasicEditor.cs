@@ -63,7 +63,7 @@ namespace SayMore.UI.ComponentEditors
 			_pbOtherLangFather3.Tag = _otherLanguage3;
 			_pbOtherLangMother3.Tag = _otherLanguage3;
 
-			HandleStringsLocalized();
+			HandleStringsLocalized(null);
 			_binder.TranslateBoundValueBeingSaved += HandleBinderTranslateBoundValueBeingSaved;
 			_binder.TranslateBoundValueBeingRetrieved += HandleBinderTranslateBoundValueBeingRetrieved;
 			_binder.SetComponentFile(file);
@@ -519,20 +519,26 @@ namespace SayMore.UI.ComponentEditors
 		/// Update the tab text and gender names in case they were localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			TabText = LocalizationManager.GetString("PeopleView.MetadataEditor.TabText", "Person");
-
-			if (_gender != null)
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
-				int i = _gender.SelectedIndex;
-				_gender.Items.Clear();
-				_gender.Items.Add(LocalizationManager.GetString("PeopleView.MetadataEditor.GenderSelector.Male", "Male"));
-				_gender.Items.Add(LocalizationManager.GetString("PeopleView.MetadataEditor.GenderSelector.Female", "Female"));
-				_gender.SelectedIndex = i;
+				TabText = LocalizationManager.GetString("PeopleView.MetadataEditor.TabText",
+					"Person");
+
+				if (_gender != null)
+				{
+					int i = _gender.SelectedIndex;
+					_gender.Items.Clear();
+					_gender.Items.Add(LocalizationManager.GetString(
+						"PeopleView.MetadataEditor.GenderSelector.Male", "Male"));
+					_gender.Items.Add(LocalizationManager.GetString(
+						"PeopleView.MetadataEditor.GenderSelector.Female", "Female"));
+					_gender.SelectedIndex = i;
+				}
 			}
 
-			base.HandleStringsLocalized();
+			base.HandleStringsLocalized(lm);
 		}
 
 		/// ------------------------------------------------------------------------------------

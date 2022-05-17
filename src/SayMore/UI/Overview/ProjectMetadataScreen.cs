@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -14,7 +13,7 @@ namespace SayMore.UI.Overview
 {
 	public partial class ProjectMetadataScreen : EditorBase, ISayMoreView, ISaveable
 	{
-		private IMDIItemList _countryList;
+		private readonly IMDIItemList _countryList;
 
 		public ProjectMetadataScreen()
 		{
@@ -45,16 +44,20 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			base.HandleStringsLocalized();
+			base.HandleStringsLocalized(lm);
 
-			if (_country == null || _countryList == null)
+			if (lm?.Id == ApplicationContainer.kPalasoLocalizationId)
 			{
-				Load += (o, args) => ResetCountryList();
-				return;
+				if (_country == null || _countryList == null)
+				{
+					Load += (o, args) => ResetCountryList();
+					return;
+				}
+
+				ResetCountryList();
 			}
-			ResetCountryList();
 		}
 
 		/// ------------------------------------------------------------------------------------

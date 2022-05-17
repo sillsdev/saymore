@@ -230,10 +230,15 @@ namespace SayMore.UI.ComponentEditors
 			return match.Success ? match.Groups[1].Value : string.Empty;
 		}
 
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			TabText = LocalizationManager.GetString("PeopleView.ContributionEditor.TabText", "Contributions");
-			base.HandleStringsLocalized();
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			{
+				TabText = LocalizationManager.GetString(
+					"PeopleView.ContributionEditor.TabText", "Contributions");
+			}
+
+			base.HandleStringsLocalized(lm);
 		}
 
 		public override void SetComponentFile(ComponentFile file)

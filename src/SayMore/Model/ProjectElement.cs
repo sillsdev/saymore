@@ -165,17 +165,17 @@ namespace SayMore.Model
 						// it would perhaps be "nice" for them to go clean it up, but there's a
 						// chance that the temp file is actually in use by another program, so
 						// there's a risk of them just making things worse.
-						if (Path.GetFileName(filename).StartsWith("~$"))
-						{
-							Logger.WriteError("Skipping apparent temp file that could not be" +
-								$" loaded: {filename}", e);
-						}
-						else
+						//if (Path.GetFileName(filename).StartsWith("~$"))
+						//{
+						//	Logger.WriteError("Skipping apparent temp file that could not be" +
+						//		$" loaded: {filename}", e);
+						//}
+						//else
 						{
 							ErrorReport.NotifyUserOfProblem(e,
 								LocalizationManager.GetString(
 									"CommonToMultipleViews.GenericFileTypeViewer.FailedToLoadOtherFile",
-									"Failed to load file:\r{0}\rIf this is not an essential" +
+									"Failed to load file:\r\n{0}\r\nIf this is not an essential" +
 									" file, you can safely delete it and/or ignore this error."),
 								filename);
 						}

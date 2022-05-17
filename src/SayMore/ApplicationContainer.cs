@@ -29,6 +29,7 @@ namespace SayMore
 		private IContainer _container;
 		private ISplashScreen _splashScreen;
 		public const string kSayMoreLocalizationId = "SayMore";
+		public const string kPalasoLocalizationId = "Palaso";
 
 		/// ------------------------------------------------------------------------------------
 		public ApplicationContainer() : this(false)
@@ -207,7 +208,15 @@ namespace SayMore
 
 			var localizationManager = LocalizationManager.Create(TranslationMemory.Tmx, Settings.Default.UserInterfaceLanguage, kSayMoreLocalizationId,
 				"SayMore", Application.ProductVersion, installedStringFileFolder, relativePathForWritingTmxFiles,
-				Resources.SayMore, "sil.saymore@gmail.com", "SayMore", "SIL.Archiving", "SIL.Windows.Forms.FileSystem");
+				Resources.SayMore, "sil.saymore@gmail.com", "SayMore");
+
+			LocalizationManager.Create(TranslationMemory.XLiff, Settings.Default.UserInterfaceLanguage, kPalasoLocalizationId,
+				kPalasoLocalizationId, Application.ProductVersion, installedStringFileFolder, relativePathForWritingTmxFiles,
+				Resources.SayMore, "sil.saymore@gmail.com", 
+				typeof(SIL.Localizer)
+					.GetMethods(BindingFlags.Static | BindingFlags.Public)
+					.Where(m => m.Name == "GetString"),
+				"SIL.Archiving", "SIL.Windows.Forms.FileSystem");
 
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 

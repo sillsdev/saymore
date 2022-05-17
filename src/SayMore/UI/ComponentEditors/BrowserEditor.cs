@@ -193,16 +193,17 @@ namespace SayMore.UI.ComponentEditors
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			TabText = LocalizationManager.GetString("CommonToMultipleViews.GenericFileTypeViewer.TabText", "View");
-			if (_browser != null)
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
-				var filePath = _browser.Tag as string;
-				if (filePath != null)
+				TabText = LocalizationManager.GetString(
+					"CommonToMultipleViews.GenericFileTypeViewer.TabText", "View");
+				if (_browser?.Tag is string filePath)
 					DisplayFile(filePath);
 			}
-			base.HandleStringsLocalized();
+
+			base.HandleStringsLocalized(lm);
 		}
 	}
 }

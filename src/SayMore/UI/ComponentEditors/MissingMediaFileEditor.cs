@@ -16,7 +16,7 @@ namespace SayMore.UI.ComponentEditors
 			Logger.WriteEvent("MissingMediaFileEditor constructor. file = {0}", file);
 			InitializeComponent();
 			SetComponentFile(file);
-			HandleStringsLocalized();
+			HandleStringsLocalized(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -55,20 +55,25 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			base.HandleStringsLocalized();
+			base.HandleStringsLocalized(lm);
 
-			TabText = LocalizationManager.GetString("SessionsView.MissingMediaFileEditor.TabText", "Missing Media File");
-			if (lblExplanation == null)
-				return;
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			{
+				TabText = LocalizationManager.GetString(
+					"SessionsView.MissingMediaFileEditor.TabText", "Missing Media File");
+				
+				if (lblExplanation == null)
+					return;
 
-			lblExplanation.Text = LocalizationManager.GetString("SessionsView.MissingMediaFileEditor.lblExplanation",
-				"This can happen if the media file is inadvertently deleted or renamed outside of SayMore. " +
-				"It could also happen if a properly named ELAN file is added to a SayMore session but internally " +
-				"refers to a media file that is not where SayMore expects to find it. If you have access to the media " +
-				"file and would like to be able to annotate it in SayMore, please copy it to the above location.");
-
+				lblExplanation.Text = LocalizationManager.GetString(
+					"SessionsView.MissingMediaFileEditor.lblExplanation",
+					"This can happen if the media file is inadvertently deleted or renamed outside of SayMore. " +
+					"It could also happen if a properly named ELAN file is added to a SayMore session but internally " +
+					"refers to a media file that is not where SayMore expects to find it. If you have access to the media " +
+					"file and would like to be able to annotate it in SayMore, please copy it to the above location.");
+			}
 		}
 	}
 }

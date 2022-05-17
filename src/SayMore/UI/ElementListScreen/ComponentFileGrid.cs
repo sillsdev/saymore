@@ -95,10 +95,11 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleStringsLocalized()
+		protected virtual void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			if (_grid == null || _grid.IsDisposed)
+			if (_grid == null || _grid.IsDisposed || lm.Id != ApplicationContainer.kSayMoreLocalizationId)
 				return;
+
 			try
 			{
 				_grid.AutoResizeColumnHeadersHeight();
@@ -112,8 +113,8 @@ namespace SayMore.UI.ElementListScreen
 
 		public string AddFileButtonTooltipText
 		{
-			get { return _buttonAddFiles.ToolTipText; }
-			set { _buttonAddFiles.ToolTipText = value; }
+			get => _buttonAddFiles.ToolTipText;
+			set => _buttonAddFiles.ToolTipText = value;
 		}
 
 		/// ------------------------------------------------------------------------------------

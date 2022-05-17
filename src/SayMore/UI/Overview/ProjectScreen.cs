@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using L10NSharp;
 using System.Windows.Forms;
-using L10NSharp.TMXUtils;
+using L10NSharp.XLiffUtils;
 using L10NSharp.UI;
 using SIL.Reporting;
 using SayMore.UI.ComponentEditors;
@@ -45,7 +45,7 @@ namespace SayMore.UI.Overview
 			_descriptionDocsView.BackColor = _splitter.Panel2.BackColor;
 			_otherDocsView.BackColor = _splitter.Panel2.BackColor;
 
-			LocalizeItemDlg<TMXDocument>.StringsLocalized += HandleStringsLocalized;
+			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ namespace SayMore.UI.Overview
 			if (disposing)
 			{
 				// SP-788: "Cannot access a disposed object" when changing UI language
-				LocalizeItemDlg<TMXDocument>.StringsLocalized -= HandleStringsLocalized;
+				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= HandleStringsLocalized;
 
 				if (components != null)
 					components.Dispose();

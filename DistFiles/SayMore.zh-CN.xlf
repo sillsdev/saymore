@@ -1,0 +1,2507 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns:sil="http://sil.org/software/XLiff" xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" product-version="3.2.0" original="SayMore.exe" datatype="plaintext" target-language="zh-CN">
+    <body>
+      <trans-unit id="CommonToMultipleViews.AttemptedRetriesMsg">
+        <source xml:lang="en">(Retries attempted: {0})</source>
+        <target xml:lang="zh-CN" state="translated">(再次尝试: {0})</target>
+        <note>ID: CommonToMultipleViews.AttemptedRetriesMsg</note>
+        <note>Parameter is the number of times SayMore has attempted to move the temp file to the permanent location.</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.AudioUtils.NoPlaybackDevicesFoundMsg">
+        <source xml:lang="en">Currently SayMore is unable to find any audio playback devices installed and enabled on this computer.</source>
+        <target xml:lang="zh-CN" state="translated">不能找到可用的播放设备。</target>
+        <note>ID: CommonToMultipleViews.AudioUtils.NoPlaybackDevicesFoundMsg</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.AudioUtils.NoRecordingDevicesFoundMsg">
+        <source xml:lang="en">Currently audio recordings cannot be made because SayMore is unable to find any recording devices installed and enabled on this computer.</source>
+        <target xml:lang="zh-CN" state="translated">不能录音，当前电脑没有找到录音设备。</target>
+        <note>ID: CommonToMultipleViews.AudioUtils.NoRecordingDevicesFoundMsg</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.AudioUtils.UnexpectedAudioErrorMsg">
+        <source xml:lang="en">There was an unexpected audio error.</source>
+        <target xml:lang="zh-CN" state="translated">出现不可预计的音频错误。</target>
+        <note>ID: CommonToMultipleViews.AudioUtils.UnexpectedAudioErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.BindingHelper.AmbiguousDateNote">
+        <source xml:lang="en">***This record had an ambiguous {0}, produced by a bug in an old version of SayMore. The date was "{1}". SayMore has attempted to interpret the date, but might have swapped the day and month. Please accept our apologies for this error. After you have fixed the date or confirmed that it is correct, please delete this message.</source>
+        <target xml:lang="zh-CN" state="translated">这条记录由旧版Saymore生成的，有一个不明确的{0}，日期是"{1}"。 SayMore尝试来解析这个日期，可能交换月份和日期。十分抱歉出现这个错误。如果你修改了日期，并确认是正确的，请删除这条信息。</target>
+        <note>ID: CommonToMultipleViews.BindingHelper.AmbiguousDateNote</note>
+        <note>Text appended to the note for an element with an ambiguous date field value</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.ChangeIdFailureMsg">
+        <source xml:lang="en">Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.</source>
+        <target xml:lang="zh-CN" state="translated">文件夹被控制或文件夹内有文件，不能重命名，请重启SayMore或重启电脑。</target>
+        <note>ID: CommonToMultipleViews.ChangeIdFailureMsg</note>
+        <note>Message displayed when attempt failed to change a session id or a person's name (i.e. id)</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.ContributorsEditor.MissingContributorNameMsg">
+        <source xml:lang="en">Enter a name.</source>
+        <target xml:lang="zh-CN" state="translated">输入一个名字</target>
+        <note>ID: CommonToMultipleViews.ContributorsEditor.MissingContributorNameMsg</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.ContributorsEditor.MissingContributorRoleMsg">
+        <source xml:lang="en">Choose a role.</source>
+        <target xml:lang="zh-CN" state="translated">选择一个角色</target>
+        <note>ID: CommonToMultipleViews.ContributorsEditor.MissingContributorRoleMsg</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.ContributorsEditor.TabText">
+        <source xml:lang="en">Contributors</source>
+        <target xml:lang="zh-CN" state="translated">贡献者</target>
+        <note>ID: CommonToMultipleViews.ContributorsEditor.TabText</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.ElementList.ColumnChooserButton_ToolTip_">
+        <source xml:lang="en">Choose Columns</source>
+        <target xml:lang="zh-CN" state="translated">选择栏</target>
+        <note>ID: CommonToMultipleViews.ElementList.ColumnChooserButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.ElementList.NewButtonText">
+        <source xml:lang="en">&amp;New</source>
+        <target xml:lang="zh-CN" state="translated">&amp;新建</target>
+        <note>ID: CommonToMultipleViews.ElementList.NewButtonText</note>
+        <note>Button for adding new sessions and people</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.ElementList.OneColumnMustBeVisibleMsg">
+        <source xml:lang="en">One column must be visible.</source>
+        <target xml:lang="zh-CN" state="translated">一栏必须可见</target>
+        <note>ID: CommonToMultipleViews.ElementList.OneColumnMustBeVisibleMsg</note>
+        <note>Displayed when user clears all columns for display in sessions or people list</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Field">
+        <source xml:lang="en">Field</source>
+        <target xml:lang="zh-CN" state="translated">范围</target>
+        <note>ID: CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Field</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Value">
+        <source xml:lang="en">Value</source>
+        <target xml:lang="zh-CN" state="translated">内容</target>
+        <note>ID: CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Value</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.AudioBitRate">
+        <source xml:lang="en">Audio Bit Rate</source>
+        <target xml:lang="zh-CN" state="translated">音频比特率</target>
+        <note>ID: CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.AudioBitRate</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.BitDepth">
+        <source xml:lang="en">Bit Depth</source>
+        <target xml:lang="zh-CN" state="translated">采样精度</target>
+        <note>ID: CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.BitDepth</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Channels">
+        <source xml:lang="en">Channels</source>
+        <target xml:lang="zh-CN" state="translated">声道</target>
+        <note>ID: CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Channels</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Device">
+        <source xml:lang="en">Device</source>
+        <target xml:lang="zh-CN" state="translated">设备</target>
+        <note>ID: CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Device</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Duration">
+        <source xml:lang="en">Duration</source>
+        <target xml:lang="zh-CN" state="translated">持续时间</target>
+        <note>ID: CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Duration</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.FrameRate">
+        <source xml:lang="en">Frame Rate</source>
+        <target xml:lang="zh-CN" state="translated">帧速率</target>
+        <note>ID: CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.FrameRate</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Microphone">
+        <source xml:lang="en">Microphone</source>
+        <target xml:lang="zh-CN" state="translated">话筒</target>
+        <note>ID: CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Microphone</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Resolution">
+        <source xml:lang="en">Resolution</source>
+        <target xml:lang="zh-CN" state="translated">分辨率</target>
+        <note>ID: CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Resolution</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.SampleRate">
+        <source xml:lang="en">Sample Rate</source>
+        <target xml:lang="zh-CN" state="translated">采样</target>
+        <note>ID: CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.SampleRate</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.VideoBitRate">
+        <source xml:lang="en">Video Bit Rate</source>
+        <target xml:lang="zh-CN" state="translated">视频比特率</target>
+        <note>ID: CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.VideoBitRate</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FieldsAndValuesGrid.VerifyDeleteFieldQuestion">
+        <source xml:lang="en">Do you want to delete the field '{0}' and its contents from the entire project?</source>
+        <target xml:lang="zh-CN" state="translated">你想从整个项目中删除'{0}'及其所有内容吗?</target>
+        <note>ID: CommonToMultipleViews.FieldsAndValuesGrid.VerifyDeleteFieldQuestion</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.Caption">
+        <source xml:lang="en">Add Files</source>
+        <target xml:lang="zh-CN" state="translated">添加文件</target>
+        <note>ID: CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.Caption</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.AllFilesDescriptor">
+        <source xml:lang="en">All Files ({0})</source>
+        <target xml:lang="zh-CN" state="translated">所有文件({0})</target>
+        <note>ID: CommonToMultipleViews.AllFilesDescriptor</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.AddFilesButtonText">
+        <source xml:lang="en">Add Files...</source>
+        <target xml:lang="zh-CN" state="translated">添加文件</target>
+        <note>ID: CommonToMultipleViews.FileList.AddFilesButtonText</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.AddFilesPrompt">
+        <source xml:lang="en">Add additional files related to this session by\ndragging them here or clicking the 'Add Files' button.</source>
+        <target xml:lang="zh-CN" state="translated">拖入任务相关文件到这儿或点击“添加文件”按钮添加</target>
+        <note>ID: CommonToMultipleViews.FileList.AddFilesPrompt</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.CannotRenameFileErrorMsg">
+        <source xml:lang="en">{0} could not rename the file to '{1}' because there is already a file with that name.</source>
+        <target xml:lang="zh-CN" state="translated">名称重复，不能再命名</target>
+        <note>ID: CommonToMultipleViews.FileList.CannotRenameFileErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg">
+        <source xml:lang="en">Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.</source>
+        <target xml:lang="zh-CN" state="translated">对不起，文件被占用，不能重命名，请稍后再试。</target>
+        <note>ID: CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg">
+        <source xml:lang="en">{0} could not rename the meta data file to '{1}' because there is already a file with that name.</source>
+        <target xml:lang="zh-CN" state="translated">这个文件名已经存在，{0} 不能重命名为 '{1}' </target>
+        <note>ID: CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.ColumnHeadings.FileDate">
+        <source xml:lang="en">Date Modified</source>
+        <target xml:lang="zh-CN" state="translated">修改日期</target>
+        <note>ID: CommonToMultipleViews.FileList.ColumnHeadings.FileDate</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.ColumnHeadings.FileDuration">
+        <source xml:lang="en">Duration</source>
+        <target xml:lang="zh-CN" state="translated">持续时间</target>
+        <note>ID: CommonToMultipleViews.FileList.ColumnHeadings.FileDuration</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.ColumnHeadings.FileName">
+        <source xml:lang="en">Name</source>
+        <target xml:lang="zh-CN" state="translated">名称</target>
+        <note>ID: CommonToMultipleViews.FileList.ColumnHeadings.FileName</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.ColumnHeadings.FileSize">
+        <source xml:lang="en">Size</source>
+        <target xml:lang="zh-CN" state="translated">大小</target>
+        <note>ID: CommonToMultipleViews.FileList.ColumnHeadings.FileSize</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.ColumnHeadings.FileType">
+        <source xml:lang="en">Type</source>
+        <target xml:lang="zh-CN" state="translated">类型</target>
+        <note>ID: CommonToMultipleViews.FileList.ColumnHeadings.FileType</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.Convert.ButtonText">
+        <source xml:lang="en">Convert...</source>
+        <target xml:lang="zh-CN" state="translated">转换…</target>
+        <note>ID: CommonToMultipleViews.FileList.Convert.ButtonText</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.Convert.ButtonText_ToolTip_">
+        <source xml:lang="en">Convert Selected File</source>
+        <target xml:lang="zh-CN" state="translated">转换所选</target>
+        <note>ID: CommonToMultipleViews.FileList.Convert.ButtonText_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.Convert.ConvertMenuText">
+        <source xml:lang="en">Convert...</source>
+        <target xml:lang="zh-CN" state="translated">转换…</target>
+        <note>ID: CommonToMultipleViews.FileList.Convert.ConvertMenuText</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText">
+        <source xml:lang="en">Extract audio to mono mp3 audio file (low quality)</source>
+        <target xml:lang="zh-CN" state="translated">转为单声道MP3音频文件（低音质）</target>
+        <note>ID: CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.DeleteFileMenuText">
+        <source xml:lang="en">&amp;Delete File...</source>
+        <target xml:lang="zh-CN" state="translated">&amp;删除文件</target>
+        <note>ID: CommonToMultipleViews.FileList.DeleteFileMenuText</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.DeleteSubordinateFilesFormat">
+        <source xml:lang="en">{0} and subordinate files</source>
+        <target xml:lang="zh-CN" state="translated">{0}和下级文件</target>
+        <note>ID: CommonToMultipleViews.FileList.DeleteSubordinateFilesFormat</note>
+        <note>Used to format a string that will indicate that subordinate files (i.e., annotation files) will also be moved to the recycle bin. Parameter is the name (without path) of the main file being deleted.</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.FileSizeBytes">
+        <source xml:lang="en">{0} Bytes</source>
+        <target xml:lang="zh-CN" state="translated">{0}比特</target>
+        <note>ID: CommonToMultipleViews.FileList.FileSizeBytes</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.FileSizeBytesAbbreviation">
+        <source xml:lang="en">{0} B</source>
+        <target xml:lang="zh-CN" state="translated">{0}B</target>
+        <note>ID: CommonToMultipleViews.FileList.FileSizeBytesAbbreviation</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.FileSizeGigabytes">
+        <source xml:lang="en">{0} Gigabytes</source>
+        <target xml:lang="zh-CN" state="translated">{0}GB</target>
+        <note>ID: CommonToMultipleViews.FileList.FileSizeGigabytes</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.FileSizeGigabytesAbbreviation">
+        <source xml:lang="en">{0} GB</source>
+        <target xml:lang="zh-CN" state="translated">{0}GB</target>
+        <note>ID: CommonToMultipleViews.FileList.FileSizeGigabytesAbbreviation</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.FileSizeKilobytes">
+        <source xml:lang="en">{0} Kilobytes</source>
+        <target xml:lang="zh-CN" state="translated">{0}KB</target>
+        <note>ID: CommonToMultipleViews.FileList.FileSizeKilobytes</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.FileSizeKilobytesAbbreviation">
+        <source xml:lang="en">{0} KB</source>
+        <target xml:lang="zh-CN" state="translated">{0}KB</target>
+        <note>ID: CommonToMultipleViews.FileList.FileSizeKilobytesAbbreviation</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.FileSizeMegabytes">
+        <source xml:lang="en">{0} Megabytes</source>
+        <target xml:lang="zh-CN" state="translated">{0}MB</target>
+        <note>ID: CommonToMultipleViews.FileList.FileSizeMegabytes</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.FileSizeMegabytesAbbreviation">
+        <source xml:lang="en">{0} MB</source>
+        <target xml:lang="zh-CN" state="translated">{0}MB</target>
+        <note>ID: CommonToMultipleViews.FileList.FileSizeMegabytesAbbreviation</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.Open.ButtonText">
+        <source xml:lang="en">Open</source>
+        <target xml:lang="zh-CN" state="translated">打开</target>
+        <note>ID: CommonToMultipleViews.FileList.Open.ButtonText</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.Open.ButtonText_ToolTip_">
+        <source xml:lang="en">Open Selected File</source>
+        <target xml:lang="zh-CN" state="translated">打开所选的文件</target>
+        <note>ID: CommonToMultipleViews.FileList.Open.ButtonText_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.Open.OpenInAssociatedProgramMenuText">
+        <source xml:lang="en">Open in Program Associated with this File ...</source>
+        <target xml:lang="zh-CN" state="translated">用关联程序打开这个文件</target>
+        <note>ID: CommonToMultipleViews.FileList.Open.OpenInAssociatedProgramMenuText</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.Open.ShowInFileExplorerMenuText">
+        <source xml:lang="en">Show in File Explorer...</source>
+        <target xml:lang="zh-CN" state="translated">在文件浏览器显示</target>
+        <note>ID: CommonToMultipleViews.FileList.Open.ShowInFileExplorerMenuText</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.RenameButtonText">
+        <source xml:lang="en">Rename...</source>
+        <target xml:lang="zh-CN" state="translated">重命名</target>
+        <note>ID: CommonToMultipleViews.FileList.RenameButtonText</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.RenameButtonText_ToolTip_">
+        <source xml:lang="en">Rename Selected File</source>
+        <target xml:lang="zh-CN" state="translated">重命名选择的文件</target>
+        <note>ID: CommonToMultipleViews.FileList.RenameButtonText_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.GenericFileTypeViewer.FileLinkMsg">
+        <source xml:lang="en">Open {0} in its associated program.</source>
+        <target xml:lang="zh-CN" state="translated">在其关联的程序中打开 {0}。</target>
+        <note>ID: CommonToMultipleViews.GenericFileTypeViewer.FileLinkMsg</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.GenericFileTypeViewer.TabText">
+        <source xml:lang="en">View</source>
+        <target xml:lang="zh-CN" state="translated">查看</target>
+        <note>ID: CommonToMultipleViews.GenericFileTypeViewer.TabText</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.ImageViewer.OpeningPictureFileErrorMsg">
+        <source xml:lang="en">Could not open that picture</source>
+        <target xml:lang="zh-CN" state="translated">不能打开图片</target>
+        <note>ID: CommonToMultipleViews.ImageViewer.OpeningPictureFileErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.ImageViewer.TabText">
+        <source xml:lang="en">Image</source>
+        <target xml:lang="zh-CN" state="translated">图像</target>
+        <note>ID: CommonToMultipleViews.ImageViewer.TabText</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.ImageViewer.ZoomLabel">
+        <source xml:lang="en">Zoom</source>
+        <target xml:lang="zh-CN" state="translated">放大</target>
+        <note>ID: CommonToMultipleViews.ImageViewer.ZoomLabel</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.InvalidMediaFile">
+        <source xml:lang="en">File does not appear to be a valid media file: {0}</source>
+        <target xml:lang="zh-CN" state="translated">无效媒体文件不能显示：{0}</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.InvalidMediaFile</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg">
+        <source xml:lang="en">Media file not found: {0}</source>
+        <target xml:lang="zh-CN" state="translated">媒体文件没有找到</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.MediaFileNotSpecifiedMsg">
+        <source xml:lang="en">Media player file name has not been specified.</source>
+        <target xml:lang="zh-CN" state="translated">媒体播放器文件名没有指定</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.MediaFileNotSpecifiedMsg</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.PauseButton">
+        <source xml:lang="en">Pause</source>
+        <target xml:lang="zh-CN" state="translated">暂停</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.PauseButton</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.PauseButton_ToolTip_">
+        <source xml:lang="en">Pause</source>
+        <target xml:lang="zh-CN" state="translated">暂停</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.PauseButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.PlayButton">
+        <source xml:lang="en">Play</source>
+        <target xml:lang="zh-CN" state="translated">播放</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.PlayButton</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.PlayButton_ToolTip_">
+        <source xml:lang="en">Play</source>
+        <target xml:lang="zh-CN" state="translated">播放</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.PlayButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.StopButton">
+        <source xml:lang="en">Stop</source>
+        <target xml:lang="zh-CN" state="translated">停止</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.StopButton</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.StopButton_ToolTip_">
+        <source xml:lang="en">Stop</source>
+        <target xml:lang="zh-CN" state="translated">停止</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.StopButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.TabText-Audio">
+        <source xml:lang="en">Audio</source>
+        <target xml:lang="zh-CN" state="translated">音频</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.TabText-Audio</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.TabText-Video">
+        <source xml:lang="en">Video</source>
+        <target xml:lang="zh-CN" state="translated">视频</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.TabText-Video</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.TimeCurrentOfTotalDisplayFormat">
+        <source xml:lang="en">{0} / {1}</source>
+        <target xml:lang="zh-CN" state="translated">{0}/{1}</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.TimeCurrentOfTotalDisplayFormat</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.TimeRangeDisplayFormat">
+        <source xml:lang="en">{0} - {1}</source>
+        <target xml:lang="zh-CN" state="translated">{0}-{1}</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.TimeRangeDisplayFormat</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.UnableToStartMplayerProcessMsg">
+        <source xml:lang="en">Unable to start mplayer.</source>
+        <target xml:lang="zh-CN" state="translated">不能启动mplayer;</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.UnableToStartMplayerProcessMsg</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.VolumeButton">
+        <source xml:lang="en">Volume</source>
+        <target xml:lang="zh-CN" state="translated">音量</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.VolumeButton</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.VolumeButton_ToolTip_">
+        <source xml:lang="en">Volume</source>
+        <target xml:lang="zh-CN" state="translated">音量</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.VolumeButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPropertiesEditor.MoreInfoButton">
+        <source xml:lang="en">More Information...</source>
+        <target xml:lang="zh-CN" state="translated">更多信息…</target>
+        <note>ID: CommonToMultipleViews.MediaPropertiesEditor.MoreInfoButton</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPropertiesEditor.MoreInfoButton_ToolTip_">
+        <source xml:lang="en">More information about this file</source>
+        <target xml:lang="zh-CN" state="translated">关于此文件的更多信息</target>
+        <note>ID: CommonToMultipleViews.MediaPropertiesEditor.MoreInfoButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPropertiesEditor.PresetsButton">
+        <source xml:lang="en">Presets</source>
+        <target xml:lang="zh-CN" state="translated">预置</target>
+        <note>ID: CommonToMultipleViews.MediaPropertiesEditor.PresetsButton</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPropertiesEditor.PresetsButton_ToolTip_">
+        <source xml:lang="en">Select presets for media file</source>
+        <target xml:lang="zh-CN" state="translated">选择预置</target>
+        <note>ID: CommonToMultipleViews.MediaPropertiesEditor.PresetsButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.NotesEditor.TabText">
+        <source xml:lang="en">Notes</source>
+        <target xml:lang="zh-CN" state="translated">注释</target>
+        <note>ID: CommonToMultipleViews.NotesEditor.TabText</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.PropertiesEditor.TabText">
+        <source xml:lang="en">Properties</source>
+        <target xml:lang="zh-CN" state="translated">属性</target>
+        <note>ID: CommonToMultipleViews.PropertiesEditor.TabText</note>
+      </trans-unit>
+      <trans-unit id="ConvertMedia.FullConversionOutput">
+        <source xml:lang="en">Full output from conversion:</source>
+        <target xml:lang="zh-CN" state="translated">从转换完全输出</target>
+        <note>ID: ConvertMedia.FullConversionOutput</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.AboutDlg.WindowTitle">
+        <source xml:lang="en">About SayMore</source>
+        <target xml:lang="zh-CN" state="translated">关于SayMore</target>
+        <note>ID: DialogBoxes.AboutDlg.WindowTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.AboutDlg._buttonOK">
+        <source xml:lang="en">OK</source>
+        <target xml:lang="zh-CN" state="translated">OK</target>
+        <note>ID: DialogBoxes.AboutDlg._buttonOK</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.AboutDlg._labelSubTitle">
+        <source xml:lang="en">Language Documentation Project Management</source>
+        <target xml:lang="zh-CN" state="translated">语言纪录项目管理系统</target>
+        <note>ID: DialogBoxes.AboutDlg._labelSubTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.AboutDlg._linkSILWebsite">
+        <source xml:lang="en">This free software is published by {0}.</source>
+        <target xml:lang="zh-CN" state="translated">这个免费软件由{0}发布。</target>
+        <note>ID: DialogBoxes.AboutDlg._linkSILWebsite</note>
+        <note>Parameter is the publisher of SayMore, "SIL International"</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.AboutDlg._linkSayMoreWebsite">
+        <source xml:lang="en">Visit {0} on the Web.</source>
+        <target xml:lang="zh-CN" state="translated">访问 {0} 网站 简体中文汉化：湖南师范大学李斌</target>
+        <note>ID: DialogBoxes.AboutDlg._linkSayMoreWebsite</note>
+        <note>Parameter is the program name, "SayMore"</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg">
+        <source xml:lang="en">Adding Files for Contributor '{0}'</source>
+        <target xml:lang="zh-CN" state="translated">添加文件到贡献者'{0}'</target>
+        <note>ID: DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg">
+        <source xml:lang="en">Adding Files for Session '{0}'</source>
+        <target xml:lang="zh-CN" state="translated">添加文件到任务'{0}'</target>
+        <note>ID: DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.CancellingMsg">
+        <source xml:lang="en">Canceling...</source>
+        <target xml:lang="zh-CN" state="translated">正在取消</target>
+        <note>ID: DialogBoxes.ArchivingDlg.CancellingMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.ContributorElementName">
+        <source xml:lang="en">Contributor</source>
+        <target xml:lang="zh-CN" state="translated">贡献者</target>
+        <note>ID: DialogBoxes.ArchivingDlg.ContributorElementName</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.CopyingFilesMsg">
+        <source xml:lang="en">Copying files</source>
+        <target xml:lang="zh-CN" state="translated">复制文件</target>
+        <note>ID: DialogBoxes.ArchivingDlg.CopyingFilesMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg">
+        <source xml:lang="en">There are no contributors for this session.</source>
+        <target xml:lang="zh-CN" state="translated">这个任务没有贡献者</target>
+        <note>ID: DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1">
+        <source xml:lang="en">The following session and contributor files will be added to your archive.</source>
+        <target xml:lang="zh-CN" state="translated">以下任务和贡献者将添加到你的档案</target>
+        <note>ID: DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2">
+        <source xml:lang="en">The following session files will be added to your archive.</source>
+        <target xml:lang="zh-CN" state="translated">以下任务将添加到你的档案</target>
+        <note>ID: DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.PreparingFilesMsg">
+        <source xml:lang="en">Analyzing component files</source>
+        <target xml:lang="zh-CN" state="translated">分析组成文件 </target>
+        <note>ID: DialogBoxes.ArchivingDlg.PreparingFilesMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.RampNotFoundMsg">
+        <source xml:lang="en">The RAMP program cannot be found!</source>
+        <target xml:lang="zh-CN" state="translated">RAMP程序找不到！</target>
+        <note>ID: DialogBoxes.ArchivingDlg.RampNotFoundMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.ReadyToCallRampMsg">
+        <source xml:lang="en">Ready to hand the package to RAMP</source>
+        <target xml:lang="zh-CN" state="translated">准备给RAMP递交文件包</target>
+        <note>ID: DialogBoxes.ArchivingDlg.ReadyToCallRampMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.SavingFilesInPackageMsg">
+        <source xml:lang="en">Saving files in {0} package</source>
+        <target xml:lang="zh-CN" state="translated">保存文件到{0}文件包中</target>
+        <note>ID: DialogBoxes.ArchivingDlg.SavingFilesInPackageMsg</note>
+        <note>Parameter is the type of archive (e.g., RAMP/IMDI)</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.SearchingForRampMsg">
+        <source xml:lang="en">Searching for the RAMP program...</source>
+        <target xml:lang="zh-CN" state="translated">查找RAMP程度</target>
+        <note>ID: DialogBoxes.ArchivingDlg.SearchingForRampMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.SessionElementName">
+        <source xml:lang="en">Session</source>
+        <target xml:lang="zh-CN" state="translated">任务</target>
+        <note>ID: DialogBoxes.ArchivingDlg.SessionElementName</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.StartingRampErrorMsg">
+        <source xml:lang="en">There was an error attempting to open the archive package in {0}.</source>
+        <target xml:lang="zh-CN" state="translated">在RAMP打开档案包出错</target>
+        <note>ID: DialogBoxes.ArchivingDlg.StartingRampErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.WindowTitle">
+        <source xml:lang="en">{0}: Archive using {1}</source>
+        <target xml:lang="zh-CN" state="translated">SayMore：用RAMP存档（SIL专用）</target>
+        <note>ID: DialogBoxes.ArchivingDlg.WindowTitle</note>
+        <note>Parameter is application name</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg._buttonCancel">
+        <source xml:lang="en">Cancel</source>
+        <target xml:lang="zh-CN" state="translated">取消</target>
+        <note>ID: DialogBoxes.ArchivingDlg._buttonCancel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg._buttonCreatePackage">
+        <source xml:lang="en">&amp;1) Create Package</source>
+        <target xml:lang="zh-CN" state="translated">&amp;1）打包</target>
+        <note>ID: DialogBoxes.ArchivingDlg._buttonCreatePackage</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg._buttonLaunchRamp">
+        <source xml:lang="en">&amp;2) Launch {0}</source>
+        <target xml:lang="zh-CN" state="translated">&amp;2)启动 RAMP</target>
+        <note>ID: DialogBoxes.ArchivingDlg._buttonLaunchRamp</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.GettingInfoErrorMsg">
+        <source xml:lang="en">There was an error trying to get more information for the media file:\n\n{0}</source>
+        <target xml:lang="zh-CN" state="translated">不能获取文件:\n\n{0}更多信息</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.GettingInfoErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg.FileAlreadyExistsMsg">
+        <source xml:lang="en">A file by that name already exists or the name is invalid.</source>
+        <target xml:lang="zh-CN" state="translated">文件名重复，请换其它文件名</target>
+        <note>ID: DialogBoxes.ComponentFileRenamingDlg.FileAlreadyExistsMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg.NewFileNameMsg">
+        <source xml:lang="en">New file: {0}</source>
+        <target xml:lang="zh-CN" state="translated">新文件</target>
+        <note>ID: DialogBoxes.ComponentFileRenamingDlg.NewFileNameMsg</note>
+        <note>Displayed under the text box.</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg.WindowTitle">
+        <source xml:lang="en">Rename</source>
+        <target xml:lang="zh-CN" state="translated">重命名</target>
+        <note>ID: DialogBoxes.ComponentFileRenamingDlg.WindowTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._buttonCancel">
+        <source xml:lang="en">Cancel</source>
+        <target xml:lang="zh-CN" state="translated">取消</target>
+        <note>ID: DialogBoxes.ComponentFileRenamingDlg._buttonCancel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._buttonRename">
+        <source xml:lang="en">Rename</source>
+        <target xml:lang="zh-CN" state="translated">重命名</target>
+        <note>ID: DialogBoxes.ComponentFileRenamingDlg._buttonRename</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._labelChangeNameTo">
+        <source xml:lang="en">Change Name To:</source>
+        <target xml:lang="zh-CN" state="translated">更名为:</target>
+        <note>ID: DialogBoxes.ComponentFileRenamingDlg._labelChangeNameTo</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._labelReadAboutRenaming">
+        <source xml:lang="en">Read About How SayMore Uses Names</source>
+        <target xml:lang="zh-CN" state="translated">名称使用（帮助）</target>
+        <note>ID: DialogBoxes.ComponentFileRenamingDlg._labelReadAboutRenaming</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._labelShortcuts">
+        <source xml:lang="en">Shortcuts</source>
+        <target xml:lang="zh-CN" state="translated">快捷键</target>
+        <note>ID: DialogBoxes.ComponentFileRenamingDlg._labelShortcuts</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._labelShortcutsHint">
+        <source xml:lang="en">(hover over each link to read about how it is used)</source>
+        <target xml:lang="zh-CN" state="translated">将光标移至链接处了解详情</target>
+        <note>ID: DialogBoxes.ComponentFileRenamingDlg._labelShortcutsHint</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkCareful">
+        <source xml:lang="en">Careful Speech</source>
+        <target xml:lang="zh-CN" state="translated">跟读</target>
+        <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkCareful</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkOralTranslation">
+        <source xml:lang="en">Oral Translation</source>
+        <target xml:lang="zh-CN" state="translated">口译</target>
+        <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkOralTranslation</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkSource">
+        <source xml:lang="en">Source</source>
+        <target xml:lang="zh-CN" state="translated">原始(录音）</target>
+        <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkSource</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkTranscription">
+        <source xml:lang="en">Transcription</source>
+        <target xml:lang="zh-CN" state="translated">转写</target>
+        <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkTranscription</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation">
+        <source xml:lang="en">Written Translation</source>
+        <target xml:lang="zh-CN" state="translated">笔译</target>
+        <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.AvailableConversionsLabel">
+        <source xml:lang="en">Available Conversions:</source>
+        <target xml:lang="zh-CN" state="translated">现有规则</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.AvailableConversionsLabel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.BeginConversionButton">
+        <source xml:lang="en">Begin Conversion</source>
+        <target xml:lang="zh-CN" state="translated">开始转换</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.BeginConversionButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.CancelButton">
+        <source xml:lang="en">Cancel</source>
+        <target xml:lang="zh-CN" state="translated">取消</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.CancelButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.CloseButton">
+        <source xml:lang="en">Close</source>
+        <target xml:lang="zh-CN" state="translated">关闭</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.CloseButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.ConversionCancelledMsg">
+        <source xml:lang="en">Conversion Cancelled.</source>
+        <target xml:lang="zh-CN" state="translated">转换取消</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.ConversionCancelledMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.ConversionFailedMsg">
+        <source xml:lang="en">Conversion Failed.</source>
+        <target xml:lang="zh-CN" state="translated">转换失败</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.ConversionFailedMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.ConversionFinishedWithPossibleErrorsMsg">
+        <source xml:lang="en">Conversion Finished, but with possible errors.</source>
+        <target xml:lang="zh-CN" state="translated">转换结束，但是可能存在错误</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.ConversionFinishedWithPossibleErrorsMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.ConversionProgressStatusMsgFormat">
+        <source xml:lang="en">{0} of {1} Converted...</source>
+        <target xml:lang="zh-CN" state="translated">｛0｝of｛1｝已转换</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.ConversionProgressStatusMsgFormat</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.ConversionSucceededMsg">
+        <source xml:lang="en">Conversion Finished Successfully.</source>
+        <target xml:lang="zh-CN" state="translated">成功转换</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.ConversionSucceededMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.ConvertToMp4AndAACConversionName">
+        <source xml:lang="en">Convert to H.263/MPEG-4 video with AAC Audio</source>
+        <target xml:lang="zh-CN" state="translated">把H.263/MPEG-4视频转换成AAC音频</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.ConvertToMp4AndAACConversionName</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.DownloadButton">
+        <source xml:lang="en">Install...</source>
+        <target xml:lang="zh-CN" state="translated">下载…</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.DownloadButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.DownloadNeededLabel">
+        <source xml:lang="en">The selected conversion '{0}' requires FFmpeg, which must be installed.</source>
+        <target xml:lang="zh-CN" state="translated">转换需要下载 FFmpeg</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.DownloadNeededLabel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.DownloadingFailedDueToWebExceptionMsg">
+        <source xml:lang="en">There was an error getting a web response trying to download FFmpeg. Try pasting this Url in your browser to see if the file's location is available.\n\n{0}</source>
+        <target xml:lang="zh-CN" state="translated">下载FFmpeg出错，把下载地址粘贴到浏览器地址栏看文件位置是否有效。\n\n{0}</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.DownloadingFailedDueToWebExceptionMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.DownloadingGeneralFailureMsg">
+        <source xml:lang="en">There was an error attempting to download FFmpeg. Try pasting this Url in your browser to see if the file's location is available.\n\n{0}</source>
+        <target xml:lang="zh-CN" state="translated">下载FFmpeg出错，把下载地址粘贴到浏览器地址栏看文件位置是否有效。\n\n{0}</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.DownloadingGeneralFailureMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.DownloadingProgressMsgFormat">
+        <source xml:lang="en">Downloaded {0:F2} MB of approximately {1:F2} MB</source>
+        <target xml:lang="zh-CN" state="translated">已下载 {0:F2} MB 接近 {1:F2} MB</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.DownloadingProgressMsgFormat</note>
+        <note>The 'F2' in the parameters specifies displaying a number to 2 decimal places.</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.ExtractStandardPcmFromVideoMenuText">
+        <source xml:lang="en">Extract audio to standard WAV PCM audio file</source>
+        <target xml:lang="zh-CN" state="translated">提取音频为标准PCM WAV文件</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.ExtractStandardPcmFromVideoMenuText</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.FileToConvertLabel">
+        <source xml:lang="en">File to Convert:</source>
+        <target xml:lang="zh-CN" state="translated">要转换的文件</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.FileToConvertLabel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.HideOutputButton">
+        <source xml:lang="en">Hide Details</source>
+        <target xml:lang="zh-CN" state="translated">隐藏详情</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.HideOutputButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.InvalidMediaFile">
+        <source xml:lang="en">File does not appear to be a valid media file.</source>
+        <target xml:lang="zh-CN" state="translated">这不是一个有效的媒体文件</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.InvalidMediaFile</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.OutputFileLabel">
+        <source xml:lang="en">Output File:</source>
+        <target xml:lang="zh-CN" state="translated">输出文件</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.OutputFileLabel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.OverviewLabel">
+        <source xml:lang="en">To convert your media file to a different format, choose from one of the available conversions below and click 'Begin Conversion'. Your source media file will not be affected.</source>
+        <target xml:lang="zh-CN" state="translated">选择以下可用的媒体格式，点击“开始转换”进行转换。源媒体文件不会受影响。</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.OverviewLabel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.ShowOutputButton">
+        <source xml:lang="en">Show Details</source>
+        <target xml:lang="zh-CN" state="translated">显示详情</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.ShowOutputButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ConvertMediaDlg.WindowTitle">
+        <source xml:lang="en">Convert Media</source>
+        <target xml:lang="zh-CN" state="translated">转换媒体</target>
+        <note>ID: DialogBoxes.ConvertMediaDlg.WindowTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.DeleteMessageBox.WindowTitle">
+        <source xml:lang="en">Confirm Delete</source>
+        <target xml:lang="zh-CN" state="translated">确认删除</target>
+        <note>ID: DialogBoxes.DeleteMessageBox.WindowTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.DeleteMessageBox._buttonCancel">
+        <source xml:lang="en">Cancel</source>
+        <target xml:lang="zh-CN" state="translated">取消</target>
+        <note>ID: DialogBoxes.DeleteMessageBox._buttonCancel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.DeleteMessageBox._buttonDelete">
+        <source xml:lang="en">Delete</source>
+        <target xml:lang="zh-CN" state="translated">删除</target>
+        <note>ID: DialogBoxes.DeleteMessageBox._buttonDelete</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.FFmpegDownloadDlg.CancelButton">
+        <source xml:lang="en">Cancel</source>
+        <target xml:lang="zh-CN" state="translated">取消</target>
+        <note>ID: DialogBoxes.FFmpegDownloadDlg.CancelButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.FFmpegDownloadDlg.DownloadCancelledMsg">
+        <source xml:lang="en">Downloading and Installing Cancelled.</source>
+        <target xml:lang="zh-CN" state="translated">下载和安装被取消</target>
+        <note>ID: DialogBoxes.FFmpegDownloadDlg.DownloadCancelledMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.FFmpegDownloadDlg.DownloadCompleteMsg">
+        <source xml:lang="en">Downloading and Installing Completed Successfully.</source>
+        <target xml:lang="zh-CN" state="translated">下载安装成功</target>
+        <note>ID: DialogBoxes.FFmpegDownloadDlg.DownloadCompleteMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.FFmpegDownloadDlg.InstallCompletedingMsg">
+        <source xml:lang="en">Installed Successfully.</source>
+        <target xml:lang="zh-CN" state="translated">安装成功</target>
+        <note>ID: DialogBoxes.FFmpegDownloadDlg.InstallCompletedingMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileMsg">
+        <source xml:lang="en">Installing...</source>
+        <target xml:lang="zh-CN" state="translated">安装</target>
+        <note>ID: DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.FFmpegDownloadDlg.WindowTitle">
+        <source xml:lang="en">Install FFmpeg</source>
+        <target xml:lang="zh-CN" state="translated">下载FFmpeg</target>
+        <note>ID: DialogBoxes.FFmpegDownloadDlg.WindowTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.FFmpegDownloadDlg._labelOr1">
+        <source xml:lang="en">OR</source>
+        <target xml:lang="zh-CN" state="translated">或</target>
+        <note>ID: DialogBoxes.FFmpegDownloadDlg._labelOr1</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.FFmpegDownloadDlg._labelOr2">
+        <source xml:lang="en">OR</source>
+        <target xml:lang="zh-CN" state="translated">或</target>
+        <note>ID: DialogBoxes.FFmpegDownloadDlg._labelOr2</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.FFmpegDownloadDlg._linkDownloadAndInstall">
+        <source xml:lang="en">Download and install FFmpeg</source>
+        <target xml:lang="zh-CN" state="translated">点击这儿，Saymore将自动下载FFmpeg并安装</target>
+        <note>ID: DialogBoxes.FFmpegDownloadDlg._linkDownloadAndInstall</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.FFmpegDownloadDlg._linkInstallFromZipFile">
+        <source xml:lang="en">Show SayMore where you saved it</source>
+        <target xml:lang="zh-CN" state="translated">安装</target>
+        <note>ID: DialogBoxes.FFmpegDownloadDlg._linkInstallFromZipFile</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.FFmpegDownloadDlg._linkManualDownload">
+        <source xml:lang="en">Open Internet browser to page containing FFmpegForSayMore.zip</source>
+        <target xml:lang="zh-CN" state="translated">点击手动下载FFmpeg</target>
+        <note>ID: DialogBoxes.FFmpegDownloadDlg._linkManualDownload</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.LoadingDlg.CancelLink">
+        <source xml:lang="en">Cancel</source>
+        <target xml:lang="zh-CN" state="translated">取消</target>
+        <note>ID: DialogBoxes.LoadingDlg.CancelLink</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.LoadingDlg._labelLoading">
+        <source xml:lang="en">Loading...</source>
+        <target xml:lang="zh-CN" state="translated">载入</target>
+        <note>ID: DialogBoxes.LoadingDlg._labelLoading</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.MediaFileMoreInfoDlg.CloseButton">
+        <source xml:lang="en">Close</source>
+        <target xml:lang="zh-CN" state="translated">关闭</target>
+        <note>ID: DialogBoxes.MediaFileMoreInfoDlg.CloseButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.MediaFileMoreInfoDlg.EvenMoreInfoButton">
+        <source xml:lang="en">Even More Information</source>
+        <target xml:lang="zh-CN" state="translated">更多信息</target>
+        <note>ID: DialogBoxes.MediaFileMoreInfoDlg.EvenMoreInfoButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.MediaFileMoreInfoDlg.LessInfoButton">
+        <source xml:lang="en">Less Information</source>
+        <target xml:lang="zh-CN" state="translated">更少信息</target>
+        <note>ID: DialogBoxes.MediaFileMoreInfoDlg.LessInfoButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.MediaFileMoreInfoDlg.WindowTitle">
+        <source xml:lang="en">More Information for Media File</source>
+        <target xml:lang="zh-CN" state="translated">此媒体文件更多信息</target>
+        <note>ID: DialogBoxes.MediaFileMoreInfoDlg.WindowTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.MissingFFmpegPopup.SayMoreDownloadPageLink">
+        <source xml:lang="en">Visit SayMore Download Page</source>
+        <target xml:lang="zh-CN" state="translated">访问SayMore下载页</target>
+        <note>ID: DialogBoxes.MissingFFmpegPopup.SayMoreDownloadPageLink</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.MissingFFmpegPopup.WindowTitle">
+        <source xml:lang="en">Could not locate FFmpeg</source>
+        <target xml:lang="zh-CN" state="translated">不能定位FFmpeg</target>
+        <note>ID: DialogBoxes.MissingFFmpegPopup.WindowTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewProjectDlg.InvalidPathMsg">
+        <source xml:lang="en">Unable to create a new project by that name.</source>
+        <target xml:lang="zh-CN" state="translated">用这个名称不能创建新项目</target>
+        <note>ID: DialogBoxes.NewProjectDlg.InvalidPathMsg</note>
+        <note>This text is displayed under the project name when it is invalid.</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewProjectDlg.WindowTitle">
+        <source xml:lang="en">New SayMore Project</source>
+        <target xml:lang="zh-CN" state="translated">新 SayMore 项目</target>
+        <note>ID: DialogBoxes.NewProjectDlg.WindowTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewProjectDlg._buttonCancel">
+        <source xml:lang="en">&amp;Cancel</source>
+        <target xml:lang="zh-CN" state="translated">&amp;取消</target>
+        <note>ID: DialogBoxes.NewProjectDlg._buttonCancel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewProjectDlg._buttonOK">
+        <source xml:lang="en">OK</source>
+        <target xml:lang="zh-CN" state="translated">OK</target>
+        <note>ID: DialogBoxes.NewProjectDlg._buttonOK</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewProjectDlg._labelMessage">
+        <source xml:lang="en">What would you like to call this project?</source>
+        <target xml:lang="zh-CN" state="translated">你想给这个项目命名为？</target>
+        <note>ID: DialogBoxes.NewProjectDlg._labelMessage</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewProjectDlg._labelNewProjectPath">
+        <source xml:lang="en">Project will be created in: {0}</source>
+        <target xml:lang="zh-CN" state="translated">项目将创建：{0}</target>
+        <note>ID: DialogBoxes.NewProjectDlg._labelNewProjectPath</note>
+        <note>This text is displayed under the project name and includes where it will be created.</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewSessionsFromFilesDlg.CreatingSessions.ProgressDlg.Caption">
+        <source xml:lang="en">Creating Sessions</source>
+        <target xml:lang="zh-CN" state="translated">创建任务</target>
+        <note>ID: DialogBoxes.NewSessionsFromFilesDlg.CreatingSessions.ProgressDlg.Caption</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewSessionsFromFilesDlg.FolderBrowserDlgDescription">
+        <source xml:lang="en">Choose a Folder of Media Files.</source>
+        <target xml:lang="zh-CN" state="translated">选择媒体文件夹</target>
+        <note>ID: DialogBoxes.NewSessionsFromFilesDlg.FolderBrowserDlgDescription</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewSessionsFromFilesDlg.NoFilesSelectedCreateButtonText">
+        <source xml:lang="en">Create Sessions</source>
+        <target xml:lang="zh-CN" state="translated">创建任务</target>
+        <note>ID: DialogBoxes.NewSessionsFromFilesDlg.NoFilesSelectedCreateButtonText</note>
+        <note>Text in create button when no files are selected.</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewSessionsFromFilesDlg.OneFileSelectedCreateButtonText">
+        <source xml:lang="en">Create 1 Session</source>
+        <target xml:lang="zh-CN" state="translated">创建一个任务</target>
+        <note>ID: DialogBoxes.NewSessionsFromFilesDlg.OneFileSelectedCreateButtonText</note>
+        <note>Text in create button when one file is selected.</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewSessionsFromFilesDlg.WindowTitle">
+        <source xml:lang="en">New Sessions From Device</source>
+        <target xml:lang="zh-CN" state="translated">从设备新建任务</target>
+        <note>ID: DialogBoxes.NewSessionsFromFilesDlg.WindowTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewSessionsFromFilesDlg._buttonCancel">
+        <source xml:lang="en">Cancel</source>
+        <target xml:lang="zh-CN" state="translated">取消</target>
+        <note>ID: DialogBoxes.NewSessionsFromFilesDlg._buttonCancel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewSessionsFromFilesDlg._buttonCreateSessions">
+        <source xml:lang="en">Create {0} Sessions</source>
+        <target xml:lang="zh-CN" state="translated">创建｛0｝任务</target>
+        <note>ID: DialogBoxes.NewSessionsFromFilesDlg._buttonCreateSessions</note>
+        <note>Format text in create button when more than one file is selected. Parameter is the number of sessions to be created.</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewSessionsFromFilesDlg._labelIncomingFiles">
+        <source xml:lang="en">Incoming &amp;Files</source>
+        <target xml:lang="zh-CN" state="translated">新任务&amp;文件</target>
+        <note>ID: DialogBoxes.NewSessionsFromFilesDlg._labelIncomingFiles</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewSessionsFromFilesDlg._labelProgress">
+        <source xml:lang="en">Reading Files...</source>
+        <target xml:lang="zh-CN" state="translated">读取文件</target>
+        <note>ID: DialogBoxes.NewSessionsFromFilesDlg._labelProgress</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewSessionsFromFilesDlg._linkFindFiles">
+        <source xml:lang="en">Find Files on Recorder/Card...</source>
+        <target xml:lang="zh-CN" state="translated">在录音机或存储卡上寻找文件</target>
+        <note>ID: DialogBoxes.NewSessionsFromFilesDlg._linkFindFiles</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel1">
+        <source xml:lang="en">1) The device is not yet plugged in.</source>
+        <target xml:lang="zh-CN" state="translated">设备没有插入</target>
+        <note>ID: DialogBoxes.NewSessionsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel1</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ProgressDlg.CancellingMsg">
+        <source xml:lang="en">Canceling...</source>
+        <target xml:lang="zh-CN" state="translated">正在取消</target>
+        <note>ID: DialogBoxes.ProgressDlg.CancellingMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ProgressDlg._buttonCancel">
+        <source xml:lang="en">Cancel</source>
+        <target xml:lang="zh-CN" state="translated">取消</target>
+        <note>ID: DialogBoxes.ProgressDlg._buttonCancel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ProgressDlg._buttonOK">
+        <source xml:lang="en">OK</source>
+        <target xml:lang="zh-CN" state="translated">ok</target>
+        <note>ID: DialogBoxes.ProgressDlg._buttonOK</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.SessionRecorderDlg.CancelButtonText">
+        <source xml:lang="en">Cancel</source>
+        <target xml:lang="zh-CN" state="translated">取消</target>
+        <note>ID: DialogBoxes.SessionRecorderDlg.CancelButtonText</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.SessionRecorderDlg.OKButtonText">
+        <source xml:lang="en">OK</source>
+        <target xml:lang="zh-CN" state="translated">ok</target>
+        <note>ID: DialogBoxes.SessionRecorderDlg.OKButtonText</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.SessionRecorderDlg.PlaybackButtonText">
+        <source xml:lang="en">Playback Recording</source>
+        <target xml:lang="zh-CN" state="translated">回放录音</target>
+        <note>ID: DialogBoxes.SessionRecorderDlg.PlaybackButtonText</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.SessionRecorderDlg.RecordButtonText">
+        <source xml:lang="en">Record</source>
+        <target xml:lang="zh-CN" state="translated">录音</target>
+        <note>ID: DialogBoxes.SessionRecorderDlg.RecordButtonText</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.SessionRecorderDlg.RecordedLengthLabel">
+        <source xml:lang="en">Recorded Length: {0} sec.</source>
+        <target xml:lang="zh-CN" state="translated">录音长度：{0}秒</target>
+        <note>ID: DialogBoxes.SessionRecorderDlg.RecordedLengthLabel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.SessionRecorderDlg.RecordingFormatLabel">
+        <source xml:lang="en">Format: {0} bits, {1} Hz</source>
+        <target xml:lang="zh-CN" state="translated">格式: {0} bits, {1} Hz</target>
+        <note>ID: DialogBoxes.SessionRecorderDlg.RecordingFormatLabel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.SessionRecorderDlg.StopButtonText">
+        <source xml:lang="en">Stop</source>
+        <target xml:lang="zh-CN" state="translated">停止</target>
+        <note>ID: DialogBoxes.SessionRecorderDlg.StopButtonText</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.SessionRecorderDlg.UnableToStartRecording">
+        <source xml:lang="en">Unable to start recording.</source>
+        <target xml:lang="zh-CN" state="translated">不能启动录音</target>
+        <note>ID: DialogBoxes.SessionRecorderDlg.UnableToStartRecording</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.SplashScreen.LoadingLabel">
+        <source xml:lang="en">Loading...</source>
+        <target xml:lang="zh-CN" state="translated">载入</target>
+        <note>ID: DialogBoxes.SplashScreen.LoadingLabel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CarefulSpeechRecorderDlg.WindowTitle">
+        <source xml:lang="en">Careful Speech Recorder</source>
+        <target xml:lang="zh-CN" state="translated">跟读录音机</target>
+        <note>ID: DialogBoxes.Transcription.CarefulSpeechRecorderDlg.WindowTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CarefulSpeechRecorderDlg._labelCarefulSpeech">
+        <source xml:lang="en">Careful Speech</source>
+        <target xml:lang="zh-CN" state="translated">跟读</target>
+        <note>ID: DialogBoxes.Transcription.CarefulSpeechRecorderDlg._labelCarefulSpeech</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonCancel">
+        <source xml:lang="en">Cancel</source>
+        <target xml:lang="zh-CN" state="translated">取消</target>
+        <note>ID: DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonCancel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonClose">
+        <source xml:lang="en">OK</source>
+        <target xml:lang="zh-CN" state="translated">OK</target>
+        <note>ID: DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonClose</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._ignoreToolStripMenuItem">
+        <source xml:lang="en">Ignored</source>
+        <target xml:lang="zh-CN" state="translated">忽略</target>
+        <note>ID: DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._ignoreToolStripMenuItem</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelOriginalRecording">
+        <source xml:lang="en">Source Audio</source>
+        <target xml:lang="zh-CN" state="translated">原始音频</target>
+        <note>ID: DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelOriginalRecording</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelSegmentNumber">
+        <source xml:lang="en">Segments: {0}</source>
+        <target xml:lang="zh-CN" state="translated">段:{0}</target>
+        <note>ID: DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelSegmentNumber</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelZoom">
+        <source xml:lang="en">&amp;Zoom:</source>
+        <target xml:lang="zh-CN" state="translated">放大</target>
+        <note>ID: DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelZoom</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._undoToolStripMenuItem">
+        <source xml:lang="en">Undo</source>
+        <target xml:lang="zh-CN" state="translated">撤销</target>
+        <note>ID: DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._undoToolStripMenuItem</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString">
+        <source xml:lang="en">All Files (*.*)|*.*</source>
+        <target xml:lang="zh-CN" state="translated">所有文件(*.*)|(*.*)</target>
+        <note>ID: DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.Caption">
+        <source xml:lang="en">Select Audacity Label File</source>
+        <target xml:lang="zh-CN" state="translated">选择Audacity标签文件 </target>
+        <note>ID: DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.Caption</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.FileTypeString">
+        <source xml:lang="en">Audacity Label File (*.txt)|*.txt</source>
+        <target xml:lang="zh-CN" state="translated">Audacity标签文件(*.txt)|*.txt</target>
+        <note>ID: DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.FileTypeString</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanFileTypeString">
+        <source xml:lang="en">ELAN File (*.eaf)|*.eaf</source>
+        <target xml:lang="zh-CN" state="translated">Elan文件（*eaf)|*.eaf</target>
+        <note>ID: DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanFileTypeString</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadSegmentFileDlgCaption">
+        <source xml:lang="en">Select Segment File</source>
+        <target xml:lang="zh-CN" state="translated">选择分段文件</target>
+        <note>ID: DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadSegmentFileDlgCaption</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CancelButton">
+        <source xml:lang="en">Cancel</source>
+        <target xml:lang="zh-CN" state="translated">取消</target>
+        <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CancelButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportButton">
+        <source xml:lang="en">Export...</source>
+        <target xml:lang="zh-CN" state="translated">导出</target>
+        <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.Caption">
+        <source xml:lang="en">Export to File</source>
+        <target xml:lang="zh-CN" state="translated">输出文件</target>
+        <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.Caption</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationLabel">
+        <source xml:lang="en">{0}:</source>
+        <target xml:lang="zh-CN" state="translated">{0}:</target>
+        <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationLabel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.TranscriptionLabel">
+        <source xml:lang="en">{0}:</source>
+        <target xml:lang="zh-CN" state="translated">{0}:</target>
+        <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.TranscriptionLabel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg.ButtonTextWhenSegmentTooShort">
+        <source xml:lang="en">Whoops! The segment will be too short. Continue listening.</source>
+        <target xml:lang="zh-CN" state="translated">哎呀！分段太短，不能播放！</target>
+        <note>ID: DialogBoxes.Transcription.ManualSegmenterDlg.ButtonTextWhenSegmentTooShort</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg.CarefulSpeechAnnotation">
+        <source xml:lang="en">Careful Speech</source>
+        <target xml:lang="zh-CN" state="translated">跟读</target>
+        <note>ID: DialogBoxes.Transcription.ManualSegmenterDlg.CarefulSpeechAnnotation</note>
+        <note>Type of oral annotation listed in message box to confirm deletion</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg.FollowingSegment">
+        <source xml:lang="en">Following Segment ({0})</source>
+        <target xml:lang="zh-CN" state="translated">下列段({0})</target>
+        <note>ID: DialogBoxes.Transcription.ManualSegmenterDlg.FollowingSegment</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg.GeneralSegmentingErrorMsg">
+        <source xml:lang="en">There was an error segmenting the file '{0}'.</source>
+        <target xml:lang="zh-CN" state="translated">分段错误</target>
+        <note>ID: DialogBoxes.Transcription.ManualSegmenterDlg.GeneralSegmentingErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg.OralTranslationAnnotation">
+        <source xml:lang="en">Oral Translation</source>
+        <target xml:lang="zh-CN" state="translated">口译</target>
+        <note>ID: DialogBoxes.Transcription.ManualSegmenterDlg.OralTranslationAnnotation</note>
+        <note>Type of oral annotation listed in message box to confirm deletion</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg.PrecedingSegment">
+        <source xml:lang="en">Preceding Segment ({0})</source>
+        <target xml:lang="zh-CN" state="translated">进行分段({0})</target>
+        <note>ID: DialogBoxes.Transcription.ManualSegmenterDlg.PrecedingSegment</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg.WindowTitle">
+        <source xml:lang="en">Manual Segmenter</source>
+        <target xml:lang="zh-CN" state="translated">手工分段</target>
+        <note>ID: DialogBoxes.Transcription.ManualSegmenterDlg.WindowTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg._buttonAddSegmentBoundary.Normal">
+        <source xml:lang="en">Add Segment Boundary (press ENTER)</source>
+        <target xml:lang="zh-CN" state="translated">分段（按回车键）</target>
+        <note>ID: DialogBoxes.Transcription.ManualSegmenterDlg._buttonAddSegmentBoundary.Normal</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg._buttonDeleteBoundary">
+        <source xml:lang="en">Delete Selected Boundary (press DELETE)</source>
+        <target xml:lang="zh-CN" state="translated">删除选定标记（按删除键）</target>
+        <note>ID: DialogBoxes.Transcription.ManualSegmenterDlg._buttonDeleteBoundary</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg._buttonListenToOriginal">
+        <source xml:lang="en">Listen (press the SPACE BAR)</source>
+        <target xml:lang="zh-CN" state="translated">听（按空格键）</target>
+        <note>ID: DialogBoxes.Transcription.ManualSegmenterDlg._buttonListenToOriginal</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg._buttonStopOriginal">
+        <source xml:lang="en">Stop (press the SPACE BAR)</source>
+        <target xml:lang="zh-CN" state="translated">停止（按空格键）</target>
+        <note>ID: DialogBoxes.Transcription.ManualSegmenterDlg._buttonStopOriginal</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.CannotRecordErrorMsg">
+        <source xml:lang="en">Recording not working. Please make sure your microphone is plugged in.</source>
+        <target xml:lang="zh-CN" state="translated">不能录音，请确认已插好话筒。</target>
+        <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.CannotRecordErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ListenButton">
+        <source xml:lang="en">Listen</source>
+        <target xml:lang="zh-CN" state="translated">听</target>
+        <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ListenButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ListenButton_ToolTip_">
+        <source xml:lang="en">Hold button down to listen\nto original recording</source>
+        <target xml:lang="zh-CN" state="translated">按下按键听原始录音</target>
+        <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ListenButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortHoldingSpace">
+        <source xml:lang="en">You need to keep the SPACE BAR down while you listen.</source>
+        <target xml:lang="zh-CN" state="translated">听时长按空格键</target>
+        <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortHoldingSpace</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortPressingButton">
+        <source xml:lang="en">You need to hold the button down while you listen.</source>
+        <target xml:lang="zh-CN" state="translated">听时按住这个按钮</target>
+        <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortPressingButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.NoAnnotationToolTipMsg">
+        <source xml:lang="en">This segment does not have a recorded annotation.</source>
+        <target xml:lang="zh-CN" state="translated">这个片断没有标注</target>
+        <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.NoAnnotationToolTipMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayAnnotationToolTipMsg">
+        <source xml:lang="en">Listen to this annotation.</source>
+        <target xml:lang="zh-CN" state="translated">听这个标注</target>
+        <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayAnnotationToolTipMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayOriginalShortcutToolTipHint">
+        <source xml:lang="en">Keyboard shortcut: 'b'</source>
+        <target xml:lang="zh-CN" state="translated">键盘快捷键“b"</target>
+        <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.PlayOriginalShortcutToolTipHint</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.SegmenterDlgBase.PlayOriginalToolTipMsg">
+        <source xml:lang="en">Listen to this segment.</source>
+        <target xml:lang="zh-CN" state="translated">听此段</target>
+        <note>ID: DialogBoxes.Transcription.SegmenterDlgBase.PlayOriginalToolTipMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordButton">
+        <source xml:lang="en">Speak</source>
+        <target xml:lang="zh-CN" state="translated">说话</target>
+        <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordButton_ToolTip_">
+        <source xml:lang="en">Hold button down to record</source>
+        <target xml:lang="zh-CN" state="translated">按住按钮录音</target>
+        <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingAnnotationMsg">
+        <source xml:lang="en">Recording...\nLength: {0}</source>
+        <target xml:lang="zh-CN" state="translated">录音</target>
+        <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingAnnotationMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.SkippedSegmentToolTipMsg">
+        <source xml:lang="en">This segment was skipped.</source>
+        <target xml:lang="zh-CN" state="translated">此段跳过</target>
+        <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.SkippedSegmentToolTipMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UndoToolTipMsg">
+        <source xml:lang="en">Undo: {0} (Ctrl-Z or Z)</source>
+        <target xml:lang="zh-CN" state="translated">撤销:{0}(Ctrl-Z or Z)</target>
+        <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UndoToolTipMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelFinishedHint">
+        <source xml:lang="en">Finished</source>
+        <target xml:lang="zh-CN" state="translated">结束</target>
+        <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelFinishedHint</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint">
+        <source xml:lang="en">To record, press and hold the SPACE BAR</source>
+        <target xml:lang="zh-CN" state="translated">录音,按住空格键</target>
+        <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralTranslationRecorderDlg.WindowTitle">
+        <source xml:lang="en">Oral Translation Recorder</source>
+        <target xml:lang="zh-CN" state="translated">口译录音机</target>
+        <note>ID: DialogBoxes.Transcription.OralTranslationRecorderDlg.WindowTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.OralTranslationRecorderDlg._labelOralTranslation">
+        <source xml:lang="en">Oral Translation</source>
+        <target xml:lang="zh-CN" state="translated">口译</target>
+        <note>ID: DialogBoxes.Transcription.OralTranslationRecorderDlg._labelOralTranslation</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.SegmenterDlgBase.MessageWhenSegmentTooShortManualDragging">
+        <source xml:lang="en">Whoops! The segment will be too short.</source>
+        <target xml:lang="zh-CN" state="translated"> 哎呀!分段太短</target>
+        <note>ID: DialogBoxes.Transcription.SegmenterDlgBase.MessageWhenSegmentTooShortManualDragging</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.SegmenterDlgBase.SaveChangesQuestion">
+        <source xml:lang="en">Would you like to save your changes?</source>
+        <target xml:lang="zh-CN" state="translated">你愿意保存这些变化吗?</target>
+        <note>ID: DialogBoxes.Transcription.SegmenterDlgBase.SaveChangesQuestion</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.SegmenterDlgBase.Segmenting3ChannelAudioFilesNotSupportedMsg">
+        <source xml:lang="en">Segmenting {0} channel audio files is not supported.</source>
+        <target xml:lang="zh-CN" state="translated">不支持{0}声道音频文件分段</target>
+        <note>ID: DialogBoxes.Transcription.SegmenterDlgBase.Segmenting3ChannelAudioFilesNotSupportedMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.AnnotationDeleted">
+        <source xml:lang="en">Deletion of annotation for segment {0}</source>
+        <target xml:lang="zh-CN" state="translated">删除片段中的标注</target>
+        <note>ID: DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.AnnotationDeleted</note>
+        <note>Parameter is time range of the segment for which the annotation was deleted (This undo action is included for completeness, but currently never gets displayed in UI).</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.AnnotationRecording">
+        <source xml:lang="en">Recording annotation for segment {0}</source>
+        <target xml:lang="zh-CN" state="translated">给句段录制标注</target>
+        <note>ID: DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.AnnotationRecording</note>
+        <note>Parameter is time range of the segment for which the annotation was recorded.</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentAddition">
+        <source xml:lang="en">Addition of segment {0}</source>
+        <target xml:lang="zh-CN" state="translated">添加段{0}</target>
+        <note>ID: DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentAddition</note>
+        <note>Parameter is time range of added segment.</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentDeletion">
+        <source xml:lang="en">Deletion of segment {0}</source>
+        <target xml:lang="zh-CN" state="translated">删除片断</target>
+        <note>ID: DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentDeletion</note>
+        <note>Parameter is time range of deleted segment.</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentIgnored">
+        <source xml:lang="en">Ignoring segment {0}</source>
+        <target xml:lang="zh-CN" state="translated">忽略选段</target>
+        <note>ID: DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentIgnored</note>
+        <note>Parameter is time range of the segment that was ignored.</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentUnignored">
+        <source xml:lang="en">Marking segment {0} as relevant</source>
+        <target xml:lang="zh-CN" state="translated">标记片断{0}为相关</target>
+        <note>ID: DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.SegmentUnignored</note>
+        <note>Parameter is time range of the segment that was ignored.</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.UserInterfaceLanguageDlg.CancelButton">
+        <source xml:lang="en">Cancel</source>
+        <target xml:lang="zh-CN" state="translated">取消</target>
+        <note>ID: DialogBoxes.UserInterfaceLanguageDlg.CancelButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.UserInterfaceLanguageDlg.HelpOnLocalizingLink">
+        <source xml:lang="en">Help on localization</source>
+        <target xml:lang="zh-CN" state="translated">本国语言翻译帮助 </target>
+        <note>ID: DialogBoxes.UserInterfaceLanguageDlg.HelpOnLocalizingLink</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.UserInterfaceLanguageDlg.IWantToLocalizeLink">
+        <source xml:lang="en">I want to localize SayMore for another language...</source>
+        <target xml:lang="zh-CN" state="translated">我想翻译SayMore</target>
+        <note>ID: DialogBoxes.UserInterfaceLanguageDlg.IWantToLocalizeLink</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.UserInterfaceLanguageDlg.LanguageLabel">
+        <source xml:lang="en">&amp;Language:</source>
+        <target xml:lang="zh-CN" state="translated">&amp;语言；</target>
+        <note>ID: DialogBoxes.UserInterfaceLanguageDlg.LanguageLabel</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.UserInterfaceLanguageDlg.OKButton">
+        <source xml:lang="en">OK</source>
+        <target xml:lang="zh-CN" state="translated">OK</target>
+        <note>ID: DialogBoxes.UserInterfaceLanguageDlg.OKButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.UserInterfaceLanguageDlg.ViewLocalizationsLink">
+        <source xml:lang="en">View SayMore localizations...</source>
+        <target xml:lang="zh-CN" state="translated">查看Saymore本地界面</target>
+        <note>ID: DialogBoxes.UserInterfaceLanguageDlg.ViewLocalizationsLink</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.UserInterfaceLanguageDlg.WindowTitle">
+        <source xml:lang="en">User Interface Language</source>
+        <target xml:lang="zh-CN" state="translated">用户界面语言</target>
+        <note>ID: DialogBoxes.UserInterfaceLanguageDlg.WindowTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.WelcomeDlg.OpenFileDlgCaption">
+        <source xml:lang="en">Open SayMore Project</source>
+        <target xml:lang="zh-CN" state="translated">打开Saymore项目</target>
+        <note>ID: DialogBoxes.WelcomeDlg.OpenFileDlgCaption</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.WelcomeDlg.ProjectFileType">
+        <source xml:lang="en">SayMore Project</source>
+        <target xml:lang="zh-CN" state="translated">Saymore项目</target>
+        <note>ID: DialogBoxes.WelcomeDlg.ProjectFileType</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.WelcomeDlg.WindowTitle">
+        <source xml:lang="en">SayMore</source>
+        <target xml:lang="zh-CN" state="translated">SayMore</target>
+        <note>ID: DialogBoxes.WelcomeDlg.WindowTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.WelcomeDlg._buttonBrowse">
+        <source xml:lang="en">Browse for project...</source>
+        <target xml:lang="zh-CN" state="translated">浏览项目</target>
+        <note>ID: DialogBoxes.WelcomeDlg._buttonBrowse</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.WelcomeDlg._buttonBrowse_ToolTip_">
+        <source xml:lang="en">Browse the file system for a project</source>
+        <target xml:lang="zh-CN" state="translated">查看项目文件系统</target>
+        <note>ID: DialogBoxes.WelcomeDlg._buttonBrowse_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.WelcomeDlg._buttonCreate">
+        <source xml:lang="en">Create new, blank project...</source>
+        <target xml:lang="zh-CN" state="translated">创建新空白项目</target>
+        <note>ID: DialogBoxes.WelcomeDlg._buttonCreate</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.WelcomeDlg._buttonCreate_ToolTip_">
+        <source xml:lang="en">Create a blank project</source>
+        <target xml:lang="zh-CN" state="translated">创建一个空白项目</target>
+        <note>ID: DialogBoxes.WelcomeDlg._buttonCreate_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.WelcomeDlg._labelCreate">
+        <source xml:lang="en">Create</source>
+        <target xml:lang="zh-CN" state="translated">创建</target>
+        <note>ID: DialogBoxes.WelcomeDlg._labelCreate</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.WelcomeDlg._labelOpen">
+        <source xml:lang="en">Open</source>
+        <target xml:lang="zh-CN" state="translated">打开</target>
+        <note>ID: DialogBoxes.WelcomeDlg._labelOpen</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.WelcomeDlg._labelSubTitle">
+        <source xml:lang="en">Language Documentation Project Management</source>
+        <target xml:lang="zh-CN" state="translated">语言纪录项目管理系统</target>
+        <note>ID: DialogBoxes.WelcomeDlg._labelSubTitle</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.WelcomeDlg._linkSILWebsite">
+        <source xml:lang="en">This free software is published by {0}.</source>
+        <target xml:lang="zh-CN" state="translated">此免费软件由{0}发布</target>
+        <note>ID: DialogBoxes.WelcomeDlg._linkSILWebsite</note>
+        <note>Parameter is the publisher of SayMore, "SIL International"</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.WelcomeDlg._linkSayMoreWebsite">
+        <source xml:lang="en">Visit {0} on the Web.</source>
+        <target xml:lang="zh-CN" state="translated">访问{0}网站</target>
+        <note>ID: DialogBoxes.WelcomeDlg._linkSayMoreWebsite</note>
+        <note>Parameter is the program name, "SayMore"</note>
+      </trans-unit>
+      <trans-unit id="MainWindow.DeleteMultipleItemsMsg">
+        <source xml:lang="en">{0} items</source>
+        <target xml:lang="zh-CN" state="translated">项目</target>
+        <note>ID: MainWindow.DeleteMultipleItemsMsg</note>
+        <note>For deleting sessions and people items</note>
+      </trans-unit>
+      <trans-unit id="MainWindow.DeleteOneItemMsg">
+        <source xml:lang="en">{0}</source>
+        <target xml:lang="zh-CN" state="translated">{0}</target>
+        <note>ID: MainWindow.DeleteOneItemMsg</note>
+        <note>For deleting sessions and people items</note>
+      </trans-unit>
+      <trans-unit id="MainWindow.DeletePersonMenuText">
+        <source xml:lang="en">&amp;Delete Person...</source>
+        <target xml:lang="zh-CN" state="translated">&amp;删除人员</target>
+        <note>ID: MainWindow.DeletePersonMenuText</note>
+      </trans-unit>
+      <trans-unit id="MainWindow.DeleteSessionMenuText">
+        <source xml:lang="en">&amp;Delete Session...</source>
+        <target xml:lang="zh-CN" state="translated">&amp;删除任务</target>
+        <note>ID: MainWindow.DeleteSessionMenuText</note>
+      </trans-unit>
+      <trans-unit id="MainWindow.Export.ExportFailureMsg">
+        <source xml:lang="en">Something went wrong with the export.</source>
+        <target xml:lang="zh-CN" state="translated">输出错误</target>
+        <note>ID: MainWindow.Export.ExportFailureMsg</note>
+      </trans-unit>
+      <trans-unit id="MainWindow.Export.ExportFileSaveFileDlg.CSVFileTypeText">
+        <source xml:lang="en">CSV (Comma delimited) (*.csv)|*.csv</source>
+        <target xml:lang="zh-CN" state="translated">CSV (逗号隔开) (*.csv)|*.csv</target>
+        <note>ID: MainWindow.Export.ExportFileSaveFileDlg.CSVFileTypeText</note>
+      </trans-unit>
+      <trans-unit id="MainWindow.Export.ExportFileSaveFileDlg.Caption">
+        <source xml:lang="en">Export Data</source>
+        <target xml:lang="zh-CN" state="translated">输出数据</target>
+        <note>ID: MainWindow.Export.ExportFileSaveFileDlg.Caption</note>
+      </trans-unit>
+      <trans-unit id="MainWindow.LoadingProjectErrorMsg">
+        <source xml:lang="en">{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.</source>
+        <target xml:lang="zh-CN" state="translated">载入项目出现一个问题，点击下面的“详情”给软件开发者反映这个问题。</target>
+        <note>ID: MainWindow.LoadingProjectErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="MainWindow.ProblemOpeningSayMoreProject">
+        <source xml:lang="en">There was a problem opening the SayMore project which might require that you restart your computer.</source>
+        <target xml:lang="zh-CN" state="translated">打开SayMore出现问题</target>
+        <note>ID: MainWindow.ProblemOpeningSayMoreProject</note>
+      </trans-unit>
+      <trans-unit id="MainWindow.ViewTabsScrollLeftToolTipText">
+        <source xml:lang="en">Scroll Left</source>
+        <target xml:lang="zh-CN" state="translated">往左滚动</target>
+        <note>ID: MainWindow.ViewTabsScrollLeftToolTipText</note>
+      </trans-unit>
+      <trans-unit id="MainWindow.ViewTabsScrollRightToolTipText">
+        <source xml:lang="en">Scroll Right</source>
+        <target xml:lang="zh-CN" state="translated">往右滚动</target>
+        <note>ID: MainWindow.ViewTabsScrollRightToolTipText</note>
+      </trans-unit>
+      <trans-unit id="MainWindow._mainMenuHelp">
+        <source xml:lang="en">&amp;Help</source>
+        <target xml:lang="zh-CN" state="translated">&amp;帮助</target>
+        <note>ID: MainWindow._mainMenuHelp</note>
+      </trans-unit>
+      <trans-unit id="MainWindow._menuAbout">
+        <source xml:lang="en">&amp;About...</source>
+        <target xml:lang="zh-CN" state="translated">&amp;关于</target>
+        <note>ID: MainWindow._menuAbout</note>
+      </trans-unit>
+      <trans-unit id="MainWindow._menuChangeUILanguage">
+        <source xml:lang="en">Change User Interface Language...</source>
+        <target xml:lang="zh-CN" state="translated">更换软件界面语言</target>
+        <note>ID: MainWindow._menuChangeUILanguage</note>
+      </trans-unit>
+      <trans-unit id="MainWindow._menuExit">
+        <source xml:lang="en">E&amp;xit</source>
+        <target xml:lang="zh-CN" state="translated">退出</target>
+        <note>ID: MainWindow._menuExit</note>
+      </trans-unit>
+      <trans-unit id="MainWindow._menuExportPeople">
+        <source xml:lang="en">Export &amp;People...</source>
+        <target xml:lang="zh-CN" state="translated">输出人员</target>
+        <note>ID: MainWindow._menuExportPeople</note>
+      </trans-unit>
+      <trans-unit id="MainWindow._menuExportSessions">
+        <source xml:lang="en">Export &amp;Sessions...</source>
+        <target xml:lang="zh-CN" state="translated">输出任务</target>
+        <note>ID: MainWindow._menuExportSessions</note>
+      </trans-unit>
+      <trans-unit id="MainWindow._menuHelp">
+        <source xml:lang="en">&amp;Help...</source>
+        <target xml:lang="zh-CN" state="translated">&amp;帮助…</target>
+        <note>ID: MainWindow._menuHelp</note>
+      </trans-unit>
+      <trans-unit id="MainWindow._menuOpenProject">
+        <source xml:lang="en">&amp;Open/Create Project...</source>
+        <target xml:lang="zh-CN" state="translated">&amp;打开/创建新项目</target>
+        <note>ID: MainWindow._menuOpenProject</note>
+      </trans-unit>
+      <trans-unit id="MainWindow._menuProject">
+        <source xml:lang="en">&amp;Project</source>
+        <target xml:lang="zh-CN" state="translated">&amp;项目</target>
+        <note>ID: MainWindow._menuProject</note>
+      </trans-unit>
+      <trans-unit id="MainWindow._menuReleaseNotes">
+        <source xml:lang="en">Release &amp;Notes...</source>
+        <target xml:lang="zh-CN" state="translated">发布说明</target>
+        <note>ID: MainWindow._menuReleaseNotes</note>
+      </trans-unit>
+      <trans-unit id="Miscellaneous.CopyFilesControl.CopyFailedMsg">
+        <source xml:lang="en">Copying failed: {0}</source>
+        <target xml:lang="zh-CN" state="translated">复制失败：{0}</target>
+        <note>ID: Miscellaneous.CopyFilesControl.CopyFailedMsg</note>
+      </trans-unit>
+      <trans-unit id="Miscellaneous.CopyFilesControl.CopyWaitingMsg">
+        <source xml:lang="en">Waiting to start...</source>
+        <target xml:lang="zh-CN" state="translated">等待开始…</target>
+        <note>ID: Miscellaneous.CopyFilesControl.CopyWaitingMsg</note>
+      </trans-unit>
+      <trans-unit id="Miscellaneous.CopyFilesControl.CopyingFinishedMsg">
+        <source xml:lang="en">Finished</source>
+        <target xml:lang="zh-CN" state="translated">结束</target>
+        <note>ID: Miscellaneous.CopyFilesControl.CopyingFinishedMsg</note>
+      </trans-unit>
+      <trans-unit id="Miscellaneous.CopyFilesControl.CopyingProgressMsg">
+        <source xml:lang="en">Copying {0} of {1} Files, ({2} of {3} Megabytes)</source>
+        <target xml:lang="zh-CN" state="translated">从 {1}文件复制 {0}个文件 , ({2} of {3} Megabytes)</target>
+        <note>ID: Miscellaneous.CopyFilesControl.CopyingProgressMsg</note>
+      </trans-unit>
+      <trans-unit id="Miscellaneous.CopyFilesControl.FileExistsMsg">
+        <source xml:lang="en">The file '{0}' already exists</source>
+        <target xml:lang="zh-CN" state="translated">文件'｛0｝'已经存在</target>
+        <note>ID: Miscellaneous.CopyFilesControl.FileExistsMsg</note>
+      </trans-unit>
+      <trans-unit id="Miscellaneous.CopyFilesControl.NoFilesToCopyMsg">
+        <source xml:lang="en">No Files To Copy</source>
+        <target xml:lang="zh-CN" state="translated">没有文件复制</target>
+        <note>ID: Miscellaneous.CopyFilesControl.NoFilesToCopyMsg</note>
+      </trans-unit>
+      <trans-unit id="Miscellaneous.PresetGathererNoPresetsYetMsg">
+        <source xml:lang="en">No presets yet</source>
+        <target xml:lang="zh-CN" state="translated">还没有预置</target>
+        <note>ID: Miscellaneous.PresetGathererNoPresetsYetMsg</note>
+      </trans-unit>
+      <trans-unit id="OralAnnotationRecorderBaseDlg._skipToolStripMenuItem_ToolTip_">
+        <source xml:lang="en">Mark this segment as Ignored to skip annotating it.</source>
+        <target xml:lang="zh-CN" state="translated">忽略此段</target>
+        <note>ID: OralAnnotationRecorderBaseDlg._skipToolStripMenuItem_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.FileList.AddPersonButtonToolTip">
+        <source xml:lang="en">Add Files for the Person</source>
+        <target xml:lang="zh-CN" state="translated">从人员来添加文件</target>
+        <note>ID: PeopleView.FileList.AddPersonButtonToolTip</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.ChangePictureDlgCaption">
+        <source xml:lang="en">Change Picture</source>
+        <target xml:lang="zh-CN" state="translated">更换图片</target>
+        <note>ID: PeopleView.MetadataEditor.ChangePictureDlgCaption</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.ErrorChangingPersonsPhotoMsg">
+        <source xml:lang="en">There was an error changing the person's photo.</source>
+        <target xml:lang="zh-CN" state="translated">更换此人的照片出错</target>
+        <note>ID: PeopleView.MetadataEditor.ErrorChangingPersonsPhotoMsg</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.ErrorLoadingPersonsPhotoMsg">
+        <source xml:lang="en">There was an error loading the person's photo.</source>
+        <target xml:lang="zh-CN" state="translated">引导此人的照片出错</target>
+        <note>ID: PeopleView.MetadataEditor.ErrorLoadingPersonsPhotoMsg</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.FatherSelectorToolTip.WhenNotSelected">
+        <source xml:lang="en">Click to indicate this is the father's primary language</source>
+        <target xml:lang="zh-CN" state="translated">点击指出父亲的第一语言</target>
+        <note>ID: PeopleView.MetadataEditor.FatherSelectorToolTip.WhenNotSelected</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.FatherSelectorToolTip.WhenSelected">
+        <source xml:lang="en">Indicates this is the father's primary language</source>
+        <target xml:lang="zh-CN" state="translated">指出父亲的第一语言</target>
+        <note>ID: PeopleView.MetadataEditor.FatherSelectorToolTip.WhenSelected</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.GenderSelector.Female">
+        <source xml:lang="en">Female</source>
+        <target xml:lang="zh-CN" state="translated">女性</target>
+        <note>ID: PeopleView.MetadataEditor.GenderSelector.Female</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.GenderSelector.Male">
+        <source xml:lang="en">Male</source>
+        <target xml:lang="zh-CN" state="translated">男性</target>
+        <note>ID: PeopleView.MetadataEditor.GenderSelector.Male</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.ImageFileTypes">
+        <source xml:lang="en">JPEG Images (*.jpg)|*.jpg|GIF Images (*.gif)|*.gif|TIFF Images (*.tif)|*.tif|PNG Images (*.png)|*.png|Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*</source>
+        <target xml:lang="zh-CN" state="translated">JPEG 图像 (*.jpg)|*.jpg|GIF 图像 (*.gif)|*.gif|TIFF 图像 (*.tif)|*.tif|PNG 图像 (*.png)|*.png|Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|所有文件 (*.*)|*.*</target>
+        <note>ID: PeopleView.MetadataEditor.ImageFileTypes</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.MotherSelectorToolTip.WhenNotSelected">
+        <source xml:lang="en">Click to indicate this is the mother's primary language</source>
+        <target xml:lang="zh-CN" state="translated">点击指出母亲的第一语言</target>
+        <note>ID: PeopleView.MetadataEditor.MotherSelectorToolTip.WhenNotSelected</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.MotherSelectorToolTip.WhenSelected">
+        <source xml:lang="en">Indicates this is the mother's primary language</source>
+        <target xml:lang="zh-CN" state="translated">指出母亲的第一语言</target>
+        <note>ID: PeopleView.MetadataEditor.MotherSelectorToolTip.WhenSelected</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.TabText">
+        <source xml:lang="en">Person</source>
+        <target xml:lang="zh-CN" state="translated">人员</target>
+        <note>ID: PeopleView.MetadataEditor.TabText</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor._labelBirthYear">
+        <source xml:lang="en">Birth &amp;Year</source>
+        <target xml:lang="zh-CN" state="translated">&amp;出生年月</target>
+        <note>ID: PeopleView.MetadataEditor._labelBirthYear</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor._labelCustomFields">
+        <source xml:lang="en">&amp;Custom Fields</source>
+        <target xml:lang="zh-CN" state="translated">&amp;定义范围</target>
+        <note>ID: PeopleView.MetadataEditor._labelCustomFields</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor._labelEducation">
+        <source xml:lang="en">&amp;Education</source>
+        <target xml:lang="zh-CN" state="translated">&amp;教育</target>
+        <note>ID: PeopleView.MetadataEditor._labelEducation</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor._labelFullName">
+        <source xml:lang="en">&amp;Full Name</source>
+        <target xml:lang="zh-CN" state="translated">&amp;全名</target>
+        <note>ID: PeopleView.MetadataEditor._labelFullName</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor._labelHowToContact">
+        <source xml:lang="en">&amp;How to Contact</source>
+        <target xml:lang="zh-CN" state="translated">&amp;联系方式</target>
+        <note>ID: PeopleView.MetadataEditor._labelHowToContact</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor._labelOtherLanguages">
+        <source xml:lang="en">Other L&amp;anguages</source>
+        <target xml:lang="zh-CN" state="translated">其他语言</target>
+        <note>ID: PeopleView.MetadataEditor._labelOtherLanguages</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor._labelPrimaryLanguage">
+        <source xml:lang="en">Primary &amp;Language</source>
+        <target xml:lang="zh-CN" state="translated">第一&amp;语言</target>
+        <note>ID: PeopleView.MetadataEditor._labelPrimaryLanguage</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor._labelPrimaryLanguageLearnedIn">
+        <source xml:lang="en">Learned &amp;In:</source>
+        <target xml:lang="zh-CN" state="translated">学习 &amp;在:</target>
+        <note>ID: PeopleView.MetadataEditor._labelPrimaryLanguageLearnedIn</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor._labelPrimaryOccupation">
+        <source xml:lang="en">Primary &amp;Occupation</source>
+        <target xml:lang="zh-CN" state="translated">第一&amp;职业</target>
+        <note>ID: PeopleView.MetadataEditor._labelPrimaryOccupation</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor._labelgender">
+        <source xml:lang="en">&amp;Gender</source>
+        <target xml:lang="zh-CN" state="translated">&amp;性别</target>
+        <note>ID: PeopleView.MetadataEditor._labelgender</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor._personsPicture_ToolTip_">
+        <source xml:lang="en">Click to Change Picture</source>
+        <target xml:lang="zh-CN" state="translated">点击更换图片</target>
+        <note>ID: PeopleView.MetadataEditor._personsPicture_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.Miscellaneous.AlreadyExistsSaveFailureMessage">
+        <source xml:lang="en">Could not rename from {0} to {1} because there is already a person by that name.</source>
+        <target xml:lang="zh-CN" state="translated">不能重命名，名字重复。</target>
+        <note>ID: PeopleView.Miscellaneous.AlreadyExistsSaveFailureMessage</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.Miscellaneous.NewPersonNamePrefix">
+        <source xml:lang="en">New Person</source>
+        <target xml:lang="zh-CN" state="translated">新人员</target>
+        <note>ID: PeopleView.Miscellaneous.NewPersonNamePrefix</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.Miscellaneous.NoIdSaveFailureMessage">
+        <source xml:lang="en">You must specify a name.</source>
+        <target xml:lang="zh-CN" state="translated">你必须指定一个名字</target>
+        <note>ID: PeopleView.Miscellaneous.NoIdSaveFailureMessage</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.PeopleList.ClickNewButtonHelpPrompt">
+        <source xml:lang="en">Click 'New' to add a new person.</source>
+        <target xml:lang="zh-CN" state="translated">点击“新建”添加人员</target>
+        <note>ID: PeopleView.PeopleList.ClickNewButtonHelpPrompt</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.PeopleList.ColumnHeadings.Consent">
+        <source xml:lang="en">Consent</source>
+        <target xml:lang="zh-CN" state="translated">同意</target>
+        <note>ID: PeopleView.PeopleList.ColumnHeadings.Consent</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.PeopleList.HeadingText">
+        <source xml:lang="en">People</source>
+        <target xml:lang="zh-CN" state="translated">人员</target>
+        <note>ID: PeopleView.PeopleList.HeadingText</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.PeopleMainMenu.NewMenuText">
+        <source xml:lang="en">&amp;New</source>
+        <target xml:lang="zh-CN" state="translated">&amp;添加</target>
+        <note>ID: PeopleView.PeopleMainMenu.NewMenuText</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.PeopleMainMenu.TopLevelMenuText">
+        <source xml:lang="en">&amp;Person</source>
+        <target xml:lang="zh-CN" state="translated">&amp;人员</target>
+        <note>ID: PeopleView.PeopleMainMenu.TopLevelMenuText</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.ViewTabText">
+        <source xml:lang="en">People</source>
+        <target xml:lang="zh-CN" state="translated">人员</target>
+        <note>ID: PeopleView.ViewTabText</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.ViewTabText_ToolTip_">
+        <source xml:lang="en">People View</source>
+        <target xml:lang="zh-CN" state="translated">查看人员</target>
+        <note>ID: PeopleView.ViewTabText_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.ByGenreHeadingText">
+        <source xml:lang="en">By Genre</source>
+        <target xml:lang="zh-CN" state="translated">根据类别</target>
+        <note>ID: ProgressView.ByGenreHeadingText</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.ByStagesHeadingText">
+        <source xml:lang="en">By Stages</source>
+        <target xml:lang="zh-CN" state="translated">根据阶段</target>
+        <note>ID: ProgressView.ByStagesHeadingText</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.CopyMenuItemText">
+        <source xml:lang="en">&amp;Copy</source>
+        <target xml:lang="zh-CN" state="translated">&amp;复制</target>
+        <note>ID: ProgressView.CopyMenuItemText</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.CopyMenuItemText_ToolTip_">
+        <source xml:lang="en">Copy entire view to clipboard</source>
+        <target xml:lang="zh-CN" state="translated">复制完整视图到剪切板</target>
+        <note>ID: ProgressView.CopyMenuItemText_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.HeadingText">
+        <source xml:lang="en">SayMore statistics for {0}</source>
+        <target xml:lang="zh-CN" state="translated">SayMore 统计</target>
+        <note>ID: ProgressView.HeadingText</note>
+        <note>Parameter is project name.</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.OverviewHeadingText">
+        <source xml:lang="en">Overview</source>
+        <target xml:lang="zh-CN" state="translated">概况</target>
+        <note>ID: ProgressView.OverviewHeadingText</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.PeopleLabel">
+        <source xml:lang="en">People:</source>
+        <target xml:lang="zh-CN" state="translated">人员</target>
+        <note>ID: ProgressView.PeopleLabel</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.PrintMenuItemText">
+        <source xml:lang="en">&amp;Print...</source>
+        <target xml:lang="zh-CN" state="translated">&amp;打印…</target>
+        <note>ID: ProgressView.PrintMenuItemText</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.ProgressMainMenuItemText">
+        <source xml:lang="en">Pr&amp;ogress</source>
+        <target xml:lang="zh-CN" state="translated">进度</target>
+        <note>ID: ProgressView.ProgressMainMenuItemText</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.SaveMenuItemText">
+        <source xml:lang="en">&amp;Save...</source>
+        <target xml:lang="zh-CN" state="translated">&amp;保存…</target>
+        <note>ID: ProgressView.SaveMenuItemText</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.SaveMenuItemText_ToolTip_">
+        <source xml:lang="en">Save view to file</source>
+        <target xml:lang="zh-CN" state="translated">保存视图到文件</target>
+        <note>ID: ProgressView.SaveMenuItemText_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.SessionsLabel">
+        <source xml:lang="en">Sessions:</source>
+        <target xml:lang="zh-CN" state="translated">任务 </target>
+        <note>ID: ProgressView.SessionsLabel</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.SummaryTotalsTextForOneBar">
+        <source xml:lang="en">{0} sessions totaling {1} minutes</source>
+        <target xml:lang="zh-CN" state="translated">{0}个任务，共{1}分钟</target>
+        <note>ID: ProgressView.SummaryTotalsTextForOneBar</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.SummaryTotalsTextForSegment1">
+        <source xml:lang="en">{0}{1} sessions totaling {2} minutes</source>
+        <target xml:lang="zh-CN" state="translated">{0}:{1}个任务，共{2}分钟</target>
+        <note>ID: ProgressView.SummaryTotalsTextForSegment1</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.SummaryTotalsTextForSegment2">
+        <source xml:lang="en">{0}: {1} sessions totaling {2} minutes</source>
+        <target xml:lang="zh-CN" state="translated">{0}:{1}个任务，共{2}分钟</target>
+        <note>ID: ProgressView.SummaryTotalsTextForSegment2</note>
+      </trans-unit>
+      <trans-unit id="ProgressView.TabText_ToolTip_">
+        <source xml:lang="en">Progress View</source>
+        <target xml:lang="zh-CN" state="translated">查看进度</target>
+        <note>ID: ProgressView.TabText_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="ProgressView._buttonRefresh_ToolTip_">
+        <source xml:lang="en">Refresh View</source>
+        <target xml:lang="zh-CN" state="translated">查看刷新</target>
+        <note>ID: ProgressView._buttonRefresh_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="ProjectView.ProgressScreen._buttonRefresh">
+        <source xml:lang="en">Refresh</source>
+        <target xml:lang="zh-CN" state="translated">刷新</target>
+        <note>ID: ProjectView.ProgressScreen._buttonRefresh</note>
+      </trans-unit>
+      <trans-unit id="ProjectView.ProgressScreen._labelWorking">
+        <source xml:lang="en">Working...</source>
+        <target xml:lang="zh-CN" state="translated">正在工作…</target>
+        <note>ID: ProjectView.ProgressScreen._labelWorking</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.FileList.AddSessionsButtonToolTip">
+        <source xml:lang="en">Add Files to the Session</source>
+        <target xml:lang="zh-CN" state="translated">添加文件到任务 </target>
+        <note>ID: SessionsView.FileList.AddSessionsButtonToolTip</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.GeneratedOralAnnotationView.CarefulLabel">
+        <source xml:lang="en">Careful</source>
+        <target xml:lang="zh-CN" state="translated">认真</target>
+        <note>ID: SessionsView.GeneratedOralAnnotationView.CarefulLabel</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.GeneratedOralAnnotationView.SourceLabel">
+        <source xml:lang="en">Source</source>
+        <target xml:lang="zh-CN" state="translated">原始录音</target>
+        <note>ID: SessionsView.GeneratedOralAnnotationView.SourceLabel</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.GeneratedOralAnnotationView.TranslationLabel">
+        <source xml:lang="en">Translation</source>
+        <target xml:lang="zh-CN" state="translated">口译录音</target>
+        <note>ID: SessionsView.GeneratedOralAnnotationView.TranslationLabel</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor.TabText">
+        <source xml:lang="en">Session</source>
+        <target xml:lang="zh-CN" state="translated">任务</target>
+        <note>ID: SessionsView.MetadataEditor.TabText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor.UnknownGenre">
+        <source xml:lang="en">&lt;Unknown&gt;</source>
+        <target xml:lang="zh-CN" state="translated">&lt;未知&gt;</target>
+        <note>ID: SessionsView.MetadataEditor.UnknownGenre</note>
+        <note>Unknown genre displayed in the genre drop-down list.</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor._labelAccess">
+        <source xml:lang="en">Access</source>
+        <target xml:lang="zh-CN" state="translated">授权</target>
+        <note>ID: SessionsView.MetadataEditor._labelAccess</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor._labelCustomFields">
+        <source xml:lang="en">Custom Fields</source>
+        <target xml:lang="zh-CN" state="translated">设置范围</target>
+        <note>ID: SessionsView.MetadataEditor._labelCustomFields</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor._labelDate">
+        <source xml:lang="en">Date</source>
+        <target xml:lang="zh-CN" state="translated">日期</target>
+        <note>ID: SessionsView.MetadataEditor._labelDate</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor._labelGenre">
+        <source xml:lang="en">Genre</source>
+        <target xml:lang="zh-CN" state="translated">类型</target>
+        <note>ID: SessionsView.MetadataEditor._labelGenre</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor._labelId">
+        <source xml:lang="en">&amp;Id</source>
+        <target xml:lang="zh-CN" state="translated">序号</target>
+        <note>ID: SessionsView.MetadataEditor._labelId</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor._labelLocation">
+        <source xml:lang="en">&amp;Location</source>
+        <target xml:lang="zh-CN" state="translated">地点</target>
+        <note>ID: SessionsView.MetadataEditor._labelLocation</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor._labelParticipants">
+        <source xml:lang="en">Pe&amp;ople</source>
+        <target xml:lang="zh-CN" state="translated">人员</target>
+        <note>ID: SessionsView.MetadataEditor._labelParticipants</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor._labelSetting">
+        <source xml:lang="en">S&amp;etting</source>
+        <target xml:lang="zh-CN" state="translated">设置</target>
+        <note>ID: SessionsView.MetadataEditor._labelSetting</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor._labelSituation">
+        <source xml:lang="en">Sit&amp;uation</source>
+        <target xml:lang="zh-CN" state="translated">位置</target>
+        <note>ID: SessionsView.MetadataEditor._labelSituation</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor._labelTitle">
+        <source xml:lang="en">&amp;Title</source>
+        <target xml:lang="zh-CN" state="translated">标题</target>
+        <note>ID: SessionsView.MetadataEditor._labelTitle</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Miscellaneous.NewSessionNamePrefix">
+        <source xml:lang="en">New Session</source>
+        <target xml:lang="zh-CN" state="translated">新任务</target>
+        <note>ID: SessionsView.Miscellaneous.NewSessionNamePrefix</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Miscellaneous.NoIdSaveFailureMessage">
+        <source xml:lang="en">You must specify a session id.</source>
+        <target xml:lang="zh-CN" state="translated">你必须指定一个任务序号.</target>
+        <note>ID: SessionsView.Miscellaneous.NoIdSaveFailureMessage</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Miscellaneous.SessionAlreadyExistsSaveFailureMessage">
+        <source xml:lang="en">Could not rename from {0} to {1} because there is already a session by that name.</source>
+        <target xml:lang="zh-CN" state="translated">文件名重复，不能把名字从{0}改成{1}</target>
+        <note>ID: SessionsView.Miscellaneous.SessionAlreadyExistsSaveFailureMessage</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MissingMediaFileEditor.TabText">
+        <source xml:lang="en">Missing Media File</source>
+        <target xml:lang="zh-CN" state="translated">媒体文件丢失</target>
+        <note>ID: SessionsView.MissingMediaFileEditor.TabText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MissingMediaFileEditor.lblMediaFileMissing">
+        <source xml:lang="en">The media file for this ELAN file could not be found. SayMore expected to find it here:</source>
+        <target xml:lang="zh-CN" state="translated">Elan文件配套媒体找不到，可能在这儿。</target>
+        <note>ID: SessionsView.MissingMediaFileEditor.lblMediaFileMissing</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MissingMediaFileEditor.linkHelpTopic">
+        <source xml:lang="en">Show Help topic for ELAN</source>
+        <target xml:lang="zh-CN" state="translated">为Elan显示帮助主题</target>
+        <note>ID: SessionsView.MissingMediaFileEditor.linkHelpTopic</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionStatus.Finished">
+        <source xml:lang="en">Finished</source>
+        <target xml:lang="zh-CN" state="translated">结束</target>
+        <note>ID: SessionsView.SessionStatus.Finished</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionStatus.InProgress">
+        <source xml:lang="en">In Progress</source>
+        <target xml:lang="zh-CN" state="translated">进行中</target>
+        <note>ID: SessionsView.SessionStatus.InProgress</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionStatus.Incoming">
+        <source xml:lang="en">Incoming</source>
+        <target xml:lang="zh-CN" state="translated">新任务</target>
+        <note>ID: SessionsView.SessionStatus.Incoming</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionStatus.Skipped">
+        <source xml:lang="en">Skipped</source>
+        <target xml:lang="zh-CN" state="translated">跳过</target>
+        <note>ID: SessionsView.SessionStatus.Skipped</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionStatus.TooltipFormatText">
+        <source xml:lang="en">Status: {0}</source>
+        <target xml:lang="zh-CN" state="translated">状态</target>
+        <note>ID: SessionsView.SessionStatus.TooltipFormatText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.ClickNewButtonHelpPrompt">
+        <source xml:lang="en">Click 'New' to add a new session.</source>
+        <target xml:lang="zh-CN" state="translated">点击“新建”添加新任务</target>
+        <note>ID: SessionsView.SessionsList.ClickNewButtonHelpPrompt</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.ColumnHeadings.Date">
+        <source xml:lang="en">Date</source>
+        <target xml:lang="zh-CN" state="translated">日期</target>
+        <note>ID: SessionsView.SessionsList.ColumnHeadings.Date</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.ColumnHeadings.Genre">
+        <source xml:lang="en">Genre</source>
+        <target xml:lang="zh-CN" state="translated">类型</target>
+        <note>ID: SessionsView.SessionsList.ColumnHeadings.Genre</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.ColumnHeadings.Id">
+        <source xml:lang="en">Id</source>
+        <target xml:lang="zh-CN" state="translated">序号</target>
+        <note>ID: SessionsView.SessionsList.ColumnHeadings.Id</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.ColumnHeadings.Location">
+        <source xml:lang="en">Location</source>
+        <target xml:lang="zh-CN" state="translated">地点</target>
+        <note>ID: SessionsView.SessionsList.ColumnHeadings.Location</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.ColumnHeadings.Stages">
+        <source xml:lang="en">Stages</source>
+        <target xml:lang="zh-CN" state="translated">进度</target>
+        <note>ID: SessionsView.SessionsList.ColumnHeadings.Stages</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.ColumnHeadings.Status">
+        <source xml:lang="en">Status</source>
+        <target xml:lang="zh-CN" state="translated">状态</target>
+        <note>ID: SessionsView.SessionsList.ColumnHeadings.Status</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.ColumnHeadings.Title">
+        <source xml:lang="en">Title</source>
+        <target xml:lang="zh-CN" state="translated">标题</target>
+        <note>ID: SessionsView.SessionsList.ColumnHeadings.Title</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.HeadingText">
+        <source xml:lang="en">Sessions</source>
+        <target xml:lang="zh-CN" state="translated">任务</target>
+        <note>ID: SessionsView.SessionsList.HeadingText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.NewFilesFromDeviceButtonText">
+        <source xml:lang="en">New From De&amp;vice...</source>
+        <target xml:lang="zh-CN" state="translated">从设备文件新建</target>
+        <note>ID: SessionsView.SessionsList.NewFilesFromDeviceButtonText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.NewFilesFromRecordingButtonText">
+        <source xml:lang="en">New From &amp;Recording...</source>
+        <target xml:lang="zh-CN" state="translated">从录音新建</target>
+        <note>ID: SessionsView.SessionsList.NewFilesFromRecordingButtonText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.RampArchiveMenuText">
+        <source xml:lang="en">Archive with RAMP (SIL)...</source>
+        <target xml:lang="zh-CN" state="translated">用RAMP(SIL)存档</target>
+        <note>ID: SessionsView.SessionsList.RampArchiveMenuText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.Stages.CarefulSpeech">
+        <source xml:lang="en">Careful Speech</source>
+        <target xml:lang="zh-CN" state="translated">跟读</target>
+        <note>ID: SessionsView.SessionsList.Stages.CarefulSpeech</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.Stages.CompleteToolTipText">
+        <source xml:lang="en">Complete</source>
+        <target xml:lang="zh-CN" state="translated">完成</target>
+        <note>ID: SessionsView.SessionsList.Stages.CompleteToolTipText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.Stages.IncompleteToolTipText">
+        <source xml:lang="en">Incomplete</source>
+        <target xml:lang="zh-CN" state="translated">末完成的</target>
+        <note>ID: SessionsView.SessionsList.Stages.IncompleteToolTipText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.Stages.InformedConsent">
+        <source xml:lang="en">Informed Consent</source>
+        <target xml:lang="zh-CN" state="translated">知情同意</target>
+        <note>ID: SessionsView.SessionsList.Stages.InformedConsent</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.Stages.OralTranslation">
+        <source xml:lang="en">Oral Translation</source>
+        <target xml:lang="zh-CN" state="translated">口译</target>
+        <note>ID: SessionsView.SessionsList.Stages.OralTranslation</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.Stages.SourceRecording">
+        <source xml:lang="en">Source Recording</source>
+        <target xml:lang="zh-CN" state="translated">原始录音</target>
+        <note>ID: SessionsView.SessionsList.Stages.SourceRecording</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.Stages.Transcription">
+        <source xml:lang="en">Transcription</source>
+        <target xml:lang="zh-CN" state="translated">转写</target>
+        <note>ID: SessionsView.SessionsList.Stages.Transcription</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsList.Stages.WrittenTranslation">
+        <source xml:lang="en">Written Translation</source>
+        <target xml:lang="zh-CN" state="translated">笔译</target>
+        <note>ID: SessionsView.SessionsList.Stages.WrittenTranslation</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsMainMenu.NewFromDeviceMenuText">
+        <source xml:lang="en">New From De&amp;vice...</source>
+        <target xml:lang="zh-CN" state="translated">从设备文件新建</target>
+        <note>ID: SessionsView.SessionsMainMenu.NewFromDeviceMenuText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsMainMenu.NewFromRecordingMenuText">
+        <source xml:lang="en">New From &amp;Recording...</source>
+        <target xml:lang="zh-CN" state="translated">从录音新建</target>
+        <note>ID: SessionsView.SessionsMainMenu.NewFromRecordingMenuText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsMainMenu.NewMenuText">
+        <source xml:lang="en">&amp;New</source>
+        <target xml:lang="zh-CN" state="translated">&amp;新建</target>
+        <note>ID: SessionsView.SessionsMainMenu.NewMenuText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.SessionsMainMenu.TopLevelMenuText">
+        <source xml:lang="en">&amp;Session</source>
+        <target xml:lang="zh-CN" state="translated">&amp;任务</target>
+        <note>ID: SessionsView.SessionsMainMenu.TopLevelMenuText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.StatusAndStagesEditor.StageNameDisplayFormat">
+        <source xml:lang="en">{0} (on auto-pilot)</source>
+        <target xml:lang="zh-CN" state="translated">{0}(自动引导)</target>
+        <note>ID: SessionsView.StatusAndStagesEditor.StageNameDisplayFormat</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.StatusAndStagesEditor.StatusToolTips.Finished">
+        <source xml:lang="en">I'm done working on it.</source>
+        <target xml:lang="zh-CN" state="translated">工作完成</target>
+        <note>ID: SessionsView.StatusAndStagesEditor.StatusToolTips.Finished</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.StatusAndStagesEditor.StatusToolTips.In_Progress">
+        <source xml:lang="en">I'm working on it.</source>
+        <target xml:lang="zh-CN" state="translated">正在工作</target>
+        <note>ID: SessionsView.StatusAndStagesEditor.StatusToolTips.In_Progress</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.StatusAndStagesEditor.TabText">
+        <source xml:lang="en">Status &amp;&amp; Stages</source>
+        <target xml:lang="zh-CN" state="translated">状态&amp;&amp;进度</target>
+        <note>ID: SessionsView.StatusAndStagesEditor.TabText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.StatusAndStagesEditor._labelReadAboutStages">
+        <source xml:lang="en">Read About SayMore Stages</source>
+        <target xml:lang="zh-CN" state="translated">进度（帮助）</target>
+        <note>ID: SessionsView.StatusAndStagesEditor._labelReadAboutStages</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.StatusAndStagesEditor._labelReadAboutStatus">
+        <source xml:lang="en">Read About SayMore Status Indicators</source>
+        <target xml:lang="zh-CN" state="translated">状态指示器（帮助）</target>
+        <note>ID: SessionsView.StatusAndStagesEditor._labelReadAboutStatus</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.StatusAndStagesEditor._labelStages">
+        <source xml:lang="en">Stages</source>
+        <target xml:lang="zh-CN" state="translated">进度</target>
+        <note>ID: SessionsView.StatusAndStagesEditor._labelStages</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.StatusAndStagesEditor._labelStatus">
+        <source xml:lang="en">Status</source>
+        <target xml:lang="zh-CN" state="translated">状态</target>
+        <note>ID: SessionsView.StatusAndStagesEditor._labelStatus</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.AnnotationFileNotFoundMsg">
+        <source xml:lang="en">File not found: '{0}'</source>
+        <target xml:lang="zh-CN" state="translated">文件没有找到</target>
+        <note>ID: SessionsView.Transcription.AnnotationFileNotFoundMsg</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.BadAnnotationFileMsg">
+        <source xml:lang="en">File '{0}' is not a SayMore annotation file. It is possibly corrupt.</source>
+        <target xml:lang="zh-CN" state="translated">文件'{0}'不是SayMore标注文件，文件有可能被损坏。</target>
+        <note>ID: SessionsView.Transcription.BadAnnotationFileMsg</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.FontsMenu">
+        <source xml:lang="en">&amp;Fonts...</source>
+        <target xml:lang="zh-CN" state="translated">&amp;字体</target>
+        <note>ID: SessionsView.Transcription.FontsMenu</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileDetails">
+        <source xml:lang="en">Attempting to generate file:</source>
+        <target xml:lang="zh-CN" state="translated">尝试生成文件(SIL)…</target>
+        <note>ID: SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileDetails</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg">
+        <source xml:lang="en">Generating Oral Annotation file...</source>
+        <target xml:lang="zh-CN" state="translated">生成口头标注文件</target>
+        <note>ID: SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton">
+        <source xml:lang="en">Help</source>
+        <target xml:lang="zh-CN" state="translated">帮助 </target>
+        <note>ID: SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton_ToolTip_">
+        <source xml:lang="en">Help</source>
+        <target xml:lang="zh-CN" state="translated">帮助</target>
+        <note>ID: SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton">
+        <source xml:lang="en">Play</source>
+        <target xml:lang="zh-CN" state="translated">播放</target>
+        <note>ID: SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton_ToolTip_">
+        <source xml:lang="en">Playback Oral Annotation Audio File</source>
+        <target xml:lang="zh-CN" state="translated">播放口头标注文件</target>
+        <note>ID: SessionsView.Transcription.GeneratedOralAnnotationView.PlayButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.GeneratedOralAnnotationView.RegenerateButton">
+        <source xml:lang="en">Regenerate</source>
+        <target xml:lang="zh-CN" state="translated">重新生成</target>
+        <note>ID: SessionsView.Transcription.GeneratedOralAnnotationView.RegenerateButton</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.GeneratedOralAnnotationView.RegenerateButton_ToolTip_">
+        <source xml:lang="en">Regenerate Oral Annotation Audio File</source>
+        <target xml:lang="zh-CN" state="translated">重新生成</target>
+        <note>ID: SessionsView.Transcription.GeneratedOralAnnotationView.RegenerateButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.GeneratedOralAnnotationView.StopButton">
+        <source xml:lang="en">Stop</source>
+        <target xml:lang="zh-CN" state="translated">停止</target>
+        <note>ID: SessionsView.Transcription.GeneratedOralAnnotationView.StopButton</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.GeneratedOralAnnotationView.StopButton_ToolTip_">
+        <source xml:lang="en">Stop Playback</source>
+        <target xml:lang="zh-CN" state="translated">停止回放</target>
+        <note>ID: SessionsView.Transcription.GeneratedOralAnnotationView.StopButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.GeneratedOralAnnotationView.TabText">
+        <source xml:lang="en">Generated Audio</source>
+        <target xml:lang="zh-CN" state="translated">生成音频</target>
+        <note>ID: SessionsView.Transcription.GeneratedOralAnnotationView.TabText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.OptionsMenu">
+        <source xml:lang="en">Options</source>
+        <target xml:lang="zh-CN" state="translated">选项</target>
+        <note>ID: SessionsView.Transcription.OptionsMenu</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._buttonConvert">
+        <source xml:lang="en">Convert</source>
+        <target xml:lang="zh-CN" state="translated">转换</target>
+        <note>ID: SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._buttonConvert</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelHeading">
+        <source xml:lang="en">File Conversion Required</source>
+        <target xml:lang="zh-CN" state="translated">文件需要转换</target>
+        <note>ID: SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelHeading</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForAudio">
+        <source xml:lang="en">The format of this audio file is '{0}'. In order to annotate, SayMore needs to convert it to WAV PCM, which is a good, standard choice for archiving. During the conversion process, a standard audio file will be created from the source and added to the session's file list. The name of the new audio file will be the same as the source with the suffix "{1}" added to the end. The source file will remain unchanged in the session's file list.</source>
+        <target xml:lang="zh-CN" state="translated">这个音频的格式是 '{0}'。SayMore需要把它转换成WAV PCM格式才能标注，哪个是好，用标准选择进行存档。在转换过程中，一个标准音频文件将根据原始文件创建，并添加加任务文件列表。转换的新音频文件名将添加一个后缀 "{1}"。原始文件依然保存在任务列表。</target>
+        <note>ID: SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForAudio</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelSourceFileName">
+        <source xml:lang="en">Name of source media file:</source>
+        <target xml:lang="zh-CN" state="translated">来源媒体文件名称</target>
+        <note>ID: SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelSourceFileName</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelStandardAudioFileName">
+        <source xml:lang="en">Name of new, standard audio file:</source>
+        <target xml:lang="zh-CN" state="translated">新名称,标准音频文件</target>
+        <note>ID: SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelStandardAudioFileName</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.StartAnnotatingTab.TabText">
+        <source xml:lang="en">Start Annotating</source>
+        <target xml:lang="zh-CN" state="translated">开始标注</target>
+        <note>ID: SessionsView.Transcription.StartAnnotatingTab.TabText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._buttonGetStarted">
+        <source xml:lang="en">Get Started...</source>
+        <target xml:lang="zh-CN" state="translated">开始</target>
+        <note>ID: SessionsView.Transcription.StartAnnotatingTab._buttonGetStarted</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethod">
+        <source xml:lang="en">Segmentation Method</source>
+        <target xml:lang="zh-CN" state="translated">分段方法</target>
+        <note>ID: SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethod</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethodQuestion">
+        <source xml:lang="en">Each annotation will be linked to a single time segment of media. How would you like to identify those segments?</source>
+        <target xml:lang="zh-CN" state="translated">每一个标注都将和媒体的一个时间段关联，你如何标识这些时间段？</target>
+        <note>ID: SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethodQuestion</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._radioButtonAudacity">
+        <source xml:lang="en">Read an Audacity Label file</source>
+        <target xml:lang="zh-CN" state="translated">读取Audacity标签文件 </target>
+        <note>ID: SessionsView.Transcription.StartAnnotatingTab._radioButtonAudacity</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._radioButtonAutoSegmenter">
+        <source xml:lang="en">Use auto segmenter</source>
+        <target xml:lang="zh-CN" state="translated">使用自动分段</target>
+        <note>ID: SessionsView.Transcription.StartAnnotatingTab._radioButtonAutoSegmenter</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._radioButtonCarefulSpeech">
+        <source xml:lang="en">Use Careful Speech Tool</source>
+        <target xml:lang="zh-CN" state="translated">使用跟读工具</target>
+        <note>ID: SessionsView.Transcription.StartAnnotatingTab._radioButtonCarefulSpeech</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._radioButtonElan">
+        <source xml:lang="en">Copy an existing ELAN file</source>
+        <target xml:lang="zh-CN" state="translated">复制一个已经存在的Elan文件</target>
+        <note>ID: SessionsView.Transcription.StartAnnotatingTab._radioButtonElan</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._radioButtonManual">
+        <source xml:lang="en">Use Manual Segmentation Tool</source>
+        <target xml:lang="zh-CN" state="translated">使用手动分段工具</target>
+        <note>ID: SessionsView.Transcription.StartAnnotatingTab._radioButtonManual</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu">
+        <source xml:lang="en">Export</source>
+        <target xml:lang="zh-CN" state="translated">输出</target>
+        <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslation">
+        <source xml:lang="en">Audacity Label File (Free Translation)...</source>
+        <target xml:lang="zh-CN" state="translated">Audacity标签文件(翻译）…</target>
+        <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslation</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslationFilenameSuffix">
+        <source xml:lang="en">audacity_freeTranslation</source>
+        <target xml:lang="zh-CN" state="translated">Audacity_翻译</target>
+        <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslationFilenameSuffix</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscription">
+        <source xml:lang="en">Audacity Label File (Transcription)...</source>
+        <target xml:lang="zh-CN" state="translated">Audacity标签文件(转写）…</target>
+        <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscription</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscriptionFilenameSuffix">
+        <source xml:lang="en">audacity_transcription</source>
+        <target xml:lang="zh-CN" state="translated">Audacity_转写</target>
+        <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscriptionFilenameSuffix</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMenuItem">
+        <source xml:lang="en">ELAN File...</source>
+        <target xml:lang="zh-CN" state="translated">Elan 文件…</target>
+        <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.ExportElanMenuItem</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.FLExTextExport">
+        <source xml:lang="en">FLEx Interlinear Text...</source>
+        <target xml:lang="zh-CN" state="translated">FLEx Interlinear文本</target>
+        <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.FLExTextExport</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.ToolboxExport">
+        <source xml:lang="en">Toolbox File...</source>
+        <target xml:lang="zh-CN" state="translated">Toolbox 文件…</target>
+        <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.ToolboxExport</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.commaSeparatedValueExport">
+        <source xml:lang="en">Spreadsheet (CSV) File...</source>
+        <target xml:lang="zh-CN" state="translated">CSV表单文件</target>
+        <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.commaSeparatedValueExport</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.plainTextExport">
+        <source xml:lang="en">Plain Text...</source>
+        <target xml:lang="zh-CN" state="translated">普通文本</target>
+        <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.plainTextExport</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix">
+        <source xml:lang="en">freeTranslation_subtitle</source>
+        <target xml:lang="zh-CN" state="translated">翻译_字幕</target>
+        <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesFreeTranslationExport.freeTranslationFilenameSuffix</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscription">
+        <source xml:lang="en">Subtitles File (Transcription)...</source>
+        <target xml:lang="zh-CN" state="translated">字幕文件（转写）</target>
+        <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscription</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.transcriptionFilenameSuffix">
+        <source xml:lang="en">transcription_subtitle</source>
+        <target xml:lang="zh-CN" state="translated">转写_字幕</target>
+        <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.transcriptionFilenameSuffix</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlestFreeTranslation">
+        <source xml:lang="en">Subtitles File (Free Translation)...</source>
+        <target xml:lang="zh-CN" state="translated">字幕文件（自由翻译）</target>
+        <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlestFreeTranslation</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">
+        <source xml:lang="en">&amp;Careful Speech...</source>
+        <target xml:lang="zh-CN" state="translated">&amp;跟读</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.CopyColumnTextToClipboardMenuText">
+        <source xml:lang="en">Copy {0} to clipboard</source>
+        <target xml:lang="zh-CN" state="translated">复制{0}到剪贴板</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.CopyColumnTextToClipboardMenuText</note>
+        <note>Parameter is column (i.e. tier) name</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.Caption">
+        <source xml:lang="en">Exporting to FLEx Interlinear</source>
+        <target xml:lang="zh-CN" state="translated">输出到FLEx Interlinear</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.Caption</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.FinsihedMsg">
+        <source xml:lang="en">Finished Exporting</source>
+        <target xml:lang="zh-CN" state="translated">输出结束</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.FinsihedMsg</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.ProgressMsg">
+        <source xml:lang="en">Exporting...</source>
+        <target xml:lang="zh-CN" state="translated">输出…</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.ProgressMsg</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Both">
+        <source xml:lang="en">Playback Both Recordings</source>
+        <target xml:lang="zh-CN" state="translated">回放混合录音</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Both</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.OralTranslation">
+        <source xml:lang="en">Playback Oral Translation Recording</source>
+        <target xml:lang="zh-CN" state="translated">回放口头翻译录音</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.OralTranslation</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Source">
+        <source xml:lang="en">Playback Source Recording</source>
+        <target xml:lang="zh-CN" state="translated">播放原始录音</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.FreeTranslationColumnPlaybackMenuOptions.Source</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.HelpButton">
+        <source xml:lang="en">Help</source>
+        <target xml:lang="zh-CN" state="translated">帮助</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.HelpButton</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.HelpButton_ToolTip_">
+        <source xml:lang="en">Help</source>
+        <target xml:lang="zh-CN" state="translated">帮助</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.HelpButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.IgnoredMenuText">
+        <source xml:lang="en">&amp;Ignored</source>
+        <target xml:lang="zh-CN" state="translated">&amp;忽略</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.IgnoredMenuText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.IgnoredSegmentIndicator">
+        <source xml:lang="en">Ignored</source>
+        <target xml:lang="zh-CN" state="translated">忽略</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.IgnoredSegmentIndicator</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg">
+        <source xml:lang="en">There was an error loading the annotation file '{0}'.</source>
+        <target xml:lang="zh-CN" state="translated">加载标注出错</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg">
+        <source xml:lang="en">There are no transcription annotations found in\n'{0}'</source>
+        <target xml:lang="zh-CN" state="translated">在\n'{0}'中找不到转写标注文件</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg</note>
+        <note>Parameter is file name.</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.OralTranslationMenu">
+        <source xml:lang="en">&amp;Oral Translation...</source>
+        <target xml:lang="zh-CN" state="translated">&amp;口译</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.OralTranslationMenu</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.RecordButton">
+        <source xml:lang="en">Oral Annotations Tools</source>
+        <target xml:lang="zh-CN" state="translated">口头标注</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.RecordButton</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.RecordButton_ToolTip_">
+        <source xml:lang="en">Record Oral Annotations</source>
+        <target xml:lang="zh-CN" state="translated">录制口头标注</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.RecordButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.ResegmentButton">
+        <source xml:lang="en">Segment...</source>
+        <target xml:lang="zh-CN" state="translated">分段</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.ResegmentButton</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.ResegmentButton_ToolTip_">
+        <source xml:lang="en">Add, remove or move segment boundaries</source>
+        <target xml:lang="zh-CN" state="translated">添加,移动,删除标记</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.ResegmentButton_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.TabText">
+        <source xml:lang="en">Annotations</source>
+        <target xml:lang="zh-CN" state="translated">标注</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.TabText</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.TranscriptionColumnPlaybackMenuOptions.Both">
+        <source xml:lang="en">Playback Both Recordings</source>
+        <target xml:lang="zh-CN" state="translated">回放混合录音</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.TranscriptionColumnPlaybackMenuOptions.Both</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.TranscriptionColumnPlaybackMenuOptions.CarefulSpeech">
+        <source xml:lang="en">Playback Careful Speech Recording</source>
+        <target xml:lang="zh-CN" state="translated">回放跟读录音</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.TranscriptionColumnPlaybackMenuOptions.CarefulSpeech</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.TranscriptionColumnPlaybackMenuOptions.Source">
+        <source xml:lang="en">Playback Source Recording</source>
+        <target xml:lang="zh-CN" state="translated">播放原始录音</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor.TranscriptionColumnPlaybackMenuOptions.Source</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TextAnnotationEditor._comboPlaybackSpeed_ToolTip_">
+        <source xml:lang="en">Playback speed</source>
+        <target xml:lang="zh-CN" state="translated">回放速度</target>
+        <note>ID: SessionsView.Transcription.TextAnnotationEditor._comboPlaybackSpeed_ToolTip_</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TierDisplayNames.FreeTranslation">
+        <source xml:lang="en">Free Translation</source>
+        <target xml:lang="zh-CN" state="translated">翻译</target>
+        <note>ID: SessionsView.Transcription.TierDisplayNames.FreeTranslation</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.Transcription.TierDisplayNames.Transcription">
+        <source xml:lang="en">Transcription</source>
+        <target xml:lang="zh-CN" state="translated">转写</target>
+        <note>ID: SessionsView.Transcription.TierDisplayNames.Transcription</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.ViewTabText">
+        <source xml:lang="en">Sessions</source>
+        <target xml:lang="zh-CN" state="translated">任务</target>
+        <note>ID: SessionsView.ViewTabText</note>
+      </trans-unit>
+      <trans-unit id="SoundFileUtils.ConversionOutputFileAlreadyErrorMsg">
+        <source xml:lang="en">Sorry, the file '{0}' already exists.</source>
+        <target xml:lang="zh-CN" state="translated">对不起，文件 '{0}'已经存在</target>
+        <note>ID: SoundFileUtils.ConversionOutputFileAlreadyErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="SoundFileUtils.ConvertToStandardWavPcmAudioErrorMsg">
+        <source xml:lang="en">There was an error trying to create a standard audio file from:\n\n{0}</source>
+        <target xml:lang="zh-CN" state="translated">从:\n\n{0}创建标准音频出错</target>
+        <note>ID: SoundFileUtils.ConvertToStandardWavPcmAudioErrorMsg</note>
+        <note>Parameter is the file name of the media file used as the basis for the attempted conversion.</note>
+      </trans-unit>
+      <trans-unit id="SoundFileUtils.ConvertToStandardWavPcmAudioMsg">
+        <source xml:lang="en">Converting...</source>
+        <target xml:lang="zh-CN" state="translated">正在转换…</target>
+        <note>ID: SoundFileUtils.ConvertToStandardWavPcmAudioMsg</note>
+      </trans-unit>
+      <trans-unit id="SoundFileUtils.ErrorFindingPcmAudioDriverMsg">
+        <source xml:lang="en">There was an error trying to find a PCM audio driver on this computer. Ensure that you have a PCM sound driver installed.</source>
+        <target xml:lang="zh-CN" state="translated">找不到PCM声音驱动，请确认是否安装。</target>
+        <note>ID: SoundFileUtils.ErrorFindingPcmAudioDriverMsg</note>
+      </trans-unit>
+      <trans-unit id="SoundFileUtils.ErrorFindingPcmConversionCapabilitiesMsg">
+        <source xml:lang="en">There was an error trying to find PCM audio conversion capabilities on this computer. Ensure that you have a PCM sound driver installed.</source>
+        <target xml:lang="zh-CN" state="translated">转换PCM格式音频出错，请确认是否安装PCM声音驱动。</target>
+        <note>ID: SoundFileUtils.ErrorFindingPcmConversionCapabilitiesMsg</note>
+      </trans-unit>
+      <trans-unit id="SoundFileUtils.ExtractingAudioError">
+        <source xml:lang="en">There was an error extracting audio from the media file '{0}'\n\n{1}</source>
+        <target xml:lang="zh-CN" state="translated">从媒体文件提取音频出错 '{0}'\n\n{1}</target>
+        <note>ID: SoundFileUtils.ExtractingAudioError</note>
+        <note>Second parameter is the error message.</note>
+      </trans-unit>
+      <trans-unit id="SoundFileUtils.FileMayNotBeValidAudioError">
+        <source xml:lang="en">No audio track could be found in the specified file. Verify that the file is a valid audio file.</source>
+        <target xml:lang="zh-CN" state="translated">指定文件中不能找到音轨。请确认是否是有效音频文件。</target>
+        <note>ID: SoundFileUtils.FileMayNotBeValidAudioError</note>
+      </trans-unit>
+      <trans-unit id="SoundFileUtils.MediaFileDoesNotExistErrorMsg">
+        <source xml:lang="en">Media file does not exist.</source>
+        <target xml:lang="zh-CN" state="translated">媒体文件不存在</target>
+        <note>ID: SoundFileUtils.MediaFileDoesNotExistErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="SoundFileUtils.PossibleConversionErrorMsg">
+        <source xml:lang="en">Conversion completed, but with possible error(s). If the converted file does not appear to be usable, delete it and check the validity of the source file. After checking the source file and the conversion output details, if you believe this is a problem with SayMore, please include a copy of the source file with your error report.</source>
+        <target xml:lang="zh-CN" state="translated">转换结束，但是</target>
+        <note>ID: SoundFileUtils.PossibleConversionErrorMsg</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

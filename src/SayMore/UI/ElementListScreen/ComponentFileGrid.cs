@@ -4,6 +4,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
@@ -89,26 +90,18 @@ namespace SayMore.UI.ElementListScreen
 			_grid.DefaultCellStyle.SelectionBackColor = clr;
 			_grid.DefaultCellStyle.SelectionForeColor = _grid.DefaultCellStyle.ForeColor;
 
-			_menuDeleteFile.Click += ((s, e) => DeleteFile());
+			_menuDeleteFile.Click += (s, e) => DeleteFile();
 
 			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleStringsLocalized(ILocalizationManager lm)
+		private void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			if (_grid == null || _grid.IsDisposed || lm.Id != ApplicationContainer.kSayMoreLocalizationId)
-				return;
+			Debug.Assert(lm != null); // In this class, we never call this method directly.
 
-			try
-			{
-				_grid.AutoResizeColumnHeadersHeight();
-				_grid.ColumnHeadersHeight += 8;
-			}
-			catch (ObjectDisposedException)
-			{
-				// See SP-655, SP-657
-			}
+			if (_grid != null && !_grid.IsDisposed && lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+				SetColumnHeadersHeight();
 		}
 
 		public string AddFileButtonTooltipText
@@ -128,8 +121,21 @@ namespace SayMore.UI.ElementListScreen
 					((GridSettings)Settings.Default[_gridColSettingPrefix + "ComponentGrid"]).InitializeGrid(_grid);
 			}
 
-			_grid.AutoResizeColumnHeadersHeight();
-			_grid.ColumnHeadersHeight += 8;
+			SetColumnHeadersHeight();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetColumnHeadersHeight()
+		{
+			try
+			{
+				_grid.AutoResizeColumnHeadersHeight();
+				_grid.ColumnHeadersHeight += 8;
+			}
+			catch (ObjectDisposedException)
+			{
+				// See SP-655, SP-657
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

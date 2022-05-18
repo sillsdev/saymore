@@ -55,8 +55,10 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		private void UpdateDisplay(ILocalizationManager lm = null)
 		{
-			if (_webBrowser.DocumentStream != null)
-				_webBrowser.DocumentStream.Dispose();
+			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
+				return;
+
+			_webBrowser.DocumentStream?.Dispose();
 			UpdateStatusDisplay(true);
 			Thread updateDisplayThread = new Thread(() =>
 				{

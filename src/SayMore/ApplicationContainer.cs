@@ -31,7 +31,7 @@ namespace SayMore
 		private IContainer _container;
 		private ISplashScreen _splashScreen;
 		public const string kSayMoreLocalizationId = "SayMore";
-		public const string kPalasoLocalizationId = "Palaso";
+		private const string kPalasoLocalizationId = "Palaso";
 
 		/// ------------------------------------------------------------------------------------
 		public ApplicationContainer() : this(false)
@@ -214,7 +214,7 @@ namespace SayMore
 					relativePathForWritingL10nFiles), installedStringFileFolder);
 
 			var localizationManager = LocalizationManager.Create(TranslationMemory.XLiff,
-				currentUiLanguage, kSayMoreLocalizationId, Application.ProductName,
+				currentUiLanguage, kSayMoreLocalizationId + ".exe", Application.ProductName,
 				Application.ProductVersion, installedStringFileFolder,
 				relativePathForWritingL10nFiles, Resources.SayMore, emailForLocalizations,
 				"SayMore");

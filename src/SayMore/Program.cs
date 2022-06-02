@@ -766,12 +766,15 @@ namespace SayMore
 		/// <summary>Gets all controls of the desired type</summary>
 		public static IEnumerable<T> GetControlsOfType<T>(Control root) where T : Control
 		{
-			if (root == null) yield break;
+			if (root == null)
+				yield break;
 
-			var t = root as T;
-			if (t != null) yield return t;
+			if (root is T t)
+				yield return t;
 
-			if (!root.HasChildren) yield break;
+			if (!root.HasChildren)
+				yield break;
+
 			foreach (var i in from Control c in root.Controls from i in GetControlsOfType<T>(c) select i)
 				yield return i;
 		}

@@ -2,16 +2,6 @@
 <xliff xmlns:sil="http://sil.org/software/XLiff" xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en" product-version="3.3.0.0" original="SayMore.exe" datatype="plaintext" target-language="pt-BR">
     <body>
-      <trans-unit id="ArchivingDlg._chkMetadataOnly">
-        <source xml:lang="en">Metadata only</source>
-        <note>ID: ArchivingDlg._chkMetadataOnly</note>
-        <target xml:lang="pt-BR" state="needs-translation">Metadata only</target>
-      </trans-unit>
-      <trans-unit id="ArchivingDlg._chkMetadataOnly_ToolTip_">
-        <source xml:lang="en">Select this to prevent copying actual data files into archive</source>
-        <note>ID: ArchivingDlg._chkMetadataOnly_ToolTip_</note>
-        <target xml:lang="pt-BR" state="needs-translation">Select this to prevent copying actual data files into archive</target>
-      </trans-unit>
       <trans-unit id="BuildType.Alpha">
         <source xml:lang="en">Alpha</source>
         <note>ID: BuildType.Alpha</note>
@@ -348,6 +338,11 @@
         <source xml:lang="en">Rename Selected File</source>
         <note>ID: CommonToMultipleViews.FileList.RenameButtonText_ToolTip_</note>
         <target xml:lang="pt-BR" state="translated">Renomear Arquivo Selecionado</target>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.GenericFileTypeViewer.FailedToLoadOtherFile">
+        <source xml:lang="en">Failed to load file:\n{0}\nIf this is not an essential file, you can safely delete it and/or ignore this error.</source>
+        <note>ID: CommonToMultipleViews.GenericFileTypeViewer.FailedToLoadOtherFile</note>
+        <target xml:lang="pt-BR" state="needs-translation">Failed to load file:\n{0}\nIf this is not an essential file, you can safely delete it and/or ignore this error.</target>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.GenericFileTypeViewer.FailedToOpen">
         <source xml:lang="en">Failed to open file: {0}</source>
@@ -2000,11 +1995,6 @@
         <note>ID: DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg</note>
         <target xml:lang="pt-BR" state="translated">Adicionando Arquivos para Sessão '{0}'</target>
       </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.AllFilesLabel">
-        <source xml:lang="en">All Files</source>
-        <note>ID: DialogBoxes.ArchivingDlg.AllFilesLabel</note>
-        <target xml:lang="pt-BR" state="translated">Todos os Arquivos</target>
-      </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.ArchivingInfoDetails">
         <source xml:lang="en">The archive package will include all required files and data related to a session and its contributors.</source>
         <note>ID: DialogBoxes.ArchivingDlg.ArchivingInfoDetails</note>
@@ -2017,76 +2007,10 @@
         <note>The first parameter is 'Session' or 'Contributor'. The second parameter is the session or contributor name.</note>
         <target xml:lang="pt-BR" state="translated">{0}: {1}</target>
       </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.CancellingMsg">
-        <source xml:lang="en">Canceling...</source>
-        <note>ID: DialogBoxes.ArchivingDlg.CancellingMsg</note>
-        <target xml:lang="pt-BR" state="translated">Cancelando...</target>
-      </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.ContributorElementName">
         <source xml:lang="en">Contributor</source>
         <note>ID: DialogBoxes.ArchivingDlg.ContributorElementName</note>
         <target xml:lang="pt-BR" state="translated">Contribuidor</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.CopyingFilesMsg">
-        <source xml:lang="en">Copying files</source>
-        <note>ID: DialogBoxes.ArchivingDlg.CopyingFilesMsg</note>
-        <target xml:lang="pt-BR" state="translated">Copiando arquivos</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg">
-        <source xml:lang="en">There was an error attempting to create the RAMP file.</source>
-        <note>ID: DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg</note>
-        <target xml:lang="pt-BR" state="translated">Ocorreu um erro ao tentar criar o pacote {0}.</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.CreatingIMDIPackageErrorMsg">
-        <source xml:lang="en">There was a problem starting process to create IMDI package.</source>
-        <note>ID: DialogBoxes.ArchivingDlg.CreatingIMDIPackageErrorMsg</note>
-        <target xml:lang="pt-BR" state="translated">Ocorreu um erro ao iniciar o processo para criar pacote IMDI.</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.CreatingInternalReapMetsFileErrorMsg">
-        <source xml:lang="en">There was an error attempting to create the RAMP/REAP mets file.</source>
-        <note>ID: DialogBoxes.ArchivingDlg.CreatingInternalReapMetsFileErrorMsg</note>
-        <target xml:lang="pt-BR" state="translated">Ocorreu um erro ao tentar criar o arquivo RAMP/REAP.</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.CreatingZipFileErrorMsg">
-        <source xml:lang="en">There was a problem starting process to create zip file.</source>
-        <note>ID: DialogBoxes.ArchivingDlg.CreatingZipFileErrorMsg</note>
-        <target xml:lang="pt-BR" state="translated">Ocorreu um problema ao iniciar o processo para criar arquivo zip.</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.FileExcludedFromPackage">
-        <source xml:lang="en">File excluded from {0} package: </source>
-        <note>ID: DialogBoxes.ArchivingDlg.FileExcludedFromPackage</note>
-        <note>Parameter is the type of archive (e.g., RAMP/IMDI)</note>
-        <target xml:lang="pt-BR" state="translated">Arquivo excluído do pacote {0}:</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.IMDIActorsGroup">
-        <source xml:lang="en">Actors</source>
-        <note>ID: DialogBoxes.ArchivingDlg.IMDIActorsGroup</note>
-        <note>This is the heading displayed in the Archive Using IMDI dialog box for the files for the actors/participants</note>
-        <target xml:lang="pt-BR" state="translated">Atores</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.IMDIArchiveType">
-        <source xml:lang="en">IMDI</source>
-        <note>ID: DialogBoxes.ArchivingDlg.IMDIArchiveType</note>
-        <note>This is the abbreviation for Isle Metadata Initiative (https://www.mpi.nl/imdi/). Typically this probably does not need to be localized.</note>
-        <target xml:lang="pt-BR" state="translated">IMDI</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.IMDIOverviewText">
-        <source xml:lang="en">{0} ({1}) is a metadata standard to describe multi-media and multi-modal language resources. The standard provides interoperability for browsable and searchable corpus structures and resource descriptions.</source>
-        <note>ID: DialogBoxes.ArchivingDlg.IMDIOverviewText</note>
-        <note>Parameter 0  is 'Isle Metadata Initiative' (the first occurrence will be turned into a hyperlink); Parameter 1 is 'IMDI'</note>
-        <target xml:lang="pt-BR" state="translated">{0} ({1}) é um metadado padrão para descrever recursos linguísticos multimídia e multimodal. O padrão fornece interoperabilidade para estruturas navegáveis e pesquisáveis e descrições de recursos.</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.IMDIProgramInfoText">
-        <source xml:lang="en">This tool will help you use {0} to archive your {1} data. When the {1} package has been created, you can launch {0} and enter any additional information before doing the actual submission.</source>
-        <note>ID: DialogBoxes.ArchivingDlg.IMDIProgramInfoText</note>
-        <note>Parameter 0 is the name of the program that will be launched to further prepare the IMDI data for submission; Parameter 1 is the name of the calling (host) program (SayMore, FLEx, etc.)</note>
-        <target xml:lang="pt-BR" state="translated">Essa ferramenta o ajudará a usar {0} para arquivar sua informação {1}. Quando o pacote {1} tiver sido criado, você pode abrir {0} e inserir qualquer informação adicional antes de fazer a submissão.</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.ISO3CodeRequired">
-        <source xml:lang="en">ISO 639-3 3-letter language code required.</source>
-        <note>ID: DialogBoxes.ArchivingDlg.ISO3CodeRequired</note>
-        <note>Message displayed when an invalid language code is given.</note>
-        <target xml:lang="pt-BR" state="translated">ISO 639-3 é necessário um código de língua de 3 letras.</target>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.InvalidAgeMsg">
         <source xml:lang="en">The age for {0} must be between 2 and 130</source>
@@ -2098,42 +2022,15 @@
         <note>ID: DialogBoxes.ArchivingDlg.InvalidBirthYearMsg</note>
         <target xml:lang="pt-BR" state="translated">O ano de nascimento para {0} deve ter 4 dígitos ou permanecer em branco.</target>
       </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.InvalidLanguageCode">
-        <source xml:lang="en">Invalid ISO 639-3 code: {0}</source>
-        <note>ID: DialogBoxes.ArchivingDlg.InvalidLanguageCode</note>
-        <target xml:lang="pt-BR" state="translated">Código ISO 639-3 Inválido: {0}</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.IsleMetadataInitiative">
-        <source xml:lang="en">Isle Metadata Initiative</source>
-        <note>ID: DialogBoxes.ArchivingDlg.IsleMetadataInitiative</note>
-        <note>Typically this probably does not need to be localized.</note>
-        <target xml:lang="pt-BR" state="translated">Iniciativa Ilha de Metadados</target>
-      </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg">
         <source xml:lang="en">There are no contributors for this session.</source>
         <note>ID: DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg</note>
         <target xml:lang="pt-BR" state="translated">Não há contribuidores para esta sessão.</target>
       </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.NoIMDIProgramInfoText">
-        <source xml:lang="en">The {0} package will be created in {1}.</source>
-        <note>ID: DialogBoxes.ArchivingDlg.NoIMDIProgramInfoText</note>
-        <note>Parameter 0 is 'IMDI'; Parameter 1 is the path where the package is created.</note>
-        <target xml:lang="pt-BR" state="translated">O pacote {0} será criado em {1}.</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.PathNotWritableMsg">
-        <source xml:lang="en">The path is not writable: {0}</source>
-        <note>ID: DialogBoxes.ArchivingDlg.PathNotWritableMsg</note>
-        <target xml:lang="pt-BR" state="needs-translation">The path is not writable: {0}</target>
-      </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.PersonNotParticipating">
         <source xml:lang="en">{0} is listed as a contributor but not a participant in {1} session.</source>
         <note>ID: DialogBoxes.ArchivingDlg.PersonNotParticipating</note>
         <target xml:lang="pt-BR" state="needs-translation">{0} is listed as a contributor but not a participant in {1} session.</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg">
-        <source xml:lang="en">The following files will be added to the archive:</source>
-        <note>ID: DialogBoxes.ArchivingDlg.PrearchivingStatusMsg</note>
-        <target xml:lang="pt-BR" state="translated">Os seguintes arquivos serão adicionados ao arquivo:</target>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1">
         <source xml:lang="en">The following session and contributor files will be added to your archive.</source>
@@ -2145,94 +2042,16 @@
         <note>ID: DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2</note>
         <target xml:lang="pt-BR" state="translated">Os seguintes arquivos de sessões serão adicionados ao seu arquivo.</target>
       </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.PreparingFilesMsg">
-        <source xml:lang="en">Analyzing component files</source>
-        <note>ID: DialogBoxes.ArchivingDlg.PreparingFilesMsg</note>
-        <target xml:lang="pt-BR" state="translated">Analisando arquivos componentes.</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.ProgramsFileTypeLabel">
-        <source xml:lang="en">Programs</source>
-        <note>ID: DialogBoxes.ArchivingDlg.ProgramsFileTypeLabel</note>
-        <target xml:lang="pt-BR" state="translated">Programas</target>
-      </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails">
         <source xml:lang="en">The archive corpus will include all required files and data related to this project.</source>
         <note>ID: DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails</note>
         <note>This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.IMDIOverviewText</note>
         <target xml:lang="pt-BR" state="translated">O corpo do arquivo incluirá todas as informações e arquivos e necessários relacionados a esse projeto.</target>
       </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.RAMPArchiveType">
-        <source xml:lang="en">RAMP (SIL Only)</source>
-        <note>ID: DialogBoxes.ArchivingDlg.RAMPArchiveType</note>
-        <target xml:lang="pt-BR" state="translated">RAMP (Apenas SIL)</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.RAMPOverviewText">
-        <source xml:lang="en">{0} is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use {0} to archive your {1} data. {2} When the {0} package has been created, you can  launch {0} and enter any additional information before doing the actual submission.</source>
-        <note>ID: DialogBoxes.ArchivingDlg.RAMPOverviewText</note>
-        <note>Parameter 0  is the word 'RAMP' (the first one will be turned into a hyperlink); Parameter 1 is the name of the calling (host) program (SayMore, FLEx, etc.); Parameter 2 is additional app-specifc information.</note>
-        <target xml:lang="pt-BR" state="translated">{0} é uma ferramenta para inserir metadados e carregar submissões ao arquivo interno da SIL, REAP. Se tiver acesso a esse arquivo, essa ferramenta o ajudará a usar {0} para arquivar {1} dados. {2} Quando o pacote {0} for criado, você pode abrir {0} e inserir qualquer informação adicional antes de fazer a submissão. </target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.RampNotFoundMsg">
-        <source xml:lang="en">The RAMP program cannot be found!</source>
-        <note>ID: DialogBoxes.ArchivingDlg.RampNotFoundMsg</note>
-        <target xml:lang="pt-BR" state="translated">Arquivo RAMP não encontrado!</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.ReadyToCallIMDIMsg">
-        <source xml:lang="en">Exported to {0}. This path is now on your clipboard. If you are using Arbil, go to File, Import, then paste this path in.</source>
-        <note>ID: DialogBoxes.ArchivingDlg.ReadyToCallIMDIMsg</note>
-        <target xml:lang="pt-BR" state="translated">Exportado para {0}. Agora, esse caminho está na sua área de transferência. Se estiver usando Arbil, vá para Arquivo, Importar, e cole esse caminho.</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.ReadyToCallRampMsg">
-        <source xml:lang="en">Ready to hand the package to RAMP</source>
-        <note>ID: DialogBoxes.ArchivingDlg.ReadyToCallRampMsg</note>
-        <target xml:lang="pt-BR" state="translated">Pacote pronto para ser entregue para RAMP</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.SavingFilesInPackageMsg">
-        <source xml:lang="en">Saving files in {0} package</source>
-        <note>ID: DialogBoxes.ArchivingDlg.SavingFilesInPackageMsg</note>
-        <note>Parameter is the type of archive (e.g., RAMP/IMDI)</note>
-        <target xml:lang="pt-BR" state="translated">Salvando arquivos no pacote {0} </target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.SearchingForRampMsg">
-        <source xml:lang="en">Searching for the RAMP program...</source>
-        <note>ID: DialogBoxes.ArchivingDlg.SearchingForRampMsg</note>
-        <target xml:lang="pt-BR" state="translated">Procurando pelo programa RAMP...</target>
-      </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.SessionElementName">
         <source xml:lang="en">Session</source>
         <note>ID: DialogBoxes.ArchivingDlg.SessionElementName</note>
         <target xml:lang="pt-BR" state="translated">Sessão</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.StartingIMDIErrorMsg">
-        <source xml:lang="en">There was an error attempting to open the archive package in {0}.</source>
-        <note>ID: DialogBoxes.ArchivingDlg.StartingIMDIErrorMsg</note>
-        <target xml:lang="pt-BR" state="translated">Ocorreu um erro ao tentar abrir o pacote de arquivos em {0}.</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.StartingRampErrorMsg">
-        <source xml:lang="en">There was an error attempting to open the archive package in {0}.</source>
-        <note>ID: DialogBoxes.ArchivingDlg.StartingRampErrorMsg</note>
-        <target xml:lang="pt-BR" state="translated">Ocorreu um erro ao tentar abrir o pacote de arquivos em {0}.</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg.WindowTitle">
-        <source xml:lang="en">{0}: Archive using {1}</source>
-        <note>ID: DialogBoxes.ArchivingDlg.WindowTitle</note>
-        <note>Parameter is application name</note>
-        <target xml:lang="pt-BR" state="translated">{0}: Arquivo usando {1}</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg._buttonCancel">
-        <source xml:lang="en">Cancel</source>
-        <note>ID: DialogBoxes.ArchivingDlg._buttonCancel</note>
-        <target xml:lang="pt-BR" state="translated">Cancelar</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg._buttonCreatePackage">
-        <source xml:lang="en">&amp;1) Create Package</source>
-        <note>ID: DialogBoxes.ArchivingDlg._buttonCreatePackage</note>
-        <target xml:lang="pt-BR" state="translated">1) Criar Pacote</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ArchivingDlg._buttonLaunchRamp">
-        <source xml:lang="en">&amp;2) Launch {0}</source>
-        <note>ID: DialogBoxes.ArchivingDlg._buttonLaunchRamp</note>
-        <target xml:lang="pt-BR" state="translated">2) Iniciar {0}</target>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.GettingInfoErrorMsg">
         <source xml:lang="en">There was an error trying to get more information for the media file:\n\n{0}</source>
@@ -2350,33 +2169,6 @@
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation_ToolTip_</note>
         <target xml:lang="pt-BR" state="translated">Tradução Escrita: Tradução escrita da gravação original.</target>
       </trans-unit>
-      <trans-unit id="DialogBoxes.ConfirmRecycleDialog.MessageForMultipleItems">
-        <source xml:lang="en">{0} will be moved to the Recycle Bin.</source>
-        <note>ID: DialogBoxes.ConfirmRecycleDialog.MessageForMultipleItems</note>
-        <note>Param {0} is a description of the things being deleted (e.g., "The selected files")</note>
-        <target xml:lang="pt-BR" state="translated">{0} será removido para a Lixeira.</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ConfirmRecycleDialog.MessageForSingleItem">
-        <source xml:lang="en">{0} will be moved to the Recycle Bin.</source>
-        <note>ID: DialogBoxes.ConfirmRecycleDialog.MessageForSingleItem</note>
-        <note>Param {0} is a file name</note>
-        <target xml:lang="pt-BR" state="translated">{0} será removido para a Lixeira.</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ConfirmRecycleDialog.WindowTitle">
-        <source xml:lang="en">Confirm Delete</source>
-        <note>ID: DialogBoxes.ConfirmRecycleDialog.WindowTitle</note>
-        <target xml:lang="pt-BR" state="translated">Confirmar exclusão</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ConfirmRecycleDialog.cancelBtn">
-        <source xml:lang="en">&amp;Cancel</source>
-        <note>ID: DialogBoxes.ConfirmRecycleDialog.cancelBtn</note>
-        <target xml:lang="pt-BR" state="translated">Cancelar</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.ConfirmRecycleDialog.deleteBtn">
-        <source xml:lang="en">&amp;Delete</source>
-        <note>ID: DialogBoxes.ConfirmRecycleDialog.deleteBtn</note>
-        <target xml:lang="pt-BR" state="translated">Deletar</target>
-      </trans-unit>
       <trans-unit id="DialogBoxes.ConvertMediaDlg.AvailableConversionsLabel">
         <source xml:lang="en">Available Conversions:</source>
         <note>ID: DialogBoxes.ConvertMediaDlg.AvailableConversionsLabel</note>
@@ -2491,36 +2283,6 @@
         <source xml:lang="en">Choose File Location</source>
         <note>ID: DialogBoxes.FileLoadErrorsReportDlg.SaveFileDialog.Title</note>
         <target xml:lang="pt-BR" state="needs-translation">Choose File Location</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.IMDIArchivingDlg.ArchivingIMDILocationDescription">
-        <source xml:lang="en">Select a base folder where the IMDI directory structure should be created.</source>
-        <note>ID: DialogBoxes.IMDIArchivingDlg.ArchivingIMDILocationDescription</note>
-        <target xml:lang="pt-BR" state="translated">Selecionar pasta base onde a estrutura de diretório IMDI deve ser criada.</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.IMDIArchivingDlg.ChangeDestinationFolder">
-        <source xml:lang="en">Change Folder</source>
-        <note>ID: DialogBoxes.IMDIArchivingDlg.ChangeDestinationFolder</note>
-        <target xml:lang="pt-BR" state="translated">Mudar de Pasta</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.IMDIArchivingDlg.ChangeProgramToLaunch">
-        <source xml:lang="en">Change Program to Launch</source>
-        <note>ID: DialogBoxes.IMDIArchivingDlg.ChangeProgramToLaunch</note>
-        <target xml:lang="pt-BR" state="translated">Mudar Programa para Abrir</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.IMDIArchivingDlg.CloseButtonLabel">
-        <source xml:lang="en">Close</source>
-        <note>ID: DialogBoxes.IMDIArchivingDlg.CloseButtonLabel</note>
-        <target xml:lang="pt-BR" state="translated">Fechar</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.IMDIArchivingDlg.CreatePackageButtonLabel">
-        <source xml:lang="en">Create Package</source>
-        <note>ID: DialogBoxes.IMDIArchivingDlg.CreatePackageButtonLabel</note>
-        <target xml:lang="pt-BR" state="translated">Criar Pacote</target>
-      </trans-unit>
-      <trans-unit id="DialogBoxes.IMDIArchivingDlg.SelectIMDIProgram">
-        <source xml:lang="en">Select the program to launch after IMDI package is created</source>
-        <note>ID: DialogBoxes.IMDIArchivingDlg.SelectIMDIProgram</note>
-        <target xml:lang="pt-BR" state="translated">Selecionar programa a ser aberto depois que o pacote IMDI for criado.</target>
       </trans-unit>
       <trans-unit id="DialogBoxes.LoadProject.InvalidPath">
         <source xml:lang="en">SayMore is not able to open the project file. "{0}" is not a valid path.</source>
@@ -3299,9 +3061,10 @@
         <target xml:lang="pt-BR" state="translated">Deseja deletar as configurações do seu usuário? (Isso limpará sua lista de projetos usada mais recentemente, posições de janelas, configurações de línguas, etc. As informações do seu projeto SayMore não serão modificadas.</target>
       </trans-unit>
       <trans-unit id="MainWindow.ConfirmStopFileSync">
-        <source xml:lang="en">It looks like this project is in a directory that is being synchronized with {0}. This is known to cause problems due to files being locked. Would you like to disable Dropbox temporarily until you close SayMore?</source>
+        <source xml:lang="en">It looks like this project is in a directory that is being synchronized with {0}. This is known to cause problems due to files being locked. Would you like to disable {0} temporarily until you close SayMore?</source>
         <note>ID: MainWindow.ConfirmStopFileSync</note>
-        <target xml:lang="pt-BR" state="needs-translation">It looks like this project is in a directory that is being synchronized with {0}. This is known to cause problems due to files being locked. Would you like to disable Dropbox temporarily until you close SayMore?</target>
+        <note>Param: Known folder synchronization program (Dropbox, Google Drive, etc.)</note>
+        <target xml:lang="pt-BR" state="needs-translation">It looks like this project is in a directory that is being synchronized with {0}. This is known to cause problems due to files being locked. Would you like to disable {0} temporarily until you close SayMore?</target>
       </trans-unit>
       <trans-unit id="MainWindow.DeleteOneItemMsg">
         <source xml:lang="en">{0}</source>
@@ -5037,11 +4800,6 @@
         <note>ID: SoundFileUtils.UnexpectedEndOfStream</note>
         <note>Param 0: Name of the file used as the source of the data stream;Param 1: Number of values requested;Param 2: Number of values read</note>
         <target xml:lang="pt-BR" state="needs-translation">Fewer values than requested were found in\n{0}.\nFile may be corrupt. Requested values: {1}. Actual values returned: {2}</target>
-      </trans-unit>
-      <trans-unit id="linkPeopleEdit">
-        <source xml:lang="en">✎</source>
-        <note>ID: linkPeopleEdit</note>
-        <target xml:lang="pt-BR" state="needs-translation">✎</target>
       </trans-unit>
     </body>
   </file>

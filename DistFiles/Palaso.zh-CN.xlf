@@ -137,12 +137,12 @@
       <trans-unit id="DialogBoxes.ArchivingDlg.CancellingMsg">
         <source xml:lang="en">Canceling...</source>
         <note>ID: DialogBoxes.ArchivingDlg.CancellingMsg</note>
-        <target xml:lang="zh-CN" state="needs-translation">Canceling...</target>
+        <target xml:lang="zh-CN" state="translated">正在取消</target>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.CopyingFilesMsg">
         <source xml:lang="en">Copying files</source>
         <note>ID: DialogBoxes.ArchivingDlg.CopyingFilesMsg</note>
-        <target xml:lang="zh-CN" state="needs-translation">Copying files</target>
+        <target xml:lang="zh-CN" state="translated">复制文件</target>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg">
         <source xml:lang="en">There was an error attempting to create the RAMP file.</source>
@@ -230,7 +230,7 @@
       <trans-unit id="DialogBoxes.ArchivingDlg.PreparingFilesMsg">
         <source xml:lang="en">Analyzing component files</source>
         <note>ID: DialogBoxes.ArchivingDlg.PreparingFilesMsg</note>
-        <target xml:lang="zh-CN" state="needs-translation">Analyzing component files</target>
+        <target xml:lang="zh-CN" state="translated">分析组成文件 </target>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.ProgramsFileTypeLabel">
         <source xml:lang="en">Programs</source>
@@ -251,7 +251,7 @@
       <trans-unit id="DialogBoxes.ArchivingDlg.RampNotFoundMsg">
         <source xml:lang="en">The RAMP program cannot be found!</source>
         <note>ID: DialogBoxes.ArchivingDlg.RampNotFoundMsg</note>
-        <target xml:lang="zh-CN" state="needs-translation">The RAMP program cannot be found!</target>
+        <target xml:lang="zh-CN" state="translated">RAMP程序找不到！</target>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.ReadyToCallIMDIMsg">
         <source xml:lang="en">Exported to {0}. This path is now on your clipboard. If you are using Arbil, go to File, Import, then paste this path in.</source>
@@ -261,18 +261,18 @@
       <trans-unit id="DialogBoxes.ArchivingDlg.ReadyToCallRampMsg">
         <source xml:lang="en">Ready to hand the package to RAMP</source>
         <note>ID: DialogBoxes.ArchivingDlg.ReadyToCallRampMsg</note>
-        <target xml:lang="zh-CN" state="needs-translation">Ready to hand the package to RAMP</target>
+        <target xml:lang="zh-CN" state="translated">准备给RAMP递交文件包</target>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.SavingFilesInPackageMsg">
         <source xml:lang="en">Saving files in {0} package</source>
         <note>ID: DialogBoxes.ArchivingDlg.SavingFilesInPackageMsg</note>
         <note>Parameter is the type of archive (e.g., RAMP/IMDI)</note>
-        <target xml:lang="zh-CN" state="needs-translation">Saving files in {0} package</target>
+        <target xml:lang="zh-CN" state="translated">保存文件到{0}文件包中</target>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.SearchingForRampMsg">
         <source xml:lang="en">Searching for the RAMP program...</source>
         <note>ID: DialogBoxes.ArchivingDlg.SearchingForRampMsg</note>
-        <target xml:lang="zh-CN" state="needs-translation">Searching for the RAMP program...</target>
+        <target xml:lang="zh-CN" state="translated">查找RAMP程度</target>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.StartingIMDIErrorMsg">
         <source xml:lang="en">There was an error attempting to open the archive package in {0}.</source>
@@ -282,28 +282,28 @@
       <trans-unit id="DialogBoxes.ArchivingDlg.StartingRampErrorMsg">
         <source xml:lang="en">There was an error attempting to open the archive package in {0}.</source>
         <note>ID: DialogBoxes.ArchivingDlg.StartingRampErrorMsg</note>
-        <target xml:lang="zh-CN" state="needs-translation">There was an error attempting to open the archive package in {0}.</target>
+        <target xml:lang="zh-CN" state="translated">在RAMP打开档案包出错</target>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.WindowTitle">
         <source xml:lang="en">{0}: Archive using {1}</source>
         <note>ID: DialogBoxes.ArchivingDlg.WindowTitle</note>
         <note>Parameter is application name</note>
-        <target xml:lang="zh-CN" state="needs-translation">{0}: Archive using {1}</target>
+        <target xml:lang="zh-CN" state="translated">SayMore：用RAMP存档（SIL专用）</target>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg._buttonCancel">
         <source xml:lang="en">Cancel</source>
         <note>ID: DialogBoxes.ArchivingDlg._buttonCancel</note>
-        <target xml:lang="zh-CN" state="needs-translation">Cancel</target>
+        <target xml:lang="zh-CN" state="translated">取消</target>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg._buttonCreatePackage">
         <source xml:lang="en">&amp;1) Create Package</source>
         <note>ID: DialogBoxes.ArchivingDlg._buttonCreatePackage</note>
-        <target xml:lang="zh-CN" state="needs-translation">&amp;1) Create Package</target>
+        <target xml:lang="zh-CN" state="translated">&amp;1）打包</target>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg._buttonLaunchRamp">
         <source xml:lang="en">&amp;2) Launch {0}</source>
         <note>ID: DialogBoxes.ArchivingDlg._buttonLaunchRamp</note>
-        <target xml:lang="zh-CN" state="needs-translation">&amp;2) Launch {0}</target>
+        <target xml:lang="zh-CN" state="translated">&amp;2)启动 RAMP</target>
       </trans-unit>
       <trans-unit id="DialogBoxes.ConfirmRecycleDialog.MessageForMultipleItems" approved="yes">
         <source xml:lang="en">{0} will be moved to the Recycle Bin.</source>

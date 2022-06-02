@@ -48,7 +48,7 @@ namespace SayMore.UI.Overview
 		{
 			base.HandleStringsLocalized(lm);
 
-			if (lm?.Id == ApplicationContainer.kPalasoLocalizationId)
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
 				if (_country == null || _countryList == null)
 				{

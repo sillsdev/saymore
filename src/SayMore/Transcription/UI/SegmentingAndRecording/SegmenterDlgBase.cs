@@ -156,7 +156,7 @@ namespace SayMore.Transcription.UI
 			_undoToolStripMenuItem.Height *= 2;
 			_ignoreToolStripMenuItem.Height = _undoToolStripMenuItem.Height;
 
-			HandleStringsLocalized();
+			HandleStringsLocalized(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -212,8 +212,11 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleStringsLocalized()
+		protected virtual void HandleStringsLocalized(ILocalizationManager lm)
 		{
+			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
+				return;
+
 			_segmentXofYFormat = _labelSegmentXofY.Text;
 			_segmentNumberFormat = _labelSegmentNumber.Text;
 			var zoomToolTip = LocalizationManager.GetLocalizedToolTipForControl(_comboBoxZoom);

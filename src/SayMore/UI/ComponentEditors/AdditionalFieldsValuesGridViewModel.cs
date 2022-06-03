@@ -1,3 +1,4 @@
+using System;
 using L10NSharp;
 using SIL.Archiving.IMDI.Lists;
 using SayMore.Model.Files;
@@ -21,7 +22,7 @@ namespace SayMore.UI.ComponentEditors
 			if (!key.StartsWith(XmlFileSerializer.kAdditionalFieldIdPrefix))
 				return false;
 
-			foreach (string field in Settings.Default.AdditionalFieldsToHide.Split('|'))
+			foreach (string field in Settings.Default.AdditionalFieldsToHide.Split(new []{'|'}, StringSplitOptions.RemoveEmptyEntries))
 			{
 				if (key == XmlFileSerializer.kAdditionalFieldIdPrefix + field)
 					return false;

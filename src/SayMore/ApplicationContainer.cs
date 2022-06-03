@@ -31,6 +31,7 @@ namespace SayMore
 		private IContainer _container;
 		private ISplashScreen _splashScreen;
 		public const string kSayMoreLocalizationId = "SayMore";
+		private const string kPalasoLocalizationId = "Palaso";
 
 		/// ------------------------------------------------------------------------------------
 		public ApplicationContainer() : this(false)
@@ -200,19 +201,30 @@ namespace SayMore
 
 		public ILocalizationManager CreateLocalizationManager()
 		{
-			var installedStringFileFolder = Path.GetDirectoryName(FileLocationUtilities.GetFileDistributedWithApplication("SayMore.es.xlf"));
-			var relativePathForWritingLocalizationFiles = Path.Combine(Program.kCompanyAbbrev, Application.ProductName);
+			const string emailForLocalizations = "sil.saymore@gmail.com";
+
+			var installedStringFileFolder = Path.GetDirectoryName(
+				FileLocationUtilities.GetFileDistributedWithApplication("SayMore.es.xlf"));
+			var relativePathForWritingL10nFiles = 
+				Path.Combine(Program.kCompanyAbbrev, Application.ProductName);
+			var currentUiLanguage = Settings.Default.UserInterfaceLanguage;
 
 			LocalizationManager.DeleteOldTranslationFiles(kSayMoreLocalizationId,
 				Path.Combine(Environment.GetFolderPath(CommonApplicationData),
-					relativePathForWritingLocalizationFiles), installedStringFileFolder);
+					relativePathForWritingL10nFiles), installedStringFileFolder);
 
 			var localizationManager = LocalizationManager.Create(TranslationMemory.XLiff,
-				Settings.Default.UserInterfaceLanguage, kSayMoreLocalizationId,
-				"SayMore", Application.ProductVersion, installedStringFileFolder,
-				relativePathForWritingLocalizationFiles, Resources.SayMore,
-				"sil.saymore@gmail.com", "SayMore", "SIL.Archiving",
-				"SIL.Windows.Forms.FileSystem");
+				currentUiLanguage, kSayMoreLocalizationId + ".exe", Application.ProductName,
+				Application.ProductVersion, installedStringFileFolder,
+				relativePathForWritingL10nFiles, Resources.SayMore, emailForLocalizations,
+				"SayMore");
+
+			LocalizationManager.Create(TranslationMemory.XLiff, currentUiLanguage,
+				kPalasoLocalizationId, kPalasoLocalizationId, Application.ProductVersion,
+				installedStringFileFolder, relativePathForWritingL10nFiles, Resources.SayMore,
+				emailForLocalizations, "SIL.Archiving", "SIL.Windows.Forms.FileSystem",
+				"SIL.Windows.Forms.ClearShare", "SIL.Windows.Forms.Miscellaneous",
+				"SIL.Reporting", "SIL.Windows.Forms.WritingSystems");
 
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 

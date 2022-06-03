@@ -48,10 +48,14 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			_personComponentFileGrid.AddFileButtonTooltipText =
-				LocalizationManager.GetString("PeopleView.FileList.AddPersonButtonToolTip", "Add Files for the Person");
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			{
+				_personComponentFileGrid.AddFileButtonTooltipText =
+					LocalizationManager.GetString("PeopleView.FileList.AddPersonButtonToolTip",
+						"Add Files for the Person");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

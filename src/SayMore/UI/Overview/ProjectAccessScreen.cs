@@ -26,7 +26,7 @@ namespace SayMore.UI.Overview
 			InitializeComponent();
 
 			// access protocol list
-			HandleStringsLocalized();
+			HandleStringsLocalized(null);
 			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 
 			_linkHelp.Click += (s, e) =>
@@ -40,8 +40,11 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleStringsLocalized()
+		private void HandleStringsLocalized(ILocalizationManager lm)
 		{
+			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
+				return;
+
 			_archivingFileDirectoryName = GetBaseUriDirectory();
 			Debug.Assert(_archivingFileDirectoryName != null);
 			if (LocalizationManager.UILanguageId != "en" && Directory.Exists(Path.Combine(_archivingFileDirectoryName, LocalizationManager.UILanguageId)))

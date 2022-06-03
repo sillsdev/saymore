@@ -565,6 +565,7 @@ namespace SayMore.UI.ComponentEditors
 			this.linkPeopleEdit.LinkColor = System.Drawing.Color.Black;
 			this.locExtender.SetLocalizableToolTip(this.linkPeopleEdit, null);
 			this.locExtender.SetLocalizationComment(this.linkPeopleEdit, null);
+			this.locExtender.SetLocalizationPriority(this.linkPeopleEdit, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.linkPeopleEdit, "linkPeopleEdit");
 			this.linkPeopleEdit.Location = new System.Drawing.Point(122, 0);
 			this.linkPeopleEdit.Name = "linkPeopleEdit";

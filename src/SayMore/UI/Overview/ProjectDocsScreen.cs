@@ -12,6 +12,7 @@ using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;
 using SIL.IO;
+using static SayMore.ApplicationContainer;
 
 namespace SayMore.UI.Overview
 {
@@ -90,15 +91,15 @@ namespace SayMore.UI.Overview
 		{
 			base.OnHandleCreated(e);
 			// HandleStringsLocalized gets called from the constructor (in a base class), but it's too
-			// early for the classes that derive from this class to do someof their localization, so
+			// early for the classes that derive from this class to do some of their localization, so
 			// we have a special method to handle that.
 			LocalizeStrings();
 		}
 
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			base.HandleStringsLocalized();
-			if (_descriptionFileGrid != null)
+			base.HandleStringsLocalized(lm);
+			if ((lm == null || lm.Id == kSayMoreLocalizationId) && _descriptionFileGrid != null)
 				LocalizeStrings();
 		}
 

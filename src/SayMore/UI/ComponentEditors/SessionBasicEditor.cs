@@ -394,6 +394,16 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public override void Activated()
 		{
+			if (InvokeRequired)
+				Invoke(new Action(InitializeWhenActivated));
+			else
+				InitializeWhenActivated();
+
+			base.Activated();
+		}
+
+		private void InitializeWhenActivated()
+		{
 			if (_genre.Items.Count == 0)
 				LoadGenreList(_autoCompleteProvider, null);
 
@@ -401,8 +411,6 @@ namespace SayMore.UI.ComponentEditors
 				SetAccessProtocol();
 
 			SetAccessCodeListAndValue();
-
-			base.Activated();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -410,32 +418,31 @@ namespace SayMore.UI.ComponentEditors
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			TabText = LocalizationManager.GetString("SessionsView.MetadataEditor.TabText", "Session");
-			if (_genre != null && !String.IsNullOrEmpty(_genre.Text))
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
-				var genreId = GenreDefinition.TranslateNameToId(_genre.Text);
-				if (genreId != _genre.Text)
-					_genre.Text = GenreDefinition.TranslateIdToName(genreId);
-			}
-
-			if (_gridAdditionalFields != null)
-			{
-				for (int iRow = 0; iRow < _gridAdditionalFields.RowCount; iRow++)
+				TabText = LocalizationManager.GetString("SessionsView.MetadataEditor.TabText",
+					"Session");
+				if (_genre != null && !String.IsNullOrEmpty(_genre.Text))
 				{
-					DataGridViewComboBoxCell comboBoxCell = _gridAdditionalFields[1, iRow] as DataGridViewComboBoxCell;
-					if (comboBoxCell != null)
+					var genreId = GenreDefinition.TranslateNameToId(_genre.Text);
+					if (genreId != _genre.Text)
+						_genre.Text = GenreDefinition.TranslateIdToName(genreId);
+				}
+
+				if (_gridAdditionalFields != null)
+				{
+					for (int iRow = 0; iRow < _gridAdditionalFields.RowCount; iRow++)
 					{
-						IMDIItemList list = comboBoxCell.DataSource as IMDIItemList;
-						if (list != null)
-						{
+						var comboBoxCell = _gridAdditionalFields[1, iRow] as DataGridViewComboBoxCell;
+						if (comboBoxCell?.DataSource is IMDIItemList list)
 							list.Localize(Localize);
-						}
 					}
 				}
 			}
-			base.HandleStringsLocalized();
+
+			base.HandleStringsLocalized(lm);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -500,7 +507,10 @@ namespace SayMore.UI.ComponentEditors
 				_access.DropDownStyle = ComboBoxStyle.DropDownList;
 			}
 
-			SetAccessCodeListAndValue();
+			if (InvokeRequired)
+				Invoke(new Action(SetAccessCodeListAndValue));
+			else
+				SetAccessCodeListAndValue();
 		}
 
 		private void GetDataInBackground()
@@ -521,15 +531,17 @@ namespace SayMore.UI.ComponentEditors
 		void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
 			var count = 0;
-			while ((Program.CurrentProject == null) && (count < 50))
+			while (Program.CurrentProject == null && count < 50)
 			{
 				Thread.Sleep(100);
 				count++;
 			}
 		}
 
-		/// <summary>do this in case the access protocol for the project changed and
-		/// the current value of "access" is no longer in the list</summary>
+		/// <summary>
+		/// Do this in case the access protocol for the project changed and
+		/// the current value of "access" is no longer in the list.
+		/// </summary>
 		private void SetAccessCodeListAndValue()
 		{
 			var currentAccessCode = _file.GetStringValue("access", string.Empty);

@@ -109,56 +109,35 @@ namespace SayMore.Model
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		public string Title
-		{
-			get { return MetaDataFile.GetStringValue(SessionFileType.kTitleFieldName, null) ?? Id; }
-		}
+		public string Title =>
+			MetaDataFile.GetStringValue(SessionFileType.kTitleFieldName, null) ?? Id;
 
 		/// ------------------------------------------------------------------------------------
-		protected override string ExtensionWithoutPeriod
-		{
-			get { return ExtensionWithoutPeriodStatic; }
-		}
+		protected override string ExtensionWithoutPeriod => ExtensionWithoutPeriodStatic;
 
 		/// ------------------------------------------------------------------------------------
-		public override string RootElementName
-		{
-			get { return "Session"; }
-		}
+		public override string RootElementName => "Session";
 
 		/// ------------------------------------------------------------------------------------
-		protected static string ExtensionWithoutPeriodStatic
-		{
-			get { return Settings.Default.SessionFileExtension.TrimStart('.'); }
-		}
+		protected static string ExtensionWithoutPeriodStatic => 
+			Settings.Default.SessionFileExtension.TrimStart('.');
 
 		/// ------------------------------------------------------------------------------------
-		public override string DefaultElementNamePrefix
-		{
-			get { return LocalizationManager.GetString("SessionsView.Miscellaneous.NewSessionNamePrefix", "New Session"); }
-		}
+		public override string DefaultElementNamePrefix => LocalizationManager.GetString(
+			"SessionsView.Miscellaneous.NewSessionNamePrefix", "New Session");
 
 		/// ------------------------------------------------------------------------------------
-		protected override string NoIdSaveFailureMessage
-		{
-			get { return LocalizationManager.GetString("SessionsView.Miscellaneous.NoIdSaveFailureMessage", "You must specify a session id."); }
-		}
+		protected override string NoIdSaveFailureMessage => LocalizationManager.GetString(
+			"SessionsView.Miscellaneous.NoIdSaveFailureMessage", "You must specify a session id.");
 
 		/// ------------------------------------------------------------------------------------
-		protected override string AlreadyExistsSaveFailureMessage
-		{
-			get
-			{
-				return LocalizationManager.GetString("SessionsView.Miscellaneous.SessionAlreadyExistsSaveFailureMessage",
-					"Could not rename from {0} to {1} because there is already a session by that name.");
-			}
-		}
+		protected override string AlreadyExistsSaveFailureMessage =>
+			LocalizationManager.GetString(
+				"SessionsView.Miscellaneous.SessionAlreadyExistsSaveFailureMessage",
+				"Could not rename from {0} to {1} because there is already a session by that name.");
 
 		/// ------------------------------------------------------------------------------------
-		public override string DefaultStatusValue
-		{
-			get { return Status.Incoming.ToString(); }
-		}
+		public override string DefaultStatusValue => Status.Incoming.ToString();
 
 		#endregion
 
@@ -173,10 +152,10 @@ namespace SayMore.Model
 		{
 			statusAsText = GetStatusAsEnumParsableString(statusAsText);
 
-			Status status;
-			if (Enum.TryParse(statusAsText, out status))
+			if (Enum.TryParse(statusAsText, out Status status))
 				return GetLocalizedStatus(status);
-			throw new ArgumentException(string.Format("Value {0} is not valid status.", statusAsText), "statusAsText");
+			throw new ArgumentException($"Value {statusAsText} is not valid status.",
+				nameof(statusAsText));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -193,7 +172,7 @@ namespace SayMore.Model
 				case Status.Skipped:
 					return LocalizationManager.GetString("SessionsView.SessionStatus.Skipped", "Skipped");
 				default:
-					throw new ArgumentException(string.Format("Value {0} is not valid status.", status), "status");
+					throw new ArgumentException($"Value {status} is not valid status.", nameof(status));
 			}
 		}
 
@@ -212,8 +191,8 @@ namespace SayMore.Model
 			if (GetShouldReportHaveConsent())
 			   list.Insert(0, ComponentRoles.First(r => r.Id == ComponentRole.kConsentComponentRoleId));
 
-			return (modifyComputedListWithUserOverrides ?
-				GetCompletedStagesModifedByUserOverrides(list) : list);
+			return modifyComputedListWithUserOverrides ?
+				GetCompletedStagesModifiedByUserOverrides(list) : list;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -282,7 +261,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		private void ProcessContributorNameChange(ElementIdChangedArgs e)
 		{
-			foreach (var file in GetComponentFiles().Where(f => (f.FileType as FileTypeWithContributors) != null))
+			foreach (var file in GetComponentFiles().Where(f => f.FileType is FileTypeWithContributors))
 			{
 				var values = file.MetaDataFieldValues.FirstOrDefault(v => v.FieldId == SessionFileType.kContributionsFieldName);
 				if (values == null)
@@ -295,8 +274,7 @@ namespace SayMore.Model
 				foreach (var contribution in contributions.Where(contribution => contribution.ContributorName == e.OldId))
 					contribution.ContributorName = e.NewId;
 
-				string failureMessage;
-				file.SetValue(SessionFileType.kContributionsFieldName, contributions, out failureMessage);
+				file.SetValue(SessionFileType.kContributionsFieldName, contributions, out var failureMessage);
 
 				if (failureMessage == null)
 					file.Save();
@@ -324,21 +302,25 @@ namespace SayMore.Model
 		public IEnumerable<ArchivingActor> GetAllContributorsInSession()
 		{
 			// files that might have contributors
-			foreach (var file in GetComponentFiles().Where(f => (f.FileType as FileTypeWithContributors) != null))
+			foreach (var file in GetComponentFiles().Where(f => f.FileType is FileTypeWithContributors))
 			{
-				var values = file.MetaDataFieldValues.FirstOrDefault(v => v.FieldId == SessionFileType.kContributionsFieldName);
-				if (values == null) continue;
+				var values = file.MetaDataFieldValues
+					.FirstOrDefault(v => v.FieldId == SessionFileType.kContributionsFieldName);
+				if (values == null)
+					continue;
 
-				var contributions = values.Value as ContributionCollection;
-				if (contributions == null) continue;
+				if (!(values.Value is ContributionCollection contributions))
+					continue;
 
 				foreach (var contribution in contributions)
+				{
 					yield return new ArchivingActor
 					{
 						FullName = contribution.ContributorName,
 						Name = contribution.ContributorName,
 						Role = contribution.Role.Name
 					};
+				}
 			}
 		}
 
@@ -376,15 +358,10 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string ArchiveInfoDetails
-		{
-			get
-			{
-				return LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingInfoDetails",
-					"The archive package will include all required files and data related to a session and its contributors.",
-					"This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.xxxxOverviewText");
-			}
-		}
+		public string ArchiveInfoDetails =>
+			LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingInfoDetails",
+				"The archive package will include all required files and data related to a session and its contributors.",
+				"This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.xxxxOverviewText");
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<string> GetSessionFilesToArchive(Type typeOfArchive)
@@ -394,14 +371,9 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string AddingSessionFilesProgressMsg
-		{
-			get
-			{
-				return string.Format(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg",
-					"Adding Files for Session '{0}'"), Title);
-			}
-		}
+		public string AddingSessionFilesProgressMsg =>
+			string.Format(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg",
+				"Adding Files for Session '{0}'"), Title);
 
 		/// ------------------------------------------------------------------------------------
 		public IDictionary<string, IEnumerable<string>> GetParticipantFilesToArchive(Type typeOfArchive)
@@ -518,14 +490,16 @@ namespace SayMore.Model
 				model.SetAbstract(value, string.Empty);
 
 			// Set contributors
-			var contributions = MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
-			if (contributions != null && contributions.Count > 0)
+			if (MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) is
+				ContributionCollection contributions && contributions.Count > 0)
+			{
 				model.SetContributors(contributions);
+			}
 
 			// Return total duration of source audio/video recordings.
 			TimeSpan totalDuration = GetTotalDurationOfSourceMedia();
 			if (totalDuration.Ticks > 0)
-				model.SetAudioVideoExtent(string.Format("Total Length of Source Recordings: {0}", totalDuration.ToString()));
+				model.SetAudioVideoExtent($"Total Length of Source Recordings: {totalDuration}");
 
 			//model.SetSoftwareRequirements("SayMore");
 		}
@@ -560,7 +534,8 @@ namespace SayMore.Model
 
 			StageCompletedControlValues = ComponentRoles.ToDictionary(role => role.Id,
 				role => (StageCompleteType)Enum.Parse(typeof(StageCompleteType),
-					MetaDataFile.GetValue(SessionFileType.kStageFieldPrefix + role.Id, StageCompleteType.Auto.ToString()) as string));
+					(string)MetaDataFile.GetValue(SessionFileType.kStageFieldPrefix + role.Id,
+						StageCompleteType.Auto.ToString())));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -595,12 +570,10 @@ namespace SayMore.Model
 			if (y == null)
 				return -1;
 
-			Session.Status xStatus, yStatus;
-
-			if (!Enum.TryParse(Session.GetStatusAsEnumParsableString(x), out xStatus))
+			if (!Enum.TryParse(Session.GetStatusAsEnumParsableString(x), out Session.Status xStatus))
 				return 1;
 
-			if (!Enum.TryParse(Session.GetStatusAsEnumParsableString(y), out yStatus))
+			if (!Enum.TryParse(Session.GetStatusAsEnumParsableString(y), out Session.Status yStatus))
 				return -1;
 
 			return (int)xStatus - (int)yStatus;

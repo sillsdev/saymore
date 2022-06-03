@@ -57,7 +57,8 @@ namespace SayMore.Model.Files
 				// SP-692: Could not find a part of the path ... in mscorlib
 				// This can happen if the object was renamed, resulting in the directory being renamed.
 				var dir = Path.GetDirectoryName(path);
-				if (dir == null) return;
+				if (dir == null)
+					return;
 				if (!Directory.Exists(dir))
 				{
 					// Do not throw an exception if the session or person was deleted, just return now.
@@ -66,10 +67,11 @@ namespace SayMore.Model.Files
 						throw new DirectoryNotFoundException(dir);
 
 					var dirName = new DirectoryInfo(parentDir).Name;
-					if (Directory.Exists(parentDir) && 
-						(dirName == Session.kFolderName ||
-						 dirName == Person.kFolderName))
+					if (Directory.Exists(parentDir) &&
+					    (dirName == Session.kFolderName || dirName == Person.kFolderName))
+					{
 						return;
+					}
 
 					throw new DirectoryNotFoundException(dir);
 				}
@@ -81,9 +83,7 @@ namespace SayMore.Model.Files
 			XElement additionalFieldsElement = null;
 			foreach (var fieldInstance in fields)
 			{
-				bool custom;
-				bool additional;
-				var element = GetElementFromField(fieldInstance, out custom, out additional);
+				var element = GetElementFromField(fieldInstance, out var custom, out var additional);
 				if (element == null)
 					continue;
 				if (custom)
@@ -160,9 +160,8 @@ namespace SayMore.Model.Files
 				additional = true;
 			}
 
-			IXmlFieldSerializer fldSerializer;
-
-			if (!custom && !additional && _xmlFieldSerializers != null && _xmlFieldSerializers.TryGetValue(id, out fldSerializer))
+			if (!custom && !additional && _xmlFieldSerializers != null &&
+			    _xmlFieldSerializers.TryGetValue(id, out var fldSerializer))
 			{
 				element = fldSerializer.Serialize(fld.Value);
 			}
@@ -172,7 +171,7 @@ namespace SayMore.Model.Files
 				if (value.Length > 0)
 				{
 					// SP-775: SayMore crash when attempting to use a Custom Field name that starts with a non-alpha character
-					if ((!Char.IsLetter(id[0])) && (id[0] != '_')) id = "_" + id;
+					if (!Char.IsLetter(id[0]) && id[0] != '_') id = "_" + id;
 
 					element = new XElement(id, fld.ValueAsString);
 				}
@@ -279,8 +278,8 @@ namespace SayMore.Model.Files
 			// In SayMore, the type attribute is not optional, but it was in Sponge.
 			var type = node.GetOptionalStringAttribute("type", FieldInstance.kStringType);
 
-			IXmlFieldSerializer fldSerializer;
-			if (_xmlFieldSerializers != null && _xmlFieldSerializers.TryGetValue(fieldId, out fldSerializer))
+			if (_xmlFieldSerializers != null &&
+			    _xmlFieldSerializers.TryGetValue(fieldId, out var fldSerializer))
 			{
 				var obj = fldSerializer.Deserialize(node.OuterXml);
 				return obj == null ? null : new FieldInstance(fieldId, type, obj);

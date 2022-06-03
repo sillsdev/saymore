@@ -37,7 +37,7 @@ namespace SayMore.UI.Overview
 
 			InitializeComponent();
 
-			HandleStringsLocalized();
+			HandleStringsLocalized(null);
 			_splitter.Panel2.BackColor = Color.FromArgb(230, 150, 100);
 			_metadataView.BackColor = _splitter.Panel2.BackColor;
 			_progressView.BackColor = _splitter.Panel2.BackColor;
@@ -68,8 +68,11 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleStringsLocalized()
+		private void HandleStringsLocalized(ILocalizationManager lm)
 		{
+			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
+				return;
+
 			// Just to be safe and prevent re-entrant call.
 			_projectPages.RowEnter -= _projectPages_RowEnter;
 
@@ -136,12 +139,9 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Image Image
-		{
-			get { return ResourceImageCache.project; }
-		}
+		public Image Image => ResourceImageCache.project;
 
-// ReSharper disable once UnusedAutoPropertyAccessor.Local
+		// ReSharper disable once UnusedAutoPropertyAccessor.Local
 		public ToolStripMenuItem MainMenuItem { get; private set; }
 		#endregion
 

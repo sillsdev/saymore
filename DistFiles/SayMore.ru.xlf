@@ -427,8 +427,6 @@
         <target xml:lang="ru">Не указано</target>
         <note>ID: CommonToMultipleViews.ListItems.Content-Interactivity.Unspecified.Text</note>
       </trans-unit>
-      <trans-unit id="CommonToMultipleViews.ListItems.Content-Involvement.Elicited.Definition"
-              sil:dynamic="true">
       <trans-unit id="CommonToMultipleViews.ListItems.Content-Involvement.Elicited.Definition" sil:dynamic="true">
         <source xml:lang="en">Investigator asks speaker(s) to produce isolated phonemes/ words/ utterances / grammatical structures.</source>
         <note>ID: CommonToMultipleViews.ListItems.Content-Involvement.Elicited.Definition</note>
@@ -471,8 +469,6 @@
         <target xml:lang="ru">Не указано</target>
         <note>ID: CommonToMultipleViews.ListItems.Content-Involvement.Unspecified.Text</note>
       </trans-unit>
-      <trans-unit id="CommonToMultipleViews.ListItems.Content-PlanningType.Planned.Definition"
-              sil:dynamic="true">
       <trans-unit id="CommonToMultipleViews.ListItems.Content-PlanningType.Planned.Definition" sil:dynamic="true">
         <source xml:lang="en">The speaker prepares in detail the structure and content of his/her "performance" in advance Comments: This differs from 'Elicitation' (involvement), where the performer/consultant is given a framework but does not necessary plan his/her answer.</source>
         <note>ID: CommonToMultipleViews.ListItems.Content-PlanningType.Planned.Definition</note>

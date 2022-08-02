@@ -3,7 +3,7 @@
 	<RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
 	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
 	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'==''">3.3.0</BUILD_NUMBER>
-	<BuildTasksDll>$(RootDir)/packages/SIL.BuildTasks.2.2.0/tools/SIL.BuildTasks.dll</BuildTasksDll>
+	<BuildTasksDll>$(RootDir)/packages/SIL.BuildTasks.2.5.0/tools/SIL.BuildTasks.dll</BuildTasksDll>
 	<Configuration>Release</Configuration>
 	<RestartBuild Condition="!Exists('$(BuildTasksDll)')">true</RestartBuild>
 	<RestartBuild Condition="Exists('$(BuildTasksDll)')">false</RestartBuild>

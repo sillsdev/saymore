@@ -18,4 +18,10 @@
   <File Id="ProgramDir.SayMore.ru.xlf" Guid="20115c37-b91b-4588-906d-4b4f000ea913" />
   <File Id="ProgramDir.SayMore.tr.xlf" Guid="343d1f82-031c-42f9-b873-46fb5db088ac" />
   <File Id="ProgramDir.SayMore.zh_CN.xlf" Guid="1acbab75-5630-4e0a-b131-058f47674c09" />
+  <File Id="ProgramDir.Palaso.es.xlf" Guid="7324ac0b-abe7-4889-83ab-17ae7db09cfb" />
+  <File Id="ProgramDir.Palaso.fr.xlf" Guid="d31890fb-9e5d-4f0c-a4e2-01ffa737a95c" />
+  <File Id="ProgramDir.Palaso.pt.xlf" Guid="04a89fb6-1d15-40ab-8506-6b960b9f58f4" />
+  <File Id="ProgramDir.Palaso.ru.xlf" Guid="888f8dcb-cda2-4ae5-ba4e-7fcaa3e92b56" />
+  <File Id="ProgramDir.Palaso.tr.xlf" Guid="0e8409fa-844d-412e-bd3e-148524130a4b" />
+  <File Id="ProgramDir.Palaso.zh_CN.xlf" Guid="326f9f19-a519-43b9-bb0c-7fb11cabee88" />
 </InstallerMetadata>

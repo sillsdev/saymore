@@ -240,6 +240,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="System.AppContext.dll" Guid="{2E239C22-C4A7-4ACC-8851-89FB9C96FADB}">
 				<File Id="System.AppContext.dll" Name="System.AppContext.dll" KeyPath="yes" Source="..\..\output\release\System.AppContext.dll" />
 			</Component>
+			<Component Id="System.Buffers.dll" Guid="{F2B7993E-673A-473D-89EA-FD3FFB3529A8}">
+				<File Id="System.Buffers.dll" Name="System.Buffers.dll" KeyPath="yes" Source="..\..\output\release\System.Buffers.dll" />
+			</Component>
 			<Component Id="System.Collections.Concurrent.dll" Guid="{B49ABEFA-5033-4CA3-91FB-77B4BFC7FA65}">
 				<File Id="System.Collections.Concurrent.dll" Name="System.Collections.Concurrent.dll" KeyPath="yes" Source="..\..\output\release\System.Collections.Concurrent.dll" />
 			</Component>
@@ -621,7 +624,8 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="SIL.WritingSystems.dll"/>
 		<ComponentRef Id="Spart.dll"/>
 		<ComponentRef Id="System.AppContext.dll"/>
-		<ComponentRef Id="System.Collections.Concurrent.dll"/>
+		<ComponentRef Id="System.Buffers.dll"/>
+        <ComponentRef Id="System.Collections.Concurrent.dll"/>
 		<ComponentRef Id="System.Collections.dll"/>
 		<ComponentRef Id="System.Collections.NonGeneric.dll"/>
 		<ComponentRef Id="System.Collections.Specialized.dll"/>

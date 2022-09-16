@@ -1,0 +1,11 @@
+{
+  "name": "Release Notes",
+  "version": "_VERSION_",
+  "date": "_DATE_",
+  "platform": "resource",
+  "platform_version": "",
+  "architecture": "x64",
+  "file": "releasenotes.md",
+  "type": "md",
+  "build": ""
+}

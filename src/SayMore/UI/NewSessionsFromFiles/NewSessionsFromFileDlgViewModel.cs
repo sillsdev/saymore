@@ -15,6 +15,7 @@ using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using SIL.Extensions;
+using FileUtils=SayMore.Media.TempFileUtils;
 
 namespace SayMore.UI.NewSessionsFromFiles
 {

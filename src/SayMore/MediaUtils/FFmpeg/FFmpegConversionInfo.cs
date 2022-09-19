@@ -3,6 +3,7 @@ using System.IO;
 using Nini.Ini;
 using SIL.IO;
 using SayMore.UI;
+using FileUtils=SayMore.Media.TempFileUtils;
 
 namespace SayMore.Media.FFmpeg
 {

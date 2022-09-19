@@ -17,6 +17,7 @@ using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
 using SayMore.UI;
 using SayMore.UI.ComponentEditors;
+using FileUtils=SayMore.Media.TempFileUtils;
 
 namespace SayMore.Model.Files
 {
@@ -1086,7 +1087,7 @@ namespace SayMore.Model.Files
 		public ImageFileType(
 			Func<BasicFieldGridEditor.Factory> basicFieldGridEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
-			: base("Image", p => FileUtils.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())))
+			: base("Image", p => SIL.IO.FileUtils.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())))
 		{
 			_basicFieldGridEditorFactoryLazy = basicFieldGridEditorFactoryLazy;
 			_contributorsEditorFactoryLazy = contributorsEditorFactoryLazy;

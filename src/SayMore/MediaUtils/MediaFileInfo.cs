@@ -1,14 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 using SIL.IO;
 using SIL.Xml;
 using SayMore.Media.MPlayer;
-using SayMore.Properties;
 using MediaInfoLib;
 using SayMore.Utilities;
+using FileInfo = System.IO.FileInfo;
+using Resources = SayMore.Properties.Resources;
 
 namespace SayMore.Media
 {
@@ -71,7 +72,12 @@ namespace SayMore.Media
 			var mediaInfo = XmlSerializationHelper.DeserializeFromString<MediaFileInfo>(output, out error);
 
 			if (mediaInfo == null || mediaInfo.Audio == null)
-				return null;
+			{
+
+
+				if (mediaInfo == null || mediaInfo.Audio == null)
+					return null;
+			}
 
 			mediaInfo.MediaFilePath = mediaFile;
 			return mediaInfo;
@@ -479,4 +485,13 @@ namespace SayMore.Media
 	//}
 
 	#endregion
+
+	internal class TempFileUtils
+	{
+		public static List<string> AudioFileExtensions = new List<string>(
+			new[] { ".mp3", ".wav", ".wma", ".aac", ".aiff", ".ogg", ".flac", ".m4a", ".voc", ".amr" });
+			
+		public static List<string> VideoFileExtensions = new List<string>(
+			new [] { ".wmv", ".avi", ".mpg", ".mpe", ".mpa", ".asf", ".mov", ".mp4", ".mts", ".m4v", ".m2v", ".webm", ".mkv" });
+	}
 }

@@ -8,6 +8,7 @@ using SIL.Reporting;
 using SIL.Windows.Forms.FileSystem;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using FileUtils=SayMore.Media.TempFileUtils;
 
 namespace SayMore.Model.Files
 {

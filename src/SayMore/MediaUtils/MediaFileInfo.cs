@@ -77,7 +77,7 @@ namespace SayMore.Media
 
 			if (mediaInfo == null || mediaInfo.Audio == null)
 			{
-				Logger.WriteEvent("XML:" + Environment.NewLine + output);
+				Logger.WriteEvent($"XML from MediaInfo for {mediaFile}:\r\n{output}");
 				return null;
 			}
 

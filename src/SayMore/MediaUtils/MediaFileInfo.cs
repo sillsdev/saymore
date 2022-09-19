@@ -9,6 +9,7 @@ using SayMore.Media.MPlayer;
 using SayMore.Properties;
 using MediaInfoLib;
 using SayMore.Utilities;
+using SIL.Reporting;
 
 namespace SayMore.Media
 {
@@ -18,7 +19,7 @@ namespace SayMore.Media
 	public class MediaFileInfo
 	{
 		private Image _fullSizeThumbnail;
-		private static string s_templateData;
+		private static readonly string s_templateData;
 
 		[XmlIgnore]
 		public string MediaFilePath { get; private set; }
@@ -52,8 +53,13 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static MediaFileInfo GetInfo(string mediaFile)
+		public static MediaFileInfo GetInfo(string mediaFile) => GetInfo(mediaFile, out _);
+
+		/// ------------------------------------------------------------------------------------
+		public static MediaFileInfo GetInfo(string mediaFile, out Exception error)
 		{
+			error = null;
+
 			var finfo = new FileInfo(mediaFile);
 			if (!finfo.Exists || finfo.Length == 0)
 			{
@@ -67,11 +73,13 @@ namespace SayMore.Media
 			info.Option("Inform", s_templateData);
 			string output = info.Inform();
 			info.Close();
-			Exception error;
 			var mediaInfo = XmlSerializationHelper.DeserializeFromString<MediaFileInfo>(output, out error);
 
 			if (mediaInfo == null || mediaInfo.Audio == null)
+			{
+				Logger.WriteEvent("XML:" + Environment.NewLine + output);
 				return null;
+			}
 
 			mediaInfo.MediaFilePath = mediaFile;
 			return mediaInfo;

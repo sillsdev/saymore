@@ -157,12 +157,12 @@ namespace SayMore.Media.MPlayer
 					"Media file not found: {0}"), filename), filename);
 			}
 
-			MediaInfo = MediaFileInfo.GetInfo(filename);
+			MediaInfo = MediaFileInfo.GetInfo(filename, out var error);
 			if (MediaInfo == null)
 			{
 				throw new FileFormatException(String.Format(LocalizationManager.GetString(
 					"CommonToMultipleViews.MediaPlayer.InvalidMediaFile",
-					"File does not appear to be a valid media file: {0}"), filename));
+					"File does not appear to be a valid media file: {0}"), filename), error);
 			}
 
 			MediaFile = filename.Replace('\\', '/');

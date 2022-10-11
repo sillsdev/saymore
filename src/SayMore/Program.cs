@@ -54,7 +54,8 @@ namespace SayMore
 		public delegate void PersonMetadataChangedHandler();
 		public static event PersonMetadataChangedHandler PersonDataChanged;
 
-		private static List<Exception> _pendingExceptionsToReportToAnalytics = new List<Exception>();
+		private static readonly List<Exception> _pendingExceptionsToReportToAnalytics = new List<Exception>();
+        private static UserInfo s_userInfo;
 
 		private static bool s_handlingFirstChanceExceptionThreadsafe = false;
 		private static bool s_handlingFirstChanceExceptionUnsafe = false;
@@ -190,11 +191,11 @@ namespace SayMore
 			SetUpErrorHandling();
 			Sldr.Initialize();
 
-			var userInfo = new UserInfo();
+            s_userInfo = new UserInfo {UILanguageCode = Settings.Default.UserInterfaceLanguage};
 
 #if DEBUG
 			// Always track if this is a debug build, but track to a different segment.io project
-			using (new Analytics("twa75xkko9", userInfo))
+			using (new Analytics("twa75xkko9", s_userInfo))
 #else
 			// If this is a release build, then allow an environment variable to be set to false
 			// so that testers aren't generating false analytics
@@ -786,5 +787,17 @@ namespace SayMore
 			if (handler != null) handler();
 		}
 
-	}
+        public static void UpdateUiLanguageForUser(string languageId)
+        {
+            Analytics.Track("UI language chosen",
+                new Dictionary<string, string> {
+                    { "Previous", Settings.Default.UserInterfaceLanguage },
+                    { "New", languageId } });
+            s_userInfo.UILanguageCode = languageId;
+            Analytics.IdentifyUpdate(s_userInfo);
+            Settings.Default.UserInterfaceLanguage = languageId;
+            Logger.WriteEvent("Changed UI Locale to: " + languageId);
+            LocalizationManager.SetUILanguage(languageId, true);
+        }
+    }
 }

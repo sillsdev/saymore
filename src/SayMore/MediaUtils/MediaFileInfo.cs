@@ -80,6 +80,39 @@ namespace SayMore.Media
 			{
 				Logger.WriteEvent($"XML from MediaInfo for {mediaFile}:\r\n{output}");
 
+				var silMediaInfo = SIL.Media.MediaInfo.GetInfo(mediaFile);
+				if (silMediaInfo != null)
+				{
+					AudioInfo audio = null;
+					var silAudio = silMediaInfo.Audio;
+					if (silAudio != null)
+					{
+						audio = new AudioInfo
+						{
+							DurationInMilliseconds = (long)silAudio.Duration.TotalMilliseconds,
+							BitRate = silAudio.BitDepth,
+
+						};
+					}
+
+					VideoInfo video = null;
+					if (silMediaInfo.Video != null)
+					{
+						video = new VideoInfo
+						{
+							DurationInMilliseconds = silMediaInfo.Audio,
+						};
+					}
+
+					mediaInfo = new MediaFileInfo
+					{
+						MediaFilePath = mediaFile,
+						LengthInBytes = finfo.Length,
+						Audio = audio,
+						Video = video,
+						DurationInMilliseconds = silMediaInfo.
+					};
+				}
 
 				if (mediaInfo == null || mediaInfo.Audio == null)
 					return null;

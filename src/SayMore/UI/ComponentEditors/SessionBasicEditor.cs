@@ -546,13 +546,6 @@ namespace SayMore.UI.ComponentEditors
 		{
 			var currentAccessCode = _file.GetStringValue(SessionFileType.kAccessFieldName, string.Empty);
 
-			// "Insite users" has been changed to "REAP users"
-			if (currentAccessCode == "Insite users")
-			{
-				currentAccessCode = "REAP users";
-				_file.SetStringValue(SessionFileType.kAccessFieldName, currentAccessCode);
-			}
-
 			if (_access.DropDownStyle == ComboBoxStyle.DropDown)
 			{
 				_access.Text = currentAccessCode ?? string.Empty;

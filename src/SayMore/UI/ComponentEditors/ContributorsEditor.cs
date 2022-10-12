@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
@@ -300,17 +301,21 @@ namespace SayMore.UI.ComponentEditors
 		/// --------------------------------------------------------------------------------------
 		private string GetParticipants(bool withRoles)
 		{
-			string participants = string.Empty;
+			var participants = new StringBuilder();
 			var names = new HashSet<string>();
 			foreach (Contribution contributor in _model.Contributions)
 			{
 				if (!withRoles && names.Contains(contributor.ContributorName))
 					continue;
 				names.Add(contributor.ContributorName);
-				participants += contributor.ContributorName + (withRoles? " (" + contributor.Role.Name + "); " : "; ");
+                if (participants.Length > 0)
+                    participants.Append("; ");
+                participants.Append(contributor.ContributorName);
+				if (withRoles)
+                    participants.Append(" (").Append(contributor.Role.Name).Append(")");
 			}
 
-			return participants;
+			return participants.ToString();
 		}
 
 		/// ------------------------------------------------------------------------------------

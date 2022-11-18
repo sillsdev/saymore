@@ -435,7 +435,7 @@ namespace SayMore.UI.ComponentEditors
 			if (_componentFileIdControl == ctrl)
 				SaveNow();
 
-			newValue = (_componentFileIdControl == ctrl ?
+			newValue = (GetIsComponentFileId(ctrl) ?
 				ComponentFile.TryChangeChangeId(newValue, out failureMessage) :
 				ComponentFile.SetStringValue(key, newValue));
 

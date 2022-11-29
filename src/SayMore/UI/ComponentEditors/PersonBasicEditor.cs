@@ -10,7 +10,6 @@ using L10NSharp;
 using SIL.Reporting;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
-using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
 using SayMore.Utilities;
 

@@ -14,6 +14,7 @@ using SayMore.Model.Files;
 using SayMore.Model;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.LowLevelControls;
+using SIL.Extensions;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -29,7 +30,7 @@ namespace SayMore.UI.ElementListScreen
 	///
 	/// * Move away from knowing about the generics
 	/// at this level, and instead take an IElementListViewModel. Leave it to the DI to
-	/// give us the right one.  That might have been an easier approach than what I've
+	/// give us the right one. That might have been an easier approach than what I've
 	/// done here.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
@@ -49,7 +50,7 @@ namespace SayMore.UI.ElementListScreen
 			new Dictionary<string, ComponentEditorsTabControl>();
 
 		/// ------------------------------------------------------------------------------------
-		public ToolStripMenuItem MainMenuItem { get; private set; }
+		public ToolStripMenuItem MainMenuItem { get; }
 
 		/// ------------------------------------------------------------------------------------
 		public ElementListScreen(ElementListViewModel<T> presentationModel)
@@ -215,7 +216,15 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private bool HandleFilesAddedToComponentGrid(string[] files)
 		{
-			if (_model.AddComponentFiles(files))
+			if (files.Any(f => _model.ElementFileType.IsMatch(f)))
+			{
+				MessageBox.Show(string.Format(LocalizationManager.GetString(
+					"CommonToMultipleViews.FileList.AddFiles.CannotAddFilesOfElementType",
+					"Additional {0} files cannot be added to an existing {0}.",
+					"Parameter is an element type (\"Session\" or \"Person\""),
+					_model.ElementFileType.Name));
+			}
+			if (_model.AddComponentFiles(files.Where(f => !_model.ElementFileType.IsMatch(f))))
 			{
 				UpdateComponentFileList();
 				_componentFilesControl.TrySetComponent(files[0]);
@@ -238,14 +247,21 @@ namespace SayMore.UI.ElementListScreen
 
 			if (_model.Elements.Any())
 			{
-				if (itemToSelectAfterLoad == null)
-					_elementsGrid.SelectElement(0);
-				else if (itemToSelectAfterLoad is ProjectElement)
-					_elementsGrid.SelectElement((ProjectElement)itemToSelectAfterLoad);
-				else if (itemToSelectAfterLoad is int)
-					_elementsGrid.SelectElement((int)itemToSelectAfterLoad);
-				else if (itemToSelectAfterLoad is string)
-					_elementsGrid.SelectElement((string)itemToSelectAfterLoad);
+				switch (itemToSelectAfterLoad)
+				{
+					case null:
+						_elementsGrid.SelectElement(0);
+						break;
+					case ProjectElement element:
+						_elementsGrid.SelectElement(element);
+						break;
+					case int index:
+						_elementsGrid.SelectElement(index);
+						break;
+					case string itemId:
+						_elementsGrid.SelectElement(itemId);
+						break;
+				}
 			}
 
 			if (_elementsGrid.GridSettings == null)
@@ -320,7 +336,7 @@ namespace SayMore.UI.ElementListScreen
 		/// The tab controls are cached in a dictionary whose key is the file type name.
 		/// The process of showing the editors for a component file is just a matter of
 		/// hiding the tab control containing the previously selected file's editors and
-		/// unhiding the tab control containing the selected file's editors.
+		/// showing the tab control containing the selected file's editors.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected void ShowSelectedComponentFileEditors()
@@ -333,11 +349,10 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			var editorProviders = _model.GetComponentEditorProviders().ToArray();
-			ComponentEditorsTabControl tabCtrl;
 
-			// Check if editiors for the current file type have been shown yet. If not then
+			// Check if editors for the current file type have been shown yet. If not then
 			// load a new tab control for this file type containing the appropriate editors.
-			if (!_tabControls.TryGetValue(currProviderKey, out tabCtrl))
+			if (!_tabControls.TryGetValue(currProviderKey, out var tabCtrl))
 			{
 				tabCtrl = new ComponentEditorsTabControl(currProviderKey, _tabControlImages,
 					editorProviders, ComponentEditorBackgroundColor, ComponentEditorBorderColor);
@@ -379,22 +394,14 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ComponentEditorsTabControl SelectedComponentEditorsTabControl
-		{
-			get { return _selectedEditorsTabControl as ComponentEditorsTabControl; }
-		}
+		public ComponentEditorsTabControl SelectedComponentEditorsTabControl =>
+			_selectedEditorsTabControl as ComponentEditorsTabControl;
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual Color ComponentEditorBackgroundColor
-		{
-			get { return SystemColors.Control; }
-		}
+		protected virtual Color ComponentEditorBackgroundColor => SystemColors.Control;
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual Color ComponentEditorBorderColor
-		{
-			get { return SystemColors.ControlDark; }
-		}
+		protected virtual Color ComponentEditorBorderColor => SystemColors.ControlDark;
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleAddingNewElement(object sender, EventArgs e)

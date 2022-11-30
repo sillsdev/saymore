@@ -203,7 +203,7 @@ namespace SayMore
 
 			var allowTracking = IsNullOrEmpty(feedbackSetting) || feedbackSetting.ToLower() == "yes" || feedbackSetting.ToLower() == "true";
 
-			using (new Analytics("jtfe7dyef3", userInfo, allowTracking))
+			using (new Analytics("jtfe7dyef3", s_userInfo, allowTracking))
 #endif
 			{
 				foreach (var exception in _pendingExceptionsToReportToAnalytics)

@@ -428,7 +428,7 @@
       <trans-unit id="CommonToMultipleViews.ListItems.Content-PlanningType.Planned.Definition" sil:dynamic="true">
         <source xml:lang="en">The speaker prepares in detail the structure and content of his/her "performance" in advance Comments: This differs from 'Elicitation' (involvement), where the performer/consultant is given a framework but does not necessary plan his/her answer.</source>
         <note>ID: CommonToMultipleViews.ListItems.Content-PlanningType.Planned.Definition</note>
-        <target xml:lang="es-ES" state="translated">El orador prepara en detalle la estructura y el contenido de su "desempeño" de antemano. Comentarios: Esto difiere de la 'suscitación' (participación), donde se le da un marco al artista / ejecutante / consultante pero éste no necesariamente planea su respuesta.</target>
+        <target xml:lang="es-ES" state="translated">El orador prepara en detalle la estructura y el contenido de su "desempeño" de antemano. Comentarios: Esto difiere de la 'suscitación' (participación), donde se le da un marco al artista / ejecutante / consultor pero éste no necesariamente planea su respuesta.</target>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Content-PlanningType.Planned.Text" sil:dynamic="true">
         <source xml:lang="en">Planned</source>

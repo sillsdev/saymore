@@ -544,7 +544,7 @@ namespace SayMore.UI.ComponentEditors
 		/// </summary>
 		private void SetAccessCodeListAndValue()
 		{
-			var currentAccessCode = _file.GetStringValue("access", string.Empty);
+			var currentAccessCode = _file.GetStringValue(SessionFileType.kAccessFieldName, string.Empty);
 
 			if (_access.DropDownStyle == ComboBoxStyle.DropDown)
 			{

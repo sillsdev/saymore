@@ -411,6 +411,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="System.Reflection.Primitives.dll" Guid="{A7E6F1DA-F6CF-402F-AB92-D2CA98596A49}">
 				<File Id="System.Reflection.Primitives.dll" Name="System.Reflection.Primitives.dll" KeyPath="yes" Source="..\..\output\release\System.Reflection.Primitives.dll" />
 			</Component>
+			<Component Id="System.Resources.Extensions.dll" Guid="{D9883395-31C8-4C7C-B3B2-0E81E90F5D2C}">
+			  <File Id="System.Resources.Extensions.dll" Name="System.Resources.Extensions.dll" KeyPath="yes" Source="..\..\output\release\System.Resources.Extensions.dll" />
+			</Component>
 			<Component Id="System.Resources.Reader.dll" Guid="{BAA1139F-659C-458C-BAD2-BB803A091B08}">
 				<File Id="System.Resources.Reader.dll" Name="System.Resources.Reader.dll" KeyPath="yes" Source="..\..\output\release\System.Resources.Reader.dll" />
 			</Component>
@@ -625,7 +628,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="Spart.dll"/>
 		<ComponentRef Id="System.AppContext.dll"/>
 		<ComponentRef Id="System.Buffers.dll"/>
-        <ComponentRef Id="System.Collections.Concurrent.dll"/>
+		<ComponentRef Id="System.Collections.Concurrent.dll"/>
 		<ComponentRef Id="System.Collections.dll"/>
 		<ComponentRef Id="System.Collections.NonGeneric.dll"/>
 		<ComponentRef Id="System.Collections.Specialized.dll"/>
@@ -681,6 +684,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="System.Reflection.dll"/>
 		<ComponentRef Id="System.Reflection.Extensions.dll"/>
 		<ComponentRef Id="System.Reflection.Primitives.dll"/>
+		<ComponentRef Id="System.Resources.Extensions.dll"/>
 		<ComponentRef Id="System.Resources.Reader.dll"/>
 		<ComponentRef Id="System.Resources.ResourceManager.dll"/>
 		<ComponentRef Id="System.Resources.Writer.dll"/>

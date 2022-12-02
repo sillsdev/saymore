@@ -267,6 +267,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="System.ComponentModel.TypeConverter.dll" Guid="{F3467637-3994-44CA-89CE-3B625B5406B3}">
 				<File Id="System.ComponentModel.TypeConverter.dll" Name="System.ComponentModel.TypeConverter.dll" KeyPath="yes" Source="..\..\output\release\System.ComponentModel.TypeConverter.dll" />
 			</Component>
+			<Component Id="System.Configuration.ConfigurationManager.dll" Guid="{75FA1FD1-6522-4CCF-A0D8-CF35500BCEFE}">
+				<File Id="System.Configuration.ConfigurationManager.dll" Name="System.Configuration.ConfigurationManager.dll" KeyPath="yes" Source="..\..\output\release\System.Configuration.ConfigurationManager.dll" />
+			</Component>
 			<Component Id="System.Console.dll" Guid="{5EC6A496-0CA8-46C6-B2AA-FBAB2BA5573E}">
 				<File Id="System.Console.dll" Name="System.Console.dll" KeyPath="yes" Source="..\..\output\release\System.Console.dll" />
 			</Component>
@@ -299,6 +302,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			</Component>
 			<Component Id="System.Diagnostics.Tracing.dll" Guid="{E61635F5-67C4-4E18-8F33-23A06B6E2DE0}">
 				<File Id="System.Diagnostics.Tracing.dll" Name="System.Diagnostics.Tracing.dll" KeyPath="yes" Source="..\..\output\release\System.Diagnostics.Tracing.dll" />
+			</Component>
+			<Component Id="System.Drawing.Common.dll" Guid="{0818350D-8F16-4861-9167-2BE1CCC00CCC}">
+				<File Id="System.Drawing.Common.dll" Name="System.Drawing.Common.dll" KeyPath="yes" Source="..\..\output\release\System.Drawing.Common.dll" />
 			</Component>
 			<Component Id="System.Drawing.Primitives.dll" Guid="{D19BBC91-3319-45D5-9F5D-EACF2A65EFCA}">
 				<File Id="System.Drawing.Primitives.dll" Name="System.Drawing.Primitives.dll" KeyPath="yes" Source="..\..\output\release\System.Drawing.Primitives.dll" />
@@ -399,6 +405,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="System.Net.WebSockets.dll" Guid="{DADA6276-338C-44C7-BD01-F0E22FCD3DFF}">
 				<File Id="System.Net.WebSockets.dll" Name="System.Net.WebSockets.dll" KeyPath="yes" Source="..\..\output\release\System.Net.WebSockets.dll" />
 			</Component>
+			<Component Id="System.Numerics.Vectors.dll" Guid="{B47F44D9-3DAA-42CC-B68A-AB83DF1DAB08}">
+				<File Id="System.Numerics.Vectors.dll" Name="System.Numerics.Vectors.dll" KeyPath="yes" Source="..\..\output\release\System.Numerics.Vectors.dll" />
+			</Component>
 			<Component Id="System.ObjectModel.dll" Guid="{51E490CE-A491-4917-8529-1A6419D579C5}">
 				<File Id="System.ObjectModel.dll" Name="System.ObjectModel.dll" KeyPath="yes" Source="..\..\output\release\System.ObjectModel.dll" />
 			</Component>
@@ -410,6 +419,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			</Component>
 			<Component Id="System.Reflection.Primitives.dll" Guid="{A7E6F1DA-F6CF-402F-AB92-D2CA98596A49}">
 				<File Id="System.Reflection.Primitives.dll" Name="System.Reflection.Primitives.dll" KeyPath="yes" Source="..\..\output\release\System.Reflection.Primitives.dll" />
+			</Component>
+			<Component Id="System.Resources.Extensions.dll" Guid="{D9883395-31C8-4C7C-B3B2-0E81E90F5D2C}">
+			  <File Id="System.Resources.Extensions.dll" Name="System.Resources.Extensions.dll" KeyPath="yes" Source="..\..\output\release\System.Resources.Extensions.dll" />
 			</Component>
 			<Component Id="System.Resources.Reader.dll" Guid="{BAA1139F-659C-458C-BAD2-BB803A091B08}">
 				<File Id="System.Resources.Reader.dll" Name="System.Resources.Reader.dll" KeyPath="yes" Source="..\..\output\release\System.Resources.Reader.dll" />
@@ -625,7 +637,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="Spart.dll"/>
 		<ComponentRef Id="System.AppContext.dll"/>
 		<ComponentRef Id="System.Buffers.dll"/>
-        <ComponentRef Id="System.Collections.Concurrent.dll"/>
+		<ComponentRef Id="System.Collections.Concurrent.dll"/>
 		<ComponentRef Id="System.Collections.dll"/>
 		<ComponentRef Id="System.Collections.NonGeneric.dll"/>
 		<ComponentRef Id="System.Collections.Specialized.dll"/>
@@ -633,6 +645,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="System.ComponentModel.EventBasedAsync.dll"/>
 		<ComponentRef Id="System.ComponentModel.Primitives.dll"/>
 		<ComponentRef Id="System.ComponentModel.TypeConverter.dll"/>
+		<ComponentRef Id="System.Configuration.ConfigurationManager.dll"/>
 		<ComponentRef Id="System.Console.dll"/>
 		<ComponentRef Id="System.Data.Common.dll"/>
 		<ComponentRef Id="System.Diagnostics.Contracts.dll"/>
@@ -644,6 +657,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="System.Diagnostics.Tools.dll"/>
 		<ComponentRef Id="System.Diagnostics.TraceSource.dll"/>
 		<ComponentRef Id="System.Diagnostics.Tracing.dll"/>
+		<ComponentRef Id="System.Drawing.Common.dll"/>
 		<ComponentRef Id="System.Drawing.Primitives.dll"/>
 		<ComponentRef Id="System.Dynamic.Runtime.dll"/>
 		<ComponentRef Id="System.Globalization.Calendars.dll"/>
@@ -677,10 +691,12 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="System.Net.WebHeaderCollection.dll"/>
 		<ComponentRef Id="System.Net.WebSockets.Client.dll"/>
 		<ComponentRef Id="System.Net.WebSockets.dll"/>
+		<ComponentRef Id="System.Numerics.Vectors.dll"/>
 		<ComponentRef Id="System.ObjectModel.dll"/>
 		<ComponentRef Id="System.Reflection.dll"/>
 		<ComponentRef Id="System.Reflection.Extensions.dll"/>
 		<ComponentRef Id="System.Reflection.Primitives.dll"/>
+		<ComponentRef Id="System.Resources.Extensions.dll"/>
 		<ComponentRef Id="System.Resources.Reader.dll"/>
 		<ComponentRef Id="System.Resources.ResourceManager.dll"/>
 		<ComponentRef Id="System.Resources.Writer.dll"/>

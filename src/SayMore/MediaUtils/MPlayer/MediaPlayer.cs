@@ -47,7 +47,7 @@ namespace SayMore.Media.MPlayer
 			_viewModel.PlaybackStarted += HandleMediaPlayStarted;
 			_viewModel.PlaybackPaused = delegate { Invoke((Action)HandlePlaybackPausedResumed); };
 			_viewModel.PlaybackResumed = delegate { Invoke((Action)HandlePlaybackPausedResumed); };
-			_viewModel.PlaybackPositionChanged = delegate(float pos) { Invoke((Action<float>)(HandlePlaybackPositionChanged), pos); };
+			_viewModel.PlaybackPositionChanged = ViewModelPlaybackPositionChanged;
 
 			UpdateButtons();
 			_volumePopup.VolumeLevel = _viewModel.Volume;
@@ -55,7 +55,19 @@ namespace SayMore.Media.MPlayer
 			_videoPanel.SetPlayerViewModel(_viewModel);
 		}
 
-		/// ------------------------------------------------------------------------------------
+        private void ViewModelPlaybackPositionChanged(float pos)
+        {
+            try
+            {
+                Invoke((Action<float>)(HandlePlaybackPositionChanged), pos);
+            }
+            catch (InvalidAsynchronousStateException e)
+            {
+                Logger.WriteError(e);
+            }
+        }
+
+        /// ------------------------------------------------------------------------------------
 		private void SetupVolumePopup()
 		{
 			_videoPanel.Controls.Remove(_volumePopup);

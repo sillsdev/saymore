@@ -274,7 +274,7 @@ namespace SayMore.Media.MPlayer
 
 	#region MPlayerOutputLogForm class
 	/// ------------------------------------------------------------------------------------
-	public class MPlayerOutputLogForm : Form
+	public class MPlayerOutputLogForm : Form, ILogger
 	{
 		private readonly TextBox _textBox;
 
@@ -314,16 +314,27 @@ namespace SayMore.Media.MPlayer
 		/// --------------------------------------------------------------------------------
 		public void UpdateLogDisplay(string output)
 		{
-			Invoke((Action)(() => _textBox.SelectionStart = _textBox.Text.Length));
-			Invoke((Action<string>)(text => _textBox.SelectedText = text + Environment.NewLine), output);
-		}
+			Invoke((Action)(() => {
+                _textBox.SelectionStart = _textBox.Text.Length;
+                _textBox.SelectedText = output + Environment.NewLine;
+            }));
+        }
 
 		/// --------------------------------------------------------------------------------
-		protected override bool ShowWithoutActivation
-		{
-			get { return true; }
-		}
-	}
+		protected override bool ShowWithoutActivation => true;
+
+        public string GetText()
+        {
+            string result = null;
+            Invoke((Action)(() => result = _textBox.Text));
+            return result;
+        }
+
+        public void AddText(string text)
+        {
+            UpdateLogDisplay(text);
+        }
+    }
 
 	#endregion
 }

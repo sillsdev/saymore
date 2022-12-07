@@ -361,8 +361,7 @@ namespace SayMore.Model
 		public void Load()
 		{
 			// SP-791: Invalid URI: The hostname could not be parsed.
-			Uri settingsUri;
-			if (!Uri.TryCreate(SettingsFilePath, UriKind.Absolute, out settingsUri))
+			if (!Uri.TryCreate(SettingsFilePath, UriKind.Absolute, out _))
 			{
 				var msg = LocalizationManager.GetString("DialogBoxes.LoadProject.InvalidPath", "SayMore is not able to open the project file. \"{0}\" is not a valid path.");
 				ErrorReport.ReportNonFatalMessageWithStackTrace(msg, SettingsFilePath);
@@ -493,10 +492,7 @@ namespace SayMore.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string FolderPath
-		{
-			get { return Path.GetDirectoryName(SettingsFilePath); }
-		}
+		public string FolderPath => Path.GetDirectoryName(SettingsFilePath);
 
 		[XmlIgnore]
 		public string SettingsFilePath { get; set; }
@@ -504,10 +500,8 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		/// Gets the SayMore project settings file extension (without the leading period)
 		/// ------------------------------------------------------------------------------------
-		public static string ProjectSettingsFileExtension
-		{
-			get { return Settings.Default.ProjectFileExtension.TrimStart('.'); }
-		}
+		public static string ProjectSettingsFileExtension => 
+			Settings.Default.ProjectFileExtension.TrimStart('.');
 
 		/// ------------------------------------------------------------------------------------
 		public static string ComputePathToSettings(string parentFolderPath, string newProjectName)
@@ -538,15 +532,10 @@ namespace SayMore.Model
 
 		#region Archiving
 		/// ------------------------------------------------------------------------------------
-		public string ArchiveInfoDetails
-		{
-			get
-			{
-				return LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails",
-					"The archive corpus will include all required files and data related to this project.",
-					"This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.IMDIOverviewText");
-			}
-		}
+		public string ArchiveInfoDetails =>
+			LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails",
+				"The archive corpus will include all required files and data related to this project.",
+				"This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.IMDIOverviewText");
 
 		/// ------------------------------------------------------------------------------------
 		public string Title { get; set; }
@@ -593,7 +582,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public string AccessProtocol
 		{
-			get { return _accessProtocol; }
+			get => _accessProtocol;
 			set
 			{
 				if (value == _accessProtocol) return;
@@ -603,10 +592,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string Id
-		{
-			get { return Name; }
-		}
+		public string Id => Name;
 
 		/// ------------------------------------------------------------------------------------
 		public void InitializeModel(IMDIArchivingDlgViewModel model)

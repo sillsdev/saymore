@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -155,7 +156,7 @@ namespace SayMore.Utilities
 			return false;
 		}
 
-		public static string GetShortName(string path)
+		public static string GetShortName(string path, Func<string> getDescriptionOfFailedAction = null)
 		{
 			var shortBuilder = new StringBuilder(300);
 			var length = (int)GetShortPathName(path, shortBuilder, (uint)shortBuilder.Capacity);
@@ -166,7 +167,38 @@ namespace SayMore.Utilities
 			}
 
 			var result = shortBuilder.ToString();
-			Logger.WriteMinorEvent($"Short path obtained for {path} => {result}");
+			Logger.WriteEvent($"Short path obtained for {path} => {result}");
+            if (result == path && getDescriptionOfFailedAction != null &&
+                (Path.GetFileName(result).Length > 12 || result.Any(c => c >= 0x80 || c == ' ') ||
+                    result.Count(c => c == '.') > 1))
+            {
+                string volume;
+				try
+                {
+                    volume = Path.GetPathRoot(path);
+					if (volume.Last() == Path.DirectorySeparatorChar)
+                        volume = volume.Remove(volume.Length - 1);
+                }
+				catch (Exception)
+                {
+                    volume = "";
+                }
+
+                if (volume.Length == 0)
+                    volume = "???";
+
+                ErrorReport.NotifyUserOfProblem(new ShowOncePerSessionBasedOnExactMessagePolicy(), 
+                    LocalizationManager.GetString("CommonToMultipleViews.UnableToObtainShortName",
+                    "{0} was unable to obtain a \"short name\" for this file:\r\n{1}\r\nYou (or " +
+                    "a system administrator) can use {2} to enable creation of short \"8.3\" " +
+                    "file names for the file system volume ({3}) where this file is located.",
+                    "Param 0: \"SayMore\" (product name); " +
+                    "Param 1: ; " +
+                    "Param 2: \"fsutil 8dot3name\" (a Microsoft Windows utility); " +
+                    "Param 3: A system volume (e.g. \"D:\"") +
+                    Environment.NewLine + getDescriptionOfFailedAction(),
+                    Program.ProductName, path, "fsutil 8dot3name", volume);
+            }
 			return result;
 		}
 

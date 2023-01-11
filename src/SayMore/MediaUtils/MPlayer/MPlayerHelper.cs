@@ -147,7 +147,9 @@ namespace SayMore.Media.MPlayer
 			output = null;
 
 			// problem with non-ascii characters, convert to 8.3 path
-			mediaInPath = FileSystemUtils.GetShortName(mediaInPath);
+			mediaInPath = FileSystemUtils.GetShortName(mediaInPath,
+                () => LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.ProbablyCannotLoad",
+                    "SayMore will probably not be able to convert this file."));
 
 			// output to temp file, with 8.3 path
 			var tempFile = Path.GetTempFileName();

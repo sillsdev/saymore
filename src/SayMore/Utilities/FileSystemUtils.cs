@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using DesktopAnalytics;
 using SIL.IO;
@@ -11,7 +13,7 @@ using L10NSharp;
 
 namespace SayMore.Utilities
 {
-	public class FileSystemUtils
+	public static class FileSystemUtils
 	{
 		[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
 		static extern uint GetShortPathName(
@@ -19,7 +21,18 @@ namespace SayMore.Utilities
 		   [MarshalAs(UnmanagedType.LPTStr)]StringBuilder lpszShortPath,
 		   uint cchBuffer);
 
-		public enum WaitForReleaseResult
+        private static Regex s_regex8Dot3Filename;
+
+        static FileSystemUtils()
+        {
+            const string validChars = @"\x21-\x2D\x30-\x39\x3B-\x3E\x40-\x5B\x5D-\x7E";
+            var eightDotThree = $"[{validChars}]" + "{1,8}" +
+                $"(\\.[{validChars}]" + "{1,3})?";
+            s_regex8Dot3Filename = new Regex(@"^([A-Za-z]:\\)?(" + eightDotThree + 
+                @"\\)*" + eightDotThree + "$", RegexOptions.Compiled);
+		}
+
+        public enum WaitForReleaseResult
 		{
 			Free,
 			ReadOnly,
@@ -155,7 +168,10 @@ namespace SayMore.Utilities
 			return false;
 		}
 
-		public static string GetShortName(string path)
+        public static bool IsValidShortFileNamePath(string path) =>
+            s_regex8Dot3Filename.IsMatch(path);
+
+        public static string GetShortName(string path, Func<string> getDescriptionOfFailedAction = null)
 		{
 			var shortBuilder = new StringBuilder(300);
 			var length = (int)GetShortPathName(path, shortBuilder, (uint)shortBuilder.Capacity);
@@ -166,7 +182,37 @@ namespace SayMore.Utilities
 			}
 
 			var result = shortBuilder.ToString();
-			Logger.WriteMinorEvent($"Short path obtained for {path} => {result}");
+			Logger.WriteEvent($"Short path obtained for {path} => {result}");
+            if (result == path && getDescriptionOfFailedAction != null &&
+                !IsValidShortFileNamePath(result))
+            {
+                string volume;
+				try
+                {
+                    volume = Path.GetPathRoot(path);
+					if (volume.Last() == Path.DirectorySeparatorChar)
+                        volume = volume.Remove(volume.Length - 1);
+                }
+				catch (Exception)
+                {
+                    volume = "";
+                }
+
+                if (volume.Length == 0)
+                    volume = "???";
+
+                ErrorReport.NotifyUserOfProblem(new ShowOncePerSessionBasedOnExactMessagePolicy(), 
+                    LocalizationManager.GetString("CommonToMultipleViews.UnableToObtainShortName",
+                    "{0} was unable to obtain a \"short name\" for this file:\r\n{1}\r\nYou (or " +
+                    "a system administrator) can use {2} to enable creation of short \"8.3\" " +
+                    "file names for the file system volume ({3}) where this file is located.",
+                    "Param 0: \"SayMore\" (product name); " +
+                    "Param 1: file path; " +
+                    "Param 2: \"fsutil 8dot3name\" (a Microsoft Windows utility); " +
+                    "Param 3: A system volume (e.g. \"D:\"") +
+                    Environment.NewLine + getDescriptionOfFailedAction(),
+                    Program.ProductName, path, "fsutil 8dot3name", volume);
+            }
 			return result;
 		}
 

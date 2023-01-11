@@ -141,7 +141,9 @@ namespace SayMore.Media.MPlayer
 			// On Windows, We can't get unicode over the command-line barrier, so
 			// instead create 8.3 filename, which, happily, will have no non-english characters
 			// for any part of the path.
-			filename = FileSystemUtils.GetShortName(filename);
+			filename = FileSystemUtils.GetShortName(filename,
+                () => LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.ProbablyCannotLoad",
+                    "Media player will probably not be able to load this file."));
 
 			if (string.IsNullOrEmpty(filename))
 			{

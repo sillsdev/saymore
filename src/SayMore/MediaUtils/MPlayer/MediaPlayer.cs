@@ -65,6 +65,10 @@ namespace SayMore.Media.MPlayer
             {
                 Logger.WriteError(e);
             }
+            catch (ObjectDisposedException e)
+            {
+                Logger.WriteError(e);
+            }
         }
 
         /// ------------------------------------------------------------------------------------

@@ -2,7 +2,7 @@
   <PropertyGroup>
 	<RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
 	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
-	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'==''">3.3.0</BUILD_NUMBER>
+	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'==''">3.4.0</BUILD_NUMBER>
 	<BuildTasksDll>$(RootDir)/packages/SIL.BuildTasks.2.5.0/tools/SIL.BuildTasks.dll</BuildTasksDll>
 	<Configuration>Release</Configuration>
 	<RestartBuild Condition="!Exists('$(BuildTasksDll)')">true</RestartBuild>
@@ -26,7 +26,7 @@
 	<Message Text="BuildCounter: $(BuildCounter)" Importance="high"/>
 
 	<!-- Note, after some thought, we've decided this is the best place to keep the version number (not on TeamCity, not in the assemblies).     -->
-	<CreateProperty Value="3.3.$(BuildCounter)">
+	<CreateProperty Value="3.4.$(BuildCounter)">
 	  <Output PropertyName="Version" TaskParameter="Value"/>
 	</CreateProperty>
 

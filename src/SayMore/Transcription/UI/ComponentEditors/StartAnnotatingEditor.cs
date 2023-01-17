@@ -61,8 +61,9 @@ namespace SayMore.Transcription.UI
 			_radioButtonCarefulSpeech.Font = Program.DialogFont;
 			_radioButtonElan.Font = Program.DialogFont;
 			_radioButtonAudacity.Font = Program.DialogFont;
+			_labelAudacityLabelTier.Font = Program.DialogFont;
 			_radioButtonAutoSegmenter.Font = Program.DialogFont;
-		}
+        }
 
 		/// ------------------------------------------------------------------------------------
 		public override bool IsOKToShow
@@ -187,7 +188,7 @@ namespace SayMore.Transcription.UI
 
         private void _radioButtonAudacity_CheckedChanged(object sender, EventArgs e)
         {
-            _lblAudacityLabelTier.Enabled = _cboAudacityLabelTier.Enabled =
+            _labelAudacityLabelTier.Enabled = _cboAudacityLabelTier.Enabled =
                 _radioButtonAudacity.Checked;
 
             if (_radioButtonAudacity.Checked && _cboAudacityLabelTier.Items.Count > 0 &&

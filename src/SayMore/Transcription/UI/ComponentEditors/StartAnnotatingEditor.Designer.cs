@@ -47,7 +47,7 @@ namespace SayMore.Transcription.UI
 			this._radioButtonAutoSegmenter = new System.Windows.Forms.RadioButton();
 			this._buttonAutoSegmenterHelp = new System.Windows.Forms.Button();
 			this._cboAudacityLabelTier = new System.Windows.Forms.ComboBox();
-			this._lblAudacityLabelTier = new System.Windows.Forms.Label();
+			this._labelAudacityLabelTier = new System.Windows.Forms.Label();
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayoutGetStarted.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -78,7 +78,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutGetStarted.Controls.Add(this._radioButtonAutoSegmenter, 2, 5);
 			this._tableLayoutGetStarted.Controls.Add(this._buttonAutoSegmenterHelp, 3, 5);
 			this._tableLayoutGetStarted.Controls.Add(this._cboAudacityLabelTier, 3, 4);
-			this._tableLayoutGetStarted.Controls.Add(this._lblAudacityLabelTier, 2, 4);
+			this._tableLayoutGetStarted.Controls.Add(this._labelAudacityLabelTier, 2, 4);
 			this._tableLayoutGetStarted.Dock = System.Windows.Forms.DockStyle.Top;
 			this._tableLayoutGetStarted.Location = new System.Drawing.Point(12, 6);
 			this._tableLayoutGetStarted.Name = "_tableLayoutGetStarted";
@@ -369,20 +369,19 @@ namespace SayMore.Transcription.UI
 			this._cboAudacityLabelTier.Size = new System.Drawing.Size(100, 21);
 			this._cboAudacityLabelTier.TabIndex = 14;
 			// 
-			// _lblAudacityLabelTier
+			// _labelAudacityLabelTier
 			// 
-			this._lblAudacityLabelTier.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this._lblAudacityLabelTier.AutoSize = true;
-			this._lblAudacityLabelTier.Enabled = false;
-			this.locExtender.SetLocalizableToolTip(this._lblAudacityLabelTier, null);
-			this.locExtender.SetLocalizationComment(this._lblAudacityLabelTier, null);
-			this.locExtender.SetLocalizationPriority(this._lblAudacityLabelTier, L10NSharp.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._lblAudacityLabelTier, "StartAnnotatingEditor._lblAudacityLabelTier");
-			this._lblAudacityLabelTier.Location = new System.Drawing.Point(309, 139);
-			this._lblAudacityLabelTier.Name = "_lblAudacityLabelTier";
-			this._lblAudacityLabelTier.Size = new System.Drawing.Size(101, 13);
-			this._lblAudacityLabelTier.TabIndex = 15;
-			this._lblAudacityLabelTier.Text = "Import label text into";
+			this._labelAudacityLabelTier.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this._labelAudacityLabelTier.AutoSize = true;
+			this._labelAudacityLabelTier.Enabled = false;
+			this.locExtender.SetLocalizableToolTip(this._labelAudacityLabelTier, null);
+			this.locExtender.SetLocalizationComment(this._labelAudacityLabelTier, null);
+			this.locExtender.SetLocalizingId(this._labelAudacityLabelTier, "SessionsView.Transcription.StartAnnotatingTab._labelAudacityLabelTier");
+			this._labelAudacityLabelTier.Location = new System.Drawing.Point(309, 139);
+			this._labelAudacityLabelTier.Name = "_labelAudacityLabelTier";
+			this._labelAudacityLabelTier.Size = new System.Drawing.Size(101, 13);
+			this._labelAudacityLabelTier.TabIndex = 15;
+			this._labelAudacityLabelTier.Text = "Import label text into";
 			// 
 			// locExtender
 			// 
@@ -428,6 +427,6 @@ namespace SayMore.Transcription.UI
 		private Button _buttonCarefulSpeechToolHelp;
 		private Button _buttonManualSegmentationHelp;
 		private ComboBox _cboAudacityLabelTier;
-		private Label _lblAudacityLabelTier;
+		private Label _labelAudacityLabelTier;
 	}
 }

@@ -374,6 +374,7 @@
     <Compile Include="Transcription\Model\TierCollection.cs" />
     <Compile Include="Transcription\Model\TimeRange.cs" />
     <Compile Include="Transcription\Model\TimeTier.cs" />
+    <Compile Include="Transcription\UI\CommonUIStrings.cs" />
     <Compile Include="Transcription\UI\SegmentingAndRecording\OralAnnotationRecorder.cs" />
     <Compile Include="Transcription\UI\StandardAudioButtons.cs" />
     <Compile Include="Transcription\Model\AudacityLabelHelper.cs" />

@@ -117,8 +117,7 @@ namespace SayMore.Transcription.UI
 		{
 			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
-				TabText = LocalizationManager.GetString(
-					"SessionsView.Transcription.StartAnnotatingTab.TabText", "Start Annotating");
+				TabText = CommonUIStrings.StartAnnotatingTabText;
 			}
 
 			base.HandleStringsLocalized(lm);

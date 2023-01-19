@@ -44,10 +44,10 @@ namespace SayMore.Transcription.UI
 			InitializeComponent();
 
 			_labelTranscriptionColumnHeadingText.Text =
-				string.Format(_labelTranscriptionColumnHeadingText.Text, LocalizationManager.GetString("SessionsView.Transcription.TierDisplayNames.Transcription", "Transcription"));
+				string.Format(_labelTranscriptionColumnHeadingText.Text, CommonUIStrings.TranscriptionTierDisplayName);
 
 			_labelFreeTranslationColumnHeadingText.Text =
-				string.Format(_labelFreeTranslationColumnHeadingText.Text, LocalizationManager.GetString("SessionsView.Transcription.TierDisplayNames.FreeTranslation", "Free Translation"));
+				string.Format(_labelFreeTranslationColumnHeadingText.Text, CommonUIStrings.TranslationTierDisplayName);
 
 			_labelOverview.Font = Program.DialogFont;
 			_labelTranscriptionColumnHeadingText.Font = Program.DialogFont;

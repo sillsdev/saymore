@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -14,7 +13,6 @@ using SayMore.Model.Files;
 using SayMore.Model;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.LowLevelControls;
-using SIL.Extensions;
 
 namespace SayMore.UI.ElementListScreen
 {

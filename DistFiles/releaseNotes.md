@@ -1,3 +1,6 @@
+## Version 3.4
+Added option to import Audacity labels into free translation (instead of the transcription tier)
+
 ## Version 3.3
 Localization files are now stored in the XLIFF format (v. 1.2). If you have custom localizations saved in TMX format, please contact sil.saymore@gmail.com for help.
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -12,7 +13,6 @@ using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SIL.Windows.Forms.Widgets.BetterGrid;
-
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -42,9 +42,11 @@ namespace SayMore.UI.ComponentEditors
 			dataGridView.Columns[dataGridView.Columns.Add("date", "date")].Visible = false;
 			_model.ContributorsGridSettings = GridSettings.Create(dataGridView);
 
-			// ReSharper disable once UseObjectOrCollectionInitializer
-			_contributorsControl = new ContributorsListControl(_model);
-			_contributorsControl.Dock = DockStyle.Fill;
+			_contributorsControl = new ContributorsListControl(_model)
+			{
+				Dock = DockStyle.Fill,
+			};
+
 			_contributorsControl.ValidatingContributor += HandleValidatingContributor;
 
 			InitializeGrid();
@@ -65,6 +67,22 @@ namespace SayMore.UI.ComponentEditors
 
 			if (personInformant != null)
 				personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
+		}
+
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+			if (IsHandleCreated)
+			{
+				// This fix was added as part of SP-2297. Although not needed to prevent
+				// the crash, it is needed to make it clear how to delete a row.
+				// Annoyingly, the Contributors Control can't seem to shrink (even if I
+				// set the AutoSizeMode to GrowAndShrink). I'm guessing that it somehow
+				// thinks its calculated width for the comments column is set in stone,
+				// even though its minimum width is 5. Anyway, this logic fixes it:
+				if (_contributorsControl.Width >= _contributorsControl.Parent.Width) ;
+				_contributorsControl.Width = _contributorsControl.Parent.ClientSize.Width - _contributorsControl.Parent.Padding.Horizontal;
+			}
 		}
 
 		private void File_StartingRename(ComponentFile sender, CancelEventArgs e)
@@ -147,6 +165,25 @@ namespace SayMore.UI.ComponentEditors
 
 				// this is needed to match the visual behavior of the other grids
 				_contributorsControl.Grid.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
+			}
+
+			foreach (DataGridViewColumn col in _contributorsControl.Grid.Columns)
+			{
+				if (!col.Visible)
+					continue;
+				switch (col.Name)
+				{
+					case "name":
+						col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+						break;
+					case "role":
+						col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+						break;
+					case "comments":
+						col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+						col.FillWeight = 100;
+						break;
+				}
 			}
 
 			// set column header height to match the other grids
@@ -275,8 +312,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void SaveContributors()
 		{
-			string failureMessage;
-			_file.SetValue(SessionFileType.kContributionsFieldName, _model.Contributions, out failureMessage);
+			_file.SetValue(SessionFileType.kContributionsFieldName, _model.Contributions, out var failureMessage);
 			// We maintain this redundant field mainly for compatibility with older versions of SayMore and
 			// other programs (e.g., SayMoreJs) that use the file format. There may also still be a few
 			// things in SayMore itself which expect it to exist, though we are trying to eliminate them.
@@ -287,7 +323,7 @@ namespace SayMore.UI.ComponentEditors
 			if (frm == null)
 				return;
 
-			//Set the people list whenever changes happen in Contributors list
+			// Set the people list whenever changes happen in Contributors list
 			// We want to display these with their roles.
 			foreach (var editor in Program.GetControlsOfType<SessionBasicEditor>(Program.ProjectWindow))
 				editor.SetPeople(GetParticipants(true));
@@ -308,11 +344,11 @@ namespace SayMore.UI.ComponentEditors
 				if (!withRoles && names.Contains(contributor.ContributorName))
 					continue;
 				names.Add(contributor.ContributorName);
-                if (participants.Length > 0)
-                    participants.Append("; ");
-                participants.Append(contributor.ContributorName);
+				if (participants.Length > 0)
+					participants.Append("; ");
+				participants.Append(contributor.ContributorName);
 				if (withRoles)
-                    participants.Append(" (").Append(contributor.Role.Name).Append(")");
+					participants.Append(" (").Append(contributor.Role.Name).Append(")");
 			}
 
 			return participants.ToString();

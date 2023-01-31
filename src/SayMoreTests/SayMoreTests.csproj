@@ -135,25 +135,25 @@
       <HintPath>..\..\packages\PangoSharp-signed.3.22.24.37\lib\netstandard2.0\PangoSharp.dll</HintPath>
     </Reference>
     <Reference Include="SIL.Archiving, Version=11.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Archiving.11.0.0-beta0061\lib\net461\SIL.Archiving.dll</HintPath>
+      <HintPath>..\..\packages\SIL.Archiving.11.0.1\lib\net461\SIL.Archiving.dll</HintPath>
     </Reference>
     <Reference Include="SIL.Core, Version=11.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Core.11.0.0-beta0061\lib\net461\SIL.Core.dll</HintPath>
+      <HintPath>..\..\packages\SIL.Core.11.0.1\lib\net461\SIL.Core.dll</HintPath>
     </Reference>
     <Reference Include="SIL.Core.Desktop, Version=11.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Core.Desktop.11.0.0-beta0061\lib\net461\SIL.Core.Desktop.dll</HintPath>
+      <HintPath>..\..\packages\SIL.Core.Desktop.11.0.1\lib\net461\SIL.Core.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="SIL.Media, Version=11.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Media.11.0.0-beta0061\lib\net461\SIL.Media.dll</HintPath>
+      <HintPath>..\..\packages\SIL.Media.11.0.1\lib\net461\SIL.Media.dll</HintPath>
     </Reference>
     <Reference Include="SIL.TestUtilities, Version=11.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.TestUtilities.11.0.0-beta0061\lib\net461\SIL.TestUtilities.dll</HintPath>
+      <HintPath>..\..\packages\SIL.TestUtilities.11.0.1\lib\net461\SIL.TestUtilities.dll</HintPath>
     </Reference>
     <Reference Include="SIL.Windows.Forms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Windows.Forms.11.0.0-beta0061\lib\net461\SIL.Windows.Forms.dll</HintPath>
+      <HintPath>..\..\packages\SIL.Windows.Forms.11.0.1\lib\net461\SIL.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="SIL.WritingSystems, Version=11.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.WritingSystems.11.0.0-beta0061\lib\net461\SIL.WritingSystems.dll</HintPath>
+      <HintPath>..\..\packages\SIL.WritingSystems.11.0.1\lib\net461\SIL.WritingSystems.dll</HintPath>
     </Reference>
     <Reference Include="Spart, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14d24e064e474331, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Spart.1.0.0\lib\net461\Spart.dll</HintPath>
@@ -402,16 +402,16 @@
     <Error Condition="!Exists('..\..\packages\System.Text.Json.6.0.5\build\System.Text.Json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\System.Text.Json.6.0.5\build\System.Text.Json.targets'))" />
     <Error Condition="!Exists('..\..\packages\icu.net.2.8.1\build\icu.net.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\icu.net.2.8.1\build\icu.net.props'))" />
     <Error Condition="!Exists('..\..\packages\icu.net.2.8.1\build\icu.net.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\icu.net.2.8.1\build\icu.net.targets'))" />
-    <Error Condition="!Exists('..\..\packages\SIL.Media.11.0.0-beta0061\build\SIL.Media.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Media.11.0.0-beta0061\build\SIL.Media.targets'))" />
-    <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.11.0.0-beta0061\build\SIL.Windows.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.11.0.0-beta0061\build\SIL.Windows.Forms.targets'))" />
+    <Error Condition="!Exists('..\..\packages\SIL.Media.11.0.1\build\SIL.Media.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Media.11.0.1\build\SIL.Media.targets'))" />
+    <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.11.0.1\build\SIL.Windows.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.11.0.1\build\SIL.Windows.Forms.targets'))" />
   </Target>
   <Import Project="..\..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets" Condition="Exists('..\..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets')" />
   <Import Project="..\..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets" Condition="Exists('..\..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets')" />
   <Import Project="..\..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets" Condition="Exists('..\..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets')" />
   <Import Project="..\..\packages\System.Text.Json.6.0.5\build\System.Text.Json.targets" Condition="Exists('..\..\packages\System.Text.Json.6.0.5\build\System.Text.Json.targets')" />
   <Import Project="..\..\packages\icu.net.2.8.1\build\icu.net.targets" Condition="Exists('..\..\packages\icu.net.2.8.1\build\icu.net.targets')" />
-  <Import Project="..\..\packages\SIL.Media.11.0.0-beta0061\build\SIL.Media.targets" Condition="Exists('..\..\packages\SIL.Media.11.0.0-beta0061\build\SIL.Media.targets')" />
-  <Import Project="..\..\packages\SIL.Windows.Forms.11.0.0-beta0061\build\SIL.Windows.Forms.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.11.0.0-beta0061\build\SIL.Windows.Forms.targets')" />
+  <Import Project="..\..\packages\SIL.Media.11.0.1\build\SIL.Media.targets" Condition="Exists('..\..\packages\SIL.Media.11.0.1\build\SIL.Media.targets')" />
+  <Import Project="..\..\packages\SIL.Windows.Forms.11.0.1\build\SIL.Windows.Forms.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.11.0.1\build\SIL.Windows.Forms.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

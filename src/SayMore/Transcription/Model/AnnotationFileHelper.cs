@@ -591,7 +591,7 @@ namespace SayMore.Transcription.Model
 			// to consider the scenario where the EAF file points to a valid (existing) media file?
 			// In this situation, I don't think anything would crash, but the program could behave
 			// rather badly since it would assume that the information (duration, etc.) pulled from
-			// the media file refrenced in the EAF file applied to the media file in the session.
+			// the media file referenced in the EAF file applied to the media file in the session.
 			var eafFileName = Path.GetFileName(AnnotationFileName);
 			Debug.Assert(eafFileName != null);
 			var mediaFileName = eafFileName.Remove(eafFileName.Length - kAnnotationsEafFileSuffix.Length);

@@ -80,8 +80,8 @@ namespace SayMore.UI.ComponentEditors
 				// set the AutoSizeMode to GrowAndShrink). I'm guessing that it somehow
 				// thinks its calculated width for the comments column is set in stone,
 				// even though its minimum width is 5. Anyway, this logic fixes it:
-				if (_contributorsControl.Width >= _contributorsControl.Parent.Width) ;
-				_contributorsControl.Width = _contributorsControl.Parent.ClientSize.Width - _contributorsControl.Parent.Padding.Horizontal;
+				if (_contributorsControl.Width >= _contributorsControl.Parent.Width)
+				    _contributorsControl.Width = _contributorsControl.Parent.ClientSize.Width - _contributorsControl.Parent.Padding.Horizontal;
 			}
 		}
 

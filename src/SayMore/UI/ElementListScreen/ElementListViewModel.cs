@@ -126,7 +126,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool AddComponentFiles(string[] files)
+		public bool AddComponentFiles(IEnumerable<string> files)
 		{
 			return SelectedElement.AddComponentFiles(files);
 		}

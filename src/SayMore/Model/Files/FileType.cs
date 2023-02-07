@@ -38,6 +38,7 @@ namespace SayMore.Model.Files
 			new Dictionary<int, IEnumerable<IEditorProvider>>();
 
 		public string Name { get; protected set; }
+		public virtual string RootElementName => null;
 		public virtual string TypeDescription { get { return null; } }
 		public virtual Image SmallIcon { get { return null; } }
 		public virtual string FileSize { get { return null; } }
@@ -226,6 +227,8 @@ namespace SayMore.Model.Files
 		public const string kEducation = "education";
 		public const string kPrimaryOccupation = "primaryOccupation";
 
+		public override string RootElementName => Name;
+
 		/// ------------------------------------------------------------------------------------
 		/// <param name="personBasicEditorFactoryLazy">This is to get us around a circular
 		/// dependency error in autofac.  NB: when we move to .net 4, this can be replaced by
@@ -374,6 +377,8 @@ namespace SayMore.Model.Files
 		private readonly Func<StatusAndStagesEditor.Factory> _statusAndStagesEditorFactoryLazy;
 		private readonly Func<ContributorsEditor.Factory> _sessionContributorEditorFactoryLazy;
 
+		public override string RootElementName => Name;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		///
@@ -506,6 +511,22 @@ namespace SayMore.Model.Files
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			col.Visible = false;
 			yield return col;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void Migrate(ComponentFile file)
+		{
+			base.Migrate(file);
+
+			var accessCode = file.GetStringValue(kAccessFieldName, string.Empty);
+
+			// "Insite users" has been changed to "REAP users"
+			if (accessCode == "Insite users")
+			{
+				accessCode = "REAP users";
+				file.SetStringValue(kAccessFieldName, accessCode);
+				file.Save();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

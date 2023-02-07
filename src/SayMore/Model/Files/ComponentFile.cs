@@ -129,7 +129,7 @@ namespace SayMore.Model.Files
 
 			_metaDataPath = FileType.GetMetaFilePath(pathToAnnotatedFile);
 
-			RootElementName = "MetaData";
+			RootElementName = FileType.RootElementName ?? "MetaData";
 
 			if (File.Exists(_metaDataPath))
 				LoadNow();

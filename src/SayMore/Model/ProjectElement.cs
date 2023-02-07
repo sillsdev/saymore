@@ -306,7 +306,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool AddComponentFiles(string[] filesToAdd)
+		public bool AddComponentFiles(IEnumerable<string> filesToAdd)
 		{
 			var filesToCopy = GetValidFilesToCopy(filesToAdd).ToArray();
 			if (filesToCopy.Length == 0)
@@ -342,7 +342,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<KeyValuePair<string, string>> GetValidFilesToCopy(string[] filesBeingAdded)
+		public IEnumerable<KeyValuePair<string, string>> GetValidFilesToCopy(IEnumerable<string> filesBeingAdded)
 		{
 			if (filesBeingAdded != null)
 				foreach (var kvp in GetFilesToCopy(filesBeingAdded.Where(ComponentFile.GetIsValidComponentFile)))

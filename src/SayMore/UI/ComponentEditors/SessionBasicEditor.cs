@@ -127,10 +127,17 @@ namespace SayMore.UI.ComponentEditors
 				genreList.AddRange(GenreDefinition.FactoryGenreDefinitions.Select(gd => gd.Name).ToArray());
 			}
 
-			if (genreList.Count == 0 || !_genre.IsHandleCreated)
-				return;
+			// The invoke (below) and reloading of the list seems to really slow things down, but
+			// it is very common to get here only to be reloading the exact same list.
+            if (genreList.Count == 0 || !_genre.IsHandleCreated ||
+                _genre.Tag is List<string> l && l.SequenceEqual(genreList))
+            {
+                return;
+            }
 
-			// Do this because we've gotten here when the auto-complete helper has new data available.
+            _genre.Tag = genreList;
+
+            // Do this because we've gotten here when the auto-complete helper has new data available.
 			_genre.BeginInvoke((MethodInvoker)delegate
 			{
 				_genre.Items.Clear();

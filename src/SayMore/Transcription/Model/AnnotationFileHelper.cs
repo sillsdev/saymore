@@ -13,7 +13,6 @@ using SayMore.Media;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Utilities;
-using FileUtils=SayMore.Media.TempFileUtils;
 
 namespace SayMore.Transcription.Model
 {

@@ -17,7 +17,6 @@ using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
 using SayMore.UI;
 using SayMore.UI.ComponentEditors;
-using FileUtils=SayMore.Media.TempFileUtils;
 
 namespace SayMore.Model.Files
 {
@@ -746,7 +745,7 @@ namespace SayMore.Model.Files
 				Key = "Audio_Bit_Rate",
 				Suffix = "kbps",
 				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.AudioBitRateSuffix", "kbps"),
-				DataItemChooser = (info => info.Audio.KilobitsPerSecond),
+				DataItemChooser = (info => info.Audio?.KilobitsPerSecond ?? 0),
 				GetFormattedStatProvider = GetStringStatistic
 			};
 

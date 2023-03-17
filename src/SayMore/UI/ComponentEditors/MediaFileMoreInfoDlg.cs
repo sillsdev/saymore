@@ -193,15 +193,20 @@ namespace SayMore.UI.ComponentEditors
 		{
             _buttonEvenMoreInfo.Visible = false;
 			_buttonLessInfo.Visible = true;
-            if (LoadBrowserControl() && !alreadyDisplayedEvenMoreInfoDisclaimer)
+            var origSource = _source;
+            if (LoadBrowserControl() && origSource != _source &&
+                !alreadyDisplayedEvenMoreInfoDisclaimer)
             {
+                // Note: I'm hard-coding the utility program names in the localizer comment
+                // because as things currently stand, that's definitely what they will be.
+                // If the utility programs change in the future, this comment might need to
+                // change.
                 var msg = Format(LocalizationManager.GetString(
                     "DialogBoxes.MediaFileMoreInfoDlg.EvenMoreInfoDisclaimer",
                     "The information shown here is obtained using {0}. " +
                     "Some of the details might differ from what {1} reported.",
                     "Parameters are utility program names. Param 0: \"MediaInfo.DLL\";" +
-                    " Param 1: \"FFprobe\""),
-                    MediaFileInfo.kMediaInfoDll, MediaFileInfo.kFFprobeName);
+                    " Param 1: \"FFprobe\""), _source, origSource);
                 MessageBox.Show(this, msg, ProductName, MessageBoxButtons.OK);
                 alreadyDisplayedEvenMoreInfoDisclaimer = true;
             }

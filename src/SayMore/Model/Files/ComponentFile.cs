@@ -366,7 +366,7 @@ namespace SayMore.Model.Files
 				if (e is PathTooLongException || e is ArgumentException)
 				{
 					ErrorReport.ReportNonFatalExceptionWithMessage(e,
-						LocalizationManager.GetString("CommonToMultipleViews.FileList.CannotRenameFileErrorMsg",
+						LocalizationManager.GetString("CommonToMultipleViews.FileList.CouldNotLoadFileErrorMsg",
 						"{0} could not load the file: {1}"),
 						Application.ProductName, PathToAnnotatedFile);
 					return;

@@ -212,13 +212,14 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		private void DoConversion(object commandLine)
 		{
-			var exePath = FileLocationUtilities.GetFileDistributedWithApplication("FFmpeg", "ffmpeg.exe");
+			var exePath = FileLocationUtilities.GetFileDistributedWithApplication(
+                MediaFileInfo.kFFmpegFolder, "ffmpeg.exe");
 			_conversionOutput = new StringBuilder(exePath);
 			_conversionOutput.Append(commandLine);
 
 			try
 			{
-				// ffmpeg always seems to write the output to standarderror.
+				// FFmpeg always seems to write the output to standarderror.
 				// I don't understand why and that's wrong, but we'll deal with it.
 				_process = ExternalProcess.StartProcessToMonitor(exePath, commandLine as string,
 					HandleProcessDataReceived, HandleProcessDataReceived, null);

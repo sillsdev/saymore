@@ -14,6 +14,8 @@ using static System.String;
 using FileInfo = System.IO.FileInfo;
 using Resources = SayMore.Properties.Resources;
 using FFMpegCore;
+using static SIL.IO.FileLocationUtilities;
+using static SIL.Media.MediaInfo;
 
 namespace SayMore.Media
 {
@@ -23,6 +25,7 @@ namespace SayMore.Media
 	public class MediaFileInfo
     {
         public const string kFFprobeName = "FFprobe";
+        public const string kFFmpegFolder = "FFmpeg";
         public const string kMediaInfoDll = "MediaInfo.DLL";
 
         public enum HtmlLabels
@@ -100,7 +103,8 @@ namespace SayMore.Media
 		static MediaFileInfo()
 		{
 			s_templateData = Resources.mediaFileInfoOutputTemplate.Replace(Environment.NewLine + "<", "<");
-		}
+            FFprobeFolder = GetDirectoryDistributedWithApplication(false, kFFmpegFolder);
+        }
 
         /// ------------------------------------------------------------------------------------
 		public static MediaFileInfo GetInfo(string mediaFile) => GetInfo(mediaFile, out _);
@@ -456,10 +460,6 @@ namespace SayMore.Media
                             htmlBuilder.AppendLine("  </p>");
                         }
 					}
-
-     //               OpenTable();
-					//AppendRow(HtmlLabels.Source, kFFprobeName);
-					//CloseTable();
 
                     htmlBuilder.AppendLine("</body>");
                     htmlBuilder.AppendLine("</html>");

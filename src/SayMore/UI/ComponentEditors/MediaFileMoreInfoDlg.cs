@@ -281,7 +281,7 @@ namespace SayMore.UI.ComponentEditors
                         "Audio");
                 case MediaFileInfo.HtmlLabels.NumberedAudioStream:
                     return LocalizationManager.GetString("DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.NumberedAudioStream",
-                        "Audio Stream {0}");
+                        "Audio Stream #{0}");
                 case MediaFileInfo.HtmlLabels.ChannelCount:
                     return LocalizationManager.GetString("DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.ChannelCount",
                         "Channel count:");
@@ -299,7 +299,7 @@ namespace SayMore.UI.ComponentEditors
                         "Video");
                 case MediaFileInfo.HtmlLabels.NumberedVideoStream:
                     return LocalizationManager.GetString("DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.NumberedVideoStream",
-                        "Video Stream {0}");
+                        "Video Stream #{0}");
                 case MediaFileInfo.HtmlLabels.BitsPerRawSample:
                     return LocalizationManager.GetString("DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.BitsPerRawSample",
                         "Bits per raw sample:");

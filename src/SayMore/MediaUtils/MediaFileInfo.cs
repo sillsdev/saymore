@@ -402,8 +402,8 @@ namespace SayMore.Media
                         OpenTable();
                         if (data.AudioStreams.Count > 1)
                         {
-                            AppendRowWithLabel(Format(getLabel(HtmlLabels.NumberedAudioStream), i),
-                                null, "h2");
+                            AppendRowWithLabel(Format(getLabel(HtmlLabels.NumberedAudioStream),
+                                i + 1), null, "h2");
                         }
                         else
                             AppendRow(HtmlLabels.Audio, null, "h2");

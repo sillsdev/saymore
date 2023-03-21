@@ -380,7 +380,6 @@
     <EmbeddedResource Include="model\Data\Qustan059_Source.mp4.meta" />
     <EmbeddedResource Include="model\Data\MixedSession.session" />
     <None Include="packages.config" />
-    <None Include="README.md" />
     <None Include="Resources\longerSound.wav" />
   </ItemGroup>
   <ItemGroup>

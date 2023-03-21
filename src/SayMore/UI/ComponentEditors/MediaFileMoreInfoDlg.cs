@@ -53,19 +53,20 @@ namespace SayMore.UI.ComponentEditors
         {
             if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
             {
-                lblSource.Tag = lblSource.Text;
-                SetSourceLabel();
+                _lblSource.Tag = _lblSource.Text;
+                UpdateSourceLabelDisplay();
             }
         }
 
-        private void SetSourceLabel()
+        /// ------------------------------------------------------------------------------------
+        private void UpdateSourceLabelDisplay()
         {
             if (_source == null)
-                lblSource.Hide();
+                _lblSource.Hide();
             else
             {
-                lblSource.Text = Format((string)lblSource.Tag, _source);
-                lblSource.Show();
+                _lblSource.Text = Format((string)_lblSource.Tag, _source);
+                _lblSource.Show();
             }
         }
 
@@ -99,7 +100,7 @@ namespace SayMore.UI.ComponentEditors
 
 			var html = GetMediaInfo(out var source);
             _source = source;
-            SetSourceLabel();
+            UpdateSourceLabelDisplay();
             if (html == null)
                 return false;
 

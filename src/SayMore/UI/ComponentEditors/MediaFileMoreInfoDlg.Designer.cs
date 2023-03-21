@@ -37,7 +37,7 @@ namespace SayMore.UI.ComponentEditors
             this._buttonEvenMoreInfo = new System.Windows.Forms.Button();
             this._buttonLessInfo = new System.Windows.Forms.Button();
             this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
-            this.lblSource = new System.Windows.Forms.Label();
+            this._lblSource = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this._panelBrowser.SuspendLayout();
             this._flowLayoutButtons.SuspendLayout();
@@ -123,7 +123,7 @@ namespace SayMore.UI.ComponentEditors
             this._flowLayoutButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this._flowLayoutButtons.Controls.Add(this._buttonEvenMoreInfo);
             this._flowLayoutButtons.Controls.Add(this._buttonLessInfo);
-            this._flowLayoutButtons.Controls.Add(this.lblSource);
+            this._flowLayoutButtons.Controls.Add(this._lblSource);
             this._flowLayoutButtons.Location = new System.Drawing.Point(0, 339);
             this._flowLayoutButtons.Margin = new System.Windows.Forms.Padding(0, 15, 0, 0);
             this._flowLayoutButtons.Name = "_flowLayoutButtons";
@@ -175,18 +175,18 @@ namespace SayMore.UI.ComponentEditors
             // 
             // lblSource
             // 
-            this.lblSource.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblSource.AutoSize = true;
-            this.locExtender.SetLocalizableToolTip(this.lblSource, null);
-            this.locExtender.SetLocalizationComment(this.lblSource, null);
-            this.locExtender.SetLocalizationPriority(this.lblSource, L10NSharp.LocalizationPriority.NotLocalizable);
-            this.locExtender.SetLocalizingId(this.lblSource, "MediaFileMoreInfoDlg.lblSource");
-            this.lblSource.Location = new System.Drawing.Point(244, 6);
-            this.lblSource.Name = "lblSource";
-            this.lblSource.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.lblSource.Size = new System.Drawing.Size(122, 13);
-            this.lblSource.TabIndex = 6;
-            this.lblSource.Text = "Data obtained from: {0}";
+            this._lblSource.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this._lblSource.AutoSize = true;
+            this.locExtender.SetLocalizableToolTip(this._lblSource, null);
+            this.locExtender.SetLocalizationComment(this._lblSource, null);
+            this.locExtender.SetLocalizationPriority(this._lblSource, L10NSharp.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizingId(this._lblSource, "MediaFileMoreInfoDlg._lblSource");
+            this._lblSource.Location = new System.Drawing.Point(244, 6);
+            this._lblSource.Name = "_lblSource";
+            this._lblSource.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this._lblSource.Size = new System.Drawing.Size(122, 13);
+            this._lblSource.TabIndex = 6;
+            this._lblSource.Text = "Data obtained from: {0}";
             // 
             // MediaFileMoreInfoDlg
             // 
@@ -226,6 +226,6 @@ namespace SayMore.UI.ComponentEditors
 		private SIL.Windows.Forms.Widgets.EnhancedPanel _panelBrowser;
 		private System.Windows.Forms.Button _buttonLessInfo;
 		private L10NSharp.UI.L10NSharpExtender locExtender;
-        private System.Windows.Forms.Label lblSource;
+        private System.Windows.Forms.Label _lblSource;
     }
 }

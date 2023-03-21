@@ -23,59 +23,59 @@ namespace SayMore.Media
 	/// ----------------------------------------------------------------------------------------
 	[XmlType("mediaFileInfo")]
 	public class MediaFileInfo
-    {
-        public const string kFFprobeName = "FFprobe";
-        public const string kFFmpegFolder = "FFmpeg";
-        public const string kMediaInfoDll = "MediaInfo.DLL";
+	{
+		public const string kFFprobeName = "FFprobe";
+		public const string kFFmpegFolder = "FFmpeg";
+		public const string kMediaInfoDll = "MediaInfo.DLL";
 
-        public enum HtmlLabels
-        {
+		public enum HtmlLabels
+		{
 			// General labels
-            General,
-            FilePath,
+			General,
+			FilePath,
 			FileSize,
 			Source,
 			// Labels used for format and media streams
-            Duration,
-            StartTime,
-            BitRate,
-            Tags,
+			Duration,
+			StartTime,
+			BitRate,
+			Tags,
 			// Format labels
-            Format,
-            FmtName,
-            FmtLongName,
-            FmtStreamCount,
-            FmtProbeScore,
+			Format,
+			FmtName,
+			FmtLongName,
+			FmtStreamCount,
+			FmtProbeScore,
 			// Media stream labels
 			Id,
-            CodecName,
+			CodecName,
 			CodecLongName,
 			CodecTag,
 			Language,
 			Disposition,
 			BitDepth,
-            // Audio labels
-            Audio,
-            NumberedAudioStream,
-            ChannelCount,
-            ChannelLayout,
-            SampleRateHz,
-            Profile,
+			// Audio labels
+			Audio,
+			NumberedAudioStream,
+			ChannelCount,
+			ChannelLayout,
+			SampleRateHz,
+			Profile,
 			// Video labels
-            Video,
-            NumberedVideoStream,
-            BitsPerRawSample,
-            DisplayAspectRatio,
-            SampleAspectRatio,
-            Width,
-            Height,
-            FrameRate,
-            PixelFormat,
-            Rotation,
-            AverageFrameRate,
-            SubtitleStreamCount,
-            ErrorData,
-        }
+			Video,
+			NumberedVideoStream,
+			BitsPerRawSample,
+			DisplayAspectRatio,
+			SampleAspectRatio,
+			Width,
+			Height,
+			FrameRate,
+			PixelFormat,
+			Rotation,
+			AverageFrameRate,
+			SubtitleStreamCount,
+			ErrorData,
+		}
 
 		private Image _fullSizeThumbnail;
 		private static readonly string s_templateData;
@@ -103,10 +103,10 @@ namespace SayMore.Media
 		static MediaFileInfo()
 		{
 			s_templateData = Resources.mediaFileInfoOutputTemplate.Replace(Environment.NewLine + "<", "<");
-            FFprobeFolder = GetDirectoryDistributedWithApplication(false, kFFmpegFolder);
-        }
+			FFprobeFolder = GetDirectoryDistributedWithApplication(false, kFFmpegFolder);
+		}
 
-        /// ------------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
 		public static MediaFileInfo GetInfo(string mediaFile) => GetInfo(mediaFile, out _);
 
 		/// ------------------------------------------------------------------------------------
@@ -117,10 +117,10 @@ namespace SayMore.Media
 			var finfo = new FileInfo(mediaFile);
 			if (!finfo.Exists || finfo.Length == 0)
 				return new MediaFileInfo { Audio = new AudioInfo() }; // SP-1007
-            
-            MediaFileInfo mediaInfo = null;
+			
+			MediaFileInfo mediaInfo = null;
 
-            var silMediaInfo = SIL.Media.MediaInfo.GetInfo(mediaFile);
+			var silMediaInfo = SIL.Media.MediaInfo.GetInfo(mediaFile);
 			if (silMediaInfo?.AnalysisData != null)
 			{
 				AudioInfo audio = null;
@@ -128,83 +128,80 @@ namespace SayMore.Media
 				if (silAudio != null)
 				{
 					Debug.Assert(silMediaInfo.AnalysisData.PrimaryAudioStream != null);
-                    var bitRate = silMediaInfo.AnalysisData.PrimaryAudioStream.BitRate;
-                    if (bitRate == 0 && silAudio.BitDepth > 0)
-                        bitRate = silAudio.BitDepth * silAudio.SamplesPerSecond * silAudio.ChannelCount;
+					var bitRate = silMediaInfo.AnalysisData.PrimaryAudioStream.BitRate;
+					if (bitRate == 0 && silAudio.BitDepth > 0)
+						bitRate = silAudio.BitDepth * silAudio.SamplesPerSecond * silAudio.ChannelCount;
 					audio = new AudioInfo
-                    {
+					{
 						DurationInMilliseconds = (long)silAudio.Duration.TotalMilliseconds,
 						BitRate = bitRate,
 						BitsPerSample = silAudio.BitDepth,
 						Channels = silAudio.ChannelCount,
 						Encoding = silAudio.Encoding,
 						SamplesPerSecond = silAudio.SamplesPerSecond,
-                    };
+					};
 				}
 
 				VideoInfo video = null;
-                var silVideoInfo = silMediaInfo.Video;
 				// Unfortunately, just checking for a Video stream is not enough because ffProbe
 				// treats an embedded thumbnail jpeg as "video" (which is technically true).
-				if (silVideoInfo != null && 
-                    silMediaInfo.AnalysisData.PrimaryVideoStream != null &&
-                    (silMediaInfo.AnalysisData.PrimaryVideoStream.BitRate > 0 || 
-                        silMediaInfo.AnalysisData.PrimaryVideoStream.AvgFrameRate > 0))
+				if (silMediaInfo.IsMotionPicture())
 				{
 					video = new VideoInfo
 					{
-						DurationInMilliseconds = (long)silVideoInfo.Duration.TotalMilliseconds,
+						DurationInMilliseconds = (long)silMediaInfo.Video.Duration.TotalMilliseconds,
 						FramesPerSecond = (float)Math.Round(silMediaInfo.AnalysisData.PrimaryVideoStream.AvgFrameRate, 3),
 						AspectRatio = (float)Math.Round((double)silMediaInfo.AnalysisData.PrimaryVideoStream.Width /
-                            silMediaInfo.AnalysisData.PrimaryVideoStream.Height, 3),
+							silMediaInfo.AnalysisData.PrimaryVideoStream.Height, 3),
 						BitRate = (int)silMediaInfo.AnalysisData.PrimaryVideoStream.BitRate,
 						Height = silMediaInfo.AnalysisData.PrimaryVideoStream.Height,
 						Width = silMediaInfo.AnalysisData.PrimaryVideoStream.Width,
 						CodecInformation = silMediaInfo.AnalysisData.PrimaryVideoStream.CodecName,
-                    };
+					};
 				}
 
 				mediaInfo = new MediaFileInfo
 				{
-                    LengthInBytes = finfo.Length,
+					LengthInBytes = finfo.Length,
 					Format = silMediaInfo.AnalysisData.Format.FormatLongName,
 					Audio = audio,
 					Video = video,
 					DurationInMilliseconds = (long)silMediaInfo.AnalysisData.Duration.TotalMilliseconds,
-                    MediaFilePath = mediaFile,
-                };
+					MediaFilePath = mediaFile,
+				};
 
 				// As near as I can tell, SayMore never shows the Format, but for a more complete
 				// implementation that has at least as much information as MediaInfo.dll used to
 				// supply, I'm adding the codec information.
 				if (silMediaInfo.AnalysisData.PrimaryVideoStream != null)
-                {
-                    mediaInfo.Format += "; " +
-                        silMediaInfo.AnalysisData.PrimaryVideoStream.CodecLongName;
-                }
-            }
+				{
+					mediaInfo.Format += "; " +
+						silMediaInfo.AnalysisData.PrimaryVideoStream.CodecLongName;
+				}
+			}
 
-            if (mediaInfo == null) // Very unlikely...
-            {
-                // and even less likely that this is going to do any better. But since this is the
+			if (mediaInfo == null) // Very unlikely...
+			{
+				// and even less likely that this is going to do any better. But since this is the
 				// way it used to get the media info, seems best to keep it around as a fallback.
-                return GetMediaFileInfoUsingMediaInfoDll(mediaFile, ref error);
-            }
+				return GetMediaFileInfoUsingMediaInfoDll(mediaFile, ref error);
+			}
 
-            if (mediaInfo.Audio == null)
-                Logger.WriteEvent("Could not get audio info from SIL.Media. Possibly a video-only media file?");
+			if (mediaInfo.Audio == null)
+				Logger.WriteEvent("Could not get audio info from SIL.Media. Possibly a video-only media file?");
 
 			return mediaInfo;
 		}
 
 #if DEBUG
-        /// <summary>
-        /// The following was some debugging code written to evaluate the differences between the
-        /// information gleaned using MediaInfo.DLL vs. FFprobe. I decided to keep it around in case
-        /// at some point I get some want to re-evaluate.
-        /// </summary>
-        private void CompareMediaInfoResults(MediaFileInfo mediaInfo, MediaFileInfo mediaInfoFromDll)
-        {
+		/// <summary>
+		/// The following was some debugging code written to evaluate the differences between the
+		/// information gleaned using MediaInfo.DLL vs. FFprobe. I decided to keep it around in
+		/// case at some point I get some more insight into the pros and/or cons of one or both
+		/// utlities and want to re-evaluate.
+		/// </summary>
+		private void CompareMediaInfoResults(MediaFileInfo mediaInfo, MediaFileInfo mediaInfoFromDll)
+		{
 			if (mediaInfo != null && mediaInfoFromDll != null)
 			{
 				if (mediaInfoFromDll.BitsPerSample != mediaInfo.BitsPerSample)
@@ -257,222 +254,239 @@ namespace SayMore.Media
 		}
 #endif
 
-        private static MediaFileInfo GetMediaFileInfoUsingMediaInfoDll(string mediaFile, ref Exception error)
-        {
-            string xml;
-            try
-            {
-                var info = new MediaInfo();
-                if (info.Open(mediaFile) == 0)
-                {
-                    error = new Exception("Could not read any valid media information from file: " + mediaFile);
-                    return null;
-                }
+		private static MediaFileInfo GetMediaFileInfoUsingMediaInfoDll(string mediaFile, ref Exception error)
+		{
+			string xml;
+			try
+			{
+				var info = new MediaInfo();
+				if (info.Open(mediaFile) == 0)
+				{
+					error = new Exception("Could not read any valid media information from file: " + mediaFile);
+					return null;
+				}
 
-                info.Option("Inform", s_templateData);
-                xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine +
-                    "<mediaFileInfo>" + info.Inform() + "</mediaFileInfo>";
-                info.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                error = e;
-                return null;
-            }
+				info.Option("Inform", s_templateData);
+				xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine +
+					"<mediaFileInfo>" + info.Inform() + "</mediaFileInfo>";
+				info.Close();
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				error = e;
+				return null;
+			}
 
-            var mediaInfo = XmlSerializationHelper.DeserializeFromString<MediaFileInfo>(xml, out error);
+			var mediaInfo = XmlSerializationHelper.DeserializeFromString<MediaFileInfo>(xml, out error);
 
-            if (mediaInfo != null)
-            {
-                mediaInfo.MediaFilePath = mediaFile;
+			if (mediaInfo != null)
+			{
+				mediaInfo.MediaFilePath = mediaFile;
 
-                if (mediaInfo.Audio == null)
-                {
+				if (mediaInfo.Audio == null)
+				{
 					var msg = $"Could not deserialize audio info to XML from MediaInfo for {mediaFile}:\r\n{xml}";
-                    Logger.WriteEvent(msg);
-                    error = new Exception(msg);
-                }
-            }
+					Logger.WriteEvent(msg);
+					error = new Exception(msg);
+				}
+			}
 
-            return mediaInfo;
-        }
-        /// ------------------------------------------------------------------------------------
-        public static string GetInfoAsHtml(string mediaFile, bool verbose,
-            Func<HtmlLabels, string> getLabel, out string source)
-        {
-            if (!verbose)
-            {
-                var data = SIL.Media.MediaInfo.GetInfo(mediaFile)?.AnalysisData;
-                if (data != null)
-                {
-                    var htmlBuilder = new StringBuilder("<html>");
+			return mediaInfo;
+		}
 
-                    var trIndent = Empty.PadLeft(4);
-                    var tdIndent = trIndent.PadLeft(2);
+		/// ------------------------------------------------------------------------------------
+		public static string GetInfoAsHtml(string mediaFile, bool verbose,
+			Func<HtmlLabels, string> getLabel, out string source)
+		{
+			// The difference between "verbose" and "normal" used to be a setting passed in to
+			// MediaInfo.DLL, where "verbose" resulted in a lot more details. Now "normal" really
+			// means that it will be based on the information that FFprobe can extract (except if
+			// we encounter some file that FFprobe can't read and MediaInfo.DLL can). While that
+			// still means it is less verbose, it also means it can in some cases be somewhat
+			// different. I have not been able to determine if/when the differences are actually
+			// meaningful or important, nor which utility provides the more reliable information.
+			if (!verbose)
+			{
+				var data = SIL.Media.MediaInfo.GetInfo(mediaFile)?.AnalysisData;
+				if (data != null)
+				{
+					source = kFFprobeName;
+					return GetHtmlFromFFprobeData(mediaFile, getLabel, data);
+				}
+			}
 
-					void OpenTable()
-					{
-                        htmlBuilder.AppendLine("  <table width=\"100%\" border=\"0\" cellpadding=\"1\" cellspacing=\"2\" style=\"border:1px solid Navy\" >");
-                    }
-					
-                    void CloseTable()
-                    {
-                        htmlBuilder.AppendLine("  </table>");
-                        htmlBuilder.AppendLine("  <br />");
-                    }
+			source = kMediaInfoDll;
+			return GetInfoAsHtmlFromDll(mediaFile, verbose);
+		}
 
-                    void AppendRowWithLabel(string label, object value, string format = "i")
-                    {
-                        htmlBuilder.Append(trIndent);
-                        htmlBuilder.AppendLine("<tr>");
-                        htmlBuilder.Append(tdIndent);
-                        htmlBuilder.AppendFormat("<td{0}><{1}>", format == "h2" ? " width=\"150\"" : "", format);
-                        htmlBuilder.Append(HttpUtility.HtmlEncode(label));
-                        htmlBuilder.AppendFormat("</{0}></td>", format);
-                        htmlBuilder.AppendLine();
-                        if (value != null)
-                        {
-                            htmlBuilder.Append(tdIndent);
-                            htmlBuilder.Append("<td>");
-                            htmlBuilder.Append(value);
-                            htmlBuilder.AppendLine("</td>");
-                        } 
-                        htmlBuilder.Append(trIndent);
-                        htmlBuilder.AppendLine("</tr>");
-                    }
+		/// ------------------------------------------------------------------------------------
+		private static string GetHtmlFromFFprobeData(string mediaFile, Func<HtmlLabels, string> getLabel, IMediaAnalysis data)
+		{
+			var htmlBuilder = new StringBuilder("<html>");
 
-                    void AppendRow(HtmlLabels label, object value, string format = "i")
-                    {
-                        AppendRowWithLabel(getLabel(label), value, format);
-                    }
+			var trIndent = Empty.PadLeft(4);
+			var tdIndent = trIndent.PadLeft(2);
 
-					void AppendStreamInfoRows(MediaStream stream)
-					{
-                        AppendRow(HtmlLabels.Id, stream.Index);
-                        AppendRow(HtmlLabels.CodecName, stream.CodecName);
-                        AppendRow(HtmlLabels.CodecLongName, stream.CodecLongName);
-                        AppendRow(HtmlLabels.CodecTag, stream.CodecTag);
-                        AppendRow(HtmlLabels.Duration, stream.Duration);
-                        AppendRow(HtmlLabels.BitRate, stream.BitRate);
-					}
+			void OpenTable()
+			{
+				htmlBuilder.AppendLine("  <table width=\"100%\" border=\"0\" cellpadding=\"1\" cellspacing=\"2\" style=\"border:1px solid Navy\" >");
+			}
 
-                    void AppendStreamDispositionAndTagRows(MediaStream stream)
-                    {
-                        if (stream.Disposition != null && stream.Disposition.Any())
-                        {
-                            AppendRow(HtmlLabels.Disposition, null, "h4");
-                            foreach (var disposition in stream.Disposition)
-                                AppendRowWithLabel(disposition.Key, disposition.Value);
-                        }
+			void CloseTable()
+			{
+				htmlBuilder.AppendLine("  </table>");
+				htmlBuilder.AppendLine("  <br />");
+			}
 
-                        if (stream.Tags != null && stream.Tags.Any())
-                        {
-                            AppendRow(HtmlLabels.Tags, null, "h4");
-                            foreach (var disposition in stream.Tags)
-                                AppendRowWithLabel(disposition.Key, disposition.Value);
-                        }
-                    }
+			void AppendRowWithLabel(string label, object value, string format = "i")
+			{
+				htmlBuilder.Append(trIndent);
+				htmlBuilder.AppendLine("<tr>");
+				htmlBuilder.Append(tdIndent);
+				htmlBuilder.AppendFormat("<td{0}><{1}>", format == "h2" ? " width=\"150\"" : "", format);
+				htmlBuilder.Append(HttpUtility.HtmlEncode(label));
+				htmlBuilder.AppendFormat("</{0}></td>", format);
+				htmlBuilder.AppendLine();
+				if (value != null)
+				{
+					htmlBuilder.Append(tdIndent);
+					htmlBuilder.Append("<td>");
+					htmlBuilder.Append(value);
+					htmlBuilder.AppendLine("</td>");
+				}
 
-                    htmlBuilder.AppendLine("<head><META http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /></head>");
-                    htmlBuilder.AppendLine("<body>");
-					OpenTable();
-					AppendRow(HtmlLabels.General, null, "h2");
-					AppendRow(HtmlLabels.FilePath, mediaFile);
-					AppendRow(HtmlLabels.FileSize, new FileInfo(mediaFile).Length);
+				htmlBuilder.Append(trIndent);
+				htmlBuilder.AppendLine("</tr>");
+			}
 
-                    AppendRow(HtmlLabels.Format, null, "h3");
-					AppendRow(HtmlLabels.FmtName, data.Format.FormatName);
-					AppendRow(HtmlLabels.FmtLongName, data.Format.FormatLongName);
-                    AppendRow(HtmlLabels.FmtStreamCount, data.Format.StreamCount);
-                    AppendRow(HtmlLabels.Duration, data.Format.Duration);
-                    AppendRow(HtmlLabels.StartTime, data.Format.StartTime);
-                    AppendRow(HtmlLabels.BitRate, data.Format.BitRate);
-                    AppendRow(HtmlLabels.FmtProbeScore, data.Format.ProbeScore);
-					if (data.SubtitleStreams.Count > 0)
-                        AppendRow(HtmlLabels.SubtitleStreamCount, data.SubtitleStreams.Count);
-                    if (data.Format.Tags != null)
-                    {
-                        AppendRow(HtmlLabels.Tags, null, "h4");
-                        foreach (var tag in data.Format.Tags)
-                            AppendRowWithLabel(tag.Key, tag.Value);
-                    }
+			void AppendRow(HtmlLabels label, object value, string format = "i")
+			{
+				AppendRowWithLabel(getLabel(label), value, format);
+			}
 
-                    CloseTable();
+			void AppendStreamInfoRows(MediaStream stream)
+			{
+				AppendRow(HtmlLabels.Id, stream.Index);
+				AppendRow(HtmlLabels.CodecName, stream.CodecName);
+				AppendRow(HtmlLabels.CodecLongName, stream.CodecLongName);
+				AppendRow(HtmlLabels.CodecTag, stream.CodecTag);
+				AppendRow(HtmlLabels.Duration, stream.Duration);
+				AppendRow(HtmlLabels.BitRate, stream.BitRate);
+			}
 
-                    for (var i = 0; i < data.AudioStreams.Count; i++)
-                    {
-                        var stream = data.AudioStreams[i];
-                        OpenTable();
-                        if (data.AudioStreams.Count > 1)
-                        {
-                            AppendRowWithLabel(Format(getLabel(HtmlLabels.NumberedAudioStream),
-                                i + 1), null, "h2");
-                        }
-                        else
-                            AppendRow(HtmlLabels.Audio, null, "h2");
-                        AppendStreamInfoRows(stream);
-                        AppendRow(HtmlLabels.ChannelCount, stream.Channels);
-                        AppendRow(HtmlLabels.ChannelLayout, stream.ChannelLayout);
-                        AppendRow(HtmlLabels.SampleRateHz, stream.SampleRateHz);
-                        if (stream.BitDepth != null)
-                            AppendRow(HtmlLabels.BitDepth, stream.BitDepth);
-                        AppendRow(HtmlLabels.Language, stream.Language);
-                        AppendRow(HtmlLabels.Profile, stream.Profile);
-                        AppendStreamDispositionAndTagRows(stream);
-                        CloseTable();
-                    }
+			void AppendStreamDispositionAndTagRows(MediaStream stream)
+			{
+				if (stream.Disposition != null && stream.Disposition.Any())
+				{
+					AppendRow(HtmlLabels.Disposition, null, "h4");
+					foreach (var disposition in stream.Disposition)
+						AppendRowWithLabel(disposition.Key, disposition.Value);
+				}
 
-                    for (var i = 0; i < data.VideoStreams.Count; i++)
-                    {
-                        var stream = data.VideoStreams[i];
-                        OpenTable();
-                        if (data.VideoStreams.Count > 1)
-                        {
-                            AppendRowWithLabel(Format(getLabel(HtmlLabels.NumberedVideoStream), i),
-                                null, "h2");
-                        }
-                        else
-                            AppendRow(HtmlLabels.Video, null, "h2");
-                        AppendStreamInfoRows(stream);
-                        AppendRow(HtmlLabels.AverageFrameRate, stream.AverageFrameRate);
-                        AppendRow(HtmlLabels.BitsPerRawSample, stream.BitsPerRawSample);
-                        AppendRow(HtmlLabels.DisplayAspectRatio, stream.DisplayAspectRatio);
-                        AppendRow(HtmlLabels.SampleAspectRatio, stream.SampleAspectRatio);
-                        AppendRow(HtmlLabels.Width, stream.Width);
-                        AppendRow(HtmlLabels.Height, stream.Height);
-                        AppendRow(HtmlLabels.FrameRate, stream.FrameRate);
-                        AppendRow(HtmlLabels.PixelFormat, stream.PixelFormat);
-                        AppendRow(HtmlLabels.Rotation, stream.Rotation);
-                        AppendStreamDispositionAndTagRows(stream);
-                        CloseTable();
-                    }
+				if (stream.Tags != null && stream.Tags.Any())
+				{
+					AppendRow(HtmlLabels.Tags, null, "h4");
+					foreach (var disposition in stream.Tags)
+						AppendRowWithLabel(disposition.Key, disposition.Value);
+				}
+			}
 
-                    if (data.ErrorData != null && data.ErrorData.Count > 0)
-					{
-                        htmlBuilder.Append("  <h2>");
-                        htmlBuilder.Append(HttpUtility.HtmlEncode(getLabel(HtmlLabels.ErrorData)));
-                        htmlBuilder.AppendLine("  </h2>");
-                        foreach (var errorLine in data.ErrorData)
-                        {
-                            htmlBuilder.Append("  <p>");
-                            htmlBuilder.Append(HttpUtility.HtmlEncode(errorLine));
-                            htmlBuilder.AppendLine("  </p>");
-                        }
-					}
+			htmlBuilder.AppendLine("<head><META http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /></head>");
+			htmlBuilder.AppendLine("<body>");
+			OpenTable();
+			AppendRow(HtmlLabels.General, null, "h2");
+			AppendRow(HtmlLabels.FilePath, mediaFile);
+			AppendRow(HtmlLabels.FileSize, new FileInfo(mediaFile).Length);
 
-                    htmlBuilder.AppendLine("</body>");
-                    htmlBuilder.AppendLine("</html>");
-                    source = kFFprobeName;
-                    return htmlBuilder.ToString();
-                }
-            }
+			AppendRow(HtmlLabels.Format, null, "h3");
+			AppendRow(HtmlLabels.FmtName, data.Format.FormatName);
+			AppendRow(HtmlLabels.FmtLongName, data.Format.FormatLongName);
+			AppendRow(HtmlLabels.FmtStreamCount, data.Format.StreamCount);
+			AppendRow(HtmlLabels.Duration, data.Format.Duration);
+			AppendRow(HtmlLabels.StartTime, data.Format.StartTime);
+			AppendRow(HtmlLabels.BitRate, data.Format.BitRate);
+			AppendRow(HtmlLabels.FmtProbeScore, data.Format.ProbeScore);
+			if (data.SubtitleStreams.Count > 0)
+				AppendRow(HtmlLabels.SubtitleStreamCount, data.SubtitleStreams.Count);
+			if (data.Format.Tags != null)
+			{
+				AppendRow(HtmlLabels.Tags, null, "h4");
+				foreach (var tag in data.Format.Tags)
+					AppendRowWithLabel(tag.Key, tag.Value);
+			}
 
-            source = kMediaInfoDll;
-            return GetInfoAsHtmlFromDll(mediaFile, verbose);
-        }
+			CloseTable();
 
-        /// ------------------------------------------------------------------------------------
+			for (var i = 0; i < data.AudioStreams.Count; i++)
+			{
+				var stream = data.AudioStreams[i];
+				OpenTable();
+				if (data.AudioStreams.Count > 1)
+				{
+					AppendRowWithLabel(Format(getLabel(HtmlLabels.NumberedAudioStream),
+						i + 1), null, "h2");
+				}
+				else
+					AppendRow(HtmlLabels.Audio, null, "h2");
+
+				AppendStreamInfoRows(stream);
+				AppendRow(HtmlLabels.ChannelCount, stream.Channels);
+				AppendRow(HtmlLabels.ChannelLayout, stream.ChannelLayout);
+				AppendRow(HtmlLabels.SampleRateHz, stream.SampleRateHz);
+				if (stream.BitDepth != null)
+					AppendRow(HtmlLabels.BitDepth, stream.BitDepth);
+				AppendRow(HtmlLabels.Language, stream.Language);
+				AppendRow(HtmlLabels.Profile, stream.Profile);
+				AppendStreamDispositionAndTagRows(stream);
+				CloseTable();
+			}
+
+			for (var i = 0; i < data.VideoStreams.Count; i++)
+			{
+				var stream = data.VideoStreams[i];
+				OpenTable();
+				if (data.VideoStreams.Count > 1)
+				{
+					AppendRowWithLabel(Format(getLabel(HtmlLabels.NumberedVideoStream), i),
+						null, "h2");
+				}
+				else
+					AppendRow(HtmlLabels.Video, null, "h2");
+
+				AppendStreamInfoRows(stream);
+				AppendRow(HtmlLabels.AverageFrameRate, stream.AverageFrameRate);
+				AppendRow(HtmlLabels.BitsPerRawSample, stream.BitsPerRawSample);
+				AppendRow(HtmlLabels.DisplayAspectRatio, stream.DisplayAspectRatio);
+				AppendRow(HtmlLabels.SampleAspectRatio, stream.SampleAspectRatio);
+				AppendRow(HtmlLabels.Width, stream.Width);
+				AppendRow(HtmlLabels.Height, stream.Height);
+				AppendRow(HtmlLabels.FrameRate, stream.FrameRate);
+				AppendRow(HtmlLabels.PixelFormat, stream.PixelFormat);
+				AppendRow(HtmlLabels.Rotation, stream.Rotation);
+				AppendStreamDispositionAndTagRows(stream);
+				CloseTable();
+			}
+
+			if (data.ErrorData != null && data.ErrorData.Count > 0)
+			{
+				htmlBuilder.Append("  <h2>");
+				htmlBuilder.Append(HttpUtility.HtmlEncode(getLabel(HtmlLabels.ErrorData)));
+				htmlBuilder.AppendLine("  </h2>");
+				foreach (var errorLine in data.ErrorData)
+				{
+					htmlBuilder.Append("  <p>");
+					htmlBuilder.Append(HttpUtility.HtmlEncode(errorLine));
+					htmlBuilder.AppendLine("  </p>");
+				}
+			}
+
+			htmlBuilder.AppendLine("</body>");
+			htmlBuilder.AppendLine("</html>");
+			return htmlBuilder.ToString();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static string GetInfoAsHtmlFromDll(string mediaFile, bool verbose)
 		{
 			var info = new MediaInfo();
@@ -545,13 +559,13 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public float FramesPerSecond => Video?.FramesPerSecond ?? 0;
 
-        /// ------------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
 		public int Channels => Audio?.Channels ?? 0;
 
-        /// ------------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
 		public int SamplesPerSecond => Audio?.SamplesPerSecond ?? 0;
 
-        /// ------------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
 		public string AudioEncoding
 		{
 			get
@@ -578,7 +592,7 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public string Resolution => (Video != null ? Video.Resolution : Empty);
 
-        /// ------------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Returns the bit depth for PCM or WMA audio. Other audio types don't have a
 		/// bit depth.
@@ -586,13 +600,13 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public int BitsPerSample => Audio?.BitsPerSample ?? 0;
 
-        /// ------------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
 		public long VideoBitRate => Video?.BitRate ?? 0;
 
-        /// ------------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
 		public int VideoKilobitsPerSecond => (Video == null) ? 0 : (int)(Video.BitRate / 1000);
 
-        /// ------------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
 		public Image FullSizedThumbnail
 		{
 			get
@@ -607,10 +621,10 @@ namespace SayMore.Media
 			}
 		}
 
-        /// ------------------------------------------------------------------------------------
-        public bool IsVideo => Video != null;
+		/// ------------------------------------------------------------------------------------
+		public bool IsVideo => Video != null;
 
-        #endregion
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		public class TrackInfo
@@ -644,7 +658,7 @@ namespace SayMore.Media
 
 			public float DurationInSeconds => DurationInMilliseconds / 1000f;
 
-            [XmlElement("bitRateMode")]
+			[XmlElement("bitRateMode")]
 			public string BitRateMode { get; set; }
 
 			[XmlElement("bitRate")]
@@ -652,7 +666,7 @@ namespace SayMore.Media
 
 			/// ------------------------------------------------------------------------------------
 			public int KilobitsPerSecond => (int)(BitRate / 1000);
-        }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		[XmlType("audio")]
@@ -695,11 +709,11 @@ namespace SayMore.Media
 			/// </summary>
 			public Size PictureSize => new Size(Width, Height);
 
-            /// <summary>
-            /// Gets the video resolution as a string __W__ x __H__ (in pixels)
-            /// </summary>
+			/// <summary>
+			/// Gets the video resolution as a string __W__ x __H__ (in pixels)
+			/// </summary>
 			public string Resolution => Width + " x " + Height;
-        }
+		}
 	}
 
 	#endregion

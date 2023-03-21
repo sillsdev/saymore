@@ -33,16 +33,11 @@ th
 
 td { vertical-align: top; }
 
-h3 {
-    padding: 0 15px 0 10px;
-}
-
-h4 {
+h3, h4, .fieldname {
     padding: 0 15px 0 10px;
 }
 
 .fieldName
 {
 	white-space:nowrap;
-	padding: 0 15px 0 10px;
 }

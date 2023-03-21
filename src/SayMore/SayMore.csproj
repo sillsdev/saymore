@@ -1055,7 +1055,6 @@
     <Compile Include="Utilities\JSONUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="README.md" />
     <None Include="Resources\ContributorsTab.png" />
     <None Include="Resources\NotesTab.png" />
     <None Include="Resources\PlayTab.png" />

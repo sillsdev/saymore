@@ -367,7 +367,9 @@ namespace SayMore.Model.Files
 				{
 					ErrorReport.ReportNonFatalExceptionWithMessage(e,
 						LocalizationManager.GetString("CommonToMultipleViews.FileList.CouldNotLoadFileErrorMsg",
-						"{0} could not load the file: {1}"),
+						"{0} could not load the file: {1}",
+						"Param 0: \"SayMore\" (product name); " +
+						"Param 1: file path"),
 						Application.ProductName, PathToAnnotatedFile);
 					return;
 				}

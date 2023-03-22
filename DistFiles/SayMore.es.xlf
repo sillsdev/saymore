@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns:sil="http://sil.org/software/XLiff" xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" product-version="3.3.0.0" original="SayMore.exe" datatype="plaintext" target-language="es-ES">
+  <file source-language="en" product-version="3.5.0.0" original="SayMore.exe" datatype="plaintext" target-language="es-ES">
     <body>
       <trans-unit id="BuildType.Alpha">
         <source xml:lang="en">Alpha</source>
@@ -252,6 +252,11 @@
         <target xml:lang="es-ES" state="translated">Extraer audio para grabar como mono MP3 (baja calidad)</target>
         <note>ID: CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText</note>
       </trans-unit>
+      <trans-unit id="CommonToMultipleViews.FileList.CouldNotLoadFileErrorMsg">
+        <source xml:lang="en">{0} could not load the file: {1}</source>
+        <target xml:lang="es-ES" state="translated">{0} no pudo cargar el archivo: {1}</target>
+        <note>ID: CommonToMultipleViews.FileList.CouldNotLoadFileErrorMsg</note>
+      </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileList.DeleteFileMenuText">
         <source xml:lang="en">&amp;Delete File...</source>
         <target xml:lang="es-ES" state="translated">&amp;Borrar archivo...</target>
@@ -414,7 +419,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Content-Interactivity.Semi-interactive.Definition" sil:dynamic="true">
         <source xml:lang="en">Primarily monologic speech punctuated by repeated interjections from the hearer(s).</source>
-        <target xml:lang="es-ES" state="needs-translation">Primarily monologic speech punctuated by repeated interjections from the hearer(s).</target>
+        <target xml:lang="es-ES" state="translated">Discurso monológico interrumpido de vez en cuando por interjecciones o respuestas de los oyentes.</target>
         <note>ID: CommonToMultipleViews.ListItems.Content-Interactivity.Semi-interactive.Definition</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Content-Interactivity.Semi-interactive.Text" sil:dynamic="true">
@@ -1999,7 +2004,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.UnableToObtainShortName">
         <source xml:lang="en">{0} was unable to obtain a "short name" for this file:\n{1}\nYou (or a system administrator) can use {2} to enable creation of short "8.3" file names for the file system volume ({3}) where this file is located.</source>
-        <target xml:lang="es-ES" state="needs-translation">{0} was unable to obtain a "short name" for this file:\n{1}\nYou (or a system administrator) can use {2} to enable creation of short "8.3" file names for the file system volume ({3}) where this file is located.</target>
+        <target xml:lang="es-ES" state="translated">{0} no pudo obtener el "nombre corto" de este archivo:\n{1}\nUsted (o un administrador del sistema) puede usar {2} para permitir la creación de nombres cortos "8.3" de los archivos del volumen del sistema de archivos ({3}) donde se encuentra este archivo.</target>
         <note>ID: CommonToMultipleViews.UnableToObtainShortName</note>
       </trans-unit>
       <trans-unit id="ConvertMedia.FullConversionOutput">
@@ -2039,7 +2044,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.ArchivingProgressMsg">
         <source xml:lang="en">     {0}: {1}</source>
-        <target xml:lang="es-ES" state="needs-translation">     {0}: {1}</target>
+        <target xml:lang="es-ES" state="translated">     {0}: {1}</target>
         <note>ID: DialogBoxes.ArchivingDlg.ArchivingProgressMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.ContributorElementName">
@@ -2091,6 +2096,196 @@
         <source xml:lang="en">There was an error trying to get more information for the media file:\n\n{0}</source>
         <target xml:lang="es-ES" state="translated">Hubo un error al intentar obtener más información sobre el archivo multimedia:\n\n\n\n{0}</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.GettingInfoErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.">
+        <source xml:lang="en">Start time:</source>
+        <target xml:lang="es-ES" state="translated">Hora de inicio:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Audio">
+        <source xml:lang="en">Audio</source>
+        <target xml:lang="es-ES" state="translated">Audio</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Audio</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.AverageFrameRate">
+        <source xml:lang="en">Average frame rate:</source>
+        <target xml:lang="es-ES" state="translated">Velocidad de fotogramas promedia:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.AverageFrameRate</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.BitDepth">
+        <source xml:lang="en">Bit depth:</source>
+        <target xml:lang="es-ES" state="translated">Profundidad de bits:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.BitDepth</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.BitsPerRawSample">
+        <source xml:lang="en">Bits per raw sample:</source>
+        <target xml:lang="es-ES" state="translated">Bits por muestra cruda:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.BitsPerRawSample</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.ChannelCount">
+        <source xml:lang="en">Channel count:</source>
+        <target xml:lang="es-ES" state="translated">Número de canales:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.ChannelCount</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.ChannelLayout">
+        <source xml:lang="en">Channel layout:</source>
+        <target xml:lang="es-ES" state="translated">Diseño de canales:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.ChannelLayout</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.CodecLongName">
+        <source xml:lang="en">Codec long name:</source>
+        <target xml:lang="es-ES" state="translated">Nombre completo del códec:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.CodecLongName</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.CodecName">
+        <source xml:lang="en">Codec name:</source>
+        <target xml:lang="es-ES" state="translated">Nombre del códec:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.CodecName</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.CodecTag">
+        <source xml:lang="en">Codec tag:</source>
+        <target xml:lang="es-ES" state="translated">Etiqueta de códec:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.CodecTag</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.CompleteName">
+        <source xml:lang="en">Complete name:</source>
+        <target xml:lang="es-ES" state="translated">Nombre completo:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.CompleteName</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.DisplayAspectRatio">
+        <source xml:lang="en">Display aspect ratio:</source>
+        <target xml:lang="es-ES" state="translated">Proporción de visualización:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.DisplayAspectRatio</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Disposition">
+        <source xml:lang="en">Disposition</source>
+        <target xml:lang="es-ES" state="translated">Disposición</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Disposition</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Duration">
+        <source xml:lang="en">Duration:</source>
+        <target xml:lang="es-ES" state="translated">Duración:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Duration</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.ErrorData">
+        <source xml:lang="en">Error data</source>
+        <target xml:lang="es-ES" state="translated">Datos de errores</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.ErrorData</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FileSize">
+        <source xml:lang="en">File size (bytes):</source>
+        <target xml:lang="es-ES" state="translated">Tamaño del archivo (en bytes):</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FileSize</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FmtLongName">
+        <source xml:lang="en">Long name:</source>
+        <target xml:lang="es-ES" state="translated">Nombre completo:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FmtLongName</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FmtName">
+        <source xml:lang="en">Name:</source>
+        <target xml:lang="es-ES" state="translated">Nombre:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FmtName</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FmtProbeScore">
+        <source xml:lang="en">Probe score:</source>
+        <target xml:lang="es-ES" state="translated">Puntaje calculado por FFprobe:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FmtProbeScore</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FmtStreamCount">
+        <source xml:lang="en">Stream count:</source>
+        <target xml:lang="es-ES" state="translated">Número de secuencias:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FmtStreamCount</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Format">
+        <source xml:lang="en">Format</source>
+        <target xml:lang="es-ES" state="translated">Formato</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Format</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FrameRate">
+        <source xml:lang="en">Frame rate:</source>
+        <target xml:lang="es-ES" state="translated">Velocidad de fotogramas:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FrameRate</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.General">
+        <source xml:lang="en">General</source>
+        <target xml:lang="es-ES" state="translated">General</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.General</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Height">
+        <source xml:lang="en">Height:</source>
+        <target xml:lang="es-ES" state="translated">Altura:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Height</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Language">
+        <source xml:lang="en">Language:</source>
+        <target xml:lang="es-ES" state="translated">Idioma:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Language</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.NumberedAudioStream">
+        <source xml:lang="en">Audio Stream #{0}</source>
+        <target xml:lang="es-ES" state="translated">Secuencia de audio #{0}</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.NumberedAudioStream</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.NumberedVideoStream">
+        <source xml:lang="en">Video Stream #{0}</source>
+        <target xml:lang="es-ES" state="translated">Secuencia de video #{0}</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.NumberedVideoStream</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.PixelFormat">
+        <source xml:lang="en">Pixel format:</source>
+        <target xml:lang="es-ES" state="translated">Formato de píxeles:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.PixelFormat</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Profile">
+        <source xml:lang="en">Profile:</source>
+        <target xml:lang="es-ES" state="translated">Perfil:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Profile</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Rotation">
+        <source xml:lang="en">Rotation:</source>
+        <target xml:lang="es-ES" state="translated">Rotación:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Rotation</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.SampleAspectRatio">
+        <source xml:lang="en">Sample aspect ratio:</source>
+        <target xml:lang="es-ES" state="translated">Relación de aspecto de muestra:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.SampleAspectRatio</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.SampleRateHz">
+        <source xml:lang="en">Sample rate (Hz):</source>
+        <target xml:lang="es-ES" state="translated">Frecuencia de muestra (Hz):</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.SampleRateHz</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Source">
+        <source xml:lang="en">Data obtained using:</source>
+        <target xml:lang="es-ES" state="translated">Datos obtenidos utilizando:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Source</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.StreamIndex">
+        <source xml:lang="en">ID:</source>
+        <target xml:lang="es-ES" state="translated">ID:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.StreamIndex</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.SubtitleStreamCount">
+        <source xml:lang="en">Subtitle stream count:</source>
+        <target xml:lang="es-ES" state="translated">Número de secuencias de subtítulos:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.SubtitleStreamCount</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Tags">
+        <source xml:lang="en">Tags</source>
+        <target xml:lang="es-ES" state="translated">Etiquetas</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Tags</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Video">
+        <source xml:lang="en">Video</source>
+        <target xml:lang="es-ES" state="translated">Video</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Video</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Width">
+        <source xml:lang="en">Width:</source>
+        <target xml:lang="es-ES" state="translated">Ancho:</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Width</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg.FileAlreadyExistsMsg">
         <source xml:lang="en">A file by that name already exists or the name is invalid.</source>
@@ -2341,6 +2536,11 @@
         <source xml:lang="en">Even More Information</source>
         <target xml:lang="es-ES" state="translated">Aún más información</target>
         <note>ID: DialogBoxes.MediaFileMoreInfoDlg.EvenMoreInfoButton</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.MediaFileMoreInfoDlg.EvenMoreInfoDisclaimer">
+        <source xml:lang="en">The information shown here is obtained using {0}. Some of the details might differ from what {1} reported.</source>
+        <target xml:lang="es-ES" state="translated">La información que se muestra aquí se obtuvo utilizando {0}. Algunos de los detalles pueden diferir de lo que {1} informó.</target>
+        <note>ID: DialogBoxes.MediaFileMoreInfoDlg.EvenMoreInfoDisclaimer</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.MediaFileMoreInfoDlg.LessInfoButton">
         <source xml:lang="en">Less Information</source>
@@ -2929,7 +3129,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.AnnotationDeleted">
         <source xml:lang="en">Deletion of annotation for segment {0}</source>
-        <target xml:lang="es-ES" state="needs-translation">Deletion of annotation for segment {0}</target>
+        <target xml:lang="es-ES" state="translated">Eliminación de anotación del segmento {0}</target>
         <note>ID: DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.AnnotationDeleted</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.SegmenterDlgBase.UndoAction.AnnotationRecording">
@@ -3884,27 +4084,27 @@
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.AILCA." sil:dynamic="true">
         <source xml:lang="en">only the Depositor and delegate can access</source>
-        <target xml:lang="es-ES" state="needs-translation">only the Depositor and delegate can access</target>
+        <target xml:lang="es-ES" state="translated">solo el depositador y su delegado pueden acceder</target>
         <note>ID: SessionsView.MetadataEditor.AccessProtocol.AILCA.</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.AILCA.C" sil:dynamic="true">
         <source xml:lang="en">only Community members are allowed access (normally requires application to Depositor)</source>
-        <target xml:lang="es-ES" state="needs-translation">only Community members are allowed access (normally requires application to Depositor)</target>
+        <target xml:lang="es-ES" state="translated">solo los miebros de la comunidad pueden acceder (generalmente se requiere llenar una solicitud al depositador)</target>
         <note>ID: SessionsView.MetadataEditor.AccessProtocol.AILCA.C</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.AILCA.F" sil:dynamic="true">
         <source xml:lang="en">access is Free to all</source>
-        <target xml:lang="es-ES" state="needs-translation">access is Free to all</target>
+        <target xml:lang="es-ES" state="translated">acceso libre</target>
         <note>ID: SessionsView.MetadataEditor.AccessProtocol.AILCA.F</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.AILCA.RC" sil:dynamic="true">
         <source xml:lang="en">Researchers and Community members are allowed access</source>
-        <target xml:lang="es-ES" state="needs-translation">Researchers and Community members are allowed access</target>
+        <target xml:lang="es-ES" state="translated">Se permite el acceso a investigadores y miembros de la comunidad</target>
         <note>ID: SessionsView.MetadataEditor.AccessProtocol.AILCA.RC</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.AILCA.S" sil:dynamic="true">
         <source xml:lang="en">only Subscribers are allowed access (requires application to Depositor)</source>
-        <target xml:lang="es-ES" state="needs-translation">only Subscribers are allowed access (requires application to Depositor)</target>
+        <target xml:lang="es-ES" state="translated">solo los suscriptores pueden acceder (se requiere llenar una solicitud al depositador)</target>
         <note>ID: SessionsView.MetadataEditor.AccessProtocol.AILCA.S</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.AILCA.U" sil:dynamic="true">
@@ -3924,7 +4124,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 3" sil:dynamic="true">
         <source xml:lang="en">Time limit</source>
-        <target xml:lang="es-ES" state="needs-translation">Time limit</target>
+        <target xml:lang="es-ES" state="translated">Límite de tiempo</target>
         <note>ID: SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 3</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 4" sil:dynamic="true">
@@ -3946,6 +4146,36 @@
         <source xml:lang="en">all ordinary Users can access</source>
         <target xml:lang="es-ES" state="translated">todos los usuarios normales pueden acceder</target>
         <note>ID: SessionsView.MetadataEditor.AccessProtocol.ELAR.U</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.REAP." sil:dynamic="true">
+        <source xml:lang="en">&lt;unknown&gt;</source>
+        <target xml:lang="es-ES" state="needs-translation">&lt;unknown&gt;</target>
+        <note>ID: SessionsView.MetadataEditor.AccessProtocol.REAP.</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.REAP.Entity" sil:dynamic="true">
+        <source xml:lang="en">Restricted to Entity staff</source>
+        <target xml:lang="es-ES" state="translated">Restringido al personal de la entidad</target>
+        <note>ID: SessionsView.MetadataEditor.AccessProtocol.REAP.Entity</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.REAP.Entity curators" sil:dynamic="true">
+        <source xml:lang="en">Restricted to Entity curators</source>
+        <target xml:lang="es-ES" state="translated">Restringido a los conservadores de la entidad</target>
+        <note>ID: SessionsView.MetadataEditor.AccessProtocol.REAP.Entity curators</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.REAP.Insite users" sil:dynamic="true">
+        <source xml:lang="en">Restricted to Insite users</source>
+        <target xml:lang="es-ES" state="translated">Restringido a usuarios de Insite</target>
+        <note>ID: SessionsView.MetadataEditor.AccessProtocol.REAP.Insite users</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.REAP.Public" sil:dynamic="true">
+        <source xml:lang="en">Public</source>
+        <target xml:lang="es-ES" state="translated">Público</target>
+        <note>ID: SessionsView.MetadataEditor.AccessProtocol.REAP.Public</note>
+      </trans-unit>
+      <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.REAP.Strategic partners" sil:dynamic="true">
+        <source xml:lang="en">Restricted to Strategic partners</source>
+        <target xml:lang="es-ES" state="translated">Restringido a socios estratégicos</target>
+        <note>ID: SessionsView.MetadataEditor.AccessProtocol.REAP.Strategic partners</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AdditionalFields.Interactivity" sil:dynamic="true">
         <source xml:lang="en">Interactivity</source>

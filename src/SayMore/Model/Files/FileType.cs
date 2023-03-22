@@ -745,7 +745,7 @@ namespace SayMore.Model.Files
 				Key = "Audio_Bit_Rate",
 				Suffix = "kbps",
 				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.AudioBitRateSuffix", "kbps"),
-				DataItemChooser = (info => info.Audio.KilobitsPerSecond),
+				DataItemChooser = (info => info.Audio?.KilobitsPerSecond ?? 0),
 				GetFormattedStatProvider = GetStringStatistic
 			};
 
@@ -1107,7 +1107,7 @@ namespace SayMore.Model.Files
 		public ImageFileType(
 			Func<BasicFieldGridEditor.Factory> basicFieldGridEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
-			: base("Image", p => FileUtils.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())))
+			: base("Image", p => SIL.IO.FileUtils.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())))
 		{
 			_basicFieldGridEditorFactoryLazy = basicFieldGridEditorFactoryLazy;
 			_contributorsEditorFactoryLazy = contributorsEditorFactoryLazy;

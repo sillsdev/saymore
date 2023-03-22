@@ -1,3 +1,6 @@
+## Version 3.5
+Added support for additional media formats, including .m4a files
+
 ## Version 3.4
 Added option to import Audacity labels into free translation (instead of the transcription tier)
 

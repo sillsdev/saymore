@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using Autofac;
+using DesktopAnalytics;
+using SayMore.Media.Audio;
 using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -103,6 +105,24 @@ namespace SayMore
 				var sessionFile = filesInDir.FirstOrDefault(f => f.EndsWith(".session"));
 				if (sessionFile == null)
 					return;
+
+				// SP-2303: SayMore 3.5.0 (released 3/22/2023) had a bug whereby it could convert
+				// media files to a non-standard (IEEE Float) PCM format that could not be
+				// annotated. This code checks for and deletes any such files. Because it takes
+				// some time to check this, we only consider files that might have been created
+				// after the release date. It would be nice to only do this check if we could know
+				// that version 3.5.0 had been installed, but I'm not sure we can reliably and
+				// easily detect this. (Maybe by looking for the settings file?). At some point,
+				// when we think any existing problems are likely to have been cleaned up, we
+				// might consider removing this code.
+				foreach (var bogusStandardAudioFile in filesInDir.Where(f =>
+					         f.EndsWith(Settings.Default.StandardAudioFileSuffix) &&
+					         new FileInfo(f).CreationTime >= new DateTime(2023, 3, 21) && 
+					         !AudioUtils.GetIsFileStandardPcm(f)))
+				{
+					Analytics.Track("Delete bogus Standard Audio file");
+					File.Delete(bogusStandardAudioFile);
+				}
 
 				// SP-2260:We really NEVER want to deal with files that start with ._, but since
 				// previous versions of SayMore and certain other ways of creating session files

@@ -15,6 +15,7 @@ using SIL.Windows.Forms.Miscellaneous;
 using SayMore.Media.MPlayer;
 using SayMore.Properties;
 using SayMore.UI;
+using SIL.IO;
 
 namespace SayMore.Media.Audio
 {
@@ -337,7 +338,7 @@ namespace SayMore.Media.Audio
 		private static bool DoPcmConversion(string inputMediaFile, string outputAudioFile,
 			WaveFormat preferredOutputFormat)
 		{
-			// First try to convert using FFmpeg. We used to tyr MPlayer first, but FFmpeg isa
+			// First try to convert using FFmpeg. We used to try MPlayer first, but FFmpeg is
 			// probably more reliable and.or faster than MPlayer.
 			var model = new ConvertMediaDlgViewModel(inputMediaFile,
 				ConvertMediaDlg.GetFactoryExtractToStandardPcmConversionName());
@@ -357,7 +358,7 @@ namespace SayMore.Media.Audio
 						return true;
 					// Don't want to leave around a converted file if it isn't really
 					// a "standard" PCM Wav file.
-					File.Delete(outputAudioFile);
+					RobustFile.Delete(outputAudioFile);
 				}
 			}
 
@@ -382,7 +383,7 @@ namespace SayMore.Media.Audio
 						return true;
 					// Don't want to leave around a converted file if it isn't really
 					// a "standard" PCM Wav file.
-					File.Delete(outputAudioFile);
+					RobustFile.Delete(outputAudioFile);
 				}
 			}
 

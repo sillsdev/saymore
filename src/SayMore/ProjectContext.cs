@@ -15,6 +15,7 @@ using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
+using SIL.IO;
 using SIL.Reporting;
 
 namespace SayMore
@@ -137,7 +138,7 @@ namespace SayMore
 							         !AudioUtils.GetIsFileStandardPcm(f)))
 						{
 							Analytics.Track("Delete bogus Standard Audio file");
-							File.Delete(bogusStandardAudioFile);
+							RobustFile.Delete(bogusStandardAudioFile);
 						}
 
 						// Note: There never was a version 1, but it felt wrong to start with version 1

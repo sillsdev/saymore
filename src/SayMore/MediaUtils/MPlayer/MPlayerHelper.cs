@@ -120,7 +120,7 @@ namespace SayMore.Media.MPlayer
 			yield return "-nocorrect-pts";
 			yield return "-vo null";
 			yield return "-vc null";
-			yield return string.Format("-af channels={0}", preferredOutputFormat.Channels);
+			yield return string.Format("-af channels={0} -af format=s16le", preferredOutputFormat.Channels);
 			yield return string.Format("-srate {0}", preferredOutputFormat.SampleRate);
 			yield return string.Format("-ao pcm:fast:file=%{0}%\"{1}\"", audioOutPath.Length, audioOutPath);
 		}

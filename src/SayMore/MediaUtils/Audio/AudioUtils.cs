@@ -337,19 +337,10 @@ namespace SayMore.Media.Audio
 		private static bool DoPcmConversion(string inputMediaFile, string outputAudioFile,
 			WaveFormat preferredOutputFormat)
 		{
-			string output;
-			var result = MPlayerHelper.CreatePcmAudioFromMediaFile(inputMediaFile,
-				outputAudioFile, preferredOutputFormat, out output);
-			if ((result & MPlayerHelper.ConversionResult.FinishedConverting) != 0)
-			{
-				// Possibly succeeded
-				if ((result & MPlayerHelper.ConversionResult.PossibleError) > 0)
-					ReportPossibleConversionProblem(output);
-				return true;
-			}
-
+			// First try to convert using FFmpeg. We used to tyr MPlayer first, but FFmpeg isa
+			// probably more reliable and.or faster than MPlayer.
 			var model = new ConvertMediaDlgViewModel(inputMediaFile,
-					ConvertMediaDlg.GetFactoryExtractToStandardPcmConversionName());
+				ConvertMediaDlg.GetFactoryExtractToStandardPcmConversionName());
 
 			model.BeginConversion(null, outputAudioFile, preferredOutputFormat);
 
@@ -359,7 +350,15 @@ namespace SayMore.Media.Audio
 			{
 				if ((model.ConversionState & ConvertMediaUIState.PossibleError) > 0)
 					ReportPossibleConversionProblem(model.ConversionOutput);
-				return File.Exists(outputAudioFile);
+
+				if (File.Exists(outputAudioFile))
+				{
+					if (GetIsFileStandardPcm(outputAudioFile))
+						return true;
+					// Don't want to leave around a converted file if it isn't really
+					// a "standard" PCM Wav file.
+					File.Delete(outputAudioFile);
+				}
 			}
 
 			if (finishedState == ConvertMediaUIState.ConversionFailed)
@@ -367,6 +366,24 @@ namespace SayMore.Media.Audio
 				var e = model.ConversionException;
 				if (e != null)
 					throw e;
+			}
+
+			var result = MPlayerHelper.CreatePcmAudioFromMediaFile(inputMediaFile,
+				outputAudioFile, preferredOutputFormat, out var output);
+			if ((result & MPlayerHelper.ConversionResult.FinishedConverting) != 0)
+			{
+				// Possibly succeeded
+				if ((result & MPlayerHelper.ConversionResult.PossibleError) > 0)
+					ReportPossibleConversionProblem(output);
+
+				if (File.Exists(outputAudioFile))
+				{
+					if (GetIsFileStandardPcm(outputAudioFile))
+						return true;
+					// Don't want to leave around a converted file if it isn't really
+					// a "standard" PCM Wav file.
+					File.Delete(outputAudioFile);
+				}
 			}
 
 			return false;

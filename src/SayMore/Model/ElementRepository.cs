@@ -28,7 +28,7 @@ namespace SayMore.Model
 
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// This is reposible for finding, creating, and removing items of the given type T
+	/// This is responsible for finding, creating, and removing items of the given type T
 	/// (i.e. Sessions or People)
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------

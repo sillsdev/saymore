@@ -49,7 +49,7 @@ namespace SayMore.UI.ComponentEditors
 
 			_contributorsControl.ValidatingContributor += HandleValidatingContributor;
 
-			InitializeGrid();
+			InitializeGrid(personInformant.GetAllPeopleNames());
 
 			// imageKey == "Contributor" when ContributorsEditor is lazy loaded for the session file type
 			if (imageKey != null)
@@ -143,7 +143,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// <remarks>SP-874: Not able to open L10NSharp with Alt-Shift-click</remarks>
-		private void InitializeGrid()
+		private void InitializeGrid(IEnumerable<string> peopleNames)
 		{
 			// misc. column header settings
 			_contributorsControl.Grid.BorderStyle = BorderStyle.None;
@@ -174,9 +174,10 @@ namespace SayMore.UI.ComponentEditors
 				switch (col.Name)
 				{
 					case "name":
-						col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+						InitializeColumnWidth(col, _contributorsControl.Grid, peopleNames);
 						break;
 					case "role":
+						col.MinimumWidth = 70;
 						col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 						break;
 					case "comments":
@@ -196,6 +197,28 @@ namespace SayMore.UI.ComponentEditors
 			_contributorsControl.SetLocalizationExtender(locExtender);
 
 			locExtender.EndInit();
+		}
+
+		private static void InitializeColumnWidth(DataGridViewColumn col, DataGridView grid, IEnumerable<string> possibilities)
+		{
+			col.MinimumWidth = 100;
+			col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			// If there are already several rows, there's a pretty decent chance that the min of 100 or the
+			// AllCells option will get us a sufficiently wide column, so we can avoid the extra trouble of calculating
+			// the minimum width based on the widest possible string.
+			if (grid.RowCount > 4)
+				return;
+		
+			float minWidth = 0;
+			var font = col.DefaultCellStyle.Font ?? grid.DefaultCellStyle.Font ?? grid.Font;
+			foreach (var name in possibilities)
+			{
+				minWidth = Math.Max(minWidth,
+					grid.CreateGraphics().MeasureString(name, font).Width);
+			}
+
+			if (minWidth > col.MinimumWidth)
+				col.MinimumWidth = (int)Math.Ceiling(minWidth);
 		}
 
 		/// ------------------------------------------------------------------------------------

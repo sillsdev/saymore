@@ -8,7 +8,7 @@ namespace SayMore.Model
 {
 	/// <summary>
 	/// I couldn't  think of a good name... the idea is to put stuff for the session in here, so as to keep
-	/// knowledge of people somewhat seperate from Session
+	/// knowledge of people somewhat separate from Session
 	/// </summary>
 	public class PersonInformant
 	{

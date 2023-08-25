@@ -4,8 +4,8 @@
   "date": "_DATE_",
   "platform": "resource",
   "platform_version": "",
-  "architecture": "x64",
-  "file": "releasenotes.md",
-  "type": "md",
+  "architecture": "",
+  "file": "ReleaseNotes.htm",
+  "type": "HTML",
   "build": ""
 }

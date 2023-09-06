@@ -2,11 +2,12 @@
   <PropertyGroup>
 	<RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
 	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
-	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'==''">3.3.0</BUILD_NUMBER>
+	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'==''">3.5.0</BUILD_NUMBER>
 	<BuildTasksDll>$(RootDir)/packages/SIL.BuildTasks.2.5.0/tools/SIL.BuildTasks.dll</BuildTasksDll>
-	<Configuration>Release</Configuration>
-	<RestartBuild Condition="!Exists('$(BuildTasksDll)')">true</RestartBuild>
-	<RestartBuild Condition="Exists('$(BuildTasksDll)')">false</RestartBuild>
+	<SILReleaseTasksProps>$(RootDir)/packages/SIL.ReleaseTasks/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
+	<Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+	<RestartBuild Condition="!Exists('$(BuildTasksDll)') Or !Exists('$(SILReleaseTasksProps)')">true</RestartBuild>
+	<RestartBuild Condition="Exists('$(BuildTasksDll)') And Exists('$(SILReleaseTasksProps)')">false</RestartBuild>
   </PropertyGroup>
 
   <UsingTask TaskName="StampAssemblies" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
@@ -26,7 +27,7 @@
 	<Message Text="BuildCounter: $(BuildCounter)" Importance="high"/>
 
 	<!-- Note, after some thought, we've decided this is the best place to keep the version number (not on TeamCity, not in the assemblies).     -->
-	<CreateProperty Value="3.3.$(BuildCounter)">
+	<CreateProperty Value="3.5.$(BuildCounter)">
 	  <Output PropertyName="Version" TaskParameter="Value"/>
 	</CreateProperty>
 
@@ -34,12 +35,14 @@
   </Target>
 
   <Import Project="../.nuget/NuGet.targets" />
+  <Import Project="$(SILReleaseTasksProps)" Condition="Exists('$(SILReleaseTasksProps)')" />
 
-  <Target Name="RestoreBuildTasks" DependsOnTargets="CheckPrerequisites">
+  <Target Name="RestoreLocalPackages" DependsOnTargets="CheckPrerequisites">
     <Message Text="BuildTasksDll=$(BuildTasksDll)"/>
 	<Message Text="RestartBuild=$(RestartBuild)"/>
     <Message Text="Configuration=$(Configuration)"/>
     <Exec Command='$(NuGetCommand) install SIL.BuildTasks -version 2.1.0 -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
+	<Exec Command='$(NuGetCommand) install SIL.ReleaseTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)"' />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BuildInternal"
       Properties="Configuration=$(Configuration)" Condition="$(RestartBuild)" />
   </Target>
@@ -62,14 +65,14 @@
 	</Target>
 
   <Target Name="Build">
-	<CallTarget Targets="RestoreBuildTasks"/>
+	<CallTarget Targets="RestoreLocalPackages"/>
 	<CallTarget Targets="BuildInternal" Condition="!$(RestartBuild)" />
   </Target>
 
   <Target Name="BuildInternal" DependsOnTargets="SetAssemblyVersion;SetBuildType">
 	<MSBuild Projects="$(RootDir)/SayMore.sln"
 			 Targets="Rebuild"
-			 Properties="Configuration=Release" />
+			 Properties="Configuration=$(Configuration)" />
 	<Message Text="Build Complete"/>
   </Target>
 
@@ -79,7 +82,7 @@
 	</ItemGroup>
 	<NUnit3 Condition="'$(teamcity_version)' == ''"
 		Assemblies="@(TestAssemblies)"
-		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.15.2/tools"
+		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.16.0/tools"
 		ExcludeCategory="$(excludedCategories)"
 		WorkingDirectory="$(RootDir)/output/$(Configuration)"
 		Force32Bit="$(useNUnit-x86)"
@@ -89,7 +92,7 @@
 		TeamCity="false"/>
 	<NUnit3 Condition="'$(teamcity_version)' != ''"
 		Assemblies="@(TestAssemblies)"
-		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.15.2/tools"
+		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.16.0/tools"
 		ExcludeCategory="SkipOnTeamCity,$(excludedCategories)"
 		WorkingDirectory="$(RootDir)/output/$(Configuration)"
 		Force32Bit="$(useNUnit-x86)"
@@ -119,6 +122,12 @@
 		Regex='_VERSION_'
 		ReplacementText ="$(Version)" />
 
+  </Target>
+  
+  		
+  <Target Name="ConvertReleaseNotesToHtml">
+	<CreateReleaseNotesHtml ChangelogFile="$(RootDir)/DistFiles/releaseNotes.md"
+		HtmlFile="$(RootDir)/output/ReleaseNotes.htm" />
   </Target>
 
   <Target Name="Installer" DependsOnTargets="VersionNumbers; UpdateDownloadInfo; MakeWixForDistFiles; Build ">

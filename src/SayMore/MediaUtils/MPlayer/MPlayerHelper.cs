@@ -120,7 +120,7 @@ namespace SayMore.Media.MPlayer
 			yield return "-nocorrect-pts";
 			yield return "-vo null";
 			yield return "-vc null";
-			yield return string.Format("-af channels={0}", preferredOutputFormat.Channels);
+			yield return string.Format("-af channels={0} -af format=s16le", preferredOutputFormat.Channels);
 			yield return string.Format("-srate {0}", preferredOutputFormat.SampleRate);
 			yield return string.Format("-ao pcm:fast:file=%{0}%\"{1}\"", audioOutPath.Length, audioOutPath);
 		}
@@ -147,7 +147,9 @@ namespace SayMore.Media.MPlayer
 			output = null;
 
 			// problem with non-ascii characters, convert to 8.3 path
-			mediaInPath = FileSystemUtils.GetShortName(mediaInPath);
+			mediaInPath = FileSystemUtils.GetShortName(mediaInPath,
+                () => LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.ProbablyCannotLoad",
+                    "SayMore will probably not be able to convert this file."));
 
 			// output to temp file, with 8.3 path
 			var tempFile = Path.GetTempFileName();
@@ -274,7 +276,7 @@ namespace SayMore.Media.MPlayer
 
 	#region MPlayerOutputLogForm class
 	/// ------------------------------------------------------------------------------------
-	public class MPlayerOutputLogForm : Form
+	public class MPlayerOutputLogForm : Form, ILogger
 	{
 		private readonly TextBox _textBox;
 
@@ -314,16 +316,27 @@ namespace SayMore.Media.MPlayer
 		/// --------------------------------------------------------------------------------
 		public void UpdateLogDisplay(string output)
 		{
-			Invoke((Action)(() => _textBox.SelectionStart = _textBox.Text.Length));
-			Invoke((Action<string>)(text => _textBox.SelectedText = text + Environment.NewLine), output);
-		}
+			Invoke((Action)(() => {
+                _textBox.SelectionStart = _textBox.Text.Length;
+                _textBox.SelectedText = output + Environment.NewLine;
+            }));
+        }
 
 		/// --------------------------------------------------------------------------------
-		protected override bool ShowWithoutActivation
-		{
-			get { return true; }
-		}
-	}
+		protected override bool ShowWithoutActivation => true;
+
+        public string GetText()
+        {
+            string result = null;
+            Invoke((Action)(() => result = _textBox.Text));
+            return result;
+        }
+
+        public void AddText(string text)
+        {
+            UpdateLogDisplay(text);
+        }
+    }
 
 	#endregion
 }

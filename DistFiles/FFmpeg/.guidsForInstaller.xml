@@ -2,4 +2,5 @@
 <!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
 <InstallerMetadata>
   <File Id="ProgramDir.FFmpeg.ffmpeg.exe" Guid="7af85cb4-327c-42f2-85bf-f52eb2212d82" />
+  <File Id="ProgramDir.FFmpeg.ffprobe.exe" Guid="b93e726f-1db2-48db-bebc-b6b284344751" />
 </InstallerMetadata>

@@ -102,15 +102,15 @@ namespace SayMore.UI.Overview
 		{
 			try
 			{
-				return item.GetDocumentaionUri(_archivingFileDirectoryName);
+				return item.GetDocumentationUri(_archivingFileDirectoryName);
 			}
 			catch (DirectoryNotFoundException)
 			{
-				return item.GetDocumentaionUri(GetBaseUriDirectory());
+				return item.GetDocumentationUri(GetBaseUriDirectory());
 			}
 			catch (FileNotFoundException)
 			{
-				return item.GetDocumentaionUri(GetBaseUriDirectory());
+				return item.GetDocumentationUri(GetBaseUriDirectory());
 			}
 		}
 

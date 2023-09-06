@@ -75,5 +75,28 @@ namespace SayMoreTests.Utilities
 				FileAssert.DoesNotExist(fileName);
 			}
 		}
+
+        [TestCase(@"myfile.nam")]
+        [TestCase(@"noext")]
+        [TestCase(@"c:\mypath.ext")]
+        [TestCase(@"c:\mypath.ext\hispath\yourpath.yes")]
+        [TestCase(@"the\good.one")]
+        public void IsValidShortFileNamePath_Valid_ReturnsTrue(string path)
+        {
+            Assert.That(FileSystemUtils.IsValidShortFileNamePath(path), Is.True);
+        }
+
+        [TestCase(@"mybigfile.nam")]
+        [TestCase(@"myfile.bigext")]
+        [TestCase(@"my file.txt")]
+        [TestCase(@"what€is.ths")]
+        [TestCase(@"the:bad.one")]
+        [TestCase(@"the/bad.one")]
+        [TestCase(@"the?bad.one")]
+        [TestCase(@"the.bad.one")]
+        public void IsValidShortFileNamePath_Invalid_ReturnsFalsee(string path)
+        {
+            Assert.That(FileSystemUtils.IsValidShortFileNamePath(path), Is.False);
+        }
 	}
 }

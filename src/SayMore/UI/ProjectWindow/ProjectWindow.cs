@@ -308,10 +308,8 @@ namespace SayMore.UI.ProjectWindow
 				if (dlg.ShowDialog(this) != DialogResult.OK)
 					return;
 
-				Settings.Default.UserInterfaceLanguage = dlg.UILanguage;
-				Logger.WriteEvent("Changed UI Locale to: " + Settings.Default.UserInterfaceLanguage);
-				LocalizationManager.SetUILanguage(dlg.UILanguage, true);
-			}
+                Program.UpdateUiLanguageForUser(dlg.UILanguage);
+            }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -560,6 +560,7 @@ namespace SayMore.UI.ElementListScreen
 				if (folder == null || !Directory.Exists(folder))
 					folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+				dlg.Multiselect = true;
 				dlg.Filter = prjFilterText + "|*.*";
 				dlg.InitialDirectory = folder;
 				dlg.CheckFileExists = true;

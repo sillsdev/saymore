@@ -1,6 +1,4 @@
 General;
-<?xml version="1.0" encoding="UTF-8"?>
-<mediaFileInfo>
 <fileSize>0%FileSize%</fileSize>
 <duration>0%Duration%</duration>
 <format>%Format%</format>
@@ -45,5 +43,4 @@ Audio;
 <channels>0%Channel(s)%</channels>
 <sampleRate>0%SamplingRate%</sampleRate>
 </audio>
-</mediaFileInfo>
 

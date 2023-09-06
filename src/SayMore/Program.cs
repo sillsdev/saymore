@@ -89,7 +89,9 @@ namespace SayMore
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			// The following not only get the location of the settings file used for the analytics stuff. It also
+			WindowsUtilities.CanWriteToDirectory("SayMore", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+
+			// The following not only gets the location of the settings file used for the analytics stuff. It also
 			// detects corruption and deletes it if needed so SayMore doesn't crash.
 			var analyticsConfigFilePath = GetAnalyticsConfigFilePath(); // Analytics settings.
 
@@ -107,7 +109,7 @@ namespace SayMore
 			}
 
 			//bring in settings from any previous version
-			//NB: this code doesn't actually work, because for some reason Saymore uses its own settings code,
+			//NB: this code doesn't actually work, because for some reason SayMore uses its own settings code,
 			//(which emits a "settings" file rather than "user.config"),
 			//and which apparently doesn't use the application version to trigger the following technique:
 			// Insight from Tom: Looks like ALL user settings in SayMore use the PortableSettingsProvider. I think the
@@ -173,7 +175,7 @@ namespace SayMore
 			if (File.Exists(MRULatestReminderFilePath))
 			{
 				var path = File.ReadAllText(MRULatestReminderFilePath).Trim();
-				if(File.Exists(path))
+				if (File.Exists(path))
 				{
 					Settings.Default.MRUList = new StringCollection();
 					Settings.Default.MRUList.Add(path);
@@ -471,6 +473,8 @@ namespace SayMore
 			{
 				if (!ObtainTokenForThisProject(projectPath))
 					return false;
+
+				WindowsUtilities.CanWriteToDirectory("SayMore", Path.GetDirectoryName(projectPath));
 
 				// Remove this call if we end only wanting to show the splash screen
 				// at app. startup. Right now it's shown whenever a project is loaded.

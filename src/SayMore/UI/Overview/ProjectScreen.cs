@@ -117,6 +117,7 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		public void ViewDeactivated()
 		{
+			_metadataView.Save();
 			_accessView.Save();
 
 			// set the access code choices for sessions
@@ -151,11 +152,11 @@ namespace SayMore.UI.Overview
 			switch (e.RowIndex)
 			{
 				case 0:
-					ShowControl(_metadataView);
+					ShowControl(_metadataView, _projectPages.CurrentCellAddress.X != e.RowIndex);
 					break;
 
 				case 1:
-					ShowControl(_accessView);
+					ShowControl(_accessView, _projectPages.CurrentCellAddress.X != e.RowIndex);
 					break;
 
 				case 2:
@@ -175,8 +176,10 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void ShowControl(Control control)
+		private void ShowControl(Control control, bool saveNeeded = false)
 		{
+			if (saveNeeded)
+				Save();
 			while (_splitter.Panel2.Controls.Count > 0)
 				_splitter.Panel2.Controls.RemoveAt(0);
 

@@ -34,7 +34,7 @@ namespace SayMore
 		/// </summary>
 		private ILifetimeScope _scope;
 
-		public Project Project { get; private set; }
+		public Project Project { get; }
 		public ProjectWindow ProjectWindow { get; private set; }
 
 		private readonly AudioVideoDataGatherer _audioVideoDataGatherer;

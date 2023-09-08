@@ -1,3 +1,6 @@
+## Version 3.6
+Added ability to set the working language font (used, for example, in Descriptions, Notes, etc.)
+
 ## Version 3.5
 Added support for additional media formats, including .m4a files
 

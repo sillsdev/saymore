@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.XLiffUtils;
@@ -32,6 +34,7 @@ namespace SayMore.UI.ComponentEditors
 	}
 
 	/// ----------------------------------------------------------------------------------------
+	// Should be abstract, but that messes up the Designer
 	public class EditorBase : UserControl, IEditorProvider
 	{
 		private BindingHelper _binder;
@@ -137,10 +140,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ComponentFile ComponentFile
-		{
-			get { return _file; }
-		}
+		public ComponentFile ComponentFile => _file;
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void PrepareToDeactivate()
@@ -148,15 +148,12 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Control Control
-		{
-			get { return this; }
-		}
+		public Control Control => this;
 
 		/// ------------------------------------------------------------------------------------
 		public string TabText
 		{
-			get { return _tabText; }
+			get => _tabText;
 			protected set
 			{
 				if (_tabText != value)
@@ -203,6 +200,80 @@ namespace SayMore.UI.ComponentEditors
 				"Properties");
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Assuming the current project has been set and a working language font is defined,
+		/// this will trigger a call to <see cref="SetWorkingLanguageFont(Font)"/>.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetWorkingLanguageFont()
+		{
+			var workingLangFont = Program.CurrentProject?.WorkingLanguageFont;
+			if (workingLangFont != null)
+				SetWorkingLanguageFont(workingLangFont);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Editors can override this to set controls to display text using the working language
+		/// font. The base implementation is a no-op and need not be called.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void SetWorkingLanguageFont(Font font)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Editors should call this as part of their initialization if they need to be
+		/// informed (via <see cref="OnCurrentProjectSet"/>) when the current project has been
+		/// set.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected void NotifyWhenProjectIsSet()
+		{
+			if (Program.CurrentProject != null)
+			{
+				OnCurrentProjectSet();
+				return;
+			}
+
+			using (BackgroundWorker backgroundWorker = new BackgroundWorker())
+			{
+				backgroundWorker.DoWork += SleepUntilCurrentProjectIsSet;
+				backgroundWorker.RunWorkerCompleted += NotifyCurrentProjectSet;
+				backgroundWorker.RunWorkerAsync();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void NotifyCurrentProjectSet(object sender, RunWorkerCompletedEventArgs e)
+		{
+			OnCurrentProjectSet();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Editors can override this if they need to special action in response to the current
+		/// project being set. They should call the base unless they do not need/want to set any
+		/// controls to use the working language font.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void OnCurrentProjectSet()
+		{
+			SetWorkingLanguageFont();
+		}
+
+		private void SleepUntilCurrentProjectIsSet(object sender, DoWorkEventArgs e)
+		{
+			var count = 0;
+			while (Program.CurrentProject == null && count < 50)
+			{
+				Thread.Sleep(100);
+				count++;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private static void SetLabelFonts(Control parent, Font fnt)
 		{
 			foreach (Control ctrl in parent.Controls)
@@ -219,16 +290,10 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool IsOKToLeaveEditor
-		{
-			get { return true; }
-		}
+		public virtual bool IsOKToLeaveEditor => true;
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool IsOKToShow
-		{
-			get { return true; }
-		}
+		public virtual bool IsOKToShow => true;
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void Activated()

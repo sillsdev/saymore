@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using SIL.Reporting;
 using SayMore.Transcription.Model;
+using SayMore.UI;
 
 // ReSharper disable once CheckNamespace
 namespace SayMore.Transcription.UI
@@ -136,27 +136,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleFontMenuItemClicked(object sender, EventArgs e)
 		{
-			using (var dlg = new FontDialog())
+			var newFont = FontDialogHelper.SelectFont(_grid.FindForm(), DefaultCellStyle.Font);
+			if (newFont != null)
 			{
-				dlg.Font = DefaultCellStyle.Font;
-
-				try //strange, but twice we've found situations where ShowDialog crashes on windows
-				{
-					if (DialogResult.OK != dlg.ShowDialog())
-					{
-						return;
-					}
-				}
-				catch (Exception)
-				{
-					ErrorReport.NotifyUserOfProblem(LocalizationManager.GetString("SessionsView.Transcription.FontDialogProblem",
-						"There was some problem with choosing that font. If you just installed it, you might try restarting the program or even your computer."));
-					return;
-				}
-
-				SetFont(dlg.Font);
+				SetFont(newFont);
 				if (_grid.EditingControl != null)
-					_grid.EditingControl.Font = dlg.Font;
+					_grid.EditingControl.Font = newFont;
 			}
 		}
 

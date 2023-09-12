@@ -69,7 +69,6 @@ namespace SayMore.UI.ComponentEditors
 
 			file.AfterSave += file_AfterSave;
 
-
 			if (_personInformant != null)
 				_personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
 		}
@@ -85,7 +84,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			// We want to update the control to a form of participants that has roles
 			// in parens. This is derived from Contributions. But the names of the contributors
-			// are upated by another, independent handler of the same event, which may
+			// are updated by another, independent handler of the same event, which may
 			// (currently does) happen AFTER this one. So we delay the update until the
 			// app is next idle to make sure the contributions have been updated first.
 			Application.Idle += UpdateParticipants;
@@ -107,14 +106,11 @@ namespace SayMore.UI.ComponentEditors
 		{
 			var genreList = new List<string>();
 
-			var autoCompleteProvider = sender as AutoCompleteValueGatherer;
-
-			if (autoCompleteProvider != null)
+			if (sender is AutoCompleteValueGatherer autoCompleteProvider)
 			{
 				// Add the genres in use, factory or not.
 				var valueLists = autoCompleteProvider.GetValueLists(false);
-				IEnumerable<string> list;
-				if (valueLists.TryGetValue(SessionFileType.kGenreFieldName, out list))
+				if (valueLists.TryGetValue(SessionFileType.kGenreFieldName, out var list))
 					genreList.AddRange(GenreDefinition.GetGenreNameList(list));
 			}
 
@@ -243,9 +239,12 @@ namespace SayMore.UI.ComponentEditors
 
 		void HandleMoreFieldsComboDropDownClosed(object sender, EventArgs e)
 		{
-			var selectedItem = _moreFieldsComboBox.SelectedItem as IMDIListItem;
-			if (selectedItem != null && selectedItem.Definition != selectedItem.Text)
+			if (_moreFieldsComboBox.SelectedItem is IMDIListItem selectedItem &&
+			    selectedItem.Definition != selectedItem.Text)
+			{
 				_gridAdditionalFields.CurrentCell.ToolTipText = selectedItem.Definition;
+			}
+
 			_moreFieldsToolTip.RemoveAll();
 			_moreFieldsComboBox.DropDownClosed -= HandleMoreFieldsComboDropDownClosed;
 		}
@@ -283,7 +282,7 @@ namespace SayMore.UI.ComponentEditors
 						{
 							var shorterTip = new StringBuilder();
 							var testTip = string.Empty;
-							var words = toolTipText.Split(new[] {' '});
+							var words = toolTipText.Split(' ');
 
 							foreach (var word in words)
 							{
@@ -357,7 +356,7 @@ namespace SayMore.UI.ComponentEditors
 
 			_gridAdditionalFields[1, row] = cell;
 
-			// Added Application.DoEvents() because it was interferring with the background
+			// Added Application.DoEvents() because it was interfering with the background
 			// file processor if it needed to download the list files.
 			Application.DoEvents();
 		}
@@ -377,7 +376,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			// SP-844: List from Arbil contains "Holy Seat" rather than "Holy See"
 			var value = LocalizationManager.GetDynamicString("SayMore",
-				string.Format("CommonToMultipleViews.ListItems.{0}.{1}.{2}", listName, item, property),
+				$"CommonToMultipleViews.ListItems.{listName}.{item}.{property}",
 				defaultValue);
 
 			if (value.StartsWith("Holy Seat")) value = value.Replace("Holy Seat", "Holy See");
@@ -414,10 +413,15 @@ namespace SayMore.UI.ComponentEditors
 			if (_genre.Items.Count == 0)
 				LoadGenreList(_autoCompleteProvider, null);
 
+			NotifyWhenProjectIsSet();
+			SetAccessCodeListAndValue();
+		}
+
+		protected override void OnCurrentProjectSet()
+		{
 			if (_accessOptions == null)
 				SetAccessProtocol();
-
-			SetAccessCodeListAndValue();
+			base.OnCurrentProjectSet();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -483,11 +487,24 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void SetWorkingLanguageFont(Font font)
+		{
+			if (!font.Equals(_title.Font))
+			{
+				_title.Font = font;
+				_situation.Font = font;
+				_setting.Font = font;
+				_location.Font = font;
+				_synopsis.Font = font;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void SetAccessProtocol()
 		{
 			if (Program.CurrentProject == null)
 			{
-				GetDataInBackground();
+				NotifyWhenProjectIsSet();
 				return;
 			}
 
@@ -518,31 +535,6 @@ namespace SayMore.UI.ComponentEditors
 				Invoke(new Action(SetAccessCodeListAndValue));
 			else
 				SetAccessCodeListAndValue();
-		}
-
-		private void GetDataInBackground()
-		{
-			using (BackgroundWorker backgroundWorker = new BackgroundWorker())
-			{
-				backgroundWorker.DoWork += backgroundWorker_DoWork;
-				backgroundWorker.RunWorkerCompleted += backgroundWorker_RunWorkerCompleted;
-				backgroundWorker.RunWorkerAsync();
-			}
-		}
-
-		void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			SetAccessProtocol();
-		}
-
-		void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-		{
-			var count = 0;
-			while (Program.CurrentProject == null && count < 50)
-			{
-				Thread.Sleep(100);
-				count++;
-			}
 		}
 
 		/// <summary>

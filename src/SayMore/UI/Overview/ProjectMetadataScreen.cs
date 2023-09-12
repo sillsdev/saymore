@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -13,6 +14,8 @@ namespace SayMore.UI.Overview
 {
 	public partial class ProjectMetadataScreen : EditorBase, ISayMoreView, ISaveable
 	{
+		private const string kLanguageTagAndNameSeparator = ": ";
+		private string _fmtFontForWorkingLanguage;
 		private readonly IMDIItemList _countryList;
 
 		public ProjectMetadataScreen()
@@ -48,16 +51,27 @@ namespace SayMore.UI.Overview
 		{
 			base.HandleStringsLocalized(lm);
 
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				if (_country == null || _countryList == null)
-				{
-					Load += (o, args) => ResetCountryList();
-					return;
-				}
+			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
+				return;
 
-				ResetCountryList();
+			if (_linkSelectFontForWorkingLanguage == null)
+			{
+				Load += (o, args) =>
+				{
+					Debug.Assert(_linkSelectFontForWorkingLanguage != null);
+					_fmtFontForWorkingLanguage = _linkSelectFontForWorkingLanguage.Text;
+				};
 			}
+			else
+			{
+				_fmtFontForWorkingLanguage = _linkSelectFontForWorkingLanguage.Text;
+				UpdateWorkingLanguageFontDisplay();
+			}
+
+			if (_country == null || _countryList == null)
+				Load += (o, args) => ResetCountryList();
+			else
+				ResetCountryList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -94,7 +108,7 @@ namespace SayMore.UI.Overview
 		private string Localize(string listName, string item, string property, string defaultValue)
 		{
 			var value = LocalizationManager.GetDynamicString("SayMore",
-				string.Format("CommonToMultipleViews.ListItems.{0}.{1}.{2}", listName, item, property),
+				$"CommonToMultipleViews.ListItems.{listName}.{item}.{property}",
 				defaultValue);
 
 			return value;
@@ -139,7 +153,7 @@ namespace SayMore.UI.Overview
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		private void ProjectMetadataScreen_Leave(object sender, EventArgs e)
+		private void ProjectMetadataScreen_LostFocus(object sender, EventArgs e)
 		{
 			Save();
 		}
@@ -150,7 +164,8 @@ namespace SayMore.UI.Overview
 			// show values from project file
 			var project = Program.CurrentProject;
 
-			if (project == null) return;
+			if (project == null)
+				return;
 
 			_projectTitle.Text = project.Title;
 			_fundingProjectTitle.Text = project.FundingProjectTitle;
@@ -161,6 +176,8 @@ namespace SayMore.UI.Overview
 
 			_labelSelectedContentLanguage.Text = project.VernacularISO3CodeAndName;
 			_labelSelectedWorkingLanguage.Text = project.AnalysisISO3CodeAndName;
+			SetWorkingLanguageFont(project.WorkingLanguageFont);
+
 			_location.Text = project.Location;
 			_region.Text = project.Region;
 			int iCountry = -1;
@@ -189,6 +206,18 @@ namespace SayMore.UI.Overview
 			{
 				control.Validated += delegate { Save(); };
 			}
+		}
+
+		protected override void SetWorkingLanguageFont(Font font)
+		{
+			_projectTitle.Font = font;
+			_description.Font = font;
+			_contactPerson.Font = font;
+			_location.Font = font;
+			_region.Font = font;
+			_fundingProjectTitle.Font = font;
+			_rightsHolder.Font = font;
+			_depositor.Font = font;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -224,7 +253,7 @@ namespace SayMore.UI.Overview
 			// check for changes
 			var project = Program.CurrentProject;
 			string country = SelectedCountry;
-			var changed = (_projectTitle.Text != project.Title ||
+			var changed = _projectTitle.Text != project.Title ||
 				_fundingProjectTitle.Text != project.FundingProjectTitle ||
 				_description.Text != project.ProjectDescription ||
 				_labelSelectedContentLanguage.Text != project.VernacularISO3CodeAndName ||
@@ -236,10 +265,11 @@ namespace SayMore.UI.Overview
 				_contactPerson.Text != project.ContactPerson ||
 				_dateAvailable.Text != project.DateAvailable ||
 				_rightsHolder.Text != project.RightsHolder ||
-				_depositor.Text != project.Depositor
-				);
+				_depositor.Text != project.Depositor ||
+				!_projectTitle.Font.Equals(project.WorkingLanguageFont);
 
-			if (!changed) return;
+			if (!changed)
+				return;
 
 			// save changes
 			project.Title = _projectTitle.Text;
@@ -247,6 +277,7 @@ namespace SayMore.UI.Overview
 			project.ProjectDescription = _description.Text;
 			project.VernacularISO3CodeAndName = _labelSelectedContentLanguage.Text;
 			project.AnalysisISO3CodeAndName = _labelSelectedWorkingLanguage.Text;
+			project.WorkingLanguageFont = _projectTitle.Font;
 			project.Location = _location.Text;
 			project.Region = _region.Text;
 			project.Country = country;
@@ -271,10 +302,31 @@ namespace SayMore.UI.Overview
 			// REVIEW: Do we need Force3LetterCodes? Can't find it in new implementation.
 			using (var dialog = new LanguageLookupDialog { IsDesiredLanguageNameFieldVisible = true })
 			{
-				var result = dialog.ShowDialog();
-				if (result == DialogResult.OK && dialog.SelectedLanguage != null)
-					_labelSelectedWorkingLanguage.Text = $@"{dialog.SelectedLanguage.LanguageTag}: {dialog.DesiredLanguageName}";
+				if (dialog.ShowDialog() == DialogResult.OK && dialog.SelectedLanguage != null)
+				{
+					_labelSelectedWorkingLanguage.Text = dialog.SelectedLanguage.LanguageTag +
+						kLanguageTagAndNameSeparator + dialog.DesiredLanguageName;
+				}
 			}
+		}
+
+		private void UpdateWorkingLanguageFontDisplay()
+		{
+			if (_labelSelectedWorkingLanguage.Text != null)
+			{
+				var i = _labelSelectedWorkingLanguage.Text.IndexOf(kLanguageTagAndNameSeparator);
+				if (i > 0)
+				{
+					_linkSelectFontForWorkingLanguage.Show();
+					var languageName = _labelSelectedWorkingLanguage.Text
+						.Substring(i + kLanguageTagAndNameSeparator.Length);
+					_linkSelectFontForWorkingLanguage.Text = 
+						string.Format(_fmtFontForWorkingLanguage, languageName);
+					return;
+				}
+			}
+		
+			_linkSelectFontForWorkingLanguage.Hide();
 		}
 
 		private void _linkSelectContentLanguage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -286,6 +338,18 @@ namespace SayMore.UI.Overview
 				if (result == DialogResult.OK && dialog.SelectedLanguage != null)
 					_labelSelectedContentLanguage.Text = $@"{dialog.SelectedLanguage.LanguageTag}: {dialog.DesiredLanguageName}";
 			}
+		}
+
+		private void _linkSelectFontForWorkingLanguage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			var newFont = FontDialogHelper.SelectFont(FindForm(), _projectTitle.Font);
+			if (newFont != null)
+				SetWorkingLanguageFont(newFont);
+		}
+
+		private void WorkingLanguageChanged(object sender, EventArgs e)
+		{
+			UpdateWorkingLanguageFontDisplay();
 		}
 	}
 }

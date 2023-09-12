@@ -33,7 +33,7 @@ namespace SayMore.Transcription.UI
 		public event FontChangedHandler TranslationFontChanged;
 
 		public Func<AudioRecordingType, IEnumerable<AnnotationPlaybackInfo>> AnnotationPlaybackInfoProvider;
-		public MediaPlayerViewModel PlayerViewModel { get; private set; }
+		public MediaPlayerViewModel PlayerViewModel { get; }
 		public bool PlaybackInProgress { get; private set; }
 		public bool PreventPlayback { get; set; }
 
@@ -209,14 +209,13 @@ namespace SayMore.Transcription.UI
 			tier.GridColumn.InitializeColumnContextMenu();
 			Columns.Add(tier.GridColumn);
 
-			var col = tier.GridColumn as TextAnnotationColumn;
-			if (col != null)
+			if (tier.GridColumn is TextAnnotationColumn col)
 			{
 				col.SegmentChangedAction = _annotationFile.Save;
 				col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 			}
 
-			return tier.Segments.Count();
+			return tier.Segments.Count;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -224,8 +223,7 @@ namespace SayMore.Transcription.UI
 		{
 			set
 			{
-				if (TranscriptionFontChanged != null)
-					TranscriptionFontChanged(value);
+				TranscriptionFontChanged?.Invoke(value);
 				Refresh();
 			}
 		}
@@ -235,8 +233,7 @@ namespace SayMore.Transcription.UI
 		{
 			set
 			{
-				if (TranslationFontChanged != null)
-					TranslationFontChanged(value);
+				TranslationFontChanged?.Invoke(value);
 				Refresh();
 			}
 		}

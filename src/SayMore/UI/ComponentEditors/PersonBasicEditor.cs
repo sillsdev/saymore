@@ -78,6 +78,8 @@ namespace SayMore.UI.ComponentEditors
 			LoadAndValidatePersonInfo();
 
 			_binder.OnDataSaved += _binder_OnDataSaved;
+
+			NotifyWhenProjectIsSet();
 		}
 
 		void _binder_OnDataSaved()
@@ -117,6 +119,17 @@ namespace SayMore.UI.ComponentEditors
 			_gridCustomFields = new FieldsValuesGrid(_gridViewModel, "PersonBasicEditor._gridCustomFields") { Dock = DockStyle.Top };
 			_panelGrid.AutoSize = true;
 			_panelGrid.Controls.Add(_gridCustomFields);
+		}
+
+		protected override void SetWorkingLanguageFont(Font font)
+		{
+			if (!font.Equals(_primaryLanguageLearnedIn.Font))
+			{
+				_primaryLanguageLearnedIn.Font = font;
+				_howToContact.Font = font;
+				_education.Font = font;
+				_primaryOccupation.Font = font;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

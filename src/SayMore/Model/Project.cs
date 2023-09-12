@@ -39,6 +39,10 @@ namespace SayMore.Model
 	/// ----------------------------------------------------------------------------------------
 	public class Project : IAutoSegmenterSettings, IIMDIArchivable, IRAMPArchivable, IDisposable
 	{
+		// Fixing the misspelling and incorrect capitalization of these two settings will prevent
+		// older versions of SayMore from reading the corrected settings. But since they can
+		// only be changed manually (they have never been exposed in the UI), there is only a
+		// very slim chance that this would ever affect anyone.
 		private const string kAutoSegmenterSettings = "AutoSegmenterSettings";
 		private const string kMisspelledAutoSegmenterSettings = "AutoSegmentersettings";
 		private const string kMinSegmentLength = "minSegmentLength";

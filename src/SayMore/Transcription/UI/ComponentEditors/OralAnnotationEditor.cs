@@ -180,14 +180,8 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private ComponentFile AssociatedComponentFile
-		{
-			get
-			{
-				return _file == null ? null :
-					((OralAnnotationComponentFile)_file).AssociatedComponentFile;
-			}
-		}
+		private ComponentFile AssociatedComponentFile => 
+			((OralAnnotationComponentFile)_file)?.AssociatedComponentFile;
 
 		/// ------------------------------------------------------------------------------------
 		public override bool ComponentFileDeletionInitiated(ComponentFile file)
@@ -272,10 +266,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool IsRegeneratingAudioFile
-		{
-			get { return !_buttonRegenerate.Enabled; }
-		}
+		private bool IsRegeneratingAudioFile => !_buttonRegenerate.Enabled;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

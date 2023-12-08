@@ -640,6 +640,7 @@
     <Compile Include="UI\FileLoadErrorsReportDlg.Designer.cs">
       <DependentUpon>FileLoadErrorsReportDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\FontDialogHelper.cs" />
     <Compile Include="UI\LowLevelControls\AutoCompleteTextBox.cs">
       <SubType>Component</SubType>
     </Compile>

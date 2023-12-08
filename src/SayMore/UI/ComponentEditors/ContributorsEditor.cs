@@ -197,6 +197,8 @@ namespace SayMore.UI.ComponentEditors
 			_contributorsControl.SetLocalizationExtender(locExtender);
 
 			locExtender.EndInit();
+
+			NotifyWhenProjectIsSet();
 		}
 
 		private static void InitializeColumnWidth(DataGridViewColumn col, DataGridView grid, IEnumerable<string> possibilities)
@@ -268,6 +270,32 @@ namespace SayMore.UI.ComponentEditors
 			file.StartingRename += File_StartingRename;
 			_model.SetContributionList(file.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection);
 			_active = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void SetWorkingLanguageFont(Font font)
+		{
+			foreach (DataGridViewColumn col in _contributorsControl.Grid.Columns)
+			{
+				if (col.Name == "comments")
+				{
+					var style = new DataGridViewCellStyle(col.DefaultCellStyle)
+					{
+						Font = font
+					};
+					col.CellTemplate.Style = col.DefaultCellStyle = style;
+					// REVIEW: No matter what I do, I can't seem to find a way to force the
+					// DGV to repaint using the updated font. (The very first time this grid
+					// displays, it first displays using the default UI font and then after a
+					// very pregnant pause, it updates to use the desired font.) Changing
+					// this font should be fairly rare, and eventually if the user selects a
+					// different session file, a new grid is instantiated with the correct font,
+					// so that's probably acceptable, but it would be nice to have this work
+					// correctly.
+					_contributorsControl.Grid.InvalidateColumn(col.Index);
+					break;
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

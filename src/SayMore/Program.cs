@@ -89,6 +89,10 @@ namespace SayMore
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
+			// If this determines that we can't write to the application data folder, it reports
+			// the condition (probably caused by Windows Defender) to the user. Even if we can't
+			// write here, SayMore will still attempt to start, but it could fail if it needs
+			// to write any settings.
 			WindowsUtilities.CanWriteToDirectory("SayMore", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 
 			// The following not only gets the location of the settings file used for the analytics stuff. It also

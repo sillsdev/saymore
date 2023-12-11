@@ -213,18 +213,18 @@ namespace SayMore
 				Path.Combine(Environment.GetFolderPath(CommonApplicationData),
 					relativePathForWritingL10nFiles), installedStringFileFolder);
 
-			var localizationManager = LocalizationManager.Create(TranslationMemory.XLiff,
-				currentUiLanguage, kSayMoreLocalizationId + ".exe", Application.ProductName,
+			var localizationManager = LocalizationManager.Create(currentUiLanguage,
+				kSayMoreLocalizationId + ".exe", Application.ProductName,
 				Application.ProductVersion, installedStringFileFolder,
 				relativePathForWritingL10nFiles, Resources.SayMore, emailForLocalizations,
-				"SayMore");
+				new [] {"SayMore" });
 
-			LocalizationManager.Create(TranslationMemory.XLiff, currentUiLanguage,
+			LocalizationManager.Create(currentUiLanguage,
 				kPalasoLocalizationId, kPalasoLocalizationId, Application.ProductVersion,
 				installedStringFileFolder, relativePathForWritingL10nFiles, Resources.SayMore,
-				emailForLocalizations, "SIL.Archiving", "SIL.Windows.Forms.FileSystem",
+				emailForLocalizations, new [] {"SIL.Archiving", "SIL.Windows.Forms.FileSystem",
 				"SIL.Windows.Forms.ClearShare", "SIL.Windows.Forms.Miscellaneous",
-				"SIL.Reporting", "SIL.Windows.Forms.WritingSystems");
+				"SIL.Reporting", "SIL.Windows.Forms.WritingSystems"});
 
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 

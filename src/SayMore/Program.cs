@@ -474,6 +474,10 @@ namespace SayMore
 				if (!ObtainTokenForThisProject(projectPath))
 					return false;
 
+				// If this determines that we can't write to the specified folder, it reports the
+				// condition (probably caused by Windows Defender) to the user. Even if we can't
+				// write here, SayMore will still attempt to open the project, but (at best), it
+				// will be read-only.
 				WindowsUtilities.CanWriteToDirectory("SayMore", Path.GetDirectoryName(projectPath));
 
 				// Remove this call if we end only wanting to show the splash screen

@@ -80,8 +80,11 @@
     <Reference Include="CairoSharp, Version=3.22.24.37, Culture=neutral, PublicKeyToken=313398f2149d753f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CairoSharp-signed.3.22.24.37\lib\netstandard2.0\CairoSharp.dll</HintPath>
     </Reference>
-    <Reference Include="DesktopAnalytics, Version=3.0.3.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.DesktopAnalytics.3.0.3\lib\net461\DesktopAnalytics.dll</HintPath>
+    <Reference Include="Coroutine.NET, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Coroutine.NET.1.4.0\lib\netstandard2.0\Coroutine.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="DesktopAnalytics, Version=5.0.0.32, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.DesktopAnalytics.5.0.0\lib\net462\DesktopAnalytics.dll</HintPath>
     </Reference>
     <Reference Include="DialogAdapters, Version=0.1.11.0, Culture=neutral, PublicKeyToken=7dc842182b0626dc, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DialogAdapters.Gtk2.0.1.11\lib\net461\DialogAdapters.dll</HintPath>
@@ -139,6 +142,9 @@
       <HintPath>..\..\packages\Microsoft.Extensions.DependencyModel.6.0.0\lib\net461\Microsoft.Extensions.DependencyModel.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Mixpanel, Version=6.0.0.0, Culture=neutral, PublicKeyToken=763a7782b27a8839, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\mixpanel-csharp.6.0.0\lib\net461\Mixpanel.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Unix, Version=7.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Mono.Unix.7.1.0-final.1.21458.1\lib\net45\Mono.Unix.dll</HintPath>
     </Reference>
@@ -149,13 +155,19 @@
       <HintPath>..\..\packages\NDesk.DBus.0.15.0\lib\NDesk.DBus.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PangoSharp, Version=3.22.24.37, Culture=neutral, PublicKeyToken=313398f2149d753f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\PangoSharp-signed.3.22.24.37\lib\netstandard2.0\PangoSharp.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Segment.Analytics.CSharp, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Segment.Analytics.CSharp.2.3.0\lib\netstandard2.0\Segment.Analytics.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Serialization.NET, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Serialization.NET.1.4.0\lib\netstandard2.0\Serialization.NET.dll</HintPath>
+    </Reference>
     <Reference Include="SIL.Archiving, Version=13.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SIL.Archiving.13.0.0\lib\net461\SIL.Archiving.dll</HintPath>
     </Reference>
@@ -179,6 +191,9 @@
     </Reference>
     <Reference Include="SIL.WritingSystems, Version=13.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SIL.WritingSystems.13.0.0\lib\net461\SIL.WritingSystems.dll</HintPath>
+    </Reference>
+    <Reference Include="Sovran.NET, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Sovran.NET.1.4.0\lib\netstandard2.0\Sovran.NET.dll</HintPath>
     </Reference>
     <Reference Include="Spart, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14d24e064e474331, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Spart.1.0.0\lib\net461\Spart.dll</HintPath>
@@ -228,6 +243,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
@@ -263,8 +279,8 @@
     <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
-    <Reference Include="System.Text.Json, Version=7.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Text.Json.7.0.1\lib\net462\System.Text.Json.dll</HintPath>
+    <Reference Include="System.Text.Json, Version=7.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Text.Json.7.0.3\lib\net462\System.Text.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>

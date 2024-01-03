@@ -159,6 +159,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="Autofac.dll" Guid="{BB025B7C-B3CA-435E-9A4B-192373EE12DB}">
 				<File Id="Autofac.dll" Name="Autofac.dll" KeyPath="yes" Source="..\..\output\release\Autofac.dll" />
 			</Component>
+			<Component Id="Coroutine.NET.dll" Guid="{4DECA330-6286-42EF-AE86-1C709AC808EF}">
+				<File Id="Coroutine.NET.dll" Name="Coroutine.NET.dll" KeyPath="yes" Source="..\..\output\release\Coroutine.NET.dll" />
+			</Component>
 			<Component Id="DesktopAnalytics.dll" Guid="{05CAD372-4D95-48E9-8557-F9EAA9B1F729}">
 				<File Id="DesktopAnalytics.dll" Name="DesktopAnalytics.dll" KeyPath="yes" Source="..\..\output\release\DesktopAnalytics.dll" />
 			</Component>
@@ -215,6 +218,15 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			</Component>
 			<Component Id="FFMpegCore.dll" Guid="{9AD32FB4-6924-4C6D-9474-E5153131F169}">
 				<File Id="FFMpegCore.dll" Name="FFMpegCore.dll" KeyPath="yes" Source="..\..\output\release\FFMpegCore.dll" />
+			</Component>
+			<Component Id="Segment.Analytics.CSharp.dll" Guid="{85AB81B3-42D9-4DDD-8AEE-FBAFE9B78DF9}">
+				<File Id="Segment.Analytics.CSharp.dll" Name="Segment.Analytics.CSharp.dll" KeyPath="yes" Source="..\..\output\release\Segment.Analytics.CSharp.dll" />
+			</Component>
+			<Component Id="Serialization.NET.dll" Guid="{DDEAE1A8-25EA-4466-A637-0E7B8E66C631}">
+				<File Id="Serialization.NET.dll" Name="Serialization.NET.dll" KeyPath="yes" Source="..\..\output\release\Serialization.NET.dll" />
+			</Component>
+			<Component Id="Sovran.NET.dll" Guid="{83A9E909-BC73-47E8-8AAB-BBF8A2683B9C}">
+				<File Id="Sovran.NET.dll" Name="Sovran.NET.dll" KeyPath="yes" Source="..\..\output\release\Sovran.NET.dll" />
 			</Component>
 			<Component Id="SIL.Archiving.dll" Guid="{FC6955FD-A9BC-4317-8E82-402182F781F6}">
 				<File Id="SIL.Archiving.dll" Name="SIL.Archiving.dll" KeyPath="yes" Source="..\..\output\release\SIL.Archiving.dll" />
@@ -621,6 +633,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="SayMore.pdb"/>
 	  	<ComponentRef Id="Analytics.dll"/>
 		<ComponentRef Id="Autofac.dll"/>
+		<ComponentRef Id="Coroutine.NET.dll"/>
 		<ComponentRef Id="DesktopAnalytics.dll"/>
 		<ComponentRef Id="DialogAdapters.dll"/>
 		<ComponentRef Id="DotNetZip.dll"/>
@@ -639,7 +652,10 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="NDesk.DBus.dll"/>
 		<ComponentRef Id="netstandard.dll"/>
 		<ComponentRef Id="Newtonsoft.Json.dll"/>  
-		<ComponentRef Id="FFMpegCore.dll"/>  
+		<ComponentRef Id="FFMpegCore.dll"/>
+		<ComponentRef Id="Segment.Analytics.CSharp.dll"/>
+		<ComponentRef Id="Serialization.NET.dll"/>
+		<ComponentRef Id="Sovran.NET.dll"/>
 		<ComponentRef Id="SIL.Archiving.dll"/>
 		<ComponentRef Id="SIL.Core.Desktop.dll"/>
 		<ComponentRef Id="SIL.Core.dll"/>

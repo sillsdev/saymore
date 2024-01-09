@@ -482,7 +482,16 @@ namespace SayMore
 				// condition (probably caused by Windows Defender) to the user. Even if we can't
 				// write here, SayMore will still attempt to open the project, but (at best), it
 				// will be read-only.
-				WindowsUtilities.CanWriteToDirectory("SayMore", Path.GetDirectoryName(projectPath));
+				var folderToCheck = Path.GetDirectoryName(projectPath);
+				// When creating a new project, the first folder will be the not-yet-created
+				// project folder, so we need to check to make sure we can write to the parent
+				// folder instead. That will generally be the SayMore folder in My Documents,
+				// which should exist. But just to be insanely safe, we'll just keep looking
+				// until we find a folder that does exist.
+				while (folderToCheck != Empty && !Directory.Exists(folderToCheck))
+					folderToCheck = Path.GetDirectoryName(folderToCheck);
+				if (folderToCheck != Empty)
+					WindowsUtilities.CanWriteToDirectory("SayMore", folderToCheck);
 
 				// Remove this call if we end only wanting to show the splash screen
 				// at app. startup. Right now it's shown whenever a project is loaded.

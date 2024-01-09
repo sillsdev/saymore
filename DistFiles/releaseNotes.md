@@ -1,3 +1,6 @@
+## Version 3.6.1
+Fixed problem that prevented creation of a new project.
+
 ## Version 3.6
 Added ability to set the working language font (used, for example, in Descriptions, Notes, etc.)
 

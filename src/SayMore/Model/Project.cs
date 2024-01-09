@@ -100,6 +100,8 @@ namespace SayMore.Model
 			SettingsFilePath = desiredOrExistingSettingsFilePath;
 			Name = GetFileNameWithoutExtension(desiredOrExistingSettingsFilePath);
 			var projectDirectory = GetDirectoryName(desiredOrExistingSettingsFilePath);
+			if (projectDirectory == null)
+				throw new ArgumentException("Invalid project path specified", nameof(desiredOrExistingSettingsFilePath));
 			var saveNeeded = false;
 
 			if (File.Exists(desiredOrExistingSettingsFilePath))
@@ -109,18 +111,8 @@ namespace SayMore.Model
 			}
 			else
 			{
-				var parentDirectoryPath = GetDirectoryName(projectDirectory);
-				if (parentDirectoryPath != null)
-				{
-					if (!Directory.Exists(parentDirectoryPath))
-						Directory.CreateDirectory(parentDirectoryPath);
-
-					if (!Directory.Exists(projectDirectory))
-						Directory.CreateDirectory(projectDirectory);
-				}
-
+				Directory.CreateDirectory(projectDirectory);
 				Title = Name;
-
 				saveNeeded = true;
 			}
 

@@ -36,24 +36,25 @@ namespace SayMore.Media.Audio
 		public virtual WavePainterBasic Painter { get; private set; }
 		public WaveStream WaveStream { get; private set; }
 
-		protected float _zoomPercentage = 100f;
-		protected WaveStream _playbackStream;
-		protected WaveOutEvent _waveOut;
-		protected Size _prevClientSize;
-		protected bool _savedAllowDrawingValue = true;
-		protected int _savedBottomReservedAreaHeight;
-		protected Form _owningForm;
-		protected Color _bottomReservedAreaColor;
-		protected Color _bottomReservedAreaBorderColor;
-		protected Action<PaintEventArgs, Rectangle> _bottomReservedAreaPaintAction;
+		private float _zoomPercentage = 100f;
+		private object _playbackStreamLock = new object();
+		private WaveStream _playbackStream;
+		private WaveOutEvent _waveOut;
+		private Size _prevClientSize;
+		private bool _savedAllowDrawingValue = true;
+		private int _savedBottomReservedAreaHeight;
+		private Form _owningForm;
+		private Color _bottomReservedAreaColor;
+		private Color _bottomReservedAreaBorderColor;
+		private Action<PaintEventArgs, Rectangle> _bottomReservedAreaPaintAction;
 
-		protected TimeRange _playbackRange;
+		private TimeRange _playbackRange;
 		protected TimeSpan _boundaryMouseOver;
 		protected WaveControlScrollCalculator _scrollCalculator;
-		protected Timer _slideTimer;
-		protected DateTime _endSlideTime;
-		protected int _slidingTargetScrollOffset;
-		protected bool _ignoreMouseProcessing;
+		private Timer _slideTimer;
+		private DateTime _endSlideTime;
+		private int _slidingTargetScrollOffset;
+		private bool _ignoreMouseProcessing;
 		private bool _stopping;
 
 		/// ------------------------------------------------------------------------------------
@@ -112,15 +113,17 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		public void LoadFile(WaveFileReader stream, string source)
 		{
-			if (Painter != null)
-				Painter.Dispose();
+			Painter?.Dispose();
 
 			CloseAndDisposeWaveStreamIfNeeded();
 
 			WaveStream = stream;
 
-			_playbackStream = (PlaybackStreamProvider == null ?
-				WaveStream : PlaybackStreamProvider(WaveStream));
+			lock (_playbackStreamLock)
+			{
+				_playbackStream = PlaybackStreamProvider == null ?
+					WaveStream : PlaybackStreamProvider(WaveStream);
+			}
 
 			Painter = GetNewWavePainter(stream, source);
 
@@ -153,13 +156,10 @@ namespace SayMore.Media.Audio
 			CloseAndDisposeWaveStreamIfNeeded();
 			WaveStream = null;
 
-			_playbackStream = null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual WavePainterBasic GetNewWavePainter(IEnumerable<float> samples, TimeSpan totalTime)
-		{
-			return new WavePainterBasic(this, samples, totalTime);
+			lock (_playbackStreamLock)
+			{
+				_playbackStream = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -181,7 +181,7 @@ namespace SayMore.Media.Audio
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual int BottomReservedAreaHeight
 		{
-			get { return _savedBottomReservedAreaHeight; }
+			get => _savedBottomReservedAreaHeight;
 			set
 			{
 				_savedBottomReservedAreaHeight = value;
@@ -191,19 +191,14 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Rectangle BottomReservedAreaRectangle
-		{
-			get
-			{
-				return new Rectangle(0, ClientRectangle.Bottom - BottomReservedAreaHeight,
-					ClientSize.Width, BottomReservedAreaHeight);
-			}
-		}
+		public Rectangle BottomReservedAreaRectangle =>
+			new Rectangle(0, ClientRectangle.Bottom - BottomReservedAreaHeight,
+				ClientSize.Width, BottomReservedAreaHeight);
 
 		/// ------------------------------------------------------------------------------------
 		public virtual Color BottomReservedAreaColor
 		{
-			get { return _bottomReservedAreaColor; }
+			get => _bottomReservedAreaColor;
 			set
 			{
 				_bottomReservedAreaColor = value;
@@ -215,7 +210,7 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		public virtual Color BottomReservedAreaBorderColor
 		{
-			get { return _bottomReservedAreaBorderColor; }
+			get => _bottomReservedAreaBorderColor;
 			set
 			{
 				_bottomReservedAreaBorderColor = value;
@@ -229,7 +224,7 @@ namespace SayMore.Media.Audio
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Action<PaintEventArgs, Rectangle> BottomReservedAreaPaintAction
 		{
-			get { return _bottomReservedAreaPaintAction; }
+			get => _bottomReservedAreaPaintAction;
 			set
 			{
 				_bottomReservedAreaPaintAction = value;
@@ -256,7 +251,7 @@ namespace SayMore.Media.Audio
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Func<WaveFormat, string> FormatNotSupportedMessageProvider
 		{
-			get { return (Painter == null ? null : Painter.FormatNotSupportedMessageProvider); }
+			get => Painter?.FormatNotSupportedMessageProvider;
 			set
 			{
 				if (Painter != null)
@@ -267,18 +262,13 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public bool IsPlaying
-		{
-			get { return _waveOut != null; }
-		}
+		public bool IsPlaying => _waveOut != null;
 
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public bool IsPlayingToEndOfMedia
-		{
-			get { return IsPlaying && _playbackRange.End == WaveStream.TotalTime; }
-		}
+		public bool IsPlayingToEndOfMedia =>
+			IsPlaying && _playbackRange.End == WaveStream.TotalTime;
 
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
@@ -296,7 +286,7 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		public override Color ForeColor
 		{
-			get { return base.ForeColor; }
+			get => base.ForeColor;
 			set
 			{
 				if (Painter != null)
@@ -309,7 +299,7 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		public override Color BackColor
 		{
-			get { return base.BackColor; }
+			get => base.BackColor;
 			set
 			{
 				if (Painter != null)
@@ -404,13 +394,13 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		public TimeSpan GetCursorTime()
 		{
-			return (Painter == null ? TimeSpan.Zero : Painter.CursorTime);
+			return Painter?.CursorTime ?? TimeSpan.Zero;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public TimeSpan GetTimeFromX(int dx)
 		{
-			return (Painter == null ? TimeSpan.Zero : Painter.ConvertXCoordinateToTime(dx));
+			return Painter?.ConvertXCoordinateToTime(dx) ?? TimeSpan.Zero;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -457,8 +447,16 @@ namespace SayMore.Media.Audio
 			if (_scrollCalculator == null)
 			{
 				KillSlideTimer();
-				_scrollCalculator = new WaveControlScrollCalculator(this,
-					new TimeRange(TimeSpan.Zero, _playbackStream.TotalTime), true);
+				lock (_playbackStreamLock)
+				{
+					// REVIEW: Since _playbackStream can be null, it seems as though we should be
+					// checking for that and then doing some reasonable fallback action (maybe
+					// just return false). But since it has apparently never happened, maybe
+					// there is never a condition when this method can get called when it is null.
+					_scrollCalculator = new WaveControlScrollCalculator(this,
+						new TimeRange(TimeSpan.Zero, _playbackStream.TotalTime), true);
+					
+				}
 				discardCalculator = true;
 			}
 
@@ -661,32 +659,37 @@ namespace SayMore.Media.Audio
 			if (_waveOut != null && _waveOut.PlaybackState == PlaybackState.Playing)
 				throw new InvalidOperationException("Can't call play while playing.");
 
-			if (_playbackStream == null || (_playbackStream.WaveFormat.BitsPerSample == 32 &&
-				_playbackStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat))
+			SampleChannel waveOutProvider;
+
+			lock (_playbackStreamLock)
 			{
-				return;
+				if (_playbackStream == null || (_playbackStream.WaveFormat.BitsPerSample == 32 &&
+					    _playbackStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat))
+				{
+					return;
+				}
+
+				SetCursor(playbackStartTime);
+
+				_playbackRange = new TimeRange(playbackStartTime, playbackEndTime);
+
+				if (_playbackRange.Start < TimeSpan.Zero)
+					_playbackRange.Start = TimeSpan.Zero;
+
+				if (_playbackRange.DurationSeconds.Equals(0))
+				{
+					_playbackRange.End = WaveStream.TotalTime;
+					EnsureTimeIsVisible(_playbackRange.Start);
+				}
+				else
+					EnsureTimeIsVisible(_playbackRange.Start, _playbackRange, true, true);
+
+				AudioUtils.NAudioExceptionThrown += HandleNAudioExceptionThrown;
+
+				waveOutProvider = new SampleChannel(_playbackRange.End == TimeSpan.Zero || _playbackRange.End == WaveStream.TotalTime ?
+					new WaveSegmentStream(_playbackStream, playbackStartTime) :
+					new WaveSegmentStream(_playbackStream, playbackStartTime, playbackEndTime - playbackStartTime));
 			}
-
-			SetCursor(playbackStartTime);
-
-			_playbackRange = new TimeRange(playbackStartTime, playbackEndTime);
-
-			if (_playbackRange.Start < TimeSpan.Zero)
-				_playbackRange.Start = TimeSpan.Zero;
-
-			if (_playbackRange.DurationSeconds.Equals(0))
-			{
-				_playbackRange.End = WaveStream.TotalTime;
-				EnsureTimeIsVisible(_playbackRange.Start);
-			}
-			else
-				EnsureTimeIsVisible(_playbackRange.Start, _playbackRange, true, true);
-
-			AudioUtils.NAudioExceptionThrown += HandleNAudioExceptionThrown;
-
-			var waveOutProvider = new SampleChannel(_playbackRange.End == TimeSpan.Zero || _playbackRange.End == WaveStream.TotalTime ?
-				new WaveSegmentStream(_playbackStream, playbackStartTime) :
-				new WaveSegmentStream(_playbackStream, playbackStartTime, playbackEndTime - playbackStartTime));
 
 			waveOutProvider.PreVolumeMeter += HandlePlaybackMetering;
 
@@ -705,7 +708,7 @@ namespace SayMore.Media.Audio
 				if (_waveOut != null)
 					_waveOut.Dispose();
 				_waveOut = null;
-				Logger.WriteEvent("Exception in WaveControllerbasic.Play:\r\n{0}", exception.ToString());
+				Logger.WriteEvent("Exception in WaveControlBasic.Play:\r\n{0}", exception.ToString());
 				DesktopAnalytics.Analytics.ReportException(exception);
 				//  throw;
 			}
@@ -726,31 +729,32 @@ namespace SayMore.Media.Audio
 			}
 			catch (Exception e)
 			{
-				Logger.WriteEvent("Exception in WaveControllerbasic.HandleNAudioExceptionThrown:\r\n{0}", e.ToString());
+				Logger.WriteEvent("Exception in WaveControlBasic.HandleNAudioExceptionThrown:\r\n{0}", e.ToString());
 			}
 
-			if (PlaybackErrorAction != null)
-				PlaybackErrorAction(exception);
+			PlaybackErrorAction?.Invoke(exception);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnPlaybackStarted(TimeSpan startTime, TimeSpan endTime)
 		{
-			if (PlaybackStarted != null)
-				PlaybackStarted(this, startTime, endTime);
+			PlaybackStarted?.Invoke(this, startTime, endTime);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected void HandlePlaybackMetering(object sender, StreamVolumeEventArgs e)
 		{
-			if (PlaybackUpdate != null)
-				PlaybackUpdate(this, _playbackStream.CurrentTime, _playbackStream.TotalTime);
+			TimeSpan newTime;
+			lock (_playbackStreamLock)
+			{
+				PlaybackUpdate?.Invoke(this, _playbackStream.CurrentTime, _playbackStream.TotalTime);
 
-			var newTime = _playbackStream.CurrentTime.Add(-TimeSpan.FromMilliseconds(_waveOut.DesiredLatency / 2.0));
-			if (newTime >= (_playbackRange.End > TimeSpan.Zero ? _playbackRange.End : WaveStream.TotalTime))
-				SetCursor(_playbackRange.End);
-			else
-				SetCursor(newTime);
+				newTime = _playbackStream.CurrentTime.Add(-TimeSpan.FromMilliseconds(_waveOut.DesiredLatency / 2.0));
+			}
+
+			var playBackEnd = _playbackRange.End > TimeSpan.Zero ?
+				_playbackRange.End : WaveStream.TotalTime;
+			SetCursor(newTime >= playBackEnd ? _playbackRange.End : newTime);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -764,14 +768,10 @@ namespace SayMore.Media.Audio
 			_stopping = true;
 
 			TimeSpan stopped;
-			try
-			{
-				stopped = _playbackStream.CurrentTime;
-			}
-			catch
+			lock (_playbackStreamLock)
 			{
 				// Might have already stopped and been disposed
-				stopped = _playbackRange.End;
+				stopped = _playbackStream?.CurrentTime ?? _playbackRange.End;
 			}
 
 			_waveOut.PlaybackStopped += (sender, args) => OnPlaybackStopped((WaveOutEvent)sender, _playbackRange.Start, stopped);
@@ -808,12 +808,15 @@ namespace SayMore.Media.Audio
 
 			if (_waveOut == sender)
 			{
-				SetCursor(_playbackStream.CurrentTime);
+				lock (_playbackStreamLock)
+				{
+					if (_playbackStream != null)
+						SetCursor(_playbackStream.CurrentTime);
+				}
 				_waveOut = null;
 				_scrollCalculator = null;
 
-				if (PlaybackStopped != null)
-					PlaybackStopped(this, startTime, endTime);
+				PlaybackStopped?.Invoke(this, startTime, endTime);
 			}
 		}
 
@@ -931,7 +934,7 @@ namespace SayMore.Media.Audio
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public float ZoomPercentage
 		{
-			get { return _zoomPercentage; }
+			get => _zoomPercentage;
 			set
 			{
 				if (value.Equals(_zoomPercentage) || value < 100f)
@@ -945,16 +948,20 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		private void SetZoom()
 		{
-			// SP-907: Object reference not set (ZoomPercentage is being set before Initialize is called)
-			if (_playbackStream == null)
-				return;
+			lock (_playbackStreamLock)
+			{
+				// SP-907: Object reference not set (ZoomPercentage is being set before Initialize is called)
+				if (_playbackStream == null)
+					return;
 
-			var percentage = _zoomPercentage / 100;
-			var defaultWidth = _playbackStream.TotalTime.TotalSeconds * Settings.Default.SegmentingWaveViewPixelsPerSecond;
-			var adjustedWidth = (int)(Math.Round(defaultWidth * percentage, MidpointRounding.AwayFromZero));
-			adjustedWidth = Math.Max(adjustedWidth, ClientSize.Width);
-			AutoScrollMinSize = new Size(adjustedWidth, ClientSize.Height);
-			Painter.SetPixelsPerSecond(adjustedWidth / _playbackStream.TotalTime.TotalSeconds);
+				var percentage = _zoomPercentage / 100;
+				var defaultWidth = _playbackStream.TotalTime.TotalSeconds * Settings.Default.SegmentingWaveViewPixelsPerSecond;
+				var adjustedWidth = (int)(Math.Round(defaultWidth * percentage, MidpointRounding.AwayFromZero));
+				adjustedWidth = Math.Max(adjustedWidth, ClientSize.Width);
+				AutoScrollMinSize = new Size(adjustedWidth, ClientSize.Height);
+				Painter.SetPixelsPerSecond(adjustedWidth / _playbackStream.TotalTime.TotalSeconds);
+			}
+
 			Invalidate();
 		}
 		#endregion

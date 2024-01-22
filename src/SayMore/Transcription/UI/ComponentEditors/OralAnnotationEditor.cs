@@ -8,6 +8,7 @@ using SayMore.Model.Files;
 using SayMore.Media.MPlayer;
 using SayMore.UI.ComponentEditors;
 using SIL.Windows.Forms;
+using NAudio.SoundFont;
 
 namespace SayMore.Transcription.UI
 {
@@ -259,7 +260,7 @@ namespace SayMore.Transcription.UI
 			_oralAnnotationWaveViewer.CloseAudioStream();
 
 			_file.GenerateOralAnnotationFile(this, ComponentFile.GenerateOption.RegenerateNow);
-			SetComponentFile(_file);
+			HandleOralAnnotationFileGenerated(true);
 			_oralAnnotationWaveViewer.Invalidate(true);
 
 			_buttonRegenerate.Enabled = true;

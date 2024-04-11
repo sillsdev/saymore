@@ -9,6 +9,7 @@ using SIL.Windows.Forms.WritingSystems;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;
 using SIL.Archiving.IMDI.Lists;
+using SIL.WritingSystems;
 
 namespace SayMore.UI.Overview
 {
@@ -60,6 +61,7 @@ namespace SayMore.UI.Overview
 				{
 					Debug.Assert(_linkSelectFontForWorkingLanguage != null);
 					_fmtFontForWorkingLanguage = _linkSelectFontForWorkingLanguage.Text;
+					UpdateWorkingLanguageFontDisplay();
 				};
 			}
 			else
@@ -299,8 +301,17 @@ namespace SayMore.UI.Overview
 
 		private void _linkSelectWorkingLanguage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
+			LanguageInfo currentLanguageInfo = null;
+			if (!string.IsNullOrEmpty(_labelSelectedWorkingLanguage.Text))
+			{
+				var lookup = new LanguageLookup(true);
+				var languageNameParts = _labelSelectedWorkingLanguage.Text
+					.Split(new [] {kLanguageTagAndNameSeparator}, StringSplitOptions.None);
+				currentLanguageInfo = lookup.GetLanguageFromCode(languageNameParts[0]);
+			}
+
 			// REVIEW: Do we need Force3LetterCodes? Can't find it in new implementation.
-			using (var dialog = new LanguageLookupDialog { IsDesiredLanguageNameFieldVisible = true })
+			using (var dialog = new LanguageLookupDialog { SelectedLanguage = currentLanguageInfo, IsDesiredLanguageNameFieldVisible = true })
 			{
 				if (dialog.ShowDialog() == DialogResult.OK && dialog.SelectedLanguage != null)
 				{
@@ -312,20 +323,17 @@ namespace SayMore.UI.Overview
 
 		private void UpdateWorkingLanguageFontDisplay()
 		{
-			if (_labelSelectedWorkingLanguage.Text != null)
+			var i = _labelSelectedWorkingLanguage.Text?.IndexOf(kLanguageTagAndNameSeparator, StringComparison.OrdinalIgnoreCase) ?? -1;
+			if (i > 0)
 			{
-				var i = _labelSelectedWorkingLanguage.Text.IndexOf(kLanguageTagAndNameSeparator);
-				if (i > 0)
-				{
-					_linkSelectFontForWorkingLanguage.Show();
-					var languageName = _labelSelectedWorkingLanguage.Text
-						.Substring(i + kLanguageTagAndNameSeparator.Length);
-					_linkSelectFontForWorkingLanguage.Text = 
-						string.Format(_fmtFontForWorkingLanguage, languageName);
-					return;
-				}
+				_linkSelectFontForWorkingLanguage.Show();
+				var languageName = _labelSelectedWorkingLanguage.Text
+					.Substring(i + kLanguageTagAndNameSeparator.Length);
+				_linkSelectFontForWorkingLanguage.Text = 
+					string.Format(_fmtFontForWorkingLanguage, languageName);
+				return;
 			}
-		
+			
 			_linkSelectFontForWorkingLanguage.Hide();
 		}
 

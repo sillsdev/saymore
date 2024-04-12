@@ -167,7 +167,7 @@ namespace SayMore.Transcription.UI
 			_waveControl.Painter.SetIgnoredRegions(_viewModel.GetIgnoredSegmentRanges());
 			_waveControl.PostPaintAction = HandleWaveControlPostPaint;
 			_waveControl.PlaybackStarted += OnPlaybackStarted;
-			_waveControl.PlaybackUpdate += OnPlayingback;
+			_waveControl.PlaybackUpdate += OnPlayingBack;
 			_waveControl.PlaybackStopped += OnPlaybackStopped;
 			_waveControl.MouseMove += HandleWaveControlMouseMove;
 			_waveControl.MouseLeave += HandleWaveControlMouseLeave;
@@ -193,7 +193,7 @@ namespace SayMore.Transcription.UI
 				if (_waveControl != null)
 				{
 					_waveControl.PlaybackStarted -= OnPlaybackStarted;
-					_waveControl.PlaybackUpdate -= OnPlayingback;
+					_waveControl.PlaybackUpdate -= OnPlayingBack;
 					_waveControl.PlaybackStopped -= OnPlaybackStopped;
 					_waveControl.MouseMove -= HandleWaveControlMouseMove;
 					_waveControl.MouseLeave -= HandleWaveControlMouseLeave;
@@ -580,11 +580,11 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void OnPlayingback(WaveControlBasic ctrl, TimeSpan current, TimeSpan total)
+		protected virtual void OnPlayingBack(WaveControlBasic ctrl, TimeSpan current, TimeSpan total)
 		{
 			if (InvokeRequired)
 			{
-				Invoke(new Action(() => OnPlayingback(ctrl, current, total)));
+				Invoke(new Action(() => OnPlayingBack(ctrl, current, total)));
 			}
 			else
 			{

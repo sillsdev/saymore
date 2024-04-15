@@ -286,6 +286,8 @@ namespace SayMore.Transcription.Model
 		public string Save(string annotatedMediaFile)
 		{
 			return AnnotationFileHelper.Save(annotatedMediaFile, this);
+			// TODO (SP-2326, SP-2336, etc.): Verify that saved EAF file has contents and is
+			// valid/readable.
 		}
 
 		#endregion

@@ -115,7 +115,7 @@ namespace SayMore
 					(Func<string, bool>)(fileName => true) :
 					fileName => !Path.GetFileName(fileName).StartsWith(ProjectElement.kMacOsxResourceFilePrefix);
 				var metaFilesList = filesInDir.Where(f => doesNotHaveIllegalPrefix(f) &&
-					f.EndsWith(Settings.Default.MetadataFileExtension)).ToList();
+					f.EndsWith(Settings.Default.MetadataFileExtension) && !f.Contains(Settings.Default.OralAnnotationGeneratedFileSuffix)).ToList();
 				var sessionDoc = LoadXmlDocument(sessionFile);
 				LoadContributors(sessionDoc, namesList, nameRolesList, contributorLists);
 				var root = sessionDoc.DocumentElement;
@@ -214,10 +214,10 @@ namespace SayMore
 			// we need to migrate it. It might also have been edited outside SayMore and have
 			// participants that are not known contributors, even though it has a contributions element.
 			// So add in any participants we don't already have in some form.
-			var particpantsNode = xmlDoc.SelectSingleNode("//participants");
-			if (particpantsNode == null)
+			var participantsNode = xmlDoc.SelectSingleNode("//participants");
+			if (participantsNode == null)
 				return;
-			foreach (var participant in particpantsNode.InnerText.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+			foreach (var participant in participantsNode.InnerText.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
 			{
 				var name = participant.Trim();
 

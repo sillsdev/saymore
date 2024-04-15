@@ -34,7 +34,7 @@ namespace SayMore.Transcription.UI
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	public class OralAnnotationRecorderDlgViewModel : SegmenterDlgBaseViewModel
+	public abstract class OralAnnotationRecorderDlgViewModel : SegmenterDlgBaseViewModel
 	{
 		public Action<Exception> RecordingErrorAction { get; set; }
 		public Action<Exception> PlaybackErrorAction { get; set; }
@@ -83,29 +83,20 @@ namespace SayMore.Transcription.UI
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		public virtual OralAnnotationType AnnotationType
-		{
-			get { throw new NotImplementedException(); }
-		}
+		public abstract OralAnnotationType AnnotationType { get; }
 
 		/// ------------------------------------------------------------------------------------
-		public override TimeSpan VirtualBoundaryBeyondLastSegment
-		{
-			get { return NewSegmentEndBoundary; }
-		}
+		public override TimeSpan VirtualBoundaryBeyondLastSegment => NewSegmentEndBoundary;
 
 		/// ------------------------------------------------------------------------------------
 		public TimeSpan NewSegmentEndBoundary
 		{
-			get { return _endBoundary; }
-			set { _endBoundary = (value < GetEndOfLastSegment()) ? GetEndOfLastSegment() : value; }
+			get => _endBoundary;
+			set => _endBoundary = value < GetEndOfLastSegment() ? GetEndOfLastSegment() : value;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool IsFullySegmented
-		{
-			get { return TimeTier.IsFullySegmented; }
-		}
+		public bool IsFullySegmented => TimeTier.IsFullySegmented;
 
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsFullyAnnotated()
@@ -174,16 +165,10 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string GetFullPathOfAnnotationFileForTimeRange(TimeRange timeRange)
-		{
-			throw new NotImplementedException();
-		}
+		public abstract string GetFullPathOfAnnotationFileForTimeRange(TimeRange timeRange);
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string GetFullPathOfOtherAnnotationFileForTimeRange(TimeRange timeRange)
-		{
-			throw new NotImplementedException();
-		}
+		public abstract string GetFullPathOfOtherAnnotationFileForTimeRange(TimeRange timeRange);
 
 		/// ----------------------------------------------------------------------------------------
 		public bool GetHasNewSegment()
@@ -615,10 +600,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override string ProgramAreaForUsageReporting
-		{
-			get { return "Careful Speech"; }
-		}
+		protected override string ProgramAreaForUsageReporting => "Careful Speech";
 
 		/// ------------------------------------------------------------------------------------
 		public override string GetFullPathOfAnnotationFileForTimeRange(TimeRange timeRange)
@@ -637,10 +619,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override OralAnnotationType AnnotationType
-		{
-			get { return OralAnnotationType.CarefulSpeech; }
-		}
+		public override OralAnnotationType AnnotationType => OralAnnotationType.CarefulSpeech;
 	}
 	#endregion
 
@@ -654,10 +633,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override string ProgramAreaForUsageReporting
-		{
-			get { return "Oral Translation"; }
-		}
+		protected override string ProgramAreaForUsageReporting => "Oral Translation";
 
 		/// ------------------------------------------------------------------------------------
 		public override string GetFullPathOfAnnotationFileForTimeRange(TimeRange timeRange)
@@ -676,10 +652,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override OralAnnotationType AnnotationType
-		{
-			get { return OralAnnotationType.Translation; }
-		}
+		public override OralAnnotationType AnnotationType => OralAnnotationType.Translation;
 	}
 
 	#endregion

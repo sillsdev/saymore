@@ -159,6 +159,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="Autofac.dll" Guid="{BB025B7C-B3CA-435E-9A4B-192373EE12DB}">
 				<File Id="Autofac.dll" Name="Autofac.dll" KeyPath="yes" Source="..\..\output\release\Autofac.dll" />
 			</Component>
+			<Component Id="Coroutine.NET.dll" Guid="{4DECA330-6286-42EF-AE86-1C709AC808EF}">
+				<File Id="Coroutine.NET.dll" Name="Coroutine.NET.dll" KeyPath="yes" Source="..\..\output\release\Coroutine.NET.dll" />
+			</Component>
 			<Component Id="DesktopAnalytics.dll" Guid="{05CAD372-4D95-48E9-8557-F9EAA9B1F729}">
 				<File Id="DesktopAnalytics.dll" Name="DesktopAnalytics.dll" KeyPath="yes" Source="..\..\output\release\DesktopAnalytics.dll" />
 			</Component>
@@ -176,6 +179,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			</Component>
 			<Component Id="icu.net.dll" Guid="{29D1CCBC-5212-47A0-AC02-01CE5F92CCBB}">
 				<File Id="icu.net.dll" Name="icu.net.dll" KeyPath="yes" Source="..\..\output\release\icu.net.dll" />
+			</Component>
+			<Component Id="Instances.dll" Guid="{1EB70794-8384-4588-ACAE-551CE215BF86}">
+				<File Id="Instances.dll" Name="Instances.dll" KeyPath="yes" Source="..\..\output\release\Instances.dll" />
 			</Component>
 			<Component Id="L10NSharp.dll" Guid="{112CE0A5-3B37-488E-95C0-21F5E9609211}">
 				<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="yes" Source="..\..\output\release\L10NSharp.dll" />
@@ -210,6 +216,18 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="Newtonsoft.Json.dll" Guid="{F6A4D568-9E51-4FF0-9F5E-EEC1C15D6068}">
 				<File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" KeyPath="yes" Source="..\..\output\release\Newtonsoft.Json.dll" />
 			</Component>
+			<Component Id="FFMpegCore.dll" Guid="{9AD32FB4-6924-4C6D-9474-E5153131F169}">
+				<File Id="FFMpegCore.dll" Name="FFMpegCore.dll" KeyPath="yes" Source="..\..\output\release\FFMpegCore.dll" />
+			</Component>
+			<Component Id="Segment.Analytics.CSharp.dll" Guid="{85AB81B3-42D9-4DDD-8AEE-FBAFE9B78DF9}">
+				<File Id="Segment.Analytics.CSharp.dll" Name="Segment.Analytics.CSharp.dll" KeyPath="yes" Source="..\..\output\release\Segment.Analytics.CSharp.dll" />
+			</Component>
+			<Component Id="Serialization.NET.dll" Guid="{DDEAE1A8-25EA-4466-A637-0E7B8E66C631}">
+				<File Id="Serialization.NET.dll" Name="Serialization.NET.dll" KeyPath="yes" Source="..\..\output\release\Serialization.NET.dll" />
+			</Component>
+			<Component Id="Sovran.NET.dll" Guid="{83A9E909-BC73-47E8-8AAB-BBF8A2683B9C}">
+				<File Id="Sovran.NET.dll" Name="Sovran.NET.dll" KeyPath="yes" Source="..\..\output\release\Sovran.NET.dll" />
+			</Component>
 			<Component Id="SIL.Archiving.dll" Guid="{FC6955FD-A9BC-4317-8E82-402182F781F6}">
 				<File Id="SIL.Archiving.dll" Name="SIL.Archiving.dll" KeyPath="yes" Source="..\..\output\release\SIL.Archiving.dll" />
 			</Component>
@@ -240,6 +258,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="System.AppContext.dll" Guid="{2E239C22-C4A7-4ACC-8851-89FB9C96FADB}">
 				<File Id="System.AppContext.dll" Name="System.AppContext.dll" KeyPath="yes" Source="..\..\output\release\System.AppContext.dll" />
 			</Component>
+			<Component Id="System.Buffers.dll" Guid="{F2B7993E-673A-473D-89EA-FD3FFB3529A8}">
+				<File Id="System.Buffers.dll" Name="System.Buffers.dll" KeyPath="yes" Source="..\..\output\release\System.Buffers.dll" />
+			</Component>
 			<Component Id="System.Collections.Concurrent.dll" Guid="{B49ABEFA-5033-4CA3-91FB-77B4BFC7FA65}">
 				<File Id="System.Collections.Concurrent.dll" Name="System.Collections.Concurrent.dll" KeyPath="yes" Source="..\..\output\release\System.Collections.Concurrent.dll" />
 			</Component>
@@ -263,6 +284,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			</Component>
 			<Component Id="System.ComponentModel.TypeConverter.dll" Guid="{F3467637-3994-44CA-89CE-3B625B5406B3}">
 				<File Id="System.ComponentModel.TypeConverter.dll" Name="System.ComponentModel.TypeConverter.dll" KeyPath="yes" Source="..\..\output\release\System.ComponentModel.TypeConverter.dll" />
+			</Component>
+			<Component Id="System.Configuration.ConfigurationManager.dll" Guid="{75FA1FD1-6522-4CCF-A0D8-CF35500BCEFE}">
+				<File Id="System.Configuration.ConfigurationManager.dll" Name="System.Configuration.ConfigurationManager.dll" KeyPath="yes" Source="..\..\output\release\System.Configuration.ConfigurationManager.dll" />
 			</Component>
 			<Component Id="System.Console.dll" Guid="{5EC6A496-0CA8-46C6-B2AA-FBAB2BA5573E}">
 				<File Id="System.Console.dll" Name="System.Console.dll" KeyPath="yes" Source="..\..\output\release\System.Console.dll" />
@@ -296,6 +320,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			</Component>
 			<Component Id="System.Diagnostics.Tracing.dll" Guid="{E61635F5-67C4-4E18-8F33-23A06B6E2DE0}">
 				<File Id="System.Diagnostics.Tracing.dll" Name="System.Diagnostics.Tracing.dll" KeyPath="yes" Source="..\..\output\release\System.Diagnostics.Tracing.dll" />
+			</Component>
+			<Component Id="System.Drawing.Common.dll" Guid="{0818350D-8F16-4861-9167-2BE1CCC00CCC}">
+				<File Id="System.Drawing.Common.dll" Name="System.Drawing.Common.dll" KeyPath="yes" Source="..\..\output\release\System.Drawing.Common.dll" />
 			</Component>
 			<Component Id="System.Drawing.Primitives.dll" Guid="{D19BBC91-3319-45D5-9F5D-EACF2A65EFCA}">
 				<File Id="System.Drawing.Primitives.dll" Name="System.Drawing.Primitives.dll" KeyPath="yes" Source="..\..\output\release\System.Drawing.Primitives.dll" />
@@ -396,6 +423,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="System.Net.WebSockets.dll" Guid="{DADA6276-338C-44C7-BD01-F0E22FCD3DFF}">
 				<File Id="System.Net.WebSockets.dll" Name="System.Net.WebSockets.dll" KeyPath="yes" Source="..\..\output\release\System.Net.WebSockets.dll" />
 			</Component>
+			<Component Id="System.Numerics.Vectors.dll" Guid="{B47F44D9-3DAA-42CC-B68A-AB83DF1DAB08}">
+				<File Id="System.Numerics.Vectors.dll" Name="System.Numerics.Vectors.dll" KeyPath="yes" Source="..\..\output\release\System.Numerics.Vectors.dll" />
+			</Component>
 			<Component Id="System.ObjectModel.dll" Guid="{51E490CE-A491-4917-8529-1A6419D579C5}">
 				<File Id="System.ObjectModel.dll" Name="System.ObjectModel.dll" KeyPath="yes" Source="..\..\output\release\System.ObjectModel.dll" />
 			</Component>
@@ -407,6 +437,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			</Component>
 			<Component Id="System.Reflection.Primitives.dll" Guid="{A7E6F1DA-F6CF-402F-AB92-D2CA98596A49}">
 				<File Id="System.Reflection.Primitives.dll" Name="System.Reflection.Primitives.dll" KeyPath="yes" Source="..\..\output\release\System.Reflection.Primitives.dll" />
+			</Component>
+			<Component Id="System.Resources.Extensions.dll" Guid="{D9883395-31C8-4C7C-B3B2-0E81E90F5D2C}">
+			  <File Id="System.Resources.Extensions.dll" Name="System.Resources.Extensions.dll" KeyPath="yes" Source="..\..\output\release\System.Resources.Extensions.dll" />
 			</Component>
 			<Component Id="System.Resources.Reader.dll" Guid="{BAA1139F-659C-458C-BAD2-BB803A091B08}">
 				<File Id="System.Resources.Reader.dll" Name="System.Resources.Reader.dll" KeyPath="yes" Source="..\..\output\release\System.Resources.Reader.dll" />
@@ -488,6 +521,12 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			</Component>
 			<Component Id="System.Text.Encoding.Extensions.dll" Guid="{3A79F979-A320-4A1B-BE8F-5360BD0CF804}">
 				<File Id="System.Text.Encoding.Extensions.dll" Name="System.Text.Encoding.Extensions.dll" KeyPath="yes" Source="..\..\output\release\System.Text.Encoding.Extensions.dll" />
+			</Component>
+			<Component Id="System.Text.Encodings.Web.dll" Guid="{CB902CAC-7BBD-4126-8B49-188C115ABF4B}">
+				<File Id="System.Text.Encodings.Web.dll" Name="System.Text.Encodings.Web.dll" KeyPath="yes" Source="..\..\output\release\System.Text.Encodings.Web.dll" />
+			</Component>
+			<Component Id="System.Text.Json.dll" Guid="{6F049E8D-EF3C-43DE-86B0-21832AD66E48}">
+				<File Id="System.Text.Json.dll" Name="System.Text.Json.dll" KeyPath="yes" Source="..\..\output\release\System.Text.Json.dll" />
 			</Component>
 			<Component Id="System.Text.RegularExpressions.dll" Guid="{BBB97A80-14C1-40DE-BAF5-DF5EFF926412}">
 				<File Id="System.Text.RegularExpressions.dll" Name="System.Text.RegularExpressions.dll" KeyPath="yes" Source="..\..\output\release\System.Text.RegularExpressions.dll" />
@@ -594,12 +633,14 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="SayMore.pdb"/>
 	  	<ComponentRef Id="Analytics.dll"/>
 		<ComponentRef Id="Autofac.dll"/>
+		<ComponentRef Id="Coroutine.NET.dll"/>
 		<ComponentRef Id="DesktopAnalytics.dll"/>
 		<ComponentRef Id="DialogAdapters.dll"/>
 		<ComponentRef Id="DotNetZip.dll"/>
 		<ComponentRef Id="Enchant.Net.dll"/>
 		<ComponentRef Id="ibusdotnet.dll"/>
 		<ComponentRef Id="icu.net.dll"/>
+		<ComponentRef Id="Instances.dll"/>
 		<ComponentRef Id="L10NSharp.dll"/>
 		<ComponentRef Id="Markdig.Signed.dll"/>
 		<ComponentRef Id="MediaInfo.dll"/>
@@ -611,6 +652,10 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="NDesk.DBus.dll"/>
 		<ComponentRef Id="netstandard.dll"/>
 		<ComponentRef Id="Newtonsoft.Json.dll"/>  
+		<ComponentRef Id="FFMpegCore.dll"/>
+		<ComponentRef Id="Segment.Analytics.CSharp.dll"/>
+		<ComponentRef Id="Serialization.NET.dll"/>
+		<ComponentRef Id="Sovran.NET.dll"/>
 		<ComponentRef Id="SIL.Archiving.dll"/>
 		<ComponentRef Id="SIL.Core.Desktop.dll"/>
 		<ComponentRef Id="SIL.Core.dll"/>
@@ -621,6 +666,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="SIL.WritingSystems.dll"/>
 		<ComponentRef Id="Spart.dll"/>
 		<ComponentRef Id="System.AppContext.dll"/>
+		<ComponentRef Id="System.Buffers.dll"/>
 		<ComponentRef Id="System.Collections.Concurrent.dll"/>
 		<ComponentRef Id="System.Collections.dll"/>
 		<ComponentRef Id="System.Collections.NonGeneric.dll"/>
@@ -629,6 +675,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="System.ComponentModel.EventBasedAsync.dll"/>
 		<ComponentRef Id="System.ComponentModel.Primitives.dll"/>
 		<ComponentRef Id="System.ComponentModel.TypeConverter.dll"/>
+		<ComponentRef Id="System.Configuration.ConfigurationManager.dll"/>
 		<ComponentRef Id="System.Console.dll"/>
 		<ComponentRef Id="System.Data.Common.dll"/>
 		<ComponentRef Id="System.Diagnostics.Contracts.dll"/>
@@ -640,6 +687,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="System.Diagnostics.Tools.dll"/>
 		<ComponentRef Id="System.Diagnostics.TraceSource.dll"/>
 		<ComponentRef Id="System.Diagnostics.Tracing.dll"/>
+		<ComponentRef Id="System.Drawing.Common.dll"/>
 		<ComponentRef Id="System.Drawing.Primitives.dll"/>
 		<ComponentRef Id="System.Dynamic.Runtime.dll"/>
 		<ComponentRef Id="System.Globalization.Calendars.dll"/>
@@ -673,10 +721,12 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="System.Net.WebHeaderCollection.dll"/>
 		<ComponentRef Id="System.Net.WebSockets.Client.dll"/>
 		<ComponentRef Id="System.Net.WebSockets.dll"/>
+		<ComponentRef Id="System.Numerics.Vectors.dll"/>
 		<ComponentRef Id="System.ObjectModel.dll"/>
 		<ComponentRef Id="System.Reflection.dll"/>
 		<ComponentRef Id="System.Reflection.Extensions.dll"/>
 		<ComponentRef Id="System.Reflection.Primitives.dll"/>
+		<ComponentRef Id="System.Resources.Extensions.dll"/>
 		<ComponentRef Id="System.Resources.Reader.dll"/>
 		<ComponentRef Id="System.Resources.ResourceManager.dll"/>
 		<ComponentRef Id="System.Resources.Writer.dll"/>
@@ -704,6 +754,8 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="System.Security.SecureString.dll"/>
 		<ComponentRef Id="System.Text.Encoding.dll"/>
 		<ComponentRef Id="System.Text.Encoding.Extensions.dll"/>
+		<ComponentRef Id="System.Text.Encodings.Web.dll"/>
+		<ComponentRef Id="System.Text.Json.dll"/>
 		<ComponentRef Id="System.Text.RegularExpressions.dll"/>
 		<ComponentRef Id="System.Threading.dll"/>
 		<ComponentRef Id="System.Threading.Overlapped.dll"/>

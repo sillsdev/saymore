@@ -5,7 +5,8 @@ using SIL.Code;
 using SIL.CommandLineProcessing;
 using SIL.Media;
 using SIL.Progress;
-using SIL.IO;
+using static SayMore.Media.MediaFileInfo;
+using static SIL.IO.FileLocationUtilities;
 
 namespace SayMoreTests
 {
@@ -39,7 +40,7 @@ namespace SayMoreTests
 
 		public void CloneAndShrinkProject(string originalProjectFolder, string destinationFolder)
 		{
-			FFmpegRunner.FFmpegLocation = FileLocationUtilities.GetFileDistributedWithApplication("FFmpeg", "ffmpeg.exe");
+			FFmpegRunner.FFmpegLocation = GetFileDistributedWithApplication(kFFmpegFolder, "ffmpeg.exe");
 
 			RequireThat.Directory(destinationFolder).DoesNotExist();
 			RequireThat.Directory(originalProjectFolder).Exists();

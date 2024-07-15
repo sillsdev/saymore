@@ -8,6 +8,7 @@ using SayMore.Model.Files;
 using SayMore.Media.MPlayer;
 using SayMore.UI.ComponentEditors;
 using SIL.Windows.Forms;
+using NAudio.SoundFont;
 
 namespace SayMore.Transcription.UI
 {
@@ -180,14 +181,8 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private ComponentFile AssociatedComponentFile
-		{
-			get
-			{
-				return _file == null ? null :
-					((OralAnnotationComponentFile)_file).AssociatedComponentFile;
-			}
-		}
+		private ComponentFile AssociatedComponentFile => 
+			((OralAnnotationComponentFile)_file)?.AssociatedComponentFile;
 
 		/// ------------------------------------------------------------------------------------
 		public override bool ComponentFileDeletionInitiated(ComponentFile file)
@@ -265,17 +260,14 @@ namespace SayMore.Transcription.UI
 			_oralAnnotationWaveViewer.CloseAudioStream();
 
 			_file.GenerateOralAnnotationFile(this, ComponentFile.GenerateOption.RegenerateNow);
-			SetComponentFile(_file);
+			HandleOralAnnotationFileGenerated(true);
 			_oralAnnotationWaveViewer.Invalidate(true);
 
 			_buttonRegenerate.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool IsRegeneratingAudioFile
-		{
-			get { return !_buttonRegenerate.Enabled; }
-		}
+		private bool IsRegeneratingAudioFile => !_buttonRegenerate.Enabled;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

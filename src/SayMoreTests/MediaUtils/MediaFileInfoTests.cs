@@ -105,7 +105,10 @@ namespace SayMoreTests.Model.Files
 			{
 				var recording = CreateRecording(folder.Path);
 				var info = MediaFileInfo.GetInfo(recording);
-				Assert.AreEqual(1446d, info.Duration.TotalMilliseconds);
+				// Depending on which utilit is used to get this information, it can very a
+				// little.
+				Assert.That(info.Duration.TotalMilliseconds,
+					Is.GreaterThanOrEqualTo(1446d).And.LessThanOrEqualTo(1449d));
 			}
 		}
 
@@ -121,7 +124,8 @@ namespace SayMoreTests.Model.Files
 				var minfo = MediaFileInfo.GetInfo(tmpfile);
 				Assert.IsFalse(minfo.IsVideo);
 				Assert.AreEqual(tmpfile, minfo.MediaFilePath);
-				Assert.AreEqual(1.446d, minfo.Duration.TotalSeconds);
+				Assert.That(minfo.Duration.TotalSeconds,
+					Is.GreaterThanOrEqualTo(1.446d).And.LessThanOrEqualTo(1449d));
 				Assert.IsNull(minfo.FullSizedThumbnail);
 			}
 			finally

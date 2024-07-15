@@ -417,7 +417,7 @@ namespace SayMore.UI.ElementListScreen
 		public void SelectComponent(int index)
 		{
 			if (_grid.CurrentCellAddress.Y != index)
-				_grid.CurrentCell = (index >= 0 && index < _files.Count() ? _grid[0, index] : null);
+				_grid.CurrentCell = (index >= 0 && index < _files.Count ? _grid[0, index] : null);
 			else
 				ForceRefresh();
 		}
@@ -427,7 +427,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			_buttonOpen.DropDown.Items.Clear();
 
-			var file = (index >= 0 && index < _files.Count() ? _files.ElementAt(index) : null);
+			var file = (index >= 0 && index < _files.Count ? _files.ElementAt(index) : null);
 
 			if (file != null)
 			{
@@ -560,6 +560,7 @@ namespace SayMore.UI.ElementListScreen
 				if (folder == null || !Directory.Exists(folder))
 					folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+				dlg.Multiselect = true;
 				dlg.Filter = prjFilterText + "|*.*";
 				dlg.InitialDirectory = folder;
 				dlg.CheckFileExists = true;

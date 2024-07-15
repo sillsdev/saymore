@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using Autofac;
+using DesktopAnalytics;
+using SayMore.Media.Audio;
 using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -13,6 +15,7 @@ using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
+using SIL.IO;
 using SIL.Reporting;
 
 namespace SayMore
@@ -31,7 +34,7 @@ namespace SayMore
 		/// </summary>
 		private ILifetimeScope _scope;
 
-		public Project Project { get; private set; }
+		public Project Project { get; }
 		public ProjectWindow ProjectWindow { get; private set; }
 
 		private readonly AudioVideoDataGatherer _audioVideoDataGatherer;
@@ -116,6 +119,34 @@ namespace SayMore
 				var sessionDoc = LoadXmlDocument(sessionFile);
 				LoadContributors(sessionDoc, namesList, nameRolesList, contributorLists);
 				var root = sessionDoc.DocumentElement;
+				
+				if (root != null)
+				{
+					if (root.Attributes.GetNamedItem("version") == null)
+					{
+						// SP-2303: SayMore 3.5.0 (released 3/22/2023) had a bug whereby it could convert
+						// media files to a non-standard (IEEE Float) PCM format that could not be
+						// annotated. This code checks for and deletes any such files. Because it takes
+						// some time to check this, we only consider files that might have been created
+						// after the release date. It would be nice to only do this check if we could know
+						// that version 3.5.0 had been installed, but I'm not sure we can reliably and
+						// easily detect this. (Maybe by looking for the settings file?). But using this
+						// version number, we can at least avoid checking again.
+						foreach (var bogusStandardAudioFile in filesInDir.Where(f =>
+							         f.EndsWith(Settings.Default.StandardAudioFileSuffix) &&
+							         new FileInfo(f).CreationTime >= new DateTime(2023, 3, 21) && 
+							         !AudioUtils.GetIsFileStandardPcm(f)))
+						{
+							Analytics.Track("Delete bogus Standard Audio file");
+							RobustFile.Delete(bogusStandardAudioFile);
+						}
+
+						// Note: There never was a version 1, but it felt wrong to start with version 1
+						// after more than a decade of existence.
+						root.SetAttribute("version", "2.0");
+					}
+				}
+
 				var contributionsNode = root?.SelectSingleNode(SessionFileType.kContributionsFieldName);
 				contributionsNode?.ParentNode?.RemoveChild(contributionsNode); //Remove the contributions node
 				if (root?.LastChild == null)

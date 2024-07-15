@@ -129,7 +129,7 @@ namespace SayMore.Model.Files
 
 			_metaDataPath = FileType.GetMetaFilePath(pathToAnnotatedFile);
 
-			RootElementName = "MetaData";
+			RootElementName = FileType.RootElementName ?? "MetaData";
 
 			if (File.Exists(_metaDataPath))
 				LoadNow();
@@ -366,8 +366,10 @@ namespace SayMore.Model.Files
 				if (e is PathTooLongException || e is ArgumentException)
 				{
 					ErrorReport.ReportNonFatalExceptionWithMessage(e,
-						LocalizationManager.GetString("CommonToMultipleViews.FileList.CannotRenameFileErrorMsg",
-						"{0} could not load the file: {1}"),
+						LocalizationManager.GetString("CommonToMultipleViews.FileList.CouldNotLoadFileErrorMsg",
+						"{0} could not load the file: {1}",
+						"Param 0: \"SayMore\" (product name); " +
+						"Param 1: file path"),
 						Application.ProductName, PathToAnnotatedFile);
 					return;
 				}

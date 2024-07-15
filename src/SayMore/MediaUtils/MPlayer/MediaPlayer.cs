@@ -43,11 +43,8 @@ namespace SayMore.Media.MPlayer
 			}
 
 			_viewModel = viewModel;
-			_viewModel.MediaQueued += HandleMediaQueued;
-			_viewModel.PlaybackStarted += HandleMediaPlayStarted;
-			_viewModel.PlaybackPaused = delegate { Invoke((Action)HandlePlaybackPausedResumed); };
-			_viewModel.PlaybackResumed = delegate { Invoke((Action)HandlePlaybackPausedResumed); };
-			_viewModel.PlaybackPositionChanged = delegate(float pos) { Invoke((Action<float>)(HandlePlaybackPositionChanged), pos); };
+			if (IsHandleCreated)
+				SetUpViewModelEventHandlers();
 
 			UpdateButtons();
 			_volumePopup.VolumeLevel = _viewModel.Volume;
@@ -55,7 +52,35 @@ namespace SayMore.Media.MPlayer
 			_videoPanel.SetPlayerViewModel(_viewModel);
 		}
 
-		/// ------------------------------------------------------------------------------------
+		private void SetUpViewModelEventHandlers()
+		{
+			// To avoid possible race condition problem, unregister before registering
+			_viewModel.MediaQueued -= HandleMediaQueued;
+			_viewModel.MediaQueued += HandleMediaQueued;
+			_viewModel.PlaybackStarted -= HandleMediaPlayStarted;
+			_viewModel.PlaybackStarted += HandleMediaPlayStarted;
+			_viewModel.PlaybackPaused = delegate { Invoke((Action)HandlePlaybackPausedResumed); };
+			_viewModel.PlaybackResumed = delegate { Invoke((Action)HandlePlaybackPausedResumed); };
+			_viewModel.PlaybackPositionChanged = ViewModelPlaybackPositionChanged;
+		}
+
+		private void ViewModelPlaybackPositionChanged(float pos)
+        {
+            try
+            {
+                Invoke((Action<float>)(HandlePlaybackPositionChanged), pos);
+            }
+            catch (InvalidAsynchronousStateException e)
+            {
+                Logger.WriteError(e);
+            }
+            catch (ObjectDisposedException e)
+            {
+                Logger.WriteError(e);
+            }
+        }
+
+        /// ------------------------------------------------------------------------------------
 		private void SetupVolumePopup()
 		{
 			_videoPanel.Controls.Remove(_volumePopup);
@@ -88,19 +113,20 @@ namespace SayMore.Media.MPlayer
 		/// problem.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private new bool DesignMode
+		private new bool DesignMode =>
+			base.DesignMode || GetService(typeof(IDesignerHost)) != null ||
+			LicenseManager.UsageMode == LicenseUsageMode.Designtime;
+
+		protected override void OnHandleCreated(EventArgs e)
 		{
-			get
-			{
-				return (base.DesignMode || GetService(typeof(IDesignerHost)) != null) ||
-					(LicenseManager.UsageMode == LicenseUsageMode.Designtime);
-			}
+			base.OnHandleCreated(e);
+			if (_viewModel != null)
+				SetUpViewModelEventHandlers();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			//_reportPlayerOutput = null;
 			_viewModel.ShutdownMPlayerProcess();
 			base.OnHandleDestroyed(e);
 		}
@@ -181,22 +207,11 @@ namespace SayMore.Media.MPlayer
 			_viewModel.SetVolume(((VolumePopup)sender).VolumeLevel);
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//private void HandleSliderTimeBeforeUserMovingThumb(object sender, float newValue)
-		//{
-		//    if (!_viewModel.IsPaused)
-		//        HandleButtonPauseClick(null, null);
-
-		//    _viewModel.PlaybackPositionChanged -= HandlePlaybackPositionChanged;
-		//    _sliderTime.ValueChanged += HandleSliderTimeValueChanged;
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		private void HandleSliderTimeAfterUserMovingThumb(object sender, EventArgs e)
 		{
 			_sliderTime.ValueChanged -= HandleSliderTimeValueChanged;
 			_viewModel.Seek(_sliderTime.Value);
-			_viewModel.PlaybackPositionChanged += HandlePlaybackPositionChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------

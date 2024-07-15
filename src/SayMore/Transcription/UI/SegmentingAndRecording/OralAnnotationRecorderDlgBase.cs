@@ -808,9 +808,9 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnPlayingback(WaveControlBasic ctrl, TimeSpan current, TimeSpan total)
+		protected override void OnPlayingBack(WaveControlBasic ctrl, TimeSpan current, TimeSpan total)
 		{
-			base.OnPlayingback(ctrl, current, total);
+			base.OnPlayingBack(ctrl, current, total);
 
 			var endOfLastSegment = ViewModel.GetEndOfLastSegment();
 			if (current > endOfLastSegment && current > ViewModel.NewSegmentEndBoundary)
@@ -823,17 +823,13 @@ namespace SayMore.Transcription.UI
 			base.OnPlaybackStopped(ctrl, start, end);
 
 			var selectedTimeRange = ViewModel.GetSelectedTimeRange();
-			if (!selectedTimeRange.Contains(end, true))
+			if (!selectedTimeRange.Contains(end, true) && ViewModel.GetHasNewSegment())
+				_waveControl.SetCursor(end);
+			else if (_startTimeOfSegmentWhoseEndIsMoving < TimeSpan.Zero)
 			{
-				if (ViewModel.GetHasNewSegment())
-					_waveControl.SetCursor(end);
-				else if (_startTimeOfSegmentWhoseEndIsMoving < TimeSpan.Zero)
-				{
-					// If this isn't the end of playback for a moving segment, then we set
-					// the cursor back to the start of the selected time
-					// range in hopes of keeping the user on track with the task of recording.
-					_waveControl.SetCursor(selectedTimeRange.Start);
-				}
+				// If this isn't the end of playback for a moving segment, then we set the
+				// cursor back to the start of the time range just played.
+				_waveControl.SetCursor(start);
 			}
 
 			_startTimeOfSegmentWhoseEndIsMoving = TimeSpan.FromSeconds(1).Negate();
@@ -1644,13 +1640,13 @@ namespace SayMore.Transcription.UI
 			ViewModel.PlaySource(_waveControl, ctrl =>
 				{
 					if (ViewModel.CurrentUnannotatedSegment == null)
-						_waveControl.Play(ViewModel.NewSegmentEndBoundary);
+						ctrl.Play(ViewModel.NewSegmentEndBoundary);
 					else
 					{
-						if (ViewModel.CurrentUnannotatedSegment.TimeRange.Contains(_waveControl.GetCursorTime()))
-							_waveControl.Play(_waveControl.GetCursorTime(), ViewModel.CurrentUnannotatedSegment.TimeRange.End);
+						if (ViewModel.CurrentUnannotatedSegment.TimeRange.Contains(ctrl.GetCursorTime()))
+							ctrl.Play(ctrl.GetCursorTime(), ViewModel.CurrentUnannotatedSegment.TimeRange.End);
 						else
-							_waveControl.Play(ViewModel.CurrentUnannotatedSegment.TimeRange);
+							ctrl.Play(ViewModel.CurrentUnannotatedSegment.TimeRange);
 					}
 				});
 		}

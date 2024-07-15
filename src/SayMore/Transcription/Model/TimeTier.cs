@@ -33,29 +33,37 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// The segmentFileFolder is used for renaming (due to segment boundary changes) and
-		/// removing audio segment annotation files that are being created/modified in a
-		/// temp. location.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public TimeTier(string id, string filename)
 			: base(id, tier => new AudioWaveFormColumn(tier))
 		{
 			MediaFileName = filename;
+
+			void ReportAccessError(Exception exception)
+			{
+				var msg = LocalizationManager.GetString("SessionsView.Transcription.ErrorAccessingMediaFile",
+					"There was an error accessing media file to determine the duration: '{0}'");
+
+				ErrorReport.NotifyUserOfProblem(exception, msg, filename);
+			}
+
 			try
 			{
 				// SP-835: There was an error accessing media file to determine the duration:
 				//  F:\Master\TsakhurProject\Corpus\TsakhurCultureAndLanguageProject\Sessions\TKR-Y-20130708-N03\TKR-Y-20130708-N03_Source.wav
-				var shortName = FileSystemUtils.GetShortName(filename);
-				_totalTime = MediaFileInfo.GetInfo(shortName).Duration;
+				var shortName = FileSystemUtils.GetShortName(filename, () =>
+                    LocalizationManager.GetString("SessionsView.Transcription.ProbablyCannotGetDuration",
+                        "It will probably not be possible to determine the media file duration."));
+				var info = MediaFileInfo.GetInfo(shortName, out var error);
+				// SP-1798, SP-2280: Using the null info (that can happen if the media file is
+				// corrupt) hides the original useful error.
+				if (info == null)
+					ReportAccessError(error);
+				else
+					_totalTime = info.Duration;
 			}
 			catch (Exception e)
 			{
-				var msg = LocalizationManager.GetString("SessionsView.Transcription.ErrorAccessingMediaFile",
-				"There was an error accessing media file to determine the duration: '{0}'");
-
-				ErrorReport.NotifyUserOfProblem(e, msg, filename);
+				ReportAccessError(e);
 			}
 		}
 
@@ -140,6 +148,12 @@ namespace SayMore.Transcription.Model
 			get { return _totalTime; }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The SegmentFileFolder is used for renaming (due to segment boundary changes) and
+		/// removing audio segment annotation files that are being created/modified in a
+		/// temp. location.
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string SegmentFileFolder
 		{

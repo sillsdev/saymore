@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using SIL.IO;
-using SayMore.Properties;
 
 namespace SayMore.Model.Files.DataGathering
 {

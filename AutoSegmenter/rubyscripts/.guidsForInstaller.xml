@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
-<InstallerMetadata>
-  <File Id="pp.rb" Guid="79B359E5-B16C-46CA-9825-99D311B42FAC" />
-  <File Id="prettyprint.rb" Guid="D788A8AA-395E-4E7B-8AEE-9BFBBBC01CA9" />
-  <File Id="segmenter.rb" Guid="70D610A9-98DD-4C6B-9A47-D89EA638DE50" />
-</InstallerMetadata>

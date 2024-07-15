@@ -1,3 +1,15 @@
+## Version 3.6.1
+Fixed problem that prevented creation of a new project.
+
+## Version 3.6
+Added ability to set the working language font (used, for example, in Descriptions, Notes, etc.)
+
+## Version 3.5
+Added support for additional media formats, including .m4a files
+
+## Version 3.4
+Added option to import Audacity labels into free translation (instead of the transcription tier)
+
 ## Version 3.3
 Localization files are now stored in the XLIFF format (v. 1.2). If you have custom localizations saved in TMX format, please contact sil.saymore@gmail.com for help.
 

@@ -54,7 +54,8 @@ namespace SayMore
 		public delegate void PersonMetadataChangedHandler();
 		public static event PersonMetadataChangedHandler PersonDataChanged;
 
-		private static List<Exception> _pendingExceptionsToReportToAnalytics = new List<Exception>();
+		private static readonly List<Exception> _pendingExceptionsToReportToAnalytics = new List<Exception>();
+        private static UserInfo s_userInfo;
 
 		private static bool s_handlingFirstChanceExceptionThreadsafe = false;
 		private static bool s_handlingFirstChanceExceptionUnsafe = false;
@@ -88,7 +89,13 @@ namespace SayMore
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			// The following not only get the location of the settings file used for the analytics stuff. It also
+			// If this determines that we can't write to the application data folder, it reports
+			// the condition (probably caused by Windows Defender) to the user. Even if we can't
+			// write here, SayMore will still attempt to start, but it could fail if it needs
+			// to write any settings.
+			WindowsUtilities.CanWriteToDirectory("SayMore", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+
+			// The following not only gets the location of the settings file used for the analytics stuff. It also
 			// detects corruption and deletes it if needed so SayMore doesn't crash.
 			var analyticsConfigFilePath = GetAnalyticsConfigFilePath(); // Analytics settings.
 
@@ -106,7 +113,7 @@ namespace SayMore
 			}
 
 			//bring in settings from any previous version
-			//NB: this code doesn't actually work, because for some reason Saymore uses its own settings code,
+			//NB: this code doesn't actually work, because for some reason SayMore uses its own settings code,
 			//(which emits a "settings" file rather than "user.config"),
 			//and which apparently doesn't use the application version to trigger the following technique:
 			// Insight from Tom: Looks like ALL user settings in SayMore use the PortableSettingsProvider. I think the
@@ -172,7 +179,7 @@ namespace SayMore
 			if (File.Exists(MRULatestReminderFilePath))
 			{
 				var path = File.ReadAllText(MRULatestReminderFilePath).Trim();
-				if(File.Exists(path))
+				if (File.Exists(path))
 				{
 					Settings.Default.MRUList = new StringCollection();
 					Settings.Default.MRUList.Add(path);
@@ -190,11 +197,11 @@ namespace SayMore
 			SetUpErrorHandling();
 			Sldr.Initialize();
 
-			var userInfo = new UserInfo();
+            s_userInfo = new UserInfo {UILanguageCode = Settings.Default.UserInterfaceLanguage};
 
 #if DEBUG
 			// Always track if this is a debug build, but track to a different segment.io project
-			using (new Analytics("twa75xkko9", userInfo))
+			using (new Analytics("twa75xkko9", s_userInfo))
 #else
 			// If this is a release build, then allow an environment variable to be set to false
 			// so that testers aren't generating false analytics
@@ -202,7 +209,7 @@ namespace SayMore
 
 			var allowTracking = IsNullOrEmpty(feedbackSetting) || feedbackSetting.ToLower() == "yes" || feedbackSetting.ToLower() == "true";
 
-			using (new Analytics("jtfe7dyef3", userInfo, allowTracking))
+			using (new Analytics("jtfe7dyef3", s_userInfo, allowTracking))
 #endif
 			{
 				foreach (var exception in _pendingExceptionsToReportToAnalytics)
@@ -470,6 +477,21 @@ namespace SayMore
 			{
 				if (!ObtainTokenForThisProject(projectPath))
 					return false;
+
+				// If this determines that we can't write to the specified folder, it reports the
+				// condition (probably caused by Windows Defender) to the user. Even if we can't
+				// write here, SayMore will still attempt to open the project, but (at best), it
+				// will be read-only.
+				var folderToCheck = Path.GetDirectoryName(projectPath);
+				// When creating a new project, the first folder will be the not-yet-created
+				// project folder, so we need to check to make sure we can write to the parent
+				// folder instead. That will generally be the SayMore folder in My Documents,
+				// which should exist. But just to be insanely safe, we'll just keep looking
+				// until we find a folder that does exist.
+				while (folderToCheck != Empty && !Directory.Exists(folderToCheck))
+					folderToCheck = Path.GetDirectoryName(folderToCheck);
+				if (folderToCheck != Empty)
+					WindowsUtilities.CanWriteToDirectory("SayMore", folderToCheck);
 
 				// Remove this call if we end only wanting to show the splash screen
 				// at app. startup. Right now it's shown whenever a project is loaded.
@@ -786,5 +808,17 @@ namespace SayMore
 			if (handler != null) handler();
 		}
 
-	}
+        public static void UpdateUiLanguageForUser(string languageId)
+        {
+            Analytics.Track("UI language chosen",
+                new Dictionary<string, string> {
+                    { "Previous", Settings.Default.UserInterfaceLanguage },
+                    { "New", languageId } });
+            s_userInfo.UILanguageCode = languageId;
+            Analytics.IdentifyUpdate(s_userInfo);
+            Settings.Default.UserInterfaceLanguage = languageId;
+            Logger.WriteEvent("Changed UI Locale to: " + languageId);
+            LocalizationManager.SetUILanguage(languageId, true);
+        }
+    }
 }

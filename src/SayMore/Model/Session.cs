@@ -299,6 +299,12 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public IEnumerable<SessionContribution> GetAllContributions()
+		{
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ArchivingActor> GetAllContributorsInSession()
 		{
 			// files that might have contributors

@@ -41,9 +41,9 @@ namespace SayMore.UI.ComponentEditors
 
 		private void GetDataInBackground()
 		{
-			using (BackgroundWorker backgroundWorker = new BackgroundWorker())
+			using (var backgroundWorker = new BackgroundWorker())
 			{
-				backgroundWorker.DoWork += backgroundWorker_DoWork;
+				backgroundWorker.DoWork += WaitForProjectToBeSet;
 				backgroundWorker.RunWorkerCompleted += backgroundWorker_RunWorkerCompleted;
 				backgroundWorker.RunWorkerAsync();
 			}
@@ -54,7 +54,7 @@ namespace SayMore.UI.ComponentEditors
 			LoadAssociatedSessionsAndFiles();
 		}
 
-		void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+		private void WaitForProjectToBeSet(object sender, DoWorkEventArgs e)
 		{
 			var count = 0;
 			while ((Program.CurrentProject == null) && (count < 50))
@@ -80,7 +80,7 @@ namespace SayMore.UI.ComponentEditors
 			};
 
 			// look for saved settings
-			var widths = Array.ConvertAll(Settings.Default.PersonContributionColumns.Split(new[] {','}), int.Parse).ToList();
+			var widths = Array.ConvertAll(Settings.Default.PersonContributionColumns.Split(','), int.Parse).ToList();
 			while (widths.Count < 4)
 				widths.Add(200);
 
@@ -122,7 +122,6 @@ namespace SayMore.UI.ComponentEditors
 
 		void Program_PersonDataChanged()
 		{
-			//GetDataInBackground();
 			LoadAssociatedSessionsAndFiles();
 		}
 
@@ -154,11 +153,11 @@ namespace SayMore.UI.ComponentEditors
 					var sessionRole = LocalizationManager.GetString("PeopleView.ContributionEditor.RoleParticipant", "Participant");
 					var sessionDate = FormatParseDate(session.MetaDataFile.GetStringValue("date", string.Empty));
 
-					var rowid = _grid.AddRow(new object[] { sessionDescription, sessionRole, sessionDate, string.Empty });
-					_grid.Rows[rowid].Cells[0].Style.Font = boldFont;
+					var iRow = _grid.AddRow(new object[] { sessionDescription, sessionRole, sessionDate, string.Empty });
+					_grid.Rows[iRow].Cells[0].Style.Font = boldFont;
 				}
 
-				// get the files for this session
+				// get the metadata files for this session
 				var files = Directory.GetFiles(session.FolderPath, "*" + Settings.Default.MetadataFileExtension);
 				var searchForId = "<name>" + _personId + "</name>";
 				var searchForCode = (string.IsNullOrEmpty(_personCode) ? null : "<name>" + _personCode + "</name>");
@@ -168,14 +167,14 @@ namespace SayMore.UI.ComponentEditors
 					var fileContents = File.ReadAllText(file);
 
 					// look for this person
-					SearchInFile(file, fileContents, searchForId);
+					AddGridRowsForFileSpecificContributions(file, fileContents, searchForId);
 					if (searchForCode != null)
-						SearchInFile(file, fileContents, searchForCode);
+						AddGridRowsForFileSpecificContributions(file, fileContents, searchForCode);
 				}
 			}
 		}
 
-		private void SearchInFile(string fileName, string fileContents, string searchFor)
+		private void AddGridRowsForFileSpecificContributions(string fileName, string fileContents, string searchFor)
 		{
 			var pos = fileContents.IndexOf(searchFor, StringComparison.InvariantCultureIgnoreCase);
 			while (pos > 0)
@@ -189,9 +188,9 @@ namespace SayMore.UI.ComponentEditors
 				var role = GetRoleFromOlacList(GetValueFromXmlString(testString, "role"));
 				var date = FormatParseDate(GetValueFromXmlString(testString, "date"));
 				var note = GetValueFromXmlString(testString, "notes");
-				var fname = Path.GetFileName(fileName.Substring(0, fileName.Length - Settings.Default.MetadataFileExtension.Length));
+				var filename = Path.GetFileName(fileName.Substring(0, fileName.Length - Settings.Default.MetadataFileExtension.Length));
 
-				_grid.AddRow(new object[] { Path.GetFileName(fname), role, date, note });
+				_grid.AddRow(new object[] { Path.GetFileName(filename), role, date, note });
 
 				// look again
 				pos = fileContents.IndexOf(searchFor, StringComparison.InvariantCultureIgnoreCase);
@@ -202,7 +201,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			if (string.IsNullOrEmpty(dateString)) return string.Empty;
 
-			// older saymore date problem due to saving localized date string rather than ISO8601
+			// older SayMore date problem due to saving localized date string rather than ISO8601
 			var date = DateTimeExtensions.IsISO8601Date(dateString)
 				? DateTime.Parse(dateString)
 				: DateTimeExtensions.ParseDateTimePermissivelyWithException(dateString);

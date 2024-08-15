@@ -277,7 +277,7 @@ namespace SayMore.Model
 
 				var actor = InitializeActor(model, person, sessionDateTime, GetRole(person.Id, actors, contributions));
 
-				// do this to get the ISO3 codes for the languages because they are not in saymore
+				// do this to get the ISO3 codes for the languages because they are not in SayMore
 				var language = GetOneLanguage(ForceIso639ThreeChar(person.MetaDataFile.GetStringValue("primaryLanguage", null)));
 				if (language != null) actor.PrimaryLanguage = language;
 				language = GetOneLanguage(ForceIso639ThreeChar(person.MetaDataFile.GetStringValue("mothersLanguage", null)));
@@ -414,8 +414,14 @@ namespace SayMore.Model
 
 		private static string ForceIso639ThreeChar(string analysisLanguage)
 		{
+			// REVIEW: What if this is a two-letter language name (e.g., As, Ak, etc.), not a code?
 			if (analysisLanguage?.Length == 2)
-				analysisLanguage = _LanguageLookup.GetLanguageFromCode(analysisLanguage).ThreeLetterTag;
+			{
+				var language = _LanguageLookup.GetLanguageFromCode(analysisLanguage);
+				if (language != null)
+					analysisLanguage = language.ThreeLetterTag;
+			}
+
 			return analysisLanguage;
 		}
 

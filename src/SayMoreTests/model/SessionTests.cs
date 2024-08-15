@@ -53,7 +53,16 @@ namespace SayMoreTests.Model
 					//	);
 					var contributions = new Mock<ContributionCollection>(MockBehavior.Strict);
 					foreach (var p in participants)
-						contributions.Object.Add(new Contribution(p, new Role("par", "Participant", null)));
+					{
+						var parts = p.Split('/');
+						var role = (parts.Length == 1) ? new Role("par", "Participant", null) :
+							new Role(parts[1], parts[2], null);
+						var contrib = new Contribution(parts[0], role);
+						if (parts.Length > 3)
+							contrib.Comments = parts[3];
+						contributions.Object.Add(contrib);
+					}
+
 					file.Setup(f => f.GetValue(SessionFileType.kContributionsFieldName, null)).Returns(contributions.Object);
 
 					if (additionalSetup != null)
@@ -79,18 +88,18 @@ namespace SayMoreTests.Model
 				personInformant.Setup(i => i.GetHasInformedConsent(participant)).Returns(participant.Contains("Consent"));
 			}
 
-			var componentRoles = new List<ComponentRole>();
-			componentRoles.Add(new ComponentRole(null, ComponentRole.kConsentComponentRoleId, null,
-				ComponentRole.MeasurementTypes.None, null, null, Color.Empty, Color.Empty));
-			componentRoles.Add(new ComponentRole(null, ComponentRole.kSourceComponentRoleId, null,
+			var componentRoles = new List<ComponentRole>
+			{
+				new ComponentRole(null, ComponentRole.kConsentComponentRoleId, null,
+				ComponentRole.MeasurementTypes.None, null, null, Color.Empty, Color.Empty),
+				new ComponentRole(null, ComponentRole.kSourceComponentRoleId, null,
 				ComponentRole.MeasurementTypes.Time, FileSystemUtils.GetIsAudioVideo,
-				ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Source", Color.Empty, Color.Empty));
+				ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Source", Color.Empty, Color.Empty)
+			};
 
 			return new Session(_parentFolder.Path, "dummyId", null,
 				new SessionFileType(() => null, () => null, () => null), componentFactory,
 				new XmlFileSerializer(null), factory, componentRoles, personInformant.Object, project);
-
-			//ComponentFile.CreateMinimalComponentFileForTests
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -126,7 +135,7 @@ namespace SayMoreTests.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetAllParticipants_NoParticpantsListed_NoneReturned()
+		public void GetAllParticipants_NoParticipantsListed_NoneReturned()
 		{
 			using (var session = CreateSession(new string[] { }))
 				Assert.AreEqual(0, session.GetAllParticipants().Count());
@@ -134,7 +143,7 @@ namespace SayMoreTests.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetAllParticipants_SomeParticpantsListed_ReturnsTheirNames()
+		public void GetAllParticipants_SomeParticipantsListed_ReturnsTheirNames()
 		{
 			using (var session = CreateSession(new[] { "mo", "curly" }))
 			{
@@ -146,7 +155,19 @@ namespace SayMoreTests.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetCompletedStages_NoParticpantsListed_NoConsent()
+		public void GetAllContributions_OnlySessionLevelParticipantsListed_ReturnsTheirContributions()
+		{
+			using (var session = CreateSession(new[] { "mo", "curly/" }))
+			{
+				var names = session.GetAllContributions().ToList();
+				Assert.Contains("mo", names);
+				Assert.Contains("curly", names);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetCompletedStages_NoParticipantsListed_NoConsent()
 		{
 			using (var session = CreateSession(new string[] { }))
 			{
@@ -157,7 +178,7 @@ namespace SayMoreTests.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetCompletedStages_ParticpantsListedButNotFound_NoConsent()
+		public void GetCompletedStages_ParticipantsListedButNotFound_NoConsent()
 		{
 			using (var session = CreateSession(new[] { "you", "me" }))
 			{
@@ -168,7 +189,7 @@ namespace SayMoreTests.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetCompletedStages_TwoParticpantsFoundOneLacksConsent_NoConsent()
+		public void GetCompletedStages_TwoParticipantsFoundOneLacksConsent_NoConsent()
 		{
 			using (var session = CreateSession(new[] { "oneWithConsent", "none" }))
 			{
@@ -179,7 +200,7 @@ namespace SayMoreTests.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetCompletedStages_TwoParticpantsFoundBothHaveConsent_ResultIncludesConsent()
+		public void GetCompletedStages_TwoParticipantsFoundBothHaveConsent_ResultIncludesConsent()
 		{
 			using (var session = CreateSession(new[] { "oneWithConsent", "anotherWithConsent" }))
 			{
@@ -200,7 +221,7 @@ namespace SayMoreTests.Model
 				var list = session.GetValidFilesToCopy(
 					new[] { srcFile1, srcFile2 }).ToArray();
 
-				Assert.That(list.Count(), Is.EqualTo(2));
+				Assert.That(list.Length, Is.EqualTo(2));
 
 				var file1 = list.SingleOrDefault(kvp => kvp.Key == srcFile1);
 				Assert.IsNotNull(file1);
@@ -224,7 +245,7 @@ namespace SayMoreTests.Model
 				var list = session.GetValidFilesToCopy(
 					new[] { srcFile1, srcFile2 }).ToArray();
 
-				Assert.That(list.Count(), Is.EqualTo(2));
+				Assert.That(list.Length, Is.EqualTo(2));
 
 				var file1 = list.SingleOrDefault(kvp => kvp.Key == srcFile1);
 				Assert.IsNotNull(file1);

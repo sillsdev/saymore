@@ -225,8 +225,8 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Editors should call this as part of their initialization if they need to be
-		/// informed (via <see cref="OnCurrentProjectSet"/>) when the current project has been
-		/// set.
+		/// informed (via <see cref="OnCurrentProjectSet"/>, which they should override) when
+		/// the current project has been set.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected void NotifyWhenProjectIsSet()
@@ -253,7 +253,7 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Editors can override this if they need to special action in response to the current
+		/// Editors can override this to perform a special action in response to the current
 		/// project being set. They should call the base unless they do not need/want to set any
 		/// controls to use the working language font.
 		/// </summary>
@@ -272,7 +272,6 @@ namespace SayMore.UI.ComponentEditors
 				count++;
 			}
 		}
-
 		/// ------------------------------------------------------------------------------------
 		private static void SetLabelFonts(Control parent, Font fnt)
 		{

@@ -160,7 +160,7 @@ namespace SayMore.Model
 					}
 					catch (Exception e)
 					{
-						// SP-2269: If this appears to be a temp file, we'll log it but it's
+						// SP-2269: If this appears to be a temp file, we'll log it, but it's
 						// probably not worth even notifying the user. If it is no longer needed,
 						// it would perhaps be "nice" for them to go clean it up, but there's a
 						// chance that the temp file is actually in use by another program, so

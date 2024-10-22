@@ -14,6 +14,8 @@ using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SIL.Archiving;
+using SIL.Extensions;
+using System.Text.RegularExpressions;
 
 namespace SayMore.Model
 {
@@ -111,6 +113,11 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public string Title =>
 			MetaDataFile.GetStringValue(SessionFileType.kTitleFieldName, null) ?? Id;
+
+		/// ------------------------------------------------------------------------------------
+		public string DateField => MetaDataFile.GetStringValue(SessionFileType.kDateFieldName, null);
+
+		public DateTime SessionDate => ParseDate(DateField);
 
 		/// ------------------------------------------------------------------------------------
 		protected override string ExtensionWithoutPeriod => ExtensionWithoutPeriodStatic;
@@ -267,8 +274,7 @@ namespace SayMore.Model
 				if (values == null)
 					continue;
 
-				var contributions = values.Value as ContributionCollection;
-				if (contributions == null)
+				if (!(values.Value is ContributionCollection contributions))
 					continue;
 
 				foreach (var contribution in contributions.Where(contribution => contribution.ContributorName == e.OldId))
@@ -284,9 +290,13 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private ContributionCollection SessionLevelContributionCollection => MetaDataFile.
+			GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
+
+		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<string> GetAllParticipants()
 		{
-			var contributions = MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
+			var contributions = SessionLevelContributionCollection;
 			if (contributions == null)
 				return new string[0]; // don't just use ? to return null, that isn't enumerable, callers will fail.
 			return contributions.Select(c => c.ContributorName);
@@ -296,6 +306,94 @@ namespace SayMore.Model
 		public IEnumerable<Person> GetAllPersonsInSession()
 		{
 			return GetAllParticipants().Select(n => _personInformant.GetPersonByNameOrCode(n)).Where(p => p != null).ToList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<SessionContribution> GetAllContributionsFor(string personId,
+			string personCode = null)
+		{
+			// We could make this method able to just return all contributions if personId is null,
+			// but we have no known need for such functionality.
+			if (personId == null)
+				throw new ArgumentNullException(nameof(personId));
+
+			var sessionLevelContributions = SessionLevelContributionCollection;
+			if (sessionLevelContributions != null)
+			{
+				foreach (var contrib in sessionLevelContributions.Where(c =>
+					c.ContributorName == personId ||
+					(personCode != null && c.ContributorName == personCode)))
+				{
+					yield return new SessionContribution(this, null, contrib);
+				}
+			}
+
+			// get the metadata files for this session
+			var files = Directory.GetFiles(FolderPath, "*" + Settings.Default.MetadataFileExtension);
+
+			var personMatch = Regex.Escape(personId);
+			if (personCode != null)
+				personMatch = $"|{Regex.Escape(personCode)}";
+			var regexPattern = $"<name>(?<name>{personMatch})<\\/name>(?<details>(.|\\n)*?)<\\/contributor>";
+
+			foreach (var file in files)
+			{
+				// Get contributions for this person
+				foreach (var contrib in GetFileSpecificContributions(file, regexPattern))
+					yield return contrib;
+			}
+		}
+
+		private IEnumerable<SessionContribution> GetFileSpecificContributions(string fileName, string regexPattern)
+		{
+			var fileContents = File.ReadAllText(fileName);
+
+			var matches = Regex.Matches(fileContents, regexPattern, RegexOptions.IgnoreCase);
+
+			foreach (Match match in matches)
+			{
+				var testString = match.Groups["details"].Value;
+
+				var role = GetRoleFromOlacList(GetValueFromXmlString(testString, "role"));
+				var date = ParseDate(GetValueFromXmlString(testString, "date"));
+				var note = GetValueFromXmlString(testString, "notes");
+
+				yield return new SessionContribution(this, fileName,
+					new Contribution(match.Groups["name"].Value, role)
+						{ Comments = note , Date = date});
+			}
+		}
+		
+		internal static readonly OlacSystem OlacSystem = new OlacSystem();
+
+		internal static Role GetRoleFromOlacList(string savedRole)
+		{
+			if (OlacSystem.TryGetRoleByCode(savedRole, out var role))
+				return role;
+
+			if (OlacSystem.TryGetRoleByName(savedRole, out role))
+				return role;
+
+			return new Role(savedRole, savedRole, null);
+		}
+
+		private static string GetValueFromXmlString(string xmlString, string valueName)
+		{
+			var pattern = string.Format("<{0}>(.*)</{0}>", valueName);
+			var match = Regex.Match(xmlString, pattern);
+
+			return match.Success ? match.Groups[1].Value : string.Empty;
+		}
+
+		private DateTime ParseDate(string dateString)
+		{
+			if (string.IsNullOrEmpty(dateString))
+				return DateTime.MinValue;
+
+			// older SayMore date problem due to saving localized date string rather than ISO8601
+			return DateTimeExtensions.IsISO8601Date(dateString)
+				? DateTime.Parse(dateString)
+				: DateTimeExtensions.ParseDateTimePermissivelyWithException(dateString);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -480,7 +578,7 @@ namespace SayMore.Model
 			model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
 			model.SetDomains(SilDomain.Ling_LanguageDocumentation);
 
-			var value = MetaDataFile.GetStringValue(SessionFileType.kDateFieldName, null);
+			var value = DateField;
 			if (!string.IsNullOrEmpty(value))
 				model.SetCreationDate(value);
 

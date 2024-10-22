@@ -19,11 +19,8 @@ namespace SayMoreTests.Model.Fields
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string XmlBlob
-		{
-			get
-			{
-				return @"
+		public string XmlBlob =>
+			@"
 					<contributions>
 						<contributor>
 							<name>Red</name>
@@ -38,8 +35,6 @@ namespace SayMoreTests.Model.Fields
 							<notes>Show dork</notes>
 						</contributor>
 					</contributions>";
-			}
-		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]

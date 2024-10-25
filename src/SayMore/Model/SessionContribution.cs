@@ -1,4 +1,4 @@
-﻿using SIL.Windows.Forms.ClearShare;
+﻿using SIL.Core.ClearShare;
 
 namespace SayMore.Model
 {

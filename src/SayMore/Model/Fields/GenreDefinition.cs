@@ -133,7 +133,7 @@ namespace SayMore.Model.Fields
 		public static string TranslateIdToName(string id)
 		{
 			// Previous versions made it possible for localized versions of these UI strings to
-			// get erroneously persisted in the meta data
+			// get erroneously persisted in the metadata
 			if (id == "<Inconnu>" || id == "<Desconocido>" | id == "<Неизвестный>")
 				return UnknownType.Name;
 			var genreDefinition = FactoryGenreDefinitions.FirstOrDefault(d => d.Id == id);

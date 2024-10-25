@@ -2,20 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Xml;
 using SIL.Code;
 using SIL.Windows.Forms.FileSystem;
 using SayMore.Model.Files;
-using SayMore.UI.ProjectWindow;
 
 namespace SayMore.Model
 {
 	/// ----------------------------------------------------------------------------------------
 	public class ElementIdChangedArgs : EventArgs
 	{
-		public ProjectElement Element { get; private set; }
-		public string OldId { get; private set; }
-		public string NewId { get; private set; }
+		public ProjectElement Element { get; }
+		public string OldId { get; }
+		public string NewId { get; }
 
 		/// ------------------------------------------------------------------------------------
 		public ElementIdChangedArgs(ProjectElement element, string oldId, string newId)
@@ -67,18 +67,18 @@ namespace SayMore.Model
 		[Obsolete("For Mocking Only")]
 		public ElementRepository(){}
 
-		public List<XmlException> FileLoadErrors { get; private set; }
+		public List<XmlException> FileLoadErrors { get; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Updates the list of items by looking in the file system for all the subfolders
 		/// in the project's folder corresponding to this repository.
 		/// </summary>
-		/// <remarks>Any file load errors ocurring during this call will be noted in
+		/// <remarks>Any file load errors occurring during this call will be noted in
 		/// FileLoadErrors. Caller is responsible for checking this and handling them as
 		/// appropriate.</remarks>
 		/// ------------------------------------------------------------------------------------
-		public void RefreshItemList()
+		public void RefreshItemList(CancellationToken cancellationToken = default)
 		{
 			FileLoadErrors.Clear();
 
@@ -95,6 +95,9 @@ namespace SayMore.Model
 			// Add any items we don't already have
 			foreach (var path in folders)
 			{
+				if (cancellationToken.IsCancellationRequested)
+					throw new OperationCanceledException();
+
 				if (!_items.Any(x => x.FolderPath == path))
 				{
 					var elementPath = Path.GetDirectoryName(path);

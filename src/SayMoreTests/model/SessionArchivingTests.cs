@@ -13,9 +13,9 @@ using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SIL.Archiving;
 using SayMore.Properties;
+using SayMore.UI.ComponentEditors;
 using SIL.Archiving.Generic;
-using SIL.Media.Naudio;
-using SIL.Windows.Forms.ClearShare;
+using SIL.Core.ClearShare;
 using Session = SayMore.Model.Session;
 
 namespace SayMoreTests.Utilities
@@ -29,8 +29,7 @@ namespace SayMoreTests.Utilities
 		private Mock<Person> _person;
 		private Mock<PersonInformant> _personInformant;
 		private readonly Mock<ProjectElementComponentFile> _personMetaFile = new Mock<ProjectElementComponentFile>();
-		private readonly Mock<ProjectElementComponentFile> _fileMetaFile = new Mock<ProjectElementComponentFile>();
-		private string _mp3FullName = String.Empty;
+		private string _mp3FullName = string.Empty;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
@@ -101,7 +100,7 @@ namespace SayMoreTests.Utilities
 				"ddo-session", "whatever", null, new Func<string, string, string>((a, b) =>a));
 			model.Setup(s => s.AddFileGroup(string.Empty, It.Is<IEnumerable<string>>(e => e.Count() == 4), "Adding Files for Session 'ddo'"));
 			model.Setup(s => s.AddFileGroup("ddo-person", It.Is<IEnumerable<string>>(e => e.Count() == 3), "Adding Files for Contributor 'ddo-person'"));
-			_session.SetFilesToArchive(model.Object);
+			_session.SetFilesToArchive(model.Object, default);
 			model.VerifyAll();
 		}
 
@@ -114,7 +113,7 @@ namespace SayMoreTests.Utilities
 				"ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
 			model.Setup(s => s.AddFileGroup(string.Empty, It.Is<IEnumerable<string>>(e => e.Count() == 3), "Adding Files for Session 'ddo'"));
 			model.Setup(s => s.AddFileGroup("ddo-person", It.Is<IEnumerable<string>>(e => e.Count() == 2), "Adding Files for Contributor 'ddo-person'"));
-			_session.SetFilesToArchive(model.Object);
+			_session.SetFilesToArchive(model.Object, default);
 			model.VerifyAll();
 		}
 
@@ -133,7 +132,7 @@ namespace SayMoreTests.Utilities
 				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new[] { "ddoPic.jpg", "ddoVoice.wav" }).Count() == 2),
 				"Adding Files for Contributor 'ddo-person'"));
 
-			_session.SetFilesToArchive(model.Object);
+			_session.SetFilesToArchive(model.Object, default);
 			model.VerifyAll();
 		}
 
@@ -143,7 +142,7 @@ namespace SayMoreTests.Utilities
 		public void SetFilesToArchive_ParticipantFileDoesNotExist_DoesNotCrash()
 		{
 			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
-			_session.Participants = new[] { "ddo-person", "non-existant-person" };
+			_session.Participants = new[] { "ddo-person", "non-existent-person" };
 
 			model.Setup(s => s.AddFileGroup(string.Empty,
 				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new [] {"ddo.session", "ddo.mpg", "ddo.mp3", "ddo.pdf"}).Count() == 4),
@@ -153,7 +152,7 @@ namespace SayMoreTests.Utilities
 				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new[] { "ddoPic.jpg", "ddoVoice.wav" }).Count() == 2),
 				"Adding Files for Contributor 'ddo-person'"));
 
-			_session.SetFilesToArchive(model.Object);
+			_session.SetFilesToArchive(model.Object, default);
 			model.VerifyAll();
 		}
 
@@ -209,8 +208,8 @@ namespace SayMoreTests.Utilities
 		[Test]
 		public void GetProjectName_ReturnsCorrectProjectName()
 		{
-			var projname = _session.GetProjectName();
-			Assert.AreEqual(_dummyProjectName, projname);
+			var projName = _session.GetProjectName();
+			Assert.AreEqual(_dummyProjectName, projName);
 		}
 
 		[Test]
@@ -221,7 +220,7 @@ namespace SayMoreTests.Utilities
 			var person = new Mock<Person>();
 			person.Setup(p => p.MetaDataFile.GetStringValue("privacyProtection", "false")).Returns("false");
 			person.Setup(p => p.MetaDataFile.GetStringValue("birthYear", string.Empty)).Returns(string.Empty);
-			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, DateTime.MinValue, "Particpant");
+			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, DateTime.MinValue, "Participant");
 			Assert.AreEqual("Unspecified", actor.Age);
 			model.VerifyAll();
 		}
@@ -364,6 +363,7 @@ namespace SayMoreTests.Utilities
 			Assert.AreEqual(sampleEthnicGroup, actor.EthnicGroup);
 		}
 
+		[Test]
 		public void AddIMDISession_AddSituation_AddSituationAsContentKey()
 		{
 			const string sampleSituation = "village hut recording";
@@ -371,7 +371,7 @@ namespace SayMoreTests.Utilities
 			var model = AddIMDISessionTestSetup(out var imdiSession);
 			ArchivingHelper.AddIMDISession(_session, model.Object);
 			var situationValue = (from k in imdiSession.Object.MDGroup.Content.Keys.Key
-				where k.Name == "Situation"		// The keyword in the saymore session is lowercase but in Imdi we chose uppercase
+				where k.Name == "Situation"		// The keyword in the SayMore session is lowercase but in IMDI we chose uppercase
 				select k.Value).FirstOrDefault();
 			Assert.AreEqual(sampleSituation, situationValue);
 		}
@@ -579,18 +579,11 @@ namespace SayMoreTests.Utilities
 
 		private Mock<IMDIArchivingDlgViewModel> AddIMDISessionTestSetup(out Mock<SIL.Archiving.IMDI.Schema.Session> imdiSession, ComponentFile mediaFile = null)
 		{
-			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session",
 				false, null, @"C:\my_imdi_folder");
 			imdiSession = new Mock<SIL.Archiving.IMDI.Schema.Session>(MockBehavior.Strict);
 			imdiSession.Object.Name = "ddo";
-			model.Setup(m => m.AddSession(_session.Id)).Returns(imdiSession.Object);
 			_session.MediaFiles = mediaFile == null ? new ComponentFile[0] : new[] { mediaFile };
-			// We have to use real objects here because ArchivingPackage.FundingProject is not virtual.
-			// We typically need an ArchivingPackage with a FundingProject because Session.AddProject()
-			// uses FundingProject.Name.
-			var ap = new IMDIPackage(false, "");
-			model.Setup(m => m.ArchivingPackage).Returns(ap);
-			ap.FundingProject = new ArchivingProject();
 			return model;
 		}
 
@@ -611,7 +604,11 @@ namespace SayMoreTests.Utilities
 		public readonly Mock<ProjectElementComponentFile> MetaFile = new Mock<ProjectElementComponentFile>();
 		public ComponentFile[] MediaFiles;
 
-		public DummySession(string parentFolder, string name, PersonInformant personInformant, params string[] actors) : base(parentFolder, name + "-session", null, new SessionFileType(() => null, () => null, () => null),
+		public DummySession(string parentFolder, string name, PersonInformant personInformant, params string[] actors) :
+			base(parentFolder, name + "-session", null,
+			new SessionFileType(new Lazy<Func<SessionBasicEditor.Factory>>(() => null),
+				new Lazy<Func<StatusAndStagesEditor.Factory>>(() => null),
+				new Lazy<Func<ContributorsEditor.Factory>>(() => null)),
 				MakeComponent, new XmlFileSerializer(null), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
 					ApplicationContainer.ComponentRoles, personInformant, null)
@@ -629,10 +626,7 @@ namespace SayMoreTests.Utilities
 			return Participants;
 		}
 
-		public override ProjectElementComponentFile MetaDataFile
-		{
-			get { return MetaFile.Object; }
-		}
+		public override ProjectElementComponentFile MetaDataFile => MetaFile.Object;
 
 		public override ComponentFile[] GetComponentFiles()
 		{
@@ -647,16 +641,16 @@ namespace SayMoreTests.Utilities
 					// This is the actual person or session data
 					_componentFiles.Add(MetaDataFile);
 
-					foreach (ComponentFile componentFile in MediaFiles)
+					foreach (var componentFile in MediaFiles)
 						_componentFiles.Add(componentFile);
 				}
 				return _componentFiles.ToArray();
 			}
 		}
 
-		private static ComponentFile MakeComponent(ProjectElement parentElement, string pathtoannotatedfile)
+		private static ComponentFile MakeComponent(ProjectElement parentElement, string pathToAnnotatedFile)
 		{
-			return ComponentFile.CreateMinimalComponentFileForTests(parentElement, pathtoannotatedfile);
+			return ComponentFile.CreateMinimalComponentFileForTests(parentElement, pathToAnnotatedFile);
 		}
 	}
 

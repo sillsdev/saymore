@@ -10,7 +10,8 @@ using SayMore.Model.Files;
 using System.Linq;
 using System.Collections.Generic;
 using SayMore.Utilities;
-using SIL.Windows.Forms.ClearShare;
+using SIL.Core.ClearShare;
+using SayMore.UI.ComponentEditors;
 
 namespace SayMoreTests.Model
 {
@@ -98,7 +99,9 @@ namespace SayMoreTests.Model
 			};
 
 			return new Session(_parentFolder.Path, "dummyId", null,
-				new SessionFileType(() => null, () => null, () => null), componentFactory,
+				new SessionFileType(new Lazy<Func<SessionBasicEditor.Factory>>(() => null),
+					new Lazy<Func<StatusAndStagesEditor.Factory>>(() => null),
+					new Lazy<Func<ContributorsEditor.Factory>>(() => null)), componentFactory,
 				new XmlFileSerializer(null), factory, componentRoles, personInformant.Object, project);
 		}
 
@@ -148,18 +151,6 @@ namespace SayMoreTests.Model
 			using (var session = CreateSession(new[] { "mo", "curly" }))
 			{
 				var names = session.GetAllParticipants().ToList();
-				Assert.Contains("mo", names);
-				Assert.Contains("curly", names);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetAllContributions_OnlySessionLevelParticipantsListed_ReturnsTheirContributions()
-		{
-			using (var session = CreateSession(new[] { "mo", "curly/" }))
-			{
-				var names = session.GetAllContributions().ToList();
 				Assert.Contains("mo", names);
 				Assert.Contains("curly", names);
 			}

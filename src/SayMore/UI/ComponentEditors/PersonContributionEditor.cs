@@ -9,8 +9,7 @@ using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
 using SIL.Extensions;
-using SIL.Windows.Forms.ClearShare;
-using SIL.Windows.Forms.Widgets.BetterGrid;
+using SIL.Core.ClearShare;
 using SayMore.Model.Files;
 using SayMore.Properties;
 
@@ -20,7 +19,7 @@ namespace SayMore.UI.ComponentEditors
 	{
 		public delegate PersonContributionEditor Factory(ComponentFile file, string imageKey);
 
-		private BetterGrid _grid;
+		private CancellationTokenSource _cancellationTokenSource;
 		private string _personId;
 		private string _personCode;
 
@@ -30,7 +29,6 @@ namespace SayMore.UI.ComponentEditors
 			: base(file, null, imageKey)
 		{
 			InitializeComponent();
-			Name = "PersonRoles";
 			RememberPersonId(file);
 
 			InitializeControls();
@@ -66,66 +64,27 @@ namespace SayMore.UI.ComponentEditors
 
 		private void InitializeControls()
 		{
-			_grid = new BetterGrid
-			{
-				Dock = DockStyle.Top,
-				RowHeadersVisible = false,
-				AllowUserToOrderColumns = false,
-				AllowUserToResizeRows = true,
-				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None,
-				Name = "PersonContributionGrid",
-				BorderStyle = BorderStyle.None,
-				ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None,
-				ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-			};
-
 			// look for saved settings
 			var widths = Array.ConvertAll(Settings.Default.PersonContributionColumns.Split(','), int.Parse).ToList();
 			while (widths.Count < 4)
 				widths.Add(200);
 
-			// set the localizable column header text
-			string[] headerText =
-			{
-				@"_L10N_:PeopleView.ContributionEditor.NameColumnTitle!Name",
-				@"_L10N_:PeopleView.ContributionEditor.RoleColumnTitle!Role",
-				@"_L10N_:PeopleView.ContributionEditor.DateColumnTitle!Date",
-				@"_L10N_:PeopleView.ContributionEditor.CommentColumnTitle!Comments"
-			};
-
-			for (var i = 0; i < headerText.Length; i++)
-				_grid.Columns.Add(new DataGridViewTextBoxColumn { Width = widths[i], SortMode = DataGridViewColumnSortMode.Automatic, ReadOnly = true, HeaderText = headerText[i] });
+			for (var i = 0; i < _grid.Columns.Count; i++)
+				_grid.Columns[i].Width = widths[i];
 
 			// set column header height to match the other grids
 			_grid.AutoResizeColumnHeadersHeight();
 			_grid.ColumnHeadersHeight += 8;
 
-			// make it localizable
-			L10NSharpExtender locExtender = new L10NSharpExtender();
-			locExtender.LocalizationManagerId = "SayMore";
-			locExtender.SetLocalizingId(_grid, "ContributionsEditorGrid");
-
-			locExtender.EndInit();
-
-			Controls.Add(_grid);
-
-			_grid.ColumnWidthChanged += _grid_ColumnWidthChanged;
-
 			Program.PersonDataChanged += Program_PersonDataChanged;
-			Disposed += PersonContributionEditor_Disposed;
 		}
 
-		void PersonContributionEditor_Disposed(object sender, EventArgs e)
-		{
-			Program.PersonDataChanged -= Program_PersonDataChanged;
-		}
-
-		void Program_PersonDataChanged()
+		private void Program_PersonDataChanged()
 		{
 			LoadAssociatedSessionsAndFiles();
 		}
 
-		void _grid_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+		private void _grid_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
 		{
 			// save column widths (min width to save is 50)
 			var widths = (from DataGridViewColumn col in _grid.Columns select (col.Width < 50) ? 50 : col.Width).ToList();
@@ -136,15 +95,21 @@ namespace SayMore.UI.ComponentEditors
 		private void LoadAssociatedSessionsAndFiles()
 		{
 			var project = Program.CurrentProject;
-			var boldFont = new Font(_grid.Font.FontFamily, _grid.Font.Size, FontStyle.Bold);
+			if (project == null)
+				return;
 
-			if (project == null) return;
+			var boldFont = new Font(_grid.Font.FontFamily, _grid.Font.Size, FontStyle.Bold);
 
 			_grid.Rows.Clear();
 
-			foreach (var session in project.GetAllSessions())
+			_cancellationTokenSource = new CancellationTokenSource();
+			var cancelTok = _cancellationTokenSource.Token;
+			foreach (var session in project.GetAllSessions(cancelTok))
 			{
 				var person = session.GetAllPersonsInSession().FirstOrDefault(p => p.Id == _personId);
+
+				if (cancelTok.IsCancellationRequested)
+					break;
 
 				if (person != null)
 				{
@@ -164,7 +129,13 @@ namespace SayMore.UI.ComponentEditors
 
 				foreach (var file in files)
 				{
+					if (cancelTok.IsCancellationRequested)
+						break;
+
 					var fileContents = File.ReadAllText(file);
+
+					if (cancelTok.IsCancellationRequested)
+						break;
 
 					// look for this person
 					AddGridRowsForFileSpecificContributions(file, fileContents, searchForId);
@@ -172,6 +143,9 @@ namespace SayMore.UI.ComponentEditors
 						AddGridRowsForFileSpecificContributions(file, fileContents, searchForCode);
 				}
 			}
+
+			_cancellationTokenSource.Dispose();
+			_cancellationTokenSource = null;
 		}
 
 		private void AddGridRowsForFileSpecificContributions(string fileName, string fileContents, string searchFor)
@@ -211,8 +185,7 @@ namespace SayMore.UI.ComponentEditors
 
 		private static string GetRoleFromOlacList(string savedRole)
 		{
-			Role role;
-			if (OlacSystem.TryGetRoleByCode(savedRole, out role))
+			if (OlacSystem.TryGetRoleByCode(savedRole, out var role))
 				return role.Name;
 
 			if (OlacSystem.TryGetRoleByName(savedRole, out role))
@@ -242,13 +215,15 @@ namespace SayMore.UI.ComponentEditors
 
 		public override void SetComponentFile(ComponentFile file)
 		{
+			_cancellationTokenSource?.Cancel();
 			RememberPersonId(file);
-			GetDataInBackground();
+			LoadAssociatedSessionsAndFiles();
 		}
 
 		private void RememberPersonId(ComponentFile file)
 		{
-			_personId = file.FileName.Substring(0, file.FileName.Length - Settings.Default.PersonFileExtension.Length);
+			_personId = file.FileName.Substring(0,
+				file.FileName.Length - Settings.Default.PersonFileExtension.Length);
 			_personCode = file.GetStringValue(PersonFileType.kCode, null);
 		}
 	}

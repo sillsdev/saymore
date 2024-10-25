@@ -2,16 +2,16 @@ using System;
 using System.Linq;
 using System.Xml.Linq;
 using SayMore.Model.Files;
+using SIL.Core.ClearShare;
 using SIL.Extensions;
 using SIL.Reporting;
-using SIL.Windows.Forms.ClearShare;
 
 namespace SayMore.Model.Fields
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// This class provides a way to serialize and deserialize contribution collections to
-	/// SayMore meta data files. When we figure out how to store notes and dates at the
+	/// SayMore metadata files. When we figure out how to store notes and dates at the
 	/// contributor level in OLAC, this could be modified to read and write an OLAC record.
 	/// For now, it reads and writes a ContributionCollection.
 	/// </summary>

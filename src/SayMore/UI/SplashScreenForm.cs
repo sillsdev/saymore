@@ -21,7 +21,6 @@ using System.Windows.Forms;
 using SIL.Reporting;
 using SIL.Windows.Forms;
 using SIL.Windows.Forms.Extensions;
-using SayMore.Properties;
 using SayMore.Utilities;
 using Timer = System.Windows.Forms.Timer;
 

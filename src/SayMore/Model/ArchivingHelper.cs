@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using SIL.Extensions;
@@ -15,7 +16,9 @@ using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
 using SayMore.Properties;
 using SIL.Archiving.IMDI.Lists;
-using SIL.Windows.Forms.ClearShare;
+using SIL.Core.ClearShare;
+using SIL.Windows.Forms.Archiving;
+using SIL.Windows.Forms.Archiving.IMDI;
 using SIL.WritingSystems;
 using Application = System.Windows.Forms.Application;
 
@@ -25,23 +28,16 @@ namespace SayMore.Model
 	{
 		private static LanguageLookup _languageLookup;
 
-		internal static LanguageLookup _LanguageLookup
-		{
-			get
-			{
-				if (_languageLookup == null)
-					_languageLookup = new LanguageLookup();
-				return _languageLookup;
-			}
-		}
-		internal static Project Project = null; // Set for testing
+		internal static LanguageLookup _LanguageLookup =>
+			_languageLookup ?? (_languageLookup = new LanguageLookup());
+		internal static Project Project; // Set for testing
 
 		/// ------------------------------------------------------------------------------------
-		internal static void ArchiveUsingIMDI(IIMDIArchivable element)
+		internal static void ArchiveUsingIMDI(IArchivable element, Form parentForm)
 		{
 			var destFolder = Program.CurrentProject.IMDIOutputDirectory;
 
-			// Move IMDI export folder to be under the mydocs/saymore
+			// Move IMDI export folder to be under the My Documents/SayMore
 			if (string.IsNullOrEmpty(destFolder))
 				destFolder = Path.Combine(NewProjectDlgViewModel.ParentFolderPathForNewProject, "IMDI Packages");
 
@@ -55,17 +51,19 @@ namespace SayMore.Model
 			var title = string.IsNullOrEmpty(element.Title) ? element.Id : element.Title;
 
 			var model = new IMDIArchivingDlgViewModel(Application.ProductName, title, element.Id,
-				element.ArchiveInfoDetails, element is Project, element.SetFilesToArchive, destFolder)
+				element is Project, element.SetFilesToArchive, destFolder)
 			{
 				HandleNonFatalError = (exception, s) => ErrorReport.NotifyUserOfProblem(exception, s)
 			};
 
 			element.InitializeModel(model);
+			SetIMDIMetadataToArchive(element, model);
 
-			using (var dlg = new IMDIArchivingDlg(model, ApplicationContainer.kSayMoreLocalizationId,
-				Program.DialogFont, Settings.Default.ArchivingDialog))
+			using (var dlg = new IMDIArchivingDlg(model, element.ArchiveInfoDetails,
+				       ApplicationContainer.kSayMoreLocalizationId,
+				       Program.DialogFont, Settings.Default.ArchivingDialog))
 			{
-				dlg.ShowDialog(Program.ProjectWindow);
+				dlg.ShowDialog(parentForm);
 				Settings.Default.ArchivingDialog = dlg.FormSettings;
 
 				// remember choice for next time
@@ -78,27 +76,27 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal static void ArchiveUsingRAMP(IRAMPArchivable element)
+		internal static void ArchiveUsingRAMP(IRAMPArchivable element, Form parentForm)
 		{
 			// now that we added a separate title field for projects, make sure it's not empty
 			var title = string.IsNullOrEmpty(element.Title) ? element.Id : element.Title;
 
 			var model = new RampArchivingDlgViewModel(Application.ProductName, title, element.Id,
-				element.ArchiveInfoDetails, element.SetFilesToArchive, element.GetFileDescription)
+				element.SetFilesToArchive, element.GetFileDescription)
 			{
 				FileCopyOverride = FileCopySpecialHandler
 			};
 			model.AppSpecificFilenameNormalization = element.CustomFilenameNormalization;
-			model.OverrideDisplayInitialSummary = fileLists => element.DisplayInitialArchiveSummary(fileLists, model);
 			model.HandleNonFatalError = (exception, s) => ErrorReport.NotifyUserOfProblem(exception, s);
 
 			element.InitializeModel(model);
 			element.SetAdditionalMetsData(model);
 
-			using (var dlg = new ArchivingDlg(model, ApplicationContainer.kSayMoreLocalizationId,
+			using (var dlg = new ArchivingDlg(model, element.ArchiveInfoDetails,
+				ApplicationContainer.kSayMoreLocalizationId,
 				Program.DialogFont, Settings.Default.ArchivingDialog))
 			{
-				dlg.ShowDialog();
+				dlg.ShowDialog(parentForm);
 				Settings.Default.ArchivingDialog = dlg.FormSettings;
 			}
 		}
@@ -129,9 +127,13 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		static internal bool IncludeFileInArchive(string path, Type typeOfArchive, string metadataFileExtension)
+		internal static bool IncludeFileInArchive(string path, Type typeOfArchive, 
+			string metadataFileExtension, CancellationToken cancellationToken)
 		{
-			if (path == null) return false;
+			if (path == null)
+				return false;
+			if (cancellationToken.IsCancellationRequested)
+				return false;
 			var ext = Path.GetExtension(path).ToLower();
 			bool imdi = typeof(IMDIArchivingDlgViewModel).IsAssignableFrom(typeOfArchive);
 			return (ext != ".pfsx" && ext != ".sprj" && (!imdi || (ext != metadataFileExtension)));
@@ -160,14 +162,13 @@ namespace SayMore.Model
 			return false;
 		}
 
-		internal static void SetIMDIMetadataToArchive(IIMDIArchivable element, ArchivingDlgViewModel model)
+		internal static void SetIMDIMetadataToArchive(IArchivable element, IMDIArchivingDlgViewModel model)
 		{
-			var project = element as Project;
-			if (project != null)
+			if (element is Project project)
 			{
 				AddIMDIProjectData(project, model);
 
-				foreach (var session in project.GetAllSessions())
+				foreach (var session in project.GetAllSessions(CancellationToken.None))
 					AddIMDISession(session, model);
 			}
 			else
@@ -176,42 +177,42 @@ namespace SayMore.Model
 			}
 		}
 
-		internal static void AddIMDISession(Session saymoreSession, ArchivingDlgViewModel model)
+		internal static void AddIMDISession(Session sayMoreSession, IMDIArchivingDlgViewModel model)
 		{
-			var sessionFile = saymoreSession.MetaDataFile;
+			var sessionFile = sayMoreSession.MetaDataFile;
 			if (Project == null)
 				Project = Program.CurrentProject;
 			var analysisLanguage = GetAnalysisLanguageIdentifier(Project);
 
 			// create IMDI session
-			var imdiSession = model.AddSession(saymoreSession.Id);
-			imdiSession.Title = saymoreSession.Title;
+			var imdiSession = model.AddSession(sayMoreSession.Id);
+			imdiSession.Title = sayMoreSession.Title;
 
 			// set its Project, if we can. (Depends on prior call to AddIMDIProject to populate the model's ArchivingPackage
 			// with Project data. If that didn't happen, e.g., when exporting just a session, we don't have access to
 			// any project data, so just leave it out.)
 			if (model.ArchivingPackage?.FundingProject != null)
 			{
-				imdiSession.AddProject(model.ArchivingPackage as ArchivingPackage);
+				imdiSession.AddProject(model.ArchivingPackage);
 			}
 
 			// session location
-			var address = saymoreSession.MetaDataFile.GetStringValue("additional_Location_Address", null);
-			var region = saymoreSession.MetaDataFile.GetStringValue("additional_Location_Region", null);
-			var country = saymoreSession.MetaDataFile.GetStringValue("additional_Location_Country", null);
-			var continent = saymoreSession.MetaDataFile.GetStringValue("additional_Location_Continent", null);
+			var address = sayMoreSession.MetaDataFile.GetStringValue("additional_Location_Address", null);
+			var region = sayMoreSession.MetaDataFile.GetStringValue("additional_Location_Region", null);
+			var country = sayMoreSession.MetaDataFile.GetStringValue("additional_Location_Country", null);
+			var continent = sayMoreSession.MetaDataFile.GetStringValue("additional_Location_Continent", null);
 			if (string.IsNullOrEmpty(address))
-				address = saymoreSession.MetaDataFile.GetStringValue("location", null);
+				address = sayMoreSession.MetaDataFile.GetStringValue("location", null);
 
 			imdiSession.Location = new ArchivingLocation { Address = address, Region = region, Country = country, Continent = continent };
 
 			// session description (synopsis)
-			var stringVal = saymoreSession.MetaDataFile.GetStringValue("synopsis", null);
+			var stringVal = sayMoreSession.MetaDataFile.GetStringValue("synopsis", null);
 			if (!string.IsNullOrEmpty(stringVal))
 				imdiSession.AddDescription(new LanguageString { Value = stringVal });
 
 			// session date
-			stringVal = saymoreSession.MetaDataFile.GetStringValue("date", null);
+			stringVal = sayMoreSession.MetaDataFile.GetStringValue("date", null);
 			var sessionDateTime = DateTime.MinValue;
 			if (!string.IsNullOrEmpty(stringVal))
 			{
@@ -229,7 +230,7 @@ namespace SayMore.Model
 			imdiSession.AddContentLanguage(new ArchivingLanguage(analysisLanguage), new LanguageString("Working Language", analysisLanguage));
 
 			// session situation
-			stringVal = saymoreSession.MetaDataFile.GetStringValue("situation", null);
+			stringVal = sayMoreSession.MetaDataFile.GetStringValue("situation", null);
 			if (!string.IsNullOrEmpty(stringVal))
 				imdiSession.AddContentKeyValuePair("Situation", stringVal);
 
@@ -245,7 +246,7 @@ namespace SayMore.Model
 			imdiSession.AddContentDescription(new LanguageString { Value = GetFieldValue(sessionFile, "notes"), Iso3LanguageId = analysisLanguage });
 
 			// custom session fields (the custom prefix is used internally)
-			foreach (var item in saymoreSession.MetaDataFile.GetCustomFields())
+			foreach (var item in sayMoreSession.MetaDataFile.GetCustomFields())
 			{
 				var fieldId = item.FieldId.Substring(XmlFileSerializer.kCustomFieldIdPrefix.Length);
 				if (fieldId == "ELAR Topic")
@@ -268,13 +269,12 @@ namespace SayMore.Model
 
 			// actors
 			var actors = new ArchivingActorCollection();
-			var persons = saymoreSession.GetAllPersonsInSession();
+			var persons = sayMoreSession.GetAllPersonsInSession();
 			var contributions =
-				saymoreSession.MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
+				sayMoreSession.MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
 
 			foreach (var person in persons)
 			{
-
 				var actor = InitializeActor(model, person, sessionDateTime, GetRole(person.Id, actors, contributions));
 
 				// do this to get the ISO3 codes for the languages because they are not in SayMore
@@ -306,7 +306,7 @@ namespace SayMore.Model
 
 				// actor files
 				var actorFiles = Directory.GetFiles(person.FolderPath)
-					.Where(f => IncludeFileInArchive(f, typeof(IMDIArchivingDlgViewModel), Settings.Default.PersonFileExtension));
+					.Where(f => IncludeFileInArchive(f, typeof(IMDIArchivingDlgViewModel), Settings.Default.PersonFileExtension, CancellationToken.None));
 				foreach (var file in actorFiles)
 					actor.Files.Add(CreateArchivingFile(file));
 
@@ -333,26 +333,26 @@ namespace SayMore.Model
 			}
 
 			// get contributors
-			foreach (var contributor in saymoreSession.GetAllContributorsInSession())
+			foreach (var contributor in sayMoreSession.GetAllContributorsInSession())
 			{
-				var actr = actors.FirstOrDefault(a => a.Name == contributor.Name);
-				if (actr != null)
+				var actor = actors.FirstOrDefault(a => a.Name == contributor.Name);
+				if (actor != null)
 					continue;
 				var msg = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PersonNotParticipating",
 					"{0} is listed as a contributor but not a participant in {1} session.");
-				model.AdditionalMessages[string.Format(msg, contributor.Name, saymoreSession.Id)] =
+				model.AdditionalMessages[string.Format(msg, contributor.Name, sayMoreSession.Id)] =
 					ArchivingDlgViewModel.MessageType.Error;
 				imdiSession.AddActor(contributor);
 			}
 
 			// session files
-			var files = saymoreSession.GetSessionFilesToArchive(model.GetType());
+			var files = sayMoreSession.GetSessionFilesToArchive(model.GetType(), CancellationToken.None);
 			foreach (var file in files)
 			{
 				if (file.EndsWith(Settings.Default.MetadataFileExtension, StringComparison.InvariantCulture))
 					continue;
 				imdiSession.AddFile(CreateArchivingFile(file));
-				var info = saymoreSession.GetComponentFiles()
+				var info = sayMoreSession.GetComponentFiles()
 					.FirstOrDefault(componentFile => componentFile.PathToAnnotatedFile == file);
 				if (info == null)
 					continue;
@@ -381,9 +381,9 @@ namespace SayMore.Model
 			}
 		}
 
-		private static string GetAnalysisLanguageIdentifier(Project saymoreProject)
+		private static string GetAnalysisLanguageIdentifier(Project sayMoreProject)
 		{
-			var analysisLanguage = saymoreProject?.AnalysisISO3CodeAndName;
+			var analysisLanguage = sayMoreProject?.AnalysisISO3CodeAndName;
 			if (string.IsNullOrEmpty(analysisLanguage))
 				analysisLanguage = AnalysisLanguage();
 			if (analysisLanguage.Contains(":"))
@@ -493,21 +493,21 @@ namespace SayMore.Model
 			return string.IsNullOrEmpty(stringVal) ? null : stringVal;
 		}
 
-		internal static void AddIMDIProjectData(Project saymoreProject, ArchivingDlgViewModel model)
+		internal static void AddIMDIProjectData(Project sayMoreProject, IMDIArchivingDlgViewModel model)
 		{
-			var package = (IMDIPackage) model.ArchivingPackage;
+			var package = (IMDIPackage)model.ArchivingPackage;
 
 			// location
 			package.Location = new ArchivingLocation
 			{
-				Address = saymoreProject.Location,
-				Region = saymoreProject.Region,
-				Country = saymoreProject.Country,
-				Continent = saymoreProject.Continent
+				Address = sayMoreProject.Location,
+				Region = sayMoreProject.Region,
+				Country = sayMoreProject.Country,
+				Continent = sayMoreProject.Continent
 			};
 
 			// description
-			package.AddDescription(new LanguageString(saymoreProject.ProjectDescription, GetAnalysisLanguageIdentifier(saymoreProject)));
+			package.AddDescription(new LanguageString(sayMoreProject.ProjectDescription, GetAnalysisLanguageIdentifier(sayMoreProject)));
 
 			// content type
 			package.ContentType = null;
@@ -515,39 +515,39 @@ namespace SayMore.Model
 			// funding project
 			package.FundingProject = new ArchivingProject
 			{
-				Title = saymoreProject.FundingProjectTitle,
-				Name = saymoreProject.FundingProjectTitle
+				Title = sayMoreProject.FundingProjectTitle,
+				Name = sayMoreProject.FundingProjectTitle
 			};
 
 			// author
-			package.Author = saymoreProject.ContactPerson;
+			package.Author = sayMoreProject.ContactPerson;
 
 			// applications
 			package.Applications = null;
 
 			// access date
-			package.Access.DateAvailable = saymoreProject.DateAvailable;
+			package.Access.DateAvailable = sayMoreProject.DateAvailable;
 
 			// access owner
-			package.Access.Owner = saymoreProject.RightsHolder;
+			package.Access.Owner = sayMoreProject.RightsHolder;
 
 			// publisher
-			package.Publisher = saymoreProject.Depositor;
+			package.Publisher = sayMoreProject.Depositor;
 
 			// subject language
-			if (!string.IsNullOrEmpty(saymoreProject.VernacularISO3CodeAndName))
+			if (!string.IsNullOrEmpty(sayMoreProject.VernacularISO3CodeAndName))
 			{
-				ParseLanguage(saymoreProject.VernacularISO3CodeAndName, package);
+				ParseLanguage(sayMoreProject.VernacularISO3CodeAndName, package);
 			}
 
 			// analysis language
-			if (!string.IsNullOrEmpty(saymoreProject.AnalysisISO3CodeAndName))
+			if (!string.IsNullOrEmpty(sayMoreProject.AnalysisISO3CodeAndName))
 			{
-				ParseLanguage(saymoreProject.AnalysisISO3CodeAndName, package);
+				ParseLanguage(sayMoreProject.AnalysisISO3CodeAndName, package);
 			}
 
 			// project description documents
-			var docsPath = Path.Combine(saymoreProject.FolderPath, ProjectDescriptionDocsScreen.kFolderName);
+			var docsPath = Path.Combine(sayMoreProject.FolderPath, ProjectDescriptionDocsScreen.kFolderName);
 			if (Directory.Exists(docsPath))
 			{
 				var files = Directory.GetFiles(docsPath, "*.*", SearchOption.TopDirectoryOnly);
@@ -558,7 +558,7 @@ namespace SayMore.Model
 			}
 
 			// other project documents
-			docsPath = Path.Combine(saymoreProject.FolderPath, ProjectOtherDocsScreen.kFolderName);
+			docsPath = Path.Combine(sayMoreProject.FolderPath, ProjectOtherDocsScreen.kFolderName);
 			if (Directory.Exists(docsPath))
 			{
 				var files = Directory.GetFiles(docsPath, "*.*", SearchOption.TopDirectoryOnly);
@@ -614,7 +614,7 @@ namespace SayMore.Model
 			return arcFile;
 		}
 
-		private static void AddDocumentsSession(string sessionName, string[] sourceFiles, ArchivingDlgViewModel model)
+		private static void AddDocumentsSession(string sessionName, string[] sourceFiles, IMDIArchivingDlgViewModel model)
 		{
 			// create IMDI session
 			var imdiSession = model.AddSession(sessionName);

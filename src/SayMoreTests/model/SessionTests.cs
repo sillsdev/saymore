@@ -41,6 +41,17 @@ namespace SayMoreTests.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>Helper method to create a session for testing.</summary>
+		/// <param name="participants">List of strings. Each string can be a simple string with
+		/// just a person's name or a forward-slash--delimited string where the first part is the
+		/// person's name, the second part is the role (typically an official OLAC role code
+		/// (lowercase) or name (title case)), and the third part (optional) is a comment about
+		/// the person's contribution.</param>
+		/// <param name="project">The project (optional) to be used to set default session
+		/// metadata values</param>
+		/// <param name="additionalSetup">Additional setup to be done for the mocked
+		/// <see cref="ProjectElementComponentFile"/> representing this session.</param>
+		/// ------------------------------------------------------------------------------------
 		private Session CreateSession(IReadOnlyList<string> participants,
 			Project project = null, Action<Mock<ProjectElementComponentFile>> additionalSetup = null)
 		{

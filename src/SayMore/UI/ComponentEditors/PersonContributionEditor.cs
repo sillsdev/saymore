@@ -96,10 +96,10 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		void Program_PersonDataChanged()
-			{
+		{
 			//GetDataInBackground();
-					LoadAssociatedSessionsAndFiles();
-			}
+			LoadAssociatedSessionsAndFiles();
+		}
 
 		private void _grid_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
 		{

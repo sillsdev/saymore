@@ -28,6 +28,7 @@ using SayMore.Properties;
 using SayMore.Media.MPlayer;
 using SayMore.UI.Overview;
 using SayMore.Utilities;
+using SIL.Windows.Forms.Miscellaneous;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -247,8 +248,17 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void HandleHelpAboutClick(object sender, EventArgs e)
 		{
-			using (var dlg = new SIL.Windows.Forms.Miscellaneous.SILAboutBox(FileLocationUtilities.GetFileDistributedWithApplication("aboutbox.htm")))
-				dlg.ShowDialog();
+			using (var dlg = new SILAboutBox(FileLocationUtilities.GetFileDistributedWithApplication("aboutbox.htm")))
+			{
+				dlg.CheckForUpdatesClicked += HandleAboutDialogCheckForUpdatesClick;
+				dlg.ShowDialog(this);
+			}
+		}
+
+		private void HandleAboutDialogCheckForUpdatesClick(object sender, EventArgs e)
+		{
+			Analytics.Track("CheckForUpdates");
+			MessageBox.Show("Note yet implemented. Visit software.sil.org/saymore/download to check for updated version.", ProductName);
 		}
 
 		/// ------------------------------------------------------------------------------------

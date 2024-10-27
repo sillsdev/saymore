@@ -618,10 +618,10 @@ namespace SayMore.Model.Files
 
 	#region AnnotationFileWithMisingMediaFileType class
 	/// ----------------------------------------------------------------------------------------
-	public class AnnotationFileWithMisingMediaFileType : FileType
+	public class AnnotationFileWithMissingMediaFileType : FileType
 	{
 		/// ------------------------------------------------------------------------------------
-		public AnnotationFileWithMisingMediaFileType()
+		public AnnotationFileWithMissingMediaFileType()
 			: base("AnnotationsWithMissingMedia", GetIsAnAnnotationFileWithMissingMedia)
 		{
 		}

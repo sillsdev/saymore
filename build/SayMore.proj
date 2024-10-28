@@ -3,7 +3,7 @@
 	<RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
 	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
 	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'==''">3.5.0</BUILD_NUMBER>
-	<BuildTasksDll>$(RootDir)/packages/SIL.BuildTasks.2.5.0/tools/SIL.BuildTasks.dll</BuildTasksDll>
+	<BuildTasksDll>$(RootDir)/packages/SIL.BuildTasks/tools/SIL.BuildTasks.dll</BuildTasksDll>
 	<SILReleaseTasksProps>$(RootDir)/packages/SIL.ReleaseTasks/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
 	<Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
 	<RestartBuild Condition="!Exists('$(BuildTasksDll)') Or !Exists('$(SILReleaseTasksProps)')">true</RestartBuild>
@@ -35,17 +35,18 @@
   </Target>
 
   <Import Project="../.nuget/NuGet.targets" />
-  <Import Project="$(SILReleaseTasksProps)" Condition="Exists('$(SILReleaseTasksProps)')" />
 
   <Target Name="RestoreLocalPackages" DependsOnTargets="CheckPrerequisites">
     <Message Text="BuildTasksDll=$(BuildTasksDll)"/>
 	<Message Text="RestartBuild=$(RestartBuild)"/>
     <Message Text="Configuration=$(Configuration)"/>
-    <Exec Command='$(NuGetCommand) install SIL.BuildTasks -version 2.1.0 -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
+    <Exec Command='$(NuGetCommand) install SIL.BuildTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
 	<Exec Command='$(NuGetCommand) install SIL.ReleaseTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)"' />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BuildInternal"
       Properties="Configuration=$(Configuration)" Condition="$(RestartBuild)" />
   </Target>
+  
+  <Import Project="$(SILReleaseTasksProps)" Condition="Exists('$(SILReleaseTasksProps)')" />
 
   <Target Name="SetAssemblyVersion" DependsOnTargets="VersionNumbers">
 	  <ItemGroup>

@@ -1,17 +1,14 @@
 using System;
-using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using SIL.Extensions;
-using SIL.Core.ClearShare;
+using SayMore.Model;
 using SayMore.Model.Files;
-using SayMore.Properties;
+using DateTime = System.DateTime;
+using Settings = SayMore.Properties.Settings;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -23,8 +20,6 @@ namespace SayMore.UI.ComponentEditors
 		private string _personId;
 		private string _personCode;
 
-		private static readonly OlacSystem OlacSystem = new OlacSystem();
-
 		public PersonContributionEditor(ComponentFile file, string imageKey)
 			: base(file, null, imageKey)
 		{
@@ -34,32 +29,13 @@ namespace SayMore.UI.ComponentEditors
 			InitializeControls();
 
 			// do this to set the Associated Sessions the first time because the project might not be loaded yet
-			GetDataInBackground();
+			NotifyWhenProjectIsSet();
 		}
-
-		private void GetDataInBackground()
+				
+		protected override void OnCurrentProjectSet()
 		{
-			using (var backgroundWorker = new BackgroundWorker())
-			{
-				backgroundWorker.DoWork += WaitForProjectToBeSet;
-				backgroundWorker.RunWorkerCompleted += backgroundWorker_RunWorkerCompleted;
-				backgroundWorker.RunWorkerAsync();
-			}
-		}
-
-		void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
+			base.OnCurrentProjectSet();
 			LoadAssociatedSessionsAndFiles();
-		}
-
-		private void WaitForProjectToBeSet(object sender, DoWorkEventArgs e)
-		{
-			var count = 0;
-			while ((Program.CurrentProject == null) && (count < 50))
-			{
-				Thread.Sleep(100);
-				count++;
-			}
 		}
 
 		private void InitializeControls()
@@ -106,41 +82,15 @@ namespace SayMore.UI.ComponentEditors
 			var cancelTok = _cancellationTokenSource.Token;
 			foreach (var session in project.GetAllSessions(cancelTok))
 			{
-				var person = session.GetAllPersonsInSession().FirstOrDefault(p => p.Id == _personId);
-
 				if (cancelTok.IsCancellationRequested)
 					break;
 
-				if (person != null)
+				foreach (var contrib in session.GetAllContributionsFor(_personId, _personCode))
 				{
-					// add Participant row for this session
-					var sessionDescription = session.Id + " " + session.Title;
-					var sessionRole = LocalizationManager.GetString("PeopleView.ContributionEditor.RoleParticipant", "Participant");
-					var sessionDate = FormatParseDate(session.MetaDataFile.GetStringValue("date", string.Empty));
+					var iRow = _grid.AddRow(GetContribRowData(contrib));
 
-					var iRow = _grid.AddRow(new object[] { sessionDescription, sessionRole, sessionDate, string.Empty });
-					_grid.Rows[iRow].Cells[0].Style.Font = boldFont;
-				}
-
-				// get the metadata files for this session
-				var files = Directory.GetFiles(session.FolderPath, "*" + Settings.Default.MetadataFileExtension);
-				var searchForId = "<name>" + _personId + "</name>";
-				var searchForCode = (string.IsNullOrEmpty(_personCode) ? null : "<name>" + _personCode + "</name>");
-
-				foreach (var file in files)
-				{
-					if (cancelTok.IsCancellationRequested)
-						break;
-
-					var fileContents = File.ReadAllText(file);
-
-					if (cancelTok.IsCancellationRequested)
-						break;
-
-					// look for this person
-					AddGridRowsForFileSpecificContributions(file, fileContents, searchForId);
-					if (searchForCode != null)
-						AddGridRowsForFileSpecificContributions(file, fileContents, searchForCode);
+					if (contrib.SpecificFileName == null)
+						_grid.Rows[iRow].Cells[0].Style.Font = boldFont;
 				}
 			}
 
@@ -148,58 +98,38 @@ namespace SayMore.UI.ComponentEditors
 			_cancellationTokenSource = null;
 		}
 
-		private void AddGridRowsForFileSpecificContributions(string fileName, string fileContents, string searchFor)
+		private object[] GetContribRowData(SessionContribution contrib)
 		{
-			var pos = fileContents.IndexOf(searchFor, StringComparison.InvariantCultureIgnoreCase);
-			while (pos > 0)
+			var description = contrib.SpecificFileName != null ?
+				System.IO.Path.GetFileNameWithoutExtension(contrib.SpecificFileName) :
+				contrib.SessionId + " " + contrib.SessionTitle;
+
+			var date = contrib.Contribution.Date;
+			if (date == DateTime.MinValue)
 			{
-				// remove everything before this person
-				fileContents = fileContents.Substring(pos + searchFor.Length);
-
-				// get the end of this contributor
-				var testString = fileContents.Substring(0, fileContents.IndexOf("</contributor>", StringComparison.InvariantCultureIgnoreCase));
-
-				var role = GetRoleFromOlacList(GetValueFromXmlString(testString, "role"));
-				var date = FormatParseDate(GetValueFromXmlString(testString, "date"));
-				var note = GetValueFromXmlString(testString, "notes");
-				var filename = Path.GetFileName(fileName.Substring(0, fileName.Length - Settings.Default.MetadataFileExtension.Length));
-
-				_grid.AddRow(new object[] { Path.GetFileName(filename), role, date, note });
-
-				// look again
-				pos = fileContents.IndexOf(searchFor, StringComparison.InvariantCultureIgnoreCase);
+				if (contrib.SpecificFileName == null)
+					date = contrib.SessionDate;
+				else
+				{
+					try
+					{
+						date = new System.IO.FileInfo(contrib.SpecificFileName).CreationTime;
+					}
+					catch (Exception e)
+					{
+						Console.WriteLine(e);
+					}
+				}
 			}
-		}
+			var formattedDate = date == DateTime.MinValue ? string.Empty : date.ToShortDateString();
 
-		private string FormatParseDate(string dateString)
-		{
-			if (string.IsNullOrEmpty(dateString)) return string.Empty;
+			var role = contrib.Contribution.Role;
+			var localizedRole = role.Name ==  "Participant" ?
+				LocalizationManager.GetString("PeopleView.ContributionEditor.RoleParticipant", "Participant") :
+				LocalizationManager.GetDynamicString("SayMore",
+					$"PeopleView.ContributionEditor.{role.Code}", role.Name);
 
-			// older SayMore date problem due to saving localized date string rather than ISO8601
-			var date = DateTimeExtensions.IsISO8601Date(dateString)
-				? DateTime.Parse(dateString)
-				: DateTimeExtensions.ParseDateTimePermissivelyWithException(dateString);
-
-			return date == DateTime.MinValue ? string.Empty : date.ToShortDateString();
-		}
-
-		private static string GetRoleFromOlacList(string savedRole)
-		{
-			if (OlacSystem.TryGetRoleByCode(savedRole, out var role))
-				return role.Name;
-
-			if (OlacSystem.TryGetRoleByName(savedRole, out role))
-				return role.Name;
-
-			return savedRole;
-		}
-
-		private static string GetValueFromXmlString(string xmlString, string valueName)
-		{
-			var pattern = string.Format("<{0}>(.*)</{0}>", valueName);
-			var match = Regex.Match(xmlString, pattern);
-
-			return match.Success ? match.Groups[1].Value : string.Empty;
+			return new object[] { description, localizedRole, formattedDate, contrib.Contribution.Comments };
 		}
 
 		protected override void HandleStringsLocalized(ILocalizationManager lm)

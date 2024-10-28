@@ -27,6 +27,7 @@ using SayMore.UI;
 using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
 using SayMore.Model;
+using SayMore.UI.ComponentEditors;
 using SayMore.Utilities;
 using SIL.Windows.Forms.Reporting;
 using SIL.WritingSystems;
@@ -182,10 +183,7 @@ namespace SayMore
 			{
 				var path = File.ReadAllText(MRULatestReminderFilePath).Trim();
 				if (File.Exists(path))
-				{
-					Settings.Default.MRUList = new StringCollection();
-					Settings.Default.MRUList.Add(path);
-				}
+					Settings.Default.MRUList = new StringCollection { path };
 				File.Delete(MRULatestReminderFilePath);
 			}
 

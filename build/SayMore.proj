@@ -10,6 +10,18 @@
 	<RestartBuild Condition="Exists('$(BuildTasksDll)') And Exists('$(SILReleaseTasksProps)')">false</RestartBuild>
   </PropertyGroup>
 
+  <Import Project="../.nuget/NuGet.targets" />
+
+  <Target Name="RestoreLocalPackages" DependsOnTargets="CheckPrerequisites">
+    <Message Text="BuildTasksDll=$(BuildTasksDll)"/>
+	<Message Text="RestartBuild=$(RestartBuild)"/>
+    <Message Text="Configuration=$(Configuration)"/>
+    <Exec Command='$(NuGetCommand) install SIL.BuildTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
+	<Exec Command='$(NuGetCommand) install SIL.ReleaseTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)"' />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BuildInternal"
+      Properties="Configuration=$(Configuration)" Condition="$(RestartBuild)" />
+  </Target>
+
   <UsingTask TaskName="StampAssemblies" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
   <UsingTask TaskName="UpdateBuildTypeFile" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
   <UsingTask TaskName="MakeWixForDirTree" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
@@ -34,18 +46,6 @@
 	<Message Text="Version: $(Version)" Importance="high"/>
   </Target>
 
-  <Import Project="../.nuget/NuGet.targets" />
-
-  <Target Name="RestoreLocalPackages" DependsOnTargets="CheckPrerequisites">
-    <Message Text="BuildTasksDll=$(BuildTasksDll)"/>
-	<Message Text="RestartBuild=$(RestartBuild)"/>
-    <Message Text="Configuration=$(Configuration)"/>
-    <Exec Command='$(NuGetCommand) install SIL.BuildTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
-	<Exec Command='$(NuGetCommand) install SIL.ReleaseTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)"' />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BuildInternal"
-      Properties="Configuration=$(Configuration)" Condition="$(RestartBuild)" />
-  </Target>
-  
   <Import Project="$(SILReleaseTasksProps)" Condition="Exists('$(SILReleaseTasksProps)')" />
 
   <Target Name="SetAssemblyVersion" DependsOnTargets="VersionNumbers">

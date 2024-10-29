@@ -84,7 +84,7 @@
 	</ItemGroup>
 	<NUnit3 Condition="'$(teamcity_version)' == ''"
 		Assemblies="@(TestAssemblies)"
-		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner3.18.1/tools"
+		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.18.1/tools"
 		ExcludeCategory="$(excludedCategories)"
 		WorkingDirectory="$(RootDir)/output/$(Configuration)"
 		Force32Bit="$(useNUnit-x86)"
@@ -94,7 +94,7 @@
 		TeamCity="false"/>
 	<NUnit3 Condition="'$(teamcity_version)' != ''"
 		Assemblies="@(TestAssemblies)"
-		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner3.18.1/tools"
+		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.18.1/tools"
 		ExcludeCategory="SkipOnTeamCity,$(excludedCategories)"
 		WorkingDirectory="$(RootDir)/output/$(Configuration)"
 		Force32Bit="$(useNUnit-x86)"

@@ -67,7 +67,11 @@ namespace SayMore.Transcription.UI
 		protected override void SetFont(System.Drawing.Font newFont)
 		{
 			base.SetFont(newFont);
-			_grid.TranscriptionFont = newFont;
+			lock (this)
+			{
+				if (_grid != null)
+					_grid.TranscriptionFont = newFont;
+			}
 		}
 	}
 }

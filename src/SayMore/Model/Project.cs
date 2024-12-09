@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Drawing;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,7 +12,6 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using DesktopAnalytics;
-using Ionic.Zip;
 using L10NSharp;
 using SIL.Extensions;
 using SIL.Reporting;
@@ -26,6 +26,7 @@ using SayMore.Transcription.Model;
 using SayMore.Model.Files;
 using SayMore.Utilities;
 using SIL.Core.ClearShare;
+using SIL.IO;
 using static System.IO.Path;
 
 namespace SayMore.Model
@@ -787,17 +788,13 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<string> GetSessionFilesToArchive(Type typeOfArchive, CancellationToken cancellationToken)
 		{
-			using (ZipFile zip = new ZipFile())
-			{
-				// RAMP packages must not be compressed or RAMP can't read them.
-				zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None;
-				zip.UseZip64WhenSaving = Zip64Option.AsNecessary;
-				zip.AddDirectory(FolderPath);
-				zip.Save(Combine(FolderPath, "Sessions.zip"));
-			}
+			// RAMP packages must not be compressed or RAMP can't read them.
+			var tempZipFilePath = ChangeExtension(GetTempFileName(), "zip");
+			ZipFile.CreateFromDirectory(FolderPath, tempZipFilePath, CompressionLevel.NoCompression, true);
 			var filesInDir = Directory.GetFiles(FolderPath);
+			var zipFilePath = Combine(FolderPath, "Sessions.zip");
+			RobustFile.Move(tempZipFilePath, zipFilePath, true);
 			return filesInDir.Where(f => ArchivingHelper.IncludeFileInArchive(f, typeOfArchive, Settings.Default.SessionFileExtension, CancellationToken.None));
-
 		}
 		#endregion
 	}

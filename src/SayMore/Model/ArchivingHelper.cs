@@ -28,7 +28,7 @@ namespace SayMore.Model
 	{
 		private static LanguageLookup _languageLookup;
 
-		internal static LanguageLookup _LanguageLookup =>
+		internal static LanguageLookup LanguageLookup =>
 			_languageLookup ?? (_languageLookup = new LanguageLookup());
 		internal static Project Project; // Set for testing
 
@@ -417,7 +417,7 @@ namespace SayMore.Model
 			// REVIEW: What if this is a two-letter language name (e.g., As, Ak, etc.), not a code?
 			if (analysisLanguage?.Length == 2)
 			{
-				var language = _LanguageLookup.GetLanguageFromCode(analysisLanguage);
+				var language = LanguageLookup.GetLanguageFromCode(analysisLanguage);
 				if (language != null)
 					analysisLanguage = language.ThreeLetterTag;
 			}
@@ -428,7 +428,7 @@ namespace SayMore.Model
 		internal static string AnalysisLanguage()
 		{
 			var analysisLanguage = ForceIso639ThreeChar(Settings.Default.UserInterfaceLanguage);
-			return $@"{analysisLanguage}: {_LanguageLookup.GetLanguageFromCode(analysisLanguage).DesiredName}";
+			return $@"{analysisLanguage}: {LanguageLookup.GetLanguageFromCode(analysisLanguage).DesiredName}";
 		}
 
 		internal static ArchivingLanguage GetOneLanguage(string languageKey)

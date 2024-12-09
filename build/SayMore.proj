@@ -3,8 +3,8 @@
 	<RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
 	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
 	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'==''">3.5.0</BUILD_NUMBER>
-	<BuildTasksDll Condition="Exists('$(RootDir)/packages/SIL.BuildTasks.2.6.0-beta0032/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks.2.6.0-beta0032/tools/SIL.BuildTasks.dll</BuildTasksDll>
-	<BuildTasksDll Condition="!Exists('$(RootDir)/packages/SIL.BuildTasks.2.6.0-beta0032/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks/tools/SIL.BuildTasks.dll</BuildTasksDll>
+	<BuildTasksDll Condition="Exists('$(RootDir)/packages/SIL.BuildTasks.3.0.0/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks.3.0.0/tools/SIL.BuildTasks.dll</BuildTasksDll>
+	<BuildTasksDll Condition="!Exists('$(RootDir)/packages/SIL.BuildTasks.3.0.0/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks/tools/SIL.BuildTasks.dll</BuildTasksDll>
 	<SILReleaseTasksProps>$(RootDir)/packages/SIL.ReleaseTasks/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
 	<Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
 	<RestartBuild Condition="!Exists('$(BuildTasksDll)') Or !Exists('$(SILReleaseTasksProps)')">true</RestartBuild>

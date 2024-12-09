@@ -168,8 +168,8 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="DialogAdapters.dll" Guid="{F09B94F6-1CEB-42D1-B9EF-87D9837085F6}">
 				<File Id="DialogAdapters.dll" Name="DialogAdapters.dll" KeyPath="yes" Source="..\..\output\release\DialogAdapters.dll" />
 			</Component>
-			<Component Id="DotNetZip.dll" Guid="{BBF5268C-41D6-4E32-AD05-1C847E0C1915}">
-				<File Id="DotNetZip.dll" Name="DotNetZip.dll" KeyPath="yes" Source="..\..\output\release\DotNetZip.dll" />
+			<Component Id="System.IO.Compression.ZipFile.dll" Guid="{59C3F5C2-F8BA-4875-808C-09FED5D5F01E}">
+				<File Id="System.IO.Compression.ZipFile.dll" Name="System.IO.Compression.ZipFile.dll" KeyPath="yes" Source="..\..\output\release\System.IO.Compression.ZipFile.dll" />
 			</Component>
 			<Component Id="Enchant.Net.dll" Guid="{505D07A1-5D29-405A-9B1F-2066F7CC0AB5}">
 				<File Id="Enchant.Net.dll" Name="Enchant.Net.dll" KeyPath="yes" Source="..\..\output\release\Enchant.Net.dll" />
@@ -636,7 +636,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="Coroutine.NET.dll"/>
 		<ComponentRef Id="DesktopAnalytics.dll"/>
 		<ComponentRef Id="DialogAdapters.dll"/>
-		<ComponentRef Id="DotNetZip.dll"/>
+		<ComponentRef Id="System.IO.Compression.ZipFile.dll"/>
 		<ComponentRef Id="Enchant.Net.dll"/>
 		<ComponentRef Id="ibusdotnet.dll"/>
 		<ComponentRef Id="icu.net.dll"/>

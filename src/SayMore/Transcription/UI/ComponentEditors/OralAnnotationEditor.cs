@@ -8,7 +8,6 @@ using SayMore.Model.Files;
 using SayMore.Media.MPlayer;
 using SayMore.UI.ComponentEditors;
 using SIL.Windows.Forms;
-using NAudio.SoundFont;
 
 namespace SayMore.Transcription.UI
 {

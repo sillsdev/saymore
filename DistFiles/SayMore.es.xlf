@@ -203,7 +203,7 @@
         <note>ID: CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg">
-        <source xml:lang="en">{0} could not rename the meta data file to '{1}' because there is already a file with that name.</source>
+        <source xml:lang="en">{0} could not rename the metadata file to '{1}' because there is already a file with that name.</source>
         <target xml:lang="es-ES" state="translated">{0} no pudo cambiar el nombre del archivo de metadatos porque ya existe un archivo nombrado: '{1}'.</target>
         <note>ID: CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg</note>
       </trans-unit>

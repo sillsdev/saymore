@@ -7,6 +7,7 @@ using NUnit.Framework;
 using SIL.TestUtilities;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
+using SayMore.UI.ComponentEditors;
 
 namespace SayMoreTests.Model.Files.DataGathering
 {
@@ -66,7 +67,9 @@ namespace SayMoreTests.Model.Files.DataGathering
 		private PresetGatherer CreatePresetGatherer()
 		{
 			return new PresetGatherer(_folder.Path,
-				new FileType[] { new AudioFileType(null, () => null, () => null) },
+				new FileType[] { new AudioFileType(null, 
+					new Lazy<Func<AudioComponentEditor.Factory>>(() => null), 
+					new Lazy < Func < ContributorsEditor.Factory > >(() => null)) },
 				MakePresetFromContentsOfFile);
 		}
 
@@ -109,8 +112,9 @@ namespace SayMoreTests.Model.Files.DataGathering
 
 		private PresetGatherer CreateProcessor()
 		{
-			return new PresetGatherer(_folder.Path,
-				new FileType[] { new AudioFileType(null, () => null, () => null) },
+			return new PresetGatherer(_folder.Path, new FileType[] { new AudioFileType(null,
+				new Lazy<Func<AudioComponentEditor.Factory>>(() => null),
+				new Lazy<Func<ContributorsEditor.Factory>>(() => null)) },
 				MakePresetFromContentsOfFile);
 		}
 	}

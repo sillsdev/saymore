@@ -3,7 +3,6 @@ using System.Drawing;
 using L10NSharp;
 using System.Windows.Forms;
 using SIL.Reporting;
-using SayMore.Properties;
 using SayMore.UI.Overview.Statistics;
 using SayMore.UI.ProjectWindow;
 

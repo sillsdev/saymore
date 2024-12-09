@@ -111,15 +111,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public float ZoomPercentage
 		{
-			get { return _waveControl.ZoomPercentage; }
-			set { _waveControl.ZoomPercentage = value; }
+			get => _waveControl.ZoomPercentage;
+			set => _waveControl.ZoomPercentage = value;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool WaveControlLoaded
-		{
-			get { return _waveControl != null && _waveControl.WaveStream != null; }
-		}
+		public bool WaveControlLoaded => _waveControl?.WaveStream != null;
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnSizeChanged(EventArgs e)

@@ -1,9 +1,7 @@
 using System;
 using System.IO;
-using System.Runtime.CompilerServices;
 using L10NSharp;
 using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
 using SIL.Reporting;
 
 namespace SayMore.Media.Audio

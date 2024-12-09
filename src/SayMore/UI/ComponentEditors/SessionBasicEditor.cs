@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using SIL.Extensions;
@@ -17,7 +15,7 @@ using SayMore.Model.Files.DataGathering;
 using SayMore.UI.LowLevelControls;
 using SIL.Archiving.Generic.AccessProtocol;
 using SIL.Archiving.IMDI.Lists;
-using SIL.Windows.Forms.ClearShare;
+using SIL.Core.ClearShare;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -302,7 +300,7 @@ namespace SayMore.UI.ComponentEditors
 									testTip += " " + word;
 							}
 
-							// if there are any left overs, add them now
+							// if there are any leftovers, add them now
 							if (!string.IsNullOrEmpty(testTip))
 								shorterTip.AppendLine(testTip);
 
@@ -595,21 +593,24 @@ namespace SayMore.UI.ComponentEditors
 
 		private string GetParticipantsWithRolesFromContributions()
 		{
-			// We want to display the participants with their roles, which means using data really from
-			// the contributions field, because we don't want the value really stored in participants,
+			// We want to display the participants with their roles, which means using data really
+			// from the contributions field because we don't want the value stored in participants,
 			// a list of names we maintain for backwards compatibility, to include the roles.
 			// Note that this value should only be displayed in the _participants control,
 			// not stored in the <participants> field (as was done briefly, breaking backwards
-			// compatibility and causing problems for other programs that use the file).
-			// (If the user could edit the field, we'd have to watch out that the binding helper didn't
+			// compatibility and causing problems for other programs that use the file). (If the
+			// user could edit the field, we'd have to watch out that the binding helper didn't
 			// copy the edited names-with-roles into the file. But attempts to edit this field
 			// trigger a switch to the Contributors tab.)
-			var contributions = _file.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
-			if (contributions == null)
-				return "";
-			var participantsWithRoles = string.Join("; ",
-				contributions.Select(c => c.ContributorName + " (" + c.Role.Name.ToLowerInvariant() + ")"));
-			return participantsWithRoles;
+			if (_file.GetValue(SessionFileType.kContributionsFieldName, null) is
+			    ContributionCollection contributions)
+			{
+				var participantsWithRoles = string.Join("; ", contributions.Select(c =>
+					$"{c.ContributorName} ({c.Role.Name.ToLowerInvariant()})"));
+				return participantsWithRoles;
+			}
+
+			return "";
 		}
 
 		/// ------------------------------------------------------------------------------------

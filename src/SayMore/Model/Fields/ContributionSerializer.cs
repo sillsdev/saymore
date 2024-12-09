@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using System.Xml.Linq;
 using SayMore.Model.Files;
+using SIL.Core.ClearShare;
 using SIL.Extensions;
 using SIL.Reporting;
-using SIL.Windows.Forms.ClearShare;
 
 namespace SayMore.Model.Fields
 {

@@ -1,6 +1,6 @@
 using NUnit.Framework;
 using SayMore.Model.Files;
-using SIL.Windows.Forms.ClearShare;
+using SIL.Core.ClearShare;
 
 namespace SayMoreTests.Model.Fields
 {

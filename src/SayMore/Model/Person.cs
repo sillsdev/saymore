@@ -51,44 +51,27 @@ namespace SayMore.Model
 		public Person(){}
 
 		/// ------------------------------------------------------------------------------------
-		public override string RootElementName
-		{
-			get { return "Person"; }
-		}
+		public override string RootElementName => "Person";
 
 		/// ------------------------------------------------------------------------------------
-		protected override string ExtensionWithoutPeriod
-		{
-			get { return Settings.Default.PersonFileExtension.TrimStart('.'); }
-		}
+		protected override string ExtensionWithoutPeriod =>
+			Settings.Default.PersonFileExtension.TrimStart('.');
 
 		/// ------------------------------------------------------------------------------------
-		public override string DefaultElementNamePrefix
-		{
-			get { return LocalizationManager.GetString("PeopleView.Miscellaneous.NewPersonNamePrefix", "New Person"); }
-		}
+		public override string DefaultElementNamePrefix => LocalizationManager.GetString(
+			"PeopleView.Miscellaneous.NewPersonNamePrefix", "New Person");
 
 		/// ------------------------------------------------------------------------------------
-		protected override string NoIdSaveFailureMessage
-		{
-			get { return LocalizationManager.GetString("PeopleView.Miscellaneous.NoIdSaveFailureMessage", "You must specify a name."); }
-		}
+		protected override string NoIdSaveFailureMessage => LocalizationManager.GetString(
+			"PeopleView.Miscellaneous.NoIdSaveFailureMessage", "You must specify a name.");
 
 		/// ------------------------------------------------------------------------------------
-		protected override string AlreadyExistsSaveFailureMessage
-		{
-			get
-			{
-				return LocalizationManager.GetString("PeopleView.Miscellaneous.AlreadyExistsSaveFailureMessage",
-					"Could not rename from {0} to {1} because there is already a person by that name.");
-			}
-		}
+		protected override string AlreadyExistsSaveFailureMessage => LocalizationManager.GetString(
+			"PeopleView.Miscellaneous.AlreadyExistsSaveFailureMessage",
+			"Could not rename from {0} to {1} because there is already a person by that name.");
 
 		/// ------------------------------------------------------------------------------------
-		public override string DefaultStatusValue
-		{
-			get { return Status.Incoming.ToString(); }
-		}
+		public override string DefaultStatusValue => Status.Incoming.ToString();
 
 		/// ------------------------------------------------------------------------------------
 		public Image GetInformedConsentImage()

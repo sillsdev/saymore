@@ -204,7 +204,7 @@
         <target xml:lang="zh-CN" state="translated">对不起，文件被占用，不能重命名，请稍后再试。</target>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg">
-        <source xml:lang="en">{0} could not rename the meta data file to '{1}' because there is already a file with that name.</source>
+        <source xml:lang="en">{0} could not rename the metadata file to '{1}' because there is already a file with that name.</source>
         <note>ID: CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg</note>
         <target xml:lang="zh-CN" state="translated">这个文件名已经存在，{0} 不能重命名为 '{1}' </target>
       </trans-unit>

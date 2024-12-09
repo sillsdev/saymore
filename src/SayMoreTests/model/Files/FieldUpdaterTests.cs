@@ -1,8 +1,10 @@
+using System;
 using System.IO;
 using NUnit.Framework;
 using SIL.TestUtilities;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
+using SayMore.UI.ComponentEditors;
 
 namespace SayMoreTests.Model.Files
 {
@@ -26,7 +28,9 @@ namespace SayMoreTests.Model.Files
 			Directory.CreateDirectory(italiansFolder);
 
 			var imgFileType = new ImageFileType(() => null, null);
-			var audioFileType = new AudioFileType(null, () => null, () => null);
+			var audioFileType = new AudioFileType(null,
+				new Lazy<Func<AudioComponentEditor.Factory>>(() => null),
+				new Lazy<Func<ContributorsEditor.Factory>>(() => null));
 
 			var path = _rootFolder.Combine("PierreAugusteRenoir.jpg");
 			_imgFile1 = SetupData(path, imgFileType, "Claude", "Monet", "1840", "1840");

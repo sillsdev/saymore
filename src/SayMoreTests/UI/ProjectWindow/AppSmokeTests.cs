@@ -15,6 +15,7 @@ using NUnit.Extensions.Forms;
 using NUnit.Framework;
 using SayMore.UI.ProjectWindow;
 using System.Threading;
+using SIL.Reflection;
 
 namespace SayMoreTests.UI.ProjectWindow
 {
@@ -45,7 +46,10 @@ namespace SayMoreTests.UI.ProjectWindow
 		public void TearDown()
 		{
 			if (_projectContext != null)
+			{
+				ReflectionHelper.SetField(typeof(Program), "_projectContext", null);
 				_projectContext.Dispose();
+			}
 
 			_projectsFolder.Dispose();
 			_projectsFolder = null;
@@ -87,6 +91,7 @@ namespace SayMoreTests.UI.ProjectWindow
 		{
 			prjFile = (prjFile ?? Project.GetAllProjectSettingsFiles(_projectsFolder.Path)[0]);
 			_projectContext = _applicationContainer.CreateProjectContext(prjFile);
+			ReflectionHelper.SetField(typeof(Program), "_projectContext", _projectContext);
 			_projectContext.ProjectWindow.Show();
 		}
 
@@ -262,7 +267,7 @@ namespace SayMoreTests.UI.ProjectWindow
 			// Add a new person.
 			listPanel = GetListPanelByName("_peopleListPanel");
 			list = listPanel.ListControl as ElementGrid;
-			idTextBoxTester = AddItem("PersonEditor", "_peopleListPanel");
+			_ = AddItem("PersonEditor", "_peopleListPanel");
 
 			// Delete the person.
 			DeleteItems(listPanel, "PersonListScreen");

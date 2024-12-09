@@ -12,6 +12,7 @@ using SIL.Windows.Forms.ClearShare.WinFormsUI;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
+using SIL.Core.ClearShare;
 using SIL.Windows.Forms.Widgets.BetterGrid;
 
 namespace SayMore.UI.ComponentEditors
@@ -49,7 +50,7 @@ namespace SayMore.UI.ComponentEditors
 
 			_contributorsControl.ValidatingContributor += HandleValidatingContributor;
 
-			InitializeGrid(personInformant.GetAllPeopleNames());
+			InitializeGrid(personInformant.GetAllPeopleNames);
 
 			// imageKey == "Contributor" when ContributorsEditor is lazy loaded for the session file type
 			if (imageKey != null)
@@ -61,12 +62,11 @@ namespace SayMore.UI.ComponentEditors
 				Controls.Add(_contributorsControl);
 			}
 
-			file.AfterSave += file_AfterSave;
+			file.AfterSave += File_AfterSave;
 
 			SetComponentFile(file);
 
-			if (personInformant != null)
-				personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
+			personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
 		}
 
 		protected override void OnResize(EventArgs e)
@@ -120,7 +120,7 @@ namespace SayMore.UI.ComponentEditors
 				Text = "<",
 				Font = new Font("Segoe UI Symbol", 16)
 			};
-			_linkBack.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleLinkClick);
+			_linkBack.LinkClicked += HandleLinkClick;
 			_tableLayout.Controls.Add(_linkBack, 0, 0);
 			_tableLayout.Controls.Add(_contributorsControl, 0, 1);
 			Controls.Add(_tableLayout);
@@ -143,7 +143,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// <remarks>SP-874: Not able to open L10NSharp with Alt-Shift-click</remarks>
-		private void InitializeGrid(IEnumerable<string> peopleNames)
+		private void InitializeGrid(Func<IEnumerable<string>> getPeopleNames)
 		{
 			// misc. column header settings
 			_contributorsControl.Grid.BorderStyle = BorderStyle.None;
@@ -174,7 +174,7 @@ namespace SayMore.UI.ComponentEditors
 				switch (col.Name)
 				{
 					case "name":
-						InitializeColumnWidth(col, _contributorsControl.Grid, peopleNames);
+						InitializeColumnWidth(col, _contributorsControl.Grid, getPeopleNames());
 						break;
 					case "role":
 						col.MinimumWidth = 70;
@@ -239,7 +239,7 @@ namespace SayMore.UI.ComponentEditors
 			_model.SetContributionList(contribs);
 		}
 
-		void file_AfterSave(object sender, System.EventArgs e)
+		static void File_AfterSave(object sender, EventArgs e)
 		{
 			Program.OnPersonDataChanged();
 		}

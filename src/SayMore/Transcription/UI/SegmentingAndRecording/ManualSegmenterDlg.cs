@@ -22,7 +22,7 @@ namespace SayMore.Transcription.UI
 	{
 		private readonly string _origAddSegBoundaryButtonText;
 		private WaveControlWithBoundarySelection _waveControl;
-		private bool _justStoppedusingSpace;
+		private bool _justStoppedUsingSpace;
 
 		/// ------------------------------------------------------------------------------------
 		public static string ShowDialog(ComponentFile file, EditorBase parent, int segmentToHighlight)
@@ -562,7 +562,7 @@ namespace SayMore.Transcription.UI
 			}
 			else if (key == Keys.Space && _waveControl.IsPlaying)
 			{
-				_justStoppedusingSpace = true;
+				_justStoppedUsingSpace = true;
 				_buttonStopOriginal.PerformClick();
 			}
 
@@ -576,8 +576,8 @@ namespace SayMore.Transcription.UI
 			{
 				if (key == Keys.Space)
 				{
-					if (_justStoppedusingSpace)
-						_justStoppedusingSpace = false;
+					if (_justStoppedUsingSpace)
+						_justStoppedUsingSpace = false;
 					else if (!_waveControl.IsPlaying)
 					{
 						_buttonListenToOriginal.PerformClick();

@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using NUnit.Framework;
-using SIL.TestUtilities;
-using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 
 namespace SayMoreTests.Model.Files.DataGathering

@@ -7,8 +7,8 @@ using SayMore.Model.Files.DataGathering;
 namespace SayMore.Model
 {
 	/// <summary>
-	/// I couldn't  think of a good name... the idea is to put stuff for the session in here, so as to keep
-	/// knowledge of people somewhat separate from Session
+	/// I couldn't  think of a good name... the idea is to put stuff for the session in here, to
+	/// keep knowledge of people somewhat separate from Session
 	/// </summary>
 	public class PersonInformant
 	{
@@ -31,10 +31,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public int NumberOfPeople
-		{
-			get { return _peopleRepository.AllItems.Count(); }
-		}
+		public int NumberOfPeople => _peopleRepository.AllItems.Count();
 
 		/// ------------------------------------------------------------------------------------
 		protected void HandlePersonNameChanged(object sender, ElementIdChangedArgs args)
@@ -49,8 +46,7 @@ namespace SayMore.Model
 					PersonNameChanged(this, args);
 			}
 
-			if (PersonUiIdChanged != null)
-				PersonUiIdChanged(this, args);
+			PersonUiIdChanged?.Invoke(this, args);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -58,21 +54,21 @@ namespace SayMore.Model
 		{
 			var person = _peopleRepository.GetById(personName);
 
-			//Review:  if we have this error at runtime, just say false
-			return (person == null ? false : person.GetInformedConsentComponentFile() != null);
+			// REVIEW: If we have this error at runtime, just say false
+			return (person != null && person.GetInformedConsentComponentFile() != null);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets names of all people found, whether or not their is an entry for the person
+		/// Gets names of all people found, regardless of whether there is an entry for the person
 		/// on the Person tab of the program. This method uses the people names found by the
 		/// auto-complete value gatherer.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<string> GetAllPeopleNames()
 		{
-			var gathererNames = (_autoCompleteValueGatherer == null ? null :
-				_autoCompleteValueGatherer.GetValueLists(false).Where(x => x.Key == "person").ToArray());
+			var gathererNames = _autoCompleteValueGatherer?.GetValueLists(false)
+				.Where(x => x.Key == "person").ToArray();
 
 			if (gathererNames == null || gathererNames.Length == 0)
 			{

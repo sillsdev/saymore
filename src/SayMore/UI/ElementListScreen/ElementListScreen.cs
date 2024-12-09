@@ -144,7 +144,7 @@ namespace SayMore.UI.ElementListScreen
 					dlg.ShowDialog(this);
 			}
 
-			// Do this in case some of the meta data changed (e.g. audio file was edited)
+			// Do this in case some of the metadata changed (e.g. audio file was edited)
 			// while the program was deactivated.
 			Refresh();
 
@@ -421,7 +421,7 @@ namespace SayMore.UI.ElementListScreen
 			// fix now causes a lag between when a component file is selected and when all
 			// the editors for that component file are loaded into the view. It is during
 			// that lag that the code below gets executed (i.e the code to get the first
-			// component file editor). But if the editors for the new item's meta data file
+			// component file editor). But if the editors for the new item's metadata file
 			// (i.e. .session or .person) are not yet loaded, then the first editor gotten
 			// is one left over from those associated with the previous component file.
 			_model.SetSelectedComponentFile(0);

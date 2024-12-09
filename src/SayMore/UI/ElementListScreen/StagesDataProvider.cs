@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Linq;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.Utilities;
 
 namespace SayMore.UI.ElementListScreen
 {

@@ -203,7 +203,7 @@
         <target xml:lang="tr" state="translated">Üzgünüz, SayMore bu dosyayı yeniden adlandıramadı çünkü başka bir şey (belki SayMore'un başka bir parçası) dosyayı okuyor. Lütfen daha sonra tekrar deneyiniz.</target>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg">
-        <source xml:lang="en">{0} could not rename the meta data file to '{1}' because there is already a file with that name.</source>
+        <source xml:lang="en">{0} could not rename the metadata file to '{1}' because there is already a file with that name.</source>
         <note>ID: CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg</note>
         <target xml:lang="tr" state="translated">{0} meta veri dosyasını '{1}' olarak yeniden adlandıramadı, çünkü zaten bu ada sahip bir dosya var.</target>
       </trans-unit>

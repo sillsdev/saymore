@@ -10,8 +10,9 @@ using SayMore.Model.Files;
 using System.Linq;
 using System.Collections.Generic;
 using SayMore.Utilities;
+using SIL.Core.ClearShare;
 using SIL.IO;
-using SIL.Windows.Forms.ClearShare;
+using SayMore.UI.ComponentEditors;
 
 namespace SayMoreTests.Model
 {
@@ -116,7 +117,9 @@ namespace SayMoreTests.Model
 			};
 
 			return new Session(_parentFolder.Path, "dummyId", null,
-				new SessionFileType(() => null, () => null, () => null), ComponentFileFactory,
+				new SessionFileType(new Lazy<Func<SessionBasicEditor.Factory>>(() => null),
+				new Lazy<Func<StatusAndStagesEditor.Factory>>(() => null),
+				new Lazy<Func<ContributorsEditor.Factory>>(() => null)), ComponentFileFactory,
 				new XmlFileSerializer(null), ProjElemComponentFileFactory, componentRoles,
 				personInformant.Object, project);
 		}

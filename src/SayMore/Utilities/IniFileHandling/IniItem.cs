@@ -1,5 +1,3 @@
-using System;
-
 namespace Nini.Ini
 {
 		/// <include file='IniItem.xml' path='//Class[@name="IniItem"]/docs/*' />

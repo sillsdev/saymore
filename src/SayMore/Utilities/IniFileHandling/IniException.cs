@@ -9,11 +9,9 @@
 #endregion
 
 using System;
-using System.Security;
 using System.Globalization;
 using System.Security.Permissions;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 
 
 namespace Nini.Ini

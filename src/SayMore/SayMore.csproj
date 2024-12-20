@@ -142,6 +142,15 @@
       <HintPath>..\..\packages\Microsoft.Extensions.DependencyModel.6.0.0\lib\net461\Microsoft.Extensions.DependencyModel.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.2903.40, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Web.WebView2.1.0.2903.40\lib\net462\Microsoft.Web.WebView2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.WinForms, Version=1.0.2903.40, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Web.WebView2.1.0.2903.40\lib\net462\Microsoft.Web.WebView2.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Wpf, Version=1.0.2903.40, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Web.WebView2.1.0.2903.40\lib\net462\Microsoft.Web.WebView2.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Mixpanel, Version=6.0.0.0, Culture=neutral, PublicKeyToken=763a7782b27a8839, processorArchitecture=MSIL">
       <HintPath>..\..\packages\mixpanel-csharp.6.0.0\lib\net461\Mixpanel.dll</HintPath>
     </Reference>
@@ -662,6 +671,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\LowLevelControls\CustomDataGridTextBoxCell.cs" />
+    <Compile Include="UI\LowLevelControls\LanguagePicker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\LanguagePicker.Designer.cs">
+      <DependentUpon>LanguagePicker.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\LowLevelControls\MultiValueAutoCompleteComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -960,6 +975,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FileLoadErrorsReportDlg.resx">
       <DependentUpon>FileLoadErrorsReportDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LowLevelControls\LanguagePicker.resx">
+      <DependentUpon>LanguagePicker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Overview\ProjectAccessScreen.resx">
       <DependentUpon>ProjectAccessScreen.cs</DependentUpon>
@@ -1307,6 +1325,7 @@
     <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.13.0.0\build\SIL.Windows.Forms.Keyboarding.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.Keyboarding.13.0.0\build\SIL.Windows.Forms.Keyboarding.props'))" />
     <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.13.0.0\build\SIL.Windows.Forms.Keyboarding.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.Keyboarding.13.0.0\build\SIL.Windows.Forms.Keyboarding.targets'))" />
     <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.13.0.0\build\SIL.Windows.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.13.0.0\build\SIL.Windows.Forms.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.Web.WebView2.1.0.2903.40\build\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Web.WebView2.1.0.2903.40\build\Microsoft.Web.WebView2.targets'))" />
   </Target>
   <Import Project="..\..\packages\Icu4c.Win.Min.59.1.7\build\Icu4c.Win.Min.targets" Condition="Exists('..\..\packages\Icu4c.Win.Min.59.1.7\build\Icu4c.Win.Min.targets')" />
   <Import Project="..\..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets" Condition="Exists('..\..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets')" />
@@ -1317,4 +1336,5 @@
   <Import Project="..\..\packages\SIL.Media.13.0.0\build\SIL.Media.targets" Condition="Exists('..\..\packages\SIL.Media.13.0.0\build\SIL.Media.targets')" />
   <Import Project="..\..\packages\SIL.Windows.Forms.Keyboarding.13.0.0\build\SIL.Windows.Forms.Keyboarding.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.13.0.0\build\SIL.Windows.Forms.Keyboarding.targets')" />
   <Import Project="..\..\packages\SIL.Windows.Forms.13.0.0\build\SIL.Windows.Forms.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.13.0.0\build\SIL.Windows.Forms.targets')" />
+  <Import Project="..\..\packages\Microsoft.Web.WebView2.1.0.2903.40\build\Microsoft.Web.WebView2.targets" Condition="Exists('..\..\packages\Microsoft.Web.WebView2.1.0.2903.40\build\Microsoft.Web.WebView2.targets')" />
 </Project>

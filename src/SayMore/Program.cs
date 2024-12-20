@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using System.Xml;
 using DesktopAnalytics;
 using L10NSharp;
+using Microsoft.Web.WebView2.Core;
 using SIL.Code;
 using SIL.Extensions;
 using SIL.IO;
@@ -59,6 +60,8 @@ namespace SayMore
 
 		private static readonly List<Exception> _pendingExceptionsToReportToAnalytics = new List<Exception>();
         private static UserInfo s_userInfo;
+        
+		internal static CoreWebView2Environment WebView2Environment { get; set; }
 
 		private static bool s_handlingFirstChanceExceptionThreadsafe = false;
 		private static bool s_handlingFirstChanceExceptionUnsafe = false;
@@ -191,6 +194,7 @@ namespace SayMore
 			_applicationContainer = new ApplicationContainer(false);
 
 			Logger.Init();
+			CreateCoreWebView2Environment(LocalizationManager.UILanguageId);
 			AppDomain.CurrentDomain.FirstChanceException += FirstChanceHandler;
 			Logger.WriteEvent(ApplicationContainer.GetVersionInfo("SayMore version {0}.{1}.{2} {3}    Built on {4}", BuildType.Current));
 			Logger.WriteEvent("Visual Styles State: {0}", Application.VisualStyleState);
@@ -353,6 +357,32 @@ namespace SayMore
 				ErrorReport.NotifyUserOfProblem(error,
 					LocalizationManager.GetString("MainWindow.ProblemOpeningSayMoreProject",
 					"There was a problem opening the SayMore project which might require that you restart your computer."));
+			}
+		}
+
+		/// <summary>
+		/// Set up a writable folder for WebView2 (used currently for splash screen and Help About)
+		/// to store local user data (cookies, etc.)
+		/// </summary>
+		/// <param name="language">The locale of the language used for controls in the browser
+		/// (e.g., for the context menu).</param>
+		private static async void CreateCoreWebView2Environment(string language)
+		{
+			try
+			{
+				var userDataFolder = Path.Combine(GetFolderPath(LocalApplicationData), "SayMore", "WebView2");
+				Directory.CreateDirectory(userDataFolder);
+				var task = CoreWebView2Environment.CreateAsync(null, userDataFolder,
+					new CoreWebView2EnvironmentOptions(null, language));
+
+				await task.ContinueWith(t =>
+				{
+					WebView2Environment = t.Result;
+				});
+			}
+			catch (Exception e)
+			{
+				Logger.WriteError(e);
 			}
 		}
 
@@ -811,6 +841,7 @@ namespace SayMore
             Analytics.IdentifyUpdate(s_userInfo);
             Settings.Default.UserInterfaceLanguage = languageId;
             Logger.WriteEvent("Changed UI Locale to: " + languageId);
+            CreateCoreWebView2Environment(languageId);
             LocalizationManager.SetUILanguage(languageId, true);
         }
     }

@@ -6,6 +6,9 @@
 	<BuildTasksDll>$(RootDir)/packages/SIL.BuildTasks.2.5.0/tools/SIL.BuildTasks.dll</BuildTasksDll>
 	<SILReleaseTasksProps>$(RootDir)/packages/SIL.ReleaseTasks/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
 	<Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+	<LanguageChooserDir>$(RootDir)/LanguageChooser</LanguageChooserDir>
+	<LanguageChooserBuildOutputDir>$(RootDir)/DistFiles/LanguageChooserBin</LanguageChooserBuildOutputDir> <LanguageChooserDownloadUrl>https://github.com/sillsdev/EthnoLib/archive/refs/tags/@ethnolib/language-chooser-react-mui@0.0.23.zip</LanguageChooserDownloadUrl>
+	<LanguageChooserDownloadedZipFile>$(LanguageChooserDir)/language-chooser-react.zip</LanguageChooserDownloadedZipFile>
 	<RestartBuild Condition="!Exists('$(BuildTasksDll)') Or !Exists('$(SILReleaseTasksProps)')">true</RestartBuild>
 	<RestartBuild Condition="Exists('$(BuildTasksDll)') And Exists('$(SILReleaseTasksProps)')">false</RestartBuild>
   </PropertyGroup>
@@ -16,6 +19,28 @@
   <UsingTask TaskName="Split" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
   <UsingTask TaskName="FileUpdate" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
   <UsingTask TaskName="NUnit3" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
+  <UsingTask TaskName="DownloadFileTask" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+	<ParameterGroup>
+	  <SourceUrl ParameterType="System.String" Required="true" />
+	  <DestinationPath ParameterType="System.String" Required="true" />
+	</ParameterGroup>
+	<Task>
+	  <Using Namespace="System.Net" />
+	  <Using Namespace="System.IO" />
+	  <Code Type="Fragment" Language="cs">
+		if (!Uri.IsWellFormedUriString(SourceUrl, UriKind.Absolute))
+			throw new Exception("Invalid URL: " + SourceUrl);
+		string fullPath = Path.GetFullPath(DestinationPath);
+		string directory = Path.GetDirectoryName(fullPath);
+		if (!Directory.Exists(directory))
+			Directory.CreateDirectory(directory);
+		using (var client = new WebClient())
+		{
+			client.DownloadFile(SourceUrl, fullPath);
+		}
+	  </Code>
+	</Task>
+  </UsingTask>
 
   <Target Name="VersionNumbers">
 	<Message Text="BUILD_NUMBER: $(BUILD_NUMBER)" Importance="high"/>
@@ -26,7 +51,7 @@
 
 	<Message Text="BuildCounter: $(BuildCounter)" Importance="high"/>
 
-	<!-- Note, after some thought, we've decided this is the best place to keep the version number (not on TeamCity, not in the assemblies).     -->
+	<!-- Note, after some thought, we've decided this is the best place to keep the version number (not on TeamCity, not in the assemblies).	 -->
 	<CreateProperty Value="3.6.$(BuildCounter)">
 	  <Output PropertyName="Version" TaskParameter="Value"/>
 	</CreateProperty>
@@ -38,42 +63,103 @@
   <Import Project="$(SILReleaseTasksProps)" Condition="Exists('$(SILReleaseTasksProps)')" />
 
   <Target Name="RestoreLocalPackages" DependsOnTargets="CheckPrerequisites">
-    <Message Text="BuildTasksDll=$(BuildTasksDll)"/>
+	<Message Text="BuildTasksDll=$(BuildTasksDll)"/>
 	<Message Text="RestartBuild=$(RestartBuild)"/>
-    <Message Text="Configuration=$(Configuration)"/>
-    <Exec Command='$(NuGetCommand) install SIL.BuildTasks -version 2.1.0 -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
+	<Message Text="Configuration=$(Configuration)"/>
+	<Exec Command='$(NuGetCommand) install SIL.BuildTasks -version 2.1.0 -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
 	<Exec Command='$(NuGetCommand) install SIL.ReleaseTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)"' />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BuildInternal"
-      Properties="Configuration=$(Configuration)" Condition="$(RestartBuild)" />
+	<MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BuildInternal"
+	  Properties="Configuration=$(Configuration)" Condition="$(RestartBuild)" />
   </Target>
 
   <Target Name="SetAssemblyVersion" DependsOnTargets="VersionNumbers">
-	  <ItemGroup>
-		<AssemblyInfoFiles Include="$(RootDir)/src/**/assemblyinfo.cs"/>
-	  </ItemGroup>
-	  <StampAssemblies Version="$(Version)" InputAssemblyPaths="@(AssemblyInfoFiles)" />
-	</Target>
+	<ItemGroup>
+	  <AssemblyInfoFiles Include="$(RootDir)/src/**/assemblyinfo.cs"/>
+	</ItemGroup>
+	<StampAssemblies Version="$(Version)" InputAssemblyPaths="@(AssemblyInfoFiles)" />
+  </Target>
 
   <Target Name="SetBuildType" DependsOnTargets="VersionNumbers">
+	<Message Text="RELEASE_TYPE: $(RELEASE_TYPE)" Importance="high"/>
 
-	  <Message Text="RELEASE_TYPE: $(RELEASE_TYPE)" Importance="high"/>
-
-	  <ItemGroup>
-		<BuildTypeFiles Include="$(RootDir)/src/**/BuildType.cs"/>
-	  </ItemGroup>
-	  <UpdateBuildTypeFile BuildType="$(RELEASE_TYPE)" BuildTypePaths="@(BuildTypeFiles)" />
-	</Target>
+	<ItemGroup>
+	  <BuildTypeFiles Include="$(RootDir)/src/**/BuildType.cs"/>
+	</ItemGroup>
+	<UpdateBuildTypeFile BuildType="$(RELEASE_TYPE)" BuildTypePaths="@(BuildTypeFiles)" />
+  </Target>
 
   <Target Name="Build">
 	<CallTarget Targets="RestoreLocalPackages"/>
 	<CallTarget Targets="BuildInternal" Condition="!$(RestartBuild)" />
   </Target>
 
-  <Target Name="BuildInternal" DependsOnTargets="SetAssemblyVersion;SetBuildType">
+  <Target Name="BuildInternal" DependsOnTargets="PrepareLanguageChooserComponent;SetAssemblyVersion;SetBuildType">
 	<MSBuild Projects="$(RootDir)/SayMore.sln"
 			 Targets="Rebuild"
 			 Properties="Configuration=$(Configuration)" />
 	<Message Text="Build Complete"/>
+  </Target>
+  
+  <Target Name="CheckNode" Condition="!Exists('$(LanguageChooserDir)')">
+	<Message Text="Checking for Node.js..." />
+	<Exec Command="node -v" ContinueOnError="true">
+	  <Output TaskParameter="ExitCode" PropertyName="NodeExitCode" />
+	</Exec>
+	<Error Text="Node.js is not installed. Please install Node.js to continue." Condition="'$(NodeExitCode)' != '0'" />
+  </Target>
+
+  <Target Name="DownloadLanguageChooserZip" DependsOnTargets="CheckNode">
+	<Message Text="Downloading zip file from $(LanguageChooserDownloadUrl)... to $(LanguageChooserDownloadedZipFile)" />
+	<DownloadFileTask SourceUrl="$(LanguageChooserDownloadUrl)" DestinationPath="$(LanguageChooserDownloadedZipFile)" />
+  </Target>
+
+  <Target Name="ExtractLanguageChooserZip" DependsOnTargets="DownloadLanguageChooserZip" Condition="!Exists('$(LanguageChooserDir)\package.json') OR '%(LastWriteTime)%(DownloadedZipFile)' &gt; '%(LastWriteTime)$(LanguageChooserDir)\package.json'">
+	<Message Text="Extracting zip file to $(LanguageChooserDir)..." />
+	<Exec Command="tar -xf $(LanguageChooserDownloadedZipFile) --strip-components=1 -C $(LanguageChooserDir)" />
+  </Target>
+
+  <Target Name="InstallLanguageChooserAndItsDependencies"
+	Condition="!Exists('$(LanguageChooserDir)\node_modules')"
+	DependsOnTargets="ExtractLanguageChooserZip">
+	<Message Text="Checking if dependencies are up to date..." Importance="High" />
+	<PropertyGroup>
+	  <IsOutdated>false</IsOutdated>
+	</PropertyGroup>
+
+	<!-- Compare LastWriteTime of package-lock.json and node_modules -->
+	<ItemGroup>
+	  <PackageLock Include="$(LanguageChooserDir)\package-lock.json" />
+	  <NodeModules Include="$(LanguageChooserDir)\node_modules" />
+	</ItemGroup>
+
+	<TimeStamp Files="@(PackageLock)">
+	  <Output TaskParameter="TimeStamps" ItemName="PackageLockTimestamp" />
+	</TimeStamp>
+
+	<TimeStamp Files="@(NodeModules)">
+	  <Output TaskParameter="TimeStamps" ItemName="NodeModulesTimestamp" />
+	</TimeStamp>
+
+	<PropertyGroup>
+	  <IsOutdated Condition="@(PackageLockTimestamp->'%(ModifiedTime)') &gt; @(NodeModulesTimestamp->'%(ModifiedTime)')">
+		true
+	  </IsOutdated>
+	</PropertyGroup>
+
+	<Message Text="Installing LanguageChooser component and its dependencies" />
+	<Exec Command="npm install" WorkingDirectory="$(LanguageChooserDir)" Condition="$(IsOutdated) == 'true'" />
+  </Target>
+
+  <Target Name="CopyLanguageChooserDist" DependsOnTargets="InstallLanguageChooserAndItsDependencies">
+	<Message Text="Copying LanguageChooser build output to $(LanguageChooserBuildOutputDir)..." />
+	<ItemGroup>
+	  <BuildOutput Include="$(LanguageChooserDir)\node_modules\@ethnolib\language-chooser-react-mui\dist\*.*" />
+	</ItemGroup>
+	<Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(LanguageChooserBuildOutputDir)" />
+  </Target>
+
+  <Target Name="PrepareLanguageChooserComponent" DependsOnTargets="CopyLanguageChooserDist">
+	<Message Text="Language Chooser component preparation complete." />
   </Target>
 
   <Target Name="Test" DependsOnTargets ="Build">
@@ -123,8 +209,7 @@
 		ReplacementText ="$(Version)" />
 
   </Target>
-  
-  		
+  	
   <Target Name="ConvertReleaseNotesToHtml">
 	<CreateReleaseNotesHtml ChangelogFile="$(RootDir)/DistFiles/releaseNotes.md"
 		HtmlFile="$(RootDir)/output/ReleaseNotes.htm" />
@@ -158,7 +243,7 @@
   </Target>
 
   <!-- The "Installer" Target used to depend on this, but the Edolo Sample data was removed
-       in version 3 of SayMore, so there is no need to continue to generate this WIX include
+	   in version 3 of SayMore, so there is no need to continue to generate this WIX include
 	   file. (See SampleData\ReadMe.txt)
   <Target Name="MakeWixForSampleData">
 	<MakeDir ContinueOnError ="true" Directories ="$(RootDir)\output\Installer\"/>

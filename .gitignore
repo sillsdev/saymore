@@ -70,3 +70,5 @@ lib/dotnet/NAudio.dll
 IMDI_3_0_Fix.py
 icu4c.readme.txt
 /src/Installer/output/wixobj
+/LanguageChooser/**
+/DistFiles/LanguageChooserBin/**

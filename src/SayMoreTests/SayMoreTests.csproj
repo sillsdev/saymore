@@ -275,9 +275,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationContainerTests.cs" />
+    <Compile Include="model\LanguageHelperTests.cs" />
     <Compile Include="model\Files\DataGathering\SourceAndStandardAudioCoalescingComparerTests.cs" />
     <Compile Include="MediaUtils\Audio\AudioFileHelperTests.cs" />
     <Compile Include="MediaUtils\Audio\OralAnnotationPlaybackWaveStreamTests.cs" />
+    <Compile Include="model\MetadataMigratorTests.cs" />
     <Compile Include="model\SessionWorkflowInformantTests.cs" />
     <Compile Include="model\ElementRepositoryTests.cs" />
     <Compile Include="model\Fields\ContributionCollectionTests.cs" />

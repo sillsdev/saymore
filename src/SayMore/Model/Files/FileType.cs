@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -225,6 +226,15 @@ namespace SayMore.Model.Files
 		public const string kGender = "gender";
 		public const string kEducation = "education";
 		public const string kPrimaryOccupation = "primaryOccupation";
+		public const string kPrimaryLanguage = "primaryLanguage";
+		public const string kMothersLanguage = "mothersLanguage";
+		public const string kFathersLanguage = "fathersLanguage";
+
+		public static string GetOtherLanguageKey(int i)
+		{
+			Debug.Assert(i >= 0 && i < 4);
+			return $"otherLanguage{i}";
+		}
 
 		public override string RootElementName => Name;
 
@@ -265,14 +275,14 @@ namespace SayMore.Model.Files
 					"id",
 					kCode,
 					"nickName",
-					"primaryLanguage",
+					kPrimaryLanguage,
 					"primaryLanguageLearnedIn",
-					"otherLanguage0",
-					"otherLanguage1",
-					"otherLanguage2",
-					"otherLanguage3",
-					"fathersLanguage",
-					"mothersLanguage",
+					GetOtherLanguageKey(0),
+					GetOtherLanguageKey(1),
+					GetOtherLanguageKey(2),
+					GetOtherLanguageKey(3),
+					kFathersLanguage,
+					kMothersLanguage,
 					"pbOtherLangFather0",
 					"pbOtherLangFather1",
 					"pbOtherLangFather2",

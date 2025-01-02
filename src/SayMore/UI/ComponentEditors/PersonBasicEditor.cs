@@ -293,9 +293,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void HandleParentLanguageButtonMouseEnter(object sender, EventArgs e)
 		{
-			var pb = sender as ParentButton;
-
-			if (pb != null)
+			if (sender is ParentButton pb)
 			{
 				if (pb.ParentType == ParentType.Father)
 				{

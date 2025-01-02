@@ -11,12 +11,14 @@ namespace SayMore.Model.Files
 	/// account for those differences
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class ProjectElementComponentFile : ComponentFile
+	public class ProjectElementComponentFile : ComponentFile, IStringValueCollection
 	{
 		public delegate ProjectElementComponentFile Factory(ProjectElement parentElement,
 			FileType fileType, XmlFileSerializer xmlFileSerializer, string rootElementName);
 
 		private string _oldUiId = null;
+
+		public string Id => ParentElement.Id;
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectElementComponentFile(ProjectElement parentElement,
@@ -43,7 +45,7 @@ namespace SayMore.Model.Files
 				return localized ? GenreDefinition.TranslateIdToName(value) : value;
 			}
 
-			return (key != "id" ? base.GetStringValue(key, defaultValue) : ParentElement.Id);
+			return (key != "id" ? base.GetStringValue(key, defaultValue) : Id);
 		}
 
 		/// ------------------------------------------------------------------------------------

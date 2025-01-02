@@ -36,7 +36,7 @@ namespace SayMore.Model
 		private readonly Func<ProjectElement, string, ComponentFile> _componentFileFactory;
 		private string _id;
 
-		public virtual string Id { get { return _id; } }
+		public virtual string Id => _id;
 		public Action<ProjectElement, string, string> IdChangedNotificationReceiver { get; protected set; }
 		public virtual ProjectElementComponentFile MetaDataFile { get; private set; }
 		public IEnumerable<ComponentRole> ComponentRoles { get; protected set; }

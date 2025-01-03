@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Xml.Linq;
 using DesktopAnalytics;
 using L10NSharp;
@@ -13,6 +14,7 @@ using SayMore.Media;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Utilities;
+using static SIL.Reporting.ErrorReport;
 
 namespace SayMore.Transcription.Model
 {
@@ -791,14 +793,37 @@ namespace SayMore.Transcription.Model
 					// SP-702/SP-989: file is being used by another process
 					FileSystemUtils.WaitForFileRelease(AnnotationFileName, true);
 					Root.Save(AnnotationFileName);
-					break;
+					// This is an attempt to put an end to problems like SP-2326, SP-2336, etc.
+					// (search Jira for "is not a SayMore annotation file"), where a corrupt EAF file
+					// is getting created. We have no actual evidence that SayMore is actually creating
+					// the corrupt files, but it seems improbable that it would be happening to more
+					// than 1 or 2 users if it were being caused by some other software or malware.
+					// I'm wondering if it could be caused by a crash or power failure during the
+					// process of saving. If so, this/ might not help, but it could force the disk IO
+					// buffer to flush or at least maybe give us some additional insight as to when
+					// this is happening. If this does not stop the problem, then maybe we need to
+					// start saving a local backup before each file is saved and use the backup as a
+					// fallback when loading (along with a warning to alert the user that something
+					// might have gotten lost).
+					const string invalidEafFileMsg = "Corrupt/invalid ELAN file written during " +
+						"attempt #{0} to save file in AnnotationFileHelper.Save.";
+					if (GetIsElanFile(AnnotationFileName))
+						break;
+					if (++attempts < 2) // REVIEW: Maybe only need to retry once in this case.
+					{
+						Logger.WriteEvent(invalidEafFileMsg, attempts);
+						Thread.Sleep(100);
+					}
+					else
+						ReportNonFatalMessageWithStackTrace(invalidEafFileMsg, attempts);
 				}
 				catch (IOException e)
 				{
 					if (++attempts < 3)
-						Logger.WriteEvent("Exception during attempt #{0} to save file in AnnotationFileHelper.Save:\r\n{1}", attempts, e.ToString());
+						Logger.WriteEvent($"Exception during attempt #{0} to save file in AnnotationFileHelper.Save:\r\n{1}",
+							attempts, e.ToString());
 					else
-						ErrorReport.ReportNonFatalException(e);
+						ReportNonFatalException(e);
 				}
 			} while (attempts < 3);
 		}

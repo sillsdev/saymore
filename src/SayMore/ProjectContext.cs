@@ -204,8 +204,8 @@ namespace SayMore
 				var name = node["name"]?.InnerText;
 				var role = node["role"]?.InnerText;
 				var item = $@"{name} ({role})";
-				if (nameRolesList.Contains(item)) continue;
-				nameRolesList.Add(item);
+				if (!nameRolesList.Add(item))
+					continue;
 				contributorLists.Append(node.OuterXml);
 				namesList.Add(name); // Set will avoid duplicates.
 			}
@@ -225,7 +225,7 @@ namespace SayMore
 				// We don't want to create new contributors with names like Joe (consultant).
 				// This fix could be unfortunate if someone wants to use a name like "Sally Smith (nee Jones)"
 				// but we decided the danger of not handling the messed up data files was greater.
-				var paren = name.IndexOf("(");
+				var paren = name.IndexOf("(", StringComparison.Ordinal);
 				if (paren >= 0)
 					name = name.Substring(0, paren).Trim();
 				// If we already have this person, with any role, we won't add again, since we don't have
@@ -236,8 +236,8 @@ namespace SayMore
 				// We have no way of knowing a role. But various code assumes it's not empty.
 				// Since we created this contributor on the basis of finding a name in the participants list,
 				// it seems a reasonable default to make the role 'participant'.
-				// The specified date seems to be the one SayMore always uses. I don't even know what the
-				// date of a contributor is supposed to mean.
+				// There was no way to specify a date for participants; there is still no way in the
+				// UI to specify a contribution date, but there is a field for it in the XML.
 				var item = $@"{name} (participant)";
 				nameRolesList.Add(item);
 				contributorLists.Append(
@@ -263,7 +263,7 @@ namespace SayMore
 				builder.RegisterType<SessionFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<PersonFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<AnnotationFileType>().InstancePerLifetimeScope();
-				builder.RegisterType<AnnotationFileWithMisingMediaFileType>().InstancePerLifetimeScope();
+				builder.RegisterType<AnnotationFileWithMissingMediaFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<OralAnnotationFileType>().InstancePerLifetimeScope();
 
 				//when something needs the list of filetypes, get them from this method
@@ -326,7 +326,7 @@ namespace SayMore
 				context.Resolve<AudioFileType>(),
 				context.Resolve<VideoFileType>(),
 				context.Resolve<ImageFileType>(),
-				context.Resolve<AnnotationFileWithMisingMediaFileType>(),
+				context.Resolve<AnnotationFileWithMissingMediaFileType>(),
 				context.Resolve<UnknownFileType>(),
 			});
 		}

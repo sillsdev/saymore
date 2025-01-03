@@ -448,11 +448,11 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void ArchiveUsingIMDI()
+		public void ArchiveUsingIMDI(Form parentForm)
 		{
 			Analytics.Track("Archive Session using IMDI");
 
-			ArchivingHelper.ArchiveUsingIMDI(this);
+			ArchivingHelper.ArchiveUsingIMDI(this, parentForm);
 		}
 
 		/// ------------------------------------------------------------------------------------

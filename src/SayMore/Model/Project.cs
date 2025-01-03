@@ -437,7 +437,7 @@ namespace SayMore.Model
 			FundingProjectTitle = GetStringSettingValue(project, "FundingProjectTitle", string.Empty);
 			ProjectDescription = GetStringSettingValue(project, "ProjectDescription", string.Empty);
 			VernacularISO3CodeAndName = GetStringSettingValue(project, "VernacularISO3CodeAndName", string.Empty);
-			AnalysisISO3CodeAndName = GetStringSettingValue(project, "AnalysisISO3CodeAndName", ArchivingHelper.AnalysisLanguage());
+			AnalysisISO3CodeAndName = GetStringSettingValue(project, "AnalysisISO3CodeAndName", ArchivingHelper.FallbackAnalysisLanguage);
 			Location = GetStringSettingValue(project, "Location", string.Empty);
 			Region = GetStringSettingValue(project, "Region", string.Empty);
 			Country = GetStringSettingValue(project, "Country", "Unspecified");
@@ -675,7 +675,7 @@ namespace SayMore.Model
 		{
 			Analytics.Track("Archive Project using IMDI");
 
-			ArchivingHelper.ArchiveUsingIMDI(this);
+			ArchivingHelper.ArchiveUsingIMDI(this, parentForm);
 		}
 
 		/// ------------------------------------------------------------------------------------

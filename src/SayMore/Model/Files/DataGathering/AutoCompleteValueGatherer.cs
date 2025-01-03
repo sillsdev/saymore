@@ -8,10 +8,10 @@ using SIL.Reporting;
 using SIL.Windows.Forms.ClearShare;
 using SayMore.Model.Fields;
 using SayMore.Properties;
+using static SayMore.Model.Files.PersonFileType;
 
 namespace SayMore.Model.Files.DataGathering
 {
-
 	/// <summary>
 	/// Gets values used in the whole project (e.g. language names),
 	/// for the purpose of type-ahead.
@@ -33,20 +33,20 @@ namespace SayMore.Model.Files.DataGathering
 			Func<ProjectElement, string, ComponentFile> componentFileFactory)
 			:	base(rootDirectoryPath, allFileTypes, path => ExtractValues(path, componentFileFactory))
 		{
-			_mappingOfFieldsToAutoCompleteKey.Add("primaryLanguage", "language");
-			_mappingOfFieldsToAutoCompleteKey.Add("fathersLanguage", "language");
-			_mappingOfFieldsToAutoCompleteKey.Add("mothersLanguage", "language");
-			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage0", "language");
-			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage1", "language");
-			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage2", "language");
-			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage3", "language");
+			_mappingOfFieldsToAutoCompleteKey.Add(kPrimaryLanguage, "language");
+			_mappingOfFieldsToAutoCompleteKey.Add(kFathersLanguage, "language");
+			_mappingOfFieldsToAutoCompleteKey.Add(kMothersLanguage, "language");
+			_mappingOfFieldsToAutoCompleteKey.Add(GetOtherLanguageKey(0), "language");
+			_mappingOfFieldsToAutoCompleteKey.Add(GetOtherLanguageKey(1), "language");
+			_mappingOfFieldsToAutoCompleteKey.Add(GetOtherLanguageKey(2), "language");
+			_mappingOfFieldsToAutoCompleteKey.Add(GetOtherLanguageKey(3), "language");
 			_mappingOfFieldsToAutoCompleteKey.Add("fullName", "person");
 			_mappingOfFieldsToAutoCompleteKey.Add(SessionFileType.kParticipantsFieldName, "person");
 			_mappingOfFieldsToAutoCompleteKey.Add("recordist", "person");
 			_mappingOfFieldsToAutoCompleteKey.Add("contributions", "person");
-			_mappingOfFieldsToAutoCompleteKey.Add(PersonFileType.kEducation, "education");
+			_mappingOfFieldsToAutoCompleteKey.Add(kEducation, "education");
 
-			_multiValueFields = new List<string>(new[] { SessionFileType.kParticipantsFieldName, PersonFileType.kEducation, "contributions" });
+			_multiValueFields = new List<string>(new[] { SessionFileType.kParticipantsFieldName, kEducation, "contributions" });
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -100,7 +100,7 @@ namespace SayMore.Model.Files.DataGathering
 				if (file.FileType.GetType() == typeof(PersonFileType))
 				{
 					// if the code value is present, use it instead of the full name
-					dictionary.Add("person", file.GetStringValue(PersonFileType.kCode, null) ?? Path.GetFileNameWithoutExtension(path));
+					dictionary.Add("person", file.GetStringValue(kCode, null) ?? Path.GetFileNameWithoutExtension(path));
 				}
 
 				return dictionary;

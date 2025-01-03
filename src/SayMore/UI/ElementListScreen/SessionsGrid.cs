@@ -140,7 +140,7 @@ namespace SayMore.UI.ElementListScreen
 				(s, e) => {
 					var session = (Session)GetCurrentElement();
 					if (session != null)
-						session.ArchiveUsingIMDI();
+						session.ArchiveUsingIMDI(FindForm());
 				});
 
 			menu.Text = LocalizationManager.GetString("SessionsView.SessionsList.IMDIArchiveMenuText",

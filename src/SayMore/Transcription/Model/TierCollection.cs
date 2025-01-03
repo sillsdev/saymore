@@ -47,9 +47,10 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public TierCollection Copy()
 		{
-			var copy = new TierCollection();
-
-			copy.AnnotatedMediaFile = AnnotatedMediaFile;
+			var copy = new TierCollection
+			{
+				AnnotatedMediaFile = AnnotatedMediaFile
+			};
 
 			foreach (var tier in this)
 				copy.Add(tier.Copy());
@@ -113,14 +114,13 @@ namespace SayMore.Transcription.Model
 		{
 			var timeTier = GetTimeTier();
 			var transcriptionTier = GetTranscriptionTier();
-			AnnotationSegment transcriptionSegment;
 			Func<AnnotationSegment, string> getPathToAnnotationFile = (type == OralAnnotationType.CarefulSpeech) ?
 				timeTier.GetFullPathToCarefulSpeechFile :
 				(Func<AnnotationSegment, string>)timeTier.GetFullPathToOralTranslationFile;
 
 			int iSegment = 0;
 			while (iSegment < timeTier.Segments.Count && ((transcriptionTier != null &&
-				transcriptionTier.TryGetSegment(iSegment, out transcriptionSegment) &&
+				transcriptionTier.TryGetSegment(iSegment, out var transcriptionSegment) &&
 				SegmentIsIgnored(transcriptionSegment)) ||
 				File.Exists(getPathToAnnotationFile(timeTier.Segments[iSegment]))))
 			{
@@ -286,8 +286,6 @@ namespace SayMore.Transcription.Model
 		public string Save(string annotatedMediaFile)
 		{
 			return AnnotationFileHelper.Save(annotatedMediaFile, this);
-			// TODO (SP-2326, SP-2336, etc.): Verify that saved EAF file has contents and is
-			// valid/readable.
 		}
 
 		#endregion

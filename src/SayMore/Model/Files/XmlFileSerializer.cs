@@ -34,7 +34,8 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Save(IEnumerable<FieldInstance> fields, string path, string rootElementName, bool verify = true)
+		public void Save(IEnumerable<FieldInstance> fields, string path, string rootElementName,
+			bool verify = true)
 		{
 			var giveUpTime = DateTime.Now.AddSeconds(15);
 
@@ -117,7 +118,7 @@ namespace SayMore.Model.Files
 				{
 					GC.Collect();
 					root.Save(path);
-					// This is an attempt to put an end to problems like SP-2337, etc (search Jira
+					// This is an attempt to put an end to problems like SP-2337, etc. (search Jira
 					// for "0x00"), where an empty XML file is getting created. We have no actual
 					// evidence that SayMore is actually creating the empty files, but it seems
 					// improbable that it would be happening to more than 1 or 2 users if it were

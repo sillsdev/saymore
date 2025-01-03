@@ -621,8 +621,8 @@ namespace SayMore.Model
 		private static ArchivingLanguage ParseLanguage(string languageDesignator, IArchivingPackage package)
 		{
 			ArchivingLanguage archivingLanguage = null;
-			var parts = languageDesignator.SplitTrimmed(':').ToArray();
-			if (parts.Length == 2)
+			var parts = GetParts(languageDesignator);
+			if (parts.Count == 2)
 			{
 				var language = LanguageList.FindByISO3Code(parts[0]);
 
@@ -632,7 +632,7 @@ namespace SayMore.Model
 					: new ArchivingLanguage(GetIso639ThreeCharCode(language.Iso3Code), parts[1], language.EnglishName);
 				package?.MetadataIso3Languages.Add(archivingLanguage);
 			}
-			else if (parts.Length == 1)
+			else if (parts.Count == 1)
 			{
 				var language = LanguageList.FindByISO3Code(parts[0]);
 				if (!IsNullOrEmpty(language?.EnglishName))

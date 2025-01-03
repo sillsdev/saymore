@@ -7,9 +7,11 @@
 // </copyright>
 #endregion
 // --------------------------------------------------------------------------------------------
+using System.Collections.Generic;
 using SIL.Archiving.IMDI.Lists;
 using SIL.WritingSystems;
 using System.Linq;
+using SIL.Extensions;
 using static System.Char;
 
 namespace SayMore.Model
@@ -96,6 +98,19 @@ namespace SayMore.Model
 				default:
 					return false;
 			}
+		}
+
+		public static List<string> GetParts(string languageDesignator) => languageDesignator.SplitTrimmed(':');
+
+		public static TwoPartLanguageSpecifier GetTwoPartLanguageSpecification(string languageDesignator)
+		{
+			var parts = GetParts(languageDesignator);
+			return parts.Count == 2 ? new TwoPartLanguageSpecifier(parts[0], parts[1]) : null;
+		}
+
+		public static bool IsWellFormedTwoPartLanguageSpecification(string languageDesignator)
+		{
+			return GetTwoPartLanguageSpecification(languageDesignator)?.IsValid ?? false;
 		}
 	}
 }

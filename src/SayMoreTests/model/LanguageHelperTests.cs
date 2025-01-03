@@ -84,5 +84,60 @@ namespace SayMoreTests.Model
 		{
 			Assert.That(LanguageHelper.IsAmbiguous(language, true), Is.True);
 		}
+
+		/// <summary>
+		/// A well-formed two-part language specification always includes an (unambiguous) BCP-47
+		/// tag and a language name, delimited with a colon.
+		/// </summary>
+		/// <param name="language"></param>
+		[TestCase("es")]
+		[TestCase("en")] 
+		[TestCase("eng")] 
+		[TestCase("eng:")] 
+		[TestCase("English")] 
+		[TestCase(":English")] 
+		[TestCase("en:English:American")] 
+		[TestCase("Guacamolian")] 
+		[TestCase("Acholi (ach)")] 
+		[TestCase("Nomu (ISO-noh)")] 
+		public void IsWellFormedTwoPartLanguageSpecification_NotTwoParts_ReturnsFalse(string language)
+		{
+			Assert.That(LanguageHelper.IsWellFormedTwoPartLanguageSpecification(language),
+				Is.False);
+		}
+
+		/// <summary>
+		/// Tests that the portion before the colon 
+		/// tag and a language name, delimited with a colon.
+		/// </summary>
+		/// <param name="language"></param>
+		[TestCase("esp:Español")]
+		[TestCase("eng:English")] 
+		[TestCase("ENG:Greek Sign Language")] 
+		[TestCase("en-american-latn:English")] 
+		[TestCase("guac:Guacamolian")] 
+		public void IsWellFormedTwoPartLanguageSpecification_TwoPartsWithInvalidCode_ReturnsFalse(string language)
+		{
+			Assert.That(LanguageHelper.IsWellFormedTwoPartLanguageSpecification(language),
+				Is.False);
+		}
+
+		/// <summary>
+		/// Tests that the portion before the colon 
+		/// tag and a language name, delimited with a colon.
+		/// </summary>
+		/// <param name="language"></param>
+		[TestCase("es:Español")]
+		[TestCase("en:English")] 
+		[TestCase("gss:Greek Sign Language")]
+		[TestCase("en-GB:English")]
+		[TestCase("zh-CN:Chinese (simplified)")]
+		[TestCase("noh:Nomu")] 
+		[TestCase("ach:Acholi")] 
+		public void IsWellFormedTwoPartLanguageSpecification_TwoPartsWithValidCode_ReturnsTrue(string language)
+		{
+			Assert.That(LanguageHelper.IsWellFormedTwoPartLanguageSpecification(language),
+				Is.True);
+		}
 	}
 }

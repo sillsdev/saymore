@@ -323,6 +323,7 @@
     <Compile Include="Model\LanguageHelper.cs" />
     <Compile Include="Model\MetadataMigrator.cs" />
     <Compile Include="Model\SessionContribution.cs" />
+    <Compile Include="Model\TwoPartLanguageSpecifier.cs" />
     <Compile Include="ResourceImageCache.cs" />
     <Compile Include="Transcription\Model\AutoSegmenter.cs" />
     <Compile Include="MediaUtils\Audio\OralAnnotationPlaybackWaveStream.cs" />
@@ -872,6 +873,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\WritingSystemDlg.cs" />
     <Compile Include="Utilities\FileSyncHelper.cs" />
     <Compile Include="Utilities\PercentageFormatter.cs" />
     <Compile Include="Utilities\RobustFontHelper.cs" />

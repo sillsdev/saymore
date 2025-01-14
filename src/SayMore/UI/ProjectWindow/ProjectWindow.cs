@@ -1,7 +1,7 @@
 // --------------------------------------------------------------------------------------------
-#region // Copyright (c) 2014, SIL International. All Rights Reserved.
-// <copyright from='2011' to='2014' company='SIL International'>
-//		Copyright (c) 2014, SIL International. All Rights Reserved.
+#region // Copyright (c) 2035, SIL Global. All Rights Reserved.
+// <copyright from='2011' to='2025' company='SIL Global'>
+//		Copyright (c) 2025, SIL Global. All Rights Reserved.
 //
 //		Distributable under the terms of the MIT License (https://sil.mit-license.org/)
 // </copyright>
@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
@@ -28,6 +29,8 @@ using SayMore.Properties;
 using SayMore.Media.MPlayer;
 using SayMore.UI.Overview;
 using SayMore.Utilities;
+using static System.String;
+using static SayMore.Utilities.FileSystemUtils;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -43,6 +46,7 @@ namespace SayMore.UI.ProjectWindow
 		private readonly string _projectPath;
 		private readonly IEnumerable<ICommand> _commands;
 		private readonly UILanguageDlg.Factory _uiLanguageDialogFactory;
+		private bool _suppressFailureToGetShortNameWarnings = Settings.Default.SuppressShortFilenameWarnings;
 		private MPlayerDebuggingOutputWindow _outputDebuggingWindow;
 		private string _titleFmt;
 
@@ -194,7 +198,7 @@ namespace SayMore.UI.ProjectWindow
 			{
 				var ver = Assembly.GetExecutingAssembly().GetName().Version;
 				_titleFmt = Text;
-				Text = string.Format(_titleFmt, ProjectName, ver.Major, ver.Minor, ver.Build,
+				Text = Format(_titleFmt, ProjectName, ver.Major, ver.Minor, ver.Build,
 					ApplicationContainer.GetBuildTypeDescriptor(BuildType.Current));
 			}
 		}
@@ -212,6 +216,50 @@ namespace SayMore.UI.ProjectWindow
 		{
 			base.OnHandleCreated(e);
 			ReportAnyFileLoadErrors();
+			FailedToGetShortName += HandleFailureToGetShortName;
+		}
+
+		private void HandleFailureToGetShortName(string path, string failedActionDescription)
+		{
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
+
+			var filename = Path.GetFileName(path);
+			if (filename == Empty)
+			{
+				throw new ArgumentException("Must be an actual file, not merely a volume or folder.",
+					nameof(path));
+			}
+
+			if (_suppressFailureToGetShortNameWarnings)
+				return;
+
+			var volume = GetVolume(path);
+			if (volume != null && ShortFilenameWarningsToSuppressByVolume.Contains(volume))
+				return;
+
+			var extension = Path.GetExtension(filename).TrimStart('.');
+			if (extension != Empty && ShortFilenameWarningsToSuppressByExtension.Contains(extension))
+				return;
+
+			var folderPath = Path.GetDirectoryName(path);
+			if (folderPath != null && Settings.Default.ShortFilenameWarningsToSuppressByFolder != Empty)
+			{
+				if (volume != Empty && folderPath.StartsWith(volume))
+					folderPath = folderPath.Substring(volume.Length);
+				if (folderPath != Empty &&
+				    Regex.IsMatch(folderPath, Settings.Default.ShortFilenameWarningsToSuppressByFolder))
+					return;
+			}
+
+			if (Settings.Default.ShortFilenameWarningsToSuppressByFilenameMatch != Empty &&
+			    Regex.IsMatch(filename, Settings.Default.ShortFilenameWarningsToSuppressByFilenameMatch))
+				return;
+
+			if (InvokeRequired)
+				Invoke(new Action(() => ShowShortFileNameWarningDlg(path, failedActionDescription)));
+			else
+				ShowShortFileNameWarningDlg(path, failedActionDescription);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -310,6 +358,34 @@ namespace SayMore.UI.ProjectWindow
 
                 Program.UpdateUiLanguageForUser(dlg.UILanguage);
             }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleShortFileNameWarningSettingsMenuClick(object sender, EventArgs e)
+		{
+			ShowShortFileNameWarningDlg(Path.GetDirectoryName(_projectPath));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ShowShortFileNameWarningDlg(string path, string details = null)
+		{
+			// REVIEW: Probably need to want to prevent re-entrancy.
+			bool restoreWaitCursor = UseWaitCursor;
+			if (restoreWaitCursor)
+				UseWaitCursor = false; // REVIEW: Why isn't this working.
+			try
+			{
+				using (var dlg = new ShortFileNameWarningDlg(path, details))
+				{
+					if (dlg.ShowDialog(this) == DialogResult.OK)
+						_suppressFailureToGetShortNameWarnings = dlg.SuppressFutureWarnings;
+				}
+			}
+			finally
+			{
+				if (restoreWaitCursor)
+					UseWaitCursor = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -5,11 +5,16 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using DesktopAnalytics;
 using SIL.IO;
 using SIL.Reporting;
 using L10NSharp;
+using Application = System.Windows.Forms.Application;
+using DateTime = System.DateTime;
+using FileInfo = System.IO.FileInfo;
+using FileUtils = SIL.IO.FileUtils;
+using GLib;
+using static System.String;
 
 namespace SayMore.Utilities
 {
@@ -22,6 +27,9 @@ namespace SayMore.Utilities
 		   uint cchBuffer);
 
         private static Regex s_regex8Dot3Filename;
+
+		public delegate void FailedToGetShortNameHandler(string path, string failedActionDescription);
+		public static event FailedToGetShortNameHandler FailedToGetShortName;
 
         static FileSystemUtils()
         {
@@ -183,35 +191,12 @@ namespace SayMore.Utilities
 
 			var result = shortBuilder.ToString();
 			Logger.WriteEvent($"Short path obtained for {path} => {result}");
+			// TEMPORARY for debugging!
+			result = path;
             if (result == path && getDescriptionOfFailedAction != null &&
                 !IsValidShortFileNamePath(result))
             {
-                string volume;
-				try
-                {
-                    volume = Path.GetPathRoot(path);
-					if (volume.Last() == Path.DirectorySeparatorChar)
-                        volume = volume.Remove(volume.Length - 1);
-                }
-				catch (Exception)
-                {
-                    volume = "";
-                }
-
-                if (volume.Length == 0)
-                    volume = "???";
-
-                ErrorReport.NotifyUserOfProblem(new ShowOncePerSessionBasedOnExactMessagePolicy(), 
-                    LocalizationManager.GetString("CommonToMultipleViews.UnableToObtainShortName",
-                    "{0} was unable to obtain a \"short name\" for this file:\r\n{1}\r\nYou (or " +
-                    "a system administrator) can use {2} to enable creation of short \"8.3\" " +
-                    "file names for the file system volume ({3}) where this file is located.",
-                    "Param 0: \"SayMore\" (product name); " +
-                    "Param 1: file path; " +
-                    "Param 2: \"fsutil 8dot3name\" (a Microsoft Windows utility); " +
-                    "Param 3: A system volume (e.g. \"D:\"") +
-                    Environment.NewLine + getDescriptionOfFailedAction(),
-                    Program.ProductName, path, "fsutil 8dot3name", volume);
+	            FailedToGetShortName?.Invoke(path, getDescriptionOfFailedAction());
             }
 			return result;
 		}
@@ -228,6 +213,36 @@ namespace SayMore.Utilities
 			LocalizationManager.GetString("CommonToMultipleViews.AllFilesDescriptor",
 				"All Files ({0})");
 
+		public static IReadOnlyList<string> ShortFilenameWarningsToSuppressByVolume =>
+			Properties.Settings.Default.ShortFilenameWarningsToSuppressByVolume
+				.Split(new [] {Path.VolumeSeparatorChar}, StringSplitOptions.RemoveEmptyEntries)
+				.Select(v => v + Path.VolumeSeparatorChar).ToList();
+
+		/// <summary>
+		/// Gets the volume (i.e., drive letter), if any, from the given path. This does not
+		/// include the directory separator character, but it does include the trailing volume
+		/// separator character. If the path is null or empty or does not specify a volume, this
+		/// returns <c>null</c>.
+		/// </summary>
+		public static string GetVolume(string path)
+		{
+			try
+			{
+				var volume = Path.GetPathRoot(path);
+				if (volume.Last() == Path.DirectorySeparatorChar)
+					volume = volume.Remove(volume.Length - 1);
+				return volume.Length > 0 ? volume : null;
+			}
+			catch (Exception)
+			{
+				return null;
+			}
+		}
+
+		public static IReadOnlyList<string> ShortFilenameWarningsToSuppressByExtension =>
+			Properties.Settings.Default.ShortFilenameWarningsToSuppressByExtension.Split(
+				new [] {'.'}, StringSplitOptions.RemoveEmptyEntries);
+
 		public static void RobustDelete(string filePath)
 		{
 			if (!File.Exists(filePath)) return;
@@ -241,7 +256,7 @@ namespace SayMore.Utilities
 				if (FileSyncHelper.PromptToStopSync(filePath) == FileSyncHelper.SyncClient.None)
 					throw;
 
-				// now that file synching is disabled, try again
+				// now that file syncing is disabled, try again
 				RobustFile.Delete(filePath);
 			}
 		}

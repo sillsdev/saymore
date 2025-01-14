@@ -12,7 +12,7 @@ namespace SayMore.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.6.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -981,18 +981,6 @@ namespace SayMore.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public string LocalizationDlgSettings {
-            get {
-                return ((string)(this["LocalizationDlgSettings"]));
-            }
-            set {
-                this["LocalizationDlgSettings"] = value;
-            }
-        }
-        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1418,6 +1406,66 @@ namespace SayMore.Properties {
         public global::System.Collections.Specialized.StringCollection ComponentFileEndingsNotAllowed {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["ComponentFileEndingsNotAllowed"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ShortFilenameWarningsToSuppressByVolume {
+            get {
+                return ((string)(this["ShortFilenameWarningsToSuppressByVolume"]));
+            }
+            set {
+                this["ShortFilenameWarningsToSuppressByVolume"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SuppressShortFilenameWarnings {
+            get {
+                return ((bool)(this["SuppressShortFilenameWarnings"]));
+            }
+            set {
+                this["SuppressShortFilenameWarnings"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ShortFilenameWarningsToSuppressByExtension {
+            get {
+                return ((string)(this["ShortFilenameWarningsToSuppressByExtension"]));
+            }
+            set {
+                this["ShortFilenameWarningsToSuppressByExtension"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ShortFilenameWarningsToSuppressByFolder {
+            get {
+                return ((string)(this["ShortFilenameWarningsToSuppressByFolder"]));
+            }
+            set {
+                this["ShortFilenameWarningsToSuppressByFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ShortFilenameWarningsToSuppressByFilenameMatch {
+            get {
+                return ((string)(this["ShortFilenameWarningsToSuppressByFilenameMatch"]));
+            }
+            set {
+                this["ShortFilenameWarningsToSuppressByFilenameMatch"] = value;
             }
         }
     }

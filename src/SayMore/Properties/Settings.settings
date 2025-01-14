@@ -278,9 +278,6 @@
     <Setting Name="UserInterfaceLanguage" Provider="SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">en</Value>
     </Setting>
-    <Setting Name="LocalizationDlgSettings" Provider="SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="MillisecondsToDelayPlaybackAfterAdjustingSegmentBoundary" Provider="SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">600</Value>
     </Setting>
@@ -391,6 +388,21 @@
   &lt;string&gt;.meta&lt;/string&gt;
   &lt;string&gt;thumbs.db&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="ShortFilenameWarningsToSuppressByVolume" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SuppressShortFilenameWarnings" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ShortFilenameWarningsToSuppressByExtension" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ShortFilenameWarningsToSuppressByFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ShortFilenameWarningsToSuppressByFilenameMatch" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

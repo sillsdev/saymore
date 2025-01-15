@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 using DesktopAnalytics;
@@ -13,7 +13,6 @@ using Application = System.Windows.Forms.Application;
 using DateTime = System.DateTime;
 using FileInfo = System.IO.FileInfo;
 using FileUtils = SIL.IO.FileUtils;
-using GLib;
 using static System.String;
 
 namespace SayMore.Utilities
@@ -191,8 +190,6 @@ namespace SayMore.Utilities
 
 			var result = shortBuilder.ToString();
 			Logger.WriteEvent($"Short path obtained for {path} => {result}");
-			// TEMPORARY for debugging!
-			result = path;
             if (result == path && getDescriptionOfFailedAction != null &&
                 !IsValidShortFileNamePath(result))
             {
@@ -213,35 +210,28 @@ namespace SayMore.Utilities
 			LocalizationManager.GetString("CommonToMultipleViews.AllFilesDescriptor",
 				"All Files ({0})");
 
-		public static IReadOnlyList<string> ShortFilenameWarningsToSuppressByVolume =>
-			Properties.Settings.Default.ShortFilenameWarningsToSuppressByVolume
-				.Split(new [] {Path.VolumeSeparatorChar}, StringSplitOptions.RemoveEmptyEntries)
-				.Select(v => v + Path.VolumeSeparatorChar).ToList();
-
 		/// <summary>
 		/// Gets the volume (i.e., drive letter), if any, from the given path. This does not
 		/// include the directory separator character, but it does include the trailing volume
 		/// separator character. If the path is null or empty or does not specify a volume, this
-		/// returns <c>null</c>.
+		/// returns the volume of the current working directory. In rare cases (permission or I/O
+		/// exception), could return null.
 		/// </summary>
 		public static string GetVolume(string path)
 		{
 			try
 			{
-				var volume = Path.GetPathRoot(path);
-				if (volume.Last() == Path.DirectorySeparatorChar)
-					volume = volume.Remove(volume.Length - 1);
-				return volume.Length > 0 ? volume : null;
+				var volume = Path.GetPathRoot(path).TrimEnd(Path.DirectorySeparatorChar);
+				if (volume != Empty)
+					return volume;
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				return null;
+				if (ex is IOException || ex is SecurityException)
+					return null;
 			}
+			return GetVolume(Environment.CurrentDirectory);
 		}
-
-		public static IReadOnlyList<string> ShortFilenameWarningsToSuppressByExtension =>
-			Properties.Settings.Default.ShortFilenameWarningsToSuppressByExtension.Split(
-				new [] {'.'}, StringSplitOptions.RemoveEmptyEntries);
 
 		public static void RobustDelete(string filePath)
 		{

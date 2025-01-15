@@ -1424,48 +1424,35 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool SuppressShortFilenameWarnings {
+        public bool SuppressAllShortFilenameWarnings {
             get {
-                return ((bool)(this["SuppressShortFilenameWarnings"]));
+                return ((bool)(this["SuppressAllShortFilenameWarnings"]));
             }
             set {
-                this["SuppressShortFilenameWarnings"] = value;
+                this["SuppressAllShortFilenameWarnings"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ShortFilenameWarningsToSuppressByExtension {
+        public string ShortFilenameWarningsToSuppress {
             get {
-                return ((string)(this["ShortFilenameWarningsToSuppressByExtension"]));
+                return ((string)(this["ShortFilenameWarningsToSuppress"]));
             }
             set {
-                this["ShortFilenameWarningsToSuppressByExtension"] = value;
+                this["ShortFilenameWarningsToSuppress"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ShortFilenameWarningsToSuppressByFolder {
+        public global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings ShortFileNameWarningDlg {
             get {
-                return ((string)(this["ShortFilenameWarningsToSuppressByFolder"]));
+                return ((global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings)(this["ShortFileNameWarningDlg"]));
             }
             set {
-                this["ShortFilenameWarningsToSuppressByFolder"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ShortFilenameWarningsToSuppressByFilenameMatch {
-            get {
-                return ((string)(this["ShortFilenameWarningsToSuppressByFilenameMatch"]));
-            }
-            set {
-                this["ShortFilenameWarningsToSuppressByFilenameMatch"] = value;
+                this["ShortFileNameWarningDlg"] = value;
             }
         }
     }

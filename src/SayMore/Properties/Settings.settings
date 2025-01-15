@@ -392,16 +392,13 @@
     <Setting Name="ShortFilenameWarningsToSuppressByVolume" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SuppressShortFilenameWarnings" Type="System.Boolean" Scope="User">
+    <Setting Name="SuppressAllShortFilenameWarnings" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="ShortFilenameWarningsToSuppressByExtension" Type="System.String" Scope="User">
+    <Setting Name="ShortFilenameWarningsToSuppress" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ShortFilenameWarningsToSuppressByFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="ShortFilenameWarningsToSuppressByFilenameMatch" Type="System.String" Scope="User">
+    <Setting Name="ShortFileNameWarningDlg" Type="SIL.Windows.Forms.PortableSettingsProvider.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

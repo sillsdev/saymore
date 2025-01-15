@@ -46,7 +46,6 @@ namespace SayMore.UI.ProjectWindow
 		private readonly string _projectPath;
 		private readonly IEnumerable<ICommand> _commands;
 		private readonly UILanguageDlg.Factory _uiLanguageDialogFactory;
-		private bool _suppressFailureToGetShortNameWarnings = Settings.Default.SuppressShortFilenameWarnings;
 		private MPlayerDebuggingOutputWindow _outputDebuggingWindow;
 		private string _titleFmt;
 
@@ -67,6 +66,11 @@ namespace SayMore.UI.ProjectWindow
 			_titleFmt = Text;
 			_menuShowMPlayerDebugWindow.Tag = _menuProject.DropDownItems.IndexOf(_menuShowMPlayerDebugWindow);
 			_menuProject.DropDownItems.Remove(_menuShowMPlayerDebugWindow);
+
+			_menuShortFileNameWarningSettings.Visible = 
+				Settings.Default.SuppressAllShortFilenameWarnings ||
+				!IsNullOrEmpty(Settings.Default.ShortFilenameWarningsToSuppressByVolume) ||
+				!IsNullOrEmpty(Settings.Default.ShortFilenameWarningsToSuppress);
 		}
 
 		private static Control FindFocusedControl(Control control)
@@ -231,35 +235,27 @@ namespace SayMore.UI.ProjectWindow
 					nameof(path));
 			}
 
-			if (_suppressFailureToGetShortNameWarnings)
-				return;
-
-			var volume = GetVolume(path);
-			if (volume != null && ShortFilenameWarningsToSuppressByVolume.Contains(volume))
-				return;
-
-			var extension = Path.GetExtension(filename).TrimStart('.');
-			if (extension != Empty && ShortFilenameWarningsToSuppressByExtension.Contains(extension))
-				return;
-
-			var folderPath = Path.GetDirectoryName(path);
-			if (folderPath != null && Settings.Default.ShortFilenameWarningsToSuppressByFolder != Empty)
-			{
-				if (volume != Empty && folderPath.StartsWith(volume))
-					folderPath = folderPath.Substring(volume.Length);
-				if (folderPath != Empty &&
-				    Regex.IsMatch(folderPath, Settings.Default.ShortFilenameWarningsToSuppressByFolder))
-					return;
-			}
-
-			if (Settings.Default.ShortFilenameWarningsToSuppressByFilenameMatch != Empty &&
-			    Regex.IsMatch(filename, Settings.Default.ShortFilenameWarningsToSuppressByFilenameMatch))
-				return;
-
 			if (InvokeRequired)
-				Invoke(new Action(() => ShowShortFileNameWarningDlg(path, failedActionDescription)));
+			{
+				BeginInvoke((Action)(() =>
+					{ AlertUserToFailureToGetShortName(path, failedActionDescription); }));
+			}
 			else
-				ShowShortFileNameWarningDlg(path, failedActionDescription);
+			{
+				AlertUserToFailureToGetShortName(path, failedActionDescription);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This does the UI-related stuff for <see cref="HandleFailureToGetShortName"/>, so it
+		/// needs to be invoked on the UI thread.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AlertUserToFailureToGetShortName(string path, string failedActionDescription)
+		{
+			ShortFileNameWarningDlg.NoteFailure(this, path, failedActionDescription);
+			_menuShortFileNameWarningSettings.Visible = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -363,29 +359,8 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void HandleShortFileNameWarningSettingsMenuClick(object sender, EventArgs e)
 		{
-			ShowShortFileNameWarningDlg(Path.GetDirectoryName(_projectPath));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void ShowShortFileNameWarningDlg(string path, string details = null)
-		{
-			// REVIEW: Probably need to want to prevent re-entrancy.
-			bool restoreWaitCursor = UseWaitCursor;
-			if (restoreWaitCursor)
-				UseWaitCursor = false; // REVIEW: Why isn't this working.
-			try
-			{
-				using (var dlg = new ShortFileNameWarningDlg(path, details))
-				{
-					if (dlg.ShowDialog(this) == DialogResult.OK)
-						_suppressFailureToGetShortNameWarnings = dlg.SuppressFutureWarnings;
-				}
-			}
-			finally
-			{
-				if (restoreWaitCursor)
-					UseWaitCursor = true;
-			}
+			Analytics.Track("Accessed short filename warning settings via menu");
+			ShortFileNameWarningDlg.ViewSettings(this, _projectPath);
 		}
 
 		/// ------------------------------------------------------------------------------------

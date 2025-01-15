@@ -1,60 +1,197 @@
 ﻿using System.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using DesktopAnalytics;
 using L10NSharp;
 using L10NSharp.UI;
 using L10NSharp.XLiffUtils;
 using SayMore.Utilities;
-using SIL.Program;
-using SIL.Windows.Forms.Widgets.BetterGrid;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using static System.String;
+using Process = SIL.Program.Process;
 using Settings = SayMore.Properties.Settings;
 
 namespace SayMore.UI
 {
 	public partial class ShortFileNameWarningDlg : Form
 	{
-		private readonly string _volume;
-		private readonly string _extension;
+		private bool _suppressWarnings;
+		private string _failedActionsLabelOrigText;
+		private static readonly ShortFileNameWarningDlg Singleton = new ShortFileNameWarningDlg();
 
-		public bool SuppressFutureWarnings => _chkDoNotReportAnymoreThisSession.Checked || _chkDoNotReportEver.Checked;
+		public static void NoteFailure(Form owner, string path, string failedAction) =>
+			Singleton.NoteFailureInternal(owner, path, failedAction);
 
-		public ShortFileNameWarningDlg(string path, string failedAction)
+		private void NoteFailureInternal(Form owner, string path, string failedAction)
 		{
 			if (IsNullOrEmpty(path))
 				throw new ArgumentNullException(nameof(path));
 
+			_checkDone.Visible = false;
+			_checkDone.Checked = false;
+
+			// Note: Even if we are suppressing all warnings, we go ahead and add the failure
+			// information in case the user later opens this to view the settings.
+
+			if (!_flowLayoutFailedActions.Controls.OfType<Label>().Select(lbl => lbl.Text)
+				    .Any(failure => failure.Equals(failedAction)))
+			{
+				var newFailedActionLabel = new Label
+				{
+					Text = failedAction,
+					AutoSize = true
+				};
+				_flowLayoutFailedActions.Controls.Add(newFailedActionLabel);
+				_flowLayoutFailedActions.SetFlowBreak(newFailedActionLabel, true);
+				if (_failedActionsLabelOrigText != null)
+					_lblFailedActions.Text = _failedActionsLabelOrigText;
+			}
+
+			if (IsSuppressedVolume(path) || IsSuppressedFilename(path))
+				return;
+
+			if (!_suppressWarnings)
+				ShowNow(owner);
+		}
+
+		private bool IsSuppressedVolume(string path)
+		{
+			var i = TryAddVolume(path);
+			return i >= 0 && _checkedListBoxVolumes.GetItemChecked(i);
+		}
+
+		private int TryAddVolume(string path)
+		{
+			var volume = FileSystemUtils.GetVolume(path);
+
+			if (volume == null) // Really unlikely
+				return -1;
+
+			int insertAtIndex = 0;
+			for (var i = 0; i < _checkedListBoxVolumes.Items.Count; i++)
+			{
+				var compareVal = StringComparer.OrdinalIgnoreCase.Compare(
+					_checkedListBoxVolumes.Items[i].ToString(),
+					volume
+				);
+
+				if (compareVal == 0)
+				{
+					// The volume already exists.
+					return i;
+				}
+				if (compareVal > 0)
+				{
+					// We've found the position where the new volume should be inserted
+					insertAtIndex = i;
+					break;
+				}
+			}
+
+			// Insert the new volume at the determined index
+			_checkedListBoxVolumes.Items.Insert(insertAtIndex, volume);
+			return insertAtIndex;
+		}
+
+		private bool IsSuppressedFilename(string path)
+		{
+			var i = TryAddFilename(path);
+			return i >= 0 && _checkedListBoxFiles.GetItemChecked(i);
+		}
+
+		private int TryAddFilename(string path)
+		{
+			for (var i = 0; i < _checkedListBoxFiles.Items.Count; i++)
+			{
+				var item = _checkedListBoxFiles.Items[i];
+				if (item.ToString().Equals(path, StringComparison.OrdinalIgnoreCase))
+					return i;
+			}
+
+			_checkedListBoxFiles.Items.Add(path);
+			return _checkedListBoxFiles.Items.Count - 1;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void ViewSettings(Form owner, string projectPath) =>
+			Singleton.ViewSettingsInternal(owner, projectPath);
+		
+
+		/// ------------------------------------------------------------------------------------
+		private void ViewSettingsInternal(Form owner, string projectPath)
+		{
+			TryAddVolume(projectPath);
+			// If no failures have been reported this session, give them a chance to say they
+			// have fixed it. This doesn't do anything but reset the settings so this dialog
+			// box will become *forever* unavailable unless, in fact, another failure is noted.
+			_checkDone.Visible = _flowLayoutFailedActions.Controls.Count == 0;
+			ShowNow(owner);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ShowNow(Form owner)
+		{
+			if (InvokeRequired)
+			{
+				Invoke(new Action(() => ShowInternal(owner)));
+				return;
+			}
+			ShowInternal(owner);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ShowInternal(Form owner)
+		{
+			if (owner == null)
+				throw new ArgumentNullException(nameof(owner));
+
+			if (owner.IsDisposed || !owner.IsHandleCreated) // Unlikely
+				return;
+
+			Debug.Assert(!IsDisposed);
+
+			if (!Visible)
+			{
+				// Not sure that this is strictly required, but in reality, the owner should never
+				// change.
+				if (IsHandleCreated)
+				{
+					Debug.Assert(owner == Owner);
+					Show();
+				}
+				else
+				{
+					owner.FormClosing += OnOwnerClosing;
+					Show(owner);
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void OnOwnerClosing(object sender, FormClosingEventArgs e)
+		{
+			Dispose();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private ShortFileNameWarningDlg()
+		{
 			InitializeComponent();
-
-			if (!File.Exists(path))
-			{
-				_lblMsg.Visible = false;
-				_lblFilePath.Visible = false;
-				_extension = null;
-			}
-			else
-			{
-				_lblFilePath.Text = path;
-				_extension = Path.GetExtension(path).TrimStart('.');
-			}
-
-			_volume = FileSystemUtils.GetVolume(path);
-
-			if (IsNullOrEmpty(failedAction))
-				_lblFailedAction.Hide();
-			else
-				_lblFailedAction.Text = failedAction;
-
-			_chkDoNotReportEver.Checked = Settings.Default.SuppressShortFilenameWarnings;
-
+			
 			// Initialize controls and checkboxes from settings
 			InitializeVolumesChecklist();
-			InitializeExtensionsChecklist();
-			InitializeFoldersList();
-			InitializeFilenameMatchList();
+			InitializeFilenamesChecklist();
+			_chkDoNotReportEver.Checked = Settings.Default.SuppressAllShortFilenameWarnings;
+
+			if (Settings.Default.ShortFileNameWarningDlg == null)
+			{
+				StartPosition = FormStartPosition.CenterParent;
+				Settings.Default.ShortFileNameWarningDlg = FormSettings.Create(this);
+			}
 
 			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 		}
@@ -62,6 +199,7 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
+			Settings.Default.ShortFileNameWarningDlg.InitializeForm(this);
 			base.OnLoad(e);
 			HandleStringsLocalized();
 		}
@@ -69,78 +207,42 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		private void InitializeVolumesChecklist()
 		{
-			PopulateChecklist(_checkedListBoxVolumes, 
-				FileSystemUtils.ShortFilenameWarningsToSuppressByVolume, _volume);
+			var regexVol = new Regex($@"[^{Path.VolumeSeparatorChar}]+{Path.VolumeSeparatorChar}");
+			var volumes = regexVol.Matches(Settings.Default.ShortFilenameWarningsToSuppressByVolume)
+				.Cast<Match>().Select(m => m.Value);
+
+			PopulateChecklist(_checkedListBoxVolumes, volumes);
+			_checkedListBoxVolumes.Tag = new Action(() =>
+			{
+				var list = GetCheckedItems(_checkedListBoxVolumes, true);
+				Settings.Default.ShortFilenameWarningsToSuppressByVolume = list;
+				if (list != Empty)
+					Analytics.Track("Suppress Short name warnings by volume");
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializeExtensionsChecklist()
+		private void InitializeFilenamesChecklist()
 		{
-			var extensions = FileSystemUtils.ShortFilenameWarningsToSuppressByExtension;
-			if (IsNullOrEmpty(_extension) &&
-			    extensions.Count == 0)
-			{
-				var i = _tableLayoutPanelMain.GetRow(_lblDoNotReportForExtensions);
-				_lblDoNotReportForExtensions.Visible = false;
-				_checkedListBoxExtensions.Visible = false;
-				_tableLayoutPanelMain.RowStyles[i] = new RowStyle(SizeType.AutoSize);
-			}
+			var filenameWarningsToSuppress = Settings.Default.ShortFilenameWarningsToSuppress
+				.Split(new [] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
 
-			PopulateChecklist(_checkedListBoxExtensions, extensions, _extension);
+			PopulateChecklist(_checkedListBoxFiles, filenameWarningsToSuppress);
+			_checkedListBoxFiles.Tag = new Action(() =>
+			{
+				var list = GetCheckedItems(_checkedListBoxFiles, false, Environment.NewLine);
+				Settings.Default.ShortFilenameWarningsToSuppress = list;
+				if (list != Empty)
+					Analytics.Track("Suppress Short name warnings by filename");
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private static void PopulateChecklist(CheckedListBox listbox,
-			IReadOnlyList<string> existingCheckedValues, string newValue)
+			IEnumerable<string> existingCheckedValues)
 		{
-			if (existingCheckedValues.Any())
-			{
-				listbox.Items.AddRange(existingCheckedValues.OfType<object>().ToArray());
-				for (int i = 0; i < listbox.Items.Count; i++)
-					listbox.SetItemChecked(i, true);
-			}
-
-			if (!IsNullOrEmpty(newValue))
-			{
-				if (!existingCheckedValues.Contains(newValue, StringComparer.OrdinalIgnoreCase))
-					listbox.Items.Insert(0, newValue);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void InitializeFoldersList()
-		{
-			_chkDoNotReportForFolders.Checked = PopulateRegexMatchList(
-				Settings.Default.ShortFilenameWarningsToSuppressByFolder,
-				_gridFolders);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void InitializeFilenameMatchList()
-		{
-			_chkDoNotReportForFilesContaining.Checked = PopulateRegexMatchList(
-				Settings.Default.ShortFilenameWarningsToSuppressByFilenameMatch,
-				_gridFilenameContains);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static bool PopulateRegexMatchList(string setting, DataGridView grid)
-		{
-			var existingItems = setting.TrimStart('(').TrimEnd(')')
-				.Split(new [] { ")|("}, StringSplitOptions.RemoveEmptyEntries)
-				.Select(Regex.Unescape).ToList();
-
-			grid.RowCount = existingItems.Count;
-
-			if (!existingItems.Any())
-				return false;
-
-			grid.SuspendLayout();
-			for (var index = 0; index < existingItems.Count; index++)
-				grid.Rows[index].Cells[0].Value = existingItems[index];
-			grid.ResumeLayout();
-
-			return true;
+			foreach (var value in existingCheckedValues)
+				listbox.Items.Add(value, CheckState.Checked);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -148,34 +250,23 @@ namespace SayMore.UI
 		{
 			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
-				if (_lblMsg.Visible)
-					_lblMsg.Text = Format(_lblMsg.Text, Program.ProductName);
-				else
-				{
-					Text = LocalizationManager.GetString(
-						"MainWindow.ShortFileNameWarningSettingsDlgTitle",
-						"Short Filename Warning Settings");
-				}
-
 				const string fsUtil8dot3 = "fsutil 8dot3name";
 
-				if (_lblFilePath.Visible)
-				{
-					_linkLabelFsUtilMsg.Text = Format(_linkLabelFsUtilMsg.Text, fsUtil8dot3,
-						_volume);
-				}
-				else
-				{
-					_linkLabelFsUtilMsg.Text = Format(LocalizationManager.GetString(
-						"ShortFileNameWarningDlg.linkLabelFsUtilMsgForSettingsDlg",
-						"If possible, you (or a system administrator) should use {0} to enable " +
-						"creation of short \"8.3\" file names for file system volumes where " +
-						"media files are located."), fsUtil8dot3);
-				}
+				_linkLabelFsUtilMsg.Text = Format(_linkLabelFsUtilMsg.Text, fsUtil8dot3);
 
 				_linkLabelFsUtilMsg.LinkArea = new LinkArea(
 					_linkLabelFsUtilMsg.Text.IndexOf(fsUtil8dot3, StringComparison.Ordinal),
 					fsUtil8dot3.Length);
+
+				if (_flowLayoutFailedActions.Controls.Count == 0)
+				{
+					_failedActionsLabelOrigText = _lblFailedActions.Text;
+					_lblFailedActions.Text = Format(LocalizationManager.GetString(
+							"ShortFileNameWarningDlg.lblFailedActionsNoCurrentFailures",
+							"This will help to avoid problems with certain utilities that {0} uses.",
+							"Param is \"SayMore\" (program name)"),
+						Program.ProductName);
+				}
 
 				_chkDoNotReportAnymoreThisSession.Text =
 					Format(_chkDoNotReportAnymoreThisSession.Text, Program.ProductName);
@@ -185,190 +276,106 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		private void _linkLabelFsUtilMsg_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
+			Analytics.Track("Navigating to FsUtil URL");
 			Process.SafeStart("https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-8dot3name");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static string GetSortedCheckedItems(CheckedListBox listbox, string separator = "")
+		private static string GetCheckedItems(CheckedListBox listbox, bool sort, string separator = "")
 		{
 			var items = (from object item in listbox.CheckedItems select item.ToString()).ToList();
-			items.Sort(StringComparer.OrdinalIgnoreCase);
+			if (sort)
+				items.Sort(StringComparer.OrdinalIgnoreCase);
 			return Join(separator, items);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void _chkDoNotReportForFolders_CheckedChanged(object sender, EventArgs e)
+		private void _chkDoNotReportAnymoreThisSession_CheckedChanged(object sender, EventArgs e)
 		{
-			_gridFolders.Enabled = _chkDoNotReportForFolders.Checked;
-			_gridFolders.AllowUserToAddRows = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void _chkDoNotReportForFilesContaining_CheckedChanged(object sender, EventArgs e)
-		{
-			_gridFilenameContains.Enabled = _chkDoNotReportForFilesContaining.Checked;
-			_gridFilenameContains.AllowUserToAddRows = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private string InvalidCharactersMessage => LocalizationManager.GetString(
-			"ShortFileNameWarningDlg.InvalidFilenameCharacters",
-			"Value entered contains characters that are not valid: {0}");
-
-		/// ------------------------------------------------------------------------------------
-		private void RowValidating(object sender, DataGridViewCellCancelEventArgs e)
-		{
-			var grid = (BetterGrid)sender;
-
-			if (grid.Rows[e.RowIndex].IsNewRow || !grid.IsCurrentRowDirty)
-				return;
-
-			var value = grid.Rows[e.RowIndex].Cells[0].Value?.ToString();
-			if (IsNullOrWhiteSpace(value))
-			{
-				grid.CancelEdit();
-				return;
-			}
-
-			var invalidChars = grid == _gridFolders ?
-				Path.GetInvalidPathChars().Union(new[] { Path.VolumeSeparatorChar }) :
-				Path.GetInvalidFileNameChars();
-
-			var invalidCharsFound = value.Intersect(invalidChars).ToList();
-			if (invalidCharsFound.Any())
-			{
-				e.Cancel = true;
-				_gridFilenameContains.Rows[e.RowIndex].ErrorText =
-					Format(InvalidCharactersMessage, Join(", ", invalidCharsFound));
-			}
-			else
-			{
-				foreach (var row in grid.GetRows())
-				{
-					if (row.Index != e.RowIndex && row.Cells[0].Value == value)
-					{
-						e.Cancel = true;
-						// TODO: Localize
-						row.ErrorText = "Duplicate";
-						return;
-					}
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		void CurrentCellDirtyStateChanged(object sender, EventArgs e)
-		{
-			var grid = (BetterGrid)sender;
-			if (grid.IsCurrentCellDirty)
-				grid.CommitEdit(DataGridViewDataErrorContexts.Commit);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void RowEnter(object sender, DataGridViewCellEventArgs e)
-		{
-			//var grid = (BetterGrid)sender;
-			//if (!(grid.Tag is int rowIndex) || rowIndex == e.RowIndex)
-			//	return;
-			//RemoveEmptyRow(grid, rowIndex);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void GridLeave(object sender, EventArgs e)
-		{
-			var grid = (BetterGrid)sender;
-			RemoveEmptyRows(grid);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void RemoveEmptyRows(BetterGrid grid)
-		{
-			BeginInvoke(new Action(() =>
-			{
-				if (grid.IsDisposed || grid.Disposing || grid.ContainsFocus)
-					return;
-				var rowsToDelete = new List<int>();
-				for (var i = 0; i < grid.RowCountLessNewRow; i++)
-				{
-					if (IsNullOrWhiteSpace((string)grid.Rows[i].Cells[0].Value))
-						rowsToDelete.Insert(0, i);
-				}
-
-				foreach (var rowIndex in rowsToDelete)
-					grid.Rows.RemoveAt(rowIndex);
-			}));
-		
+			SetSuppressWarnings();
+			if (_chkDoNotReportAnymoreThisSession.Checked)
+				Analytics.Track("Suppress Short name warnings for session");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void _chkDoNotReportEver_CheckedChanged(object sender, EventArgs e)
 		{
-			if (_chkDoNotReportEver.Checked)
+			UpdateControlsEnabledState();
+			Settings.Default.SuppressAllShortFilenameWarnings = _chkDoNotReportEver.Checked;
+			SetSuppressWarnings();
+			Analytics.Track("Suppress Short name warnings forever", new Dictionary<string, string> {
+				{"checked", _chkDoNotReportEver.Checked.ToString()} });
+
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void _checkDone_CheckedChanged(object sender, EventArgs e)
+		{
+			bool done = _checkDone.Checked;
+			// We want to avoid the potentially confusing state where the user says they think
+			// the problem is solved (so no more failures should be reported) but they also say
+			// not to tell them if there is another failure. If they've really fixed it, they
+			// should be forced to find out if they haven't really.
+			if (done)
+				_chkDoNotReportEver.Checked = _chkDoNotReportAnymoreThisSession.Checked = false;
+			
+			// If checked, we'll go ahead and disable most of the other controls this form, but
+			// we won't actually clear the settings until they close it, just in case they change
+			// their mind.
+			UpdateControlsEnabledState();
+			_chkDoNotReportEver.Enabled = !done;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateControlsEnabledState()
+		{
+			var enable = !_chkDoNotReportEver.Checked && !_checkDone.Checked;
+			_lblDoNotReportForVolumes.Enabled = enable;
+			_checkedListBoxVolumes.Enabled = enable;
+			_lblDoNotReportForFiles.Enabled = enable;
+			_checkedListBoxFiles.Enabled = enable;
+			_chkDoNotReportAnymoreThisSession.Enabled = enable;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetSuppressWarnings()
+		{
+			_suppressWarnings = _chkDoNotReportAnymoreThisSession.Checked ||
+				_chkDoNotReportEver.Checked;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleCheckedListBoxItemCheck(object sender, ItemCheckEventArgs e)
+		{
+			if (((CheckedListBox)sender).Tag is Action action)
 			{
-				_lblDoNotReportForVolumes.Enabled = false;
-				_checkedListBoxVolumes.Enabled = false;
-				_lblDoNotReportForExtensions.Enabled = false;
-				_checkedListBoxExtensions.Enabled = false;
-				_chkDoNotReportForFolders.Enabled = false;
-				_gridFolders.Enabled = false;
-				_chkDoNotReportForFilesContaining.Enabled = false;
-				_gridFilenameContains.Enabled = false;
-				_chkDoNotReportAnymoreThisSession.Enabled = false;
-			}
-			else
-			{
-				_lblDoNotReportForVolumes.Enabled = true;
-				_checkedListBoxVolumes.Enabled = true;
-				_lblDoNotReportForExtensions.Enabled = true;
-				_checkedListBoxExtensions.Enabled = true;
-				_chkDoNotReportForFolders.Enabled = true;
-				_gridFolders.Enabled = _chkDoNotReportForFolders.Checked;
-				_chkDoNotReportForFilesContaining.Enabled = true;
-				_gridFilenameContains.Enabled = _chkDoNotReportForFilesContaining.Checked;
-				_chkDoNotReportAnymoreThisSession.Enabled = true;		
+				// Defer processing until after the state is updated
+				BeginInvoke(action);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void _btnOK_Click(object sender, EventArgs e)
+		private void HandleCloseClick(object sender, EventArgs e)
 		{
-			if (_chkDoNotReportEver.Checked)
+			Hide();
+
+			if (_checkDone.Checked)
 			{
-				Settings.Default.SuppressShortFilenameWarnings = true;
-				return;
+				Settings.Default.ShortFilenameWarningsToSuppressByVolume = Empty;
+				Settings.Default.ShortFilenameWarningsToSuppress = Empty;
+				Settings.Default.SuppressAllShortFilenameWarnings = false;
+				// For now, let's go ahead and remember the volumes we've known about. There's
+				// most likely just one, and we'd have to re-add it anyway if we re-show this.
+				// If there were any others, remembering them won't hurt.
+				foreach (int index in _checkedListBoxVolumes.CheckedIndices)
+					_checkedListBoxVolumes.SetItemChecked(index, false);
+				// Let's clear the list of files and failures we've seen. That will reduce
+				// noise if we do have another failure.
+				_checkedListBoxFiles.Items.Clear();
+				_flowLayoutFailedActions.Controls.Clear();
+
+				Analytics.Track("User claims to have solved short filename problem");
 			}
-
-			if (_gridFolders.IsCurrentCellDirty)
-				_gridFolders.CommitEdit(DataGridViewDataErrorContexts.Commit);
-
-			if (_gridFilenameContains.IsCurrentCellDirty)
-				_gridFilenameContains.CommitEdit(DataGridViewDataErrorContexts.Commit);
-
-			Settings.Default.SuppressShortFilenameWarnings = false;
-
-			Settings.Default.ShortFilenameWarningsToSuppressByVolume = 
-				GetSortedCheckedItems(_checkedListBoxVolumes);
-
-			Settings.Default.ShortFilenameWarningsToSuppressByExtension =
-				GetSortedCheckedItems(_checkedListBoxExtensions, ".");
-
-			Settings.Default.ShortFilenameWarningsToSuppressByFolder = 
-				GetRegexFromList(_chkDoNotReportForFolders, _gridFolders);
-			
-			Settings.Default.ShortFilenameWarningsToSuppressByFilenameMatch =
-				GetRegexFromList(_chkDoNotReportForFilesContaining, _gridFilenameContains);
-		}
-
-		private static string GetRegexFromList(CheckBox checkBox, BetterGrid grid)
-		{
-			if (checkBox.Checked && grid.RowCountLessNewRow > 0)
-			{
-				var items = grid.GetRows().Select(r =>
-						(string)r.Cells[0].Value).Where(v => !IsNullOrWhiteSpace(v))
-					.Select(Regex.Escape).ToList();
-				return "(" + Join(")|(", items) + ")";
-			}
-			return Empty;
 		}
 	}
 }

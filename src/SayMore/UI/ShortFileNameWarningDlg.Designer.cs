@@ -272,12 +272,14 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
 			this.ClientSize = new System.Drawing.Size(508, 467);
+			this.ControlBox = false;
 			this.Controls.Add(this._tableLayoutPanelMain);
 			this.Controls.Add(this._btnClose);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "ShortFileNameWarningDlg.WindowTitle");
 			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(498, 309);
 			this.Name = "ShortFileNameWarningDlg";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;

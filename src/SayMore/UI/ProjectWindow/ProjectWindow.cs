@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------
-#region // Copyright (c) 2035, SIL Global. All Rights Reserved.
+#region // Copyright (c) 2025, SIL Global. All Rights Reserved.
 // <copyright from='2011' to='2025' company='SIL Global'>
 //		Copyright (c) 2025, SIL Global. All Rights Reserved.
 //
@@ -15,7 +15,6 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
@@ -29,6 +28,7 @@ using SayMore.Properties;
 using SayMore.Media.MPlayer;
 using SayMore.UI.Overview;
 using SayMore.Utilities;
+using SIL.Windows.Forms.Extensions;
 using static System.String;
 using static SayMore.Utilities.FileSystemUtils;
 
@@ -177,15 +177,15 @@ namespace SayMore.UI.ProjectWindow
 		{
 			if (disposing)
 			{
+				FailedToGetShortName -= HandleFailureToGetShortName;
+
 				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= SetWindowText;
 
 				ExceptionHandler.RemoveDelegate(AudioUtils.HandleGlobalNAudioException);
 
-				if (components != null)
-					components.Dispose();
+				components?.Dispose();
 
-				if (_viewTabGroup != null)
-					_viewTabGroup.Tabs.Clear();
+				_viewTabGroup?.Tabs.Clear();
 			}
 
 			base.Dispose(disposing);
@@ -235,15 +235,8 @@ namespace SayMore.UI.ProjectWindow
 					nameof(path));
 			}
 
-			if (InvokeRequired)
-			{
-				BeginInvoke((Action)(() =>
-					{ AlertUserToFailureToGetShortName(path, failedActionDescription); }));
-			}
-			else
-			{
-				AlertUserToFailureToGetShortName(path, failedActionDescription);
-			}
+			this.SafeInvoke(() => { AlertUserToFailureToGetShortName(path, failedActionDescription); },
+				"handling failure to get short name");
 		}
 
 		/// ------------------------------------------------------------------------------------

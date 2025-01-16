@@ -10,6 +10,7 @@ using L10NSharp;
 using L10NSharp.UI;
 using L10NSharp.XLiffUtils;
 using SayMore.Utilities;
+using SIL.Windows.Forms.Extensions;
 using SIL.Windows.Forms.PortableSettingsProvider;
 using static System.String;
 using Process = SIL.Program.Process;
@@ -23,8 +24,37 @@ namespace SayMore.UI
 		private string _failedActionsLabelOrigText;
 		private static readonly ShortFileNameWarningDlg Singleton = new ShortFileNameWarningDlg();
 
-		public static void NoteFailure(Form owner, string path, string failedAction) =>
-			Singleton.NoteFailureInternal(owner, path, failedAction);
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Call this method to handle a short filename warning. It will handle the decision of
+		/// whether to display the form, update the details already being displayed, or merely
+		/// note the failure (if they user has already asked not to be advised).
+		/// </summary>
+		/// <param name="owner">The owner of the form (set only if the form has not already been
+		/// shown, but always expected to be the same form every time this -- or
+		/// <see cref="ViewSettings"/> -- is called)</param>.
+		/// <param name="path">Path of the file for which a short (8.3) name could not be
+		/// obtained.</param>
+		/// <param name="failedAction">A short description of the action that was being attempted
+		/// that was wanting to use a short filename. This description will be presented to the
+		/// user when this form is shown, so the description should be localized.</param>
+		/// <remarks>Caller is responsible for ensuring this is called on the UI thead. (We could
+		/// do it, but in practice the only caller already needs to do it, so why bother?)
+		/// </remarks>
+		/// ------------------------------------------------------------------------------------
+		public static void NoteFailure(Form owner, string path, string failedAction)
+		{
+			try
+			{
+				Singleton.NoteFailureInternal(owner, path, failedAction);
+			}
+			catch (ObjectDisposedException)
+			{
+				// The user apparently closed the owning window (which causes this form to be
+				// disposed) before this got invoked or while we were updating everything.
+				// No worries. There will be another day.
+			}
+		}
 
 		private void NoteFailureInternal(Form owner, string path, string failedAction)
 		{
@@ -117,19 +147,38 @@ namespace SayMore.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Call this method to display this form (modeless) if it is not already being displayed
+		/// </summary>
+		/// <param name="owner">The owner of the form (set only if the form has not already been
+		/// shown, but always expected to be the same form every time this -- or
+		/// <see cref="NoteFailure"/> -- is called)</param>.
+		/// <param name="projectPath">Path of the current project file, which is used to get the
+		/// volume so we can display a reasonable value in the list of volumes for which warnings
+		/// should be suppressed. In most (maybe all) cases, any actual warnings will be for files
+		/// on the same volume as the project.</param>
+		/// ------------------------------------------------------------------------------------
 		public static void ViewSettings(Form owner, string projectPath) =>
 			Singleton.ViewSettingsInternal(owner, projectPath);
 		
-
 		/// ------------------------------------------------------------------------------------
 		private void ViewSettingsInternal(Form owner, string projectPath)
 		{
-			TryAddVolume(projectPath);
-			// If no failures have been reported this session, give them a chance to say they
-			// have fixed it. This doesn't do anything but reset the settings so this dialog
-			// box will become *forever* unavailable unless, in fact, another failure is noted.
-			_checkDone.Visible = _flowLayoutFailedActions.Controls.Count == 0;
-			ShowNow(owner);
+			try
+			{
+				TryAddVolume(projectPath);
+				// If no failures have been reported this session, give them a chance to say they
+				// have fixed it. This doesn't do anything but reset the settings so this dialog
+				// box will become *forever* unavailable unless, in fact, another failure is noted.
+				_checkDone.Visible = _flowLayoutFailedActions.Controls.Count == 0;
+				ShowNow(owner);
+			}
+			catch (ObjectDisposedException)
+			{
+				// Since this is modeless, there is the (very slight) chance the user could close
+				// the owning window (which causes this form to be disposed) before we finish
+				// updating everything.
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

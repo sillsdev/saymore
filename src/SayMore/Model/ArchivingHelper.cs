@@ -177,7 +177,7 @@ namespace SayMore.Model
 			}
 		}
 
-		internal static void AddIMDISession(Session sayMoreSession, IMDIArchivingDlgViewModel model)
+		internal static IArchivingSession AddIMDISession(Session sayMoreSession, IMDIArchivingDlgViewModel model)
 		{
 			var sessionFile = sayMoreSession.MetaDataFile;
 			if (Project == null)
@@ -379,6 +379,11 @@ namespace SayMore.Model
 				if (!string.IsNullOrEmpty(microphone))
 					imdiSession.AddFileKeyValuePair(file, "RecordingEquipment", microphone);
 			}
+
+			// Not needed in production, but makes testing easier, so we don't have to do
+			// model.Object.ArchivingPackage.Sessions
+			//     .OfType<SIL.Archiving.IMDI.Schema.Session>().Single()
+			return imdiSession;
 		}
 
 		private static string GetAnalysisLanguageIdentifier(Project sayMoreProject)

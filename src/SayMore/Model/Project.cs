@@ -786,15 +786,17 @@ namespace SayMore.Model
 				"Adding Files for Session '{0}'"), Title);
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<string> GetSessionFilesToArchive(Type typeOfArchive, CancellationToken cancellationToken)
+		public IEnumerable<string> GetSessionFilesToArchive(Type typeOfArchive,
+			CancellationToken cancellationToken)
 		{
+			var tempZipFilePath = GetTempFileName();
 			// RAMP packages must not be compressed or RAMP can't read them.
-			var tempZipFilePath = ChangeExtension(GetTempFileName(), "zip");
 			ZipFile.CreateFromDirectory(FolderPath, tempZipFilePath, CompressionLevel.NoCompression, true);
-			var filesInDir = Directory.GetFiles(FolderPath);
 			var zipFilePath = Combine(FolderPath, "Sessions.zip");
 			RobustFile.Move(tempZipFilePath, zipFilePath, true);
-			return filesInDir.Where(f => ArchivingHelper.IncludeFileInArchive(f, typeOfArchive, Settings.Default.SessionFileExtension, CancellationToken.None));
+			return Directory.GetFiles(FolderPath).Where(f => 
+				ArchivingHelper.IncludeFileInArchive(f, typeOfArchive,
+					Settings.Default.SessionFileExtension, CancellationToken.None));
 		}
 		#endregion
 	}

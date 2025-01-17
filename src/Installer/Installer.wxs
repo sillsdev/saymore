@@ -369,6 +369,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="System.IO.Pipes.dll" Guid="{BF590670-0D53-43B3-A71A-8854413EE436}">
 				<File Id="System.IO.Pipes.dll" Name="System.IO.Pipes.dll" KeyPath="yes" Source="..\..\output\release\System.IO.Pipes.dll" />
 			</Component>
+			<Component Id="System.IO.Pipelines.dll" Guid="{98D526B8-F44B-407D-92FA-8510E09FF828}">
+				<File Id="System.IO.Pipelines.dll" Name="System.IO.Pipelines.dll" KeyPath="yes" Source="..\..\output\release\System.IO.Pipelines.dll" />
+			</Component>
 			<Component Id="System.IO.UnmanagedMemoryStream.dll" Guid="{1EADAEAD-C57F-4249-885C-A0FF3170B0EF}">
 				<File Id="System.IO.UnmanagedMemoryStream.dll" Name="System.IO.UnmanagedMemoryStream.dll" KeyPath="yes" Source="..\..\output\release\System.IO.UnmanagedMemoryStream.dll" />
 			</Component>
@@ -700,6 +703,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="System.IO.IsolatedStorage.dll"/>
 		<ComponentRef Id="System.IO.MemoryMappedFiles.dll"/>
 		<ComponentRef Id="System.IO.Pipes.dll"/>
+		<ComponentRef Id="System.IO.Pipelines.dll"/>
 		<ComponentRef Id="System.IO.UnmanagedMemoryStream.dll"/>
 		<ComponentRef Id="System.Linq.dll"/>
 		<ComponentRef Id="System.Linq.Expressions.dll"/>

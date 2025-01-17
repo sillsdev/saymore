@@ -13,7 +13,7 @@ namespace SayMore.Model.Files
 {
 	public class AnnotationComponentFile : ComponentFile
 	{
-		public const string kEafSettingsFileExtension = ".psfx";
+		public const string kEafPreferencesFileExtension = ".psfx";
 		public ComponentFile AssociatedComponentFile { get; }
 		private OralAnnotationComponentFile _oralAnnotationFile;
 
@@ -134,7 +134,7 @@ namespace SayMore.Model.Files
 		public override void RenameAnnotatedFile(string newPath)
 		{
 			var oldEafSettingsFile = ChangeExtension(PathToAnnotatedFile,
-				kEafSettingsFileExtension);
+				kEafPreferencesFileExtension);
 			base.RenameAnnotatedFile(newPath);
 			AnnotationFileHelper.ChangeMediaFileName(PathToAnnotatedFile, GetPathToAssociatedMediaFile());
 
@@ -142,7 +142,7 @@ namespace SayMore.Model.Files
 				return;
 
 			var newEafSettingsFile = ChangeExtension(PathToAnnotatedFile,
-				kEafSettingsFileExtension);
+				kEafPreferencesFileExtension);
 			File.Move(oldEafSettingsFile, newEafSettingsFile);
 
 			_oralAnnotationFile?.RenameAnnotatedFile(GetSuggestedPathToOralAnnotationFile());
@@ -152,7 +152,7 @@ namespace SayMore.Model.Files
 		protected internal override bool Delete()
 		{
 			// If the annotation file has an associated ELAN preference file, then delete it.
-			var prefFilePath = ChangeExtension(PathToAnnotatedFile, ".pfsx");
+			var prefFilePath = ChangeExtension(PathToAnnotatedFile, kEafPreferencesFileExtension);
 			var oralAnnotationFile = OralAnnotationFile;
 
 			if (!base.Delete())

@@ -136,7 +136,8 @@ namespace SayMore.Model
 				return false;
 			var ext = Path.GetExtension(path).ToLower();
 			bool imdi = typeof(IMDIArchivingDlgViewModel).IsAssignableFrom(typeOfArchive);
-			return (ext != ".pfsx" && ext != ".sprj" && (!imdi || (ext != metadataFileExtension)));
+			return ext != AnnotationComponentFile.kEafPreferencesFileExtension &&
+				ext != Settings.Default.ProjectFileExtension && (!imdi || ext != metadataFileExtension);
 		}
 
 		/// ------------------------------------------------------------------------------------

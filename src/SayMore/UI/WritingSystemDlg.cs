@@ -53,9 +53,7 @@ namespace SayMore.UI
 				}
 
 				caption = Format(caption, personId);
-				// TODO: uncomment this and remove MessageBox line when we get the updated DLL
-				// dlg.Caption = caption;
-				MessageBox.Show(parentForm, caption, "Temporary!!! This will be the caption of the dialog:");
+				dlg.Caption = caption;
 				var parts = LanguageHelper.GetParts(language);
 				if (parts.Count > 1)
 				{

@@ -14,8 +14,8 @@ using SayMore.Model.Files;
 using SIL.Archiving;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
-using SIL.Archiving.Generic;
 using SIL.Core.ClearShare;
+using Project = SayMore.Model.Project;
 using Session = SayMore.Model.Session;
 
 namespace SayMoreTests.Utilities
@@ -97,9 +97,11 @@ namespace SayMoreTests.Utilities
 		public void SetFilesToArchive_RAMP_GetsCorrectListSizeIncludingSessionFile()
 		{
 			var model = new Mock<RampArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo",
-				"ddo-session", "whatever", null, new Func<string, string, string>((a, b) =>a));
-			model.Setup(s => s.AddFileGroup(string.Empty, It.Is<IEnumerable<string>>(e => e.Count() == 4), "Adding Files for Session 'ddo'"));
-			model.Setup(s => s.AddFileGroup("ddo-person", It.Is<IEnumerable<string>>(e => e.Count() == 3), "Adding Files for Contributor 'ddo-person'"));
+				"ddo-session", null, new Func<string, string, string>((a, b) =>a));
+			model.Setup(s => s.AddFileGroup(string.Empty,
+				It.Is<IEnumerable<string>>(e => e.Count() == 4), "Adding Files for Session 'ddo'"));
+			model.Setup(s => s.AddFileGroup("ddo-person",
+				It.Is<IEnumerable<string>>(e => e.Count() == 3), "Adding Files for Contributor 'ddo-person'"));
 			_session.SetFilesToArchive(model.Object, default);
 			model.VerifyAll();
 		}
@@ -110,26 +112,30 @@ namespace SayMoreTests.Utilities
 		public void SetFilesToArchive_IMDI_GetsCorrectListSizeExcludingSessionFile()
 		{
 			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo",
-				"ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
-			model.Setup(s => s.AddFileGroup(string.Empty, It.Is<IEnumerable<string>>(e => e.Count() == 3), "Adding Files for Session 'ddo'"));
-			model.Setup(s => s.AddFileGroup("ddo-person", It.Is<IEnumerable<string>>(e => e.Count() == 2), "Adding Files for Contributor 'ddo-person'"));
+				"ddo-session", false, null, @"C:\my_imdi_folder");
+			model.Setup(s => s.AddFileGroup(string.Empty,
+				It.Is<IEnumerable<string>>(e => e.Count() == 3), "Adding Files for Session 'ddo'"));
+			model.Setup(s => s.AddFileGroup("ddo-person",
+				It.Is<IEnumerable<string>>(e => e.Count() == 2), "Adding Files for Contributor 'ddo-person'"));
 			_session.SetFilesToArchive(model.Object, default);
 			model.VerifyAll();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
 		public void SetFilesToArchive_GetsCorrectSessionAndPersonFiles()
 		{
-			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo",
+				"ddo-session", false, null, @"C:\my_imdi_folder");
 
 			model.Setup(s => s.AddFileGroup(string.Empty,
-				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new [] {"ddo.session", "ddo.mpg", "ddo.mp3", "ddo.pdf"}).Count() == 4),
+				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName)
+					.Union(new [] {"ddo.session", "ddo.mpg", "ddo.mp3", "ddo.pdf"}).Count() == 4),
 				"Adding Files for Session 'ddo'"));
 
 			model.Setup(s => s.AddFileGroup("ddo-person",
-				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new[] { "ddoPic.jpg", "ddoVoice.wav" }).Count() == 2),
+				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName)
+					.Union(new[] { "ddoPic.jpg", "ddoVoice.wav" }).Count() == 2),
 				"Adding Files for Contributor 'ddo-person'"));
 
 			_session.SetFilesToArchive(model.Object, default);
@@ -138,18 +144,20 @@ namespace SayMoreTests.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
 		public void SetFilesToArchive_ParticipantFileDoesNotExist_DoesNotCrash()
 		{
-			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever", false, null, @"C:\my_imdi_folder");
+			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo",
+				"ddo-session", false, null, @"C:\my_imdi_folder");
 			_session.Participants = new[] { "ddo-person", "non-existent-person" };
 
 			model.Setup(s => s.AddFileGroup(string.Empty,
-				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new [] {"ddo.session", "ddo.mpg", "ddo.mp3", "ddo.pdf"}).Count() == 4),
+				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName)
+					.Union(new [] {"ddo.session", "ddo.mpg", "ddo.mp3", "ddo.pdf"}).Count() == 4),
 				"Adding Files for Session 'ddo'"));
 
 			model.Setup(s => s.AddFileGroup("ddo-person",
-				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName).Union(new[] { "ddoPic.jpg", "ddoVoice.wav" }).Count() == 2),
+				It.Is<IEnumerable<string>>(e => e.Select(Path.GetFileName)
+					.Union(new[] { "ddoPic.jpg", "ddoVoice.wav" }).Count() == 2),
 				"Adding Files for Contributor 'ddo-person'"));
 
 			_session.SetFilesToArchive(model.Object, default);
@@ -215,28 +223,26 @@ namespace SayMoreTests.Utilities
 		[Test]
 		public void InitializeActor_NoBirthYear_ExpectUnspecifiedAge()
 		{
-			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
-				false, null, @"C:\my_imdi_folder");
+			var model = new IMDIArchivingDlgViewModel("SayMore", "ddo", "ddo-session", false, null,
+				@"C:\my_imdi_folder");
 			var person = new Mock<Person>();
 			person.Setup(p => p.MetaDataFile.GetStringValue("privacyProtection", "false")).Returns("false");
 			person.Setup(p => p.MetaDataFile.GetStringValue("birthYear", string.Empty)).Returns(string.Empty);
-			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, DateTime.MinValue, "Participant");
+			var actor = ArchivingHelper.InitializeActor(model, person.Object, DateTime.MinValue, "Participant");
 			Assert.AreEqual("Unspecified", actor.Age);
-			model.VerifyAll();
 		}
 
 		[Test]
 		public void InitializeActor_AgeEqualBirthYearMinusSessionYear_Expect68()
 		{
-			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session", "whatever",
-				false, null, @"C:\my_imdi_folder");
+			var model = new IMDIArchivingDlgViewModel("SayMore", "ddo", "ddo-session", false, null,
+				@"C:\my_imdi_folder");
 			var person = new Mock<Person>();
 			person.Setup(p => p.MetaDataFile.GetStringValue("privacyProtection", "false")).Returns("false");
 			person.Setup(p => p.MetaDataFile.GetStringValue("birthYear", string.Empty)).Returns("1950");
-			var actor = ArchivingHelper.InitializeActor(model.Object, person.Object, new DateTime(2018, 1, 1), "Participant");
+			var actor = ArchivingHelper.InitializeActor(model, person.Object, new DateTime(2018, 1, 1), "Participant");
 			Assert.AreEqual("68", actor.Age);
 			person.VerifyAll();
-			model.VerifyAll();
 		}
 
 		[Test]
@@ -297,7 +303,7 @@ namespace SayMoreTests.Utilities
 			Assert.That(returnValue, Is.Null);
 		}
 
-		/// <see cref="en.wikipedia.org/wiki/List_of_ISO_639-2_codes"/>
+		/// <seealso href="en.wikipedia.org/wiki/List_of_ISO_639-2_codes"/>
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void GetOneLanguage_PrivateUseIso_ReturnsNull()
@@ -313,7 +319,7 @@ namespace SayMoreTests.Utilities
 			Assert.IsNull(returnValue);
 		}
 
-		/// <see cref="en.wikipedia.org/wiki/List_of_ISO_639-2_codes"/>
+		/// <seealso href="en.wikipedia.org/wiki/List_of_ISO_639-2_codes"/>
 		[Test]
 		public void GetOneLanguage_MissingIso_ReturnsNull()
 		{
@@ -322,7 +328,7 @@ namespace SayMoreTests.Utilities
 			Assert.IsNull(returnValue);
 		}
 
-		/// <see cref="en.wikipedia.org/wiki/List_of_ISO_639-2_codes"/>
+		/// <seealso href="en.wikipedia.org/wiki/List_of_ISO_639-2_codes"/>
 		[Test]
 		public void GetOneLanguage_UndeterminedIso_ReturnsNull()
 		{
@@ -343,9 +349,10 @@ namespace SayMoreTests.Utilities
 			var sourceMediaFile1 = IMDIMediaFileSetup();
 			sourceMediaFile1.Object.MetaDataFieldValues.Add(new FieldInstance("Device", "Computer"));
 			sourceMediaFile1.Object.MetaDataFieldValues.Add(new FieldInstance("Microphone", "Zoom"));
-			var model = AddIMDISessionTestSetup(out var imdiSession, sourceMediaFile1.Object);
-			ArchivingHelper.AddIMDISession(_session, model.Object);
-			var eqCount = (from f in imdiSession.Object.Resources.MediaFile
+			var model = AddIMDISessionTestSetup(sourceMediaFile1.Object);
+			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object)
+				as SIL.Archiving.IMDI.Schema.Session;
+			var eqCount = (from f in imdiSession.Resources.MediaFile
 				from k in f.Keys.Key
 				where k.Name == "RecordingEquipment"
 				select k.Name).Count();
@@ -357,9 +364,10 @@ namespace SayMoreTests.Utilities
 		{
 			const string sampleEthnicGroup = "Ewondo";
 			_personMetaFile.Setup(m => m.GetStringValue("ethnicGroup", It.IsAny<string>())).Returns(sampleEthnicGroup);
-			var model = AddIMDISessionTestSetup(out var imdiSession);
-			ArchivingHelper.AddIMDISession(_session, model.Object);
-			var actor = imdiSession.Object.MDGroup.Actors.Actor.FirstOrDefault();
+			var model = AddIMDISessionTestSetup();
+			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object)
+				as SIL.Archiving.IMDI.Schema.Session;
+			var actor = imdiSession.MDGroup.Actors.Actor.FirstOrDefault();
 			Assert.AreEqual(sampleEthnicGroup, actor.EthnicGroup);
 		}
 
@@ -368,9 +376,10 @@ namespace SayMoreTests.Utilities
 		{
 			const string sampleSituation = "village hut recording";
 			_session.MetaFile.Setup(f => f.GetStringValue("situation", It.IsAny<string>())).Returns(sampleSituation);
-			var model = AddIMDISessionTestSetup(out var imdiSession);
-			ArchivingHelper.AddIMDISession(_session, model.Object);
-			var situationValue = (from k in imdiSession.Object.MDGroup.Content.Keys.Key
+			var model = AddIMDISessionTestSetup();
+			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object)
+				as SIL.Archiving.IMDI.Schema.Session;
+			var situationValue = (from k in imdiSession.MDGroup.Content.Keys.Key
 				where k.Name == "Situation"		// The keyword in the SayMore session is lowercase but in IMDI we chose uppercase
 				select k.Value).FirstOrDefault();
 			Assert.AreEqual(sampleSituation, situationValue);
@@ -382,9 +391,10 @@ namespace SayMoreTests.Utilities
 			const string sampleKey = "SampleKey";
 			const string sampleValue = "My Sample Value";
 			_session.MetaFile.Setup(f => f.GetCustomFields()).Returns(new[] {new FieldInstance(XmlFileSerializer.kCustomFieldIdPrefix + sampleKey, sampleValue)});
-			var model = AddIMDISessionTestSetup(out var imdiSession);
-			ArchivingHelper.AddIMDISession(_session, model.Object);
-			var val = (from k in imdiSession.Object.MDGroup.Content.Keys.Key
+			var model = AddIMDISessionTestSetup();
+			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object)
+				as SIL.Archiving.IMDI.Schema.Session;
+			var val = (from k in imdiSession.MDGroup.Content.Keys.Key
 				where k.Name == sampleKey
 				select k.Value).FirstOrDefault();
 			Assert.AreEqual(sampleValue, val);
@@ -402,17 +412,18 @@ namespace SayMoreTests.Utilities
 				new FieldInstance(XmlFileSerializer.kCustomFieldIdPrefix + sampleTopic, sampleTopicValue),
 				new FieldInstance(XmlFileSerializer.kCustomFieldIdPrefix + sampleKeyword, sampleKeywordValue)
 			});
-			var model = AddIMDISessionTestSetup(out var imdiSession);
-			ArchivingHelper.AddIMDISession(_session, model.Object);
-			var val = (from k in imdiSession.Object.MDGroup.Content.Keys.Key
+			var model = AddIMDISessionTestSetup();
+			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object) 
+				as SIL.Archiving.IMDI.Schema.Session;
+			var val = (from k in imdiSession.MDGroup.Content.Keys.Key
 				where k.Name == "Topic"
 				select k.Value).FirstOrDefault();
 			Assert.AreEqual(sampleTopicValue, val);
-			var val1 = (from k in imdiSession.Object.MDGroup.Content.Keys.Key
+			var val1 = (from k in imdiSession.MDGroup.Content.Keys.Key
 				where k.Name == "Keyword"
 				select k.Value).FirstOrDefault();
 			Assert.AreEqual("Village", val1);
-			var val2 = (from k in imdiSession.Object.MDGroup.Content.Keys.Key
+			var val2 = (from k in imdiSession.MDGroup.Content.Keys.Key
 				where k.Value == "Uncolonized"
 				select k.Name).FirstOrDefault();
 			Assert.AreEqual("Keyword", val2);
@@ -424,9 +435,10 @@ namespace SayMoreTests.Utilities
 			const string sampleKey = "SampleKey";
 			const string sampleValue = "My Sample Value";
 			_personMetaFile.Setup(f => f.GetCustomFields()).Returns(new[] { new FieldInstance(XmlFileSerializer.kCustomFieldIdPrefix + sampleKey, sampleValue) });
-			var model = AddIMDISessionTestSetup(out var imdiSession);
-			ArchivingHelper.AddIMDISession(_session, model.Object);
-			var val = (from a in imdiSession.Object.MDGroup.Actors.Actor
+			var model = AddIMDISessionTestSetup();
+			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object) 
+				as SIL.Archiving.IMDI.Schema.Session;
+			var val = (from a in imdiSession.MDGroup.Actors.Actor
 				from k in a.Keys.Key
 				where k.Name == sampleKey
 				select k.Value).FirstOrDefault();
@@ -438,9 +450,10 @@ namespace SayMoreTests.Utilities
 		{
 			const string sampleNote = "Recording was made externally";
 			_session.MetaFile.Setup(f => f.GetStringValue("notes", It.IsAny<string>())).Returns(sampleNote);
-			var model = AddIMDISessionTestSetup(out var imdiSession);
-			ArchivingHelper.AddIMDISession(_session, model.Object);
-			var val = (from d in imdiSession.Object.MDGroup.Content.Description
+			var model = AddIMDISessionTestSetup();
+			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object)
+				as SIL.Archiving.IMDI.Schema.Session;
+			var val = (from d in imdiSession.MDGroup.Content.Description
 				select d.Value).FirstOrDefault();
 			Assert.AreEqual(sampleNote, val);
 		}
@@ -452,10 +465,11 @@ namespace SayMoreTests.Utilities
 			var project = new Mock<Project>(MockBehavior.Strict, Path.Combine(Path.GetTempPath(), "foo", "foo." + Project.ProjectSettingsFileExtension), null, null);
 			project.Object.VernacularISO3CodeAndName = sampleLanguageCodeAndName;
 			project.Object.AnalysisISO3CodeAndName = "eng:English";
-			var model = AddIMDISessionTestSetup(out var imdiSession);
+			var model = AddIMDISessionTestSetup();
 			ArchivingHelper.Project = project.Object;
-			ArchivingHelper.AddIMDISession(_session, model.Object);
-			var val = (from c in imdiSession.Object.MDGroup.Content.Languages.Language
+			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object)
+				as SIL.Archiving.IMDI.Schema.Session;
+			var val = (from c in imdiSession.MDGroup.Content.Languages.Language
 				from n in c.Name
 				from d in c.Description
 				where d.Value.Contains("Content")
@@ -471,10 +485,11 @@ namespace SayMoreTests.Utilities
 			var project = new Mock<Project>(MockBehavior.Strict, Path.Combine(Path.GetTempPath(), "foo", "foo." + Project.ProjectSettingsFileExtension), null, null);
 			project.Object.VernacularISO3CodeAndName = "tru:Turoyo";
 			project.Object.AnalysisISO3CodeAndName = sampleLanguageCodeAndName;
-			var model = AddIMDISessionTestSetup(out var imdiSession);
+			var model = AddIMDISessionTestSetup();
 			ArchivingHelper.Project = project.Object;
-			ArchivingHelper.AddIMDISession(_session, model.Object);
-			var val = (from c in imdiSession.Object.MDGroup.Content.Languages.Language
+			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object) 
+				as SIL.Archiving.IMDI.Schema.Session;
+			var val = (from c in imdiSession.MDGroup.Content.Languages.Language
 				from n in c.Name
 				from d in c.Description
 				where d.Value.Contains("Working")
@@ -488,9 +503,10 @@ namespace SayMoreTests.Utilities
 		{
 			const string sampleValue = "I met him in college";
 			_personMetaFile.Object.MetaDataFieldValues.Add(new FieldInstance("notes", sampleValue));
-			var model = AddIMDISessionTestSetup(out var imdiSession);
-			ArchivingHelper.AddIMDISession(_session, model.Object);
-			var val = (from a in imdiSession.Object.MDGroup.Actors.Actor
+			var model = AddIMDISessionTestSetup();
+			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object) 
+				as SIL.Archiving.IMDI.Schema.Session;
+			var val = (from a in imdiSession.MDGroup.Actors.Actor
 				from d in a.Description
 				select d.Value).FirstOrDefault();
 			Assert.AreEqual(sampleValue, val);
@@ -502,9 +518,10 @@ namespace SayMoreTests.Utilities
 			const string sampleNote = "A personal history";
 			var sourceMediaFile1 = IMDIMediaFileSetup();
 			sourceMediaFile1.Object.MetaDataFieldValues.Add(new FieldInstance("notes", sampleNote));
-			var model = AddIMDISessionTestSetup(out var imdiSession, sourceMediaFile1.Object);
-			ArchivingHelper.AddIMDISession(_session, model.Object);
-			var val = (from f in imdiSession.Object.Resources.MediaFile
+			var model = AddIMDISessionTestSetup(sourceMediaFile1.Object);
+			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object) 
+				as SIL.Archiving.IMDI.Schema.Session;
+			var val = (from f in imdiSession.Resources.MediaFile
 				from d in f.Description
 				where d.Value != null
 				select d.Value).FirstOrDefault();
@@ -516,9 +533,10 @@ namespace SayMoreTests.Utilities
 		{
 			const string sampleValue = "house next to flag pole";
 			_personMetaFile.Setup(m => m.GetStringValue("howToContact", It.IsAny<string>())).Returns(sampleValue);
-			var model = AddIMDISessionTestSetup(out var imdiSession);
-			ArchivingHelper.AddIMDISession(_session, model.Object);
-			var val = (from a in imdiSession.Object.MDGroup.Actors.Actor
+			var model = AddIMDISessionTestSetup();
+			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object)
+				as SIL.Archiving.IMDI.Schema.Session;
+			var val = (from a in imdiSession.MDGroup.Actors.Actor
 				where a.Contact != null
 				select a.Contact.Address).FirstOrDefault();
 			Assert.AreEqual(sampleValue, val);
@@ -538,14 +556,15 @@ namespace SayMoreTests.Utilities
 			sessionContributions.Object.Add(new Contribution("ddo-person", new Role("edt", "Editor", null)));
 			_session.MetaFile.Setup(m => m.GetValue(SessionFileType.kContributionsFieldName, null))
 				.Returns(sessionContributions.Object);
-			var model = AddIMDISessionTestSetup(out var imdiSession, sourceMediaFile1.Object);
-			ArchivingHelper.AddIMDISession(_session, model.Object);
-			var val = (from a in imdiSession.Object.MDGroup.Actors.Actor
+			var model = AddIMDISessionTestSetup(sourceMediaFile1.Object);
+			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object)
+				as SIL.Archiving.IMDI.Schema.Session;
+			var val = (from a in imdiSession.MDGroup.Actors.Actor
 				from n in a.Name
 				where n == samplePerson
 				select n).FirstOrDefault();
 			Assert.AreEqual(samplePerson, val);
-			var actor = imdiSession.Object.MDGroup.Actors.Actor.FirstOrDefault(a => a.FullName.Contains("ddo-person"));
+			var actor = imdiSession.MDGroup.Actors.Actor.FirstOrDefault(a => a.FullName.Contains("ddo-person"));
 			Assert.That(actor.Role.Value, Is.EqualTo("Editor"));
 		}
 
@@ -555,9 +574,10 @@ namespace SayMoreTests.Utilities
 			const string sampleDuration = "06:03:00";
 			var sourceMediaFile1 = IMDIMediaFileSetup();
 			sourceMediaFile1.Object.MetaDataFieldValues.Add(new FieldInstance("Duration", sampleDuration));
-			var model = AddIMDISessionTestSetup(out var imdiSession, sourceMediaFile1.Object);
-			ArchivingHelper.AddIMDISession(_session, model.Object);
-			var val = (from f in imdiSession.Object.Resources.MediaFile
+			var model = AddIMDISessionTestSetup(sourceMediaFile1.Object);
+			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object)
+				as SIL.Archiving.IMDI.Schema.Session;
+			var val = (from f in imdiSession.Resources.MediaFile
 				where f.TimePosition.End != null
 				where f.TimePosition.End != "Unspecified"
 				select f.TimePosition.End).FirstOrDefault();
@@ -569,20 +589,18 @@ namespace SayMoreTests.Utilities
 		{
 			const string sampleCode = "123";
 			_personMetaFile.Setup(m => m.GetStringValue(PersonFileType.kCode, It.IsAny<string>())).Returns(sampleCode);
-			var model = AddIMDISessionTestSetup(out var imdiSession);
-			ArchivingHelper.AddIMDISession(_session, model.Object);
-			var val = (from a in imdiSession.Object.MDGroup.Actors.Actor
+			var model = AddIMDISessionTestSetup();
+			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object) as SIL.Archiving.IMDI.Schema.Session;
+			var val = (from a in imdiSession.MDGroup.Actors.Actor
 				where !string.IsNullOrEmpty(a.Code)
 				select a.Code).FirstOrDefault();
 			Assert.AreEqual(sampleCode, val);
 		}
 
-		private Mock<IMDIArchivingDlgViewModel> AddIMDISessionTestSetup(out Mock<SIL.Archiving.IMDI.Schema.Session> imdiSession, ComponentFile mediaFile = null)
+		private Mock<IMDIArchivingDlgViewModel> AddIMDISessionTestSetup(ComponentFile mediaFile = null)
 		{
 			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo", "ddo-session",
 				false, null, @"C:\my_imdi_folder");
-			imdiSession = new Mock<SIL.Archiving.IMDI.Schema.Session>(MockBehavior.Strict);
-			imdiSession.Object.Name = "ddo";
 			_session.MediaFiles = mediaFile == null ? new ComponentFile[0] : new[] { mediaFile };
 			return model;
 		}
@@ -653,6 +671,4 @@ namespace SayMoreTests.Utilities
 			return ComponentFile.CreateMinimalComponentFileForTests(parentElement, pathToAnnotatedFile);
 		}
 	}
-
-
 }

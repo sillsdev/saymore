@@ -40,8 +40,10 @@ namespace SayMore.Model
 		/// language</param>
 		/// <param name="mothersLanguage">Flag indicating whether this is the person's mother's
 		/// language</param>
-		/// <returns>Result of attempted disambiguation. Null if the operation was cancelled or
-		/// otherwise unsuccessful</returns>
+		/// <returns>Result of attempted disambiguation. Normally, this should be a string with a
+		/// known BCP-47 language code, optionally (but typically) followed by a colon and a
+		/// human-readable language name. If the operation was cancelled or otherwise
+		/// unsuccessful, this should return <c>null</c>.</returns>
 		string Disambiguate(string language, string personId, bool primaryLanguage,
 			bool fathersLanguage, bool mothersLanguage);
 	}

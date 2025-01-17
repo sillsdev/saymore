@@ -56,7 +56,7 @@ namespace SayMore.Model
 		/// language. Only strings that are exactly two or three characters in length and are
 		/// either all uppercase or all lowercase will be treated as potentially ambiguous. If
 		/// such strings are valid ISO-639-1 or ISO-639-2 language codes and also can be
-		/// identified as a known language name with a different code, then there are considered
+		/// identified as a known language name with a different code, then they are considered
 		/// ambiguous.
 		/// </summary>
 		/// <param name="language">A string representing a language</param>
@@ -74,7 +74,7 @@ namespace SayMore.Model
 		/// that a user would specify a language in that form just by typing in a text field.
 		/// Therefore, if we encounter a colon in the passed-in language string, we will assume
 		/// that the portion before the colon is a code (not a language name) and simply ensure
-		/// that the code is valid (and therefor unambiguous); anything after the colon will be
+		/// that the code is valid (and therefore unambiguous); anything after the colon will be
 		/// disregarded.
 		/// </remarks>
 		public static bool IsAmbiguous(string language, bool isInVietnam = false)

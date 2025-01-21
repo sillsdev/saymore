@@ -206,18 +206,16 @@ namespace SayMore
 		{
 			get
 			{
-				// In production, this is super simple. It's merely Application.ProductVersion.
-				// However, when running tests, that ends up falling back until finally it gets
-				// the version associated with the console runner program. We don't much care in
-				// tests, except when that version can't actually be parsed as a version!
-				// We could do this first, since it should be correct in production, but it will
-				// usually be wrong in tests, even though it might provide a "valid" version:
-				//if (Version.TryParse(Application.ProductVersion, out var result) &&
-				//	result.ToString() == Application.ProductVersion)
-				//	return Application.ProductVersion;
-
 				if (_productVersion != null)
 					return _productVersion;
+
+				if (Assembly.GetEntryAssembly() != null)
+					return _productVersion = Application.ProductVersion; // in production
+				
+				// When running tests, Application.ProductVersion ends up falling back until
+				// finally it gets the version associated with the console runner program. We
+				// really don't care, except when that version can't be parsed as a version!
+				// But still it feels kind of wrong to use that version even in tests.
 
 				var pathToExecutingAssembly = Assembly.GetExecutingAssembly().EntryPoint?
 					.ReflectedType?.Module.FullyQualifiedName;
@@ -229,10 +227,7 @@ namespace SayMore
 				    result.ToString() == productVersion)
 					return _productVersion = productVersion;
 
-				// Let's not even bother caching this, it's so apt to end poorly. The other option
-				// would be to return a hardcoded version, but we might as well find out that
-				// things are in bad shape.
-				return Application.ProductVersion;
+				throw new ApplicationException("Could not obtain a valid product version!");
 			}
 		}
 

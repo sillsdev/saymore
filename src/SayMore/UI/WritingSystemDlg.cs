@@ -22,16 +22,16 @@ namespace SayMore.UI
 		{
 			using (var dlg = new LanguageLookupDialog())
 			{
-				string caption;
+				string captionFmt;
 				if (primaryLanguage)
 				{
-					caption = LocalizationManager.GetString("WritingSystemDlg.PrimaryLanguage",
+					captionFmt = LocalizationManager.GetString("WritingSystemDlg.PrimaryLanguage",
 						"Primary language for {0}",
 						"Param is id (probably name) of person");
 				}
 				else if (fathersLanguage)
 				{
-					caption = mothersLanguage ? 
+					captionFmt = mothersLanguage ? 
 						LocalizationManager.GetString("WritingSystemDlg.ParentsLanguage",
 							"Primary language used by the parents of {0}", 
 							"Param is id (probably name) of person") :
@@ -41,19 +41,18 @@ namespace SayMore.UI
 				}
 				else if (mothersLanguage)
 				{
-					caption = LocalizationManager.GetString("WritingSystemDlg.MothersLanguage",
+					captionFmt = LocalizationManager.GetString("WritingSystemDlg.MothersLanguage",
 						"Primary language used by the mother of {0}",
 						"Param is id (probably name) of person");
 				}
 				else
 				{
-					caption = LocalizationManager.GetString("WritingSystemDlg.MothersLanguage",
+					captionFmt = LocalizationManager.GetString("WritingSystemDlg.AnotherLanguage",
 						"Another language used by {0}",
 						"Param is id (probably name) of person");
 				}
 
-				caption = Format(caption, personId);
-				dlg.Caption = caption;
+				dlg.Caption = Format(captionFmt, personId);
 				var parts = LanguageHelper.GetParts(language);
 				if (parts.Count > 1)
 				{

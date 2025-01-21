@@ -13,6 +13,7 @@ using SIL.WritingSystems;
 using System.Linq;
 using SIL.Extensions;
 using static System.Char;
+using System;
 
 namespace SayMore.Model
 {
@@ -38,7 +39,7 @@ namespace SayMore.Model
 		/// </summary>
 		/// <param name="languageCode">A 2-letter or 3-letter code.</param>
 		/// <returns>Typically, a valid ISO 639-2 3-letter code.</returns>
-		public static string GetIso639ThreeCharCode(string languageCode)
+		public static string GetIso639ThreeCharCode(this string languageCode)
 		{
 			languageCode = languageCode?.Split('-')[0];
 			if (languageCode?.Length == 2)
@@ -49,6 +50,11 @@ namespace SayMore.Model
 			}
 
 			return languageCode;
+		}
+
+		public static string[] SplitOnColon(this string languageStr)
+		{
+			return languageStr.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
 		}
 
 		/// <summary>
@@ -72,13 +78,12 @@ namespace SayMore.Model
 		/// language-chooser UI was used to specify the language, it should have the form
 		/// "code:name", where the code is a valid BCP-47 code. It is unlikely (though possible)
 		/// that a user would specify a language in that form just by typing in a text field.
-		/// Therefore, if we encounter a colon in the passed-in language string, we will assume
-		/// that the portion before the colon is a code (not a language name) and simply ensure
-		/// that the code is valid (and therefore unambiguous); anything after the colon will be
-		/// disregarded.
+		/// Therefore, if we encounter that form, we will assume that the portion before the
+		/// colon is a code (not a language name) and treat it as unambiguous.
 		/// </remarks>
 		public static bool IsAmbiguous(string language, bool isInVietnam = false)
 		{
+			language = language.Split(':')[0];
 			switch (language.Length)
 			{
 				case 2:

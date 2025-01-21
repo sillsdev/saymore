@@ -247,7 +247,8 @@ namespace SayMore.Model
 			// session languages
 			if (Project != null)
 			{
-				var vernacularLanguage = ParseLanguage(GetIso639ThreeCharCode(Project.VernacularISO3CodeAndName), null);
+				var vernacularLanguage = ParseLanguage(
+					Project.VernacularISO3CodeAndName.GetIso639ThreeCharCode(), null);
 				if (vernacularLanguage != null)
 					imdiSession.AddContentLanguage(vernacularLanguage, new LanguageString("Content Language", analysisLanguage));
 			}
@@ -303,10 +304,12 @@ namespace SayMore.Model
 				var actor = InitializeActor(model, person, sessionDateTime, GetRole(person.Id, actors, contributions));
 
 				// Do this to get the ISO3 codes for the languages because they are not in SayMore
-				var language = GetOneLanguage(GetIso639ThreeCharCode(person.MetaDataFile.GetStringValue(kPrimaryLanguage, null)));
+				var language = GetOneLanguage(person.MetaDataFile
+					.GetStringValue(kPrimaryLanguage, null).GetIso639ThreeCharCode());
 				if (language != null)
 					actor.PrimaryLanguage = language;
-				language = GetOneLanguage(GetIso639ThreeCharCode(person.MetaDataFile.GetStringValue("mothersLanguage", null)));
+				language = GetOneLanguage(person.MetaDataFile
+					.GetStringValue("mothersLanguage", null).GetIso639ThreeCharCode());
 				if (language != null) 
 					actor.MotherTongueLanguage = language;
 
@@ -316,7 +319,7 @@ namespace SayMore.Model
 					var languageKey = person.MetaDataFile.GetStringValue("otherLanguage" + i, null);
 					if (IsNullOrEmpty(languageKey))
 						continue;
-					language = GetOneLanguage(GetIso639ThreeCharCode(languageKey));
+					language = GetOneLanguage(languageKey.GetIso639ThreeCharCode());
 					if (language == null)
 						continue;
 					actor.Iso3Languages.Add(language);
@@ -413,11 +416,8 @@ namespace SayMore.Model
 			var analysisLanguage = saymoreProject?.AnalysisISO3CodeAndName;
 			if (IsNullOrEmpty(analysisLanguage))
 				analysisLanguage = FallbackAnalysisLanguage;
-			if (analysisLanguage.Contains(":"))
-				analysisLanguage = analysisLanguage.Split(':')[0];
-			// In case of things like pt-PT; no-op if no hyphen
-			analysisLanguage = analysisLanguage.Split('-')[0];
-			analysisLanguage = GetIso639ThreeCharCode(analysisLanguage);
+			analysisLanguage = analysisLanguage.SplitOnColon()[0];
+			analysisLanguage = analysisLanguage.GetIso639ThreeCharCode();
 			return analysisLanguage;
 		}
 
@@ -431,7 +431,7 @@ namespace SayMore.Model
 			if (languageStr == null)
 				return null;
 
-			var parts = languageStr.Split(':');
+			var parts = languageStr.SplitOnColon();
 			if (TryGetArchivingLanguageFromCode(parts[0], out var result))
 				return result;
 
@@ -439,11 +439,10 @@ namespace SayMore.Model
 			var language = LanguageList.FindByEnglishName(languageStr);
 
 			if (language != null && language.Iso3Code != "und" && !IsNullOrEmpty(language.EnglishName))
-				return new ArchivingLanguage(GetIso639ThreeCharCode(language.Iso3Code),
+				return new ArchivingLanguage(language.Iso3Code.GetIso639ThreeCharCode(),
 					language.Definition, language.EnglishName);
-
 			
-			if (TryGetArchivingLanguageFromCode(languageStr, out result))
+			if (parts.Length > 1 && TryGetArchivingLanguageFromCode(languageStr, out result))
 				return result;
 
 			return null;
@@ -490,7 +489,7 @@ namespace SayMore.Model
 		{
 			get
 			{
-				var language = GetIso639ThreeCharCode(Settings.Default.UserInterfaceLanguage);
+				var language = Settings.Default.UserInterfaceLanguage.GetIso639ThreeCharCode();
 				return $@"{language}: {_LanguageLookup.GetLanguageFromCode(language).DesiredName}";
 			}
 		}
@@ -628,8 +627,8 @@ namespace SayMore.Model
 
 				// SP-765:  Allow codes from Ethnologue that are not in the Arbil list
 				archivingLanguage = IsNullOrEmpty(language?.EnglishName)
-					? new ArchivingLanguage(GetIso639ThreeCharCode(parts[0]), parts[1], parts[1])
-					: new ArchivingLanguage(GetIso639ThreeCharCode(language.Iso3Code), parts[1], language.EnglishName);
+					? new ArchivingLanguage(parts[0].GetIso639ThreeCharCode(), parts[1], parts[1])
+					: new ArchivingLanguage(language.Iso3Code.GetIso639ThreeCharCode(), parts[1], language.EnglishName);
 				package?.MetadataIso3Languages.Add(archivingLanguage);
 			}
 			else if (parts.Count == 1)
@@ -637,7 +636,7 @@ namespace SayMore.Model
 				var language = LanguageList.FindByISO3Code(parts[0]);
 				if (!IsNullOrEmpty(language?.EnglishName))
 				{
-					archivingLanguage = new ArchivingLanguage(GetIso639ThreeCharCode(language.Iso3Code), parts[1], language.EnglishName);
+					archivingLanguage = new ArchivingLanguage(language.Iso3Code.GetIso639ThreeCharCode(), parts[1], language.EnglishName);
 					package?.MetadataIso3Languages.Add(archivingLanguage);
 				}
 			}

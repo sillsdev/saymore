@@ -12,7 +12,7 @@ namespace SayMoreTests.Model
 		[TestCase("fr", ExpectedResult = "fra")]
 		public string GetIso639ThreeCharCode_TwoLetterCode_GetsThreeLetterCode(string twoLetterCode)
 		{
-			return LanguageHelper.GetIso639ThreeCharCode(twoLetterCode);
+			return twoLetterCode.GetIso639ThreeCharCode();
 		}
 
 		[TestCase("eng")]
@@ -23,7 +23,7 @@ namespace SayMoreTests.Model
 		[TestCase("___")]
 		public void GetIso639ThreeCharCode_ThreeLetterCode_ReturnsInput(string threeLetterCode)
 		{
-			Assert.That(LanguageHelper.GetIso639ThreeCharCode(threeLetterCode), 
+			Assert.That(threeLetterCode.GetIso639ThreeCharCode(), 
 				Is.EqualTo(threeLetterCode));
 		}
 
@@ -35,7 +35,7 @@ namespace SayMoreTests.Model
 		[TestCase("____")]
 		public void GetIso639ThreeCharCode_NullOrLongerName_ReturnsInput(string language)
 		{
-			Assert.That(LanguageHelper.GetIso639ThreeCharCode(language), 
+			Assert.That(language.GetIso639ThreeCharCode(), 
 				Is.EqualTo(language));
 		}
 
@@ -44,9 +44,9 @@ namespace SayMoreTests.Model
 		[TestCase("am-Latn", ExpectedResult = "amh" )]
 		[TestCase("am-Ethi", ExpectedResult = "amh")]
 		[TestCase("egy-Latn", ExpectedResult = "egy")]
-		public string GetIso639ThreeCharCode_BCP47CodeWithAdditionalSubtags_ReturnsInput(string language)
+		public string GetIso639ThreeCharCode_BCP47CodeWithAdditionalSubtags_ReturnsIso639ThreeLetterCode(string language)
 		{
-			return LanguageHelper.GetIso639ThreeCharCode(language);
+			return language.GetIso639ThreeCharCode();
 		}
 
 		[TestCase("eng")]
@@ -62,6 +62,9 @@ namespace SayMoreTests.Model
 		[TestCase("en")] // See test below which deals with special case of Vietnam
 		[TestCase("En")] // Endangered language of Vietnam
 		[TestCase("es:Spanish")]
+		[TestCase("esp:Spanish")] // Wrong-ish, but we'll treat as unambiguous
+		[TestCase("es:")] // Weird, but possible
+		[TestCase("e:s")] // Weirder, but possible
 		[TestCase("iii")]
 		[TestCase("Walloon")]
 		[TestCase("mas")]
@@ -79,10 +82,18 @@ namespace SayMoreTests.Model
 		/// </summary>
 		/// <param name="language"></param>
 		[TestCase("EN")]
-		[TestCase("en")] 
-		public void IsAmbiguous_SpecialCaseOfENInVietnam_ReturnsFalse(string language)
+		[TestCase("en")]
+		[TestCase("eng")] // ZVietnam flag is irrelevant for this case
+		public void IsAmbiguous_SpecialCaseOfENInVietnam_ReturnsTrue(string language)
 		{
 			Assert.That(LanguageHelper.IsAmbiguous(language, true), Is.True);
+		}
+
+		[TestCase("iii")]
+		[TestCase("mas")]
+		public void IsAmbiguous_UnambiguousCodeEvenInVietnam_ReturnsFalse(string language)
+		{
+			Assert.That(LanguageHelper.IsAmbiguous(language, true), Is.False);
 		}
 
 		/// <summary>
@@ -107,15 +118,16 @@ namespace SayMoreTests.Model
 		}
 
 		/// <summary>
-		/// Tests that the portion before the colon 
-		/// tag and a language name, delimited with a colon.
+		/// Tests cases where that the portion before the colon is not a valid BCP-47 tag.
 		/// </summary>
-		/// <param name="language"></param>
+		/// <param name="language">tag and a language name, delimited with a colon</param>
 		[TestCase("esp:Español")]
 		[TestCase("eng:English")] 
 		[TestCase("ENG:Greek Sign Language")] 
 		[TestCase("en-american-latn:English")] 
-		[TestCase("guac:Guacamolian")] 
+		[TestCase("guac:Guacamolian")]
+		[TestCase(":Nothingish")]
+		[TestCase("a:Shortish")]
 		public void IsWellFormedTwoPartLanguageSpecification_TwoPartsWithInvalidCode_ReturnsFalse(string language)
 		{
 			Assert.That(LanguageHelper.IsWellFormedTwoPartLanguageSpecification(language),
@@ -123,10 +135,9 @@ namespace SayMoreTests.Model
 		}
 
 		/// <summary>
-		/// Tests that the portion before the colon 
-		/// tag and a language name, delimited with a colon.
+		/// Tests cases where that the portion before the colon is a valid BCP-47 tag.
 		/// </summary>
-		/// <param name="language"></param>
+		/// <param name="language">tag and a language name, delimited with a colon</param>
 		[TestCase("es:Español")]
 		[TestCase("en:English")] 
 		[TestCase("gss:Greek Sign Language")]

@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Autofac;
 using L10NSharp;
@@ -199,6 +201,41 @@ namespace SayMore
 			}
 		}
 
+		private static string _productVersion;
+		public static string ProductVersion
+		{
+			get
+			{
+				// In production, this is super simple. It's merely Application.ProductVersion.
+				// However, when running tests, that ends up falling back until finally it gets
+				// the version associated with the console runner program. We don't much care in
+				// tests, except when that version can't actually be parsed as a version!
+				// We could do this first, since it should be correct in production, but it will
+				// usually be wrong in tests, even though it might provide a "valid" version:
+				//if (Version.TryParse(Application.ProductVersion, out var result) &&
+				//	result.ToString() == Application.ProductVersion)
+				//	return Application.ProductVersion;
+
+				if (_productVersion != null)
+					return _productVersion;
+
+				var pathToExecutingAssembly = Assembly.GetExecutingAssembly().EntryPoint?
+					.ReflectedType?.Module.FullyQualifiedName;
+				var productVersion = pathToExecutingAssembly != null ?
+					FileVersionInfo.GetVersionInfo(pathToExecutingAssembly).ProductVersion :
+					Regex.Match(Application.ProductVersion, @"^\d+(\.\d+){0,3}").Value;
+
+				if (Version.TryParse(productVersion, out var result) &&
+				    result.ToString() == productVersion)
+					return _productVersion = productVersion;
+
+				// Let's not even bother caching this, it's so apt to end poorly. The other option
+				// would be to return a hardcoded version, but we might as well find out that
+				// things are in bad shape.
+				return Application.ProductVersion;
+			}
+		}
+
 		public ILocalizationManager CreateLocalizationManager()
 		{
 			const string emailForLocalizations = "sil.saymore@gmail.com";
@@ -215,12 +252,12 @@ namespace SayMore
 
 			var localizationManager = LocalizationManager.Create(currentUiLanguage,
 				kSayMoreLocalizationId + ".exe", Application.ProductName,
-				Application.ProductVersion, installedStringFileFolder,
+				ProductVersion, installedStringFileFolder,
 				relativePathForWritingL10nFiles, Resources.SayMore, emailForLocalizations,
 				new [] {"SayMore" });
 
 			LocalizationManager.Create(currentUiLanguage,
-				kPalasoLocalizationId, kPalasoLocalizationId, Application.ProductVersion,
+				kPalasoLocalizationId, kPalasoLocalizationId, ProductVersion,
 				installedStringFileFolder, relativePathForWritingL10nFiles, Resources.SayMore,
 				emailForLocalizations, new [] {"SIL.Archiving", "SIL.Windows.Forms.FileSystem",
 				"SIL.Windows.Forms.ClearShare", "SIL.Windows.Forms.Miscellaneous",

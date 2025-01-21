@@ -16,7 +16,6 @@ using SayMore.Properties;
 using SayMoreTests.Utilities;
 using SIL.Archiving;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace SayMoreTests.Model
 {
@@ -127,11 +126,8 @@ namespace SayMoreTests.Model
 		[OneTimeSetUp]
 		public void OneTimeSetUp()
 		{
-			Console.WriteLine();
-			Assert.That(Version.TryParse(Application.ProductVersion, out var result), Is.True,
-				$"Application.ProductVersion ({Application.ProductVersion}) is not in a valid " +
-				$"format. Entry assembly: {Assembly.GetEntryAssembly()}");
-			Assert.That(result.ToString(), Is.EqualTo(Application.ProductVersion));
+			Console.WriteLine($"{Environment.NewLine}ApplicationContainer.ProductVersion: " +
+				$"{ApplicationContainer.ProductVersion}");
 		}
 
 		[SetUp]

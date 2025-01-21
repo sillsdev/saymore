@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Principal;
 using System.Xml;
 using System.Xml.Linq;
 using Moq;
@@ -17,6 +16,7 @@ using SayMore.Properties;
 using SayMoreTests.Utilities;
 using SIL.Archiving;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace SayMoreTests.Model
 {
@@ -124,11 +124,20 @@ namespace SayMoreTests.Model
 		private ProjectContext _projectContext;
 		private List<Session> _dummySessions;
 
+		[OneTimeSetUp]
+		public void OneTimeSetUp()
+		{
+			Console.WriteLine($"{Environment.NewLine}Application.ProductVersion: {Application.ProductVersion}");
+			Assert.That(new Version(Application.ProductVersion).ToString(),
+				Is.EqualTo(Application.ProductVersion));
+		}
+
 		[SetUp]
 		public void Setup()
 		{
 			_dummySessions = new List<Session>();
 			_parentFolder = new TemporaryFolder("projectTest");
+
 
 			_appContext = new ApplicationContainer();
 			_projectContext = CreateProjectContext(_appContext);

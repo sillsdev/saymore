@@ -127,9 +127,11 @@ namespace SayMoreTests.Model
 		[OneTimeSetUp]
 		public void OneTimeSetUp()
 		{
-			Console.WriteLine($"{Environment.NewLine}Application.ProductVersion: {Application.ProductVersion}");
-			Assert.That(new Version(Application.ProductVersion).ToString(),
-				Is.EqualTo(Application.ProductVersion));
+			Console.WriteLine();
+			Assert.That(Version.TryParse(Application.ProductVersion, out var result), Is.True,
+				$"Application.ProductVersion ({Application.ProductVersion}) is not in a valid " +
+				$"format. Entry assembly: {Assembly.GetEntryAssembly()}");
+			Assert.That(result.ToString(), Is.EqualTo(Application.ProductVersion));
 		}
 
 		[SetUp]

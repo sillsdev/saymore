@@ -298,7 +298,7 @@ namespace SayMore.UI
 				// assembly info, use a range ending in the current year (Is this even legal?).
 				var copyRight = attributes.Length > 0 ?
 					((AssemblyCopyrightAttribute)attributes[0]).Copyright :
-					$"(C) 2002-{DateTime.Now.Year} SIL International";
+					$"(C) 2002-{DateTime.Now.Year} SIL Global";
 
 				lblCopyright.Text = string.Format(lblCopyright.Text, copyRight.Replace("(C)", "©"), "\n");
 			}

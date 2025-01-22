@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Text;
+using NUnit.Framework;
 using SayMore.Model;
 
 namespace SayMoreTests.Model
@@ -124,7 +125,7 @@ namespace SayMoreTests.Model
 		[TestCase("esp:Español")]
 		[TestCase("eng:English")] 
 		[TestCase("ENG:Greek Sign Language")] 
-		[TestCase("en-american-latn:English")] 
+		[TestCase("en-american-latn:English")]
 		[TestCase("guac:Guacamolian")]
 		[TestCase(":Nothingish")]
 		[TestCase("a:Shortish")]
@@ -152,6 +153,61 @@ namespace SayMoreTests.Model
 		{
 			Assert.That(LanguageHelper.IsWellFormedTwoPartLanguageSpecification(language),
 				Is.True);
+		}
+
+		/// <summary>
+		/// Test condition where user is typing some additional subtags following the valid language tag.
+		/// Since our dialog does not support creating fully qualified valid tags, once we've determined
+		/// that the leading subtag is a valid language specifier, we just want to treat anything after
+		/// the first dash as valid, so we don't drive the user bonkers by popping up the dialog over and
+		/// over as they type.
+		/// </summary>
+		/// <param name="language"></param>
+		[TestCase("en:English")]
+		[TestCase("qaa:Some language no one knows about")]
+		public void IsWellFormedTwoPartLanguageSpecification_UserInProcessOfAddingSubtags_ReturnsTrue(string language)
+		{
+			var sb = new StringBuilder(language);
+			var i = language.IndexOf(':');
+			foreach (var ch in "-Latn-US")
+			{
+				sb.Insert(i++, ch);
+				
+				Assert.That(LanguageHelper.IsWellFormedTwoPartLanguageSpecification(sb.ToString()),
+					Is.True);
+			}
+		}
+
+		[TestCase("en:English")]
+		[TestCase("af:Afrikaans")]
+		[TestCase("qaa:Some language no one knows about")]
+		[TestCase("af:::what:")] // Probably just barely valid
+		public void IsValidBCP47SayMoreLanguageSpecification_ValidCodeAndLanguage_ReturnsTrue(string value)
+		{
+			Assert.That(LanguageHelper.IsValidBCP47SayMoreLanguageSpecification(value), Is.True);
+		}
+
+		[TestCase("noh")]
+		[TestCase("mas")]
+		public void IsValidBCP47SayMoreLanguageSpecification_ValidBCP47Code_ReturnsTrue(string value)
+		{
+			Assert.That(LanguageHelper.IsValidBCP47SayMoreLanguageSpecification(value), Is.True);
+		}
+		
+		[TestCase("iii")]
+		[TestCase("i0i")]
+		[TestCase("m")]
+		public void IsValidBCP47SayMoreLanguageSpecification_InvalidCode_ReturnsFalse(string value)
+		{
+			Assert.That(LanguageHelper.IsValidBCP47SayMoreLanguageSpecification(value), Is.False);
+		}
+		
+		[TestCase("i0i:Frog")]
+		[TestCase("m:Mandarin")]
+		[TestCase("en:")]
+		public void IsValidBCP47SayMoreLanguageSpecification_InvalidCodeAndLanguage_ReturnsFalse(string value)
+		{
+			Assert.That(LanguageHelper.IsValidBCP47SayMoreLanguageSpecification(value), Is.False);
 		}
 	}
 }

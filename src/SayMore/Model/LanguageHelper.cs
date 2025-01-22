@@ -110,5 +110,11 @@ namespace SayMore.Model
 		{
 			return GetTwoPartLanguageSpecification(languageDesignator)?.IsValid ?? false;
 		}
+
+		public static bool IsValidBCP47SayMoreLanguageSpecification(string currentValue)
+		{
+			return IsWellFormedTwoPartLanguageSpecification(currentValue) ||
+				IetfLanguageTag.IsValid(currentValue);
+		}
 	}
 }

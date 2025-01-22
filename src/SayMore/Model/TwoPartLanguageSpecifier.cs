@@ -13,9 +13,18 @@ namespace SayMore.Model
 {
 	public class TwoPartLanguageSpecifier
 	{
-		string Code { get; }
-		string Name { get; }
-		public bool IsValid => IetfLanguageTag.IsValid(Code);
+		public string Code { get; }
+		public string Name { get; }
+
+		public bool IsValid
+		{
+			get
+			{
+				var finalDash = Code.LastIndexOf('-');
+				var code = finalDash > 1 ? Code.Substring(0, finalDash) : Code;
+				return IetfLanguageTag.IsValid(code); 
+			}
+		}
 
 		public TwoPartLanguageSpecifier(string code, string name)
 		{

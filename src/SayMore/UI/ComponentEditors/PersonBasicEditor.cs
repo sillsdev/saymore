@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.ComponentModel;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using L10NSharp;
 using SayMore.Model;
@@ -82,6 +83,11 @@ namespace SayMore.UI.ComponentEditors
 			LoadAndValidatePersonInfo();
 
 			_binder.OnDataSaved += _binder_OnDataSaved;
+			_primaryLanguage.Validating += HandleValidatingLanguage;
+			_otherLanguage0.Validating += HandleValidatingLanguage;
+			_otherLanguage1.Validating += HandleValidatingLanguage;
+			_otherLanguage2.Validating += HandleValidatingLanguage;
+			_otherLanguage3.Validating += HandleValidatingLanguage;
 
 			NotifyWhenProjectIsSet();
 		}
@@ -110,6 +116,11 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			_binder.OnDataSaved -= _binder_OnDataSaved;
+			_primaryLanguage.Validating -= HandleValidatingLanguage;
+			_otherLanguage0.Validating -= HandleValidatingLanguage;
+			_otherLanguage1.Validating -= HandleValidatingLanguage;
+			_otherLanguage2.Validating -= HandleValidatingLanguage;
+			_otherLanguage3.Validating -= HandleValidatingLanguage;
 
 			base.OnHandleDestroyed(e);
 		}
@@ -191,7 +202,7 @@ namespace SayMore.UI.ComponentEditors
 			return picFile == null ? null : _imgFileType.GetMetaFilePath(picFile);
 		}
 
-		#region Methods for handling parents' language
+		#region Methods for handling languages
 		/// ------------------------------------------------------------------------------------
 		private void LoadParentLanguages()
 		{
@@ -206,7 +217,7 @@ namespace SayMore.UI.ComponentEditors
 
 
 			// SP-810: Parent language data not saving correctly
-			var fathersLanguage = _binder.GetValue("fathersLanguage");
+			var fathersLanguage = _binder.GetValue(PersonFileType.kFathersLanguage);
 			if (!string.IsNullOrEmpty(fathersLanguage))
 			{
 				var pb = _fatherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == fathersLanguage);
@@ -214,7 +225,7 @@ namespace SayMore.UI.ComponentEditors
 					pb.Selected = true;
 			}
 
-			var mothersLanguage = _binder.GetValue("mothersLanguage");
+			var mothersLanguage = _binder.GetValue(PersonFileType.kMothersLanguage);
 			if (!string.IsNullOrEmpty(mothersLanguage))
 			{
 				var pb = _motherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == mothersLanguage);
@@ -235,9 +246,9 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<KeyValuePair<string, string>> GetParentLanguageKeyValuePairs()
 		{
-			yield return new KeyValuePair<string, string>("fathersLanguage",
+			yield return new KeyValuePair<string, string>(PersonFileType.kFathersLanguage,
 				GetParentLanguageName(_fatherButtons.SingleOrDefault(x => x.Selected)));
-			yield return new KeyValuePair<string, string>("mothersLanguage",
+			yield return new KeyValuePair<string, string>(PersonFileType.kMothersLanguage,
 				GetParentLanguageName(_motherButtons.SingleOrDefault(x => x.Selected)));
 		}
 
@@ -277,20 +288,27 @@ namespace SayMore.UI.ComponentEditors
 
 		private void HandleLanguageFieldEnter(object sender, EventArgs e)
 		{
-			if (_suppressWsDlgOnNextEnter == sender)
-				_suppressWsDlgOnNextEnter = null;
-			else
+			if (_suppressWsDlgOnNextEnter != sender)
 				ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormedAndValuePresentOrPrimaryLanguage, sender);
 		}
 
 		private void HandleLanguageFieldChange(object sender, EventArgs e)
 		{
+			// If user has already cancelled out of the language lookup dialog once and now seems
+			// to be editing the unknown code (perhaps to select a different one besides qaa),
+			// don't bother them. We'll catch it later in validation.
+			if (_suppressWsDlgOnNextEnter == sender &&
+			    Regex.IsMatch(((TextBox)sender).Text, "^q([a-t][a-z]?)?:"))
+			{
+				return;
+			}
 			ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormed, sender);
 		}
 
 		private void HandleLanguageFieldClick(object sender, MouseEventArgs e)
 		{
-			ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormed, sender);
+			if (_suppressWsDlgOnNextEnter != sender)
+				ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormed, sender);
 		}
 
 		private void HandleLanguageFieldDoubleClick(object sender, MouseEventArgs e)
@@ -329,7 +347,9 @@ namespace SayMore.UI.ComponentEditors
 					_binder.ComponentFile.ParentElement.UiId, isPrimary,
 					GetParentButtonForTextBox(Father, textBox).Selected,
 					GetParentButtonForTextBox(Mother, textBox).Selected);
-				if (languageSpecifier == null)
+				// If the user cancels out or selects the "Unknown" language, we don't want
+				// to hassle them anymore as long as they stay in this text box.
+				if (languageSpecifier == null || languageSpecifier.Code == "qaa")
 					_suppressWsDlgOnNextEnter = textBox;
 				else
 					textBox.Text = languageSpecifier.ToString();
@@ -391,6 +411,32 @@ namespace SayMore.UI.ComponentEditors
 
 					_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
 				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleValidatingLanguage(object sender, CancelEventArgs e)
+		{
+			_suppressWsDlgOnNextEnter = null;
+			var textBox = (TextBox)sender;
+			var currentValue = textBox.Text;
+			if (LanguageHelper.IsValidBCP47SayMoreLanguageSpecification(currentValue))
+				return;
+
+			if (MessageBox.Show(this, string.Format(LocalizationManager.GetString(
+					    "PeopleView.MetadataEditor.InvalidBcp47Code",
+					    "The language entered does not appear to specify a valid code according " +
+					    "to {0}. Although {1} allows you to enter anything you want in this " +
+					    "field (e.g., just a language name or abbreviation), for archiving " +
+					    "purposes, a recognizable code is generally preferable. Would you like " +
+					    "to try to look up the intended language?",
+					    "Param 0: \"BCP-47\" (literal name of language tag standard; " +
+					    "Param 1: \"SayMore\" (product name)"),
+					    "BCP-47", ProductName),
+				    ProductName, MessageBoxButtons.YesNo) == DialogResult.Yes)
+			{
+				e.Cancel = true;
+				ShowWritingSystemDlgIfNeeded(ShowWsDlg.Unconditionally, sender);
 			}
 		}
 

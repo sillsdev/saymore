@@ -204,7 +204,7 @@
         <target xml:lang="fr" state="translated">Désolé, SayMore ne pouvait pas renommer ce fichier parce que quelque chose d'autre (peut-être une autre partie de SayMore) fait la lecture. Veuillez réessayer plus tard.</target>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg">
-        <source xml:lang="en">{0} could not rename the meta data file to '{1}' because there is already a file with that name.</source>
+        <source xml:lang="en">{0} could not rename the metadata file to '{1}' because there is already a file with that name.</source>
         <note>ID: CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg</note>
         <target xml:lang="fr" state="translated">{0} ne peut pas renommer le fichier de métadonnées pour '{1}' car il existe déjà un fichier de ce nom.</target>
       </trans-unit>

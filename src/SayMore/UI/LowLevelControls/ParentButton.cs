@@ -2,7 +2,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using SayMore.Properties;
 
 namespace SayMore.UI.LowLevelControls
 {

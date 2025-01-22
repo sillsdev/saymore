@@ -123,11 +123,19 @@ namespace SayMoreTests.Model
 		private ProjectContext _projectContext;
 		private List<Session> _dummySessions;
 
+		[OneTimeSetUp]
+		public void OneTimeSetUp()
+		{
+			Console.WriteLine($"{Environment.NewLine}ApplicationContainer.ProductVersion: " +
+				$"{ApplicationContainer.ProductVersion}");
+		}
+
 		[SetUp]
 		public void Setup()
 		{
 			_dummySessions = new List<Session>();
 			_parentFolder = new TemporaryFolder("projectTest");
+
 
 			_appContext = new ApplicationContainer();
 			_projectContext = CreateProjectContext(_appContext);
@@ -232,24 +240,19 @@ namespace SayMoreTests.Model
 			_dummySessions.Add(CreateDummySession("Underwater Marriage", person2));
 			_dummySessions.Add(CreateDummySession("Why Rice Can't Fly", person1, person3));
 			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "foo",
-				"foo", "Ignore this message", true, null, @"c:\my_imdi_folder");
-
-			// sessions
-			model.Setup(s => s.AddSession(_dummySessions[0].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[0].Id });
-			model.Setup(s => s.AddSession(_dummySessions[1].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[1].Id });
-			model.Setup(s => s.AddSession(_dummySessions[2].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[2].Id });
+				"foo", true, null, @"c:\my_imdi_folder");
 
 			// session files
-			model.Setup(s => s.AddFileGroup(_dummySessions[0].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[0].Title)));
-			model.Setup(s => s.AddFileGroup(_dummySessions[1].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[1].Title)));
-			model.Setup(s => s.AddFileGroup(_dummySessions[2].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[2].Title)));
+			model.Setup(s => s.AddFileGroup(_dummySessions[0].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), $"Adding Files for Session '{_dummySessions[0].Title}'"));
+			model.Setup(s => s.AddFileGroup(_dummySessions[1].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), $"Adding Files for Session '{_dummySessions[1].Title}'"));
+			model.Setup(s => s.AddFileGroup(_dummySessions[2].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), $"Adding Files for Session '{_dummySessions[2].Title}'"));
 
 			// contributor files
-			model.Setup(s => s.AddFileGroup("\n" + person1, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
-			model.Setup(s => s.AddFileGroup("\n" + person2, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
-			model.Setup(s => s.AddFileGroup("\n" + person3, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
+			model.Setup(s => s.AddFileGroup("\n" + person1, It.Is<HashSet<string>>(e => e.Count == 2), "Adding Files for Contributors..."));
+			model.Setup(s => s.AddFileGroup("\n" + person2, It.Is<HashSet<string>>(e => e.Count == 2), "Adding Files for Contributors..."));
+			model.Setup(s => s.AddFileGroup("\n" + person3, It.Is<HashSet<string>>(e => e.Count == 2), "Adding Files for Contributors..."));
 
-			prj.SetFilesToArchive(model.Object);
+			prj.SetFilesToArchive(model.Object, default);
 			model.VerifyAll();
 		}
 
@@ -265,27 +268,22 @@ namespace SayMoreTests.Model
 			_dummySessions.Add(CreateDummySession("Underwater Marriage", person2));
 			_dummySessions.Add(CreateDummySession("Why Rice Can't Fly", person1, person3));
 			var model = new Mock<RampArchivingDlgViewModel>(MockBehavior.Default, "SayMore", "ddo",
-				"ddo-session", "whatever", null, new Func<string, string, string>((a, b) => a));
-
-			// sessions
-			model.Setup(s => s.AddSession(_dummySessions[0].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[0].Id });
-			model.Setup(s => s.AddSession(_dummySessions[1].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[1].Id });
-			model.Setup(s => s.AddSession(_dummySessions[2].Id)).Returns(new SIL.Archiving.IMDI.Schema.Session { Name = _dummySessions[2].Id });
+				"ddo-session", null, new Func<string, string, string>((a, b) => a));
 
 			// session files
-			model.Setup(s => s.AddFileGroup(_dummySessions[0].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[0].Title)));
-			model.Setup(s => s.AddFileGroup(_dummySessions[1].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[1].Title)));
-			model.Setup(s => s.AddFileGroup(_dummySessions[2].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), string.Format("Adding Files for Session '{0}'", _dummySessions[2].Title)));
+			model.Setup(s => s.AddFileGroup(_dummySessions[0].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), $"Adding Files for Session '{_dummySessions[0].Title}'"));
+			model.Setup(s => s.AddFileGroup(_dummySessions[1].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), $"Adding Files for Session '{_dummySessions[1].Title}'"));
+			model.Setup(s => s.AddFileGroup(_dummySessions[2].Id, It.Is<IEnumerable<string>>(e => e.Count() == 3), $"Adding Files for Session '{_dummySessions[2].Title}'"));
 
 			// contributor files
-			model.Setup(s => s.AddFileGroup("\n" + person1, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
-			model.Setup(s => s.AddFileGroup("\n" + person2, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
-			model.Setup(s => s.AddFileGroup("\n" + person3, It.Is<HashSet<string>>(e => e.Count() == 2), "Adding Files for Contributors..."));
+			model.Setup(s => s.AddFileGroup("\n" + person1, It.Is<HashSet<string>>(e => e.Count == 2), "Adding Files for Contributors..."));
+			model.Setup(s => s.AddFileGroup("\n" + person2, It.Is<HashSet<string>>(e => e.Count == 2), "Adding Files for Contributors..."));
+			model.Setup(s => s.AddFileGroup("\n" + person3, It.Is<HashSet<string>>(e => e.Count == 2), "Adding Files for Contributors..."));
 
 			model.Setup(f => f.AddFileGroup(It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<string>()))
 				.Callback((string groupId, IEnumerable<string> files, string msg) => TrackFiles(groupId, files, msg));
 
-			prj.SetFilesToArchive(model.Object);
+			prj.SetFilesToArchive(model.Object, default);
 			Assert.AreEqual(7, _fileList.Count);
 			Assert.AreEqual(2, (from f in _fileList where f.Contains(person1) select f).Count());
 			Assert.AreEqual(2, (from f in _fileList where f.Contains(person2) select f).Count());

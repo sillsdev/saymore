@@ -1,9 +1,10 @@
+using System;
 using System.IO;
-using System.Linq;
 using NUnit.Framework;
 using SIL.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
+using SayMore.UI.ComponentEditors;
 
 namespace SayMoreTests.Model
 {
@@ -31,28 +32,26 @@ namespace SayMoreTests.Model
 
 		private Session CreateSession()
 		{
-			return new Session(_parentFolder.Path, "xyz", null, new SessionFileType(() => null, () => null, () => null),
+			return new Session(_parentFolder.Path, "xyz", null,
+				new SessionFileType(new Lazy<Func<SessionBasicEditor.Factory>>(() => null),
+					new Lazy<Func<StatusAndStagesEditor.Factory>>(() => null),
+					new Lazy<Func<ContributorsEditor.Factory>>(() => null)),
 				(parentElement, path) => null, new XmlFileSerializer(null), (w, x, y, z) =>
-			{
-				return new ProjectElementComponentFile(w, x, y, z,
-					FieldUpdater.CreateMinimalFieldUpdaterForTests(null));
-
-			}, null, null, null);
+					new ProjectElementComponentFile(w, x, y, z,
+					FieldUpdater.CreateMinimalFieldUpdaterForTests(null)), null, null, null);
 		}
 
 		private void SaveAndChangeIdShouldSucceed(Session session)
 		{
 			session.Save();
-			string failureMessage;
-			Assert.IsTrue(session.TryChangeIdAndSave("newId", out failureMessage));
+			Assert.IsTrue(session.TryChangeIdAndSave("newId", out _));
 			session.Save();
 		}
 
-		private string SaveAndChangeIdShouldFail(Session session, string newId)
+		private static string SaveAndChangeIdShouldFail(Session session, string newId)
 		{
 			session.Save();
-			string failureMessage;
-			Assert.IsFalse(session.TryChangeIdAndSave(newId, out failureMessage));
+			Assert.IsFalse(session.TryChangeIdAndSave(newId, out var failureMessage));
 			return failureMessage;
 		}
 
@@ -91,7 +90,8 @@ namespace SayMoreTests.Model
 			var newEvent = CreateSession();
 			SaveAndChangeIdShouldSucceed(newEvent);
 			Assert.IsTrue(File.Exists(newEvent.SettingsFilePath));
-			Assert.AreEqual(1, Directory.GetFiles(newEvent.FolderPath).Count(), "was an old file left behind instead of renamed?");
+			Assert.That(Directory.GetFiles(newEvent.FolderPath).Length, Is.EqualTo(1),
+				"was an old file left behind instead of renamed?");
 		}
 
 		[Test]

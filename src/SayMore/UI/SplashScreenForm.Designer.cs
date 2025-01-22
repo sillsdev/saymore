@@ -150,7 +150,7 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizingId(this._labelVersionInfo, "DialogBoxes.SplashScreen.VersionInfoLabel");
 			this._labelVersionInfo.Location = new System.Drawing.Point(11, 168);
 			this._labelVersionInfo.Name = "_labelVersionInfo";
-			this._labelVersionInfo.Size = new System.Drawing.Size(174, 13);
+			this._labelVersionInfo.Size = new System.Drawing.Size(172, 13);
 			this._labelVersionInfo.TabIndex = 5;
 			this._labelVersionInfo.Text = "Version {0}.{1}.{2} {3}    Built on {4}";
 			// 
@@ -185,9 +185,9 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizingId(this.label1, "SplashScreenForm.label1");
 			this.label1.Location = new System.Drawing.Point(11, 151);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(159, 13);
+			this.label1.Size = new System.Drawing.Size(126, 13);
 			this.label1.TabIndex = 7;
-			this.label1.Text = "© 2011-2023 SIL International";
+			this.label1.Text = "© 2011-2025 SIL Global";
 			// 
 			// SplashScreenForm
 			// 

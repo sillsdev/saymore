@@ -1,7 +1,7 @@
 // --------------------------------------------------------------------------------------------
-#region // Copyright (c) 2014, SIL International. All Rights Reserved.
-// <copyright from='2012' to='2014' company='SIL International'>
-//		Copyright (c) 2014, SIL International. All Rights Reserved.
+#region // Copyright (c) 2025, SIL Global. All Rights Reserved.
+// <copyright from='2012' to='2025' company='SIL SIL Global'>
+//		Copyright (c) 2025, SIL SIL Global. All Rights Reserved.
 //
 //		Distributable under the terms of the MIT License (https://sil.mit-license.org/)
 // </copyright>
@@ -65,8 +65,8 @@ namespace SayMore.UI
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whether or not the ISplashScreen's underlying form is
-		/// still available (i.e. non null).
+		/// Gets a value indicating whether the ISplashScreen's underlying form is
+		/// still available (i.e. not null).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		bool StillAlive { get;}
@@ -122,9 +122,11 @@ namespace SayMore.UI
 			// For some reason we have to specify a stack size, otherwise we get a stack overflow.
 			// The default stack size of 1MB works on WinXP. Needs to be 2MB on Win2K.
 			// Don't know what value it's using if we don't specify it.
-			m_thread = new Thread(StartSplashScreen, 0x200000);
-			m_thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
-			m_thread.IsBackground = true;
+			m_thread = new Thread(StartSplashScreen, 0x200000)
+			{
+				CurrentUICulture = Thread.CurrentThread.CurrentUICulture,
+				IsBackground = true
+			};
 			m_thread.SetApartmentState(ApartmentState.STA);
 			m_thread.Name = "SplashScreen";
 			m_thread.Start();
@@ -240,14 +242,11 @@ namespace SayMore.UI
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whether or not the ISplashScreen's underlying form is
-		/// still available (i.e. non null).
+		/// Gets a value indicating whether the ISplashScreen's underlying form is
+		/// still available (i.e. not null).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		bool ISplashScreen.StillAlive
-		{
-			get {return _splashScreenForm != null; }
-		}
+		bool ISplashScreen.StillAlive => _splashScreenForm != null;
 
 		#endregion
 

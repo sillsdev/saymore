@@ -1,5 +1,4 @@
 using System.IO;
-using L10NSharp;
 using SayMore.Transcription.UI;
 
 namespace SayMore.Transcription.Model.Exporters

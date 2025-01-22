@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SIL.Windows.Forms.ClearShare;
+using SIL.Core.ClearShare;
 
 namespace SayMore.Model.Fields
 {
@@ -61,8 +61,8 @@ namespace SayMore.Model.Fields
 				// override ToString just to make it return null.
 				// var contribs = Value as ContributionCollection;
 				//return contribs != null ? String.Join(";", contribs) : Value.ToString();
-				return Value is ContributionCollection ? null :
-					(Value is string ? (string)Value : Value.ToString());
+				return Value is ContributionCollection ? null : Value as string ??
+					Value.ToString();
 			}
 		}
 
@@ -70,7 +70,7 @@ namespace SayMore.Model.Fields
 		/// <summary>
 		/// Creates a copy of the field's value if the value is a value type or if it
 		/// implements ICloneable. Otherwise, the returned value will be a reference to
-		/// the this instance's value object. So be warned.
+		/// this instance's value object. So be warned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public object CopyValue()

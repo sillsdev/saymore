@@ -1,5 +1,4 @@
 using SIL.Reporting;
-using SayMore.Transcription.Model;
 
 namespace SayMore.Transcription.UI
 {

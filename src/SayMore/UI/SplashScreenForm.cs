@@ -1,7 +1,7 @@
 // --------------------------------------------------------------------------------------------
-#region // Copyright © 2014, SIL International. All Rights Reserved.
-// <copyright from='2012' to='2014' company='SIL International'>
-//		Copyright (c) 2014, SIL International. All Rights Reserved.
+#region // Copyright © 2025, SIL Global. All Rights Reserved.
+// <copyright from='2012' to='2025' company='SIL Global'>
+//		Copyright (c) 2025, SIL Global. All Rights Reserved.
 //
 //		Distributable under the terms of the MIT License (https://sil.mit-license.org/)
 // </copyright>
@@ -21,7 +21,6 @@ using System.Windows.Forms;
 using SIL.Reporting;
 using SIL.Windows.Forms;
 using SIL.Windows.Forms.Extensions;
-using SayMore.Properties;
 using SayMore.Utilities;
 using Timer = System.Windows.Forms.Timer;
 
@@ -39,7 +38,7 @@ namespace SayMore.UI
 		private readonly int _logoTextLeft;
 		// NOTE: we use a Forms.Timer here (compared to Threading.Timer in FW)
 		// because we can't set the stack size of a thread in the thread pool which the
-		// Threading.Timer uses and so we'd get a stack overflow.
+		// Threading.Timer uses, so we'd get a stack overflow.
 		private Timer m_timer;
 		private EventWaitHandle m_waitHandle;
 		protected Panel m_panel;
@@ -51,8 +50,6 @@ namespace SayMore.UI
 		private bool m_showStandardSILContent = true;
 		protected Label lblBuildNumber;
 		private readonly bool m_showBuildNum;
-		private readonly BuildType.VersionType m_versionType;
-		private readonly string m_versionFmt;
 		private PictureBox picLoadingWheel;
 		private readonly string m_buildFmt;
 		#endregion
@@ -79,7 +76,6 @@ namespace SayMore.UI
 
 			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text, BuildType.Current);
 
-			m_versionFmt = _labelVersionInfo.Text;
 			m_buildFmt = lblBuildNumber.Text;
 			lblCopyright.Font = SystemInformation.MenuFont;
 			lblMessage.Font = SystemInformation.MenuFont;
@@ -95,7 +91,6 @@ namespace SayMore.UI
 		public SplashScreenForm(bool showBuildNum, BuildType.VersionType versionType) : this()
 		{
 			m_showBuildNum = showBuildNum;
-			m_versionType = versionType;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -142,7 +137,6 @@ namespace SayMore.UI
 			{
 				Opacity = 1;
 				Show();
-				return;
 			}
 		}
 
@@ -165,8 +159,7 @@ namespace SayMore.UI
 		/// ----------------------------------------------------------------------------------------
 		public virtual void RealClose()
 		{
-			if (m_timer != null)
-				m_timer.Stop();
+			m_timer?.Stop();
 
 			Close();
 			Logger.WriteEvent("Closed SplashScreenForm.");
@@ -279,29 +272,21 @@ namespace SayMore.UI
 
 				lblProductName.Text = Text = Program.ProductName;
 
-				lblBuildNumber.Visible = m_showBuildNum;
-
-				// The build number is just the number of days since 01/01/2000
-				// var ver = new Version(Application.ProductVersion);
-				//var bldDate = (ver.Build == 0 ?
-				//    File.GetCreationTime(Application.ExecutablePath) :
-				//    new DateTime(2000, 1, 1).Add(new TimeSpan(ver.Build, 0, 0, 0)));
-
-				var bldDate = File.GetCreationTime(Application.ExecutablePath);
-				lblBuildNumber.Text = string.Format(m_buildFmt, bldDate.ToString("dd-MMM-yyyy"));
-
-				Assembly assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
-
-				var attributes = assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+				if (m_showBuildNum)
+				{
+					lblBuildNumber.Visible = true;
+					var bldDate = File.GetCreationTime(Application.ExecutablePath);
+					lblBuildNumber.Text = string.Format(m_buildFmt, bldDate.ToString("dd-MMM-yyyy"));
+				}
+				else
+					lblBuildNumber.Visible = false;
 
 				// Get copyright information from assembly info. By doing this we don't have to
-				// update the splash screen each year. If we can't find the copyright in the
-				// assembly info, use a range ending in the current year (Is this even legal?).
-				var copyRight = attributes.Length > 0 ?
-					((AssemblyCopyrightAttribute)attributes[0]).Copyright :
-					$"(C) 2002-{DateTime.Now.Year} SIL International";
-
-				lblCopyright.Text = string.Format(lblCopyright.Text, copyRight.Replace("(C)", "©"), "\n");
+				// update the splash screen each year.
+				var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+				var attributes = assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+if (attributes.Length > 0)
+					label1.Text = ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
 			}
 			catch
 			{
@@ -395,7 +380,7 @@ namespace SayMore.UI
 			// This callback might get called multiple times before the Invoke is finished,
 			// which causes some problems. We just ignore any callbacks we get while we are
 			// processing one, so we are using TryEnter/Exit(this) instead of lock(this).
-			// We sync on "this" so that we're using the same flag as the FwSplashScreen class.
+			// We sync on "this" so that we're using the same flag as the SplashScreen class.
 			if (Monitor.TryEnter(this))
 			{
 				try

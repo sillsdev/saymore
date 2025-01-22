@@ -7,6 +7,7 @@ using SIL.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
+using SayMore.UI.ComponentEditors;
 using SayMore.UI.Overview.Statistics;
 using SayMore.Utilities;
 
@@ -45,7 +46,8 @@ namespace SayMoreTests.UI.Overview.Statistics
 				new[] { nullRole });
 
 			return new StatisticsViewModel(null, personInformer, sessionInformer, new[] { nullRole },
-				new AudioVideoDataGatherer(_folder.Path, new[] { new AudioFileType(null, () => null, null) }));
+				new AudioVideoDataGatherer(_folder.Path, new[] { new AudioFileType(null,
+					new Lazy<Func<AudioComponentEditor.Factory>>(() => null), null) }));
 		}
 
 		[Test]

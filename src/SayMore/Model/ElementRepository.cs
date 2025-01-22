@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Xml;
 using SIL.Code;
 using SIL.Windows.Forms.FileSystem;
 using SIL.Reporting;
 using L10NSharp;
 using FileType = SayMore.Model.Files.FileType;
-using System.Threading;
-
 namespace SayMore.Model
 {
 	/// ----------------------------------------------------------------------------------------
@@ -80,7 +79,7 @@ namespace SayMore.Model
 		/// FileLoadErrors. Caller is responsible for checking this and handling them as
 		/// appropriate.</remarks>
 		/// ------------------------------------------------------------------------------------
-		public void RefreshItemList()
+		public void RefreshItemList(CancellationToken cancellationToken = default)
 		{
 			FileLoadErrors.Clear();
 
@@ -150,6 +149,9 @@ namespace SayMore.Model
 			// Add any items we don't already have
 			foreach (var path in folders)
 			{
+				if (cancellationToken.IsCancellationRequested)
+					throw new OperationCanceledException();
+
 				if (!_items.Any(x => x.FolderPath == path))
 				{
 					var elementPath = Path.GetDirectoryName(path);

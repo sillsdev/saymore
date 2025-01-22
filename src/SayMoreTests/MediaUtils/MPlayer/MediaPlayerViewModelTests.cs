@@ -4,7 +4,6 @@ using System.Text;
 using System.Threading;
 using NUnit.Framework;
 using SIL.TestUtilities;
-using SIL.Windows.Forms;
 using SayMore.Media.MPlayer;
 using SayMoreTests.Model.Files;
 using SIL.Reflection;

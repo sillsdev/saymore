@@ -101,7 +101,7 @@ namespace SayMore.Model.Files
 		}
 
 #if GenericCsvExperiment	//	See: https://trello.com/c/xb6dN2I9/193-more-complete-csv-export
-		//Get the meta data of the component files (e.g. sound, image, transcription) of a ProjectElement (i.e. session or person) as a CSV
+		//Get the metadata of the component files (e.g. sound, image, transcription) of a ProjectElement (i.e. session or person) as a CSV
 		private string GetCsvStringOfComponentFileMetadata(IEnumerable<ProjectElement> elements)
 		{
 			var builder = new StringBuilder();

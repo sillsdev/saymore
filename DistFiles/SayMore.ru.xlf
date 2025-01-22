@@ -198,7 +198,7 @@
         <target xml:lang="ru" state="translated">К сожалению SayMore не может переименовать файл, потому что другая программа (или другая часть SayMore) читает его. Пожалуйста, попробуйте еще раз позже.</target>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg">
-        <source xml:lang="en">{0} could not rename the meta data file to '{1}' because there is already a file with that name.</source>
+        <source xml:lang="en">{0} could not rename the metadata file to '{1}' because there is already a file with that name.</source>
         <note>ID: CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg</note>
         <target xml:lang="ru" state="translated">{0} не может переименовать метаданных файла «{1}», потому что файл с таким именем уже существует.</target>
       </trans-unit>

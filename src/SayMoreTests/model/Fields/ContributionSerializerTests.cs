@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using SIL.Windows.Forms.ClearShare;
+using SIL.Core.ClearShare;
 using SayMore.Model.Fields;
 
 namespace SayMoreTests.Model.Fields
@@ -9,7 +9,7 @@ namespace SayMoreTests.Model.Fields
 	[TestFixture]
 	public class ContributionSerializerTests
 	{
-		ContributionSerializer _serializer;
+		private ContributionSerializer _serializer;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]

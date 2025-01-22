@@ -1,7 +1,6 @@
 using System;
 using System.Windows.Forms;
 using SIL.Reporting;
-using SIL.Windows.Forms;
 using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Properties;
 

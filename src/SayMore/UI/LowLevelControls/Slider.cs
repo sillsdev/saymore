@@ -2,10 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Globalization;
 using System.Windows.Forms;
-using L10NSharp;
-using SIL.Reporting;
 
 namespace SayMore.UI.LowLevelControls
 {

@@ -1,5 +1,5 @@
-using System;
-using SIL.Windows.Forms.ClearShare;
+﻿using System;
+using SIL.Core.ClearShare;
 
 namespace SayMore.Model
 {

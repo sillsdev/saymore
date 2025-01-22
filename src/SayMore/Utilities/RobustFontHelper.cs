@@ -1,6 +1,4 @@
-﻿using L10NSharp;
-using SIL.Reporting;
-using SIL.Windows.Forms;
+﻿using SIL.Windows.Forms;
 using System;
 using System.Drawing;
 using System.Text.RegularExpressions;

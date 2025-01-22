@@ -1,14 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using NUnit.Framework;
 using SIL.TestUtilities;
 using SayMore;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SayMore.UI.ElementListScreen;
 using System.Threading;
 
 namespace SayMoreTests

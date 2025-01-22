@@ -12,6 +12,7 @@ using SayMore.Media;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.UI.ComponentEditors;
 using SIL.Reflection;
 
 namespace SayMoreTests.Model
@@ -54,7 +55,10 @@ namespace SayMoreTests.Model
 
 		public static Session CreateSession(string parentFolderPath, string name)
 		{
-			return new Session(parentFolderPath, name, null, new SessionFileType(() => null, () => null, () => null),
+			return new Session(parentFolderPath, name, null, new SessionFileType(
+					new Lazy<Func<SessionBasicEditor.Factory>>(() => null),
+					new Lazy<Func<StatusAndStagesEditor.Factory>>(() => null),
+					new Lazy<Func<ContributorsEditor.Factory>>(() => null)),
 				MakeComponent, new XmlFileSerializer(null), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
 					ApplicationContainer.ComponentRoles, null, null);
@@ -67,15 +71,17 @@ namespace SayMoreTests.Model
 
 		public static Person CreatePerson(string parentFolderPath, string name)
 		{
-			return new Person(parentFolderPath, name, null, new PersonFileType(() => null, () => null),
+			return new Person(parentFolderPath, name, null, new PersonFileType(
+					new Lazy<Func<PersonBasicEditor.Factory>>(() => null), 
+					new Lazy<Func<PersonContributionEditor.Factory>>(() => null)),
 				MakeComponent, new XmlFileSerializer(null), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
 				new ComponentRole[] {});
 		}
 
-		private static ComponentFile MakeComponent(ProjectElement parentElement, string pathtoannotatedfile)
+		private static ComponentFile MakeComponent(ProjectElement parentElement, string pathToAnnotatedFile)
 		{
-			return ComponentFile.CreateMinimalComponentFileForTests(parentElement, pathtoannotatedfile);
+			return ComponentFile.CreateMinimalComponentFileForTests(parentElement, pathToAnnotatedFile);
 		}
 
 		public string SetValue(Person person, string key, string value)
@@ -134,7 +140,7 @@ namespace SayMoreTests.Model
 			using (var person = CreatePerson())
 			{
 				File.WriteAllText(_parentFolder.Combine("xyz", "test.txt"), @"hello");
-				Assert.AreEqual(2, person.GetComponentFiles().Count());
+				Assert.AreEqual(2, person.GetComponentFiles().Length);
 			}
 		}
 
@@ -149,7 +155,7 @@ namespace SayMoreTests.Model
 					var list = person.GetValidFilesToCopy(
 						new[] { fileToAdd1.Path, fileToAdd2.Path }).ToArray();
 
-					Assert.That(list.Count(), Is.EqualTo(2));
+					Assert.That(list.Length, Is.EqualTo(2));
 
 					var file1 = list.SingleOrDefault(kvp => kvp.Key == fileToAdd1.Path);
 					Assert.IsNotNull(file1);
@@ -194,7 +200,7 @@ namespace SayMoreTests.Model
 					var list = person.GetValidFilesToCopy(
 						new[] { "stupidFile.meta", fileToAdd.Path, "reallyStupidFile.thumbs.db" }).ToArray();
 
-					Assert.That(list.Count(), Is.EqualTo(1));
+					Assert.That(list.Length, Is.EqualTo(1));
 					var file1 = list.SingleOrDefault(kvp => kvp.Key == fileToAdd.Path);
 					Assert.IsNotNull(file1);
 					Assert.AreEqual(Path.Combine(person.FolderPath, Path.GetFileName(fileToAdd.Path)), file1.Value);
@@ -208,13 +214,13 @@ namespace SayMoreTests.Model
 		{
 			using (var person = CreatePerson())
 			{
-				Assert.That(person.GetComponentFiles().Count(), Is.EqualTo(1));
+				Assert.That(person.GetComponentFiles().Length, Is.EqualTo(1));
 
 				using (var fileToAdd = new TempFile())
 				{
 					Assert.That(person.AddComponentFile(fileToAdd.Path), Is.True);
 					var componentFiles = person.GetComponentFiles();
-					Assert.That(componentFiles.Count(), Is.EqualTo(2));
+					Assert.That(componentFiles.Length, Is.EqualTo(2));
 					Assert.That(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd.Path)), Is.True);
 				}
 			}
@@ -226,14 +232,14 @@ namespace SayMoreTests.Model
 		{
 			using (var person = CreatePerson())
 			{
-				Assert.That(person.GetComponentFiles().Count(), Is.EqualTo(1));
+				Assert.That(person.GetComponentFiles().Length, Is.EqualTo(1));
 
 				using (var fileToAdd1 = new TempFile())
 				using (var fileToAdd2 = new TempFile())
 				{
 					Assert.That(person.AddComponentFiles(new[] { fileToAdd1.Path, fileToAdd2.Path }), Is.True);
 					var componentFiles = person.GetComponentFiles();
-					Assert.That(componentFiles.Count(), Is.EqualTo(3));
+					Assert.That(componentFiles.Length, Is.EqualTo(3));
 					Assert.That(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd1.Path)), Is.True);
 					Assert.That(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd2.Path)), Is.True);
 				}
@@ -246,16 +252,16 @@ namespace SayMoreTests.Model
 		{
 			using (var person = CreatePerson())
 			{
-				Assert.AreEqual(1, person.GetComponentFiles().Count());
+				Assert.AreEqual(1, person.GetComponentFiles().Length);
 
 				using (var fileToAdd = new TempFile())
 				{
 					var fileName = Path.GetFileName(fileToAdd.Path);
 					person.ClearComponentFiles();
 					File.CreateText(Path.Combine(person.FolderPath, fileName)).Close();
-					Assert.AreEqual(2, person.GetComponentFiles().Count());
+					Assert.AreEqual(2, person.GetComponentFiles().Length);
 					Assert.IsFalse(person.AddComponentFile(fileToAdd.Path));
-					Assert.AreEqual(2, person.GetComponentFiles().Count());
+					Assert.AreEqual(2, person.GetComponentFiles().Length);
 				}
 			}
 		}
@@ -266,7 +272,7 @@ namespace SayMoreTests.Model
 		{
 			using (var person = CreatePerson())
 			{
-				Assert.AreEqual(1, person.GetComponentFiles().Count());
+				Assert.AreEqual(1, person.GetComponentFiles().Length);
 
 				using (var fileToAdd1 = new TempFile())
 				using (var fileToAdd2 = new TempFile())
@@ -274,12 +280,12 @@ namespace SayMoreTests.Model
 					var fileName = Path.GetFileName(fileToAdd1.Path);
 					File.CreateText(Path.Combine(person.FolderPath, fileName)).Close();
 					person.ClearComponentFiles();
-					Assert.AreEqual(2, person.GetComponentFiles().Count());
+					Assert.AreEqual(2, person.GetComponentFiles().Length);
 
 					Assert.IsTrue(person.AddComponentFiles(new[] { fileToAdd1.Path, fileToAdd2.Path }));
 
 					var componentFiles = person.GetComponentFiles();
-					Assert.AreEqual(3, componentFiles.Count());
+					Assert.AreEqual(3, componentFiles.Length);
 					Assert.IsTrue(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd1.Path)));
 					Assert.IsTrue(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd2.Path)));
 				}

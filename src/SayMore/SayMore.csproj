@@ -335,8 +335,13 @@
     <Compile Include="Model\ArchivingHelper.cs" />
     <Compile Include="Model\Files\DataGathering\SourceAndStandardAudioCoalescingComparer.cs" />
     <Compile Include="Model\IArchivable.cs" />
+    <Compile Include="Model\Files\IStringValueCollection.cs" />
+    <Compile Include="Model\ILanguageDisambiguator.cs" />
     <Compile Include="Model\IRAMPArchivable.cs" />
+    <Compile Include="Model\LanguageHelper.cs" />
+    <Compile Include="Model\MetadataMigrator.cs" />
     <Compile Include="Model\SessionContribution.cs" />
+    <Compile Include="Model\TwoPartLanguageSpecifier.cs" />
     <Compile Include="ResourceImageCache.cs" />
     <Compile Include="Transcription\Model\AutoSegmenter.cs" />
     <Compile Include="MediaUtils\Audio\OralAnnotationPlaybackWaveStream.cs" />
@@ -676,10 +681,17 @@
       <DependentUpon>FileLoadErrorsReportDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\FontDialogHelper.cs" />
+    <Compile Include="UI\InteractiveLanguageDisambiguator.cs" />
     <Compile Include="UI\LowLevelControls\AutoCompleteTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\LowLevelControls\CustomDataGridTextBoxCell.cs" />
+    <Compile Include="UI\LowLevelControls\LanguageChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\LanguageChooser.Designer.cs">
+      <DependentUpon>LanguageChooser.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\LowLevelControls\MultiValueAutoCompleteComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -885,6 +897,7 @@
     <Compile Include="UI\ShortFileNameWarningDlg.Designer.cs">
       <DependentUpon>ShortFileNameWarningDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\WritingSystemDlg.cs" />
     <Compile Include="Utilities\FileSyncHelper.cs" />
     <Compile Include="Utilities\PercentageFormatter.cs" />
     <Compile Include="Utilities\RobustFontHelper.cs" />
@@ -984,6 +997,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FileLoadErrorsReportDlg.resx">
       <DependentUpon>FileLoadErrorsReportDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LowLevelControls\LanguageChooser.resx">
+      <DependentUpon>LanguageChooser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Overview\ProjectAccessScreen.resx">
       <DependentUpon>ProjectAccessScreen.cs</DependentUpon>

@@ -6,7 +6,6 @@ using SIL.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.UI.ElementListScreen;
-using System.Collections.Generic;
 using SayMoreTests.Model.Files;
 
 namespace SayMoreTests.UI.ElementListScreen

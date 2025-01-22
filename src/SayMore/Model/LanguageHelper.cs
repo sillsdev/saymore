@@ -21,15 +21,8 @@ namespace SayMore.Model
 	{
 		private static LanguageLookup _languageLookup;
 
-		internal static LanguageLookup _LanguageLookup
-		{
-			get
-			{
-				if (_languageLookup == null)
-					_languageLookup = new LanguageLookup();
-				return _languageLookup;
-			}
-		}
+		internal static LanguageLookup _LanguageLookup =>
+			_languageLookup ?? (_languageLookup = new LanguageLookup());
 
 		/// <summary>
 		/// If the given code is a valid 2-letter "ISO 639-1" standard code, returns the

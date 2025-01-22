@@ -145,6 +145,9 @@ namespace SayMoreTests.Model
 		[TestCase("zh-CN:Chinese (simplified)")]
 		[TestCase("noh:Nomu")] 
 		[TestCase("ach:Acholi")] 
+		[TestCase("qaa:Some language no one knows about")] 
+		[TestCase("qab:Some language no one knows about")] 
+		[TestCase("qtz:Some language no one knows about")] 
 		public void IsWellFormedTwoPartLanguageSpecification_TwoPartsWithValidCode_ReturnsTrue(string language)
 		{
 			Assert.That(LanguageHelper.IsWellFormedTwoPartLanguageSpecification(language),

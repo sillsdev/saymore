@@ -460,7 +460,7 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// We get this event when a meta data value changes from somewhere other than from in
+		/// We get this event when a metadata value changes from somewhere other than from in
 		/// this binding helper. When we get this message for bound fields, we need to make
 		/// sure the bound control associated with the field, gets updated.
 		/// </summary>

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using L10NSharp;
 using SIL.Reporting;
-using SIL.Windows.Forms.ClearShare;
+using SIL.Core.ClearShare;
 using SayMore.Model.Fields;
 using SayMore.Properties;
 using static SayMore.Model.Files.PersonFileType;

@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("SayMore")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("SIL International")]
+[assembly: AssemblyCompany("SIL Global")]
 [assembly: AssemblyProduct("SayMore")]
-[assembly: AssemblyCopyright("Copyright © 2011-2023 SIL International")]
+[assembly: AssemblyCopyright("Copyright © 2011-2025 SIL Global")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

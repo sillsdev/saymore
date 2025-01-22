@@ -52,10 +52,7 @@ namespace SayMore.Model
 		FileSystemWatcher _watcher;
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string UiId
-		{
-			get { return Id; }
-		}
+		public virtual string UiId => Id;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -109,7 +106,7 @@ namespace SayMore.Model
 		}
 
 		[Obsolete("For Mocking Only")]
-		public ProjectElement(){}
+		protected ProjectElement(){}
 
 		/// ------------------------------------------------------------------------------------
 		public void ClearComponentFiles()
@@ -273,10 +270,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string DefaultElementNamePrefix
-		{
-			get { throw new NotImplementedException(); }
-		}
+		public virtual string DefaultElementNamePrefix => throw new NotImplementedException();
 
 		/// ------------------------------------------------------------------------------------
 		public virtual string DefaultStatusValue => Empty;
@@ -370,15 +364,22 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// The reason this is separate from the Id property is: 1) You're not supposed to do
-		/// anything non-trivial in property accessors (like renaming folders) and 2) It may
-		/// fail, and needs a way to indicate that to the caller.
+		/// The reason this is separate from the <see cref="Id"/> property is:
+		/// <list type="number">
+		/// <item>
+		/// <description>You're not supposed to do anything non-trivial in property accessors
+		/// (like renaming folders).</description>
+		/// </item>
+		/// <item>
+		/// <description>It may fail, and needs a way to indicate that to the caller.</description>
+		/// </item>
+		/// </list>
 		///
-		/// NB: at the moment, all the change is done immediately, so a Save() is needed to
-		/// keep things consistent. We could imagine just making the change pending until
-		/// the next Save.
+		/// NB: at the moment, the entire change is done immediately, so a call to
+		/// <see cref="Save"/> is needed to keep things consistent. We could imagine just making
+		/// the change pending until the next time it is saved.
 		/// </summary>
-		/// <returns>true if the change was possible and occurred</returns>
+		/// <returns><c>true</c> if the change was possible and occurred</returns>
 		/// ------------------------------------------------------------------------------------
 		public bool TryChangeIdAndSave(string newId, out string failureMessage)
 		{
@@ -414,11 +415,12 @@ namespace SayMore.Model
 
 			try
 			{
-				//todo... need a way to make this all one big all or nothing transaction.  As it is, some things can be
-				//renamed and then we run into a snag, and we're left in a bad, inconsistent state.
+				// TODO: need a way to make this all one big all-or-nothing transaction. As it is,
+				// some things can be renamed, but then we run into a snag, and things are left in
+				// an inconsistent state.
 
-				// for now, at least check for the very common situation where the rename of the
-				// directory itself will fail, and find that out *before* we do the file renamings
+				// For now, at least check for the very common situation where the rename of the
+				// directory itself will fail, and find that out *before* we rename the files.
 				if (!CanPerformRename())
 				{
 					failureMessage = LocalizationManager.GetString("CommonToMultipleViews.ChangeIdFailureMsg",
@@ -441,7 +443,7 @@ namespace SayMore.Model
 
 						if (Path.GetExtension(newFileName) == Settings.Default.AnnotationFileExtension)
 						{
-							// If the file just renamed is an annotation file (i.e. .eaf) then we
+							// If the file just renamed is an annotation file (i.e., .eaf) then we
 							// need to make sure the annotation file is updated internally so it's
 							// pointing to the renamed media file. This fixes SP-399.
 							var newMediaFileName = newFileName.Replace(
@@ -482,9 +484,9 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Spends no more than 5 seconds waiting to see if an Id can safely be renamed. The
-		/// purpose of waiting 5 seconds is because after a user has played a media file,
-		/// there is a lag between when playing stops and when the player releases all the
+		/// Spends no more than 5 seconds waiting to see if an <see cref="Id"/> can safely be
+		/// renamed. The purpose of waiting 5 seconds is because after a user has played a media
+		/// file, there is a lag between when playing stops and when the player releases all the
 		/// resources. That may leave a lock on the folder containing the media file.
 		/// Therefore, if the user tries to rename their session or person right after
 		/// playing a media file, there's a risk that it will fail due to the lock not
@@ -500,8 +502,8 @@ namespace SayMore.Model
 			{
 				try
 				{
-					// for now, at least check for the very common situation where the rename of the
-					// directory itself will fail, and find that out *before* we do the file renamings
+					// For now, at least check for the very common situation where the rename of
+					// the directory itself fails, and find that out *before* we rename the files.
 
 					// TODO: The background processes should be suspended for this rename test.
 					Directory.Move(FolderPath, FolderPath + "Renaming");
@@ -523,7 +525,8 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan GetTotalMediaDuration()
 		{
-			var files = GetComponentFiles().Where(f => !f.FileName.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix));
+			var files = GetComponentFiles().Where(f =>
+				!f.FileName.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix));
 			var totalTime = new TimeSpan();
 			// SP-2228: This hashset uses a NON-STANDARD IEqualityComparer that considers two media files
 			// to be EQUAL even if they are different files as long as one appears to be the original
@@ -535,9 +538,8 @@ namespace SayMore.Model
 				var mediaFileInfo = file.GetMediaFileInfoOrNull();
 				if (mediaFileInfo != null)
 				{
-					if (mediaFilesAlreadyProcessed.Contains(mediaFileInfo))
+					if (!mediaFilesAlreadyProcessed.Add(mediaFileInfo))
 						continue;
-					mediaFilesAlreadyProcessed.Add(mediaFileInfo);
 				}
 				totalTime += file.GetDurationSeconds(mediaFileInfo);
 			}
@@ -565,7 +567,8 @@ namespace SayMore.Model
 		{
 			if (MetaDataFile == null)
 			{
-				// If it is disposed, MetaDataFile will be null and we can't get info about completed stages.
+				// If it is disposed, MetaDataFile will be null, and we can't get info about
+				// completed stages.
 				return new List<ComponentRole>(0);
 			}
 

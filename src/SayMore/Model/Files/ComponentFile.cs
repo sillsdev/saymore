@@ -864,7 +864,7 @@ namespace SayMore.Model.Files
 				if (renameMetaFile && File.Exists(newMetaPath))
 				{
 					var msg = LocalizationManager.GetString("CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg",
-						"{0} could not rename the meta data file to '{1}' because there is already a file with that name.");
+						"{0} could not rename the metadata file to '{1}' because there is already a file with that name.");
 
 					ErrorReport.NotifyUserOfProblem(msg, Application.ProductName, newMetaPath);
 					return;

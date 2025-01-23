@@ -115,7 +115,7 @@ namespace SayMore
 					(Func<string, bool>)(fileName => true) :
 					fileName => !Path.GetFileName(fileName).StartsWith(ProjectElement.kMacOsxResourceFilePrefix);
 				var metaFilesList = filesInDir.Where(f => doesNotHaveIllegalPrefix(f) &&
-					f.EndsWith(Settings.Default.MetadataFileExtension)).ToList();
+					f.EndsWith(Settings.Default.MetadataFileExtension) && !f.Contains(Settings.Default.OralAnnotationGeneratedFileSuffix)).ToList();
 				var sessionDoc = LoadXmlDocument(sessionFile);
 				LoadContributors(sessionDoc, namesList, nameRolesList, contributorLists);
 				var root = sessionDoc.DocumentElement;

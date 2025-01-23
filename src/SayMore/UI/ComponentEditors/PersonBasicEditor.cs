@@ -5,13 +5,17 @@ using System.IO;
 using System.Linq;
 using System.ComponentModel;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using L10NSharp;
+using SayMore.Model;
 using SIL.Reporting;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.UI.LowLevelControls;
 using SayMore.Utilities;
+using static System.IO.Path;
+using static SayMore.UI.LowLevelControls.ParentType;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -31,6 +35,7 @@ namespace SayMore.UI.ComponentEditors
 
 		// SP-846: Do not save parent languages while setting them
 		private bool _loadingLanguages = false;
+		private TextBox _suppressWsDlgOnNextEnter;
 
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file, string imageKey,
@@ -78,6 +83,11 @@ namespace SayMore.UI.ComponentEditors
 			LoadAndValidatePersonInfo();
 
 			_binder.OnDataSaved += _binder_OnDataSaved;
+			_primaryLanguage.Validating += HandleValidatingLanguage;
+			_otherLanguage0.Validating += HandleValidatingLanguage;
+			_otherLanguage1.Validating += HandleValidatingLanguage;
+			_otherLanguage2.Validating += HandleValidatingLanguage;
+			_otherLanguage3.Validating += HandleValidatingLanguage;
 
 			NotifyWhenProjectIsSet();
 		}
@@ -97,7 +107,7 @@ namespace SayMore.UI.ComponentEditors
 			// Check that the person still exists.
 			if (_file.PathToAnnotatedFile != null)
 			{
-				var path = Path.GetDirectoryName(_file.PathToAnnotatedFile);
+				var path = GetDirectoryName(_file.PathToAnnotatedFile);
 				if (!string.IsNullOrEmpty(path))
 				{
 					if (Directory.Exists(path))
@@ -106,6 +116,11 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			_binder.OnDataSaved -= _binder_OnDataSaved;
+			_primaryLanguage.Validating -= HandleValidatingLanguage;
+			_otherLanguage0.Validating -= HandleValidatingLanguage;
+			_otherLanguage1.Validating -= HandleValidatingLanguage;
+			_otherLanguage2.Validating -= HandleValidatingLanguage;
+			_otherLanguage3.Validating -= HandleValidatingLanguage;
 
 			base.OnHandleDestroyed(e);
 		}
@@ -157,16 +172,11 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string PersonFolder
-		{
-			get { return Path.GetDirectoryName(_file.PathToAnnotatedFile); }
-		}
+		public string PersonFolder => GetDirectoryName(_file.PathToAnnotatedFile);
 
 		/// ------------------------------------------------------------------------------------
-		public string PictureFileWithoutExt
-		{
-			get { return Path.GetFileNameWithoutExtension(_file.PathToAnnotatedFile) + "_Photo"; }
-		}
+		public string PictureFileWithoutExt => 
+			GetFileNameWithoutExtension(_file.PathToAnnotatedFile) + "_Photo";
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -177,7 +187,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			var files = Directory.GetFiles(PersonFolder, PictureFileWithoutExt + ".*");
 			var picFiles = files.Where(x => _imgFileType.IsMatch(x)).ToArray();
-			return (picFiles.Length == 0 ? null : picFiles[0]);
+			return picFiles.Length == 0 ? null : picFiles[0];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -189,10 +199,10 @@ namespace SayMore.UI.ComponentEditors
 		public string GetPictureMetaFile()
 		{
 			var picFile = GetPictureFile();
-			return (picFile == null ? null : _imgFileType.GetMetaFilePath(picFile));
+			return picFile == null ? null : _imgFileType.GetMetaFilePath(picFile);
 		}
 
-		#region Methods for handling parents' language
+		#region Methods for handling languages
 		/// ------------------------------------------------------------------------------------
 		private void LoadParentLanguages()
 		{
@@ -207,7 +217,7 @@ namespace SayMore.UI.ComponentEditors
 
 
 			// SP-810: Parent language data not saving correctly
-			var fathersLanguage = _binder.GetValue("fathersLanguage");
+			var fathersLanguage = _binder.GetValue(PersonFileType.kFathersLanguage);
 			if (!string.IsNullOrEmpty(fathersLanguage))
 			{
 				var pb = _fatherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == fathersLanguage);
@@ -215,7 +225,7 @@ namespace SayMore.UI.ComponentEditors
 					pb.Selected = true;
 			}
 
-			var mothersLanguage = _binder.GetValue("mothersLanguage");
+			var mothersLanguage = _binder.GetValue(PersonFileType.kMothersLanguage);
 			if (!string.IsNullOrEmpty(mothersLanguage))
 			{
 				var pb = _motherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == mothersLanguage);
@@ -236,16 +246,16 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<KeyValuePair<string, string>> GetParentLanguageKeyValuePairs()
 		{
-			yield return new KeyValuePair<string, string>("fathersLanguage",
+			yield return new KeyValuePair<string, string>(PersonFileType.kFathersLanguage,
 				GetParentLanguageName(_fatherButtons.SingleOrDefault(x => x.Selected)));
-			yield return new KeyValuePair<string, string>("mothersLanguage",
+			yield return new KeyValuePair<string, string>(PersonFileType.kMothersLanguage,
 				GetParentLanguageName(_motherButtons.SingleOrDefault(x => x.Selected)));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string GetParentLanguageName(ParentButton pb)
+		private static string GetParentLanguageName(ParentButton pb)
 		{
-			return pb == null ? null : ((TextBox)pb.Tag).Text.Trim();
+			return ((TextBox)pb?.Tag)?.Text.Trim();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -263,17 +273,101 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		// SP-810:  Parent language data not saving correctly
-		void HandleParentLanguageSelectedChanged(object sender, EventArgs e)
+		private void HandleParentLanguageSelectedChanged(object sender, EventArgs e)
 		{
 			if (_loaded)
 				SaveParentLanguages();
 		}
 
+		private enum ShowWsDlg
+		{
+			Unconditionally,
+			IfIllFormedAndValuePresentOrPrimaryLanguage,
+			IfIllFormed
+		}
+
+		private void HandleLanguageFieldEnter(object sender, EventArgs e)
+		{
+			if (_suppressWsDlgOnNextEnter != sender)
+				ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormedAndValuePresentOrPrimaryLanguage, sender);
+		}
+
+		private void HandleLanguageFieldChange(object sender, EventArgs e)
+		{
+			// If user has already cancelled out of the language lookup dialog once and now seems
+			// to be editing the unknown code (perhaps to select a different one besides qaa),
+			// don't bother them. We'll catch it later in validation.
+			if (_suppressWsDlgOnNextEnter == sender &&
+			    Regex.IsMatch(((TextBox)sender).Text, "^q([a-t][a-z]?)?:"))
+			{
+				return;
+			}
+			ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormed, sender);
+		}
+
+		private void HandleLanguageFieldClick(object sender, MouseEventArgs e)
+		{
+			if (_suppressWsDlgOnNextEnter != sender)
+				ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormed, sender);
+		}
+
+		private void HandleLanguageFieldDoubleClick(object sender, MouseEventArgs e)
+		{
+			ShowWritingSystemDlgIfNeeded(ShowWsDlg.Unconditionally, sender);
+		}
+
+		private void ShowWritingSystemDlgIfNeeded(ShowWsDlg show, object sender)
+		{
+			// Don't pop this up if the Enter/Change event fires as part of program start-up.
+			if (Program.CurrentProject == null || !(FindForm()?.Visible ?? false))
+				return;
+
+			var textBox = (TextBox)sender;
+			var isPrimary = textBox == _primaryLanguage;
+			var currentValue = textBox.Text;
+			bool shouldShowDlg;
+			switch (show)
+			{
+				case ShowWsDlg.Unconditionally:
+					shouldShowDlg = true;
+					break;
+				case ShowWsDlg.IfIllFormedAndValuePresentOrPrimaryLanguage:
+					shouldShowDlg = (currentValue != string.Empty || isPrimary) &&
+						!LanguageHelper.IsWellFormedTwoPartLanguageSpecification(currentValue);
+					break;
+				case ShowWsDlg.IfIllFormed:
+					shouldShowDlg = !LanguageHelper.IsWellFormedTwoPartLanguageSpecification(currentValue);
+					break;
+				default:
+					throw new ArgumentOutOfRangeException(nameof(show), show, null);
+			}
+			if (shouldShowDlg)
+			{
+				var languageSpecifier = WritingSystemDlg.LookUpLanguage(FindForm(), currentValue,
+					_binder.ComponentFile.ParentElement.UiId, isPrimary,
+					GetParentButtonForTextBox(Father, textBox).Selected,
+					GetParentButtonForTextBox(Mother, textBox).Selected);
+				// If the user cancels out or selects the "Unknown" language, we don't want
+				// to hassle them anymore as long as they stay in this text box.
+				if (languageSpecifier == null || languageSpecifier.Code == "qaa")
+					_suppressWsDlgOnNextEnter = textBox;
+				else
+					textBox.Text = languageSpecifier.ToString();
+			}
+		}
+
+		private ParentButton GetParentButtonForTextBox(ParentType parent, TextBox sender)
+		{
+			return (parent == Father ? _fatherButtons : _motherButtons)
+				.Single(pb => pb.Tag == sender);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private void HandleLanguageValidated(object sender, EventArgs e)
 		{
-			HandleParentLanguageSelectedChanged(_fatherButtons.Single(pb => pb.Tag == sender), e);
-			HandleParentLanguageSelectedChanged(_motherButtons.Single(pb => pb.Tag == sender), e);
+			var textBox = (TextBox)sender;
+			HandleParentLanguageSelectedChanged(GetParentButtonForTextBox(Father, textBox), e);
+			HandleParentLanguageSelectedChanged(GetParentButtonForTextBox(Mother, textBox), e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -293,11 +387,9 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void HandleParentLanguageButtonMouseEnter(object sender, EventArgs e)
 		{
-			var pb = sender as ParentButton;
-
-			if (pb != null)
+			if (sender is ParentButton pb)
 			{
-				if (pb.ParentType == ParentType.Father)
+				if (pb.ParentType == Father)
 				{
 					var tipSelected = LocalizationManager.GetString("PeopleView.MetadataEditor.FatherSelectorToolTip.WhenSelected",
 						"Indicates this is the father's primary language");
@@ -319,6 +411,32 @@ namespace SayMore.UI.ComponentEditors
 
 					_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
 				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleValidatingLanguage(object sender, CancelEventArgs e)
+		{
+			_suppressWsDlgOnNextEnter = null;
+			var textBox = (TextBox)sender;
+			var currentValue = textBox.Text;
+			if (LanguageHelper.IsValidBCP47SayMoreLanguageSpecification(currentValue))
+				return;
+
+			if (MessageBox.Show(this, string.Format(LocalizationManager.GetString(
+					    "PeopleView.MetadataEditor.InvalidBcp47Code",
+					    "The language entered does not appear to specify a valid code according " +
+					    "to {0}. Although {1} allows you to enter anything you want in this " +
+					    "field (e.g., just a language name or abbreviation), for archiving " +
+					    "purposes, a recognizable code is generally preferable. Would you like " +
+					    "to try to look up the intended language?",
+					    "Param 0: \"BCP-47\" (literal name of language tag standard; " +
+					    "Param 1: \"SayMore\" (product name)"),
+					    "BCP-47", ProductName),
+				    ProductName, MessageBoxButtons.YesNo) == DialogResult.Yes)
+			{
+				e.Cancel = true;
+				ShowWritingSystemDlgIfNeeded(ShowWsDlg.Unconditionally, sender);
 			}
 		}
 
@@ -358,8 +476,8 @@ namespace SayMore.UI.ComponentEditors
 
 			var oldPicMetaFile = GetPictureMetaFile();
 			var oldPicFile = GetPictureFile();
-			var newPicFile = PictureFileWithoutExt + Path.GetExtension(fileName);
-			newPicFile = Path.Combine(PersonFolder, newPicFile);
+			var newPicFile = PictureFileWithoutExt + GetExtension(fileName);
+			newPicFile = Combine(PersonFolder, newPicFile);
 
 			if (oldPicFile != null)
 			{
@@ -413,7 +531,7 @@ namespace SayMore.UI.ComponentEditors
 					"PeopleView.MetadataEditor.ErrorChangingPersonsPhotoMsg",
 					"There was an error changing the person's photo.");
 
-				SIL.Reporting.ErrorReport.NotifyUserOfProblem(error, msg);
+				ErrorReport.NotifyUserOfProblem(error, msg);
 			}
 
 			Program.ResumeBackgroundProcesses(true);
@@ -448,7 +566,7 @@ namespace SayMore.UI.ComponentEditors
 				var msg = LocalizationManager.GetString("PeopleView.MetadataEditor.ErrorLoadingPersonsPhotoMsg",
 					"There was an error loading the person's photo.");
 
-				SIL.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
+				ErrorReport.NotifyUserOfProblem(e, msg);
 			}
 
 			Program.ResumeAudioVideoBackgroundProcesses(true);
@@ -558,7 +676,7 @@ namespace SayMore.UI.ComponentEditors
 		/// Instead of letting the binding helper set the gender combo box value from the
 		/// value in the file (which will be the English text for male or female), we'll
 		/// intercept the process since the text in the gender combo box may have been
-		/// localized to non English text.
+		/// localized to non-English text.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleBinderTranslateBoundValueBeingRetrieved(object sender,

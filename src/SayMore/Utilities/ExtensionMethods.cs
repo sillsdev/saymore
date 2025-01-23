@@ -1,6 +1,8 @@
 
 using System.Reflection;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Linq;
 using ComboBox = System.Windows.Forms.ComboBox;
 using TextBox = System.Windows.Forms.TextBox;
 using DatePicker = SayMore.UI.LowLevelControls.DatePicker;
@@ -9,12 +11,6 @@ namespace SayMore.Utilities
 {
 	internal static class ExtensionMethods
 	{
-		public static MethodInfo HasMethod(this object objectToCheck, string methodName)
-		{
-			var type = objectToCheck.GetType();
-			return type.GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-		}
-
 		public static bool IsValidBirthYear(this string birthYear)
 		{
 			var val = birthYear.Trim();
@@ -69,6 +65,14 @@ namespace SayMore.Utilities
 				(silMediaInfo.AnalysisData.PrimaryVideoStream.BitRate > 0 || 
 					silMediaInfo.AnalysisData.PrimaryVideoStream.AvgFrameRate > 0 || 
 					silMediaInfo.AnalysisData.PrimaryVideoStream.FrameRate > 0);
+		}
+
+		public static XElement GetXElement(this XmlNode node)
+		{
+			XDocument xDoc = new XDocument();
+			using (XmlWriter xmlWriter = xDoc.CreateWriter())
+				node.WriteTo(xmlWriter);
+			return xDoc.Root;
 		}
 	}
 }

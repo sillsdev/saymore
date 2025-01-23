@@ -51,8 +51,8 @@ namespace SayMore.Transcription.Model
 				// SP-835: There was an error accessing media file to determine the duration:
 				//  F:\Master\TsakhurProject\Corpus\TsakhurCultureAndLanguageProject\Sessions\TKR-Y-20130708-N03\TKR-Y-20130708-N03_Source.wav
 				var shortName = FileSystemUtils.GetShortName(filename, () =>
-                    LocalizationManager.GetString("SessionsView.Transcription.ProbablyCannotGetDuration",
-                        "It will probably not be possible to determine the media file duration."));
+                    LocalizationManager.GetString("SessionsView.Transcription.FailureToGetDuration",
+                        "Failure to determine media file duration."));
 				var info = MediaFileInfo.GetInfo(shortName, out var error);
 				// SP-1798, SP-2280: Using the null info (that can happen if the media file is
 				// corrupt) hides the original useful error.

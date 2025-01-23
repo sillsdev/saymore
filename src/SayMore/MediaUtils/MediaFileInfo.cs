@@ -297,7 +297,8 @@ namespace SayMore.Media
 
 		/// ------------------------------------------------------------------------------------
 		public static string GetInfoAsHtml(string mediaFile, bool verbose,
-			Func<HtmlLabels, string> getLabel, out string source)
+			Func<HtmlLabels, string> getLabel, Func<string> getDescriptionOfFailedAction,
+			out string source)
 		{
 			// The difference between "verbose" and "normal" used to be a setting passed in to
 			// MediaInfo.DLL, where "verbose" resulted in a lot more details. Now "normal" really
@@ -317,7 +318,7 @@ namespace SayMore.Media
 			}
 
 			source = kMediaInfoDll;
-			return GetInfoAsHtmlFromDll(mediaFile, verbose);
+			return GetInfoAsHtmlFromDll(mediaFile, verbose, getDescriptionOfFailedAction);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -487,7 +488,8 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string GetInfoAsHtmlFromDll(string mediaFile, bool verbose)
+		public static string GetInfoAsHtmlFromDll(string mediaFile, bool verbose, 
+			Func<string> getDescriptionOfFailedAction = null)
 		{
 			var info = new MediaInfo();
 			info.Open(mediaFile);
@@ -510,7 +512,8 @@ namespace SayMore.Media
 						var sb = new StringBuilder(output);
 						sb.Insert(i, Format("{0}  <tr>{0}    <td><i>MPlayer path :</i></td>{0}    <td colspan=\"3\">{1}</td>{0}</tr>{0}",
 							Environment.NewLine,
-							FileSystemUtils.GetShortName(mediaFile).Replace('\\', '/')));
+							FileSystemUtils.GetShortName(mediaFile, getDescriptionOfFailedAction)
+								.Replace('\\', '/')));
 						output = sb.ToString();
 					}
 				}
@@ -571,7 +574,7 @@ namespace SayMore.Media
 			get
 			{
 				// SP-1024: Audio should not normally be null, but if something happens to the
-				// media file or the XML file thjat this object loads from, we don't want it
+				// media file or the XML file that this object loads from, we don't want it
 				// to crash. (Calling code seems to be capable of dealing with empty string.)
 				if (Audio == null)
 					return Empty;

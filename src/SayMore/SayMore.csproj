@@ -891,6 +891,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\ShortFileNameWarningDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ShortFileNameWarningDlg.Designer.cs">
+      <DependentUpon>ShortFileNameWarningDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\WritingSystemDlg.cs" />
     <Compile Include="Utilities\FileSyncHelper.cs" />
     <Compile Include="Utilities\PercentageFormatter.cs" />
@@ -1050,6 +1056,9 @@
     <EmbeddedResource Include="UI\LowLevelControls\ListPanel.resx">
       <DependentUpon>ListPanel.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ShortFileNameWarningDlg.resx">
+      <DependentUpon>ShortFileNameWarningDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SplashScreenForm.resx">
       <DependentUpon>SplashScreenForm.cs</DependentUpon>

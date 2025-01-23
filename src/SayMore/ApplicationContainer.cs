@@ -57,8 +57,7 @@ namespace SayMore
 
 			builder.RegisterInstance(CreateLocalizationManager()).SingleInstance();
 
-
-			//			var filesTypes = GetFilesTypes(parentContainer);
+//			var filesTypes = GetFilesTypes(parentContainer);
 //			builder.RegisterInstance(filesTypes).As(typeof(IEnumerable<FileType>));
 
 			// When something needs the list of filetypes, get them from this method

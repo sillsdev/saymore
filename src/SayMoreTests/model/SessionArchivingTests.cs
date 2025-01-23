@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,6 +15,7 @@ using SIL.Archiving;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
 using SIL.Core.ClearShare;
+using SIL.Extensions;
 using Project = SayMore.Model.Project;
 using Session = SayMore.Model.Session;
 
@@ -246,12 +247,57 @@ namespace SayMoreTests.Utilities
 		}
 
 		[Test]
-		public void GetOneLanguage_DefinedIso_ReturnsCodeAndName()
+		public void GetOneLanguage_Ambiguous3LetterIdentifier_ReturnsCodeAndName()
 		{
+			// "eng" is the 3-letter equivalent of "en" (English). However, it is also now a known
+			// alternative name for Greek Sign Language (because it is the romanized abbreviation
+			// of the Greek name for "gss"). Because GetOneLanguage searches first by name and only
+			// falls back to finding the language by 3-letter code if it doesn't find a match based
+			// on the name, this now finds gss instead of eng. The real problem is that hitherto
+			// SayMore has neither specified explicitly what we meant for users to put in the
+			// language fields nor given any kind of help searching for a language or confirming
+			// that what was entered corresponds to any known language, users can have truly
+			// ambiguous language identifiers in these fields. A separate data migration with
+			// possible user intervention should now rectify this, but for historical purposes,
+			// this test reflects the ambiguity.
 			var returnValue = ArchivingHelper.GetOneLanguage("eng");
-			Assert.AreEqual("eng", returnValue.Iso3Code);
-			Assert.AreEqual("English", returnValue.LanguageName);
-			Assert.AreEqual("English", returnValue.EnglishName);
+			Assert.That(returnValue.Iso3Code, Is.EqualTo("eng").Or.EqualTo("gss"));
+			Assert.That(returnValue.LanguageName, Is.EqualTo("English").Or.EqualTo("ENG").Or.EqualTo("Ελληνική νοηματική γλώσσα").Or.EqualTo("Greek Sign Language"));
+			Assert.That(returnValue.EnglishName, Is.EqualTo("English").Or.EqualTo("ENG").Or.EqualTo("Greek Sign Language"));
+		}
+
+		[Test]
+		public void GetOneLanguage_Unambiguous3LetterIsoCode_ReturnsCodeAndName()
+		{
+			var returnValue = ArchivingHelper.GetOneLanguage("hrv");
+			Assert.AreEqual("hrv", returnValue.Iso3Code);
+			Assert.That(returnValue.LanguageName, Is.EqualTo("Croatian").Or.EqualTo("Hrvatski"));
+			Assert.That(returnValue.EnglishName, Is.EqualTo("Croatian"));
+		}
+		
+		[TestCase("en:English", ExpectedResult = "eng")]
+		[TestCase("en-GB:English", ExpectedResult = "eng")]
+		[TestCase("an:Aragonese", ExpectedResult = "arg")]
+		[TestCase("an:Aragonés", "Aragonese", ExpectedResult = "arg")]
+		[TestCase("arg:Aragonese", ExpectedResult = "arg")]
+		[TestCase("arg:Aragonés", "Aragonese", ExpectedResult = "arg")]
+		public string GetOneLanguage_DefinedIsoAndLanguageNamePair_ReturnsCodeAndName(string languageKey, string expectedEnglishName = null)
+		{
+			var name = languageKey.Split(':')[1];
+			var returnValue = ArchivingHelper.GetOneLanguage(languageKey);
+			Assert.That(returnValue.LanguageName, Is.EqualTo(name).Or.EqualTo(expectedEnglishName),
+				"It would probably be better in some sense if the official list always had the autonym instead of the English name, but it doesn't");
+			Assert.That(returnValue.EnglishName, Is.EqualTo(expectedEnglishName ?? name));
+			return returnValue.Iso3Code;
+		}
+
+		[TestCase("en-GB", "English", ExpectedResult = "eng")]
+		[TestCase("es-ES", "Spanish", ExpectedResult = "spa")]
+		public string GetOneLanguage_MultiSubtagBcp47Code_ReturnsCodeAndName(string languageKey, string expectedEnglishName = null)
+		{
+			var returnValue = ArchivingHelper.GetOneLanguage(languageKey);
+			Assert.That(returnValue.LanguageName, Is.EqualTo(expectedEnglishName));
+			return returnValue.Iso3Code;
 		}
 
 		[Test]
@@ -338,9 +384,9 @@ namespace SayMoreTests.Utilities
 		}
 
 		[Test]
-		public void AnalysisLanguage_DefaultCase_ReturnsEnglishCode()
+		public void FallbackAnalysisLanguage_DefaultCase_ReturnsEnglishCode()
 		{
-			Assert.AreEqual("eng: English", ArchivingHelper.AnalysisLanguage());
+			Assert.AreEqual("eng: English", ArchivingHelper.FallbackAnalysisLanguage);
 		}
 
 		[Test]

@@ -9,6 +9,7 @@ namespace SayMoreTests.UI.ProjectWindow
 	public class ReleaseNotesCommandTests
 	{
 		[Test, Apartment(ApartmentState.STA)]
+		[NonParallelizable]
 		public void Execute_LaunchAndClose_DoesNotCrash()
 		{
 			var tester = new ModalFormTester();

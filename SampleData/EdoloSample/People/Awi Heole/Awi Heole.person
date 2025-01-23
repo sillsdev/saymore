@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Person>
-  <primaryLanguage type="string">Edolo</primaryLanguage>
+  <primaryLanguage type="string">etr:Edolo</primaryLanguage>
   <primaryLanguageLearnedIn type="string">Huya</primaryLanguageLearnedIn>
-  <otherLanguage0 type="string">Tok Pisin</otherLanguage0>
-  <fathersLanguage type="string">Edolo</fathersLanguage>
-  <mothersLanguage type="string">Edolo</mothersLanguage>
-  <otherLanguage1 type="string">Huli</otherLanguage1>
+  <otherLanguage0 type="string">tpi:Tok Pisin</otherLanguage0>
+  <fathersLanguage type="string">etr:Edolo</fathersLanguage>
+  <mothersLanguage type="string">etr:Edolo</mothersLanguage>
+  <otherLanguage1 type="string">hui:Huli</otherLanguage1>
   <birthYear type="string">1972</birthYear>
   <gender type="string">Male</gender>
   <education type="string">Grade 2</education>

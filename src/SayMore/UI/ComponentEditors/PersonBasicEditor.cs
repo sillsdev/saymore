@@ -15,6 +15,7 @@ using SayMore.Model.Files.DataGathering;
 using SayMore.UI.LowLevelControls;
 using SayMore.Utilities;
 using static System.IO.Path;
+using static System.String;
 using static SayMore.UI.LowLevelControls.ParentType;
 
 namespace SayMore.UI.ComponentEditors
@@ -34,7 +35,7 @@ namespace SayMore.UI.ComponentEditors
 		private bool _loaded;
 
 		// SP-846: Do not save parent languages while setting them
-		private bool _loadingLanguages = false;
+		private bool _loadingLanguages;
 		private TextBox _suppressWsDlgOnNextEnter;
 
 		/// ------------------------------------------------------------------------------------
@@ -108,7 +109,7 @@ namespace SayMore.UI.ComponentEditors
 			if (_file.PathToAnnotatedFile != null)
 			{
 				var path = GetDirectoryName(_file.PathToAnnotatedFile);
-				if (!string.IsNullOrEmpty(path))
+				if (!IsNullOrEmpty(path))
 				{
 					if (Directory.Exists(path))
 						SaveParentLanguages();
@@ -218,7 +219,7 @@ namespace SayMore.UI.ComponentEditors
 
 			// SP-810: Parent language data not saving correctly
 			var fathersLanguage = _binder.GetValue(PersonFileType.kFathersLanguage);
-			if (!string.IsNullOrEmpty(fathersLanguage))
+			if (!IsNullOrEmpty(fathersLanguage))
 			{
 				var pb = _fatherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == fathersLanguage);
 				if (pb != null)
@@ -226,7 +227,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			var mothersLanguage = _binder.GetValue(PersonFileType.kMothersLanguage);
-			if (!string.IsNullOrEmpty(mothersLanguage))
+			if (!IsNullOrEmpty(mothersLanguage))
 			{
 				var pb = _motherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == mothersLanguage);
 				if (pb != null)
@@ -297,8 +298,8 @@ namespace SayMore.UI.ComponentEditors
 			// If user has already cancelled out of the language lookup dialog once and now seems
 			// to be editing the unknown code (perhaps to select a different one besides qaa),
 			// don't bother them. We'll catch it later in validation.
-			if (_suppressWsDlgOnNextEnter == sender &&
-			    Regex.IsMatch(((TextBox)sender).Text, "^q([a-t][a-z]?)?:"))
+			if (!_loaded || (_suppressWsDlgOnNextEnter == sender &&
+			    Regex.IsMatch(((TextBox)sender).Text, "^(($)|(q([a-t][a-z]?)?:))")))
 			{
 				return;
 			}
@@ -332,7 +333,7 @@ namespace SayMore.UI.ComponentEditors
 					shouldShowDlg = true;
 					break;
 				case ShowWsDlg.IfIllFormedAndValuePresentOrPrimaryLanguage:
-					shouldShowDlg = (currentValue != string.Empty || isPrimary) &&
+					shouldShowDlg = (currentValue != Empty || isPrimary) &&
 						!LanguageHelper.IsWellFormedTwoPartLanguageSpecification(currentValue);
 					break;
 				case ShowWsDlg.IfIllFormed:
@@ -349,10 +350,10 @@ namespace SayMore.UI.ComponentEditors
 					GetParentButtonForTextBox(Mother, textBox).Selected);
 				// If the user cancels out or selects the "Unknown" language, we don't want
 				// to hassle them anymore as long as they stay in this text box.
-				if (languageSpecifier == null || languageSpecifier.Code == "qaa")
-					_suppressWsDlgOnNextEnter = textBox;
-				else
-					textBox.Text = languageSpecifier.ToString();
+				var newValue = languageSpecifier?.ToString();
+				if (newValue != null && textBox.Text != newValue)
+					textBox.Text = newValue;
+				_suppressWsDlgOnNextEnter = textBox;
 			}
 		}
 
@@ -420,10 +421,10 @@ namespace SayMore.UI.ComponentEditors
 			_suppressWsDlgOnNextEnter = null;
 			var textBox = (TextBox)sender;
 			var currentValue = textBox.Text;
-			if (LanguageHelper.IsValidBCP47SayMoreLanguageSpecification(currentValue))
+			if (currentValue == Empty || LanguageHelper.IsValidBCP47SayMoreLanguageSpecification(currentValue))
 				return;
 
-			if (MessageBox.Show(this, string.Format(LocalizationManager.GetString(
+			if (MessageBox.Show(this, Format(LocalizationManager.GetString(
 					    "PeopleView.MetadataEditor.InvalidBcp47Code",
 					    "The language entered does not appear to specify a valid code according " +
 					    "to {0}. Although {1} allows you to enter anything you want in this " +

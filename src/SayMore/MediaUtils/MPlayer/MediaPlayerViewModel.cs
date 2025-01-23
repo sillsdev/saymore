@@ -142,8 +142,8 @@ namespace SayMore.Media.MPlayer
 			// instead create 8.3 filename, which, happily, will have no non-english characters
 			// for any part of the path.
 			filename = FileSystemUtils.GetShortName(filename,
-                () => LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.ProbablyCannotLoad",
-                    "Media player will probably not be able to load this file."));
+                () => LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.LoadFailure",
+                    "Media player - failure to load file."));
 
 			if (string.IsNullOrEmpty(filename))
 			{

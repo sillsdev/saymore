@@ -27,7 +27,6 @@ using SayMore.UI;
 using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
 using SayMore.Model;
-using SayMore.UI.ComponentEditors;
 using SayMore.Utilities;
 using SIL.Windows.Forms.Reporting;
 using SIL.WritingSystems;
@@ -58,7 +57,7 @@ namespace SayMore
 		public static event PersonMetadataChangedHandler PersonDataChanged;
 
 		private static readonly List<Exception> _pendingExceptionsToReportToAnalytics = new List<Exception>();
-        private static UserInfo s_userInfo;
+		private static UserInfo s_userInfo;
 
 		private static bool s_handlingFirstChanceExceptionThreadsafe = false;
 		private static bool s_handlingFirstChanceExceptionUnsafe = false;

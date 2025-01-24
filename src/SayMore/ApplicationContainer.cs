@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Autofac;
 using L10NSharp;
@@ -17,6 +19,8 @@ using SayMore.UI.ProjectChoosingAndCreating;
 using SayMore.Utilities;
 using SIL.Reporting;
 using static System.Char;
+using static System.Environment.SpecialFolder;
+using Resources = SayMore.Properties.Resources;
 
 namespace SayMore
 {
@@ -29,6 +33,7 @@ namespace SayMore
 		private IContainer _container;
 		private ISplashScreen _splashScreen;
 		public const string kSayMoreLocalizationId = "SayMore";
+		private const string kPalasoLocalizationId = "Palaso";
 
 		/// ------------------------------------------------------------------------------------
 		public ApplicationContainer() : this(false)
@@ -52,8 +57,7 @@ namespace SayMore
 
 			builder.RegisterInstance(CreateLocalizationManager()).SingleInstance();
 
-
-			//			var filesTypes = GetFilesTypes(parentContainer);
+//			var filesTypes = GetFilesTypes(parentContainer);
 //			builder.RegisterInstance(filesTypes).As(typeof(IEnumerable<FileType>));
 
 			// When something needs the list of filetypes, get them from this method
@@ -196,18 +200,62 @@ namespace SayMore
 			}
 		}
 
+		private static string _productVersion;
+		public static string ProductVersion
+		{
+			get
+			{
+				if (_productVersion != null)
+					return _productVersion;
+
+				if (Assembly.GetEntryAssembly() != null)
+					return _productVersion = Application.ProductVersion; // in production
+				
+				// When running tests, Application.ProductVersion ends up falling back until
+				// finally it gets the version associated with the console runner program. We
+				// really don't care, except when that version can't be parsed as a version!
+				// But still it feels kind of wrong to use that version even in tests.
+
+				var pathToExecutingAssembly = Assembly.GetExecutingAssembly().EntryPoint?
+					.ReflectedType?.Module.FullyQualifiedName;
+				var productVersion = pathToExecutingAssembly != null ?
+					FileVersionInfo.GetVersionInfo(pathToExecutingAssembly).ProductVersion :
+					Regex.Match(Application.ProductVersion, @"^\d+(\.\d+){0,3}").Value;
+
+				if (Version.TryParse(productVersion, out var result) &&
+				    result.ToString() == productVersion)
+					return _productVersion = productVersion;
+
+				throw new ApplicationException("Could not obtain a valid product version!");
+			}
+		}
+
 		public ILocalizationManager CreateLocalizationManager()
 		{
-			var installedStringFileFolder = Path.GetDirectoryName(FileLocationUtilities.GetFileDistributedWithApplication("SayMore.es.tmx"));
-			var relativePathForWritingTmxFiles = Path.Combine(Program.kCompanyAbbrev, Application.ProductName);
+			const string emailForLocalizations = "sil.saymore@gmail.com";
+
+			var installedStringFileFolder = Path.GetDirectoryName(
+				FileLocationUtilities.GetFileDistributedWithApplication("SayMore.es.xlf"));
+			var relativePathForWritingL10nFiles = 
+				Path.Combine(Program.kCompanyAbbrev, Application.ProductName);
+			var currentUiLanguage = Settings.Default.UserInterfaceLanguage;
 
 			LocalizationManager.DeleteOldTranslationFiles(kSayMoreLocalizationId,
-				Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), relativePathForWritingTmxFiles),
-				installedStringFileFolder);
+				Path.Combine(Environment.GetFolderPath(CommonApplicationData),
+					relativePathForWritingL10nFiles), installedStringFileFolder);
 
-			var localizationManager = LocalizationManager.Create(TranslationMemory.Tmx, Settings.Default.UserInterfaceLanguage, kSayMoreLocalizationId,
-				"SayMore", Application.ProductVersion, installedStringFileFolder, relativePathForWritingTmxFiles,
-				Resources.SayMore, "sil.saymore@gmail.com", "SayMore", "SIL.Archiving", "SIL.Windows.Forms.FileSystem");
+			var localizationManager = LocalizationManager.Create(currentUiLanguage,
+				kSayMoreLocalizationId + ".exe", Application.ProductName,
+				ProductVersion, installedStringFileFolder,
+				relativePathForWritingL10nFiles, Resources.SayMore, emailForLocalizations,
+				new [] {"SayMore" });
+
+			LocalizationManager.Create(currentUiLanguage,
+				kPalasoLocalizationId, kPalasoLocalizationId, ProductVersion,
+				installedStringFileFolder, relativePathForWritingL10nFiles, Resources.SayMore,
+				emailForLocalizations, new [] {"SIL.Archiving", "SIL.Windows.Forms.FileSystem",
+				"SIL.Windows.Forms.ClearShare", "SIL.Windows.Forms.Miscellaneous",
+				"SIL.Reporting", "SIL.Windows.Forms.WritingSystems"});
 
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 

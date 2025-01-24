@@ -57,9 +57,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string ParentFolderPathForNewProject
-		{
-			get { return DefaultProjectsFolder; }
-		}
+		public static string ParentFolderPathForNewProject => DefaultProjectsFolder;
 	}
 }

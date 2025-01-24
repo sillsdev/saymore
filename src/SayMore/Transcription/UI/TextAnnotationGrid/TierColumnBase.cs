@@ -48,7 +48,8 @@ namespace SayMore.Transcription.UI
 			if (_grid != null)
 				UnsubscribeToGridEvents();
 
-			_grid = DataGridView as TextAnnotationEditorGrid;
+			lock (this) // SP-1769: Don't change this while executing the PlaybackProgressReportAction
+				_grid = DataGridView as TextAnnotationEditorGrid;
 
 			if (_grid != null)
 				SubscribeToGridEvents();

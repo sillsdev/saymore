@@ -11,6 +11,7 @@ using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using static System.String;
 
 namespace SayMore.Model
 {
@@ -27,13 +28,15 @@ namespace SayMore.Model
 	/// </summary>
 	public abstract class ProjectElement : IDisposable
 	{
+		internal const string kMacOsxResourceFilePrefix = "._";
+		
 		/// <summary>
 		/// This lets us make componentFile instances without knowing all the inputs they need
 		/// </summary>
 		private readonly Func<ProjectElement, string, ComponentFile> _componentFileFactory;
 		private string _id;
 
-		public virtual string Id { get { return _id; } }
+		public virtual string Id => _id;
 		public Action<ProjectElement, string, string> IdChangedNotificationReceiver { get; protected set; }
 		public virtual ProjectElementComponentFile MetaDataFile { get; private set; }
 		public IEnumerable<ComponentRole> ComponentRoles { get; protected set; }
@@ -49,10 +52,7 @@ namespace SayMore.Model
 		FileSystemWatcher _watcher;
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string UiId
-		{
-			get { return Id; }
-		}
+		public virtual string UiId => Id;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -106,7 +106,7 @@ namespace SayMore.Model
 		}
 
 		[Obsolete("For Mocking Only")]
-		public ProjectElement(){}
+		protected ProjectElement(){}
 
 		/// ------------------------------------------------------------------------------------
 		public void ClearComponentFiles()
@@ -150,7 +150,34 @@ namespace SayMore.Model
 
 				foreach (var filename in otherFiles)
 				{
-					var newComponentFile = _componentFileFactory(this, filename);
+					ComponentFile newComponentFile = null;
+					try
+					{
+						newComponentFile = _componentFileFactory(this, filename);
+					}
+					catch (Exception e)
+					{
+						// SP-2269: If this appears to be a temp file, we'll log it, but it's
+						// probably not worth even notifying the user. If it is no longer needed,
+						// it would perhaps be "nice" for them to go clean it up, but there's a
+						// chance that the temp file is actually in use by another program, so
+						// there's a risk of them just making things worse.
+						if (Path.GetFileName(filename).StartsWith("~$"))
+						{
+							Logger.WriteError("Skipping apparent temp file that could not be" +
+								$" loaded: {filename}", e);
+						}
+						else
+						{
+							ErrorReport.NotifyUserOfProblem(e,
+								LocalizationManager.GetString(
+									"CommonToMultipleViews.GenericFileTypeViewer.FailedToLoadOtherFile",
+									"Failed to load file:\r\n{0}\r\nIf this is not an essential" +
+									" file, you can safely delete it and/or ignore this error."),
+								filename);
+						}
+						continue;
+					}
 					_componentFiles.Add(newComponentFile);
 
 					var annotationFile = newComponentFile.GetAnnotationFile();
@@ -211,16 +238,11 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string FolderPath
-		{
-			get { return Path.Combine(ParentFolderPath, Id); }
-		}
+		public virtual string FolderPath => Path.Combine(ParentFolderPath, Id);
 
 		/// ------------------------------------------------------------------------------------
-		public string SettingsFilePath
-		{
-			get { return Path.Combine(FolderPath, Id + "." + ExtensionWithoutPeriod); }
-		}
+		public string SettingsFilePath =>
+			Path.Combine(FolderPath, Id + "." + ExtensionWithoutPeriod);
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<FieldInstance> ExportFields
@@ -239,25 +261,19 @@ namespace SayMore.Model
 			var fmt = DefaultElementNamePrefix + " {0:D2}";
 
 			int i = 1;
-			var name = string.Format(fmt, i);
+			var name = Format(fmt, i);
 
 			while (Directory.Exists(Path.Combine(ParentFolderPath, name)))
-				name = string.Format(fmt, ++i);
+				name = Format(fmt, ++i);
 
 			return name;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string DefaultElementNamePrefix
-		{
-			get { throw new NotImplementedException(); }
-		}
+		public virtual string DefaultElementNamePrefix => throw new NotImplementedException();
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string DefaultStatusValue
-		{
-			get { return string.Empty; }
-		}
+		public virtual string DefaultStatusValue => Empty;
 
 		/// ------------------------------------------------------------------------------------
 		public void Save()
@@ -284,7 +300,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool AddComponentFiles(string[] filesToAdd)
+		public bool AddComponentFiles(IEnumerable<string> filesToAdd)
 		{
 			var filesToCopy = GetValidFilesToCopy(filesToAdd).ToArray();
 			if (filesToCopy.Length == 0)
@@ -320,7 +336,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<KeyValuePair<string, string>> GetValidFilesToCopy(string[] filesBeingAdded)
+		public IEnumerable<KeyValuePair<string, string>> GetValidFilesToCopy(IEnumerable<string> filesBeingAdded)
 		{
 			if (filesBeingAdded != null)
 				foreach (var kvp in GetFilesToCopy(filesBeingAdded.Where(ComponentFile.GetIsValidComponentFile)))
@@ -339,28 +355,31 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual string NoIdSaveFailureMessage
-		{
-			get { throw new NotImplementedException(); }
-		}
+		protected virtual string NoIdSaveFailureMessage =>
+			throw new NotImplementedException();
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual string AlreadyExistsSaveFailureMessage
-		{
-			get { throw new NotImplementedException(); }
-		}
+		protected virtual string AlreadyExistsSaveFailureMessage => 
+			throw new NotImplementedException();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// The reason this is separate from the Id property is: 1) You're not supposed to do
-		/// anything non-trivial in property accessors (like renaming folders) and 2) It may
-		/// fail, and needs a way to indicate that to the caller.
+		/// The reason this is separate from the <see cref="Id"/> property is:
+		/// <list type="number">
+		/// <item>
+		/// <description>You're not supposed to do anything non-trivial in property accessors
+		/// (like renaming folders).</description>
+		/// </item>
+		/// <item>
+		/// <description>It may fail, and needs a way to indicate that to the caller.</description>
+		/// </item>
+		/// </list>
 		///
-		/// NB: at the moment, all the change is done immediately, so a Save() is needed to
-		/// keep things consistent. We could imagine just making the change pending until
-		/// the next Save.
+		/// NB: at the moment, the entire change is done immediately, so a call to
+		/// <see cref="Save"/> is needed to keep things consistent. We could imagine just making
+		/// the change pending until the next time it is saved.
 		/// </summary>
-		/// <returns>true if the change was possible and occurred</returns>
+		/// <returns><c>true</c> if the change was possible and occurred</returns>
 		/// ------------------------------------------------------------------------------------
 		public bool TryChangeIdAndSave(string newId, out string failureMessage)
 		{
@@ -371,9 +390,18 @@ namespace SayMore.Model
 			if (_id == newId)
 				return true;
 
-			if (newId == string.Empty)
+			if (newId == Empty)
 			{
 				failureMessage = NoIdSaveFailureMessage;
+				return false;
+			}
+
+			if (newId.StartsWith(kMacOsxResourceFilePrefix))
+			{
+				failureMessage = Format(LocalizationManager.GetString("CommonToMultipleViews.ChangeIdDotDash",
+					"To avoid possible conflicts with files created by Mac OSX, names cannot begin with \"{0}\".",
+					"Param is the literal string \"._\""),
+					kMacOsxResourceFilePrefix);
 				return false;
 			}
 
@@ -381,17 +409,18 @@ namespace SayMore.Model
 			string newFolderPath = Path.Combine(parent, newId);
 			if (Directory.Exists(newFolderPath))
 			{
-				failureMessage = string.Format(AlreadyExistsSaveFailureMessage, Id, newId);
+				failureMessage = Format(AlreadyExistsSaveFailureMessage, Id, newId);
 				return false;
 			}
 
 			try
 			{
-				//todo... need a way to make this all one big all or nothing transaction.  As it is, some things can be
-				//renamed and then we run into a snag, and we're left in a bad, inconsistent state.
+				// TODO: need a way to make this all one big all-or-nothing transaction. As it is,
+				// some things can be renamed, but then we run into a snag, and things are left in
+				// an inconsistent state.
 
-				// for now, at least check for the very common situation where the rename of the
-				// directory itself will fail, and find that out *before* we do the file renamings
+				// For now, at least check for the very common situation where the rename of the
+				// directory itself will fail, and find that out *before* we rename the files.
 				if (!CanPerformRename())
 				{
 					failureMessage = LocalizationManager.GetString("CommonToMultipleViews.ChangeIdFailureMsg",
@@ -414,11 +443,11 @@ namespace SayMore.Model
 
 						if (Path.GetExtension(newFileName) == Settings.Default.AnnotationFileExtension)
 						{
-							// If the file just renamed is an annotation file (i.e. .eaf) then we
+							// If the file just renamed is an annotation file (i.e., .eaf) then we
 							// need to make sure the annotation file is updated internally so it's
 							// pointing to the renamed media file. This fixes SP-399.
 							var newMediaFileName = newFileName.Replace(
-								AnnotationFileHelper.kAnnotationsEafFileSuffix, string.Empty);
+								AnnotationFileHelper.kAnnotationsEafFileSuffix, Empty);
 
 							AnnotationFileHelper.ChangeMediaFileName(newFileName, newMediaFileName);
 						}
@@ -455,9 +484,9 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Spends no more than 5 seconds waiting to see if an Id can safely be renamed. The
-		/// purpose of waiting 5 seconds is because after a user has played a media file,
-		/// there is a lag between when playing stops and when the player releases all the
+		/// Spends no more than 5 seconds waiting to see if an <see cref="Id"/> can safely be
+		/// renamed. The purpose of waiting 5 seconds is because after a user has played a media
+		/// file, there is a lag between when playing stops and when the player releases all the
 		/// resources. That may leave a lock on the folder containing the media file.
 		/// Therefore, if the user tries to rename their session or person right after
 		/// playing a media file, there's a risk that it will fail due to the lock not
@@ -473,8 +502,8 @@ namespace SayMore.Model
 			{
 				try
 				{
-					// for now, at least check for the very common situation where the rename of the
-					// directory itself will fail, and find that out *before* we do the file renamings
+					// For now, at least check for the very common situation where the rename of
+					// the directory itself fails, and find that out *before* we rename the files.
 
 					// TODO: The background processes should be suspended for this rename test.
 					Directory.Move(FolderPath, FolderPath + "Renaming");
@@ -496,7 +525,8 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan GetTotalMediaDuration()
 		{
-			var files = GetComponentFiles().Where(f => !f.FileName.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix));
+			var files = GetComponentFiles().Where(f =>
+				!f.FileName.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix));
 			var totalTime = new TimeSpan();
 			// SP-2228: This hashset uses a NON-STANDARD IEqualityComparer that considers two media files
 			// to be EQUAL even if they are different files as long as one appears to be the original
@@ -508,9 +538,8 @@ namespace SayMore.Model
 				var mediaFileInfo = file.GetMediaFileInfoOrNull();
 				if (mediaFileInfo != null)
 				{
-					if (mediaFilesAlreadyProcessed.Contains(mediaFileInfo))
+					if (!mediaFilesAlreadyProcessed.Add(mediaFileInfo))
 						continue;
-					mediaFilesAlreadyProcessed.Add(mediaFileInfo);
 				}
 				totalTime += file.GetDurationSeconds(mediaFileInfo);
 			}
@@ -538,7 +567,8 @@ namespace SayMore.Model
 		{
 			if (MetaDataFile == null)
 			{
-				// If it is disposed, MetaDataFile will be null and we can't get info about completed stages.
+				// If it is disposed, MetaDataFile will be null, and we can't get info about
+				// completed stages.
 				return new List<ComponentRole>(0);
 			}
 
@@ -565,12 +595,12 @@ namespace SayMore.Model
 			}
 
 			return (modifyComputedListWithUserOverrides ?
-				GetCompletedStagesModifedByUserOverrides(completedRoles.Values) :
+				GetCompletedStagesModifiedByUserOverrides(completedRoles.Values) :
 				completedRoles.Values);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected IEnumerable<ComponentRole> GetCompletedStagesModifedByUserOverrides(
+		protected IEnumerable<ComponentRole> GetCompletedStagesModifiedByUserOverrides(
 			IEnumerable<ComponentRole> autoComputedCompletedRoles)
 		{
 			// Return the auto-computed roles for which the user has kept the auto-compute setting.

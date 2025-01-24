@@ -6,7 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
-using L10NSharp.TMXUtils;
+using L10NSharp.XLiffUtils;
 using L10NSharp.UI;
 using SIL.Media.Naudio.UI;
 using SIL.Reporting;
@@ -24,7 +24,7 @@ namespace SayMore.UI.SessionRecording
 		private readonly SessionRecorderDlgViewModel _viewModel;
 		private string _recordedLengthLabelFormat;
 		private readonly bool _moreReliableDesignMode;
-		private PeakMeterCtrl _peakMeter;
+		private readonly PeakMeterCtrl _peakMeter;
 		private RecordingDeviceIndicator _recDeviceIndicator;
 
 		/// ------------------------------------------------------------------------------------
@@ -90,13 +90,14 @@ namespace SayMore.UI.SessionRecording
 			_peakMeter = AudioUtils.CreatePeakMeterControl(_panelPeakMeter);
 			SetupRecordingDeviceButton();
 
-			LocalizeItemDlg<TMXDocument>.StringsLocalized += HandleStringsLocalized;
+			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleStringsLocalized()
+		private void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			_recordedLengthLabelFormat = _labelRecLength.Text;
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+				_recordedLengthLabelFormat = _labelRecLength.Text;
 		}
 
 		/// ------------------------------------------------------------------------------------

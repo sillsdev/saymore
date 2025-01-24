@@ -29,6 +29,7 @@ namespace SayMore.UI.ProjectWindow
             this.archiveIMDIProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuChangeUILanguage = new System.Windows.Forms.ToolStripMenuItem();
+			this._menuShortFileNameWarningSettings = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuShowMPlayerDebugWindow = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,6 +75,7 @@ namespace SayMore.UI.ProjectWindow
             this.archiveIMDIProjectToolStripMenuItem,
             this._toolStripSeparator1,
             this._menuChangeUILanguage,
+			this._menuShortFileNameWarningSettings,
             this._menuShowMPlayerDebugWindow,
             this.toolStripMenuItem1,
             this._menuExit});
@@ -158,6 +160,16 @@ namespace SayMore.UI.ProjectWindow
 			this._menuChangeUILanguage.Size = new System.Drawing.Size(254, 22);
 			this._menuChangeUILanguage.Text = "&Change User Interface Language...";
 			this._menuChangeUILanguage.Click += new System.EventHandler(this.HandleChangeUILanguageMenuClick);
+			// 
+			// _menuShortFileNameWarningSettings
+			// 
+			this.locExtender.SetLocalizableToolTip(this._menuShortFileNameWarningSettings, null);
+			this.locExtender.SetLocalizationComment(this._menuShortFileNameWarningSettings, null);
+			this.locExtender.SetLocalizingId(this._menuShortFileNameWarningSettings, "MainWindow._menuShortFileNameWarningSettings");
+			this._menuShortFileNameWarningSettings.Name = "_menuShortFileNameWarningSettings";
+			this._menuShortFileNameWarningSettings.Size = new System.Drawing.Size(254, 22);
+			this._menuShortFileNameWarningSettings.Text = "&Short Filename Warning Settings...";
+			this._menuShortFileNameWarningSettings.Click += new System.EventHandler(this.HandleShortFileNameWarningSettingsMenuClick);
 			// 
 			// _menuShowMPlayerDebugWindow
 			// 
@@ -289,6 +301,7 @@ namespace SayMore.UI.ProjectWindow
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem _menuHelp;
 		private System.Windows.Forms.ToolStripMenuItem _menuChangeUILanguage;
+		private System.Windows.Forms.ToolStripMenuItem _menuShortFileNameWarningSettings;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem _menuShowMPlayerDebugWindow;
 		private System.Windows.Forms.ToolStripMenuItem archiveIMDIProjectToolStripMenuItem;

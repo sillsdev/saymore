@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.TMXUtils;
+using L10NSharp.XLiffUtils;
 using L10NSharp.UI;
 using SIL.IO;
 using SIL.Reporting;
@@ -26,8 +26,8 @@ namespace SayMore.UI.Overview
 			InitializeComponent();
 
 			// access protocol list
-			HandleStringsLocalized();
-			LocalizeItemDlg<TMXDocument>.StringsLocalized += HandleStringsLocalized;
+			HandleStringsLocalized(null);
+			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 
 			_linkHelp.Click += (s, e) =>
 				Program.ShowHelpTopic("/Using_Tools/Project_tab/Choose_Access_Protocol.htm");
@@ -40,8 +40,11 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleStringsLocalized()
+		private void HandleStringsLocalized(ILocalizationManager lm)
 		{
+			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
+				return;
+
 			_archivingFileDirectoryName = GetBaseUriDirectory();
 			Debug.Assert(_archivingFileDirectoryName != null);
 			if (LocalizationManager.UILanguageId != "en" && Directory.Exists(Path.Combine(_archivingFileDirectoryName, LocalizationManager.UILanguageId)))
@@ -99,15 +102,15 @@ namespace SayMore.UI.Overview
 		{
 			try
 			{
-				return item.GetDocumentaionUri(_archivingFileDirectoryName);
+				return item.GetDocumentationUri(_archivingFileDirectoryName);
 			}
 			catch (DirectoryNotFoundException)
 			{
-				return item.GetDocumentaionUri(GetBaseUriDirectory());
+				return item.GetDocumentationUri(GetBaseUriDirectory());
 			}
 			catch (FileNotFoundException)
 			{
-				return item.GetDocumentaionUri(GetBaseUriDirectory());
+				return item.GetDocumentationUri(GetBaseUriDirectory());
 			}
 		}
 

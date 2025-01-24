@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using Autofac;
+using DesktopAnalytics;
+using SayMore.Media.Audio;
 using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -13,6 +15,8 @@ using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
+using SIL.IO;
+using SIL.Reporting;
 
 namespace SayMore
 {
@@ -30,7 +34,7 @@ namespace SayMore
 		/// </summary>
 		private ILifetimeScope _scope;
 
-		public Project Project { get; private set; }
+		public Project Project { get; }
 		public ProjectWindow ProjectWindow { get; private set; }
 
 		private readonly AudioVideoDataGatherer _audioVideoDataGatherer;
@@ -100,30 +104,60 @@ namespace SayMore
 				var contributorLists = new StringBuilder();
 				var filesInDir = Directory.GetFiles(sessionFldrPath);
 				var sessionFile = filesInDir.FirstOrDefault(f => f.EndsWith(".session"));
-				if (sessionFile == null) return;
-				var metaFilesList = filesInDir.Where(f => f.EndsWith(Settings.Default.MetadataFileExtension)).ToList();
-				var sessionDoc = new XmlDocument();
-				using (var sessionReader = XmlReader.Create(sessionFile))
-				{
-					sessionDoc.Load(sessionReader);
-				}
+				if (sessionFile == null)
+					return;
+
+				// SP-2260:We really NEVER want to deal with files that start with ._, but since
+				// previous versions of SayMore and certain other ways of creating session files
+				// could have resulted in session files that do, we will not exclude ._*.meta
+				// files if the session file itself starts with ._
+				var doesNotHaveIllegalPrefix = Path.GetFileName(sessionFile).StartsWith(ProjectElement.kMacOsxResourceFilePrefix) ?
+					(Func<string, bool>)(fileName => true) :
+					fileName => !Path.GetFileName(fileName).StartsWith(ProjectElement.kMacOsxResourceFilePrefix);
+				var metaFilesList = filesInDir.Where(f => doesNotHaveIllegalPrefix(f) &&
+					f.EndsWith(Settings.Default.MetadataFileExtension) && !f.Contains(Settings.Default.OralAnnotationGeneratedFileSuffix)).ToList();
+				var sessionDoc = LoadXmlDocument(sessionFile);
 				LoadContributors(sessionDoc, namesList, nameRolesList, contributorLists);
 				var root = sessionDoc.DocumentElement;
+				
+				if (root != null)
+				{
+					if (root.Attributes.GetNamedItem("version") == null)
+					{
+						// SP-2303: SayMore 3.5.0 (released 3/22/2023) had a bug whereby it could convert
+						// media files to a non-standard (IEEE Float) PCM format that could not be
+						// annotated. This code checks for and deletes any such files. Because it takes
+						// some time to check this, we only consider files that might have been created
+						// after the release date. It would be nice to only do this check if we could know
+						// that version 3.5.0 had been installed, but I'm not sure we can reliably and
+						// easily detect this. (Maybe by looking for the settings file?). But using this
+						// version number, we can at least avoid checking again.
+						foreach (var bogusStandardAudioFile in filesInDir.Where(f =>
+							         f.EndsWith(Settings.Default.StandardAudioFileSuffix) &&
+							         new FileInfo(f).CreationTime >= new DateTime(2023, 3, 21) && 
+							         !AudioUtils.GetIsFileStandardPcm(f)))
+						{
+							Analytics.Track("Delete bogus Standard Audio file");
+							RobustFile.Delete(bogusStandardAudioFile);
+						}
+
+						// Note: There never was a version 1, but it felt wrong to start with version 1
+						// after more than a decade of existence.
+						root.SetAttribute("version", "2.0");
+					}
+				}
+
 				var contributionsNode = root?.SelectSingleNode(SessionFileType.kContributionsFieldName);
 				contributionsNode?.ParentNode?.RemoveChild(contributionsNode); //Remove the contributions node
-				if (root?.LastChild == null) continue;
+				if (root?.LastChild == null)
+					continue;
 				foreach (var metaFile in metaFilesList)
 				{
-					var metaFileDoc = new XmlDocument();
-					using (var metaReader = XmlReader.Create(metaFile))
-					{
-						metaFileDoc.Load(metaReader);
-					}
+					var metaFileDoc = LoadXmlDocument(metaFile);
 					LoadContributors(metaFileDoc, namesList, nameRolesList, contributorLists);
 				}
 
-				var participantsNode = root?.SelectSingleNode("participants") as XmlElement;
-				if (participantsNode == null)
+				if (!(root.SelectSingleNode("participants") is XmlElement participantsNode))
 				{
 					participantsNode = sessionDoc.CreateElement("participants");
 					participantsNode.SetAttribute("type", "string");
@@ -142,6 +176,25 @@ namespace SayMore
 			}
 		}
 
+		private static XmlDocument LoadXmlDocument(string xmlFile)
+		{
+			var doc = new XmlDocument();
+			using (var reader = XmlReader.Create(xmlFile))
+			{
+				try
+				{
+					doc.Load(reader);
+				}
+				catch (XmlException e)
+				{
+					Logger.WriteError($"Error loading {xmlFile}", e);
+					throw;
+				}
+			}
+
+			return doc;
+		}
+
 		private static void LoadContributors(XmlNode xmlDoc, SortedSet<string> namesList, SortedSet<string> nameRolesList, StringBuilder contributorLists)
 		{
 
@@ -151,8 +204,8 @@ namespace SayMore
 				var name = node["name"]?.InnerText;
 				var role = node["role"]?.InnerText;
 				var item = $@"{name} ({role})";
-				if (nameRolesList.Contains(item)) continue;
-				nameRolesList.Add(item);
+				if (!nameRolesList.Add(item))
+					continue;
 				contributorLists.Append(node.OuterXml);
 				namesList.Add(name); // Set will avoid duplicates.
 			}
@@ -161,10 +214,10 @@ namespace SayMore
 			// we need to migrate it. It might also have been edited outside SayMore and have
 			// participants that are not known contributors, even though it has a contributions element.
 			// So add in any participants we don't already have in some form.
-			var particpantsNode = xmlDoc.SelectSingleNode("//participants");
-			if (particpantsNode == null)
+			var participantsNode = xmlDoc.SelectSingleNode("//participants");
+			if (participantsNode == null)
 				return;
-			foreach (var participant in particpantsNode.InnerText.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+			foreach (var participant in participantsNode.InnerText.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
 			{
 				var name = participant.Trim();
 
@@ -172,7 +225,7 @@ namespace SayMore
 				// We don't want to create new contributors with names like Joe (consultant).
 				// This fix could be unfortunate if someone wants to use a name like "Sally Smith (nee Jones)"
 				// but we decided the danger of not handling the messed up data files was greater.
-				var paren = name.IndexOf("(");
+				var paren = name.IndexOf("(", StringComparison.Ordinal);
 				if (paren >= 0)
 					name = name.Substring(0, paren).Trim();
 				// If we already have this person, with any role, we won't add again, since we don't have
@@ -183,8 +236,8 @@ namespace SayMore
 				// We have no way of knowing a role. But various code assumes it's not empty.
 				// Since we created this contributor on the basis of finding a name in the participants list,
 				// it seems a reasonable default to make the role 'participant'.
-				// The specified date seems to be the one SayMore always uses. I don't even know what the
-				// date of a contributor is supposed to mean.
+				// There was no way to specify a date for participants; there is still no way in the
+				// UI to specify a contribution date, but there is a field for it in the XML.
 				var item = $@"{name} (participant)";
 				nameRolesList.Add(item);
 				contributorLists.Append(
@@ -210,7 +263,7 @@ namespace SayMore
 				builder.RegisterType<SessionFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<PersonFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<AnnotationFileType>().InstancePerLifetimeScope();
-				builder.RegisterType<AnnotationFileWithMisingMediaFileType>().InstancePerLifetimeScope();
+				builder.RegisterType<AnnotationFileWithMissingMediaFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<OralAnnotationFileType>().InstancePerLifetimeScope();
 
 				//when something needs the list of filetypes, get them from this method
@@ -273,7 +326,7 @@ namespace SayMore
 				context.Resolve<AudioFileType>(),
 				context.Resolve<VideoFileType>(),
 				context.Resolve<ImageFileType>(),
-				context.Resolve<AnnotationFileWithMisingMediaFileType>(),
+				context.Resolve<AnnotationFileWithMissingMediaFileType>(),
 				context.Resolve<UnknownFileType>(),
 			});
 		}

@@ -45,12 +45,14 @@ namespace SayMore.Transcription.UI
 				case 3: _radioButtonAudacity.Checked = true; break;
 				case 4: _radioButtonAutoSegmenter.Checked = true; break;
 			}
-		}
+        }
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
+
+			PopulateAudacityLabelTierItems();
 
 			_labelSegmentationMethod.Font = FontHelper.MakeFont(Program.DialogFont, 10, FontStyle.Bold);
 			_labelIntroduction.Font = Program.DialogFont;
@@ -59,8 +61,9 @@ namespace SayMore.Transcription.UI
 			_radioButtonCarefulSpeech.Font = Program.DialogFont;
 			_radioButtonElan.Font = Program.DialogFont;
 			_radioButtonAudacity.Font = Program.DialogFont;
+			_labelAudacityLabelTier.Font = Program.DialogFont;
 			_radioButtonAutoSegmenter.Font = Program.DialogFont;
-		}
+        }
 
 		/// ------------------------------------------------------------------------------------
 		public override bool IsOKToShow
@@ -75,15 +78,35 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			TabText = LocalizationManager.GetString(
-				"SessionsView.Transcription.StartAnnotatingTab.TabText", "Start Annotating");
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			{
+				TabText = CommonUIStrings.StartAnnotatingTabText;
 
-			base.HandleStringsLocalized();
+                if (_cboAudacityLabelTier != null)
+                {
+                    var selectedIndex = _cboAudacityLabelTier.SelectedIndex;
+                    _cboAudacityLabelTier.Items.Clear();
+                    PopulateAudacityLabelTierItems();
+                    _cboAudacityLabelTier.SelectedIndex = selectedIndex >= 0 ? selectedIndex : 0;
+                }
+            }
+
+			base.HandleStringsLocalized(lm);
 		}
 
-		/// ------------------------------------------------------------------------------------
+        private void PopulateAudacityLabelTierItems()
+        {
+            _cboAudacityLabelTier.Items.AddRange(new [] {
+                CommonUIStrings.TranscriptionTierDisplayName,
+                CommonUIStrings.TranslationTierDisplayName });
+            _cboAudacityLabelTier.Size = _cboAudacityLabelTier.PreferredSize;
+			if (_radioButtonAudacity.Checked)
+                _cboAudacityLabelTier.SelectedIndex = 0;
+        }
+
+        /// ------------------------------------------------------------------------------------
 		private void HandleGetStartedButtonClick(object sender, EventArgs e)
 		{
 			_buttonGetStarted.Enabled = false;
@@ -123,7 +146,9 @@ namespace SayMore.Transcription.UI
 					"DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.FileTypeString",
 					"Audacity Label File (*.txt)|*.txt");
 
-				newAnnotationFile = GetAudacityOrElanFile(caption, filetype);
+				newAnnotationFile = GetAudacityOrElanFile(caption, filetype,
+                    _cboAudacityLabelTier.SelectedIndex == 0 ? TierType.Transcription :
+                        TierType.FreeTranslation);
 				Settings.Default.DefaultSegmentationMethod = 3;
 			}
 			else if (_radioButtonAutoSegmenter.Checked)
@@ -140,7 +165,11 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string GetAudacityOrElanFile(string caption, string filter)
+		/// <param name="tierType">If creating from an Audacity file, the tier type specifies
+		/// which tier the label text goes into.</param>
+        /// ------------------------------------------------------------------------------------
+		private string GetAudacityOrElanFile(string caption, string filter,
+            TierType tierType = default)
 		{
 			using (var dlg = new OpenFileDialog())
 			{
@@ -153,8 +182,20 @@ namespace SayMore.Transcription.UI
 					"All Files (*.*)|*.*");
 
 				return (dlg.ShowDialog() != DialogResult.OK ? null :
-					AnnotationFileHelper.CreateFileFromFile(dlg.FileName, _file.PathToAnnotatedFile));
+					AnnotationFileHelper.CreateFileFromFile(dlg.FileName, _file.PathToAnnotatedFile, tierType));
 			}
 		}
-	}
+
+        private void _radioButtonAudacity_CheckedChanged(object sender, EventArgs e)
+        {
+            _labelAudacityLabelTier.Enabled = _cboAudacityLabelTier.Enabled =
+                _radioButtonAudacity.Checked;
+
+            if (_radioButtonAudacity.Checked && _cboAudacityLabelTier.Items.Count > 0 &&
+                _cboAudacityLabelTier.SelectedIndex < 0)
+            {
+                _cboAudacityLabelTier.SelectedIndex = 0;
+            }
+        }
+    }
 }

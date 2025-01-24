@@ -180,14 +180,8 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private ComponentFile AssociatedComponentFile
-		{
-			get
-			{
-				return _file == null ? null :
-					((OralAnnotationComponentFile)_file).AssociatedComponentFile;
-			}
-		}
+		private ComponentFile AssociatedComponentFile => 
+			((OralAnnotationComponentFile)_file)?.AssociatedComponentFile;
 
 		/// ------------------------------------------------------------------------------------
 		public override bool ComponentFileDeletionInitiated(ComponentFile file)
@@ -209,8 +203,17 @@ namespace SayMore.Transcription.UI
 			if (!_isFirstTimeActivated)
 				return;
 
-			SetComponentFile(_file);
 			_isFirstTimeActivated = false;
+
+			if (InvokeRequired)
+				Invoke(new Action(InitializeForFirstTimeActivation));
+			else
+				InitializeForFirstTimeActivation();
+		}
+
+		private void InitializeForFirstTimeActivation()
+		{
+			SetComponentFile(_file);
 			_labelCursorTime.Font = Program.DialogFont;
 		}
 
@@ -256,27 +259,30 @@ namespace SayMore.Transcription.UI
 			_oralAnnotationWaveViewer.CloseAudioStream();
 
 			_file.GenerateOralAnnotationFile(this, ComponentFile.GenerateOption.RegenerateNow);
-			SetComponentFile(_file);
+			HandleOralAnnotationFileGenerated(true);
 			_oralAnnotationWaveViewer.Invalidate(true);
 
 			_buttonRegenerate.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool IsRegeneratingAudioFile
-		{
-			get { return !_buttonRegenerate.Enabled; }
-		}
+		private bool IsRegeneratingAudioFile => !_buttonRegenerate.Enabled;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			TabText = LocalizationManager.GetString("SessionsView.Transcription.GeneratedOralAnnotationView.TabText", "Generated Audio");
-			base.HandleStringsLocalized();
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			{
+				TabText = LocalizationManager.GetString(
+					"SessionsView.Transcription.GeneratedOralAnnotationView.TabText",
+					"Generated Audio");
+			}
+
+			base.HandleStringsLocalized(lm);
 		}
 	}
 }

@@ -25,7 +25,7 @@ namespace SayMore.Transcription.UI
 			Name = "StartAnnotating";
 
 			_tableLayoutConvert.Dock = DockStyle.Top;
-			// ENHANCE: I made the Dispose method for this class disposes of the Image. However,
+			// ENHANCE: I made the Dispose method for this class dispose of the Image. However,
 			// Dispose !never! gets called. This is not a huge bitmap, of course, but this
 			// constructor can get called quite a few times. It gets squirreled away in the _editors
 			// hashtable in FileType using a cryptic hashcode from ElementListViewModel. But FileType
@@ -113,12 +113,14 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			TabText = LocalizationManager.GetString(
-				"SessionsView.Transcription.StartAnnotatingTab.TabText", "Start Annotating");
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			{
+				TabText = CommonUIStrings.StartAnnotatingTabText;
+			}
 
-			base.HandleStringsLocalized();
+			base.HandleStringsLocalized(lm);
 		}
 
 		/// ------------------------------------------------------------------------------------

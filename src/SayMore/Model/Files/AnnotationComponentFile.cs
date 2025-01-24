@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using SIL.IO;
@@ -8,12 +7,14 @@ using SIL.Reporting;
 using SIL.Windows.Forms.FileSystem;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using static System.IO.Path;
 
 namespace SayMore.Model.Files
 {
 	public class AnnotationComponentFile : ComponentFile
 	{
-		public ComponentFile AssociatedComponentFile { get; private set; }
+		public const string kEafPreferencesFileExtension = ".psfx";
+		public ComponentFile AssociatedComponentFile { get; }
 		private OralAnnotationComponentFile _oralAnnotationFile;
 
 		/// ------------------------------------------------------------------------------------
@@ -65,29 +66,21 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public OralAnnotationComponentFile OralAnnotationFile
 		{
-			get
-			{
-				return (_oralAnnotationFile != null && File.Exists(_oralAnnotationFile.PathToAnnotatedFile) ?
-					_oralAnnotationFile : null);
-			}
-			set
-			{
-				_oralAnnotationFile = (value != null &&
+			get => _oralAnnotationFile != null &&
+				File.Exists(_oralAnnotationFile.PathToAnnotatedFile) ? _oralAnnotationFile : null;
+
+			set => _oralAnnotationFile = (value != null &&
 					File.Exists(value.PathToAnnotatedFile) ? value : null);
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override int DisplayIndentLevel
-		{
-			get { return 1; }
-		}
+		public override int DisplayIndentLevel => 1;
 
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsAnnotatingAudioFile()
 		{
 			return FileUtils.AudioFileExtensions.Contains(
-				Path.GetExtension(GetPathToAssociatedMediaFile().ToLower()));
+				GetExtension(GetPathToAssociatedMediaFile().ToLower()));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -140,25 +133,26 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override void RenameAnnotatedFile(string newPath)
 		{
-			var oldPfsxFile = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
+			var oldEafSettingsFile = ChangeExtension(PathToAnnotatedFile,
+				kEafPreferencesFileExtension);
 			base.RenameAnnotatedFile(newPath);
 			AnnotationFileHelper.ChangeMediaFileName(PathToAnnotatedFile, GetPathToAssociatedMediaFile());
 
-			if (!File.Exists(oldPfsxFile))
+			if (!File.Exists(oldEafSettingsFile))
 				return;
 
-			var newPfsxFile = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
-			File.Move(oldPfsxFile, newPfsxFile);
+			var newEafSettingsFile = ChangeExtension(PathToAnnotatedFile,
+				kEafPreferencesFileExtension);
+			File.Move(oldEafSettingsFile, newEafSettingsFile);
 
-			if (_oralAnnotationFile != null)
-				_oralAnnotationFile.RenameAnnotatedFile(GetSuggestedPathToOralAnnotationFile());
+			_oralAnnotationFile?.RenameAnnotatedFile(GetSuggestedPathToOralAnnotationFile());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected internal override bool Delete()
 		{
 			// If the annotation file has an associated ELAN preference file, then delete it.
-			var prefFilePath = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
+			var prefFilePath = ChangeExtension(PathToAnnotatedFile, kEafPreferencesFileExtension);
 			var oralAnnotationFile = OralAnnotationFile;
 
 			if (!base.Delete())
@@ -193,16 +187,12 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string SegmentAnnotationFileFolder
-		{
-			get { return AssociatedComponentFile + Settings.Default.OralAnnotationsFolderSuffix; }
-		}
+		public string SegmentAnnotationFileFolder => 
+			AssociatedComponentFile + Settings.Default.OralAnnotationsFolderSuffix;
 
 		/// ------------------------------------------------------------------------------------
-		public override bool HasSubordinateFiles
-		{
-			get { return _oralAnnotationFile != null || Directory.Exists(SegmentAnnotationFileFolder); }
-		}
+		public override bool HasSubordinateFiles => 
+			_oralAnnotationFile != null || Directory.Exists(SegmentAnnotationFileFolder);
 
 		/// ------------------------------------------------------------------------------------
 		public override bool GetCanHaveAnnotationFile()
@@ -211,16 +201,10 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override bool CanBeRenamedForRole
-		{
-			get { return false; }
-		}
+		public override bool CanBeRenamedForRole => false;
 
 		/// ------------------------------------------------------------------------------------
-		public override bool CanBeCustomRenamed
-		{
-			get { return false; }
-		}
+		public override bool CanBeCustomRenamed => false;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

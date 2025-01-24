@@ -1,5 +1,5 @@
 using System.IO;
-using L10NSharp;
+using SayMore.Transcription.UI;
 
 namespace SayMore.Transcription.Model.Exporters
 {
@@ -12,7 +12,7 @@ namespace SayMore.Transcription.Model.Exporters
 		{
 			using (var stream = File.CreateText(outputFilePath))
 			{
-				stream.WriteLine("-- " + LocalizationManager.GetString("SessionsView.Transcription.TierDisplayNames.Transcription", "Transcription") + " --");
+				stream.WriteLine("-- " + CommonUIStrings.TranscriptionTierDisplayName + " --");
 				stream.WriteLine();
 				foreach (var segment in tiers.GetTranscriptionTier().Segments)
 				{
@@ -21,7 +21,7 @@ namespace SayMore.Transcription.Model.Exporters
 
 				stream.WriteLine();
 				stream.WriteLine();
-				stream.WriteLine("-- " + LocalizationManager.GetString("SessionsView.Transcription.TierDisplayNames.FreeTranslation", "Free Translation") + " --");
+				stream.WriteLine("-- " + CommonUIStrings.TranslationTierDisplayName + " --");
 				stream.WriteLine();
 				foreach (var segment in tiers.GetFreeTranslationTier().Segments)
 				{

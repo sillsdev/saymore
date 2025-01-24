@@ -331,22 +331,26 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			TabText = LocalizationManager.GetString("SessionsView.StatusAndStagesEditor.TabText", "Status && Stages");
-			if (_statusRadioButtons != null)
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
-				foreach (var radioButton in _statusRadioButtons.Where(b => b.Tag is Session.Status))
+				TabText = LocalizationManager.GetString(
+					"SessionsView.StatusAndStagesEditor.TabText", "Status && Stages");
+				if (_statusRadioButtons != null)
 				{
-					var status = (Session.Status)radioButton.Tag;
-					radioButton.Text = Session.GetLocalizedStatus(status.ToString());
-					var toolTip = GetStatusToolTip(status);
-					if (toolTip != null)
-						_toolTip.SetToolTip(radioButton, toolTip);
+					foreach (var radioButton in _statusRadioButtons.Where(b => b.Tag is Session.Status))
+					{
+						var status = (Session.Status)radioButton.Tag;
+						radioButton.Text = Session.GetLocalizedStatus(status.ToString());
+						var toolTip = GetStatusToolTip(status);
+						if (toolTip != null)
+							_toolTip.SetToolTip(radioButton, toolTip);
+					}
 				}
 			}
 
-			base.HandleStringsLocalized();
+			base.HandleStringsLocalized(lm);
 		}
 
 		/// ------------------------------------------------------------------------------------

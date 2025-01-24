@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using L10NSharp;
@@ -67,18 +65,18 @@ namespace SayMore.UI.ComponentEditors
 			}
 		}
 
-		public override sealed Font Font
+		public sealed override Font Font
 		{
-			get { return base.Font; }
-			set { base.Font = value; }
+			get => base.Font;
+			set => base.Font = value;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void SetSelectionColors(bool hasFocus)
 		{
-			// The reason the Focused property is not used is because when this method is
-			// called in the Validated event (which is also true of the Leave and LostFocus
-			// events) the Focused property is still true. Argh!
+			// The Focused property is not used because when this method is called in the
+			// Validated event (which is also true of the Leave and LostFocus events) the Focused
+			// property is still true. Argh!
 			DefaultCellStyle.SelectionBackColor = (hasFocus ?
 				_focusedSelectionBackColor : BackgroundColor);
 		}
@@ -88,9 +86,9 @@ namespace SayMore.UI.ComponentEditors
 		{
 			base.OnGotFocus(e);
 
-			// In addition to getting this event when coming from a control outside of the
+			// In addition to getting this event when coming from a control outside the
 			// grid, we'll also get this event when a cell goes out of the editing mode and
-			// it's editing control loses focus to the grid itself. So if we're here because
+			// its editing control loses focus to the grid itself. So if we're here because
 			// one of the cell's is coming out of edit mode, then we don't need to do anything.
 			if (EditingControl != null)
 				return;
@@ -343,9 +341,8 @@ namespace SayMore.UI.ComponentEditors
 				_model.SaveValueForIndex(e.RowIndex, e.Value as string);
 			else
 			{
-				string oldId;
-
-				if (!_model.GetShouldAskToRemoveFieldEverywhere(e.RowIndex, e.Value as string, out oldId))
+				if (!_model.GetShouldAskToRemoveFieldEverywhere(e.RowIndex, e.Value as string,
+					    out var oldId))
 				{
 					//SP-1815 Crash deleting custom field
 					//If Custom-field is empty, We should not add the value to the model.

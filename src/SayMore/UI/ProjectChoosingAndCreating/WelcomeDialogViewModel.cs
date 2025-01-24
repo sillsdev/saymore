@@ -83,17 +83,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		/// ------------------------------------------------------------------------------------
 		public void SetRequestedPath(string parentFolderPath, string newProjectName)
 		{
-//			try
-//			{
-			//	var project = _projectFactory(parentFolderPath, newProjectName);
-				ProjectSettingsFilePath = Project.ComputePathToSettings(parentFolderPath, newProjectName);
-//			}
-//			catch (Exception error)
-//			{
-//				ErrorReport.ReportNonFatalException(error);
-//				return false;
-//			}
-//			return true;
+			ProjectSettingsFilePath = Project.ComputePathToSettings(parentFolderPath, newProjectName);
 		}
 	}
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
 using SayMore.Model.Files;
@@ -19,6 +20,14 @@ namespace SayMore.UI.ComponentEditors
 			SetBindingHelper(_binder);
 
 			_notes.KeyDown += HandleNotesTextBoxKeyDown;
+
+			NotifyWhenProjectIsSet();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void SetWorkingLanguageFont(Font font)
+		{
+			_notes.Font = font;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -35,7 +44,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 			else if (_notes.Text.Trim() == string.Empty)
 			{
-				TabText = string.Format("({0})", _origTabText);
+				TabText = $"({_origTabText})";
 			}
 			else
 			{
@@ -55,10 +64,15 @@ namespace SayMore.UI.ComponentEditors
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			_origTabText = TabText = LocalizationManager.GetString("CommonToMultipleViews.NotesEditor.TabText", "Notes");
-			base.HandleStringsLocalized();
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			{
+				_origTabText = TabText = LocalizationManager.GetString(
+					"CommonToMultipleViews.NotesEditor.TabText", "Notes");
+			}
+
+			base.HandleStringsLocalized(lm);
 		}
 
 		private void NotesEditor_Load(object sender, EventArgs e)

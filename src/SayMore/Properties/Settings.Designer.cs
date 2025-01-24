@@ -12,7 +12,7 @@ namespace SayMore.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -319,21 +319,6 @@ namespace SayMore.Properties {
         public string ImageViewerClickImageZoomPercentages {
             get {
                 return ((string)(this["ImageViewerClickImageZoomPercentages"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>.event</string>
-  <string>.person</string>
-  <string>.meta</string>
-  <string>thumbs.db</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection ComponentFileEndingsNotAllowed {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["ComponentFileEndingsNotAllowed"]));
             }
         }
         
@@ -996,18 +981,6 @@ namespace SayMore.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public string LocalizationDlgSettings {
-            get {
-                return ((string)(this["LocalizationDlgSettings"]));
-            }
-            set {
-                this["LocalizationDlgSettings"] = value;
-            }
-        }
-        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1418,6 +1391,68 @@ namespace SayMore.Properties {
             }
             set {
                 this["ExportMediaDlg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+  <string>.event</string>
+  <string>.person</string>
+  <string>.meta</string>
+  <string>thumbs.db</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection ComponentFileEndingsNotAllowed {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["ComponentFileEndingsNotAllowed"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ShortFilenameWarningsToSuppressByVolume {
+            get {
+                return ((string)(this["ShortFilenameWarningsToSuppressByVolume"]));
+            }
+            set {
+                this["ShortFilenameWarningsToSuppressByVolume"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SuppressAllShortFilenameWarnings {
+            get {
+                return ((bool)(this["SuppressAllShortFilenameWarnings"]));
+            }
+            set {
+                this["SuppressAllShortFilenameWarnings"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ShortFilenameWarningsToSuppress {
+            get {
+                return ((string)(this["ShortFilenameWarningsToSuppress"]));
+            }
+            set {
+                this["ShortFilenameWarningsToSuppress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings ShortFileNameWarningDlg {
+            get {
+                return ((global::SIL.Windows.Forms.PortableSettingsProvider.FormSettings)(this["ShortFileNameWarningDlg"]));
+            }
+            set {
+                this["ShortFileNameWarningDlg"] = value;
             }
         }
     }

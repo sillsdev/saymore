@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.TMXUtils;
+using L10NSharp.XLiffUtils;
 using L10NSharp.UI;
 using NAudio.Wave;
 using SIL.Windows.Forms;
@@ -81,7 +81,7 @@ namespace SayMore.Transcription.UI
 			_segmentXofYFormat = _labelSegmentXofY.Text;
 			_segmentNumberFormat = _labelSegmentNumber.Text;
 
-			LocalizeItemDlg<TMXDocument>.StringsLocalized += HandleStringsLocalized;
+			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -156,7 +156,7 @@ namespace SayMore.Transcription.UI
 			_undoToolStripMenuItem.Height *= 2;
 			_ignoreToolStripMenuItem.Height = _undoToolStripMenuItem.Height;
 
-			HandleStringsLocalized();
+			HandleStringsLocalized(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -167,7 +167,7 @@ namespace SayMore.Transcription.UI
 			_waveControl.Painter.SetIgnoredRegions(_viewModel.GetIgnoredSegmentRanges());
 			_waveControl.PostPaintAction = HandleWaveControlPostPaint;
 			_waveControl.PlaybackStarted += OnPlaybackStarted;
-			_waveControl.PlaybackUpdate += OnPlayingback;
+			_waveControl.PlaybackUpdate += OnPlayingBack;
 			_waveControl.PlaybackStopped += OnPlaybackStopped;
 			_waveControl.MouseMove += HandleWaveControlMouseMove;
 			_waveControl.MouseLeave += HandleWaveControlMouseLeave;
@@ -185,7 +185,7 @@ namespace SayMore.Transcription.UI
 		{
 			if (disposing)
 			{
-				LocalizeItemDlg<TMXDocument>.StringsLocalized -= HandleStringsLocalized;
+				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= HandleStringsLocalized;
 
 				if (components != null)
 					components.Dispose();
@@ -193,7 +193,7 @@ namespace SayMore.Transcription.UI
 				if (_waveControl != null)
 				{
 					_waveControl.PlaybackStarted -= OnPlaybackStarted;
-					_waveControl.PlaybackUpdate -= OnPlayingback;
+					_waveControl.PlaybackUpdate -= OnPlayingBack;
 					_waveControl.PlaybackStopped -= OnPlaybackStopped;
 					_waveControl.MouseMove -= HandleWaveControlMouseMove;
 					_waveControl.MouseLeave -= HandleWaveControlMouseLeave;
@@ -212,8 +212,11 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleStringsLocalized()
+		protected virtual void HandleStringsLocalized(ILocalizationManager lm)
 		{
+			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
+				return;
+
 			_segmentXofYFormat = _labelSegmentXofY.Text;
 			_segmentNumberFormat = _labelSegmentNumber.Text;
 			var zoomToolTip = LocalizationManager.GetLocalizedToolTipForControl(_comboBoxZoom);
@@ -577,11 +580,11 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void OnPlayingback(WaveControlBasic ctrl, TimeSpan current, TimeSpan total)
+		protected virtual void OnPlayingBack(WaveControlBasic ctrl, TimeSpan current, TimeSpan total)
 		{
 			if (InvokeRequired)
 			{
-				Invoke(new Action(() => OnPlayingback(ctrl, current, total)));
+				Invoke(new Action(() => OnPlayingBack(ctrl, current, total)));
 			}
 			else
 			{

@@ -4,7 +4,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.TMXUtils;
+using L10NSharp.XLiffUtils;
 using L10NSharp.UI;
 using SIL.Reporting;
 using SIL.Windows.Forms.PortableSettingsProvider;
@@ -49,8 +49,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 
 			LoadMRUButtons();
 
-			LocalizeItemDlg<TMXDocument>.StringsLocalized += LocalizationInitiated;
-			LocalizationInitiated();
+			LocalizeItemDlg<XLiffDocument>.StringsLocalized += LocalizationInitiated;
+			LocalizationInitiated(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -94,8 +94,11 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		/// constructor and after strings are localized in the string localizing dialog box.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LocalizationInitiated()
+		private void LocalizationInitiated(ILocalizationManager lm)
 		{
+			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
+				return;
+
 			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text, BuildType.Current);
 
 			_linkSILWebsite.Text = String.Format(_linkSILWebsite.Text, Application.CompanyName);

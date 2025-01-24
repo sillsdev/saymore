@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.TMXUtils;
+using L10NSharp.XLiffUtils;
 using L10NSharp.UI;
 using SIL.Windows.Forms.FileSystem;
 using SIL.Windows.Forms.Miscellaneous;
@@ -28,7 +28,7 @@ namespace SayMore.UI.ElementListScreen
 	///
 	/// * Move away from knowing about the generics
 	/// at this level, and instead take an IElementListViewModel. Leave it to the DI to
-	/// give us the right one.  That might have been an easier approach than what I've
+	/// give us the right one. That might have been an easier approach than what I've
 	/// done here.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
@@ -48,7 +48,7 @@ namespace SayMore.UI.ElementListScreen
 			new Dictionary<string, ComponentEditorsTabControl>();
 
 		/// ------------------------------------------------------------------------------------
-		public ToolStripMenuItem MainMenuItem { get; private set; }
+		public ToolStripMenuItem MainMenuItem { get; }
 
 		/// ------------------------------------------------------------------------------------
 		public ElementListScreen(ElementListViewModel<T> presentationModel)
@@ -101,19 +101,19 @@ namespace SayMore.UI.ElementListScreen
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
-			HandleStringsLocalized();
-			LocalizeItemDlg<TMXDocument>.StringsLocalized += HandleStringsLocalized;
+			HandleStringsLocalized(null);
+			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			LocalizeItemDlg<TMXDocument>.StringsLocalized -= HandleStringsLocalized;
+			LocalizeItemDlg<XLiffDocument>.StringsLocalized -= HandleStringsLocalized;
 			base.OnHandleDestroyed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleStringsLocalized()
+		protected virtual void HandleStringsLocalized(ILocalizationManager lm)
 		{
 			// Overridden in derived classes
 		}
@@ -144,7 +144,7 @@ namespace SayMore.UI.ElementListScreen
 					dlg.ShowDialog(this);
 			}
 
-			// Do this in case some of the meta data changed (e.g. audio file was edited)
+			// Do this in case some of the metadata changed (e.g. audio file was edited)
 			// while the program was deactivated.
 			Refresh();
 
@@ -214,7 +214,15 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private bool HandleFilesAddedToComponentGrid(string[] files)
 		{
-			if (_model.AddComponentFiles(files))
+			if (files.Any(f => _model.ElementFileType.IsMatch(f)))
+			{
+				MessageBox.Show(string.Format(LocalizationManager.GetString(
+					"CommonToMultipleViews.FileList.AddFiles.CannotAddFilesOfElementType",
+					"Additional {0} files cannot be added to an existing {0}.",
+					"Parameter is an element type (\"Session\" or \"Person\""),
+					_model.ElementFileType.Name));
+			}
+			if (_model.AddComponentFiles(files.Where(f => !_model.ElementFileType.IsMatch(f))))
 			{
 				UpdateComponentFileList();
 				_componentFilesControl.TrySetComponent(files[0]);
@@ -237,14 +245,21 @@ namespace SayMore.UI.ElementListScreen
 
 			if (_model.Elements.Any())
 			{
-				if (itemToSelectAfterLoad == null)
-					_elementsGrid.SelectElement(0);
-				else if (itemToSelectAfterLoad is ProjectElement)
-					_elementsGrid.SelectElement((ProjectElement)itemToSelectAfterLoad);
-				else if (itemToSelectAfterLoad is int)
-					_elementsGrid.SelectElement((int)itemToSelectAfterLoad);
-				else if (itemToSelectAfterLoad is string)
-					_elementsGrid.SelectElement((string)itemToSelectAfterLoad);
+				switch (itemToSelectAfterLoad)
+				{
+					case null:
+						_elementsGrid.SelectElement(0);
+						break;
+					case ProjectElement element:
+						_elementsGrid.SelectElement(element);
+						break;
+					case int index:
+						_elementsGrid.SelectElement(index);
+						break;
+					case string itemId:
+						_elementsGrid.SelectElement(itemId);
+						break;
+				}
 			}
 
 			if (_elementsGrid.GridSettings == null)
@@ -332,11 +347,10 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			var editorProviders = _model.GetComponentEditorProviders().ToArray();
-			ComponentEditorsTabControl tabCtrl;
 
 			// Check if editors for the current file type have been shown yet. If not then
 			// load a new tab control for this file type containing the appropriate editors.
-			if (!_tabControls.TryGetValue(currProviderKey, out tabCtrl))
+			if (!_tabControls.TryGetValue(currProviderKey, out var tabCtrl))
 			{
 				tabCtrl = new ComponentEditorsTabControl(currProviderKey, _tabControlImages,
 					editorProviders, ComponentEditorBackgroundColor, ComponentEditorBorderColor);
@@ -378,27 +392,20 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ComponentEditorsTabControl SelectedComponentEditorsTabControl
-		{
-			get { return _selectedEditorsTabControl as ComponentEditorsTabControl; }
-		}
+		public ComponentEditorsTabControl SelectedComponentEditorsTabControl =>
+			_selectedEditorsTabControl as ComponentEditorsTabControl;
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual Color ComponentEditorBackgroundColor
-		{
-			get { return SystemColors.Control; }
-		}
+		protected virtual Color ComponentEditorBackgroundColor => SystemColors.Control;
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual Color ComponentEditorBorderColor
-		{
-			get { return SystemColors.ControlDark; }
-		}
+		protected virtual Color ComponentEditorBorderColor => SystemColors.ControlDark;
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleAddingNewElement(object sender, EventArgs e)
 		{
-			AfterNewItemAdded(_model.CreateNewElement());
+			if (_elementsGrid.IsOKToSelectDifferentElement())
+				AfterNewItemAdded(_model.CreateNewElement());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -414,7 +421,7 @@ namespace SayMore.UI.ElementListScreen
 			// fix now causes a lag between when a component file is selected and when all
 			// the editors for that component file are loaded into the view. It is during
 			// that lag that the code below gets executed (i.e the code to get the first
-			// component file editor). But if the editors for the new item's meta data file
+			// component file editor). But if the editors for the new item's metadata file
 			// (i.e. .session or .person) are not yet loaded, then the first editor gotten
 			// is one left over from those associated with the previous component file.
 			_model.SetSelectedComponentFile(0);

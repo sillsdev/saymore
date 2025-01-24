@@ -10,6 +10,7 @@ using SIL.Reporting;
 using SayMore.Model.Fields;
 using SIL.Xml;
 using SayMore.Utilities;
+using SIL.Extensions;
 
 namespace SayMore.Model.Files
 {
@@ -33,7 +34,8 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Save(IEnumerable<FieldInstance> fields, string path, string rootElementName)
+		public void Save(IEnumerable<FieldInstance> fields, string path, string rootElementName,
+			bool verify = true)
 		{
 			var giveUpTime = DateTime.Now.AddSeconds(15);
 
@@ -57,7 +59,8 @@ namespace SayMore.Model.Files
 				// SP-692: Could not find a part of the path ... in mscorlib
 				// This can happen if the object was renamed, resulting in the directory being renamed.
 				var dir = Path.GetDirectoryName(path);
-				if (dir == null) return;
+				if (dir == null)
+					return;
 				if (!Directory.Exists(dir))
 				{
 					// Do not throw an exception if the session or person was deleted, just return now.
@@ -66,10 +69,11 @@ namespace SayMore.Model.Files
 						throw new DirectoryNotFoundException(dir);
 
 					var dirName = new DirectoryInfo(parentDir).Name;
-					if (Directory.Exists(parentDir) && 
-						(dirName == Session.kFolderName ||
-						 dirName == Person.kFolderName))
+					if (Directory.Exists(parentDir) &&
+					    (dirName == Session.kFolderName || dirName == Person.kFolderName))
+					{
 						return;
+					}
 
 					throw new DirectoryNotFoundException(dir);
 				}
@@ -81,9 +85,7 @@ namespace SayMore.Model.Files
 			XElement additionalFieldsElement = null;
 			foreach (var fieldInstance in fields)
 			{
-				bool custom;
-				bool additional;
-				var element = GetElementFromField(fieldInstance, out custom, out additional);
+				var element = GetElementFromField(fieldInstance, out var custom, out var additional);
 				if (element == null)
 					continue;
 				if (custom)
@@ -116,11 +118,29 @@ namespace SayMore.Model.Files
 				{
 					GC.Collect();
 					root.Save(path);
+					// This is an attempt to put an end to problems like SP-2337, etc. (search Jira
+					// for "0x00"), where an empty XML file is getting created. We have no actual
+					// evidence that SayMore is actually creating the empty files, but it seems
+					// improbable that it would be happening to more than 1 or 2 users if it were
+					// being caused by some other software or malware. I'm wondering if it could be
+					// caused by a crash or power failure during the process of saving. If so, this
+					// might not help, but it could force the disk IO buffer to flush or at least
+					// maybe give us some additional insight as to when this is happening. If this
+					// does not stop the problem, then maybe we need to start saving a local backup
+					// before each file is saved and use the backup as a fallback when loading
+					// (along with a warning to alert the user that something might have gotten
+					// lost).
+					if (verify)
+					{
+						var xmlRootForVerification = GetXmlDocumentRoot(path).GetXElement();
+						if (!root.Nodes().Select(e => e.ToString()).SetEquals(xmlRootForVerification.Nodes().Select(v => v.ToString())))
+							throw new IOException("File contents not saved correctly: " + path);
+					}
 					break;
 				}
-				catch (IOException e)
+				catch (Exception e)
 				{
-					if (e.GetType() != typeof(IOException))
+					if (e.GetType() != typeof(IOException) && !(e is XmlException))
 						throw;
 
 					// Guarantee that it retries at least once
@@ -160,9 +180,8 @@ namespace SayMore.Model.Files
 				additional = true;
 			}
 
-			IXmlFieldSerializer fldSerializer;
-
-			if (!custom && !additional && _xmlFieldSerializers != null && _xmlFieldSerializers.TryGetValue(id, out fldSerializer))
+			if (!custom && !additional && _xmlFieldSerializers != null &&
+			    _xmlFieldSerializers.TryGetValue(id, out var fldSerializer))
 			{
 				element = fldSerializer.Serialize(fld.Value);
 			}
@@ -172,7 +191,7 @@ namespace SayMore.Model.Files
 				if (value.Length > 0)
 				{
 					// SP-775: SayMore crash when attempting to use a Custom Field name that starts with a non-alpha character
-					if ((!Char.IsLetter(id[0])) && (id[0] != '_')) id = "_" + id;
+					if (!Char.IsLetter(id[0]) && id[0] != '_') id = "_" + id;
 
 					element = new XElement(id, fld.ValueAsString);
 				}
@@ -205,6 +224,31 @@ namespace SayMore.Model.Files
 		{
 			fields.Clear();
 
+			var root = GetXmlDocumentRoot(path);
+
+			fields.AddRange(root.ChildNodes.Cast<XmlNode>()
+				.Select(node => GetFieldFromNode(node, fileType.GetIsCustomFieldId))
+				.Where(fieldInstance => fieldInstance != null));
+
+			var customFieldList = root.SelectSingleNode(kCustomFieldsElement);
+			if (customFieldList != null)
+			{
+				fields.AddRange(customFieldList.ChildNodes.Cast<XmlNode>()
+					.Select(node => new FieldInstance(kCustomFieldIdPrefix + node.Name, FieldInstance.kStringType,
+					CleanupLineBreaks(node.InnerText))));
+			}
+
+			var additionalFieldList = root.SelectSingleNode(kAdditionalFieldsElement);
+			if (additionalFieldList != null)
+			{
+				fields.AddRange(additionalFieldList.ChildNodes.Cast<XmlNode>()
+					.Select(node => new FieldInstance(kAdditionalFieldIdPrefix + node.Name, FieldInstance.kStringType,
+					CleanupLineBreaks(node.InnerText))));
+			}
+		}
+
+		private static XmlNode GetXmlDocumentRoot(string path)
+		{
 			var doc = new XmlDocument();
 
 			var giveUpTime = DateTime.Now.AddSeconds(4);
@@ -236,26 +280,7 @@ namespace SayMore.Model.Files
 				}
 			}
 
-			var root = doc.ChildNodes[1];
-			fields.AddRange(root.ChildNodes.Cast<XmlNode>()
-				.Select(node => GetFieldFromNode(node, fileType.GetIsCustomFieldId))
-				.Where(fieldInstance => fieldInstance != null));
-
-			var customFieldList = root.SelectSingleNode(kCustomFieldsElement);
-			if (customFieldList != null)
-			{
-				fields.AddRange(customFieldList.ChildNodes.Cast<XmlNode>()
-					.Select(node => new FieldInstance(kCustomFieldIdPrefix + node.Name, FieldInstance.kStringType,
-					CleanupLineBreaks(node.InnerText))));
-			}
-
-			var additionalFieldList = root.SelectSingleNode(kAdditionalFieldsElement);
-			if (additionalFieldList != null)
-			{
-				fields.AddRange(additionalFieldList.ChildNodes.Cast<XmlNode>()
-					.Select(node => new FieldInstance(kAdditionalFieldIdPrefix + node.Name, FieldInstance.kStringType,
-					CleanupLineBreaks(node.InnerText))));
-			}
+			return 	doc.ChildNodes[1];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -279,8 +304,8 @@ namespace SayMore.Model.Files
 			// In SayMore, the type attribute is not optional, but it was in Sponge.
 			var type = node.GetOptionalStringAttribute("type", FieldInstance.kStringType);
 
-			IXmlFieldSerializer fldSerializer;
-			if (_xmlFieldSerializers != null && _xmlFieldSerializers.TryGetValue(fieldId, out fldSerializer))
+			if (_xmlFieldSerializers != null &&
+			    _xmlFieldSerializers.TryGetValue(fieldId, out var fldSerializer))
 			{
 				var obj = fldSerializer.Deserialize(node.OuterXml);
 				return obj == null ? null : new FieldInstance(fieldId, type, obj);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Xml.Linq;
 using DesktopAnalytics;
 using L10NSharp;
@@ -13,6 +14,7 @@ using SayMore.Media;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Utilities;
+using static SIL.Reporting.ErrorReport;
 
 namespace SayMore.Transcription.Model
 {
@@ -591,7 +593,7 @@ namespace SayMore.Transcription.Model
 			// to consider the scenario where the EAF file points to a valid (existing) media file?
 			// In this situation, I don't think anything would crash, but the program could behave
 			// rather badly since it would assume that the information (duration, etc.) pulled from
-			// the media file refrenced in the EAF file applied to the media file in the session.
+			// the media file referenced in the EAF file applied to the media file in the session.
 			var eafFileName = Path.GetFileName(AnnotationFileName);
 			Debug.Assert(eafFileName != null);
 			var mediaFileName = eafFileName.Remove(eafFileName.Length - kAnnotationsEafFileSuffix.Length);
@@ -749,7 +751,8 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void SaveFromSegments(IEnumerable<AnnotationSegment> segments)
+		private void SaveFromSegments(IEnumerable<AnnotationSegment> segments,
+            TierType tierType)
 		{
 			RemoveTimeSlots();
 			RemoveAnnotationsFromTier(TextTier.ElanTranscriptionTierId);
@@ -763,8 +766,14 @@ namespace SayMore.Transcription.Model
 				if (seg.End > mediaInfo.Audio.DurationInSeconds)
 					seg.End = mediaInfo.Audio.DurationInSeconds;
 
-				CreateTranscriptionAnnotationElement(seg);
-			}
+                var segText = seg.Text;
+                if (tierType == TierType.FreeTranslation)
+                	seg.Text = String.Empty;
+                
+                var annotationId = CreateTranscriptionAnnotationElement(seg);
+                if (tierType == TierType.FreeTranslation)
+                    CreateFreeTranslationAnnotationElement(annotationId, segText);
+            }
 
 			Save();
 		}
@@ -784,14 +793,37 @@ namespace SayMore.Transcription.Model
 					// SP-702/SP-989: file is being used by another process
 					FileSystemUtils.WaitForFileRelease(AnnotationFileName, true);
 					Root.Save(AnnotationFileName);
-					break;
+					// This is an attempt to put an end to problems like SP-2326, SP-2336, etc.
+					// (search Jira for "is not a SayMore annotation file"), where a corrupt EAF file
+					// is getting created. We have no actual evidence that SayMore is actually creating
+					// the corrupt files, but it seems improbable that it would be happening to more
+					// than 1 or 2 users if it were being caused by some other software or malware.
+					// I'm wondering if it could be caused by a crash or power failure during the
+					// process of saving. If so, this/ might not help, but it could force the disk IO
+					// buffer to flush or at least maybe give us some additional insight as to when
+					// this is happening. If this does not stop the problem, then maybe we need to
+					// start saving a local backup before each file is saved and use the backup as a
+					// fallback when loading (along with a warning to alert the user that something
+					// might have gotten lost).
+					const string invalidEafFileMsg = "Corrupt/invalid ELAN file written during " +
+						"attempt #{0} to save file in AnnotationFileHelper.Save.";
+					if (GetIsElanFile(AnnotationFileName))
+						break;
+					if (++attempts < 2) // REVIEW: Maybe only need to retry once in this case.
+					{
+						Logger.WriteEvent(invalidEafFileMsg, attempts);
+						Thread.Sleep(100);
+					}
+					else
+						ReportNonFatalMessageWithStackTrace(invalidEafFileMsg, attempts);
 				}
 				catch (IOException e)
 				{
 					if (++attempts < 3)
-						Logger.WriteEvent("Exception during attempt #{0} to save file in AnnotationFileHelper.Save:\r\n{1}", attempts, e.ToString());
+						Logger.WriteEvent($"Exception during attempt #{0} to save file in AnnotationFileHelper.Save:\r\n{1}",
+							attempts, e.ToString());
 					else
-						ErrorReport.ReportNonFatalException(e);
+						ReportNonFatalException(e);
 				}
 			} while (attempts < 3);
 		}
@@ -818,9 +850,12 @@ namespace SayMore.Transcription.Model
 		/// <summary>
 		/// This method will create an EAF file from an existing EAF file or an Audacity
 		/// label file. If creating from an existing EAF file, that EAF file is copied.
+		/// If creating from an Audacity file, the tier type specifies which tier the label
+		/// text goes into.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string CreateFileFromFile(string segmentFileName, string mediaFileName)
+		public static string CreateFileFromFile(string segmentFileName, string mediaFileName,
+            TierType tierType = default)
 		{
 			var isElanFile = GetIsElanFile(segmentFileName);
 			var eafFile = ComputeEafFileNameFromOralAnnotationFile(mediaFileName);
@@ -829,18 +864,18 @@ namespace SayMore.Transcription.Model
 
 			var helper = GetOrCreateFile(eafFile, mediaFileName);
 
-			if (!isElanFile)
-			{
-				var labelHelper = new AudacityLabelHelper(File.ReadAllLines(segmentFileName), mediaFileName);
-				helper.SaveFromSegments(labelHelper.Segments);
-				Analytics.Track("AnnotationFileHelper Import segment file");
-			}
-			else
-			{
-				Analytics.Track("AnnotationFileHelper Import ELAN file");
-			}
+            if (isElanFile)
+            {
+                Analytics.Track("AnnotationFileHelper Import ELAN file");
+            }
+            else
+            {
+                var labelHelper = new AudacityLabelHelper(File.ReadAllLines(segmentFileName), mediaFileName);
+                helper.SaveFromSegments(labelHelper.Segments, tierType);
+                Analytics.Track("AnnotationFileHelper Import segment file");
+            }
 
-			return helper.AnnotationFileName;
+            return helper.AnnotationFileName;
 		}
 
 		/// ------------------------------------------------------------------------------------

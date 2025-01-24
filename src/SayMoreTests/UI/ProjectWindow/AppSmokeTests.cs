@@ -15,6 +15,7 @@ using NUnit.Extensions.Forms;
 using NUnit.Framework;
 using SayMore.UI.ProjectWindow;
 using System.Threading;
+using SIL.Reflection;
 
 namespace SayMoreTests.UI.ProjectWindow
 {
@@ -45,7 +46,10 @@ namespace SayMoreTests.UI.ProjectWindow
 		public void TearDown()
 		{
 			if (_projectContext != null)
+			{
+				ReflectionHelper.SetField(typeof(Program), "_projectContext", null);
 				_projectContext.Dispose();
+			}
 
 			_projectsFolder.Dispose();
 			_projectsFolder = null;
@@ -87,12 +91,14 @@ namespace SayMoreTests.UI.ProjectWindow
 		{
 			prjFile = (prjFile ?? Project.GetAllProjectSettingsFiles(_projectsFolder.Path)[0]);
 			_projectContext = _applicationContainer.CreateProjectContext(prjFile);
+			ReflectionHelper.SetField(typeof(Program), "_projectContext", _projectContext);
 			_projectContext.ProjectWindow.Show();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
 		[NUnit.Framework.Category("SkipOnTeamCity")]
+		[NonParallelizable]
 		public void Application_WalkThrough_DoesNotCrash()
 		{
 			CopySampleProject();
@@ -137,11 +143,12 @@ namespace SayMoreTests.UI.ProjectWindow
 		private void WalkThroughElements(string editorName, string listPanelName,
 			string componentGridName, string screenName)
 		{
-			TextBoxTester idTextBoxTester;
-			idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._id", "ProjectWindow");
+			var idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._id",
+				"ProjectWindow");
 
-			var listPanel = _projectContext.ProjectWindow.Controls.Find(listPanelName, true)[0] as ListPanel;
-			var list = listPanel.ListControl as ElementGrid;
+			var listPanel = (ListPanel)_projectContext.ProjectWindow.Controls.Find(listPanelName,
+				true)[0];
+			var list = (ElementGrid)listPanel.ListControl;
 
 			for (int i = 0; i < list.RowCount; i++)
 			{
@@ -214,6 +221,7 @@ namespace SayMoreTests.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
 		[NUnit.Framework.Category("SkipOnTeamCity")]
+		[NonParallelizable]
 		public void Application_CreateProject_DoesNotCrash()
 		{
 			CreateProject();
@@ -225,14 +233,14 @@ namespace SayMoreTests.UI.ProjectWindow
 			var filePath = Path.Combine(_projectsFolder.Path, "dummyFile.png");
 			(new Bitmap(1, 1)).Save(filePath);
 
-			var componentGrid = _projectContext.ProjectWindow.Controls.Find(
-				"_sessionComponentFileGrid", true)[0] as ComponentFileGrid;
+			var componentGrid = (ComponentFileGrid)_projectContext.ProjectWindow.Controls.Find(
+				"_sessionComponentFileGrid", true)[0];
 
 			// Can't add the file via clicking the add button because we cannot control the
 			// open file dialog box unless this class were to derive from NUnitFormTest, but
 			// that causes other problems.
 			componentGrid.FilesAdded(new[] { filePath });
-			Assert.AreEqual("dummyFile.png", componentGrid.Grid[1, 1].Value as string);
+			Assert.That(componentGrid.Grid[1, 1].Value, Is.EqualTo("dummyFile.png"));
 
 			var listPanel = GetListPanelByName("_sessionsListPanel");
 			var list = listPanel.ListControl as ElementGrid;
@@ -262,7 +270,7 @@ namespace SayMoreTests.UI.ProjectWindow
 			// Add a new person.
 			listPanel = GetListPanelByName("_peopleListPanel");
 			list = listPanel.ListControl as ElementGrid;
-			idTextBoxTester = AddItem("PersonEditor", "_peopleListPanel");
+			_ = AddItem("PersonEditor", "_peopleListPanel");
 
 			// Delete the person.
 			DeleteItems(listPanel, "PersonListScreen");

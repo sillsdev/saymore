@@ -4,11 +4,12 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.TMXUtils;
+using L10NSharp.XLiffUtils;
 using L10NSharp.UI;
 using SIL.Reporting;
 using SIL.Windows.Forms.Widgets.BetterGrid;
@@ -89,31 +90,24 @@ namespace SayMore.UI.ElementListScreen
 			_grid.DefaultCellStyle.SelectionBackColor = clr;
 			_grid.DefaultCellStyle.SelectionForeColor = _grid.DefaultCellStyle.ForeColor;
 
-			_menuDeleteFile.Click += ((s, e) => DeleteFile());
+			_menuDeleteFile.Click += (s, e) => DeleteFile();
 
-			LocalizeItemDlg<TMXDocument>.StringsLocalized += HandleStringsLocalized;
+			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleStringsLocalized()
+		private void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			if (_grid == null || _grid.IsDisposed)
-				return;
-			try
-			{
-				_grid.AutoResizeColumnHeadersHeight();
-				_grid.ColumnHeadersHeight += 8;
-			}
-			catch (ObjectDisposedException)
-			{
-				// See SP-655, SP-657
-			}
+			Debug.Assert(lm != null); // In this class, we never call this method directly.
+
+			if (_grid != null && !_grid.IsDisposed && lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+				SetColumnHeadersHeight();
 		}
 
 		public string AddFileButtonTooltipText
 		{
-			get { return _buttonAddFiles.ToolTipText; }
-			set { _buttonAddFiles.ToolTipText = value; }
+			get => _buttonAddFiles.ToolTipText;
+			set => _buttonAddFiles.ToolTipText = value;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -127,8 +121,21 @@ namespace SayMore.UI.ElementListScreen
 					((GridSettings)Settings.Default[_gridColSettingPrefix + "ComponentGrid"]).InitializeGrid(_grid);
 			}
 
-			_grid.AutoResizeColumnHeadersHeight();
-			_grid.ColumnHeadersHeight += 8;
+			SetColumnHeadersHeight();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetColumnHeadersHeight()
+		{
+			try
+			{
+				_grid.AutoResizeColumnHeadersHeight();
+				_grid.ColumnHeadersHeight += 8;
+			}
+			catch (ObjectDisposedException)
+			{
+				// See SP-655, SP-657
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -394,7 +401,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleFileGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
-			if (e.ColumnIndex < 0 || e.ColumnIndex >= _grid.ColumnCount || e.RowIndex < 0 || e.RowIndex >= _files.Count())
+			if (e.ColumnIndex < 0 || e.ColumnIndex >= _grid.ColumnCount || e.RowIndex < 0 || e.RowIndex >= _files.Count)
 				return;
 			var propName = _grid.Columns[e.ColumnIndex].DataPropertyName;
 			var currFile = _files.ElementAt(e.RowIndex);
@@ -410,7 +417,7 @@ namespace SayMore.UI.ElementListScreen
 		public void SelectComponent(int index)
 		{
 			if (_grid.CurrentCellAddress.Y != index)
-				_grid.CurrentCell = (index >= 0 && index < _files.Count() ? _grid[0, index] : null);
+				_grid.CurrentCell = (index >= 0 && index < _files.Count ? _grid[0, index] : null);
 			else
 				ForceRefresh();
 		}
@@ -420,7 +427,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			_buttonOpen.DropDown.Items.Clear();
 
-			var file = (index >= 0 && index < _files.Count() ? _files.ElementAt(index) : null);
+			var file = (index >= 0 && index < _files.Count ? _files.ElementAt(index) : null);
 
 			if (file != null)
 			{
@@ -470,8 +477,12 @@ namespace SayMore.UI.ElementListScreen
 		{
 			if (fileToSelectAfterUpdate == null)
 			{
-				fileToSelectAfterUpdate = (_grid.CurrentCellAddress.Y >= 0 && _files.Any() ?
-					_files.ElementAt(_grid.CurrentCellAddress.Y) : null);
+				// SP-1760: If the user deletes files in explorer that are being shown in the
+				// component file list, it's possible for the current row to suddenly go out of
+				// range.
+				fileToSelectAfterUpdate =
+					_grid.CurrentCellAddress.Y >= 0 && _files.Count > _grid.CurrentCellAddress.Y ?
+					_files.ElementAt(_grid.CurrentCellAddress.Y) : null;
 			}
 
 			_files = componentFiles;
@@ -549,6 +560,7 @@ namespace SayMore.UI.ElementListScreen
 				if (folder == null || !Directory.Exists(folder))
 					folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+				dlg.Multiselect = true;
 				dlg.Filter = prjFilterText + "|*.*";
 				dlg.InitialDirectory = folder;
 				dlg.CheckFileExists = true;
@@ -583,6 +595,9 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleConvertButtonClick(object sender, EventArgs e)
 		{
+			if (!GetIsOKToPerformFileOperation())
+				return;
+
 			var index = _grid.CurrentCellAddress.Y;
 			var file = (index >= 0 && index < _files.Count() ? _files.ElementAt(index) : null);
 

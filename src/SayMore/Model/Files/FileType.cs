@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
 using SIL.IO;
-using SIL.Windows.Forms.ClearShare;
+using SIL.Core.ClearShare;
 using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Media;
 using SayMore.Media.Audio;
@@ -17,6 +18,7 @@ using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
 using SayMore.UI;
 using SayMore.UI.ComponentEditors;
+using static System.String;
 
 namespace SayMore.Model.Files
 {
@@ -37,6 +39,7 @@ namespace SayMore.Model.Files
 			new Dictionary<int, IEnumerable<IEditorProvider>>();
 
 		public string Name { get; protected set; }
+		public virtual string RootElementName => null;
 		public virtual string TypeDescription { get { return null; } }
 		public virtual Image SmallIcon { get { return null; } }
 		public virtual string FileSize { get { return null; } }
@@ -217,22 +220,32 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class PersonFileType : FileType
 	{
-		private readonly Func<PersonBasicEditor.Factory> _personBasicEditorFactoryLazy;
-		private readonly Func<PersonContributionEditor.Factory> _personContributionEditorFactoryLazy;
+		private readonly Lazy<Func<PersonBasicEditor.Factory>> _personBasicEditorFactoryLazy;
+		private readonly Lazy<Func<PersonContributionEditor.Factory>> _personContributionEditorFactoryLazy;
 
 		public const string kCode = "code";
 		public const string kGender = "gender";
 		public const string kEducation = "education";
 		public const string kPrimaryOccupation = "primaryOccupation";
+		public const string kPrimaryLanguage = "primaryLanguage";
+		public const string kMothersLanguage = "mothersLanguage";
+		public const string kFathersLanguage = "fathersLanguage";
+
+		public static string GetOtherLanguageKey(int i)
+		{
+			Debug.Assert(i >= 0 && i < 4);
+			return $"otherLanguage{i}";
+		}
+
+		public override string RootElementName => Name;
 
 		/// ------------------------------------------------------------------------------------
 		/// <param name="personBasicEditorFactoryLazy">This is to get us around a circular
-		/// dependency error in autofac.  NB: when we move to .net 4, this can be replaced by
-		/// <!--Lazy<Func<PersonBasicEditor.Factory>--></param>
+		/// dependency error in autofac.</param>
 		/// <param name="personRoleEditorFactoryLazy"></param>
 		/// ------------------------------------------------------------------------------------
-		public PersonFileType(Func<PersonBasicEditor.Factory> personBasicEditorFactoryLazy,
-			Func<PersonContributionEditor.Factory> personRoleEditorFactoryLazy)
+		public PersonFileType(Lazy<Func<PersonBasicEditor.Factory>> personBasicEditorFactoryLazy,
+			Lazy<Func<PersonContributionEditor.Factory>> personRoleEditorFactoryLazy)
 			: base("Person", p => p.ToLower().EndsWith(Settings.Default.PersonFileExtension.ToLower()))
 		{
 			_personBasicEditorFactoryLazy = personBasicEditorFactoryLazy;
@@ -262,14 +275,14 @@ namespace SayMore.Model.Files
 					"id",
 					kCode,
 					"nickName",
-					"primaryLanguage",
+					kPrimaryLanguage,
 					"primaryLanguageLearnedIn",
-					"otherLanguage0",
-					"otherLanguage1",
-					"otherLanguage2",
-					"otherLanguage3",
-					"fathersLanguage",
-					"mothersLanguage",
+					GetOtherLanguageKey(0),
+					GetOtherLanguageKey(1),
+					GetOtherLanguageKey(2),
+					GetOtherLanguageKey(3),
+					kFathersLanguage,
+					kMothersLanguage,
 					"pbOtherLangFather0",
 					"pbOtherLangFather1",
 					"pbOtherLangFather2",
@@ -311,16 +324,13 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string FieldsGridSettingsName
-		{
-			get { return "PersonCustomFieldsGrid"; }
-		}
+		public override string FieldsGridSettingsName => "PersonCustomFieldsGrid";
 
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			yield return _personBasicEditorFactoryLazy()(file, "Person");
-			yield return _personContributionEditorFactoryLazy()(file, "Session");
+			yield return _personBasicEditorFactoryLazy.Value()(file, "Person");
+			yield return _personContributionEditorFactoryLazy.Value()(file, "Session");
 			yield return new NotesEditor(file);
 		}
 
@@ -332,10 +342,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override Image SmallIcon
-		{
-			get { return ResourceImageCache.PersonFileImage; }
-		}
+		public override Image SmallIcon => ResourceImageCache.PersonFileImage;
 	}
 
 	#endregion
@@ -369,21 +376,22 @@ namespace SayMore.Model.Files
 		public const string kSocialContextFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Social_Context";
 		public const string kTaskFieldName = XmlFileSerializer.kAdditionalFieldIdPrefix + "Task";
 
-		private readonly Func<SessionBasicEditor.Factory> _sessionBasicEditorFactoryLazy;
-		private readonly Func<StatusAndStagesEditor.Factory> _statusAndStagesEditorFactoryLazy;
-		private readonly Func<ContributorsEditor.Factory> _sessionContributorEditorFactoryLazy;
+		private readonly Lazy<Func<SessionBasicEditor.Factory>> _sessionBasicEditorFactoryLazy;
+		private readonly Lazy<Func<StatusAndStagesEditor.Factory>> _statusAndStagesEditorFactoryLazy;
+		private readonly Lazy<Func<ContributorsEditor.Factory>> _sessionContributorEditorFactoryLazy;
+
+		public override string RootElementName => Name;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		///
+		/// 
 		/// </summary>
 		/// <param name="sessionBasicEditorFactoryLazy">This is to get us around a circular
-		/// dependency error in autofac. NB: when we move to .net 4, this can be replaced by
-		/// <!--Lazy<Func<SessionBasicEditor.Factory>--></param>
-		/// <param name="statusAndStagesEditorFactoryLazy"></param>
+		/// dependency error in autofac.</param>
 		/// ------------------------------------------------------------------------------------
-		public SessionFileType(Func<SessionBasicEditor.Factory> sessionBasicEditorFactoryLazy,
-			Func<StatusAndStagesEditor.Factory> statusAndStagesEditorFactoryLazy, Func<ContributorsEditor.Factory> sessionContributorEditorFactoryLazy)
+		public SessionFileType(Lazy<Func<SessionBasicEditor.Factory>> sessionBasicEditorFactoryLazy,
+			Lazy<Func<StatusAndStagesEditor.Factory>> statusAndStagesEditorFactoryLazy,
+			Lazy<Func<ContributorsEditor.Factory>> sessionContributorEditorFactoryLazy)
 			: base("Session", p => p.ToLower().EndsWith(Settings.Default.SessionFileExtension.ToLower()))
 		{
 			_sessionBasicEditorFactoryLazy = sessionBasicEditorFactoryLazy;
@@ -392,10 +400,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string FieldsGridSettingsName
-		{
-			get { return "SessionCustomFieldsGrid"; }
-		}
+		public override string FieldsGridSettingsName => "SessionCustomFieldsGrid";
 
 		/// ------------------------------------------------------------------------------------
 		public override bool GetIsCustomFieldId(string key)
@@ -508,11 +513,27 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override void Migrate(ComponentFile file)
+		{
+			base.Migrate(file);
+
+			var accessCode = file.GetStringValue(kAccessFieldName, Empty);
+
+			// "Insite users" has been changed to "REAP users"
+			if (accessCode == "Insite users")
+			{
+				accessCode = "REAP users";
+				file.SetStringValue(kAccessFieldName, accessCode);
+				file.Save();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			yield return _sessionBasicEditorFactoryLazy()(file, "Session");
-			yield return _statusAndStagesEditorFactoryLazy()(file, "StatusAndStages");
-			yield return _sessionContributorEditorFactoryLazy()(file, "Contributor");
+			yield return _sessionBasicEditorFactoryLazy.Value()(file, "Session");
+			yield return _statusAndStagesEditorFactoryLazy.Value()(file, "StatusAndStages");
+			yield return _sessionContributorEditorFactoryLazy.Value()(file, "Contributor");
 			yield return new NotesEditor(file);
 		}
 
@@ -530,10 +551,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override Image SmallIcon
-		{
-			get { return ResourceImageCache.SessionFileImage; }
-		}
+		public override Image SmallIcon => ResourceImageCache.SessionFileImage;
 	}
 
 	#endregion
@@ -542,14 +560,14 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public abstract class FileTypeWithContributors : FileType
 	{
-		protected readonly Func<ContributorsEditor.Factory> _contributorsEditorFactoryLazy;
+		protected Lazy<Func<ContributorsEditor.Factory>> ContributorsEditorFactoryLazy { get; }
 
 		/// ------------------------------------------------------------------------------------
 		protected FileTypeWithContributors(string name, Func<string, bool> isMatchPredicate,
-			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
+			Lazy<Func<ContributorsEditor.Factory>> contributorsEditorFactoryLazy)
 			: base(name, isMatchPredicate)
 		{
-			_contributorsEditorFactoryLazy = contributorsEditorFactoryLazy;
+			ContributorsEditorFactoryLazy = contributorsEditorFactoryLazy;
 		}
 	}
 
@@ -559,11 +577,11 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class AnnotationFileType : FileTypeWithContributors
 	{
-		protected readonly Func<TextAnnotationEditor.Factory> _textAnnotationEditorFactoryLazy;
+		private readonly Lazy<Func<TextAnnotationEditor.Factory>> _textAnnotationEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
-		public AnnotationFileType(Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy,
-			Func<TextAnnotationEditor.Factory> textAnnotationEditorFactoryLazy)
+		public AnnotationFileType(Lazy<Func<ContributorsEditor.Factory>> contributorsEditorFactoryLazy,
+			Lazy<Func<TextAnnotationEditor.Factory>> textAnnotationEditorFactoryLazy)
 			: base("Annotations", GetIsAnAnnotationFile, contributorsEditorFactoryLazy)
 		{
 			_textAnnotationEditorFactoryLazy = textAnnotationEditorFactoryLazy;
@@ -575,13 +593,13 @@ namespace SayMore.Model.Files
 			var annotationSuffix = AnnotationFileHelper.kAnnotationsEafFileSuffix;
 
 			return (path.ToLower().EndsWith(annotationSuffix) &&
-				File.Exists(path.ToLower().Replace(annotationSuffix, string.Empty)));
+				File.Exists(path.ToLower().Replace(annotationSuffix, Empty)));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			yield return _textAnnotationEditorFactoryLazy()(file, "Annotation");
+			yield return _textAnnotationEditorFactoryLazy.Value()(file, "Annotation");
 			//yield return _contributorsEditorFactoryLazy()(file, null);
 			//yield return new NotesEditor(file);
 		}
@@ -595,12 +613,12 @@ namespace SayMore.Model.Files
 
 	#endregion
 
-	#region AnnotationFileWithMisingMediaFileType class
+	#region AnnotationFileWithMissingMediaFileType class
 	/// ----------------------------------------------------------------------------------------
-	public class AnnotationFileWithMisingMediaFileType : FileType
+	public class AnnotationFileWithMissingMediaFileType : FileType
 	{
 		/// ------------------------------------------------------------------------------------
-		public AnnotationFileWithMisingMediaFileType()
+		public AnnotationFileWithMissingMediaFileType()
 			: base("AnnotationsWithMissingMedia", GetIsAnAnnotationFileWithMissingMedia)
 		{
 		}
@@ -611,7 +629,7 @@ namespace SayMore.Model.Files
 			var annotationSuffix = AnnotationFileHelper.kAnnotationsEafFileSuffix;
 
 			return (path.ToLower().EndsWith(annotationSuffix) &&
-				!File.Exists(path.ToLower().Replace(annotationSuffix, string.Empty)));
+				!File.Exists(path.ToLower().Replace(annotationSuffix, Empty)));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -636,8 +654,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public OralAnnotationFileType(
 			Func<Project> project,
-			Func<AudioComponentEditor.Factory> audioComponentEditorFactoryLazy,
-			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy) :
+			Lazy<Func<AudioComponentEditor.Factory>> audioComponentEditorFactoryLazy,
+			Lazy<Func<ContributorsEditor.Factory>> contributorsEditorFactoryLazy) :
 			base(project(), audioComponentEditorFactoryLazy, contributorsEditorFactoryLazy)
 		{
 			Name = "OralAnnotations";
@@ -653,7 +671,7 @@ namespace SayMore.Model.Files
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
 			yield return new OralAnnotationEditor(file);
-			yield return _audioComponentEditorFactoryLazy()(file, null);
+			yield return AudioComponentEditorFactoryLazy.Value()(file, null);
 			//yield return _contributorsEditorFactoryLazy()(file, null);
 			//yield return new NotesEditor(file);
 		}
@@ -663,10 +681,7 @@ namespace SayMore.Model.Files
 		/// These are fields which are always available for files of this type
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<FieldDefinition> FactoryFields
-		{
-			get { return GetBaseAudioFields(); }
-		}
+		public override IEnumerable<FieldDefinition> FactoryFields => GetBaseAudioFields();
 	}
 
 	#endregion
@@ -679,7 +694,7 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		protected AudioVideoFileTypeBase(string name, Project project, Func<string, bool> isMatchPredicate,
-			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
+			Lazy<Func<ContributorsEditor.Factory>> contributorsEditorFactoryLazy)
 			: base(name, isMatchPredicate, contributorsEditorFactoryLazy)
 		{
 			_project = project;
@@ -709,7 +724,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<ComputedFieldInfo> GetComputedFields()
 		{
-			// TODO: Figure out how to localize the suffixes so english is saved in
+			// TODO: Figure out how to localize the suffixes so English is saved in
 			// the metadata file but the user sees them in their UI language.
 
 			yield return new ComputedFieldInfo
@@ -724,7 +739,7 @@ namespace SayMore.Model.Files
 				Key = "Audio_Bit_Rate",
 				Suffix = "kbps",
 				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.AudioBitRateSuffix", "kbps"),
-				DataItemChooser = (info => info.Audio.KilobitsPerSecond),
+				DataItemChooser = (info => info.Audio?.KilobitsPerSecond ?? 0),
 				GetFormattedStatProvider = GetStringStatistic
 			};
 
@@ -784,28 +799,25 @@ namespace SayMore.Model.Files
 			Func<MediaFileInfo, object> dataItemChooser, string suffix)
 		{
 			if (info == null)
-				return string.Empty;
+				return Empty;
 
 			var dataVal = dataItemChooser(info);
-			if (dataVal == null)
-				return string.Empty;
-
-			return string.Format("{0} {1}", dataVal, suffix).Trim();
+			return dataVal == null ? Empty : $"{dataVal} {suffix}".Trim();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public string GetChannelsStatistic(MediaFileInfo info,
 			Func<MediaFileInfo, object> dataItemChooser, string suffix)
 		{
-			var channels = GetStringStatistic(info, dataItemChooser, string.Empty);
+			var channels = GetStringStatistic(info, dataItemChooser, Empty);
 
-			// TODO: Figure out how to localize these so english is saved in the
+			// TODO: Figure out how to localize these so English is saved in the
 			// metadata file but the user sees them in their UI language.
 
 			switch (channels)
 			{
-				case "-1": return string.Empty;
-				case "0": return string.Empty;
+				case "-1": return Empty;
+				case "0": return Empty;
 				case "1": return "mono";
 				case "2": return "stereo";
 				//case "1": return Program.Get____String("Model.Files.AudioVideoFileType.MonoLabel", "mono");
@@ -819,7 +831,7 @@ namespace SayMore.Model.Files
 		public string GetDurationStatistic(MediaFileInfo info,
 			Func<MediaFileInfo, object> dataItemChooser, string suffix)
 		{
-			var duration = GetStringStatistic(info, dataItemChooser, string.Empty);
+			var duration = GetStringStatistic(info, dataItemChooser, Empty);
 
 			// Strip off milliseconds.
 			int i = duration.LastIndexOf('.');
@@ -858,13 +870,11 @@ namespace SayMore.Model.Files
 			var collection =
 				file.GetValue(SessionFileType.kContributionsFieldName, new ContributionCollection()) as ContributionCollection;
 
-			var contributor = new Contribution(value, role);
-			contributor.Date = file.GetCreateDate();
+			var contributor = new Contribution(value, role) { Date = file.GetCreateDate() };
 			if (collection != null)
 			{
 				collection.Add(contributor);
-				string failureMessage;
-				file.SetValue(SessionFileType.kContributionsFieldName, collection, out failureMessage);
+				file.SetValue(SessionFileType.kContributionsFieldName, collection, out _);
 			}
 			file.RemoveField(fieldId);
 			file.Save();
@@ -889,10 +899,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override bool CanBeConverted
-		{
-			get { return true; }
-		}
+		public override bool CanBeConverted => true;
 
 		/// ------------------------------------------------------------------------------------
 		public static string ComputeStandardPcmAudioFilePath(string path)
@@ -906,7 +913,7 @@ namespace SayMore.Model.Files
 			var pcmPath = Path.GetFileNameWithoutExtension(path);
 			var testPath = Path.GetFileNameWithoutExtension(Settings.Default.StandardAudioFileSuffix);
 
-			if (testPath != null)
+			if (testPath != Empty)
 			{
 				if (pcmPath.EndsWith(testPath))
 					return Path.Combine(dirName, pcmPath + ".wav");
@@ -930,34 +937,29 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class AudioFileType : AudioVideoFileTypeBase
 	{
-		protected readonly Func<AudioComponentEditor.Factory> _audioComponentEditorFactoryLazy;
+		protected Lazy<Func<AudioComponentEditor.Factory>> AudioComponentEditorFactoryLazy { get; }
 
 		/// ------------------------------------------------------------------------------------
 		public AudioFileType(Project project,
-			Func<AudioComponentEditor.Factory> audioComponentEditorFactoryLazy,
-			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
+			Lazy<Func<AudioComponentEditor.Factory>> audioComponentEditorFactoryLazy,
+			Lazy<Func<ContributorsEditor.Factory>> contributorsEditorFactoryLazy)
 			: base("Audio", project,
 				p => FileUtils.AudioFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())),
 				contributorsEditorFactoryLazy)
 		{
-			_audioComponentEditorFactoryLazy = audioComponentEditorFactoryLazy;
+			AudioComponentEditorFactoryLazy = audioComponentEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override bool IsAudio
-		{
-			get { return true; }
-		}
+		public override bool IsAudio => true;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// These are fields which are always available for files of this type
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<FieldDefinition> FactoryFields
-		{
-			get { return base.FactoryFields.Union(GetBaseAudioFields()); }
-		}
+		public override IEnumerable<FieldDefinition> FactoryFields => 
+			base.FactoryFields.Union(GetBaseAudioFields());
 
 		/// ------------------------------------------------------------------------------------
 		internal static IEnumerable<FieldDefinition> GetBaseAudioFields()
@@ -976,17 +978,14 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string FieldsGridSettingsName
-		{
-			get { return "AudioFileFieldsGrid"; }
-		}
+		public override string FieldsGridSettingsName => "AudioFileFieldsGrid";
 
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
 			yield return new AudioVideoPlayer(file, "Audio");
-			yield return _audioComponentEditorFactoryLazy()(file, null);
-			yield return _contributorsEditorFactoryLazy()(file, null);
+			yield return AudioComponentEditorFactoryLazy.Value()(file, null);
+			yield return ContributorsEditorFactoryLazy.Value()(file, null);
 			yield return new NotesEditor(file);
 
 			foreach (var editor in base.GetNewSetOfEditorProviders(file))
@@ -994,10 +993,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override Image SmallIcon
-		{
-			get {return ResourceImageCache.AudioFileImage;}
-		}
+		public override Image SmallIcon => ResourceImageCache.AudioFileImage;
 	}
 
 	#endregion
@@ -1011,7 +1007,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public VideoFileType(Project project,
 			Func<VideoComponentEditor.Factory> videoComponentEditorFactoryLazy,
-			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
+			Lazy<Func<ContributorsEditor.Factory>> contributorsEditorFactoryLazy)
 			: base("Video", project, p => FileUtils.VideoFileExtensions.Cast<string>()
 				.Any(ext => p.ToLower().EndsWith(ext.ToLower())), contributorsEditorFactoryLazy)
 		{
@@ -1019,10 +1015,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override bool IsVideo
-		{
-			get { return true; }
-		}
+		public override bool IsVideo => true;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1044,10 +1037,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string FieldsGridSettingsName
-		{
-			get { return "VideoFileFieldsGrid"; }
-		}
+		public override string FieldsGridSettingsName => "VideoFileFieldsGrid";
 
 		/// ------------------------------------------------------------------------------------
 		public override bool GetShowInPresetOptions(string key)
@@ -1060,7 +1050,7 @@ namespace SayMore.Model.Files
 		{
 			yield return new AudioVideoPlayer(file, "Video");
 			yield return _videoComponentEditorFactoryLazy()(file, null);
-			yield return _contributorsEditorFactoryLazy()(file, null);
+			yield return ContributorsEditorFactoryLazy.Value()(file, null);
 			yield return new NotesEditor(file);
 
 			foreach (var editor in base.GetNewSetOfEditorProviders(file))
@@ -1068,10 +1058,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override Image SmallIcon
-		{
-			get { return ResourceImageCache.VideoFileImage; }
-		}
+		public override Image SmallIcon => ResourceImageCache.VideoFileImage;
 	}
 
 	#endregion
@@ -1086,7 +1073,7 @@ namespace SayMore.Model.Files
 		public ImageFileType(
 			Func<BasicFieldGridEditor.Factory> basicFieldGridEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
-			: base("Image", p => FileUtils.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())))
+			: base("Image", p => SIL.IO.FileUtils.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())))
 		{
 			_basicFieldGridEditorFactoryLazy = basicFieldGridEditorFactoryLazy;
 			_contributorsEditorFactoryLazy = contributorsEditorFactoryLazy;
@@ -1130,7 +1117,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public ComputedFieldInfo()
 		{
-			Suffix = string.Empty;
+			Suffix = Empty;
 		}
 	}
 

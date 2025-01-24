@@ -11,11 +11,17 @@
   <File Id="ProgramDir.releaseNotes.md" Guid="bdbc42c3-9be7-4ca5-a2bc-9c91d58883f0" />
   <File Id="ProgramDir.SayMore.chm" Guid="8a822c10-ac11-40d1-8c2e-a33b7236ccd1" />
   <File Id="ProgramDir.SayMore.chw" Guid="91b6685c-df54-45a3-b2f0-accfd76991aa" />
-  <File Id="ProgramDir.SayMore.es.tmx" Guid="fbdc3f44-971c-4bb3-b347-f22fa24c6687" />
-  <File Id="ProgramDir.SayMore.fr.tmx" Guid="630adac8-4753-462f-8190-7a76278fc65a" />
-  <File Id="ProgramDir.SayMore.pt.tmx" Guid="15b780e0-c507-4ba0-8ec1-c2356f6e9e23" />
-  <File Id="ProgramDir.SayMore.ru.tmx" Guid="cc88d74e-ff31-42e4-aff7-6735a308bc6a" />
-  <File Id="ProgramDir.SayMore.tr.tmx" Guid="7248fbda-98cd-4c09-a5c2-7c79642dfe3a" />
-  <File Id="ProgramDir.SayMore.zh_Hans.tmx" Guid="97c9cb3d-4995-43ca-a914-742a04d6ab90" />
   <File Id="ProgramDir.SessionFileInfoTemplates.xml" Guid="79c9620d-5ae8-4fbb-bdcf-3a88a57c9ae0" />
+  <File Id="ProgramDir.SayMore.es.xlf" Guid="ba5a04a9-3330-49e6-8f70-30f912c3014b" />
+  <File Id="ProgramDir.SayMore.fr.xlf" Guid="ca34e91c-f353-46ec-b2b0-d36a4e75c19e" />
+  <File Id="ProgramDir.SayMore.pt.xlf" Guid="d3416ab2-5182-43a4-9e30-9b5a45879849" />
+  <File Id="ProgramDir.SayMore.ru.xlf" Guid="20115c37-b91b-4588-906d-4b4f000ea913" />
+  <File Id="ProgramDir.SayMore.tr.xlf" Guid="343d1f82-031c-42f9-b873-46fb5db088ac" />
+  <File Id="ProgramDir.SayMore.zh_CN.xlf" Guid="1acbab75-5630-4e0a-b131-058f47674c09" />
+  <File Id="ProgramDir.Palaso.es.xlf" Guid="7324ac0b-abe7-4889-83ab-17ae7db09cfb" />
+  <File Id="ProgramDir.Palaso.fr.xlf" Guid="d31890fb-9e5d-4f0c-a4e2-01ffa737a95c" />
+  <File Id="ProgramDir.Palaso.pt.xlf" Guid="04a89fb6-1d15-40ab-8506-6b960b9f58f4" />
+  <File Id="ProgramDir.Palaso.ru.xlf" Guid="888f8dcb-cda2-4ae5-ba4e-7fcaa3e92b56" />
+  <File Id="ProgramDir.Palaso.tr.xlf" Guid="0e8409fa-844d-412e-bd3e-148524130a4b" />
+  <File Id="ProgramDir.Palaso.zh_CN.xlf" Guid="326f9f19-a519-43b9-bb0c-7fb11cabee88" />
 </InstallerMetadata>

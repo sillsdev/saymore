@@ -3,7 +3,8 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using L10NSharp.TMXUtils;
+using L10NSharp;
+using L10NSharp.XLiffUtils;
 using Microsoft.Win32;
 using L10NSharp.UI;
 using SIL.Reporting;
@@ -31,7 +32,7 @@ namespace SayMore.UI.Overview.Statistics
 		{
 			base.OnHandleDestroyed(e);
 
-			LocalizeItemDlg<TMXDocument>.StringsLocalized -= UpdateDisplay;
+			LocalizeItemDlg<XLiffDocument>.StringsLocalized -= UpdateDisplay;
 			_model.FinishedGatheringStatisticsForAllFiles -= HandleNewDataAvailable;
 			_model.NewStatisticsAvailable -= HandleNewDataAvailable;
 		}
@@ -48,14 +49,16 @@ namespace SayMore.UI.Overview.Statistics
 				UpdateDisplay();
 			}
 
-			LocalizeItemDlg<TMXDocument>.StringsLocalized += UpdateDisplay;
+			LocalizeItemDlg<XLiffDocument>.StringsLocalized += UpdateDisplay;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateDisplay()
+		private void UpdateDisplay(ILocalizationManager lm = null)
 		{
-			if (_webBrowser.DocumentStream != null)
-				_webBrowser.DocumentStream.Dispose();
+			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
+				return;
+
+			_webBrowser.DocumentStream?.Dispose();
 			UpdateStatusDisplay(true);
 			Thread updateDisplayThread = new Thread(() =>
 				{
@@ -134,9 +137,9 @@ namespace SayMore.UI.Overview.Statistics
 
 #if !__MonoCS__
 			if (!isIEPageSetupSetToPrintingBkgndColor)
-				if (regKey != null) regKey.SetValue("Print_Background", "no", RegistryValueKind.String);
+				regKey?.SetValue("Print_Background", "no", RegistryValueKind.String);
 
-			if (regKey != null) regKey.Close();
+			regKey?.Close();
 #endif
 		}
 
@@ -178,7 +181,7 @@ namespace SayMore.UI.Overview.Statistics
 			// a background (data gathering) thread and updating the browser control on the
 			// background thread is a no-no. UpdateDisplay will be called when the timer
 			// tick fires.
-			BeginInvoke(new Action(UpdateDisplay));
+			BeginInvoke(new Action(() => UpdateDisplay()));
 		}
 
 		private void _detectContextMenuRefreshTimer_Tick(object sender, EventArgs e)

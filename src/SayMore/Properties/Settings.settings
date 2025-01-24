@@ -86,15 +86,6 @@
     <Setting Name="ImageViewerClickImageZoomPercentages" Description="These are zoom percentages used when clicking on an image in an image viewer. For each click, the zoom is increased to the next percentage value. When the max value is reached, the zoom percentage changes to the lowest value, etc." Type="System.String" Scope="Application">
       <Value Profile="(Default)">25, 50, 75,100, 125, 150, 175, 200, 225, 250, 275, 300</Value>
     </Setting>
-    <Setting Name="ComponentFileEndingsNotAllowed" Type="System.Collections.Specialized.StringCollection" Scope="Application">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;.event&lt;/string&gt;
-  &lt;string&gt;.person&lt;/string&gt;
-  &lt;string&gt;.meta&lt;/string&gt;
-  &lt;string&gt;thumbs.db&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
-    </Setting>
     <Setting Name="MetadataFileExtension" Type="System.String" Scope="Application">
       <Value Profile="(Default)">.meta</Value>
     </Setting>
@@ -287,9 +278,6 @@
     <Setting Name="UserInterfaceLanguage" Provider="SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">en</Value>
     </Setting>
-    <Setting Name="LocalizationDlgSettings" Provider="SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="MillisecondsToDelayPlaybackAfterAdjustingSegmentBoundary" Provider="SIL.Windows.Forms.PortableSettingsProvider.PortableSettingsProvider" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">600</Value>
     </Setting>
@@ -390,6 +378,27 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ExportMediaDlg" Type="SIL.Windows.Forms.PortableSettingsProvider.FormSettings" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ComponentFileEndingsNotAllowed" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;.event&lt;/string&gt;
+  &lt;string&gt;.person&lt;/string&gt;
+  &lt;string&gt;.meta&lt;/string&gt;
+  &lt;string&gt;thumbs.db&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="ShortFilenameWarningsToSuppressByVolume" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SuppressAllShortFilenameWarnings" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ShortFilenameWarningsToSuppress" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ShortFileNameWarningDlg" Type="SIL.Windows.Forms.PortableSettingsProvider.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

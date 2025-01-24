@@ -59,10 +59,13 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			_sessionComponentFileGrid.AddFileButtonTooltipText =
-				LocalizationManager.GetString("SessionsView.FileList.AddSessionsButtonToolTip", "Add Files to the Session");
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			{
+				_sessionComponentFileGrid.AddFileButtonTooltipText = LocalizationManager.GetString(
+					"SessionsView.FileList.AddSessionsButtonToolTip", "Add Files to the Session");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -181,6 +184,9 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonNewFromFilesClick(object sender, EventArgs e)
 		{
+			if (!_elementsGrid.IsOKToSelectDifferentElement())
+				return;
+
 			using (var viewModel = _newSessionsFromFileDlgViewModel(_model))
 			using (var dlg = new NewSessionsFromFilesDlg(viewModel))
 			{
@@ -194,7 +200,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonNewFromRecordingsClick(object sender, EventArgs e)
 		{
-			if (!AudioUtils.GetCanRecordAudio())
+			if (!_elementsGrid.IsOKToSelectDifferentElement() || !AudioUtils.GetCanRecordAudio())
 				return;
 
 			using (var viewModel = new SessionRecorderDlgViewModel())

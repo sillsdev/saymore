@@ -1,3 +1,31 @@
+## Version 3.7
+Enabled suppression of repeated short filename warnings.
+Added language chooser to make it easy to select the desired language in a form that supports sharing research and archiving.
+Corrected diplay of person details.
+Prevented waveform scrolling to the beginning after listening to a source segment.
+Fixed display problem in project metadata when no project language has been chosen.
+Fixed a bug when setting the font in the transcription annotation column.
+Added check when saving metadata and EAF files to ensure that they do not end up empty or otherwise corrupt.
+Security patch.
+
+## Version 3.6.2
+Prevented NullReferenceException when clicking away during playback of generated oral annotations.
+
+## Version 3.6.1
+Fixed problem that prevented creation of a new project.
+
+## Version 3.6
+Added ability to set the working language font (used, for example, in Descriptions, Notes, etc.)
+
+## Version 3.5
+Added support for additional media formats, including .m4a files
+
+## Version 3.4
+Added option to import Audacity labels into free translation (instead of the transcription tier)
+
+## Version 3.3
+Localization files are now stored in the XLIFF format (v. 1.2). If you have custom localizations saved in TMX format, please contact sil.saymore@gmail.com for help.
+
 ## Version 3.2
 * Added Turkish UI Translations from Stevan Vanderwerf
 * Added Native American Language Collection
@@ -16,6 +44,7 @@
 * Included recording length in IMDI export.
 * Fixed RAMP info link on export to RAMP.
 * Allowed RAMP export of entire project.
+* Eliminated need to download FFMpeg separately.
 
 ## Version 3.1
 When doing an IMDI export,you can now select a "metadata only" option.

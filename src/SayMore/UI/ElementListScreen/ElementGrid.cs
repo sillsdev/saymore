@@ -10,7 +10,6 @@ using SIL.Extensions;
 using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SIL.Reporting;
 using SIL.Windows.Forms;
 
 namespace SayMore.UI.ElementListScreen
@@ -119,14 +118,14 @@ namespace SayMore.UI.ElementListScreen
 		{
 			if (index < 0 || index >= RowCount)
 			{
-				var msg = string.Format("{0} must be greater than or equal to 0 and less than {1}.", index, RowCount);
+				var msg = $"{index} must be greater than or equal to 0 and less than {RowCount}.";
 				throw new IndexOutOfRangeException(msg);
 			}
 
 			foreach (DataGridViewRow row in Rows)
 				row.Selected = false;
 
-			if (index >= 0 && index < _items.Count())
+			if (index < _items.Count())
 			{
 				var forceRowChangeEvent = (CurrentCellAddress.Y == index);
 				// PG-136, PG-1801, PG-1814: Since this grid is in row-select mode, it doesn't really matter
@@ -134,10 +133,10 @@ namespace SayMore.UI.ElementListScreen
 				var columnIndex = CurrentCellAddress.X;
 				if (FirstDisplayedCell != null)
 					columnIndex = FirstDisplayedCell.ColumnIndex;
-				Debug.Assert(columnIndex >= 0, "Either all columns are hidden (which should be impossible), or else this is in unit tests maybe.");
 				if (columnIndex < 0)
 				{
-					// This should fix things up for unit tests on TeamCity (where there is no display so no column is
+					Trace.WriteLine("Either all columns are hidden (which should be impossible), or else this is in unit tests maybe.");
+					// This should fix things up for unit tests (where there is no display so no column is
 					// "visible"), but if this ever happens in production, we will get a crash with the message:
 					// "Current cell cannot be set to an invisible cell".
 					columnIndex = 0;
@@ -273,7 +272,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			base.OnCellMouseDown(e);
 
-			if (e.Button != MouseButtons.Right || e.RowIndex < 0)
+			if (e.Button != MouseButtons.Right || e.RowIndex < 0 || !IsOKToSelectDifferentElement())
 				return;
 
 			if (e.RowIndex != CurrentCellAddress.Y)

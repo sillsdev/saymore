@@ -36,7 +36,10 @@ namespace SayMore.Utilities
 			var client = IsSynched(filePath);
 
 			var confirmationMsg = LocalizationManager.GetString("MainWindow.ConfirmStopFileSync",
-				"It looks like this project is in a directory that is being synchronized with {0}. This is known to cause problems due to files being locked. Would you like to disable Dropbox temporarily until you close SayMore?");
+				"It looks like this project is in a directory that is being synchronized with " +
+				"{0}. This is known to cause problems due to files being locked. Would you like " +
+				"to disable {0} temporarily until you close SayMore?",
+				"Param: Known folder synchronization program (Dropbox, Google Drive, etc.)");
 
 			string clientName;
 
@@ -61,9 +64,12 @@ namespace SayMore.Utilities
 					return SyncClient.None;
 			}
 
-			if (DialogResult.No == MessageBox.Show(string.Format(confirmationMsg, clientName), Program.ProductName,
+			var msg = string.Format(confirmationMsg, clientName, Program.ProductName);
+			if (DialogResult.No == MessageBox.Show(msg, Program.ProductName,
 				    MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+			{
 				return SyncClient.None;
+			}
 
 			StopClient(client);
 			return client;

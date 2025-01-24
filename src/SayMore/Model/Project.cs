@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Drawing;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,7 +12,6 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using DesktopAnalytics;
-using Ionic.Zip;
 using L10NSharp;
 using SIL.Extensions;
 using SIL.Reporting;
@@ -25,7 +25,9 @@ using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Model.Files;
 using SayMore.Utilities;
-using SIL.Windows.Forms.ClearShare;
+using SIL.Core.ClearShare;
+using SIL.IO;
+using static System.IO.Path;
 
 namespace SayMore.Model
 {
@@ -36,12 +38,31 @@ namespace SayMore.Model
 	/// people, and another of sessions.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class Project : IAutoSegmenterSettings, IIMDIArchivable, IRAMPArchivable, IDisposable
+	public class Project : IAutoSegmenterSettings, IRAMPArchivable, IDisposable
 	{
+		// Fixing the misspelling and incorrect capitalization of these two settings will prevent
+		// older versions of SayMore from reading the corrected settings. But since they can
+		// only be changed manually (they have never been exposed in the UI), there is only a
+		// very slim chance that this would ever affect anyone.
+		private const string kAutoSegmenterSettings = "AutoSegmenterSettings";
+		private const string kMisspelledAutoSegmenterSettings = "AutoSegmentersettings";
+		private const string kMinSegmentLength = "minSegmentLength";
+		private const string kMaxSegmentLength = "maxSegmentLength";
+		private const string kMisspelledPreferredPauseLength = "preferrerdPauseLength";
+		private const string kPreferredPauseLength = "preferredPauseLength";
+		private const string kOptimumLengthClampingFactor = "optimumLengthClampingFactor";
+		private const string kTranscriptionFont = "transcriptionFont";
+		private const string kFreeTranslationFont = "freeTranslationFont";
+		private const string kWorkingLanguageFont = "workingLanguageFont";
+
 		private ElementRepository<Session>.Factory _sessionsRepoFactory;
 		private readonly SessionFileType _sessionFileType;
 		private string _accessProtocol;
 		private bool _accessProtocolChanged;
+		private Font _freeTranslationFont;
+		private bool _needToDisposeFreeTranslationFont;
+		private Font _workingLanguageFont;
+		private bool _needToDisposeWorkingLanguageFont;
 
 		public delegate Project Factory(string desiredOrExistingFilePath);
 
@@ -49,8 +70,18 @@ namespace SayMore.Model
 
 		public Font TranscriptionFont { get; set; }
 		private bool _needToDisposeTranscriptionFont;
-		public Font FreeTranslationFont { get; set; }
-		private bool _needToDisposeFreeTranslationFont;
+
+		public Font FreeTranslationFont
+		{
+			get => _freeTranslationFont ?? _workingLanguageFont;
+			set => _freeTranslationFont = value;
+		}
+
+		public Font WorkingLanguageFont
+		{
+			get => _workingLanguageFont ?? _freeTranslationFont;
+			set => _workingLanguageFont = value;
+		}
 
 		public int AutoSegmenterMinimumSegmentLengthInMilliseconds { get; set; }
 		public int AutoSegmenterMaximumSegmentLengthInMilliseconds { get; set; }
@@ -68,8 +99,10 @@ namespace SayMore.Model
 			_sessionsRepoFactory = sessionsRepoFactory;
 			_sessionFileType = sessionFileType;
 			SettingsFilePath = desiredOrExistingSettingsFilePath;
-			Name = Path.GetFileNameWithoutExtension(desiredOrExistingSettingsFilePath);
-			var projectDirectory = Path.GetDirectoryName(desiredOrExistingSettingsFilePath);
+			Name = GetFileNameWithoutExtension(desiredOrExistingSettingsFilePath);
+			var projectDirectory = GetDirectoryName(desiredOrExistingSettingsFilePath);
+			if (projectDirectory == null)
+				throw new ArgumentException("Invalid project path specified", nameof(desiredOrExistingSettingsFilePath));
 			var saveNeeded = false;
 
 			if (File.Exists(desiredOrExistingSettingsFilePath))
@@ -79,18 +112,8 @@ namespace SayMore.Model
 			}
 			else
 			{
-				var parentDirectoryPath = Path.GetDirectoryName(projectDirectory);
-				if (parentDirectoryPath != null)
-				{
-					if (!Directory.Exists(parentDirectoryPath))
-						Directory.CreateDirectory(parentDirectoryPath);
-
-					if (!Directory.Exists(projectDirectory))
-						Directory.CreateDirectory(projectDirectory);
-				}
-
+				Directory.CreateDirectory(projectDirectory);
 				Title = Name;
-
 				saveNeeded = true;
 			}
 
@@ -130,6 +153,9 @@ namespace SayMore.Model
 			if (_needToDisposeFreeTranslationFont)
 				FreeTranslationFont.Dispose();
 			FreeTranslationFont = null;
+			if (_needToDisposeWorkingLanguageFont)
+				WorkingLanguageFont.Dispose();
+			WorkingLanguageFont = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -147,8 +173,8 @@ namespace SayMore.Model
 			if (string.IsNullOrEmpty(eventFolder))
 				return;
 
-			var oldFolder = Path.Combine(projectDirectory, "Events");
-			var newFolder = Path.Combine(projectDirectory, Session.kFolderName);
+			var oldFolder = Combine(projectDirectory, "Events");
+			var newFolder = Combine(projectDirectory, Session.kFolderName);
 
 			if (Directory.Exists(newFolder))
 			{
@@ -158,7 +184,7 @@ namespace SayMore.Model
 					Directory.Move(newFolder, backupSessionsFolder);
 					ErrorReport.NotifyUserOfProblem("In order to upgrade this project, SayMore renamed Events to " + Session.kFolderName +
 						". Because a " + Session.kFolderName +
-						"folder already existed, SayMore renamed it to " + Path.GetDirectoryName(backupSessionsFolder) + "." + Environment.NewLine +
+						"folder already existed, SayMore renamed it to " + GetDirectoryName(backupSessionsFolder) + "." + Environment.NewLine +
 						"Project path: " + projectDirectory + Environment.NewLine + Environment.NewLine +
 						"We recommend you request technical support to decide what to do with the contents of the folder: " + backupSessionsFolder);
 				}
@@ -195,20 +221,9 @@ namespace SayMore.Model
 			// I'm not sure what I would do with a failure along the way.
 			var evnt = XElement.Load(oldFile);
 			var session = new XElement("Session", evnt.Nodes());
-			var newFile = Path.ChangeExtension(oldFile, Settings.Default.SessionFileExtension);
+			var newFile = ChangeExtension(oldFile, Settings.Default.SessionFileExtension);
 			session.Save(newFile);
 			File.Delete(oldFile);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes the sessions for the project.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void InitializeSessions()
-		{
-			if (!Directory.Exists(SessionsFolder))
-				Directory.CreateDirectory(SessionsFolder);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -217,26 +232,30 @@ namespace SayMore.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string SessionsFolder => Path.Combine(ProjectFolder, Session.kFolderName);
+		public string SessionsFolder => Combine(ProjectFolder, Session.kFolderName);
 
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		protected string ProjectFolder => Path.GetDirectoryName(SettingsFilePath);
+		protected string ProjectFolder => GetDirectoryName(SettingsFilePath);
 
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
 			var project = new XElement("Project");
 
-			project.Add(!TranscriptionFont.Equals(Program.DialogFont)
-				? new XElement("transcriptionFont", FontHelper.FontToString(TranscriptionFont))
-				: new XElement("transcriptionFont", null));
+			project.Add(new XElement(kTranscriptionFont,
+				TranscriptionFont.Equals(Program.DialogFont) ? null : 
+					FontHelper.FontToString(TranscriptionFont)));
 
-			project.Add(!FreeTranslationFont.Equals(Program.DialogFont)
-				? new XElement("freeTranslationFont", FontHelper.FontToString(FreeTranslationFont))
-				: new XElement("freeTranslationFont", null));
+			project.Add(new XElement(kFreeTranslationFont, 
+				Program.DialogFont.Equals(_freeTranslationFont) ? null :
+					FontHelper.FontToString(_freeTranslationFont)));
 
-			var autoSegmenterSettings = new XElement("AutoSegmentersettings");
+			project.Add(new XElement(kWorkingLanguageFont, 
+				_workingLanguageFont == null || _workingLanguageFont.Equals(_freeTranslationFont) ? null :
+					FontHelper.FontToString(_workingLanguageFont)));
+
+			var autoSegmenterSettings = new XElement(kAutoSegmenterSettings);
 			project.Add(autoSegmenterSettings);
 
 			if (AutoSegmenterMinimumSegmentLengthInMilliseconds != Settings.Default.DefaultAutoSegmenterMinimumSegmentLengthInMilliseconds ||
@@ -244,17 +263,17 @@ namespace SayMore.Model
 				AutoSegmenterPreferredPauseLengthInMilliseconds != Settings.Default.DefaultAutoSegmenterPreferrerdPauseLengthInMilliseconds ||
 				!AutoSegmenterOptimumLengthClampingFactor.Equals(Settings.Default.DefaultAutoSegmenterOptimumLengthClampingFactor))
 			{
-				autoSegmenterSettings.Add(new XAttribute("minSegmentLength", AutoSegmenterMinimumSegmentLengthInMilliseconds));
-				autoSegmenterSettings.Add(new XAttribute("maxSegmentLength", AutoSegmenterMaximumSegmentLengthInMilliseconds));
-				autoSegmenterSettings.Add(new XAttribute("preferrerdPauseLength", AutoSegmenterPreferredPauseLengthInMilliseconds));
-				autoSegmenterSettings.Add(new XAttribute("optimumLengthClampingFactor", AutoSegmenterOptimumLengthClampingFactor));
+				autoSegmenterSettings.Add(new XAttribute(kMinSegmentLength, AutoSegmenterMinimumSegmentLengthInMilliseconds));
+				autoSegmenterSettings.Add(new XAttribute(kMaxSegmentLength, AutoSegmenterMaximumSegmentLengthInMilliseconds));
+				autoSegmenterSettings.Add(new XAttribute(kPreferredPauseLength, AutoSegmenterPreferredPauseLengthInMilliseconds));
+				autoSegmenterSettings.Add(new XAttribute(kOptimumLengthClampingFactor, AutoSegmenterOptimumLengthClampingFactor));
 			}
 			else
 			{
-				autoSegmenterSettings.Add(new XAttribute("minSegmentLength", "0"));
-				autoSegmenterSettings.Add(new XAttribute("maxSegmentLength", "0"));
-				autoSegmenterSettings.Add(new XAttribute("preferrerdPauseLength", "0"));
-				autoSegmenterSettings.Add(new XAttribute("optimumLengthClampingFactor", "0"));
+				autoSegmenterSettings.Add(new XAttribute(kMinSegmentLength, "0"));
+				autoSegmenterSettings.Add(new XAttribute(kMaxSegmentLength, "0"));
+				autoSegmenterSettings.Add(new XAttribute(kPreferredPauseLength, "0"));
+				autoSegmenterSettings.Add(new XAttribute(kOptimumLengthClampingFactor, "0"));
 			}
 
 			// metadata for archiving
@@ -300,13 +319,13 @@ namespace SayMore.Model
 						"There was a problem saving the SayMore project:\r\n\r\n{0}"), SettingsFilePath);
 			}
 
-			if (_accessProtocolChanged)
+			foreach (var editor in Program.GetControlsOfType<EditorBase>(Program.ProjectWindow))
 			{
-				foreach (var editor in Program.GetControlsOfType<SessionBasicEditor>(Program.ProjectWindow))
-					editor.SetAccessProtocol();
-
-				_accessProtocolChanged = false;
+				if (_accessProtocolChanged && editor is SessionBasicEditor sessionEditor)
+					sessionEditor.SetAccessProtocol();
+				editor.SetWorkingLanguageFont();
 			}
+			_accessProtocolChanged = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -327,7 +346,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void SetAdditionalMetsData(RampArchivingDlgViewModel model)
 		{
-			foreach (var session in GetAllSessions())
+			foreach (var session in GetAllSessions(CancellationToken.None))
 			{
 				model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
 				model.SetDomains(SilDomain.Ling_LanguageDocumentation);
@@ -342,14 +361,14 @@ namespace SayMore.Model
 					model.SetAbstract(value, string.Empty);
 
 				// Set contributors
-				var contributions = session.MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
-				if (contributions != null && contributions.Count > 0)
+				var contribsVal = session.MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null);
+				if (contribsVal is ContributionCollection contributions && contributions.Count > 0)
 					model.SetContributors(contributions);
 
 				// Return total duration of source audio/video recordings.
 				TimeSpan totalDuration = session.GetTotalDurationOfSourceMedia();
 				if (totalDuration.Ticks > 0)
-					model.SetAudioVideoExtent(string.Format("Total Length of Source Recordings: {0}", totalDuration.ToString()));
+					model.SetAudioVideoExtent($"Total Length of Source Recordings: {totalDuration}");
 
 				//First session details are enough for "Archive RAMP (SIL)..." from Project menu
 				break;
@@ -361,8 +380,7 @@ namespace SayMore.Model
 		public void Load()
 		{
 			// SP-791: Invalid URI: The hostname could not be parsed.
-			Uri settingsUri;
-			if (!Uri.TryCreate(SettingsFilePath, UriKind.Absolute, out settingsUri))
+			if (!Uri.TryCreate(SettingsFilePath, UriKind.Absolute, out _))
 			{
 				var msg = LocalizationManager.GetString("DialogBoxes.LoadProject.InvalidPath", "SayMore is not able to open the project file. \"{0}\" is not a valid path.");
 				ErrorReport.ReportNonFatalMessageWithStackTrace(msg, SettingsFilePath);
@@ -378,7 +396,7 @@ namespace SayMore.Model
 
 			var project = XElement.Load(SettingsFilePath);
 
-			var settingValue = GetStringSettingValue(project, "transcriptionFont", null);
+			var settingValue = GetStringSettingValue(project, kTranscriptionFont, null);
 			if (!string.IsNullOrEmpty(settingValue))
 			{
 				TranscriptionFont = RobustFontHelper.MakeFont(settingValue, e =>
@@ -386,7 +404,7 @@ namespace SayMore.Model
 						"Used as a parameter in Project.FontCreationError"), settingValue, e));
 				_needToDisposeTranscriptionFont = TranscriptionFont != null;
 			}
-			settingValue = GetStringSettingValue(project, "freeTranslationFont", null);
+			settingValue = GetStringSettingValue(project, kFreeTranslationFont, null);
 			if (!string.IsNullOrEmpty(settingValue))
 			{
 				FreeTranslationFont = RobustFontHelper.MakeFont(settingValue, e =>
@@ -394,24 +412,33 @@ namespace SayMore.Model
 						"Used as a parameter in Project.FontCreationError"), settingValue, e));
 				_needToDisposeFreeTranslationFont = FreeTranslationFont != null;
 			}
-			var autoSegmenterSettings = project.Element("AutoSegmentersettings");
+			var workingLanguageFontSettingValue = GetStringSettingValue(project, kWorkingLanguageFont, null);
+			if (!string.IsNullOrEmpty(workingLanguageFontSettingValue) && workingLanguageFontSettingValue != settingValue)
+			{
+				settingValue = workingLanguageFontSettingValue;
+				WorkingLanguageFont = RobustFontHelper.MakeFont(settingValue, e =>
+					HandleFontCreationError(LocalizationManager.GetString("Project.WorkingLanguageFontDescription", "Working Language",
+						"Used as a parameter in Project.HandleFontCreationError"), settingValue, e));
+				_needToDisposeWorkingLanguageFont = WorkingLanguageFont != null;
+			}
+			var autoSegmenterSettings = project.Element(kAutoSegmenterSettings) ?? project.Element(kMisspelledAutoSegmenterSettings);
 			if (autoSegmenterSettings != null)
 			{
 				AutoSegmenterMinimumSegmentLengthInMilliseconds = GetIntAttributeValue(autoSegmenterSettings,
-					"minSegmentLength");
+					kMinSegmentLength);
 				AutoSegmenterMaximumSegmentLengthInMilliseconds = GetIntAttributeValue(autoSegmenterSettings,
-					"maxSegmentLength");
+					kMaxSegmentLength);
 				AutoSegmenterPreferredPauseLengthInMilliseconds = GetIntAttributeValue(autoSegmenterSettings,
-					"preferrerdPauseLength");
+					kPreferredPauseLength, kMisspelledPreferredPauseLength);
 				AutoSegmenterOptimumLengthClampingFactor = GetDoubleAttributeValue(autoSegmenterSettings,
-					"optimumLengthClampingFactor");
+					kOptimumLengthClampingFactor);
 			}
 
 			Title = GetStringSettingValue(project, "Title", string.Empty);
 			FundingProjectTitle = GetStringSettingValue(project, "FundingProjectTitle", string.Empty);
 			ProjectDescription = GetStringSettingValue(project, "ProjectDescription", string.Empty);
 			VernacularISO3CodeAndName = GetStringSettingValue(project, "VernacularISO3CodeAndName", string.Empty);
-			AnalysisISO3CodeAndName = GetStringSettingValue(project, "AnalysisISO3CodeAndName", ArchivingHelper.AnalysisLanguage());
+			AnalysisISO3CodeAndName = GetStringSettingValue(project, "AnalysisISO3CodeAndName", ArchivingHelper.FallbackAnalysisLanguage);
 			Location = GetStringSettingValue(project, "Location", string.Empty);
 			Region = GetStringSettingValue(project, "Region", string.Empty);
 			Country = GetStringSettingValue(project, "Country", "Unspecified");
@@ -463,19 +490,19 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private int GetIntAttributeValue(XElement project, string attribName)
+		private int GetIntAttributeValue(XElement project, string attribName, string fallbackAttribName = null)
 		{
 			var attrib = project.Attribute(attribName);
-			int val;
-			return (attrib != null && Int32.TryParse(attrib.Value, out val)) ? val : default(int);
+			if (attrib == null && fallbackAttribName != null)
+				attrib = project.Attribute(fallbackAttribName);
+			return (attrib != null && Int32.TryParse(attrib.Value, out var val)) ? val : default;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private double GetDoubleAttributeValue(XElement project, string attribName)
 		{
 			var attrib = project.Attribute(attribName);
-			double val;
-			return (attrib != null && Double.TryParse(attrib.Value, out val)) ? val : default(double);
+			return (attrib != null && Double.TryParse(attrib.Value, out var val)) ? val : default;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -493,10 +520,7 @@ namespace SayMore.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string FolderPath
-		{
-			get { return Path.GetDirectoryName(SettingsFilePath); }
-		}
+		public string FolderPath => GetDirectoryName(SettingsFilePath);
 
 		[XmlIgnore]
 		public string SettingsFilePath { get; set; }
@@ -504,16 +528,14 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		/// Gets the SayMore project settings file extension (without the leading period)
 		/// ------------------------------------------------------------------------------------
-		public static string ProjectSettingsFileExtension
-		{
-			get { return Settings.Default.ProjectFileExtension.TrimStart('.'); }
-		}
+		public static string ProjectSettingsFileExtension => 
+			Settings.Default.ProjectFileExtension.TrimStart('.');
 
 		/// ------------------------------------------------------------------------------------
 		public static string ComputePathToSettings(string parentFolderPath, string newProjectName)
 		{
-			var p = Path.Combine(parentFolderPath, newProjectName);
-			return Path.Combine(p, newProjectName + "." + ProjectSettingsFileExtension);
+			var p = Combine(parentFolderPath, newProjectName);
+			return Combine(p, newProjectName + "." + ProjectSettingsFileExtension);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -523,30 +545,24 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public List<XmlException> FileLoadErrors
-		{
-			get { return _sessionsRepoFactory(Path.GetDirectoryName(SettingsFilePath), Session.kFolderName, _sessionFileType).FileLoadErrors; }
-		}
+		public List<XmlException> FileLoadErrors => _sessionsRepoFactory(
+			GetDirectoryName(SettingsFilePath), Session.kFolderName, _sessionFileType).FileLoadErrors;
 
-		internal IEnumerable<Session> GetAllSessions()
+		internal IEnumerable<Session> GetAllSessions(CancellationToken cancellationToken)
 		{
-			ElementRepository<Session> sessionRepo = _sessionsRepoFactory(Path.GetDirectoryName(SettingsFilePath), Session.kFolderName, _sessionFileType);
-			sessionRepo.RefreshItemList();
+			var sessionRepo = _sessionsRepoFactory(GetDirectoryName(SettingsFilePath),
+				Session.kFolderName, _sessionFileType);
+			sessionRepo.RefreshItemList(cancellationToken);
 
 			return sessionRepo.AllItems;
 		}
 
 		#region Archiving
 		/// ------------------------------------------------------------------------------------
-		public string ArchiveInfoDetails
-		{
-			get
-			{
-				return LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails",
-					"The archive corpus will include all required files and data related to this project.",
-					"This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.IMDIOverviewText");
-			}
-		}
+		public string ArchiveInfoDetails =>
+			LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails",
+				"The archive corpus will include all required files and data related to this project.",
+				"This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.IMDIOverviewText");
 
 		/// ------------------------------------------------------------------------------------
 		public string Title { get; set; }
@@ -593,7 +609,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public string AccessProtocol
 		{
-			get { return _accessProtocol; }
+			get => _accessProtocol;
 			set
 			{
 				if (value == _accessProtocol) return;
@@ -603,26 +619,20 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string Id
-		{
-			get { return Name; }
-		}
+		public string Id => Name;
 
 		/// ------------------------------------------------------------------------------------
-		public void InitializeModel(IMDIArchivingDlgViewModel model)
+		public void InitializeModel(ArchivingDlgViewModel model)
 		{
 			//Set project metadata here.
-			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
-			ArchivingHelper.SetIMDIMetadataToArchive(this, model);
-		}
-
-		public void InitializeModel(RampArchivingDlgViewModel model)
-		{
-			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
+			model.OverrideDisplayInitialSummary = (fileLists, cancellationToken) =>
+				DisplayInitialArchiveSummary(fileLists, model, cancellationToken);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void DisplayInitialArchiveSummary(IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists, ArchivingDlgViewModel model)
+		public void DisplayInitialArchiveSummary(
+			IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists,
+			ArchivingDlgViewModel model, CancellationToken cancellationToken)
 		{
 			foreach (var message in model.AdditionalMessages)
 				model.DisplayMessage(message.Key + "\n", message.Value);
@@ -646,6 +656,8 @@ namespace SayMore.Model
 
 			foreach (var kvp in fileLists)
 			{
+				if (cancellationToken.IsCancellationRequested)
+					throw new OperationCanceledException();
 				var element = (kvp.Key.StartsWith("\n") || kvp.Key.Length > 0 ?
 					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor") :
 					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Sessions"));
@@ -654,7 +666,7 @@ namespace SayMore.Model
 					ArchivingDlgViewModel.MessageType.Progress);
 
 				foreach (var file in kvp.Value.Item1)
-					model.DisplayMessage(Path.GetFileName(file), ArchivingDlgViewModel.MessageType.Bullet);
+					model.DisplayMessage(GetFileName(file), ArchivingDlgViewModel.MessageType.Bullet);
 			}
 		}
 
@@ -663,29 +675,32 @@ namespace SayMore.Model
 		{
 			Analytics.Track("Archive Project using IMDI");
 
-			ArchivingHelper.ArchiveUsingIMDI(this);
+			ArchivingHelper.ArchiveUsingIMDI(this, parentForm);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		internal void ArchiveProjectUsingRAMP(Form parentForm)
 		{
 			Analytics.Track("Archive Project using RAMP");
-			ArchivingHelper.ArchiveUsingRAMP(this);
+			ArchivingHelper.ArchiveUsingRAMP(this, parentForm);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetFilesToArchive(ArchivingDlgViewModel model)
+		public void SetFilesToArchive(ArchivingDlgViewModel model,
+			CancellationToken cancellationToken)
 		{
 			if (model is RampArchivingDlgViewModel)
 			{
 				Dictionary<string, HashSet<string>> contributorFiles = new Dictionary<string, HashSet<string>>();
-				model.AddFileGroup(string.Empty, GetSessionFilesToArchive(model.GetType()), AddingSessionFilesProgressMsg);
+				model.AddFileGroup(string.Empty, GetSessionFilesToArchive(model.GetType(), cancellationToken), AddingSessionFilesProgressMsg);
 				var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
 				var participants = new HashSet<string>();
-				foreach (var session in GetAllSessions())
+				foreach (var session in GetAllSessions(cancellationToken))
 				{
-					foreach (var person in session.GetParticipantFilesToArchive(model.GetType()))
+					foreach (var person in session.GetParticipantFilesToArchive(model.GetType(), cancellationToken))
 					{
+						if (cancellationToken.IsCancellationRequested)
+							throw new OperationCanceledException();
 						if (!participants.Add(person.Key))
 							continue;
 						model.AddFileGroup(person.Key, person.Value, string.Format(fmt, person.Key));
@@ -694,7 +709,12 @@ namespace SayMore.Model
 							contributorFiles.Add(person.Key, new HashSet<string>());
 
 						foreach (var file in person.Value)
+						{
+							if (cancellationToken.IsCancellationRequested)
+								throw new OperationCanceledException();
+
 							contributorFiles[person.Key].Add(file);
+						}
 					}
 				}
 			}
@@ -702,11 +722,11 @@ namespace SayMore.Model
 			{
 				Dictionary<string, HashSet<string>> contributorFiles = new Dictionary<string, HashSet<string>>();
 				Type archiveType = model.GetType();
-				foreach (var session in GetAllSessions())
+				foreach (var session in GetAllSessions(cancellationToken))
 				{
-					model.AddFileGroup(session.Id, session.GetSessionFilesToArchive(archiveType),
+					model.AddFileGroup(session.Id, session.GetSessionFilesToArchive(archiveType, cancellationToken),
 						session.AddingSessionFilesProgressMsg);
-					foreach (var person in session.GetParticipantFilesToArchive(model.GetType()))
+					foreach (var person in session.GetParticipantFilesToArchive(model.GetType(), cancellationToken))
 					{
 						if (!contributorFiles.ContainsKey(person.Key))
 							contributorFiles.Add(person.Key, new HashSet<string>());
@@ -715,13 +735,13 @@ namespace SayMore.Model
 							contributorFiles[person.Key].Add(file);
 					}
 
-					IArchivingSession s = model.AddSession(session.Id);
+					IArchivingSession s = ((IMDIArchivingDlgViewModel)model).AddSession(session.Id);
 					s.Location.Address = session.MetaDataFile.GetStringValue(SessionFileType.kLocationFieldName, string.Empty);
 					s.Title = session.Title;
 				}
 
 				// project description documents
-				var docsPath = Path.Combine(FolderPath, ProjectDescriptionDocsScreen.kFolderName);
+				var docsPath = Combine(FolderPath, ProjectDescriptionDocsScreen.kFolderName);
 				if (Directory.Exists(docsPath))
 				{
 					var files = Directory.GetFiles(docsPath, "*.*", SearchOption.TopDirectoryOnly);
@@ -737,7 +757,7 @@ namespace SayMore.Model
 				}
 
 				// other project documents
-				docsPath = Path.Combine(FolderPath, ProjectOtherDocsScreen.kFolderName);
+				docsPath = Combine(FolderPath, ProjectOtherDocsScreen.kFolderName);
 				if (Directory.Exists(docsPath))
 				{
 					var files = Directory.GetFiles(docsPath, "*.*", SearchOption.TopDirectoryOnly);
@@ -761,29 +781,22 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string AddingSessionFilesProgressMsg
-		{
-			get
-			{
-				return string.Format(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg",
-					"Adding Files for Session '{0}'"), Title);
-			}
-		}
+		public string AddingSessionFilesProgressMsg => string.Format(LocalizationManager.GetString(
+				"DialogBoxes.ArchivingDlg.AddingSessionFilesProgressMsg",
+				"Adding Files for Session '{0}'"), Title);
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<string> GetSessionFilesToArchive(Type typeOfArchive)
+		public IEnumerable<string> GetSessionFilesToArchive(Type typeOfArchive,
+			CancellationToken cancellationToken)
 		{
-			using (ZipFile zip = new ZipFile())
-			{
-				// RAMP packages must not be compressed or RAMP can't read them.
-				zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None;
-				zip.UseZip64WhenSaving = Zip64Option.AsNecessary;
-				zip.AddDirectory(FolderPath);
-				zip.Save(Path.Combine(FolderPath, "Sessions.zip"));
-			}
-			var filesInDir = Directory.GetFiles(FolderPath);
-			return filesInDir.Where(f => ArchivingHelper.IncludeFileInArchive(f, typeOfArchive, Settings.Default.SessionFileExtension));
-
+			var tempZipFilePath = ChangeExtension(GetTempFileName(), "zip");
+			// RAMP packages must not be compressed or RAMP can't read them.
+			ZipFile.CreateFromDirectory(FolderPath, tempZipFilePath, CompressionLevel.NoCompression, true);
+			var zipFilePath = Combine(FolderPath, "Sessions.zip");
+			RobustFile.Move(tempZipFilePath, zipFilePath, true);
+			return Directory.GetFiles(FolderPath).Where(f => 
+				ArchivingHelper.IncludeFileInArchive(f, typeOfArchive,
+					Settings.Default.SessionFileExtension, CancellationToken.None));
 		}
 		#endregion
 	}

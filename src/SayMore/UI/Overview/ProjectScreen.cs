@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using L10NSharp;
 using System.Windows.Forms;
-using L10NSharp.TMXUtils;
+using L10NSharp.XLiffUtils;
 using L10NSharp.UI;
 using SIL.Reporting;
 using SayMore.UI.ComponentEditors;
@@ -37,7 +37,7 @@ namespace SayMore.UI.Overview
 
 			InitializeComponent();
 
-			HandleStringsLocalized();
+			HandleStringsLocalized(null);
 			_splitter.Panel2.BackColor = Color.FromArgb(230, 150, 100);
 			_metadataView.BackColor = _splitter.Panel2.BackColor;
 			_progressView.BackColor = _splitter.Panel2.BackColor;
@@ -45,7 +45,7 @@ namespace SayMore.UI.Overview
 			_descriptionDocsView.BackColor = _splitter.Panel2.BackColor;
 			_otherDocsView.BackColor = _splitter.Panel2.BackColor;
 
-			LocalizeItemDlg<TMXDocument>.StringsLocalized += HandleStringsLocalized;
+			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ namespace SayMore.UI.Overview
 			if (disposing)
 			{
 				// SP-788: "Cannot access a disposed object" when changing UI language
-				LocalizeItemDlg<TMXDocument>.StringsLocalized -= HandleStringsLocalized;
+				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= HandleStringsLocalized;
 
 				if (components != null)
 					components.Dispose();
@@ -68,8 +68,11 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleStringsLocalized()
+		private void HandleStringsLocalized(ILocalizationManager lm)
 		{
+			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
+				return;
+
 			// Just to be safe and prevent re-entrant call.
 			_projectPages.RowEnter -= _projectPages_RowEnter;
 
@@ -114,6 +117,7 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		public void ViewDeactivated()
 		{
+			_metadataView.Save();
 			_accessView.Save();
 
 			// set the access code choices for sessions
@@ -136,12 +140,9 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Image Image
-		{
-			get { return ResourceImageCache.project; }
-		}
+		public Image Image => ResourceImageCache.project;
 
-// ReSharper disable once UnusedAutoPropertyAccessor.Local
+		// ReSharper disable once UnusedAutoPropertyAccessor.Local
 		public ToolStripMenuItem MainMenuItem { get; private set; }
 		#endregion
 
@@ -151,11 +152,11 @@ namespace SayMore.UI.Overview
 			switch (e.RowIndex)
 			{
 				case 0:
-					ShowControl(_metadataView);
+					ShowControl(_metadataView, _projectPages.CurrentCellAddress.X != e.RowIndex);
 					break;
 
 				case 1:
-					ShowControl(_accessView);
+					ShowControl(_accessView, _projectPages.CurrentCellAddress.X != e.RowIndex);
 					break;
 
 				case 2:
@@ -175,8 +176,10 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void ShowControl(Control control)
+		private void ShowControl(Control control, bool saveNeeded = false)
 		{
+			if (saveNeeded)
+				Save();
 			while (_splitter.Panel2.Controls.Count > 0)
 				_splitter.Panel2.Controls.RemoveAt(0);
 

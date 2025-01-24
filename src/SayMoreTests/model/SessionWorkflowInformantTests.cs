@@ -24,13 +24,6 @@ namespace SayMoreTests.Model
 			_informant = new SessionWorkflowInformant(_sessionRepo, s_componentRoles);
 		}
 
-		//[TearDown]
-		//public void TearDown()
-		//{
-		//	_tmxFolder.Dispose();
-		//	_tmxFolder = null;
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		public static ProjectElementComponentFile GetMockedProjectElementComponentFile(
 			IEnumerable<KeyValuePair<string, string>> fieldsAndValues)

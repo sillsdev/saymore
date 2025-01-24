@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using SIL.Extensions;
@@ -17,7 +15,7 @@ using SayMore.Model.Files.DataGathering;
 using SayMore.UI.LowLevelControls;
 using SIL.Archiving.Generic.AccessProtocol;
 using SIL.Archiving.IMDI.Lists;
-using SIL.Windows.Forms.ClearShare;
+using SIL.Core.ClearShare;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -69,7 +67,6 @@ namespace SayMore.UI.ComponentEditors
 
 			file.AfterSave += file_AfterSave;
 
-
 			if (_personInformant != null)
 				_personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
 		}
@@ -85,7 +82,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			// We want to update the control to a form of participants that has roles
 			// in parens. This is derived from Contributions. But the names of the contributors
-			// are upated by another, independent handler of the same event, which may
+			// are updated by another, independent handler of the same event, which may
 			// (currently does) happen AFTER this one. So we delay the update until the
 			// app is next idle to make sure the contributions have been updated first.
 			Application.Idle += UpdateParticipants;
@@ -107,14 +104,11 @@ namespace SayMore.UI.ComponentEditors
 		{
 			var genreList = new List<string>();
 
-			var autoCompleteProvider = sender as AutoCompleteValueGatherer;
-
-			if (autoCompleteProvider != null)
+			if (sender is AutoCompleteValueGatherer autoCompleteProvider)
 			{
 				// Add the genres in use, factory or not.
 				var valueLists = autoCompleteProvider.GetValueLists(false);
-				IEnumerable<string> list;
-				if (valueLists.TryGetValue(SessionFileType.kGenreFieldName, out list))
+				if (valueLists.TryGetValue(SessionFileType.kGenreFieldName, out var list))
 					genreList.AddRange(GenreDefinition.GetGenreNameList(list));
 			}
 
@@ -127,10 +121,17 @@ namespace SayMore.UI.ComponentEditors
 				genreList.AddRange(GenreDefinition.FactoryGenreDefinitions.Select(gd => gd.Name).ToArray());
 			}
 
-			if (genreList.Count == 0 || !_genre.IsHandleCreated)
-				return;
+			// The invoke (below) and reloading of the list seems to really slow things down, but
+			// it is very common to get here only to be reloading the exact same list.
+            if (genreList.Count == 0 || !_genre.IsHandleCreated ||
+                _genre.Tag is List<string> l && l.SequenceEqual(genreList))
+            {
+                return;
+            }
 
-			// Do this because we've gotten here when the auto-complete helper has new data available.
+            _genre.Tag = genreList;
+
+            // Do this because we've gotten here when the auto-complete helper has new data available.
 			_genre.BeginInvoke((MethodInvoker)delegate
 			{
 				_genre.Items.Clear();
@@ -236,9 +237,12 @@ namespace SayMore.UI.ComponentEditors
 
 		void HandleMoreFieldsComboDropDownClosed(object sender, EventArgs e)
 		{
-			var selectedItem = _moreFieldsComboBox.SelectedItem as IMDIListItem;
-			if (selectedItem != null && selectedItem.Definition != selectedItem.Text)
+			if (_moreFieldsComboBox.SelectedItem is IMDIListItem selectedItem &&
+			    selectedItem.Definition != selectedItem.Text)
+			{
 				_gridAdditionalFields.CurrentCell.ToolTipText = selectedItem.Definition;
+			}
+
 			_moreFieldsToolTip.RemoveAll();
 			_moreFieldsComboBox.DropDownClosed -= HandleMoreFieldsComboDropDownClosed;
 		}
@@ -276,7 +280,7 @@ namespace SayMore.UI.ComponentEditors
 						{
 							var shorterTip = new StringBuilder();
 							var testTip = string.Empty;
-							var words = toolTipText.Split(new[] {' '});
+							var words = toolTipText.Split(' ');
 
 							foreach (var word in words)
 							{
@@ -296,7 +300,7 @@ namespace SayMore.UI.ComponentEditors
 									testTip += " " + word;
 							}
 
-							// if there are any left overs, add them now
+							// if there are any leftovers, add them now
 							if (!string.IsNullOrEmpty(testTip))
 								shorterTip.AppendLine(testTip);
 
@@ -350,7 +354,7 @@ namespace SayMore.UI.ComponentEditors
 
 			_gridAdditionalFields[1, row] = cell;
 
-			// Added Application.DoEvents() because it was interferring with the background
+			// Added Application.DoEvents() because it was interfering with the background
 			// file processor if it needed to download the list files.
 			Application.DoEvents();
 		}
@@ -370,7 +374,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			// SP-844: List from Arbil contains "Holy Seat" rather than "Holy See"
 			var value = LocalizationManager.GetDynamicString("SayMore",
-				string.Format("CommonToMultipleViews.ListItems.{0}.{1}.{2}", listName, item, property),
+				$"CommonToMultipleViews.ListItems.{listName}.{item}.{property}",
 				defaultValue);
 
 			if (value.StartsWith("Holy Seat")) value = value.Replace("Holy Seat", "Holy See");
@@ -394,15 +398,28 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public override void Activated()
 		{
+			if (InvokeRequired)
+				Invoke(new Action(InitializeWhenActivated));
+			else
+				InitializeWhenActivated();
+
+			base.Activated();
+		}
+
+		private void InitializeWhenActivated()
+		{
 			if (_genre.Items.Count == 0)
 				LoadGenreList(_autoCompleteProvider, null);
 
+			NotifyWhenProjectIsSet();
+			SetAccessCodeListAndValue();
+		}
+
+		protected override void OnCurrentProjectSet()
+		{
 			if (_accessOptions == null)
 				SetAccessProtocol();
-
-			SetAccessCodeListAndValue();
-
-			base.Activated();
+			base.OnCurrentProjectSet();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -410,32 +427,31 @@ namespace SayMore.UI.ComponentEditors
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized()
+		protected override void HandleStringsLocalized(ILocalizationManager lm)
 		{
-			TabText = LocalizationManager.GetString("SessionsView.MetadataEditor.TabText", "Session");
-			if (_genre != null && !String.IsNullOrEmpty(_genre.Text))
+			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
-				var genreId = GenreDefinition.TranslateNameToId(_genre.Text);
-				if (genreId != _genre.Text)
-					_genre.Text = GenreDefinition.TranslateIdToName(genreId);
-			}
-
-			if (_gridAdditionalFields != null)
-			{
-				for (int iRow = 0; iRow < _gridAdditionalFields.RowCount; iRow++)
+				TabText = LocalizationManager.GetString("SessionsView.MetadataEditor.TabText",
+					"Session");
+				if (_genre != null && !String.IsNullOrEmpty(_genre.Text))
 				{
-					DataGridViewComboBoxCell comboBoxCell = _gridAdditionalFields[1, iRow] as DataGridViewComboBoxCell;
-					if (comboBoxCell != null)
+					var genreId = GenreDefinition.TranslateNameToId(_genre.Text);
+					if (genreId != _genre.Text)
+						_genre.Text = GenreDefinition.TranslateIdToName(genreId);
+				}
+
+				if (_gridAdditionalFields != null)
+				{
+					for (int iRow = 0; iRow < _gridAdditionalFields.RowCount; iRow++)
 					{
-						IMDIItemList list = comboBoxCell.DataSource as IMDIItemList;
-						if (list != null)
-						{
+						var comboBoxCell = _gridAdditionalFields[1, iRow] as DataGridViewComboBoxCell;
+						if (comboBoxCell?.DataSource is IMDIItemList list)
 							list.Localize(Localize);
-						}
 					}
 				}
 			}
-			base.HandleStringsLocalized();
+
+			base.HandleStringsLocalized(lm);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -469,11 +485,24 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void SetWorkingLanguageFont(Font font)
+		{
+			if (!font.Equals(_title.Font))
+			{
+				_title.Font = font;
+				_situation.Font = font;
+				_setting.Font = font;
+				_location.Font = font;
+				_synopsis.Font = font;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void SetAccessProtocol()
 		{
 			if (Program.CurrentProject == null)
 			{
-				GetDataInBackground();
+				NotifyWhenProjectIsSet();
 				return;
 			}
 
@@ -500,39 +529,19 @@ namespace SayMore.UI.ComponentEditors
 				_access.DropDownStyle = ComboBoxStyle.DropDownList;
 			}
 
-			SetAccessCodeListAndValue();
+			if (InvokeRequired)
+				Invoke(new Action(SetAccessCodeListAndValue));
+			else
+				SetAccessCodeListAndValue();
 		}
 
-		private void GetDataInBackground()
-		{
-			using (BackgroundWorker backgroundWorker = new BackgroundWorker())
-			{
-				backgroundWorker.DoWork += backgroundWorker_DoWork;
-				backgroundWorker.RunWorkerCompleted += backgroundWorker_RunWorkerCompleted;
-				backgroundWorker.RunWorkerAsync();
-			}
-		}
-
-		void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			SetAccessProtocol();
-		}
-
-		void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-		{
-			var count = 0;
-			while ((Program.CurrentProject == null) && (count < 50))
-			{
-				Thread.Sleep(100);
-				count++;
-			}
-		}
-
-		/// <summary>do this in case the access protocol for the project changed and
-		/// the current value of "access" is no longer in the list</summary>
+		/// <summary>
+		/// Do this in case the access protocol for the project changed and
+		/// the current value of "access" is no longer in the list.
+		/// </summary>
 		private void SetAccessCodeListAndValue()
 		{
-			var currentAccessCode = _file.GetStringValue("access", string.Empty);
+			var currentAccessCode = _file.GetStringValue(SessionFileType.kAccessFieldName, string.Empty);
 
 			if (_access.DropDownStyle == ComboBoxStyle.DropDown)
 			{
@@ -584,21 +593,24 @@ namespace SayMore.UI.ComponentEditors
 
 		private string GetParticipantsWithRolesFromContributions()
 		{
-			// We want to display the participants with their roles, which means using data really from
-			// the contributions field, because we don't want the value really stored in participants,
+			// We want to display the participants with their roles, which means using data really
+			// from the contributions field because we don't want the value stored in participants,
 			// a list of names we maintain for backwards compatibility, to include the roles.
 			// Note that this value should only be displayed in the _participants control,
 			// not stored in the <participants> field (as was done briefly, breaking backwards
-			// compatibility and causing problems for other programs that use the file).
-			// (If the user could edit the field, we'd have to watch out that the binding helper didn't
+			// compatibility and causing problems for other programs that use the file). (If the
+			// user could edit the field, we'd have to watch out that the binding helper didn't
 			// copy the edited names-with-roles into the file. But attempts to edit this field
 			// trigger a switch to the Contributors tab.)
-			var contributions = _file.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
-			if (contributions == null)
-				return "";
-			var participantsWithRoles = string.Join("; ",
-				contributions.Select(c => c.ContributorName + " (" + c.Role.Name.ToLowerInvariant() + ")"));
-			return participantsWithRoles;
+			if (_file.GetValue(SessionFileType.kContributionsFieldName, null) is
+			    ContributionCollection contributions)
+			{
+				var participantsWithRoles = string.Join("; ", contributions.Select(c =>
+					$"{c.ContributorName} ({c.Role.Name.ToLowerInvariant()})"));
+				return participantsWithRoles;
+			}
+
+			return "";
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -631,13 +643,40 @@ namespace SayMore.UI.ComponentEditors
 			if (frm == null)
 				return;
 
-			var tabPages = ((ElementListScreen.ElementListScreen<Session>)frm.ActiveControl).SelectedComponentEditorsTabControl.TabPages;
-			foreach (TabPage tab in tabPages)
+			// The Contributors tab is the correct place to edit the people info, so we want
+			// to switch to that tab, but only if everything validates on this tab. This
+			// code plus the two methods it sets up to handle things keeps us from switching
+			// tabs and reporting the validation error twice if validation fails.
+			_participants.GotFocus += SwitchToContributorsTab;
+			_binder.ValidationFailed += AbortSwitchToContributorsBecauseValidationFailed;
+		}
+
+		private void AbortSwitchToContributorsBecauseValidationFailed(BindingHelper sender,
+			Control controlThatFailedValidation)
+		{
+			_participants.GotFocus -= SwitchToContributorsTab;
+		}
+
+		private void SwitchToContributorsTab(object sender, EventArgs e)
+		{
+			_participants.GotFocus -= SwitchToContributorsTab;
+
+			var frm = FindForm();
+			if (frm == null)
+				return;
+
+			var sessionEditorTabControl =
+				((ElementListScreen.ElementListScreen<Session>)frm.ActiveControl)
+				.SelectedComponentEditorsTabControl;
+
+			foreach (TabPage tab in sessionEditorTabControl.TabPages)
 			{
-				if (tab.ImageKey != @"Contributor") continue;
-				((ElementListScreen.ElementListScreen<Session>)frm.ActiveControl).SelectedComponentEditorsTabControl.SelectedTab = tab;
-				tab.Focus();
-				break;
+				if (tab.ImageKey == @"Contributor")
+				{
+					sessionEditorTabControl.SelectedTab = tab;
+					tab.Focus();
+					break;
+				}
 			}
 		}
 	}

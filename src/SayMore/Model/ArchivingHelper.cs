@@ -442,7 +442,7 @@ namespace SayMore.Model
 
 		internal static ArchivingLanguage GetOneLanguage(string languageStr)
 		{
-			if (languageStr == null)
+			if (IsNullOrEmpty(languageStr))
 				return null;
 
 			var parts = languageStr.SplitOnColon();

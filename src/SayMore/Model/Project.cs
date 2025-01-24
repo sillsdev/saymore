@@ -219,8 +219,8 @@ namespace SayMore.Model
 		{
 			// TODO: Should probably put some error checking in here. Although,
 			// I'm not sure what I would do with a failure along the way.
-			var evnt = XElement.Load(oldFile);
-			var session = new XElement("Session", evnt.Nodes());
+			var eventToRename = XElement.Load(oldFile);
+			var session = new XElement("Session", eventToRename.Nodes());
 			var newFile = ChangeExtension(oldFile, Settings.Default.SessionFileExtension);
 			session.Save(newFile);
 			File.Delete(oldFile);

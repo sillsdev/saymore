@@ -13,9 +13,9 @@ namespace SayMoreTests.UI
 	[TestFixture]
 	public class SessionRecorderDlgViewModelTests
 	{
-		SessionRecorderDlgViewModel _model;
-		TemporaryFolder _tempFolder;
-		Mock<Session> _session;
+		private SessionRecorderDlgViewModel _model;
+		private TemporaryFolder _tempFolder;
+		private Mock<Session> _session;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
@@ -23,7 +23,7 @@ namespace SayMoreTests.UI
 		{
 			// The next two lines create a Synchronization context so that WaveIn can be happy.
 			var someControl = new Control();
-			var whatever = someControl.Handle;
+			_ = someControl.Handle;
 
 			_model = new SessionRecorderDlgViewModel();
 			_model.Recorder.BeginMonitoring();

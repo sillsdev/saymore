@@ -101,8 +101,7 @@ namespace SayMore.UI.ComponentEditors
 		[Category("BindingHelper Properties")]
 		public bool GetIsBound(Control ctrl)
 		{
-			bool isBound;
-			return (ctrl != null && _extendedControls.TryGetValue(ctrl, out isBound) && isBound);
+			return ctrl != null && _extendedControls.TryGetValue(ctrl, out var isBound) && isBound;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -183,26 +182,40 @@ namespace SayMore.UI.ComponentEditors
 			UpdateControlValueFromField(ctrl);
 			ctrl.Disposed += HandleDisposed;
 
-			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
-				((ComboBox)ctrl).SelectedValueChanged += HandleBoundComboValueChanged;
-			else if (ctrl is DatePicker)
-				((DatePicker)ctrl).ValueChanged += HandleDateValueChanged;
-			else
+			switch (ctrl)
 			{
-				ctrl.Validating += HandleValidatingControl;
-				ValidateOnHide(ctrl);
-				if (ctrl == _componentFileIdControl)
-					ctrl.KeyPress += HandleIdFieldKeyPress;
+				case ComboBox comboBox when comboBox.DropDownStyle == ComboBoxStyle.DropDownList:
+					comboBox.SelectedValueChanged += HandleBoundComboValueChanged;
+					break;
+				case DatePicker datePicker:
+					datePicker.ValueChanged += HandleDateValueChanged;
+					break;
+				default:
+				{
+					ctrl.Validating += HandleValidatingControl;
+					ValidateOnHide(ctrl);
+					if (ctrl == _componentFileIdControl)
+						ctrl.KeyPress += HandleIdFieldKeyPress;
+					break;
+				}
 			}
 		}
 
-		HashSet<Control> _validateOnHideControls = new HashSet<Control>();
+		private readonly HashSet<Control> _validateOnHideControls = new HashSet<Control>();
 
+		// Note: this variable name seems to be misleading, as it often remains true even when
+		// validation is not actively occurring.
 		private bool _runningValidations;
-		// If the control or any of its parents gets hidden, e.g., by switching to another tab,
-		// perform validation, even if the new tab does not assign focus to something, which
-		// would normally trigger it. This ensures some important side effects of validation
-		// don't get skipped (e.g., updating a Person's name in Contributors).
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// If the control or any of its parents gets hidden, e.g., by switching to another tab,
+		/// perform validation, even if the new tab does not assign focus to something, which
+		/// would normally trigger it. This ensures some important side effects of validation
+		/// don't get skipped (e.g., updating a Person's name in Contributors).
+		/// </summary>
+		/// <param name="start"></param>
+		/// ------------------------------------------------------------------------------------
 		void ValidateOnHide(Control start)
 		{
 			var ctrl = start;
@@ -241,27 +254,33 @@ namespace SayMore.UI.ComponentEditors
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void StartValidating(object o, EventArgs eventArgs)
 		{
 			Application.Idle -= StartValidating;
 			_runningValidations = true;
 		}
 
-
 		/// ------------------------------------------------------------------------------------
 		private void UnBindControl(Control ctrl, bool removeFromBoundControlCollection)
 		{
 			ctrl.Disposed -= HandleDisposed;
 
-			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
-				((ComboBox)ctrl).SelectedValueChanged -= HandleBoundComboValueChanged;
-			else if (ctrl is DatePicker)
-				((DatePicker)ctrl).ValueChanged -= HandleDateValueChanged;
-			else
+			switch (ctrl)
 			{
-				ctrl.Validating -= HandleValidatingControl;
-				if (ctrl == _componentFileIdControl)
-					ctrl.KeyPress -= HandleIdFieldKeyPress;
+				case ComboBox comboBox when comboBox.DropDownStyle == ComboBoxStyle.DropDownList:
+					comboBox.SelectedValueChanged -= HandleBoundComboValueChanged;
+					break;
+				case DatePicker datePicker:
+					datePicker.ValueChanged -= HandleDateValueChanged;
+					break;
+				default:
+				{
+					ctrl.Validating -= HandleValidatingControl;
+					if (ctrl == _componentFileIdControl)
+						ctrl.KeyPress -= HandleIdFieldKeyPress;
+					break;
+				}
 			}
 
 			if (removeFromBoundControlCollection &&  _boundControls != null && _boundControls.Contains(ctrl))
@@ -389,7 +408,6 @@ namespace SayMore.UI.ComponentEditors
 			var ctrl = (Control)sender;
 			var key = _makeIdFromControlName(ctrl);
 			var box = ctrl as CheckBox;
-			var combo = ctrl as ComboBox;
 
 			string newValue = null;
 			var gotNewValueFromDelegate = false;
@@ -406,17 +424,17 @@ namespace SayMore.UI.ComponentEditors
 			{
 				if (box != null)
 					newValue = box.Checked ? "true" : "false";
-				else if ((combo != null) && (combo.SelectedItem != null))
+				else if (ctrl is ComboBox combo && combo.SelectedItem != null)
 					newValue = combo.SelectedValue == null ? combo.SelectedItem.ToString() : combo.SelectedValue.ToString();
 				else if (key != "date")
 					newValue = ctrl.Text.Trim();
 				else
 				{
-					//NB: we're doing a plain old-fashioned "parse" here because the editor is showing
+					// NB: we're doing a plain old-fashioned "parse" here because the editor is showing
 					// it in the user's local culture, that's fine. But internally, we want to deal
 					// only in DateTimes where possible, and in ISO8601 where strings are necessary.
-					if (ctrl is DatePicker)
-						newValue = ((DatePicker)ctrl).GetISO8601DateValueOrNull();
+					if (ctrl is DatePicker datePicker)
+						newValue = datePicker.GetISO8601DateValueOrNull();
 					else
 						newValue = DateTime.Parse(newValue, CultureInfo.CurrentCulture).ToISO8601TimeFormatDateOnlyString();
 				}

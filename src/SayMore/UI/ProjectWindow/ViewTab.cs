@@ -18,7 +18,7 @@ namespace SayMore.UI.ProjectWindow
 		private readonly Action<ViewTab> _tabTextChangedAction;
 
 		/// ------------------------------------------------------------------------------------
-		public ViewTabGroup OwningTabGroup { get; private set; }
+		public ViewTabGroup OwningTabGroup { get; }
 
 		/// ------------------------------------------------------------------------------------
 		public ViewTab(ViewTabGroup owningTabControl, Control viewControl,
@@ -55,8 +55,7 @@ namespace SayMore.UI.ProjectWindow
 			View.Visible = true;
 			View.BringToFront();
 
-			if (View is ISayMoreView)
-				((ISayMoreView)View).ViewActivated(!_hasBeenActivated);
+			(View as ISayMoreView)?.ViewActivated(!_hasBeenActivated);
 
 			_hasBeenActivated = true;
 			Invalidate();
@@ -68,12 +67,12 @@ namespace SayMore.UI.ProjectWindow
 			if (View == null)
 				return true;
 
-			if (View is ISayMoreView)
+			if (View is ISayMoreView sayMoreView)
 			{
-				if (!((ISayMoreView)View).IsOKToLeaveView(showMsgWhenNotOK))
+				if (!sayMoreView.IsOKToLeaveView(showMsgWhenNotOK))
 					return false;
 
-				((ISayMoreView)View).ViewDeactivated();
+				sayMoreView.ViewDeactivated();
 			}
 
 			_selected = false;
@@ -112,7 +111,7 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		public bool Selected
 		{
-			get { return _selected; }
+			get => _selected;
 			set
 			{
 				if (_selected == value)

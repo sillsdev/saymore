@@ -30,7 +30,7 @@ namespace SayMore.Model
 	/// ----------------------------------------------------------------------------------------
 	public class Session : ProjectElement, IRAMPArchivable
 	{
-		public static string kFolderName = "Sessions";
+		public const string kFolderName = "Sessions";
 
 		public enum Status
 		{

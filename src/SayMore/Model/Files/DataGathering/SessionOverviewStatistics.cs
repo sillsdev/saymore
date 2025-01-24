@@ -11,6 +11,8 @@ namespace SayMore.Model.Files.DataGathering
 	/// A SessionOverviewStatistics is created for a single session. It then provides
 	/// information to be used on an overview screen.
 	/// </summary>
+	/// <remarks>REVIEW: This class appears never to have been used. Is this part of a feature
+	/// we should implement?</remarks>
 	/// ----------------------------------------------------------------------------------------
 	public class SessionOverviewStatistics
 	{
@@ -44,8 +46,8 @@ namespace SayMore.Model.Files.DataGathering
 				if (!_recordingFileExtensions.Contains(ext))
 					return false;
 
-				var nameonly = Path.GetFileNameWithoutExtension(x);
-				return nameonly.EndsWith("carefulspeech");
+				var nameOnly = Path.GetFileNameWithoutExtension(x);
+				return nameOnly.EndsWith("carefulspeech", StringComparison.OrdinalIgnoreCase);
 			});
 
 			return (filename != null);
@@ -62,8 +64,8 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			var filename = _sessionFiles.FirstOrDefault(x =>
 			{
-				var nameonly = Path.GetFileNameWithoutExtension(x);
-				return nameonly.EndsWith("english");
+				var nameOnly = Path.GetFileNameWithoutExtension(x);
+				return nameOnly.EndsWith("english", StringComparison.OrdinalIgnoreCase);
 			});
 
 			return (filename != null);

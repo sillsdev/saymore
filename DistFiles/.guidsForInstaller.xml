@@ -24,4 +24,25 @@
   <File Id="ProgramDir.Palaso.ru.xlf" Guid="888f8dcb-cda2-4ae5-ba4e-7fcaa3e92b56" />
   <File Id="ProgramDir.Palaso.tr.xlf" Guid="0e8409fa-844d-412e-bd3e-148524130a4b" />
   <File Id="ProgramDir.Palaso.zh_CN.xlf" Guid="326f9f19-a519-43b9-bb0c-7fb11cabee88" />
+  <File Id="ProgramDir.Palaso.ar.xlf" Guid="9fe2bf1c-f201-4203-90ea-ce2752d35ef4" />
+  <File Id="ProgramDir.Palaso.az.xlf" Guid="259c8610-1c16-4a8c-94d9-5e6037a8d357" />
+  <File Id="ProgramDir.Palaso.bn.xlf" Guid="6b6a7218-d839-4748-afa7-dfed95681bf3" />
+  <File Id="ProgramDir.Palaso.de.xlf" Guid="d4d7e6e8-f554-4838-a30e-d563746296df" />
+  <File Id="ProgramDir.Palaso.fa.xlf" Guid="ae7f1509-715a-4272-91eb-1577e0abce77" />
+  <File Id="ProgramDir.Palaso.hi.xlf" Guid="54494caf-67c7-41a9-947e-633e9bbd6b52" />
+  <File Id="ProgramDir.Palaso.hu.xlf" Guid="79b6a0c1-688a-444c-85a1-184f92afe122" />
+  <File Id="ProgramDir.Palaso.id.xlf" Guid="2c9d0430-195b-464e-a735-dd95e138f083" />
+  <File Id="ProgramDir.Palaso.km.xlf" Guid="6cfce3cd-35f6-4370-a4b7-8ac80d3d7103" />
+  <File Id="ProgramDir.Palaso.ko.xlf" Guid="c6db9880-cc9b-451d-8f3a-5a0464d58c34" />
+  <File Id="ProgramDir.Palaso.ms.xlf" Guid="b86a9e49-0c00-4c7c-b188-a998d6f10df7" />
+  <File Id="ProgramDir.Palaso.my.xlf" Guid="e161c6f7-6598-476a-8ffd-96a7c50482bb" />
+  <File Id="ProgramDir.Palaso.ne.xlf" Guid="b750572a-e709-46b7-8aa1-f3088ec37789" />
+  <File Id="ProgramDir.Palaso.rw.xlf" Guid="bac5692b-50e1-4b0c-be17-56ff6204df5e" />
+  <File Id="ProgramDir.Palaso.sw.xlf" Guid="40415a1c-cbeb-49bf-8d30-01877c83618c" />
+  <File Id="ProgramDir.Palaso.ta.xlf" Guid="8611fdfd-81ca-4de0-846d-d808d9f67f6f" />
+  <File Id="ProgramDir.Palaso.te.xlf" Guid="94ed518b-4e4b-4423-b6c0-67b5439f243e" />
+  <File Id="ProgramDir.Palaso.th.xlf" Guid="e59bd5f0-463d-42c1-8f92-7ae0cf8c00ef" />
+  <File Id="ProgramDir.Palaso.tp.xlf" Guid="41410018-4111-4e40-bd04-167286cac3a1" />
+  <File Id="ProgramDir.Palaso.ur.xlf" Guid="a44696ec-0097-42a8-ac3f-2f8b78d47504" />
+  <File Id="ProgramDir.Palaso.vi.xlf" Guid="ba610d1a-709c-4e27-814b-bbb5cd93c62a" />
 </InstallerMetadata>

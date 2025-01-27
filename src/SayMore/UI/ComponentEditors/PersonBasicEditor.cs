@@ -594,7 +594,7 @@ namespace SayMore.UI.ComponentEditors
 					    "PeopleView.MetadataEditor.InvalidBcp47Code.Primary or " +
 					    "PeopleView.MetadataEditor.InvalidBcp47Code.Other); " +
 					    "Param 1: \"SayMore\" (product name)"),
-					    msgPart1, ProductName),
+					    msgPart1, Program.ProductName),
 				    ProductName, MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
 				ShowWritingSystemDlgIfNeeded(ShowWsDlg.Unconditionally, textBox);

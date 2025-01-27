@@ -21,22 +21,19 @@ namespace SayMore.Media.Audio
 			int indexOutOfBoundaryClicked)
 		{
 			base.OnBoundaryMouseDown(mouseX, boundaryClicked, indexOutOfBoundaryClicked);
-			OnInitiatiatingBoundaryMove(mouseX, boundaryClicked);
+			OnInitiatingBoundaryMove(mouseX, boundaryClicked);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual bool AllowMovingBoundariesWithAdjacetAnnotations
-		{
-			get { return false; }
-		}
+		protected virtual bool AllowMovingBoundariesWithAdjacentAnnotations => false;
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual bool OnInitiatiatingBoundaryMove(int mouseX, TimeSpan boundary)
+		protected virtual bool OnInitiatingBoundaryMove(int mouseX, TimeSpan boundary)
 		{
-			if (CanBoundaryBeMoved != null && !CanBoundaryBeMoved(boundary, AllowMovingBoundariesWithAdjacetAnnotations))
+			if (CanBoundaryBeMoved != null && !CanBoundaryBeMoved(boundary, AllowMovingBoundariesWithAdjacentAnnotations))
 				return false;
 
-			_scrollCalculator = new WaveControlScrollCalculator(this);
+			ScrollCalculator = new WaveControlScrollCalculator(this);
 
 			// Figure out the limits within which the boundary may be moved. It's not allowed
 			// to be moved to the left of the previous boundary or to the right of the next
@@ -84,7 +81,7 @@ namespace SayMore.Media.Audio
 			{
 				base.OnMouseMoveEx(e, boundaryMouseOver);
 				Cursor = boundaryMouseOver == default(TimeSpan) ||
-					(CanBoundaryBeMoved != null && !CanBoundaryBeMoved(boundaryMouseOver, AllowMovingBoundariesWithAdjacetAnnotations)) ?
+					(CanBoundaryBeMoved != null && !CanBoundaryBeMoved(boundaryMouseOver, AllowMovingBoundariesWithAdjacentAnnotations)) ?
 					Cursors.Default : Cursors.SizeWE;
 				return;
 			}
@@ -128,13 +125,13 @@ namespace SayMore.Media.Audio
 			if (!IsBoundaryMovingInProgress)
 				return;
 
-			_scrollCalculator = null;
+			ScrollCalculator = null;
 
 			IsBoundaryMovingInProgress = false;
 			Painter.SetMovingAnchorTime(TimeSpan.Zero);
 
 			if (BoundaryMoved == null || !boundaryReallyMoved)
-				OnBoundaryMovedToOrigin(_boundaryMouseOver);
+				OnBoundaryMovedToOrigin(BoundaryMouseOver);
 			else
 			{
 				var dx = e.X;
@@ -143,10 +140,10 @@ namespace SayMore.Media.Audio
 				else if (dx > _maxXForBoundaryMove)
 					dx = _maxXForBoundaryMove;
 
-				OnBoundaryMoved(_boundaryMouseOver, GetTimeFromX(dx));
+				OnBoundaryMoved(BoundaryMouseOver, GetTimeFromX(dx));
 			}
 
-			_boundaryMouseOver = default(TimeSpan);
+			BoundaryMouseOver = default(TimeSpan);
 		}
 
 		/// ------------------------------------------------------------------------------------

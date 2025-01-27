@@ -228,7 +228,7 @@ namespace SayMore.Transcription.UI
 		private void InitializeZoomCombo()
 		{
 			_comboBoxZoom.Items.AddRange((new [] {100, 125, 150, 175, 200, 250, 300, 500, 750, 1000})
-				.Select(_pctFormatter.Format).Cast<Object>().ToArray());
+				.Select(_pctFormatter.Format).Cast<object>().ToArray());
 
 			_comboBoxZoom.Font = Program.DialogFont;
 			ZoomPercentage = DefaultZoomPercentage;
@@ -463,14 +463,14 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual FormSettings FormSettings
 		{
-			get { throw new NotImplementedException(); }
-			set { throw new NotImplementedException(); }
+			get => throw new NotImplementedException();
+			set => throw new NotImplementedException();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual float ZoomPercentage
 		{
-			get { return _waveControl.ZoomPercentage; }
+			get => _waveControl.ZoomPercentage;
 			set
 			{
 				bool setZoomText = string.IsNullOrEmpty(_waveControl.Text);

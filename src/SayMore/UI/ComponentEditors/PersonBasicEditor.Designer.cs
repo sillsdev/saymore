@@ -450,6 +450,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandleLanguageFieldClick);
 			this._otherLanguage3.TextChanged += new System.EventHandler(this.HandleLanguageFieldChange);
 			this._otherLanguage3.Enter += new System.EventHandler(this.HandleLanguageFieldEnter);
+			this._otherLanguage3.Leave += new System.EventHandler(this.HandleLanguageFieldLeave);
 			this._otherLanguage3.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.HandleLanguageFieldDoubleClick);
 			this._otherLanguage3.Validated += new System.EventHandler(this.HandleLanguageValidated);
 			// 
@@ -476,6 +477,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage0.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandleLanguageFieldClick);
 			this._otherLanguage0.TextChanged += new System.EventHandler(this.HandleLanguageFieldChange);
 			this._otherLanguage0.Enter += new System.EventHandler(this.HandleLanguageFieldEnter);
+			this._otherLanguage0.Leave += new System.EventHandler(this.HandleLanguageFieldLeave);
 			this._otherLanguage0.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.HandleLanguageFieldDoubleClick);
 			this._otherLanguage0.Validating += new System.ComponentModel.CancelEventHandler(this.HandleValidatingLanguage);
 			// 
@@ -502,6 +504,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandleLanguageFieldClick);
 			this._otherLanguage1.TextChanged += new System.EventHandler(this.HandleLanguageFieldChange);
 			this._otherLanguage1.Enter += new System.EventHandler(this.HandleLanguageFieldEnter);
+			this._otherLanguage1.Leave += new System.EventHandler(this.HandleLanguageFieldLeave);
 			this._otherLanguage1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.HandleLanguageFieldDoubleClick);
 			this._otherLanguage1.Validating += new System.ComponentModel.CancelEventHandler(this.HandleValidatingLanguage);
 			// 
@@ -528,6 +531,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandleLanguageFieldClick);
 			this._otherLanguage2.TextChanged += new System.EventHandler(this.HandleLanguageFieldChange);
 			this._otherLanguage2.Enter += new System.EventHandler(this.HandleLanguageFieldEnter);
+			this._otherLanguage2.Leave += new System.EventHandler(this.HandleLanguageFieldLeave);
 			this._otherLanguage2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.HandleLanguageFieldDoubleClick);
 			// 
 			// _primaryLanguage
@@ -553,6 +557,7 @@ namespace SayMore.UI.ComponentEditors
 			this._primaryLanguage.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandleLanguageFieldClick);
 			this._primaryLanguage.TextChanged += new System.EventHandler(this.HandleLanguageFieldChange);
 			this._primaryLanguage.Enter += new System.EventHandler(this.HandleLanguageFieldEnter);
+			this._primaryLanguage.Leave += new System.EventHandler(this.HandleLanguageFieldLeave);
 			this._primaryLanguage.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.HandleLanguageFieldDoubleClick);
 			this._primaryLanguage.Validating += new System.ComponentModel.CancelEventHandler(this.HandleValidatingLanguage);
 			// 

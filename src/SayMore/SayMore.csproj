@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\SIL.Windows.Forms.Keyboarding.13.0.0\build\SIL.Windows.Forms.Keyboarding.props" Condition="Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.13.0.0\build\SIL.Windows.Forms.Keyboarding.props')" />
-  <Import Project="..\..\packages\icu.net.2.9.1-beta.1\build\icu.net.props" Condition="Exists('..\..\packages\icu.net.2.9.1-beta.1\build\icu.net.props')" />
-  <Import Project="..\..\packages\SIL.ReleaseTasks.2.5.0\build\SIL.ReleaseTasks.props" Condition="Exists('..\..\packages\SIL.ReleaseTasks.2.5.0\build\SIL.ReleaseTasks.props')" />
-  <Import Project="..\..\packages\SIL.BuildTasks.2.5.0\build\SIL.BuildTasks.props" Condition="Exists('..\..\packages\SIL.BuildTasks.2.5.0\build\SIL.BuildTasks.props')" />
+  <Import Project="..\..\packages\SIL.Windows.Forms.Keyboarding.15.0.0\build\SIL.Windows.Forms.Keyboarding.props" Condition="Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.15.0.0\build\SIL.Windows.Forms.Keyboarding.props')" />
+  <Import Project="..\..\packages\icu.net.3.0.0\build\icu.net.props" Condition="Exists('..\..\packages\icu.net.3.0.0\build\icu.net.props')" />
+  <Import Project="..\..\packages\SIL.ReleaseTasks.3.0.0\build\SIL.ReleaseTasks.props" Condition="Exists('..\..\packages\SIL.ReleaseTasks.3.0.0\build\SIL.ReleaseTasks.props')" />
+  <Import Project="..\..\packages\SIL.BuildTasks.3.0.0\build\SIL.BuildTasks.props" Condition="Exists('..\..\packages\SIL.BuildTasks.3.0.0\build\SIL.BuildTasks.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -38,6 +38,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -74,8 +75,8 @@
     <Reference Include="AtkSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=313398f2149d753f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\AtkSharp-signed.3.22.24.37\lib\netstandard2.0\AtkSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac, Version=5.1.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Autofac.5.1.2\lib\net461\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=5.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.5.2.0\lib\net461\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="CairoSharp, Version=3.22.24.37, Culture=neutral, PublicKeyToken=313398f2149d753f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CairoSharp-signed.3.22.24.37\lib\netstandard2.0\CairoSharp.dll</HintPath>
@@ -83,14 +84,11 @@
     <Reference Include="Coroutine.NET, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Coroutine.NET.1.4.0\lib\netstandard2.0\Coroutine.NET.dll</HintPath>
     </Reference>
-    <Reference Include="DesktopAnalytics, Version=5.0.0.32, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.DesktopAnalytics.5.0.0\lib\net462\DesktopAnalytics.dll</HintPath>
+    <Reference Include="DesktopAnalytics, Version=6.0.1.38, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.DesktopAnalytics.6.0.1\lib\net462\DesktopAnalytics.dll</HintPath>
     </Reference>
     <Reference Include="DialogAdapters, Version=0.1.11.0, Culture=neutral, PublicKeyToken=7dc842182b0626dc, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DialogAdapters.Gtk2.0.1.11\lib\net461\DialogAdapters.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetZip, Version=1.16.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DotNetZip.1.16.0\lib\net40\DotNetZip.dll</HintPath>
     </Reference>
     <Reference Include="Enchant.Net, Version=1.4.0.0, Culture=neutral, PublicKeyToken=ae135aeb3d479ab9, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Enchant.Net.1.4.2\lib\net461\Enchant.Net.dll</HintPath>
@@ -113,20 +111,20 @@
     <Reference Include="ibusdotnet, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c9ab93f7b23223fb, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ibusdotnet.2.0.3\lib\net461\ibusdotnet.dll</HintPath>
     </Reference>
-    <Reference Include="icu.net, Version=2.9.0.0, Culture=neutral, PublicKeyToken=416fdd914afa6b66, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\icu.net.2.9.1-beta.1\lib\net451\icu.net.dll</HintPath>
+    <Reference Include="icu.net, Version=3.0.0.0, Culture=neutral, PublicKeyToken=416fdd914afa6b66, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\icu.net.3.0.0\lib\net451\icu.net.dll</HintPath>
     </Reference>
     <Reference Include="Instances, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Instances.3.0.0\lib\netstandard2.0\Instances.dll</HintPath>
+      <HintPath>..\..\packages\Instances.3.0.1\lib\netstandard2.0\Instances.dll</HintPath>
     </Reference>
     <Reference Include="L10NSharp, Version=7.0.0.0, Culture=neutral, PublicKeyToken=fd0b3e309a5b7c28, processorArchitecture=MSIL">
       <HintPath>..\..\packages\L10NSharp.7.0.0\lib\net461\L10NSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Markdig.Signed, Version=0.33.0.0, Culture=neutral, PublicKeyToken=870da25a133885f8, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Markdig.Signed.0.33.0\lib\net462\Markdig.Signed.dll</HintPath>
+    <Reference Include="Markdig.Signed, Version=0.37.0.0, Culture=neutral, PublicKeyToken=870da25a133885f8, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Markdig.Signed.0.37.0\lib\net462\Markdig.Signed.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.1\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Tasks.v4.0" />
@@ -162,35 +160,38 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Segment.Analytics.CSharp, Version=2.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Segment.Analytics.CSharp.2.3.1\lib\netstandard2.0\Segment.Analytics.CSharp.dll</HintPath>
+    <Reference Include="Segment.Analytics.CSharp, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Segment.Analytics.CSharp.2.4.2\lib\netstandard2.0\Segment.Analytics.CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Serialization.NET, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Serialization.NET.1.4.0\lib\netstandard2.0\Serialization.NET.dll</HintPath>
+    <Reference Include="Serialization.NET, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Serialization.NET.1.4.1\lib\netstandard2.0\Serialization.NET.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Archiving, Version=13.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Archiving.13.0.0\lib\net461\SIL.Archiving.dll</HintPath>
+    <Reference Include="SIL.Archiving, Version=15.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Archiving.15.0.0\lib\net462\SIL.Archiving.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Core, Version=13.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Core.13.0.0\lib\net461\SIL.Core.dll</HintPath>
+    <Reference Include="SIL.Core, Version=15.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Core.15.0.0\lib\net462\SIL.Core.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Core.Desktop, Version=13.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Core.Desktop.13.0.0\lib\net461\SIL.Core.Desktop.dll</HintPath>
+    <Reference Include="SIL.Core.Desktop, Version=15.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Core.Desktop.15.0.0\lib\net462\SIL.Core.Desktop.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Media, Version=13.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Media.13.0.0\lib\net461\SIL.Media.dll</HintPath>
+    <Reference Include="SIL.Media, Version=15.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Media.15.0.0\lib\net462\SIL.Media.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Windows.Forms, Version=13.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Windows.Forms.13.0.0\lib\net461\SIL.Windows.Forms.dll</HintPath>
+    <Reference Include="SIL.Windows.Forms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Windows.Forms.15.0.0\lib\net462\SIL.Windows.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Windows.Forms.Keyboarding, Version=13.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Windows.Forms.Keyboarding.13.0.0\lib\net461\SIL.Windows.Forms.Keyboarding.dll</HintPath>
+    <Reference Include="SIL.Windows.Forms.Archiving, Version=15.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Windows.Forms.Archiving.15.0.0\lib\net462\SIL.Windows.Forms.Archiving.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Windows.Forms.WritingSystems, Version=13.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Windows.Forms.WritingSystems.13.0.0\lib\net461\SIL.Windows.Forms.WritingSystems.dll</HintPath>
+    <Reference Include="SIL.Windows.Forms.Keyboarding, Version=15.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Windows.Forms.Keyboarding.15.0.0\lib\net462\SIL.Windows.Forms.Keyboarding.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.WritingSystems, Version=13.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.WritingSystems.13.0.0\lib\net461\SIL.WritingSystems.dll</HintPath>
+    <Reference Include="SIL.Windows.Forms.WritingSystems, Version=15.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Windows.Forms.WritingSystems.15.0.0\lib\net462\SIL.Windows.Forms.WritingSystems.dll</HintPath>
+    </Reference>
+    <Reference Include="SIL.WritingSystems, Version=15.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.WritingSystems.15.0.0\lib\net462\SIL.WritingSystems.dll</HintPath>
     </Reference>
     <Reference Include="Sovran.NET, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Sovran.NET.1.4.0\lib\netstandard2.0\Sovran.NET.dll</HintPath>
@@ -199,8 +200,8 @@
       <HintPath>..\..\packages\Spart.1.0.0\lib\net461\Spart.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    <Reference Include="System.Buffers, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Buffers.4.6.0\lib\net462\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.configuration" />
@@ -211,15 +212,32 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Diagnostics.DiagnosticSource.8.0.1\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Drawing.Common.6.0.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.IO.FileSystem.AccessControl, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.IO.FileSystem.AccessControl.5.0.0\lib\net461\System.IO.FileSystem.AccessControl.dll</HintPath>
     </Reference>
+    <Reference Include="System.IO.Pipelines, Version=9.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IO.Pipelines.9.0.1\lib\net462\System.IO.Pipelines.dll</HintPath>
+    </Reference>
     <Reference Include="System.Management" />
-    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    <Reference Include="System.Memory, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Memory.4.6.0\lib\net462\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -228,15 +246,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    <Reference Include="System.Numerics.Vectors, Version=4.1.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Numerics.Vectors.4.6.0\lib\net462\System.Numerics.Vectors.dll</HintPath>
     </Reference>
     <Reference Include="System.Resources.Extensions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Resources.Extensions.6.0.0\lib\net461\System.Resources.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.6.1.0\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
@@ -245,8 +263,8 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
-    <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    <Reference Include="System.Security.AccessControl, Version=6.0.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.AccessControl.6.0.1\lib\net461\System.Security.AccessControl.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
@@ -276,14 +294,14 @@
     </Reference>
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    <Reference Include="System.Text.Encodings.Web, Version=9.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Text.Encodings.Web.9.0.1\lib\net462\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
-    <Reference Include="System.Text.Json, Version=7.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Text.Json.7.0.3\lib\net462\System.Text.Json.dll</HintPath>
+    <Reference Include="System.Text.Json, Version=9.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Text.Json.9.0.1\lib\net462\System.Text.Json.dll</HintPath>
     </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.6.0\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -316,8 +334,14 @@
     <Compile Include="MediaUtils\Audio\WaveFileReaderWrapper.cs" />
     <Compile Include="Model\ArchivingHelper.cs" />
     <Compile Include="Model\Files\DataGathering\SourceAndStandardAudioCoalescingComparer.cs" />
-    <Compile Include="Model\IIMDIArchivable.cs" />
+    <Compile Include="Model\IArchivable.cs" />
+    <Compile Include="Model\Files\IStringValueCollection.cs" />
+    <Compile Include="Model\ILanguageDisambiguator.cs" />
     <Compile Include="Model\IRAMPArchivable.cs" />
+    <Compile Include="Model\LanguageHelper.cs" />
+    <Compile Include="Model\MetadataMigrator.cs" />
+    <Compile Include="Model\SessionContribution.cs" />
+    <Compile Include="Model\TwoPartLanguageSpecifier.cs" />
     <Compile Include="ResourceImageCache.cs" />
     <Compile Include="Transcription\Model\AutoSegmenter.cs" />
     <Compile Include="MediaUtils\Audio\OralAnnotationPlaybackWaveStream.cs" />
@@ -657,10 +681,17 @@
       <DependentUpon>FileLoadErrorsReportDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\FontDialogHelper.cs" />
+    <Compile Include="UI\InteractiveLanguageDisambiguator.cs" />
     <Compile Include="UI\LowLevelControls\AutoCompleteTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\LowLevelControls\CustomDataGridTextBoxCell.cs" />
+    <Compile Include="UI\LowLevelControls\LanguageChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\LanguageChooser.Designer.cs">
+      <DependentUpon>LanguageChooser.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\LowLevelControls\MultiValueAutoCompleteComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -860,6 +891,13 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\ShortFileNameWarningDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ShortFileNameWarningDlg.Designer.cs">
+      <DependentUpon>ShortFileNameWarningDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\WritingSystemDlg.cs" />
     <Compile Include="Utilities\FileSyncHelper.cs" />
     <Compile Include="Utilities\PercentageFormatter.cs" />
     <Compile Include="Utilities\RobustFontHelper.cs" />
@@ -960,6 +998,9 @@
     <EmbeddedResource Include="UI\FileLoadErrorsReportDlg.resx">
       <DependentUpon>FileLoadErrorsReportDlg.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\LowLevelControls\LanguageChooser.resx">
+      <DependentUpon>LanguageChooser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Overview\ProjectAccessScreen.resx">
       <DependentUpon>ProjectAccessScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -1015,6 +1056,9 @@
     <EmbeddedResource Include="UI\LowLevelControls\ListPanel.resx">
       <DependentUpon>ListPanel.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ShortFileNameWarningDlg.resx">
+      <DependentUpon>ShortFileNameWarningDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SplashScreenForm.resx">
       <DependentUpon>SplashScreenForm.cs</DependentUpon>
@@ -1072,6 +1116,7 @@
     <Compile Include="Utilities\JSONUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="README.md" />
     <None Include="Resources\ContributorsTab.png" />
     <None Include="Resources\NotesTab.png" />
     <None Include="Resources\PlayTab.png" />
@@ -1297,23 +1342,23 @@
     <Error Condition="!Exists('..\..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets'))" />
     <Error Condition="!Exists('..\..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets'))" />
     <Error Condition="!Exists('..\..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets'))" />
-    <Error Condition="!Exists('..\..\packages\SIL.BuildTasks.2.5.0\build\SIL.BuildTasks.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.BuildTasks.2.5.0\build\SIL.BuildTasks.props'))" />
-    <Error Condition="!Exists('..\..\packages\SIL.ReleaseTasks.2.5.0\build\SIL.ReleaseTasks.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.ReleaseTasks.2.5.0\build\SIL.ReleaseTasks.props'))" />
-    <Error Condition="!Exists('..\..\packages\SIL.ReleaseTasks.2.5.0\build\SIL.ReleaseTasks.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.ReleaseTasks.2.5.0\build\SIL.ReleaseTasks.targets'))" />
-    <Error Condition="!Exists('..\..\packages\icu.net.2.9.1-beta.1\build\icu.net.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\icu.net.2.9.1-beta.1\build\icu.net.props'))" />
-    <Error Condition="!Exists('..\..\packages\icu.net.2.9.1-beta.1\build\icu.net.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\icu.net.2.9.1-beta.1\build\icu.net.targets'))" />
-    <Error Condition="!Exists('..\..\packages\SIL.Media.13.0.0\build\SIL.Media.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Media.13.0.0\build\SIL.Media.targets'))" />
-    <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.13.0.0\build\SIL.Windows.Forms.Keyboarding.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.Keyboarding.13.0.0\build\SIL.Windows.Forms.Keyboarding.props'))" />
-    <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.13.0.0\build\SIL.Windows.Forms.Keyboarding.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.Keyboarding.13.0.0\build\SIL.Windows.Forms.Keyboarding.targets'))" />
-    <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.13.0.0\build\SIL.Windows.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.13.0.0\build\SIL.Windows.Forms.targets'))" />
+    <Error Condition="!Exists('..\..\packages\SIL.BuildTasks.3.0.0\build\SIL.BuildTasks.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.BuildTasks.3.0.0\build\SIL.BuildTasks.props'))" />
+    <Error Condition="!Exists('..\..\packages\SIL.ReleaseTasks.3.0.0\build\SIL.ReleaseTasks.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.ReleaseTasks.3.0.0\build\SIL.ReleaseTasks.props'))" />
+    <Error Condition="!Exists('..\..\packages\SIL.ReleaseTasks.3.0.0\build\SIL.ReleaseTasks.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.ReleaseTasks.3.0.0\build\SIL.ReleaseTasks.targets'))" />
+    <Error Condition="!Exists('..\..\packages\icu.net.3.0.0\build\icu.net.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\icu.net.3.0.0\build\icu.net.props'))" />
+    <Error Condition="!Exists('..\..\packages\icu.net.3.0.0\build\icu.net.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\icu.net.3.0.0\build\icu.net.targets'))" />
+    <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.15.0.0\build\SIL.Windows.Forms.Keyboarding.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.Keyboarding.15.0.0\build\SIL.Windows.Forms.Keyboarding.props'))" />
+    <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.15.0.0\build\SIL.Windows.Forms.Keyboarding.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.Keyboarding.15.0.0\build\SIL.Windows.Forms.Keyboarding.targets'))" />
+    <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.15.0.0\build\SIL.Windows.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.15.0.0\build\SIL.Windows.Forms.targets'))" />
+    <Error Condition="!Exists('..\..\packages\SIL.Media.15.0.0\build\SIL.Media.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Media.15.0.0\build\SIL.Media.targets'))" />
   </Target>
   <Import Project="..\..\packages\Icu4c.Win.Min.59.1.7\build\Icu4c.Win.Min.targets" Condition="Exists('..\..\packages\Icu4c.Win.Min.59.1.7\build\Icu4c.Win.Min.targets')" />
   <Import Project="..\..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets" Condition="Exists('..\..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets')" />
   <Import Project="..\..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets" Condition="Exists('..\..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets')" />
   <Import Project="..\..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets" Condition="Exists('..\..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets')" />
-  <Import Project="..\..\packages\SIL.ReleaseTasks.2.5.0\build\SIL.ReleaseTasks.targets" Condition="Exists('..\..\packages\SIL.ReleaseTasks.2.5.0\build\SIL.ReleaseTasks.targets')" />
-  <Import Project="..\..\packages\icu.net.2.9.1-beta.1\build\icu.net.targets" Condition="Exists('..\..\packages\icu.net.2.9.1-beta.1\build\icu.net.targets')" />
-  <Import Project="..\..\packages\SIL.Media.13.0.0\build\SIL.Media.targets" Condition="Exists('..\..\packages\SIL.Media.13.0.0\build\SIL.Media.targets')" />
-  <Import Project="..\..\packages\SIL.Windows.Forms.Keyboarding.13.0.0\build\SIL.Windows.Forms.Keyboarding.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.13.0.0\build\SIL.Windows.Forms.Keyboarding.targets')" />
-  <Import Project="..\..\packages\SIL.Windows.Forms.13.0.0\build\SIL.Windows.Forms.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.13.0.0\build\SIL.Windows.Forms.targets')" />
+  <Import Project="..\..\packages\SIL.ReleaseTasks.3.0.0\build\SIL.ReleaseTasks.targets" Condition="Exists('..\..\packages\SIL.ReleaseTasks.3.0.0\build\SIL.ReleaseTasks.targets')" />
+  <Import Project="..\..\packages\icu.net.3.0.0\build\icu.net.targets" Condition="Exists('..\..\packages\icu.net.3.0.0\build\icu.net.targets')" />
+  <Import Project="..\..\packages\SIL.Windows.Forms.Keyboarding.15.0.0\build\SIL.Windows.Forms.Keyboarding.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.15.0.0\build\SIL.Windows.Forms.Keyboarding.targets')" />
+  <Import Project="..\..\packages\SIL.Windows.Forms.15.0.0\build\SIL.Windows.Forms.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.15.0.0\build\SIL.Windows.Forms.targets')" />
+  <Import Project="..\..\packages\SIL.Media.15.0.0\build\SIL.Media.targets" Condition="Exists('..\..\packages\SIL.Media.15.0.0\build\SIL.Media.targets')" />
 </Project>

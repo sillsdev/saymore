@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Drawing;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,7 +12,6 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using DesktopAnalytics;
-using Ionic.Zip;
 using L10NSharp;
 using SIL.Extensions;
 using SIL.Reporting;
@@ -25,7 +25,8 @@ using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Model.Files;
 using SayMore.Utilities;
-using SIL.Windows.Forms.ClearShare;
+using SIL.Core.ClearShare;
+using SIL.IO;
 using static System.IO.Path;
 
 namespace SayMore.Model
@@ -37,7 +38,7 @@ namespace SayMore.Model
 	/// people, and another of sessions.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class Project : IAutoSegmenterSettings, IIMDIArchivable, IRAMPArchivable, IDisposable
+	public class Project : IAutoSegmenterSettings, IRAMPArchivable, IDisposable
 	{
 		// Fixing the misspelling and incorrect capitalization of these two settings will prevent
 		// older versions of SayMore from reading the corrected settings. But since they can
@@ -345,7 +346,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void SetAdditionalMetsData(RampArchivingDlgViewModel model)
 		{
-			foreach (var session in GetAllSessions())
+			foreach (var session in GetAllSessions(CancellationToken.None))
 			{
 				model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
 				model.SetDomains(SilDomain.Ling_LanguageDocumentation);
@@ -437,7 +438,7 @@ namespace SayMore.Model
 			FundingProjectTitle = GetStringSettingValue(project, "FundingProjectTitle", string.Empty);
 			ProjectDescription = GetStringSettingValue(project, "ProjectDescription", string.Empty);
 			VernacularISO3CodeAndName = GetStringSettingValue(project, "VernacularISO3CodeAndName", string.Empty);
-			AnalysisISO3CodeAndName = GetStringSettingValue(project, "AnalysisISO3CodeAndName", ArchivingHelper.AnalysisLanguage());
+			AnalysisISO3CodeAndName = GetStringSettingValue(project, "AnalysisISO3CodeAndName", ArchivingHelper.FallbackAnalysisLanguage);
 			Location = GetStringSettingValue(project, "Location", string.Empty);
 			Region = GetStringSettingValue(project, "Region", string.Empty);
 			Country = GetStringSettingValue(project, "Country", "Unspecified");
@@ -547,11 +548,11 @@ namespace SayMore.Model
 		public List<XmlException> FileLoadErrors => _sessionsRepoFactory(
 			GetDirectoryName(SettingsFilePath), Session.kFolderName, _sessionFileType).FileLoadErrors;
 
-		internal IEnumerable<Session> GetAllSessions()
+		internal IEnumerable<Session> GetAllSessions(CancellationToken cancellationToken)
 		{
 			var sessionRepo = _sessionsRepoFactory(GetDirectoryName(SettingsFilePath),
 				Session.kFolderName, _sessionFileType);
-			sessionRepo.RefreshItemList();
+			sessionRepo.RefreshItemList(cancellationToken);
 
 			return sessionRepo.AllItems;
 		}
@@ -621,20 +622,17 @@ namespace SayMore.Model
 		public string Id => Name;
 
 		/// ------------------------------------------------------------------------------------
-		public void InitializeModel(IMDIArchivingDlgViewModel model)
+		public void InitializeModel(ArchivingDlgViewModel model)
 		{
 			//Set project metadata here.
-			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
-			ArchivingHelper.SetIMDIMetadataToArchive(this, model);
-		}
-
-		public void InitializeModel(RampArchivingDlgViewModel model)
-		{
-			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
+			model.OverrideDisplayInitialSummary = (fileLists, cancellationToken) =>
+				DisplayInitialArchiveSummary(fileLists, model, cancellationToken);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void DisplayInitialArchiveSummary(IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists, ArchivingDlgViewModel model)
+		public void DisplayInitialArchiveSummary(
+			IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists,
+			ArchivingDlgViewModel model, CancellationToken cancellationToken)
 		{
 			foreach (var message in model.AdditionalMessages)
 				model.DisplayMessage(message.Key + "\n", message.Value);
@@ -658,6 +656,8 @@ namespace SayMore.Model
 
 			foreach (var kvp in fileLists)
 			{
+				if (cancellationToken.IsCancellationRequested)
+					throw new OperationCanceledException();
 				var element = (kvp.Key.StartsWith("\n") || kvp.Key.Length > 0 ?
 					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor") :
 					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Sessions"));
@@ -675,29 +675,32 @@ namespace SayMore.Model
 		{
 			Analytics.Track("Archive Project using IMDI");
 
-			ArchivingHelper.ArchiveUsingIMDI(this);
+			ArchivingHelper.ArchiveUsingIMDI(this, parentForm);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		internal void ArchiveProjectUsingRAMP(Form parentForm)
 		{
 			Analytics.Track("Archive Project using RAMP");
-			ArchivingHelper.ArchiveUsingRAMP(this);
+			ArchivingHelper.ArchiveUsingRAMP(this, parentForm);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetFilesToArchive(ArchivingDlgViewModel model)
+		public void SetFilesToArchive(ArchivingDlgViewModel model,
+			CancellationToken cancellationToken)
 		{
 			if (model is RampArchivingDlgViewModel)
 			{
 				Dictionary<string, HashSet<string>> contributorFiles = new Dictionary<string, HashSet<string>>();
-				model.AddFileGroup(string.Empty, GetSessionFilesToArchive(model.GetType()), AddingSessionFilesProgressMsg);
+				model.AddFileGroup(string.Empty, GetSessionFilesToArchive(model.GetType(), cancellationToken), AddingSessionFilesProgressMsg);
 				var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
 				var participants = new HashSet<string>();
-				foreach (var session in GetAllSessions())
+				foreach (var session in GetAllSessions(cancellationToken))
 				{
-					foreach (var person in session.GetParticipantFilesToArchive(model.GetType()))
+					foreach (var person in session.GetParticipantFilesToArchive(model.GetType(), cancellationToken))
 					{
+						if (cancellationToken.IsCancellationRequested)
+							throw new OperationCanceledException();
 						if (!participants.Add(person.Key))
 							continue;
 						model.AddFileGroup(person.Key, person.Value, string.Format(fmt, person.Key));
@@ -706,7 +709,12 @@ namespace SayMore.Model
 							contributorFiles.Add(person.Key, new HashSet<string>());
 
 						foreach (var file in person.Value)
+						{
+							if (cancellationToken.IsCancellationRequested)
+								throw new OperationCanceledException();
+
 							contributorFiles[person.Key].Add(file);
+						}
 					}
 				}
 			}
@@ -714,11 +722,11 @@ namespace SayMore.Model
 			{
 				Dictionary<string, HashSet<string>> contributorFiles = new Dictionary<string, HashSet<string>>();
 				Type archiveType = model.GetType();
-				foreach (var session in GetAllSessions())
+				foreach (var session in GetAllSessions(cancellationToken))
 				{
-					model.AddFileGroup(session.Id, session.GetSessionFilesToArchive(archiveType),
+					model.AddFileGroup(session.Id, session.GetSessionFilesToArchive(archiveType, cancellationToken),
 						session.AddingSessionFilesProgressMsg);
-					foreach (var person in session.GetParticipantFilesToArchive(model.GetType()))
+					foreach (var person in session.GetParticipantFilesToArchive(model.GetType(), cancellationToken))
 					{
 						if (!contributorFiles.ContainsKey(person.Key))
 							contributorFiles.Add(person.Key, new HashSet<string>());
@@ -727,7 +735,7 @@ namespace SayMore.Model
 							contributorFiles[person.Key].Add(file);
 					}
 
-					IArchivingSession s = model.AddSession(session.Id);
+					IArchivingSession s = ((IMDIArchivingDlgViewModel)model).AddSession(session.Id);
 					s.Location.Address = session.MetaDataFile.GetStringValue(SessionFileType.kLocationFieldName, string.Empty);
 					s.Title = session.Title;
 				}
@@ -778,19 +786,17 @@ namespace SayMore.Model
 				"Adding Files for Session '{0}'"), Title);
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<string> GetSessionFilesToArchive(Type typeOfArchive)
+		public IEnumerable<string> GetSessionFilesToArchive(Type typeOfArchive,
+			CancellationToken cancellationToken)
 		{
-			using (ZipFile zip = new ZipFile())
-			{
-				// RAMP packages must not be compressed or RAMP can't read them.
-				zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None;
-				zip.UseZip64WhenSaving = Zip64Option.AsNecessary;
-				zip.AddDirectory(FolderPath);
-				zip.Save(Combine(FolderPath, "Sessions.zip"));
-			}
-			var filesInDir = Directory.GetFiles(FolderPath);
-			return filesInDir.Where(f => ArchivingHelper.IncludeFileInArchive(f, typeOfArchive, Settings.Default.SessionFileExtension));
-
+			var tempZipFilePath = ChangeExtension(GetTempFileName(), "zip");
+			// RAMP packages must not be compressed or RAMP can't read them.
+			ZipFile.CreateFromDirectory(FolderPath, tempZipFilePath, CompressionLevel.NoCompression, true);
+			var zipFilePath = Combine(FolderPath, "Sessions.zip");
+			RobustFile.Move(tempZipFilePath, zipFilePath, true);
+			return Directory.GetFiles(FolderPath).Where(f => 
+				ArchivingHelper.IncludeFileInArchive(f, typeOfArchive,
+					Settings.Default.SessionFileExtension, CancellationToken.None));
 		}
 		#endregion
 	}

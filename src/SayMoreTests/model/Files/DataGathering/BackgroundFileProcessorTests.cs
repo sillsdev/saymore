@@ -7,6 +7,7 @@ using NUnit.Framework;
 using SIL.TestUtilities;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
+using SayMore.UI.ComponentEditors;
 
 namespace SayMoreTests.Model.Files.DataGathering
 {
@@ -142,7 +143,9 @@ namespace SayMoreTests.Model.Files.DataGathering
 		private TestProcessor CreateProcessor()
 		{
 			return new TestProcessor(_folder.Path,
-				new FileType[] { new AudioFileType(null, () => null, () => null) },
+				new FileType[] { new AudioFileType(null,
+					new Lazy<Func<AudioComponentEditor.Factory>>(() => null),
+					new Lazy<Func<ContributorsEditor.Factory>>(() => null)) },
 				MakeDictionaryFromFile);
 		}
 

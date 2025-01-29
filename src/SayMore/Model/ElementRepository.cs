@@ -2,20 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Xml;
 using SIL.Code;
 using SIL.Windows.Forms.FileSystem;
-using SayMore.Model.Files;
-using SayMore.UI.ProjectWindow;
-
+using SIL.Reporting;
+using L10NSharp;
+using FileType = SayMore.Model.Files.FileType;
 namespace SayMore.Model
 {
 	/// ----------------------------------------------------------------------------------------
 	public class ElementIdChangedArgs : EventArgs
 	{
-		public ProjectElement Element { get; private set; }
-		public string OldId { get; private set; }
-		public string NewId { get; private set; }
+		public ProjectElement Element { get; }
+		public string OldId { get; }
+		public string NewId { get; }
 
 		/// ------------------------------------------------------------------------------------
 		public ElementIdChangedArgs(ProjectElement element, string oldId, string newId)
@@ -67,26 +68,79 @@ namespace SayMore.Model
 		[Obsolete("For Mocking Only")]
 		public ElementRepository(){}
 
-		public List<XmlException> FileLoadErrors { get; private set; }
+		public List<XmlException> FileLoadErrors { get; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Updates the list of items by looking in the file system for all the subfolders
 		/// in the project's folder corresponding to this repository.
 		/// </summary>
-		/// <remarks>Any file load errors ocurring during this call will be noted in
+		/// <remarks>Any file load errors occurring during this call will be noted in
 		/// FileLoadErrors. Caller is responsible for checking this and handling them as
 		/// appropriate.</remarks>
 		/// ------------------------------------------------------------------------------------
-		public void RefreshItemList()
+		public void RefreshItemList(CancellationToken cancellationToken = default)
 		{
 			FileLoadErrors.Clear();
 
-			var folders = new HashSet<string>(Directory.GetDirectories(_rootFolder));
+			// SP-2273...
+			// I have not found a way to re-create this bug, and indeed it appears to be
+			// quasi-impossible. User says the folder does exist. I've tried deleting or renaming
+			// the folder while SayMore is running, but the OS won't let me. I think the crux of
+			// the issue must be hidden in the user's statement "I was backing up my files to
+			// OneDrive and sharing a SayMore project file while on a zoom meeting." Not quite
+			// sure what that even means, but maybe OneDrive or the "sharing" somehow made it
+			// possible for the folder to be temporarily renamed or otherwise put into a state
+			// where it appeared not to exist.
+			string[] sessionDirectories = null;
+			var retry = false;
+			do
+			{
+				try
+				{
+					sessionDirectories = Directory.GetDirectories(_rootFolder);
+				}
+				catch (Exception e)
+				{
+					if (retry)
+						throw;
+
+					if (e is DirectoryNotFoundException)
+					{
+						Thread.Sleep(200); // Give it a fighting chance in case it was something transient.
+						if (Directory.Exists(_rootFolder))
+						{
+							retry = true;
+							continue;
+						}
+					}
+					if (e is IOException || e is UnauthorizedAccessException)
+					{
+						ErrorReport.ReportNonFatalExceptionWithMessage(e,
+							string.Format(LocalizationManager.GetString(
+								"MainWindow.ElementFolderMissingOrUnavailable",
+								"It looks like the {0} folder is no longer accessible. If you " +
+								"are able to fix this, {1} will retry. Otherwise, please report " +
+								"this ({2}).", 
+								"Param 0: element type (\"Session\" or \"Person\"); "+
+								"Param 1: \"SayMore\" (program name); "+
+								"Param 2: Jira issue number (for developers)"),
+								ElementFileType.Name, Program.ProductName, "SP-2273"));
+						if (!Directory.Exists(_rootFolder))
+							throw;
+						retry = true;
+					}
+					else
+						throw;
+				}
+			} while (retry);
+			// ...SP-2273
+
+			var folders = new HashSet<string>(sessionDirectories);
 
 			// Go through the existing sessions we have and remove
 			// any that no longer have a sessions folder.
-			for (int i = _items.Count() - 1; i >= 0; i--)
+			for (int i = _items.Count - 1; i >= 0; i--)
 			{
 				if (!folders.Contains(_items[i].FolderPath))
 					_items.RemoveAt(i);
@@ -95,6 +149,9 @@ namespace SayMore.Model
 			// Add any items we don't already have
 			foreach (var path in folders)
 			{
+				if (cancellationToken.IsCancellationRequested)
+					throw new OperationCanceledException();
+
 				if (!_items.Any(x => x.FolderPath == path))
 				{
 					var elementPath = Path.GetDirectoryName(path);
@@ -116,19 +173,13 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual IEnumerable<T> AllItems
-		{
-			get { return _items; }
-		}
+		public virtual IEnumerable<T> AllItems => _items;
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string PathToFolder
-		{
-			get { return _rootFolder; }
-		}
+		public virtual string PathToFolder => _rootFolder;
 
 		/// ------------------------------------------------------------------------------------
-		public FileType ElementFileType { get; private set; }
+		public FileType ElementFileType { get; }
 
 		/// ------------------------------------------------------------------------------------
 		public T CreateNew(string id)

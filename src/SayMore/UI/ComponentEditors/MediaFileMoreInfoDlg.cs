@@ -116,6 +116,9 @@ namespace SayMore.UI.ComponentEditors
 			try
 			{
 				return MediaFileInfo.GetInfoAsHtml(_mediaFilePath, verbose, GetLocalizedLabel,
+					() => LocalizationManager.GetString(
+						"DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.GettingMoreInfoAsHtml",
+						"Failure to extract media file information."),
                     out source);
             }
 			catch (Exception e)

@@ -1,8 +1,3 @@
-using NUnit.Framework;
-using SIL.TestUtilities;
-using SayMore.Transcription.Model;
-using SayMoreTests.Model.Files.DataGathering;
-
 namespace SayMoreTests.Transcription.Model
 {
 	//[TestFixture]

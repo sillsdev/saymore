@@ -2,18 +2,21 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
 using SIL.Reporting;
-using SIL.Windows.Forms.ClearShare;
 using SIL.Archiving.Generic;
-using SIL.Archiving.IMDI;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SIL.Archiving;
+using SIL.Extensions;
+using SIL.Core.ClearShare;
+using System.Text.RegularExpressions;
 
 namespace SayMore.Model
 {
@@ -21,11 +24,11 @@ namespace SayMore.Model
 	/// <summary>
 	/// A session is recorded, documented, transcribed, etc.
 	/// Each session is represented on disk as a single folder, with 1 or more files
-	/// related to that session.  The one file it will always have is some meta data about
+	/// related to that session. The one file it will always have is some metadata about
 	/// the session.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class Session : ProjectElement, IIMDIArchivable, IRAMPArchivable
+	public class Session : ProjectElement, IRAMPArchivable
 	{
 		public static string kFolderName = "Sessions";
 
@@ -111,6 +114,11 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public string Title =>
 			MetaDataFile.GetStringValue(SessionFileType.kTitleFieldName, null) ?? Id;
+
+		/// ------------------------------------------------------------------------------------
+		public string DateField => MetaDataFile.GetStringValue(SessionFileType.kDateFieldName, null);
+
+		public DateTime SessionDate => ParseDate(DateField);
 
 		/// ------------------------------------------------------------------------------------
 		protected override string ExtensionWithoutPeriod => ExtensionWithoutPeriodStatic;
@@ -267,8 +275,7 @@ namespace SayMore.Model
 				if (values == null)
 					continue;
 
-				var contributions = values.Value as ContributionCollection;
-				if (contributions == null)
+				if (!(values.Value is ContributionCollection contributions))
 					continue;
 
 				foreach (var contribution in contributions.Where(contribution => contribution.ContributorName == e.OldId))
@@ -284,18 +291,109 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private ContributionCollection SessionLevelContributionCollection => MetaDataFile.
+			GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
+
+		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<string> GetAllParticipants()
 		{
-			var contributions = MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null) as ContributionCollection;
-			if (contributions == null)
-				return new string[0]; // don't just use ? to return null, that isn't enumerable, callers will fail.
-			return contributions.Select(c => c.ContributorName);
+			var contributions = SessionLevelContributionCollection;
+			// don't return null; that isn't enumerable and callers will fail.
+			return contributions == null ? Array.Empty<string>() : contributions.Select(c => c.ContributorName);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<Person> GetAllPersonsInSession()
 		{
 			return GetAllParticipants().Select(n => _personInformant.GetPersonByNameOrCode(n)).Where(p => p != null).ToList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<SessionContribution> GetAllContributionsFor(string personId,
+			string personCode = null)
+		{
+			// We could make this method able to just return all contributions if personId is null,
+			// but we have no known need for such functionality.
+			if (personId == null)
+				throw new ArgumentNullException(nameof(personId));
+
+			var sessionLevelContributions = SessionLevelContributionCollection;
+			if (sessionLevelContributions != null)
+			{
+				foreach (var contrib in sessionLevelContributions.Where(c =>
+					c.ContributorName == personId ||
+					(personCode != null && c.ContributorName == personCode)))
+				{
+					yield return new SessionContribution(this, null, contrib);
+				}
+			}
+
+			// get the metadata files for this session
+			var files = Directory.GetFiles(FolderPath, "*" + Settings.Default.MetadataFileExtension);
+
+			var personMatch = Regex.Escape(personId);
+			if (personCode != null)
+				personMatch = $"|{Regex.Escape(personCode)}";
+			var regexPattern = $"<name>(?<name>{personMatch})<\\/name>(?<details>(.|\\n)*?)<\\/contributor>";
+
+			foreach (var file in files)
+			{
+				// Get contributions for this person
+				foreach (var contrib in GetFileSpecificContributions(file, regexPattern))
+					yield return contrib;
+			}
+		}
+
+		private IEnumerable<SessionContribution> GetFileSpecificContributions(string fileName, string regexPattern)
+		{
+			var fileContents = File.ReadAllText(fileName);
+
+			var matches = Regex.Matches(fileContents, regexPattern, RegexOptions.IgnoreCase);
+
+			foreach (Match match in matches)
+			{
+				var testString = match.Groups["details"].Value;
+
+				var role = GetRoleFromOlacList(GetValueFromXmlString(testString, "role"));
+				var date = ParseDate(GetValueFromXmlString(testString, "date"));
+				var note = GetValueFromXmlString(testString, "notes");
+
+				yield return new SessionContribution(this, fileName,
+					new Contribution(match.Groups["name"].Value, role)
+						{ Comments = note , Date = date});
+			}
+		}
+		
+		internal static readonly OlacSystem OlacSystem = new OlacSystem();
+
+		internal static Role GetRoleFromOlacList(string savedRole)
+		{
+			if (OlacSystem.TryGetRoleByCode(savedRole, out var role))
+				return role;
+
+			if (OlacSystem.TryGetRoleByName(savedRole, out role))
+				return role;
+
+			return new Role(savedRole, savedRole, null);
+		}
+
+		private static string GetValueFromXmlString(string xmlString, string valueName)
+		{
+			var pattern = string.Format("<{0}>(.*)</{0}>", valueName);
+			var match = Regex.Match(xmlString, pattern);
+
+			return match.Success ? match.Groups[1].Value : string.Empty;
+		}
+
+		private DateTime ParseDate(string dateString)
+		{
+			if (string.IsNullOrEmpty(dateString))
+				return DateTime.MinValue;
+
+			// older SayMore date problem due to saving localized date string rather than ISO8601
+			return DateTimeExtensions.IsISO8601Date(dateString)
+				? DateTime.Parse(dateString)
+				: DateTimeExtensions.ParseDateTimePermissivelyWithException(dateString);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -324,37 +422,19 @@ namespace SayMore.Model
 			}
 		}
 
-
 		#region Archiving
 		/// ------------------------------------------------------------------------------------
-		public void ArchiveUsingRAMP()
+		public void ArchiveUsingRAMP(Form parentForm)
 		{
 			Analytics.Track("Archive Session using RAMP");
-
-			var model = new RampArchivingDlgViewModel(Application.ProductName, Title, Id,
-				ArchiveInfoDetails, SetFilesToArchive, GetFileDescription);
-
-			model.FileCopyOverride = ArchivingHelper.FileCopySpecialHandler;
-			model.AppSpecificFilenameNormalization = CustomFilenameNormalization;
-			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
-			model.HandleNonFatalError = (exception, s) => ErrorReport.NotifyUserOfProblem(exception, s);
-
-			SetAdditionalMetsData(model);
-
-			using (var dlg = new ArchivingDlg(model, ApplicationContainer.kSayMoreLocalizationId,
-				Program.DialogFont, Settings.Default.ArchivingDialog))
-			{
-				dlg.ShowDialog();
-				Settings.Default.ArchivingDialog = dlg.FormSettings;
-			}
+			ArchivingHelper.ArchiveUsingRAMP(this, parentForm);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void ArchiveUsingIMDI()
+		public void ArchiveUsingIMDI(Form parentForm)
 		{
 			Analytics.Track("Archive Session using IMDI");
-
-			ArchivingHelper.ArchiveUsingIMDI(this);
+			ArchivingHelper.ArchiveUsingIMDI(this, parentForm);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -364,10 +444,11 @@ namespace SayMore.Model
 				"This sentence is inserted as a parameter in DialogBoxes.ArchivingDlg.xxxxOverviewText");
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<string> GetSessionFilesToArchive(Type typeOfArchive)
+		public IEnumerable<string> GetSessionFilesToArchive(Type typeOfArchive, CancellationToken cancellationToken)
 		{
 			var filesInDir = Directory.GetFiles(FolderPath);
-			return filesInDir.Where(f => ArchivingHelper.IncludeFileInArchive(f, typeOfArchive, Settings.Default.SessionFileExtension));
+			return filesInDir.Where(f => ArchivingHelper.IncludeFileInArchive(f, typeOfArchive,
+				Settings.Default.SessionFileExtension, cancellationToken));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -376,78 +457,75 @@ namespace SayMore.Model
 				"Adding Files for Session '{0}'"), Title);
 
 		/// ------------------------------------------------------------------------------------
-		public IDictionary<string, IEnumerable<string>> GetParticipantFilesToArchive(Type typeOfArchive)
+		public IDictionary<string, IEnumerable<string>> GetParticipantFilesToArchive(
+			Type typeOfArchive, CancellationToken cancellationToken)
 		{
 			Dictionary<string, IEnumerable<string>> d = new Dictionary<string, IEnumerable<string>>();
 
 			foreach (var person in GetAllParticipants().Select(n => _personInformant.GetPersonByNameOrCode(n)).Where(p => p != null))
 			{
 				var filesInDir = Directory.GetFiles(person.FolderPath);
-				d[person.Id] = filesInDir.Where(f => ArchivingHelper.IncludeFileInArchive(f, typeOfArchive, Settings.Default.PersonFileExtension));
+				d[person.Id] = filesInDir.Where(f => ArchivingHelper.IncludeFileInArchive(f,
+					typeOfArchive, Settings.Default.PersonFileExtension, cancellationToken));
 			}
 			return d;
 		}
 
-		public void InitializeModel(IMDIArchivingDlgViewModel model)
+		public void InitializeModel(ArchivingDlgViewModel model)
 		{
-			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
-			ArchivingHelper.SetIMDIMetadataToArchive(this, model);
-		}
-
-		public void InitializeModel(RampArchivingDlgViewModel model)
-		{
-			model.OverrideDisplayInitialSummary = fileLists => DisplayInitialArchiveSummary(fileLists, model);
+			model.GetOverriddenPreArchivingMessages = GetOverriddenPreArchivingMessages;
+			model.InitialFileGroupDisplayMessageType = ArchivingDlgViewModel.MessageType.Progress;
+			model.OverrideGetFileGroupDisplayMessage = GetFileGroupDisplayMessage;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetFilesToArchive(ArchivingDlgViewModel model)
+		public void SetFilesToArchive(ArchivingDlgViewModel model,
+			CancellationToken cancellationToken)
 		{
-			model.AddFileGroup(string.Empty, GetSessionFilesToArchive(model.GetType()), AddingSessionFilesProgressMsg);
+			model.AddFileGroup(string.Empty,
+				GetSessionFilesToArchive(model.GetType(), cancellationToken),
+				AddingSessionFilesProgressMsg);
 
 			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
 
-			foreach (var person in GetParticipantFilesToArchive(model.GetType()))
+			foreach (var person in GetParticipantFilesToArchive(model.GetType(), cancellationToken))
 				model.AddFileGroup(person.Key, person.Value, string.Format(fmt, person.Key));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void DisplayInitialArchiveSummary(IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists, ArchivingDlgViewModel model)
+		public IEnumerable<Tuple<string, ArchivingDlgViewModel.MessageType>> GetOverriddenPreArchivingMessages(
+			IDictionary<string, Tuple<IEnumerable<string>, string>> fileLists)
 		{
-			foreach (var message in model.AdditionalMessages)
-				model.DisplayMessage(message.Key + "\n", message.Value);
-
 			if (fileLists.Count > 1)
 			{
-				model.DisplayMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1",
-					"The following session and contributor files will be added to your archive."), ArchivingDlgViewModel.MessageType.Normal);
+				yield return new Tuple<string, ArchivingDlgViewModel.MessageType>(
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1",
+					"The following session and contributor files will be added to your archive."),
+					ArchivingDlgViewModel.MessageType.Normal);
 			}
 			else
 			{
-				model.DisplayMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg",
+				yield return new Tuple<string, ArchivingDlgViewModel.MessageType>(
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg",
 					"There are no contributors for this session."), ArchivingDlgViewModel.MessageType.Warning);
 
-				model.DisplayMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2",
+				yield return new Tuple<string, ArchivingDlgViewModel.MessageType>(
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2",
 					"The following session files will be added to your archive."), ArchivingDlgViewModel.MessageType.Progress);
-			}
-
-			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingProgressMsg", "     {0}: {1}",
-				"The first parameter is 'Session' or 'Contributor'. The second parameter is the session or contributor name.");
-
-			foreach (var kvp in fileLists)
-			{
-				var element = (kvp.Key == string.Empty ?
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Session") :
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor"));
-
-				model.DisplayMessage(string.Format(fmt, element, (kvp.Key == string.Empty ? Title : kvp.Key)),
-					ArchivingDlgViewModel.MessageType.Progress);
-
-				foreach (var file in kvp.Value.Item1)
-					model.DisplayMessage(Path.GetFileName(file), ArchivingDlgViewModel.MessageType.Bullet);
 			}
 		}
 
+		public string GetFileGroupDisplayMessage(string groupKey)
+		{
+			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingProgressMsg", "     {0}: {1}",
+				"The first parameter is 'Session' or 'Contributor'. The second parameter is the session or contributor name.");
 
+			var element = groupKey == string.Empty ?
+				LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Session") :
+				LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor");
+
+			return string.Format(fmt, element, groupKey == string.Empty ? Title : groupKey);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<KeyValuePair<string, string>> GetFilesToCopy(IEnumerable<string> validComponentFilesToCopy)
@@ -480,7 +558,7 @@ namespace SayMore.Model
 			model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
 			model.SetDomains(SilDomain.Ling_LanguageDocumentation);
 
-			var value = MetaDataFile.GetStringValue(SessionFileType.kDateFieldName, null);
+			var value = DateField;
 			if (!string.IsNullOrEmpty(value))
 				model.SetCreationDate(value);
 
@@ -543,12 +621,15 @@ namespace SayMore.Model
 		{
 			// Sessions directory
 			var dir = ParentFolderPath;
+			Debug.Assert(dir != null);
+			var parentDir = Directory.GetParent(dir);
+			Debug.Assert(parentDir != null);
 
 			// Find the project file
-			var file = Directory.GetParent(dir).GetFiles("*" + Settings.Default.ProjectFileExtension).FirstOrDefault();
+			var file = parentDir.GetFiles("*" + Settings.Default.ProjectFileExtension).FirstOrDefault();
 
 			// The project name is the same as the project file name
-			return file != null ? Path.GetFileNameWithoutExtension(file.Name) : null;
+			return Path.GetFileNameWithoutExtension(file?.Name);
 		}
 	}
 

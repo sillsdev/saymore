@@ -1,7 +1,7 @@
 // --------------------------------------------------------------------------------------------
-#region // Copyright (c) 2014, SIL International. All Rights Reserved.
-// <copyright from='2011' to='2014' company='SIL International'>
-//		Copyright (c) 2014, SIL International. All Rights Reserved.
+#region // Copyright (c) 2025, SIL Global. All Rights Reserved.
+// <copyright from='2011' to='2025' company='SIL Global'>
+//		Copyright (c) 2025, SIL Global. All Rights Reserved.
 //
 //		Distributable under the terms of the MIT License (https://sil.mit-license.org/)
 // </copyright>
@@ -28,7 +28,10 @@ using SayMore.Properties;
 using SayMore.Media.MPlayer;
 using SayMore.UI.Overview;
 using SayMore.Utilities;
+using SIL.Windows.Forms.Extensions;
 using SIL.Windows.Forms.Miscellaneous;
+using static System.String;
+using static SayMore.Utilities.FileSystemUtils;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -64,6 +67,11 @@ namespace SayMore.UI.ProjectWindow
 			_titleFmt = Text;
 			_menuShowMPlayerDebugWindow.Tag = _menuProject.DropDownItems.IndexOf(_menuShowMPlayerDebugWindow);
 			_menuProject.DropDownItems.Remove(_menuShowMPlayerDebugWindow);
+
+			_menuShortFileNameWarningSettings.Visible = 
+				Settings.Default.SuppressAllShortFilenameWarnings ||
+				!IsNullOrEmpty(Settings.Default.ShortFilenameWarningsToSuppressByVolume) ||
+				!IsNullOrEmpty(Settings.Default.ShortFilenameWarningsToSuppress);
 		}
 
 		private static Control FindFocusedControl(Control control)
@@ -170,15 +178,15 @@ namespace SayMore.UI.ProjectWindow
 		{
 			if (disposing)
 			{
+				FailedToGetShortName -= HandleFailureToGetShortName;
+
 				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= SetWindowText;
 
 				ExceptionHandler.RemoveDelegate(AudioUtils.HandleGlobalNAudioException);
 
-				if (components != null)
-					components.Dispose();
+				components?.Dispose();
 
-				if (_viewTabGroup != null)
-					_viewTabGroup.Tabs.Clear();
+				_viewTabGroup?.Tabs.Clear();
 			}
 
 			base.Dispose(disposing);
@@ -195,7 +203,7 @@ namespace SayMore.UI.ProjectWindow
 			{
 				var ver = Assembly.GetExecutingAssembly().GetName().Version;
 				_titleFmt = Text;
-				Text = string.Format(_titleFmt, ProjectName, ver.Major, ver.Minor, ver.Build,
+				Text = Format(_titleFmt, ProjectName, ver.Major, ver.Minor, ver.Build,
 					ApplicationContainer.GetBuildTypeDescriptor(BuildType.Current));
 			}
 		}
@@ -213,6 +221,35 @@ namespace SayMore.UI.ProjectWindow
 		{
 			base.OnHandleCreated(e);
 			ReportAnyFileLoadErrors();
+			FailedToGetShortName += HandleFailureToGetShortName;
+		}
+
+		private void HandleFailureToGetShortName(string path, string failedActionDescription)
+		{
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
+
+			var filename = Path.GetFileName(path);
+			if (filename == Empty)
+			{
+				throw new ArgumentException("Must be an actual file, not merely a volume or folder.",
+					nameof(path));
+			}
+
+			this.SafeInvoke(() => { AlertUserToFailureToGetShortName(path, failedActionDescription); },
+				"handling failure to get short name");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This does the UI-related stuff for <see cref="HandleFailureToGetShortName"/>, so it
+		/// needs to be invoked on the UI thread.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AlertUserToFailureToGetShortName(string path, string failedActionDescription)
+		{
+			ShortFileNameWarningDlg.NoteFailure(this, path, failedActionDescription);
+			_menuShortFileNameWarningSettings.Visible = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -320,6 +357,13 @@ namespace SayMore.UI.ProjectWindow
 
                 Program.UpdateUiLanguageForUser(dlg.UILanguage);
             }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleShortFileNameWarningSettingsMenuClick(object sender, EventArgs e)
+		{
+			Analytics.Track("Accessed short filename warning settings via menu");
+			ShortFileNameWarningDlg.ViewSettings(this, _projectPath);
 		}
 
 		/// ------------------------------------------------------------------------------------

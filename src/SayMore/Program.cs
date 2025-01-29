@@ -30,6 +30,8 @@ using SayMore.Model;
 using SayMore.Utilities;
 using SIL.Windows.Forms.Reporting;
 using SIL.WritingSystems;
+using static System.Environment;
+using static System.Environment.SpecialFolder;
 using static System.String;
 
 namespace SayMore
@@ -55,7 +57,7 @@ namespace SayMore
 		public static event PersonMetadataChangedHandler PersonDataChanged;
 
 		private static readonly List<Exception> _pendingExceptionsToReportToAnalytics = new List<Exception>();
-        private static UserInfo s_userInfo;
+		private static UserInfo s_userInfo;
 
 		private static bool s_handlingFirstChanceExceptionThreadsafe = false;
 		private static bool s_handlingFirstChanceExceptionUnsafe = false;
@@ -93,7 +95,7 @@ namespace SayMore
 			// the condition (probably caused by Windows Defender) to the user. Even if we can't
 			// write here, SayMore will still attempt to start, but it could fail if it needs
 			// to write any settings.
-			WindowsUtilities.CanWriteToDirectory("SayMore", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+			WindowsUtilities.CanWriteToDirectory("SayMore", GetFolderPath(LocalApplicationData));
 
 			// The following not only gets the location of the settings file used for the analytics stuff. It also
 			// detects corruption and deletes it if needed so SayMore doesn't crash.
@@ -162,7 +164,7 @@ namespace SayMore
 
 						//Application.Restart(); won't work, because the settings will still get saved
 
-						Environment.FailFast("SayMore quitting hard to prevent old settings from being saved again.");
+						FailFast("SayMore quitting hard to prevent old settings from being saved again.");
 					}
 					catch (Exception error)
 					{
@@ -180,10 +182,7 @@ namespace SayMore
 			{
 				var path = File.ReadAllText(MRULatestReminderFilePath).Trim();
 				if (File.Exists(path))
-				{
-					Settings.Default.MRUList = new StringCollection();
-					Settings.Default.MRUList.Add(path);
-				}
+					Settings.Default.MRUList = new StringCollection { path };
 				File.Delete(MRULatestReminderFilePath);
 			}
 
@@ -216,7 +215,7 @@ namespace SayMore
 					Analytics.ReportException(exception);
 
 				bool startedWithCommandLineProject = false;
-				var args = Environment.GetCommandLineArgs();
+				var args = GetCommandLineArgs();
 				if (args.Length > 1)
 				{
 					var possibleProjFile = args[1];
@@ -430,22 +429,15 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string SilCommonDataFolder
-		{
-			get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), kCompanyAbbrev); }
-		}
+		public static string SilCommonDataFolder =>
+			Path.Combine(GetFolderPath(CommonApplicationData), kCompanyAbbrev);
 
 		/// ------------------------------------------------------------------------------------
-		public static string CommonAppDataFolder
-		{
-			get { return Path.Combine(SilCommonDataFolder, Application.ProductName); }
-		}
+		public static string CommonAppDataFolder =>
+			Path.Combine(SilCommonDataFolder, Application.ProductName);
 
 		/// ------------------------------------------------------------------------------------
-		public static Font DialogFont
-		{
-			get { return _dialogFont ?? SystemFonts.MessageBoxFont; }
-		}
+		public static Font DialogFont => _dialogFont ?? SystemFonts.MessageBoxFont;
 
 		/// ------------------------------------------------------------------------------------
 		private static void StartUpShellBasedOnMostRecentUsedIfPossible()
@@ -455,7 +447,7 @@ namespace SayMore
 			// running XP mode) that holding the shift key while starting an app. does
 			// nothing... as in the app. is not launched. Therefore, running SayMore with an
 			// 'nl' command-line option will also suppress loading the last project.
-			var noLoadArg = Environment.GetCommandLineArgs().FirstOrDefault(a => "-nl-NL/nl/NL".Contains(a));
+			var noLoadArg = GetCommandLineArgs().FirstOrDefault(a => "-nl-NL/nl/NL".Contains(a));
 
 			if (MruFiles.Latest == null || !File.Exists(MruFiles.Latest) ||
 				(Control.ModifierKeys == Keys.Shift) || noLoadArg != null ||

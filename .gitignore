@@ -1,5 +1,5 @@
 obj/
-output/**
+**/output/**
 **/bin/**
 .vs*
 *.suo
@@ -37,7 +37,6 @@ SayMore.chm
 HG Setup.eml
 *.orig
 RAMP Stuff/*
-lib/dotnet/SilTools.pdb
 RAMP Fields.docx
 Chiang Mai SayMore Data/*
 DistFiles/AutoSegmenter/*
@@ -52,21 +51,10 @@ artwork/layer1-9.png
 DistFiles/SayMore.chw
 Thumbs.db
 src/AutoSegmenter/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
-lib/dotnet/L10NSharp*
-lib/dotnet/SilUtils.dll
-lib/dotnet/SIL.*
-lib/dotnet/icu*
-lib/dotnet/Interop*
-lib/dotnet/Ionic*
-lib/dotnet/nunit*
-DistFiles/SayMore.en.tmx
+/DistFiles/Palaso.*.xlf
 Packages.dgml
 packages/*
-lib/dotnet/SIL.*.dll
-lib/dotnet/SIL.*.pdb
 .nuget/NuGet.exe
 build/SIL.BuildTasks.*
-lib/dotnet/NAudio.dll
 IMDI_3_0_Fix.py
 icu4c.readme.txt
-/src/Installer/output/wixobj

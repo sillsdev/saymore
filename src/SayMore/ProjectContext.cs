@@ -22,7 +22,7 @@ namespace SayMore
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// TODO: it might be cleaner to remove this class and just have it all be in method
+	/// TODO: it might be cleaner to remove this class and just have it all be in a method
 	/// on applicationContext
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
@@ -197,7 +197,6 @@ namespace SayMore
 
 		private static void LoadContributors(XmlNode xmlDoc, SortedSet<string> namesList, SortedSet<string> nameRolesList, StringBuilder contributorLists)
 		{
-
 			var nodelist = xmlDoc.SelectNodes("//contributor");
 			foreach (XmlNode node in nodelist)
 			{
@@ -223,7 +222,7 @@ namespace SayMore
 
 				// SayMore briefly had a state where roles were appended in parens to names in participants.
 				// We don't want to create new contributors with names like Joe (consultant).
-				// This fix could be unfortunate if someone wants to use a name like "Sally Smith (nee Jones)"
+				// This fix could be unfortunate if someone wants to use a name like "Sally Smith (née Jones)"
 				// but we decided the danger of not handling the messed up data files was greater.
 				var paren = name.IndexOf("(", StringComparison.Ordinal);
 				if (paren >= 0)
@@ -267,7 +266,7 @@ namespace SayMore
 				builder.RegisterType<OralAnnotationFileType>().InstancePerLifetimeScope();
 
 				//when something needs the list of filetypes, get them from this method
-				builder.Register<IEnumerable<FileType>>(GetFilesTypes).InstancePerLifetimeScope();
+				builder.Register(GetFilesTypes).InstancePerLifetimeScope();
 
 				//these needed to be done later (as delegates) because of the FileTypes dependency
 				//there's maybe something I'm doing wrong that requires me to register this twice like this...
@@ -275,28 +274,29 @@ namespace SayMore
 					c => new AudioVideoDataGatherer(rootDirectoryPath,
 						c.Resolve<IEnumerable<FileType>>())).InstancePerLifetimeScope();
 
-				builder.Register<AudioVideoDataGatherer>(c => c.Resolve(typeof(IProvideAudioVideoFileStatistics))
+				builder.Register(c => c.Resolve(typeof(IProvideAudioVideoFileStatistics))
 						as AudioVideoDataGatherer).InstancePerLifetimeScope();
 
-				//create a single PresetGatherer and stick it in the container
-				//builder.RegisterInstance(parentContainer.Resolve<PresetGatherer.Factory>()(rootDirectoryPath));
+				// Create a single PresetGatherer and stick it in the container
+				// builder.RegisterInstance(parentContainer.Resolve<PresetGatherer.Factory>()(rootDirectoryPath));
 
-				//using the factory gave stack overflow: builder.Register<PresetGatherer>(c => c.Resolve<PresetGatherer.Factory>()(rootDirectoryPath));
-				builder.Register<PresetGatherer>(c => new PresetGatherer(rootDirectoryPath,
+				// Using the factory gave stack overflow:
+				// builder.Register<PresetGatherer>(c => c.Resolve<PresetGatherer.Factory>()(rootDirectoryPath));
+				builder.Register(c => new PresetGatherer(rootDirectoryPath,
 					GetDataGatheringFilesTypes(c), c.Resolve<PresetData.Factory>())).InstancePerLifetimeScope();
 
-				builder.Register<AutoCompleteValueGatherer>(
+				builder.Register(
 					c => new AutoCompleteValueGatherer(rootDirectoryPath, GetDataGatheringFilesTypes(c),
 						c.Resolve<Func<ProjectElement, string, ComponentFile>>())).InstancePerLifetimeScope();
 
-				builder.Register<FieldGatherer>(
+				builder.Register(
 					c => new FieldGatherer(rootDirectoryPath, GetDataGatheringFilesTypes(c),
 						c.Resolve<FileTypeFields.Factory>())).InstancePerLifetimeScope();
 
-				builder.Register<FieldUpdater>(c => new FieldUpdater(c.Resolve<FieldGatherer>(),
+				builder.Register(c => new FieldUpdater(c.Resolve<FieldGatherer>(),
 					c.Resolve<IDictionary<string, IXmlFieldSerializer>>())).InstancePerLifetimeScope();
 
-				builder.Register<ComponentFileFactory>(c => new ComponentFileFactory(
+				builder.Register(c => new ComponentFileFactory(
 					c.Resolve<IEnumerable<FileType>>(),
 					c.Resolve<IEnumerable<ComponentRole>>(),
 					c.Resolve<XmlFileSerializer>(),

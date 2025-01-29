@@ -17,6 +17,7 @@ using SayMore.Media.MPlayer;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SIL.Media;
+using SIL.Windows.Forms.Extensions;
 
 namespace SayMore.Transcription.UI
 {
@@ -188,21 +189,32 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void CheckForRecordingDevice(object sender, EventArgs e)
+		private void CheckForRecordingDevice(object sender, EventArgs e)
 		{
-			if (AudioUtils.GetCanRecordAudio())
+			// We want to avoid a bunch of updates piling up, so pause the timer until we've
+			// dealt with this one, then re-enable it.
+			_checkForRecordingDevice.Enabled = false;
+
+			// Invoke asynchronously. Don't want to block on this.
+			this.SafeInvoke(() =>
 			{
-				_checkForRecordingDevice.Stop();
-				ViewModel.InitializeAnnotationRecorder(_peakMeter, _recDeviceIndicator,
-					HandleAnnotationRecordingProgress);
-				if (_spaceBarMode == SpaceBarMode.Error)
+				if (AudioUtils.GetCanRecordAudio())
 				{
-					_spaceBarMode = _userHasListenedToSelectedSegment ? SpaceBarMode.Record :
-						SpaceBarMode.Listen;
+					_checkForRecordingDevice.Stop();
+					ViewModel.InitializeAnnotationRecorder(_peakMeter, _recDeviceIndicator,
+						HandleAnnotationRecordingProgress);
+					if (_spaceBarMode == SpaceBarMode.Error)
+					{
+						_spaceBarMode = _userHasListenedToSelectedSegment ? SpaceBarMode.Record :
+							SpaceBarMode.Listen;
+					}
+
+					_waveControl.Invalidate();
+					UpdateDisplay();
 				}
-				_waveControl.Invalidate();
-				UpdateDisplay();
-			}
+				_checkForRecordingDevice.Enabled = true;
+			}, GetType().FullName + "." + nameof(CheckForRecordingDevice),
+				ControlExtensions.ErrorHandlingAction.IgnoreIfDisposed);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -609,7 +621,7 @@ namespace SayMore.Transcription.UI
 			}
 			else
 			{
-				UdateErrorMessageDisplay();
+				UpdateErrorMessageDisplay();
 
 				if (_labelErrorInfo.Visible)
 				{
@@ -662,7 +674,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UdateErrorMessageDisplay()
+		private void UpdateErrorMessageDisplay()
 		{
 			_labelErrorInfo.Visible = false;
 			if (!_playingBackUsingHoldDownButton && !_waveControl.IsBoundaryMovingInProgress)
@@ -1099,7 +1111,7 @@ namespace SayMore.Transcription.UI
 
 			if (ViewModel.Recorder == null || ViewModel.Recorder.GetIsInErrorState(true))
 			{
-				UdateErrorMessageDisplay();
+				UpdateErrorMessageDisplay();
 				return;
 			}
 
@@ -1622,7 +1634,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleListenToSourceMouseDown(object sender, MouseEventArgs e)
 		{
-			if (_waveControl.GetCursorTime() == ViewModel.OrigWaveStream.TotalTime)
+			if (_waveControl.GetCursorTime() == ViewModel.OrigWaveStream.TotalTime || _playingBackUsingHoldDownButton)
 				return;
 
 			if (_waveControl.IsPlaying || ViewModel.GetIsAnnotationPlaying())
@@ -1682,7 +1694,7 @@ namespace SayMore.Transcription.UI
 			if (ViewModel.Recorder == null)
 				return;
 			if (ViewModel.Recorder.GetIsInErrorState(true))
-				UdateErrorMessageDisplay();
+				UpdateErrorMessageDisplay();
 			else
 				BeginRecording(ViewModel.GetSelectedTimeRange());
 		}

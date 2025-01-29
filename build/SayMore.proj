@@ -19,6 +19,7 @@
     <Message Text="Configuration=$(Configuration)"/>
     <Exec Command='$(NuGetCommand) install SIL.BuildTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
 	<Exec Command='$(NuGetCommand) install SIL.ReleaseTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)"' />
+	<Exec Command='$(NuGetCommand) install SIL.libpalaso.l10ns -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
 	<Exec Command='$(NuGetCommand) install NUnit.Extension.TeamCityEventListener -excludeVersion -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BuildInternal"
       Properties="Configuration=$(Configuration)" Condition="$(RestartBuild)" />
@@ -179,7 +180,18 @@
   </Target>
   -->
 
-  <Target Name="MakeWixForDistFiles">
+  <Target Name="copyLibL10ns" DependsOnTargets="RestoreLocalPackages">
+	<Error Text="Palaso L10ns package missing. Expected at $(RootDir)/packages/SIL.libpalaso.l10ns"
+		Condition="!Exists('$(RootDir)/packages/SIL.libpalaso.l10ns/SIL.libpalaso.l10ns.nupkg')" />
+	<ItemGroup>
+		<XliffFiles Include="$(RootDir)/packages/SIL.libpalaso.l10ns/content/**/*.xlf"/>
+	</ItemGroup>
+	  <Copy SourceFiles="@(XliffFiles)"
+			DestinationFiles="@(XliffFiles->'$(RootDir)/DistFiles/%(Filename)%(Extension)')"
+			SkipUnchangedFiles="true"/>
+  </Target>
+
+  <Target Name="MakeWixForDistFiles" DependsOnTargets="copyLibL10ns">
 	<MakeDir ContinueOnError ="true" Directories ="$(RootDir)\output\Installer\"/>
 	
 	<MakeWixForDirTree

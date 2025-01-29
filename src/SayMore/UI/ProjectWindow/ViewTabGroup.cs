@@ -291,8 +291,7 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		public Control GetSelectedView()
 		{
-			var tab = GetSelectedTab();
-			return (tab == null ? null : tab.View);
+			return GetSelectedTab()?.View;
 		}
 
 		/// ------------------------------------------------------------------------------------

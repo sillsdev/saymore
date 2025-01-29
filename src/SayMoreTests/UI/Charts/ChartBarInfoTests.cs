@@ -7,6 +7,8 @@ using Moq;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.UI.Charts;
+using static System.String;
+using static SayMore.Model.Session.Status;
 
 namespace SayMoreTests.UI.Charts
 {
@@ -62,7 +64,7 @@ namespace SayMoreTests.UI.Charts
 		[Test]
 		public void CompareTo_OtherIsNull_ReturnsGreaterThanOne()
 		{
-			var seg = CreateBasicBarSegment(null, string.Empty);
+			var seg = CreateBasicBarSegment(null, Empty);
 			Assert.IsTrue(seg.CompareTo(null) > 0);
 		}
 
@@ -88,16 +90,16 @@ namespace SayMoreTests.UI.Charts
 		{
 			var list = new List<ChartBarSegmentInfo>
 			{
-				CreateBasicBarSegment(SessionFileType.kStatusFieldName, Session.Status.Finished.ToString()),
-				CreateBasicBarSegment(SessionFileType.kStatusFieldName, Session.Status.In_Progress.ToString()),
-				CreateBasicBarSegment(SessionFileType.kStatusFieldName, Session.Status.Incoming.ToString()),
+				CreateBasicBarSegment(SessionFileType.kStatusFieldName, Finished.ToString()),
+				CreateBasicBarSegment(SessionFileType.kStatusFieldName, In_Progress.ToString()),
+				CreateBasicBarSegment(SessionFileType.kStatusFieldName, Incoming.ToString()),
 			};
 
 			list.Sort();
 
-			Assert.AreEqual(Session.Status.Incoming.ToString(), list[0].FieldValue);
-			Assert.AreEqual(Session.Status.In_Progress.ToString(), list[1].FieldValue);
-			Assert.AreEqual(Session.Status.Finished.ToString(), list[2].FieldValue);
+			Assert.AreEqual(Incoming.ToString(), list[0].FieldValue);
+			Assert.AreEqual(In_Progress.ToString(), list[1].FieldValue);
+			Assert.AreEqual(Finished.ToString(), list[2].FieldValue);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -106,46 +108,51 @@ namespace SayMoreTests.UI.Charts
 		{
 			var list = new List<ChartBarSegmentInfo>
 			{
-				CreateBasicBarSegment(SessionFileType.kStatusFieldName, Session.Status.Finished.ToString()),
-				CreateBasicBarSegment(SessionFileType.kStatusFieldName, Session.Status.Incoming.ToString()),
+				CreateBasicBarSegment(SessionFileType.kStatusFieldName, Finished.ToString()),
+				CreateBasicBarSegment(SessionFileType.kStatusFieldName, Incoming.ToString()),
 				CreateBasicBarSegment(SessionFileType.kStatusFieldName, "In Progress"),
 			};
 
 			list.Sort();
 
-			Assert.AreEqual(Session.Status.Incoming.ToString(), list[0].FieldValue);
+			Assert.AreEqual(Incoming.ToString(), list[0].FieldValue);
 			Assert.AreEqual("In Progress", list[1].FieldValue);
-			Assert.AreEqual(Session.Status.Finished.ToString(), list[2].FieldValue);
+			Assert.AreEqual(Finished.ToString(), list[2].FieldValue);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void ChartBarInfo_ConstructWithStatusSecondaryField_ThrowsOutSkippedStatuses()
 		{
-			var segs = new Dictionary<string, IEnumerable<Session>>();
-			segs[Session.Status.Incoming.ToString()] = _sessions;
-			segs[Session.Status.Skipped.ToString()] = _sessions;
-			segs[Session.Status.In_Progress.ToString()] = _sessions;
+			var segments = new Dictionary<string, IEnumerable<Session>>
+			{
+				[Incoming.ToString()] = _sessions,
+				[Skipped.ToString()] = _sessions,
+				[In_Progress.ToString()] = _sessions
+			};
 
-			var colors = segs.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
-			var barInfo = new ChartBarInfo("Narrative", SessionFileType.kStatusFieldName, segs, colors, colors);
+			var colors = segments.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
+			var barInfo = new ChartBarInfo("Narrative", SessionFileType.kStatusFieldName, segments,
+				colors, colors);
 
 			Assert.AreEqual(2, barInfo.Segments.Count());
-			Assert.AreEqual(Session.Status.Incoming.ToString(), barInfo.Segments.ElementAt(0).FieldValue);
-			Assert.AreEqual(Session.Status.In_Progress.ToString(), barInfo.Segments.ElementAt(1).FieldValue);
+			Assert.AreEqual(Incoming.ToString(), barInfo.Segments.ElementAt(0).FieldValue);
+			Assert.AreEqual(In_Progress.ToString(), barInfo.Segments.ElementAt(1).FieldValue);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void ChartBarInfo_Construct_CalculatesCorrectTotalTimeAndSessions()
 		{
-			var segs = new Dictionary<string, IEnumerable<Session>>();
-			segs["0"] = _sessions;
-			segs["1"] = _sessions;
+			var segments = new Dictionary<string, IEnumerable<Session>>
+			{
+				["0"] = _sessions,
+				["1"] = _sessions
+			};
 
-			var colors = segs.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
+			var colors = segments.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
 
-			var barInfo = new ChartBarInfo("Narrative", string.Empty, segs, colors, colors);
+			var barInfo = new ChartBarInfo("Narrative", Empty, segments, colors, colors);
 			Assert.AreEqual(190, Math.Ceiling(barInfo.TotalTimeSpan.TotalMinutes));
 			Assert.AreEqual(6, barInfo.TotalSessions);
 		}
@@ -154,13 +161,15 @@ namespace SayMoreTests.UI.Charts
 		[Test]
 		public void ChartBarInfo_Construct__CalculatesBarSegmentSizesCorrectly()
 		{
-			var segs = new Dictionary<string, IEnumerable<Session>>();
-			segs["0"] = _sessions;
-			segs["1"] = _sessions.Where(e => e.Id != "eggs");
-			segs["2"] = _sessions.Where(e => e.Id != "bacon");
+			var segments = new Dictionary<string, IEnumerable<Session>>
+			{
+				["0"] = _sessions,
+				["1"] = _sessions.Where(e => e.Id != "eggs"),
+				["2"] = _sessions.Where(e => e.Id != "bacon")
+			};
 
-			var colors = segs.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
-			var barInfo = new ChartBarInfo("Narrative", string.Empty, segs, colors, colors);
+			var colors = segments.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
+			var barInfo = new ChartBarInfo("Narrative", Empty, segments, colors, colors);
 
 			// Total time is 198 minutes.
 
@@ -178,17 +187,21 @@ namespace SayMoreTests.UI.Charts
 		[Test]
 		public void CalculateBarSizes_CalculatesBarSizesCorrectly()
 		{
-			var segs1 = new Dictionary<string, IEnumerable<Session>>();
-			segs1["0"] = _sessions;
+			var segments1 = new Dictionary<string, IEnumerable<Session>>
+			{
+				["0"] = _sessions
+			};
 
-			var segs2 = new Dictionary<string, IEnumerable<Session>>();
-			segs2["1"] = _sessions.Where(e => e.Id != "eggs");
+			var segments2 = new Dictionary<string, IEnumerable<Session>>
+			{
+				["1"] = _sessions.Where(e => e.Id != "eggs")
+			};
 
-			var colors1 = segs1.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
-			var colors2 = segs2.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
+			var colors1 = segments1.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
+			var colors2 = segments2.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
 
-			var barInfo1 = new ChartBarInfo("Narrative", string.Empty, segs1, colors1, colors1);
-			var barInfo2 = new ChartBarInfo("Singing", string.Empty, segs2, colors2, colors2);
+			var barInfo1 = new ChartBarInfo("Narrative", Empty, segments1, colors1, colors1);
+			var barInfo2 = new ChartBarInfo("Singing", Empty, segments2, colors2, colors2);
 
 			ChartBarInfo.CalculateBarSizes(new List<ChartBarInfo> { barInfo1, barInfo2 });
 

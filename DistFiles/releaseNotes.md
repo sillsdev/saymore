@@ -6,6 +6,7 @@ Prevented waveform scrolling to the beginning after listening to a source segmen
 Fixed display problem in project metadata when no project language has been chosen.
 Fixed a bug when setting the font in the transcription annotation column.
 Added check when saving metadata and EAF files to ensure that they do not end up empty or otherwise corrupt.
+Added ability to check for an updated version in the About dialog box.
 Security patch.
 
 ## Version 3.6.2

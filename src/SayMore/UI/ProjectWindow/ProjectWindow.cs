@@ -20,6 +20,7 @@ using DesktopAnalytics;
 using L10NSharp;
 using L10NSharp.XLiffUtils;
 using L10NSharp.UI;
+using NetSparkle;
 using SIL.IO;
 using SIL.Reporting;
 using SIL.Windows.Forms.PortableSettingsProvider;
@@ -43,6 +44,8 @@ namespace SayMore.UI.ProjectWindow
 	public partial class ProjectWindow : Form
 	{
 		public delegate ProjectWindow Factory(string projectPath, IEnumerable<ISayMoreView> views); //autofac uses this
+
+		private static Sparkle UpdateChecker;
 
 		private readonly string _projectPath;
 		private readonly IEnumerable<ICommand> _commands;
@@ -215,6 +218,16 @@ namespace SayMore.UI.ProjectWindow
 			base.OnLoad(e);
 
 			_viewTabGroup.SetActiveView(_viewTabGroup.Tabs[0]);
+
+			UpdateChecker = new Sparkle(@"https://build.palaso.org/guestAuth/repository/download/SayMore_SayMoreV36Publish/.lastSuccessful/appcast.xml",
+				Icon);
+			// The SayMore installer already takes care of launching.
+			UpdateChecker.DoLaunchAfterUpdate = false;
+			// We don't want to do this until the main window is loaded because:
+			// (a) it's very easy for the user to overlook, and
+			// (b) more importantly, when the toast notifier closes, it can sometimes clobber an
+			// error message being displayed for the user.
+			UpdateChecker.CheckOnFirstApplicationIdle();
 		}
 
 		protected override void OnHandleCreated(EventArgs e)
@@ -292,10 +305,12 @@ namespace SayMore.UI.ProjectWindow
 			}
 		}
 
-		private void HandleAboutDialogCheckForUpdatesClick(object sender, EventArgs e)
+		private static void HandleAboutDialogCheckForUpdatesClick(object sender, EventArgs e)
 		{
 			Analytics.Track("CheckForUpdates");
-			MessageBox.Show("Note yet implemented. Visit software.sil.org/saymore/download to check for updated version.", ProductName);
+			var updateStatus = UpdateChecker.CheckForUpdatesAtUserRequest();
+			if (sender is SILAboutBox aboutBox && updateStatus == Sparkle.UpdateStatus.UpdateNotAvailable)
+				aboutBox.NotifyNoUpdatesAvailable();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -189,6 +189,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="MediaInfo.dll" Guid="{B87CF78F-0226-4F5B-B7DC-C13899E934E5}">
 				<File Id="MediaInfo.dll" Name="MediaInfo.dll" KeyPath="yes" Source="..\..\output\release\MediaInfo.dll" />
 			</Component>
+			<Component Id="NetSparkle.Net40.dll" Guid="{40450A4B-DF84-4858-B685-BF9CE5369FC0}">
+				<File Id="NetSparkle.Net40.dll" Name="NetSparkle.Net40.dll" KeyPath="yes" Source="..\..\output\release\NetSparkle.Net40.dll" />
+			</Component>
 			<Component Id="Microsoft.Bcl.AsyncInterfaces.dll" Guid="{C16A0E44-7A89-4A98-8B36-80B93CC2D90F}">
 				<File Id="Microsoft.Bcl.AsyncInterfaces.dll" Name="Microsoft.Bcl.AsyncInterfaces.dll" KeyPath="yes" Source="..\..\output\release\Microsoft.Bcl.AsyncInterfaces.dll" />
 			</Component>
@@ -643,6 +646,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="L10NSharp.dll"/>
 		<ComponentRef Id="Markdig.Signed.dll"/>
 		<ComponentRef Id="MediaInfo.dll"/>
+		<ComponentRef Id="NetSparkle.Net40.dll"/>
 		<ComponentRef Id="Microsoft.Bcl.AsyncInterfaces.dll"/>
 		<ComponentRef Id="Microsoft.DotNet.PlatformAbstractions.dll"/>
 		<ComponentRef Id="Microsoft.Extensions.DependencyModel.dll"/>

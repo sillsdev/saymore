@@ -142,7 +142,6 @@
 	<FileUpdate File="$(RootDir)\src\Installer\Installer.wxs" Regex='Property_ProductVersion = ".*"'
 				ReplacementText ="Property_ProductVersion = &quot;$(Version)&quot;" />
 
-
 	<Message Text="Making Installer Version: $(Version)" Importance="high"  />
 
 	<MSBuild Projects="$(RootDir)\src\Installer\Installer.wixproj"/>
@@ -155,6 +154,14 @@
 	<Copy SourceFiles="$(RootDir)\output\installer\SayMoreInstaller.msi"
 		  DestinationFiles="$(RootDir)\output\installer\SayMoreInstaller.$(Version).msi"
 		  />
+		  
+	<!-- appcast.xml is used as part of the update notification system -->
+	<Copy SourceFiles ="$(RootDir)\src\Installer\appcast.xml"
+		DestinationFolder ="$(RootDir)\output\installer"/>
+
+	<FileUpdate File="$(RootDir)\output\installer\appcast.xml"
+		Regex='DEV_VERSION_NUMBER'
+		ReplacementText ="$(Version)" />
 
 	<!-- remove the installer which has no version number (wouldn't need this if the copy above was a move, instead) -->
 	<Delete Files="$(RootDir)\output\installer\SayMoreInstaller.msi" TreatErrorsAsWarnings="false" />

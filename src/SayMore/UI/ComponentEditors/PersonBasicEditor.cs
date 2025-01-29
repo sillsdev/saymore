@@ -8,7 +8,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using L10NSharp;
-using Markdig.Extensions.Figures;
 using SayMore.Model;
 using SIL.Reporting;
 using SayMore.Model.Files;
@@ -16,7 +15,6 @@ using SayMore.Model.Files.DataGathering;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.LowLevelControls;
 using SayMore.Utilities;
-using SIL.WritingSystems;
 using static System.IO.Path;
 using static System.String;
 using static SayMore.UI.LowLevelControls.ParentType;
@@ -131,7 +129,7 @@ namespace SayMore.UI.ComponentEditors
 
 			_binder.OnDataSaved -= _binder_OnDataSaved;
 			foreach (var textBox in _languageFieldsDefaultForeColor.Keys)
-				textBox.Validating += HandleValidatingLanguage;
+				textBox.Validating -= HandleValidatingLanguage;
 
 			base.OnHandleDestroyed(e);
 		}

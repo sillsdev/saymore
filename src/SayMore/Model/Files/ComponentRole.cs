@@ -13,9 +13,9 @@ namespace SayMore.Model.Files
 	/// it plays some role in our workflow.  This class is used to define those roles, so
 	/// that when a file is identified with 1 or more roles, we can do things like name it
 	/// appropriately, know what work remains to be done, and collect statistics on what has
-	/// allready been done.
-	///	An object of this class can tell if a given file is elligble for being the one which
-	///	fullfills that role, can tell if the session has that role filled already, and can
+	/// already been done.
+	///	An object of this class can tell if a given file is eligible for being the one which
+	///	fulfills that role, can tell if the session has that role filled already, and can
 	///	rename a file to fit the template for this role.
 	/// </summary>
 	public class ComponentRole

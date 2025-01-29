@@ -125,11 +125,11 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override bool OnInitiatiatingBoundaryMove(int mouseX, TimeSpan boundary)
+		protected override bool OnInitiatingBoundaryMove(int mouseX, TimeSpan boundary)
 		{
 			_saveStateOfSelectSegmentOnMouseOver = SelectSegmentOnMouseOver;
 			SelectSegmentOnMouseOver = false;
-			return base.OnInitiatiatingBoundaryMove(mouseX, boundary);
+			return base.OnInitiatingBoundaryMove(mouseX, boundary);
 		}
 
 		/// ------------------------------------------------------------------------------------

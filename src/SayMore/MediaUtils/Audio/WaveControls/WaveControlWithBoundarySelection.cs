@@ -33,10 +33,7 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override bool AllowMovingBoundariesWithAdjacetAnnotations
-		{
-			get { return true; }
-		}
+		protected override bool AllowMovingBoundariesWithAdjacentAnnotations => true;
 
 		/// ------------------------------------------------------------------------------------
 		public override void IgnoreMouseProcessing(bool ignore)
@@ -88,11 +85,11 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override bool OnInitiatiatingBoundaryMove(int mouseX, TimeSpan boundary)
+		protected override bool OnInitiatingBoundaryMove(int mouseX, TimeSpan boundary)
 		{
 			MyPainter.HighlightBoundaryWhenMouseIsNear = false;
 			MyPainter.SetSelectedBoundary(TimeSpan.Zero);
-			var canMove = base.OnInitiatiatingBoundaryMove(mouseX, boundary);
+			var canMove = base.OnInitiatingBoundaryMove(mouseX, boundary);
 			MyPainter.SetMovedBoundaryTime(boundary);
 
 			if (!canMove)

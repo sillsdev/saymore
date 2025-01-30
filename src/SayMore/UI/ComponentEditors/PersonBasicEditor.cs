@@ -12,9 +12,11 @@ using SayMore.Model;
 using SIL.Reporting;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
+using SayMore.UI.ElementListScreen;
 using SayMore.UI.LowLevelControls;
 using SayMore.Utilities;
 using static System.IO.Path;
+using static System.String;
 using static SayMore.UI.LowLevelControls.ParentType;
 
 namespace SayMore.UI.ComponentEditors
@@ -34,8 +36,12 @@ namespace SayMore.UI.ComponentEditors
 		private bool _loaded;
 
 		// SP-846: Do not save parent languages while setting them
-		private bool _loadingLanguages = false;
-		private TextBox _suppressWsDlgOnNextEnter;
+		private bool _loadingLanguages;
+		private bool _suppressWsDlgOnNextEnter;
+		private bool _suppressWsDlgForChanges;
+		private TextBox _currentLanguageTextBox;
+		private readonly HashSet<string> _suppressValidation = new HashSet<string>();
+		private readonly Dictionary<TextBox, Color> _languageFieldsDefaultForeColor;
 
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file, string imageKey,
@@ -67,6 +73,15 @@ namespace SayMore.UI.ComponentEditors
 			_pbOtherLangFather3.Tag = _otherLanguage3;
 			_pbOtherLangMother3.Tag = _otherLanguage3;
 
+			_languageFieldsDefaultForeColor = new Dictionary<TextBox, Color>
+				{
+					{ _primaryLanguage, _primaryLanguage.ForeColor},
+					{ _otherLanguage0, _otherLanguage0.ForeColor},
+					{ _otherLanguage1, _otherLanguage1.ForeColor},
+					{ _otherLanguage2, _otherLanguage2.ForeColor},
+					{ _otherLanguage3, _otherLanguage3.ForeColor}
+				};
+
 			HandleStringsLocalized(null);
 			_binder.TranslateBoundValueBeingSaved += HandleBinderTranslateBoundValueBeingSaved;
 			_binder.TranslateBoundValueBeingRetrieved += HandleBinderTranslateBoundValueBeingRetrieved;
@@ -83,11 +98,8 @@ namespace SayMore.UI.ComponentEditors
 			LoadAndValidatePersonInfo();
 
 			_binder.OnDataSaved += _binder_OnDataSaved;
-			_primaryLanguage.Validating += HandleValidatingLanguage;
-			_otherLanguage0.Validating += HandleValidatingLanguage;
-			_otherLanguage1.Validating += HandleValidatingLanguage;
-			_otherLanguage2.Validating += HandleValidatingLanguage;
-			_otherLanguage3.Validating += HandleValidatingLanguage;
+			foreach (var textBox in _languageFieldsDefaultForeColor.Keys)
+				textBox.Validating += HandleValidatingLanguage;
 
 			NotifyWhenProjectIsSet();
 		}
@@ -108,7 +120,7 @@ namespace SayMore.UI.ComponentEditors
 			if (_file.PathToAnnotatedFile != null)
 			{
 				var path = GetDirectoryName(_file.PathToAnnotatedFile);
-				if (!string.IsNullOrEmpty(path))
+				if (!IsNullOrEmpty(path))
 				{
 					if (Directory.Exists(path))
 						SaveParentLanguages();
@@ -116,11 +128,8 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			_binder.OnDataSaved -= _binder_OnDataSaved;
-			_primaryLanguage.Validating -= HandleValidatingLanguage;
-			_otherLanguage0.Validating -= HandleValidatingLanguage;
-			_otherLanguage1.Validating -= HandleValidatingLanguage;
-			_otherLanguage2.Validating -= HandleValidatingLanguage;
-			_otherLanguage3.Validating -= HandleValidatingLanguage;
+			foreach (var textBox in _languageFieldsDefaultForeColor.Keys)
+				textBox.Validating -= HandleValidatingLanguage;
 
 			base.OnHandleDestroyed(e);
 		}
@@ -169,6 +178,23 @@ namespace SayMore.UI.ComponentEditors
 			ValidateBirthYear();
 
 			_loaded = true;
+			_suppressWsDlgOnNextEnter = false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private PersonListScreen OwningPersonListScreen 
+		{
+			get
+			{
+				Control ctrl = Parent;
+				while (ctrl != null)
+				{
+					if (ctrl is PersonListScreen retVal)
+						return retVal;
+					ctrl = ctrl.Parent;
+				}
+				return null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -218,7 +244,7 @@ namespace SayMore.UI.ComponentEditors
 
 			// SP-810: Parent language data not saving correctly
 			var fathersLanguage = _binder.GetValue(PersonFileType.kFathersLanguage);
-			if (!string.IsNullOrEmpty(fathersLanguage))
+			if (!IsNullOrEmpty(fathersLanguage))
 			{
 				var pb = _fatherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == fathersLanguage);
 				if (pb != null)
@@ -226,7 +252,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			var mothersLanguage = _binder.GetValue(PersonFileType.kMothersLanguage);
-			if (!string.IsNullOrEmpty(mothersLanguage))
+			if (!IsNullOrEmpty(mothersLanguage))
 			{
 				var pb = _motherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == mothersLanguage);
 				if (pb != null)
@@ -288,41 +314,82 @@ namespace SayMore.UI.ComponentEditors
 
 		private void HandleLanguageFieldEnter(object sender, EventArgs e)
 		{
-			if (_suppressWsDlgOnNextEnter != sender)
-				ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormedAndValuePresentOrPrimaryLanguage, sender);
+			var textBox = (TextBox)sender;
+			bool showAsNeeded = !_suppressWsDlgOnNextEnter ||
+				_currentLanguageTextBox != textBox;
+			
+			// We need to set this BEFORE potentially showing the Language Lookup dialog;
+			// Otherwise, we can end up re-opening it when the user makes a valid selection.
+			_currentLanguageTextBox = textBox;
+
+			if (!showAsNeeded)
+				return;
+			
+			ShowWritingSystemDlgIfNeeded(
+				ShowWsDlg.IfIllFormedAndValuePresentOrPrimaryLanguage, textBox);
+		}
+
+		private void HandleLanguageFieldLeave(object sender, EventArgs e)
+		{
+			if (ContainsFocus)
+				_currentLanguageTextBox = null;
 		}
 
 		private void HandleLanguageFieldChange(object sender, EventArgs e)
 		{
-			// If user has already cancelled out of the language lookup dialog once and now seems
-			// to be editing the unknown code (perhaps to select a different one besides qaa),
-			// don't bother them. We'll catch it later in validation.
-			if (_suppressWsDlgOnNextEnter == sender &&
-			    Regex.IsMatch(((TextBox)sender).Text, "^q([a-t][a-z]?)?:"))
-			{
+			var textBox = (TextBox)sender;
+
+			// Since the value has now (probably) changed, clear any previous validation error.
+			textBox.ForeColor = _languageFieldsDefaultForeColor[textBox];
+			_tooltip.SetToolTip(textBox, null);
+
+			if (!_loaded)
 				return;
+
+			// Now we want to try to do our best not to annoy the user. If we take one of these
+			// early returns, we can always catch problems later during validation.
+			if (_currentLanguageTextBox == textBox)
+			{
+				if (_suppressWsDlgForChanges)
+					return; // User previously canceled out of the language lookup while editing.
+
+				// If the user previously canceled out of the language lookup while when first
+				// coming to this control and now seems to be editing the unknown code (perhaps
+				// to select a different one besides qaa) or editing in the name portion (i.e.,
+				// following the colon), don't display the language lookup again.
+				if (_suppressWsDlgOnNextEnter)
+				{
+					var currentValue = textBox.Text;
+					var iColon = currentValue.IndexOf(":", StringComparison.Ordinal);
+					if (iColon > 0 &&
+					    (Regex.IsMatch(currentValue, "^(($)|(q([a-t][a-z]?)?:))") ||
+						    textBox.SelectionStart > iColon))
+					{
+						return;
+					}
+				}
 			}
-			ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormed, sender);
+
+			ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormed, textBox);
 		}
 
 		private void HandleLanguageFieldClick(object sender, MouseEventArgs e)
 		{
-			if (_suppressWsDlgOnNextEnter != sender)
-				ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormed, sender);
+			if (!_suppressWsDlgOnNextEnter || _currentLanguageTextBox != sender)
+				ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormed, (TextBox)sender);
 		}
 
 		private void HandleLanguageFieldDoubleClick(object sender, MouseEventArgs e)
 		{
-			ShowWritingSystemDlgIfNeeded(ShowWsDlg.Unconditionally, sender);
+			ShowWritingSystemDlgIfNeeded(ShowWsDlg.Unconditionally, (TextBox)sender);
 		}
 
-		private void ShowWritingSystemDlgIfNeeded(ShowWsDlg show, object sender)
+		private void ShowWritingSystemDlgIfNeeded(ShowWsDlg show, TextBox textBox)
 		{
 			// Don't pop this up if the Enter/Change event fires as part of program start-up.
 			if (Program.CurrentProject == null || !(FindForm()?.Visible ?? false))
 				return;
 
-			var textBox = (TextBox)sender;
 			var isPrimary = textBox == _primaryLanguage;
 			var currentValue = textBox.Text;
 			bool shouldShowDlg;
@@ -332,7 +399,7 @@ namespace SayMore.UI.ComponentEditors
 					shouldShowDlg = true;
 					break;
 				case ShowWsDlg.IfIllFormedAndValuePresentOrPrimaryLanguage:
-					shouldShowDlg = (currentValue != string.Empty || isPrimary) &&
+					shouldShowDlg = (currentValue != Empty || isPrimary) &&
 						!LanguageHelper.IsWellFormedTwoPartLanguageSpecification(currentValue);
 					break;
 				case ShowWsDlg.IfIllFormed:
@@ -350,9 +417,11 @@ namespace SayMore.UI.ComponentEditors
 				// If the user cancels out or selects the "Unknown" language, we don't want
 				// to hassle them anymore as long as they stay in this text box.
 				if (languageSpecifier == null || languageSpecifier.Code == "qaa")
-					_suppressWsDlgOnNextEnter = textBox;
-				else
-					textBox.Text = languageSpecifier.ToString();
+					_suppressWsDlgForChanges = true;
+				var newValue = languageSpecifier?.ToString();
+				if (newValue != null && textBox.Text != newValue)
+					textBox.Text = newValue;
+				_suppressWsDlgOnNextEnter = true;
 			}
 		}
 
@@ -414,32 +483,138 @@ namespace SayMore.UI.ComponentEditors
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private void HandleValidatingLanguage(object sender, CancelEventArgs e)
-		{
-			_suppressWsDlgOnNextEnter = null;
-			var textBox = (TextBox)sender;
-			var currentValue = textBox.Text;
-			if (LanguageHelper.IsValidBCP47SayMoreLanguageSpecification(currentValue))
-				return;
 
-			if (MessageBox.Show(this, string.Format(LocalizationManager.GetString(
-					    "PeopleView.MetadataEditor.InvalidBcp47Code",
-					    "The language entered does not appear to specify a valid code according " +
-					    "to {0}. Although {1} allows you to enter anything you want in this " +
-					    "field (e.g., just a language name or abbreviation), for archiving " +
-					    "purposes, a recognizable code is generally preferable. Would you like " +
-					    "to try to look up the intended language?",
-					    "Param 0: \"BCP-47\" (literal name of language tag standard; " +
-					    "Param 1: \"SayMore\" (product name)"),
-					    "BCP-47", ProductName),
-				    ProductName, MessageBoxButtons.YesNo) == DialogResult.Yes)
+		/// ------------------------------------------------------------------------------------
+		public override bool IsOKToLeaveEditor
+		{
+			get
 			{
-				e.Cancel = true;
-				ShowWritingSystemDlgIfNeeded(ShowWsDlg.Unconditionally, sender);
+				if (!base.IsOKToLeaveEditor)
+					return false;
+
+				return _currentLanguageTextBox == null ||
+					!IsDuplicateLanguage(_currentLanguageTextBox);
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		private bool IsDuplicateLanguage(TextBox textBox)
+		{
+			var currentValue = textBox.Text;
+			if (currentValue == Empty)
+				return false;
+
+			var langSpec = LanguageHelper.GetTwoPartLanguageSpecification(currentValue);
+			var code = langSpec != null && langSpec.IsValid ? langSpec.Code : null;
+
+			var dupTextBox = _languageFieldsDefaultForeColor.Keys.Where(tb => tb != textBox)
+				.FirstOrDefault(tb => tb.Text == currentValue || (code != null &&
+					LanguageHelper.GetTwoPartLanguageSpecification(tb.Text)?.Code == code));
+			if (dupTextBox != null)
+			{
+				if (textBox == _primaryLanguage)
+				{
+					// Primary is probably the one we want to keep, so rather than treating it
+					// as a validation error, just clear the other one.
+					dupTextBox.Text = Empty;
+				}
+				else
+				{
+					textBox.ForeColor = Color.Red;
+					var tooltipText = dupTextBox == _primaryLanguage ?
+						LocalizationManager.GetString("PeopleView.MetadataEditor.DupLanguage.Primary",
+							"This language is already specified as the primary language for this person.") :
+						LocalizationManager.GetString("PeopleView.MetadataEditor.DupLanguage.Other",
+							"This language is already specified as another language for this person.");
+					_tooltip.Show(tooltipText, textBox, 4000);
+
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleValidatingLanguage(object sender, CancelEventArgs e)
+		{
+			var textBox = (TextBox)sender;
+			var currentValue = textBox.Text;
+			if (currentValue == Empty)
+				return;
+
+			// First, prevent duplicates.
+			e.Cancel = IsDuplicateLanguage(textBox);
+
+			// Next, deal with the possibility of a suboptimal language code.
+
+			if (!(OwningPersonListScreen as Control ?? this).ContainsFocus)
+			{
+				// We don't want to display this when the BindingHelper is validating all children
+				// because the user likely didn't even enter these fields or change their values and,
+				// in any case, will have no idea which field we're even referring to in the message.
+				return;
+			}
+
+			_suppressWsDlgOnNextEnter = false;
+			_suppressWsDlgForChanges = false;
+
+			var suppressKey = $"{_id.Text}/{textBox.Text}";
+			// We don't want to badger the user. If they tell us they are not interested in fixing
+			// this, we remember that decision and stop hassling them.
+			if (_suppressValidation.Contains(suppressKey))
+				return;
+			
+			if (LanguageHelper.IsValidBCP47SayMoreLanguageSpecification(currentValue))
+				return;
+
+			var msgFmtPart1 = textBox == _primaryLanguage ?
+				LocalizationManager.GetString(
+					"PeopleView.MetadataEditor.InvalidBcp47Code.Primary",
+					"The primary language entered does not appear to specify a valid code according " +
+					"to {0}.",
+					"Param: \"BCP-47\" (literal name of language tag standard") :
+				LocalizationManager.GetString(
+					"PeopleView.MetadataEditor.InvalidBcp47Code.Other",
+					"The language entered does not appear to specify a valid code according " +
+					"to {0}.",
+					"Param: \"BCP-47\" (literal name of language tag standard");
+
+			var msgPart1 = Format(msgFmtPart1, "BCP-47");
+
+			if (MessageBox.Show(this, Format(LocalizationManager.GetString(
+					    "PeopleView.MetadataEditor.InvalidBcp47Code.ExplanationAndQuestion",
+					    "{0} Although {1} allows you to enter anything you want in this " +
+					    "field (e.g., just a language name or abbreviation), for archiving " +
+					    "purposes, a recognizable code is generally preferable. Would you like " +
+					    "to try to look up the intended language?",
+					    "Param 0: The first part of the message (from " +
+					    "PeopleView.MetadataEditor.InvalidBcp47Code.Primary or " +
+					    "PeopleView.MetadataEditor.InvalidBcp47Code.Other); " +
+					    "Param 1: \"SayMore\" (product name)"),
+					    msgPart1, Program.ProductName),
+				    ProductName, MessageBoxButtons.YesNo) == DialogResult.Yes)
+			{
+				ShowWritingSystemDlgIfNeeded(ShowWsDlg.Unconditionally, textBox);
+				// We don't set e.Cancel to true because the user either:
+				// 1) chose a new value in the dialog (in which case it is valid unless it's a
+				// duplicate (in which case I think it will get re-validated and caught);
+				// 2) cancelled out of the dlg, in which case they've presumably decided to
+				// live with the suboptimal value.
+			}
+
+			// If the user chose to ignore this problem or opened the language lookup dialog and
+			// then decided to cancel and not deal with it, we don't want to hassle them about
+			// this particular language for this particular person again during this session.
+			// (They can always decide to come back and fix it on their own if they want to.)
+			// We could probably just add the key unconditionally because if they did change
+			// select a valid value in the dialog, it's very unlikely they would ever come back
+			// and reset it to the old invalid value. But there is a chance they could.
+			if (currentValue == textBox.Text)
+			{
+				_suppressValidation.Add(suppressKey);
+			}
+		}
 		#endregion
 
 		#region Methods for handling the person's picture

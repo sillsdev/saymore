@@ -353,7 +353,7 @@ namespace SayMore.UI.ComponentEditors
 				if (_suppressWsDlgForChanges)
 					return; // User previously canceled out of the language lookup while editing.
 
-				// If the user previously canceled out of the language lookup while when first
+				// If the user previously canceled out of the language lookup when first
 				// coming to this control and now seems to be editing the unknown code (perhaps
 				// to select a different one besides qaa) or editing in the name portion (i.e.,
 				// following the colon), don't display the language lookup again.

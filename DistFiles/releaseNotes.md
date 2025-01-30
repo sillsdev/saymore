@@ -5,6 +5,7 @@ Corrected diplay of person details.
 Prevented waveform scrolling to the beginning after listening to a source segment.
 Fixed display problem in project metadata when no project language has been chosen.
 Fixed a bug when setting the font in the transcription annotation column.
+Fixed a bug when using the listen button in the Careful Speech dialog box.
 Added check when saving metadata and EAF files to ensure that they do not end up empty or otherwise corrupt.
 Security patch.
 

@@ -285,7 +285,10 @@ namespace SayMore.UI.ProjectWindow
 		private void HandleHelpAboutClick(object sender, EventArgs e)
 		{
 			using (var dlg = new SIL.Windows.Forms.Miscellaneous.SILAboutBox(FileLocationUtilities.GetFileDistributedWithApplication("aboutbox.htm")))
+			{
+				dlg.Text += "\u2122";
 				dlg.ShowDialog();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

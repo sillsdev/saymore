@@ -44,7 +44,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 
 	<PropertyRef Id="NETFRAMEWORK40CLIENT" />
 	<PropertyRef Id="NETFRAMEWORK40FULL" />
-	<Condition Message="Before SayMore can install, you need to install Microsoft's free .NET Framework 4.0 Client Profile.  A full discussion of SayMore's requirements can be found at SayMore.palaso.org.">
+	<Condition Message="Before SayMore can install, you need to install Microsoft's free .NET Framework 4.0 Client Profile. A full discussion of SayMore's requirements can be found at software.sil.org/saymore/download/.">
 	  <![CDATA[Installed OR (NETFRAMEWORK40CLIENT OR NETFRAMEWORK40FULL)]]>
 	</Condition>
 

@@ -76,7 +76,7 @@ namespace SayMore.UI
 			// 
 			// pictureBox1
 			// 
-			this.pictureBox1.Image = global::SayMore.Properties.Resources.kimidSilLogo;
+			this.pictureBox1.Image = global::SayMore.Properties.Resources.SILInBlue76;
 			this.locExtender.SetLocalizableToolTip(this.pictureBox1, null);
 			this.locExtender.SetLocalizationComment(this.pictureBox1, null);
 			this.locExtender.SetLocalizationPriority(this.pictureBox1, L10NSharp.LocalizationPriority.NotLocalizable);
@@ -150,7 +150,7 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizingId(this._labelVersionInfo, "DialogBoxes.SplashScreen.VersionInfoLabel");
 			this._labelVersionInfo.Location = new System.Drawing.Point(11, 168);
 			this._labelVersionInfo.Name = "_labelVersionInfo";
-			this._labelVersionInfo.Size = new System.Drawing.Size(172, 13);
+			this._labelVersionInfo.Size = new System.Drawing.Size(173, 13);
 			this._labelVersionInfo.TabIndex = 5;
 			this._labelVersionInfo.Text = "Version {0}.{1}.{2} {3}    Built on {4}";
 			// 
@@ -165,8 +165,9 @@ namespace SayMore.UI
 			this.pictureBox2.Image = global::SayMore.Properties.Resources.SILInBlue76;
 			this.locExtender.SetLocalizableToolTip(this.pictureBox2, null);
 			this.locExtender.SetLocalizationComment(this.pictureBox2, null);
+			this.locExtender.SetLocalizationPriority(this.pictureBox2, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pictureBox2, "pictureBox2");
-			this.pictureBox2.Location = new System.Drawing.Point(354, 130);
+			this.pictureBox2.Location = new System.Drawing.Point(354, 129);
 			this.pictureBox2.Name = "pictureBox2";
 			this.pictureBox2.Size = new System.Drawing.Size(53, 59);
 			this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;

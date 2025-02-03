@@ -66,6 +66,9 @@ namespace SayMore.UI
 
 			InitializeComponent();
 
+			pictureBox2.Image = ResizeImage(SIL.Windows.Forms.Widgets.SilResources.SilLogoRandom, 
+				pictureBox2.Image.Height);
+
 			ShowStandardSILContent = false;
 
 			_logoTextLeft = ResourceImageCache.LargeSayMoreLogo.Size.Width + 40;
@@ -81,6 +84,21 @@ namespace SayMore.UI
 			lblMessage.Font = SystemInformation.MenuFont;
 			lblBuildNumber.Font = SystemInformation.MenuFont;
 			Opacity = 0;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Bitmap ResizeImage(Bitmap originalImage, int maxHeight)
+		{
+			var scale = (float)maxHeight / originalImage.Height;
+			var newWidth = (int)(originalImage.Width * scale);
+    
+			var resizedImage = new Bitmap(newWidth, maxHeight);
+			using (var g = Graphics.FromImage(resizedImage))
+			{
+				g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+				g.DrawImage(originalImage, 0, 0, newWidth, maxHeight);
+			}
+			return resizedImage;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -196,6 +214,11 @@ namespace SayMore.UI
 			{
 				m_showStandardSILContent = value;
 				m_panel.Visible = value;
+				if (value)
+				{
+					pictureBox1.Image = ResizeImage(SIL.Windows.Forms.Widgets.SilResources.SilLogoRandom,
+						pictureBox1.Image.Height);
+				}
 			}
 		}
 

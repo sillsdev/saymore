@@ -2,27 +2,34 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="500"
    height="500"
    id="svg4166"
    sodipodi:version="0.32"
-   inkscape:version="0.47 r22583"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
    sodipodi:docname="SayMoreIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   version="1.0">
+   version="1.0"
+   inkscape:export-filename="SayMoreIcon128x128.svg"
+   inkscape:export-xdpi="26.798065"
+   inkscape:export-ydpi="26.798065"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs4168">
     <filter
        inkscape:collect="always"
-       id="filter4160">
+       id="filter4160"
+       x="-0.085713396"
+       y="-0.082353769"
+       width="1.1714268"
+       height="1.1647075">
       <feGaussianBlur
          inkscape:collect="always"
          stdDeviation="2.3091277"
@@ -114,10 +121,10 @@
     <filter
        id="filter2926"
        inkscape:label="Drop shadow"
-       width="1.5"
-       height="1.5"
-       x="-.25"
-       y="-.25">
+       width="1.42118"
+       height="1.9802817"
+       x="-0.17428139"
+       y="-0.4056338">
       <feGaussianBlur
          id="feGaussianBlur2928"
          in="SourceAlpha"
@@ -209,10 +216,10 @@
     <filter
        id="filter3046"
        inkscape:label="Drop shadow"
-       width="1.5"
-       height="1.5"
-       x="-.25"
-       y="-.25">
+       width="1.1064879"
+       height="1.0686223"
+       x="-0.044063941"
+       y="-0.028395428">
       <feGaussianBlur
          id="feGaussianBlur3048"
          in="SourceAlpha"
@@ -244,7 +251,11 @@
        inkscape:menu-tooltip="In and out glow with a possible offset and colorizable flood"
        inkscape:menu="Shadows and Glows"
        inkscape:label="Cutout Glow"
-       color-interpolation-filters="sRGB">
+       color-interpolation-filters="sRGB"
+       x="-0.21141649"
+       y="-0.13623978"
+       width="1.5109232"
+       height="1.3292461">
       <feOffset
          id="feOffset3924"
          dy="3"
@@ -274,10 +285,10 @@
     <filter
        id="filter5062"
        inkscape:label="Drop shadow"
-       width="1.5"
-       height="1.5"
-       x="-.25"
-       y="-.25">
+       width="1.2879193"
+       height="1.2829808"
+       x="-0.11913903"
+       y="-0.11709548">
       <feGaussianBlur
          id="feGaussianBlur5064"
          in="SourceAlpha"
@@ -313,18 +324,21 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.9899495"
-     inkscape:cx="284.31382"
-     inkscape:cy="258.61914"
+     inkscape:cx="198.49497"
+     inkscape:cy="224.75894"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1440"
-     inkscape:window-height="838"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      showguides="true"
-     inkscape:guide-bbox="true" />
+     inkscape:guide-bbox="true"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
   <metadata
      id="metadata4171">
     <rdf:RDF>
@@ -337,6 +351,22 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Trademark">
+    <text
+       xml:space="preserve"
+       style="font-size:98.6667px;line-height:0.5;font-family:Alegreya;-inkscape-font-specification:'Alegreya, @wght=500';font-variation-settings:'wght' 500;fill:#313164;fill-opacity:1"
+       x="368.70569"
+       y="356.88843"
+       id="TM"><tspan
+         id="tspan2"
+         x="368.70569"
+         y="356.88843"
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.3333px;font-family:Arial;-inkscape-font-specification:'Arial, @wght=500';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;font-variation-settings:'wght' 500;fill:#313164;fill-opacity:1">™</tspan></text>
+  </g>
   <g
      inkscape:label="Calque 1"
      inkscape:groupmode="layer"
@@ -360,16 +390,16 @@
     </g>
     <path
        id="text1326"
-       d="m -235.42129,73.087221 c 6.58323,-6.33324 12.91656,-11.70824 19,-16.125 6.08322,-4.4999 11.20821,-7.49989 15.375,-9 4.16654,-1.49989 8.7082,-2.24989 13.625,-2.25 10.33318,1.1e-4 18.66651,3.45844 25,10.375 6.4165,6.83343 9.62483,15.12508 9.625,24.875 -1.7e-4,6.666743 -1.41684,12.833403 -4.25,18.500003 -2.8335,5.666716 -6.87516,9.958376 -12.125,12.874996 -5.16682,2.91671 -11.12515,4.37504 -17.875,4.375 -8.75013,4e-5 -16.41679,-1.87496 -23,-5.625 -6.50011,-3.74995 -14.95844,-10.83327 -25.375,-21.249996 -10.83341,10.750056 -19.4584,17.916716 -25.875,21.499996 -6.41672,3.58338 -13.87505,5.37504 -22.375,5.375 -10.83337,4e-5 -19.29169,-3.37495 -25.375,-10.125 -6.00001,-6.749936 -9.00001,-15.291596 -9,-25.624999 -10e-6,-9.66658 3.16665,-17.95824 9.5,-24.875 6.41664,-6.91656 14.79163,-10.37489 25.125,-10.375 4.99995,1.1e-4 9.58328,0.75011 13.75,2.25 4.16661,1.50011 9.24993,4.5001 15.25,9 6.08326,4.41676 12.41658,9.79176 19,16.125 m 8.125,7.75 c 8.83322,8.750073 16.08322,14.708403 21.75,17.875003 5.74987,3.083386 11.4582,4.625056 17.125,4.624996 7.08319,6e-5 12.62485,-2.08327 16.625,-6.249996 3.99984,-4.24993 5.99984,-9.37493 6,-15.375003 -1.6e-4,-6.58325 -2.00016,-11.99991 -6,-16.25 -3.91682,-4.33324 -9.12515,-6.4999 -15.625,-6.5 -3.6668,1e-4 -7.20847,0.66676 -10.625,2 -3.41679,1.25009 -7.50012,3.50009 -12.25,6.75 -4.75011,3.16675 -10.41677,7.54175 -17,13.125 m -16.25,0 c -6.00008,-5.08325 -11.37507,-9.24992 -16.125,-12.5 -4.75006,-3.33324 -8.91672,-5.70824 -12.5,-7.125 -3.58338,-1.41657 -7.50005,-2.1249 -11.75,-2.125 -6.08337,1e-4 -11.12503,2.12509 -15.125,6.375 -4.00002,4.25009 -6.00002,9.66675 -6,16.25 -2e-5,4.583413 1.04164,8.458403 3.125,11.625003 2.08331,3.16673 4.62497,5.62506 7.625,7.374996 3.0833,1.75006 6.91663,2.62506 11.5,2.625 5.99995,6e-5 11.83328,-1.58327 17.5,-4.749996 5.6666,-3.1666 12.91659,-9.08326 21.75,-17.750003"
-       style="font-size:256px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Palatino Linotype" />
+       d="m -235.42129,143.08722 c 6.58323,-6.33324 12.91656,-11.70824 19,-16.125 6.08322,-4.4999 11.20821,-7.49989 15.375,-9 4.16654,-1.49989 8.7082,-2.24989 13.625,-2.25 10.33318,1.1e-4 18.66651,3.45844 25,10.375 6.4165,6.83343 9.62483,15.12508 9.625,24.875 -1.7e-4,6.66674 -1.41684,12.8334 -4.25,18.5 -2.8335,5.66672 -6.87516,9.95838 -12.125,12.875 -5.16682,2.91671 -11.12515,4.37504 -17.875,4.375 -8.75013,4e-5 -16.41679,-1.87496 -23,-5.625 -6.50011,-3.74995 -14.95844,-10.83327 -25.375,-21.25 -10.83341,10.75006 -19.4584,17.91672 -25.875,21.5 -6.41672,3.58338 -13.87505,5.37504 -22.375,5.375 -10.83337,4e-5 -19.29169,-3.37495 -25.375,-10.125 -6.00001,-6.74994 -9.00001,-15.2916 -9,-25.625 -10e-6,-9.66658 3.16665,-17.95824 9.5,-24.875 6.41664,-6.91656 14.79163,-10.37489 25.125,-10.375 4.99995,1.1e-4 9.58328,0.75011 13.75,2.25 4.16661,1.50011 9.24993,4.5001 15.25,9 6.08326,4.41676 12.41658,9.79176 19,16.125 m 8.125,7.75 c 8.83322,8.75007 16.08322,14.7084 21.75,17.875 5.74987,3.08339 11.4582,4.62506 17.125,4.625 7.08319,6e-5 12.62485,-2.08327 16.625,-6.25 3.99984,-4.24993 5.99984,-9.37493 6,-15.375 -1.6e-4,-6.58325 -2.00016,-11.99991 -6,-16.25 -3.91682,-4.33324 -9.12515,-6.4999 -15.625,-6.5 -3.6668,1e-4 -7.20847,0.66676 -10.625,2 -3.41679,1.25009 -7.50012,3.50009 -12.25,6.75 -4.75011,3.16675 -10.41677,7.54175 -17,13.125 m -16.25,0 c -6.00008,-5.08325 -11.37507,-9.24992 -16.125,-12.5 -4.75006,-3.33324 -8.91672,-5.70824 -12.5,-7.125 -3.58338,-1.41657 -7.50005,-2.1249 -11.75,-2.125 -6.08337,1e-4 -11.12503,2.12509 -15.125,6.375 -4.00002,4.25009 -6.00002,9.66675 -6,16.25 -2e-5,4.58341 1.04164,8.4584 3.125,11.625 2.08331,3.16673 4.62497,5.62506 7.625,7.375 3.0833,1.75006 6.91663,2.62506 11.5,2.625 5.99995,6e-5 11.83328,-1.58327 17.5,-4.75 5.6666,-3.1666 12.91659,-9.08326 21.75,-17.75"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:256px;line-height:100%;font-family:'Palatino Linotype';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none" />
     <path
        id="text1326-7"
-       d="m -267.49291,172.20597 c 6.58323,-6.33324 12.91656,-11.70824 19,-16.125 6.08322,-4.4999 11.20821,-7.49989 15.375,-9 4.16654,-1.49989 8.7082,-2.24989 13.625,-2.25 10.33318,1.1e-4 18.66651,3.45844 25,10.375 6.4165,6.83343 9.62483,15.12508 9.625,24.875 -1.7e-4,6.66674 -1.41684,12.8334 -4.25,18.5 -2.8335,5.66672 -6.87516,9.95838 -12.125,12.875 -5.16682,2.91671 -11.12515,4.37504 -17.875,4.375 -8.75013,4e-5 -16.41679,-1.87496 -23,-5.625 -6.50011,-3.74995 -14.95844,-10.83327 -25.375,-21.25 -10.83341,10.75006 -19.4584,17.91672 -25.875,21.5 -6.41672,3.58338 -13.87505,5.37504 -22.375,5.375 -10.83337,4e-5 -19.29169,-3.37495 -25.375,-10.125 -6.00001,-6.74994 -9.00001,-15.2916 -9,-25.625 -1e-5,-9.66658 3.16665,-17.95824 9.5,-24.875 6.41664,-6.91656 14.79163,-10.37489 25.125,-10.375 4.99995,1.1e-4 9.58328,0.75011 13.75,2.25 4.16661,1.50011 9.24993,4.5001 15.25,9 6.08326,4.41676 12.41658,9.79176 19,16.125 m 8.125,7.75 c 8.83322,8.75007 16.08322,14.7084 21.75,17.875 5.74987,3.08339 11.4582,4.62506 17.125,4.625 7.08319,6e-5 12.62485,-2.08327 16.625,-6.25 3.99984,-4.24993 5.99984,-9.37493 6,-15.375 -1.6e-4,-6.58325 -2.00016,-11.99991 -6,-16.25 -3.91682,-4.33324 -9.12515,-6.4999 -15.625,-6.5 -3.6668,1e-4 -7.20847,0.66676 -10.625,2 -3.41679,1.25009 -7.50012,3.50009 -12.25,6.75 -4.75011,3.16675 -10.41677,7.54175 -17,13.125 m -16.25,0 c -6.00008,-5.08325 -11.37507,-9.24992 -16.125,-12.5 -4.75006,-3.33324 -8.91672,-5.70824 -12.5,-7.125 -3.58338,-1.41657 -7.50005,-2.1249 -11.75,-2.125 -6.08337,1e-4 -11.12503,2.12509 -15.125,6.375 -4.00002,4.25009 -6.00002,9.66675 -6,16.25 -2e-5,4.58341 1.04164,8.4584 3.125,11.625 2.08331,3.16673 4.62497,5.62506 7.625,7.375 3.0833,1.75006 6.91663,2.62506 11.5,2.625 5.99995,6e-5 11.83328,-1.58327 17.5,-4.75 5.6666,-3.1666 12.91659,-9.08326 21.75,-17.75"
-       style="font-size:256px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;filter:url(#filter2926);font-family:Palatino Linotype" />
+       d="m -267.49291,270.20597 c 6.58323,-6.33324 12.91656,-11.70824 19,-16.125 6.08322,-4.4999 11.20821,-7.49989 15.375,-9 4.16654,-1.49989 8.7082,-2.24989 13.625,-2.25 10.33318,1.1e-4 18.66651,3.45844 25,10.375 6.4165,6.83343 9.62483,15.12508 9.625,24.875 -1.7e-4,6.66674 -1.41684,12.8334 -4.25,18.5 -2.8335,5.66672 -6.87516,9.95838 -12.125,12.875 -5.16682,2.91671 -11.12515,4.37504 -17.875,4.375 -8.75013,4e-5 -16.41679,-1.87496 -23,-5.625 -6.50011,-3.74995 -14.95844,-10.83327 -25.375,-21.25 -10.83341,10.75006 -19.4584,17.91672 -25.875,21.5 -6.41672,3.58338 -13.87505,5.37504 -22.375,5.375 -10.83337,4e-5 -19.29169,-3.37495 -25.375,-10.125 -6.00001,-6.74994 -9.00001,-15.2916 -9,-25.625 -1e-5,-9.66658 3.16665,-17.95824 9.5,-24.875 6.41664,-6.91656 14.79163,-10.37489 25.125,-10.375 4.99995,1.1e-4 9.58328,0.75011 13.75,2.25 4.16661,1.50011 9.24993,4.5001 15.25,9 6.08326,4.41676 12.41658,9.79176 19,16.125 m 8.125,7.75 c 8.83322,8.75007 16.08322,14.7084 21.75,17.875 5.74987,3.08339 11.4582,4.62506 17.125,4.625 7.08319,6e-5 12.62485,-2.08327 16.625,-6.25 3.99984,-4.24993 5.99984,-9.37493 6,-15.375 -1.6e-4,-6.58325 -2.00016,-11.99991 -6,-16.25 -3.91682,-4.33324 -9.12515,-6.4999 -15.625,-6.5 -3.6668,1e-4 -7.20847,0.66676 -10.625,2 -3.41679,1.25009 -7.50012,3.50009 -12.25,6.75 -4.75011,3.16675 -10.41677,7.54175 -17,13.125 m -16.25,0 c -6.00008,-5.08325 -11.37507,-9.24992 -16.125,-12.5 -4.75006,-3.33324 -8.91672,-5.70824 -12.5,-7.125 -3.58338,-1.41657 -7.50005,-2.1249 -11.75,-2.125 -6.08337,1e-4 -11.12503,2.12509 -15.125,6.375 -4.00002,4.25009 -6.00002,9.66675 -6,16.25 -2e-5,4.58341 1.04164,8.4584 3.125,11.625 2.08331,3.16673 4.62497,5.62506 7.625,7.375 3.0833,1.75006 6.91663,2.62506 11.5,2.625 5.99995,6e-5 11.83328,-1.58327 17.5,-4.75 5.6666,-3.1666 12.91659,-9.08326 21.75,-17.75"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:256px;line-height:100%;font-family:'Palatino Linotype';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;filter:url(#filter2926)" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot2992"
-       style="font-size:24px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Webdings;-inkscape-font-specification:Webdings"
+       style="font-style:normal;font-weight:normal;line-height:0.01%;font-family:Webdings;-inkscape-font-specification:Webdings;fill:#000000;fill-opacity:1;stroke:none"
        transform="translate(14.339652,8.6305395)"><flowRegion
          id="flowRegion2994"><rect
            id="rect2996"
@@ -378,11 +408,12 @@
            x="-142.4315"
            y="297.96948" /></flowRegion><flowPara
          id="flowPara2998"
-         style="-inkscape-font-specification:Arabella;font-family:Arabella;font-size:144">8</flowPara></flowRoot>    <flowRoot
+         style="font-size:144px;line-height:1.25;font-family:Arabella;-inkscape-font-specification:Arabella">8</flowPara></flowRoot>
+    <flowRoot
        xml:space="preserve"
        id="flowRoot3000"
-       style="font-size:72px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;filter:url(#filter3922);font-family:Webdings;-inkscape-font-specification:Webdings"
-       transform="matrix(3.9988215,2.362946,-6.140204,2.5581278,2733.2056,-409.62268)"><flowRegion
+       style="font-style:normal;font-weight:normal;line-height:0.01%;font-family:Webdings;-inkscape-font-specification:Webdings;fill:#000000;fill-opacity:1;stroke:none;filter:url(#filter3922)"
+       transform="matrix(3.9988215,2.362946,-6.140204,2.5581278,2633.2056,-171.62268)"><flowRegion
          id="flowRegion3002"><rect
            id="rect3004"
            width="123.23861"
@@ -391,31 +422,35 @@
            y="349.48727"
            style="font-size:72px" /></flowRegion><flowPara
          id="flowPara3006"
-         style="font-size:72px;font-family:Arabella;-inkscape-font-specification:Arabella">8</flowPara></flowRoot>    <flowRoot
+         style="font-size:72px;line-height:1.25;font-family:Arabella;-inkscape-font-specification:Arabella">8</flowPara></flowRoot>
+    <flowRoot
        xml:space="preserve"
        id="flowRoot3008"
-       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Webdings;font-style:normal;font-weight:normal;font-size:24;-inkscape-font-specification:Webdings"><flowRegion
+       style="font-style:normal;font-weight:normal;line-height:0.01%;font-family:Webdings;-inkscape-font-specification:Webdings;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="translate(48,70)"><flowRegion
          id="flowRegion3010"><rect
            id="rect3012"
            width="218.19295"
            height="367.69553"
            x="521.23871"
            y="85.837456" /></flowRegion><flowPara
-         id="flowPara3014" /></flowRoot>    <text
+         id="flowPara3014"
+         style="font-size:24px;line-height:1.25"> </flowPara></flowRoot>
+    <text
        xml:space="preserve"
-       style="font-size:76.76719666px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;filter:url(#filter3046);font-family:Webdings;-inkscape-font-specification:Webdings"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:Webdings;-inkscape-font-specification:Webdings;fill:#000000;fill-opacity:1;stroke:none;filter:url(#filter3046)"
        x="470.82019"
        y="-103.60435"
        id="text3016"
-       transform="matrix(0.65241414,0.73531947,-0.87161137,0.55039762,-745.49257,-347.49247)"><tspan
+       transform="matrix(0.65241414,0.73531947,-0.87161137,0.55039762,-857.49257,-399.49247)"><tspan
          sodipodi:role="line"
          id="tspan3018"
          x="470.82019"
          y="-103.60435"
-         style="font-size:460.60317993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#00006c;font-family:Bickley Script;-inkscape-font-specification:Bickley Script">8</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:460.603px;line-height:1.25;font-family:'Bickley Script';-inkscape-font-specification:'Bickley Script';fill:#00006c">8</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:24px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Webdings;-inkscape-font-specification:Webdings"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:Webdings;-inkscape-font-specification:Webdings;fill:#000000;fill-opacity:1;stroke:none"
        x="775.99469"
        y="104.56952"
        id="text4056"><tspan
@@ -423,10 +458,10 @@
          id="tspan4058"
          x="775.99469"
          y="104.56952"
-         style="font-size:144px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Lynda Thin;-inkscape-font-specification:Lynda Thin Bold">8</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:144px;line-height:1.25;font-family:'Lynda Thin';-inkscape-font-specification:'Lynda Thin Bold'">8</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:24px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Webdings;-inkscape-font-specification:Webdings"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:Webdings;-inkscape-font-specification:Webdings;fill:#000000;fill-opacity:1;stroke:none"
        x="761.85254"
        y="252.0518"
        id="text4060"><tspan
@@ -434,10 +469,10 @@
          id="tspan4062"
          x="761.85254"
          y="252.0518"
-         style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Mistral;-inkscape-font-specification:Mistral">8</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:144px;line-height:1.25;font-family:Mistral;-inkscape-font-specification:Mistral">8</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:24px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Webdings;-inkscape-font-specification:Webdings"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:Webdings;-inkscape-font-specification:Webdings;fill:#000000;fill-opacity:1;stroke:none"
        x="794.17743"
        y="414.68637"
        id="text4064"><tspan
@@ -445,10 +480,10 @@
          id="tspan4066"
          x="794.17743"
          y="414.68637"
-         style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Onyx;-inkscape-font-specification:Onyx">8</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:144px;line-height:1.25;font-family:Onyx;-inkscape-font-specification:Onyx">8</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:24px;font-style:normal;font-weight:normal;fill:#333366;fill-opacity:1;stroke:none;filter:url(#filter5062);font-family:Webdings;-inkscape-font-specification:Webdings"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:Webdings;-inkscape-font-specification:Webdings;fill:#333366;fill-opacity:1;stroke:none;filter:url(#filter5062)"
        x="750.54333"
        y="389.89337"
        id="text4068"
@@ -459,28 +494,29 @@
          id="tspan4070"
          x="750.54333"
          y="389.89337"
-         style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#333366;font-family:Vladimir Script;-inkscape-font-specification:Vladimir Script">8</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:144px;line-height:1.25;font-family:'Vladimir Script';-inkscape-font-specification:'Vladimir Script';fill:#333366">8</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot4072"
-       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Webdings;font-style:normal;font-weight:normal;font-size:24;-inkscape-font-specification:Webdings"><flowRegion
+       style="font-style:normal;font-weight:normal;line-height:0.01%;font-family:Webdings;-inkscape-font-specification:Webdings;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><flowRegion
          id="flowRegion4074"><rect
            id="rect4076"
            width="4.0406103"
            height="764.68549"
            x="-232.33508"
            y="-823.2998" /></flowRegion><flowPara
-         id="flowPara4078" /></flowRoot>    <text
+         id="flowPara4078"
+         style="font-size:24px;line-height:1.25"> </flowPara></flowRoot>
+    <text
        xml:space="preserve"
-       style="font-size:24px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Webdings;-inkscape-font-specification:Webdings"
-       x="-202.03052"
-       y="355.54819"
-       id="text4080"
-       transform="translate(14.339652,8.6305395)"><tspan
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:Webdings;-inkscape-font-specification:Webdings;fill:#000000;fill-opacity:1;stroke:none"
+       x="-175.56903"
+       y="585.40216"
+       id="text4080"><tspan
          sodipodi:role="line"
          id="tspan4082"
-         x="-202.03052"
-         y="355.54819"
-         style="font-size:144;-inkscape-font-specification:Wide Latin;font-family:Wide Latin;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal" /></text>
+         x="-175.56903"
+         y="585.40216"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:144px;line-height:1.25;font-family:'Wide Latin';-inkscape-font-specification:'Wide Latin'"> </tspan></text>
   </g>
 </svg>

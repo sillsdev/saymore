@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.ComponentModel;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using L10NSharp;
 using SayMore.Model;
@@ -99,6 +98,7 @@ namespace SayMore.UI.ComponentEditors
 			LoadAndValidatePersonInfo();
 
 			_binder.OnDataSaved += _binder_OnDataSaved;
+
 			foreach (var textBox in _languageFieldsDefaultForeColor.Keys)
 				textBox.Validating += HandleValidatingLanguage;
 
@@ -316,16 +316,18 @@ namespace SayMore.UI.ComponentEditors
 		private void HandleLanguageFieldEnter(object sender, EventArgs e)
 		{
 			var textBox = (TextBox)sender;
-			bool showAsNeeded = !_suppressWsDlgOnNextEnter ||
+
+			var showAsNeeded = !_suppressWsDlgOnNextEnter ||
 				_currentLanguageTextBox != textBox;
 			
-			// We need to set this BEFORE potentially showing the Language Lookup dialog;
+			// We need to set these BEFORE potentially showing the Language Lookup dialog;
 			// Otherwise, we can end up re-opening it when the user makes a valid selection.
 			_currentLanguageTextBox = textBox;
+			_suppressWsDlgOnNextEnter = true;
 
 			if (!showAsNeeded)
 				return;
-			
+
 			ShowWritingSystemDlgIfNeeded(
 				ShowWsDlg.IfIllFormedAndValuePresentOrPrimaryLanguage, textBox);
 		}
@@ -357,15 +359,6 @@ namespace SayMore.UI.ComponentEditors
 				return; // User previously canceled out of the language lookup while editing.
 
 			ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormed, textBox);
-		}
-
-		private void HandleLanguageFieldClick(object sender, MouseEventArgs e)
-		{
-			var textBox = (TextBox)sender;
-			if (!_suppressWsDlgOnNextEnter || _currentLanguageTextBox != sender)
-				ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormed, (TextBox)sender);
-			_suppressWsDlgOnNextEnter = true;
-			_currentLanguageTextBox = textBox;
 		}
 
 		private void HandleLanguageFieldDoubleClick(object sender, MouseEventArgs e)

@@ -160,7 +160,7 @@
 		DestinationFolder ="$(RootDir)\output\installer"/>
 
 	<FileUpdate File="$(RootDir)\output\installer\appcast.xml"
-		Regex='DEV_VERSION_NUMBER'
+		Regex='VERSION_NUMBER'
 		ReplacementText ="$(Version)" />
 
 	<!-- remove the installer which has no version number (wouldn't need this if the copy above was a move, instead) -->

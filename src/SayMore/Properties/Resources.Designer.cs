@@ -402,16 +402,6 @@ namespace SayMore.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap kimidSilLogo {
-            get {
-                object obj = ResourceManager.GetObject("kimidSilLogo", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap kimidWarning {
             get {
                 object obj = ResourceManager.GetObject("kimidWarning", resourceCulture);
@@ -481,8 +471,6 @@ namespace SayMore.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to General;
-        ///&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-        ///&lt;mediaFileInfo&gt;
         ///&lt;fileSize&gt;0%FileSize%&lt;/fileSize&gt;
         ///&lt;duration&gt;0%Duration%&lt;/duration&gt;
         ///&lt;format&gt;%Format%&lt;/format&gt;
@@ -495,7 +483,9 @@ namespace SayMore.Properties {
         ///&lt;formatProfile&gt;%Format_Profile%&lt;/formatProfile&gt;
         ///&lt;formatCompression&gt;%Format_Compression%&lt;/formatCompression&gt;
         ///&lt;formatCommercialInfo&gt;%Format_Commercial%&lt;/formatCommercialInfo&gt;
-        ///&lt;internetMediaType&gt;%InternetMediaType%&lt; [rest of string was truncated]&quot;;.
+        ///&lt;internetMediaType&gt;%InternetMediaType%&lt;/internetMediaType&gt;
+        ///&lt;codecId&gt;%CodecID%&lt;/codecId&gt;
+        ///&lt;codec [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string mediaFileInfoOutputTemplate {
             get {
@@ -549,9 +539,8 @@ namespace SayMore.Properties {
         ///
         ///td { vertical-align: top; }
         ///
-        ///.fieldName
-        ///{
-        ///	white-space:n [rest of string was truncated]&quot;;.
+        ///h3, h4, .fieldname {
+        ///    pad [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MoreMediaInfoStyles {
             get {

@@ -44,7 +44,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 
 	<PropertyRef Id="NETFRAMEWORK40CLIENT" />
 	<PropertyRef Id="NETFRAMEWORK40FULL" />
-	<Condition Message="Before SayMore can install, you need to install Microsoft's free .NET Framework 4.0 Client Profile.  A full discussion of SayMore's requirements can be found at SayMore.palaso.org.">
+	<Condition Message="Before SayMore can install, you need to install Microsoft's free .NET Framework 4.0 Client Profile. A full discussion of SayMore's requirements can be found at software.sil.org/saymore/download/.">
 	  <![CDATA[Installed OR (NETFRAMEWORK40CLIENT OR NETFRAMEWORK40FULL)]]>
 	</Condition>
 
@@ -227,6 +227,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			</Component>
 			<Component Id="Sovran.NET.dll" Guid="{83A9E909-BC73-47E8-8AAB-BBF8A2683B9C}">
 				<File Id="Sovran.NET.dll" Name="Sovran.NET.dll" KeyPath="yes" Source="..\..\output\release\Sovran.NET.dll" />
+			</Component>
+			<Component Id="SIL.Windows.Forms.Archiving.dll" Guid="{87F3C725-BCA3-4532-A379-0EED3C9EF8F3}">
+				<File Id="SIL.Windows.Forms.Archiving.dll" Name="SIL.Windows.Forms.Archiving.dll" KeyPath="yes" Source="..\..\output\release\SIL.Windows.Forms.Archiving.dll" />
 			</Component>
 			<Component Id="SIL.Archiving.dll" Guid="{FC6955FD-A9BC-4317-8E82-402182F781F6}">
 				<File Id="SIL.Archiving.dll" Name="SIL.Archiving.dll" KeyPath="yes" Source="..\..\output\release\SIL.Archiving.dll" />
@@ -660,6 +663,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="Serialization.NET.dll"/>
 		<ComponentRef Id="Sovran.NET.dll"/>
 		<ComponentRef Id="SIL.Archiving.dll"/>
+		<ComponentRef Id="SIL.Windows.Forms.Archiving.dll"/>
 		<ComponentRef Id="SIL.Core.Desktop.dll"/>
 		<ComponentRef Id="SIL.Core.dll"/>
 		<ComponentRef Id="SIL.Media.dll"/>

@@ -300,6 +300,7 @@ namespace SayMore.UI.ProjectWindow
 		{
 			using (var dlg = new SILAboutBox(FileLocationUtilities.GetFileDistributedWithApplication("aboutbox.htm")))
 			{
+				dlg.Text += "\u2122";
 				dlg.CheckForUpdatesClicked += HandleAboutDialogCheckForUpdatesClick;
 				dlg.ShowDialog(this);
 			}

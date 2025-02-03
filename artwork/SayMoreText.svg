@@ -2,19 +2,19 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="744.09448819"
    height="1052.3622047"
    id="svg2"
    version="1.1"
-   inkscape:version="0.47 r22583"
-   sodipodi:docname="SayMoreText.svg">
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="SayMoreText.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs4">
     <inkscape:perspective
@@ -28,10 +28,10 @@
        inkscape:collect="always"
        id="filter4020"
        inkscape:label="Drop shadow"
-       width="1.5"
-       height="1.5"
-       x="-.25"
-       y="-.25">
+       width="1.050561"
+       height="1.2091147"
+       x="-0.021796939"
+       y="-0.090149781">
       <feGaussianBlur
          inkscape:collect="always"
          stdDeviation="0.58926334"
@@ -78,15 +78,18 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.66"
      inkscape:cx="375"
-     inkscape:cy="600.09967"
+     inkscape:cy="599.24242"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1440"
-     inkscape:window-height="838"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -95,7 +98,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -105,7 +108,7 @@
      id="layer1">
     <text
        xml:space="preserve"
-       style="font-size:24px;font-style:normal;font-weight:normal;fill:#333366;fill-opacity:1;stroke:#000100;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter4020);font-family:Webdings;-inkscape-font-specification:Webdings"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:Webdings;-inkscape-font-specification:Webdings;fill:#333366;fill-opacity:1;stroke:#000100;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter4020)"
        x="80"
        y="398.07648"
        id="text2816"
@@ -116,16 +119,18 @@
          id="tspan2818"
          x="80"
          y="398.07648"
-         style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#333366;fill-opacity:1;stroke:#000100;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:LilyUPC;-inkscape-font-specification:LilyUPC">SayMore</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:144px;line-height:1.25;font-family:LilyUPC;-inkscape-font-specification:LilyUPC;fill:#333366;fill-opacity:1;stroke:#000100;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">SayMore</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot3976"
-       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Webdings;font-style:normal;font-weight:normal;font-size:24;-inkscape-font-specification:Webdings"><flowRegion
+       style="font-style:normal;font-weight:normal;line-height:0.01%;font-family:Webdings;-inkscape-font-specification:Webdings;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><flowRegion
          id="flowRegion3978"><rect
            id="rect3980"
            width="309.09091"
            height="331.81818"
            x="-592.42426"
            y="738.72583" /></flowRegion><flowPara
-         id="flowPara3982"></flowPara></flowRoot>  </g>
+         id="flowPara3982"
+         style="font-size:24px;line-height:1.25"> </flowPara></flowRoot>
+  </g>
 </svg>

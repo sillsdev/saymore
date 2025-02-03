@@ -66,6 +66,9 @@ namespace SayMore.UI.ProjectWindow
 			ExceptionHandler.AddDelegate(AudioUtils.HandleGlobalNAudioException);
 
 			InitializeComponent();
+
+			archiveRAMPProjectToolStripMenuItem.Image = ResourceImageCache.RampIcon;
+
 			// ReSharper disable once VirtualMemberCallInConstructor
 			_titleFmt = Text;
 			_menuShowMPlayerDebugWindow.Tag = _menuProject.DropDownItems.IndexOf(_menuShowMPlayerDebugWindow);
@@ -129,10 +132,6 @@ namespace SayMore.UI.ProjectWindow
 				StartPosition = FormStartPosition.CenterScreen;
 				Settings.Default.ProjectWindow = FormSettings.Create(this);
 			}
-
-			var asm = Assembly.GetExecutingAssembly();
-			var stream = asm.GetManifestResourceStream("SayMore.SayMore.ico");
-			if (stream != null) Icon = new Icon(stream);
 
 			_projectPath = projectPath;
 			_commands = commands;
@@ -219,7 +218,7 @@ namespace SayMore.UI.ProjectWindow
 
 			_viewTabGroup.SetActiveView(_viewTabGroup.Tabs[0]);
 
-			UpdateChecker = new Sparkle(@"https://build.palaso.org/guestAuth/repository/download/SayMore_SayMoreV36Publish/.lastSuccessful/appcast.xml",
+			UpdateChecker = new Sparkle(@"https://software.sil.org/downloads/r/saymore/appcast.xml",
 				Icon);
 			// The SayMore installer already takes care of launching.
 			UpdateChecker.DoLaunchAfterUpdate = false;

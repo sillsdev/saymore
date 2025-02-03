@@ -18,6 +18,7 @@ namespace SayMore.UI.ProjectWindow
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectWindow));
 			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._mainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this._menuProject = new System.Windows.Forms.ToolStripMenuItem();
@@ -25,8 +26,8 @@ namespace SayMore.UI.ProjectWindow
 			this._toolStripSeparator0 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuExportSessions = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuExportPeople = new System.Windows.Forms.ToolStripMenuItem();
-		    this.archiveRAMPProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.archiveIMDIProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.archiveRAMPProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.archiveIMDIProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuChangeUILanguage = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuShortFileNameWarningSettings = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,11 +72,11 @@ namespace SayMore.UI.ProjectWindow
             this._toolStripSeparator0,
             this._menuExportSessions,
             this._menuExportPeople,
-			this.archiveRAMPProjectToolStripMenuItem,
+            this.archiveRAMPProjectToolStripMenuItem,
             this.archiveIMDIProjectToolStripMenuItem,
             this._toolStripSeparator1,
             this._menuChangeUILanguage,
-			this._menuShortFileNameWarningSettings,
+            this._menuShortFileNameWarningSettings,
             this._menuShowMPlayerDebugWindow,
             this.toolStripMenuItem1,
             this._menuExit});
@@ -94,14 +95,14 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this._menuOpenProject, null);
 			this.locExtender.SetLocalizingId(this._menuOpenProject, "MainWindow._menuOpenProject");
 			this._menuOpenProject.Name = "_menuOpenProject";
-			this._menuOpenProject.Size = new System.Drawing.Size(254, 22);
+			this._menuOpenProject.Size = new System.Drawing.Size(255, 22);
 			this._menuOpenProject.Text = "&Open/Create Project...";
 			this._menuOpenProject.Click += new System.EventHandler(this.HandleOpenProjectClick);
 			// 
 			// _toolStripSeparator0
 			// 
 			this._toolStripSeparator0.Name = "_toolStripSeparator0";
-			this._toolStripSeparator0.Size = new System.Drawing.Size(251, 6);
+			this._toolStripSeparator0.Size = new System.Drawing.Size(252, 6);
 			// 
 			// _menuExportSessions
 			// 
@@ -109,7 +110,7 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this._menuExportSessions, null);
 			this.locExtender.SetLocalizingId(this._menuExportSessions, "MainWindow._menuExportSessions");
 			this._menuExportSessions.Name = "_menuExportSessions";
-			this._menuExportSessions.Size = new System.Drawing.Size(254, 22);
+			this._menuExportSessions.Size = new System.Drawing.Size(255, 22);
 			this._menuExportSessions.Tag = "exportSessions";
 			this._menuExportSessions.Text = "Export &Sessions...";
 			this._menuExportSessions.Click += new System.EventHandler(this.HandleCommandMenuItemClick);
@@ -120,10 +121,20 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this._menuExportPeople, null);
 			this.locExtender.SetLocalizingId(this._menuExportPeople, "MainWindow._menuExportPeople");
 			this._menuExportPeople.Name = "_menuExportPeople";
-			this._menuExportPeople.Size = new System.Drawing.Size(254, 22);
+			this._menuExportPeople.Size = new System.Drawing.Size(255, 22);
 			this._menuExportPeople.Tag = "exportPeople";
 			this._menuExportPeople.Text = "Export &People...";
 			this._menuExportPeople.Click += new System.EventHandler(this.HandleCommandMenuItemClick);
+			// 
+			// archiveRAMPProjectToolStripMenuItem
+			// 
+			this.locExtender.SetLocalizableToolTip(this.archiveRAMPProjectToolStripMenuItem, null);
+			this.locExtender.SetLocalizationComment(this.archiveRAMPProjectToolStripMenuItem, null);
+			this.locExtender.SetLocalizingId(this.archiveRAMPProjectToolStripMenuItem, "ProjectWindow.archiveRAMPProjectToolStripMenuItem");
+			this.archiveRAMPProjectToolStripMenuItem.Name = "archiveRAMPProjectToolStripMenuItem";
+			this.archiveRAMPProjectToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
+			this.archiveRAMPProjectToolStripMenuItem.Text = "&Archive with RAMP (SIL)...";
+			this.archiveRAMPProjectToolStripMenuItem.Click += new System.EventHandler(this.HandleArchiveWithRAMPProjectMenuItemClick);
 			// 
 			// archiveIMDIProjectToolStripMenuItem
 			// 
@@ -131,25 +142,14 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this.archiveIMDIProjectToolStripMenuItem, null);
 			this.locExtender.SetLocalizingId(this.archiveIMDIProjectToolStripMenuItem, "ProjectWindow.archiveUsingIMDIToolStripMenuItem");
 			this.archiveIMDIProjectToolStripMenuItem.Name = "archiveIMDIProjectToolStripMenuItem";
-			this.archiveIMDIProjectToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+			this.archiveIMDIProjectToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
 			this.archiveIMDIProjectToolStripMenuItem.Text = "&Archive using IMDI...";
 			this.archiveIMDIProjectToolStripMenuItem.Click += new System.EventHandler(this.HandleArchiveProjectMenuItemClick);
-            // 
-		    // archiveRAMPProjectToolStripMenuItem
-            // 
-            this.locExtender.SetLocalizableToolTip(this.archiveRAMPProjectToolStripMenuItem, null);
-		    this.locExtender.SetLocalizationComment(this.archiveRAMPProjectToolStripMenuItem, null);
-		    this.locExtender.SetLocalizingId(this.archiveRAMPProjectToolStripMenuItem, "ProjectWindow.archiveRAMPProjectToolStripMenuItem");
-			this.archiveRAMPProjectToolStripMenuItem.Image = ResourceImageCache.RampIcon;
-			this.archiveRAMPProjectToolStripMenuItem.Name = "archiveRAMPProjectToolStripMenuItem";
-		    this.archiveRAMPProjectToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-		    this.archiveRAMPProjectToolStripMenuItem.Text = "&Archive with RAMP (SIL)...";
-		    this.archiveRAMPProjectToolStripMenuItem.Click += new System.EventHandler(this.HandleArchiveWithRAMPProjectMenuItemClick);
-            // 
-            // _toolStripSeparator1
-            // 
-            this._toolStripSeparator1.Name = "_toolStripSeparator1";
-			this._toolStripSeparator1.Size = new System.Drawing.Size(251, 6);
+			// 
+			// _toolStripSeparator1
+			// 
+			this._toolStripSeparator1.Name = "_toolStripSeparator1";
+			this._toolStripSeparator1.Size = new System.Drawing.Size(252, 6);
 			// 
 			// _menuChangeUILanguage
 			// 
@@ -157,7 +157,7 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this._menuChangeUILanguage, null);
 			this.locExtender.SetLocalizingId(this._menuChangeUILanguage, "MainWindow._menuChangeUILanguage");
 			this._menuChangeUILanguage.Name = "_menuChangeUILanguage";
-			this._menuChangeUILanguage.Size = new System.Drawing.Size(254, 22);
+			this._menuChangeUILanguage.Size = new System.Drawing.Size(255, 22);
 			this._menuChangeUILanguage.Text = "&Change User Interface Language...";
 			this._menuChangeUILanguage.Click += new System.EventHandler(this.HandleChangeUILanguageMenuClick);
 			// 
@@ -167,7 +167,7 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this._menuShortFileNameWarningSettings, null);
 			this.locExtender.SetLocalizingId(this._menuShortFileNameWarningSettings, "MainWindow._menuShortFileNameWarningSettings");
 			this._menuShortFileNameWarningSettings.Name = "_menuShortFileNameWarningSettings";
-			this._menuShortFileNameWarningSettings.Size = new System.Drawing.Size(254, 22);
+			this._menuShortFileNameWarningSettings.Size = new System.Drawing.Size(255, 22);
 			this._menuShortFileNameWarningSettings.Text = "&Short Filename Warning Settings...";
 			this._menuShortFileNameWarningSettings.Click += new System.EventHandler(this.HandleShortFileNameWarningSettingsMenuClick);
 			// 
@@ -178,14 +178,14 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationPriority(this._menuShowMPlayerDebugWindow, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._menuShowMPlayerDebugWindow, "ProjectWindow.showMPlayerDebugWindowToolStripMenuItem");
 			this._menuShowMPlayerDebugWindow.Name = "_menuShowMPlayerDebugWindow";
-			this._menuShowMPlayerDebugWindow.Size = new System.Drawing.Size(254, 22);
+			this._menuShowMPlayerDebugWindow.Size = new System.Drawing.Size(255, 22);
 			this._menuShowMPlayerDebugWindow.Text = "Show MPlayer Debug Window";
 			this._menuShowMPlayerDebugWindow.Click += new System.EventHandler(this.HandleShowMPlayerDebugWindowMenuClick);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(251, 6);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(252, 6);
 			// 
 			// _menuExit
 			// 
@@ -193,7 +193,7 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this._menuExit, null);
 			this.locExtender.SetLocalizingId(this._menuExit, "MainWindow._menuExit");
 			this._menuExit.Name = "_menuExit";
-			this._menuExit.Size = new System.Drawing.Size(254, 22);
+			this._menuExit.Size = new System.Drawing.Size(255, 22);
 			this._menuExit.Text = "E&xit";
 			this._menuExit.Click += new System.EventHandler(this.HandleExitClick);
 			// 
@@ -268,6 +268,7 @@ namespace SayMore.UI.ProjectWindow
 			this.ClientSize = new System.Drawing.Size(697, 469);
 			this.Controls.Add(this._viewTabGroup);
 			this.Controls.Add(this._mainMenuStrip);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "MainWindow.WindowTitleWithProject");

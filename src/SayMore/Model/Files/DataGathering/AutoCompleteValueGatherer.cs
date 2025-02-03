@@ -117,7 +117,7 @@ namespace SayMore.Model.Files.DataGathering
 				{
 					ErrorReport.NotifyUserOfProblem(new ShowOncePerSessionBasedOnExactMessagePolicy(), err,
 						string.Format(LocalizationManager.GetString("MainWindow.AutoCompleteValueGathererError",
-						"An error of type {0} ocurred trying to gather information from file: {1}",
+						"An error of type {0} occurred trying to gather information from file: {1}",
 						"Parameter 0 is an exception type; parameter 1 is a file name"), err.GetType(), path));
 				}
 				else
@@ -182,7 +182,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Splits a list of values into individual values. Some fields in the UI can contain
-		/// multiple items delimited by a comma or semi colon (e.g. participants could contain
+		/// multiple items delimited by a comma or semicolon (e.g. participants could contain
 		/// several people, "Fred; Barney; Wilma; Betty"). When that is true, then each value
 		/// in a multivalue field is a separate value in the auto-complete list.
 		/// </summary>
@@ -213,9 +213,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		protected virtual string GetKeyFromFieldName(string fieldKey)
 		{
-			string key;
-
-			return (_mappingOfFieldsToAutoCompleteKey.TryGetValue(fieldKey, out key) ?
+			return (_mappingOfFieldsToAutoCompleteKey.TryGetValue(fieldKey, out var key) ?
 				key : fieldKey);
 		}
 

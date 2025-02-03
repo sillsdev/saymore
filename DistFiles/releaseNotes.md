@@ -1,7 +1,7 @@
 ## Version 3.7
 Enabled suppression of repeated short filename warnings.
 Added language chooser to make it easy to select the desired language in a form that supports sharing research and archiving.
-Corrected diplay of person details.
+Corrected display of person details.
 Prevented waveform scrolling to the beginning after listening to a source segment.
 Fixed display problem in project metadata when no project language has been chosen.
 Fixed a bug when setting the font in the transcription annotation column.

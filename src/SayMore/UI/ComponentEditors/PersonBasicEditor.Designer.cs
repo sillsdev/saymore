@@ -447,7 +447,6 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage3.Size = new System.Drawing.Size(173, 20);
 			this._otherLanguage3.TabIndex = 25;
 			this._autoCompleteHelper.SetUpdateGatherer(this._otherLanguage3, false);
-			this._otherLanguage3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandleLanguageFieldClick);
 			this._otherLanguage3.TextChanged += new System.EventHandler(this.HandleLanguageFieldChange);
 			this._otherLanguage3.Enter += new System.EventHandler(this.HandleLanguageFieldEnter);
 			this._otherLanguage3.Leave += new System.EventHandler(this.HandleLanguageFieldLeave);
@@ -474,7 +473,6 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage0.Size = new System.Drawing.Size(173, 20);
 			this._otherLanguage0.TabIndex = 16;
 			this._autoCompleteHelper.SetUpdateGatherer(this._otherLanguage0, false);
-			this._otherLanguage0.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandleLanguageFieldClick);
 			this._otherLanguage0.TextChanged += new System.EventHandler(this.HandleLanguageFieldChange);
 			this._otherLanguage0.Enter += new System.EventHandler(this.HandleLanguageFieldEnter);
 			this._otherLanguage0.Leave += new System.EventHandler(this.HandleLanguageFieldLeave);
@@ -501,7 +499,6 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage1.Size = new System.Drawing.Size(173, 20);
 			this._otherLanguage1.TabIndex = 19;
 			this._autoCompleteHelper.SetUpdateGatherer(this._otherLanguage1, false);
-			this._otherLanguage1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandleLanguageFieldClick);
 			this._otherLanguage1.TextChanged += new System.EventHandler(this.HandleLanguageFieldChange);
 			this._otherLanguage1.Enter += new System.EventHandler(this.HandleLanguageFieldEnter);
 			this._otherLanguage1.Leave += new System.EventHandler(this.HandleLanguageFieldLeave);
@@ -528,7 +525,6 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage2.Size = new System.Drawing.Size(173, 20);
 			this._otherLanguage2.TabIndex = 22;
 			this._autoCompleteHelper.SetUpdateGatherer(this._otherLanguage2, false);
-			this._otherLanguage2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandleLanguageFieldClick);
 			this._otherLanguage2.TextChanged += new System.EventHandler(this.HandleLanguageFieldChange);
 			this._otherLanguage2.Enter += new System.EventHandler(this.HandleLanguageFieldEnter);
 			this._otherLanguage2.Leave += new System.EventHandler(this.HandleLanguageFieldLeave);
@@ -554,7 +550,6 @@ namespace SayMore.UI.ComponentEditors
 			this._primaryLanguage.Size = new System.Drawing.Size(173, 20);
 			this._primaryLanguage.TabIndex = 8;
 			this._autoCompleteHelper.SetUpdateGatherer(this._primaryLanguage, false);
-			this._primaryLanguage.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandleLanguageFieldClick);
 			this._primaryLanguage.TextChanged += new System.EventHandler(this.HandleLanguageFieldChange);
 			this._primaryLanguage.Enter += new System.EventHandler(this.HandleLanguageFieldEnter);
 			this._primaryLanguage.Leave += new System.EventHandler(this.HandleLanguageFieldLeave);

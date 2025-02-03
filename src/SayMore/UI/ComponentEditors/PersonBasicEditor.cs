@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.ComponentModel;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using L10NSharp;
 using SayMore.Model;
@@ -15,6 +14,7 @@ using SayMore.Model.Files.DataGathering;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.LowLevelControls;
 using SayMore.Utilities;
+using SIL.Extensions;
 using static System.IO.Path;
 using static System.String;
 using static SayMore.UI.LowLevelControls.ParentType;
@@ -98,6 +98,7 @@ namespace SayMore.UI.ComponentEditors
 			LoadAndValidatePersonInfo();
 
 			_binder.OnDataSaved += _binder_OnDataSaved;
+
 			foreach (var textBox in _languageFieldsDefaultForeColor.Keys)
 				textBox.Validating += HandleValidatingLanguage;
 
@@ -315,16 +316,18 @@ namespace SayMore.UI.ComponentEditors
 		private void HandleLanguageFieldEnter(object sender, EventArgs e)
 		{
 			var textBox = (TextBox)sender;
-			bool showAsNeeded = !_suppressWsDlgOnNextEnter ||
+
+			var showAsNeeded = !_suppressWsDlgOnNextEnter ||
 				_currentLanguageTextBox != textBox;
 			
-			// We need to set this BEFORE potentially showing the Language Lookup dialog;
+			// We need to set these BEFORE potentially showing the Language Lookup dialog;
 			// Otherwise, we can end up re-opening it when the user makes a valid selection.
 			_currentLanguageTextBox = textBox;
+			_suppressWsDlgOnNextEnter = true;
 
 			if (!showAsNeeded)
 				return;
-			
+
 			ShowWritingSystemDlgIfNeeded(
 				ShowWsDlg.IfIllFormedAndValuePresentOrPrimaryLanguage, textBox);
 		}
@@ -345,38 +348,17 @@ namespace SayMore.UI.ComponentEditors
 
 			if (!_loaded)
 				return;
-
+			
 			// Now we want to try to do our best not to annoy the user. If we take one of these
 			// early returns, we can always catch problems later during validation.
-			if (_currentLanguageTextBox == textBox)
-			{
-				if (_suppressWsDlgForChanges)
-					return; // User previously canceled out of the language lookup while editing.
 
-				// If the user previously canceled out of the language lookup when first
-				// coming to this control and now seems to be editing the unknown code (perhaps
-				// to select a different one besides qaa) or editing in the name portion (i.e.,
-				// following the colon), don't display the language lookup again.
-				if (_suppressWsDlgOnNextEnter)
-				{
-					var currentValue = textBox.Text;
-					var iColon = currentValue.IndexOf(":", StringComparison.Ordinal);
-					if (iColon > 0 &&
-					    (Regex.IsMatch(currentValue, "^(($)|(q([a-t][a-z]?)?:))") ||
-						    textBox.SelectionStart > iColon))
-					{
-						return;
-					}
-				}
-			}
+			if (textBox.Text == Empty || textBox.Text.Contains(":", StringComparison.Ordinal))
+				return;
+
+			if (_currentLanguageTextBox == textBox && _suppressWsDlgForChanges)
+				return; // User previously canceled out of the language lookup while editing.
 
 			ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormed, textBox);
-		}
-
-		private void HandleLanguageFieldClick(object sender, MouseEventArgs e)
-		{
-			if (!_suppressWsDlgOnNextEnter || _currentLanguageTextBox != sender)
-				ShowWritingSystemDlgIfNeeded(ShowWsDlg.IfIllFormed, (TextBox)sender);
 		}
 
 		private void HandleLanguageFieldDoubleClick(object sender, MouseEventArgs e)

@@ -152,6 +152,9 @@
     <Reference Include="NDesk.DBus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NDesk.DBus.0.15.0\lib\NDesk.DBus.dll</HintPath>
     </Reference>
+    <Reference Include="NetSparkle.Net40, Version=1.2.0.22035, Culture=neutral, PublicKeyToken=744a8ff6faa90a99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NetSparkle.Net40.1.2.0\lib\net40\NetSparkle.Net40.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>

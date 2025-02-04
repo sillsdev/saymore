@@ -348,11 +348,12 @@ namespace SayMore.UI.ComponentEditors
 
 			if (!_loaded)
 				return;
-			
+
 			// Now we want to try to do our best not to annoy the user. If we take one of these
 			// early returns, we can always catch problems later during validation.
 
-			if (textBox.Text == Empty || textBox.Text.Contains(":", StringComparison.Ordinal))
+			if (textBox.Text == Empty || textBox.Text.Contains(":", StringComparison.Ordinal) ||
+			    textBox.AutoCompleteCustomSource.OfType<string>().Any(a => a.StartsWith(textBox.Text)))
 				return;
 
 			if (_currentLanguageTextBox == textBox && _suppressWsDlgForChanges)

@@ -888,8 +888,11 @@ namespace SayMore.Model.Files
 			}
 			catch (Exception e)
 			{
-				var msg = LocalizationManager.GetString("CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg",
-					"Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.");
+				var msg = string.Format(LocalizationManager.GetString(
+					"CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg",
+					"Sorry, {0} could not rename that file because something else (perhaps " +
+					"another part of {0}) is reading it. Please try again later.",
+					"Param is \"SayMore\" (product name)"), Program.ProductName);
 
 				ErrorReport.NotifyUserOfProblem(e, msg);
 			}

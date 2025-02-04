@@ -17,6 +17,7 @@ using SayMore.Utilities;
 using SIL.Extensions;
 using static System.IO.Path;
 using static System.String;
+using static System.StringComparison;
 using static SayMore.UI.LowLevelControls.ParentType;
 
 namespace SayMore.UI.ComponentEditors
@@ -352,8 +353,9 @@ namespace SayMore.UI.ComponentEditors
 			// Now we want to try to do our best not to annoy the user. If we take one of these
 			// early returns, we can always catch problems later during validation.
 
-			if (textBox.Text == Empty || textBox.Text.Contains(":", StringComparison.Ordinal) ||
-			    textBox.AutoCompleteCustomSource.OfType<string>().Any(a => a.StartsWith(textBox.Text)))
+			if (textBox.Text == Empty || textBox.Text.Contains(":", Ordinal) ||
+			    textBox.AutoCompleteCustomSource?.OfType<string>()
+				    .Any(a => a.StartsWith(textBox.Text, OrdinalIgnoreCase)) == true)
 				return;
 
 			if (_currentLanguageTextBox == textBox && _suppressWsDlgForChanges)

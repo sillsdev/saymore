@@ -149,8 +149,8 @@
 			this._linkLabelFsUtilMsg.AutoSize = true;
 			this._linkLabelFsUtilMsg.LinkArea = new System.Windows.Forms.LinkArea(56, 3);
 			this.locExtender.SetLocalizableToolTip(this._linkLabelFsUtilMsg, null);
-			this.locExtender.SetLocalizationComment(this._linkLabelFsUtilMsg, "Param 0: \\\"fsutil 8dot3name\\\" (a Microsoft Windows utility - this will link to a " +
-        "website); Param 1: A system volume (e.g. \\\"D:\\\"");
+			this.locExtender.SetLocalizationComment(this._linkLabelFsUtilMsg, "Param 0: \"fsutil 8dot3name\" (a Microsoft Windows utility - this will link to a " +
+        "website); Param 1: A system volume (e.g. \"D:\"");
 			this.locExtender.SetLocalizingId(this._linkLabelFsUtilMsg, "ShortFileNameWarningDlg._linkLabelFsUtilMsg");
 			this._linkLabelFsUtilMsg.Location = new System.Drawing.Point(3, 0);
 			this._linkLabelFsUtilMsg.Name = "_linkLabelFsUtilMsg";
@@ -158,8 +158,7 @@
 			this._linkLabelFsUtilMsg.TabIndex = 2;
 			this._linkLabelFsUtilMsg.TabStop = true;
 			this._linkLabelFsUtilMsg.Text = "If possible, you (or a system administrator) should use {0} to enable creation of" +
-    " short \\\"8.3\\\" file names for file system volumes where media files are located." +
-    "";
+    " short \"8.3\" file names for file system volumes where media files are located.";
 			this._linkLabelFsUtilMsg.UseCompatibleTextRendering = true;
 			this._linkLabelFsUtilMsg.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this._linkLabelFsUtilMsg_LinkClicked);
 			// 

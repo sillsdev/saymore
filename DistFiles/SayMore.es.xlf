@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns:sil="http://sil.org/software/XLiff" xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" product-version="3.5.0.0" original="SayMore.exe" datatype="plaintext" target-language="es-ES">
+  <file source-language="en" product-version="3.7.0.0" original="SayMore.exe" datatype="plaintext" target-language="es-ES">
     <body>
       <trans-unit id="BuildType.Alpha">
         <source xml:lang="en">Alpha</source>
@@ -14,7 +14,7 @@
       </trans-unit>
       <trans-unit id="BuildType.ReleaseCandidate">
         <source xml:lang="en">Release Candidate</source>
-        <target xml:lang="es-ES" state="needs-translation">Release Candidate</target>
+        <target xml:lang="es-ES" state="translated">Candidato de lanzamiento</target>
         <note>ID: BuildType.ReleaseCandidate</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.AllFilesDescriptor">
@@ -44,7 +44,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.BindingHelper.AmbiguousDateNote">
         <source xml:lang="en">***This record had an ambiguous {0}, produced by a bug in an old version of SayMore. The date was "{1}". SayMore has attempted to interpret the date, but might have swapped the day and month. Please accept our apologies for this error. After you have fixed the date or confirmed that it is correct, please delete this message.</source>
-        <target xml:lang="es-ES" state="translated">*** Este record tuvo una ambigua {0}, producida por un error en una versión previa de SayMore. La fecha grabada era "{1}". SayMore ha intentado interpretar la fecha, pero posiblemente ha intercambiado el día y mes. Por favor, acepte nuestras disculpas por este error. Después de corregir la fecha o confirmar que es correcta, por favor borre esta nota.</target>
+        <target xml:lang="es-ES" state="translated">*** Este record tuvo una fecha ambigua en el campo {0}, producida por un error en una versión previa de SayMore. La fecha grabada era "{1}". SayMore ha intentado interpretar la fecha, pero posiblemente ha intercambiado el día y mes. Por favor, acepte nuestras disculpas por este error. Después de corregir la fecha o confirmar que es correcta, por favor borre esta nota.</target>
         <note>ID: CommonToMultipleViews.BindingHelper.AmbiguousDateNote</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ChangeIdDotDash">
@@ -54,7 +54,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ChangeIdFailureMsg">
         <source xml:lang="en">Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.</source>
-        <target xml:lang="es-ES" state="translated">Un programa está accesando esa carpeta o uno de los archivos que ella contiene, por lo que no se puede cambiar el nombre. Intente reiniciar este programa, o reiniciar el equipo.</target>
+        <target xml:lang="es-ES" state="translated">Un programa está accediendo a esa carpeta o uno de los archivos que ella contiene, por lo que no se puede cambiar el nombre. Intente reiniciar este programa, o reiniciar el equipo.</target>
         <note>ID: CommonToMultipleViews.ChangeIdFailureMsg</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ContributorsEditor.MissingContributorNameMsg">
@@ -64,7 +64,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ContributorsEditor.MissingContributorRoleMsg">
         <source xml:lang="en">Choose a role.</source>
-        <target xml:lang="es-ES" state="translated">Elija un papel.</target>
+        <target xml:lang="es-ES" state="translated">Elija un rol.</target>
         <note>ID: CommonToMultipleViews.ContributorsEditor.MissingContributorRoleMsg</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ContributorsEditor.TabText">
@@ -149,7 +149,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FieldsAndValuesGrid.VerifyDeleteFieldQuestion">
         <source xml:lang="en">Do you want to delete the field '{0}' and its contents from the entire project?</source>
-        <target xml:lang="es-ES" state="translated">¿Desea eliminar el campo '{0}' y su contenido en cada record del proyecto?</target>
+        <target xml:lang="es-ES" state="translated">¿Desea eliminar el campo '{0}' y su contenido en todo el proyecto?</target>
         <note>ID: CommonToMultipleViews.FieldsAndValuesGrid.VerifyDeleteFieldQuestion</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileIsReadOnly">
@@ -192,14 +192,14 @@
         <target xml:lang="es-ES" state="translated">Hubo un problema al abrir el file\n\n'{0}'\n\nAsegúrese de que hay una aplicación asociada con este tipo de archivo.</target>
         <note>ID: CommonToMultipleViews.FileList.CannotOpenFileInApplicationErrorMsg</note>
       </trans-unit>
-      <trans-unit id="CommonToMultipleViews.FileList.CannotRenameFileErrorMsg">
+      <trans-unit id="CommonToMultipleViews.FileList.CannotRenameFileErrorMsg" approved="yes">
         <source xml:lang="en">{0} could not rename the file to '{1}' because there is already a file with that name.</source>
-        <target xml:lang="es-ES" state="translated">{0} no pudo cambiar el nombre del archivo a '{1}' porque ya existe un archivo con ese nombre.</target>
+        <target xml:lang="es-ES" state="final">{0} no pudo cambiar el nombre del archivo a '{1}' porque ya existe un archivo con ese nombre.</target>
         <note>ID: CommonToMultipleViews.FileList.CannotRenameFileErrorMsg</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg">
-        <source xml:lang="en">Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.</source>
-        <target xml:lang="es-ES" state="translated">SayMore no pudo cambiar el nombre que el archivo porque un programa (quizás otro componente de SayMore mismo) lo está accesando. Inténtalo de nuevo más tarde.</target>
+        <source xml:lang="en">Sorry, {0} could not rename that file because something else (perhaps another part of {0}) is reading it. Please try again later.</source>
+        <target xml:lang="es-ES" state="translated">{0} no pudo cambiar el nombre del archivo porque un programa (quizás otro componente de {0} mismo) lo está accediendo. Inténtalo de nuevo más tarde.</target>
         <note>ID: CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg">
@@ -249,7 +249,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText">
         <source xml:lang="en">Extract audio to mono mp3 audio file (low quality)</source>
-        <target xml:lang="es-ES" state="translated">Extraer audio para grabar como mono MP3 (baja calidad)</target>
+        <target xml:lang="es-ES" state="translated">Extraer audio para grabarlo como mp3 mono (baja calidad)</target>
         <note>ID: CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileList.CouldNotLoadFileErrorMsg">
@@ -339,7 +339,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileList.RenameButtonText_ToolTip_">
         <source xml:lang="en">Rename Selected File</source>
-        <target xml:lang="es-ES" state="translated">Cambiar el nombre de archivo seleccionado</target>
+        <target xml:lang="es-ES" state="translated">Renombrar el archivo seleccionado</target>
         <note>ID: CommonToMultipleViews.FileList.RenameButtonText_ToolTip_</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.GenericFileTypeViewer.FailedToLoadOtherFile">
@@ -426,6 +426,16 @@
         <source xml:lang="en">Semi-interactive</source>
         <target xml:lang="es-ES" state="translated">Semi-interactivo</target>
         <note>ID: CommonToMultipleViews.ListItems.Content-Interactivity.Semi-interactive.Text</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.ListItems.Content-Interactivity.Unknown.Text" sil:dynamic="true">
+        <source xml:lang="en">Unknown</source>
+        <target xml:lang="es-ES" state="translated">Desconocida</target>
+        <note>ID: CommonToMultipleViews.ListItems.Content-Interactivity.Unknown.Text</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.ListItems.Content-Interactivity.Unspecified.Text" sil:dynamic="true">
+        <source xml:lang="en">Unspecified</source>
+        <target xml:lang="es-ES" state="translated">No especificada</target>
+        <note>ID: CommonToMultipleViews.ListItems.Content-Interactivity.Unspecified.Text</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Content-Involvement.Elicited.Definition" sil:dynamic="true">
         <source xml:lang="en">Investigator asks speaker(s) to produce isolated phonemes/ words/ utterances / grammatical structures.</source>
@@ -1877,10 +1887,20 @@
         <target xml:lang="es-ES" state="translated">Zimbabwe</target>
         <note>ID: CommonToMultipleViews.ListItems.Countries.Zimbabwe.Text</note>
       </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.ConversionFailure">
+        <source xml:lang="en">Failure to create a WAV file from another media file.</source>
+        <target xml:lang="es-ES" state="translated">Error al crear un archivo WAV desde otro archivo multimedia.</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.ConversionFailure</note>
+      </trans-unit>
       <trans-unit id="CommonToMultipleViews.MediaPlayer.InvalidMediaFile">
         <source xml:lang="en">File does not appear to be a valid media file: {0}</source>
         <target xml:lang="es-ES" state="translated">Archivo no parece ser un archivo multimedia válido: {0}</target>
         <note>ID: CommonToMultipleViews.MediaPlayer.InvalidMediaFile</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.MediaPlayer.LoadFailure">
+        <source xml:lang="en">Media player - failure to load file.</source>
+        <target xml:lang="es-ES" state="translated">Reproductor de medios - fallo al cargar el archivo.</target>
+        <note>ID: CommonToMultipleViews.MediaPlayer.LoadFailure</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg">
         <source xml:lang="en">Media file not found: {0}</source>
@@ -1911,11 +1931,6 @@
         <source xml:lang="en">Play</source>
         <target xml:lang="es-ES" state="translated">Reproducir</target>
         <note>ID: CommonToMultipleViews.MediaPlayer.PlayButton_ToolTip_</note>
-      </trans-unit>
-      <trans-unit id="CommonToMultipleViews.MediaPlayer.ProbablyCannotLoad">
-        <source xml:lang="en">Media player will probably not be able to load this file.</source>
-        <target xml:lang="es-ES" state="translated">Probablemente el reproductor multimedia no podrá cargar este archivo.</target>
-        <note>ID: CommonToMultipleViews.MediaPlayer.ProbablyCannotLoad</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.MediaPlayer.StopButton">
         <source xml:lang="en">Stop</source>
@@ -2001,11 +2016,6 @@
         <source xml:lang="en">Text File ({0})</source>
         <target xml:lang="es-ES" state="translated">archivo de texto ({0})</target>
         <note>ID: CommonToMultipleViews.TextFileDescriptor</note>
-      </trans-unit>
-      <trans-unit id="CommonToMultipleViews.UnableToObtainShortName">
-        <source xml:lang="en">{0} was unable to obtain a "short name" for this file:\n{1}\nYou (or a system administrator) can use {2} to enable creation of short "8.3" file names for the file system volume ({3}) where this file is located.</source>
-        <target xml:lang="es-ES" state="translated">{0} no pudo obtener el "nombre corto" de este archivo:\n{1}\nUsted (o un administrador del sistema) puede usar {2} para permitir la creación de nombres cortos "8.3" de los archivos del volumen del sistema de archivos ({3}) donde se encuentra este archivo.</target>
-        <note>ID: CommonToMultipleViews.UnableToObtainShortName</note>
       </trans-unit>
       <trans-unit id="ConvertMedia.FullConversionOutput">
         <source xml:lang="en">Full output from conversion:</source>
@@ -2096,6 +2106,11 @@
         <source xml:lang="en">There was an error trying to get more information for the media file:\n\n{0}</source>
         <target xml:lang="es-ES" state="translated">Hubo un error al intentar obtener más información sobre el archivo multimedia:\n\n\n\n{0}</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.GettingInfoErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.GettingMoreInfoAsHtml">
+        <source xml:lang="en">Failure to extract media file information.</source>
+        <target xml:lang="es-ES" state="translated">Error al extraer la información del archivo de medios.</target>
+        <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.GettingMoreInfoAsHtml</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.">
         <source xml:lang="en">Start time:</source>
@@ -3262,6 +3277,11 @@
         <target xml:lang="es-ES" state="translated">Visite {0} en la Web.</target>
         <note>ID: DialogBoxes.WelcomeDlg._linkSayMoreWebsite</note>
       </trans-unit>
+      <trans-unit id="General.NeedToDisambiguateLanguages">
+        <source xml:lang="en">One or more of the languages spoken by included participants are specified in a way that could be ambiguous. For each one, you will be asked to identify the intended language.</source>
+        <target xml:lang="es-ES" state="translated">Uno o más de los idiomas hablados por los participantes incluidos se especifican de una manera que podría ser ambigua. Para cada uno de ellos, se le pedirá que identifique el idioma previsto.</target>
+        <note>ID: General.NeedToDisambiguateLanguages</note>
+      </trans-unit>
       <trans-unit id="MainWindow.AutoCompleteValueGathererError">
         <source xml:lang="en">An error of type {0} ocurred trying to gather information from file: {1}</source>
         <target xml:lang="es-ES" state="translated">Ocurrió un error de tipo {0} intentando reunir información del archivo: {1}</target>
@@ -3291,6 +3311,11 @@
         <source xml:lang="en">&amp;Delete Session...</source>
         <target xml:lang="es-ES" state="translated">&amp;Borrar sesión...</target>
         <note>ID: MainWindow.DeleteSessionMenuText</note>
+      </trans-unit>
+      <trans-unit id="MainWindow.ElementFolderMissingOrUnavailable">
+        <source xml:lang="en">It looks like the {0} folder is no longer accessible. If you are able to fix this, {1} will retry. Otherwise, please report this ({2}).</source>
+        <target xml:lang="es-ES" state="translated">Parece que la carpeta {0} ya no es accesible. Si usted puede solucionar esto, {1} volverá a intentarlo. De lo contrario, por favor reporte esto ({2}).</target>
+        <note>ID: MainWindow.ElementFolderMissingOrUnavailable</note>
       </trans-unit>
       <trans-unit id="MainWindow.ElementNoLongerExistsMsg">
         <source xml:lang="en">'{0}' doesn't exist in elements collection.</source>
@@ -3407,6 +3432,11 @@
         <target xml:lang="es-ES" state="translated">Ver notas de la versión...</target>
         <note>ID: MainWindow._menuReleaseNotes</note>
       </trans-unit>
+      <trans-unit id="MainWindow._menuShortFileNameWarningSettings">
+        <source xml:lang="en">&amp;Short Filename Warning Settings...</source>
+        <target xml:lang="es-ES" state="translated">&amp;Configuración de avisos sobre los nombres cortos de archivos...</target>
+        <note>ID: MainWindow._menuShortFileNameWarningSettings</note>
+      </trans-unit>
       <trans-unit id="Miscellaneous.CopyFilesControl.CopyFailedMsg">
         <source xml:lang="en">Copying failed: {0}</source>
         <target xml:lang="es-ES" state="translated">Copiar servidor: {0}</target>
@@ -3477,6 +3507,11 @@
         <target xml:lang="es-ES" state="translated">Contribuciones</target>
         <note>ID: PeopleView.ContributionEditor.TabText</note>
       </trans-unit>
+      <trans-unit id="PeopleView.ContributionEditor.oral_translation_speaker" sil:dynamic="true">
+        <source xml:lang="en">Oral Translation Speaker</source>
+        <target xml:lang="es-ES" state="translated">Locutor de traducción oral</target>
+        <note>ID: PeopleView.ContributionEditor.oral_translation_speaker</note>
+      </trans-unit>
       <trans-unit id="PeopleView.FileList.AddPersonButtonToolTip">
         <source xml:lang="en">Add Files for the Person</source>
         <target xml:lang="es-ES" state="translated">Añadir archivos para la persona</target>
@@ -3502,10 +3537,20 @@
         <target xml:lang="es-ES" state="translated">Consentimiento informado está escrito</target>
         <note>ID: PeopleView.InformedConsentTypes.Written</note>
       </trans-unit>
-      <trans-unit id="PeopleView.MetadataEditor.ChangePictureDlgCaption">
+      <trans-unit id="PeopleView.MetadataEditor.ChangePictureDlgCaption" approved="yes">
         <source xml:lang="en">Change Picture</source>
-        <target xml:lang="es-ES" state="translated">Cambiar imágen</target>
+        <target xml:lang="es-ES" state="final">Cambiar imagen</target>
         <note>ID: PeopleView.MetadataEditor.ChangePictureDlgCaption</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.DupLanguage.Other">
+        <source xml:lang="en">This language is already specified as another language for this person.</source>
+        <target xml:lang="es-ES" state="translated">Este idioma ya ha sido especificado como otro idioma para esta persona.</target>
+        <note>ID: PeopleView.MetadataEditor.DupLanguage.Other</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.DupLanguage.Primary">
+        <source xml:lang="en">This language is already specified as the primary language for this person.</source>
+        <target xml:lang="es-ES" state="translated">Este idioma ya ha sido especificado como el idioma principal para esta persona.</target>
+        <note>ID: PeopleView.MetadataEditor.DupLanguage.Primary</note>
       </trans-unit>
       <trans-unit id="PeopleView.MetadataEditor.ErrorChangingPersonsPhotoMsg">
         <source xml:lang="en">There was an error changing the person's photo.</source>
@@ -3541,6 +3586,21 @@
         <source xml:lang="en">JPEG Images (*.jpg)|*.jpg|GIF Images (*.gif)|*.gif|TIFF Images (*.tif)|*.tif|PNG Images (*.png)|*.png|Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*</source>
         <target xml:lang="es-ES" state="translated">Imágenes JPEG (*.jpg) |*.jpg|Imágenes GIF (*.gif)|*.gif|Imágenes TIFF (*.tif) |*.tif|Imágenes PNG (*.png)|*.png|Mapas de bits (*.bmp; *.dib) |*.bmp;*.dib|Todos los archivos (*.*)|*.*</target>
         <note>ID: PeopleView.MetadataEditor.ImageFileTypes</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.InvalidBcp47Code.ExplanationAndQuestion">
+        <source xml:lang="en">{0} Although {1} allows you to enter anything you want in this field (e.g., just a language name or abbreviation), for archiving purposes, a recognizable code is generally preferable. Would you like to try to look up the intended language?</source>
+        <target xml:lang="es-ES" state="translated">{0} Aunque {1} le permite ingresar cualquier texto en este campo (por ejemplo, solo un nombre o abreviatura de un idioma), para fines de archivo, generalmente es preferible un código reconocible. ¿Le gustaría intentar buscar el idioma previsto?</target>
+        <note>ID: PeopleView.MetadataEditor.InvalidBcp47Code.ExplanationAndQuestion</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.InvalidBcp47Code.Other">
+        <source xml:lang="en">The language entered does not appear to specify a valid code according to {0}.</source>
+        <target xml:lang="es-ES" state="translated">El idioma introducido no parece especificar un código válido según {0}.</target>
+        <note>ID: PeopleView.MetadataEditor.InvalidBcp47Code.Other</note>
+      </trans-unit>
+      <trans-unit id="PeopleView.MetadataEditor.InvalidBcp47Code.Primary">
+        <source xml:lang="en">The primary language entered does not appear to specify a valid code according to {0}.</source>
+        <target xml:lang="es-ES" state="translated">El idioma principal introducido no parece especificar un código válido según {0}.</target>
+        <note>ID: PeopleView.MetadataEditor.InvalidBcp47Code.Primary</note>
       </trans-unit>
       <trans-unit id="PeopleView.MetadataEditor.MotherSelectorToolTip.WhenNotSelected">
         <source xml:lang="en">Click to indicate this is the mother's primary language</source>
@@ -3781,6 +3841,16 @@
         <source xml:lang="en">Transcription</source>
         <target xml:lang="es-ES" state="translated">transcripción</target>
         <note>ID: Project.TranscriptionFontDescription</note>
+      </trans-unit>
+      <trans-unit id="Project.WorkingLanguageFontDescription">
+        <source xml:lang="en">Working Language</source>
+        <target xml:lang="es-ES" state="translated">Idioma de investigación</target>
+        <note>ID: Project.WorkingLanguageFontDescription</note>
+      </trans-unit>
+      <trans-unit id="ProjectMetadataScreen.linkLabel1">
+        <source xml:lang="en">Default font for {0}</source>
+        <target xml:lang="es-ES" state="translated">Fuente predeterminada para {0}</target>
+        <note>ID: ProjectMetadataScreen.linkLabel1</note>
       </trans-unit>
       <trans-unit id="ProjectView.AboutProjectViewTitle">
         <source xml:lang="en">About This Project</source>
@@ -4129,7 +4199,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 4" sil:dynamic="true">
         <source xml:lang="en">Depositor control</source>
-        <target xml:lang="es-ES" state="needs-translation">Depositor control</target>
+        <target xml:lang="es-ES" state="translated">Control del depositante</target>
         <note>ID: SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 4</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.ELAR.O" sil:dynamic="true">
@@ -4149,7 +4219,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.REAP." sil:dynamic="true">
         <source xml:lang="en">&lt;unknown&gt;</source>
-        <target xml:lang="es-ES" state="needs-translation">&lt;unknown&gt;</target>
+        <target xml:lang="es-ES" state="translated">&lt;desconocido&gt;</target>
         <note>ID: SessionsView.MetadataEditor.AccessProtocol.REAP.</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.REAP.Entity" sil:dynamic="true">
@@ -4612,6 +4682,11 @@
         <target xml:lang="es-ES" state="translated">Ocurrió un error al intentar cargar el archivo multimedia para determinar la duración: '{0}'.</target>
         <note>ID: SessionsView.Transcription.ErrorAccessingMediaFile</note>
       </trans-unit>
+      <trans-unit id="SessionsView.Transcription.FailureToGetDuration">
+        <source xml:lang="en">Failure to determine media file duration.</source>
+        <target xml:lang="es-ES" state="translated">Error al determinar la duración del archivo multimedia.</target>
+        <note>ID: SessionsView.Transcription.FailureToGetDuration</note>
+      </trans-unit>
       <trans-unit id="SessionsView.Transcription.FontDialogProblem">
         <source xml:lang="en">There was some problem with choosing that font. If you just installed it, you might try restarting the program or even your computer.</source>
         <target xml:lang="es-ES" state="translated">Ocurrió un problema con la selección de esa fuente. Si usted la acaba de instalar, puede intentar reiniciar el programa o incluso la computadora, y luego volver a intentar seleccionar la fuente.</target>
@@ -4706,11 +4781,6 @@
         <source xml:lang="en">Options</source>
         <target xml:lang="es-ES" state="translated">Opciones</target>
         <note>ID: SessionsView.Transcription.OptionsMenu</note>
-      </trans-unit>
-      <trans-unit id="SessionsView.Transcription.ProbablyCannotGetDuration">
-        <source xml:lang="en">It will probably not be possible to determine the media file duration.</source>
-        <target xml:lang="es-ES" state="translated">Probablemente no sea posible determinar la duración del archivo multimedia.</target>
-        <note>ID: SessionsView.Transcription.ProbablyCannotGetDuration</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._buttonConvert">
         <source xml:lang="en">Convert</source>
@@ -4819,7 +4889,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslationFilenameSuffix">
         <source xml:lang="en">audacity_freeTranslation</source>
-        <target xml:lang="es-ES" state="needs-translation">audacity_freeTranslation</target>
+        <target xml:lang="es-ES" state="translated">audacity_freeTranslation</target>
         <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslationFilenameSuffix</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscription">
@@ -5047,6 +5117,46 @@
         <target xml:lang="es-ES" state="translated">Sesiones</target>
         <note>ID: SessionsView.ViewTabText</note>
       </trans-unit>
+      <trans-unit id="ShortFileNameWarningDlg.WindowTitle">
+        <source xml:lang="en">Unable to Obtain Short Filename</source>
+        <target xml:lang="es-ES" state="translated">No se puede obtener el nombre de archivo corto</target>
+        <note>ID: ShortFileNameWarningDlg.WindowTitle</note>
+      </trans-unit>
+      <trans-unit id="ShortFileNameWarningDlg._chkDoNotReportAnymoreThisSession">
+        <source xml:lang="en">Do not report these problems again until I restart {0}</source>
+        <target xml:lang="es-ES" state="translated">No reportar estos problemas de nuevo hasta que se reinicie {0}</target>
+        <note>ID: ShortFileNameWarningDlg._chkDoNotReportAnymoreThisSession</note>
+      </trans-unit>
+      <trans-unit id="ShortFileNameWarningDlg._chkDoNotReportEver">
+        <source xml:lang="en">Do not report these problems ever again</source>
+        <target xml:lang="es-ES" state="translated">No reportar estos problemas nunca más</target>
+        <note>ID: ShortFileNameWarningDlg._chkDoNotReportEver</note>
+      </trans-unit>
+      <trans-unit id="ShortFileNameWarningDlg._lblDoNotReportForExtensions">
+        <source xml:lang="en">Do not report these problems for selected files:</source>
+        <target xml:lang="es-ES" state="translated">No reportar estos problemas para los archivos seleccionados:</target>
+        <note>ID: ShortFileNameWarningDlg._lblDoNotReportForExtensions</note>
+      </trans-unit>
+      <trans-unit id="ShortFileNameWarningDlg._lblDoNotReportForVolumes">
+        <source xml:lang="en">Do not report these problems for files on selected volumes:</source>
+        <target xml:lang="es-ES" state="translated">No reportar estos problemas para archivos en los volúmenes seleccionados:</target>
+        <note>ID: ShortFileNameWarningDlg._lblDoNotReportForVolumes</note>
+      </trans-unit>
+      <trans-unit id="ShortFileNameWarningDlg._lblFailedActions">
+        <source xml:lang="en">This will help to avoid the following problems:</source>
+        <target xml:lang="es-ES" state="translated">Esto ayudará a evitar los siguientes problemas:</target>
+        <note>ID: ShortFileNameWarningDlg._lblFailedActions</note>
+      </trans-unit>
+      <trans-unit id="ShortFileNameWarningDlg._linkLabelFsUtilMsg">
+        <source xml:lang="en">If possible, you (or a system administrator) should use {0} to enable creation of short "8.3" file names for file system volumes where media files are located.</source>
+        <target xml:lang="es-ES" state="translated">Si es posible, usted (o un administrador del sistema) debe usar {0} para habilitar la creación de "8.3" nombres de archivos para los volúmenes del sistema de archivos donde se encuentran los archivos multimedia.</target>
+        <note>ID: ShortFileNameWarningDlg._linkLabelFsUtilMsg</note>
+      </trans-unit>
+      <trans-unit id="ShortFileNameWarningDlg.lblFailedActionsNoCurrentFailures">
+        <source xml:lang="en">This will help to avoid problems with certain utilities that {0} uses.</source>
+        <target xml:lang="es-ES" state="translated">Esto ayudará a evitar problemas con ciertas utilidades que utiliza {0}.</target>
+        <note>ID: ShortFileNameWarningDlg.lblFailedActionsNoCurrentFailures</note>
+      </trans-unit>
       <trans-unit id="SoundFileUtils.ConversionOutputFileAlreadyErrorMsg">
         <source xml:lang="en">Sorry, the file '{0}' already exists.</source>
         <target xml:lang="es-ES" state="translated">El archivo '{0}' ya existe.</target>
@@ -5096,6 +5206,31 @@
         <source xml:lang="en">Fewer values than requested were found in\n{0}.\nFile may be corrupt. Requested values: {1}. Actual values returned: {2}</source>
         <target xml:lang="es-ES" state="translated">Se encontraron menos valores que los que se solicitaba en\n{0}.\nEl archivo puede estar dañado. Valores solicitados: {1}. Valores reales devueltos: {2}</target>
         <note>ID: SoundFileUtils.UnexpectedEndOfStream</note>
+      </trans-unit>
+      <trans-unit id="WritingSystemDlg.AnotherLanguage">
+        <source xml:lang="en">Another language used by {0}</source>
+        <target xml:lang="es-ES" state="translated">Otro idioma utilizado por {0}</target>
+        <note>ID: WritingSystemDlg.AnotherLanguage</note>
+      </trans-unit>
+      <trans-unit id="WritingSystemDlg.FathersLanguage">
+        <source xml:lang="en">Primary language used by the father of {0}</source>
+        <target xml:lang="es-ES" state="translated">Idioma principal usado por el padre de {0}</target>
+        <note>ID: WritingSystemDlg.FathersLanguage</note>
+      </trans-unit>
+      <trans-unit id="WritingSystemDlg.MothersLanguage">
+        <source xml:lang="en">Primary language used by the mother of {0}</source>
+        <target xml:lang="es-ES" state="translated">Idioma principal usado por la madre de {0}</target>
+        <note>ID: WritingSystemDlg.MothersLanguage</note>
+      </trans-unit>
+      <trans-unit id="WritingSystemDlg.ParentsLanguage">
+        <source xml:lang="en">Primary language used by the parents of {0}</source>
+        <target xml:lang="es-ES" state="translated">Idioma principal usado por los padres de {0}</target>
+        <note>ID: WritingSystemDlg.ParentsLanguage</note>
+      </trans-unit>
+      <trans-unit id="WritingSystemDlg.PrimaryLanguage">
+        <source xml:lang="en">Primary language for {0}</source>
+        <target xml:lang="es-ES" state="translated">Idioma principal de {0}</target>
+        <note>ID: WritingSystemDlg.PrimaryLanguage</note>
       </trans-unit>
     </body>
   </file>

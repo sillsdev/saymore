@@ -54,13 +54,13 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public bool CanExtend(object extendee)
 		{
-			if ((extendee is ComboBox && ((ComboBox)extendee).DropDownStyle != ComboBoxStyle.DropDown) ||
+			if ((extendee is ComboBox comboBox && comboBox.DropDownStyle != ComboBoxStyle.DropDown) ||
 				!(extendee is TextBox || extendee is MultiValueDropDownBox))
 			{
 				return false;
 			}
 
-			var control = extendee as Control;
+			var control = (Control)extendee;
 			if (!_keysForControls.ContainsKey(control))
 				_keysForControls[control] = string.Empty; //default to no autocomplete
 
@@ -72,7 +72,7 @@ namespace SayMore.UI.ComponentEditors
 		#region Properties provided by this extender
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whether or not the data gatherer is updated after the
+		/// Gets a value indicating whether the data gatherer is updated after the
 		/// data in a supported control is changed. TODO: Add support for this property.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -93,8 +93,7 @@ namespace SayMore.UI.ComponentEditors
 		[Category("AutoCompleteHelper Properties")]
 		public string GetAutoCompleteKey(Control control)
 		{
-			string key;
-			return (_keysForControls.TryGetValue(control, out key) ? key : string.Empty);
+			return _keysForControls.TryGetValue(control, out var key) ? key : string.Empty;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -144,40 +143,40 @@ namespace SayMore.UI.ComponentEditors
 			control.KeyDown += HandleControlKeyDown;
 			control.Disposed += HandleDisposed;
 
-			if (control is TextBox)
+			switch (control)
 			{
-				((TextBox)control).AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-				((TextBox)control).AutoCompleteSource = AutoCompleteSource.CustomSource;
-			}
-			else if (control is ComboBox)
-			{
-				((ComboBox)control).AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-				((ComboBox)control).AutoCompleteSource = AutoCompleteSource.CustomSource;
-			}
-			else if (control is MultiValueAutoCompleteComboBox)
-			{
-				((MultiValueAutoCompleteComboBox)control).AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-				((MultiValueAutoCompleteComboBox)control).AutoCompleteSource = AutoCompleteSource.CustomSource;
+				case TextBox textBox:
+					textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+					textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+					break;
+				case ComboBox comboBox:
+					comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+					comboBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+					break;
+				case MultiValueAutoCompleteComboBox multiValAutoCompleteCombo:
+					multiValAutoCompleteCombo.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+					multiValAutoCompleteCombo.AutoCompleteSource = AutoCompleteSource.CustomSource;
+					break;
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void RemoveSupport(Control control)
 		{
-			if (control is TextBox)
+			switch (control)
 			{
-				((TextBox)control).AutoCompleteMode = default(AutoCompleteMode);
-				((TextBox)control).AutoCompleteSource = AutoCompleteSource.None;
-			}
-			else if (control is ComboBox)
-			{
-				((ComboBox)control).AutoCompleteMode = default(AutoCompleteMode);
-				((ComboBox)control).AutoCompleteSource = AutoCompleteSource.None;
-			}
-			else if (control is MultiValueAutoCompleteComboBox)
-			{
-				((MultiValueAutoCompleteComboBox)control).AutoCompleteMode = default(AutoCompleteMode);
-				((MultiValueAutoCompleteComboBox)control).AutoCompleteSource = AutoCompleteSource.None;
+				case TextBox textBox:
+					textBox.AutoCompleteMode = default;
+					textBox.AutoCompleteSource = AutoCompleteSource.None;
+					break;
+				case ComboBox comboBox:
+					comboBox.AutoCompleteMode = default;
+					comboBox.AutoCompleteSource = AutoCompleteSource.None;
+					break;
+				case MultiValueAutoCompleteComboBox multiValAutoCompleteCombo:
+					multiValAutoCompleteCombo.AutoCompleteMode = default;
+					multiValAutoCompleteCombo.AutoCompleteSource = AutoCompleteSource.None;
+					break;
 			}
 
 			control.Validating -= HandleControlValidated;
@@ -212,8 +211,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		void HandleControlEnter(object sender, EventArgs e)
 		{
-			var control = sender as Control;
-			if (control == null)
+			if (!(sender is Control control))
 				return;
 
 			if (_controlsNeedingNewList.Contains(control))
@@ -221,23 +219,28 @@ namespace SayMore.UI.ComponentEditors
 				_controlsNeedingNewList.Remove(control);
 				var newValues = new AutoCompleteStringCollection();
 
-				IEnumerable<string> values;
-				if (_autoCompleteLists.TryGetValue(_keysForControls[control], out values))
+				if (_autoCompleteLists.TryGetValue(_keysForControls[control], out var values))
 					newValues.AddRange(values.ToArray());
 
-				if (control is TextBox)
-					((TextBox)control).AutoCompleteCustomSource = newValues;
-				else if (control is ComboBox)
-					((ComboBox)control).AutoCompleteCustomSource = newValues;
-				else if (control is MultiValueAutoCompleteComboBox)
-					((MultiValueAutoCompleteComboBox)control).AutoCompleteCustomSource = newValues;
+				switch (control)
+				{
+					case TextBox textBox:
+						textBox.AutoCompleteCustomSource = newValues;
+						break;
+					case ComboBox comboBox:
+						comboBox.AutoCompleteCustomSource = newValues;
+						break;
+					case MultiValueAutoCompleteComboBox multiValAutoCompleteCombo:
+						multiValAutoCompleteCombo.AutoCompleteCustomSource = newValues;
+						break;
+				}
 			}
 
 			SelectAllControlsText(control);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleControlValidated(object sender, EventArgs e)
+		private static void HandleControlValidated(object sender, EventArgs e)
 		{
 			// TODO: When support for UpdateGatherer property.
 		}
@@ -251,12 +254,18 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private static void SelectAllControlsText(Control control)
 		{
-			if (control is TextBox)
-				((TextBox)control).SelectAll();
-			else if (control is ComboBox)
-				((ComboBox)control).SelectAll();
-			else if (control is MultiValueComboBox)
-				((MultiValueComboBox)control).SelectAll();
+			switch (control)
+			{
+				case TextBox textBox:
+					textBox.SelectAll();
+					break;
+				case ComboBox comboBox:
+					comboBox.SelectAll();
+					break;
+				case MultiValueComboBox multiValueComboBox:
+					multiValueComboBox.SelectAll();
+					break;
+			}
 		}
 	}
 }

@@ -649,6 +649,8 @@ namespace SayMore.UI.ComponentEditors
 			// tabs and reporting the validation error twice if validation fails.
 			_participants.GotFocus += SwitchToContributorsTab;
 			_binder.ValidationFailed += AbortSwitchToContributorsBecauseValidationFailed;
+
+			_participants.Focus();
 		}
 
 		private void AbortSwitchToContributorsBecauseValidationFailed(BindingHelper sender,

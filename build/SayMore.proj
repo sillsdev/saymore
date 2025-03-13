@@ -2,7 +2,7 @@
   <PropertyGroup>
 	<RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
 	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
-	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'==''">3.5.0</BUILD_NUMBER>
+	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'==''">3.7.100</BUILD_NUMBER>
 	<BuildTasksDll Condition="Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.0/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks.3.1.0/tools/SIL.BuildTasks.dll</BuildTasksDll>
 	<BuildTasksDll Condition="!Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.0/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks/tools/SIL.BuildTasks.dll</BuildTasksDll>
 	<SILReleaseTasksProps>$(RootDir)/packages/SIL.ReleaseTasks.3.1.0/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
@@ -86,7 +86,7 @@
 	</ItemGroup>
 	<NUnit3 Condition="'$(teamcity_version)' == ''"
 		Assemblies="@(TestAssemblies)"
-		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.19.0/tools"
+		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.19.2/tools"
 		ExcludeCategory="$(excludedCategories)"
 		WorkingDirectory="$(RootDir)/output/$(Configuration)"
 		Force32Bit="$(useNUnit-x86)"
@@ -96,7 +96,7 @@
 		TeamCity="false"/>
 	<NUnit3 Condition="'$(teamcity_version)' != ''"
 		Assemblies="@(TestAssemblies)"
-		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.19.0/tools"
+		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.19.2/tools"
 		ExcludeCategory="SkipOnTeamCity,$(excludedCategories)"
 		WorkingDirectory="$(RootDir)/output/$(Configuration)"
 		Force32Bit="$(useNUnit-x86)"

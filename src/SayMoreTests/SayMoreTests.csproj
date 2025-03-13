@@ -58,8 +58,8 @@
     <Reference Include="AtkSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=313398f2149d753f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\AtkSharp-signed.3.22.24.37\lib\netstandard2.0\AtkSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac, Version=5.1.4.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Autofac.5.1.4\lib\net461\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=5.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.5.2.0\lib\net461\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="CairoSharp, Version=3.22.24.37, Culture=neutral, PublicKeyToken=313398f2149d753f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CairoSharp-signed.3.22.24.37\lib\netstandard2.0\CairoSharp.dll</HintPath>
@@ -441,8 +441,10 @@
     <Error Condition="!Exists('..\..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets'))" />
     <Error Condition="!Exists('..\..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets'))" />
     <Error Condition="!Exists('..\..\packages\NUnit3TestAdapter.4.6.0\build\net462\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NUnit3TestAdapter.4.6.0\build\net462\NUnit3TestAdapter.props'))" />
+    <Error Condition="!Exists('..\..\packages\icu.net.3.0.1\build\icu.net.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\icu.net.3.0.1\build\icu.net.props'))" />
+    <Error Condition="!Exists('..\..\packages\icu.net.3.0.1\build\icu.net.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\icu.net.3.0.1\build\icu.net.targets'))" />
     <Error Condition="!Exists('..\..\packages\NUnit.3.14.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NUnit.3.14.0\build\NUnit.props'))" />
-    <Error Condition="!Exists('..\..\packages\SIL.Media.16.0.0-beta0061\build\SIL.Media.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Media.16.0.0-beta0061\build\SIL.Media.targets'))" />
+    <Error Condition="!Exists('..\..\packages\SIL.Media.16.0.0-beta0083\build\SIL.Media.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Media.16.0.0-beta0083\build\SIL.Media.targets'))" />
     <Error Condition="!Exists('..\..\packages\icu.net.3.0.1\build\icu.net.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\icu.net.3.0.1\build\icu.net.props'))" />
     <Error Condition="!Exists('..\..\packages\icu.net.3.0.1\build\icu.net.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\icu.net.3.0.1\build\icu.net.targets'))" />
     <Error Condition="!Exists('..\..\packages\SIL.Media.16.0.0-beta0083\build\SIL.Media.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Media.16.0.0-beta0083\build\SIL.Media.targets'))" />
@@ -453,7 +455,7 @@
   <Import Project="..\..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets" Condition="Exists('..\..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets')" />
   <Import Project="..\..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets" Condition="Exists('..\..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets')" />
   <Import Project="..\..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets" Condition="Exists('..\..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets')" />
-  <Import Project="..\..\packages\SIL.Media.16.0.0-beta0061\build\SIL.Media.targets" Condition="Exists('..\..\packages\SIL.Media.16.0.0-beta0061\build\SIL.Media.targets')" />
+  <Import Project="..\..\packages\SIL.Media.16.0.0-beta0083\build\SIL.Media.targets" Condition="Exists('..\..\packages\SIL.Media.16.0.0-beta0083\build\SIL.Media.targets')" />
   <Import Project="..\..\packages\icu.net.3.0.1\build\icu.net.targets" Condition="Exists('..\..\packages\icu.net.3.0.1\build\icu.net.targets')" />
   <Import Project="..\..\packages\SIL.Media.16.0.0-beta0083\build\SIL.Media.targets" Condition="Exists('..\..\packages\SIL.Media.16.0.0-beta0083\build\SIL.Media.targets')" />
   <Import Project="..\..\packages\SIL.Windows.Forms.Keyboarding.16.0.0-beta0083\build\SIL.Windows.Forms.Keyboarding.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.16.0.0-beta0083\build\SIL.Windows.Forms.Keyboarding.targets')" />

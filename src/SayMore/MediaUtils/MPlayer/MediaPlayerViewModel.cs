@@ -116,7 +116,7 @@ namespace SayMore.Media.MPlayer
 						_mplayerProcess = null;
 						_stdIn = null;
 					}
-
+					HasPlaybackStarted = false;
 					CancelLoopDelayTimer();
 				}
 				catch
@@ -187,7 +187,6 @@ namespace SayMore.Media.MPlayer
 			lock (_lock)
 			{
 				ShutdownMPlayerProcess();
-				HasPlaybackStarted = false;
 			}
 
 			CurrentPosition = PlaybackStartPosition;
@@ -571,9 +570,9 @@ namespace SayMore.Media.MPlayer
 
 				lock (_lock)
 				{
-					// If we get the lock and the process has already been set to null, then
-					// playback was stopped externally, and it won't make sense to do any of this.
-					if (_mplayerProcess == null)
+					// If we get the lock and we are not in playback, then playback was stopped
+					// externally, and it won't make sense to do any of this.
+					if (!HasPlaybackStarted)
 						return;
 					OnMediaQueued();
 

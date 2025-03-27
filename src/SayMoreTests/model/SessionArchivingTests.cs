@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using L10NSharp;
 using Moq;
 using NUnit.Framework;
 using SIL.Reporting;
@@ -15,7 +16,6 @@ using SIL.Archiving;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
 using SIL.Core.ClearShare;
-using SIL.Extensions;
 using Project = SayMore.Model.Project;
 using Session = SayMore.Model.Session;
 
@@ -37,6 +37,7 @@ namespace SayMoreTests.Utilities
 		public void Setup()
 		{
 			ErrorReport.IsOkToInteractWithUser = false;
+			LocalizationManager.StrictInitializationMode = false;
 
 			_dummyProjectName = "ArchiveHelperTestFolder";
 			_tmpFolder = new TemporaryFolder(_dummyProjectName);
@@ -90,6 +91,7 @@ namespace SayMoreTests.Utilities
 		public void TearDown()
 		{
 			_tmpFolder.Dispose();
+			LocalizationManager.StrictInitializationMode = true;
 		}
 
 		/// ------------------------------------------------------------------------------------

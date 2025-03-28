@@ -27,13 +27,16 @@ namespace SayMore.Media.MPlayer
 		public event EventHandler MediaQueued;
 
 		private readonly StringBuilder _mplayerStartInfo = new StringBuilder();
+
+		private readonly object _lock = new object();
 		private ExternalProcess _mplayerProcess;
 		private StreamWriter _stdIn;
-		private float _prevPostion;
+		private System.Threading.Timer _loopDelayTimer;
+		
+		private float _prevPosition;
 		private MPlayerOutputLogForm _formMPlayerOutputLog;
 		private ILogger _outputDebuggingWindow;
 
-		private System.Threading.Timer _loopDelayTimer;
 
 		#region Construction and initialization
 		/// ------------------------------------------------------------------------------------
@@ -51,12 +54,15 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		public void SetStdInForTest(StreamWriter stdIn)
 		{
-			_stdIn = stdIn;
-			_stdIn.AutoFlush = true;
+			lock (_lock)
+			{
+				_stdIn = stdIn;
+				_stdIn.AutoFlush = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Int32 VideoWindowHandle { get; set; }
+		public int VideoWindowHandle { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public float CurrentPosition { get; private set; }
@@ -68,10 +74,7 @@ namespace SayMore.Media.MPlayer
 		public float PlaybackLength { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public bool IsFileLoaded
-		{
-			get { return MediaFile != null; }
-		}
+		public bool IsFileLoaded => MediaFile != null;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -90,7 +93,7 @@ namespace SayMore.Media.MPlayer
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets a value indicating whether or not playback loops after playback ends
+		/// Gets or sets a value indicating whether playback loops after playback ends
 		/// by coming to the end of the playback range. If playback is stopped (e.g. by the
 		/// user clicking a stop playback button), then playback will not loop.
 		/// </summary>
@@ -102,23 +105,24 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		public void ShutdownMPlayerProcess()
 		{
-			try
+			lock (_lock)
 			{
-				if (_mplayerProcess != null && !_mplayerProcess.HasExited)
+				try
 				{
-					_mplayerProcess.KillProcess();
-					_mplayerProcess.Dispose();
-					_mplayerProcess = null;
-					_stdIn = null;
+					if (_mplayerProcess != null && !_mplayerProcess.HasExited)
+					{
+						_mplayerProcess.KillProcess();
+						_mplayerProcess.Dispose();
+						_mplayerProcess = null;
+						_stdIn = null;
+					}
+					HasPlaybackStarted = false;
+					CancelLoopDelayTimer();
 				}
-
-				if (_loopDelayTimer != null)
+				catch
 				{
-					_loopDelayTimer.Dispose();
-					_loopDelayTimer = null;
 				}
 			}
-			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -180,8 +184,11 @@ namespace SayMore.Media.MPlayer
 		private void OnMediaQueued()
 		{
 			_queueingInProgress = true;
-			ShutdownMPlayerProcess();
-			HasPlaybackStarted = false;
+			lock (_lock)
+			{
+				ShutdownMPlayerProcess();
+			}
+
 			CurrentPosition = PlaybackStartPosition;
 
 			if (MediaQueued != null && GetTotalMediaDuration() > 0f && (!MediaInfo.IsVideo ||
@@ -198,21 +205,18 @@ namespace SayMore.Media.MPlayer
 		/// Gets the total duration in seconds. For audio files, the duration is always the
 		/// duration of the audio. For video files, it is the total duration, counting from the
 		/// start of the first track to the end of the last track (audio and video tracks are
-		/// not guaranteed to start and end simultaneouly).
+		/// not guaranteed to start and end simultaneously).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public float GetTotalMediaDuration()
-		{
-			return (MediaInfo == null ? 0f : (float)MediaInfo.Duration.TotalSeconds);
-		}
+		public float GetTotalMediaDuration() => (float)(MediaInfo?.Duration.TotalSeconds ?? 0f);
 
 		/// ------------------------------------------------------------------------------------
 		private float GetPlayBackEndPosition()
 		{
 			var mediaDuration = GetTotalMediaDuration();
 
-			var endPosition = (PlaybackLength.Equals(0f) ?
-				mediaDuration : PlaybackStartPosition + PlaybackLength);
+			var endPosition = PlaybackLength.Equals(0f) ?
+				mediaDuration : PlaybackStartPosition + PlaybackLength;
 
 			return Math.Min(mediaDuration, endPosition);
 		}
@@ -229,22 +233,13 @@ namespace SayMore.Media.MPlayer
 
 		#region Button state properties
 		/// ------------------------------------------------------------------------------------
-		public bool IsPlayButtonVisible
-		{
-			get { return (IsPaused || !HasPlaybackStarted); }
-		}
+		public bool IsPlayButtonVisible => (IsPaused || !HasPlaybackStarted);
 
 		/// ------------------------------------------------------------------------------------
-		public bool IsPauseButtonVisible
-		{
-			get { return (!IsPaused && HasPlaybackStarted); }
-		}
+		public bool IsPauseButtonVisible => (!IsPaused && HasPlaybackStarted);
 
 		/// ------------------------------------------------------------------------------------
-		public bool IsStopEnabled
-		{
-			get { return HasPlaybackStarted; }
-		}
+		public bool IsStopEnabled => HasPlaybackStarted;
 
 		#endregion
 
@@ -286,7 +281,8 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		public void ConfigurePlayingForTest()
 		{
-			HasPlaybackStarted = true;
+			lock (_lock)
+				HasPlaybackStarted = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -298,22 +294,25 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		public void Play(bool resampleToMono)
 		{
-			if (!HasPlaybackStarted)
-				StartPlayback(resampleToMono);
-			else if (IsPaused)
-				_stdIn.WriteLine("pause ");
+			lock (_lock)
+			{
+				if (!HasPlaybackStarted)
+					StartPlayback(resampleToMono);
+				else if (IsPaused)
+					_stdIn.WriteLine("pause ");
+			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Starts playback. Caller is responsible for obtaining the lock.
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void StartPlayback(bool resampleToMono)
 		{
 			DebugOutput = Application.OpenForms.OfType<ILogger>().FirstOrDefault();
 
-			if (_loopDelayTimer != null)
-			{
-				_loopDelayTimer.Dispose();
-				_loopDelayTimer = null;
-			}
+			CancelLoopDelayTimer();
 
 			if (_mplayerProcess != null)
 				ShutdownMPlayerProcess();
@@ -356,8 +355,22 @@ namespace SayMore.Media.MPlayer
 
 			HasPlaybackStarted = true;
 
-			if (PlaybackStarted != null)
-				PlaybackStarted(this, EventArgs.Empty);
+			PlaybackStarted?.Invoke(this, EventArgs.Empty);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Disposes and discards the loop delay timer. Caller is responsible for obtaining the
+		/// lock.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void CancelLoopDelayTimer()
+		{
+			if (_loopDelayTimer != null)
+			{
+				_loopDelayTimer.Dispose();
+				_loopDelayTimer = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -367,23 +380,25 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		public void Pause()
 		{
-			if (_stdIn != null)
-				_stdIn.WriteLine("pause ");
+			lock (_lock)
+				_stdIn?.WriteLine("pause ");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Seek(float position)
 		{
-			if (_stdIn != null)
+			lock (_lock)
 			{
-				_stdIn.WriteLine(IsPaused ?
-					string.Format("pause {0}seek {1} 2", Environment.NewLine, position) :
-					string.Format("seek {0} 2", position));
-			}
-			else
-			{
-				PlaybackStartPosition = position;
-				Play();
+				if (_stdIn != null)
+				{
+					_stdIn.WriteLine(IsPaused ? $"pause {Environment.NewLine}seek {position} 2" :
+						$"seek {position} 2");
+				}
+				else
+				{
+					PlaybackStartPosition = position;
+					Play();
+				}
 			}
 		}
 
@@ -396,22 +411,20 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		public void Stop(bool waitForMediaFileToBeReleased)
 		{
-			if (HasPlaybackStarted)
+			lock (_lock)
 			{
-				_stdIn.WriteLine("stop ");
-				OnMediaQueued();
+				if (HasPlaybackStarted)
+				{
+					_stdIn.WriteLine("stop ");
+					OnMediaQueued();
 
-				if (PlaybackEnded != null)
-					PlaybackEnded(this, false);
+					PlaybackEnded?.Invoke(this, false);
 
-				if (waitForMediaFileToBeReleased && MediaFile != null)
-					FileSystemUtils.WaitForFileRelease(MediaFile);
-			}
+					if (waitForMediaFileToBeReleased && MediaFile != null)
+						FileSystemUtils.WaitForFileRelease(MediaFile);
+				}
 
-			if (_loopDelayTimer != null)
-			{
-				_loopDelayTimer.Dispose();
-				_loopDelayTimer = null;
+				CancelLoopDelayTimer();
 			}
 		}
 
@@ -420,8 +433,8 @@ namespace SayMore.Media.MPlayer
 		{
 			Speed = speed;
 
-			if (_stdIn != null)
-				_stdIn.WriteLine("speed_set {0} ", Speed / 100d);
+			lock (_lock)
+				_stdIn?.WriteLine("speed_set {0} ", Speed / 100d);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -433,8 +446,7 @@ namespace SayMore.Media.MPlayer
 				if (!IsPaused)
 					SendVolumeMessageToPlayer();
 
-				if (VolumeChanged != null)
-					VolumeChanged();
+				VolumeChanged?.Invoke();
 			}
 		}
 
@@ -449,27 +461,17 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		private void SendVolumeMessageToPlayer()
 		{
-			if (_stdIn != null)
-				_stdIn.WriteLine("volume {0} 1 ", IsVolumeMuted ? 0 : Volume);
+			lock (_lock)
+				_stdIn?.WriteLine("volume {0} 1 ", IsVolumeMuted ? 0 : Volume);
 		}
 
 		#endregion
 
 		#region Time display methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Combines two results of MakeTimeString into a display of a the current time
-		/// position next to the total time (which is the duration of the media file).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string GetTimeDisplay()
-		{
-			return GetTimeDisplay(CurrentPosition);
-		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Combines two results of MakeTimeString into a display of a the current time
+		/// Combines two results of MakeTimeString into a display of the current time
 		/// position next to the total time (which is the duration of the media file).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -480,7 +482,7 @@ namespace SayMore.Media.MPlayer
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Combines two results of MakeTimeString into a display of a the time represented
+		/// Combines two results of MakeTimeString into a display of the time represented
 		/// by position next to the specified length.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -496,7 +498,7 @@ namespace SayMore.Media.MPlayer
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Combines two results of MakeTimeString into a display of a the time represented
+		/// Combines two results of MakeTimeString into a display of the time represented
 		/// by position next to the specified length.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -530,10 +532,10 @@ namespace SayMore.Media.MPlayer
 				str = str.TrimEnd('0');
 
 			if (str.EndsWith("."))
-				str = str + "0";
+				str += "0";
 
 			if (!str.Contains("."))
-				str = str + ".0";
+				str += ".0";
 
 			return str;
 		}
@@ -556,8 +558,7 @@ namespace SayMore.Media.MPlayer
 			if (_queueingInProgress)
 				return;
 
-			if (_outputDebuggingWindow != null)
-				_outputDebuggingWindow.AddText(data);
+			_outputDebuggingWindow?.AddText(data);
 
 			if (data.StartsWith("A: "))
 			{
@@ -566,19 +567,25 @@ namespace SayMore.Media.MPlayer
 			else if (data.StartsWith("EOF code:") || data.StartsWith("Failed to open"))
 			{
 				EnsurePlaybackUntilEndOfMedia();
-				OnMediaQueued();
 
-				if (PlaybackEnded != null)
-					PlaybackEnded(this, true);
+				lock (_lock)
+				{
+					// If we get the lock and we are not in playback, then playback was stopped
+					// externally, and it won't make sense to do any of this.
+					if (!HasPlaybackStarted)
+						return;
+					OnMediaQueued();
 
-				if (Loop)
-					StartLoopTimer();
+					PlaybackEnded?.Invoke(this, true);
+
+					if (Loop)
+						StartLoopTimer();
+				}
 			}
 			else if (data.StartsWith("ID_PAUSED"))
 			{
 				IsPaused = true;
-				if (PlaybackPaused != null)
-					PlaybackPaused();
+				PlaybackPaused?.Invoke();
 			}
 		}
 
@@ -594,15 +601,20 @@ namespace SayMore.Media.MPlayer
 			// out how long to delay (and then delay) before passing on an accurate report
 			// that we've reached EOF.
 
-			var secondsLeftToPlay = (GetPlayBackEndPosition() - _prevPostion);
+			var secondsLeftToPlay = GetPlayBackEndPosition() - _prevPosition;
 			if (secondsLeftToPlay <= 0)
 				return;
 
 			var finishedTime = DateTime.Now.AddSeconds(secondsLeftToPlay);
 			while (finishedTime >= DateTime.Now)
 			{
-				var newPosition = _prevPostion + (finishedTime - DateTime.Now).TotalSeconds;
+				var newPosition = _prevPosition + (finishedTime - DateTime.Now).TotalSeconds;
 				ProcessPlaybackPositionMessage((float)newPosition);
+				lock (_lock)
+				{
+					if (_mplayerProcess == null)
+						break;
+				}
 			}
 		}
 
@@ -618,8 +630,7 @@ namespace SayMore.Media.MPlayer
 			if (IsPaused)
 			{
 				IsPaused = false;
-				if (PlaybackResumed != null)
-					PlaybackResumed();
+				PlaybackResumed?.Invoke();
 			}
 
 			try
@@ -637,24 +648,22 @@ namespace SayMore.Media.MPlayer
 			if (IsPaused)
 			{
 				IsPaused = false;
-				if (PlaybackResumed != null)
-					PlaybackResumed();
+				PlaybackResumed?.Invoke();
 			}
 
 			CurrentPosition = Math.Max(0, newCurrentTime);
 
-			if (CurrentPosition.Equals(0) || CurrentPosition.Equals(_prevPostion))
+			if (CurrentPosition.Equals(0) || CurrentPosition.Equals(_prevPosition))
 				return;
 
-			_prevPostion = CurrentPosition;
+			_prevPosition = CurrentPosition;
 
 			var endPosition = GetPlayBackEndPosition();
 
 			if (CurrentPosition > endPosition)
 				CurrentPosition = endPosition;
 
-			if (PlaybackPositionChanged != null)
-				PlaybackPositionChanged(CurrentPosition);
+			PlaybackPositionChanged?.Invoke(CurrentPosition);
 		}
 
 		#endregion

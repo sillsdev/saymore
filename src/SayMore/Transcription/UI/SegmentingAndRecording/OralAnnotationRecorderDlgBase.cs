@@ -90,49 +90,6 @@ namespace SayMore.Transcription.UI
 		protected OralAnnotationRecorderBaseDlg(OralAnnotationRecorderDlgViewModel viewModel)
 			: base(viewModel)
 		{
-			int listenToOriginalRecordingDownWidth = -1, listenToOriginalRecording = -1,
-				recordingOralAnnotationInProgressWidth = -1, recordOralAnnotationWidth = -1,
-				green_checkWidth = -1, information_redWidth = -1, information_blueWidth = -1;
-
-			try
-			{
-				// SP-950: Check for corrupt resources, out of memory, or ???
-				listenToOriginalRecordingDownWidth = ResourceImageCache.ListenToOriginalRecordingDown.Width;
-				listenToOriginalRecording = ResourceImageCache.ListenToOriginalRecording.Width;
-				recordingOralAnnotationInProgressWidth = ResourceImageCache.RecordingOralAnnotationInProgress.Width;
-				recordOralAnnotationWidth = ResourceImageCache.RecordOralAnnotation.Width;
-				green_checkWidth = ResourceImageCache.Green_check.Width;
-				information_redWidth = ResourceImageCache.Information_red.Width;
-				information_blueWidth = ResourceImageCache.Information_blue.Width;
-				Logger.WriteEvent(string.Format("SP-950 Debug Info: listenToOriginalRecordingDownWidth = {0}; listenToOriginalRecording = {1}; " +
-					"recordingOralAnnotationInProgressWidth = {2}; recordOralAnnotationWidth = {3}; green_checkWidth = {4}; " +
-					"information_redWidth = {5}; information_blueWidth = {6};",
-					listenToOriginalRecordingDownWidth, listenToOriginalRecording, recordingOralAnnotationInProgressWidth, recordOralAnnotationWidth,
-					green_checkWidth, information_redWidth, information_blueWidth));
-				Analytics.Track(string.Format("OARBD: {0}; {1}; {2}; {3}; {4}; {5}; {6};",
-					listenToOriginalRecordingDownWidth, listenToOriginalRecording, recordingOralAnnotationInProgressWidth, recordOralAnnotationWidth,
-					green_checkWidth, information_redWidth, information_blueWidth));
-			}
-			catch (Exception e)
-			{
-				ErrorReport.ReportNonFatalExceptionWithMessage(e,
-					"Problem with Image from resources. Please report this information to help us fix a difficult bug! SP-950 Debug info: " +
-					"listenToOriginalRecordingDownWidth = {0}; " +
-					"listenToOriginalRecording = {1}; " +
-					"recordingOralAnnotationInProgressWidth = {2}; " +
-					"recordOralAnnotationWidth = {3}; " +
-					"green_checkWidth = {4}; " +
-					"information_redWidth = {5}; " +
-					"information_blueWidth = {6}",
-					listenToOriginalRecordingDownWidth,
-					listenToOriginalRecording,
-					recordingOralAnnotationInProgressWidth,
-					recordOralAnnotationWidth,
-					green_checkWidth,
-					information_redWidth,
-					information_blueWidth);
-			}
-
 			AudioUtils.NAudioExceptionThrown += HandleNAudioExceptionThrown;
 
 			InitializeComponent();

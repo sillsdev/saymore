@@ -38,8 +38,8 @@ namespace SayMoreTests.Media.MPlayer
 		public void MakeTimeString_WithHHMMSSms_VerifyCorrect()
 		{
 			var ts = new TimeSpan(0, 2, 32, 54, 430);
-			var seconds = float.Parse(ts.TotalSeconds.ToString());
-			Assert.AreEqual("02:32:54.4", MediaPlayerViewModel.MakeTimeString(seconds));
+			var seconds = (float)ts.TotalSeconds;
+			Assert.That(MediaPlayerViewModel.MakeTimeString(seconds), Is.EqualTo("02:32:54.4"));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -47,8 +47,8 @@ namespace SayMoreTests.Media.MPlayer
 		public void MakeTimeString_WithMMSSms_VerifyCorrect()
 		{
 			var ts = new TimeSpan(0, 0, 16, 23, 560);
-			var seconds = float.Parse(ts.TotalSeconds.ToString());
-			Assert.AreEqual("16:23.6", MediaPlayerViewModel.MakeTimeString(seconds));
+			var seconds = (float)ts.TotalSeconds;
+			Assert.That(MediaPlayerViewModel.MakeTimeString(seconds), Is.EqualTo("16:23.6"));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -65,9 +65,11 @@ namespace SayMoreTests.Media.MPlayer
 		public void HandlePlayerOutput_SendEOF_GetsPlaybackEndedEvent()
 		{
 			bool eventCalled = false;
-			_model.PlaybackEnded += ((s, e) => eventCalled = true );
+			_model.PlaybackEnded += (s, e) => eventCalled = true;
+			_model.ConfigurePlayingForTest();
 			_model.HandlePlayerOutput("EOF code:");
-			Assert.IsTrue(eventCalled);
+			Assert.That(eventCalled, Is.True);
+			Assert.That(_model.HasPlaybackStarted, Is.False);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -77,7 +79,8 @@ namespace SayMoreTests.Media.MPlayer
 		{
 			var file = LoadMediaFile();
 			bool eventCalled = false;
-			_model.MediaQueued += ((s, e) => eventCalled = true);
+			_model.MediaQueued += (s, e) => eventCalled = true;
+			_model.ConfigurePlayingForTest();
 
 			try
 			{
@@ -186,8 +189,8 @@ namespace SayMoreTests.Media.MPlayer
 			var vol = _model.Volume + 10;
 			_model.SetVolume(vol);
 
-			var expected = string.Format("volume {0} 1 \r\n", vol);
-			Assert.AreEqual(expected, Encoding.ASCII.GetString(_stream.ToArray()));
+			var expected = $"volume {vol} 1 \r\n";
+			Assert.That(Encoding.ASCII.GetString(_stream.ToArray()), Is.EqualTo(expected));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -336,7 +339,7 @@ namespace SayMoreTests.Media.MPlayer
 
 			try
 			{
-				// Don't really need to check any more MediaInfo
+				// Don't really need to check any of the other MediaInfo
 				// properties since other test fixtures will do that.
 				Assert.IsNotNull(_model.MediaInfo);
 				Assert.IsTrue(_model.MediaInfo.IsVideo);
@@ -400,8 +403,7 @@ namespace SayMoreTests.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		public string GetText()
 		{
-			if (Disposed != null)
-				Disposed(this, new EventArgs());
+			Disposed?.Invoke(this, EventArgs.Empty);
 			return _strBuilder.ToString();
 		}
 

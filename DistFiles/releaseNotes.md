@@ -1,3 +1,6 @@
+## _VERSION_
+* Solved problem running on Mac using Parallels where SayMore would jump back to first cell in the text annotation grid.
+
 ## Version 3.7
 * Enabled suppression of repeated short filename warnings.
 * Added language chooser to make it easy to select the desired language in a form that supports sharing research and archiving.

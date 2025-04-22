@@ -15,6 +15,7 @@ using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Media.MPlayer;
+using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 using GridSettings = SIL.Windows.Forms.Widgets.BetterGrid.GridSettings;
 
 namespace SayMore.Transcription.UI
@@ -262,6 +263,16 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void InvokeSetCurrentCell(int column, int row, string methodName)
+		{
+			this.SafeInvoke(() =>
+				{
+					CurrentCell = this[column, row];
+				}, $"{GetType().Name}.{methodName}",
+				IgnoreIfDisposed);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// When the user is in a transcription cell, this will intercept the tab and shift+tab
 		/// keys so they move to the next transcription cell or previous transcription cell
@@ -278,14 +289,16 @@ namespace SayMore.Transcription.UI
 				if (CurrentCellAddress.X == ColumnCount - 1 && ModifierKeys != Keys.Shift &&
 					CurrentCellAddress.Y < RowCount - 1)
 				{
-					CurrentCell = this[1, CurrentCellAddress.Y + 1];
+					InvokeSetCurrentCell(1, CurrentCellAddress.Y + 1,
+						nameof(ProcessCmdKey));
 					return true;
 				}
 
 				if (CurrentCellAddress.X == 1 && ModifierKeys == Keys.Shift &&
 					CurrentCellAddress.Y > 0)
 				{
-					CurrentCell = this[ColumnCount - 1, CurrentCellAddress.Y - 1];
+					InvokeSetCurrentCell(ColumnCount - 1, CurrentCellAddress.Y - 1,
+						nameof(ProcessCmdKey));
 					return true;
 				}
 			}
@@ -303,7 +316,8 @@ namespace SayMore.Transcription.UI
 			while (targetRow < segmentCount && _annotationFile.Tiers.GetIsSegmentIgnored(targetRow))
 				targetRow++;
 			if (targetRow < segmentCount) // found a subsequent row that is not ignored.
-				CurrentCell = Rows[targetRow].Cells[CurrentCellAddress.X];
+				InvokeSetCurrentCell(CurrentCellAddress.X, targetRow, nameof(ProcessDownKey));
+		
 			return true;
 		}
 
@@ -316,7 +330,8 @@ namespace SayMore.Transcription.UI
 			while (targetRow >= 0 && _annotationFile.Tiers.GetIsSegmentIgnored(targetRow))
 				targetRow--;
 			if (targetRow >= 0) // found a previous row that is not ignored.
-				CurrentCell = Rows[targetRow].Cells[CurrentCellAddress.X];
+				InvokeSetCurrentCell(CurrentCellAddress.X, targetRow, nameof(ProcessUpKey));
+
 			return true;
 		}
 
@@ -380,7 +395,7 @@ namespace SayMore.Transcription.UI
 			var i = e.RowIndex;
 			if (i < 0)
 				return;
-			var enabled = ((CurrentRow != null && CurrentRow.Index == i) || !GetIgnoreStateForRow(i));
+			var enabled = (CurrentRow != null && CurrentRow.Index == i) || !GetIgnoreStateForRow(i);
 			var backColor = enabled ? BackgroundColor : ColorHelper.CalculateColor(GridColor, BackgroundColor, 128);
 			Rows[i].DefaultCellStyle.BackColor = backColor;
 			Rows[i].DefaultCellStyle.ForeColor = enabled ? ForeColor : ColorHelper.CalculateColor(ForeColor, backColor, 128);
@@ -407,21 +422,25 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnCellMouseClick(e);
 
-			if (e.ColumnIndex < 0 || e.RowIndex < 0 || e.Button != MouseButtons.Right)
-				return;
-
-			var col = Columns[e.ColumnIndex] as TierColumnBase;
-
-			if (col == null)
+			if (e.ColumnIndex < 0 || e.RowIndex < 0 || e.Button != MouseButtons.Right ||
+			    !(Columns[e.ColumnIndex] is TierColumnBase col))
 				return;
 
 			var menuItems = col.GetContextMenuCommands().ToArray();
 			if (menuItems.Length == 0)
 				return;
 
-			CurrentCell = Rows[e.RowIndex].Cells[e.ColumnIndex];
+			var clickedCell = Rows[e.RowIndex].Cells[e.ColumnIndex];
+			// To avoid possibility of churn or weird side effects (esp. on Mac Parallels),
+			// let's only set this if the click occured in a cell other than the current one.
+			if (CurrentCell != clickedCell)
+			{
+				// No need to Invoke, since OnCellMouseClick can only be called on the UI thread.
+				CurrentCell = clickedCell;
+			}
+
 			var menu = new ContextMenuStrip();
-			menu.Items.AddRange(menuItems.ToArray());
+			menu.Items.AddRange(menuItems);
 			menu.Show(MousePosition);
 		}
 
@@ -669,16 +688,13 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleMediaPlaybackEnded(object sender, bool EndedBecauseEOF)
+		private void HandleMediaPlaybackEnded(object sender, bool endedBecauseEOF)
 		{
 			//_paused = false;
 
-			if (InvokeRequired)
-				Invoke(_playbackProgressReportingAction);
-			else
-				_playbackProgressReportingAction();
+			ReportPlayBackProgress("playback ended");
 
-			if (!EndedBecauseEOF)
+			if (!endedBecauseEOF)
 				return;
 
 			lock (_mediaFileQueue)
@@ -686,7 +702,6 @@ namespace SayMore.Transcription.UI
 				if (_mediaFileQueue.Count > 0)
 					_mediaFileQueue.RemoveAt(0);
 			}
-
 
 			if (!Visible)
 				return;
@@ -698,12 +713,14 @@ namespace SayMore.Transcription.UI
 				else
 				{
 					PlaybackInProgress = false;
-					if (InvokeRequired)
-						Invoke(_playbackProgressReportingAction);
-					else
-						_playbackProgressReportingAction();
+					ReportPlayBackProgress("playback ended after max iterations");
 				}
 			}
+		}
+
+		private void ReportPlayBackProgress(string context)
+		{
+			this.SafeInvoke(_playbackProgressReportingAction, context, IgnoreIfDisposed);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -718,10 +735,7 @@ namespace SayMore.Transcription.UI
 				Analytics.Track("Error: _playbackProgressReportingAction is null in HandleMediaPlayStarted");
 				return;
 			}
-			if (InvokeRequired)
-				Invoke(_playbackProgressReportingAction);
-			else
-				_playbackProgressReportingAction();
+			ReportPlayBackProgress("playback started");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -730,7 +744,7 @@ namespace SayMore.Transcription.UI
 			if (!Visible)
 				Stop();
 			else
-				Invoke(_playbackProgressReportingAction);
+				ReportPlayBackProgress("playback position changed");
 		}
 
 		/// ------------------------------------------------------------------------------------

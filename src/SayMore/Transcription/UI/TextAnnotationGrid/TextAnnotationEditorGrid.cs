@@ -434,7 +434,10 @@ namespace SayMore.Transcription.UI
 			// To avoid possibility of churn or weird side effects (esp. on Mac Parallels),
 			// let's only set this if the click occured in a cell other than the current one.
 			if (CurrentCell != clickedCell)
+			{
+				// No need to Invoke, since OnCellMouseClick can only be called on the UI thread.
 				CurrentCell = clickedCell;
+			}
 
 			var menu = new ContextMenuStrip();
 			menu.Items.AddRange(menuItems);

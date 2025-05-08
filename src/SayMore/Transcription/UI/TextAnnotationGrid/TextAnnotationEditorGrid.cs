@@ -499,8 +499,19 @@ namespace SayMore.Transcription.UI
 		protected override void OnRowHeightChanged(DataGridViewRowEventArgs e)
 		{
 			base.OnRowHeightChanged(e);
-			if (CurrentRow == e.Row && e.Row.Index == RowCount - 1)
-				FirstDisplayedScrollingRowIndex = e.Row.Index;
+			var row = e.Row;
+			if (CurrentRow == row && row.Index == RowCount - 1)
+			{
+				// SP-2360: Not safe to set FirstDisplayedScrollingRowIndex while laying out.
+				this.SafeInvoke(() =>
+					{
+						// This redundant check is a safeguard on the off-chance the state has
+						// changed between the original check and this invoke. 
+						if (CurrentRow == row && row.Index == RowCount - 1)
+							FirstDisplayedScrollingRowIndex = row.Index;
+					},
+					$"{nameof(OnRowHeightChanged)} fix for SP-960", IgnoreAll);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

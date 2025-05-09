@@ -43,6 +43,8 @@ namespace SayMore.UI.ComponentEditors
 			dataGridView.Columns[dataGridView.Columns.Add("date", "date")].Visible = false;
 			_model.ContributorsGridSettings = GridSettings.Create(dataGridView);
 
+			SetComponentFile(file);
+
 			_contributorsControl = new ContributorsListControl(_model)
 			{
 				Dock = DockStyle.Fill,
@@ -63,8 +65,6 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			file.AfterSave += File_AfterSave;
-
-			SetComponentFile(file);
 
 			personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
 		}

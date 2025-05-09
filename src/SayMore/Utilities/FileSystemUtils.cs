@@ -235,7 +235,8 @@ namespace SayMore.Utilities
 
 		public static void RobustDelete(string filePath)
 		{
-			if (!File.Exists(filePath)) return;
+			if (!File.Exists(filePath))
+				return;
 
 			try
 			{

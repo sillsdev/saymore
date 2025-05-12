@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SIL.Windows.Forms.Extensions;
 using SIL.Windows.Forms.Widgets;
+using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 
 
 namespace SayMore.Media.MPlayer
@@ -42,7 +43,7 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		public override Color BackColor
 		{
-			get { return base.BackColor; }
+			get => base.BackColor;
 			set
 			{
 				base.BackColor = value;
@@ -51,10 +52,7 @@ namespace SayMore.Media.MPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public int VideoWindowHandle
-		{
-			get { return _panelPlayingSurface.Handle.ToInt32(); }
-		}
+		public int VideoWindowHandle => _panelPlayingSurface.Handle.ToInt32();
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnSizeChanged(EventArgs e)
@@ -66,10 +64,10 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This method will adjust the inner panel (which is the one in which video is
-		/// displayed) so it's size matches the aspect ration of the video and it's location
-		/// is centered. MPlayer, by default, will keep the aspect ration for most video output
+		/// displayed) so it's size matches the aspect ratio of the video and it's location
+		/// is centered. MPlayer, by default, will keep the aspect ratio for most video output
 		/// devices. However, for the sake of Windows 7, we're using direct3d. For some
-		/// reason, MPlayer doesn't keep the aspect ration when using that video output
+		/// reason, MPlayer doesn't keep the aspect ratio when using that video output
 		/// device. So, we'll do it ourselves.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -113,7 +111,7 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		public void ShowVideoThumbnailNow()
 		{
-			if (_viewModel == null || _viewModel.MediaInfo == null || !_viewModel.MediaInfo.IsVideo)
+			if (_viewModel?.MediaInfo?.IsVideo != true)
 				return;
 
 			var img = _viewModel.GetVideoThumbnail();
@@ -130,31 +128,28 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		private void HandleMediaQueued(object sender, EventArgs e)
 		{
-			if (InvokeRequired)
-				BeginInvoke((Action)AdjustVideoSurfaceSize);
-			else
-				AdjustVideoSurfaceSize();
+			InvokeUIUpdate(AdjustVideoSurfaceSize, nameof(HandleMediaQueued));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleMediaPlayStarted(object sender, EventArgs e)
 		{
-			if (InvokeRequired)
-				Invoke((Action)(() => _panelPlayingSurface.BackgroundImage = null));
-			else
-				_panelPlayingSurface.BackgroundImage = null;
+			InvokeUIUpdate(() => _panelPlayingSurface.BackgroundImage = null,
+				nameof(HandleMediaPlayStarted));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleMediaPlaybackEnded(object sender, bool EndedBecauseEOF)
+		private void HandleMediaPlaybackEnded(object sender, bool endedBecauseEOF)
 		{
-			if (_viewModel.Loop && EndedBecauseEOF)
+			if (_viewModel.Loop && endedBecauseEOF)
 				return;
 
-			if (InvokeRequired)
-				Invoke((Action)ShowVideoThumbnailNow);
-			else
-				ShowVideoThumbnailNow();
+			InvokeUIUpdate(ShowVideoThumbnailNow, nameof(HandleMediaPlaybackEnded));
+		}
+
+		private void InvokeUIUpdate(Action updateAction, string methodName)
+		{
+			this.SafeInvoke(updateAction, $"{GetType().Name}.{methodName}", IgnoreIfDisposed);
 		}
 	}
 }

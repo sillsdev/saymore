@@ -129,9 +129,14 @@
   </Target>
   
   		
-  <Target Name="ConvertReleaseNotesToHtml">
-	<CreateReleaseNotesHtml ChangelogFile="$(RootDir)/DistFiles/releaseNotes.md"
-		HtmlFile="$(RootDir)/output/ReleaseNotes.htm" />
+  <Target Name="ConvertReleaseNotesToHtml" DependsOnTargets="VersionNumbers">
+	  <FileUpdate
+		  File="$(RootDir)/DistFiles/ReleaseNotes.md"
+		  Regex='_VERSION_'
+		  ReplacementText="$(Version)" />
+
+	  <CreateReleaseNotesHtml ChangelogFile="$(RootDir)/DistFiles/releaseNotes.md"
+	                          HtmlFile="$(RootDir)/output/ReleaseNotes.htm" />
   </Target>
 
   <Target Name="Installer" DependsOnTargets="VersionNumbers; UpdateDownloadInfo; MakeWixForDistFiles; Build ">

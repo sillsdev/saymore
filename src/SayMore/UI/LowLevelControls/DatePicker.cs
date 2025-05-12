@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.Extensions;
+using SIL.Reporting;
 using SIL.Windows.Forms.Extensions;
 
 namespace SayMore.UI.LowLevelControls
@@ -72,7 +73,14 @@ namespace SayMore.UI.LowLevelControls
 						else
 						{
 							// Still ambiguous. We need to alert the caller.
-							Value = parsedDate;
+							try
+							{
+								Value = parsedDate;
+							}
+							catch (ArgumentOutOfRangeException e)
+							{
+								Logger.WriteError(e);
+							}
 							throw new AmbiguousDateException(value);
 						}
 					}

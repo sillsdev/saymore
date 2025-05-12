@@ -129,9 +129,7 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public void CloseSplashScreen()
 		{
-			if (_splashScreen != null)
-				_splashScreen.Close();
-
+			_splashScreen?.Close();
 			_splashScreen = null;
 		}
 

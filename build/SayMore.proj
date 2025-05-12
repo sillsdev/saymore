@@ -3,9 +3,9 @@
 	<RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
 	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
 	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'==''">3.7.100</BUILD_NUMBER>
-	<BuildTasksDll Condition="Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.0/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks.3.1.0/tools/SIL.BuildTasks.dll</BuildTasksDll>
-	<BuildTasksDll Condition="!Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.0/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks/tools/SIL.BuildTasks.dll</BuildTasksDll>
-	<SILReleaseTasksProps>$(RootDir)/packages/SIL.ReleaseTasks.3.1.0/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
+	<BuildTasksDll Condition="Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll</BuildTasksDll>
+	<BuildTasksDll Condition="!Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks/tools/SIL.BuildTasks.dll</BuildTasksDll>
+	<SILReleaseTasksProps>$(RootDir)/packages/SIL.ReleaseTasks.3.1.1/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
 	<Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
 	<RestartBuild Condition="!Exists('$(BuildTasksDll)') Or !Exists('$(SILReleaseTasksProps)')">true</RestartBuild>
 	<RestartBuild Condition="Exists('$(BuildTasksDll)') And Exists('$(SILReleaseTasksProps)')">false</RestartBuild>
@@ -129,14 +129,18 @@
   </Target>
   
   		
-  <Target Name="ConvertReleaseNotesToHtml">
-	  <FileUpdate
-		  File="$(RootDir)/DistFiles/ReleaseNotes.md"
-		  Regex='_VERSION_'
-		  ReplacementText="$(Version)" />
-
+  <Target Name="ConvertReleaseNotesToHtml" DependsOnTargets="UpdateReleaseNotes">
 	  <CreateReleaseNotesHtml ChangelogFile="$(RootDir)/DistFiles/releaseNotes.md"
 	                          HtmlFile="$(RootDir)/output/ReleaseNotes.htm" />
+  </Target>
+  
+  <Target Name="UpdateReleaseNotes" DependsOnTargets="VersionNumbers">
+	<FileUpdate
+		File="$(RootDir)/DistFiles/ReleaseNotes.md"
+		DatePlaceHolder='_DATE_'
+		DateFormat='d MMMM yyyy'
+		Regex='_VERSION_'
+		ReplacementText="$(Version)" />
   </Target>
 
   <Target Name="Installer" DependsOnTargets="VersionNumbers; UpdateDownloadInfo; MakeWixForDistFiles; Build ">

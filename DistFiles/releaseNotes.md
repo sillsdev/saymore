@@ -1,4 +1,4 @@
-## _VERSION_
+## _VERSION_ (_DATE_)
 * Solved problem running on Mac using Parallels where SayMore would jump back to first cell in the text annotation grid.
 
 ## Version 3.7

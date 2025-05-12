@@ -129,7 +129,7 @@
   </Target>
   
   		
-  <Target Name="ConvertReleaseNotesToHtml">
+  <Target Name="ConvertReleaseNotesToHtml" DependsOnTargets="VersionNumbers">
 	  <FileUpdate
 		  File="$(RootDir)/DistFiles/ReleaseNotes.md"
 		  Regex='_VERSION_'

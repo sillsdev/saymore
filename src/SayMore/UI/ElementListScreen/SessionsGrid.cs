@@ -92,12 +92,12 @@ namespace SayMore.UI.ElementListScreen
 				try
 				{
 					//we parse it and then generate it because we're trying to migrate old, locale-specific dates to ISO8601 dates
-					return DateTimeExtensions.ParseDateTimePermissivelyWithException(dateString).ToISO8601TimeFormatDateOnlyString();
+					return dateString.ParseModernPastDateTimePermissivelyWithException().ToISO8601TimeFormatDateOnlyString();
 				}
 #if DEBUG
 				catch (Exception e)
 				{
-					ErrorReport.NotifyUserOfProblem(e, "only seeing because your'e in DEBUG mode");
+					ErrorReport.NotifyUserOfProblem(e, "only seeing because you're in DEBUG mode");
 #else
 				catch (Exception)
 				{

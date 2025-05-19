@@ -114,7 +114,7 @@ namespace SayMore.UI.LowLevelControls
 			this._headerLabel.MnemonicGeneratesClick = false;
 			this._headerLabel.Name = "_headerLabel";
 			this._headerLabel.PaintExplorerBarBackground = false;
-			this._headerLabel.ShowWindowBackgroudOnTopAndRightEdge = true;
+			this._headerLabel.ShowWindowBackgroundOnTopAndRightEdge = true;
 			this._headerLabel.Size = new System.Drawing.Size(168, 23);
 			this._headerLabel.TabIndex = 0;
 			this._headerLabel.Text = "Change this text";

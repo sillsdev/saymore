@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using SIL.Extensions;
 using SIL.Reporting;
@@ -56,33 +57,22 @@ namespace SayMore.UI.LowLevelControls
 				}
 				catch (ApplicationException)
 				{
-					parsedDate = DateTimeExtensions.ParseDateTimePermissivelyWithException(value);
-					if (parsedDate.Day <= 12 && parsedDate.Day != parsedDate.Month && !(value.Replace("AM", string.Empty).Replace("PM", string.Empty).Any(char.IsLetter)))
+					parsedDate = value.ParseModernPastDateTimePermissivelyWithException();
+					if (parsedDate.Day <= 12 && parsedDate.Day != parsedDate.Month &&
+					    !Regex.Replace(value, "(?i)AM|PM", "").Any(char.IsLetter))
 					{
-						//The date was not in the ISO8601 format and cannot be unambiguously parsed.
+						// The date was not in ISO8601 format and cannot be unambiguously parsed.
+						try
+						{
+							Value = parsedDate;
+						}
+						catch (ArgumentOutOfRangeException e)
+						{
+							Logger.WriteError(e);
+						}
 
-						// Before we despair, in SayMore we do not expect future dates, so if the
-						// date is future and switching the month and day puts it into the past,
-						// then that's presumably the correct thing to do.
-						if (parsedDate.Date > DateTime.Today && 
-						    new DateTime(parsedDate.Year, parsedDate.Day, parsedDate.Month) is DateTime flipped &&
-						    flipped <= DateTime.Today)
-						{
-							parsedDate = flipped;
-						}
-						else
-						{
-							// Still ambiguous. We need to alert the caller.
-							try
-							{
-								Value = parsedDate;
-							}
-							catch (ArgumentOutOfRangeException e)
-							{
-								Logger.WriteError(e);
-							}
-							throw new AmbiguousDateException(value);
-						}
+						// We need to alert the caller.
+						throw new AmbiguousDateException(value);
 					}
 				}
 

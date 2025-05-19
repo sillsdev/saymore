@@ -44,7 +44,7 @@ namespace SayMore.Model.Fields
 				var when = e.Element("date").Value;
 				try
 				{
-					contrib.Date = DateTimeExtensions.ParseDateTimePermissivelyWithException(when);
+					contrib.Date = when.ParseModernPastDateTimePermissivelyWithException();
 				}
 				catch (Exception exception)
 				{

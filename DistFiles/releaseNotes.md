@@ -1,5 +1,6 @@
 ## _VERSION_
 * Solved problem running on Mac using Parallels where SayMore would jump back to first cell in the text annotation grid.
+* Fixed bug with parsing dates on systems that use a Buddhist calendar.
 
 ## Version 3.7
 * Enabled suppression of repeated short filename warnings.

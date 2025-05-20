@@ -155,7 +155,7 @@ namespace SayMore
 						ComponentRole.MeasurementTypes.Time,
 						FileSystemUtils.GetIsAudioVideo, ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Source",
 						Settings.Default.WorkflowStageColor1,
-						Settings.Default.WorkflowStageTextColor1);//todo... but maybe we dont' show this as a stage?
+						Settings.Default.WorkflowStageTextColor1); //TODO: but maybe we don't show this as a stage?
 
 				yield return
 					new ComponentRole(typeof(ProjectElement), ComponentRole.kConsentComponentRoleId,

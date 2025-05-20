@@ -439,6 +439,8 @@
     <Error Condition="!Exists('..\..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets'))" />
     <Error Condition="!Exists('..\..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets'))" />
     <Error Condition="!Exists('..\..\packages\NUnit3TestAdapter.4.6.0\build\net462\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NUnit3TestAdapter.4.6.0\build\net462\NUnit3TestAdapter.props'))" />
+    <Error Condition="!Exists('..\..\packages\icu.net.3.0.1\build\icu.net.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\icu.net.3.0.1\build\icu.net.props'))" />
+    <Error Condition="!Exists('..\..\packages\icu.net.3.0.1\build\icu.net.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\icu.net.3.0.1\build\icu.net.targets'))" />
     <Error Condition="!Exists('..\..\packages\NUnit.3.14.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NUnit.3.14.0\build\NUnit.props'))" />
     <Error Condition="!Exists('..\..\packages\icu.net.3.0.1\build\icu.net.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\icu.net.3.0.1\build\icu.net.props'))" />
     <Error Condition="!Exists('..\..\packages\icu.net.3.0.1\build\icu.net.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\icu.net.3.0.1\build\icu.net.targets'))" />
@@ -454,6 +456,7 @@
   <Import Project="..\..\packages\SIL.Media.16.0.0-beta0159\build\SIL.Media.targets" Condition="Exists('..\..\packages\SIL.Media.16.0.0-beta0159\build\SIL.Media.targets')" />
   <Import Project="..\..\packages\SIL.Windows.Forms.Keyboarding.16.0.0-beta0159\build\SIL.Windows.Forms.Keyboarding.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.16.0.0-beta0159\build\SIL.Windows.Forms.Keyboarding.targets')" />
   <Import Project="..\..\packages\SIL.Windows.Forms.16.0.0-beta0159\build\SIL.Windows.Forms.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.16.0.0-beta0159\build\SIL.Windows.Forms.targets')" />
+  <Import Project="..\..\packages\SIL.Windows.Forms.16.0.0-beta0124\build\SIL.Windows.Forms.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.16.0.0-beta0124\build\SIL.Windows.Forms.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

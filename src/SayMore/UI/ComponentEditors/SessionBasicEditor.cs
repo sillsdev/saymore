@@ -16,12 +16,15 @@ using SayMore.UI.LowLevelControls;
 using SIL.Archiving.Generic.AccessProtocol;
 using SIL.Archiving.IMDI.Lists;
 using SIL.Core.ClearShare;
+using SIL.Windows.Forms.Extensions;
 
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class SessionBasicEditor : EditorBase
 	{
+		private const string kAccessProtocolNone = "None";
+
 		public delegate SessionBasicEditor Factory(ComponentFile file, string imageKey);
 
 		private FieldsValuesGrid _gridCustomFields;
@@ -412,7 +415,7 @@ namespace SayMore.UI.ComponentEditors
 				LoadGenreList(_autoCompleteProvider, null);
 
 			NotifyWhenProjectIsSet();
-			SetAccessCodeListAndValue();
+			SetAccessCodeListAndValue(kAccessProtocolNone, null);
 		}
 
 		protected override void OnCurrentProjectSet()
@@ -487,14 +490,17 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void SetWorkingLanguageFont(Font font)
 		{
-			if (!font.Equals(_title.Font))
+			this.SafeInvoke(() =>
 			{
-				_title.Font = font;
-				_situation.Font = font;
-				_setting.Font = font;
-				_location.Font = font;
-				_synopsis.Font = font;
-			}
+				if (!font.Equals(_title.Font))
+				{
+					_title.Font = font;
+					_situation.Font = font;
+					_setting.Font = font;
+					_location.Font = font;
+					_synopsis.Font = font;
+				}
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -507,16 +513,11 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			var accessProtocol = Program.CurrentProject.AccessProtocol;
-			var protocols = AccessProtocols.LoadStandardAndCustom();
-			var protocol = protocols.FirstOrDefault(i => i.ProtocolName == accessProtocol);
+			var protocol = AccessProtocols.LoadStandardAndCustom()
+				.FirstOrDefault(i => i.ProtocolName == accessProtocol);
 
 			// is "None" the selected protocol?
-			if ((accessProtocol == "None") || (protocol == null))
-			{
-				_access.DataSource = null;
-				_access.DropDownStyle = ComboBoxStyle.DropDown;
-			}
-			else
+			if (accessProtocol != kAccessProtocolNone && protocol != null)
 			{
 				// remember the list of possible choices
 				_accessOptions = protocol.Choices;
@@ -525,29 +526,31 @@ namespace SayMore.UI.ComponentEditors
 				foreach (var item in _accessOptions)
 					item.Description = LocalizationManager.GetDynamicString("SayMore",
 						"SessionsView.MetadataEditor.AccessProtocol." + accessProtocol + "." + item.ValueMember, item.DisplayMember, null);
-
-				_access.DropDownStyle = ComboBoxStyle.DropDownList;
 			}
 
 			if (InvokeRequired)
-				Invoke(new Action(SetAccessCodeListAndValue));
+				Invoke(new Action(() => { SetAccessCodeListAndValue(accessProtocol, protocol); }));
 			else
-				SetAccessCodeListAndValue();
+				SetAccessCodeListAndValue(accessProtocol, protocol);
 		}
 
 		/// <summary>
 		/// Do this in case the access protocol for the project changed and
 		/// the current value of "access" is no longer in the list.
 		/// </summary>
-		private void SetAccessCodeListAndValue()
+		private void SetAccessCodeListAndValue(string accessProtocol, ArchiveAccessProtocol protocol)
 		{
 			var currentAccessCode = _file.GetStringValue(SessionFileType.kAccessFieldName, string.Empty);
 
-			if (_access.DropDownStyle == ComboBoxStyle.DropDown)
+			if (accessProtocol == kAccessProtocolNone || protocol == null)
 			{
+				_access.DataSource = null;
+				_access.DropDownStyle = ComboBoxStyle.DropDown;
 				_access.Text = currentAccessCode ?? string.Empty;
 				return;
 			}
+
+			_access.DropDownStyle = ComboBoxStyle.DropDownList;
 
 			// get the saved list. use .ToList() to copy the list rather than modify the original
 			var choices = _accessOptions.ToList();

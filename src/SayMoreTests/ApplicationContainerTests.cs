@@ -14,7 +14,7 @@ namespace SayMoreTests
 		{
 			LocalizationManager.StrictInitializationMode = false;
 		}
-		
+
 		[TestCase(ComponentRole.kOralTranslationComponentRoleId, "_Translation.wav")]
 		[TestCase(ComponentRole.kCarefulSpeechComponentRoleId, "_Careful.wav")]
 		public void GetRenamingTemplateSuffix_SegmentFileRoleId_SegmentFileSuffixStartsWithRenamingTemplateSuffix(string roleId, string segmentFileSuffix)

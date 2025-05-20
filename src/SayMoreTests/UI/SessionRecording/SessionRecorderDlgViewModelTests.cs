@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using L10NSharp;
 using NUnit.Framework;
 using SIL.TestUtilities;
 using Moq;
@@ -21,6 +22,7 @@ namespace SayMoreTests.UI
 		[SetUp]
 		public void SetUp()
 		{
+			LocalizationManager.StrictInitializationMode = false;
 			// The next two lines create a Synchronization context so that WaveIn can be happy.
 			var someControl = new Control();
 			_ = someControl.Handle;
@@ -42,6 +44,8 @@ namespace SayMoreTests.UI
 		[TearDown]
 		public void TearDown()
 		{
+			LocalizationManager.StrictInitializationMode = true;
+
 			_model.Dispose();
 			_model = null;
 

@@ -18,6 +18,8 @@ namespace SayMore.Utilities
 		private const string kGoogleDriveProcess = "googledrivesync";
 		private const string kOneDriveProcess = "onedrive";
 
+		internal static event Func<string, SyncClient> TestOverrideFileChecked;
+
 		public enum SyncClient
 		{
 			None,
@@ -33,6 +35,9 @@ namespace SayMore.Utilities
 		/// <returns>If a client is stopped, the client is returned, otherwise SyncClient.None</returns>
 		public static SyncClient PromptToStopSync(string filePath)
 		{
+			if (TestOverrideFileChecked != null)
+				return TestOverrideFileChecked(filePath);
+
 			var client = IsSynched(filePath);
 
 			var confirmationMsg = LocalizationManager.GetString("MainWindow.ConfirmStopFileSync",
@@ -101,7 +106,7 @@ namespace SayMore.Utilities
 		}
 
 		/// <summary>
-		/// Stops the selected client and remembers it for when Saymore exits
+		/// Stops the selected client and remembers it for when SayMore exits
 		/// </summary>
 		/// <param name="client"></param>
 		public static void StopClient(SyncClient client)
@@ -134,7 +139,7 @@ namespace SayMore.Utilities
 		}
 
 		/// <summary>
-		/// Restart the sync clients stopped by Saymore
+		/// Restart the sync clients stopped by SayMore
 		/// </summary>
 		public static void RestartAllStoppedClients()
 		{
@@ -297,7 +302,7 @@ namespace SayMore.Utilities
 			if (File.Exists(exeFile))
 				return exeFile;
 
-			// A 32 bit program running on 64 bit Windows always return 'Program Files (x86)' rather than just 'Program Files'.
+			// A 32-bit program running on 64-bit Windows always return 'Program Files (x86)' rather than just 'Program Files'.
 			// However, Google Drive is installed in the 64 bit 'Program Files' directory.
 			if (Environment.Is64BitOperatingSystem && exeFile.Contains(" (x86)"))
 			{

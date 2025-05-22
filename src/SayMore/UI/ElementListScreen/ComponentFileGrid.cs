@@ -694,7 +694,7 @@ namespace SayMore.UI.ElementListScreen
 
 		public bool HideDuration
 		{
-			set { colDuration.Visible = !value; }
+			set => colDuration.Visible = !value;
 		}
 	}
 
@@ -717,6 +717,17 @@ namespace SayMore.UI.ElementListScreen
 
 			_prevRow = e.RowIndex;
 			base.OnCellMouseDown(e);
+		}
+		
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			if (IsOkToChangeRows != null && !IsOkToChangeRows())
+			{
+				// Block mouse action
+				return;
+			}
+
+			base.OnMouseDown(e);
 		}
 	}
 

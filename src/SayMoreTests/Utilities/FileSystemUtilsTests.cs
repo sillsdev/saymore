@@ -42,7 +42,26 @@ namespace SayMoreTests.Utilities
 
 				using (new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
 				{
-					Assert.Throws<IOException>(() => FileSystemUtils.RobustDelete(fileName));
+					var expectedFileToCheck = fileName;
+					FileSyncHelper.SyncClient OnFileChecked(string filePath)
+					{
+						if (expectedFileToCheck != filePath)
+							Assert.Fail("Unexpected file checked: " + filePath);
+						expectedFileToCheck = "never again";
+						return FileSyncHelper.SyncClient.None;
+					}
+
+					FileSyncHelper.TestOverrideFileChecked += OnFileChecked;
+
+					try
+					{
+						Assert.Throws<IOException>(() => FileSystemUtils.RobustDelete(fileName));
+					}
+					finally
+					{
+						FileSyncHelper.TestOverrideFileChecked -= OnFileChecked;
+						Assert.That(expectedFileToCheck, Is.EqualTo("never again"));
+					}
 					FileAssert.Exists(fileName);
 				}
 			}
@@ -94,7 +113,7 @@ namespace SayMoreTests.Utilities
         [TestCase(@"the/bad.one")]
         [TestCase(@"the?bad.one")]
         [TestCase(@"the.bad.one")]
-        public void IsValidShortFileNamePath_Invalid_ReturnsFalsee(string path)
+        public void IsValidShortFileNamePath_Invalid_ReturnsFalse(string path)
         {
             Assert.That(FileSystemUtils.IsValidShortFileNamePath(path), Is.False);
         }

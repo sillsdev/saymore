@@ -393,7 +393,7 @@ namespace SayMore.Model
 			// older SayMore date problem due to saving localized date string rather than ISO8601
 			return DateTimeExtensions.IsISO8601Date(dateString)
 				? DateTime.Parse(dateString)
-				: DateTimeExtensions.ParseDateTimePermissivelyWithException(dateString);
+				: dateString.ParseModernPastDateTimePermissivelyWithException();
 		}
 
 		/// ------------------------------------------------------------------------------------

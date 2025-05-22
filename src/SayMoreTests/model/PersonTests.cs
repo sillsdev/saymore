@@ -1,4 +1,5 @@
 using System.IO;
+using L10NSharp;
 using NUnit.Framework;
 using SIL.IO;
 using SIL.Reporting;
@@ -16,6 +17,7 @@ namespace SayMoreTests.Model
 		[SetUp]
 		public void Setup()
 		{
+			LocalizationManager.StrictInitializationMode = false;
 			ErrorReport.IsOkToInteractWithUser = false;
 			_parentFolder = new TemporaryFolder("ProjectElementTest");
 		}

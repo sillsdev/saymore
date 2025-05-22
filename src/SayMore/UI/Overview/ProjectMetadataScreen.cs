@@ -7,9 +7,11 @@ using L10NSharp;
 using SIL.Reporting;
 using SIL.Windows.Forms.WritingSystems;
 using SayMore.UI.ComponentEditors;
+using SayMore.UI.LowLevelControls;
 using SayMore.UI.ProjectWindow;
 using SIL.Archiving.IMDI.Lists;
 using SIL.WritingSystems;
+using static System.String;
 
 namespace SayMore.UI.Overview
 {
@@ -173,7 +175,8 @@ namespace SayMore.UI.Overview
 			_fundingProjectTitle.Text = project.FundingProjectTitle;
 
 			// SP-815: Line breaks are not being displayed after reopening project
-			if (project.ProjectDescription == null) project.ProjectDescription = string.Empty;
+			if (project.ProjectDescription == null)
+					project.ProjectDescription = Empty;
 			_description.Text = project.ProjectDescription.Replace("\n", Environment.NewLine);
 
 			_labelSelectedContentLanguage.Text = project.VernacularISO3CodeAndName;
@@ -200,7 +203,22 @@ namespace SayMore.UI.Overview
 				_continent.SelectedItem = item;
 
 			_contactPerson.Text = project.ContactPerson;
-			_dateAvailable.SetValue(project.DateAvailable);
+			try
+			{
+				_dateAvailable.SetValue(project.DateAvailable);
+			}
+			catch (AmbiguousDateException dateError)
+			{
+				var msg = Format(LocalizationManager.GetString("ProjectView.AmbiguousDateNote",
+						"An ambiguous date ({0}) was loaded, probably produced by a bug in an " +
+						"old version of {1}. Please ensure the date was interpreted correctly.",
+						"Param 1: date value as stored in project file; " +
+						"Param 2: \"SayMore\" (product name). "),
+					dateError.Message, ProductName);
+
+				_errorProvider.SetError(_dateAvailable, msg);
+			}
+
 			_rightsHolder.Text = project.RightsHolder;
 			_depositor.Text = project.Depositor;
 
@@ -208,6 +226,11 @@ namespace SayMore.UI.Overview
 			{
 				control.Validated += delegate { Save(); };
 			}
+		}
+
+		private void _dateAvailable_Validated(object sender, EventArgs e)
+		{
+			_errorProvider.SetError(_dateAvailable, null);
 		}
 
 		protected override void SetWorkingLanguageFont(Font font)
@@ -302,7 +325,7 @@ namespace SayMore.UI.Overview
 		private void _linkSelectWorkingLanguage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			LanguageInfo currentLanguageInfo = null;
-			if (!string.IsNullOrEmpty(_labelSelectedWorkingLanguage.Text))
+			if (!IsNullOrEmpty(_labelSelectedWorkingLanguage.Text))
 			{
 				var lookup = new LanguageLookup(true);
 				var languageNameParts = _labelSelectedWorkingLanguage.Text
@@ -330,7 +353,7 @@ namespace SayMore.UI.Overview
 				var languageName = _labelSelectedWorkingLanguage.Text
 					.Substring(i + kLanguageTagAndNameSeparator.Length);
 				_linkSelectFontForWorkingLanguage.Text = 
-					string.Format(_fmtFontForWorkingLanguage, languageName);
+					Format(_fmtFontForWorkingLanguage, languageName);
 				return;
 			}
 			

@@ -355,7 +355,7 @@ namespace SayMore.UI.ElementListScreen
 
 			try
 			{
-				return DateTimeExtensions.ParseDateTimePermissivelyWithException(value).ToShortDateString();
+				return value.ParseModernPastDateTimePermissivelyWithException().ToShortDateString();
 			}
 			catch
 			{

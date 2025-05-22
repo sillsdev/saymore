@@ -1,8 +1,9 @@
 using System;
-using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using SIL.Extensions;
+using SIL.Reporting;
 using SIL.Windows.Forms.Extensions;
 
 namespace SayMore.UI.LowLevelControls
@@ -13,61 +14,74 @@ namespace SayMore.UI.LowLevelControls
 	/// ----------------------------------------------------------------------------------------
 	public class DatePicker : DateTimePicker
 	{
-		private string _value;
+		private bool _isBlank;
 		private bool _ignoreEvents;
 
 		/// ------------------------------------------------------------------------------------
 		public override string Text
 		{
-			get { return base.Text; }
-			set { SetValue(value); }
+			get => base.Text;
+			set => SetValue(value);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public string GetISO8601DateValueOrNull()
 		{
-			return (_value == null ? null :
-				DateTime.Parse(_value, CultureInfo.CurrentCulture).ToISO8601TimeFormatDateOnlyString());
+			return _isBlank ? null : Value.ToISO8601TimeFormatDateOnlyString();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetValue(string value)
 		{
-			_value = (value ?? string.Empty).Trim();
-			if (_value == string.Empty)
-				_value = null;
+			_isBlank = string.IsNullOrWhiteSpace(value);
 
-			if (_value == null)
+			if (_isBlank)
 				SetBlankFormat();
 			else
 				SetDefaultFormat();
 
 			_ignoreEvents = true;
 
-			if (_value == null)
-				base.Text = null;
-			else
+			try
 			{
+				if (_isBlank)
+				{
+					base.Text = null;
+					return;
+				}
+
 				DateTime parsedDate;
 				try
 				{
-					parsedDate = DateTimeExtensions.ParseISO8601DateTime(_value);
+					parsedDate = DateTimeExtensions.ParseISO8601DateTime(value);
 				}
 				catch (ApplicationException)
 				{
-					parsedDate = DateTimeExtensions.ParseDateTimePermissivelyWithException(_value);
-					if (parsedDate.Day <= 12 && parsedDate.Day != parsedDate.Month && !(_value.Replace("AM", string.Empty).Replace("PM", string.Empty).Any(char.IsLetter)))
+					parsedDate = value.ParseModernPastDateTimePermissivelyWithException();
+					if (parsedDate.Day <= 12 && parsedDate.Day != parsedDate.Month &&
+					    !Regex.Replace(value, "(?i)AM|PM", "").Any(char.IsLetter))
 					{
-						// The date was not in the ISO8601 format and cannot be unambiguously parsed, so we need to alert the caller.
-						Value = parsedDate;
-						_ignoreEvents = false;
+						// The date was not in ISO8601 format and cannot be unambiguously parsed.
+						try
+						{
+							Value = parsedDate;
+						}
+						catch (ArgumentOutOfRangeException e)
+						{
+							Logger.WriteError(e);
+						}
+
+						// We need to alert the caller.
 						throw new AmbiguousDateException(value);
 					}
 				}
+
 				Value = parsedDate;
 			}
-
-			_ignoreEvents = false;
+			finally
+			{
+				_ignoreEvents = false;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -102,7 +116,7 @@ namespace SayMore.UI.LowLevelControls
 
 			SetDefaultFormat();
 
-			if (_value != null)
+			if (!_isBlank)
 				return;
 
 			// SP-807: Date field will not keep today's date
@@ -119,7 +133,7 @@ namespace SayMore.UI.LowLevelControls
 			if (_ignoreEvents)
 				return;
 
-			if (_value == null)
+			if (_isBlank)
 				SetBlankFormat();
 			else
 				SetDefaultFormat();
@@ -130,13 +144,13 @@ namespace SayMore.UI.LowLevelControls
 		{
 			base.OnKeyDown(e);
 
-			if (e.KeyCode != Keys.Delete || _value == null)
+			if (e.KeyCode != Keys.Delete || _isBlank)
 				return;
 
 			SetValue(null);
 
 			// The effects of setting the value to null cannot be seen unless the selected
-			// control changes. Therefore, selecte the next control. REVIEW: Will the user
+			// control changes. Therefore, select the next control. REVIEW: Will the user
 			// find this annoying? Inquiring minds want to know.
 			// I can't get SelectNextControl to work, so I'll try it this way.
 			var nextCtrl = Parent.GetNextControl(this, true);
@@ -152,10 +166,10 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnValueChanged(EventArgs e)
 		{
-			// Setting the Text property will trigger this event and sometimes
+			// Setting the Text property will trigger this event, and sometimes
 			// we don't want to set _value when that happens.
 			if (!_ignoreEvents)
-				_value = Value.ToShortDateString();
+				_isBlank = false;
 
 			base.OnValueChanged(e);
 		}

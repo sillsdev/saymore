@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Xml;
@@ -227,6 +228,7 @@ namespace SayMore.Model.Files
 			var root = GetXmlDocumentRoot(path);
 
 			fields.AddRange(root.ChildNodes.Cast<XmlNode>()
+				.Where(n => n.NodeType == XmlNodeType.Element)
 				.Select(node => GetFieldFromNode(node, fileType.GetIsCustomFieldId))
 				.Where(fieldInstance => fieldInstance != null));
 
@@ -234,6 +236,7 @@ namespace SayMore.Model.Files
 			if (customFieldList != null)
 			{
 				fields.AddRange(customFieldList.ChildNodes.Cast<XmlNode>()
+					.Where(n => n.NodeType == XmlNodeType.Element)
 					.Select(node => new FieldInstance(kCustomFieldIdPrefix + node.Name, FieldInstance.kStringType,
 					CleanupLineBreaks(node.InnerText))));
 			}
@@ -242,6 +245,7 @@ namespace SayMore.Model.Files
 			if (additionalFieldList != null)
 			{
 				fields.AddRange(additionalFieldList.ChildNodes.Cast<XmlNode>()
+					.Where(n => n.NodeType == XmlNodeType.Element)
 					.Select(node => new FieldInstance(kAdditionalFieldIdPrefix + node.Name, FieldInstance.kStringType,
 					CleanupLineBreaks(node.InnerText))));
 			}
@@ -275,7 +279,7 @@ namespace SayMore.Model.Files
 				}
 				catch (XmlException xmlException)
 				{
-					// By default XmlExceptions (or at least some of them) don't contain the path name.
+					// By default, XmlExceptions (or at least some of them) don't contain the path name.
 					throw new XmlException("Failed to load XML file: " + (path ?? "null"), xmlException);
 				}
 			}
@@ -284,8 +288,10 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FieldInstance GetFieldFromNode(XmlNode node, Func<string, bool> isCustomField)
+		internal FieldInstance GetFieldFromNode(XmlNode node, Func<string, bool> isCustomField)
 		{
+			Debug.Assert(node.NodeType == XmlNodeType.Element);
+			
 			if (node.Name == "olac")//might not be quite right, it will be in a namespace
 			{
 				//TODO: load the clearshare work

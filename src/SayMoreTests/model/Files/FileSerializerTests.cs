@@ -82,9 +82,7 @@ namespace SayMoreTests.Model.Files
 		public void GetElementFromField_InvalidFieldType_ReturnsNull()
 		{
 			var fld = new FieldInstance("a", "invalid", "blah");
-			bool custom;
-			bool additional;
-			Assert.IsNull(_serializer.GetElementFromField(fld, out custom, out additional));
+			Assert.IsNull(_serializer.GetElementFromField(fld, out var custom, out _));
 			Assert.IsFalse(custom);
 		}
 
@@ -93,9 +91,7 @@ namespace SayMoreTests.Model.Files
 		public void GetElementFromField_FieldValueIsString_ReturnsCorrectElement()
 		{
 			var fld = new FieldInstance("a", FieldInstance.kStringType, "blah");
-			bool custom;
-			bool additional;
-			var e = _serializer.GetElementFromField(fld, out custom, out additional);
+			var e = _serializer.GetElementFromField(fld, out var custom, out _);
 
 			Assert.IsNotNull("a", e.Name.ToString());
 			Assert.IsFalse(custom);
@@ -220,6 +216,114 @@ namespace SayMoreTests.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>Test that Load is robust enough to deal with spurious non-element XML nodes
+		/// </summary>
+		/// <remarks>Technically, this should probably never happen, since these XML files are
+		/// under SayMore's control, but crazy users think they can do anything they want.
+		/// </remarks>
+		/// ------------------------------------------------------------------------------------
+		[TestCase("<!-- This is a comment -->")]
+		[TestCase("      ")]
+		public void Load_NonElementXmlNode_SpuriousNodeIgnored(string spuriousText)
+		{
+			// SP-2367, SP-2241, SP-2179
+			var path = _parentFolder.Combine("test.txt");
+
+			var xml = $@"<?xml version='1.0' encoding='utf-8'?>
+<Session>
+  <a type='string'>value1</a>
+  {spuriousText}
+  <b type='string'>value2</b>
+</Session>";
+
+			// Write XML to file
+			File.WriteAllText(path, xml);
+
+			_serializer.Load(_fields, path, "Session", _fileType.Object);
+
+			// Only two elements should be loaded, ignoring the spurious node
+			Assert.That(_fields.Count, Is.EqualTo(2));
+			Assert.That(_fields[0].FieldId, Is.EqualTo("a"));
+			Assert.That(_fields[0].Value, Is.EqualTo("value1"));
+			Assert.That(_fields[1].FieldId, Is.EqualTo("b"));
+			Assert.That(_fields[1].Value, Is.EqualTo("value2"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>Test that Load is robust enough to deal with spurious non-element XML nodes
+		/// in CustomFields
+		/// </summary>
+		/// <remarks>Technically, this should probably never happen, since these XML files are
+		/// under SayMore's control, but crazy users think they can do anything they want.
+		/// </remarks>
+		/// ------------------------------------------------------------------------------------
+		[TestCase("<!-- This is a comment -->")]
+		[TestCase("      ")]
+		public void Load_NonElementXmlNodeInCustomFields_SpuriousNodeIgnored(string spuriousText)
+		{
+			// 
+			var path = _parentFolder.Combine("test.txt");
+
+			var xml = $@"<?xml version='1.0' encoding='utf-8'?>
+<Session>
+  <CustomFields>
+    <custom1>val1</custom1>
+    {spuriousText}
+    <custom2>val2</custom2>
+  </CustomFields>
+</Session>";
+
+			// Write XML to file
+			File.WriteAllText(path, xml);
+
+			_serializer.Load(_fields, path, "Session", _fileType.Object);
+
+			// Only two elements should be loaded, ignoring the spurious node
+			Assert.That(_fields.Count, Is.EqualTo(2));
+			Assert.That(_fields[0].FieldId, Is.EqualTo("custom_custom1"));
+			Assert.That(_fields[0].Value, Is.EqualTo("val1"));
+			Assert.That(_fields[1].FieldId, Is.EqualTo("custom_custom2"));
+			Assert.That(_fields[1].Value, Is.EqualTo("val2"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>Test that Load is robust enough to deal with spurious non-element XML nodes
+		/// in AdditionalFields
+		/// </summary>
+		/// <remarks>Technically, this should probably never happen, since these XML files are
+		/// under SayMore's control, but crazy users think they can do anything they want.
+		/// </remarks>
+		/// ------------------------------------------------------------------------------------
+		[TestCase("<!-- This is a comment -->")]
+		[TestCase("      ")]
+		public void Load_NonElementXmlNodeInAdditionalFields_SpuriousNodeIgnored(string spuriousText)
+		{
+			// 
+			var path = _parentFolder.Combine("test.txt");
+
+			var xml = $@"<?xml version='1.0' encoding='utf-8'?>
+<Session>
+  <AdditionalFields>
+    <frog>val1</frog>
+    {spuriousText}
+    <soup>val2</soup>
+  </AdditionalFields>
+</Session>";
+
+			// Write XML to file
+			File.WriteAllText(path, xml);
+
+			_serializer.Load(_fields, path, "Session", _fileType.Object);
+
+			// Only two elements should be loaded, ignoring the spurious node
+			Assert.That(_fields.Count, Is.EqualTo(2));
+			Assert.That(_fields[0].FieldId, Is.EqualTo("additional_frog"));
+			Assert.That(_fields[0].Value, Is.EqualTo("val1"));
+			Assert.That(_fields[1].FieldId, Is.EqualTo("additional_soup"));
+			Assert.That(_fields[1].Value, Is.EqualTo("val2"));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void Save_DirectoryNotFound_Throws()
 		{
@@ -238,7 +342,7 @@ namespace SayMoreTests.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void SaveThenLoad_TwoFactorytrings_RoundTripped()
+		public void SaveThenLoad_TwoFactoryStrings_RoundTripped()
 		{
 			var valueA = new FieldInstance("a", FieldInstance.kStringType, "aaa");
 			_fields.Add(valueA);

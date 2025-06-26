@@ -11,6 +11,7 @@ using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SIL.Windows.Forms;
+using SIL.Windows.Forms.Extensions;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -275,13 +276,19 @@ namespace SayMore.UI.ElementListScreen
 			if (e.Button != MouseButtons.Right || e.RowIndex < 0 || !IsOKToSelectDifferentElement())
 				return;
 
-			if (e.RowIndex != CurrentCellAddress.Y)
-				SelectElement(e.RowIndex);
-
 			Select();
-			_contextMenuStrip.Items.Clear();
-			_contextMenuStrip.Items.AddRange(GetMenuCommands().ToArray());
-			_contextMenuStrip.Show(MousePosition);
+
+			var contextMenuPosition = MousePosition;
+
+			this.SafeInvoke(() =>
+			{
+				if (e.RowIndex != CurrentCellAddress.Y)
+					SelectElement(e.RowIndex);
+
+				_contextMenuStrip.Items.Clear();
+				_contextMenuStrip.Items.AddRange(GetMenuCommands().ToArray());
+				_contextMenuStrip.Show(contextMenuPosition);
+			}, nameof(OnCellMouseDown), ControlExtensions.ErrorHandlingAction.IgnoreIfDisposed);
 		}
 
 		/// ------------------------------------------------------------------------------------

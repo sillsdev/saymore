@@ -268,7 +268,7 @@ namespace SayMore.Transcription.UI
 		/// </summary>
 		/// <param name="column">The column index of the cell to set as current</param>
 		/// <param name="row">The row index of the cell to set as current</param>
-		/// <param name="methodNameAndContext">The name of the method from with this invocation
+		/// <param name="methodNameAndContext">The name of the method from which this invocation
 		/// was initiated, optionally followed by additional context information (used only for
 		/// error reporting).</param>
 		/// ------------------------------------------------------------------------------------

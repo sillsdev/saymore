@@ -244,7 +244,7 @@ namespace SayMore.Transcription.UI
 		{
 			foreach (TextAnnotationColumn col in GetColumns().OfType<TextAnnotationColumn>())
 			{
-				col.DefaultCellStyle.Font = (col is TranscriptionAnnotationColumn) ?
+				col.DefaultCellStyle.Font = col is TranscriptionAnnotationColumn ?
 					transcriptionFont : freeTranslationFont;
 			}
 		}
@@ -263,13 +263,39 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InvokeSetCurrentCell(int column, int row, string methodName)
+		/// <summary>
+		/// Asynchronously sets the current cell to the specified column and row
+		/// </summary>
+		/// <param name="column">The column index of the cell to set as current</param>
+		/// <param name="row">The row index of the cell to set as current</param>
+		/// <param name="methodNameAndContext">The name of the method from which this invocation
+		/// was initiated, optionally followed by additional context information (used only for
+		/// error reporting).</param>
+		/// ------------------------------------------------------------------------------------
+		private void InvokeSetCurrentCell(int column, int row, string methodNameAndContext)
 		{
-			this.SafeInvoke(() =>
-				{
-					CurrentCell = this[column, row];
-				}, $"{GetType().Name}.{methodName}",
-				IgnoreIfDisposed);
+			var existingCell = CurrentCellAddress;
+			// Changing the cell is going to require us to remove the media of the current cell
+			// from the queue and then queue up the new media. There can be a race condition that
+			// can result in deadlock if the media playback handling code happens to get this
+			// lock and then subsequently tries to update the UI, so we want to stop playback
+			// (which can itself invoke -- synchronously -- on the UI thread) and then we need to
+			// ensure that we get this lock before we try to invoke the UI update code.
+			Stop();
+			lock (_mediaFileQueue)
+			{
+				this.SafeInvoke(() =>
+					{
+						// If something happened to change the current cell while we were waiting to
+						// invoke this, it is probably no longer safe to set the current cell to the
+						// one we were intending to make current. This is probably really unlikely,
+						// but I'm adding this safeguard mainly because of uncertainty about the
+						// behavior when running under Parallels on macOS.
+						if (CurrentCellAddress.Equals(existingCell))
+							CurrentCell = this[column, row];
+					}, $"{GetType().Name}.{methodNameAndContext}",
+					IgnoreIfDisposed);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -290,7 +316,7 @@ namespace SayMore.Transcription.UI
 					CurrentCellAddress.Y < RowCount - 1)
 				{
 					InvokeSetCurrentCell(1, CurrentCellAddress.Y + 1,
-						nameof(ProcessCmdKey));
+						$"{nameof(ProcessCmdKey)} - Tab");
 					return true;
 				}
 
@@ -298,7 +324,7 @@ namespace SayMore.Transcription.UI
 					CurrentCellAddress.Y > 0)
 				{
 					InvokeSetCurrentCell(ColumnCount - 1, CurrentCellAddress.Y - 1,
-						nameof(ProcessCmdKey));
+						$"{nameof(ProcessCmdKey)} - Shift+Tab");
 					return true;
 				}
 			}
@@ -478,7 +504,7 @@ namespace SayMore.Transcription.UI
 			// See https://stackoverflow.com/questions/3008958/datagridview-retains-waitcursor-when-updated-from-thread/13808474#13808474
 			Cursor = Cursors.Default;
 
-			EditMode = (GetIgnoreStateForRow(CurrentCellAddress.Y)) ? DataGridViewEditMode.EditProgrammatically : DataGridViewEditMode.EditOnEnter;
+			EditMode = GetIgnoreStateForRow(CurrentCellAddress.Y) ? DataGridViewEditMode.EditProgrammatically : DataGridViewEditMode.EditOnEnter;
 			if (e.ColumnIndex != 0 || CurrentCellAddress.Y < 0 || (!Focused && (EditingControl == null || !EditingControl.Focused)))
 			{
 				var minHeight = RowTemplate.Height * 3;
@@ -593,17 +619,15 @@ namespace SayMore.Transcription.UI
 			if (AnnotationPlaybackInfoProvider == null)
 				return;
 
-			// The check below to ensure that CurrentCellAddress.X is in ranges seems unnecessary.
+			// The check below to ensure that CurrentCellAddress.X is in range seems unnecessary.
 			// However, an out-of-range value seems to be the likely explanation for the error
-			// reported in SP-2219/SP-2220. This does not normally fire on the UI thread, so also
-			// adding this Invoke to ensure that CurrentCellAddress is not in some weird state.
+			// reported in SP-2219/SP-2220. This does not normally fire on the UI thread, so using
+			// SafeInvoke to ensure that CurrentCellAddress is not in some weird state.
 			int iCol = 0;
-			if (InvokeRequired)
-				Invoke(new Action(() => iCol = CurrentCellAddress.X));
-			else
-				iCol = CurrentCellAddress.X;
+			this.SafeInvoke(() => { iCol = CurrentCellAddress.X; }, nameof(Play), IgnoreIfDisposed,
+				true);
 
-			TextAnnotationColumnWithMenu currCol = iCol >= 0 && iCol < ColumnCount ?
+			var currCol = iCol >= 0 && iCol < ColumnCount ?
 				Columns[iCol] as TextAnnotationColumnWithMenu : null;
 			var playbackType = currCol?.PlaybackType ?? AudioRecordingType.Source;
 
@@ -639,10 +663,8 @@ namespace SayMore.Transcription.UI
 			}
 			if (errorMessage != null)
 			{
-				if (InvokeRequired)
-					Invoke((Action)(() => ErrorReport.NotifyUserOfProblem(errorMessage)));
-				else
-					ErrorReport.NotifyUserOfProblem(errorMessage);
+				this.SafeInvoke(() => { ErrorReport.NotifyUserOfProblem(errorMessage); },
+					nameof(InternalPlay), IgnoreIfDisposed);
 				return false;
 			}
 
@@ -658,14 +680,17 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void LoadFile()
 		{
-			if (_mediaFileQueue[0].Length > 0f)
+			var firstAnnotation = _mediaFileQueue[0];
+			if (firstAnnotation.Length > 0f)
 			{
-				PlayerViewModel.LoadFile(_mediaFileQueue[0].MediaFile, _mediaFileQueue[0].Start, _mediaFileQueue[0].Length);
+				PlayerViewModel.LoadFile(firstAnnotation.MediaFile, firstAnnotation.Start,
+					firstAnnotation.Length);
 			}
 			else
 			{
-				PlayerViewModel.LoadFile(_mediaFileQueue[0].MediaFile);
-				_mediaFileQueue[0].Length = _mediaFileQueue[0].End = PlayerViewModel.GetTotalMediaDuration();
+				PlayerViewModel.LoadFile(firstAnnotation.MediaFile);
+				firstAnnotation.Length = firstAnnotation.End =
+					PlayerViewModel.GetTotalMediaDuration();
 			}
 		}
 

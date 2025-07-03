@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
 using SIL.Reporting;
-using SIL.Windows.Forms.Miscellaneous;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
@@ -77,7 +76,7 @@ namespace SayMore.UI.Overview
 
 		private void InitializeFileGrid()
 		{
-			_descriptionFileGrid.AfterComponentSelectionChanged = HandleAfterComponentFileSelected;
+			_descriptionFileGrid.AfterComponentSelectionChanged += HandleAfterComponentFileSelected;
 			_descriptionFileGrid.FilesAdded = HandleFilesAddedToComponentGrid;
 			_descriptionFileGrid.FileDeletionAction = file => ComponentFile.MoveToRecycleBin(file, true);
 			_descriptionFileGrid.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
@@ -178,8 +177,6 @@ namespace SayMore.UI.Overview
 
 		private void HandleAfterComponentFileSelected(int index)
 		{
-			WaitCursor.Show();
-
 			SuspendLayout();
 
 			try
@@ -217,7 +214,6 @@ namespace SayMore.UI.Overview
 			finally
 			{
 				ResumeLayout();
-				WaitCursor.Hide();
 			}
 		}
 

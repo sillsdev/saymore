@@ -18,6 +18,8 @@ using SayMore.Properties;
 using SIL.Reflection;
 using GridSettings = SIL.Windows.Forms.Widgets.BetterGrid.GridSettings;
 using SIL.Windows.Forms;
+using SIL.Windows.Forms.Extensions;
+using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -26,10 +28,16 @@ namespace SayMore.UI.ElementListScreen
 	{
 		private IReadOnlyCollection<ComponentFile> _files;
 		private string _gridColSettingPrefix;
-		private bool _handlingForceRefresh;
+		private bool _refreshPending = true;
 
-		/// <summary>When the user selects a different component (or no component is selected!), this is called</summary>
-		public Action<int> AfterComponentSelectionChanged;
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="selectedRowIndex"></param>
+		public delegate void ComponentSelectionChangedHandler(int selectedRowIndex);
+		/// <summary>Event raised when the user selects a different component (or no component is selected!).
+		/// It is also called during startup.</summary>
+		public event ComponentSelectionChangedHandler AfterComponentSelectionChanged;
 
 		/// <summary>
 		/// When the user chooses a menu command, this is called after the command is issued.
@@ -136,6 +144,14 @@ namespace SayMore.UI.ElementListScreen
 			{
 				// See SP-655, SP-657
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			ForceRefresh();
+			_refreshPending = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -379,23 +395,41 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleFileGridCurrentRowChanged(object sender, EventArgs e)
 		{
-			if (!IsDisposed && !Disposing)
-				ForceRefresh();
+			if (IsHandleCreated && !IsDisposed && !Disposing)
+				RequestRefresh();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void ForceRefresh()
+		private void RequestRefresh()
 		{
-			if (_handlingForceRefresh)
+			if (_refreshPending)
 				return;
 
-			_handlingForceRefresh = true;
+			_refreshPending = true;
+
+			BeginInvoke((MethodInvoker)(() =>
+			{
+				_refreshPending = false;
+				ForceRefresh();
+			}));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>Rebuilds the UI for the newly selected component file and notifies all
+		/// subscribers of the change.</summary>
+		/// <remarks>Do not call this directly (except when the handle is initially created);
+		/// rather, call <see cref="RequestRefresh"/>. Subscribers may do things that are not
+		/// safe (e.g., things that can result in a reentrant call the SetCurrentCellAddressCore
+		/// function) when the state of the grid is in flux.</remarks>
+		/// ------------------------------------------------------------------------------------
+		private void ForceRefresh()
+		{
 			BuildMenuCommands(_grid.CurrentCellAddress.Y);
 
-			if (null != AfterComponentSelectionChanged)
-				AfterComponentSelectionChanged(_grid.CurrentCellAddress.Y);
-
-			_handlingForceRefresh = false;
+			this.SafeInvoke(() =>
+			{
+				AfterComponentSelectionChanged?.Invoke(_grid.CurrentCellAddress.Y);
+			}, nameof(ForceRefresh), IgnoreAll);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -419,7 +453,7 @@ namespace SayMore.UI.ElementListScreen
 			if (_grid.CurrentCellAddress.Y != index)
 				_grid.CurrentCell = (index >= 0 && index < _files.Count ? _grid[0, index] : null);
 			else
-				ForceRefresh();
+				RequestRefresh();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -455,7 +489,7 @@ namespace SayMore.UI.ElementListScreen
 					var forceRefresh = _grid.CurrentCellAddress.Y != i;
 					SelectComponent(i);
 					if (forceRefresh)
-						ForceRefresh();
+						RequestRefresh();
 					return true;
 				}
 

@@ -31,6 +31,8 @@ namespace SayMore.UI.ElementListScreen
 		/// <summary>When the user selects a different component (or no component is selected!), this is called</summary>
 		public Action<int> AfterComponentSelectionChanged;
 
+		public event EventHandler PrepareToSelectDifferentFile ;
+
 		/// <summary>
 		/// When the user chooses a menu command, this is called after the command is issued.
 		/// </summary>
@@ -388,6 +390,8 @@ namespace SayMore.UI.ElementListScreen
 		{
 			if (_handlingForceRefresh)
 				return;
+			
+			PrepareToSelectDifferentFile?.Invoke(this, EventArgs.Empty);
 
 			_handlingForceRefresh = true;
 			BuildMenuCommands(_grid.CurrentCellAddress.Y);

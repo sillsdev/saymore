@@ -11,7 +11,7 @@ namespace SayMore.UI.ComponentEditors
 	public class ComponentEditorsTabControl : TabControl
 	{
 		public string ProviderKey { get; private set; }
-		public IEnumerable<IEditorProvider> EditorProviders { get; private set; }
+		public IEnumerable<IEditorProvider> EditorProviders { get; }
 
 		private readonly Color _componentEditorBackColor;
 		private readonly Color _componentEditorBorderColor;
@@ -35,14 +35,8 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEditorProvider CurrentEditor
-		{
-			get
-			{
-				var page = SelectedTab as ComponentEditorTabPage;
-				return (page != null ? page.EditorProvider : null);
-			}
-		}
+		public IEditorProvider CurrentEditor => 
+			SelectedTab is ComponentEditorTabPage page ? page.EditorProvider : null;
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnDeselecting(TabControlCancelEventArgs e)

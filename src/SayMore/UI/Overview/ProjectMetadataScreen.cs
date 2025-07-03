@@ -140,20 +140,12 @@ namespace SayMore.UI.Overview
 			throw new NotImplementedException();
 		}
 
-		public Image Image
-		{
-			get { throw new NotImplementedException(); }
-		}
+		public Image Image => throw new NotImplementedException();
 
-		public ToolStripMenuItem MainMenuItem
-		{
-			get { throw new NotImplementedException(); }
-		}
+		public ToolStripMenuItem MainMenuItem => throw new NotImplementedException();
 
-		public string NameForUsageReporting
-		{
-			get { throw new NotImplementedException(); }
-		}
+		public string NameForUsageReporting => throw new NotImplementedException();
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -334,8 +326,10 @@ namespace SayMore.UI.Overview
 			}
 
 			// REVIEW: Do we need Force3LetterCodes? Can't find it in new implementation.
-			using (var dialog = new LanguageLookupDialog { SelectedLanguage = currentLanguageInfo, IsDesiredLanguageNameFieldVisible = true })
+			using (var dialog = new LanguageLookupDialog())
 			{
+				dialog.SelectedLanguage = currentLanguageInfo;
+				dialog.IsDesiredLanguageNameFieldVisible = true;
 				if (dialog.ShowDialog() == DialogResult.OK && dialog.SelectedLanguage != null)
 				{
 					_labelSelectedWorkingLanguage.Text = dialog.SelectedLanguage.LanguageTag +

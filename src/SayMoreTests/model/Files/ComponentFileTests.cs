@@ -24,15 +24,11 @@ namespace SayMoreTests.Model.Files
 		public void Setup()
 		{
 			_parentFolder = new TemporaryFolder("componentFileTest");
-			_fileTypes = new List<FileType>();
-			_fileTypes.Add(new AnnotationFileType(null, null));
+			_fileTypes = new List<FileType> { new AnnotationFileType(null, null) };
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string ParentFolderName
-		{
-			get { return Path.GetFileName(_parentFolder.Path); }
-		}
+		private string ParentFolderName => Path.GetFileName(_parentFolder.Path);
 
 		/// ------------------------------------------------------------------------------------
 		[TearDown]
@@ -580,13 +576,12 @@ namespace SayMoreTests.Model.Files
 
 		public object SetValue(ComponentFile file, string key, object value)
 		{
-			string failureMessage;
-			var suceeded = file.SetValue(key, value, out failureMessage);
+			var succeeded = file.SetValue(key, value, out var failureMessage);
 
 			if (!string.IsNullOrEmpty(failureMessage))
 				throw new ApplicationException(failureMessage);
 
-			return suceeded;
+			return succeeded;
 		}
 	}
 }

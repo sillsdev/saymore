@@ -913,8 +913,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
-			if (_annotationFile != null)
-				_annotationFile.Dispose();
+			_annotationFile?.Dispose();
 			_annotationFile = null;
 
 			_xmlFileSerializer = null;

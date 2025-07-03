@@ -26,7 +26,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 
 		public delegate NewSessionsFromFileDlgViewModel Factory(ElementListViewModel<Session> sessionPresentationModel);
 
-		private ElementListViewModel<Session> SessionPresentationModel { get; set; }
+		private ElementListViewModel<Session> SessionPresentationModel { get; }
 
 		private string _selectedFolder;
 		private readonly BackgroundWorker _fileLoaderWorker;
@@ -87,12 +87,12 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// Gets or sets the dialog for which this class is the view model.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Initialize(ISynchronizeInvoke synchObject)
+		public void Initialize(ISynchronizeInvoke syncObject)
 		{
 			Application.Idle -= HandleApplicationIdle; // just in case this gets called more than once
-			_fileWatcher.SynchronizingObject = synchObject;
+			_fileWatcher.SynchronizingObject = syncObject;
 			EnableFileWatchingIfAble();
-			if (synchObject != null)
+			if (syncObject != null)
 				Application.Idle += HandleApplicationIdle;
 		}
 
@@ -101,7 +101,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the Id of the first of the newly added sessions.
+		/// Gets the ID of the first of the newly added sessions.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string FirstNewSessionAdded { get; private set; }
@@ -120,20 +120,19 @@ namespace SayMore.UI.NewSessionsFromFiles
 				//return Files.Count(x => x.Selected);
 
 				var newCount = 0;
-				HashSet<string> sessions = new HashSet<string>();
+				var sessions = new HashSet<string>();
 
 				foreach (var element in SessionPresentationModel.Elements)
 					sessions.Add(element.Id);
 
 				lock (m_files)
 				{
-					foreach (var sessName in m_files.Where(f => f.Selected)
+					foreach (var sessionName in m_files.Where(f => f.Selected)
 						.Select(file => Path.GetFileNameWithoutExtension(file.FileName))
-						.Where(sessName => !string.IsNullOrEmpty(sessName))
-						.Where(sessName => !sessions.Contains(sessName)))
+						.Where(name => !string.IsNullOrEmpty(name) && !sessions.Contains(name)))
 					{
 						newCount++;
-						sessions.Add(sessName);
+						sessions.Add(sessionName);
 					}
 				}
 
@@ -148,7 +147,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// ------------------------------------------------------------------------------------
 		public string SelectedFolder
 		{
-			get { return _selectedFolder; }
+			get => _selectedFolder;
 			set
 			{
 				_selectedFolder = value;
@@ -333,11 +332,11 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// ------------------------------------------------------------------------------------
 		public void LetUserChangeSelectedFolder()
 		{
-			bool interuptedLoad = false;
+			bool interruptedLoad = false;
 			if (_fileLoaderWorker.IsBusy && !_fileLoaderWorker.CancellationPending)
 			{
 				_fileLoaderWorker.CancelAsync();
-				interuptedLoad = true;
+				interruptedLoad = true;
 			}
 
 			using (var dlg = new FolderBrowserDialog())
@@ -350,10 +349,10 @@ namespace SayMore.UI.NewSessionsFromFiles
 
 				if (dlg.ShowDialog() == DialogResult.OK)
 					SelectedFolder = dlg.SelectedPath;
-				else if (interuptedLoad)
+				else if (interruptedLoad)
 					SelectedFolder = _selectedFolder;
-				}
 			}
+		}
 
 		#endregion
 
@@ -546,7 +545,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 
 			var date = File.GetLastWriteTime(sourcePath);
 			newSession.MetaDataFile.SetStringValue(SessionFileType.kDateFieldName, date.ToISO8601TimeFormatDateOnlyString());
-			newSession.MetaDataFile.SetStringValue(SessionFileType.kStatusFieldName, Session.Status.Incoming.ToString());
+			newSession.MetaDataFile.SetStringValue(SessionFileType.kStatusFieldName, nameof(Session.Status.Incoming));
 			newSession.MetaDataFile.Save();
 
 			if (FirstNewSessionAdded == null)

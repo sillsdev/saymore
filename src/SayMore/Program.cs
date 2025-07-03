@@ -300,8 +300,8 @@ namespace SayMore
 			{
 				if (e is WaitHandleCannotBeOpenedException || e is AbandonedMutexException)
 				{
-					bool thisThreadGrantedOwnership;
-					_oneInstancePerProjectMutex = new Mutex(true, _mutexId, out thisThreadGrantedOwnership);
+					_oneInstancePerProjectMutex = new Mutex(true, _mutexId,
+						out var thisThreadGrantedOwnership);
 					if (thisThreadGrantedOwnership)
 						return true;
 				}
@@ -445,7 +445,7 @@ namespace SayMore
 			// In Windows 7, just holding down the shift key while starting the app. works to
 			// prevent the last project from being loaded. However, I found on XP (at least
 			// running XP mode) that holding the shift key while starting an app. does
-			// nothing... as in the app. is not launched. Therefore, running SayMore with an
+			// nothing... as in the app. is not launched. Therefore, running SayMore with the
 			// 'nl' command-line option will also suppress loading the last project.
 			var noLoadArg = GetCommandLineArgs().FirstOrDefault(a => "-nl-NL/nl/NL".Contains(a));
 
@@ -498,10 +498,10 @@ namespace SayMore
 				Application.Idle += SaveLastOpenedProjectInMRUList;
 				return true;
 			}
-			catch (OutOfMemoryException oomex)
+			catch (OutOfMemoryException e)
 			{
-				Logger.WriteEvent("Out of memory exception in Program.OpenProjectWindow:\r\n{0}", oomex.ToString());
-				MessageBox.Show(oomex.ToString());
+				Logger.WriteError("Out of memory exception in Program.OpenProjectWindow.", e);
+				MessageBox.Show(e.ToString());
 				Application.Exit();
 			}
 			catch (Exception e)

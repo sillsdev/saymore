@@ -842,7 +842,7 @@ namespace SayMore.Transcription.UI
 				BeginEdit(true);
 			}
 			IsDirty = true;
-			IgnoredColumn.HandleProgramaticValueChange();
+			IgnoredColumn.HandleProgrammaticValueChange();
 			InvalidateRow(CurrentCellAddress.Y);
 		}
 

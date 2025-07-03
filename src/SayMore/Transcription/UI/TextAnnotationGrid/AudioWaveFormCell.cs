@@ -70,10 +70,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override object DefaultNewRowValue
-		{
-			get { return null; }
-		}
+		public override object DefaultNewRowValue => null;
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleGridCellMouseLeave(object sender, DataGridViewCellEventArgs e)

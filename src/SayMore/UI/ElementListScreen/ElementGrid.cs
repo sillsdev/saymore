@@ -63,7 +63,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public virtual GridSettings GridSettings
 		{
-			get { return null; }
+			get => null;
 			set {  }
 		}
 
@@ -103,7 +103,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ProjectElement> Items
 		{
-			get { return _items; }
+			get => _items;
 			set
 			{
 				_items = (value != null ? value.ToList() : new List<ProjectElement>(0));
@@ -244,7 +244,7 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			var prevElement = GetCurrentElement();
-			var prevId = (prevElement == null ? null : prevElement.Id);
+			var prevId = prevElement?.Id;
 
 			var fieldId = col.DataPropertyName;
 
@@ -375,17 +375,5 @@ namespace SayMore.UI.ElementListScreen
 		{
 			return (fieldName == "id" ? element.Id : GetValueForField(element, fieldName));
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//protected override void OnCellValuePushed(DataGridViewCellValueEventArgs e)
-		//{
-		//    var item = _items.ElementAt(e.RowIndex);
-		//    var fieldName = Columns[e.ColumnIndex].DataPropertyName;
-		//    string errMsg;
-		//    item.MetaDataFile.SetValue(fieldName, e.Value as string, out errMsg);
-
-		//    base.OnCellValuePushed(e);
-		//    item.MetaDataFile.Save();
-		//}
 	}
 }

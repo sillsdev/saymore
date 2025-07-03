@@ -29,16 +29,10 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FileType ElementFileType
-		{
-			get { return _repository.ElementFileType; }
-		}
+		public FileType ElementFileType => _repository.ElementFileType;
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<ProjectElement> Elements
-		{
-			get { return _repository.AllItems; }
-		}
+		public IEnumerable<ProjectElement> Elements => _repository.AllItems;
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ComponentFile> GetComponentsOfSelectedElement()

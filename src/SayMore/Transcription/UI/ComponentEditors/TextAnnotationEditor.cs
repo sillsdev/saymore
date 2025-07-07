@@ -124,17 +124,11 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private ComponentFile AssociatedComponentFile
-		{
-			get
-			{
-				return _file == null ? null :
-					((AnnotationComponentFile)_file).AssociatedComponentFile;
-			}
-		}
+		private ComponentFile AssociatedComponentFile => 
+			((AnnotationComponentFile)_file)?.AssociatedComponentFile;
 
 		/// ------------------------------------------------------------------------------------
-		public override sealed void SetComponentFile(ComponentFile file)
+		public sealed override void SetComponentFile(ComponentFile file)
 		{
 			Deactivated();
 
@@ -156,7 +150,7 @@ namespace SayMore.Transcription.UI
 			_grid.Load(annotationFile);
 			_grid.SetColumnFonts(_project.TranscriptionFont, _project.FreeTranslationFont);
 
-			// check if there are oral translation or careful speach audio files
+			// check if there are oral translation or careful speech audio files
 			var annotationsDirName = annotationFile.AssociatedComponentFile.PathToAnnotatedFile + Settings.Default.OralAnnotationsFolderSuffix;
 			if (Directory.Exists(annotationsDirName))
 			{
@@ -287,8 +281,8 @@ namespace SayMore.Transcription.UI
 
 			// SP-869: "Sequence contains no matching element" if the source media file does not contain the text "source" in the name
 			var componentFile =
-				file.ParentElement.GetComponentFiles().FirstOrDefault(
-					compfile => compfile.GetAssignedRoles().Any(r => r.Id == ComponentRole.kSourceComponentRoleId));
+				file.ParentElement.GetComponentFiles().FirstOrDefault(f =>
+					f.GetAssignedRoles().Any(r => r.Id == ComponentRole.kSourceComponentRoleId));
 
 			if (componentFile != null)
 			{
@@ -499,11 +493,11 @@ namespace SayMore.Transcription.UI
 			DoExportSubtitleDialog(LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.transcriptionFilenameSuffix", "transcription_subtitle"), timeTier, contentTier);
 		}
 
-		private void DoExportSubtitleDialog(string fileNameSuffix, TimeTier timeTier, TextTier textTeir)
+		private void DoExportSubtitleDialog(string fileNameSuffix, TimeTier timeTier, TextTier textTier)
 		{
-			textTeir.AddTimeRangeData(timeTier);
+			textTier.AddTimeRangeData(timeTier);
 
-			var action = new Action<string>(path => SRTFormatSubTitleExporter.Export(path, textTeir));
+			var action = new Action<string>(path => SRTFormatSubTitleExporter.Export(path, textTier));
 
 			DoSimpleExportDialog(".srt",
 				LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.srtSubtitlesTranscriptionExport.TranscriptionFileDescriptor", "SRT Subtitle File ({0})"),
@@ -516,11 +510,11 @@ namespace SayMore.Transcription.UI
 			Analytics.Track("Export Free Translation to Audacity");
 
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
-			var textTeir = ((AnnotationComponentFile)_file).Tiers.GetFreeTranslationTier();
-			textTeir.AddTimeRangeData(timeTier);
+			var textTier = ((AnnotationComponentFile)_file).Tiers.GetFreeTranslationTier();
+			textTier.AddTimeRangeData(timeTier);
 			var suffix = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslationFilenameSuffix",
 				"audacity_freeTranslation", "Probably does not need to be localized");
-			var action = new Action<string>(path => AudacityExporter.Export(path, textTeir));
+			var action = new Action<string>(path => AudacityExporter.Export(path, textTier));
 
 			DoSimpleExportDialog(FileSystemUtils.kTextFileExtension, FileSystemUtils.LocalizedVersionOfTextFileDescriptor,
 				suffix, "Audacity", action);
@@ -531,12 +525,12 @@ namespace SayMore.Transcription.UI
 			Analytics.Track("Export Transcription to Audacity");
 
 			var timeTier = (((AnnotationComponentFile)_file).Tiers.GetTimeTier());
-			var textTeir = ((AnnotationComponentFile)_file).Tiers.GetTranscriptionTier();
-			textTeir.AddTimeRangeData(timeTier);
+			var textTier = ((AnnotationComponentFile)_file).Tiers.GetTranscriptionTier();
+			textTier.AddTimeRangeData(timeTier);
 
 			var suffix = LocalizationManager.GetString("SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscriptionFilenameSuffix",
 				"audacity_transcription", "Probably does not need to be localized");
-			var action = new Action<string>(path => AudacityExporter.Export(path, textTeir));
+			var action = new Action<string>(path => AudacityExporter.Export(path, textTier));
 
 			DoSimpleExportDialog(FileSystemUtils.kTextFileExtension, FileSystemUtils.LocalizedVersionOfTextFileDescriptor,
 				suffix, "Audacity", action);
@@ -575,7 +569,7 @@ namespace SayMore.Transcription.UI
 				"interlinear", "Toolbox", action);
 		}
 
-		private void OnCarefulSpeachAudioExportMenuItem_Click(object sender, EventArgs e)
+		private void OnCarefulSpeechAudioExportMenuItem_Click(object sender, EventArgs e)
 		{
 			Analytics.Track("Export Careful Speech Audio");
 
@@ -609,13 +603,13 @@ namespace SayMore.Transcription.UI
 			if (!defaultExt.StartsWith("."))
 				throw new ArgumentException("Default extension should start with \".\"!");
 
-			namedSettingsFolder = string.Format("Last{0}ExportDestinationFolder", namedSettingsFolder);
+			namedSettingsFolder = $"Last{namedSettingsFolder}ExportDestinationFolder";
 			string folder = GetDefaultExportFolder(namedSettingsFolder);
 
 			try
 			{
 				var formattedFileDescriptor = string.Format(fileTypeDescriptor, "*" + defaultExt);
-				var filter = string.Format("{0}|{1}", formattedFileDescriptor, "*" + defaultExt);
+				var filter = $"{formattedFileDescriptor}|{"*" + defaultExt}";
 				var fileName = _file.ParentElement.Id + ComponentRole.kFileSuffixSeparator + suffix + defaultExt;
 
 				using (var dlg = new SaveFileDialog())
@@ -643,7 +637,7 @@ namespace SayMore.Transcription.UI
 			}
 			catch (Exception error)
 			{
-				// Got a null refeence somwhere in here on 12/12/12. Not sure where/why, but if it happens
+				// Got a null reference somewhere in here on 12/12/12. Not sure where/why, but if it happens
 				// again, we want to be able to get a call stack so we can fix the problem.
 				if (error is NullReferenceException)
 					throw;

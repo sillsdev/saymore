@@ -75,8 +75,8 @@ namespace SayMore.Media.MPlayer
 		{
 			_panelPlayingSurface.BackgroundImage = null;
 
-			if (_viewModel == null || _viewModel.MediaInfo == null || !_viewModel.MediaInfo.IsVideo ||
-				_viewModel.MediaInfo.Video.PictureSize.Width == 0 || _viewModel.MediaInfo.Video.PictureSize.Height == 0)
+			if (_viewModel?.MediaInfo == null || !_viewModel.MediaInfo.IsVideo ||
+			    _viewModel.MediaInfo.Video.PictureSize.Width == 0 || _viewModel.MediaInfo.Video.PictureSize.Height == 0)
 			{
 				return;
 			}

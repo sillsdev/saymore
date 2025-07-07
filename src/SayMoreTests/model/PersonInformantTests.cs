@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Moq;
 using NUnit.Framework;
 using SayMore.Model;
@@ -86,10 +85,8 @@ namespace SayMoreTests.Model
 			repo.Setup(r => r.AllItems).Returns(new[] { p1.Object, p2.Object });
 			var informant = new PersonInformant(repo.Object, null);
 
-			var list = informant.GetPeopleNamesFromRepository();
-			Assert.AreEqual(2, list.Count());
-			Assert.IsTrue(list.Contains("Sadie"));
-			Assert.IsTrue(list.Contains("Jack"));
+			Assert.That(informant.GetPeopleNamesFromRepository(),
+				Is.EquivalentTo(new [] {"Sadie", "Jack"}));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -106,10 +103,7 @@ namespace SayMoreTests.Model
 			repo.Setup(r => r.AllItems).Returns(new[] { p1.Object, p2.Object });
 			var informant = new PersonInformant(repo.Object, null);
 
-			var list = informant.GetAllPeopleNames();
-			Assert.AreEqual(2, list.Count());
-			Assert.IsTrue(list.Contains("Sadie"));
-			Assert.IsTrue(list.Contains("Jack"));
+			Assert.That(informant.GetAllPeopleNames(), Is.EquivalentTo(new[] { "Sadie", "Jack" }));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -130,10 +124,7 @@ namespace SayMoreTests.Model
 
 			var informant = new PersonInformant(repo.Object, gatherer.Object);
 
-			var list = informant.GetAllPeopleNames();
-			Assert.AreEqual(2, list.Count());
-			Assert.IsTrue(list.Contains("Sadie"));
-			Assert.IsTrue(list.Contains("Jack"));
+			Assert.That(informant.GetAllPeopleNames(), Is.EquivalentTo(new[] { "Sadie", "Jack" }));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -158,16 +149,16 @@ namespace SayMoreTests.Model
 			repo.Setup(r => r.AllItems).Returns(new[] { p1.Object, p2.Object });
 
 			var gatherer = new Mock<AutoCompleteValueGatherer>(null, null, null);
-			var lists = new Dictionary<string, IEnumerable<string>>();
-			lists["person"] = new[] { "bear", "dawson" };
+			var lists = new Dictionary<string, IEnumerable<string>>
+			{
+				["person"] = new[] { "bear", "dawson" }
+			};
 
 			gatherer.Setup(g => g.GetValueLists(false)).Returns(lists);
 			var informant = new PersonInformant(repo.Object, gatherer.Object);
 
-			var list = informant.GetAllPeopleNames();
-			Assert.AreEqual(2, list.Count());
-			Assert.IsTrue(list.Contains("bear"));
-			Assert.IsTrue(list.Contains("dawson"));
+			Assert.That(informant.GetAllPeopleNames(),
+				Is.EquivalentTo(new[] { "bear", "dawson" }));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -176,17 +167,17 @@ namespace SayMoreTests.Model
 		{
 			var repo = new Mock<ElementRepository<Person>>();
 			var gatherer = new Mock<AutoCompleteValueGatherer>(null, null, null);
-			var lists = new Dictionary<string, IEnumerable<string>>();
-			lists["decoy"] = new[] { "shouldNotFind1", "shouldNotFind2" };
-			lists["person"] = new[] { "bear", "dawson" };
+			var lists = new Dictionary<string, IEnumerable<string>>
+			{
+				["decoy"] = new[] { "shouldNotFind1", "shouldNotFind2" },
+				["person"] = new[] { "bear", "dawson" }
+			};
 
 			gatherer.Setup(g => g.GetValueLists(false)).Returns(lists);
 			var informant = new PersonInformant(repo.Object, gatherer.Object);
 
-			var list = informant.GetAllPeopleNames();
-			Assert.AreEqual(2, list.Count());
-			Assert.IsTrue(list.Contains("bear"));
-			Assert.IsTrue(list.Contains("dawson"));
+			Assert.That(informant.GetAllPeopleNames(),
+				Is.EquivalentTo(new[] { "bear", "dawson" }));
 		}
 	}
 }

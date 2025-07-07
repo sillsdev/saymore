@@ -782,18 +782,26 @@ namespace SayMore.Media.Audio
 		// Must be called only on the UI thread!
 		private void HandlePlaybackMetering()
 		{
-			TimeSpan newTime;
-			lock (_playbackStreamLock)
+			try
 			{
-				PlaybackUpdate?.Invoke(this, _playbackStream.CurrentTime, _playbackStream.TotalTime);
+				TimeSpan newTime;
+				lock (_playbackStreamLock)
+				{
+					if (_playbackStream == null)
+						return;
+					PlaybackUpdate?.Invoke(this, _playbackStream.CurrentTime, _playbackStream.TotalTime);
 
-				newTime = _playbackStream.CurrentTime.Add(-TimeSpan.FromMilliseconds(_waveOut.DesiredLatency / 2.0));
+					newTime = _playbackStream.CurrentTime.Add(
+						-TimeSpan.FromMilliseconds(_waveOut.DesiredLatency / 2.0));
+				}
+
+				var playBackEnd = _playbackRange.End > TimeSpan.Zero ? _playbackRange.End : WaveStream.TotalTime;
+				SetCursor(newTime >= playBackEnd ? _playbackRange.End : newTime);
 			}
-
-			var playBackEnd = _playbackRange.End > TimeSpan.Zero ?
-				_playbackRange.End : WaveStream.TotalTime;
-			SetCursor(newTime >= playBackEnd ? _playbackRange.End : newTime);
-			_handlingPlaybackMetering = false;
+			finally
+			{
+				_handlingPlaybackMetering = false;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -58,20 +58,12 @@ namespace SayMore.UI.Overview
 			throw new NotImplementedException();
 		}
 
-		public Image Image
-		{
-			get { throw new NotImplementedException(); }
-		}
+		public Image Image => throw new NotImplementedException();
 
-		public ToolStripMenuItem MainMenuItem
-		{
-			get { throw new NotImplementedException(); }
-		}
+		public ToolStripMenuItem MainMenuItem => throw new NotImplementedException();
 
-		public string NameForUsageReporting
-		{
-			get { throw new NotImplementedException(); }
-		}
+		public string NameForUsageReporting => throw new NotImplementedException();
+
 		#endregion
 
 		private void InitializeFileGrid()
@@ -250,15 +242,9 @@ namespace SayMore.UI.Overview
 			_descriptionFileGrid.InitializeGrid("ProjectDescriptionDocuments");
 		}
 
-		protected override string FolderName
-		{
-			get { return kFolderName; }
-		}
+		protected override string FolderName => kFolderName;
 
-		protected override string ArchiveSessionName
-		{
-			get { return kArchiveSessionName; }
-		}
+		protected override string ArchiveSessionName => kArchiveSessionName;
 
 		protected override void LocalizeStrings()
 		{
@@ -282,15 +268,9 @@ namespace SayMore.UI.Overview
 			_descriptionFileGrid.InitializeGrid("ProjectOtherDocuments");
 		}
 
-		protected override string FolderName
-		{
-			get { return kFolderName; }
-		}
+		protected override string FolderName => kFolderName;
 
-		protected override string ArchiveSessionName
-		{
-			get { return kArchiveSessionName; }
-		}
+		protected override string ArchiveSessionName => kArchiveSessionName;
 
 		protected override void LocalizeStrings()
 		{

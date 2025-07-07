@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using L10NSharp;
 using SayMore.Transcription.Model;
 using SayMore.UI;
+using SIL.Reporting;
 
 // ReSharper disable once CheckNamespace
 namespace SayMore.Transcription.UI
@@ -70,8 +71,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandlePlaybackTypeMenuItemClicked(object sender, EventArgs e)
 		{
-			var menuItem = sender as ToolStripMenuItem;
-			if (menuItem != null) PlaybackType = (AudioRecordingType)menuItem.Tag;
+			if (sender is ToolStripMenuItem menuItem)
+				PlaybackType = (AudioRecordingType)menuItem.Tag;
+			
 			_grid.Play();
 		}
 

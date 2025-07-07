@@ -33,7 +33,7 @@ namespace SayMore.Transcription.UI
 		private FileSystemWatcher _watcher;
 		private DateTime _lastWriteTime;
 		private bool _isFirstTimeActivated = true;
-		private Project _project;
+		private readonly Project _project;
 
 		/// ------------------------------------------------------------------------------------
 		public TextAnnotationEditor(ComponentFile file, string imageKey, Project project)
@@ -608,8 +608,9 @@ namespace SayMore.Transcription.UI
 
 			try
 			{
-				var formattedFileDescriptor = string.Format(fileTypeDescriptor, "*" + defaultExt);
-				var filter = $"{formattedFileDescriptor}|{"*" + defaultExt}";
+				var fileMatchingPattern = "*" + defaultExt;
+				var formattedFileDescriptor = string.Format(fileTypeDescriptor, fileMatchingPattern);
+				var filter = $"{formattedFileDescriptor}|{fileMatchingPattern}";
 				var fileName = _file.ParentElement.Id + ComponentRole.kFileSuffixSeparator + suffix + defaultExt;
 
 				using (var dlg = new SaveFileDialog())

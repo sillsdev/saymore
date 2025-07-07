@@ -164,7 +164,7 @@ namespace SayMore.Media.MPlayer
 			}
 
 			MediaInfo = MediaFileInfo.GetInfo(filename, out var error);
-			if (MediaInfo == null)
+			if (MediaInfo == null || error != null)
 			{
 				throw new FileFormatException(String.Format(LocalizationManager.GetString(
 					"CommonToMultipleViews.MediaPlayer.InvalidMediaFile",
@@ -568,6 +568,8 @@ namespace SayMore.Media.MPlayer
 			{
 				EnsurePlaybackUntilEndOfMedia();
 
+				bool invokePlayBackEndedAfterReleasingLock = true;
+
 				lock (_lock)
 				{
 					// If we get the lock and we are not in playback, then playback was stopped
@@ -576,11 +578,16 @@ namespace SayMore.Media.MPlayer
 						return;
 					OnMediaQueued();
 
-					PlaybackEnded?.Invoke(this, true);
-
 					if (Loop)
+					{
+						invokePlayBackEndedAfterReleasingLock = false;
+						PlaybackEnded?.Invoke(this, true);
 						StartLoopTimer();
+					}
 				}
+				if (invokePlayBackEndedAfterReleasingLock)
+						PlaybackEnded?.Invoke(this, true);
+
 			}
 			else if (data.StartsWith("ID_PAUSED"))
 			{

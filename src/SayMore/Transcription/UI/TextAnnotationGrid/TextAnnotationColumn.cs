@@ -26,24 +26,21 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void HandleProgramaticValueChange()
+		public void HandleProgrammaticValueChange()
 		{
-			if (SegmentChangedAction != null)
-				SegmentChangedAction();
+			SegmentChangedAction?.Invoke();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleGridCellValuePushed(object sender, DataGridViewCellValueEventArgs e)
 		{
-			AnnotationSegment segment;
-
 			// REVIEW: The following line has been unchanged since it was originally written in 2011 by David Olson.
-			// The secojnd half of it seems to be just a sanity check. I can't think of any situation where it could
+			// The second half of it seems to be just a sanity check. I can't think of any situation where it could
 			// occur and not be indicative of a serious flaw in the program. I tried a conditional breakpoint to see
 			// if I could find a situation in which it would return false, but found none. If it ever did fail, the
-			// data the user entered would be lost, but they woouldn't get any feedback to that effect. This seems
+			// data the user entered would be lost, but they wouldn't get any feedback to that effect. This seems
 			// bad.
-			if (e.ColumnIndex != Index || !Tier.TryGetSegment(e.RowIndex, out segment))
+			if (e.ColumnIndex != Index || !Tier.TryGetSegment(e.RowIndex, out var segment))
 				return;
 
 			segment.Text = e.Value as string;
@@ -74,8 +71,7 @@ namespace SayMore.Transcription.UI
 
 			yield return new ToolStripMenuItem(text, null, delegate
 			{
-				string dataFormat;
-				var data = Tier.GetTierClipboardData(out dataFormat);
+				var data = Tier.GetTierClipboardData(out var dataFormat);
 				Clipboard.SetData(dataFormat, data);
 			});
 

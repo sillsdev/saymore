@@ -71,7 +71,7 @@ namespace SayMore.Model
 			"Could not rename from {0} to {1} because there is already a person by that name.");
 
 		/// ------------------------------------------------------------------------------------
-		public override string DefaultStatusValue => Status.Incoming.ToString();
+		public override string DefaultStatusValue => nameof(Status.Incoming);
 
 		/// ------------------------------------------------------------------------------------
 		public Image GetInformedConsentImage()

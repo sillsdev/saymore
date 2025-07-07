@@ -60,16 +60,17 @@ namespace SayMore.UI.ElementListScreen
 
 			try
 			{
-				// Setting AllowDrop when tests are running throws an exception and
-				// I'm not quite sure why, even after using reflector to look at the
-				// code behind setting the property. Nonetheless, I've seen this before
-				// so I'm just going to ignore any exception thrown when enabling drag
-				// and drop. The worst that could happen by ignorning an exception
-				// when the user runs the program (which should never happen), is that
-				// they won't have the drag/drop feature.
 				_grid.AllowDrop = true;
 			}
-			catch { }
+			catch
+			{
+				// Setting AllowDrop when tests are running throws an exception, and I'm not quite
+				// sure why (even after using Reflector to examine the code behind setting the
+				// property). Nonetheless, I've seen this before, so I'm just going to ignore any
+				// exception thrown when enabling drag and drop. The worst that could happen by
+				// ignoring an exception when the user runs the program (which should never
+				// happen), is that the drag/drop feature will not work.
+			}
 
 			_grid.DragEnter += HandleFileGridDragEnter;
 			_grid.DragDrop += HandleFileGridDragDrop;
@@ -82,7 +83,7 @@ namespace SayMore.UI.ElementListScreen
 			_grid.ClientSizeChanged += HandleFileGridClientSizeChanged;
 			_grid.Font = Program.DialogFont;
 
-			_grid.IsOkToChangeRows = (() => (IsOKToSelectDifferentFile == null || IsOKToSelectDifferentFile()));
+			_grid.IsOkToChangeRows = () => IsOKToSelectDifferentFile == null || IsOKToSelectDifferentFile();
 
 			var clr = ColorHelper.CalculateColor(Color.White,
 				 _grid.DefaultCellStyle.SelectionBackColor, 140);
@@ -152,44 +153,34 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public bool AddButtonEnabled
 		{
-			get { return _buttonAddFiles.Enabled; }
-			set { _buttonAddFiles.Enabled = value; }
+			get => _buttonAddFiles.Enabled;
+			set => _buttonAddFiles.Enabled = value;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool AddButtonVisible
 		{
-			get { return _buttonAddFiles.Visible; }
-			set { _buttonAddFiles.Visible = value; }
+			get => _buttonAddFiles.Visible;
+			set => _buttonAddFiles.Visible = value;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool RenameButtonVisible
 		{
-			get { return _buttonRename.Visible; }
-			set { _buttonRename.Visible = value; }
+			get => _buttonRename.Visible;
+			set => _buttonRename.Visible = value;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool ConvertButtonVisible
 		{
-			get { return _buttonConvert.Visible; }
-			set { _buttonConvert.Visible = value; }
+			get => _buttonConvert.Visible;
+			set => _buttonConvert.Visible = value;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
-		public DataGridView Grid
-		{
-			get { return _grid; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Browsable(false)]
-		public ToolStripButton AddButton
-		{
-			get { return _buttonAddFiles; }
-		}
+		public DataGridView Grid => _grid;
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleFileGridClientSizeChanged(object sender, EventArgs e)
@@ -218,9 +209,9 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleFileGridCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+		private void HandleFileGridCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
 		{
-			if (e.ColumnIndex < 0 || e.ColumnIndex > 1 || e.RowIndex < 0 || e.RowIndex >= _files.Count())
+			if (e.ColumnIndex < 0 || e.ColumnIndex > 1 || e.RowIndex < 0 || e.RowIndex >= _files.Count)
 				return;
 
 			var file = _files.ElementAt(e.RowIndex);
@@ -409,7 +400,7 @@ namespace SayMore.UI.ElementListScreen
 				return;
 			var propName = _grid.Columns[e.ColumnIndex].DataPropertyName;
 			var currFile = _files.ElementAt(e.RowIndex);
-			e.Value = (currFile == null ? null : ReflectionHelper.GetProperty(currFile, propName));
+			e.Value = currFile == null ? null : ReflectionHelper.GetProperty(currFile, propName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -421,7 +412,7 @@ namespace SayMore.UI.ElementListScreen
 		public void SelectComponent(int index)
 		{
 			if (_grid.CurrentCellAddress.Y != index)
-				_grid.CurrentCell = (index >= 0 && index < _files.Count ? _grid[0, index] : null);
+				_grid.CurrentCell = index >= 0 && index < _files.Count ? _grid[0, index] : null;
 			else
 				ForceRefresh();
 		}
@@ -491,14 +482,13 @@ namespace SayMore.UI.ElementListScreen
 
 			_files = componentFiles;
 
-			// I (David) think there's a bug in the grid that fires the cell value needed
-			// event in the process of changing the row count but it fires it for rows that
-			// are no longer supposed to exist. This tends to happen when the row count was
-			// previously higher than the new value.
+			// I (DavidO) think there's a bug in the grid that `CellValueNeeded` event to fire when
+			// `RowCount` is changing, even for rows that are no longer supposed to exist. This
+			// tends to happen when the row count was previously higher than the new value.
 			// Note (TomB): Possibly related to SP-2233.
 			_grid.CellValueNeeded -= HandleFileGridCellValueNeeded;
 			_grid.CurrentCell = null;
-			_grid.RowCount = _files.Count();
+			_grid.RowCount = _files.Count;
 			_grid.CellValueNeeded += HandleFileGridCellValueNeeded;
 			_grid.Invalidate();
 
@@ -542,10 +532,9 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleActionsDropDownOpening(object sender, EventArgs e)
 		{
-			bool operationOK = GetIsOKToPerformFileOperation();
+			var operationOK = GetIsOKToPerformFileOperation();
 
-			var dropdown = sender as ToolStripDropDownButton;
-			foreach (ToolStripItem item in dropdown.DropDownItems)
+			foreach (ToolStripItem item in ((ToolStripDropDownButton)sender).DropDownItems)
 				item.Visible = operationOK;
 		}
 
@@ -596,14 +585,19 @@ namespace SayMore.UI.ElementListScreen
 				_grid.Focus();
 		}
 
+		private ComponentFile GetCurrentComponentFile()
+		{
+			var index = _grid.CurrentCellAddress.Y;
+			return index >= 0 && index < _files.Count ? _files.ElementAt(index) : null;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private void HandleConvertButtonClick(object sender, EventArgs e)
 		{
 			if (!GetIsOKToPerformFileOperation())
 				return;
 
-			var index = _grid.CurrentCellAddress.Y;
-			var file = (index >= 0 && index < _files.Count() ? _files.ElementAt(index) : null);
+			var file = GetCurrentComponentFile();
 
 			if (file == null)
 			{
@@ -620,8 +614,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleRenameButtonClick(object sender, EventArgs e)
 		{
-			var index = _grid.CurrentCellAddress.Y;
-			var file = (index >= 0 && index < _files.Count() ? _files.ElementAt(index) : null);
+			var file = GetCurrentComponentFile();
 
 			if (file == null || !file.IsOkayToRename)
 			{
@@ -643,14 +636,13 @@ namespace SayMore.UI.ElementListScreen
 		private void DeleteFile()
 		{
 			var index = _grid.CurrentCellAddress.Y;
-			var currFile = _files.ElementAt(index);
+			var currFile = GetCurrentComponentFile();
 
 			if (currFile == null || FileDeletionAction == null)
 				return;
 
-			var annotationFile = (currFile is AnnotationComponentFile) ?
-				(AnnotationComponentFile)currFile : currFile.GetAnnotationFile();
-			var oralAnnotationFile = (annotationFile != null) ? annotationFile.OralAnnotationFile : null;
+			var annotationFile = currFile as AnnotationComponentFile ?? currFile.GetAnnotationFile();
+			var oralAnnotationFile = annotationFile?.OralAnnotationFile;
 
 			if (!FileDeletionAction(currFile))
 				return;
@@ -682,20 +674,12 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool GetIsOKToDeleteCurrentFile()
-		{
-			if (_grid.CurrentCellAddress.Y < 0 || _grid.CurrentCellAddress.Y >= _files.Count())
-				return false;
+		private bool GetIsOKToDeleteCurrentFile() => 
+			!(GetCurrentComponentFile() is ProjectElementComponentFile);
 
-			var currFile = _files.ElementAt(_grid.CurrentCellAddress.Y);
-			return !(currFile is ProjectElementComponentFile);
-		}
+		public ComponentFile GetFileAt(int index) => _files.ElementAt(index);
 
-		public ComponentFile GetFileAt(int index)
-		{
-			return _files.ElementAt(index);
-		}
-
+		/// ------------------------------------------------------------------------------------
 		public bool HideDuration
 		{
 			set => colDuration.Visible = !value;

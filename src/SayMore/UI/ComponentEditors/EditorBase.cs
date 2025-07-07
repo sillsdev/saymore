@@ -116,8 +116,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			_file = file;
 
-			if (_binder != null)
-				_binder.SetComponentFile(file);
+			_binder?.SetComponentFile(file);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -177,16 +176,19 @@ namespace SayMore.UI.ComponentEditors
 		{
 			base.OnHandleCreated(e);
 
-			var parent = Parent;
-			while (parent != null)
-			{
-				if (parent is TabControl)
-				{
-					parent.VisibleChanged += (sender, args) => OnParentTabControlVisibleChanged();
-					break;
-				}
+			var owningTabControl = FindParent<TabControl>(this);
+			if (owningTabControl != null)
+				owningTabControl.VisibleChanged += (sender, args) => OnParentTabControlVisibleChanged();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static T FindParent<T>(Control control) where T : Control
+		{
+			var parent = control.Parent;
+			while (parent != null && !(parent is T))
 				parent = parent.Parent;
-			}
+
+			return parent as T;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -311,10 +313,7 @@ namespace SayMore.UI.ComponentEditors
 
 		#region Methods for managing child control collection and focus.
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<Control> ChildControls
-		{
-			get { return _childControls; }
-		}
+		public IEnumerable<Control> ChildControls => _childControls;
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleControlAdded(object sender, ControlEventArgs e)

@@ -87,7 +87,7 @@ namespace SayMore.UI.ElementListScreen
 			_componentFilesControl = componentGrid;
 			_componentFilesControl.AfterComponentSelectionChanged = HandleAfterComponentFileSelected;
 			_componentFilesControl.FilesAdded = HandleFilesAddedToComponentGrid;
-			_componentFilesControl.FileDeletionAction = (file) => _model.DeleteComponentFile(file);
+			_componentFilesControl.FileDeletionAction = file => _model.DeleteComponentFile(file);
 			_componentFilesControl.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
 			_componentFilesControl.FilesDroppedOnGrid = HandleFilesAddedToComponentGrid;
 			_componentFilesControl.PostMenuCommandRefreshAction = HandlePostMenuCommandRefresh;
@@ -387,8 +387,7 @@ namespace SayMore.UI.ElementListScreen
 			if (fileToSelectAfterRefresh != null &&
 				_componentFilesControl.TrySetComponent(fileToSelectAfterRefresh))
 			{
-				if (SelectedComponentEditorsTabControl != null)
-					SelectedComponentEditorsTabControl.TrySelectEditorOfType(componentEditorTypeToSelect);
+				SelectedComponentEditorsTabControl?.TrySelectEditorOfType(componentEditorTypeToSelect);
 			}
 		}
 
@@ -421,9 +420,9 @@ namespace SayMore.UI.ElementListScreen
 			// introduced with the fix for the reentrant call problem (e.g. SP-333). That
 			// fix now causes a lag between when a component file is selected and when all
 			// the editors for that component file are loaded into the view. It is during
-			// that lag that the code below gets executed (i.e the code to get the first
+			// that lag that the code below gets executed (i.e., the code to get the first
 			// component file editor). But if the editors for the new item's metadata file
-			// (i.e. .session or .person) are not yet loaded, then the first editor gotten
+			// (i.e., .session or .person) are not yet loaded, then the first editor gotten
 			// is one left over from those associated with the previous component file.
 			_model.SetSelectedComponentFile(0);
 

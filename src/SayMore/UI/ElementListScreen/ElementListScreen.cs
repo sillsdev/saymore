@@ -93,6 +93,7 @@ namespace SayMore.UI.ElementListScreen
 			_componentFilesControl.PostMenuCommandRefreshAction = HandlePostMenuCommandRefresh;
 			_componentFilesControl.IsOKToSelectDifferentFile = GetIsOKToLeaveCurrentEditor;
 			_componentFilesControl.IsOKToDoFileOperation = GetIsOKToLeaveCurrentEditor;
+			_componentFilesControl.PrepareToSelectDifferentFile += PrepareToSelectDifferentFile;
 
 			LoadElementList();
 		}
@@ -516,6 +517,8 @@ namespace SayMore.UI.ElementListScreen
 		protected virtual void HandleSelectedElementChanged(object sender,
 			ProjectElement oldItem, ProjectElement newItem)
 		{
+			PrepareToDeactivateCurrentEditor();
+			
 			_model.SetSelectedElement(newItem as T);
 			UpdateComponentFileList();
 		}
@@ -536,6 +539,12 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public virtual void ViewDeactivated()
 		{
+			PrepareToDeactivateCurrentEditor();
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		public virtual void PrepareToDeactivateCurrentEditor()
+		{
 			if (_selectedEditorsTabControl?.SelectedTab is ComponentEditorTabPage componentEditorTab)
 				componentEditorTab.EditorProvider?.PrepareToDeactivate();
 		}
@@ -554,6 +563,12 @@ namespace SayMore.UI.ElementListScreen
 
 			var editor = SelectedComponentEditorsTabControl.CurrentEditor;
 			return (editor == null || editor.IsOKToLeaveEditor);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void PrepareToSelectDifferentFile(object sender, EventArgs args)
+		{
+			SelectedComponentEditorsTabControl?.CurrentEditor?.PrepareToDeactivate();
 		}
 
 		/// <summary>

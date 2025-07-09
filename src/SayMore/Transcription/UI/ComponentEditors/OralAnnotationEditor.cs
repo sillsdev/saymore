@@ -8,6 +8,8 @@ using SayMore.Model.Files;
 using SayMore.Media.MPlayer;
 using SayMore.UI.ComponentEditors;
 using SIL.Windows.Forms;
+using SIL.Windows.Forms.Extensions;
+using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 
 namespace SayMore.Transcription.UI
 {
@@ -155,28 +157,24 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void PlaybackStopped(object sender, EventArgs eventArgs)
 		{
-			if (InvokeRequired)
+			this.SafeInvoke(() =>
 			{
-				Invoke(new Action(() => PlaybackStopped(sender, eventArgs)));
-				return;
-			}
-			_buttonStop.Enabled = false;
-			_buttonPlay.Enabled = !IsRegeneratingAudioFile;
+				_buttonStop.Enabled = false;
+				_buttonPlay.Enabled = !IsRegeneratingAudioFile;
 
-			if (!Visible)
-				_oralAnnotationWaveViewer.ResetWaveControlCursor();
+				if (!Visible)
+					_oralAnnotationWaveViewer.ResetWaveControlCursor();
+			}, nameof(PlaybackStopped), IgnoreIfDisposed, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleCursorTimeChanged(Media.Audio.WaveControlBasic ctrl, TimeSpan cursorTime)
 		{
-			if (InvokeRequired)
+			this.SafeInvoke(() =>
 			{
-				Invoke(new Action(() => HandleCursorTimeChanged(ctrl, cursorTime)));
-				return;
-			}
-			_labelCursorTime.Text = MediaPlayerViewModel.GetTimeDisplay(
-			   (float)cursorTime.TotalSeconds, (float)_oralAnnotationWaveViewer.AudioLength.TotalSeconds);
+				_labelCursorTime.Text = MediaPlayerViewModel.GetTimeDisplay(
+					(float)cursorTime.TotalSeconds, (float)_oralAnnotationWaveViewer.AudioLength.TotalSeconds);
+			}, nameof(HandleCursorTimeChanged), IgnoreIfDisposed, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -205,10 +203,7 @@ namespace SayMore.Transcription.UI
 
 			_isFirstTimeActivated = false;
 
-			if (InvokeRequired)
-				Invoke(new Action(InitializeForFirstTimeActivation));
-			else
-				InitializeForFirstTimeActivation();
+			this.SafeInvoke(InitializeForFirstTimeActivation, nameof(Activated), Throw, true);
 		}
 
 		private void InitializeForFirstTimeActivation()

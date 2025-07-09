@@ -1,3 +1,4 @@
+using DesktopAnalytics;
 using SIL.Reporting;
 
 namespace SayMore.Transcription.UI
@@ -10,6 +11,8 @@ namespace SayMore.Transcription.UI
 			: base(viewModel)
 		{
 			Logger.WriteEvent("OralTranslationRecorderDlg constructor. ComponentFile = {0}", viewModel.ComponentFile);
+			Analytics.Track(nameof(OralTranslationRecorderDlg));
+
 			InitializeComponent();
 			Opacity = 0D;
 

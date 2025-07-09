@@ -97,7 +97,9 @@ namespace SayMore.Transcription.UI
 		public ManualSegmenterDlg(ManualSegmenterDlgViewModel viewModel, int segmentToHighlight)
 			: base(viewModel)
 		{
-			Logger.WriteEvent("ManualSegmenterDlg constructor. ComponentFile = {0}; segmentToHighlight = ", viewModel.ComponentFile, segmentToHighlight);
+			Logger.WriteEvent("ManualSegmenterDlg constructor. ComponentFile = {0}; segmentToHighlight = {1}",
+				viewModel.ComponentFile, segmentToHighlight);
+			Analytics.Track(nameof(ManualSegmenterDlg));
 			InitializeComponent();
 			_tableLayoutButtons.BackColor = Settings.Default.BarColorEnd;
 			Opacity = 0D;
@@ -132,10 +134,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override float DefaultZoomPercentage
-		{
-			get { return Settings.Default.ZoomPercentageInManualSegmenterDlg; }
-		}
+		protected override float DefaultZoomPercentage => Settings.Default.ZoomPercentageInManualSegmenterDlg;
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
@@ -147,7 +146,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleTableLayoutOuterResize(object sender, EventArgs e)
+		private void HandleTableLayoutOuterResize(object sender, EventArgs e)
 		{
 			if (toolStripButtons.PreferredSize.Width + _toolStripStatus.PreferredSize.Width > _tableLayoutOuter.Width)
 			{
@@ -179,11 +178,11 @@ namespace SayMore.Transcription.UI
 			var cursorTime = _waveControl.GetCursorTime();
 			if (_viewModel.GetIsSegmentLongEnough(cursorTime))
 			{
-				var newsegmentBoundaries = ViewModel.InsertNewBoundary(cursorTime);
-				_waveControl.SegmentBoundaries = newsegmentBoundaries;
+				var newSegmentBoundaries = ViewModel.InsertNewBoundary(cursorTime);
+				_waveControl.SegmentBoundaries = newSegmentBoundaries;
 				int i = 0;
-				TimeSpan originalEnd = new TimeSpan();
-				foreach (var boundary in newsegmentBoundaries)
+				var originalEnd = TimeSpan.Zero;
+				foreach (var boundary in newSegmentBoundaries)
 				{
 					if (boundary > cursorTime)
 					{
@@ -262,11 +261,11 @@ namespace SayMore.Transcription.UI
 					return;
 			}
 
-			var ignoredBundaryToRemove = new TimeSpan();
+			var ignoredBoundaryToRemove = new TimeSpan();
 			if (!ViewModel.GetIsSegmentIgnored(segmentPrecedingDeletedBreak))
 			{
 				if (ViewModel.GetIsSegmentIgnored(segmentFollowingDeletedBreak))
-					ignoredBundaryToRemove = segmentFollowingDeletedBreak.TimeRange.End;
+					ignoredBoundaryToRemove = segmentFollowingDeletedBreak.TimeRange.End;
 			}
 
 			_waveControl.ClearSelectedBoundary();
@@ -278,8 +277,8 @@ namespace SayMore.Transcription.UI
 
 			_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
 			_waveControl.Painter.RemoveIgnoredRegion(boundary);
-			if (ignoredBundaryToRemove.Seconds > 0)
-				_waveControl.Painter.RemoveIgnoredRegion(ignoredBundaryToRemove);
+			if (ignoredBoundaryToRemove.Seconds > 0)
+				_waveControl.Painter.RemoveIgnoredRegion(ignoredBoundaryToRemove);
 
 			UpdateDisplay();
 		}
@@ -426,8 +425,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override FormSettings FormSettings
 		{
-			get { return Settings.Default.ManualSegmenterDlg; }
-			set { Settings.Default.ManualSegmenterDlg = value; }
+			get => Settings.Default.ManualSegmenterDlg;
+			set => Settings.Default.ManualSegmenterDlg = value;
 		}
 
 		/// ------------------------------------------------------------------------------------

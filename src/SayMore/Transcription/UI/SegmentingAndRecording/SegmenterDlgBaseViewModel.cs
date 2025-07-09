@@ -168,34 +168,19 @@ namespace SayMore.Transcription.UI
 			}
 
 			/// ------------------------------------------------------------------------------------
-			public bool IsEmpty
-			{
-				get { return _undoStack.Count == 0; }
-			}
+			public bool IsEmpty => _undoStack.Count == 0;
 
 			/// ------------------------------------------------------------------------------------
-			public TimeRange TimeRangeForUndo
-			{
-				get { return (_undoStack.Count == 0) ? null : _undoStack.Peek().NewRange; }
-			}
+			public TimeRange TimeRangeForUndo => (_undoStack.Count == 0) ? null : _undoStack.Peek().NewRange;
 
 			/// ------------------------------------------------------------------------------------
-			public string DescriptionForUndo
-			{
-				get { return (_undoStack.Count == 0) ? null : _undoStack.Peek().ToString(); }
-			}
+			public string DescriptionForUndo => (_undoStack.Count == 0) ? null : _undoStack.Peek().ToString();
 
 			/// ------------------------------------------------------------------------------------
-			public SegmentChangeType ChangeTypeToUndo
-			{
-				get { return _undoStack.Peek().Type; }
-			}
+			public SegmentChangeType ChangeTypeToUndo => _undoStack.Peek().Type;
 
 			/// ------------------------------------------------------------------------------------
-			public int SequenceId
-			{
-				get { return _undoStack.Count; }
-			}
+			public int SequenceId => _undoStack.Count;
 
 			/// ------------------------------------------------------------------------------------
 			public void Push(SegmentChange segmentChange)
@@ -323,9 +308,9 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void BackupOralAnnotationSegmentFile(string srcfile, bool deleteAfterBackingUp)
+		public void BackupOralAnnotationSegmentFile(string srcFile, bool deleteAfterBackingUp)
 		{
-			var fileName = Path.GetFileName(srcfile);
+			var fileName = Path.GetFileName(srcFile);
 			if (fileName == null)
 				return;
 			var dstFile = Path.Combine(TempOralAnnotationsFolder, fileName);
@@ -341,10 +326,10 @@ namespace SayMore.Transcription.UI
 			if (!Directory.Exists(TempOralAnnotationsFolder))
 				FileSystemUtils.CreateDirectory(TempOralAnnotationsFolder);
 
-			CopyFilesViewModel.Copy(srcfile, dstFile);
+			CopyFilesViewModel.Copy(srcFile, dstFile);
 
 			if (deleteAfterBackingUp)
-				EraseAnnotation(srcfile);
+				EraseAnnotation(srcFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -398,8 +383,7 @@ namespace SayMore.Transcription.UI
 			foreach (var bakFile in Directory.EnumerateFiles(TempOralAnnotationsFolder, Path.GetFileName(dstFile) + kBackupVersionPrefix + "*"))
 			{
 				var ich = bakFile.LastIndexOf(kBackupVersionPrefix, bakFile.Length, StringComparison.Ordinal) + 1;
-				int backupNum;
-				if (ich > 0 && ich < bakFile.Length && Int32.TryParse(bakFile.Substring(ich + 1), out backupNum))
+				if (ich > 0 && ich < bakFile.Length && Int32.TryParse(bakFile.Substring(ich + 1), out var backupNum))
 					max = Math.Max(max, backupNum);
 			}
 			return max;
@@ -441,9 +425,9 @@ namespace SayMore.Transcription.UI
 
 			// ReSharper disable once AssignNullToNotNullAttribute - Path.GetFileName(f)
 			var filesToRestore = (from f in _oralAnnotationFilesBeforeChanges
-								  let srcfile = Path.Combine(TempOralAnnotationsFolder, Path.GetFileName(f))
-								  where File.Exists(srcfile)
-								  select new KeyValuePair<string, string>(srcfile, f)).ToArray();
+								  let srcFile = Path.Combine(TempOralAnnotationsFolder, Path.GetFileName(f))
+								  where File.Exists(srcFile)
+								  select new KeyValuePair<string, string>(srcFile, f)).ToArray();
 
 			if (filesToRestore.Length == 0)
 				return;
@@ -456,39 +440,27 @@ namespace SayMore.Transcription.UI
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		public bool SegmentBoundariesChanged
-		{
-			get { return _undoStack.SegmentBoundariesChanged; }
-		}
+		public bool SegmentBoundariesChanged => _undoStack.SegmentBoundariesChanged;
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual string ProgramAreaForUsageReporting
-		{
-			get { return "Manual Segmentation"; }
-		}
+		protected virtual string ProgramAreaForUsageReporting => "Manual Segmentation";
 
 		/// ------------------------------------------------------------------------------------
-		public bool WereChangesMade
-		{
-			get { return !_undoStack.IsEmpty; }
-		}
+		public bool WereChangesMade => !_undoStack.IsEmpty;
 
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual WaveStream GetStreamFromAudio(string audioFilePath)
 		{
-			Exception error;
-
-			return (AudioUtils.GetOneChannelStreamFromAudio(audioFilePath, out error) ??
-				new WaveFileReader(audioFilePath));
+			return AudioUtils.GetOneChannelStreamFromAudio(audioFilePath, out _) ??
+				new WaveFileReader(audioFilePath);
 		}
 
 		/// ----------------------------------------------------------------------------------------
 		public AnnotationSegment GetSegment(int index)
 		{
-			return (index < 0 || index >= TimeTier.Segments.Count ?
-				null : TimeTier.Segments[index]);
+			return index < 0 || index >= TimeTier.Segments.Count ? null : TimeTier.Segments[index];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -510,27 +482,18 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual TimeSpan VirtualBoundaryBeyondLastSegment
-		{
-			get { return OrigWaveStream.TotalTime; }
-		}
+		public virtual TimeSpan VirtualBoundaryBeyondLastSegment => OrigWaveStream.TotalTime;
 
 		/// ------------------------------------------------------------------------------------
-		public TimeRange TimeRangeForUndo
-		{
-			get { return _undoStack.TimeRangeForUndo; }
-		}
+		public TimeRange TimeRangeForUndo => _undoStack.TimeRangeForUndo;
 
 		/// ------------------------------------------------------------------------------------
-		public string DescriptionForUndo
-		{
-			get { return _undoStack.DescriptionForUndo; }
-		}
+		public string DescriptionForUndo => _undoStack.DescriptionForUndo;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Determines whether or not the time between the proposed end time and the closest
-		/// boundary to it's left will make a long enough segment.
+		/// Determines whether the time between the proposed end time and the closest boundary to
+		/// its left will make a long enough segment.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsSegmentLongEnough(TimeSpan proposedEndTime)
@@ -543,7 +506,7 @@ namespace SayMore.Transcription.UI
 					return (proposedEndTime - TimeTier.Segments[i].TimeRange.End >= minSize);
 			}
 
-			return (proposedEndTime >= minSize);
+			return proposedEndTime >= minSize;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -729,10 +692,8 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool NextUndoItemIsAddition
-		{
-			get { return !_undoStack.IsEmpty && _undoStack.ChangeTypeToUndo == SegmentChangeType.Addition; }
-		}
+		public bool NextUndoItemIsAddition =>
+			!_undoStack.IsEmpty && _undoStack.ChangeTypeToUndo == SegmentChangeType.Addition;
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnSegmentDeleted(AnnotationSegment segment)
@@ -754,7 +715,7 @@ namespace SayMore.Transcription.UI
 		/// <summary>
 		/// Returns a value indicating whether the given boundary cannot be deleted or moved in
 		/// either direction. A boundary is absolutely "permanent" if the time tier has readonly
-		/// ranges. Typically it will also be considered permanent if it is adjacent to a
+		/// ranges. Typically, it will also be considered permanent if it is adjacent to a
 		/// segment that already has an oral annotation (text annotations can also prevent moves
 		/// if PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent is set); however, the
 		/// caller can elect to disregard annotations when determining this.
@@ -797,8 +758,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected void InvokeUpdateDisplayAction()
 		{
-			if (UpdateDisplayProvider != null)
-				UpdateDisplayProvider();
+			UpdateDisplayProvider?.Invoke();
 		}
 
 		/// ------------------------------------------------------------------------------------

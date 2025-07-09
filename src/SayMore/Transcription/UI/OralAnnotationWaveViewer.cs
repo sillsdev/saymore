@@ -30,8 +30,6 @@ namespace SayMore.Transcription.UI
 			Logger.WriteEvent("OralAnnotationWaveViewer constructor");
 			InitializeComponent();
 			InitializeWaveControl();
-
-			Application.Idle += HandleInitialWaveDisplay;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -56,12 +54,16 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleInitialWaveDisplay(object sender, EventArgs e)
+		protected override void OnLoad(EventArgs e)
 		{
-			Application.Idle -= HandleInitialWaveDisplay;
-			_waveControl.AllowDrawing = true;
-			ArrangeLabels();
-			CursorTimeChanged(_waveControl, _waveControl.GetCursorTime());
+			base.OnLoad(e);
+
+			BeginInvoke(new Action(() =>
+				{
+					_waveControl.AllowDrawing = true;
+					ArrangeLabels();
+					CursorTimeChanged(_waveControl, _waveControl.GetCursorTime());
+				}));
 		}
 
 		/// ------------------------------------------------------------------------------------

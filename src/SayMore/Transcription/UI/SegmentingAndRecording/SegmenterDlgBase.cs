@@ -480,7 +480,6 @@ namespace SayMore.Transcription.UI
 
 			base.OnShown(e);
 
-			Application.DoEvents();
 			Opacity = 1f;
 			WaitCursor.Hide();
 		}

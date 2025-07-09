@@ -28,11 +28,13 @@ using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
 using SayMore.Model;
 using SayMore.Utilities;
+using SIL.Windows.Forms.Extensions;
 using SIL.Windows.Forms.Reporting;
 using SIL.WritingSystems;
 using static System.Environment;
 using static System.Environment.SpecialFolder;
 using static System.String;
+using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 
 namespace SayMore
 {
@@ -187,9 +189,10 @@ namespace SayMore
 			}
 
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
-			_applicationContainer = new ApplicationContainer(false);
-
 			Logger.Init();
+			
+			_applicationContainer = new ApplicationContainer(false);
+			
 			AppDomain.CurrentDomain.FirstChanceException += FirstChanceHandler;
 			Logger.WriteEvent(ApplicationContainer.GetVersionInfo("SayMore version {0}.{1}.{2} {3}    Built on {4}", BuildType.Current));
 			Logger.WriteEvent("Visual Styles State: {0}", Application.VisualStyleState);
@@ -337,21 +340,24 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		private static void WaitForProjectMutex(object sender, DoWorkEventArgs e)
 		{
-			BackgroundWorker worker = (BackgroundWorker)sender;
+			var worker = (BackgroundWorker)sender;
 			var dlg = (LoadingDlg)e.Argument;
 
 			int attempts = 0;
-			while ((e.Result == null || ((bool)e.Result == false && attempts++ < 5)) && !worker.CancellationPending && !e.Cancel)
-			try
+			while ((e.Result == null || ((bool)e.Result == false && attempts++ < 5)) && !worker.CancellationPending &&
+			       !e.Cancel)
 			{
-				Thread.Sleep(2000);
-				dlg.Invoke(new Action(delegate {e.Result = _oneInstancePerProjectMutex.WaitOne(1, false); }));
-			}
-			catch (Exception error)
-			{
-				ErrorReport.NotifyUserOfProblem(error,
-					LocalizationManager.GetString("MainWindow.ProblemOpeningSayMoreProject",
-					"There was a problem opening the SayMore project which might require that you restart your computer."));
+				try
+				{
+					Thread.Sleep(2000);
+					dlg.Invoke(new Action(delegate { e.Result = _oneInstancePerProjectMutex.WaitOne(1, false); }));
+				}
+				catch (Exception error)
+				{
+					ErrorReport.NotifyUserOfProblem(error,
+						LocalizationManager.GetString("MainWindow.ProblemOpeningSayMoreProject",
+							"There was a problem opening the SayMore project which might require that you restart your computer."));
+				}
 			}
 		}
 
@@ -398,19 +404,17 @@ namespace SayMore
 		public static void SaveProjectMetadata()
 		{
 			// This can happen during unit testing
-			if (_projectContext == null) return;
+			if (_projectContext == null) 
+				return;
 
 			var views = _projectContext.ProjectWindow.Views;
 			foreach (var view in views)
 			{
-				var savable = view as ISaveable;
-				if (savable == null) continue;
+				if (!(view is ISaveable savable))
+					continue;
 
 				// this can happen when creating new session from device
-				if (view.InvokeRequired)
-					view.Invoke(new SaveDelegate(savable.Save));
-				else
-					savable.Save();
+				view.SafeInvoke(() => savable.Save(), nameof(SaveProjectMetadata), Throw, true);
 			}
 		}
 

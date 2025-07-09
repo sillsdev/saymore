@@ -44,6 +44,8 @@ namespace SayMore.Model
 
 		//private readonly  Func<string, string, T> _elementFactory;
 		private readonly ElementFactory _elementFactory; //TODO: fix this. I'm struggling with autofac on this issue
+		// TODO: Lock _items before all access. It can be accessed on non-UI thread while being
+		// changed on the UI thread! This is the correct fix for SP-854, not Application.DoEvents.
 		private readonly List<T> _items = new List<T>();
 		private readonly string _rootFolder;
 
@@ -214,7 +216,7 @@ namespace SayMore.Model
 			if (item.FolderPath == "*mocked*")
 				return true;
 
-			// Recycle only, since the user has already confirmed the delete by this time.
+			// Recycle only, since the user has already confirmed the deletion by this time.
 			return ConfirmRecycleDialog.Recycle(item.FolderPath);
 		}
 
@@ -233,8 +235,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnElementIdChanged(ProjectElement element, string oldId, string newId)
 		{
-			if (ElementIdChanged != null)
-				ElementIdChanged(this, new ElementIdChangedArgs(element, oldId, newId));
+			ElementIdChanged?.Invoke(this, new ElementIdChangedArgs(element, oldId, newId));
 		}
 	}
 }

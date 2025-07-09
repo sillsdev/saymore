@@ -28,14 +28,14 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		public StatisticsViewModel(Project project, PersonInformant personInformant,
 			SessionWorkflowInformant sessionInformant, IEnumerable<ComponentRole> componentRoles,
-			AudioVideoDataGatherer backgroundStatisticsMananager)
+			AudioVideoDataGatherer backgroundStatisticsManager)
 		{
 			ProjectName = (project == null ? string.Empty : project.Name);
 			ProjectPath = (project == null ? string.Empty : project.FolderPath);
 			PersonInformant = personInformant;
 			SessionInformant = sessionInformant;
 			_componentRoles = componentRoles;
-			_backgroundStatisticsGather = backgroundStatisticsMananager;
+			_backgroundStatisticsGather = backgroundStatisticsManager;
 			_backgroundStatisticsGather.NewDataAvailable += HandleNewStatistics;
 			_backgroundStatisticsGather.FinishedProcessingAllFiles += HandleFinishedGatheringStatisticsForAllFiles;
 
@@ -136,15 +136,13 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		void HandleNewStatistics(object sender, EventArgs e)
 		{
-			if (NewStatisticsAvailable != null)
-				NewStatisticsAvailable(this, EventArgs.Empty);
+			NewStatisticsAvailable?.Invoke(this, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		void HandleFinishedGatheringStatisticsForAllFiles(object sender, EventArgs e)
 		{
-			if (FinishedGatheringStatisticsForAllFiles != null)
-				FinishedGatheringStatisticsForAllFiles(this, EventArgs.Empty);
+			FinishedGatheringStatisticsForAllFiles?.Invoke(this, EventArgs.Empty);
 		}
 	}
 

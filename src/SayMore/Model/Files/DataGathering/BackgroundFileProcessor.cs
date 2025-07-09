@@ -145,8 +145,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnNewDataAvailable(T fileData)
 		{
-			if (NewDataAvailable != null)
-				NewDataAvailable(this, EventArgs.Empty);
+			NewDataAvailable?.Invoke(this, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------

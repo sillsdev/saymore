@@ -11,7 +11,7 @@ namespace SayMore.Transcription.UI
 			: base(viewModel)
 		{
 			Logger.WriteEvent("CarefulSpeechRecorderDlg constructor. ComponentFile = {0}", viewModel.ComponentFile);
-			Analytics.Track(nameof(CarefulSpeechRecorderDlg));
+			Analytics.Track("CarefulSpeechRecording");
 
 			InitializeComponent();
 			Opacity = 0D;

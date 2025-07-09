@@ -99,7 +99,7 @@ namespace SayMore.Transcription.UI
 		{
 			Logger.WriteEvent("ManualSegmenterDlg constructor. ComponentFile = {0}; segmentToHighlight = {1}",
 				viewModel.ComponentFile, segmentToHighlight);
-			Analytics.Track(nameof(ManualSegmenterDlg));
+			Analytics.Track("ManualSegmenting");
 			InitializeComponent();
 			_tableLayoutButtons.BackColor = Settings.Default.BarColorEnd;
 			Opacity = 0D;

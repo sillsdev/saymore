@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using SIL.Reporting;
 using SayMore.UI.LowLevelControls;
 using SIL.Windows.Forms;
+using SIL.Windows.Forms.Extensions;
 
 namespace SayMore.Media.MPlayer
 {
@@ -150,10 +151,8 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		private void UpdateTimeDisplay(float position)
 		{
-			if (InvokeRequired)
-				Invoke(new Action(() => _labelTime.Text = _viewModel.GetTimeDisplay(position)));
-			else
-				_labelTime.Text = _viewModel.GetTimeDisplay(position);
+			this.SafeInvoke(() => _labelTime.Text = _viewModel.GetTimeDisplay(position), 
+				nameof(UpdateTimeDisplay), ControlExtensions.ErrorHandlingAction.IgnoreIfDisposed);
 		}
 
 		#endregion

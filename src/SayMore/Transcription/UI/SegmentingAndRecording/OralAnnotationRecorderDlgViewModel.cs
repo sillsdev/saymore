@@ -211,10 +211,8 @@ namespace SayMore.Transcription.UI
 		{
 			CurrentUnannotatedSegment = TimeTier.Segments.FirstOrDefault(s =>
 				(CurrentUnannotatedSegment == null || s.End > CurrentUnannotatedSegment.End) &&
-				SegmentNeedsAnnotation(s));
-
-			if (CurrentUnannotatedSegment == null)
-				CurrentUnannotatedSegment = TimeTier.Segments.FirstOrDefault(SegmentNeedsAnnotation);
+				SegmentNeedsAnnotation(s)) ??
+				TimeTier.Segments.FirstOrDefault(SegmentNeedsAnnotation);
 
 			return CurrentUnannotatedSegment != null;
 		}
@@ -488,8 +486,7 @@ namespace SayMore.Transcription.UI
 		{
 			AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrownDuringPlayback;
 
-			if (_annotationPlayer != null)
-				_annotationPlayer.Dispose();
+			_annotationPlayer?.Dispose();
 
 			_annotationPlayer = null;
 		}
@@ -499,8 +496,7 @@ namespace SayMore.Transcription.UI
 		{
 			CloseAnnotationPlayer();
 
-			if (PlaybackErrorAction != null)
-				PlaybackErrorAction(exception);
+			PlaybackErrorAction?.Invoke(exception);
 		}
 
 		/// ------------------------------------------------------------------------------------

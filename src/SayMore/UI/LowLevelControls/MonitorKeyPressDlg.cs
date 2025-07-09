@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Forms;
 using SIL.Windows.Forms.Reporting;
 
@@ -11,6 +12,11 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		public MonitorKeyPressDlg()
 		{
+		}
+
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
 			Application.AddMessageFilter(this);
 		}
 

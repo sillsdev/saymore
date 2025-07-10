@@ -510,6 +510,7 @@
     <Compile Include="Transcription\UI\SegmentingAndRecording\SegmenterDlgBaseViewModel.cs" />
     <Compile Include="Transcription\UI\TextAnnotationGrid\AudioWaveFormCell.cs" />
     <Compile Include="Transcription\UI\TextAnnotationGrid\AudioWaveFormColumn.cs" />
+    <Compile Include="MediaUtils\MediaFileLoadException.cs" />
     <Compile Include="Transcription\UI\TextAnnotationGrid\TextAnnotationColumn.cs" />
     <Compile Include="Transcription\UI\TextAnnotationGrid\TextAnnotationColumnWithMenu.cs" />
     <Compile Include="Transcription\UI\TextAnnotationGrid\TextAnnotationEditorGrid.cs">

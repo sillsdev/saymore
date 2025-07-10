@@ -18,6 +18,7 @@ using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SIL.Media;
 using SIL.Windows.Forms.Extensions;
+using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 
 namespace SayMore.Transcription.UI
 {
@@ -61,7 +62,7 @@ namespace SayMore.Transcription.UI
 		private bool _reRecording;
 		private bool _userHasListenedToSelectedSegment;
 		private SpaceBarMode _spaceBarMode;
-		private readonly Color _selectedSegmentHighlighColor = Color.Moccasin;
+		private readonly Color _selectedSegmentHighlightColor = Color.Moccasin;
 		private AdvanceOptionsAfterRecording _advanceOption;
 
 		protected WaveControlWithRangeSelection _waveControl;
@@ -90,8 +91,6 @@ namespace SayMore.Transcription.UI
 		protected OralAnnotationRecorderBaseDlg(OralAnnotationRecorderDlgViewModel viewModel)
 			: base(viewModel)
 		{
-			AudioUtils.NAudioExceptionThrown += HandleNAudioExceptionThrown;
-
 			InitializeComponent();
 
 			_cursorBlinkTimer.Tag = true;
@@ -110,14 +109,6 @@ namespace SayMore.Transcription.UI
 
 			InitializeTableLayouts();
 			SetupPeakMeterAndRecordingDeviceIndicator();
-
-			_spaceBarMode = viewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
-			viewModel.PlaybackErrorAction = HandlePlaybackError;
-			viewModel.RecordingErrorAction = HandleRecordingError;
-			viewModel.RecordingCompleted = RecordingCompleted;
-			viewModel.SelectedDeviceChanged += SelectedRecordingDeviceChanged;
-
-			SegmentIgnored += HandleSegmentIgnored;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -134,6 +125,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleNAudioExceptionThrown(Exception exception)
 		{
+			Logger.WriteError(exception);
 			if (!AudioUtils.GetCanRecordAudio(true))
 			{
 				if (_spaceBarMode == SpaceBarMode.Record)
@@ -170,8 +162,7 @@ namespace SayMore.Transcription.UI
 					UpdateDisplay();
 				}
 				_checkForRecordingDevice.Enabled = true;
-			}, GetType().FullName + "." + nameof(CheckForRecordingDevice),
-				ControlExtensions.ErrorHandlingAction.IgnoreIfDisposed);
+			}, GetType().FullName + "." + nameof(CheckForRecordingDevice), IgnoreIfDisposed);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -179,14 +170,13 @@ namespace SayMore.Transcription.UI
 		{
 			if (disposing)
 			{
-				if (components != null)
-					components.Dispose();
+				AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrown;
+				
+				components?.Dispose();
 				_annotationSegmentFont.Dispose();
 				_hotPlaySourceButton.Dispose();
 				_hotRecordAnnotationButton.Dispose();
-				if (_waveControl != null)
-					_waveControl.Dispose();
-				AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrown;
+				_waveControl?.Dispose();
 
 				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= HandleStringsLocalized;
 			}
@@ -200,24 +190,37 @@ namespace SayMore.Transcription.UI
 		{
 			if (_moreReliableDesignMode)
 				return;
-
+			
 			ViewModel.InitializeAnnotationRecorder(_peakMeter, _recDeviceIndicator,
 				HandleAnnotationRecordingProgress);
 			base.OnLoad(e);
+
+			_spaceBarMode = ViewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
+			AudioUtils.NAudioExceptionThrown += HandleNAudioExceptionThrown;
+			
 			InitializeTableLayoutButtonControls();
 			InitializeHintLabelsAndButtonFonts();
 			ViewModel.RemoveInvalidAnnotationFiles();
 			WavePainter.UnsegmentedBackgroundColor = _panelListen.BackColor;
 			WavePainter.SegmentedBackgroundColor = Settings.Default.BarColorBegin;
+			
+			SegmentIgnored += HandleSegmentIgnored;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
+			
+			Logger.WriteEvent("OralAnnotationRecorderBaseDlg shown");
 
 			if (_moreReliableDesignMode)
 				return;
+
+			ViewModel.PlaybackErrorAction = HandlePlaybackError;
+			ViewModel.RecordingErrorAction = HandleRecordingError;
+			ViewModel.RecordingCompleted = RecordingCompleted;
+			ViewModel.SelectedDeviceChanged += SelectedRecordingDeviceChanged;
 
 			_cursorBlinkTimer.Enabled = true;
 			_recDeviceIndicator.MicCheckingEnabled = true;
@@ -225,7 +228,7 @@ namespace SayMore.Transcription.UI
 			if (ViewModel.GetSegmentCount() > 0)
 			{
 				if (ViewModel.SetNextUnannotatedSegment())
-					_waveControl.SetSelectionTimes(ViewModel.CurrentUnannotatedSegment.TimeRange, _selectedSegmentHighlighColor);
+					_waveControl.SetSelectionTimes(ViewModel.CurrentUnannotatedSegment.TimeRange, _selectedSegmentHighlightColor);
 
 				ScrollInPreparationForListenOrRecord(_labelListenButton);
 			}
@@ -476,34 +479,28 @@ namespace SayMore.Transcription.UI
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		WavePainterWithRangeSelection WavePainter
-		{
-			get { return (WavePainterWithRangeSelection)_waveControl.Painter; }
-		}
+		WavePainterWithRangeSelection WavePainter => (WavePainterWithRangeSelection)_waveControl.Painter;
 
 		/// ------------------------------------------------------------------------------------
-		private OralAnnotationRecorderDlgViewModel ViewModel
-		{
-			get { return _viewModel as OralAnnotationRecorderDlgViewModel; }
-		}
+		private OralAnnotationRecorderDlgViewModel ViewModel => _viewModel as OralAnnotationRecorderDlgViewModel;
 
 		/// ------------------------------------------------------------------------------------
 		protected override FormSettings FormSettings
 		{
-			get { return Settings.Default.OralAnnotationRecorderDlg; }
-			set { Settings.Default.OralAnnotationRecorderDlg = value; }
+			get => Settings.Default.OralAnnotationRecorderDlg;
+			set => Settings.Default.OralAnnotationRecorderDlg = value;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override float ZoomPercentage
 		{
-			get { return Settings.Default.ZoomPercentageInAnnotationRecordingDlg; }
-			set { Settings.Default.ZoomPercentageInAnnotationRecordingDlg = value; }
+			get => Settings.Default.ZoomPercentageInAnnotationRecordingDlg;
+			set => Settings.Default.ZoomPercentageInAnnotationRecordingDlg = value;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>Overridden to allow play button and Ignore checkbox to be displayed in
-		/// the rectanlge for the segment being defined (not yet a real segment)</summary>
+		/// the rectangle for the segment being defined (not yet a real segment)</summary>
 		/// ------------------------------------------------------------------------------------
 		protected override Rectangle HotRectangleBeyondFinalSegment
 		{
@@ -518,6 +515,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
+			Logger.WriteEvent("OralAnnotationRecorderBaseDlg closed. Type = {0}", ViewModel.AnnotationType);
 			ViewModel.CloseAnnotationPlayer();
 			//ViewModel.CloseAnnotationRecorder();
 			base.OnFormClosed(e);
@@ -613,13 +611,10 @@ namespace SayMore.Transcription.UI
 		{
 			try
 			{
-				Label label = control as Label;
-				if (label != null)
+				if (control is Label label)
 					label.Image = image;
 				else
-				{
-					((PictureBox) control).Image = image;
-				}
+					((PictureBox)control).Image = image;
 			}
 			catch (Exception e)
 			{
@@ -673,11 +668,8 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override TimeSpan GetCurrentTimeForTimeDisplay()
-		{
-			var currentSegment = HotSegment;
-			return (currentSegment == null ? ViewModel.GetEndOfLastSegment() : currentSegment.TimeRange.Start);
-		}
+		protected override TimeSpan GetCurrentTimeForTimeDisplay() => 
+			HotSegment?.TimeRange.Start ?? ViewModel.GetEndOfLastSegment();
 
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnAdjustBoundaryUsingArrowKey(int milliseconds)
@@ -728,7 +720,7 @@ namespace SayMore.Transcription.UI
 		//    _currentMovingBoundaryTime += TimeSpan.FromMilliseconds(milliseconds);
 
 		//    _waveControl.SegmentBoundaries = ViewModel.GetSegmentEndBoundaries()
-		//        .Select(b => b == _timeAtBeginningOfboundaryMove ? _currentMovingBoundaryTime : b);
+		//        .Select(b => b == _timeAtBeginningOfBoundaryMove ? _currentMovingBoundaryTime : b);
 
 		//    _waveControl.SetSelectionTimes(ViewModel.GetStartOfCurrentSegment(), _currentMovingBoundaryTime);
 		//}
@@ -815,11 +807,12 @@ namespace SayMore.Transcription.UI
 			}
 
 			if (end == ViewModel.GetSelectedTimeRange().End &&
-				(ViewModel.CurrentUnannotatedSegment != null))
+				ViewModel.CurrentUnannotatedSegment != null)
 			{
 				InvalidateBottomReservedRectangleForCurrentUnannotatedSegment();
 				_userHasListenedToSelectedSegment = true;
-				_spaceBarMode = (AudioUtils.GetCanRecordAudio(true)) ? SpaceBarMode.Record : SpaceBarMode.Error;
+				_spaceBarMode = AudioUtils.GetCanRecordAudio(true) ?
+					SpaceBarMode.Record : SpaceBarMode.Error;
 				UpdateDisplay();
 			}
 		}
@@ -841,8 +834,8 @@ namespace SayMore.Transcription.UI
 			if (origNewSegmentEndBoundary != newEnd)
 			{
 				WavePainter.SetSelectionTimes(new TimeRange(ViewModel.GetEndOfLastSegment(), newEnd),
-					_selectedSegmentHighlighColor);
-				_waveControl.InvalidateIfNeeded((newEnd < origNewSegmentEndBoundary) ?
+					_selectedSegmentHighlightColor);
+				_waveControl.InvalidateIfNeeded(newEnd < origNewSegmentEndBoundary ?
 					origNewSegmentCursorRectangle : Rectangle.Empty);
 			}
 			UpdateDisplay();
@@ -851,8 +844,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override TimeSpan GetBoundaryToAdjustOnArrowKeys()
 		{
-			return (ViewModel.GetHasNewSegment() ? ViewModel.NewSegmentEndBoundary :
-				base.GetBoundaryToAdjustOnArrowKeys());
+			return ViewModel.GetHasNewSegment() ? ViewModel.NewSegmentEndBoundary :
+				base.GetBoundaryToAdjustOnArrowKeys();
 		}
 
 		#region Event handlers for the wave control
@@ -989,15 +982,14 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleVideoHelpButtonClick(object sender, EventArgs e)
 		{
-			MessageBox.Show("Sorry, we don't actually have a video for this yet. Contributions welcome!");
+			MessageBox.Show(LocalizationManager.GetString(
+				"DialogBoxes.Transcription.CommonAnnotationSegmenterDlg.NoVideoHelpMsg",
+				"Sorry, we don't actually have a video for this yet. Contributions welcome!"));
 			Analytics.Track("Video Help requested in " + ViewModel.AnnotationType + " dialog box.");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override bool UndoImplemented
-		{
-			get { return true; }
-		}
+		protected override bool UndoImplemented => true;
 
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleUndoButtonClick(object sender, EventArgs e)
@@ -1012,9 +1004,9 @@ namespace SayMore.Transcription.UI
 				SetModeToListenOrFinished();
 
 				// If Undo causes an annotation to be removed for a pre-existing segment, that
-				// segment will now be the current unnanotated segment
+				// segment will now be the current unnannotated segment
 				if (ViewModel.CurrentUnannotatedSegment != null)
-					_waveControl.SetSelectionTimes(ViewModel.CurrentUnannotatedSegment.TimeRange, _selectedSegmentHighlighColor);
+					_waveControl.SetSelectionTimes(ViewModel.CurrentUnannotatedSegment.TimeRange, _selectedSegmentHighlightColor);
 
 				if (_spaceBarMode == SpaceBarMode.Listen)
 					ScrollInPreparationForListenOrRecord(_labelListenButton);
@@ -1044,10 +1036,8 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override int MarginFromBottomOfPlayOrigButton
-		{
-			get { return base.MarginFromBottomOfPlayOrigButton + AnnotationAreaHeight; }
-		}
+		protected override int MarginFromBottomOfPlayOrigButton => 
+			base.MarginFromBottomOfPlayOrigButton + AnnotationAreaHeight;
 
 		/// ------------------------------------------------------------------------------------
 		private Rectangle GetAnnotationPlaybackRectangle()
@@ -1131,6 +1121,8 @@ namespace SayMore.Transcription.UI
 				_segmentBeingRecorded = null;
 				return;
 			}
+			
+			Logger.WriteMinorEvent("Oral annotation recording successfully completed");
 
 			if (_advanceOption == AdvanceOptionsAfterRecording.AdvanceOnlyToContiguousUnsegmentedAudio &&
 				ViewModel.GetEndOfLastSegment() == _segmentBeingRecorded.End)
@@ -1187,10 +1179,14 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void SelectedRecordingDeviceChanged(object sender, EventArgs e)
+		private void SelectedRecordingDeviceChanged(object sender, EventArgs e)
 		{
-			KillRecordingErrorMessage();
-			UpdateDisplay();
+			Logger.WriteEvent("SelectedRecordingDeviceChanged");
+			this.SafeInvoke(() =>
+			{
+				KillRecordingErrorMessage();
+				UpdateDisplay();
+			}, GetType().FullName + "." + nameof(SelectedRecordingDeviceChanged), IgnoreIfDisposed);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1433,10 +1429,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public int AnnotationAreaHeight
-		{
-			get { return _waveControl.BottomReservedAreaHeight; }
-		}
+		public int AnnotationAreaHeight => _waveControl.BottomReservedAreaHeight;
 
 		/// ------------------------------------------------------------------------------------
 		private Rectangle GetNewSegmentCursorRectangle()
@@ -1463,10 +1456,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		internal Rectangle GetNewSegmentRectangle()
 		{
-			if (!ViewModel.GetHasNewSegment())
-				return Rectangle.Empty;
-
-			return GetRectangleForTimeRangeBeyondEndOfLastSegment(ViewModel.NewSegmentEndBoundary);
+			return !ViewModel.GetHasNewSegment() ? Rectangle.Empty : 
+				GetRectangleForTimeRangeBeyondEndOfLastSegment(ViewModel.NewSegmentEndBoundary);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1507,7 +1498,6 @@ namespace SayMore.Transcription.UI
 			}
 
 			var rc = HotSegmentRectangle;
-			var rerecordButtonSize = _normalRerecordAnnotationButton.Size;
 
 			if (!GetDoesSegmentHaveAnnotationFile(HotSegment) && !ViewModel.GetIsRecording())
 				return Rectangle.Empty;
@@ -1623,6 +1613,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void HandleRecordingError(Exception e)
 		{
+			Logger.WriteError(e);
 			_listeningOrRecordingUsingSpaceBar = false;
 			UpdateDisplayForNotRecording(AdvanceOptionsAfterRecording.DoNotAdvance);
 			_waveControl.Invalidate();
@@ -1632,6 +1623,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void HandlePlaybackError(Exception e)
 		{
+			Logger.WriteError(e);
 			_listeningOrRecordingUsingSpaceBar = false;
 			_waveControl.Stop();
 			_waveControl.Invalidate();
@@ -1700,13 +1692,13 @@ namespace SayMore.Transcription.UI
 			if (ViewModel.SetNextUnannotatedSegment())
 			{
 				timeRange = ViewModel.CurrentUnannotatedSegment.TimeRange;
-				_waveControl.SetSelectionTimes(timeRange, _selectedSegmentHighlighColor);
+				_waveControl.SetSelectionTimes(timeRange, _selectedSegmentHighlightColor);
 				_waveControl.EnsureTimeIsVisible(timeRange.Start, timeRange, true, false);
 			}
 			else
 			{
 				_waveControl.SetSelectionTimes(new TimeRange(TimeSpan.Zero, TimeSpan.Zero),
-					_selectedSegmentHighlighColor);
+					_selectedSegmentHighlightColor);
 				timeRange = new TimeRange(ViewModel.GetEndOfLastSegment(), ViewModel.OrigWaveStream.TotalTime);
 				_waveControl.InvalidateIfNeeded(GetNewSegmentCursorRectangle());
 			}
@@ -1811,10 +1803,7 @@ namespace SayMore.Transcription.UI
 
 		#region Hot segment - the segment the mouse is over
 		/// ------------------------------------------------------------------------------------
-		protected override TimeRange CurrentTimeRange
-		{
-			get { return WavePainter.DefaultSelectedRange; }
-		}
+		protected override TimeRange CurrentTimeRange => WavePainter.DefaultSelectedRange;
 
 		/// ------------------------------------------------------------------------------------
 		private Rectangle PlayAnnotationButtonRectangle
@@ -1828,7 +1817,7 @@ namespace SayMore.Transcription.UI
 					return Rectangle.Empty;
 
 				return GetButtonRectangleForSegment(rc, base.MarginFromBottomOfPlayOrigButton,
-					new [] {_playButtonSize, _normalRerecordAnnotationButton.Size}, 0);
+					new [] {_playButtonSize, _normalRerecordAnnotationButton.Size});
 			}
 		}
 		#endregion

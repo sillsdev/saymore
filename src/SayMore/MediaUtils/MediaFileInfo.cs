@@ -180,10 +180,11 @@ namespace SayMore.Media
 				}
 			}
 
-			if (mediaInfo == null) // Very unlikely...
+			if (mediaInfo == null) // This can happen, e.g., if the media file is corrupt.
 			{
-				// and even less likely that this is going to do any better. But since this is the
-				// way it used to get the media info, seems best to keep it around as a fallback.
+				// If we failed to get info that way, it is unlikely that this is going to do any
+				// better. But since this is the way it used to get the media info, seems best to
+				// keep it around as a last-ditch fallback.
 				return GetMediaFileInfoUsingMediaInfoDll(mediaFile, ref error);
 			}
 

@@ -25,8 +25,8 @@ namespace SayMore.Model.Files
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Both sessions and people are made up of a number of files: an xml file we help them
-	/// edit (i.e. .session or .person), plus any number of other files (videos, texts, images,
+	/// Both sessions and people are made up of a number of files: an XML file we help them
+	/// edit (i.e., .session or .person), plus any number of other files (videos, texts, images,
 	/// etc.). Each of these is represented by an object of this class.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ namespace SayMore.Model.Files
 			dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);
 
 		[DllImport("user32.dll", CharSet=CharSet.Auto)]
-		extern static bool DestroyIcon(IntPtr handle);
+		static extern bool DestroyIcon(IntPtr handle);
 #endif
 		#endregion
 
@@ -119,7 +119,7 @@ namespace SayMore.Model.Files
 
 			DetermineFileType(pathToAnnotatedFile, fileTypes);
 
-			// we musn't do anything to remove the existing extension, as that is needed
+			// we mustn't do anything to remove the existing extension, as that is needed
 			// to keep, say, foo.wav and foo.txt separate. Instead, we just append ".meta"
 			//_metaDataPath = ComputeMetaDataPath(pathToAnnotatedFile);
 
@@ -198,9 +198,7 @@ namespace SayMore.Model.Files
 			LoadFileSizeAndDateModified();
 
 			// Initialize file's icon and description.
-			Bitmap icon;
-			string fileDesc;
-			GetSmallIconAndFileType(PathToAnnotatedFile, out icon, out fileDesc);
+			GetSmallIconAndFileType(PathToAnnotatedFile, out var icon, out var fileDesc);
 			SmallIcon = FileType.SmallIcon ?? icon;
 			FileTypeDescription = (FileType is UnknownFileType ? fileDesc : FileType.Name);
 		}
@@ -289,16 +287,13 @@ namespace SayMore.Model.Files
 		#endregion
 
 		#region Public properties
-		public XmlFileSerializer XmlFileSerializer { get { return _xmlFileSerializer; } }
-		public IProvideAudioVideoFileStatistics StatisticsProvider { get { return _statisticsProvider; } }
-		public PresetGatherer PresetProvider { get { return _presetProvider; } }
-		public FieldUpdater FieldUpdater { get { return _fieldUpdater; } }
+		public XmlFileSerializer XmlFileSerializer => _xmlFileSerializer;
+		public IProvideAudioVideoFileStatistics StatisticsProvider => _statisticsProvider;
+		public PresetGatherer PresetProvider => _presetProvider;
+		public FieldUpdater FieldUpdater => _fieldUpdater;
 
 		/// ------------------------------------------------------------------------------------
-		public virtual int DisplayIndentLevel
-		{
-			get { return 0; }
-		}
+		public virtual int DisplayIndentLevel => 0;
 
 		/// ------------------------------------------------------------------------------------
 		public virtual MediaFileInfo GetMediaFileInfoOrNull() => StatisticsProvider?.GetFileData(PathToAnnotatedFile);
@@ -337,13 +332,9 @@ namespace SayMore.Model.Files
 			return TimeSpan.FromSeconds((int)stats.Duration.TotalSeconds);
 		}
 
-		public string DurationString
-		{
-			get
-			{
-				return FileType.IsAudioOrVideo ? DurationSeconds.ToString() : string.Empty;
-			}
-		}
+		public string DurationString =>
+			FileType.IsAudioOrVideo ? DurationSeconds.ToString() : string.Empty;
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -618,9 +609,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ComponentRole> GetAssignedRolesFromAnnotationFile()
 		{
-			if (GetDoesHaveAnnotationFile())
-				return GetAnnotationFile().GetAssignedRoles();
-			return new ComponentRole[0];
+			return GetDoesHaveAnnotationFile() ? GetAnnotationFile().GetAssignedRoles() :
+				new ComponentRole[0];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -655,10 +645,7 @@ namespace SayMore.Model.Files
 		/// IN THE UI GRID
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual string FileName
-		{
-			get { return Path.GetFileName(PathToAnnotatedFile); }
-		}
+		public virtual string FileName => Path.GetFileName(PathToAnnotatedFile);
 
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(ProjectElement parentElement, string path)
@@ -709,16 +696,10 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool CanBeRenamedForRole
-		{
-			get { return true; }
-		}
+		public virtual bool CanBeRenamedForRole => true;
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool CanBeCustomRenamed
-		{
-			get { return true; }
-		}
+		public virtual bool CanBeCustomRenamed => true;
 
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ComponentRole> GetRelevantComponentRoles()
@@ -747,7 +728,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// If user clicks OK and recordings were made or changed, the full path to the EAF
-		/// file is returned. Otherwise null is returned.
+		/// file is returned. Otherwise, null is returned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string RecordAnnotations(Form frm, AudioRecordingType annotationType)

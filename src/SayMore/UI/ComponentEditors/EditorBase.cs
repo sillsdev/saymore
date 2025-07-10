@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
@@ -28,7 +29,6 @@ namespace SayMore.UI.ComponentEditors
 		bool IsOKToLeaveEditor { get; }
 		bool IsOKToShow { get; }
 		event Action<string> TabTextChanged;
-		IEnumerable<Control> ChildControls { get; }
 		ComponentFile ComponentFile { get; }
 		void PrepareToDeactivate();
 	}
@@ -76,7 +76,18 @@ namespace SayMore.UI.ComponentEditors
 			if (disposing)
 				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= HandleStringsLocalized;
 
-			base.Dispose(disposing);
+			try
+			{
+				base.Dispose(disposing);
+			}
+			catch (InvalidOperationException ex) when (
+				ex.Message.Contains("reentrant call to the SetCurrentCellAddressCore"))
+			{
+				// This is not ideal. But it is better than crashing (SP-2371) and should be
+				// safe to ignore. (It's possible that other changes in the TextAnnotationEditor
+				// now make this exception impossible, but since I can't reproduce the crash, it
+				// is hard to know for sure.)
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -90,8 +101,9 @@ namespace SayMore.UI.ComponentEditors
 		public void RefreshComponentFiles(string fileToSelectAfterRefresh,
 			Type componentEditorTypeToSelect)
 		{
-			if (ComponentFileListRefreshAction != null)
-				ComponentFileListRefreshAction(fileToSelectAfterRefresh, componentEditorTypeToSelect);
+			if (Disposing || IsDisposed)
+				return;
+			ComponentFileListRefreshAction?.Invoke(fileToSelectAfterRefresh, componentEditorTypeToSelect);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -313,7 +325,7 @@ namespace SayMore.UI.ComponentEditors
 
 		#region Methods for managing child control collection and focus.
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<Control> ChildControls => _childControls;
+		internal IEnumerable<Control> ChildControls => _childControls.ToArray();
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleControlAdded(object sender, ControlEventArgs e)

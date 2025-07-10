@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using L10NSharp;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using SIL.Reporting;
 
 namespace SayMore.Transcription.UI
 {
@@ -14,6 +15,7 @@ namespace SayMore.Transcription.UI
 		public TranscriptionAnnotationColumn(TierBase tier) : base(tier)
 		{
 			PlaybackType = (AudioRecordingType)Settings.Default.TranscriptionPlaybackType;
+			Logger.WriteEvent($"Transcription column annotation playback type: {PlaybackType}");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -21,6 +23,7 @@ namespace SayMore.Transcription.UI
 		{
 			base.HandlePlaybackTypeMenuItemClicked(sender, e);
 			Settings.Default.TranscriptionPlaybackType = (int)PlaybackType;
+			Logger.WriteEvent($"Transcription column annotation playback type changed to {PlaybackType}");
 		}
 
 		/// ------------------------------------------------------------------------------------

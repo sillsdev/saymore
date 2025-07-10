@@ -15,6 +15,7 @@ using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Media.MPlayer;
+using SayMore.MediaUtils;
 using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 using GridSettings = SIL.Windows.Forms.Widgets.BetterGrid.GridSettings;
 
@@ -40,6 +41,7 @@ namespace SayMore.Transcription.UI
 
 		private AnnotationComponentFile _annotationFile;
 		private readonly List<AnnotationPlaybackInfo> _mediaFileQueue = new List<AnnotationPlaybackInfo>();
+		private readonly HashSet<string> _knownCorruptFiles = new HashSet<string>();
 		private int _annotationPlaybackLoopCount;
 		private Action _playbackProgressReportingAction = () => { };
 //		private ToolTip _toolTip = new ToolTip();
@@ -117,6 +119,9 @@ namespace SayMore.Transcription.UI
 			EndEdit();
 			RowCount = 0;
 			Columns.Clear();
+
+			lock (_mediaFileQueue)
+				_knownCorruptFiles.Clear(); // Maybe the user fixed previously reported problems.
 
 			if (_annotationFile == null || !_annotationFile.Tiers.Any())
 				return;
@@ -623,18 +628,27 @@ namespace SayMore.Transcription.UI
 			// However, an out-of-range value seems to be the likely explanation for the error
 			// reported in SP-2219/SP-2220. This does not normally fire on the UI thread, so using
 			// SafeInvoke to ensure that CurrentCellAddress is not in some weird state.
+			// This synchronous invoke should be safe here as long as we're not called in a context
+			// where something higher up the call stack has a lock on something the UI thread
+			// (elsewhere) might also need to lock.
 			int iCol = 0;
 			this.SafeInvoke(() => { iCol = CurrentCellAddress.X; }, nameof(Play), IgnoreIfDisposed,
 				true);
 
 			var currCol = iCol >= 0 && iCol < ColumnCount ?
 				Columns[iCol] as TextAnnotationColumnWithMenu : null;
-			var playbackType = currCol?.PlaybackType ?? AudioRecordingType.Source;
+			// If something did change on the UI thread, and we're no longer in one of the text
+			// annotation columns, then we don't want to re-queue any media for playback.
+			if (currCol == null)
+				return;
+			
+			var playbackType = currCol.PlaybackType;
 
 			lock (_mediaFileQueue)
 			{
 				_mediaFileQueue.Clear();
-				_mediaFileQueue.AddRange(AnnotationPlaybackInfoProvider(playbackType));
+				_mediaFileQueue.AddRange(AnnotationPlaybackInfoProvider(playbackType)
+					.Where(f => !_knownCorruptFiles.Contains(f.MediaFile)));
 			}
 			InternalPlay();
 		}
@@ -642,7 +656,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private bool InternalPlay()
 		{
-			string errorMessage = null;
+			bool loaded = false;
+			var errorMessages = new List<string>();
 			lock (_mediaFileQueue)
 			{
 				if (_mediaFileQueue.Count == 0)
@@ -651,22 +666,31 @@ namespace SayMore.Transcription.UI
 				PlayerViewModel.PlaybackStarted -= HandleMediaPlayStarted;
 				PlayerViewModel.PlaybackEnded -= HandleMediaPlaybackEnded;
 
-				try
+				do
 				{
-					LoadFile();
-				}
-				catch (Exception e)
-				{
-					_mediaFileQueue.Clear();
-					errorMessage = e.Message;
-				}
+					try
+					{
+						LoadFile();
+						loaded = true;
+					}
+					catch (MediaFileLoadException e)
+					{
+						errorMessages.Add(e.Message);
+					}
+				} while (!loaded && _mediaFileQueue.Count > 0);
 			}
-			if (errorMessage != null)
+			// This might be overkill, but in an effort to minimize the amount of time
+			// _mediaFileQueue is kept locked and do everything possible to prevent any
+			// possible deadlock, we release the lock before even attempting to invoke
+			// notifying the user of any problems.
+			foreach (var errorMessage in errorMessages)
 			{
 				this.SafeInvoke(() => { ErrorReport.NotifyUserOfProblem(errorMessage); },
 					nameof(InternalPlay), IgnoreIfDisposed);
-				return false;
 			}
+
+			if (!loaded)
+				return false;
 
 			PlayerViewModel.PlaybackStarted += HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded += HandleMediaPlaybackEnded;
@@ -680,17 +704,25 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void LoadFile()
 		{
-			var firstAnnotation = _mediaFileQueue[0];
-			if (firstAnnotation.Length > 0f)
+			var firstFile = _mediaFileQueue[0];
+			var mediaFile = firstFile.MediaFile;
+			try
 			{
-				PlayerViewModel.LoadFile(firstAnnotation.MediaFile, firstAnnotation.Start,
-					firstAnnotation.Length);
+				if (firstFile.Length > 0f)
+				{
+					PlayerViewModel.LoadFile(mediaFile, firstFile.Start, firstFile.Length);
+				}
+				else
+				{
+					PlayerViewModel.LoadFile(mediaFile);
+					firstFile.Length = firstFile.End = PlayerViewModel.GetTotalMediaDuration();
+				}
 			}
-			else
+			catch (Exception e)
 			{
-				PlayerViewModel.LoadFile(firstAnnotation.MediaFile);
-				firstAnnotation.Length = firstAnnotation.End =
-					PlayerViewModel.GetTotalMediaDuration();
+				_mediaFileQueue.RemoveAt(0);
+				_knownCorruptFiles.Add(mediaFile);
+				throw new MediaFileLoadException(mediaFile, e);
 			}
 		}
 
@@ -739,7 +771,15 @@ namespace SayMore.Transcription.UI
 					_mediaFileQueue.RemoveAt(0);
 			}
 
-			if (!Visible)
+			var isVisible = false;
+
+			// This synchronous invoke should be safe here as long as we're not called in a context
+			// where something higher up the call stack has a lock on something the UI thread
+			// (elsewhere) might also need to lock.
+			this.SafeInvoke(() => { isVisible = Visible; }, nameof(HandleMediaPlaybackEnded),
+				IgnoreIfDisposed, true);
+
+			if (!isVisible)
 				return;
 
 			if (!InternalPlay())

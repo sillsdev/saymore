@@ -213,7 +213,7 @@ namespace SayMore.Transcription.UI
             this._carefulSpeachAudioExportMenuItem.Name = "_carefulSpeachAudioExportMenuItem";
             this._carefulSpeachAudioExportMenuItem.Size = new System.Drawing.Size(277, 22);
             this._carefulSpeachAudioExportMenuItem.Text = "Careful Speech Audio...";
-            this._carefulSpeachAudioExportMenuItem.Click += new System.EventHandler(this.OnCarefulSpeachAudioExportMenuItem_Click);
+            this._carefulSpeachAudioExportMenuItem.Click += new System.EventHandler(this.OnCarefulSpeechAudioExportMenuItem_Click);
             // 
             // _oralTranslationAudioExportMenuItem
             // 

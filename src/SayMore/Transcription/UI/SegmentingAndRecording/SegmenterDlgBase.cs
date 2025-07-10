@@ -19,6 +19,7 @@ using SayMore.Transcription.Model;
 using SayMore.UI.LowLevelControls;
 using SayMore.Media.MPlayer;
 using SayMore.Utilities;
+using SIL.Windows.Forms.Extensions;
 using Timer = System.Windows.Forms.Timer;
 
 namespace SayMore.Transcription.UI
@@ -235,14 +236,9 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual float DefaultZoomPercentage
-		{
-			get
-			{
-				double value;
-				return _pctFormatter.Format(_comboBoxZoom.Items[0] as string, out value) != null ? (float)value : 100f;
-			}
-		}
+		protected virtual float DefaultZoomPercentage =>
+			_pctFormatter.Format(_comboBoxZoom.Items[0] as string, out var value) != null ? (float)value : 100f;
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -270,20 +266,12 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual int HeightOfTableLayoutButtonRow
-		{
-			get { return 0; }
-		}
+		protected virtual int HeightOfTableLayoutButtonRow => 0;
 
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual Rectangle PlayOrigButtonRectangle
-		{
-			get
-			{
-				return GetPlayOrigButtonRectangleForSegment(HotSegmentRectangle);
-			}
-		}
+		protected virtual Rectangle PlayOrigButtonRectangle =>
+			GetPlayOrigButtonRectangleForSegment(HotSegmentRectangle);
 
 		/// ------------------------------------------------------------------------------------
 		protected Rectangle GetPlayOrigButtonRectangleForSegment(Rectangle rc)
@@ -394,10 +382,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual int MarginFromBottomOfPlayOrigButton
-		{
-			get { return 5; }
-		}
+		protected virtual int MarginFromBottomOfPlayOrigButton => 5;
 
 		/// ------------------------------------------------------------------------------------
 		internal Rectangle GetFullRectangleForTimeRange(TimeRange timeRange)
@@ -419,25 +404,15 @@ namespace SayMore.Transcription.UI
 
 		#region Hot segment - the segment the mouse is over
 		/// ------------------------------------------------------------------------------------
-		internal Point MousePositionInWaveControl
-		{
-			get { return _waveControl.PointToClient(MousePosition); }
-		}
+		internal Point MousePositionInWaveControl => _waveControl.PointToClient(MousePosition);
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual TimeRange CurrentTimeRange
-		{
-			get { return _waveControl.GetTimeRangeEnclosingMouseX(); }
-		}
+		protected virtual TimeRange CurrentTimeRange => _waveControl.GetTimeRangeEnclosingMouseX();
 
 		/// ------------------------------------------------------------------------------------
-		protected AnnotationSegment HotSegment
-		{
-			get
-			{
-				return _viewModel.TimeTier.Segments.FirstOrDefault(s => s.TimeRange == CurrentTimeRange);
-			}
-		}
+		protected AnnotationSegment HotSegment =>
+			_viewModel.TimeTier.Segments.FirstOrDefault(s => s.TimeRange == CurrentTimeRange);
+		
 
 		/// ------------------------------------------------------------------------------------
 		protected Rectangle HotSegmentRectangle
@@ -491,16 +466,11 @@ namespace SayMore.Transcription.UI
 		/// making this return true, but there are some actions that the user can do in the
 		/// manual segmented dialog that cannot yet be undone.</summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual bool UndoImplemented
-		{
-			get { return false; }
-		}
+		protected virtual bool UndoImplemented => false;
 
 		/// ------------------------------------------------------------------------------------
-		protected bool IsBoundaryMovingInProgressUsingArrowKeys
-		{
-			get { return (_timeAtBeginningOfBoundaryMove >= TimeSpan.Zero); }
-		}
+		protected bool IsBoundaryMovingInProgressUsingArrowKeys => 
+			_timeAtBeginningOfBoundaryMove >= TimeSpan.Zero;
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
@@ -510,7 +480,6 @@ namespace SayMore.Transcription.UI
 
 			base.OnShown(e);
 
-			Application.DoEvents();
 			Opacity = 1f;
 			WaitCursor.Hide();
 		}
@@ -582,15 +551,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnPlayingBack(WaveControlBasic ctrl, TimeSpan current, TimeSpan total)
 		{
-			if (InvokeRequired)
-			{
-				Invoke(new Action(() => OnPlayingBack(ctrl, current, total)));
-			}
-			else
+			this.SafeInvoke(() =>
 			{
 				_labelTimeDisplay.Text = MediaPlayerViewModel.GetTimeDisplay(
-					(float) current.TotalSeconds, (float) total.TotalSeconds);
-			}
+					(float)current.TotalSeconds, (float)total.TotalSeconds);
+			}, nameof(OnPlayingBack), ControlExtensions.ErrorHandlingAction.IgnoreIfDisposed);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -686,8 +651,8 @@ namespace SayMore.Transcription.UI
 
 					var hotSegment = HotSegment;
 
-					// If the undo button is also showing for this same segment. we need to shift the
-					// ignore to the left or down to allow it to fit without overlapping.
+					// If the undo button is also showing for this same segment, we need to shift the
+					// ignore button to the left or down to allow it to fit without overlapping.
 					if (UndoImplemented && _viewModel.TimeRangeForUndo != null &&
 						hotSegment != null && _viewModel.TimeRangeForUndo == hotSegment.TimeRange)
 					{
@@ -953,10 +918,7 @@ namespace SayMore.Transcription.UI
 
 		#region Low level keyboard handling
 		/// ------------------------------------------------------------------------------------
-		protected bool ZoomComboIsActiveControl
-		{
-			get { return ActiveControl == _comboBoxZoom; }
-		}
+		protected bool ZoomComboIsActiveControl => ActiveControl == _comboBoxZoom;
 
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyDown(Keys key)
@@ -1088,8 +1050,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private bool SetZoom()
 		{
-			double newValue;
-			if (_pctFormatter.Format(_comboBoxZoom.Text, out newValue) != null)
+			if (_pctFormatter.Format(_comboBoxZoom.Text, out var newValue) != null)
 			{
 				ZoomPercentage = (float)newValue;
 				return ZoomPercentage.Equals((float)newValue);

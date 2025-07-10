@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using L10NSharp;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using SIL.Reporting;
 
 // ReSharper disable once CheckNamespace
 namespace SayMore.Transcription.UI
@@ -15,6 +16,7 @@ namespace SayMore.Transcription.UI
 		public TranslationAnnotationColumn(TierBase tier) : base(tier)
 		{
 			PlaybackType = (AudioRecordingType)Settings.Default.TranslationPlaybackType;
+			Logger.WriteEvent($"Translation column annotation playback type: {PlaybackType}");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -22,6 +24,7 @@ namespace SayMore.Transcription.UI
 		{
 			base.HandlePlaybackTypeMenuItemClicked(sender, e);
 			Settings.Default.TranslationPlaybackType = (int)PlaybackType;
+			Logger.WriteEvent($"Translation column annotation playback type changed to {PlaybackType}");
 		}
 
 		/// ------------------------------------------------------------------------------------

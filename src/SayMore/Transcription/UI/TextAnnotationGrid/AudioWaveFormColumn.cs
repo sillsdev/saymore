@@ -134,7 +134,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleCellEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			_grid.AnnotationPlaybackInfoProvider = (t => GetAnnotationMediaInfo(t));
+			_grid.AnnotationPlaybackInfoProvider = GetAnnotationMediaInfo;
 		}
 
 		/// ------------------------------------------------------------------------------------

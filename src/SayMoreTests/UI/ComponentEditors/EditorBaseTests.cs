@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Windows.Forms;
 using NUnit.Framework;
 using SayMore.UI.ComponentEditors;
@@ -22,7 +21,7 @@ namespace SayMoreTests.UI.ComponentEditors
 				Show();
 			}
 
-			protected override bool ShowWithoutActivation { get { return true; } }
+			protected override bool ShowWithoutActivation => true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -38,8 +37,7 @@ namespace SayMoreTests.UI.ComponentEditors
 
 			protected override void OnFormLostFocus()
 			{
-				if (FormLostFocus != null)
-					FormLostFocus(this, null);
+				FormLostFocus?.Invoke(this, null);
 			}
 		}
 
@@ -87,13 +85,14 @@ namespace SayMoreTests.UI.ComponentEditors
 		[Test]
 		public void ChildControls_VerifyAllControlsInList()
 		{
-			var list = _editor.ChildControls.ToArray();
-			Assert.AreEqual(5, list.Length);
-			Assert.Contains(_panelInEditorOuter, list);
-			Assert.Contains(_panelInEditorInner, list);
-			Assert.Contains(_labelInEditor, list);
-			Assert.Contains(_buttonInEditor, list);
-			Assert.Contains(_textBoxInEditor, list);
+			Assert.That(_editor.ChildControls, Is.EquivalentTo(new Control[] 
+				{
+					_panelInEditorOuter,
+					_panelInEditorInner,
+					_labelInEditor, 
+					_buttonInEditor,
+					_textBoxInEditor
+				}));
 		}
 
 		/// ------------------------------------------------------------------------------------

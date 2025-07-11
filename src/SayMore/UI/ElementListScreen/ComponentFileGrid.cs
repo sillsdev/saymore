@@ -432,6 +432,9 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void ForceRefresh()
 		{
+			Debug.Assert(_refreshPending, $"{nameof(ForceRefresh)} should only be called via" +
+				$" {nameof(RequestRefresh)} or {nameof(OnHandleCreated)}.");
+			
 			BuildMenuCommands(_grid.CurrentCellAddress.Y);
 
 			this.SafeInvoke(() =>
@@ -616,8 +619,13 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleFileGridKeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.Delete && GetIsOKToDeleteCurrentFile())
-				DeleteFile();
+			if (e.KeyCode == Keys.Delete)
+			{
+				if (GetIsOKToDeleteCurrentFile())
+					DeleteFile();
+				else
+					SystemSounds.Beep.Play();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -707,7 +715,7 @@ namespace SayMore.UI.ElementListScreen
 				index--;
 
 			UpdateComponentFileList(newList, index >= 0 ? newList[index] : null);
-			ForceRefresh();
+			RequestRefresh();
 		}
 
 		/// ------------------------------------------------------------------------------------

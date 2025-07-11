@@ -28,12 +28,19 @@ namespace SayMore.UI.ElementListScreen
 	{
 		private IReadOnlyCollection<ComponentFile> _files;
 		private string _gridColSettingPrefix;
+
+		// Used to prevent multiple *scheduled* refreshes piling up. Initially it is set to true
+		// because we also don't want to do any refreshes until the handle is created, and this
+		// avoids having to check for that condition in RequestRefresh.
 		private bool _refreshPending = true;
 
 		/// <summary>
-		/// 
+		/// Represents the method that will handle the event triggered when the selection
+		/// of a component in the <see cref="ComponentFileGrid"/> changes.
 		/// </summary>
-		/// <param name="selectedRowIndex"></param>
+		/// <param name="selectedRowIndex">
+		/// The index of the row that is currently selected in the component file grid.
+		/// </param>
 		public delegate void ComponentSelectionChangedHandler(int selectedRowIndex);
 		/// <summary>Event raised when the user selects a different component (or no component is selected!).
 		/// It is also called during startup.</summary>
@@ -154,6 +161,8 @@ namespace SayMore.UI.ElementListScreen
 		{
 			base.OnHandleCreated(e);
 			ForceRefresh();
+			// Now that the handle is created and we've done our initial refresh, we can begin to allow refresh
+			// requests (potentially coming from other non-UI threads).
 			_refreshPending = false;
 		}
 
@@ -404,6 +413,10 @@ namespace SayMore.UI.ElementListScreen
 
 			BeginInvoke((MethodInvoker)(() =>
 			{
+				// We intentionally reset the _refreshPending flag here, so that if processing
+				// that occurs as a side effect of refreshing the grid necessitates another
+				// refresh (or anything that might just happen on another thread), that refresh
+				// won't get skipped.
 				_refreshPending = false;
 				ForceRefresh();
 			}));

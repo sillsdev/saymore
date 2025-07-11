@@ -528,11 +528,12 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override IEnumerable<KeyValuePair<string, string>> GetFilesToCopy(IEnumerable<string> validComponentFilesToCopy)
+		protected override IEnumerable<KeyValuePair<string, string>> GetFilesToCopy(
+			IEnumerable<string> validComponentFilesToCopy, bool includeExistingFiles = false)
 		{
 			if (GetCompletedStages(true).Any(s => s.Id == ComponentRole.kSourceComponentRoleId))
 			{
-				foreach (var kvp in base.GetFilesToCopy(validComponentFilesToCopy))
+				foreach (var kvp in base.GetFilesToCopy(validComponentFilesToCopy, includeExistingFiles))
 					yield return kvp;
 			}
 			else
@@ -543,7 +544,7 @@ namespace SayMore.Model
 				{
 					var destFile = (foundSourceFile || !sourceRole.IsPotential(srcFile)) ? GetDestinationFilename(srcFile) :
 						Path.Combine(FolderPath, sourceRole.GetCanoncialName(Path.GetFileNameWithoutExtension(srcFile), Path.GetFileName(srcFile)));
-					if (!File.Exists(destFile))
+					if (!File.Exists(destFile) || (includeExistingFiles && destFile == srcFile))
 					{
 						yield return new KeyValuePair<string, string>(srcFile, destFile);
 						foundSourceFile = true;

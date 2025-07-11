@@ -302,7 +302,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public bool AddComponentFiles(IEnumerable<string> filesToAdd)
 		{
-			var filesToCopy = GetValidFilesToCopy(filesToAdd).ToArray();
+			var filesToCopy = GetValidFilesToCopy(filesToAdd, true).ToArray();
 			if (filesToCopy.Length == 0)
 				return false;
 
@@ -312,11 +312,11 @@ namespace SayMore.Model
 			{
 				try
 				{
-					File.Copy(kvp.Key, kvp.Value);
+					if (kvp.Key != kvp.Value)
+						File.Copy(kvp.Key, kvp.Value);
 					lock (_componentFilesSync)
 					{
-						if (_componentFiles != null)
-							_componentFiles.Add(_componentFileFactory(this, kvp.Value));
+						_componentFiles?.Add(_componentFileFactory(this, kvp.Value));
 					}
 				}
 				catch (Exception e)
@@ -336,20 +336,27 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<KeyValuePair<string, string>> GetValidFilesToCopy(IEnumerable<string> filesBeingAdded)
+		public IEnumerable<KeyValuePair<string, string>> GetValidFilesToCopy(IEnumerable<string> filesBeingAdded,
+			bool includeExistingFiles = false)
 		{
 			if (filesBeingAdded != null)
-				foreach (var kvp in GetFilesToCopy(filesBeingAdded.Where(ComponentFile.GetIsValidComponentFile)))
+			{
+				foreach (var kvp in GetFilesToCopy(filesBeingAdded.Where(ComponentFile.GetIsValidComponentFile), 
+					includeExistingFiles))
+				{
 					yield return kvp;
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual IEnumerable<KeyValuePair<string, string>> GetFilesToCopy(IEnumerable<string> validComponentFilesToCopy)
+		protected virtual IEnumerable<KeyValuePair<string, string>> GetFilesToCopy(
+			IEnumerable<string> validComponentFilesToCopy, bool includeExistingFiles = false)
 		{
 			foreach (var srcFile in validComponentFilesToCopy)
 			{
 				var destFile = GetDestinationFilename(srcFile);
-				if (!File.Exists(destFile))
+				if (!File.Exists(destFile) || (includeExistingFiles && destFile == srcFile))
 					yield return new KeyValuePair<string, string>(srcFile, destFile);
 			}
 		}

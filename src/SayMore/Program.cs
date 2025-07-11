@@ -800,8 +800,7 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public static void OnPersonDataChanged()
 		{
-			var handler = PersonDataChanged;
-			if (handler != null) handler();
+			PersonDataChanged?.Invoke();
 		}
 
         public static void UpdateUiLanguageForUser(string languageId)

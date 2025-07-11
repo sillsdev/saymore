@@ -310,8 +310,8 @@ namespace SayMore.UI.ComponentEditors
 			var kvp = CheckIfContributorIsValid(contribution);
 			e.Cancel = !string.IsNullOrEmpty(kvp.Key);
 
-			if (!e.Cancel)
-				SaveContributors();
+			//if (!e.Cancel)
+			//	SaveContributors();
 
 			return kvp;
 		}

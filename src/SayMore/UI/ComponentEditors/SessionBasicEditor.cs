@@ -17,6 +17,7 @@ using SIL.Archiving.Generic.AccessProtocol;
 using SIL.Archiving.IMDI.Lists;
 using SIL.Core.ClearShare;
 using SIL.Windows.Forms.Extensions;
+using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -72,6 +73,9 @@ namespace SayMore.UI.ComponentEditors
 
 			if (_personInformant != null)
 				_personInformant.PersonUiIdChanged += HandlePersonsUiIdChanged;
+
+			if (file.FileType.CanBeConverted) // Only want to do this for .session files
+				Program.PersonDataChanged += HandlePersonDateChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,18 +87,18 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void HandlePersonsUiIdChanged(object sender, ElementIdChangedArgs e)
 		{
-			// We want to update the control to a form of participants that has roles
-			// in parens. This is derived from Contributions. But the names of the contributors
-			// are updated by another, independent handler of the same event, which may
-			// (currently does) happen AFTER this one. So we delay the update until the
-			// app is next idle to make sure the contributions have been updated first.
-			Application.Idle += UpdateParticipants;
+			this.SafeInvoke(() => _participants.Text = GetParticipantsWithRolesFromContributions(),
+				nameof(HandlePersonsUiIdChanged), IgnoreIfDisposed);
 		}
-
-		private void UpdateParticipants(object sender, EventArgs eventArgs)
+		
+		/// ------------------------------------------------------------------------------------
+		private void HandlePersonDateChanged()
 		{
-			Application.Idle -= UpdateParticipants;
-			_participants.Text = GetParticipantsWithRolesFromContributions();
+			// TODO: Figure out how to access the actual session's SessionLevelContributionCollection, so it
+			// can be updated with the new contributor(s) the way we LoadContributors (for each of the metadata
+			// files) in ProjectContext.SetContributorsListToSession
+			this.SafeInvoke(() => _participants.Text = GetParticipantsWithRolesFromContributions(),
+				nameof(HandlePersonsUiIdChanged), IgnoreIfDisposed);
 		}
 
 		static void file_AfterSave(object sender, EventArgs e)
@@ -594,6 +598,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private string GetParticipantsWithRolesFromContributions()
 		{
 			// We want to display the participants with their roles, which means using data really

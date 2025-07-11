@@ -21,6 +21,7 @@ namespace SayMore.UI.ElementListScreen
 		/// <summary>Update the list when the display name changes</summary>
 		private void Program_PersonDataChanged()
 		{
+			// Use safe invoke
 			Application.DoEvents();
 			Refresh();
 		}

@@ -432,9 +432,6 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void ForceRefresh()
 		{
-			Debug.Assert(_refreshPending, $"{nameof(ForceRefresh)} should only be called via" +
-				$" {nameof(RequestRefresh)} or {nameof(OnHandleCreated)}.");
-			
 			BuildMenuCommands(_grid.CurrentCellAddress.Y);
 
 			this.SafeInvoke(() =>

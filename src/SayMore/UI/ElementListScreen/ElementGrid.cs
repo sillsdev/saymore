@@ -12,14 +12,14 @@ using SayMore.Model;
 using SayMore.Model.Files;
 using SIL.Windows.Forms;
 using SIL.Windows.Forms.Extensions;
+using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 
 namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
 	public class ElementGrid : BetterGrid
 	{
-		public delegate void SelectedElementChangedHandler(object sender,
-			ProjectElement oldElement, ProjectElement newElement);
+		public delegate void SelectedElementChangedHandler(object sender, ProjectElement newElement);
 
 		public event SelectedElementChangedHandler SelectedElementChanged;
 
@@ -61,10 +61,15 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This is essentially an abstract property that should be overridden by derived classes,
+		/// but the Designer doesn't do well with abstracts.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public virtual GridSettings GridSettings
 		{
 			get => null;
-			set {  }
+			set {  /* Will be implemented in derived classes */ }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -106,7 +111,7 @@ namespace SayMore.UI.ElementListScreen
 			get => _items;
 			set
 			{
-				_items = (value != null ? value.ToList() : new List<ProjectElement>(0));
+				_items = value != null ? value.ToList() : new List<ProjectElement>(0);
 				RowCount = _items.Count();
 
 				if (!DesignMode && GridSettings != null)
@@ -117,35 +122,45 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public void SelectElement(int index)
 		{
+			if (!IsHandleCreated || IsDisposed || Disposing)
+				return;
+			
 			if (index < 0 || index >= RowCount)
 			{
 				var msg = $"{index} must be greater than or equal to 0 and less than {RowCount}.";
 				throw new IndexOutOfRangeException(msg);
 			}
 
-			foreach (DataGridViewRow row in Rows)
-				row.Selected = false;
+			ClearSelection();
 
 			if (index < _items.Count())
 			{
-				var forceRowChangeEvent = (CurrentCellAddress.Y == index);
-				// PG-136, PG-1801, PG-1814: Since this grid is in row-select mode, it doesn't really matter
-				// which column gets selected, but it can't be one that is hidden.
-				var columnIndex = CurrentCellAddress.X;
-				if (FirstDisplayedCell != null)
-					columnIndex = FirstDisplayedCell.ColumnIndex;
-				if (columnIndex < 0)
+				// Normally setting the CurrentCell will raise a CellValueChanged event, which will
+				// in turn raise SelectedElementChanged. However, we want to force that event to be
+				// raised anyway even if we're "re-selecting" the same element.
+				var forceElementChangedEvent = CurrentCellAddress.Y == index;
+
+				this.SafeInvoke(() =>
 				{
-					Trace.WriteLine("Either all columns are hidden (which should be impossible), or else this is in unit tests maybe.");
-					// This should fix things up for unit tests (where there is no display so no column is
-					// "visible"), but if this ever happens in production, we will get a crash with the message:
-					// "Current cell cannot be set to an invisible cell".
-					columnIndex = 0;
-				}
-				CurrentCell = this[columnIndex, index];
-				Rows[index].Selected = true;
-				if (forceRowChangeEvent)
-					OnCurrentRowChanged(EventArgs.Empty);
+					// PG-136, PG-1801, PG-1814: Since this grid is in row-select mode, it doesn't really matter
+					// which column gets selected, but it can't be one that is hidden.
+					var columnIndex = CurrentCellAddress.X;
+					if (FirstDisplayedCell != null)
+						columnIndex = FirstDisplayedCell.ColumnIndex;
+					if (columnIndex < 0)
+					{
+						Trace.WriteLine("Either all columns are hidden (which should be impossible), or else this is in unit tests maybe.");
+						// This should fix things up for unit tests (where there is no display so no column is
+						// "visible"), but if this ever happens in production, we will get a crash with the message:
+						// "Current cell cannot be set to an invisible cell".
+						columnIndex = 0;
+					}
+					
+					CurrentCell = this[columnIndex, index];
+					Rows[index].Selected = true;
+					if (forceElementChangedEvent)
+						RaiseSelectedElementChanged();
+				}, nameof(SelectElement), IgnoreIfDisposed);
 			}
 		}
 
@@ -155,23 +170,13 @@ namespace SayMore.UI.ElementListScreen
 			if (element == null)
 				return;
 
-			int i = 0;
-			foreach (var pe in _items)
-			{
-				if (element == pe)
-				{
-					SelectElement(i);
-					return;
-				}
-
-				i++;
-			}
-
-			if (i == _items.Count())
+			var i = _items.IndexOf(element);
+			if (i >= 0)
+				SelectElement(i);
+			else
 			{
 				var msg = LocalizationManager.GetString("MainWindow.ElementNoLongerExistsMsg",
 					"'{0}' doesn't exist in elements collection.");
-
 				throw new ArgumentException(string.Format(msg, element.Id));
 			}
 		}
@@ -192,9 +197,7 @@ namespace SayMore.UI.ElementListScreen
 		public ProjectElement GetCurrentElement()
 		{
 			int rowIndex = CurrentCellAddress.Y;
-
-			return (rowIndex >= 0 && rowIndex < _items.Count() ?
-				_items.ElementAt(rowIndex) : null);
+			return rowIndex >= 0 && rowIndex < _items.Count() ? _items.ElementAt(rowIndex) : null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -288,7 +291,7 @@ namespace SayMore.UI.ElementListScreen
 				_contextMenuStrip.Items.Clear();
 				_contextMenuStrip.Items.AddRange(GetMenuCommands().ToArray());
 				_contextMenuStrip.Show(contextMenuPosition);
-			}, nameof(OnCellMouseDown), ControlExtensions.ErrorHandlingAction.IgnoreIfDisposed);
+			}, nameof(OnCellMouseDown), IgnoreIfDisposed);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -319,25 +322,31 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected override void OnRowValidating(DataGridViewCellCancelEventArgs e)
 		{
-			e.Cancel = (IsOKToSelectDifferentElement != null && !IsOKToSelectDifferentElement());
+			e.Cancel = IsOKToSelectDifferentElement != null && !IsOKToSelectDifferentElement();
 			base.OnRowValidating(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCurrentRowChanged(EventArgs e)
 		{
-			int itemCount = _items.Count();
-
-			var oldElement = (PrevRowIndex >= 0 && PrevRowIndex < itemCount ?
-				_items.ElementAt(PrevRowIndex) : null);
-
 			base.OnCurrentRowChanged(e);
 
-			var newElement = (CurrentCellAddress.Y >= 0 && CurrentCellAddress.Y < itemCount ?
-				_items.ElementAt(CurrentCellAddress.Y) : null);
+			RaiseSelectedElementChanged();
+		}
 
+		private void RaiseSelectedElementChanged()
+		{
 			if (SelectedElementChanged != null)
-				SelectedElementChanged(this, oldElement, newElement);
+			{
+				this.SafeInvoke(() =>
+					{
+						var newElement = CurrentCellAddress.Y >= 0 && CurrentCellAddress.Y < _items.Count() ?
+							_items.ElementAt(CurrentCellAddress.Y) : null;
+
+						SelectedElementChanged(this, newElement);
+					},
+					nameof(SelectedElementChanged));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -373,7 +382,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual object GetSortValueForField(ProjectElement element, string fieldName)
 		{
-			return (fieldName == "id" ? element.Id : GetValueForField(element, fieldName));
+			return fieldName == "id" ? element.Id : GetValueForField(element, fieldName);
 		}
 	}
 }

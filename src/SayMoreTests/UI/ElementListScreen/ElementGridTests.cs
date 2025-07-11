@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using L10NSharp;
 using NUnit.Framework;
 using SayMore.Model;
 using SayMore.Model.Files;
@@ -16,6 +17,12 @@ namespace SayMoreTests.UI.ElementListScreen
 	{
 		private ElementGrid _grid;
 		private TemporaryFolder _tmpFolder;
+
+		[OneTimeSetUp]
+		public void FixtureSetup()
+		{
+			LocalizationManager.StrictInitializationMode = false;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
@@ -92,6 +99,8 @@ namespace SayMoreTests.UI.ElementListScreen
 				ProjectElementTests.CreatePerson(_tmpFolder.Path, "barney")
 			};
 
+			_grid.CreateControl();
+
 			_grid.SelectElement(1);
 			Assert.AreEqual("barney", _grid.GetCurrentElement().Id);
 			_grid.SelectElement(null as ProjectElement);
@@ -130,7 +139,9 @@ namespace SayMoreTests.UI.ElementListScreen
 				ProjectElementTests.CreatePerson(_tmpFolder.Path, "barney")
 			};
 
+			_grid.CreateControl();
 			_grid.SelectElement(1);
+			
 			Assert.AreEqual("barney", _grid.GetCurrentElement().Id);
 			_grid.SelectElement(0);
 			Assert.AreEqual("fred", _grid.GetCurrentElement().Id);
@@ -144,6 +155,7 @@ namespace SayMoreTests.UI.ElementListScreen
 			var p2 = ProjectElementTests.CreatePerson(_tmpFolder.Path, "barney");
 
 			_grid.Items = new[] { p1, p2 };
+			_grid.CreateControl();
 
 			_grid.SelectElement(p2);
 			Assert.AreEqual(p2, _grid.GetCurrentElement());
@@ -159,6 +171,7 @@ namespace SayMoreTests.UI.ElementListScreen
 			var p2 = ProjectElementTests.CreatePerson(_tmpFolder.Path, "barney");
 
 			_grid.Items = new[] { p1, p2 };
+			_grid.CreateControl();
 
 			_grid.SelectElement("barney");
 			Assert.AreEqual(p2, _grid.GetCurrentElement());
@@ -175,6 +188,8 @@ namespace SayMoreTests.UI.ElementListScreen
 				ProjectElementTests.CreatePerson(_tmpFolder.Path, "fred"),
 				ProjectElementTests.CreatePerson(_tmpFolder.Path, "barney")
 			};
+
+			_grid.CreateControl();
 
 			Assert.Throws<IndexOutOfRangeException>(() => _grid.SelectElement(-1));
 			Assert.Throws<IndexOutOfRangeException>(() => _grid.SelectElement(2));
@@ -203,10 +218,20 @@ namespace SayMoreTests.UI.ElementListScreen
 				ProjectElementTests.CreatePerson(_tmpFolder.Path, "fred"),
 				ProjectElementTests.CreatePerson(_tmpFolder.Path, "barney"),
 			};
+			
+			int selectedElementChangedFired = 0;
 
+			_grid.CreateControl();
+
+			_grid.SelectedElementChanged += (sender, element) =>
+			{
+				Assert.That(_grid.GetSelectedElements().Single().Id, Is.EqualTo("barney"));
+				selectedElementChangedFired++;
+			};
+			
 			_grid.SelectElement(1);
-			Assert.AreEqual(1, _grid.GetSelectedElements().Count());
-			Assert.AreEqual("barney", _grid.GetSelectedElements().ElementAt(0).Id);
+
+			Assert.That(selectedElementChangedFired, Is.EqualTo(1));
 		}
 
 		/// ------------------------------------------------------------------------------------

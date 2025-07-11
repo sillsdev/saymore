@@ -8,7 +8,6 @@ using L10NSharp;
 using L10NSharp.XLiffUtils;
 using L10NSharp.UI;
 using SIL.Windows.Forms.FileSystem;
-using SIL.Windows.Forms.Miscellaneous;
 using SayMore.Model.Files;
 using SayMore.Model;
 using SayMore.UI.ComponentEditors;
@@ -34,8 +33,6 @@ namespace SayMore.UI.ElementListScreen
 	/// ----------------------------------------------------------------------------------------
 	public partial class ElementListScreen<T> : UserControl where T : ProjectElement
 	{
-		public Action<ComponentFile> AfterComponentFileSelected;
-
 		protected readonly ElementListViewModel<T> _model;
 		protected ElementGrid _elementsGrid;
 		protected TabControl _selectedEditorsTabControl;
@@ -85,7 +82,7 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.ListControl = _elementsGrid;
 
 			_componentFilesControl = componentGrid;
-			_componentFilesControl.AfterComponentSelectionChanged = HandleAfterComponentFileSelected;
+			_componentFilesControl.AfterComponentSelectionChanged += HandleAfterComponentFileSelected;
 			_componentFilesControl.FilesAdded = HandleFilesAddedToComponentGrid;
 			_componentFilesControl.FileDeletionAction = file => _model.DeleteComponentFile(file);
 			_componentFilesControl.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
@@ -166,33 +163,12 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleAfterComponentFileSelected(int index)
 		{
-			WaitCursor.Show();
-
-			// Fixes SP-288: Problem was that while the generated annotation file was loading
-			// in its editor, clicking on another component file triggers a reentrant
-			// problem. Disabling the component file grid prevents the user from being able
-			// to select another component file until we enable the grid again when we're
-			// done with everything we need to do in this method.
-			// REVIEW: This still doesn't seem to work!
-			_componentFilesControl.Enabled = false;
-
-			try
-			{
-				_model.DeactivateComponentEditors();
-				if (index < 0)
-					return;
-				_model.SetSelectedComponentFile(index);
-				ShowSelectedComponentFileEditors();
-				_model.ActivateComponentEditors();
-
-				if (AfterComponentFileSelected != null)
-					AfterComponentFileSelected(_model.SelectedComponentFile);
-			}
-			finally
-			{
-				_componentFilesControl.Enabled = true;
-				WaitCursor.Hide();
-			}
+			_model.DeactivateComponentEditors();
+			if (index < 0)
+				return;
+			_model.SetSelectedComponentFile(index);
+			ShowSelectedComponentFileEditors();
+			_model.ActivateComponentEditors();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -274,7 +250,7 @@ namespace SayMore.UI.ElementListScreen
 		protected void UpdateComponentFileList()
 		{
 			var componentsOfSelectedElement = _model.GetComponentsOfSelectedElement().ToArray();
-			_componentFilesControl.AfterComponentSelectionChanged = null;
+			_componentFilesControl.AfterComponentSelectionChanged -= HandleAfterComponentFileSelected;
 			_componentFilesControl.UpdateComponentFileList(componentsOfSelectedElement);
 
 			foreach (var componentFile in componentsOfSelectedElement)
@@ -294,7 +270,7 @@ namespace SayMore.UI.ElementListScreen
 			}
 			else
 			{
-				_componentFilesControl.AfterComponentSelectionChanged = HandleAfterComponentFileSelected;
+				_componentFilesControl.AfterComponentSelectionChanged += HandleAfterComponentFileSelected;
 				_componentFilesControl.SelectComponent(0);
 				ShowSelectedComponentFileEditors();
 			}

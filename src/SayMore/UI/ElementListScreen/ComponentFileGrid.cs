@@ -18,6 +18,8 @@ using SayMore.Properties;
 using SIL.Reflection;
 using GridSettings = SIL.Windows.Forms.Widgets.BetterGrid.GridSettings;
 using SIL.Windows.Forms;
+using SIL.Windows.Forms.Extensions;
+using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -26,10 +28,23 @@ namespace SayMore.UI.ElementListScreen
 	{
 		private IReadOnlyCollection<ComponentFile> _files;
 		private string _gridColSettingPrefix;
-		private bool _handlingForceRefresh;
 
-		/// <summary>When the user selects a different component (or no component is selected!), this is called</summary>
-		public Action<int> AfterComponentSelectionChanged;
+		// Used to prevent multiple *scheduled* refreshes piling up. Initially it is set to true
+		// because we also don't want to do any refreshes until the handle is created, and this
+		// avoids having to check for that condition in RequestRefresh.
+		private bool _refreshPending = true;
+
+		/// <summary>
+		/// Represents the method that will handle the event triggered when the selection
+		/// of a component in the <see cref="ComponentFileGrid"/> changes.
+		/// </summary>
+		/// <param name="selectedRowIndex">
+		/// The index of the row that is currently selected in the component file grid.
+		/// </param>
+		public delegate void ComponentSelectionChangedHandler(int selectedRowIndex);
+		/// <summary>Event raised when the user selects a different component (or no component is selected!).
+		/// It is also called during startup.</summary>
+		public event ComponentSelectionChangedHandler AfterComponentSelectionChanged;
 
 		public event EventHandler PrepareToSelectDifferentFile ;
 
@@ -139,6 +154,16 @@ namespace SayMore.UI.ElementListScreen
 			{
 				// See SP-655, SP-657
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			ForceRefresh();
+			// Now that the handle is created and we've done our initial refresh, we can begin to allow refresh
+			// requests (potentially coming from other non-UI threads).
+			_refreshPending = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -372,25 +397,50 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleFileGridCurrentRowChanged(object sender, EventArgs e)
 		{
-			if (!IsDisposed && !Disposing)
-				ForceRefresh();
+			if (IsHandleCreated && !IsDisposed && !Disposing)
+				RequestRefresh();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void ForceRefresh()
+		private void RequestRefresh()
 		{
-			if (_handlingForceRefresh)
+			if (_refreshPending)
 				return;
 			
 			PrepareToSelectDifferentFile?.Invoke(this, EventArgs.Empty);
 
-			_handlingForceRefresh = true;
+			_refreshPending = true;
+
+			BeginInvoke((MethodInvoker)(() =>
+			{
+				// We intentionally reset the _refreshPending flag here, so that if processing
+				// that occurs as a side effect of refreshing the grid necessitates another
+				// refresh (or anything that might just happen on another thread), that refresh
+				// won't get skipped.
+				_refreshPending = false;
+				ForceRefresh();
+			}));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>Rebuilds the UI for the newly selected component file and notifies all
+		/// subscribers of the change.</summary>
+		/// <remarks>Do not call this directly (except when the handle is initially created);
+		/// rather, call <see cref="RequestRefresh"/>. Subscribers may do things that are not
+		/// safe (e.g., things that can result in a reentrant call the SetCurrentCellAddressCore
+		/// function) when the state of the grid is in flux.</remarks>
+		/// ------------------------------------------------------------------------------------
+		private void ForceRefresh()
+		{
+			Debug.Assert(_refreshPending, $"{nameof(ForceRefresh)} should only be called via" +
+				$" {nameof(RequestRefresh)} or {nameof(OnHandleCreated)}.");
+			
 			BuildMenuCommands(_grid.CurrentCellAddress.Y);
 
-			if (null != AfterComponentSelectionChanged)
-				AfterComponentSelectionChanged(_grid.CurrentCellAddress.Y);
-
-			_handlingForceRefresh = false;
+			this.SafeInvoke(() =>
+			{
+				AfterComponentSelectionChanged?.Invoke(_grid.CurrentCellAddress.Y);
+			}, nameof(ForceRefresh), IgnoreAll);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -414,7 +464,7 @@ namespace SayMore.UI.ElementListScreen
 			if (_grid.CurrentCellAddress.Y != index)
 				_grid.CurrentCell = index >= 0 && index < _files.Count ? _grid[0, index] : null;
 			else
-				ForceRefresh();
+				RequestRefresh();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -450,7 +500,7 @@ namespace SayMore.UI.ElementListScreen
 					var forceRefresh = _grid.CurrentCellAddress.Y != i;
 					SelectComponent(i);
 					if (forceRefresh)
-						ForceRefresh();
+						RequestRefresh();
 					return true;
 				}
 
@@ -569,8 +619,13 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleFileGridKeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.Delete && GetIsOKToDeleteCurrentFile())
-				DeleteFile();
+			if (e.KeyCode == Keys.Delete)
+			{
+				if (GetIsOKToDeleteCurrentFile())
+					DeleteFile();
+				else
+					SystemSounds.Beep.Play();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -660,7 +715,7 @@ namespace SayMore.UI.ElementListScreen
 				index--;
 
 			UpdateComponentFileList(newList, index >= 0 ? newList[index] : null);
-			ForceRefresh();
+			RequestRefresh();
 		}
 
 		/// ------------------------------------------------------------------------------------

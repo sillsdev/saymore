@@ -186,7 +186,8 @@ namespace SayMore.UI.ElementListScreen
 		private DragDropEffects HandleFilesBeingDraggedOverComponentGrid(string[] files)
 		{
 			var validFiles = _model.SelectedElement.GetValidFilesToCopy(files);
-			return (validFiles.All(pair => File.Exists(pair.Key)) ? DragDropEffects.Copy : DragDropEffects.None);
+			return validFiles.All(pair => File.Exists(pair.Key)) ?
+				DragDropEffects.Copy : DragDropEffects.None;
 		}
 
 		/// ------------------------------------------------------------------------------------

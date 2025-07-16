@@ -15,6 +15,7 @@ using SayMore.UI.ElementListScreen;
 using SayMore.UI.LowLevelControls;
 using SayMore.Utilities;
 using SIL.Extensions;
+using SIL.IO;
 using static System.IO.Path;
 using static System.String;
 using static System.StringComparison;
@@ -671,7 +672,7 @@ namespace SayMore.UI.ComponentEditors
 				try
 				{
 					// Copy the new picture file to the person's folder.
-					File.Copy(fileName, newPicFile, true);
+					RobustFile.Copy(fileName, newPicFile, true);
 					LoadPersonsPicture();
 				}
 				catch (Exception e)

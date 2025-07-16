@@ -29,8 +29,8 @@ namespace SayMore.Transcription.Model
 	/// ----------------------------------------------------------------------------------------
 	public class AnnotationFileHelper
 	{
-		public string AnnotationFileName { get; private set; }
-		public XElement Root { get; private set; }
+		public string AnnotationFileName { get; }
+		public XElement Root { get; }
 
 		public static string kAnnotationsEafFileSuffix = ".annotations" + Settings.Default.AnnotationFileExtension.ToLower();
 
@@ -859,7 +859,7 @@ namespace SayMore.Transcription.Model
 		{
 			var isElanFile = GetIsElanFile(segmentFileName);
 			var eafFile = ComputeEafFileNameFromOralAnnotationFile(mediaFileName);
-			File.Copy(isElanFile ? segmentFileName :
+			RobustFile.Copy(isElanFile ? segmentFileName :
 				FileLocationUtilities.GetFileDistributedWithApplication("annotationTemplate.etf"), eafFile);
 
 			var helper = GetOrCreateFile(eafFile, mediaFileName);
@@ -888,7 +888,7 @@ namespace SayMore.Transcription.Model
 
 			if (!fileExisted)
 			{
-				File.Copy(FileLocationUtilities.GetFileDistributedWithApplication("annotationTemplate.etf"), eafFile, true);
+				RobustFile.Copy(FileLocationUtilities.GetFileDistributedWithApplication("annotationTemplate.etf"), eafFile, true);
 				ChangeMediaFileName(eafFile, mediaFileName);
 			}
 

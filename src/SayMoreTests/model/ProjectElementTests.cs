@@ -14,6 +14,7 @@ using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
 using SIL.Reflection;
+using static System.IO.Path;
 
 namespace SayMoreTests.Model
 {
@@ -159,10 +160,10 @@ namespace SayMoreTests.Model
 
 					var file1 = list.SingleOrDefault(kvp => kvp.Key == fileToAdd1.Path);
 					Assert.IsNotNull(file1);
-					Assert.AreEqual(Path.Combine(person.FolderPath, Path.GetFileName(fileToAdd1.Path)), file1.Value);
+					Assert.AreEqual(Combine(person.FolderPath, GetFileName(fileToAdd1.Path)), file1.Value);
 					var file2 = list.SingleOrDefault(kvp => kvp.Key == fileToAdd2.Path);
 					Assert.IsNotNull(file2);
-					Assert.AreEqual(Path.Combine(person.FolderPath, Path.GetFileName(fileToAdd2.Path)), file2.Value);
+					Assert.AreEqual(Combine(person.FolderPath, GetFileName(fileToAdd2.Path)), file2.Value);
 				}
 			}
 		}
@@ -191,19 +192,54 @@ namespace SayMoreTests.Model
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void RemoveInvalidFilesFromProspectiveFilesToAdd_SomeInvalid_RemovesThoseSome()
+		public void GetValidFilesToCopy_ExcludeExistingSomeInvalid_RemovesInvalidFiles()
 		{
 			using (var fileToAdd = new TempFile())
 			{
 				using (var person = CreatePerson())
 				{
+					var existingConsentFile = Combine(_parentFolder.Path, person.Id, $"{person.Id}_Consent.jpg");
+					File.Create(existingConsentFile).Dispose();
 					var list = person.GetValidFilesToCopy(
-						new[] { "stupidFile.meta", fileToAdd.Path, "reallyStupidFile.thumbs.db" }).ToArray();
+						new[]
+						{
+							"stupidFile.meta", fileToAdd.Path, "reallyStupidFile.thumbs.db", existingConsentFile
+						}).ToArray();
 
 					Assert.That(list.Length, Is.EqualTo(1));
 					var file1 = list.SingleOrDefault(kvp => kvp.Key == fileToAdd.Path);
-					Assert.IsNotNull(file1);
-					Assert.AreEqual(Path.Combine(person.FolderPath, Path.GetFileName(fileToAdd.Path)), file1.Value);
+					Assert.That(file1, Is.Not.Null);
+					Assert.That(Combine(person.FolderPath, GetFileName(fileToAdd.Path)),
+						Is.EqualTo(file1.Value));
+				}
+			}
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetValidFilesToCopy_IncludeExistingSomeInvalid_RemovesInvalidFiles()
+		{
+			using (var fileToAdd = new TempFile())
+			{
+				using (var person = CreatePerson())
+				{
+					var existingConsentFile = Combine(_parentFolder.Path, person.Id, $"{person.Id}_Consent.jpg");
+					File.Create(existingConsentFile).Dispose();
+					var list = person.GetValidFilesToCopy(
+						new[]
+						{
+							"stupidFile.meta", fileToAdd.Path, "reallyStupidFile.thumbs.db", existingConsentFile
+						}, includeExistingFiles:true).ToArray();
+
+					Assert.That(list.Select(i => i.Key),
+						Is.EquivalentTo(new[] { fileToAdd.Path, existingConsentFile }));
+					var file1 = list.SingleOrDefault(kvp => kvp.Key == fileToAdd.Path);
+					Assert.That(file1, Is.Not.Null);
+					Assert.That(Combine(person.FolderPath, GetFileName(fileToAdd.Path)),
+						Is.EqualTo(file1.Value));
+					var file2 = list.SingleOrDefault(kvp => kvp.Key == existingConsentFile);
+					Assert.That(file2, Is.Not.Null);
+					Assert.That(file2.Key, Is.EqualTo(file2.Value));
 				}
 			}
 		}
@@ -221,7 +257,7 @@ namespace SayMoreTests.Model
 					Assert.That(person.AddComponentFile(fileToAdd.Path), Is.True);
 					var componentFiles = person.GetComponentFiles();
 					Assert.That(componentFiles.Length, Is.EqualTo(2));
-					Assert.That(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd.Path)), Is.True);
+					Assert.That(componentFiles.Select(x => x.FileName).Contains(GetFileName(fileToAdd.Path)), Is.True);
 				}
 			}
 		}
@@ -240,8 +276,8 @@ namespace SayMoreTests.Model
 					Assert.That(person.AddComponentFiles(new[] { fileToAdd1.Path, fileToAdd2.Path }), Is.True);
 					var componentFiles = person.GetComponentFiles();
 					Assert.That(componentFiles.Length, Is.EqualTo(3));
-					Assert.That(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd1.Path)), Is.True);
-					Assert.That(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd2.Path)), Is.True);
+					Assert.That(componentFiles.Select(x => x.FileName).Contains(GetFileName(fileToAdd1.Path)), Is.True);
+					Assert.That(componentFiles.Select(x => x.FileName).Contains(GetFileName(fileToAdd2.Path)), Is.True);
 				}
 			}
 		}
@@ -256,9 +292,9 @@ namespace SayMoreTests.Model
 
 				using (var fileToAdd = new TempFile())
 				{
-					var fileName = Path.GetFileName(fileToAdd.Path);
+					var fileName = GetFileName(fileToAdd.Path);
 					person.ClearComponentFiles();
-					File.CreateText(Path.Combine(person.FolderPath, fileName)).Close();
+					File.CreateText(Combine(person.FolderPath, fileName)).Close();
 					Assert.AreEqual(2, person.GetComponentFiles().Length);
 					Assert.IsFalse(person.AddComponentFile(fileToAdd.Path));
 					Assert.AreEqual(2, person.GetComponentFiles().Length);
@@ -277,8 +313,8 @@ namespace SayMoreTests.Model
 				using (var fileToAdd1 = new TempFile())
 				using (var fileToAdd2 = new TempFile())
 				{
-					var fileName = Path.GetFileName(fileToAdd1.Path);
-					File.CreateText(Path.Combine(person.FolderPath, fileName)).Close();
+					var fileName = GetFileName(fileToAdd1.Path);
+					File.CreateText(Combine(person.FolderPath, fileName)).Close();
 					person.ClearComponentFiles();
 					Assert.AreEqual(2, person.GetComponentFiles().Length);
 
@@ -286,8 +322,8 @@ namespace SayMoreTests.Model
 
 					var componentFiles = person.GetComponentFiles();
 					Assert.AreEqual(3, componentFiles.Length);
-					Assert.IsTrue(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd1.Path)));
-					Assert.IsTrue(componentFiles.Select(x => x.FileName).Contains(Path.GetFileName(fileToAdd2.Path)));
+					Assert.IsTrue(componentFiles.Select(x => x.FileName).Contains(GetFileName(fileToAdd1.Path)));
+					Assert.IsTrue(componentFiles.Select(x => x.FileName).Contains(GetFileName(fileToAdd2.Path)));
 				}
 			}
 		}
@@ -308,8 +344,8 @@ namespace SayMoreTests.Model
 		{
 			using (var person = CreatePerson())
 			{
-				Directory.CreateDirectory(Path.Combine(_parentFolder.Path, person.DefaultElementNamePrefix + " 01"));
-				Directory.CreateDirectory(Path.Combine(_parentFolder.Path, person.DefaultElementNamePrefix + " 02"));
+				Directory.CreateDirectory(Combine(_parentFolder.Path, person.DefaultElementNamePrefix + " 01"));
+				Directory.CreateDirectory(Combine(_parentFolder.Path, person.DefaultElementNamePrefix + " 02"));
 				Assert.AreEqual(person.DefaultElementNamePrefix + " 03", person.GetNewDefaultElementName());
 			}
 		}

@@ -1,5 +1,7 @@
 ## _VERSION_ (_DATE_)
-* Solved problem running on Mac using Parallels where SayMore would jump back to first cell in the text annotation grid.
+* Allowed for manual addition of session files that the user created in the session folder with SayMore running.
+
+3.7.2 (23 May 2025)
 * Fixed bug with parsing dates on systems that use a Buddhist calendar.
 
 ## Version 3.7

@@ -12,6 +12,7 @@ using NAudio.Wave;
 using SIL.IO;
 using L10NSharp;
 using SayMore.Utilities;
+using static SIL.IO.FileLocationUtilities;
 
 // ReSharper disable once CheckNamespace
 namespace SayMore.Media.MPlayer
@@ -34,10 +35,7 @@ namespace SayMore.Media.MPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string MPlayerPath
-		{
-			get { return FileLocationUtilities.GetFileDistributedWithApplication("mplayer", "mplayer.exe"); }
-		}
+		public static string MPlayerPath => GetFileDistributedWithApplication("mplayer", "mplayer.exe");
 
 		/// ------------------------------------------------------------------------------------
 		public static ExternalProcess StartProcessToMonitor(IEnumerable<string> args,
@@ -59,7 +57,7 @@ namespace SayMore.Media.MPlayer
 
 			if (File.Exists(mplayerConfigPath))
 			{
-				yield return string.Format("-include {0}", mplayerConfigPath);
+				yield return $"-include {mplayerConfigPath}";
 			}
 			else
 			{
@@ -72,7 +70,7 @@ namespace SayMore.Media.MPlayer
 				yield return "-priority abovenormal";
 				yield return "-osdlevel 0";
 				yield return string.Format(invariantNumberFormatter, "-volume {0}", volume);
-				yield return (resampleToMono ? "-af pan=1:1:1:1,scaletempo" : "-af scaletempo");
+				yield return resampleToMono ? "-af pan=1:1:1:1,scaletempo" : "-af scaletempo";
 
 				if (speed != 100)
 					yield return string.Format(invariantNumberFormatter, "-speed {0}", speed / 100d);
@@ -120,9 +118,9 @@ namespace SayMore.Media.MPlayer
 			yield return "-nocorrect-pts";
 			yield return "-vo null";
 			yield return "-vc null";
-			yield return string.Format("-af channels={0} -af format=s16le", preferredOutputFormat.Channels);
-			yield return string.Format("-srate {0}", preferredOutputFormat.SampleRate);
-			yield return string.Format("-ao pcm:fast:file=%{0}%\"{1}\"", audioOutPath.Length, audioOutPath);
+			yield return $"-af channels={preferredOutputFormat.Channels} -af format=s16le";
+			yield return $"-srate {preferredOutputFormat.SampleRate}";
+			yield return $"-ao pcm:fast:file=%{audioOutPath.Length}%\"{audioOutPath}\"";
 		}
 
 		#endregion
@@ -210,7 +208,7 @@ namespace SayMore.Media.MPlayer
 			{
 				// copy to requested file name
 				if (File.Exists(tempFile))
-					File.Copy(tempFile, audioOutPath);
+					RobustFile.Copy(tempFile, audioOutPath);
 
 				result |= ConversionResult.FinishedConverting;
 

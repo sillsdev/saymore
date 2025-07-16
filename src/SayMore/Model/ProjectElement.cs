@@ -11,6 +11,7 @@ using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using SIL.IO;
 using static System.String;
 
 namespace SayMore.Model
@@ -313,7 +314,7 @@ namespace SayMore.Model
 				try
 				{
 					if (kvp.Key != kvp.Value)
-						File.Copy(kvp.Key, kvp.Value);
+						RobustFile.Copy(kvp.Key, kvp.Value);
 					lock (_componentFilesSync)
 					{
 						_componentFiles?.Add(_componentFileFactory(this, kvp.Value));
@@ -534,7 +535,7 @@ namespace SayMore.Model
 		{
 			var files = GetComponentFiles().Where(f =>
 				!f.FileName.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix));
-			var totalTime = new TimeSpan();
+			var totalTime = TimeSpan.Zero;
 			// SP-2228: This hashset uses a NON-STANDARD IEqualityComparer that considers two media files
 			// to be EQUAL even if they are different files as long as one appears to be the original
 			// and the other is a derived "Standard Audio" version. That prevents us from double-counting

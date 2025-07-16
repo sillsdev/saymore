@@ -12,6 +12,7 @@ using SayMore.Model.Files;
 using SayMore.Model;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.LowLevelControls;
+using static SayMore.ApplicationContainer;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -433,10 +434,10 @@ namespace SayMore.UI.ElementListScreen
 
 			var msg = LocalizationManager.GetString("MainWindow.DeleteOneItemMsg", "{0}", "For deleting sessions and people items");
 
-			msg = (itemCount > 1 ? string.Format(msg, itemCount) :
-				string.Format(msg, _elementsGrid.GetCurrentElement().Id));
+			msg = itemCount > 1 ? string.Format(msg, itemCount) :
+				string.Format(msg, _elementsGrid.GetCurrentElement().Id);
 
-			return ConfirmRecycleDialog.JustConfirm(msg, itemCount > 1, ApplicationContainer.kSayMoreLocalizationId);
+			return ConfirmRecycleDialog.JustConfirm(msg, itemCount > 1, kSayMoreLocalizationId);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -490,8 +491,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleSelectedElementChanged(object sender,
-			ProjectElement oldItem, ProjectElement newItem)
+		protected virtual void HandleSelectedElementChanged(object sender, ProjectElement newItem)
 		{
 			PrepareToDeactivateCurrentEditor();
 			
@@ -538,7 +538,7 @@ namespace SayMore.UI.ElementListScreen
 				return true;
 
 			var editor = SelectedComponentEditorsTabControl.CurrentEditor;
-			return (editor == null || editor.IsOKToLeaveEditor);
+			return editor == null || editor.IsOKToLeaveEditor;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -555,8 +555,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			if (disposing)
 			{
-				if (components != null)
-					components.Dispose();
+				components?.Dispose();
 
 				_elementsGrid.SelectedElementChanged -= HandleSelectedElementChanged;
 				_elementsListPanel.NewButtonClicked -= HandleAddingNewElement;

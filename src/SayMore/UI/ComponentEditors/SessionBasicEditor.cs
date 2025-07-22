@@ -17,6 +17,7 @@ using SIL.Archiving.Generic.AccessProtocol;
 using SIL.Archiving.IMDI.Lists;
 using SIL.Core.ClearShare;
 using SIL.Windows.Forms.Extensions;
+using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -500,7 +501,7 @@ namespace SayMore.UI.ComponentEditors
 					_location.Font = font;
 					_synopsis.Font = font;
 				}
-			});
+			}, $"{GetType().Name}.{nameof(SetWorkingLanguageFont)}", IgnoreAll);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -37,6 +37,7 @@ namespace SayMore.UI.ComponentEditors
 	// Should be abstract, but that messes up the Designer
 	public class EditorBase : UserControl, IEditorProvider
 	{
+		private bool _setWorkingFontWhenHandleIsCreated = false;
 		private BindingHelper _binder;
 		protected ComponentFile _file;
 		protected string _tabText;
@@ -191,6 +192,9 @@ namespace SayMore.UI.ComponentEditors
 			var owningTabControl = FindParent<TabControl>(this);
 			if (owningTabControl != null)
 				owningTabControl.VisibleChanged += (sender, args) => OnParentTabControlVisibleChanged();
+
+			if (_setWorkingFontWhenHandleIsCreated)
+				SetWorkingLanguageFont();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -223,7 +227,15 @@ namespace SayMore.UI.ComponentEditors
 		{
 			var workingLangFont = Program.CurrentProject?.WorkingLanguageFont;
 			if (workingLangFont != null)
-				SetWorkingLanguageFont(workingLangFont);
+			{
+				if (IsHandleCreated)
+				{
+					_setWorkingFontWhenHandleIsCreated = false;
+					SetWorkingLanguageFont(workingLangFont);
+				}
+				else
+					_setWorkingFontWhenHandleIsCreated = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -13,7 +13,9 @@ using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SIL.Core.ClearShare;
+using SIL.Windows.Forms.Extensions;
 using SIL.Windows.Forms.Widgets.BetterGrid;
+using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -275,27 +277,31 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void SetWorkingLanguageFont(Font font)
 		{
-			foreach (DataGridViewColumn col in _contributorsControl.Grid.Columns)
-			{
-				if (col.Name == "comments")
+			this.SafeInvoke(() =>
 				{
-					var style = new DataGridViewCellStyle(col.DefaultCellStyle)
+					foreach (DataGridViewColumn col in _contributorsControl.Grid.Columns)
 					{
-						Font = font
-					};
-					col.CellTemplate.Style = col.DefaultCellStyle = style;
-					// REVIEW: No matter what I do, I can't seem to find a way to force the
-					// DGV to repaint using the updated font. (The very first time this grid
-					// displays, it first displays using the default UI font and then after a
-					// very pregnant pause, it updates to use the desired font.) Changing
-					// this font should be fairly rare, and eventually if the user selects a
-					// different session file, a new grid is instantiated with the correct font,
-					// so that's probably acceptable, but it would be nice to have this work
-					// correctly.
-					_contributorsControl.Grid.InvalidateColumn(col.Index);
-					break;
-				}
-			}
+						if (col.Name == "comments")
+						{
+							var style = new DataGridViewCellStyle(col.DefaultCellStyle)
+							{
+								Font = font
+							};
+							col.CellTemplate.Style = col.DefaultCellStyle = style;
+							// REVIEW: No matter what I do, I can't seem to find a way to force the
+							// DGV to repaint using the updated font. (The very first time this
+							// grid displays, it uses the default UI font and then after a
+							// very pregnant pause, it updates to use the desired font.) Changing
+							// this font should be fairly rare, and eventually if the user selects
+							// a different session file, a new grid is instantiated with the
+							// correct font, so that's probably acceptable, but it would be nice
+							// to have this work correctly.
+							_contributorsControl.Grid.InvalidateColumn(col.Index);
+							break;
+						}
+					}
+
+				}, $"{GetType().Name}.{nameof(SetWorkingLanguageFont)}", IgnoreAll);
 		}
 
 		/// ------------------------------------------------------------------------------------

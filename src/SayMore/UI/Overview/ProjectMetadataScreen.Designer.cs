@@ -967,7 +967,6 @@ namespace SayMore.UI.Overview
 			this.locExtender.SetLocalizingId(this, "ProjectView.MetadataScreen");
 			this.Name = "ProjectMetadataScreen";
 			this.Size = new System.Drawing.Size(975, 625);
-			this.Load += new System.EventHandler(this.ProjectMetadataScreen_Load);
 			this.VisibleChanged += new System.EventHandler(this.ProjectMetadataScreen_VisibleChanged);
 			this.LostFocus += new System.EventHandler(this.ProjectMetadataScreen_LostFocus);
 			this._tableLayout.ResumeLayout(false);

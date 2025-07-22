@@ -1,8 +1,10 @@
+using L10NSharp;
+using SayMore.Model.Files;
+using SIL.Windows.Forms.Extensions;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using L10NSharp;
-using SayMore.Model.Files;
+using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -27,7 +29,8 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void SetWorkingLanguageFont(Font font)
 		{
-			_notes.Font = font;
+			this.SafeInvoke(() => { _notes.Font = font; }, $"{GetType().Name}.{nameof(SetWorkingLanguageFont)}",
+				IgnoreAll);
 		}
 
 		/// ------------------------------------------------------------------------------------

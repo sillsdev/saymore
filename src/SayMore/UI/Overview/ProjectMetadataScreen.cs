@@ -10,8 +10,10 @@ using SayMore.UI.ComponentEditors;
 using SayMore.UI.LowLevelControls;
 using SayMore.UI.ProjectWindow;
 using SIL.Archiving.IMDI.Lists;
+using SIL.Windows.Forms.Extensions;
 using SIL.WritingSystems;
 using static System.String;
+using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 
 namespace SayMore.UI.Overview
 {
@@ -155,8 +157,10 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void ProjectMetadataScreen_Load(object sender, EventArgs e)
+		protected override void OnLoad(EventArgs e)
 		{
+			base.OnLoad(e);
+		
 			// show values from project file
 			var project = Program.CurrentProject;
 
@@ -168,7 +172,7 @@ namespace SayMore.UI.Overview
 
 			// SP-815: Line breaks are not being displayed after reopening project
 			if (project.ProjectDescription == null)
-					project.ProjectDescription = Empty;
+				project.ProjectDescription = Empty;
 			_description.Text = project.ProjectDescription.Replace("\n", Environment.NewLine);
 
 			_labelSelectedContentLanguage.Text = project.VernacularISO3CodeAndName;
@@ -215,26 +219,29 @@ namespace SayMore.UI.Overview
 			_depositor.Text = project.Depositor;
 
 			foreach (Control control in Controls)
-			{
 				control.Validated += delegate { Save(); };
-			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void _dateAvailable_Validated(object sender, EventArgs e)
 		{
 			_errorProvider.SetError(_dateAvailable, null);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		protected override void SetWorkingLanguageFont(Font font)
 		{
-			_projectTitle.Font = font;
-			_description.Font = font;
-			_contactPerson.Font = font;
-			_location.Font = font;
-			_region.Font = font;
-			_fundingProjectTitle.Font = font;
-			_rightsHolder.Font = font;
-			_depositor.Font = font;
+			this.SafeInvoke(() =>
+				{
+					_projectTitle.Font = font;
+					_description.Font = font;
+					_contactPerson.Font = font;
+					_location.Font = font;
+					_region.Font = font;
+					_fundingProjectTitle.Font = font;
+					_rightsHolder.Font = font;
+					_depositor.Font = font;
+				}, $"{GetType().Name}.{nameof(SetWorkingLanguageFont)}", IgnoreAll);
 		}
 
 		/// ------------------------------------------------------------------------------------

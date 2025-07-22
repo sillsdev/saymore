@@ -16,10 +16,12 @@ using SayMore.UI.LowLevelControls;
 using SayMore.Utilities;
 using SIL.Extensions;
 using SIL.IO;
+using SIL.Windows.Forms.Extensions;
 using static System.IO.Path;
 using static System.String;
 using static System.StringComparison;
 using static SayMore.UI.LowLevelControls.ParentType;
+using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -150,13 +152,16 @@ namespace SayMore.UI.ComponentEditors
 
 		protected override void SetWorkingLanguageFont(Font font)
 		{
-			if (!font.Equals(_primaryLanguageLearnedIn.Font))
-			{
-				_primaryLanguageLearnedIn.Font = font;
-				_howToContact.Font = font;
-				_education.Font = font;
-				_primaryOccupation.Font = font;
-			}
+			this.SafeInvoke(() =>
+				{
+					if (!font.Equals(_primaryLanguageLearnedIn.Font))
+					{
+						_primaryLanguageLearnedIn.Font = font;
+						_howToContact.Font = font;
+						_education.Font = font;
+						_primaryOccupation.Font = font;
+					}
+				}, $"{GetType().Name}.{nameof(SetWorkingLanguageFont)}", IgnoreAll);
 		}
 
 		/// ------------------------------------------------------------------------------------

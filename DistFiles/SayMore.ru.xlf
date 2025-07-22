@@ -2766,6 +2766,11 @@ A или запись согласия covering
         <target xml:lang="ru" state="translated">Аккуратная речь</target>
         <note>ID: DialogBoxes.Transcription.CarefulSpeechRecorderDlg._labelCarefulSpeech</note>
       </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg.NoVideoHelpMsg">
+        <source xml:lang="en">Sorry, we don't actually have a video for this yet. Contributions welcome!</source>
+        <target xml:lang="ru" state="needs-translation">Sorry, we don't actually have a video for this yet. Contributions welcome!</target>
+        <note>ID: DialogBoxes.Transcription.CommonAnnotationSegmenterDlg.NoVideoHelpMsg</note>
+      </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg.WindowTitle">
         <source xml:lang="en">Change this text</source>
         <target xml:lang="ru" state="translated">Изменить этот текст</target>
@@ -2852,13 +2857,13 @@ A или запись согласия covering
         <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CancelButton</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg1">
-        <source xml:lang="en">In order to export, we need to find a writing system ID that FLEx will accept. SayMore tried to find a list of writing systems which FLEx knows about by looking in {0}, but it doesn't exist. We recommend that you let the code be 'en' (English), then change it inside of FLEx.</source>
-        <target xml:lang="ru" state="translated">Для того чтобы экспортировать, нам необходимо найти идентификатор языка, который принимает программа FLEx. SayMore пытался найти список идентификаторов языка программы FLEx посмотрев в {0}, но они не существуют. Мы рекомендуем чтобы Вы использовали идентификатор 'en' (английский), и потом изменили его в установках программы FLEx.</target>
+        <source xml:lang="en">In order to export, we need to find a writing system ID that {1} will accept. {2} tried to find a list of writing systems which {1} knows about by looking in {0}, but it doesn't exist. We recommend that you let the code be 'en' (English), then change it inside of {1}.</source>
+        <target xml:lang="ru" state="translated">Для того чтобы экспортировать, нам необходимо найти идентификатор языка, который принимает программа {1}. {2} пытался найти список идентификаторов языка программы {1} посмотрев в {0}, но они не существуют. Мы рекомендуем чтобы Вы использовали идентификатор 'en' (английский), и потом изменили его в установках программы {1}.</target>
         <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg1</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg2">
-        <source xml:lang="en">SayMore was unable to find any Writing Systems on this computer. Make sure FLEx version 7.1 or greater is installed and has been run at least once. For now, you can export as English, and fix that up after you have imported into FLEx.</source>
-        <target xml:lang="ru" state="translated">SayMore не удалось найти каких-либо идентификаторов языка на этом компьютере. Убедитесь что установлен FLEx версии 7.1 или выше и он был запущен хотябы один раз. В настоящее время можно экспортировать как английский и потом исправить это в установках FLEx.</target>
+        <source xml:lang="en">{0} was unable to find any Writing Systems on this computer. Make sure {1} version {2} or greater is installed and has been run at least once. For now, you can export as English, and fix that up after you have imported into {1}.</source>
+        <target xml:lang="ru" state="translated">{0} не удалось найти каких-либо идентификаторов языка на этом компьютере. Убедитесь что установлен {1} версии {2} или выше и он был запущен хотябы один раз. В настоящее время можно экспортировать как английский и потом исправить это в установках {1}.</target>
         <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg2</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportButton">
@@ -2871,14 +2876,14 @@ A или запись согласия covering
         <target xml:lang="ru" state="translated">Экспорт в файл</target>
         <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.Caption</note>
       </trans-unit>
-      <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.FileTypeString">
-        <source xml:lang="en">FLEx Interlinear (*.flextext)|*.flextext|All Files (*.*)|*.*</source>
-        <target xml:lang="ru" state="translated">FLEx Interlinear XML (*.xml)|*.xml|Все файлы (*.*)|*.*</target>
-        <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.FileTypeString</note>
+      <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.InterlinearFilesDesc">
+        <source xml:lang="en">FLEx Interlinear ({0})</source>
+        <target xml:lang="ru" state="translated">Текст FLEx Interlinear ({0})</target>
+        <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.InterlinearFilesDesc</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FLExWritingSystemRepositoryMsg">
-        <source xml:lang="en">There was a problem initializing the Writing System Repository: "{0}".We recommend that you let the code be 'en' (English), then change it inside of FLEx.</source>
-        <target xml:lang="ru" state="needs-translation">There was a problem initializing the Writing System Repository: "{0}".We recommend that you let the code be 'en' (English), then change it inside of FLEx.</target>
+        <source xml:lang="en">There was a problem initializing the Writing System Repository: "{0}".We recommend that you let the code be '{1}' (English), then change it inside of {2}.</source>
+        <target xml:lang="ru" state="needs-translation">There was a problem initializing the Writing System Repository: "{0}".We recommend that you let the code be '{1}' (English), then change it inside of {2}.</target>
         <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FLExWritingSystemRepositoryMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationLabel">
@@ -3885,6 +3890,11 @@ A или запись согласия covering
         <source xml:lang="en">Help for access protocols</source>
         <target xml:lang="ru" state="translated">Помощь для протоколов доступа</target>
         <note>ID: ProjectView.AccessScreen._linkHelp</note>
+      </trans-unit>
+      <trans-unit id="ProjectView.AmbiguousDateNote">
+        <source xml:lang="en">An ambiguous date ({0}) was loaded, probably produced by a bug in an old version of {1}. Please ensure the date was interpreted correctly.</source>
+        <target xml:lang="ru" state="needs-translation">An ambiguous date ({0}) was loaded, probably produced by a bug in an old version of {1}. Please ensure the date was interpreted correctly.</target>
+        <note>ID: ProjectView.AmbiguousDateNote</note>
       </trans-unit>
       <trans-unit id="ProjectView.DescriptionDocuments._linkHowArchived">
         <source xml:lang="en">How these are archived</source>

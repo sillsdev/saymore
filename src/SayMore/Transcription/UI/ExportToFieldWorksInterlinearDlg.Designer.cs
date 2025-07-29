@@ -195,7 +195,6 @@ namespace SayMore.Transcription.UI
             this.locExtender.SetLocalizableToolTip(this._labelImportInstructions, null);
             this.locExtender.SetLocalizationComment(this._labelImportInstructions, "Param 0: FLEx (product name); Param 1: Writing system name (and BCP-47 identifier" +
         ")");
-            this.locExtender.SetLocalizationPriority(this._labelImportInstructions, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._labelImportInstructions, "ExportToFieldWorksInterlinearDlg._labelImportInstructions");
             this._labelImportInstructions.Location = new System.Drawing.Point(0, 98);
             this._labelImportInstructions.Margin = new System.Windows.Forms.Padding(0);

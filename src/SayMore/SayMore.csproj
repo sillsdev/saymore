@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\SIL.Windows.Forms.Keyboarding.16.0.0\build\SIL.Windows.Forms.Keyboarding.props" Condition="Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.16.0.0\build\SIL.Windows.Forms.Keyboarding.props')" />
+  <Import Project="..\..\packages\SIL.Windows.Forms.Keyboarding.16.1.0\build\SIL.Windows.Forms.Keyboarding.props" Condition="Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.16.1.0\build\SIL.Windows.Forms.Keyboarding.props')" />
   <Import Project="..\..\packages\SIL.ReleaseTasks.3.1.1\build\SIL.ReleaseTasks.props" Condition="Exists('..\..\packages\SIL.ReleaseTasks.3.1.1\build\SIL.ReleaseTasks.props')" />
   <Import Project="..\..\packages\SIL.BuildTasks.3.1.1\build\SIL.BuildTasks.props" Condition="Exists('..\..\packages\SIL.BuildTasks.3.1.1\build\SIL.BuildTasks.props')" />
   <Import Project="..\..\packages\icu.net.3.0.1\build\icu.net.props" Condition="Exists('..\..\packages\icu.net.3.0.1\build\icu.net.props')" />
@@ -177,32 +177,32 @@
     <Reference Include="Serialization.NET, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Serialization.NET.1.4.1\lib\netstandard2.0\Serialization.NET.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Archiving, Version=16.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Archiving.16.0.0\lib\net462\SIL.Archiving.dll</HintPath>
+    <Reference Include="SIL.Archiving, Version=16.1.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Archiving.16.1.0\lib\net462\SIL.Archiving.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Core, Version=16.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Core.16.0.0\lib\net462\SIL.Core.dll</HintPath>
+    <Reference Include="SIL.Core, Version=16.1.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Core.16.1.0\lib\net462\SIL.Core.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Core.Desktop, Version=16.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Core.Desktop.16.0.0\lib\net462\SIL.Core.Desktop.dll</HintPath>
+    <Reference Include="SIL.Core.Desktop, Version=16.1.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Core.Desktop.16.1.0\lib\net462\SIL.Core.Desktop.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Media, Version=16.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Media.16.0.0\lib\net462\SIL.Media.dll</HintPath>
+    <Reference Include="SIL.Media, Version=16.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Media.16.1.0\lib\net462\SIL.Media.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Windows.Forms, Version=16.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Windows.Forms.16.0.0\lib\net462\SIL.Windows.Forms.dll</HintPath>
+    <Reference Include="SIL.Windows.Forms, Version=16.1.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Windows.Forms.16.1.0\lib\net462\SIL.Windows.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Windows.Forms.Archiving, Version=16.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Windows.Forms.Archiving.16.0.0\lib\net462\SIL.Windows.Forms.Archiving.dll</HintPath>
+    <Reference Include="SIL.Windows.Forms.Archiving, Version=16.1.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Windows.Forms.Archiving.16.1.0\lib\net462\SIL.Windows.Forms.Archiving.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Windows.Forms.Keyboarding, Version=16.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Windows.Forms.Keyboarding.16.0.0\lib\net462\SIL.Windows.Forms.Keyboarding.dll</HintPath>
+    <Reference Include="SIL.Windows.Forms.Keyboarding, Version=16.1.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Windows.Forms.Keyboarding.16.1.0\lib\net462\SIL.Windows.Forms.Keyboarding.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Windows.Forms.WritingSystems, Version=16.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.Windows.Forms.WritingSystems.16.0.0\lib\net462\SIL.Windows.Forms.WritingSystems.dll</HintPath>
+    <Reference Include="SIL.Windows.Forms.WritingSystems, Version=16.1.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.Windows.Forms.WritingSystems.16.1.0\lib\net462\SIL.Windows.Forms.WritingSystems.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.WritingSystems, Version=16.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SIL.WritingSystems.16.0.0\lib\net462\SIL.WritingSystems.dll</HintPath>
+    <Reference Include="SIL.WritingSystems, Version=16.1.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SIL.WritingSystems.16.1.0\lib\net462\SIL.WritingSystems.dll</HintPath>
     </Reference>
     <Reference Include="Sovran.NET, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Sovran.NET.1.4.0\lib\netstandard2.0\Sovran.NET.dll</HintPath>
@@ -1359,10 +1359,10 @@
     <Error Condition="!Exists('..\..\packages\SIL.BuildTasks.3.1.1\build\SIL.BuildTasks.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.BuildTasks.3.1.1\build\SIL.BuildTasks.props'))" />
     <Error Condition="!Exists('..\..\packages\SIL.ReleaseTasks.3.1.1\build\SIL.ReleaseTasks.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.ReleaseTasks.3.1.1\build\SIL.ReleaseTasks.props'))" />
     <Error Condition="!Exists('..\..\packages\SIL.ReleaseTasks.3.1.1\build\SIL.ReleaseTasks.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.ReleaseTasks.3.1.1\build\SIL.ReleaseTasks.targets'))" />
-    <Error Condition="!Exists('..\..\packages\SIL.Media.16.0.0\build\SIL.Media.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Media.16.0.0\build\SIL.Media.targets'))" />
-    <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.16.0.0\build\SIL.Windows.Forms.Keyboarding.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.Keyboarding.16.0.0\build\SIL.Windows.Forms.Keyboarding.props'))" />
-    <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.16.0.0\build\SIL.Windows.Forms.Keyboarding.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.Keyboarding.16.0.0\build\SIL.Windows.Forms.Keyboarding.targets'))" />
-    <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.16.0.0\build\SIL.Windows.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.16.0.0\build\SIL.Windows.Forms.targets'))" />
+    <Error Condition="!Exists('..\..\packages\SIL.Media.16.1.0\build\SIL.Media.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Media.16.1.0\build\SIL.Media.targets'))" />
+    <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.16.1.0\build\SIL.Windows.Forms.Keyboarding.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.Keyboarding.16.1.0\build\SIL.Windows.Forms.Keyboarding.props'))" />
+    <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.16.1.0\build\SIL.Windows.Forms.Keyboarding.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.Keyboarding.16.1.0\build\SIL.Windows.Forms.Keyboarding.targets'))" />
+    <Error Condition="!Exists('..\..\packages\SIL.Windows.Forms.16.1.0\build\SIL.Windows.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SIL.Windows.Forms.16.1.0\build\SIL.Windows.Forms.targets'))" />
   </Target>
   <Import Project="..\..\packages\Icu4c.Win.Min.59.1.7\build\Icu4c.Win.Min.targets" Condition="Exists('..\..\packages\Icu4c.Win.Min.59.1.7\build\Icu4c.Win.Min.targets')" />
   <Import Project="..\..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets" Condition="Exists('..\..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets')" />
@@ -1370,7 +1370,7 @@
   <Import Project="..\..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets" Condition="Exists('..\..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets')" />
   <Import Project="..\..\packages\icu.net.3.0.1\build\icu.net.targets" Condition="Exists('..\..\packages\icu.net.3.0.1\build\icu.net.targets')" />
   <Import Project="..\..\packages\SIL.ReleaseTasks.3.1.1\build\SIL.ReleaseTasks.targets" Condition="Exists('..\..\packages\SIL.ReleaseTasks.3.1.1\build\SIL.ReleaseTasks.targets')" />
-  <Import Project="..\..\packages\SIL.Media.16.0.0\build\SIL.Media.targets" Condition="Exists('..\..\packages\SIL.Media.16.0.0\build\SIL.Media.targets')" />
-  <Import Project="..\..\packages\SIL.Windows.Forms.Keyboarding.16.0.0\build\SIL.Windows.Forms.Keyboarding.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.16.0.0\build\SIL.Windows.Forms.Keyboarding.targets')" />
-  <Import Project="..\..\packages\SIL.Windows.Forms.16.0.0\build\SIL.Windows.Forms.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.16.0.0\build\SIL.Windows.Forms.targets')" />
+  <Import Project="..\..\packages\SIL.Media.16.1.0\build\SIL.Media.targets" Condition="Exists('..\..\packages\SIL.Media.16.1.0\build\SIL.Media.targets')" />
+  <Import Project="..\..\packages\SIL.Windows.Forms.Keyboarding.16.1.0\build\SIL.Windows.Forms.Keyboarding.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.Keyboarding.16.1.0\build\SIL.Windows.Forms.Keyboarding.targets')" />
+  <Import Project="..\..\packages\SIL.Windows.Forms.16.1.0\build\SIL.Windows.Forms.targets" Condition="Exists('..\..\packages\SIL.Windows.Forms.16.1.0\build\SIL.Windows.Forms.targets')" />
 </Project>

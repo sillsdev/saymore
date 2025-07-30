@@ -2762,6 +2762,11 @@
         <target xml:lang="pt-BR" state="translated">Fala Cuidadosa</target>
         <note>ID: DialogBoxes.Transcription.CarefulSpeechRecorderDlg._labelCarefulSpeech</note>
       </trans-unit>
+      <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg.NoVideoHelpMsg">
+        <source xml:lang="en">Sorry, we don't actually have a video for this yet. Contributions welcome!</source>
+        <target xml:lang="pt-BR" state="needs-translation">Sorry, we don't actually have a video for this yet. Contributions welcome!</target>
+        <note>ID: DialogBoxes.Transcription.CommonAnnotationSegmenterDlg.NoVideoHelpMsg</note>
+      </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg.WindowTitle">
         <source xml:lang="en">Change this text</source>
         <target xml:lang="pt-BR" state="translated">Mudar esse texto</target>
@@ -2848,13 +2853,13 @@
         <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CancelButton</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg1">
-        <source xml:lang="en">In order to export, we need to find a writing system ID that FLEx will accept. SayMore tried to find a list of writing systems which FLEx knows about by looking in {0}, but it doesn't exist. We recommend that you let the code be 'en' (English), then change it inside of FLEx.</source>
-        <target xml:lang="pt-BR" state="translated">Para exportar, precisamos encontrar um código de sistema de escrita que o FLEx aceite. O SayMore tentou procurar em {0} uma lista de sistemas de escrita que o FLEx conhece, mas  não existe. Recomentamos que deixe o código 'en' (Inglês), e depois mude dentro do FLEx.</target>
+        <source xml:lang="en">In order to export, we need to find a writing system ID that {1} will accept. {2} tried to find a list of writing systems which {1} knows about by looking in {0}, but it doesn't exist. We recommend that you let the code be 'en' (English), then change it inside of {1}.</source>
+        <target xml:lang="pt-BR" state="translated">Para exportar, precisamos encontrar um código de sistema de escrita que o {1} aceite. O {2} tentou procurar em {0} uma lista de sistemas de escrita que o {1} conhece, mas não existe. Recomentamos que deixe o código 'en' (inglês), e depois mude dentro do {1}.</target>
         <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg1</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg2">
-        <source xml:lang="en">SayMore was unable to find any Writing Systems on this computer. Make sure FLEx version 7.1 or greater is installed and has been run at least once. For now, you can export as English, and fix that up after you have imported into FLEx.</source>
-        <target xml:lang="pt-BR" state="translated">O SayMore não conseguiu encontrar nenhum Sistema de Escrita neste computador. Verifique se o FLEx 7.1 ou uma versão mais atualizada foi instalada e executada pelo menos uma vez. Por enquanto, você pode exportar como inglês e mudar isso depois que tiver importado para o FLEx.</target>
+        <source xml:lang="en">{0} was unable to find any Writing Systems on this computer. Make sure {1} version {2} or greater is installed and has been run at least once. For now, you can export as English, and fix that up after you have imported into {1}.</source>
+        <target xml:lang="pt-BR" state="translated">O {0} não conseguiu encontrar nenhum Sistema de Escrita neste computador. Verifique se o {1} {2} ou uma versão mais atualizada foi instalada e executada pelo menos uma vez. Por enquanto, você pode exportar como inglês e mudar isso depois que tiver importado para o {1}.</target>
         <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg2</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportButton">
@@ -2867,14 +2872,14 @@
         <target xml:lang="pt-BR" state="translated">Exportar Arquivo</target>
         <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.Caption</note>
       </trans-unit>
-      <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.FileTypeString">
-        <source xml:lang="en">FLEx Interlinear (*.flextext)|*.flextext|All Files (*.*)|*.*</source>
-        <target xml:lang="pt-BR" state="translated">FLEx Interlinear (*flextext)|*flextext|All Files (*.*)|*.*</target>
-        <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.FileTypeString</note>
+      <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.InterlinearFilesDesc">
+        <source xml:lang="en">FLEx Interlinear ({0})</source>
+        <target xml:lang="pt-BR" state="translated">Texto Interlinear FLEx ({0})</target>
+        <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.InterlinearFilesDesc</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FLExWritingSystemRepositoryMsg">
-        <source xml:lang="en">There was a problem initializing the Writing System Repository: "{0}".We recommend that you let the code be 'en' (English), then change it inside of FLEx.</source>
-        <target xml:lang="pt-BR" state="needs-translation">There was a problem initializing the Writing System Repository: "{0}".We recommend that you let the code be 'en' (English), then change it inside of FLEx.</target>
+        <source xml:lang="en">There was a problem initializing the Writing System Repository: "{0}".We recommend that you let the code be '{1}' (English), then change it inside of {2}.</source>
+        <target xml:lang="pt-BR" state="needs-translation">There was a problem initializing the Writing System Repository: "{0}".We recommend that you let the code be '{1}' (English), then change it inside of {2}.</target>
         <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FLExWritingSystemRepositoryMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationLabel">
@@ -3881,6 +3886,11 @@
         <source xml:lang="en">Help for access protocols</source>
         <target xml:lang="pt-BR" state="translated">Ajuda para acessar protocolos</target>
         <note>ID: ProjectView.AccessScreen._linkHelp</note>
+      </trans-unit>
+      <trans-unit id="ProjectView.AmbiguousDateNote">
+        <source xml:lang="en">An ambiguous date ({0}) was loaded, probably produced by a bug in an old version of {1}. Please ensure the date was interpreted correctly.</source>
+        <target xml:lang="pt-BR" state="needs-translation">An ambiguous date ({0}) was loaded, probably produced by a bug in an old version of {1}. Please ensure the date was interpreted correctly.</target>
+        <note>ID: ProjectView.AmbiguousDateNote</note>
       </trans-unit>
       <trans-unit id="ProjectView.DescriptionDocuments._linkHowArchived">
         <source xml:lang="en">How these are archived</source>

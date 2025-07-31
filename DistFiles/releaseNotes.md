@@ -1,4 +1,6 @@
 ## _VERSION_ (_DATE_)
+
+## 3.7.4 (30 July 2025)
 * Small improvement in the logic to guess at the correct initial writing system for translations when exporting FLEx Interlinear files (flextext).
 
 ## 3.7.3 (16 July 2025)

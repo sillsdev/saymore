@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using L10NSharp;
 using NUnit.Framework;
 using Moq;
 using SayMore.Model;
@@ -21,6 +22,8 @@ namespace SayMoreTests.UI.Charts
 		[SetUp]
 		public void TestSetup()
 		{
+			LocalizationManager.StrictInitializationMode = false;
+
 			_sessions = new List<Session>();
 
 			var session = new Mock<Session>();

@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
 using SayMore.Utilities;
+using SIL.Reporting;
 
 // ReSharper disable once CheckNamespace
 namespace SayMore.Media.MPlayer
@@ -107,6 +108,8 @@ namespace SayMore.Media.MPlayer
 		{
 			lock (_lock)
 			{
+				_prevPosition = 0;
+				
 				try
 				{
 					if (_mplayerProcess != null && !_mplayerProcess.HasExited)
@@ -173,6 +176,7 @@ namespace SayMore.Media.MPlayer
 
 			MediaFile = filename.Replace('\\', '/');
 			PlaybackStartPosition = playbackStartPosition;
+			_prevPosition = PlaybackStartPosition;
 			PlaybackLength = playbackLength;
 			OnMediaQueued();
 
@@ -608,21 +612,42 @@ namespace SayMore.Media.MPlayer
 			// out how long to delay (and then delay) before passing on an accurate report
 			// that we've reached EOF.
 
-			var secondsLeftToPlay = GetPlayBackEndPosition() - _prevPosition;
+			var secondsLeftToPlay = GetPlayBackEndPosition() - 
+				Math.Max(PlaybackStartPosition, _prevPosition);
 			if (secondsLeftToPlay <= 0)
 				return;
 
-			var finishedTime = DateTime.Now.AddSeconds(secondsLeftToPlay);
-			while (finishedTime >= DateTime.Now)
+			if (secondsLeftToPlay > 5)
 			{
+				Logger.WriteEvent("Unreasonable delay - `GetPlayBackEndPosition` miscalculated?");
+				secondsLeftToPlay = Math.Min(secondsLeftToPlay, 10);
+			}
+
+			var finishedTime = DateTime.Now.AddSeconds(secondsLeftToPlay);
+
+			var timer = new System.Timers.Timer(Math.Min(50, secondsLeftToPlay / 1000));
+			timer.Elapsed += (s, e) =>
+			{
+				if (DateTime.Now >= finishedTime)
+				{
+					timer.Stop();
+					timer.Dispose();
+					return;
+				}
+
 				var newPosition = _prevPosition + (finishedTime - DateTime.Now).TotalSeconds;
 				ProcessPlaybackPositionMessage((float)newPosition);
+
 				lock (_lock)
 				{
 					if (_mplayerProcess == null)
-						break;
+					{
+						timer.Stop();
+						timer.Dispose();
+					}
 				}
-			}
+			};
+			timer.Start();
 		}
 
 		/// ------------------------------------------------------------------------------------

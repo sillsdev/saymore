@@ -120,9 +120,13 @@ namespace SayMoreTests.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[Test][Category("SkipOnTeamCity")] // REVIEW: Don't understand why this no longer passes on TC. Passes consistently on developer computer.
+		[Test]
+		[Category("SkipOnTeamCity")]
 		public void OnFormLostFocus_FocusMovedOutsideForm_MethodCalled()
 		{
+			if (!Environment.UserInteractive)
+				Assert.Ignore("Ignored in CI");
+			
 			var otherForm = new TestForm();
 			_testForm.Activate();
 

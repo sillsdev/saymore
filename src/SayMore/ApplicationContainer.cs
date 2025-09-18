@@ -230,7 +230,15 @@ namespace SayMore
 
 		public ILocalizationManager CreateLocalizationManager()
 		{
-			const string emailForLocalizations = "sil.saymore@gmail.com";
+			// This used to be `sil.saymore@gmail.com`. As of 2021, TomB had credentials for it
+			// and confirmed that it was set up to forward to JohnH, but it is unclear whether that
+			// is still the case. It's probably very rare/unlikely that anyone would use this for
+			// requesting the addition of a new UI language, but it probably makes more sense to
+			// have any such requests go to the SayMore issues email address. That way a JIRA issue
+			// will get created, and it is more likely that someone will see it and take action.
+			// The Help file used to direct people to send localizations to
+			// issues@saymore.palaso.org. I'm almost sure that one is defunct.
+			const string emailForLocalizations = "saymore_issues@sil.org";
 
 			var installedStringFileFolder = Path.GetDirectoryName(
 				FileLocationUtilities.GetFileDistributedWithApplication("SayMore.es.xlf"));

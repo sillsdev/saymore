@@ -1,3 +1,4 @@
+using System;
 using NUnit.Extensions.Forms;
 using NUnit.Framework;
 using SayMore.UI.ProjectWindow;
@@ -12,6 +13,9 @@ namespace SayMoreTests.UI.ProjectWindow
 		[NonParallelizable]
 		public void Execute_LaunchAndClose_DoesNotCrash()
 		{
+			if (!Environment.UserInteractive)
+				Assert.Ignore("Ignored in CI");
+			
 			var tester = new ModalFormTester();
 			var buttonTester = new ButtonTester("_okButton");
 			tester.ExpectModal("ShowReleaseNotesDialog", () => buttonTester.FireEvent("Click"));

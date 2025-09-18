@@ -32,7 +32,7 @@ namespace SayMoreTests.UI.ComponentEditors
 
 			protected override void OnEditorAndChildrenLostFocus()
 			{
-				EditorAndChildrenLostFocus(this, null);
+				EditorAndChildrenLostFocus?.Invoke(this, null);
 			}
 
 			protected override void OnFormLostFocus()
@@ -56,6 +56,9 @@ namespace SayMoreTests.UI.ComponentEditors
 		[SetUp]
 		public void Setup()
 		{
+			if (!Environment.UserInteractive)
+				Assert.Ignore("Ignored in CI");
+			
 			_editor = new TestEditor();
 			_testForm = new TestForm();
 			_testForm.Controls.Add(_editor);
@@ -72,27 +75,22 @@ namespace SayMoreTests.UI.ComponentEditors
 			_panelInEditorInner.Controls.AddRange(new Control[] { _labelInEditor, _buttonInEditor });
 			_panelInEditorOuter.Controls.AddRange(new Control[] { _panelInEditorInner, _textBoxInEditor });
 			_editor.Controls.Add(_panelInEditorOuter);
+
+			Assert.That(_editor.ChildControls, Is.EquivalentTo(new Control[]
+			{
+				_panelInEditorOuter,
+				_panelInEditorInner,
+				_labelInEditor,
+				_buttonInEditor,
+				_textBoxInEditor
+			}));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[TearDown]
 		public void TearDown()
 		{
-			_testForm.Dispose();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void ChildControls_VerifyAllControlsInList()
-		{
-			Assert.That(_editor.ChildControls, Is.EquivalentTo(new Control[] 
-				{
-					_panelInEditorOuter,
-					_panelInEditorInner,
-					_labelInEditor, 
-					_buttonInEditor,
-					_textBoxInEditor
-				}));
+			_testForm?.Dispose();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -120,7 +118,7 @@ namespace SayMoreTests.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[Test][Category("SkipOnTeamCity")] // REVIEW: Don't understand why this no longer passes on TC. Passes consistently on developer computer.
+		[Test]
 		public void OnFormLostFocus_FocusMovedOutsideForm_MethodCalled()
 		{
 			var otherForm = new TestForm();

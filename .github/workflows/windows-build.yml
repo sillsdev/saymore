@@ -35,55 +35,16 @@ jobs:
         shell: bash
         run: build/getDependencies-windows.sh
 
-      - name: Stub signing command (CI only)
-        shell: pwsh
-        run: |
-          $stub = "@echo off`r`necho Skipping code signing on GitHub Actions.`r`nexit /b 0`r`n"
-          Set-Content -Path "$env:GITHUB_WORKSPACE\build\sign.cmd" -Value $stub -Encoding ASCII
-
-      - name: Ensure signing stub is on PATH
-        shell: pwsh
-        run: |
-          "$env:GITHUB_WORKSPACE\build" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-
-      - name: Install WiX Toolset
-        shell: pwsh
-        run: |
-          $wixZip = Join-Path $env:RUNNER_TEMP 'wix311.zip'
-          Invoke-WebRequest -Uri https://github.com/wixtoolset/wix3/releases/download/wix3112rtm/wix311-binaries.zip -OutFile $wixZip
-          $wixDir = Join-Path $env:RUNNER_TEMP 'wix311'
-          if (Test-Path $wixDir) {
-            Remove-Item $wixDir -Recurse -Force
-          }
-          Expand-Archive -LiteralPath $wixZip -DestinationPath $wixDir
-          $legacyPath = 'C:\Program Files\Windows Installer XML v3.9\bin'
-          if (-not (Test-Path $legacyPath)) {
-            New-Item -ItemType Directory -Path $legacyPath -Force | Out-Null
-          }
-          Copy-Item -Path (Join-Path $wixDir '*') -Destination $legacyPath -Recurse -Force
-          # expose WiX binaries and SDK for msbuild
-          "$wixDir" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          "$wixDir\sdk" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          "WIX=$wixDir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          "WixToolPath=$wixDir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          "WixTargetsPath=$wixDir\wix.targets" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
         with:
           vs-version: '[17.0,18.0)'
 
       - name: Build solution
-        run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /p:useNUnit-x86=true /p:WixTargetsPath=$env:WixTargetsPath /p:WixToolPath=$env:WixToolPath /m
+        run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /p:useNUnit-x86=true /m
 
       - name: Run tests
         run: msbuild build\SayMore.proj /t:Test /p:Configuration=$env:Configuration /p:useNUnit-x86=true /p:excludedCategories=SkipOnTeamCity /m
-
-      - name: Convert release notes
-        run: msbuild build\SayMore.proj /t:ConvertReleaseNotesToHtml /p:Configuration=$env:Configuration /m
-
-      - name: Build installer
-        run: msbuild build\SayMore.proj /t:Installer /p:Configuration=$env:Configuration /p:WixTargetsPath=$env:WixTargetsPath /p:WixToolPath=$env:WixToolPath /m
 
       - name: Upload artifacts
         if: always()
@@ -92,9 +53,4 @@ jobs:
           name: saymore-windows
           if-no-files-found: warn
           path: |
-            output/Installer/*.msi
-            DistFiles/releasenotes.md
-            output/releasenotes.download_info
-            output/ReleaseNotes.htm
-            output/installer/appcast.xml
             output/${{ env.Configuration }}/TestResults.xml

@@ -27,6 +27,10 @@ jobs:
       - name: Restore NuGet packages
         run: nuget restore SayMore.sln
 
+      - name: Fetch native dependencies
+        shell: bash
+        run: ./getDependencies.sh
+
       - name: Fetch documentation artifacts
         shell: bash
         run: build/getDependencies-windows.sh

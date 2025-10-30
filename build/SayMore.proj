@@ -158,8 +158,6 @@
 	<!-- remove an existing one with the same name, if necessary -->
 	<Delete Files="$(RootDir)\output\installer\SayMoreInstaller.$(Version).msi" TreatErrorsAsWarnings="false" />
 
-	<Exec Command='sign /d "SayMoreInstaller.$(Version).msi" "$(RootDir)\output\installer\SayMoreInstaller.msi"'></Exec>
-
 	<Copy SourceFiles="$(RootDir)\output\installer\SayMoreInstaller.msi"
 		  DestinationFiles="$(RootDir)\output\installer\SayMoreInstaller.$(Version).msi"
 		  />

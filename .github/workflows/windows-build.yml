@@ -1,23 +1,32 @@
-name: Windows Build
+name: Build Test Installer Release
 
 on:
+  pull_request:
+    branches:
+      - master
   push:
     branches:
       - master
-  pull_request:
+    tags:
+      - 'v*'
   workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
 
 env:
   Configuration: Release
   BUILD_NUMBER: 3.7.${{ github.run_number }}.${{ github.sha }}
 
 jobs:
-  build:
+  build_test:
+    name: Build and test
     runs-on: windows-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -26,14 +35,6 @@ jobs:
 
       - name: Restore NuGet packages
         run: nuget restore SayMore.sln
-
-      - name: Fetch native dependencies
-        shell: bash
-        run: ./getDependencies.sh
-
-      - name: Fetch documentation artifacts
-        shell: bash
-        run: build/getDependencies-windows.sh
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
@@ -46,11 +47,71 @@ jobs:
       - name: Run tests
         run: msbuild build\SayMore.proj /t:Test /p:Configuration=$env:Configuration /p:useNUnit-x86=true /p:excludedCategories=SkipOnTeamCity /m
 
-      - name: Upload artifacts
+      - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: saymore-windows
+          name: saymore-test-results
           if-no-files-found: warn
+          path: output/${{ env.Configuration }}/TestResults.xml
+
+  build_installer:
+    name: Build installer, sign, and publish artifacts
+    needs: build_test
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))) }}
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore SayMore.sln
+
+      - name: Fetch documentation artifacts
+        shell: bash
+        run: build/getDependencies-windows.sh
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: '[17.0,18.0)'
+
+      - name: Build installer
+        run: msbuild build\SayMore.proj /t:Installer /p:Configuration=$env:Configuration /p:useNUnit-x86=true /m
+
+      - name: Sign installer
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: sillsdev/codesign/trusted-signing-action@v3
+        with:
+          credentials: ${{ secrets.TRUSTED_SIGNING_CREDENTIALS }}
+          files-folder: output/installer
+          files-folder-filter: SayMoreInstaller*.msi
+
+      - name: Upload installer artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: saymore-installer
+          if-no-files-found: error
           path: |
-            output/${{ env.Configuration }}/TestResults.xml
+            output/installer/SayMoreInstaller*.msi
+            output/installer/*.download_info
+            output/installer/appcast.xml
+            output/releasenotes.download_info
+
+      - name: Create release
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            output/installer/SayMoreInstaller*.msi
+            output/installer/*.download_info
+            output/installer/appcast.xml
+            output/releasenotes.download_info
+          draft: false
+          generate_release_notes: true

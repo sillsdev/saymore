@@ -71,8 +71,14 @@ jobs:
       - name: Build solution
         run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /p:useNUnit-x86=true /p:WixTargetsPath=$env:WixTargetsPath /p:WixToolPath=$env:WixToolPath /m
 
-      - name: Test, convert release notes, and build installer
-        run: msbuild build\SayMore.proj /t:"Test;ConvertReleaseNotesToHtml;Installer" /p:Configuration=$env:Configuration /p:useNUnit-x86=true /p:excludedCategories=SkipOnTeamCity /p:WixTargetsPath=$env:WixTargetsPath /p:WixToolPath=$env:WixToolPath /m
+      - name: Run tests
+        run: msbuild build\SayMore.proj /t:Test /p:Configuration=$env:Configuration /p:useNUnit-x86=true /p:excludedCategories=SkipOnTeamCity /m
+
+      - name: Convert release notes
+        run: msbuild build\SayMore.proj /t:ConvertReleaseNotesToHtml /p:Configuration=$env:Configuration /m
+
+      - name: Build installer
+        run: msbuild build\SayMore.proj /t:Installer /p:Configuration=$env:Configuration /p:WixTargetsPath=$env:WixTargetsPath /p:WixToolPath=$env:WixToolPath /m
 
       - name: Upload artifacts
         if: always()

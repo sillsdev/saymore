@@ -42,10 +42,10 @@ jobs:
           vs-version: '[17.0,18.0)'
 
       - name: Build solution
-        run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /p:useNUnit-x86=true /m
+        run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /m
 
       - name: Run tests
-        run: msbuild build\SayMore.proj /t:Test /p:Configuration=$env:Configuration /p:useNUnit-x86=true /p:excludedCategories=SkipOnTeamCity /m
+        run: msbuild build\SayMore.proj /t:Test /p:Configuration=$env:Configuration /p:excludedCategories=SkipOnTeamCity /m
 
       - name: Upload test results
         if: always()

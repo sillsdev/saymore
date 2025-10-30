@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-SayMore is a WinForms client targeting .NET Framework 4.6.2. Application code lives in `src/SayMore`, organised by feature folders such as `Model`, `UI`, `Utilities`, and `Transcription`. NUnit fixtures live in `src/SayMoreTests` and mirror the production namespaces; use categories like `SkipOnTeamCity` for fragile tests. Packaging assets sit in `src/Installer` (WiX), while `build/SayMore.proj` drives CI builds and version stamping. Supporting material is stored under `DistFiles` (release notes), `SampleData` (demo content), `artwork` (branding), and `AutoSegmenter` for native helpers.
+SayMore is a WinForms client targeting .NET Framework 4.6.2. Application code lives in `src/SayMore`, organized by feature folders such as `Model`, `UI`, `Utilities`, and `Transcription`. NUnit fixtures live in `src/SayMoreTests` and mirror the production namespaces; use categories like `SkipOnTeamCity` for fragile tests. Packaging assets sit in `src/Installer` (WiX), while `build/SayMore.proj` drives CI builds and version stamping. Supporting material is stored under `DistFiles` (release notes), `SampleData` (demo content), `artwork` (branding), and `AutoSegmenter` for native helpers.
 
 ## Build, Test, and Development Commands
 Run `nuget restore SayMore.sln` after cloning to hydrate build tasks and third-party assemblies. Use `msbuild SayMore.sln /p:Configuration=Debug /m` for daily work; binaries land in `output/Debug`. Execute `nunit3-console output/Debug/SayMoreTests.dll --where "cat != SkipOnTeamCity"` to match the TeamCity matrix. Ship-ready builds come from `msbuild build/SayMore.proj /t:Build /p:Configuration=Release`, and installer assets refresh through `build/getDependencies-windows.sh`.

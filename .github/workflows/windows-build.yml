@@ -56,6 +56,11 @@ jobs:
             Remove-Item $wixDir -Recurse -Force
           }
           Expand-Archive -LiteralPath $wixZip -DestinationPath $wixDir
+          $legacyPath = 'C:\Program Files\Windows Installer XML v3.9\bin'
+          if (-not (Test-Path $legacyPath)) {
+            New-Item -ItemType Directory -Path $legacyPath -Force | Out-Null
+          }
+          Copy-Item -Path (Join-Path $wixDir '*') -Destination $legacyPath -Recurse -Force
           # expose WiX binaries and SDK for msbuild
           "$wixDir" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           "$wixDir\sdk" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append

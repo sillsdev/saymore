@@ -37,16 +37,21 @@ jobs:
           $stub = "@echo off`r`necho Skipping code signing on GitHub Actions.`r`nexit /b 0`r`n"
           Set-Content -Path "$env:GITHUB_WORKSPACE\build\sign.cmd" -Value $stub -Encoding ASCII
 
+      - name: Ensure signing stub is on PATH
+        shell: pwsh
+        run: |
+          "$env:GITHUB_WORKSPACE\build" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
         with:
           vs-version: '[17.0,18.0)'
 
       - name: Build solution
-        run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /m
+        run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /p:useNUnit-x86=true /m
 
       - name: Test, convert release notes, and build installer
-        run: msbuild build\SayMore.proj /t:"Test;ConvertReleaseNotesToHtml;Installer" /p:Configuration=$env:Configuration /p:excludedCategories=SkipOnTeamCity /m
+        run: msbuild build\SayMore.proj /t:"Test;ConvertReleaseNotesToHtml;Installer" /p:Configuration=$env:Configuration /p:useNUnit-x86=true /p:excludedCategories=SkipOnTeamCity /m
 
       - name: Upload artifacts
         if: always()

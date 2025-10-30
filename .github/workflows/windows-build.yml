@@ -1,0 +1,63 @@
+name: Windows Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+env:
+  Configuration: Release
+  BUILD_NUMBER: 3.7.${{ github.run_number }}.${{ github.sha }}
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore SayMore.sln
+
+      - name: Fetch documentation artifacts
+        shell: bash
+        run: build/getDependencies-windows.sh
+
+      - name: Stub signing command (CI only)
+        shell: pwsh
+        run: |
+          $stub = "@echo off`r`necho Skipping code signing on GitHub Actions.`r`nexit /b 0`r`n"
+          Set-Content -Path "$env:GITHUB_WORKSPACE\build\sign.cmd" -Value $stub -Encoding ASCII
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: '[17.0,18.0)'
+
+      - name: Build solution
+        run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /m
+
+      - name: Test, convert release notes, and build installer
+        run: msbuild build\SayMore.proj /t:"Test;ConvertReleaseNotesToHtml;Installer" /p:Configuration=$env:Configuration /p:excludedCategories=SkipOnTeamCity /m
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: saymore-windows
+          if-no-files-found: warn
+          path: |
+            output/Installer/*.msi
+            DistFiles/releasenotes.md
+            output/releasenotes.download_info
+            output/ReleaseNotes.htm
+            output/installer/appcast.xml
+            output/${{ env.Configuration }}/TestResults.xml

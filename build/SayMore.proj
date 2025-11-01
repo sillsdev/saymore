@@ -34,20 +34,8 @@
   <UsingTask TaskName="NUnit3" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
 
   <Target Name="VersionNumbers">
-	<Message Text="BUILD_NUMBER: $(BUILD_NUMBER)" Importance="high"/>
 
-	<Split Input="$(BUILD_NUMBER)" Delimiter="." OutputSubString="2">
-	  <Output TaskParameter="ReturnValue" PropertyName="BuildCounter" />
-	</Split>
-
-	<Message Text="BuildCounter: $(BuildCounter)" Importance="high"/>
-
-	<!-- Note, after some thought, we've decided this is the best place to keep the version number (not on TeamCity, not in the assemblies).     -->
-	<CreateProperty Value="3.7.$(BuildCounter)">
-	  <Output PropertyName="Version" TaskParameter="Value"/>
-	</CreateProperty>
-
-	<Message Text="Version: $(Version)" Importance="high"/>
+		<Message Text="Version: $(Version)" Importance="high"/>
   </Target>
 
   <Import Project="$(SILReleaseTasksProps)" Condition="Exists('$(SILReleaseTasksProps)')" />

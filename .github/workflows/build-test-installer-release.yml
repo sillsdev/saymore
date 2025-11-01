@@ -17,7 +17,8 @@ permissions:
 
 env:
   Configuration: Release
-  BUILD_NUMBER: 3.7.${{ github.run_number }}.${{ github.sha }}
+  # Version is the tag name e.g. v3.7 or if tag not present, go with a datetime stamp + commit SHA
+  Version: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || format('{0}-{1}', format('{0:yyyyMMddHHmm}', github.event.head_commit.timestamp), github.sha) }}
 
 jobs:
   build_test:

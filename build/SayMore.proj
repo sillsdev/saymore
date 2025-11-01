@@ -1,9 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
 	<RootDir>$(MSBuildProjectDirectory)\..</RootDir>
-	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
 	<RootDir Condition="'$(GITHUB_WORKSPACE)' != ''">$(GITHUB_WORKSPACE)</RootDir>
-	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'==''">3.7.100</BUILD_NUMBER>
 	<BuildTasksDll Condition="Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll</BuildTasksDll>
 	<BuildTasksDll Condition="!Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks/tools/SIL.BuildTasks.dll</BuildTasksDll>
 	<SILReleaseTasksProps>$(RootDir)/packages/SIL.ReleaseTasks.3.1.1/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
@@ -21,7 +19,6 @@
     <Exec Command='$(NuGetCommand) install SIL.BuildTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
 	<Exec Command='$(NuGetCommand) install SIL.ReleaseTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)"' />
 	<Exec Command='$(NuGetCommand) install SIL.libpalaso.l10ns -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
-	<Exec Command='$(NuGetCommand) install NUnit.Extension.TeamCityEventListener -excludeVersion -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BuildInternal"
       Properties="Configuration=$(Configuration)" Condition="$(RestartBuild)" />
   </Target>
@@ -34,6 +31,10 @@
   <UsingTask TaskName="NUnit3" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
 
   <Target Name="VersionNumbers">
+	<PropertyGroup>
+		<!-- The Version should be set from the outside, if not, set a default value -->
+		<Version Condition="'$(Version)' == ''">$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</Version>
+	</PropertyGroup>
 
 		<Message Text="Version: $(Version)" Importance="high"/>
   </Target>
@@ -73,7 +74,7 @@
 	<ItemGroup>
 	  <TestAssemblies Include="$(RootDir)/output/release/*Tests.dll;"/>
 	</ItemGroup>
-	<NUnit3 Condition="'$(teamcity_version)' == ''"
+	<NUnit3
 		Assemblies="@(TestAssemblies)"
 		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.20.1/tools"
 		ExcludeCategory="$(excludedCategories)"
@@ -83,15 +84,6 @@
 		OutputXmlFile="$(RootDir)/output/$(Configuration)/TestResults.xml"
 		UseNUnit3Xml = "true"
 		TeamCity="false"/>
-	<NUnit3 Condition="'$(teamcity_version)' != ''"
-		Assemblies="@(TestAssemblies)"
-		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.20.1/tools"
-		ExcludeCategory="SkipOnTeamCity,$(excludedCategories)"
-		WorkingDirectory="$(RootDir)/output/$(Configuration)"
-		Force32Bit="$(useNUnit-x86)"
-		Verbose="true"
-		TeamCity="true"/>
-  </Target>
 
   <Target Name="UpdateDownloadInfo" DependsOnTargets="VersionNumbers" >
 

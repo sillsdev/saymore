@@ -35,21 +35,23 @@ jobs:
         id: compute_version
         shell: bash
         run: |
-          # If this is a tag push and it starts with v, just use it
+          # If this is a tag push and it starts with v, just use it and strip off the v
           if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
             Version="${GITHUB_REF#refs/tags/}"
+            Version="${Version#v}"
             echo "version=$Version" >> $GITHUB_OUTPUT
             echo "detected tag push: $Version"
             exit 0
           fi
 
-          # Otherwise find the latest tag that starts with v
-          LAST_TAG=$(git describe --tags --match "v*" --abbrev=0 2>/dev/null || echo "v0.0.0")
+          # Otherwise find the latest tag that starts with v and strip off the v
+            LAST_TAG=$(git describe --tags --match "v*" --abbrev=0 2>/dev/null || echo "v0.0.0")
+            LAST_TAG="${LAST_TAG#v}"
 
           # Compute a build number based on number of commits since that tag
           COMMITS_SINCE_TAG=$(git rev-list ${LAST_TAG}..HEAD --count)
 
-          # Final version: vX.Y.Z+<build>
+          # Final version: X.Y.Z
           Version="${LAST_TAG}.${COMMITS_SINCE_TAG}"
           echo "version=$Version" >> $GITHUB_OUTPUT
           echo "no tag push; using $Version"

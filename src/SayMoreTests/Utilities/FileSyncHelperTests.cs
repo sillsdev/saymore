@@ -7,7 +7,7 @@ namespace SayMoreTests.Utilities
 	[TestFixture]
 	public class FileSyncHelperTests
 	{
-		[Test][Category("SkipOnTeamCity")]
+		[Test][Category("SkipOnCI")]
 		public void IsSynched_Dropbox_ReturnsDropbox()
 		{
 			if (!FileSyncHelper.ClientIsRunning(FileSyncHelper.SyncClient.Dropbox))
@@ -19,7 +19,7 @@ namespace SayMoreTests.Utilities
 			Assert.AreEqual(FileSyncHelper.SyncClient.Dropbox, result);
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test][Category("SkipOnCI")]
 		public void IsSynched_GoogleDrive_ReturnsGoogleDrive()
 		{
 			if (!FileSyncHelper.ClientIsRunning(FileSyncHelper.SyncClient.GoogleDrive))
@@ -31,7 +31,7 @@ namespace SayMoreTests.Utilities
 			Assert.AreEqual(FileSyncHelper.SyncClient.GoogleDrive, result);
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test][Category("SkipOnCI")]
 		public void IsSynched_OneDrive_ReturnsOneDrive()
 		{
 			if (!FileSyncHelper.ClientIsRunning(FileSyncHelper.SyncClient.OneDrive))
@@ -43,7 +43,7 @@ namespace SayMoreTests.Utilities
 			Assert.AreEqual(FileSyncHelper.SyncClient.OneDrive, result);
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test][Category("SkipOnCI")]
 		public void StopClient_Dropbox_KillAndStart()
 		{
 			if (!FileSyncHelper.ClientIsRunning(FileSyncHelper.SyncClient.Dropbox))
@@ -62,7 +62,7 @@ namespace SayMoreTests.Utilities
 			Assert.True(FileSyncHelper.ClientIsRunning(FileSyncHelper.SyncClient.Dropbox));
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test][Category("SkipOnCI")]
 		public void StopClient_GoogleDrive_KillAndStart()
 		{
 			if (!FileSyncHelper.ClientIsRunning(FileSyncHelper.SyncClient.GoogleDrive))
@@ -81,7 +81,7 @@ namespace SayMoreTests.Utilities
 			Assert.True(FileSyncHelper.ClientIsRunning(FileSyncHelper.SyncClient.GoogleDrive));
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test][Category("SkipOnCI")]
 		public void StopClient_OneDrive_KillAndStart()
 		{
 			if (!FileSyncHelper.ClientIsRunning(FileSyncHelper.SyncClient.OneDrive))

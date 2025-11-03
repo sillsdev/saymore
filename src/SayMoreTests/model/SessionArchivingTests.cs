@@ -96,7 +96,7 @@ namespace SayMoreTests.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void SetFilesToArchive_RAMP_GetsCorrectListSizeIncludingSessionFile()
 		{
 			var model = new Mock<RampArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo",
@@ -111,7 +111,7 @@ namespace SayMoreTests.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void SetFilesToArchive_IMDI_GetsCorrectListSizeExcludingSessionFile()
 		{
 			var model = new Mock<IMDIArchivingDlgViewModel>(MockBehavior.Strict, "SayMore", "ddo",
@@ -312,7 +312,7 @@ namespace SayMoreTests.Utilities
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetOneLanguage_UndefinedIso_ReturnsNull()
 		{
 			ArchivingHelper.Project = null;
@@ -353,7 +353,7 @@ namespace SayMoreTests.Utilities
 
 		/// <seealso href="en.wikipedia.org/wiki/List_of_ISO_639-2_codes"/>
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetOneLanguage_PrivateUseIso_ReturnsNull()
 		{
 			ArchivingHelper.Project = null;

@@ -382,7 +382,7 @@ namespace SayMoreTests.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetValidFilesToCopy_TwoMediaFilesToBeCopiedToSessionWithNoExistingSource_FirstOneRenamedAsSource()
 		{
 			using (var session = CreateSession(new string[] { }))
@@ -405,7 +405,7 @@ namespace SayMoreTests.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetValidFilesToCopy_TwoMediaFilesToBeCopiedToSessionWithSourceMarkedComplete_FirstOneRenamedAsSource()
 		{
 			using (var session = CreateSession(new string[] { }))

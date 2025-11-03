@@ -95,7 +95,7 @@ namespace SayMoreTests.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void BeginConversion_WhenOutputFileNotSpecified_CreatesInferredOutputFile()
 		{
 			_model.BeginConversion(null);
@@ -107,7 +107,7 @@ namespace SayMoreTests.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void BeginConversion_WhenOutputFileIsSpecified_CreatesSpecifiedOutputFile()
 		{
 			_model.BeginConversion(null, _tempFolder.Combine("blah.mp3"));
@@ -116,7 +116,7 @@ namespace SayMoreTests.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void BeginConversion_WithReportingAction_ReportingActionCalledWithCommandLine()
 		{
 			var goodCallBack = false;
@@ -131,7 +131,7 @@ namespace SayMoreTests.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void BeginConversion_WithReportingAction_ReportsProgressingTime()
 		{
 			var currentTime = default(TimeSpan);

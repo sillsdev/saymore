@@ -98,7 +98,7 @@ namespace SayMoreTests.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void Duration_Audio_Correct()
 		{
 			using (var folder = new TemporaryFolder("FileStatisticsTests"))
@@ -114,7 +114,7 @@ namespace SayMoreTests.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void MPlayerMediaInfo_CreateAudio_ContainsCorrectInfo()
 		{
 			var tmpfile = GetShortTestAudioFile();
@@ -136,7 +136,7 @@ namespace SayMoreTests.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void MPlayerMediaInfo_CreateVideo_ContainsCorrectInfo()
 		{
 			var tmpfile = GetTestVideoFile();

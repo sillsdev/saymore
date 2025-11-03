@@ -75,11 +75,11 @@ jobs:
 
       - name: Publish test report even if tests fail
         if: ${{ always() && github.event_name == 'pull_request' }}
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         with:
           name: SayMore Tests
           path: output/${{ env.Configuration }}/TestResults.xml
-          reporter: nunit
+          reporter: dotnet-nunit
           fail-on-error: false
 
       - name: Upload test results

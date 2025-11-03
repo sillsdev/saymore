@@ -73,6 +73,15 @@ jobs:
       - name: Run tests
         run: msbuild build\SayMore.proj /t:Test /p:Configuration=$env:Configuration /p:useNUnit-x86=true /p:excludedCategories=SkipOnTeamCity /m
 
+      - name: Publish test report even if tests fail
+        if: ${{ always() && github.event_name == 'pull_request' }}
+        uses: dorny/test-reporter@v1
+        with:
+          name: SayMore Tests
+          path: output/${{ env.Configuration }}/TestResults.xml
+          reporter: nunit
+          fail-on-error: false
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4

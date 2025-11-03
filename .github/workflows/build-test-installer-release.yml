@@ -46,13 +46,12 @@ jobs:
 
           # Otherwise find the latest tag that starts with v and strip off the v
             LAST_TAG=$(git describe --tags --match "v*" --abbrev=0 2>/dev/null || echo "v0.0.0")
-            LAST_TAG="${LAST_TAG#v}"
 
           # Compute a build number based on number of commits since that tag
           COMMITS_SINCE_TAG=$(git rev-list ${LAST_TAG}..HEAD --count)
 
           # Final version: X.Y.Z
-          Version="${LAST_TAG}.${COMMITS_SINCE_TAG}"
+          Version="${LAST_TAG#v}.${COMMITS_SINCE_TAG}"
           echo "version=$Version" >> $GITHUB_OUTPUT
           echo "no tag push; using $Version"
 

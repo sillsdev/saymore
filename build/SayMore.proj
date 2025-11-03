@@ -33,7 +33,7 @@
   <Target Name="VersionNumbers">
 	<PropertyGroup>
 		<!-- The Version should be set from the outside, if not, set a default value -->
-		<Version Condition="'$(Version)' == ''">$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</Version>
+		<Version Condition="'$(Version)' == ''">$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</Version>
 	</PropertyGroup>
 
 		<Message Text="Version: $(Version)" Importance="high"/>

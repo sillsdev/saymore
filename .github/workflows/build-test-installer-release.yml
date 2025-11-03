@@ -1,0 +1,142 @@
+name: Build Test Installer Release
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+env:
+  Configuration: Release
+
+jobs:
+  build_test:
+    name: Build and test
+    runs-on: windows-latest
+    outputs:
+      version: ${{ steps.compute_version.outputs.version }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Compute version
+        id: compute_version
+        shell: pwsh
+        env:
+          IS_TAG: ${{ startsWith(github.ref, 'refs/tags/v') }}
+          REF_NAME: ${{ github.ref_name }}
+          HEAD_COMMIT_TIMESTAMP: ${{ github.event.head_commit && github.event.head_commit.timestamp || '' }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          if ($env:IS_TAG -eq 'true') {
+            $version = $env:REF_NAME
+          } elseif (-not [string]::IsNullOrEmpty($env:HEAD_COMMIT_TIMESTAMP)) {
+            $timestamp = [DateTime]::Parse($env:HEAD_COMMIT_TIMESTAMP).ToUniversalTime().ToString("yyyyMMddHHmm")
+            $version = "$timestamp-$($env:GITHUB_SHA)"
+          } else {
+            $timestamp = [DateTime]::UtcNow.ToString("yyyyMMddHHmm")
+            $version = "$timestamp-$($env:GITHUB_SHA)"
+          }
+
+          "Version=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore SayMore.sln
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: '[17.0,18.0)'
+
+      - name: Build solution
+        run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /p:Version=$env:Version /m
+
+      - name: Run tests
+        run: msbuild build\SayMore.proj /t:Test /p:Configuration=$env:Configuration /p:excludedCategories=SkipOnTeamCity /m
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: saymore-test-results
+          if-no-files-found: warn
+          path: output/${{ env.Configuration }}/TestResults.xml
+
+  build_installer:
+    name: Build installer, sign, and publish artifacts
+    needs: build_test
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))) }}
+    runs-on: windows-latest
+    env:
+      Version: ${{ needs.build_test.outputs.version }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore SayMore.sln
+
+      - name: Fetch documentation artifacts
+        shell: bash
+        run: build/getDependencies-windows.sh
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: '[17.0,18.0)'
+
+      - name: Build installer
+        run: msbuild build\SayMore.proj /t:Installer /p:Configuration=$env:Configuration /p:useNUnit-x86=true /p:Version=$env:Version /m
+
+      - name: Sign installer
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: sillsdev/codesign/trusted-signing-action@v3
+        with:
+          credentials: ${{ secrets.TRUSTED_SIGNING_CREDENTIALS }}
+          files-folder: output/installer
+          files-folder-filter: SayMoreInstaller*.msi
+
+      - name: Upload installer artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: saymore-installer
+          if-no-files-found: error
+          path: |
+            output/installer/SayMoreInstaller*.msi
+            output/installer/*.download_info
+            output/installer/appcast.xml
+            output/releasenotes.download_info
+
+      - name: Create release
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            output/installer/SayMoreInstaller*.msi
+            output/installer/*.download_info
+            output/installer/appcast.xml
+            output/releasenotes.download_info
+          draft: false
+          generate_release_notes: true

@@ -1,8 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
-	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
-	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'==''">3.7.100</BUILD_NUMBER>
+	<RootDir>$(MSBuildProjectDirectory)\..</RootDir>
+	<RootDir Condition="'$(GITHUB_WORKSPACE)' != ''">$(GITHUB_WORKSPACE)</RootDir>
 	<BuildTasksDll Condition="Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll</BuildTasksDll>
 	<BuildTasksDll Condition="!Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks/tools/SIL.BuildTasks.dll</BuildTasksDll>
 	<SILReleaseTasksProps>$(RootDir)/packages/SIL.ReleaseTasks.3.1.1/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
@@ -20,7 +19,6 @@
     <Exec Command='$(NuGetCommand) install SIL.BuildTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
 	<Exec Command='$(NuGetCommand) install SIL.ReleaseTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)"' />
 	<Exec Command='$(NuGetCommand) install SIL.libpalaso.l10ns -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
-	<Exec Command='$(NuGetCommand) install NUnit.Extension.TeamCityEventListener -excludeVersion -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BuildInternal"
       Properties="Configuration=$(Configuration)" Condition="$(RestartBuild)" />
   </Target>
@@ -33,20 +31,12 @@
   <UsingTask TaskName="NUnit3" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
 
   <Target Name="VersionNumbers">
-	<Message Text="BUILD_NUMBER: $(BUILD_NUMBER)" Importance="high"/>
+	<PropertyGroup>
+		<!-- The Version should be set from the outside, if not, set a default value -->
+		<Version Condition="'$(Version)' == ''">$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</Version>
+	</PropertyGroup>
 
-	<Split Input="$(BUILD_NUMBER)" Delimiter="." OutputSubString="2">
-	  <Output TaskParameter="ReturnValue" PropertyName="BuildCounter" />
-	</Split>
-
-	<Message Text="BuildCounter: $(BuildCounter)" Importance="high"/>
-
-	<!-- Note, after some thought, we've decided this is the best place to keep the version number (not on TeamCity, not in the assemblies).     -->
-	<CreateProperty Value="3.7.$(BuildCounter)">
-	  <Output PropertyName="Version" TaskParameter="Value"/>
-	</CreateProperty>
-
-	<Message Text="Version: $(Version)" Importance="high"/>
+		<Message Text="Version: $(Version)" Importance="high"/>
   </Target>
 
   <Import Project="$(SILReleaseTasksProps)" Condition="Exists('$(SILReleaseTasksProps)')" />
@@ -84,7 +74,7 @@
 	<ItemGroup>
 	  <TestAssemblies Include="$(RootDir)/output/release/*Tests.dll;"/>
 	</ItemGroup>
-	<NUnit3 Condition="'$(teamcity_version)' == ''"
+	<NUnit3
 		Assemblies="@(TestAssemblies)"
 		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.20.1/tools"
 		ExcludeCategory="$(excludedCategories)"
@@ -94,15 +84,7 @@
 		OutputXmlFile="$(RootDir)/output/$(Configuration)/TestResults.xml"
 		UseNUnit3Xml = "true"
 		TeamCity="false"/>
-	<NUnit3 Condition="'$(teamcity_version)' != ''"
-		Assemblies="@(TestAssemblies)"
-		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.20.1/tools"
-		ExcludeCategory="SkipOnTeamCity,$(excludedCategories)"
-		WorkingDirectory="$(RootDir)/output/$(Configuration)"
-		Force32Bit="$(useNUnit-x86)"
-		Verbose="true"
-		TeamCity="true"/>
-  </Target>
+	</Target>
 
   <Target Name="UpdateDownloadInfo" DependsOnTargets="VersionNumbers" >
 
@@ -157,8 +139,6 @@
 
 	<!-- remove an existing one with the same name, if necessary -->
 	<Delete Files="$(RootDir)\output\installer\SayMoreInstaller.$(Version).msi" TreatErrorsAsWarnings="false" />
-
-	<Exec Command='sign /d "SayMoreInstaller.$(Version).msi" "$(RootDir)\output\installer\SayMoreInstaller.msi"'></Exec>
 
 	<Copy SourceFiles="$(RootDir)\output\installer\SayMoreInstaller.msi"
 		  DestinationFiles="$(RootDir)\output\installer\SayMoreInstaller.$(Version).msi"

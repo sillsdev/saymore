@@ -37,17 +37,12 @@ jobs:
         env:
           IS_TAG: ${{ startsWith(github.ref, 'refs/tags/v') }}
           REF_NAME: ${{ github.ref_name }}
-          HEAD_COMMIT_TIMESTAMP: ${{ github.event.head_commit && github.event.head_commit.timestamp || '' }}
-          GITHUB_SHA: ${{ github.sha }}
         run: |
           if ($env:IS_TAG -eq 'true') {
-            $version = $env:REF_NAME
-          } elseif (-not [string]::IsNullOrEmpty($env:HEAD_COMMIT_TIMESTAMP)) {
-            $timestamp = [DateTime]::Parse($env:HEAD_COMMIT_TIMESTAMP).ToUniversalTime().ToString("yyyyMMddHHmm")
-            $version = "$timestamp-$($env:GITHUB_SHA)"
+            $version = $env:REF_NAME.TrimStart('v', 'V')
           } else {
-            $timestamp = [DateTime]::UtcNow.ToString("yyyyMMddHHmm")
-            $version = "$timestamp-$($env:GITHUB_SHA)"
+            $commitTimestamp = ([string](git log -1 --format=%cI)).Trim()
+            $version = [DateTime]::Parse($commitTimestamp).ToUniversalTime().ToString("yyyy.MM.dd.HHmm")
           }
 
           "Version=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
@@ -68,7 +63,7 @@ jobs:
         run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /p:Version=$env:Version /m
 
       - name: Run tests
-        run: msbuild build\SayMore.proj /t:Test /p:Configuration=$env:Configuration /p:excludedCategories=SkipOnTeamCity /m
+        run: msbuild build\SayMore.proj /t:Test /p:Configuration=$env:Configuration /p:useNUnit-x86=true /p:excludedCategories=SkipOnTeamCity /m
 
       - name: Upload test results
         if: always()

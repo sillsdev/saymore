@@ -32,8 +32,8 @@
 
   <Target Name="VersionNumbers">
 	<PropertyGroup>
-		<!-- The Version should be set from the outside, if not, set a default value -->
-		<Version Condition="'$(Version)' == ''">$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</Version>
+		<!-- The Version should be set from the outside, if not, set a meaningless default value -->
+		<Version Condition="'$(Version)' == ''">1.0.0.0</Version>
 	</PropertyGroup>
 
 		<Message Text="Version: $(Version)" Importance="high"/>

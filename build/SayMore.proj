@@ -84,6 +84,7 @@
 		OutputXmlFile="$(RootDir)/output/$(Configuration)/TestResults.xml"
 		UseNUnit3Xml = "true"
 		TeamCity="false"/>
+	</Target>
 
   <Target Name="UpdateDownloadInfo" DependsOnTargets="VersionNumbers" >
 

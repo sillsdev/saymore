@@ -43,7 +43,7 @@ jobs:
           vs-version: '[17.0,18.0)'
 
       - name: Build solution
-        run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /m
+        run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /p:Version=$env:Version /m
 
       - name: Run tests
         run: msbuild build\SayMore.proj /t:Test /p:Configuration=$env:Configuration /p:excludedCategories=SkipOnTeamCity /m
@@ -84,7 +84,7 @@ jobs:
           vs-version: '[17.0,18.0)'
 
       - name: Build installer
-        run: msbuild build\SayMore.proj /t:Installer /p:Configuration=$env:Configuration /p:useNUnit-x86=true /m
+        run: msbuild build\SayMore.proj /t:Installer /p:Configuration=$env:Configuration /p:useNUnit-x86=true /p:Version=$env:Version /m
 
       - name: Sign installer
         if: ${{ github.event_name != 'pull_request' }}

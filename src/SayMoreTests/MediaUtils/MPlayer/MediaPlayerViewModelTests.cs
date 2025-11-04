@@ -3,12 +3,11 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using NUnit.Framework;
-using SIL.TestUtilities;
 using SayMore.Media.MPlayer;
-using SayMoreTests.Model.Files;
 using SIL.Reflection;
+using SIL.TestUtilities;
 
-namespace SayMoreTests.Media.MPlayer
+namespace SayMoreTests.MediaUtils.MPlayer
 {
 	/// ----------------------------------------------------------------------------------------
 	[TestFixture]

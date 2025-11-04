@@ -1,13 +1,12 @@
 using System;
-using System.Linq;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
 using NUnit.Framework;
-using SIL.TestUtilities;
 using SayMore.Media;
+using SIL.TestUtilities;
 
-namespace SayMoreTests.Model.Files
+namespace SayMoreTests.MediaUtils
 {
 	[TestFixture]
 	public class MediaFileInfoTests
@@ -70,7 +69,7 @@ namespace SayMoreTests.Model.Files
 			File.Move(path, mediaFilePath);
 
 			var buffer = new byte[stream.Length];
-			stream.Read(buffer, 0, buffer.Length);
+			_ = stream.Read(buffer, 0, buffer.Length);
 			stream.Close();
 			stream.Dispose();
 
@@ -87,9 +86,9 @@ namespace SayMoreTests.Model.Files
 		public static string CreateRecording(string folder)
 		{
 			var buf = new byte[Resources.shortSound.Length];
-			Resources.shortSound.Read(buf, 0, buf.Length);
+			_ = Resources.shortSound.Read(buf, 0, buf.Length);
 			string destination = folder;
-			string wavPath = Path.Combine(destination, Directory.GetFiles(destination).Count() + ".wav");
+			string wavPath = Path.Combine(destination, Directory.GetFiles(destination).Length + ".wav");
 			var f = File.Create(wavPath);
 			f.Write(buf, 0, buf.Length);
 			f.Close();
@@ -105,8 +104,7 @@ namespace SayMoreTests.Model.Files
 			{
 				var recording = CreateRecording(folder.Path);
 				var info = MediaFileInfo.GetInfo(recording);
-				// Depending on which utilit is used to get this information, it can very a
-				// little.
+				// Depending on which utility is used to get this information, it can vary a little.
 				Assert.That(info.Duration.TotalMilliseconds,
 					Is.GreaterThanOrEqualTo(1446d).And.LessThanOrEqualTo(1449d));
 			}

@@ -2,7 +2,7 @@
   <PropertyGroup>
 	<RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
 	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
-	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'==''">3.7.100</BUILD_NUMBER>
+	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'=='' And '$(Version)' == ''">3.7.100</BUILD_NUMBER>
 	<BuildTasksDll Condition="Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll</BuildTasksDll>
 	<BuildTasksDll Condition="!Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks/tools/SIL.BuildTasks.dll</BuildTasksDll>
 	<SILReleaseTasksProps>$(RootDir)/packages/SIL.ReleaseTasks.3.1.1/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
@@ -32,7 +32,7 @@
   <UsingTask TaskName="FileUpdate" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
   <UsingTask TaskName="NUnit3" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
 
-  <Target Name="VersionNumbers">
+  <Target Name="VersionNumbers" Condition="'$(Version)' == ''">
 	<Message Text="BUILD_NUMBER: $(BUILD_NUMBER)" Importance="high"/>
 
 	<Split Input="$(BUILD_NUMBER)" Delimiter="." OutputSubString="2">
@@ -89,7 +89,6 @@
 		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.20.1/tools"
 		ExcludeCategory="$(excludedCategories)"
 		WorkingDirectory="$(RootDir)/output/$(Configuration)"
-		Force32Bit="$(useNUnit-x86)"
 		Verbose="true"
 		OutputXmlFile="$(RootDir)/output/$(Configuration)/TestResults.xml"
 		UseNUnit3Xml = "true"
@@ -99,7 +98,6 @@
 		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.20.1/tools"
 		ExcludeCategory="SkipOnTeamCity,$(excludedCategories)"
 		WorkingDirectory="$(RootDir)/output/$(Configuration)"
-		Force32Bit="$(useNUnit-x86)"
 		Verbose="true"
 		TeamCity="true"/>
   </Target>

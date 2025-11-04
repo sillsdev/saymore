@@ -70,7 +70,7 @@ jobs:
         run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /p:Version=$env:Version /m
 
       - name: Run tests
-        run: msbuild build\SayMore.proj /t:Test /p:Configuration=$env:Configuration /p:useNUnit-x86=true /m
+        run: msbuild build\SayMore.proj /t:Test /p:Configuration=$env:Configuration /p:useNUnit-x86=true /p:excludedCategories=SkipOnCI /m
 
       - name: Upload test results
         if: always()

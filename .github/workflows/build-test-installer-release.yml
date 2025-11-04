@@ -29,7 +29,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0
+          submodules: true
 
       - name: Compute Version
         id: compute_version
@@ -92,7 +92,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0
+          submodules: true
 
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2

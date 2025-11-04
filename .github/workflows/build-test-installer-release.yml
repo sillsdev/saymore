@@ -110,7 +110,7 @@ jobs:
           vs-version: '[17.0,18.0)'
 
       - name: Build installer
-        run: msbuild build\SayMore.proj /t:Installer /p:Configuration=$env:Configuration /p:useNUnit-x86=true /p:Version=$env:Version /m
+        run: msbuild build\SayMore.proj /t:Installer /p:Configuration=$env:Configuration /p:Version=$env:Version /m
 
       - name: Sign installer
         if: ${{ github.event_name != 'pull_request' }}

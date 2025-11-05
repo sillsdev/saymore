@@ -106,7 +106,7 @@ jobs:
         run: nuget restore SayMore.sln
 
       - name: Copy CHM file into DistFiles
-        run: copy "docs\SayMoreHelp.chm" "DistFiles\SayMoreHelp.chm"
+        run: copy "docs\SayMore.chm" "DistFiles\SayMore.chm"
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2

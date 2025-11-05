@@ -33,9 +33,10 @@ jobs:
 
       - name: Compute Version
         id: compute_version
-        working-directory: .
+        #working-directory: ${{ github.workspace }}
         shell: bash
         run: |
+          pwd
           # If this is a tag push and it starts with v, just use it and strip off the v
           if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
             Version="${GITHUB_REF#refs/tags/}"

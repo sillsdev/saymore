@@ -300,7 +300,7 @@ namespace SayMoreTests.Model
 
 		///// ------------------------------------------------------------------------------------
 		//[Test]
-		//[Category("SkipOnTeamCity")]
+		//[Category("SkipOnCI")]
 		//public void SetFilesToArchive_ParticipantFileDoNotExist_DoesNotCrash()
 		//{
 		//    var model = new Mock<ArchivingDlgViewModel>(MockBehavior.Loose, "SayMore", "ddo", "ddo-session", null);

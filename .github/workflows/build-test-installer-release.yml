@@ -36,7 +36,7 @@ jobs:
         #working-directory: ${{ github.workspace }}
         shell: bash
         run: |
-          pwd
+          git describe --tags --match "v*" --abbrev=0 
           # If this is a tag push and it starts with v, just use it and strip off the v
           if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
             Version="${GITHUB_REF#refs/tags/}"

@@ -3,34 +3,32 @@
 	<RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
 	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
 	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'=='' And '$(Version)' == ''">3.7.100</BUILD_NUMBER>
-	<BuildTasksDll Condition="Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll</BuildTasksDll>
-	<BuildTasksDll Condition="!Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks/tools/SIL.BuildTasks.dll</BuildTasksDll>
-	<SILReleaseTasksProps>$(RootDir)/packages/SIL.ReleaseTasks.3.1.1/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
 	<Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-	<RestartBuild Condition="!Exists('$(BuildTasksDll)') Or !Exists('$(SILReleaseTasksProps)')">true</RestartBuild>
-	<RestartBuild Condition="Exists('$(BuildTasksDll)') And Exists('$(SILReleaseTasksProps)')">false</RestartBuild>
+	<NuGetPackageRoot Condition="'$(NuGetPackageRoot)'==''">$(USERPROFILE)\.nuget\packages\</NuGetPackageRoot>
+	<LocalPackagesRoot Condition="'$(LocalPackagesRoot)'==''">$(RootDir)/packages/</LocalPackagesRoot>
+	<BuildTasksFolder>$(LocalPackagesRoot)SIL.BuildTasks/</BuildTasksFolder>
+	<BuildTasksDll>$(BuildTasksFolder)tools/SIL.BuildTasks.dll</BuildTasksDll>
+	<SILReleaseTasksProps>$(NuGetPackageRoot)SIL.ReleaseTasks/3.1.1/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
+	<SILBuildTasksProps>$(BuildTasksFolder)build/SIL.BuildTasks.props</SILBuildTasksProps>
+	<RestartBuild Condition="!Exists('$(BuildTasksDll)')">true</RestartBuild>
+	<RestartBuild Condition="Exists('$(BuildTasksDll)')">false</RestartBuild>
   </PropertyGroup>
 
   <Import Project="../.nuget/NuGet.targets" />
 
-  <Target Name="RestoreLocalPackages" DependsOnTargets="CheckPrerequisites">
+  <Target Name="RestoreLocalPackages">
+    <Message Text="LocalPackagesRoot=$(LocalPackagesRoot)"/>
     <Message Text="BuildTasksDll=$(BuildTasksDll)"/>
 	<Message Text="RestartBuild=$(RestartBuild)"/>
     <Message Text="Configuration=$(Configuration)"/>
-    <Exec Command='$(NuGetCommand) install SIL.BuildTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
-	<Exec Command='$(NuGetCommand) install SIL.ReleaseTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)"' />
-	<Exec Command='$(NuGetCommand) install SIL.libpalaso.l10ns -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
+    <Exec Command='$(NuGetCommand) install SIL.BuildTasks -PreRelease -ExcludeVersion -Source "$(PackageSources)" -OutputDirectory "$(LocalPackagesRoot)"' />
 	<Exec Command='$(NuGetCommand) install NUnit.Extension.TeamCityEventListener -excludeVersion -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BuildInternal"
       Properties="Configuration=$(Configuration)" Condition="$(RestartBuild)" />
   </Target>
 
-  <UsingTask TaskName="StampAssemblies" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
-  <UsingTask TaskName="UpdateBuildTypeFile" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
-  <UsingTask TaskName="MakeWixForDirTree" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
-  <UsingTask TaskName="Split" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
-  <UsingTask TaskName="FileUpdate" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
-  <UsingTask TaskName="NUnit3" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
+  <Import Project="$(SILBuildTasksProps)" Condition="Exists('$(SILBuildTasksProps)')" />
+  <Import Project="$(SILReleaseTasksProps)" Condition="Exists('$(SILReleaseTasksProps)')" />
 
   <Target Name="VersionNumbers" Condition="'$(Version)' == ''">
 	<Message Text="BUILD_NUMBER: $(BUILD_NUMBER)" Importance="high"/>
@@ -49,7 +47,6 @@
 	<Message Text="Version: $(Version)" Importance="high"/>
   </Target>
 
-  <Import Project="$(SILReleaseTasksProps)" Condition="Exists('$(SILReleaseTasksProps)')" />
 
   <Target Name="SetAssemblyVersion" DependsOnTargets="VersionNumbers">
 	  <ItemGroup>
@@ -86,7 +83,7 @@
 	</ItemGroup>
 	<NUnit3 Condition="'$(teamcity_version)' == ''"
 		Assemblies="@(TestAssemblies)"
-		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.20.1/tools"
+		ToolPath="$(NuGetPackageRoot)NUnit.ConsoleRunner.3.20.2/tools"
 		ExcludeCategory="$(excludedCategories)"
 		WorkingDirectory="$(RootDir)/output/$(Configuration)"
 		Verbose="true"
@@ -95,7 +92,7 @@
 		TeamCity="false"/>
 	<NUnit3 Condition="'$(teamcity_version)' != ''"
 		Assemblies="@(TestAssemblies)"
-		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.20.1/tools"
+		ToolPath="$(NuGetPackageRoot)NUnit.ConsoleRunner.3.20.2/tools"
 		ExcludeCategory="SkipOnTeamCity,$(excludedCategories)"
 		WorkingDirectory="$(RootDir)/output/$(Configuration)"
 		Verbose="true"
@@ -194,11 +191,11 @@
   </Target>
   -->
 
-  <Target Name="copyLibL10ns" DependsOnTargets="RestoreLocalPackages">
-	<Error Text="Palaso L10ns package missing. Expected at $(RootDir)/packages/SIL.libpalaso.l10ns"
-		Condition="!Exists('$(RootDir)/packages/SIL.libpalaso.l10ns/SIL.libpalaso.l10ns.nupkg')" />
+  <Target Name="copyLibL10ns">
+	<Error Text="Palaso L10ns package missing. Expected at $(NuGetPackageRoot)SIL.libpalaso.l10ns"
+		Condition="!Exists('$(NuGetPackageRoot)SIL.libpalaso.l10ns/SIL.libpalaso.l10ns.nupkg')" />
 	<ItemGroup>
-		<XliffFiles Include="$(RootDir)/packages/SIL.libpalaso.l10ns/content/**/*.xlf"/>
+		<XliffFiles Include="$(NuGetPackageRoot)SIL.libpalaso.l10ns/content/**/*.xlf"/>
 	</ItemGroup>
 	  <Copy SourceFiles="@(XliffFiles)"
 			DestinationFiles="@(XliffFiles->'$(RootDir)/DistFiles/%(Filename)%(Extension)')"

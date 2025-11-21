@@ -51,8 +51,11 @@
     <PackageReference Include="SIL.Archiving" Version="16.2.0" />
     <PackageReference Include="SIL.Core" Version="16.2.0" />
     <PackageReference Include="SIL.DesktopAnalytics" Version="6.0.2" />
+    <PackageReference Include="SIL.libpalaso.l10ns" Version="16.2.0" />
     <PackageReference Include="SIL.Media" Version="16.2.0" />
-    <PackageReference Include="SIL.ReleaseTasks" Version="3.1.1" />
+    <PackageReference Include="SIL.ReleaseTasks" Version="3.1.1">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="SIL.Windows.Forms" Version="16.2.0" />
     <PackageReference Include="SIL.Windows.Forms.Archiving" Version="16.2.0" />
     <PackageReference Include="SIL.Windows.Forms.Keyboarding" Version="16.2.0" />

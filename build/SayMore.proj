@@ -16,7 +16,7 @@
 
   <Import Project="../.nuget/NuGet.targets" />
 
-  <Target Name="RestoreLocalPackages">
+  <Target Name="RestoreLocalPackages" DependsOnTargets="CheckPrerequisites">
     <Message Text="LocalPackagesRoot=$(LocalPackagesRoot)"/>
     <Message Text="BuildTasksDll=$(BuildTasksDll)"/>
 	<Message Text="RestartBuild=$(RestartBuild)"/>

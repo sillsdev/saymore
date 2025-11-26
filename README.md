@@ -1,4 +1,4 @@
-# SayMore™
+# SayMoreï¿½
 
 SayMore provides an intuitive and enjoyable way to manage language documentation tasks.
 
@@ -22,6 +22,14 @@ Please see [Tips for Testing Palaso Software](https://docs.google.com/document/d
 
 Reports can be entered in https://jira.sil.org/projects/SP/issues. They can be entered there via email by sending to saymore_issues@sil.org.
 
-### Continuous Build System
+## Github Actions CI
+Every PR triggers a build and runs tests.
 
-Each time code is checked in, an automatic build begins on our [TeamCity build server](https://build.palaso.org/project.html?projectId=SayMore&tab=projectOverview), running all the unit tests. This automatic build doesn't publish a new installer, however. That kind of build is launched manually, by pressing a button on the TeamCity page. This "publish" process builds SayMore, makes and installer, rsyncs it to the distribution server, and writes out a little bit of html which the [SayMore download page](https://software.sil.org/saymore/download/) then displays to the user. It also creates a build artifact that enables the SayMore program to check to see whether a newer version is available.
+Every commit on the main branch will produce a signed installer for user testing as desired.  Simply go to the Actions tab and find the Actions run for that commit if you want to download the installer.  The installer is attached to the run artifact.
+
+# Release Process
+To release a new version, just tag a commit on the main branch e.g. v3.7.5
+This will trigger Github Actions to produce a Release with the signed installer attached
+
+# Release TODO
+Implement the "publish" process on TeamCity, which builds SayMore, makes and installer, rsyncs it to the distribution server, and writes out a little bit of html which the [SayMore download page](https://software.sil.org/saymore/download/) then displays to the user. It also creates a build artifact that enables the SayMore program to check to see whether a newer version is available.

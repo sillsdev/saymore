@@ -238,7 +238,7 @@ namespace SayMoreTests.UI.ElementListScreen
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void DeleteComponentFile_PassesGoodFile_RemovesFile()
 		{
 			_model.SetSelectedElement(_model.Elements.ElementAt(1) as Person);

@@ -42,7 +42,7 @@ namespace SayMoreTests.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetFileType_IsText_GivesTextFileType()
 		{
 			var f = CreateComponentFile("abc.txt");
@@ -81,7 +81,7 @@ namespace SayMoreTests.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void MoveToRecycleBin_MoveBothFileAndMetaFile_MovesFiles()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -92,7 +92,7 @@ namespace SayMoreTests.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void MoveToRecycleBin_MissingComponentFile_Fails()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -103,7 +103,7 @@ namespace SayMoreTests.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void MoveToRecycleBin_MissingMetadataFile_FailsButReturnsTrue()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -114,7 +114,7 @@ namespace SayMoreTests.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetFileType_UnknownType_UnknownFileType()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -122,7 +122,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetStringValue_FieldMissing_ReturnsSpecifiedDefault()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -130,7 +130,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetStringValue_FieldIsThere_ReturnsCorrectValue()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -139,7 +139,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetValue_FieldMissing_ReturnsSpecifiedDefault()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -147,7 +147,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetValue_FieldIsThere_ReturnsCorrectValue()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -156,7 +156,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void RenameId_FieldIsThere_Succeeds()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -170,7 +170,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void RenameId_FieldIsThere_OldIdReturnsNothing()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -182,7 +182,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void RenameId_FieldIsThere_NewIdReturnsOldValue()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -194,7 +194,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void RenameId_FieldMissing_ReturnsFalse()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -207,7 +207,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void RenameId_FieldMissing_NewIdReturnsNothing()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -217,7 +217,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void RemoveField_FieldIsThere_RemovesIt()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -229,7 +229,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void RemoveField_FieldIsThere_OldIdReturnsNothing()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -240,7 +240,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void RemoveField_FieldMissing_DoesNothing()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -251,7 +251,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void SetValue_ChangingValue_NewValueOverwritesOld()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -261,7 +261,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetCanHaveAnnotationFile_IsNotMediaFile_ReturnsFalse()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -269,7 +269,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetCanHaveAnnotationFile_IsWaveFile_ReturnsTrue()
 		{
 			var f = CreateAudioComponentFile("abc.wav");
@@ -277,7 +277,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetCanHaveAnnotationFile_IsMp3File_ReturnsTrue()
 		{
 			var f = CreateAudioComponentFile("abc.mp3");
@@ -285,7 +285,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetSuggestedPathToAnnotationFile_IsNotMediaFile_ReturnsNull()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -293,7 +293,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetSuggestedPathToAnnotationFile_FileIsWave_ReturnsFolderPath()
 		{
 			var f = CreateAudioComponentFile("abc.wav");
@@ -303,7 +303,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetSuggestedPathToAnnotationFile_FileIsMp3_ReturnsFolderPath()
 		{
 			var f = CreateAudioComponentFile("abc.mp3");
@@ -313,14 +313,14 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetDoesHaveAnnotationFile_IsNotMediaFile_ReturnsFalse()
 		{
 			Assert.IsFalse(CreateComponentFile("abc.zzz").GetDoesHaveAnnotationFile());
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetDoesHaveAnnotationFile_IsMediaFileButDoesNotHaveEafFile_ReturnsFalse()
 		{
 			var file = CreateAudioComponentFile("abc.mp3");
@@ -333,7 +333,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetDoesHaveAnnotationFile_IsMediaFileAndHasEafFile_ReturnsTrue()
 		{
 			Assert.IsTrue(CreateAudioComponentFile("abc.mp3").GetDoesHaveAnnotationFile());
@@ -341,7 +341,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetSuggestedPathToOralAnnotationFile_FileCanBeAnnotated_ReturnsCorrectPath()
 		{
 			Assert.AreEqual("abc.mp3.oralAnnotations.wav", Path.GetFileName(
@@ -364,7 +364,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetSuggestedPathToAnnotationFile_FileCannotBeAnnotated_ReturnsNull()
 		{
 			var file = CreateAudioComponentFile("abc.pdf");
@@ -372,7 +372,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetSuggestedPathToAnnotationFile_FileCanBeAnnotated_ReturnsCorrectPath()
 		{
 			Assert.AreEqual("abc.mp3.annotations.eaf", Path.GetFileName(
@@ -395,7 +395,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetSuggestedPathToStandardAudioFile_FileCannotBeAnnotated_ReturnsNull()
 		{
 			var file = CreateAudioComponentFile("abc.pdf");
@@ -403,7 +403,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetSuggestedPathToStandardAudioFile_FileCanBeAnnotated_ReturnsCorrectPath()
 		{
 			foreach (var ext in new[] { "mp3", "wav", "wma", "flac" })
@@ -486,7 +486,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetRelevantComponentRoles_ForEvent_ReturnsOnlySessionRoles()
 		{
 			using (var folder = new TemporaryFolder("TestGetRelevantComponentRoles"))
@@ -499,7 +499,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetRelevantComponentRoles_ForPerson_ReturnsOnlyPersonRoles()
 		{
 			using (var folder = new TemporaryFolder("TestGetRelevantComponentRoles"))
@@ -512,7 +512,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetAssignedRoles_NoRoles_ReturnsEmptyEnumerator()
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc.txt");
@@ -520,7 +520,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetAssignedRoles_HasOneRoles_ReturnsThem()
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Source.avi");
@@ -528,7 +528,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetAssignedRoles_ForConsentAndSessionType_ReturnsEmptyEnumerator()
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Consent.txt");
@@ -536,7 +536,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetAssignedRoles_ForConsentAndPersonType_ReturnsThem()
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Consent.txt");
@@ -544,7 +544,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetAssignedRoles_ForTranslation_ReturnCorrectOne()
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Translation.txt");
@@ -552,7 +552,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetAssignedRoles_HasTranslationWIthLanguageTag_ReturnTranslation()
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Translation-xyz.txt");
@@ -560,7 +560,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void IdentifyAsRole_FileRenamed()
 		{
 			var f = CreateComponentFile("abc.txt");

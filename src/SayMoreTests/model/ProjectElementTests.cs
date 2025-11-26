@@ -38,7 +38,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void Save_NewlyCreated_CreatesMetaDataFile()
 		{
 			using (var person = CreatePerson())
@@ -91,7 +91,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void Load_AfterSaveOfFactoryField_PreservesId()
 		{
 			using (var person = CreatePerson())
@@ -108,7 +108,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void Load_AfterSave_ChangesUnknownIdToCustomId()
 		{
 			using (var person = CreatePerson())
@@ -124,7 +124,7 @@ namespace SayMoreTests.Model
 			}
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test][Category("SkipOnCI")]
 		public void GetComponentFiles_AfterCreation_GivesASingleFile()
 		{
 			using (var person = CreatePerson())
@@ -135,7 +135,7 @@ namespace SayMoreTests.Model
 			}
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test][Category("SkipOnCI")]
 		public void GetComponentFiles_SomeFiles_GivesThem()
 		{
 			using (var person = CreatePerson())
@@ -145,7 +145,7 @@ namespace SayMoreTests.Model
 			}
 		}
 
-		[Test][Category("SkipOnTeamCity")]
+		[Test][Category("SkipOnCI")]
 		public void GetFilesToCopy_AllValid_RemovesNone()
 		{
 			using (var fileToAdd1 = new TempFile())
@@ -169,7 +169,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void RemoveInvalidFilesFromProspectiveFilesToAdd_NullInput_ReturnsEmptyList()
 		{
 			using (var person = CreatePerson())
@@ -180,7 +180,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void RemoveInvalidFilesFromProspectiveFilesToAdd_EmptyListInput_ReturnsEmptyList()
 		{
 			using (var person = CreatePerson())
@@ -191,7 +191,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetValidFilesToCopy_ExcludeExistingSomeInvalid_RemovesInvalidFiles()
 		{
 			using (var fileToAdd = new TempFile())
@@ -216,7 +216,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetValidFilesToCopy_IncludeExistingSomeInvalid_RemovesInvalidFiles()
 		{
 			using (var fileToAdd = new TempFile())
@@ -245,7 +245,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void AddComponentFile_SomeFile_AddsIt()
 		{
 			using (var person = CreatePerson())
@@ -263,7 +263,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void AddComponentFiles_SomeFiles_AddsThem()
 		{
 			using (var person = CreatePerson())
@@ -283,7 +283,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void AddComponentFile_FileAlreadyExistsInDest_DoesNotAdd()
 		{
 			using (var person = CreatePerson())
@@ -303,7 +303,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void AddComponentFiles_AtLeastOneFileAlreadyExistsInDest_AddsOneNotOther()
 		{
 			using (var person = CreatePerson())
@@ -329,7 +329,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetNewDefaultElementName_NoClashOnFirstTry_GivesName()
 		{
 			using (var person = CreatePerson())
@@ -339,7 +339,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetNewDefaultElementName_FindsClash_GivesName()
 		{
 			using (var person = CreatePerson())
@@ -351,7 +351,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetShowAsNormalComponentFile_IsElanPrefFile_ReturnsFalse()
 		{
 			using (var person = CreatePerson())
@@ -362,7 +362,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetShowAsNormalComponentFile_HasAnnotationFileExtButNotSuffix_ReturnsTrue()
 		{
 			File.OpenWrite(_parentFolder.Combine("peas.mp3")).Close();
@@ -375,7 +375,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetShowAsNormalComponentFile_HasAnnotationFileExtAndSuffix_ReturnsFalse()
 		{
 			File.OpenWrite(_parentFolder.Combine("corn.mp3")).Close();
@@ -388,7 +388,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetShowAsNormalComponentFile_IsMetaFile_ReturnsFalse()
 		{
 			using (var person = CreatePerson())
@@ -399,7 +399,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetShowAsNormalComponentFile_IsThumbsFile_ReturnsFalse()
 		{
 			using (var person = CreatePerson())
@@ -410,7 +410,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetShowAsNormalComponentFile_IsPersonFile_ReturnsFalse()
 		{
 			using (var person = CreatePerson())
@@ -421,7 +421,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetShowAsNormalComponentFile_IsEventFile_ReturnsFalse()
 		{
 			using (var session = CreateSession())

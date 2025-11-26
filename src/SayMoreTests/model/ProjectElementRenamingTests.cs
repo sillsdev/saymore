@@ -56,7 +56,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void TryChangeIdAndSave_FolderPathUpdated()
 		{
 			var newEvent = CreateSession();
@@ -65,7 +65,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void TryChangeIdAndSave_SettingsFilePathUpdated()
 		{
 			var newEvent = CreateSession();
@@ -74,7 +74,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void TryChangeIdAndSave_FolderRenamed()
 		{
 			var newEvent = CreateSession();
@@ -84,7 +84,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void TryChangeIdAndSave_ElementMetaDataFileRenamed()
 		{
 			var newEvent = CreateSession();
@@ -95,7 +95,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void TryChangeIdAndSave_HasFilesWithOldName_RenamesFiles()
 		{
 			var newEvent = CreateSession();
@@ -106,7 +106,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void TryChangeIdAndSave_NewIdIsEmptyString_ReturnsFalse()
 		{
 			var newEvent = CreateSession();
@@ -114,7 +114,7 @@ namespace SayMoreTests.Model
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void TryChangeIdAndSave_NewIdIsInvalidFolderName_ReturnsFalse()
 		{
 			var newEvent = CreateSession();
@@ -123,7 +123,7 @@ namespace SayMoreTests.Model
 
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void TryChangeIdAndSave_NewIdAlreadyInUse_ReturnsFalse()
 		{
 			var newEvent = CreateSession();

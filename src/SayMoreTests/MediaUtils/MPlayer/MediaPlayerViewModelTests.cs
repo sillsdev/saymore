@@ -75,7 +75,7 @@ namespace SayMoreTests.MediaUtils.MPlayer
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void HandlePlayerOutput_SendEOF_GetsMediaQueuedEvent()
 		{
 			var file = LoadMediaFile();
@@ -239,7 +239,7 @@ namespace SayMoreTests.MediaUtils.MPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[Test][Category("SkipOnTeamCity")]
+		[Test][Category("SkipOnCI")]
 		public void LoadAndPlayFile_FileNameHasAsciiCharacter_Plays()
 		{
 			var pathname = MediaFileInfoTests.GetShortTestAudioFile();
@@ -253,13 +253,12 @@ namespace SayMoreTests.MediaUtils.MPlayer
 				File.Delete(pathname);
 			};
 			_model.Play();
-			while (_model != null)
-				Thread.Sleep(10);
+			Thread.Sleep(3);
 			Assert.IsTrue(logger.GetText().Contains("Starting playback..."));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[Test][Category("SkipOnTeamCity")]
+		[Test][Category("SkipOnCI")]
 		public void LoadAndPlayFile_FileNameHasNonAsciiCharacter_Plays()
 		{
 			var source = MediaFileInfoTests.GetShortTestAudioFile();
@@ -277,15 +276,14 @@ namespace SayMoreTests.MediaUtils.MPlayer
 				File.Delete(pathname);
 			};
 			_model.Play();
-			while (_model != null)
-				Thread.Sleep(10);
+			Thread.Sleep(3);
 			Assert.IsTrue(logger.GetText().Contains("Starting playback..."));
 		}
 
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void LoadAndPlayFile_FolderHasNonAsciiCharacter_Plays()
 		{
 			var source = MediaFileInfoTests.GetShortTestAudioFile();
@@ -306,14 +304,13 @@ namespace SayMoreTests.MediaUtils.MPlayer
 					File.Delete(pathname);
 				};
 				_model.Play();
-				while (_model != null)
-					Thread.Sleep(10);
+				Thread.Sleep(3);
 				Assert.IsTrue(logger.GetText().Contains("Starting playback..."));
 			}
 		}
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void LoadFile_Called_CallsQueuesMediaEvent()
 		{
 			bool eventCalled = false;
@@ -332,7 +329,7 @@ namespace SayMoreTests.MediaUtils.MPlayer
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void LoadFile_Called_MediaInfoAcquired()
 		{
 			Assert.IsNull(_model.MediaInfo);

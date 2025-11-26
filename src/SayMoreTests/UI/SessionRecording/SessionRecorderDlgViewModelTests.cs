@@ -55,7 +55,7 @@ namespace SayMoreTests.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void BeginRecording_AfterConstruction_PutsIntoRecordingState()
 		{
 			_model.BeginRecording();
@@ -67,7 +67,7 @@ namespace SayMoreTests.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void BeginRecording_AfterStoppingPlayBack_PutsIntoRecordingState()
 		{
 			_model.BeginRecording();
@@ -93,7 +93,7 @@ namespace SayMoreTests.UI
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void MoveRecordingToSessionFolder_MovesFile()
 		{
 			_model.BeginRecording();

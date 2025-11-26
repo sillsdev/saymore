@@ -31,7 +31,7 @@ namespace SayMoreTests.Model.Files.DataGathering
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetAllFileData_SomeFiles_NonEmptyList()
 		{
 				WriteTestWav(@"blah blah");
@@ -44,7 +44,7 @@ namespace SayMoreTests.Model.Files.DataGathering
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetData_FileRenamed_RemovesOldGivesNew()
 		{
 			var source = WriteTestWav(@"first");
@@ -64,7 +64,7 @@ namespace SayMoreTests.Model.Files.DataGathering
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void GetData_LinuxHiddenFile_FileNotReturned()
 		{
 			var hiddenFile = WriteLinuxHidden(".DS_Store", "DS_Store file");
@@ -79,7 +79,7 @@ namespace SayMoreTests.Model.Files.DataGathering
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void Start_OneRelevantFileExists_FiresNewDataAvailableEvent()
 		{
 			WriteTestWav(@"first");
@@ -93,7 +93,7 @@ namespace SayMoreTests.Model.Files.DataGathering
 		}
 
 		[Test]
-		[Category("SkipOnTeamCity")]
+		[Category("SkipOnCI")]
 		public void Background_FileOverwritten_FiresNewDataAvailableEvent()
 		{
 			WriteTestWav(@"first");

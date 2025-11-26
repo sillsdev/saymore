@@ -1,9 +1,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<RootDir Condition="'$(teamcity_version)' == ''">$(MSBuildProjectDirectory)\..</RootDir>
-	<RootDir Condition="'$(teamcity_version)' != ''">$(teamcity_build_checkoutDir)</RootDir>
-	<BUILD_NUMBER Condition="'$(BUILD_NUMBER)'=='' And '$(Version)' == ''">3.8.1000</BUILD_NUMBER>
-	<IgnoreSigningErrors Condition="'$(IgnoreSigningErrors)'==''">false</IgnoreSigningErrors>
+	<IsTeamCityBuild>false</IsTeamCityBuild>
+	<IsTeamCityBuild Condition="'$(teamcity_version)' != ''">true</IsTeamCityBuild>
+	<RootDir>$(MSBuildProjectDirectory)\..</RootDir>
+	<RootDir Condition="'$(GITHUB_WORKSPACE)' != ''">$(GITHUB_WORKSPACE)</RootDir>
 	<Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
 	<OutputRootDir>$(RootDir)\output\</OutputRootDir>
 	<InstallerOutputDir>$(OutputRootDir)installer\</InstallerOutputDir>
@@ -28,7 +28,6 @@
 	<Message Text="RestartBuild=$(RestartBuild)"/>
     <Message Text="Configuration=$(Configuration)"/>
     <Exec Command='$(NuGetCommand) install SIL.BuildTasks -PreRelease -ExcludeVersion -Source "$(PackageSources)" -OutputDirectory "$(LocalPackagesRoot)"' />
-	<Exec Command='$(NuGetCommand) install NUnit.Extension.TeamCityEventListener -excludeVersion -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BuildInternal"
       Properties="Configuration=$(Configuration)" Condition="$(RestartBuild)" />
   </Target>
@@ -37,27 +36,11 @@
   <Import Project="$(SILReleaseTasksProps)" Condition="Exists('$(SILReleaseTasksProps)')" />
 
   <Target Name="VersionNumbers" Condition="'$(Version)' == ''">
-	<Message Text="BUILD_NUMBER: $(BUILD_NUMBER)" Importance="high"/>
-
-	<Split Input="$(BUILD_NUMBER)" Delimiter="." OutputSubString="0">
-	  <Output TaskParameter="ReturnValue" PropertyName="MajorVersion" />
-	</Split>
-	<Split Input="$(BUILD_NUMBER)" Delimiter="." OutputSubString="1">
-	  <Output TaskParameter="ReturnValue" PropertyName="MinorVersion" />
-	</Split>
-	<Split Input="$(BUILD_NUMBER)" Delimiter="." OutputSubString="2">
-	  <Output TaskParameter="ReturnValue" PropertyName="BuildCounter" />
-	</Split>
-
-	<Message Text="BuildCounter: $(BuildCounter)" Importance="high"/>
-
-	<!-- The version now comes from the build environment. -->
-	<CreateProperty Value="$(MajorVersion).$(MinorVersion).$(BuildCounter)">
-	  <Output PropertyName="Version" TaskParameter="Value"/>
-	</CreateProperty>
-	<CreateProperty Value="$(InstallerOutputDir)SayMoreInstaller.$(Version).msi">
-	  <Output PropertyName="VersionedMsi" TaskParameter="Value"/>
-	</CreateProperty>
+	<PropertyGroup>
+		<!-- The Version should be set from the outside, if not, set a meaningless default value -->
+		<Version Condition="'$(Version)' == ''">1.0.0.0</Version>
+		<VersionedMsi>$(InstallerOutputDir)SayMoreInstaller.$(Version).msi</VersionedMsi>
+	</PropertyGroup>
 
 	<Message Text="Version: $(Version)" Importance="high"/>
   </Target>
@@ -96,7 +79,7 @@
 	<ItemGroup>
 	  <TestAssemblies Include="$(BuildOutputDir)*Tests.dll;"/>
 	</ItemGroup>
-	<NUnit3 Condition="'$(teamcity_version)' == ''"
+	<NUnit3
 		Assemblies="@(TestAssemblies)"
 		ToolPath="$(NuGetPackageRoot)NUnit.ConsoleRunner\3.20.2\tools"
 		ExcludeCategory="$(excludedCategories)"
@@ -104,15 +87,8 @@
 		Verbose="true"
 		OutputXmlFile="$(BuildOutputDir)TestResults.xml"
 		UseNUnit3Xml = "true"
-		TeamCity="false"/>
-	<NUnit3 Condition="'$(teamcity_version)' != ''"
-		Assemblies="@(TestAssemblies)"
-		ToolPath="$(NuGetPackageRoot)NUnit.ConsoleRunner\3.20.2\tools"
-		ExcludeCategory="SkipOnTeamCity,$(excludedCategories)"
-		WorkingDirectory="$(BuildOutputDir)"
-		Verbose="true"
-		TeamCity="true"/>
-  </Target>
+		TeamCity="$(IsTeamCityBuild)"/>
+	</Target>
 
   <Target Name="UpdateDownloadInfo" DependsOnTargets="VersionNumbers" >
 
@@ -159,7 +135,7 @@
 		changing of the script, but I haven't figured that out. -->
 
 	<FileUpdate File="$(RootDir)\src\Installer\Installer.wxs" Regex='Property_ProductVersion = ".*"'
-				ReplacementText ="Property_ProductVersion = &quot;$(Version)&quot;" />
+			ReplacementText ="Property_ProductVersion = &quot;$(Version)&quot;" />
 
 	<Message Text="Making Installer Version: $(Version)" Importance="high"  />
 
@@ -167,14 +143,28 @@
 	    Projects="$(RootDir)\src\Installer\Installer.wixproj"
 		Properties="Configuration=$(Configuration)"
 	/>
-
-	<!-- remove an existing one with the same name, if necessary -->
+	
+	<!-- remove an existing one with the same name (potentially needed for repeated local builds with same version number. -->
 	<Delete Files="$(VersionedMsi)" TreatErrorsAsWarnings="false" />
 
+	<PropertyGroup>
+		<InstallerSourceMsi>$(InstallerOutputDir)SayMoreInstaller.msi</InstallerSourceMsi>
+		<InstallerSourceMsi Condition="!Exists('$(InstallerSourceMsi)')">$(RootDir)\src\Installer\bin\$(Configuration)\SayMoreInstaller.msi</InstallerSourceMsi>
+		<InstallerSourceMsi Condition="!Exists('$(InstallerSourceMsi)')">$(RootDir)\src\Installer\bin\$(Configuration)\en-us\SayMoreInstaller.msi</InstallerSourceMsi>
+	</PropertyGroup>
+	<!-- Helpful debug -->
+	<Message Text="Looking for MSI at: $(InstallerSourceMsi)" Importance="high" />
+
+	<!-- Guard with an explicit error if it's missing -->
+	<Error
+		Text="Expected MSI not found at $(InstallerSourceMsi)."
+		Condition="!Exists('$(InstallerSourceMsi)')" />
+
+	<!-- Copy + rename with version -->
 	<Copy SourceFiles="$(InstallerOutputDir)SayMoreInstaller.msi"
 		  DestinationFiles="$(VersionedMsi)"
 		  />
-		  
+
 	<!-- appcast.xml is used as part of the update notification system -->
 	<Copy SourceFiles ="$(RootDir)\src\Installer\appcast.xml"
 		DestinationFolder ="$(OutputRootDir)installer"/>
@@ -185,15 +175,6 @@
 
 	<!-- remove the installer which has no version number (wouldn't need this if the copy above was a move, instead) -->
 	<Delete Files="$(InstallerOutputDir)SayMoreInstaller.msi" TreatErrorsAsWarnings="false" />
-
-	<Exec Command='sign /d "SayMoreInstaller.$(Version).msi" "$(VersionedMsi)"'
-		  Condition="'$(IgnoreSigningErrors)' != 'true'"
-		  ContinueOnError="false" />
-
-	<Exec Command='sign /d "SayMoreInstaller.$(Version).msi" "$(VersionedMsi)"'
-		  Condition="'$(IgnoreSigningErrors)' == 'true'"
-		  ContinueOnError="true" />
-
   </Target>
 
   <Target Name="copyLibL10ns">
@@ -203,12 +184,12 @@
 		<XliffFiles Include="$(PalasoL10nsRootDir)/content/**/*.xlf"/>
 	</ItemGroup>
 	  <Copy SourceFiles="@(XliffFiles)"
-			DestinationFiles="@(XliffFiles->'$(RootDir)/DistFiles/%(Filename)%(Extension)')"
-			SkipUnchangedFiles="true"/>
+		DestinationFiles="@(XliffFiles->'$(RootDir)/DistFiles/%(Filename)%(Extension)')"
+		SkipUnchangedFiles="true"/>
   </Target>
 
   <Target Name="MakeWixForDistFiles" DependsOnTargets="copyLibL10ns">
-	<MakeDir ContinueOnError ="true" Directories ="$(InstallerOutputDir)"/>
+	<MakeDir ContinueOnError="true" Directories="$(InstallerOutputDir)"/>
 	
 	<MakeWixForDirTree
 		DirectoryReferenceId="ProgramDir"
@@ -218,7 +199,7 @@
 		InstallerSourceDirectory="$(RootDir)\src\installer"
 		MatchRegExPattern=".*"
 		SetWin64="true"
-		>
-	</MakeWixForDirTree>
+		/>
+
   </Target>
 </Project>

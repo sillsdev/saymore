@@ -97,7 +97,7 @@ namespace SayMoreTests.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
-		[NUnit.Framework.Category("SkipOnTeamCity")]
+		[NUnit.Framework.Category("SkipOnCI")]
 		[NonParallelizable]
 		public void Application_WalkThrough_DoesNotCrash()
 		{
@@ -220,7 +220,7 @@ namespace SayMoreTests.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
-		[NUnit.Framework.Category("SkipOnTeamCity")]
+		[NUnit.Framework.Category("SkipOnCI")]
 		[NonParallelizable]
 		public void Application_CreateProject_DoesNotCrash()
 		{

@@ -1,0 +1,142 @@
+name: Build Test Installer Release
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+  actions: read
+  checks: write
+
+env:
+  Configuration: Release
+
+jobs:
+  build_test:
+    name: Build Test Installer Release
+    runs-on: windows-latest
+    outputs:
+      version: ${{ steps.compute_version.outputs.version }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-tags: true
+          fetch-depth: 0
+          submodules: true
+
+      - name: Compute Version
+        id: compute_version
+        #working-directory: ${{ github.workspace }}
+        shell: bash
+        run: |
+          git describe --tags --match "v*" --abbrev=0 || echo "No existing tag found"
+          # If this is a tag push and it starts with v, just use it and strip off the v
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            Version="${GITHUB_REF#refs/tags/}"
+            Version="${Version#v}"
+            echo "version=$Version" >> $GITHUB_OUTPUT
+            echo "detected tag push: $Version"
+            exit 0
+          fi
+
+          # Otherwise find the latest tag that starts with v
+          LAST_TAG=$(git describe --tags --match "v*" --abbrev=0 2>/dev/null || echo "v0.0.0")
+
+          # Compute a build number based on number of commits since that tag
+          COMMITS_SINCE_TAG=$(git rev-list ${LAST_TAG}..HEAD --count)
+
+          # Final version: X.Y.Z (stripped off the v)
+          Version="${LAST_TAG#v}.${COMMITS_SINCE_TAG}"
+          echo "version=$Version" >> $GITHUB_OUTPUT
+          echo "no tag push; using $Version"
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore SayMore.sln
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: '[17.0,18.0)'
+
+      - name: Build
+        run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /p:Version=$env:Version /m
+
+      - name: Run Tests
+        run: msbuild build\SayMore.proj /t:Test /p:Configuration=$env:Configuration /p:useNUnit-x86=true /p:excludedCategories=SkipOnCI /m
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: saymore-test-results
+          if-no-files-found: warn
+          path: output/${{ env.Configuration }}/TestResults.xml
+
+      - name: Copy CHM file into DistFiles
+        run: copy "docs\SayMore.chm" "DistFiles\SayMore.chm"
+
+      - name: Create HTML release notes
+        run: msbuild build\SayMore.proj /t:ConvertReleaseNotesToHtml /p:Version=$env:Version /m
+
+      - name: Build installer
+        if: ${{ github.event_name != 'pull_request' }}
+        run: msbuild build\SayMore.proj /t:Installer /p:Configuration=$env:Configuration /p:Version=$env:Version /m
+
+      - name: Sign installer
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: sillsdev/codesign/trusted-signing-action@v3
+        with:
+          credentials: ${{ secrets.TRUSTED_SIGNING_CREDENTIALS }}
+          files-folder: output/installer
+          files-folder-filter: SayMoreInstaller*.msi
+
+      - name: Upload installer artifacts
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: saymore-installer
+          if-no-files-found: error
+          path: |
+            output/installer/SayMoreInstaller*.msi
+            output/installer/*.download_info
+            output/installer/appcast.xml
+            output/releasenotes.download_info
+            output/ReleaseNotes.htm
+
+      - name: Create release
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            output/installer/SayMoreInstaller*.msi
+            output/installer/*.download_info
+            output/installer/appcast.xml
+            output/releasenotes.download_info
+            output/ReleaseNotes.htm
+          draft: true
+          generate_release_notes: true
+  report:
+    name: Test Report
+    needs: build_test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: dorny/test-reporter@v2
+      with:
+        artifact: saymore-test-results
+        name: NUnit Tests
+        path: '*.xml'
+        reporter: dotnet-nunit

@@ -1,6 +1,8 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+	<OutputPath>..\..\output\installer\</OutputPath>
+	<IntermediateOutputPath>output\wixobj\$(Configuration)</IntermediateOutputPath>
 	<ProductVersion>3.0</ProductVersion>
 	<ProjectGuid>{be2c52bc-6b66-4f8b-8b50-2cba58a8027d}</ProjectGuid>
 	<SchemaVersion>2.0</SchemaVersion>
@@ -9,8 +11,6 @@
 	<DefineSolutionProperties>false</DefineSolutionProperties>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-	<OutputPath>..\..\output\installer\</OutputPath>
-	<IntermediateOutputPath>output\wixobj\debug</IntermediateOutputPath>
 	<DefineConstants>Debug</DefineConstants>
 	<AllowIdenticalRows>False</AllowIdenticalRows>
 	<CabinetCachePath>
@@ -52,13 +52,6 @@
 	</SuppressSpecificWarnings>
 	<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
 	<VerboseOutput>False</VerboseOutput>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-	<OutputPath>bin\Release\</OutputPath>
-	<IntermediateOutputPath>obj\Release\</IntermediateOutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-	<OutputPath>..\..\output\installer\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
 	<Compile Include="Installer.wxs" />

@@ -7,7 +7,7 @@ REM ELSE SET msbuildpath=MSbuild
 REM %msbuildpath% /target:installer /property:teamcity_build_checkoutDir=..\ /verbosity:detailed /property:teamcity_dotnet_nunitlauncher_msbuild_task="notthere" /property:BUILD_NUMBER="*.*.6.789" /property:Configuration=Release"
 dotnet restore ..\SayMore.sln
 msbuild /target:Build /property:teamcity_build_checkoutDir=..\ /verbosity:detailed
-REM msbuild /target:ConvertReleaseNotesToHtml;installer /property:teamcity_build_checkoutDir=..\ /verbosity:detailed
+msbuild /target:ConvertReleaseNotesToHtml;installer /property:teamcity_build_checkoutDir=..\ /property:IgnoreSigningErrors=true /verbosity:detailed
 popd
 GOTO pauseforusertoseeoutput
 

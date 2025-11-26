@@ -45,4 +45,23 @@
   <File Id="ProgramDir.Palaso.tp.xlf" Guid="41410018-4111-4e40-bd04-167286cac3a1" />
   <File Id="ProgramDir.Palaso.ur.xlf" Guid="a44696ec-0097-42a8-ac3f-2f8b78d47504" />
   <File Id="ProgramDir.Palaso.vi.xlf" Guid="ba610d1a-709c-4e27-814b-bbb5cd93c62a" />
+  <File Id="ProgramDir.Palaso.am.xlf" Guid="d77316ca-03ef-4a9c-8149-58e43884b34e" />
+  <File Id="ProgramDir.Palaso.en.xlf" Guid="9fa8a730-1091-41e7-a451-6471e96fcbff" />
+  <File Id="ProgramDir.Palaso.fuc.xlf" Guid="4857600d-a33a-44a7-93d4-88ba38221899" />
+  <File Id="ProgramDir.Palaso.ha.xlf" Guid="d0ab2f91-aaff-42bb-97db-7ba524cf6764" />
+  <File Id="ProgramDir.Palaso.ksw.xlf" Guid="19f0c1d8-5d7b-4381-8ea3-47ba4ebd49d1" />
+  <File Id="ProgramDir.Palaso.kw.xlf" Guid="49537601-8582-4091-a359-4706e53db821" />
+  <File Id="ProgramDir.Palaso.ky.xlf" Guid="278f0566-f59d-468e-97fc-1bb360708b76" />
+  <File Id="ProgramDir.Palaso.lo.xlf" Guid="fb96674f-7008-4397-886e-555d236e37a8" />
+  <File Id="ProgramDir.Palaso.mam.xlf" Guid="151fe135-cc18-465e-a57d-dc62f3299b45" />
+  <File Id="ProgramDir.Palaso.nl.xlf" Guid="7dbf9d9e-0ebc-47b9-a384-2e15b20c6884" />
+  <File Id="ProgramDir.Palaso.pbu.xlf" Guid="f2c69f47-fab4-4347-aafc-a22b95c7d95c" />
+  <File Id="ProgramDir.Palaso.prs.xlf" Guid="0db58d27-d93e-449d-960f-44233abb011b" />
+  <File Id="ProgramDir.Palaso.qaa.xlf" Guid="fb352192-ed50-4833-9385-480359e33135" />
+  <File Id="ProgramDir.Palaso.quc.xlf" Guid="86089378-a5a1-4ccd-85c3-b4b341891ddf" />
+  <File Id="ProgramDir.Palaso.tg.xlf" Guid="705feebb-4db1-4746-97da-60d086299275" />
+  <File Id="ProgramDir.Palaso.tl.xlf" Guid="986fff40-57fe-40f4-9865-cca11b905f87" />
+  <File Id="ProgramDir.Palaso.tpi.xlf" Guid="b1d6419e-d656-4c67-aaa4-b7cea9efcc2a" />
+  <File Id="ProgramDir.Palaso.uz.xlf" Guid="f440f103-a94c-4778-bdb5-0b2b577a830a" />
+  <File Id="ProgramDir.Palaso.yua.xlf" Guid="6ca95719-b4f8-4f55-8581-c59eaf73c3d7" />
 </InstallerMetadata>

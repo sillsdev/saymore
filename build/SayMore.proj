@@ -4,6 +4,8 @@
 	<IsTeamCityBuild Condition="'$(teamcity_version)' != ''">true</IsTeamCityBuild>
 	<RootDir>$(MSBuildProjectDirectory)\..</RootDir>
 	<RootDir Condition="'$(GITHUB_WORKSPACE)' != ''">$(GITHUB_WORKSPACE)</RootDir>
+	<!-- The Version should be set from the outside, if not, set a meaningless default value -->
+	<Version Condition="'$(Version)' == ''">1.0.0</Version>
 	<Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
 	<OutputRootDir>$(RootDir)\output\</OutputRootDir>
 	<InstallerOutputDir>$(OutputRootDir)installer\</InstallerOutputDir>
@@ -35,33 +37,30 @@
   <Import Project="$(SILBuildTasksProps)" Condition="Exists('$(SILBuildTasksProps)')" />
   <Import Project="$(SILReleaseTasksProps)" Condition="Exists('$(SILReleaseTasksProps)')" />
 
-  <Target Name="VersionNumbers" Condition="'$(Version)' == ''">
+  <Target Name="VersionNumber" Condition="'$(Version)' == ''">
 	<PropertyGroup>
-		<!-- The Version should be set from the outside, if not, set a meaningless default value -->
-		<Version Condition="'$(Version)' == ''">1.0.0.0</Version>
-		<VersionedMsi>$(InstallerOutputDir)SayMoreInstaller.$(Version).msi</VersionedMsi>
+	  <Version>1.0.0</Version>
 	</PropertyGroup>
 
 	<Message Text="Version: $(Version)" Importance="high"/>
   </Target>
 
+  <Target Name="SetAssemblyVersion" DependsOnTargets="VersionNumber">
+	<ItemGroup>
+	  <AssemblyInfoFiles Include="$(RootDir)/src/**/assemblyinfo.cs"/>
+	</ItemGroup>
+	<StampAssemblies Version="$(Version)" InputAssemblyPaths="@(AssemblyInfoFiles)" />
+  </Target>
 
-  <Target Name="SetAssemblyVersion" DependsOnTargets="VersionNumbers">
-	  <ItemGroup>
-		<AssemblyInfoFiles Include="$(RootDir)/src/**/assemblyinfo.cs"/>
-	  </ItemGroup>
-	  <StampAssemblies Version="$(Version)" InputAssemblyPaths="@(AssemblyInfoFiles)" />
-	</Target>
+  <Target Name="SetBuildType" DependsOnTargets="VersionNumber">
 
-  <Target Name="SetBuildType" DependsOnTargets="VersionNumbers">
+	<Message Text="RELEASE_TYPE: $(RELEASE_TYPE)" Importance="high"/>
 
-	  <Message Text="RELEASE_TYPE: $(RELEASE_TYPE)" Importance="high"/>
-
-	  <ItemGroup>
+	<ItemGroup>
 		<BuildTypeFiles Include="$(RootDir)/src/**/BuildType.cs"/>
-	  </ItemGroup>
-	  <UpdateBuildTypeFile BuildType="$(RELEASE_TYPE)" BuildTypePaths="@(BuildTypeFiles)" />
-	</Target>
+	</ItemGroup>
+	<UpdateBuildTypeFile BuildType="$(RELEASE_TYPE)" BuildTypePaths="@(BuildTypeFiles)" />
+  </Target>
 
   <Target Name="Build">
 	<CallTarget Targets="RestoreLocalPackages"/>
@@ -90,7 +89,7 @@
 		TeamCity="$(IsTeamCityBuild)"/>
 	</Target>
 
-  <Target Name="UpdateDownloadInfo" DependsOnTargets="VersionNumbers" >
+  <Target Name="UpdateDownloadInfo" DependsOnTargets="VersionNumber" >
 
 	<!-- copy download info files so we aren't modifying the originals,
 		which then is a pain on dev machines -->
@@ -120,7 +119,7 @@
 	                          HtmlFile="$(OutputRootDir)ReleaseNotes.htm" />
   </Target>
   
-  <Target Name="UpdateReleaseNotes" DependsOnTargets="VersionNumbers">
+  <Target Name="UpdateReleaseNotes" DependsOnTargets="VersionNumber">
 	<FileUpdate
 		File="$(RootDir)/DistFiles/ReleaseNotes.md"
 		DatePlaceHolder='_DATE_'
@@ -129,7 +128,7 @@
 		ReplacementText="$(Version)" />
   </Target>
 
-  <Target Name="Installer" DependsOnTargets="VersionNumbers; UpdateDownloadInfo; MakeWixForDistFiles; Build ">
+  <Target Name="Installer" DependsOnTargets="UpdateDownloadInfo; MakeWixForDistFiles; Build ">
 
 	<!-- set the version number in the installer configuration program.  Perhaps there's a way to just send in the variables rather than this brute-force
 		changing of the script, but I haven't figured that out. -->
@@ -144,16 +143,18 @@
 		Properties="Configuration=$(Configuration)"
 	/>
 	
-	<!-- remove an existing one with the same name (potentially needed for repeated local builds with same version number. -->
-	<Delete Files="$(VersionedMsi)" TreatErrorsAsWarnings="false" />
-
 	<PropertyGroup>
-		<InstallerSourceMsi>$(InstallerOutputDir)SayMoreInstaller.msi</InstallerSourceMsi>
-		<InstallerSourceMsi Condition="!Exists('$(InstallerSourceMsi)')">$(RootDir)\src\Installer\bin\$(Configuration)\SayMoreInstaller.msi</InstallerSourceMsi>
-		<InstallerSourceMsi Condition="!Exists('$(InstallerSourceMsi)')">$(RootDir)\src\Installer\bin\$(Configuration)\en-us\SayMoreInstaller.msi</InstallerSourceMsi>
+	  <InstallerSourceMsi>$(InstallerOutputDir)SayMoreInstaller.msi</InstallerSourceMsi>
+	  <InstallerSourceMsi Condition="!Exists('$(InstallerSourceMsi)')">$(RootDir)\src\Installer\bin\$(Configuration)\SayMoreInstaller.msi</InstallerSourceMsi>
+	  <InstallerSourceMsi Condition="!Exists('$(InstallerSourceMsi)')">$(RootDir)\src\Installer\bin\$(Configuration)\en-us\SayMoreInstaller.msi</InstallerSourceMsi>
+	  <VersionedMsi>$(InstallerOutputDir)SayMoreInstaller.$(Version).msi</VersionedMsi>
 	</PropertyGroup>
 	<!-- Helpful debug -->
 	<Message Text="Looking for MSI at: $(InstallerSourceMsi)" Importance="high" />
+	<Message Text="VersionedMsi: $(VersionedMsi)" Importance="high"/>
+	
+	<!-- remove an existing one with the same name (potentially needed for repeated local builds with same version number. -->
+	<Delete Files="$(VersionedMsi)" TreatErrorsAsWarnings="false" />
 
 	<!-- Guard with an explicit error if it's missing -->
 	<Error

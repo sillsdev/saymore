@@ -9,7 +9,7 @@
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <OutputRootDir>$(RootDir)\output\</OutputRootDir>
     <InstallerOutputDir>$(OutputRootDir)installer\</InstallerOutputDir>
-    <BuildOutputDir>$(OutputRootDir)\x64\$(Configuration)\net48\</BuildOutputDir>
+    <BuildOutputDir>$(OutputRootDir)x64\$(Configuration)\net48\</BuildOutputDir>
     <NuGetPackageRoot Condition="'$(NuGetPackageRoot)'==''">$(USERPROFILE)\.nuget\packages\</NuGetPackageRoot>
     <LocalPackagesRoot Condition="'$(LocalPackagesRoot)'==''">$(RootDir)/packages/</LocalPackagesRoot>
     <PalasoL10nsVersion>16.2.0</PalasoL10nsVersion>

@@ -84,7 +84,7 @@ jobs:
         with:
           name: saymore-test-results
           if-no-files-found: warn
-          path: output/${{ env.Configuration }}/TestResults.xml
+          path: output/x64/${{ env.Configuration }}/net48/TestResults.xml
 
       - name: Copy CHM file into DistFiles
         run: copy "docs\SayMore.chm" "DistFiles\SayMore.chm"

@@ -1,4 +1,4 @@
-# SayMore�
+# SayMore™
 
 SayMore provides an intuitive and enjoyable way to manage language documentation tasks.
 
@@ -18,6 +18,10 @@ Please see [Tips for Testing Palaso Software](https://docs.google.com/document/d
 1. Ensure you have Nuget
 1. Building the solution should automatically pull down the nuget dependencies.
 
+### Local Installer Build
+The process of building a SayMore installer involves some build steps that are defined in build/SayMore.proj, so it must be built using MSBuild. This involves multiple steps, so the easiest way is to run build/TestInstallerBuild.bat. This batch file should be maintained to keep it in sync with any changes to the overall build process. Note that during the Installer build, a few source files are updated (stamped with the version number and/or date), so these should be reverted after a test build of the installer. Committing and pushing these changes will break the ability of the CI build to correctly set the version number!
+
+
 ### Bug Reports
 
 Reports can be entered in https://jira.sil.org/projects/SP/issues. They can be entered there via email by sending to saymore_issues@sil.org.
@@ -32,4 +36,4 @@ To release a new version, just tag a commit on the main branch e.g. v3.7.5
 This will trigger Github Actions to produce a Release with the signed installer attached
 
 # Release TODO
-Implement the "publish" process on TeamCity, which builds SayMore, makes and installer, rsyncs it to the distribution server, and writes out a little bit of html which the [SayMore download page](https://software.sil.org/saymore/download/) then displays to the user. It also creates a build artifact that enables the SayMore program to check to see whether a newer version is available.
+Implement the "publish" process in GHA (currently working only on TeamCity), which builds SayMore, makes and installer, rsyncs it to the distribution server, and writes out a little bit of html which the [SayMore download page](https://software.sil.org/saymore/download/) then displays to the user. It also creates a build artifact that enables the SayMore program to check to see whether a newer version is available.

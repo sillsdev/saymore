@@ -2,25 +2,26 @@ using System;
 using System.IO;
 using System.Text;
 using System.Threading;
+using L10NSharp;
 using NUnit.Framework;
-using SIL.TestUtilities;
 using SayMore.Media.MPlayer;
-using SayMoreTests.Model.Files;
 using SIL.Reflection;
+using SIL.TestUtilities;
 
-namespace SayMoreTests.Media.MPlayer
+namespace SayMoreTests.MediaUtils.MPlayer
 {
 	/// ----------------------------------------------------------------------------------------
 	[TestFixture]
 	public class MediaPlayerViewModelTests
 	{
-		MediaPlayerViewModel _model;
-		MemoryStream _stream;
+		private MediaPlayerViewModel _model;
+		private MemoryStream _stream;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void Setup()
 		{
+			LocalizationManager.StrictInitializationMode = false;
 			_model = new MediaPlayerViewModel();
 			_stream = new MemoryStream();
 			_model.SetStdInForTest(new StreamWriter(_stream));

@@ -5,7 +5,7 @@ using SIL.TestUtilities;
 using SayMore.Media;
 using SayMore.Media.FFmpeg;
 using SayMore.UI;
-using SayMoreTests.Model.Files;
+using SayMoreTests.MediaUtils;
 
 namespace SayMoreTests.UI
 {

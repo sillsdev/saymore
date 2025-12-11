@@ -1,66 +1,86 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<RootDir>$(MSBuildProjectDirectory)\..</RootDir>
-	<RootDir Condition="'$(GITHUB_WORKSPACE)' != ''">$(GITHUB_WORKSPACE)</RootDir>
-	<BuildTasksDll Condition="Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll</BuildTasksDll>
-	<BuildTasksDll Condition="!Exists('$(RootDir)/packages/SIL.BuildTasks.3.1.1/tools/SIL.BuildTasks.dll')">$(RootDir)/packages/SIL.BuildTasks/tools/SIL.BuildTasks.dll</BuildTasksDll>
-	<SILReleaseTasksProps>$(RootDir)/packages/SIL.ReleaseTasks.3.1.1/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
-	<Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-	<RestartBuild Condition="!Exists('$(BuildTasksDll)') Or !Exists('$(SILReleaseTasksProps)')">true</RestartBuild>
-	<RestartBuild Condition="Exists('$(BuildTasksDll)') And Exists('$(SILReleaseTasksProps)')">false</RestartBuild>
+    <IsTeamCityBuild>false</IsTeamCityBuild>
+    <IsTeamCityBuild Condition="'$(teamcity_version)' != ''">true</IsTeamCityBuild>
+    <RootDir>$(MSBuildProjectDirectory)\..</RootDir>
+    <RootDir Condition="'$(GITHUB_WORKSPACE)' != ''">$(GITHUB_WORKSPACE)</RootDir>
+    <!-- The Version should be set from the outside, if not, set a meaningless default value -->
+    <Version Condition="'$(Version)' == ''">1.0.0</Version>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <OutputRootDir>$(RootDir)\output\</OutputRootDir>
+    <InstallerOutputDir>$(OutputRootDir)installer\</InstallerOutputDir>
+    <BuildOutputDir>$(OutputRootDir)x64\$(Configuration)\net48\</BuildOutputDir>
+    <NuGetPackageRoot Condition="'$(NuGetPackageRoot)'==''">$(USERPROFILE)\.nuget\packages\</NuGetPackageRoot>
+    <LocalPackagesRoot Condition="'$(LocalPackagesRoot)'==''">$(RootDir)/packages/</LocalPackagesRoot>
+    <PalasoL10nsVersion>16.2.0</PalasoL10nsVersion>
+    <PalasoL10nsRootDir>$(NuGetPackageRoot)SIL.libpalaso.l10ns/$(PalasoL10nsVersion)/</PalasoL10nsRootDir>
+    <SILReleaseTasksProps>$(NuGetPackageRoot)SIL.ReleaseTasks/3.1.1/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
+    <BuildTasksVersionFolder Condition="'$(BuildTasksVersionFolder)' == ''">$(LocalPackagesRoot)SIL.BuildTasks/</BuildTasksVersionFolder>
+    <BuildTasksDll>$(BuildTasksVersionFolder)tools/SIL.BuildTasks.dll</BuildTasksDll>
+    <SILBuildTasksProps>$(BuildTasksVersionFolder)build/SIL.BuildTasks.props</SILBuildTasksProps>
   </PropertyGroup>
-
+  
   <Import Project="../.nuget/NuGet.targets" />
-
-  <Target Name="RestoreLocalPackages" DependsOnTargets="CheckPrerequisites">
-    <Message Text="BuildTasksDll=$(BuildTasksDll)"/>
-	<Message Text="RestartBuild=$(RestartBuild)"/>
-    <Message Text="Configuration=$(Configuration)"/>
-    <Exec Command='$(NuGetCommand) install SIL.BuildTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
-	<Exec Command='$(NuGetCommand) install SIL.ReleaseTasks -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)"' />
-	<Exec Command='$(NuGetCommand) install SIL.libpalaso.l10ns -excludeVersion -PreRelease -source "$(PackageSources)" -solutionDirectory "$(SolutionDir)."' />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="BuildInternal"
-      Properties="Configuration=$(Configuration)" Condition="$(RestartBuild)" />
-  </Target>
-
-  <UsingTask TaskName="StampAssemblies" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
-  <UsingTask TaskName="UpdateBuildTypeFile" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
-  <UsingTask TaskName="MakeWixForDirTree" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
-  <UsingTask TaskName="Split" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
-  <UsingTask TaskName="FileUpdate" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
-  <UsingTask TaskName="NUnit3" AssemblyFile="$(BuildTasksDll)" Condition="Exists('$(BuildTasksDll)')" />
-
-  <Target Name="VersionNumbers">
-	<PropertyGroup>
-		<!-- The Version should be set from the outside, if not, set a meaningless default value -->
-		<Version Condition="'$(Version)' == ''">1.0.0.0</Version>
-	</PropertyGroup>
-
-	<Message Text="Version: $(Version)" Importance="high"/>
-  </Target>
-
+  <Import Project="$(SILBuildTasksProps)" Condition="Exists('$(SILBuildTasksProps)')" />
   <Import Project="$(SILReleaseTasksProps)" Condition="Exists('$(SILReleaseTasksProps)')" />
+  
+  <ItemGroup>
+    <!-- Match the non-versioned folder, if it exists -->
+    <BuildTasksDir Include="$(LocalPackagesRoot)SIL.BuildTasks/" />
+    <!-- Match the versioned folder -->
+    <BuildTasksDir Include="$(LocalPackagesRoot)SIL.BuildTasks*/" />
+  </ItemGroup>
+  
+  <Target Name="ResolveBuildTasksDir">
+    <PropertyGroup>
+      <BuildTasksVersionFolder Condition="'$(BuildTasksVersionFolder)' == ''">%(BuildTasksDir.Identity)</BuildTasksVersionFolder>
+      <BuildTasksDll Condition="!Exists('$(SILBuildTasksDll)')">$(BuildTasksVersionFolder)tools/SIL.BuildTasks.dll</BuildTasksDll>
+      <SILBuildTasksProps Condition="!Exists('$(SILBuildTasksProps)')">$(BuildTasksVersionFolder)build/SIL.BuildTasks.props</SILBuildTasksProps>
+    </PropertyGroup>
 
-  <Target Name="SetAssemblyVersion" DependsOnTargets="VersionNumbers">
-	  <ItemGroup>
-		<AssemblyInfoFiles Include="$(RootDir)/src/**/assemblyinfo.cs"/>
-	  </ItemGroup>
-	  <StampAssemblies Version="$(Version)" InputAssemblyPaths="@(AssemblyInfoFiles)" />
-	</Target>
+    <Message Text="Resolved BuildTasksVersionFolder=$(BuildTasksVersionFolder)" Importance="High" />
+    <Message Text="Resolved BuildTasksDll=$(BuildTasksDll)" Importance="High" />
+    <Message Text="Resolved SILBuildTasksProps=$(SILBuildTasksProps)" Importance="High" />
+  </Target>
+  
+  <Target Name="RestoreLocalPackages" DependsOnTargets="CheckPrerequisites; ResolveBuildTasksDir">
+    <Message Text="LocalPackagesRoot=$(LocalPackagesRoot)"/>
+    <Message Text="Configuration=$(Configuration)"/>
+    <Exec Command='$(NuGetCommand) install SIL.BuildTasks -PreRelease -ExcludeVersion -Source "$(PackageSources)" -OutputDirectory "$(LocalPackagesRoot)"' />
+  
+    <MSBuild
+        Projects="$(MSBuildProjectFullPath)"
+        Targets="BuildInternal"
+        Properties="Configuration=$(Configuration);BuildTasksVersionFolder=$(BuildTasksVersionFolder)" />
+  </Target>
 
-  <Target Name="SetBuildType" DependsOnTargets="VersionNumbers">
+  <Target Name="VersionNumber" Condition="'$(Version)' == ''">
+    <PropertyGroup>
+      <Version>1.0.0</Version>
+    </PropertyGroup>
 
-	  <Message Text="RELEASE_TYPE: $(RELEASE_TYPE)" Importance="high"/>
+    <Message Text="Version: $(Version)" Importance="high"/>
+  </Target>
 
-	  <ItemGroup>
-		<BuildTypeFiles Include="$(RootDir)/src/**/BuildType.cs"/>
-	  </ItemGroup>
-	  <UpdateBuildTypeFile BuildType="$(RELEASE_TYPE)" BuildTypePaths="@(BuildTypeFiles)" />
-	</Target>
+  <Target Name="SetAssemblyVersion" DependsOnTargets="VersionNumber">
+    <ItemGroup>
+      <AssemblyInfoFiles Include="$(RootDir)/src/**/assemblyinfo.cs"/>
+    </ItemGroup>
+    <StampAssemblies Version="$(Version)" InputAssemblyPaths="@(AssemblyInfoFiles)" />
+  </Target>
+
+  <Target Name="SetBuildType" DependsOnTargets="VersionNumber">
+
+    <Message Text="RELEASE_TYPE: $(RELEASE_TYPE)" Importance="high"/>
+
+    <ItemGroup>
+        <BuildTypeFiles Include="$(RootDir)/src/**/BuildType.cs"/>
+    </ItemGroup>
+    <UpdateBuildTypeFile BuildType="$(RELEASE_TYPE)" BuildTypePaths="@(BuildTypeFiles)" />
+  </Target>
 
   <Target Name="Build">
-	<CallTarget Targets="RestoreLocalPackages"/>
-	<CallTarget Targets="BuildInternal" Condition="!$(RestartBuild)" />
+    <CallTarget Targets="RestoreLocalPackages"/>
   </Target>
 
   <Target Name="BuildInternal" DependsOnTargets="SetAssemblyVersion;SetBuildType">
@@ -71,130 +91,132 @@
   </Target>
 
   <Target Name="Test" DependsOnTargets ="Build">
-	<ItemGroup>
-	  <TestAssemblies Include="$(RootDir)/output/release/*Tests.dll;"/>
-	</ItemGroup>
-	<NUnit3
-		Assemblies="@(TestAssemblies)"
-		ToolPath="$(RootDir)/packages/NUnit.ConsoleRunner.3.20.1/tools"
-		ExcludeCategory="$(excludedCategories)"
-		WorkingDirectory="$(RootDir)/output/$(Configuration)"
-		Force32Bit="$(useNUnit-x86)"
-		Verbose="true"
-		OutputXmlFile="$(RootDir)/output/$(Configuration)/TestResults.xml"
-		UseNUnit3Xml = "true"
-		TeamCity="false"/>
-	</Target>
+    <ItemGroup>
+      <TestAssemblies Include="$(BuildOutputDir)*Tests.dll;"/>
+    </ItemGroup>
+    <NUnit3
+        Assemblies="@(TestAssemblies)"
+        ToolPath="$(NuGetPackageRoot)NUnit.ConsoleRunner\3.20.2\tools"
+        ExcludeCategory="$(excludedCategories)"
+        WorkingDirectory="$(BuildOutputDir)"
+        Verbose="true"
+        OutputXmlFile="$(BuildOutputDir)TestResults.xml"
+        UseNUnit3Xml = "true"
+        TeamCity="$(IsTeamCityBuild)"/>
+    </Target>
 
-  <Target Name="UpdateDownloadInfo" DependsOnTargets="VersionNumbers" >
+  <Target Name="UpdateDownloadInfo" DependsOnTargets="VersionNumber" >
 
-	<!-- copy download info files so we aren't modifying the originals,
-		which then is a pain on dev machines -->
-	<Copy SourceFiles ="$(RootDir)\src\installer\template.download_info"
-		DestinationFiles ="$(RootDir)\output\installer\SayMoreInstaller.$(Version).download_info"/>
-	<Copy SourceFiles ="$(RootDir)\src\template.releasenotes.download_info"
-		DestinationFiles ="$(RootDir)\output\releasenotes.download_info"/>
+    <!-- copy download info files so we aren't modifying the originals,
+        which then is a pain on dev machines -->
+    <Copy SourceFiles ="$(RootDir)\src\installer\template.download_info"
+        DestinationFiles ="$(InstallerOutputDir)SayMoreInstaller.$(Version).download_info"/>
+    <Copy SourceFiles ="$(RootDir)\src\template.releasenotes.download_info"
+        DestinationFiles ="$(OutputRootDir)releasenotes.download_info"/>
 
-	<!-- replace some parts of the files with the version number & date -->
-	<FileUpdate File="$(RootDir)\output\installer\SayMoreInstaller.$(Version).download_info"
-		DatePlaceHolder='_DATE_'
-		DateFormat='yyyy-MM-dd'
-		Regex='_VERSION_'
-		ReplacementText ="$(Version)" />
-	
-	<FileUpdate File="$(RootDir)\output\releasenotes.download_info"
-		DatePlaceHolder='_DATE_'
-		DateFormat='yyyy-MM-dd'
-		Regex='_VERSION_'
-		ReplacementText ="$(Version)" />
+    <!-- replace some parts of the files with the version number & date -->
+    <FileUpdate File="$(InstallerOutputDir)SayMoreInstaller.$(Version).download_info"
+        DatePlaceHolder='_DATE_'
+        DateFormat='yyyy-MM-dd'
+        Regex='_VERSION_'
+        ReplacementText ="$(Version)" />
+    
+    <FileUpdate File="$(OutputRootDir)releasenotes.download_info"
+        DatePlaceHolder='_DATE_'
+        DateFormat='yyyy-MM-dd'
+        Regex='_VERSION_'
+        ReplacementText ="$(Version)" />
 
   </Target>
   
-  		
+          
   <Target Name="ConvertReleaseNotesToHtml" DependsOnTargets="UpdateReleaseNotes">
-	  <CreateReleaseNotesHtml ChangelogFile="$(RootDir)/DistFiles/releaseNotes.md"
-	                          HtmlFile="$(RootDir)/output/ReleaseNotes.htm" />
+      <CreateReleaseNotesHtml ChangelogFile="$(RootDir)/DistFiles/releaseNotes.md"
+                              HtmlFile="$(OutputRootDir)ReleaseNotes.htm" />
   </Target>
   
-  <Target Name="UpdateReleaseNotes" DependsOnTargets="VersionNumbers">
-	<FileUpdate
-		File="$(RootDir)/DistFiles/ReleaseNotes.md"
-		DatePlaceHolder='_DATE_'
-		DateFormat='d MMMM yyyy'
-		Regex='_VERSION_'
-		ReplacementText="$(Version)" />
+  <Target Name="UpdateReleaseNotes" DependsOnTargets="VersionNumber">
+    <FileUpdate
+        File="$(RootDir)/DistFiles/ReleaseNotes.md"
+        DatePlaceHolder='_DATE_'
+        DateFormat='d MMMM yyyy'
+        Regex='_VERSION_'
+        ReplacementText="$(Version)" />
   </Target>
 
-  <Target Name="Installer" DependsOnTargets="VersionNumbers; UpdateDownloadInfo; MakeWixForDistFiles; Build ">
+  <Target Name="Installer" DependsOnTargets="UpdateDownloadInfo; MakeWixForDistFiles; Build ">
 
-	<!-- set the version number in the installer configuration program.  Perhaps there's a way to just send in the variables rather than this brute-force
-		changing of the script, but I haven't figured that out. -->
+    <!-- set the version number in the installer configuration program.  Perhaps there's a way to just send in the variables rather than this brute-force
+        changing of the script, but I haven't figured that out. -->
 
-	<FileUpdate File="$(RootDir)\src\Installer\Installer.wxs" Regex='Property_ProductVersion = ".*"'
-			ReplacementText ="Property_ProductVersion = &quot;$(Version)&quot;" />
+    <FileUpdate File="$(RootDir)\src\Installer\Installer.wxs" Regex='Property_ProductVersion = ".*"'
+            ReplacementText ="Property_ProductVersion = &quot;$(Version)&quot;" />
 
-	<Message Text="Making Installer Version: $(Version)" Importance="high"  />
+    <Message Text="Making Installer Version: $(Version)" Importance="high"  />
 
-	<MSBuild Projects="$(RootDir)\src\Installer\Installer.wixproj"/>
+    <MSBuild
+        Projects="$(RootDir)\src\Installer\Installer.wixproj"
+        Properties="Configuration=$(Configuration)"
+    />
+    
+    <PropertyGroup>
+      <InstallerSourceMsi>$(InstallerOutputDir)SayMoreInstaller.msi</InstallerSourceMsi>
+      <InstallerSourceMsi Condition="!Exists('$(InstallerSourceMsi)')">$(RootDir)\src\Installer\bin\$(Configuration)\SayMoreInstaller.msi</InstallerSourceMsi>
+      <InstallerSourceMsi Condition="!Exists('$(InstallerSourceMsi)')">$(RootDir)\src\Installer\bin\$(Configuration)\en-us\SayMoreInstaller.msi</InstallerSourceMsi>
+      <VersionedMsi>$(InstallerOutputDir)SayMoreInstaller.$(Version).msi</VersionedMsi>
+    </PropertyGroup>
+    <!-- Helpful debug -->
+    <Message Text="Looking for MSI at: $(InstallerSourceMsi)" Importance="high" />
+    <Message Text="VersionedMsi: $(VersionedMsi)" Importance="high"/>
+    
+    <!-- remove an existing one with the same name (potentially needed for repeated local builds with same version number. -->
+    <Delete Files="$(VersionedMsi)" TreatErrorsAsWarnings="false" />
 
-	<!-- Ensure destination folder exists -->
-	<MakeDir Directories="$(RootDir)\output\installer" />
+    <!-- Guard with an explicit error if it's missing -->
+    <Error
+        Text="Expected MSI not found at $(InstallerSourceMsi)."
+        Condition="!Exists('$(InstallerSourceMsi)')" />
 
-	<PropertyGroup>
-		<InstallerSourceMsi>$(RootDir)\output\installer\SayMoreInstaller.msi</InstallerSourceMsi>
-		<InstallerSourceMsi Condition="!Exists('$(InstallerSourceMsi)')">$(RootDir)\src\Installer\bin\$(Configuration)\SayMoreInstaller.msi</InstallerSourceMsi>
-		<InstallerSourceMsi Condition="!Exists('$(InstallerSourceMsi)')">$(RootDir)\src\Installer\bin\$(Configuration)\en-us\SayMoreInstaller.msi</InstallerSourceMsi>
-	</PropertyGroup>
+    <!-- Copy + rename with version -->
+    <Copy SourceFiles="$(InstallerOutputDir)SayMoreInstaller.msi"
+          DestinationFiles="$(VersionedMsi)"
+          />
 
-	<!-- Helpful debug -->
-	<Message Text="Looking for MSI at: $(InstallerSourceMsi)" Importance="high" />
+    <!-- appcast.xml is used as part of the update notification system -->
+    <Copy SourceFiles ="$(RootDir)\src\Installer\appcast.xml"
+        DestinationFolder ="$(OutputRootDir)installer"/>
 
-	<!-- Guard with an explicit error if it's missing -->
-	<Error
-		Text="Expected MSI not found at $(InstallerSourceMsi)."
-		Condition="!Exists('$(InstallerSourceMsi)')" />
+    <FileUpdate File="$(InstallerOutputDir)appcast.xml"
+        Regex='VERSION_NUMBER'
+        ReplacementText ="$(Version)" />
 
-	<!-- Copy + rename with version -->
-	<Copy
-		SourceFiles="$(InstallerSourceMsi)"
-		DestinationFiles="$(RootDir)\output\installer\SayMoreInstaller.$(Version).msi" />
-	  
-	<!-- appcast.xml is used as part of the update notification system -->
-	<Copy SourceFiles ="$(RootDir)\src\Installer\appcast.xml"
-		DestinationFolder ="$(RootDir)\output\installer"/>
-
-	<FileUpdate File="$(RootDir)\output\installer\appcast.xml"
-		Regex='VERSION_NUMBER'
-		ReplacementText ="$(Version)" />
-
-	<!-- remove the installer which has no version number (wouldn't need this if the copy above was a move, instead) -->
-	<Delete Files="$(RootDir)\output\installer\SayMoreInstaller.msi" TreatErrorsAsWarnings="false" />
-
+    <!-- remove the installer which has no version number (wouldn't need this if the copy above was a move, instead) -->
+    <Delete Files="$(InstallerOutputDir)SayMoreInstaller.msi" TreatErrorsAsWarnings="false" />
   </Target>
 
-  <Target Name="copyLibL10ns" DependsOnTargets="RestoreLocalPackages">
-	<Error Text="Palaso L10ns package missing. Expected at $(RootDir)/packages/SIL.libpalaso.l10ns"
-		Condition="!Exists('$(RootDir)/packages/SIL.libpalaso.l10ns/SIL.libpalaso.l10ns.nupkg')" />
-	<ItemGroup>
-		<XliffFiles Include="$(RootDir)/packages/SIL.libpalaso.l10ns/content/**/*.xlf"/>
-	</ItemGroup>
-	  <Copy SourceFiles="@(XliffFiles)"
-		DestinationFiles="@(XliffFiles->'$(RootDir)/DistFiles/%(Filename)%(Extension)')"
-		SkipUnchangedFiles="true"/>
+  <Target Name="copyLibL10ns">
+    <Error Text="Palaso L10ns package missing. Expected at $(PalasoL10nsRootDir)"
+        Condition="!Exists('$(PalasoL10nsRootDir)/SIL.libpalaso.l10ns.$(PalasoL10nsVersion).nupkg')" />
+    <ItemGroup>
+        <XliffFiles Include="$(PalasoL10nsRootDir)/content/**/*.xlf"/>
+    </ItemGroup>
+      <Copy SourceFiles="@(XliffFiles)"
+        DestinationFiles="@(XliffFiles->'$(RootDir)/DistFiles/%(Filename)%(Extension)')"
+        SkipUnchangedFiles="true"/>
   </Target>
 
   <Target Name="MakeWixForDistFiles" DependsOnTargets="copyLibL10ns">
-	<MakeDir ContinueOnError ="true" Directories ="$(RootDir)\output\Installer\"/>
-	
-	<MakeWixForDirTree
-			DirectoryReferenceId="ProgramDir"
-				ComponentGroupId="DistFiles"
-					RootDirectory="$(RootDir)\DistFiles"
-			OutputFilePath="$(RootDir)\output\Installer\GeneratedDistFiles.wxs"
-			MatchRegExPattern=".*"
-			>
-	  <!--what does this do?-->
-	  <Output TaskParameter="OutputFilePath" ItemName="Compile" />
-	</MakeWixForDirTree>
+    <MakeDir ContinueOnError="true" Directories="$(InstallerOutputDir)"/>
+    
+    <MakeWixForDirTree
+        DirectoryReferenceId="ProgramDir"
+        ComponentGroupId="DistFiles"
+        RootDirectory="$(RootDir)\DistFiles"
+        OutputFilePath="$(InstallerOutputDir)GeneratedDistFiles.wxs"
+        InstallerSourceDirectory="$(RootDir)\src\installer"
+        MatchRegExPattern=".*"
+        SetWin64="true"
+        />
+
   </Target>
 </Project>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using L10NSharp;
 using NUnit.Framework;
 using SIL.TestUtilities;
 using SayMore.Model;
@@ -23,6 +24,7 @@ namespace SayMoreTests.Model.Files
 		[SetUp]
 		public void Setup()
 		{
+			LocalizationManager.StrictInitializationMode = false;
 			_parentFolder = new TemporaryFolder("componentFileTest");
 			_fileTypes = new List<FileType> { new AnnotationFileType(null, null) };
 		}

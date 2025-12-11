@@ -5,7 +5,7 @@ using NUnit.Framework;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
-using SayMoreTests.Model.Files;
+using SayMoreTests.MediaUtils;
 
 namespace SayMoreTests.Transcription.UI
 {

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Drawing;
+using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
@@ -13,20 +13,21 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using DesktopAnalytics;
 using L10NSharp;
-using SIL.Extensions;
-using SIL.Reporting;
-using SIL.Windows.Forms;
+using SayMore.Model.Files;
+using SayMore.Properties;
+using SayMore.Transcription.Model;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.Overview;
+using SayMore.Utilities;
 using SIL.Archiving;
 using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
-using SayMore.Properties;
-using SayMore.Transcription.Model;
-using SayMore.Model.Files;
-using SayMore.Utilities;
+using SIL.Archiving.IMDI.Schema;
 using SIL.Core.ClearShare;
+using SIL.Extensions;
 using SIL.IO;
+using SIL.Reporting;
+using SIL.Windows.Forms;
 using static System.IO.Path;
 
 namespace SayMore.Model
@@ -105,30 +106,40 @@ namespace SayMore.Model
 				throw new ArgumentException("Invalid project path specified", nameof(desiredOrExistingSettingsFilePath));
 			var saveNeeded = false;
 
+			var projectInfo = new Dictionary<string, string> {{"projectName", Name}};
+
 			if (File.Exists(desiredOrExistingSettingsFilePath))
 			{
 				RenameEventsToSessions(projectDirectory);
 				Load();
+				projectInfo["vernacularISO3CodeAndName"] = VernacularISO3CodeAndName;
+				projectInfo["analysisISO3CodeAndName"] = AnalysisISO3CodeAndName;
+				projectInfo["projectLocation"] = Location;
+				projectInfo["projectRegion"] = Region;
+				projectInfo["projectCountry"] = Country;
+				projectInfo["projectContinent"] = Continent;
 			}
 			else
 			{
+				Analytics.Track("Project Created", projectInfo);
 				Directory.CreateDirectory(projectDirectory);
 				Title = Name;
 				saveNeeded = true;
 			}
 
-			if (TranscriptionFont == null)
-				TranscriptionFont = Program.DialogFont;
+			TranscriptionFont ??= Program.DialogFont;
+			projectInfo["transcriptionFont"] = TranscriptionFont.Name;
+			FreeTranslationFont ??= Program.DialogFont;
+			projectInfo["freeTranslationFont"] = FreeTranslationFont.Name;
 
-			if (FreeTranslationFont == null)
-				FreeTranslationFont = Program.DialogFont;
+			Analytics.Track("Project Opened", projectInfo);
 
 			if (AutoSegmenterMinimumSegmentLengthInMilliseconds < Settings.Default.MinimumSegmentLengthInMilliseconds ||
-				AutoSegmenterMaximumSegmentLengthInMilliseconds <= 0 ||
-				AutoSegmenterMinimumSegmentLengthInMilliseconds >= AutoSegmenterMaximumSegmentLengthInMilliseconds ||
-				AutoSegmenterPreferredPauseLengthInMilliseconds <= 0 ||
-				AutoSegmenterPreferredPauseLengthInMilliseconds > AutoSegmenterMaximumSegmentLengthInMilliseconds ||
-				AutoSegmenterOptimumLengthClampingFactor <= 0)
+				    AutoSegmenterMaximumSegmentLengthInMilliseconds <= 0 ||
+				    AutoSegmenterMinimumSegmentLengthInMilliseconds >= AutoSegmenterMaximumSegmentLengthInMilliseconds ||
+				    AutoSegmenterPreferredPauseLengthInMilliseconds <= 0 ||
+				    AutoSegmenterPreferredPauseLengthInMilliseconds > AutoSegmenterMaximumSegmentLengthInMilliseconds ||
+				    AutoSegmenterOptimumLengthClampingFactor <= 0)
 			{
 				saveNeeded = AutoSegmenterMinimumSegmentLengthInMilliseconds != 0 || AutoSegmenterMaximumSegmentLengthInMilliseconds != 0 ||
 					AutoSegmenterPreferredPauseLengthInMilliseconds != 0 || !AutoSegmenterOptimumLengthClampingFactor.Equals(0) || saveNeeded;

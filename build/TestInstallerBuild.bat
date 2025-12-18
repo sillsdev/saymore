@@ -14,4 +14,5 @@ GOTO pauseforusertoseeoutput
 REM :unexpectedsystemvariableinuse
 REM @ECHO Unexpected system variable msbuildpath is in use. Value: %msbuildpath%
 :pauseforusertoseeoutput
-PAUSE
+ECHO %CMDCMDLINE% | findstr /i "/c" >nul
+IF NOT errorlevel 1 PAUSE

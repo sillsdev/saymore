@@ -40,6 +40,9 @@ jobs:
         #working-directory: ${{ github.workspace }}
         shell: bash
         run: |
+          # Explicitly fetch all tags to ensure they're available
+          git fetch --tags --force
+
           git describe --tags --match "v*" --abbrev=0 || echo "No existing tag found"
           # If this is a tag push and it starts with v, just use it and strip off the v
           if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
@@ -51,13 +54,20 @@ jobs:
           fi
 
           # Otherwise find the latest tag that starts with v
-          LAST_TAG=$(git describe --tags --match "v*" --abbrev=0 2>/dev/null || echo "v0.0.0")
+          LAST_TAG=$(git describe --tags --match "v*" --abbrev=0 2>/dev/null || echo "")
 
           # Compute a build number based on number of commits since that tag
-          COMMITS_SINCE_TAG=$(git rev-list ${LAST_TAG}..HEAD --count)
+          if [[ -n "$LAST_TAG" ]]; then
+            # Tag found, count commits since that tag
+            COMMITS_SINCE_TAG=$(git rev-list ${LAST_TAG}..HEAD --count)
+            # Final version: X.Y.Z.build
+            Version="${LAST_TAG#v}.${COMMITS_SINCE_TAG}"
+          else
+            # No tag found, use 0.0.0 and count all commits
+            COMMITS_SINCE_TAG=$(git rev-list HEAD --count)
+            Version="0.0.0.${COMMITS_SINCE_TAG}"
+          fi
 
-          # Final version: X.Y.Z (stripped off the v)
-          Version="${LAST_TAG#v}.${COMMITS_SINCE_TAG}"
           echo "version=$Version" >> $GITHUB_OUTPUT
           echo "no tag push; using $Version"
 

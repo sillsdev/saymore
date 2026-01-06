@@ -369,47 +369,37 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public void SuspendAudioVideoBackgroundProcesses()
 		{
-			if (_audioVideoDataGatherer != null)
-				_audioVideoDataGatherer.SuspendProcessing();
+			_audioVideoDataGatherer?.SuspendProcessing();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void ResumeAudioVideoBackgroundProcesses(bool processAllPendingEventsNow)
 		{
-			if (_audioVideoDataGatherer != null)
-				_audioVideoDataGatherer.ResumeProcessing(processAllPendingEventsNow);
+			_audioVideoDataGatherer?.ResumeProcessing(processAllPendingEventsNow);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SuspendBackgroundProcesses()
 		{
-			if (_audioVideoDataGatherer != null)
-				_audioVideoDataGatherer.SuspendProcessing();
+			_audioVideoDataGatherer?.SuspendProcessing();
 
-			if (_autoCompleteValueGatherer != null)
-				_autoCompleteValueGatherer.SuspendProcessing();
+			_autoCompleteValueGatherer?.SuspendProcessing();
 
-			if (_fieldGatherer != null)
-				_fieldGatherer.SuspendProcessing();
+			_fieldGatherer?.SuspendProcessing();
 
-			if (_presetGatherer != null)
-				_presetGatherer.SuspendProcessing();
+			_presetGatherer?.SuspendProcessing();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void ResumeBackgroundProcesses(bool processAllPendingEventsNow)
 		{
-			if (_audioVideoDataGatherer != null)
-				_audioVideoDataGatherer.ResumeProcessing(processAllPendingEventsNow);
+			_audioVideoDataGatherer?.ResumeProcessing(processAllPendingEventsNow);
 
-			if (_autoCompleteValueGatherer != null)
-				_autoCompleteValueGatherer.ResumeProcessing(processAllPendingEventsNow);
+			_autoCompleteValueGatherer?.ResumeProcessing(processAllPendingEventsNow);
 
-			if (_fieldGatherer != null)
-				_fieldGatherer.ResumeProcessing(processAllPendingEventsNow);
+			_fieldGatherer?.ResumeProcessing(processAllPendingEventsNow);
 
-			if (_presetGatherer != null)
-				_presetGatherer.ResumeProcessing(processAllPendingEventsNow);
+			_presetGatherer?.ResumeProcessing(processAllPendingEventsNow);
 		}
 
 		/// ------------------------------------------------------------------------------------

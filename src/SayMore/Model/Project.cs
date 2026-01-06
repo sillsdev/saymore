@@ -183,6 +183,7 @@ namespace SayMore.Model
 				bool hasProgress =
 					sessionDelta > 0 ||
 					personDelta > 0 ||
+					_mediaDurationStats != null &&
 					_mediaDurationStats.Values.Any(s => s.Delta > TimeSpan.Zero);
 
 				if (hasProgress)
@@ -195,13 +196,16 @@ namespace SayMore.Model
 					if (personDelta > 0)
 						properties["PersonsAdded"] = personDelta.ToString();
 
-					foreach (var kvp in _mediaDurationStats)
+					if (_mediaDurationStats != null)
 					{
-						var delta = kvp.Value.Delta;
-						if (delta > TimeSpan.Zero)
+						foreach (var kvp in _mediaDurationStats)
 						{
-							properties[$"MediaDurationAdded.{kvp.Key}"] =
-								delta.TotalSeconds.ToString("F0");
+							var delta = kvp.Value.Delta;
+							if (delta > TimeSpan.Zero)
+							{
+								properties[$"MediaDurationAdded.{kvp.Key}"] =
+									delta.TotalSeconds.ToString("F0");
+							}
 						}
 					}
 
@@ -878,8 +882,8 @@ namespace SayMore.Model
 		private void FinishedGatheringStatistics(object sender, EventArgs e)
 		{
 			_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
-			_initialNumberOfSessions = _statisticsViewModel.SessionInformant.NumberOfSessions;
-			_initialNumberOfPersons = _statisticsViewModel.PersonInformant.NumberOfPeople;
+			_initialNumberOfSessions = _finalNumberOfSessions = _statisticsViewModel.SessionInformant.NumberOfSessions;
+			_initialNumberOfPersons = _finalNumberOfPersons = _statisticsViewModel.PersonInformant.NumberOfPeople;
 			_mediaDurationStats =
 				_statisticsViewModel.GetComponentRoleStatisticsPairs()
 					.ToDictionary(

@@ -14,7 +14,7 @@ namespace SayMore.Model
 	public class SessionWorkflowInformant
 	{
 		private readonly ElementRepository<Session> _sessionRepository;
-		private IEnumerable<ComponentRole> _componentRoles;
+		private readonly IEnumerable<ComponentRole> _componentRoles;
 
 		[Obsolete("For mocking only")]
 		public SessionWorkflowInformant(){}
@@ -28,10 +28,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public int NumberOfSessions
-		{
-			get { return _sessionRepository.AllItems.Count(); }
-		}
+		public int NumberOfSessions => _sessionRepository.AllItems.Count();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

@@ -18,11 +18,11 @@ using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.Overview;
+using SayMore.UI.Overview.Statistics;
 using SayMore.Utilities;
 using SIL.Archiving;
 using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
-using SIL.Archiving.IMDI.Schema;
 using SIL.Core.ClearShare;
 using SIL.Extensions;
 using SIL.IO;
@@ -64,6 +64,21 @@ namespace SayMore.Model
 		private bool _needToDisposeFreeTranslationFont;
 		private Font _workingLanguageFont;
 		private bool _needToDisposeWorkingLanguageFont;
+		
+		private StatisticsViewModel _statisticsViewModel;
+		private int _initialNumberOfSessions;
+		private int _finalNumberOfSessions;
+		private int _initialNumberOfPersons;
+		private int _finalNumberOfPersons;
+		private sealed class MediaDurationStats(TimeSpan initial)
+		{
+			public TimeSpan Initial { get; } = initial;
+			public TimeSpan Current { get; set; } = initial;
+
+			public TimeSpan Delta => Current - Initial;
+		}
+		
+		private Dictionary<string, MediaDurationStats> _mediaDurationStats;
 
 		public delegate Project Factory(string desiredOrExistingFilePath);
 
@@ -157,6 +172,43 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
+			if (_statisticsViewModel != null)
+			{
+				_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
+				_statisticsViewModel.NewStatisticsAvailable -= UpdateStatistics;
+
+				var sessionDelta = _finalNumberOfSessions - _initialNumberOfSessions;
+				var personDelta = _finalNumberOfPersons - _initialNumberOfPersons;
+
+				bool hasProgress =
+					sessionDelta > 0 ||
+					personDelta > 0 ||
+					_mediaDurationStats.Values.Any(s => s.Delta > TimeSpan.Zero);
+
+				if (hasProgress)
+				{
+					var properties = new Dictionary<string, string>();
+
+					if (sessionDelta > 0)
+						properties["SessionsAdded"] = sessionDelta.ToString();
+
+					if (personDelta > 0)
+						properties["PersonsAdded"] = personDelta.ToString();
+
+					foreach (var kvp in _mediaDurationStats)
+					{
+						var delta = kvp.Value.Delta;
+						if (delta > TimeSpan.Zero)
+						{
+							properties[$"MediaDurationAdded.{kvp.Key}"] =
+								delta.TotalSeconds.ToString("F0");
+						}
+					}
+
+					Analytics.Track("ProjectProgress", properties);
+				}
+			}
+
 			_sessionsRepoFactory = null;
 			if (_needToDisposeTranscriptionFont)
 				TranscriptionFont.Dispose();
@@ -810,5 +862,51 @@ namespace SayMore.Model
 					Settings.Default.SessionFileExtension, CancellationToken.None));
 		}
 		#endregion
+
+		public void TrackStatistics(StatisticsViewModel statisticsViewModel)
+		{ 
+			if (_statisticsViewModel != null)
+			{
+				_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
+				_statisticsViewModel.NewStatisticsAvailable -= UpdateStatistics;
+			}
+
+			_statisticsViewModel = statisticsViewModel;
+			_statisticsViewModel.FinishedGatheringStatisticsForAllFiles += FinishedGatheringStatistics;
+		}
+
+		private void FinishedGatheringStatistics(object sender, EventArgs e)
+		{
+			_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
+			_initialNumberOfSessions = _statisticsViewModel.SessionInformant.NumberOfSessions;
+			_initialNumberOfPersons = _statisticsViewModel.PersonInformant.NumberOfPeople;
+			_mediaDurationStats =
+				_statisticsViewModel.GetComponentRoleStatisticsPairs()
+					.ToDictionary(
+						s => s.Name,
+						s => new MediaDurationStats(s.Length));
+
+			_statisticsViewModel.NewStatisticsAvailable += UpdateStatistics;
+		}
+
+		private void UpdateStatistics(object sender, EventArgs e)
+		{
+			_finalNumberOfSessions = _statisticsViewModel.SessionInformant.NumberOfSessions;
+			_finalNumberOfPersons = _statisticsViewModel.PersonInformant.NumberOfPeople;
+
+			foreach (var stat in _statisticsViewModel.GetComponentRoleStatisticsPairs())
+			{
+				if (_mediaDurationStats.TryGetValue(stat.Name, out var entry))
+					entry.Current = stat.Length;
+				else
+				{
+					_mediaDurationStats[stat.Name] =
+						new MediaDurationStats(TimeSpan.Zero)
+						{
+							Current = stat.Length
+						};
+				}
+			}
+		}
 	}
 }

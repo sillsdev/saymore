@@ -60,7 +60,7 @@ namespace SayMore.UI.Overview.Statistics
 
 			_webBrowser.DocumentStream?.Dispose();
 			UpdateStatusDisplay(true);
-			Thread updateDisplayThread = new Thread(() =>
+			var updateDisplayThread = new Thread(() =>
 				{
 					var htmlData = new MemoryStream(Encoding.UTF8.GetBytes(_model.HTMLString));
 
@@ -179,8 +179,7 @@ namespace SayMore.UI.Overview.Statistics
 		{
 			// Can't actually call UpdateDisplay from here because this event is fired from
 			// a background (data gathering) thread and updating the browser control on the
-			// background thread is a no-no. UpdateDisplay will be called when the timer
-			// tick fires.
+			// background thread is a no-no.
 			BeginInvoke(new Action(() => UpdateDisplay()));
 		}
 

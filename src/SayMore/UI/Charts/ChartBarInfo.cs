@@ -130,7 +130,7 @@ namespace SayMore.UI.Charts
 			}
 			catch (InvalidOperationException)
 			{
-				// SP-854: This can happen if the the list is still loading, "Collection was modified; enumeration operation may not execute."
+				// SP-854: This can happen if the list is still loading, "Collection was modified; enumeration operation may not execute."
 				// Let the other thread continue and try again.
 				Application.DoEvents();
 				Thread.Sleep(0);

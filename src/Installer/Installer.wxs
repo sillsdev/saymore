@@ -200,6 +200,10 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 				<File Id="MediaInfo.dll" Name="MediaInfo.dll" KeyPath="yes" Source="$(var.OutputDir)MediaInfo.dll"/>
 			</Component>
 
+			<Component Id="MediaInfoDLL.dll" Guid="{370327F7-D3D9-4673-87C6-6EFE3ED7DB8E}" Win64="yes">
+				<File Id="MediaInfoDLL.dll" Name="MediaInfoDLL.dll" KeyPath="yes" Source="$(var.OutputDir)MediaInfoDLL.dll"/>
+			</Component>
+
 			<Component Id="NetSparkle.Net40.dll" Guid="{36870B13-214E-4F3E-8226-2FE689C7EEDE}" Win64="yes">
 				<File Id="NetSparkle.Net40.dll" Name="NetSparkle.Net40.dll" KeyPath="yes" Source="$(var.OutputDir)NetSparkle.Net40.dll"/>
 			</Component>
@@ -378,6 +382,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="L10NSharp.dll"/>
 		<ComponentRef Id="Markdig.Signed.dll"/>
 		<ComponentRef Id="MediaInfo.dll"/>
+		<ComponentRef Id="MediaInfoDLL.dll"/>
 		<ComponentRef Id="NetSparkle.Net40.dll"/>
 		<ComponentRef Id="Microsoft.Bcl.AsyncInterfaces.dll"/>
 		<ComponentRef Id="Microsoft.Extensions.DependencyModel.dll"/>

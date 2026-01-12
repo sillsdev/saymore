@@ -40,7 +40,7 @@
     <PackageReference Include="icu.net" Version="3.0.1" />
     <PackageReference Include="Icu4c.Win.Min" Version="59.1.7" />
     <PackageReference Include="L10NSharp" Version="8.0.0" />
-    <PackageReference Include="Markdig.Signed" Version="0.37.0" />
+    <PackageReference Include="Markdig.Signed" Version="0.41.1" />
     <PackageReference Include="MediaInfoDLL" Version="25.7.0" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.10" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.2" />
@@ -51,10 +51,10 @@
     <PackageReference Include="Serialization.NET" Version="1.4.1" />
     <PackageReference Include="SIL.Archiving" Version="16.2.0" />
     <PackageReference Include="SIL.Core" Version="16.2.0" />
-    <PackageReference Include="SIL.DesktopAnalytics" Version="6.0.2" />
+    <PackageReference Include="SIL.DesktopAnalytics" Version="6.0.3" />
     <PackageReference Include="SIL.libpalaso.l10ns" Version="16.2.0" />
     <PackageReference Include="SIL.Media" Version="16.2.0" />
-    <PackageReference Include="SIL.ReleaseTasks" Version="3.1.1">
+    <PackageReference Include="SIL.ReleaseTasks" Version="3.2.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="SIL.Windows.Forms" Version="16.2.0" />
@@ -62,11 +62,13 @@
     <PackageReference Include="SIL.Windows.Forms.Keyboarding" Version="16.2.0" />
     <PackageReference Include="SIL.Windows.Forms.WritingSystems" Version="16.2.0" />
     <PackageReference Include="Spart" Version="1.0.0" />
+    <PackageReference Include="System.IO.Pipelines" Version="9.0.11" />
     <PackageReference Include="System.Memory" Version="4.6.3" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Resources.Extensions" Version="9.0.11" />
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
     <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2" />
-    <PackageReference Include="System.Text.Encodings.Web" Version="9.0.10" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="9.0.11" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
     <PackageReference Include="TagLibSharp" Version="2.3.0" />
   </ItemGroup>

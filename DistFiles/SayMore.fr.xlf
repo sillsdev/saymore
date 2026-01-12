@@ -4242,10 +4242,10 @@
         <target xml:lang="fr" state="needs-translation">Restricted to Entity curators</target>
         <note>ID: SessionsView.MetadataEditor.AccessProtocol.REAP.Entity curators</note>
       </trans-unit>
-      <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.REAP.Insite users" sil:dynamic="true">
-        <source xml:lang="en">Restricted to Insite users</source>
-        <target xml:lang="fr" state="needs-translation">Restricted to Insite users</target>
-        <note>ID: SessionsView.MetadataEditor.AccessProtocol.REAP.Insite users</note>
+      <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.REAP.REAP users" sil:dynamic="true">
+        <source xml:lang="en">Restricted to REAP users</source>
+        <target xml:lang="fr" state="needs-translation">Restricted to REAP users</target>
+        <note>ID: SessionsView.MetadataEditor.AccessProtocol.REAP.REAP users</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.REAP.Public" sil:dynamic="true">
         <source xml:lang="en">Public</source>

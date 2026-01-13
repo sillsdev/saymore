@@ -29,6 +29,7 @@ using SIL.IO;
 using SIL.Reporting;
 using SIL.Windows.Forms;
 using static System.IO.Path;
+using static SayMore.Model.Files.ComponentRole.MeasurementTypes;
 
 namespace SayMore.Model
 {
@@ -77,8 +78,16 @@ namespace SayMore.Model
 
 			public TimeSpan Delta => Current - Initial;
 		}
-		
+		private sealed class RoleCountStats(int initial)
+		{
+			public int Initial { get; } = initial;
+			public int Current { get; set; } = initial;
+
+			public int Delta => Current - Initial;
+		}
+
 		private Dictionary<string, MediaDurationStats> _mediaDurationStats;
+		private Dictionary<string, RoleCountStats> _sessionRoleStats;
 
 		public delegate Project Factory(string desiredOrExistingFilePath);
 
@@ -170,7 +179,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Dispose()
+		public void ReportProgressIfNeeded()
 		{
 			if (_statisticsViewModel != null)
 			{
@@ -184,7 +193,9 @@ namespace SayMore.Model
 					sessionDelta > 0 ||
 					personDelta > 0 ||
 					_mediaDurationStats != null &&
-					_mediaDurationStats.Values.Any(s => s.Delta > TimeSpan.Zero);
+					_mediaDurationStats.Values.Any(s => s.Delta > TimeSpan.Zero) ||
+					_sessionRoleStats != null &&
+					_sessionRoleStats.Values.Any(s => s.Delta > 0); ;
 
 				if (hasProgress)
 				{
@@ -208,11 +219,28 @@ namespace SayMore.Model
 							}
 						}
 					}
+					
+					if (_sessionRoleStats != null)
+					{
+						foreach (var kvp in _sessionRoleStats)
+						{
+							var delta = kvp.Value.Delta;
+							if (delta > 0)
+							{
+								properties[$"CompletedStages.{kvp.Key}"] =
+									delta.ToString();
+							}
+						}
+					}
 
 					Analytics.Track("ProjectProgress", properties);
 				}
 			}
+		}
 
+		/// ------------------------------------------------------------------------------------
+		public void Dispose()
+		{
 			_sessionsRepoFactory = null;
 			if (_needToDisposeTranscriptionFont)
 				TranscriptionFont.Dispose();
@@ -890,6 +918,10 @@ namespace SayMore.Model
 						s => s.Name,
 						s => new MediaDurationStats(s.Length));
 
+			_sessionRoleStats = _statisticsViewModel.SessionInformant.GetSessionsCategorizedByStage()
+				.Where(s => s.Key.MeasurementType != Time)
+				.ToDictionary(s => s.Key.Id, s => new RoleCountStats(s.Value.Count()));
+			
 			_statisticsViewModel.NewStatisticsAvailable += UpdateStatistics;
 		}
 
@@ -908,6 +940,21 @@ namespace SayMore.Model
 						new MediaDurationStats(TimeSpan.Zero)
 						{
 							Current = stat.Length
+						};
+				}
+			}
+
+			foreach (var stat in _statisticsViewModel.SessionInformant.GetSessionsCategorizedByStage()
+				         .Where(s => s.Key.MeasurementType != Time))
+			{
+				if (_sessionRoleStats.TryGetValue(stat.Key.Id, out var entry))
+					entry.Current = stat.Value.Count();
+				else
+				{
+					_sessionRoleStats[stat.Key.Id] =
+						new RoleCountStats(0)
+						{
+							Current = stat.Value.Count()
 						};
 				}
 			}

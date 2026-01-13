@@ -235,6 +235,8 @@ namespace SayMore
 				{
 					Application.Run();
 					Settings.Default.Save();
+					_projectContext?.Project.ReportProgressIfNeeded();
+					Analytics.FlushClient();
 					Logger.WriteEvent("SayMore shutting down");
 					if (s_countOfContiguousFirstChanceOutOfMemoryExceptions > 1)
 						Logger.WriteEvent("Total number of contiguous OutOfMemoryExceptions: {0}", s_countOfContiguousFirstChanceOutOfMemoryExceptions);
@@ -596,8 +598,10 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
-		static void HandleProjectWindowClosed(object sender, EventArgs e)
+		private static void HandleProjectWindowClosed(object sender, EventArgs e)
 		{
+			_projectContext?.Project.ReportProgressIfNeeded();
+
 			SafelyDisposeProjectContext();
 			ReleaseMutexForThisProject();
 

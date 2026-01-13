@@ -77,8 +77,7 @@ namespace SayMore.Model.Files
 
 			var matchingFiles = GetMatchingFiles(file.FileType);
 
-			if (_fieldGatherer != null)
-				_fieldGatherer.SuspendProcessing();
+			_fieldGatherer?.SuspendProcessing();
 
 			foreach (var path in matchingFiles)
 			{

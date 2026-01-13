@@ -388,8 +388,7 @@ namespace SayMore.Model.Files.DataGathering
 
 			Status = kUpToDataStatus;
 
-			if (FinishedProcessingAllFiles != null)
-				FinishedProcessingAllFiles(this, EventArgs.Empty);
+			FinishedProcessingAllFiles?.Invoke(this, EventArgs.Empty);
 		}
 
 		private static List<string> WalkDirectoryTree(string topLevelFolder, SearchOption searchOption)
@@ -418,7 +417,7 @@ namespace SayMore.Model.Files.DataGathering
 				Debug.Print("Directory not found: " + topLevelFolder);
 			}
 
-			if ((files != null) && (searchOption == SearchOption.AllDirectories))
+			if (files != null && searchOption == SearchOption.AllDirectories)
 			{
 				// Now find all the subdirectories under this directory.
 				var dirs = Directory.GetDirectories(topLevelFolder);

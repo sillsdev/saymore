@@ -65,7 +65,8 @@ namespace SayMore.Model
 		private bool _needToDisposeFreeTranslationFont;
 		private Font _workingLanguageFont;
 		private bool _needToDisposeWorkingLanguageFont;
-		
+		private bool _disposed = false;
+
 		private sealed class ProgressStats
 		{
 			private readonly StatisticsViewModel _model;
@@ -175,6 +176,7 @@ namespace SayMore.Model
 			}
 		}
 
+		private readonly object _statisticsLock = new();
 		private StatisticsViewModel _statisticsViewModel;
 		private ProgressStats _progressStats;
 
@@ -270,33 +272,54 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void ReportProgressIfAny()
 		{
-			if (_statisticsViewModel == null) 
-				return;
-			
-			_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
-
-			// Really unlikely, but if we get here before the initial gathering is done, we can't do anything.
-			if (_progressStats == null)
-				return;
-
-			try
+			if (Monitor.TryEnter(_statisticsLock, TimeSpan.FromMilliseconds(200)))
 			{
-				_progressStats.ReportUpdatedStatistics();
+				try
+				{
+					if (_statisticsViewModel == null)
+						return;
+
+					_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
+
+					// Really unlikely, but if we get here before the initial gathering is done, we can't do anything.
+					if (_progressStats == null)
+						return;
+
+					try
+					{
+						_progressStats.ReportUpdatedStatistics();
+					}
+					catch (ObjectDisposedException e)
+					{
+						// This probably should be impossible, but just in case, we don't want reporting stats to
+						// crash the program.
+						Logger.WriteError(e);
+					}
+					_progressStats = null; // This ensures we only report once per project open.
+				}
+				finally
+				{
+					Monitor.Exit(_statisticsLock);
+				}
 			}
-			catch (ObjectDisposedException e)
-			{
-				// This probably should be impossible, but just in case, we don't want reporting stats to
-				// crash the program.
-				Logger.WriteError(e);
-			}
-			_progressStats = null; // This ensures we only report once per project open.
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
-			_progressStats = null; // Probably already done, but it also had a copy of _statisticsViewModel.
-			_statisticsViewModel?.Dispose();
+			lock (_statisticsLock)
+			{
+				if (_disposed)
+					return;
+
+				_disposed = true;
+
+				_progressStats = null;
+				_progressStats = null; // Probably already done, but it also had a copy of _statisticsViewModel.
+				_statisticsViewModel?.Dispose();
+				_statisticsViewModel = null;
+			}
+
 			_sessionsRepoFactory = null;
 			if (_needToDisposeTranscriptionFont)
 				TranscriptionFont.Dispose();
@@ -951,27 +974,31 @@ namespace SayMore.Model
 		#endregion
 
 		public void TrackStatistics(StatisticsViewModel statisticsViewModel)
-		{ 
-			if (_statisticsViewModel != null)
-				_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
-
-			_statisticsViewModel = statisticsViewModel;
-			_statisticsViewModel.FinishedGatheringStatisticsForAllFiles += FinishedGatheringStatistics;
-			if (_statisticsViewModel.IsDataUpToDate)
+		{
+			lock (_statisticsLock)
 			{
-				// It either finished before we could hook the event, or we hit the race condition.
-				FinishedGatheringStatistics(_statisticsViewModel, null);
+				if (_statisticsViewModel != null)
+					_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
+
+				_statisticsViewModel = statisticsViewModel;
+				_statisticsViewModel.FinishedGatheringStatisticsForAllFiles += FinishedGatheringStatistics;
+				if (_statisticsViewModel.IsDataUpToDate)
+				{
+					// It finished before we could hook the event.
+					FinishedGatheringStatistics(_statisticsViewModel, null);
+				}
 			}
 		}
 
 		private void FinishedGatheringStatistics(object sender, EventArgs e)
 		{
-			_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
-			// Check for race condition (see above).
-			if (_progressStats != null)
-				return;
-			
-			_progressStats = new ProgressStats(_statisticsViewModel);
+			lock (_statisticsLock)
+			{
+				_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
+				Debug.Assert(_progressStats == null);
+
+				_progressStats = new ProgressStats(_statisticsViewModel);
+			}
 		}
 	}
 }

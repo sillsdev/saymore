@@ -130,7 +130,7 @@ namespace SayMore.UI.Overview.Statistics
 				regKey != null && ((string)regKey.GetValue("Print_Background", "no")).ToLowerInvariant() == "yes";
 
 			if (!isIEPageSetupSetToPrintingBkgndColor)
-				if (regKey != null) regKey.SetValue("Print_Background", "yes", RegistryValueKind.String);
+				regKey?.SetValue("Print_Background", "yes", RegistryValueKind.String);
 #endif
 
 			_webBrowser.ShowPrintDialog();

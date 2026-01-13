@@ -14,7 +14,7 @@
     <LocalPackagesRoot Condition="'$(LocalPackagesRoot)'==''">$(RootDir)/packages/</LocalPackagesRoot>
     <PalasoL10nsVersion>16.2.0</PalasoL10nsVersion>
     <PalasoL10nsRootDir>$(NuGetPackageRoot)SIL.libpalaso.l10ns/$(PalasoL10nsVersion)/</PalasoL10nsRootDir>
-    <SILReleaseTasksProps>$(NuGetPackageRoot)SIL.ReleaseTasks/3.1.1/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
+    <SILReleaseTasksProps>$(NuGetPackageRoot)SIL.ReleaseTasks/3.2.0/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
     <BuildTasksVersionFolder Condition="'$(BuildTasksVersionFolder)' == ''">$(LocalPackagesRoot)SIL.BuildTasks/</BuildTasksVersionFolder>
     <BuildTasksDll>$(BuildTasksVersionFolder)tools/SIL.BuildTasks.dll</BuildTasksDll>
     <SILBuildTasksProps>$(BuildTasksVersionFolder)build/SIL.BuildTasks.props</SILBuildTasksProps>

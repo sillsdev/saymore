@@ -17,7 +17,7 @@ namespace SayMore.UI.Overview.Statistics
 		public event EventHandler FinishedGatheringStatisticsForAllFiles;
 
 		private readonly IEnumerable<ComponentRole> _componentRoles;
-		private readonly AudioVideoDataGatherer _backgroundStatisticsGather;
+		private readonly AudioVideoDataGatherer _backgroundStatisticsGatherer;
 		protected HTMLChartBuilder _chartBuilder;
 
 		public PersonInformant PersonInformant { get; protected set; }
@@ -28,16 +28,18 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		public StatisticsViewModel(Project project, PersonInformant personInformant,
 			SessionWorkflowInformant sessionInformant, IEnumerable<ComponentRole> componentRoles,
-			AudioVideoDataGatherer backgroundStatisticsMananager)
+			AudioVideoDataGatherer backgroundStatisticsManager)
 		{
-			ProjectName = (project == null ? string.Empty : project.Name);
-			ProjectPath = (project == null ? string.Empty : project.FolderPath);
+			ProjectName = project?.Name ?? string.Empty;
+			ProjectPath = project?.FolderPath ?? string.Empty;
 			PersonInformant = personInformant;
 			SessionInformant = sessionInformant;
 			_componentRoles = componentRoles;
-			_backgroundStatisticsGather = backgroundStatisticsMananager;
-			_backgroundStatisticsGather.NewDataAvailable += HandleNewStatistics;
-			_backgroundStatisticsGather.FinishedProcessingAllFiles += HandleFinishedGatheringStatisticsForAllFiles;
+			_backgroundStatisticsGatherer = backgroundStatisticsManager;
+			_backgroundStatisticsGatherer.FinishedProcessingAllFiles += HandleFinishedGatheringStatisticsForAllFiles;
+			_backgroundStatisticsGatherer.NewDataAvailable += HandleNewStatistics;
+
+			project?.TrackStatistics(this);
 
 			_chartBuilder = new HTMLChartBuilder(this);
 		}
@@ -45,33 +47,21 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
-			_backgroundStatisticsGather.NewDataAvailable -= HandleNewStatistics;
-			_backgroundStatisticsGather.FinishedProcessingAllFiles -= HandleFinishedGatheringStatisticsForAllFiles;
+			_backgroundStatisticsGatherer.NewDataAvailable -= HandleNewStatistics;
+			_backgroundStatisticsGatherer.FinishedProcessingAllFiles -= HandleFinishedGatheringStatisticsForAllFiles;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string Status
-		{
-			get { return _backgroundStatisticsGather.Status; }
-		}
+		public string Status => _backgroundStatisticsGatherer.Status;
 
 		/// ------------------------------------------------------------------------------------
-		public bool IsDataUpToDate
-		{
-			get { return _backgroundStatisticsGather.DataUpToDate; }
-		}
+		public bool IsDataUpToDate => _backgroundStatisticsGatherer.DataUpToDate;
 
 		/// ------------------------------------------------------------------------------------
-		public bool IsBusy
-		{
-			get { return _backgroundStatisticsGather.Busy; }
-		}
+		public bool IsBusy => _backgroundStatisticsGatherer.Busy;
 
 		/// ------------------------------------------------------------------------------------
-		public string HTMLString
-		{
-			get { return _chartBuilder.GetStatisticsCharts(); }
-		}
+		public string HTMLString => _chartBuilder.GetStatisticsCharts();
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<KeyValuePair<string, string>> GetElementStatisticsPairs()
@@ -89,13 +79,12 @@ namespace SayMore.UI.Overview.Statistics
 			foreach (var role in _componentRoles.Where(def => def.MeasurementType == ComponentRole.MeasurementTypes.Time))
 			{
 				long bytes = GetTotalComponentRoleFileSizes(role);
-				var size = (bytes == 0 ? "---" : ComponentFile.GetDisplayableFileSize(bytes, false));
 
 				yield return new ComponentRoleStatistics
 				{
 					Name = role.Name,
-					Length = GetRecordingDurations(role).ToString(),
-					Size = size
+					Length = GetRecordingDurations(role),
+					Size = bytes
 				};
 			}
 		}
@@ -121,7 +110,7 @@ namespace SayMore.UI.Overview.Statistics
 		{
 			var comparer = new SourceAndStandardAudioCoalescingComparer();
 			// SP-2171: i.MediaFilePath will be empty if the file is zero length (see MediaFileInfo.GetInfo()). This happens often with the generated oral annotation file.
-			return _backgroundStatisticsGather.GetAllFileData()
+			return _backgroundStatisticsGatherer.GetAllFileData()
 				.Where(i => !string.IsNullOrEmpty(i.MediaFilePath) && !i.MediaFilePath.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix) &&
 					role.IsMatch(i.MediaFilePath))
 				.Distinct(comparer);
@@ -130,28 +119,26 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		public void Refresh()
 		{
-			_backgroundStatisticsGather.Restart();
+			_backgroundStatisticsGatherer.Restart();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		void HandleNewStatistics(object sender, EventArgs e)
 		{
-			if (NewStatisticsAvailable != null)
-				NewStatisticsAvailable(this, EventArgs.Empty);
+			NewStatisticsAvailable?.Invoke(this, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		void HandleFinishedGatheringStatisticsForAllFiles(object sender, EventArgs e)
 		{
-			if (FinishedGatheringStatisticsForAllFiles != null)
-				FinishedGatheringStatisticsForAllFiles(this, EventArgs.Empty);
+			FinishedGatheringStatisticsForAllFiles?.Invoke(this, EventArgs.Empty);
 		}
 	}
 
 	public class ComponentRoleStatistics
 	{
 		public string Name { get; set; }
-		public string Length { get; set; }
-		public string Size { get; set; }
+		public TimeSpan Length { get; set; }
+		public long Size { get; set; }
 	}
 }

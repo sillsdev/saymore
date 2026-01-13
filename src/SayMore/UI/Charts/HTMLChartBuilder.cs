@@ -18,7 +18,7 @@ namespace SayMore.UI.Charts
 		public const string kNonBreakingSpace = "&nbsp;";
 
 		private readonly StatisticsViewModel _statsViewModel;
-		protected readonly StringBuilder _htmlText = new StringBuilder(6000);
+		protected readonly StringBuilder _htmlText = new(6000);
 
 		/// ------------------------------------------------------------------------------------
 		public HTMLChartBuilder(StatisticsViewModel statsViewModel)
@@ -61,7 +61,7 @@ namespace SayMore.UI.Charts
 					WriteStageChart();
 
 					var backColors = GetStatusSegmentColors();
-					var textColors = backColors.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
+					var textColors = backColors.ToDictionary(kvp => kvp.Key, _ => Color.Empty);
 					text = LocalizationManager.GetString("ProgressView.ByGenreHeadingText", "By Genre");
 					WriteChartByFieldPair(text, SessionFileType.kGenreFieldName, SessionFileType.kStatusFieldName, backColors,
 						textColors);
@@ -91,8 +91,8 @@ namespace SayMore.UI.Charts
 			var sessionsByStage = _statsViewModel.SessionInformant.GetSessionsCategorizedByStage()
 				.Where(r => r.Key.Id != ComponentRole.kConsentComponentRoleId);
 
-			var barInfoList = (sessionsByStage.Select(
-				x => new ChartBarInfo(x.Key.Name, x.Value, x.Key.Color, x.Key.TextColor))).ToList();
+			var barInfoList = sessionsByStage.Select(
+				x => new ChartBarInfo(x.Key.Name, x.Value, x.Key.Color, x.Key.TextColor)).ToList();
 
 			ChartBarInfo.CalculateBarSizes(barInfoList);
 			var text = LocalizationManager.GetString("ProgressView.ByStagesHeadingText", "Completed Stages");
@@ -104,7 +104,7 @@ namespace SayMore.UI.Charts
 		{
 			var statusColors = new Dictionary<string, Color>();
 
-			foreach (var statusName in Enum.GetNames(typeof(Session.Status)).Where(x => x != Session.Status.Skipped.ToString()))
+			foreach (var statusName in Enum.GetNames(typeof(Session.Status)).Where(x => x != nameof(Session.Status.Skipped)))
 			{
 				statusColors[Session.GetLocalizedStatus(statusName)] =
 					(Color)Properties.Settings.Default[statusName + "StatusColor"];
@@ -135,9 +135,10 @@ namespace SayMore.UI.Charts
 			foreach (var stats in _statsViewModel.GetComponentRoleStatisticsPairs())
 			{
 				OpenTableRow();
-				WriteTableRowHead(string.Format("{0}:", stats.Name));
-				WriteTableCell(stats.Length);
-				WriteTableCell(stats.Size);
+				WriteTableRowHead($"{stats.Name}:");
+				WriteTableCell(stats.Length.ToString());
+				var size = stats.Size == 0 ? "---" : ComponentFile.GetDisplayableFileSize(stats.Size, false);
+				WriteTableCell(size);
 				CloseTableRow();
 			}
 

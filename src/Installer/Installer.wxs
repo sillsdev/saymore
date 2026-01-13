@@ -7,6 +7,7 @@
 <?define Property_UpgradeCode = "{CBCDEE93-B8EF-445e-98A9-B8CAF9502F0D}" ?>
 
 <?define OutputDir = "..\..\output\x64\$(var.Configuration)\net48\" ?>
+<?define NativeAssetsDir = "$(var.OutputDir)lib\win-x64\" ?>
 
 <!-- good intro to the component vs. file thing, and why each file here is a separate component:
 http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
@@ -200,6 +201,10 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 				<File Id="MediaInfo.dll" Name="MediaInfo.dll" KeyPath="yes" Source="$(var.OutputDir)MediaInfo.dll"/>
 			</Component>
 
+			<Component Id="MediaInfoDLL.dll" Guid="{370327F7-D3D9-4673-87C6-6EFE3ED7DB8E}" Win64="yes">
+				<File Id="MediaInfoDLL.dll" Name="MediaInfoDLL.dll" KeyPath="yes" Source="$(var.OutputDir)MediaInfoDLL.dll"/>
+			</Component>
+
 			<Component Id="NetSparkle.Net40.dll" Guid="{36870B13-214E-4F3E-8226-2FE689C7EEDE}" Win64="yes">
 				<File Id="NetSparkle.Net40.dll" Name="NetSparkle.Net40.dll" KeyPath="yes" Source="$(var.OutputDir)NetSparkle.Net40.dll"/>
 			</Component>
@@ -341,22 +346,22 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			</Component>
 
 			<Component Id="icudt59.x64" Guid="{F0CAECD1-8D7E-4D4F-9147-A4E8ED2B741B}" Win64="yes">
-				<File Id="icudt59.x64" Name="icudt59.dll" KeyPath="yes" Source="$(var.OutputDir)lib\win-x64\icudt59.dll" />
+				<File Id="icudt59.x64" Name="icudt59.dll" KeyPath="yes" Source="$(var.NativeAssetsDir)icudt59.dll" />
 			</Component>
 			<Component Id="icuin59.x64" Guid="{F0CAECD1-8D7E-4D4F-9147-A4E8ED2B741C}" Win64="yes">
-				<File Id="icuin59.x64" Name="icuin59.dll" KeyPath="yes" Source="$(var.OutputDir)lib\win-x64\icuin59.dll" />
+				<File Id="icuin59.x64" Name="icuin59.dll" KeyPath="yes" Source="$(var.NativeAssetsDir)icuin59.dll" />
 			</Component>
 			<Component Id="icuuc59.x64" Guid="{F0CAECD1-8D7E-4D4F-9147-A4E8ED2B741D}" Win64="yes">
-				<File Id="icuuc59.x64" Name="icuuc59.dll" KeyPath="yes" Source="$(var.OutputDir)lib\win-x64\icuuc59.dll" />
+				<File Id="icuuc59.x64" Name="icuuc59.dll" KeyPath="yes" Source="$(var.NativeAssetsDir)icuuc59.dll" />
 			</Component>
 			<Component Id="ikpFlac.x64" Guid="{F0CAECD1-8D7E-4D4F-9147-A4E8ED2B741E}" Win64="yes">
-				<File Id="ikpFlac.x64" Name="ikpFlac.dll" KeyPath="yes" Source="$(var.OutputDir)lib\win-x64\ikpFlac.dll" />
+				<File Id="ikpFlac.x64" Name="ikpFlac.dll" KeyPath="yes" Source="$(var.NativeAssetsDir)ikpFlac.dll" />
 			</Component>
 			<Component Id="ikpMP3.x64" Guid="{F0CAECD1-8D7E-4D4F-9147-A4E8ED2B742A}" Win64="yes">
-				<File Id="ikpMP3.x64" Name="ikpMP3.dll" KeyPath="yes" Source="$(var.OutputDir)lib\win-x64\ikpMP3.dll" />
+				<File Id="ikpMP3.x64" Name="ikpMP3.dll" KeyPath="yes" Source="$(var.NativeAssetsDir)ikpMP3.dll" />
 			</Component>
 			<Component Id="irrKlang.NET4.x64" Guid="{F0CAECD1-8D7E-4D4F-9147-A4E8ED2B742B}" Win64="yes">
-				<File Id="irrKlang.NET4.x64" Name="irrKlang.NET4.dll" KeyPath="yes" Source="$(var.OutputDir)lib\win-x64\irrKlang.NET4.dll" />
+				<File Id="irrKlang.NET4.x64" Name="irrKlang.NET4.dll" KeyPath="yes" Source="$(var.NativeAssetsDir)irrKlang.NET4.dll" />
 			</Component>
 		</Directory>
 	  </Directory>
@@ -378,6 +383,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="L10NSharp.dll"/>
 		<ComponentRef Id="Markdig.Signed.dll"/>
 		<ComponentRef Id="MediaInfo.dll"/>
+		<ComponentRef Id="MediaInfoDLL.dll"/>
 		<ComponentRef Id="NetSparkle.Net40.dll"/>
 		<ComponentRef Id="Microsoft.Bcl.AsyncInterfaces.dll"/>
 		<ComponentRef Id="Microsoft.Extensions.DependencyModel.dll"/>

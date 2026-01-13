@@ -122,9 +122,11 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public virtual void Start()
 		{
-			_workerThread = new Thread(StartWorking);
-			_workerThread.Name = GetType().Name;
-			_workerThread.Priority = ThreadPriority;
+			_workerThread = new Thread(StartWorking)
+			{
+				Name = GetType().Name,
+				Priority = ThreadPriority
+			};
 			_workerThread.TrySetApartmentState(ApartmentState.STA);//needed in case we eventually show an error & need to talk to email.
 			_workerThread.Start();
 		}
@@ -140,7 +142,7 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			try
 			{
-				Status = kWorkingStatus; //NB: this helps simplify unit tests, if go to the busy state before returning
+				Status = kWorkingStatus; //NB: this helps simplify unit tests, if we go to the busy state before returning
 
 				using (var watcher = new FileSystemWatcher(RootDirectoryPath))
 				{
@@ -175,7 +177,7 @@ namespace SayMore.Model.Files.DataGathering
 			}
 			catch (ThreadAbortException)
 			{
-				//this is fine, it happens when we quit
+				// This is fine, it happens when we quit
 			}
 			catch (Exception error)
 			{
@@ -339,7 +341,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public virtual void ProcessAllFiles()
 		{
-			// Now that the watcher is up and running, gather up all existing files
+			// Now that the watcher is up and running, gather all existing files
 			lock (((ICollection)_fileToDataDictionary).SyncRoot)
 			{
 				_fileToDataDictionary.Clear();

@@ -36,8 +36,8 @@ namespace SayMore.UI.Overview.Statistics
 			SessionInformant = sessionInformant;
 			_componentRoles = componentRoles;
 			_backgroundStatisticsGatherer = backgroundStatisticsManager;
-			_backgroundStatisticsGatherer.NewDataAvailable += HandleNewStatistics;
 			_backgroundStatisticsGatherer.FinishedProcessingAllFiles += HandleFinishedGatheringStatisticsForAllFiles;
+			_backgroundStatisticsGatherer.NewDataAvailable += HandleNewStatistics;
 
 			project?.TrackStatistics(this);
 

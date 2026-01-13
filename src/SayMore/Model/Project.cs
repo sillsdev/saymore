@@ -66,28 +66,117 @@ namespace SayMore.Model
 		private Font _workingLanguageFont;
 		private bool _needToDisposeWorkingLanguageFont;
 		
+		private sealed class ProgressStats
+		{
+			private readonly StatisticsViewModel _model;
+				
+			private readonly int _initialNumberOfSessions;
+			private readonly int _initialNumberOfPersons;
+
+			private sealed class MediaDurationStats(TimeSpan initial)
+			{
+				private TimeSpan Initial { get; } = initial;
+				public TimeSpan Current { get; set; } = initial;
+
+				public TimeSpan Delta => Current - Initial;
+			}
+
+			private sealed class RoleCountStats(int initial)
+			{
+				private int Initial { get; } = initial;
+				public int Current { get; set; } = initial;
+
+				public int Delta => Current - Initial;
+			}
+
+			private readonly Dictionary<string, MediaDurationStats> _mediaDurationStats;
+			private readonly Dictionary<string, RoleCountStats> _sessionRoleStats;
+
+			internal ProgressStats(StatisticsViewModel model)
+			{
+				_model = model;
+				
+				_initialNumberOfSessions = _model.SessionInformant.NumberOfSessions;
+				_initialNumberOfPersons = _model.PersonInformant.NumberOfPeople;
+				_mediaDurationStats = _model.GetComponentRoleStatisticsPairs()
+					.ToDictionary(s => s.Name, s => new MediaDurationStats(s.Length));
+
+				_sessionRoleStats = _model.SessionInformant.GetSessionsCategorizedByStage()
+					.Where(s => s.Key.MeasurementType != Time)
+					.ToDictionary(s => s.Key.Id, s => new RoleCountStats(s.Value.Count()));
+			}
+
+			internal void ReportUpdatedStatistics()
+			{
+				if (_model.IsBusy)
+					Thread.Sleep(200); // Give it a fighting chance to finish.
+				
+				var sessionDelta = _model.SessionInformant.NumberOfSessions - _initialNumberOfSessions;
+				var personDelta = _model.PersonInformant.NumberOfPeople - _initialNumberOfPersons;
+
+				foreach (var stat in _model.GetComponentRoleStatisticsPairs())
+				{
+					if (_mediaDurationStats.TryGetValue(stat.Name, out var entry))
+						entry.Current = stat.Length;
+					else
+					{
+						_mediaDurationStats[stat.Name] =
+							new MediaDurationStats(TimeSpan.Zero)
+							{
+								Current = stat.Length
+							};
+					}
+				}
+
+				foreach (var stat in _model.SessionInformant.GetSessionsCategorizedByStage()
+					         .Where(s => s.Key.MeasurementType != Time))
+				{
+					if (_sessionRoleStats.TryGetValue(stat.Key.Id, out var entry))
+						entry.Current = stat.Value.Count();
+					else
+					{
+						_sessionRoleStats[stat.Key.Id] = new RoleCountStats(0)
+						{
+							Current = stat.Value.Count()
+						};
+					}
+				}
+
+				var properties = new Dictionary<string, string>();
+
+				if (sessionDelta > 0)
+					properties["SessionsAdded"] = sessionDelta.ToString();
+
+				if (personDelta > 0)
+					properties["PersonsAdded"] = personDelta.ToString();
+
+				foreach (var kvp in _mediaDurationStats)
+				{
+					var delta = kvp.Value.Delta;
+					if (delta > TimeSpan.Zero)
+					{
+						properties[$"MediaDurationAdded.{kvp.Key}"] =
+							delta.TotalSeconds.ToString("F0");
+					}
+				}
+
+				foreach (var kvp in _sessionRoleStats)
+				{
+					var delta = kvp.Value.Delta;
+					if (delta > 0)
+					{
+						properties[$"CompletedStages.{kvp.Key}"] =
+							delta.ToString();
+					}
+				}
+
+				if (properties.Any())
+					Analytics.Track("ProjectProgress", properties);
+			}
+		}
+
 		private StatisticsViewModel _statisticsViewModel;
-		private int _initialNumberOfSessions;
-		private int _finalNumberOfSessions;
-		private int _initialNumberOfPersons;
-		private int _finalNumberOfPersons;
-		private sealed class MediaDurationStats(TimeSpan initial)
-		{
-			public TimeSpan Initial { get; } = initial;
-			public TimeSpan Current { get; set; } = initial;
-
-			public TimeSpan Delta => Current - Initial;
-		}
-		private sealed class RoleCountStats(int initial)
-		{
-			public int Initial { get; } = initial;
-			public int Current { get; set; } = initial;
-
-			public int Delta => Current - Initial;
-		}
-
-		private Dictionary<string, MediaDurationStats> _mediaDurationStats;
-		private Dictionary<string, RoleCountStats> _sessionRoleStats;
+		private ProgressStats _progressStats;
 
 		public delegate Project Factory(string desiredOrExistingFilePath);
 
@@ -179,68 +268,35 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void ReportProgressIfNeeded()
+		public void ReportProgressIfAny()
 		{
-			if (_statisticsViewModel != null)
+			if (_statisticsViewModel == null) 
+				return;
+			
+			_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
+
+			// Really unlikely, but if we get here before the initial gathering is done, we can't do anything.
+			if (_progressStats == null)
+				return;
+
+			try
 			{
-				_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
-				_statisticsViewModel.NewStatisticsAvailable -= UpdateStatistics;
-
-				var sessionDelta = _finalNumberOfSessions - _initialNumberOfSessions;
-				var personDelta = _finalNumberOfPersons - _initialNumberOfPersons;
-
-				bool hasProgress =
-					sessionDelta > 0 ||
-					personDelta > 0 ||
-					_mediaDurationStats != null &&
-					_mediaDurationStats.Values.Any(s => s.Delta > TimeSpan.Zero) ||
-					_sessionRoleStats != null &&
-					_sessionRoleStats.Values.Any(s => s.Delta > 0); ;
-
-				if (hasProgress)
-				{
-					var properties = new Dictionary<string, string>();
-
-					if (sessionDelta > 0)
-						properties["SessionsAdded"] = sessionDelta.ToString();
-
-					if (personDelta > 0)
-						properties["PersonsAdded"] = personDelta.ToString();
-
-					if (_mediaDurationStats != null)
-					{
-						foreach (var kvp in _mediaDurationStats)
-						{
-							var delta = kvp.Value.Delta;
-							if (delta > TimeSpan.Zero)
-							{
-								properties[$"MediaDurationAdded.{kvp.Key}"] =
-									delta.TotalSeconds.ToString("F0");
-							}
-						}
-					}
-					
-					if (_sessionRoleStats != null)
-					{
-						foreach (var kvp in _sessionRoleStats)
-						{
-							var delta = kvp.Value.Delta;
-							if (delta > 0)
-							{
-								properties[$"CompletedStages.{kvp.Key}"] =
-									delta.ToString();
-							}
-						}
-					}
-
-					Analytics.Track("ProjectProgress", properties);
-				}
+				_progressStats.ReportUpdatedStatistics();
 			}
+			catch (ObjectDisposedException e)
+			{
+				// This probably should be impossible, but just in case, we don't want reporting stats to
+				// crash the program.
+				Logger.WriteError(e);
+			}
+			_progressStats = null; // This ensures we only report once per project open.
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
+			_progressStats = null; // Probably already done, but it also had a copy of _statisticsViewModel.
+			_statisticsViewModel?.Dispose();
 			_sessionsRepoFactory = null;
 			if (_needToDisposeTranscriptionFont)
 				TranscriptionFont.Dispose();
@@ -424,54 +480,6 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetFileDescription(string key, string file)
-		{
-			var description = (key == string.Empty ? "SayMore Session File" : "SayMore Contributor File");
-
-			if (file.ToLower().EndsWith(Settings.Default.SessionFileExtension))
-				description = "SayMore Session Metadata (XML)";
-			else if (file.ToLower().EndsWith(Settings.Default.PersonFileExtension))
-				description = "SayMore Contributor Metadata (XML)";
-			else if (file.ToLower().EndsWith(Settings.Default.MetadataFileExtension))
-				description = "SayMore File Metadata (XML)";
-
-			return description;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void SetAdditionalMetsData(RampArchivingDlgViewModel model)
-		{
-			foreach (var session in GetAllSessions(CancellationToken.None))
-			{
-				model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
-				model.SetDomains(SilDomain.Ling_LanguageDocumentation);
-
-				var value = session.MetaDataFile.GetStringValue(SessionFileType.kDateFieldName, null);
-				if (!string.IsNullOrEmpty(value))
-					model.SetCreationDate(value);
-
-				// Return the session's note as the abstract portion of the package's description.
-				value = session.MetaDataFile.GetStringValue(SessionFileType.kSynopsisFieldName, null);
-				if (!string.IsNullOrEmpty(value))
-					model.SetAbstract(value, string.Empty);
-
-				// Set contributors
-				var contribsVal = session.MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null);
-				if (contribsVal is ContributionCollection contributions && contributions.Count > 0)
-					model.SetContributors(contributions);
-
-				// Return total duration of source audio/video recordings.
-				TimeSpan totalDuration = session.GetTotalDurationOfSourceMedia();
-				if (totalDuration.Ticks > 0)
-					model.SetAudioVideoExtent($"Total Length of Source Recordings: {totalDuration}");
-
-				//First session details are enough for "Archive RAMP (SIL)..." from Project menu
-				break;
-			}
-		}
-
-
-		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
 			// SP-791: Invalid URI: The hostname could not be parsed.
@@ -578,26 +586,26 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string GetStringSettingValue(XElement project, string elementName, string defaultValue)
+		private static string GetStringSettingValue(XElement project, string elementName, string defaultValue)
 		{
 			var element = project.Element(elementName);
 			return element == null ? defaultValue : element.Value;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private int GetIntAttributeValue(XElement project, string attribName, string fallbackAttribName = null)
+		private static int GetIntAttributeValue(XElement project, string attribName, string fallbackAttribName = null)
 		{
 			var attrib = project.Attribute(attribName);
 			if (attrib == null && fallbackAttribName != null)
 				attrib = project.Attribute(fallbackAttribName);
-			return (attrib != null && Int32.TryParse(attrib.Value, out var val)) ? val : default;
+			return attrib != null && Int32.TryParse(attrib.Value, out var val) ? val : 0;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private double GetDoubleAttributeValue(XElement project, string attribName)
+		private static double GetDoubleAttributeValue(XElement project, string attribName)
 		{
 			var attrib = project.Attribute(attribName);
-			return (attrib != null && Double.TryParse(attrib.Value, out var val)) ? val : default;
+			return attrib != null && Double.TryParse(attrib.Value, out var val) ? val : 0;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -653,6 +661,53 @@ namespace SayMore.Model
 		}
 
 		#region Archiving
+		/// ------------------------------------------------------------------------------------
+		public string GetFileDescription(string key, string file)
+		{
+			var description = key == string.Empty ? "SayMore Session File" : "SayMore Contributor File";
+
+			if (file.ToLower().EndsWith(Settings.Default.SessionFileExtension))
+				description = "SayMore Session Metadata (XML)";
+			else if (file.ToLower().EndsWith(Settings.Default.PersonFileExtension))
+				description = "SayMore Contributor Metadata (XML)";
+			else if (file.ToLower().EndsWith(Settings.Default.MetadataFileExtension))
+				description = "SayMore File Metadata (XML)";
+
+			return description;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetAdditionalMetsData(RampArchivingDlgViewModel model)
+		{
+			foreach (var session in GetAllSessions(CancellationToken.None))
+			{
+				model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
+				model.SetDomains(SilDomain.Ling_LanguageDocumentation);
+
+				var value = session.MetaDataFile.GetStringValue(SessionFileType.kDateFieldName, null);
+				if (!string.IsNullOrEmpty(value))
+					model.SetCreationDate(value);
+
+				// Return the session's note as the abstract portion of the package's description.
+				value = session.MetaDataFile.GetStringValue(SessionFileType.kSynopsisFieldName, null);
+				if (!string.IsNullOrEmpty(value))
+					model.SetAbstract(value, string.Empty);
+
+				// Set contributors
+				var contribsVal = session.MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null);
+				if (contribsVal is ContributionCollection contributions && contributions.Count > 0)
+					model.SetContributors(contributions);
+
+				// Return total duration of source audio/video recordings.
+				TimeSpan totalDuration = session.GetTotalDurationOfSourceMedia();
+				if (totalDuration.Ticks > 0)
+					model.SetAudioVideoExtent($"Total Length of Source Recordings: {totalDuration}");
+
+				//First session details are enough for "Archive RAMP (SIL)..." from Project menu
+				break;
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public string ArchiveInfoDetails =>
 			LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails",
@@ -898,66 +953,25 @@ namespace SayMore.Model
 		public void TrackStatistics(StatisticsViewModel statisticsViewModel)
 		{ 
 			if (_statisticsViewModel != null)
-			{
 				_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
-				_statisticsViewModel.NewStatisticsAvailable -= UpdateStatistics;
-			}
 
 			_statisticsViewModel = statisticsViewModel;
 			_statisticsViewModel.FinishedGatheringStatisticsForAllFiles += FinishedGatheringStatistics;
+			if (_statisticsViewModel.IsDataUpToDate)
+			{
+				// It either finished before we could hook the event, or we hit the race condition.
+				FinishedGatheringStatistics(_statisticsViewModel, null);
+			}
 		}
 
 		private void FinishedGatheringStatistics(object sender, EventArgs e)
 		{
 			_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
-			_initialNumberOfSessions = _finalNumberOfSessions = _statisticsViewModel.SessionInformant.NumberOfSessions;
-			_initialNumberOfPersons = _finalNumberOfPersons = _statisticsViewModel.PersonInformant.NumberOfPeople;
-			_mediaDurationStats =
-				_statisticsViewModel.GetComponentRoleStatisticsPairs()
-					.ToDictionary(
-						s => s.Name,
-						s => new MediaDurationStats(s.Length));
-
-			_sessionRoleStats = _statisticsViewModel.SessionInformant.GetSessionsCategorizedByStage()
-				.Where(s => s.Key.MeasurementType != Time)
-				.ToDictionary(s => s.Key.Id, s => new RoleCountStats(s.Value.Count()));
+			// Check for race condition (see above).
+			if (_progressStats != null)
+				return;
 			
-			_statisticsViewModel.NewStatisticsAvailable += UpdateStatistics;
-		}
-
-		private void UpdateStatistics(object sender, EventArgs e)
-		{
-			_finalNumberOfSessions = _statisticsViewModel.SessionInformant.NumberOfSessions;
-			_finalNumberOfPersons = _statisticsViewModel.PersonInformant.NumberOfPeople;
-
-			foreach (var stat in _statisticsViewModel.GetComponentRoleStatisticsPairs())
-			{
-				if (_mediaDurationStats.TryGetValue(stat.Name, out var entry))
-					entry.Current = stat.Length;
-				else
-				{
-					_mediaDurationStats[stat.Name] =
-						new MediaDurationStats(TimeSpan.Zero)
-						{
-							Current = stat.Length
-						};
-				}
-			}
-
-			foreach (var stat in _statisticsViewModel.SessionInformant.GetSessionsCategorizedByStage()
-				         .Where(s => s.Key.MeasurementType != Time))
-			{
-				if (_sessionRoleStats.TryGetValue(stat.Key.Id, out var entry))
-					entry.Current = stat.Value.Count();
-				else
-				{
-					_sessionRoleStats[stat.Key.Id] =
-						new RoleCountStats(0)
-						{
-							Current = stat.Value.Count()
-						};
-				}
-			}
+			_progressStats = new ProgressStats(_statisticsViewModel);
 		}
 	}
 }

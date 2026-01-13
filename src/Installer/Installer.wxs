@@ -6,8 +6,8 @@
 <!--Don't even think of EVER changing this, despite the counter-intuitive name. What it is: "a shared identifier that represents multiple versions of an application" -->
 <?define Property_UpgradeCode = "{CBCDEE93-B8EF-445e-98A9-B8CAF9502F0D}" ?>
 
-<?define OutputDir = "..\..\src\SayMore\bin\x64\$(var.Configuration)\net48\" ?>
-<?define NativeAssetsDir = "..\..\output\x64\$(var.Configuration)\net48\lib\win-x64\" ?>
+<?define OutputDir = "..\..\output\x64\$(var.Configuration)\net48\" ?>
+<?define NativeAssetsDir = "$(var.OutputDir)lib\win-x64\" ?>
 
 <!-- good intro to the component vs. file thing, and why each file here is a separate component:
 http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->

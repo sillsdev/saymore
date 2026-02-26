@@ -79,7 +79,6 @@ namespace SayMore.UI.ElementListScreen
 
 			_elementsListPanel = elementsListPanel;
 			_elementsListPanel.NewButtonClicked += HandleAddingNewElement;
-			_elementsListPanel.DeleteButtonClicked += HandleDeletingSelectedElements;
 			_elementsListPanel.ListControl = _elementsGrid;
 
 			_componentFilesControl = componentGrid;
@@ -441,12 +440,6 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleDeletingSelectedElements(object sender, EventArgs e)
-		{
-			DeleteSelectedElements();
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void DeleteSelectedElements()
 		{
 			if (_elementsGrid.RowCount == 0)
@@ -559,7 +552,6 @@ namespace SayMore.UI.ElementListScreen
 
 				_elementsGrid.SelectedElementChanged -= HandleSelectedElementChanged;
 				_elementsListPanel.NewButtonClicked -= HandleAddingNewElement;
-				_elementsListPanel.DeleteButtonClicked -= HandleDeletingSelectedElements;
 
 				var frm = FindForm();
 				if (frm != null)

@@ -44,7 +44,7 @@ namespace SayMore.UI.ComponentEditors
 			PersonInformant personInformant)
 			: base(file, null, imageKey)
 		{
-			Logger.WriteEvent("PersonBasicEditor constructor. file = {0}", file);
+			Logger.WriteEvent("SessionBasicEditor constructor. file = {0}", file);
 
 			InitializeComponent();
 			Name = "SessionEditor";

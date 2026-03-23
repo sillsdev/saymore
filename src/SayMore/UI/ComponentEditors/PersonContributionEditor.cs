@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.UI;
 using SayMore.Model;
 using SayMore.Model.Files;
 using DateTime = System.DateTime;

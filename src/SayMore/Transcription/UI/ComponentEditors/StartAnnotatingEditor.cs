@@ -78,7 +78,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
 			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
@@ -93,7 +93,7 @@ namespace SayMore.Transcription.UI
                 }
             }
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 
         private void PopulateAudacityLabelTierItems()

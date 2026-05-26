@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Configuration;
-using System.Drawing;
-using System.Linq;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
 using System.Text;
@@ -15,20 +15,23 @@ using System.Windows.Forms;
 using System.Xml;
 using DesktopAnalytics;
 using L10NSharp;
-using SIL.Code;
-using SIL.Extensions;
-using SIL.IO;
-using SIL.Reporting;
-using SIL.Windows.Forms.Miscellaneous;
-using SIL.Windows.Forms.PortableSettingsProvider;
+using L10NSharp.Windows.Forms;
 using SayMore.Media;
+using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI;
 using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
-using SayMore.Model;
 using SayMore.Utilities;
+using SIL.Code;
+using SIL.Core.Desktop.Privacy;
+using SIL.Extensions;
+using SIL.IO;
+using SIL.Reporting;
 using SIL.Windows.Forms.Extensions;
+using SIL.Windows.Forms.Miscellaneous;
+using SIL.Windows.Forms.PortableSettingsProvider;
+using SIL.Windows.Forms.Privacy;
 using SIL.Windows.Forms.Reporting;
 using SIL.WritingSystems;
 using static System.Environment;
@@ -60,6 +63,7 @@ namespace SayMore
 
 		private static readonly List<Exception> _pendingExceptionsToReportToAnalytics = new List<Exception>();
 		private static UserInfo s_userInfo;
+		internal static IAnalyticsConsent AnalyticsImpl;
 
 		private static bool s_handlingFirstChanceExceptionThreadsafe = false;
 		private static bool s_handlingFirstChanceExceptionUnsafe = false;
@@ -205,11 +209,8 @@ namespace SayMore
 			// Always track if this is a debug build, but track to a different segment.io project
 			using (new Analytics("twa75xkko9", s_userInfo))
 #else
-			// If this is a release build, then allow an environment variable to be set to false
-			// so that testers aren't generating false analytics
-			string feedbackSetting = System.Environment.GetEnvironmentVariable("FEEDBACK");
-
-			var allowTracking = IsNullOrEmpty(feedbackSetting) || feedbackSetting.ToLower() == "yes" || feedbackSetting.ToLower() == "true";
+			// If this is a release build, then allow opt-out.
+			var allowTracking = IsAnalyticsEnabled;
 
 			using (new Analytics("jtfe7dyef3", s_userInfo, allowTracking))
 #endif
@@ -250,6 +251,25 @@ namespace SayMore
 					Sldr.Cleanup();
 					FileSyncHelper.RestartAllStoppedClients();
 				}
+			}
+		}
+
+		private static bool IsAnalyticsEnabled
+		{
+			get
+			{
+				AnalyticsImpl = new AnalyticsConsent(Application.ProductName);
+				AnalyticsImpl.AllowTrackingChanged += (_, allowTrackingChangedEventArgs) =>
+				{
+					Analytics.AllowTracking = allowTrackingChangedEventArgs.IsTrackingAllowed;
+				};
+
+				// For testers (so they aren't generating false analytics)
+				var feedbackSetting = GetEnvironmentVariable("FEEDBACK")?.ToLowerInvariant();
+				if (!IsNullOrEmpty(feedbackSetting))
+					return feedbackSetting == "yes" || feedbackSetting == "true";
+
+				return AnalyticsImpl.AllowTracking;
 			}
 		}
 
@@ -583,17 +603,15 @@ namespace SayMore
 
 			while (true)
 			{
-				using (var dlg = _applicationContainer.CreateWelcomeDialog())
+				using var dlg = _applicationContainer.CreateWelcomeDialog();
+				if (dlg.ShowDialog() != DialogResult.OK)
 				{
-					if (dlg.ShowDialog() != DialogResult.OK)
-					{
-						Application.Exit();
-						return;
-					}
-
-					if (OpenProjectWindow(dlg.Model.ProjectSettingsFilePath))
-						return;
+					Application.Exit();
+					return;
 				}
+
+				if (OpenProjectWindow(dlg.Model.ProjectSettingsFilePath))
+					return;
 			}
 		}
 
@@ -818,7 +836,7 @@ namespace SayMore
             Analytics.IdentifyUpdate(s_userInfo);
             Settings.Default.UserInterfaceLanguage = languageId;
             Logger.WriteEvent("Changed UI Locale to: " + languageId);
-            LocalizationManager.SetUILanguage(languageId, true);
+            LocalizationManagerWinforms.SetUILanguage(languageId, true);
         }
     }
 }

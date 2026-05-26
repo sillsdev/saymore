@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.UI;
+using L10NSharp.Windows.Forms;
 using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
@@ -390,8 +390,8 @@ namespace SayMore.UI.ComponentEditors
 			var msg = LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.VerifyDeleteFieldQuestion",
 				"Do you want to delete the field '{0}' and its contents from the entire project?");
 
-			using (var dlg = new DeleteMessageBox(string.Format(msg, id)))
-				return (dlg.ShowDialog() == DialogResult.OK);
+			using var dlg = new DeleteMessageBox(string.Format(msg, id));
+			return dlg.ShowDialog() == DialogResult.OK;
 		}
 	}
 }

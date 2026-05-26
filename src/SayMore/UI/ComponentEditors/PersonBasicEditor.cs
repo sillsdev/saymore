@@ -86,7 +86,7 @@ namespace SayMore.UI.ComponentEditors
 					{ _otherLanguage3, _otherLanguage3.ForeColor}
 				};
 
-			HandleStringsLocalized(null);
+			HandleStringsLocalized();
 			_binder.TranslateBoundValueBeingSaved += HandleBinderTranslateBoundValueBeingSaved;
 			_binder.TranslateBoundValueBeingRetrieved += HandleBinderTranslateBoundValueBeingRetrieved;
 			_binder.SetComponentFile(file);
@@ -810,12 +810,13 @@ namespace SayMore.UI.ComponentEditors
 		#endregion
 
 		#region Methods for handling localized gender names
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Update the tab text and gender names in case they were localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
 			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
@@ -834,7 +835,7 @@ namespace SayMore.UI.ComponentEditors
 				}
 			}
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 
 		/// ------------------------------------------------------------------------------------

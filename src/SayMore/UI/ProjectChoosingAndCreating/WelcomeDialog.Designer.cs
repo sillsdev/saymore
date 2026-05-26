@@ -1,6 +1,7 @@
 using L10NSharp;
+using L10NSharp.Windows.Forms;
 using L10NSharp.XLiffUtils;
-using L10NSharp.UI;
+using L10NSharp.Windows.Forms.UIComponents;
 using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI.ProjectChoosingAndCreating
@@ -19,12 +20,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
-			{
-				if (components != null)
-					components.Dispose();
-
-				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= LocalizationInitiated;
-			}
+				components?.Dispose();
 			base.Dispose(disposing);
 		}
 
@@ -49,7 +45,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._linkSILWebsite = new System.Windows.Forms.LinkLabel();
 			this._labelVersionInfo = new System.Windows.Forms.Label();
 			this._labelSubTitle = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._linkSayMoreWebsite = new System.Windows.Forms.LinkLabel();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.pnlOptions.SuspendLayout();

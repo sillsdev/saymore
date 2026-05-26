@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Autofac;
 using L10NSharp;
+using L10NSharp.Windows.Forms;
 using SIL.IO;
 using SayMore.Model;
 using SayMore.Model.Fields;
@@ -230,16 +231,6 @@ namespace SayMore
 
 		public ILocalizationManager CreateLocalizationManager()
 		{
-			// This used to be `sil.saymore@gmail.com`. As of 2021, TomB had credentials for it
-			// and confirmed that it was set up to forward to JohnH, but it is unclear whether that
-			// is still the case. It's probably very rare/unlikely that anyone would use this for
-			// requesting the addition of a new UI language, but it probably makes more sense to
-			// have any such requests go to the SayMore issues email address. That way a JIRA issue
-			// will get created, and it is more likely that someone will see it and take action.
-			// The Help file used to direct people to send localizations to
-			// issues@saymore.palaso.org. I'm almost sure that one is defunct.
-			const string emailForLocalizations = "saymore_issues@sil.org";
-
 			var installedStringFileFolder = Path.GetDirectoryName(
 				FileLocationUtilities.GetFileDistributedWithApplication("SayMore.es.xlf"));
 			var relativePathForWritingL10nFiles = 
@@ -250,18 +241,23 @@ namespace SayMore
 				Path.Combine(Environment.GetFolderPath(CommonApplicationData),
 					relativePathForWritingL10nFiles), installedStringFileFolder);
 
-			var localizationManager = LocalizationManager.Create(currentUiLanguage,
+			var localizationManager = LocalizationManagerWinforms.Create(currentUiLanguage,
 				kSayMoreLocalizationId + ".exe", Application.ProductName,
 				ProductVersion, installedStringFileFolder,
-				relativePathForWritingL10nFiles, Resources.SayMore, emailForLocalizations,
-				new [] {"SayMore" });
+				relativePathForWritingL10nFiles, Resources.SayMore,
+				["SayMore"]);
 
-			LocalizationManager.Create(currentUiLanguage,
+			LocalizationManagerWinforms.Create(currentUiLanguage,
 				kPalasoLocalizationId, kPalasoLocalizationId, ProductVersion,
 				installedStringFileFolder, relativePathForWritingL10nFiles, Resources.SayMore,
-				emailForLocalizations, new [] {"SIL.Archiving", "SIL.Windows.Forms.FileSystem",
-				"SIL.Windows.Forms.ClearShare", "SIL.Windows.Forms.Miscellaneous",
-				"SIL.Reporting", "SIL.Windows.Forms.WritingSystems"});
+				[
+					"SIL.Archiving",
+					"SIL.Windows.Forms.FileSystem",
+					"SIL.Windows.Forms.ClearShare",
+					"SIL.Windows.Forms.Miscellaneous",
+					"SIL.Reporting",
+					"SIL.Windows.Forms.WritingSystems"
+				]);
 
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 

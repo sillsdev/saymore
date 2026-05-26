@@ -1,7 +1,7 @@
 // --------------------------------------------------------------------------------------------
-#region // Copyright (c) 2025, SIL Global. All Rights Reserved.
-// <copyright from='2011' to='2025' company='SIL Global'>
-//		Copyright (c) 2025, SIL Global. All Rights Reserved.
+#region // Copyright (c) 2026, SIL Global. All Rights Reserved.
+// <copyright from='2011' to='2026' company='SIL Global'>
+//		Copyright (c) 2026, SIL Global. All Rights Reserved.
 //
 //		Distributable under the terms of the MIT License (https://sil.mit-license.org/)
 // </copyright>
@@ -18,8 +18,6 @@ using System.Reflection;
 using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
-using L10NSharp.XLiffUtils;
-using L10NSharp.UI;
 using NetSparkle;
 using SIL.IO;
 using SIL.Reporting;
@@ -31,6 +29,7 @@ using SayMore.UI.Overview;
 using SayMore.Utilities;
 using SIL.Windows.Forms.Extensions;
 using SIL.Windows.Forms.Miscellaneous;
+using SIL.Windows.Forms.Privacy;
 using static System.String;
 using static SayMore.Utilities.FileSystemUtils;
 
@@ -50,6 +49,7 @@ namespace SayMore.UI.ProjectWindow
 		private readonly string _projectPath;
 		private readonly IEnumerable<ICommand> _commands;
 		private readonly UILanguageDlg.Factory _uiLanguageDialogFactory;
+		private readonly ILocalizationManager _localizationManager;
 		private MPlayerDebuggingOutputWindow _outputDebuggingWindow;
 		private string _titleFmt;
 
@@ -125,7 +125,8 @@ namespace SayMore.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectWindow(string projectPath, IEnumerable<ISayMoreView> views,
-			IEnumerable<ICommand> commands, UILanguageDlg.Factory uiLanguageDialogFactory) : this()
+			IEnumerable<ICommand> commands, UILanguageDlg.Factory uiLanguageDialogFactory,
+			ILocalizationManager localizationManager) : this()
 		{
 			if (Settings.Default.ProjectWindow == null)
 			{
@@ -136,6 +137,7 @@ namespace SayMore.UI.ProjectWindow
 			_projectPath = projectPath;
 			_commands = commands;
 			_uiLanguageDialogFactory = uiLanguageDialogFactory;
+			_localizationManager = localizationManager;
 
 			_viewTabGroup.Visible = false;
 
@@ -157,8 +159,8 @@ namespace SayMore.UI.ProjectWindow
 				((UserControl)vw).Enabled = false;
 			}
 
-			SetWindowText();
-			LocalizeItemDlg<XLiffDocument>.StringsLocalized += SetWindowText;
+			SetWindowText(null, EventArgs.Empty);
+			localizationManager.UiLanguageChanged += SetWindowText;
 
 			foreach (var tab in _viewTabGroup.Tabs.Where(tab => tab.View is ProjectScreen))
 				_viewTabGroup.SetActiveView(tab);
@@ -182,7 +184,7 @@ namespace SayMore.UI.ProjectWindow
 			{
 				FailedToGetShortName -= HandleFailureToGetShortName;
 
-				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= SetWindowText;
+				_localizationManager.UiLanguageChanged -= SetWindowText;
 
 				ExceptionHandler.RemoveDelegate(AudioUtils.HandleGlobalNAudioException);
 
@@ -199,8 +201,9 @@ namespace SayMore.UI.ProjectWindow
 		/// Sets the localized window title texts.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SetWindowText(ILocalizationManager lm = null)
+		private void SetWindowText(object sender, EventArgs e)
 		{
+			var lm = (ILocalizationManager)sender;
 			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
 				var ver = Assembly.GetExecutingAssembly().GetName().Version;
@@ -297,12 +300,10 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void HandleHelpAboutClick(object sender, EventArgs e)
 		{
-			using (var dlg = new SILAboutBox(FileLocationUtilities.GetFileDistributedWithApplication("aboutbox.htm")))
-			{
-				dlg.Text += "\u2122";
-				dlg.CheckForUpdatesClicked += HandleAboutDialogCheckForUpdatesClick;
-				dlg.ShowDialog(this);
-			}
+			using var dlg = new SILAboutBox(FileLocationUtilities.GetFileDistributedWithApplication("aboutbox.htm"));
+			dlg.Text += "\u2122";
+			dlg.CheckForUpdatesClicked += HandleAboutDialogCheckForUpdatesClick;
+			dlg.ShowDialog(this);
 		}
 
 		private static void HandleAboutDialogCheckForUpdatesClick(object sender, EventArgs e)
@@ -328,6 +329,15 @@ namespace SayMore.UI.ProjectWindow
 				Debug.Print(ex.Message);
 			}
 			Analytics.Track("Show Help from main menu");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandlePrivacyMenuClick(object sender, EventArgs e)
+		{
+			using var dlg = new PrivacyDlg(Program.AnalyticsImpl);
+			dlg.RestartLabelColor = Color.Orange;
+			dlg.ShowDialog(this);
+
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -357,21 +367,19 @@ namespace SayMore.UI.ProjectWindow
 			var loadErrors = Program.FileLoadErrors;
 			if (loadErrors.Any())
 			{
-				using (var dlg = new FileLoadErrorsReportDlg(loadErrors))
-					dlg.ShowDialog(this);
+				using var dlg = new FileLoadErrorsReportDlg(loadErrors);
+				dlg.ShowDialog(this);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleChangeUILanguageMenuClick(object sender, EventArgs e)
 		{
-			using (var dlg = _uiLanguageDialogFactory())
-			{
-				if (dlg.ShowDialog(this) != DialogResult.OK)
-					return;
+			using var dlg = _uiLanguageDialogFactory();
+			if (dlg.ShowDialog(this) != DialogResult.OK)
+				return;
 
-                Program.UpdateUiLanguageForUser(dlg.UILanguage);
-            }
+			Program.UpdateUiLanguageForUser(dlg.UILanguage);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -416,11 +424,9 @@ namespace SayMore.UI.ProjectWindow
 		private void HandleMainMenuPaint(object sender, PaintEventArgs e)
 		{
 			var clr = Color.FromArgb(30, Color.Black);
-			using (var pen = new Pen(clr))
-			{
-				var rc = _mainMenuStrip.ClientRectangle;
-				e.Graphics.DrawLine(pen, 0, rc.Bottom - 1, rc.Right, rc.Bottom - 1);
-			}
+			using var pen = new Pen(clr);
+			var rc = _mainMenuStrip.ClientRectangle;
+			e.Graphics.DrawLine(pen, 0, rc.Bottom - 1, rc.Right, rc.Bottom - 1);
 		}
 
 		/// ------------------------------------------------------------------------------------

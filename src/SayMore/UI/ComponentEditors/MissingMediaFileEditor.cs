@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Forms;
 using L10NSharp;
 using SIL.Reporting;
@@ -10,13 +11,13 @@ namespace SayMore.UI.ComponentEditors
 	public partial class MissingMediaFileEditor : EditorBase
 	{
 		/// ------------------------------------------------------------------------------------
-		public MissingMediaFileEditor(ComponentFile file, string imageKey)
-			: base(file, null, imageKey)
+		public MissingMediaFileEditor(ComponentFile file, string imageKey, ILocalizationManager localizationManager)
+			: base(file, null, imageKey, localizationManager)
 		{
 			Logger.WriteEvent("MissingMediaFileEditor constructor. file = {0}", file);
 			InitializeComponent();
 			SetComponentFile(file);
-			HandleStringsLocalized(null);
+			HandleStringsLocalized(null, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -28,14 +29,14 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnVisibleChanged(System.EventArgs e)
+		protected override void OnVisibleChanged(EventArgs e)
 		{
 			base.OnVisibleChanged(e);
 			ReselectFilePathAndScrollIntoViewAsMuchAsPossible();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnSizeChanged(System.EventArgs e)
+		protected override void OnSizeChanged(EventArgs e)
 		{
 			base.OnSizeChanged(e);
 			ReselectFilePathAndScrollIntoViewAsMuchAsPossible();
@@ -55,10 +56,11 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 
+			var lm = (ILocalizationManager)sender;
 			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
 				TabText = LocalizationManager.GetString(

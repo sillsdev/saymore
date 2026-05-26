@@ -6,8 +6,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.XLiffUtils;
-using L10NSharp.UI;
 using SIL.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Utilities;
@@ -37,6 +35,7 @@ namespace SayMore.UI.ComponentEditors
 	// Should be abstract, but that messes up the Designer
 	public class EditorBase : UserControl, IEditorProvider
 	{
+		private readonly ILocalizationManager _localizationManager;
 		private bool _setWorkingFontWhenHandleIsCreated = false;
 		private BindingHelper _binder;
 		protected ComponentFile _file;
@@ -48,8 +47,9 @@ namespace SayMore.UI.ComponentEditors
 		public Action<string, Type> ComponentFileListRefreshAction { protected get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public EditorBase()
+		public EditorBase(ILocalizationManager localizationManager)
 		{
+			_localizationManager = localizationManager;
 			DoubleBuffered = true;
 			BackColor = AppColors.DataEntryPanelBegin;
 			Padding = new Padding(7);
@@ -60,12 +60,13 @@ namespace SayMore.UI.ComponentEditors
 			ControlRemoved += HandleControlRemoved;
 			Layout += HandleLayout;
 
-			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
-			HandleStringsLocalized(null);
+			localizationManager.UiLanguageChanged += HandleStringsLocalized;
+			HandleStringsLocalized(null, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public EditorBase(ComponentFile file, string tabText, string imageKey) : this()
+		public EditorBase(ComponentFile file, string tabText, string imageKey, 
+			ILocalizationManager localizationManager) : this(localizationManager)
 		{
 			_file = file;
 			Initialize(tabText, imageKey);
@@ -75,8 +76,7 @@ namespace SayMore.UI.ComponentEditors
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
-				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= HandleStringsLocalized;
-
+				_localizationManager.UiLanguageChanged -= HandleStringsLocalized;
 			try
 			{
 				base.Dispose(disposing);
@@ -208,7 +208,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleStringsLocalized(ILocalizationManager lm)
+		protected virtual void HandleStringsLocalized(object sender, EventArgs e)
 		{
 		}
 

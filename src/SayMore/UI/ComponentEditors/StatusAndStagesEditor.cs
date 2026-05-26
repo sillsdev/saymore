@@ -331,7 +331,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
 			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
@@ -350,7 +350,7 @@ namespace SayMore.UI.ComponentEditors
 				}
 			}
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 
 		/// ------------------------------------------------------------------------------------

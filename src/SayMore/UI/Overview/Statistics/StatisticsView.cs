@@ -4,9 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.XLiffUtils;
 using Microsoft.Win32;
-using L10NSharp.UI;
 using SIL.Reporting;
 
 namespace SayMore.UI.Overview.Statistics
@@ -14,13 +12,15 @@ namespace SayMore.UI.Overview.Statistics
 	public partial class StatisticsView : UserControl
 	{
 		private readonly StatisticsViewModel _model;
+		private readonly ILocalizationManager _localizationManager;
 
 		/// ------------------------------------------------------------------------------------
-		public StatisticsView(StatisticsViewModel model)
+		public StatisticsView(StatisticsViewModel model, ILocalizationManager localizationManager)
 		{
 			Logger.WriteEvent("StatisticsView constructor");
 
 			_model = model;
+			_localizationManager = localizationManager;
 			InitializeComponent();
 
 			_panelWorking.BorderStyle = BorderStyle.None;
@@ -32,7 +32,7 @@ namespace SayMore.UI.Overview.Statistics
 		{
 			base.OnHandleDestroyed(e);
 
-			LocalizeItemDlg<XLiffDocument>.StringsLocalized -= UpdateDisplay;
+			_localizationManager.UiLanguageChanged -= UpdateDisplay;
 			_model.FinishedGatheringStatisticsForAllFiles -= HandleNewDataAvailable;
 			_model.NewStatisticsAvailable -= HandleNewDataAvailable;
 		}
@@ -46,15 +46,16 @@ namespace SayMore.UI.Overview.Statistics
 			if (_model.IsDataUpToDate)
 			{
 				_model.NewStatisticsAvailable += HandleNewDataAvailable;
-				UpdateDisplay();
+				UpdateDisplay(null, EventArgs.Empty);
 			}
 
-			LocalizeItemDlg<XLiffDocument>.StringsLocalized += UpdateDisplay;
+			_localizationManager.UiLanguageChanged += UpdateDisplay;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateDisplay(ILocalizationManager lm = null)
+		private void UpdateDisplay(object sender, EventArgs e)
 		{
+			var lm = (ILocalizationManager)sender;
 			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
 				return;
 
@@ -77,9 +78,11 @@ namespace SayMore.UI.Overview.Statistics
 
 							_timerDetectBrowserRefreshedUsingContextMenu.Enabled = true;
 						}));
-				});
-			updateDisplayThread.Name = "StatisticsView.UpdateDisplay";
-			updateDisplayThread.IsBackground = true;
+				})
+			{
+				Name = "StatisticsView.UpdateDisplay",
+				IsBackground = true
+			};
 			updateDisplayThread.Start();
 		}
 
@@ -151,15 +154,13 @@ namespace SayMore.UI.Overview.Statistics
 
 			// I could use the browser's ShowSaveAsDialog method, but that
 			// doesn't give me as much control over the dialog's settings.
-			using (var dlg = new System.Windows.Forms.SaveFileDialog())
-			{
-				dlg.DefaultExt = "html";
-				dlg.Filter = @"HTML File (*.html)|*.html|All Files (*.*)|*.*";
-				dlg.FileName = Path.ChangeExtension(_webBrowser.DocumentTitle, "html");
-				dlg.OverwritePrompt = true;
-				if (dlg.ShowDialog() == DialogResult.OK)
-					File.WriteAllText(dlg.FileName, _webBrowser.DocumentText);
-			}
+			using var dlg = new System.Windows.Forms.SaveFileDialog();
+			dlg.DefaultExt = "html";
+			dlg.Filter = @"HTML File (*.html)|*.html|All Files (*.*)|*.*";
+			dlg.FileName = Path.ChangeExtension(_webBrowser.DocumentTitle, "html");
+			dlg.OverwritePrompt = true;
+			if (dlg.ShowDialog() == DialogResult.OK)
+				File.WriteAllText(dlg.FileName, _webBrowser.DocumentText);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -180,7 +181,7 @@ namespace SayMore.UI.Overview.Statistics
 			// Can't actually call UpdateDisplay from here because this event is fired from
 			// a background (data gathering) thread and updating the browser control on the
 			// background thread is a no-no.
-			BeginInvoke(new Action(() => UpdateDisplay()));
+			BeginInvoke(new Action(() => UpdateDisplay(null, EventArgs.Empty)));
 		}
 
 		private void _detectContextMenuRefreshTimer_Tick(object sender, EventArgs e)

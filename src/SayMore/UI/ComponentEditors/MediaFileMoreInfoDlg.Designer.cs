@@ -14,9 +14,7 @@ namespace SayMore.UI.ComponentEditors
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing && (components != null))
-			{
 				components.Dispose();
-			}
 			base.Dispose(disposing);
 		}
 
@@ -36,7 +34,7 @@ namespace SayMore.UI.ComponentEditors
             this._flowLayoutButtons = new System.Windows.Forms.FlowLayoutPanel();
             this._buttonEvenMoreInfo = new System.Windows.Forms.Button();
             this._buttonLessInfo = new System.Windows.Forms.Button();
-            this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+            this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
             this._lblSource = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this._panelBrowser.SuspendLayout();
@@ -225,7 +223,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.WebBrowser _webBrowserInfo;
 		private SIL.Windows.Forms.Widgets.EnhancedPanel _panelBrowser;
 		private System.Windows.Forms.Button _buttonLessInfo;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
         private System.Windows.Forms.Label _lblSource;
     }
 }

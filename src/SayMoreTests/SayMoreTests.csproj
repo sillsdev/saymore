@@ -59,7 +59,7 @@
 
   <ItemGroup>
     <PackageReference Include="FFMpegCore" Version="5.1.0" />
-    <PackageReference Include="L10NSharp" Version="8.0.0" />
+    <PackageReference Include="L10NSharp" Version="10.0.0-beta0004" />
     <PackageReference Include="MediaInfoDLL" Version="25.7.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.2" />
     <PackageReference Include="NUnit" Version="3.14.0" />
@@ -68,13 +68,13 @@
     <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Markdig.Signed" Version="0.41.1" />
-    <PackageReference Include="SIL.Core" Version="16.2.0" />
-    <PackageReference Include="SIL.Media" Version="16.2.0" />
-    <PackageReference Include="SIL.TestUtilities" Version="16.2.0" />
-    <PackageReference Include="SIL.Windows.Forms" Version="16.2.0" />
-    <PackageReference Include="SIL.Windows.Forms.Archiving" Version="16.2.0" />
-    <PackageReference Include="SIL.Windows.Forms.Keyboarding" Version="16.2.0" />
-    <PackageReference Include="SIL.Windows.Forms.WritingSystems" Version="16.2.0" />
+    <PackageReference Include="SIL.Core" Version="18.0.0-beta0013" />
+    <PackageReference Include="SIL.Media" Version="18.0.0-beta0013" />
+    <PackageReference Include="SIL.TestUtilities" Version="18.0.0-beta0013" />
+    <PackageReference Include="SIL.Windows.Forms" Version="18.0.0-beta0013" />
+    <PackageReference Include="SIL.Windows.Forms.Archiving" Version="18.0.0-beta0013" />
+    <PackageReference Include="SIL.Windows.Forms.Keyboarding" Version="18.0.0-beta0013" />
+    <PackageReference Include="SIL.Windows.Forms.WritingSystems" Version="18.0.0-beta0013" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.2" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />

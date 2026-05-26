@@ -30,11 +30,11 @@ namespace SayMore.UI.ProjectWindow
 		{
 			this.components = new System.ComponentModel.Container();
 			this._tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-			this._comboUILanguage = new L10NSharp.UI.UILanguageComboBox();
+			this._comboUILanguage = new L10NSharp.Windows.Forms.UIComponents.UILanguageComboBox();
 			this._labelLanguage = new System.Windows.Forms.Label();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._buttonOK = new System.Windows.Forms.Button();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._linkIWantToLocalize = new System.Windows.Forms.LinkLabel();
 			this._linkHelpOnLocalizing = new System.Windows.Forms.LinkLabel();
 			this._tableLayoutPanel.SuspendLayout();
@@ -200,11 +200,11 @@ namespace SayMore.UI.ProjectWindow
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutPanel;
-		private L10NSharp.UI.UILanguageComboBox _comboUILanguage;
+		private L10NSharp.Windows.Forms.UIComponents.UILanguageComboBox _comboUILanguage;
 		private System.Windows.Forms.Label _labelLanguage;
 		private System.Windows.Forms.Button _buttonCancel;
 		private System.Windows.Forms.Button _buttonOK;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.LinkLabel _linkIWantToLocalize;
 		private System.Windows.Forms.LinkLabel _linkHelpOnLocalizing;
 	}

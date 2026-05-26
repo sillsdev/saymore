@@ -31,7 +31,7 @@ namespace SayMore.UI.Overview
 			this.components = new System.ComponentModel.Container();
 			this._labelInformation = new System.Windows.Forms.Label();
 			this._linkHowArchived = new System.Windows.Forms.LinkLabel();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._descriptionFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._layoutTable = new System.Windows.Forms.TableLayoutPanel();
 			this._splitter = new System.Windows.Forms.SplitContainer();
@@ -155,7 +155,7 @@ namespace SayMore.UI.Overview
 
 		#endregion
 
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.LinkLabel _linkHowArchived;
 		private System.Windows.Forms.TableLayoutPanel _layoutTable;
 		protected System.Windows.Forms.Label _labelInformation;

@@ -395,11 +395,10 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized()
 		{
-			base.HandleStringsLocalized(lm);
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-				UpdateDisplay();
+			base.HandleStringsLocalized();
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------

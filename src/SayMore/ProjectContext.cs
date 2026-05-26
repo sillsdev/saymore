@@ -179,17 +179,15 @@ namespace SayMore
 		private static XmlDocument LoadXmlDocument(string xmlFile)
 		{
 			var doc = new XmlDocument();
-			using (var reader = XmlReader.Create(xmlFile))
+			using var reader = XmlReader.Create(xmlFile);
+			try
 			{
-				try
-				{
-					doc.Load(reader);
-				}
-				catch (XmlException e)
-				{
-					Logger.WriteError($"Error loading {xmlFile}", e);
-					throw;
-				}
+				doc.Load(reader);
+			}
+			catch (XmlException e)
+			{
+				Logger.WriteError($"Error loading {xmlFile}", e);
+				throw;
 			}
 
 			return doc;

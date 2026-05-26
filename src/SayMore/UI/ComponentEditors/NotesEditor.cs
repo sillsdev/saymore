@@ -67,7 +67,7 @@ namespace SayMore.UI.ComponentEditors
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
 			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
@@ -75,7 +75,7 @@ namespace SayMore.UI.ComponentEditors
 					"CommonToMultipleViews.NotesEditor.TabText", "Notes");
 			}
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 
 		private void NotesEditor_Load(object sender, EventArgs e)

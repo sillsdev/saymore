@@ -17,7 +17,8 @@ namespace SayMore.UI.ComponentEditors
 		private ImageViewerViewModel _model;
 
 		/// ------------------------------------------------------------------------------------
-		public ImageViewer(ComponentFile file) : base(file, null, "Image")
+		public ImageViewer(ComponentFile file, ILocalizationManager localizationManager) :
+			base(file, null, "Image", localizationManager)
 		{
 			Logger.WriteEvent("ImageViewer constructor. file = {0}", file);
 			InitializeComponent();
@@ -140,15 +141,16 @@ namespace SayMore.UI.ComponentEditors
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
+			var lm = (ILocalizationManager)sender;
 			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
 				TabText = LocalizationManager.GetString(
 					"CommonToMultipleViews.ImageViewer.TabText", "Image");
 			}
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 	}
 }

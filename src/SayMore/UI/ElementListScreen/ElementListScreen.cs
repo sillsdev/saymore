@@ -5,8 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.XLiffUtils;
-using L10NSharp.UI;
 using SIL.Windows.Forms.FileSystem;
 using SayMore.Model.Files;
 using SayMore.Model;
@@ -35,6 +33,7 @@ namespace SayMore.UI.ElementListScreen
 	public partial class ElementListScreen<T> : UserControl where T : ProjectElement
 	{
 		protected readonly ElementListViewModel<T> _model;
+		private readonly ILocalizationManager _localizationManagerm;
 		protected ElementGrid _elementsGrid;
 		protected TabControl _selectedEditorsTabControl;
 		protected ListPanel _elementsListPanel;
@@ -49,9 +48,10 @@ namespace SayMore.UI.ElementListScreen
 		public ToolStripMenuItem MainMenuItem { get; }
 
 		/// ------------------------------------------------------------------------------------
-		public ElementListScreen(ElementListViewModel<T> presentationModel)
+		public ElementListScreen(ElementListViewModel<T> presentationModel, ILocalizationManager lm)
 		{
 			_model = presentationModel;
+			_localizationManagerm = lm;
 			MainMenuItem = new ToolStripMenuItem();
 		}
 
@@ -99,19 +99,19 @@ namespace SayMore.UI.ElementListScreen
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
-			HandleStringsLocalized(null);
-			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
+			HandleStringsLocalized(null, EventArgs.Empty);
+			_localizationManagerm.UiLanguageChanged += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			LocalizeItemDlg<XLiffDocument>.StringsLocalized -= HandleStringsLocalized;
+			_localizationManagerm.UiLanguageChanged -= HandleStringsLocalized;
 			base.OnHandleDestroyed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleStringsLocalized(ILocalizationManager lm)
+		protected virtual void HandleStringsLocalized(object sender, EventArgs e)
 		{
 			// Overridden in derived classes
 		}
@@ -138,8 +138,8 @@ namespace SayMore.UI.ElementListScreen
 
 			if (_model.FileLoadErrors.Any())
 			{
-				using (var dlg = new FileLoadErrorsReportDlg(_model.FileLoadErrors))
-					dlg.ShowDialog(this);
+				using var dlg = new FileLoadErrorsReportDlg(_model.FileLoadErrors);
+				dlg.ShowDialog(this);
 			}
 
 			// Do this in case some of the metadata changed (e.g. audio file was edited)

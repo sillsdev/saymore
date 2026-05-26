@@ -34,6 +34,7 @@ namespace SayMore.Model.Files
 	{
 		protected Func<BasicFieldGridEditor.Factory> _basicFieldGridEditorFactoryLazy;
 		protected Func<string, bool> _isMatchPredicate;
+		protected readonly ILocalizationManager _localizationManager;
 
 		protected readonly Dictionary<int, IEnumerable<IEditorProvider>> _editors =
 			new Dictionary<int, IEnumerable<IEditorProvider>>();
@@ -604,10 +605,13 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class AnnotationFileWithMissingMediaFileType : FileType
 	{
+		private readonly ILocalizationManager _localizationManager;
+
 		/// ------------------------------------------------------------------------------------
-		public AnnotationFileWithMissingMediaFileType()
+		public AnnotationFileWithMissingMediaFileType(ILocalizationManager localizationManager)
 			: base("AnnotationsWithMissingMedia", GetIsAnAnnotationFileWithMissingMedia)
 		{
+			_localizationManager = localizationManager;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -622,7 +626,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			yield return new MissingMediaFileEditor(file, "/Concepts/ELAN.htm");
+			yield return new MissingMediaFileEditor(file, "/Concepts/ELAN.htm", _localizationManager);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -642,8 +646,9 @@ namespace SayMore.Model.Files
 		public OralAnnotationFileType(
 			Func<Project> project,
 			Lazy<Func<AudioComponentEditor.Factory>> audioComponentEditorFactoryLazy,
-			Lazy<Func<ContributorsEditor.Factory>> contributorsEditorFactoryLazy) :
-			base(project(), audioComponentEditorFactoryLazy, contributorsEditorFactoryLazy)
+			Lazy<Func<ContributorsEditor.Factory>> contributorsEditorFactoryLazy,
+			ILocalizationManager localizationManager) :
+			base(project(), audioComponentEditorFactoryLazy, contributorsEditorFactoryLazy, localizationManager)
 		{
 			Name = "OralAnnotations";
 		}
@@ -657,7 +662,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			yield return new OralAnnotationEditor(file);
+			yield return new OralAnnotationEditor(file, _localizationManager);
 			yield return AudioComponentEditorFactoryLazy.Value()(file, null);
 			//yield return _contributorsEditorFactoryLazy()(file, null);
 			//yield return new NotesEditor(file);
@@ -678,20 +683,23 @@ namespace SayMore.Model.Files
 	public abstract class AudioVideoFileTypeBase : FileTypeWithContributors
 	{
 		private readonly Project _project;
+		protected readonly ILocalizationManager _localizationManager;
 
 		/// ------------------------------------------------------------------------------------
 		protected AudioVideoFileTypeBase(string name, Project project, Func<string, bool> isMatchPredicate,
-			Lazy<Func<ContributorsEditor.Factory>> contributorsEditorFactoryLazy)
+			Lazy<Func<ContributorsEditor.Factory>> contributorsEditorFactoryLazy,
+			ILocalizationManager localizationManager)
 			: base(name, isMatchPredicate, contributorsEditorFactoryLazy)
 		{
 			_project = project;
+			_localizationManager = localizationManager;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
 			yield return new StartAnnotatingEditor(file, _project);
-			yield return new ConvertToStandardAudioEditor(file);
+			yield return new ConvertToStandardAudioEditor(file, _localizationManager);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -929,10 +937,11 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public AudioFileType(Project project,
 			Lazy<Func<AudioComponentEditor.Factory>> audioComponentEditorFactoryLazy,
-			Lazy<Func<ContributorsEditor.Factory>> contributorsEditorFactoryLazy)
+			Lazy<Func<ContributorsEditor.Factory>> contributorsEditorFactoryLazy,
+			ILocalizationManager localizationManager)
 			: base("Audio", project,
 				p => FileUtils.AudioFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())),
-				contributorsEditorFactoryLazy)
+				contributorsEditorFactoryLazy, localizationManager)
 		{
 			AudioComponentEditorFactoryLazy = audioComponentEditorFactoryLazy;
 		}
@@ -970,7 +979,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			yield return new AudioVideoPlayer(file, "Audio");
+			yield return new AudioVideoPlayer(file, "Audio", _localizationManager);
 			yield return AudioComponentEditorFactoryLazy.Value()(file, null);
 			yield return ContributorsEditorFactoryLazy.Value()(file, null);
 			yield return new NotesEditor(file);
@@ -994,9 +1003,10 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public VideoFileType(Project project,
 			Func<VideoComponentEditor.Factory> videoComponentEditorFactoryLazy,
-			Lazy<Func<ContributorsEditor.Factory>> contributorsEditorFactoryLazy)
+			Lazy<Func<ContributorsEditor.Factory>> contributorsEditorFactoryLazy,
+			ILocalizationManager localizationManager)
 			: base("Video", project, p => FileUtils.VideoFileExtensions.Cast<string>()
-				.Any(ext => p.ToLower().EndsWith(ext.ToLower())), contributorsEditorFactoryLazy)
+				.Any(ext => p.ToLower().EndsWith(ext.ToLower())), contributorsEditorFactoryLazy, localizationManager)
 		{
 			_videoComponentEditorFactoryLazy = videoComponentEditorFactoryLazy;
 		}
@@ -1035,7 +1045,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			yield return new AudioVideoPlayer(file, "Video");
+			yield return new AudioVideoPlayer(file, "Video", _localizationManager);
 			yield return _videoComponentEditorFactoryLazy()(file, null);
 			yield return ContributorsEditorFactoryLazy.Value()(file, null);
 			yield return new NotesEditor(file);
@@ -1059,7 +1069,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public ImageFileType(
 			Func<BasicFieldGridEditor.Factory> basicFieldGridEditorFactoryLazy,
-			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
+			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy,
+			ILocalizationManager localizationManager)
 			: base("Image", p => FileUtils.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())))
 		{
 			_basicFieldGridEditorFactoryLazy = basicFieldGridEditorFactoryLazy;
@@ -1072,7 +1083,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			yield return new ImageViewer(file);
+			yield return new ImageViewer(file, _localizationManager);
 			yield return _basicFieldGridEditorFactoryLazy()(file, null);
 			yield return _contributorsEditorFactoryLazy()(file, null);
 			yield return new NotesEditor(file);

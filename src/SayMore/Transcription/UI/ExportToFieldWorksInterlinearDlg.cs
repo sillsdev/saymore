@@ -1,6 +1,4 @@
 using L10NSharp;
-using L10NSharp.UI;
-using L10NSharp.XLiffUtils;
 using SayMore.Properties;
 using SIL.Reporting;
 using SIL.WritingSystems;
@@ -31,7 +29,7 @@ namespace SayMore.Transcription.UI
 
 		#endregion
 
-		private string _intructionsFmt;
+		private string _instructionsFmt;
 		
 		public string FileName { get; private set; }
 		public DisplayFriendlyWritingSystem TranscriptionWs { get; private set; }
@@ -62,17 +60,13 @@ namespace SayMore.Transcription.UI
 			_comboTranslationWs.Font = Program.DialogFont;
 
 			HandleStringsLocalized();
-			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void HandleStringsLocalized(ILocalizationManager lm = null)
+		protected void HandleStringsLocalized()
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				_intructionsFmt = _labelImportInstructions.Text;
-				FormatImportInstructions();
-			}
+			_instructionsFmt = _labelImportInstructions.Text;
+			FormatImportInstructions();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -80,7 +74,7 @@ namespace SayMore.Transcription.UI
 		{
 			if (_comboTranslationWs.SelectedIndex >= 0)
 			{
-				_labelImportInstructions.Text = Format(_intructionsFmt, kFlexProgramName,
+				_labelImportInstructions.Text = Format(_instructionsFmt, kFlexProgramName,
 					(DisplayFriendlyWritingSystem)_comboTranslationWs.SelectedItem);
 			}
 		}
@@ -139,7 +133,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		/// <summary>Select the desired writing system in the given combo.</summary>
 		/// <param name="combo">The writing system combo box (whose items are expected to be of
-		/// type <see cref="DisplayFriendlyWritingSystem"/>.</param>
+		/// type <see cref="DisplayFriendlyWritingSystem"/>).</param>
 		/// <param name="initialWss">An array of BCP-47 writing system locale identifiers. If more
 		/// than one is provided, they should be given in order of descending preference; the first
 		/// one that corresponds to an existing writing system in the combo box will be selected.
@@ -161,44 +155,41 @@ namespace SayMore.Transcription.UI
 				}
 			}
 
-			if (combo.SelectedItem == null)
-				combo.SelectedItem = combo.Items[0];
+			combo.SelectedItem ??= combo.Items[0];
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleExportButtonClick(object sender, EventArgs e)
 		{
 			var folder = TextAnnotationEditor.GetDefaultExportFolder("LastFlexInterlinearExportDestinationFolder");
-			using (var dlg = new SaveFileDialog())
+			using var dlg = new SaveFileDialog();
+			dlg.Title = LocalizationManager.GetString(
+				"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.Caption",
+				"Export to File");
+
+			var flexInterlinearFilesDesc = LocalizationManager.GetString(
+				"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.InterlinearFilesDesc",
+				"FLEx Interlinear ({0})", "Parameter is a file-matching pattern: \"*.flextext\"");
+
+			dlg.Filter = Format("{0}|{1}|{2}|{3}",
+				Format(flexInterlinearFilesDesc, "*" + kFlexTextExt),
+				"*" + kFlexTextExt,
+				Format(LocalizedVersionOfAllFilesDescriptor, kAllFilesFilter),
+				kAllFilesFilter);
+
+			dlg.FileName = FileName;
+			dlg.OverwritePrompt = true;
+			dlg.CheckPathExists = true;
+			dlg.AutoUpgradeEnabled = true;
+			dlg.RestoreDirectory = true;
+			dlg.InitialDirectory = folder ?? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+			if (dlg.ShowDialog() == DialogResult.OK)
 			{
-				dlg.Title = LocalizationManager.GetString(
-					"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.Caption",
-					"Export to File");
-
-				var flexInterlinearFilesDesc = LocalizationManager.GetString(
-					"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.InterlinearFilesDesc",
-					"FLEx Interlinear ({0})", "Parameter is a file-matching pattern: \"*.flextext\"");
-
-				dlg.Filter = Format("{0}|{1}|{2}|{3}",
-					Format(flexInterlinearFilesDesc, "*" + kFlexTextExt),
-					"*" + kFlexTextExt,
-					Format(LocalizedVersionOfAllFilesDescriptor, kAllFilesFilter),
-					kAllFilesFilter);
-
-				dlg.FileName = FileName;
-				dlg.OverwritePrompt = true;
-				dlg.CheckPathExists = true;
-				dlg.AutoUpgradeEnabled = true;
-				dlg.RestoreDirectory = true;
-				dlg.InitialDirectory = folder ?? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-				if (dlg.ShowDialog() == DialogResult.OK)
-				{
-					FileName = dlg.FileName;
-					Settings.Default.LastFlexInterlinearExportDestinationFolder = Path.GetDirectoryName(FileName);
-					DialogResult = DialogResult.OK;
-					Close();
-				}
+				FileName = dlg.FileName;
+				Settings.Default.LastFlexInterlinearExportDestinationFolder = Path.GetDirectoryName(FileName);
+				DialogResult = DialogResult.OK;
+				Close();
 			}
 		}
 

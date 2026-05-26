@@ -17,16 +17,19 @@ namespace SayMore.UI.Overview
 {
 	public abstract partial class ProjectDocsScreen : EditorBase, ISayMoreView
 	{
+		private readonly ILocalizationManager _localizationManager;
 		private const string kOfficeTempPrefix = "~$";
 		protected abstract string FolderName { get; }
 		protected abstract string ArchiveSessionName { get; }
 
-		private readonly ImageList _tabControlImages = new ImageList();
+		private readonly ImageList _tabControlImages = new();
 		private ComponentEditorsTabControl _tabCtrl;
 		protected string _toolTipText;
 
-		protected ProjectDocsScreen()
+		protected ProjectDocsScreen(ILocalizationManager localizationManager) : 
+			base(localizationManager)
 		{
+			_localizationManager = localizationManager;
 			Logger.WriteEvent("ProjectDocsScreen constructor");
 
 			InitializeComponent();
@@ -87,9 +90,10 @@ namespace SayMore.UI.Overview
 			LocalizeStrings();
 		}
 
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
+			var lm = (ILocalizationManager)sender;
 			if ((lm == null || lm.Id == kSayMoreLocalizationId) && _descriptionFileGrid != null)
 				LocalizeStrings();
 		}
@@ -145,7 +149,7 @@ namespace SayMore.UI.Overview
 		{
 			var dir = Path.Combine(Program.CurrentProject.FolderPath, FolderName);
 			if (!Directory.Exists(dir))
-				return new ComponentFile[0];
+				return [];
 
 			var unknownFileType = new FileType[]
 			{new UnknownFileType(null, null), new AudioFileType(null, null, null), new VideoFileType(null, null, null), new ImageFileType(null, null) };
@@ -188,9 +192,9 @@ namespace SayMore.UI.Overview
 				List<IEditorProvider> providers = new List<IEditorProvider>();
 
 				if ((file.FileType is AudioFileType) || (file.FileType is VideoFileType))
-					providers.Add(new AudioVideoPlayer(file, null));
+					providers.Add(new AudioVideoPlayer(file, null, _localizationManager));
 				else if (file.FileType is ImageFileType)
-					providers.Add(new ImageViewer(file));
+					providers.Add(new ImageViewer(file, _localizationManager));
 				else
 					providers.Add(new BrowserEditor(file, null));
 
@@ -237,7 +241,8 @@ namespace SayMore.UI.Overview
 		internal static string kFolderName = "DescriptionDocuments";
 		internal static string kArchiveSessionName = "Project Description Documents";
 
-		public ProjectDescriptionDocsScreen()
+		public ProjectDescriptionDocsScreen(ILocalizationManager localizationManager) : 
+			base(localizationManager)
 		{
 			_descriptionFileGrid.InitializeGrid("ProjectDescriptionDocuments");
 		}
@@ -263,7 +268,8 @@ namespace SayMore.UI.Overview
 		internal static string kFolderName = "OtherDocuments";
 		internal static string kArchiveSessionName = "Other Project Documents";
 
-		public ProjectOtherDocsScreen()
+		public ProjectOtherDocsScreen(ILocalizationManager localizationManager) : 
+			base(localizationManager)
 		{
 			_descriptionFileGrid.InitializeGrid("ProjectOtherDocuments");
 		}

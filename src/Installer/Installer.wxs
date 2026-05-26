@@ -8,6 +8,8 @@
 
 <?define OutputDir = "..\..\output\x64\$(var.Configuration)\net48\" ?>
 <?define NativeAssetsDir = "$(var.OutputDir)lib\win-x64\" ?>
+<?define ProductName = "SayMore" ?>
+<?define ProductAnalyticsRegistryKey = "Software\SIL\$(var.ProductName)\Analytics" ?>	
 
 <!-- good intro to the component vs. file thing, and why each file here is a separate component:
 http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
@@ -15,26 +17,103 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
 	
   <!-- Id = "*" means auto-generate a new guid each time. This is "a unique identifier for the particular product release" -->
-  <Product Id="*" Name="SayMore $(var.Property_ProductVersion)" Language="1033"
+  <Product Id="*" Name="$(var.ProductName) $(var.Property_ProductVersion)" Language="1033"
 			 Version="$(var.Property_ProductVersion)" Manufacturer="SIL"
 			 UpgradeCode="$(var.Property_UpgradeCode)">
 
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" Platform="x64" />
 
-	  <MajorUpgrade   Schedule="afterInstallInitialize"
-	  DowngradeErrorMessage="A later version of SayMore is already installed. If you really want to downgrade, first uninstall SayMore, then do this install again."/>
+	<MajorUpgrade Schedule="afterInstallInitialize"
+	  DowngradeErrorMessage="A later version of $(var.ProductName) is already installed. If you really want to downgrade, first uninstall $(var.ProductName), then do this install again."/>
+
+	<!-- Look for analytics settings -->
+    <Property Id="PRODUCT_ANALYTICS_ENABLED" Value="1" Secure="yes">
+	    <RegistrySearch Id="ProductAnalyticsSearch"
+	                    Root="HKCU"
+	                    Key="$(var.ProductAnalyticsRegistryKey)"
+	                    Name="Enabled"
+	                    Type="raw"
+	                    Win64="yes" />
+    </Property>
+
+    <Property Id="SIL_ANALYTICS_ENABLED_GLOBALLY" Value="1" Secure="yes">
+	    <RegistrySearch Id="GlobalAnalyticsSearch"
+	                    Root="HKCU"
+	                    Key="Software\SIL\Analytics"
+	                    Name="Enabled"
+	                    Type="raw"
+	                    Win64="yes" />
+    </Property>
+
+    <!-- Must be Secure so it transfers from the UI session to the elevated execute session
+         for per-machine installs; component conditions depend on it. -->
+    <Property Id="SIL_ANALYTICS_APPLY_GLOBALLY" Secure="yes" />
 
 	<Upgrade Id="$(var.Property_UpgradeCode)" >
 	  <UpgradeVersion Minimum="$(var.Property_ProductVersion)" OnlyDetect="yes" Property="NEWVERSIONDETECTED" />
 	  <UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="$(var.Property_ProductVersion)" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED" />
 	</Upgrade >
 
-	<!-- show the license page -->
-	<UIRef Id="WixUI_Minimal"/>
-	<!-- Top banner / 493 × 58 -->
+<!-- Use FeatureTree UI (Welcome → License → ...) but skip the feature/dir dialogs -->
+<UIRef Id="WixUI_FeatureTree"/>
+<UI>
+    <!-- Privacy dialog (for enabling/disabling analytics) -->
+    <Dialog Id="PrivacyDlg" Width="370" Height="270" Title="Privacy Settings">
+        <Control Id="Description" Type="Text" X="20" Y="10" Width="330" Height="100"
+                Text="$(var.ProductName) collects a small amount of usage data to help SIL Global improve the software. This data is intended to be anonymous and does not include personal information. However, given the small number of users and the types of data collected, we cannot strictly guarantee that individuals or language communities could never be identified. You may opt out below." />
+        <Control Id="ProductAnalyticsCheckbox" Type="CheckBox"
+                X="20" Y="120" Width="330" Height="18"
+                Property="PRODUCT_ANALYTICS_ENABLED"
+                CheckBoxValue="1"
+                Text="Share anonymous $(var.ProductName) usage data"/>
+        <Control Id="GlobalAnalyticsCheckbox" Type="CheckBox"
+                X="20" Y="145" Width="330" Height="18"
+                Property="SIL_ANALYTICS_APPLY_GLOBALLY"
+                CheckBoxValue="1"
+                Text="Use this setting for other SIL Global desktop software"/>
+        <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="&lt; Back">
+            <Publish Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
+        </Control>
+        <Control Id="Next" Type="PushButton" X="240" Y="243" Width="56" Height="17" Default="yes" Text="Next >">
+            <!-- Normalize unchecked product-specific value to "0" only when global is NOT applied -->
+            <Publish Property="PRODUCT_ANALYTICS_ENABLED" Value="0">NOT PRODUCT_ANALYTICS_ENABLED AND NOT SIL_ANALYTICS_APPLY_GLOBALLY</Publish>
+            <!-- Set global value to match product-specific value when global IS applied; don't touch it otherwise -->
+            <Publish Property="SIL_ANALYTICS_ENABLED_GLOBALLY" Value="1">PRODUCT_ANALYTICS_ENABLED = "1" AND SIL_ANALYTICS_APPLY_GLOBALLY = "1"</Publish>
+            <Publish Property="SIL_ANALYTICS_ENABLED_GLOBALLY" Value="0">NOT PRODUCT_ANALYTICS_ENABLED AND SIL_ANALYTICS_APPLY_GLOBALLY = "1"</Publish>
+            <Publish Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+        </Control>
+        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Cancel">
+            <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+        </Control>
+    </Dialog>
+
+    <!-- Skip CustomizeDlg: redirect License → PrivacyDlg (Order=3 fires after the default Order=2) -->
+    <!-- Skip PrivacyDlg if the user has already made a choice, either specific to this product or globally. -->
+    <Publish Dialog="LicenseAgreementDlg"
+			Control="Next"
+			Event="NewDialog"
+			Value="PrivacyDlg"
+			Order="3">
+		LicenseAccepted = "1"
+		AND NOT PRODUCT_ANALYTICS_SETTING
+		AND NOT GLOBAL_ANALYTICS_SETTING
+	</Publish>
+
+	<Publish Dialog="LicenseAgreementDlg"
+			Control="Next"
+			Event="NewDialog"
+			Value="VerifyReadyDlg"
+			Order="4">
+		LicenseAccepted = "1"
+		AND (PRODUCT_ANALYTICS_SETTING OR GLOBAL_ANALYTICS_SETTING)
+	</Publish>
+</UI>
+	  
+	<!-- Top banner / 493 x 58 -->
 	<WixVariable Id='WixUIBannerBmp' Value='installerBanner.jpg' />
-	<!-- Background bitmap used on the welcome and completion dialogs / 493 × 312 -->
+	<!-- Background bitmap used on the welcome and completion dialogs / 493 x 312 -->
 	<WixVariable Id='WixUIDialogBmp' Value='installerBackground.jpg' />
+	<!-- show the license page -->
 	<WixVariable Id="WixUILicenseRtf" Value="..\..\distfiles\License.rtf" />
 
 	<!--
@@ -45,13 +124,37 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 
 	<PropertyRef Id="NETFRAMEWORK40CLIENT" />
 	<PropertyRef Id="NETFRAMEWORK40FULL" />
-	<Condition Message="Before SayMore can install, you need to install Microsoft's free .NET Framework 4.0 Client Profile. A full discussion of SayMore's requirements can be found at software.sil.org/saymore/download/.">
+	<Condition Message="Before $(var.ProductName) can install, you need to install Microsoft's free .NET Framework 4.0 Client Profile. A full discussion of $(var.ProductName)'s requirements can be found at software.sil.org/$(var.ProductName)/download/.">
 	  <![CDATA[Installed OR (NETFRAMEWORK40CLIENT OR NETFRAMEWORK40FULL)]]>
 	</Condition>
 
 	<Directory Id="TARGETDIR" Name="SourceDir">
 
-	  <Directory Id="CommonAppDataFolder">
+		<Component Id="GlobalAnalyticsSetting" Guid="{5D729D52-F0E1-443F-AA40-664AA754F1C1}">
+			<Condition><![CDATA[SIL_ANALYTICS_APPLY_GLOBALLY = "1"]]></Condition>
+			<RegistryKey Root="HKCU" Key="Software\SIL\Analytics">
+				<RegistryValue
+				  Name="Enabled"
+				  Type="integer"
+				  Value="[SIL_ANALYTICS_ENABLED_GLOBALLY]"
+				  KeyPath="yes"/>
+			</RegistryKey>
+		</Component>
+
+		<Component Id="ProductAnalyticsSetting" Guid="{490DF2E0-2F29-4F52-9A4D-490F4FD6254F}">
+			<!-- Only write the product-specific key when not being applied globally (i.e., for all SIL software).
+			     When this condition is false, MSI removes the product key. -->
+			<Condition><![CDATA[SIL_ANALYTICS_APPLY_GLOBALLY <> "1"]]></Condition>
+			<RegistryKey Root="HKCU" Key="$(var.ProductAnalyticsRegistryKey)">
+				<RegistryValue
+				  Name="Enabled"
+				  Type="integer"
+				  Value="[PRODUCT_ANALYTICS_ENABLED]"
+				  KeyPath="yes"/>
+			</RegistryKey>
+		</Component>
+
+		<Directory Id="CommonAppDataFolder">
 		<Directory Id="SILCommonAppData" Name="SIL">
 		  <!--<Directory Id="SayMoreCommonAppData" Name="SayMore">
 			<Directory Id="SampleDataDir" Name="Samples">
@@ -368,6 +471,8 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	</Directory>
 
 	<Feature Id="ProductFeature" Level="1" Title="Basic Stuff">
+		<ComponentRef Id="GlobalAnalyticsSetting"/>
+		<ComponentRef Id="ProductAnalyticsSetting"/>
 		<ComponentRef Id="removeShortcutDir"/>
 		<ComponentRef Id="SayMore.exe"/>
 		<ComponentRef Id="SayMore.exe.config"/>
@@ -430,9 +535,22 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	</Feature>
 
 	<Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+	<!-- what you see in add/remove programs control panel -->
 	<Icon Id="SayMore.exe" SourceFile="$(var.OutputDir)SayMore.exe" />
 	<Property Id="ARPPRODUCTICON" Value="SayMore.exe" />
-	<!-- what you see in add/remove programs control panel -->
+
+    <Binary Id="InstallerActions"
+            SourceFile="InstallerActions\bin\$(var.Configuration)\net48\InstallerActions.CA.dll" />
+    <CustomAction
+	    Id="NormalizeAnalyticsCheckboxes"
+	    BinaryKey="InstallerActions"
+	    DllEntry="NormalizeAnalyticsCheckboxes"
+	    Execute="immediate"
+	    Return="check" />
+
+	<InstallUISequence>
+		<Custom Action="NormalizeAnalyticsCheckboxes" Before="CostFinalize">NOT Installed</Custom>
+	</InstallUISequence>
 
 	<CustomAction Id="LaunchSayMore"
 				  FileKey="SayMore.exe"

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Linq;
 using DesktopAnalytics;
 using L10NSharp;
-using L10NSharp.UI;
+using L10NSharp.Windows.Forms;
 using SIL.Reporting;
 using SIL.Windows.Forms.Extensions;
 using SayMore.Media.Audio;
@@ -19,6 +19,7 @@ using SayMore.UI.ComponentEditors;
 using SayMore.Media.MPlayer;
 using SayMore.Model;
 using SayMore.Utilities;
+using SIL.Windows.Forms;
 
 // ReSharper disable once CheckNamespace
 namespace SayMore.Transcription.UI
@@ -454,7 +455,7 @@ namespace SayMore.Transcription.UI
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
 			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
@@ -462,7 +463,7 @@ namespace SayMore.Transcription.UI
 					"SessionsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
 			}
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 
 		private void OnExportElanMenuItem_Click(object sender, EventArgs e)

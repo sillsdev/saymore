@@ -21,8 +21,8 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public SessionsListScreen(ElementListViewModel<Session> presentationModel,
 			NewSessionsFromFileDlgViewModel.Factory newSessionsFromFileDlgViewModel,
-			SessionsGrid.Factory sessionGridFactory)
-			: base(presentationModel)
+			SessionsGrid.Factory sessionGridFactory, ILocalizationManager localizationManager)
+			: base(presentationModel, localizationManager)
 		{
 			Logger.WriteEvent("PersonListScreen constructor");
 
@@ -59,8 +59,9 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
+			var lm = (ILocalizationManager)sender;	
 			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
 				_sessionComponentFileGrid.AddFileButtonTooltipText = LocalizationManager.GetString(
@@ -156,22 +157,13 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Image Image
-		{
-			get { return ResourceImageCache.Sessions; }
-		}
+		public Image Image => ResourceImageCache.Sessions;
 
 		/// ------------------------------------------------------------------------------------
-		protected override Color ComponentEditorBackgroundColor
-		{
-			get { return Settings.Default.SessionEditorsBackgroundColor; }
-		}
+		protected override Color ComponentEditorBackgroundColor => Settings.Default.SessionEditorsBackgroundColor;
 
 		/// ------------------------------------------------------------------------------------
-		protected override Color ComponentEditorBorderColor
-		{
-			get { return Settings.Default.SessionEditorsBorderColor; }
-		}
+		protected override Color ComponentEditorBorderColor => Settings.Default.SessionEditorsBorderColor;
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
@@ -187,14 +179,12 @@ namespace SayMore.UI.ElementListScreen
 			if (!_elementsGrid.IsOKToSelectDifferentElement())
 				return;
 
-			using (var viewModel = _newSessionsFromFileDlgViewModel(_model))
-			using (var dlg = new NewSessionsFromFilesDlg(viewModel))
-			{
-				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
-					LoadElementList(viewModel.FirstNewSessionAdded);
+			using var viewModel = _newSessionsFromFileDlgViewModel(_model);
+			using var dlg = new NewSessionsFromFilesDlg(viewModel);
+			if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
+				LoadElementList(viewModel.FirstNewSessionAdded);
 
-				SetFocusOnId();
-			}
+			SetFocusOnId();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -203,18 +193,16 @@ namespace SayMore.UI.ElementListScreen
 			if (!_elementsGrid.IsOKToSelectDifferentElement() || !AudioUtils.GetCanRecordAudio())
 				return;
 
-			using (var viewModel = new SessionRecorderDlgViewModel())
-			using (var dlg = new SessionRecorderDlg(viewModel))
-			{
-				if (dlg.ShowDialog(FindForm()) != DialogResult.OK)
-					return;
+			using var viewModel = new SessionRecorderDlgViewModel();
+			using var dlg = new SessionRecorderDlg(viewModel);
+			if (dlg.ShowDialog(FindForm()) != DialogResult.OK)
+				return;
 
-				var newSession = _model.CreateNewElement();
-				viewModel.MoveRecordingToSessionFolder(newSession);
-				LoadElementList(newSession);
+			var newSession = _model.CreateNewElement();
+			viewModel.MoveRecordingToSessionFolder(newSession);
+			LoadElementList(newSession);
 
-				SetFocusOnId();
-			}
+			SetFocusOnId();
 		}
 
 		/// <summary>SP-55: Set focus to id field after creating a new session, and select the text</summary>
@@ -261,11 +249,12 @@ namespace SayMore.UI.ElementListScreen
 	{
 		//design time only
 		private ConcreteSessionScreen()
-			: base(null)
+			: base(null, null)
 		{}
 
-		public ConcreteSessionScreen(ElementListViewModel<Session> presentationModel)
-			: base(presentationModel)
+		public ConcreteSessionScreen(ElementListViewModel<Session> presentationModel,
+			ILocalizationManager localizationManager)
+			: base(presentationModel, localizationManager)
 		{}
 	}
 }

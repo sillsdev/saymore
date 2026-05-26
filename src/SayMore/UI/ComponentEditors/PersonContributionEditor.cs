@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.UI;
 using SayMore.Model;
 using SayMore.Model.Files;
 using DateTime = System.DateTime;
@@ -132,7 +131,7 @@ namespace SayMore.UI.ComponentEditors
 			return new object[] { description, localizedRole, formattedDate, contrib.Contribution.Comments };
 		}
 
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
 			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
@@ -140,7 +139,7 @@ namespace SayMore.UI.ComponentEditors
 					"PeopleView.ContributionEditor.TabText", "Contributions");
 			}
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 
 		public override void SetComponentFile(ComponentFile file)

@@ -10,7 +10,6 @@ using System.Media;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.XLiffUtils;
-using L10NSharp.UI;
 using SIL.Reporting;
 using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model.Files;
@@ -26,6 +25,7 @@ namespace SayMore.UI.ElementListScreen
 	/// ----------------------------------------------------------------------------------------
 	public partial class ComponentFileGrid : UserControl
 	{
+		private readonly ILocalizationManager _localizationManager;
 		private IReadOnlyCollection<ComponentFile> _files;
 		private string _gridColSettingPrefix;
 
@@ -63,15 +63,16 @@ namespace SayMore.UI.ElementListScreen
 		public bool ShowContextMenu { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public ComponentFileGrid()
+		public ComponentFileGrid(ILocalizationManager localizationManager)
 		{
+			_localizationManager = localizationManager;
 			ShowContextMenu = true;
 
 			Logger.WriteEvent("ComponentFileGrid constructor");
 
 			InitializeComponent();
 			Font = Program.DialogFont;
-			_toolStripActions.Renderer = new SIL.Windows.Forms.NoToolStripBorderRenderer();
+			_toolStripActions.Renderer = new NoToolStripBorderRenderer();
 
 			try
 			{
@@ -110,12 +111,13 @@ namespace SayMore.UI.ElementListScreen
 
 			_menuDeleteFile.Click += (s, e) => DeleteFile();
 
-			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
+			localizationManager.UiLanguageChanged += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleStringsLocalized(ILocalizationManager lm)
+		private void HandleStringsLocalized(object sender, EventArgs e)
 		{
+			var lm = (ILocalizationManager)sender;
 			Debug.Assert(lm != null); // In this class, we never call this method directly.
 
 			if (_grid != null && !_grid.IsDisposed && lm.Id == ApplicationContainer.kSayMoreLocalizationId)

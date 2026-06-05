@@ -47,9 +47,9 @@ namespace SayMore.UI.ComponentEditors
 		public Action<string, Type> ComponentFileListRefreshAction { protected get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public EditorBase(ILocalizationManager localizationManager)
+		protected EditorBase()
 		{
-			_localizationManager = localizationManager;
+			_localizationManager = ApplicationContainer.SayMoreLocalizationManager;
 			DoubleBuffered = true;
 			BackColor = AppColors.DataEntryPanelBegin;
 			Padding = new Padding(7);
@@ -60,13 +60,13 @@ namespace SayMore.UI.ComponentEditors
 			ControlRemoved += HandleControlRemoved;
 			Layout += HandleLayout;
 
-			localizationManager.UiLanguageChanged += HandleStringsLocalized;
+			if (_localizationManager != null)
+				_localizationManager.UiLanguageChanged += HandleStringsLocalized;
 			HandleStringsLocalized(null, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public EditorBase(ComponentFile file, string tabText, string imageKey, 
-			ILocalizationManager localizationManager) : this(localizationManager)
+		public EditorBase(ComponentFile file, string tabText, string imageKey) : this()
 		{
 			_file = file;
 			Initialize(tabText, imageKey);
@@ -75,7 +75,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing)
+			if (disposing && _localizationManager != null)
 				_localizationManager.UiLanguageChanged -= HandleStringsLocalized;
 			try
 			{

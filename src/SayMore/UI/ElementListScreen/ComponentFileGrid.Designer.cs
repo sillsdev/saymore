@@ -20,7 +20,8 @@ namespace SayMore.UI.ElementListScreen
 			{
 				components?.Dispose();
 
-				_localizationManager.UiLanguageChanged -= HandleStringsLocalized;
+				if (_localizationManager != null)
+					_localizationManager.UiLanguageChanged -= HandleStringsLocalized;
 			}
 			base.Dispose(disposing);
 		}

@@ -63,9 +63,9 @@ namespace SayMore.UI.ElementListScreen
 		public bool ShowContextMenu { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public ComponentFileGrid(ILocalizationManager localizationManager)
+		public ComponentFileGrid()
 		{
-			_localizationManager = localizationManager;
+			_localizationManager = ApplicationContainer.SayMoreLocalizationManager;
 			ShowContextMenu = true;
 
 			Logger.WriteEvent("ComponentFileGrid constructor");
@@ -111,7 +111,8 @@ namespace SayMore.UI.ElementListScreen
 
 			_menuDeleteFile.Click += (s, e) => DeleteFile();
 
-			localizationManager.UiLanguageChanged += HandleStringsLocalized;
+			if (_localizationManager != null)
+				_localizationManager.UiLanguageChanged += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------

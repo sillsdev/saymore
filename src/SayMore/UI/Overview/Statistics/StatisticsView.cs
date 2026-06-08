@@ -33,7 +33,7 @@ namespace SayMore.UI.Overview.Statistics
 			base.OnHandleDestroyed(e);
 
 			if (_localizationManager != null)
-			_localizationManager.UiLanguageChanged -= UpdateDisplay;
+				_localizationManager.UiLanguageChanged -= UpdateDisplay;
 			_model.FinishedGatheringStatisticsForAllFiles -= HandleNewDataAvailable;
 			_model.NewStatisticsAvailable -= HandleNewDataAvailable;
 		}
@@ -51,7 +51,7 @@ namespace SayMore.UI.Overview.Statistics
 			}
 
 			if (_localizationManager != null)
-			_localizationManager.UiLanguageChanged += UpdateDisplay;
+				_localizationManager.UiLanguageChanged += UpdateDisplay;
 		}
 
 		/// ------------------------------------------------------------------------------------

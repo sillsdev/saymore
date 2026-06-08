@@ -18,8 +18,8 @@ namespace SayMore.UI.ComponentEditors
 		private readonly MediaPlayer _mediaPlayer;
 
 		/// ------------------------------------------------------------------------------------
-		public AudioVideoPlayer(ComponentFile file, string imageKey, ILocalizationManager localizationManager) :
-			base(file, null, imageKey, localizationManager)
+		public AudioVideoPlayer(ComponentFile file, string imageKey) :
+			base(file, null, imageKey)
 		{
 			Logger.WriteEvent("AudioVideoPlayer constructor. file = {0}; imageKey = {1}", file, imageKey);
 			InitializeComponent();
@@ -71,15 +71,11 @@ namespace SayMore.UI.ComponentEditors
 			if (_file == null)
 				return;
 
-			var lm = (ILocalizationManager)sender;
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = _file.FileType.IsVideo ?
-					LocalizationManager.GetString(
-						"CommonToMultipleViews.MediaPlayer.TabText-Video", "Video") :
-					LocalizationManager.GetString(
-						"CommonToMultipleViews.MediaPlayer.TabText-Audio", "Audio");
-			}
+			TabText = _file.FileType.IsVideo ?
+				LocalizationManager.GetString(
+					"CommonToMultipleViews.MediaPlayer.TabText-Video", "Video") :
+				LocalizationManager.GetString(
+					"CommonToMultipleViews.MediaPlayer.TabText-Audio", "Audio");
 
 			base.HandleStringsLocalized(sender, e);
 		}

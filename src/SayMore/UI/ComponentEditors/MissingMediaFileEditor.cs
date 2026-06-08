@@ -11,8 +11,8 @@ namespace SayMore.UI.ComponentEditors
 	public partial class MissingMediaFileEditor : EditorBase
 	{
 		/// ------------------------------------------------------------------------------------
-		public MissingMediaFileEditor(ComponentFile file, string imageKey, ILocalizationManager localizationManager)
-			: base(file, null, imageKey, localizationManager)
+		public MissingMediaFileEditor(ComponentFile file, string imageKey)
+			: base(file, null, imageKey)
 		{
 			Logger.WriteEvent("MissingMediaFileEditor constructor. file = {0}", file);
 			InitializeComponent();
@@ -60,22 +60,18 @@ namespace SayMore.UI.ComponentEditors
 		{
 			base.HandleStringsLocalized(sender, e);
 
-			var lm = (ILocalizationManager)sender;
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = LocalizationManager.GetString(
-					"SessionsView.MissingMediaFileEditor.TabText", "Missing Media File");
-				
-				if (lblExplanation == null)
-					return;
+			TabText = LocalizationManager.GetString(
+				"SessionsView.MissingMediaFileEditor.TabText", "Missing Media File");
 
-				lblExplanation.Text = LocalizationManager.GetString(
-					"SessionsView.MissingMediaFileEditor.lblExplanation",
-					"This can happen if the media file is inadvertently deleted or renamed outside of SayMore. " +
-					"It could also happen if a properly named ELAN file is added to a SayMore session but internally " +
-					"refers to a media file that is not where SayMore expects to find it. If you have access to the media " +
-					"file and would like to be able to annotate it in SayMore, please copy it to the above location.");
-			}
+			if (lblExplanation == null)
+				return;
+
+			lblExplanation.Text = LocalizationManager.GetString(
+				"SessionsView.MissingMediaFileEditor.lblExplanation",
+				"This can happen if the media file is inadvertently deleted or renamed outside of SayMore. " +
+				"It could also happen if a properly named ELAN file is added to a SayMore session but internally " +
+				"refers to a media file that is not where SayMore expects to find it. If you have access to the media " +
+				"file and would like to be able to annotate it in SayMore, please copy it to the above location.");
 		}
 	}
 }

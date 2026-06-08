@@ -18,8 +18,8 @@ namespace SayMore.Transcription.UI
 	{
 		private static Bitmap s_informationIconAsBitmap;
 		/// ------------------------------------------------------------------------------------
-		public ConvertToStandardAudioEditor(ComponentFile file, ILocalizationManager localizationManager) :
-			base(file, null, null, localizationManager)
+		public ConvertToStandardAudioEditor(ComponentFile file) :
+			base(file, null, null)
 		{
 			Logger.WriteEvent("ConvertToStandardAudioEditor constructor. file = {0}", file);
 			InitializeComponent();
@@ -110,11 +110,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			var lm = sender as ILocalizationManager;
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = CommonUIStrings.StartAnnotatingTabText;
-			}
+			TabText = CommonUIStrings.StartAnnotatingTabText;
 
 			base.HandleStringsLocalized(sender, e);
 		}

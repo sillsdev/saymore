@@ -16,9 +16,8 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		public BasicFieldGridEditor(ComponentFile file, string imageKey,
-			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer,
-			ILocalizationManager localizationManager)
-			: base(file, null, imageKey, localizationManager)
+			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer)
+			: base(file, null, imageKey)
 		{
 			InitializeComponent();
 			Name = "BasicFieldGridEditor";
@@ -53,9 +52,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			var lm = (ILocalizationManager)sender;
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-				TabText = GetPropertiesTabText();
+			TabText = GetPropertiesTabText();
 
 			base.HandleStringsLocalized(sender, e);
 		}

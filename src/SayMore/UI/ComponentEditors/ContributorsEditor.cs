@@ -32,9 +32,8 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		public ContributorsEditor(ComponentFile file, string imageKey,
-			AutoCompleteValueGatherer autoCompleteProvider, PersonInformant personInformant, 
-			ILocalizationManager localizationManager) :
-			base(file, null, imageKey, localizationManager)
+			AutoCompleteValueGatherer autoCompleteProvider, PersonInformant personInformant) :
+			base(file, null, imageKey)
 		{
 			InitializeComponent();
 			Name = "Contributors";
@@ -419,12 +418,8 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			var lm = (ILocalizationManager)sender;
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = LocalizationManager.GetString(
-					"CommonToMultipleViews.ContributorsEditor.TabText", "Contributors");
-			}
+			TabText = LocalizationManager.GetString(
+				"CommonToMultipleViews.ContributorsEditor.TabText", "Contributors");
 
 			base.HandleStringsLocalized(sender, e);
 		}

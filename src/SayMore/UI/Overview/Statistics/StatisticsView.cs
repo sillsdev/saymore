@@ -15,12 +15,12 @@ namespace SayMore.UI.Overview.Statistics
 		private readonly ILocalizationManager _localizationManager;
 
 		/// ------------------------------------------------------------------------------------
-		public StatisticsView(StatisticsViewModel model, ILocalizationManager localizationManager)
+		public StatisticsView(StatisticsViewModel model)
 		{
 			Logger.WriteEvent("StatisticsView constructor");
 
 			_model = model;
-			_localizationManager = localizationManager;
+			_localizationManager = ApplicationContainer.SayMoreLocalizationManager;
 			InitializeComponent();
 
 			_panelWorking.BorderStyle = BorderStyle.None;
@@ -32,6 +32,7 @@ namespace SayMore.UI.Overview.Statistics
 		{
 			base.OnHandleDestroyed(e);
 
+			if (_localizationManager != null)
 			_localizationManager.UiLanguageChanged -= UpdateDisplay;
 			_model.FinishedGatheringStatisticsForAllFiles -= HandleNewDataAvailable;
 			_model.NewStatisticsAvailable -= HandleNewDataAvailable;
@@ -49,6 +50,7 @@ namespace SayMore.UI.Overview.Statistics
 				UpdateDisplay(null, EventArgs.Empty);
 			}
 
+			if (_localizationManager != null)
 			_localizationManager.UiLanguageChanged += UpdateDisplay;
 		}
 

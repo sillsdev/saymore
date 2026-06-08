@@ -19,7 +19,7 @@ namespace SayMore.UI.Overview
 			Logger.WriteEvent("ProgressScreen constructor");
 
 			InitializeComponent();
-			_statsView = new StatisticsView(statisticsModel, TODO) {Dock = DockStyle.Fill};
+			_statsView = new StatisticsView(statisticsModel) {Dock = DockStyle.Fill};
 			Controls.Add(_statsView);
 
 			_mnuProgress = new ToolStripMenuItem

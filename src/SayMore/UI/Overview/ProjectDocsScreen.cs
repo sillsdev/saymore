@@ -17,7 +17,6 @@ namespace SayMore.UI.Overview
 {
 	public abstract partial class ProjectDocsScreen : EditorBase, ISayMoreView
 	{
-		private readonly ILocalizationManager _localizationManager;
 		private const string kOfficeTempPrefix = "~$";
 		protected abstract string FolderName { get; }
 		protected abstract string ArchiveSessionName { get; }
@@ -26,10 +25,8 @@ namespace SayMore.UI.Overview
 		private ComponentEditorsTabControl _tabCtrl;
 		protected string _toolTipText;
 
-		protected ProjectDocsScreen(ILocalizationManager localizationManager) : 
-			base(localizationManager)
+		protected ProjectDocsScreen() : base()
 		{
-			_localizationManager = localizationManager;
 			Logger.WriteEvent("ProjectDocsScreen constructor");
 
 			InitializeComponent();
@@ -93,8 +90,7 @@ namespace SayMore.UI.Overview
 		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
 			base.HandleStringsLocalized(sender, e);
-			var lm = (ILocalizationManager)sender;
-			if ((lm == null || lm.Id == kSayMoreLocalizationId) && _descriptionFileGrid != null)
+			if (_descriptionFileGrid != null)
 				LocalizeStrings();
 		}
 
@@ -192,9 +188,9 @@ namespace SayMore.UI.Overview
 				List<IEditorProvider> providers = new List<IEditorProvider>();
 
 				if ((file.FileType is AudioFileType) || (file.FileType is VideoFileType))
-					providers.Add(new AudioVideoPlayer(file, null, _localizationManager));
+					providers.Add(new AudioVideoPlayer(file, null));
 				else if (file.FileType is ImageFileType)
-					providers.Add(new ImageViewer(file, _localizationManager));
+					providers.Add(new ImageViewer(file));
 				else
 					providers.Add(new BrowserEditor(file, null));
 
@@ -241,8 +237,7 @@ namespace SayMore.UI.Overview
 		internal static string kFolderName = "DescriptionDocuments";
 		internal static string kArchiveSessionName = "Project Description Documents";
 
-		public ProjectDescriptionDocsScreen(ILocalizationManager localizationManager) : 
-			base(localizationManager)
+		public ProjectDescriptionDocsScreen() : base()
 		{
 			_descriptionFileGrid.InitializeGrid("ProjectDescriptionDocuments");
 		}
@@ -268,8 +263,7 @@ namespace SayMore.UI.Overview
 		internal static string kFolderName = "OtherDocuments";
 		internal static string kArchiveSessionName = "Other Project Documents";
 
-		public ProjectOtherDocsScreen(ILocalizationManager localizationManager) : 
-			base(localizationManager)
+		public ProjectOtherDocsScreen() : base()
 		{
 			_descriptionFileGrid.InitializeGrid("ProjectOtherDocuments");
 		}

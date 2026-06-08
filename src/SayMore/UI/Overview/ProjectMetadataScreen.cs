@@ -23,7 +23,7 @@ namespace SayMore.UI.Overview
 		private string _fmtFontForWorkingLanguage;
 		private readonly IMDIItemList _countryList;
 
-		public ProjectMetadataScreen(ILocalizationManager localizationManager) : base(localizationManager)
+		public ProjectMetadataScreen() : base()
 		{
 			Logger.WriteEvent("ProjectMetadataScreen constructor");
 

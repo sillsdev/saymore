@@ -36,7 +36,6 @@ namespace SayMore.UI.ProjectWindow
 			this._buttonOK = new System.Windows.Forms.Button();
 			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._linkIWantToLocalize = new System.Windows.Forms.LinkLabel();
-			this._linkHelpOnLocalizing = new System.Windows.Forms.LinkLabel();
 			this._tableLayoutPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -49,16 +48,14 @@ namespace SayMore.UI.ProjectWindow
 			this._tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutPanel.Controls.Add(this._comboUILanguage, 1, 0);
 			this._tableLayoutPanel.Controls.Add(this._labelLanguage, 0, 0);
-			this._tableLayoutPanel.Controls.Add(this._buttonCancel, 2, 3);
-			this._tableLayoutPanel.Controls.Add(this._buttonOK, 1, 3);
+			this._tableLayoutPanel.Controls.Add(this._buttonCancel, 2, 2);
+			this._tableLayoutPanel.Controls.Add(this._buttonOK, 1, 2);
 			this._tableLayoutPanel.Controls.Add(this._linkIWantToLocalize, 0, 1);
-			this._tableLayoutPanel.Controls.Add(this._linkHelpOnLocalizing, 0, 2);
 			this._tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._tableLayoutPanel.Location = new System.Drawing.Point(20, 20);
 			this._tableLayoutPanel.Name = "_tableLayoutPanel";
-			this._tableLayoutPanel.RowCount = 4;
+			this._tableLayoutPanel.RowCount = 3;
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutPanel.Size = new System.Drawing.Size(298, 126);
@@ -152,24 +149,7 @@ namespace SayMore.UI.ProjectWindow
 			this._linkIWantToLocalize.TabStop = true;
 			this._linkIWantToLocalize.Text = "I want to localize SayMore for another language...";
 			this._linkIWantToLocalize.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleIWantToLocalizeLinkClicked);
-			// 
-			// _linkHelpOnLocalizing
-			// 
-			this._linkHelpOnLocalizing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._linkHelpOnLocalizing.AutoSize = true;
-			this._tableLayoutPanel.SetColumnSpan(this._linkHelpOnLocalizing, 3);
-			this.locExtender.SetLocalizableToolTip(this._linkHelpOnLocalizing, null);
-			this.locExtender.SetLocalizationComment(this._linkHelpOnLocalizing, null);
-			this.locExtender.SetLocalizingId(this._linkHelpOnLocalizing, "DialogBoxes.UserInterfaceLanguageDlg.HelpOnLocalizingLink");
-			this._linkHelpOnLocalizing.Location = new System.Drawing.Point(0, 67);
-			this._linkHelpOnLocalizing.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
-			this._linkHelpOnLocalizing.Name = "_linkHelpOnLocalizing";
-			this._linkHelpOnLocalizing.Size = new System.Drawing.Size(298, 13);
-			this._linkHelpOnLocalizing.TabIndex = 3;
-			this._linkHelpOnLocalizing.TabStop = true;
-			this._linkHelpOnLocalizing.Text = "Help on localization";
-			this._linkHelpOnLocalizing.Visible = false;
-			// 
+			//
 			// UILanguageDlg
 			// 
 			this.AcceptButton = this._buttonOK;
@@ -206,6 +186,5 @@ namespace SayMore.UI.ProjectWindow
 		private System.Windows.Forms.Button _buttonOK;
 		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.LinkLabel _linkIWantToLocalize;
-		private System.Windows.Forms.LinkLabel _linkHelpOnLocalizing;
 	}
 }

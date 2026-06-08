@@ -433,25 +433,22 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			TabText = LocalizationManager.GetString("SessionsView.MetadataEditor.TabText",
+				"Session");
+			if (_genre != null && !String.IsNullOrEmpty(_genre.Text))
 			{
-				TabText = LocalizationManager.GetString("SessionsView.MetadataEditor.TabText",
-					"Session");
-				if (_genre != null && !String.IsNullOrEmpty(_genre.Text))
-				{
-					var genreId = GenreDefinition.TranslateNameToId(_genre.Text);
-					if (genreId != _genre.Text)
-						_genre.Text = GenreDefinition.TranslateIdToName(genreId);
-				}
+				var genreId = GenreDefinition.TranslateNameToId(_genre.Text);
+				if (genreId != _genre.Text)
+					_genre.Text = GenreDefinition.TranslateIdToName(genreId);
+			}
 
-				if (_gridAdditionalFields != null)
+			if (_gridAdditionalFields != null)
+			{
+				for (int iRow = 0; iRow < _gridAdditionalFields.RowCount; iRow++)
 				{
-					for (int iRow = 0; iRow < _gridAdditionalFields.RowCount; iRow++)
-					{
-						var comboBoxCell = _gridAdditionalFields[1, iRow] as DataGridViewComboBoxCell;
-						if (comboBoxCell?.DataSource is IMDIItemList list)
-							list.Localize(Localize);
-					}
+					var comboBoxCell = _gridAdditionalFields[1, iRow] as DataGridViewComboBoxCell;
+					if (comboBoxCell?.DataSource is IMDIItemList list)
+						list.Localize(Localize);
 				}
 			}
 

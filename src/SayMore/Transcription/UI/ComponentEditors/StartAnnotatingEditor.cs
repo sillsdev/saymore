@@ -80,18 +80,15 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = CommonUIStrings.StartAnnotatingTabText;
+			TabText = CommonUIStrings.StartAnnotatingTabText;
 
-                if (_cboAudacityLabelTier != null)
-                {
-                    var selectedIndex = _cboAudacityLabelTier.SelectedIndex;
-                    _cboAudacityLabelTier.Items.Clear();
-                    PopulateAudacityLabelTierItems();
-                    _cboAudacityLabelTier.SelectedIndex = selectedIndex >= 0 ? selectedIndex : 0;
-                }
-            }
+			if (_cboAudacityLabelTier != null)
+			{
+				var selectedIndex = _cboAudacityLabelTier.SelectedIndex;
+				_cboAudacityLabelTier.Items.Clear();
+				PopulateAudacityLabelTierItems();
+				_cboAudacityLabelTier.SelectedIndex = selectedIndex >= 0 ? selectedIndex : 0;
+			}
 
 			base.HandleStringsLocalized(sender, e);
 		}

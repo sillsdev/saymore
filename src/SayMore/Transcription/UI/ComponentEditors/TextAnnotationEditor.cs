@@ -457,11 +457,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = LocalizationManager.GetString(
-					"SessionsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
-			}
+			TabText = LocalizationManager.GetString(
+				"SessionsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
 
 			base.HandleStringsLocalized(sender, e);
 		}

@@ -133,11 +133,8 @@ namespace SayMore.UI.ComponentEditors
 
 		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = LocalizationManager.GetString(
-					"PeopleView.ContributionEditor.TabText", "Contributions");
-			}
+			TabText = LocalizationManager.GetString(
+				"PeopleView.ContributionEditor.TabText", "Contributions");
 
 			base.HandleStringsLocalized(sender, e);
 		}

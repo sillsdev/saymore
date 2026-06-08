@@ -195,13 +195,10 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = LocalizationManager.GetString(
-					"CommonToMultipleViews.GenericFileTypeViewer.TabText", "View");
-				if (_browser?.Tag is string filePath)
-					DisplayFile(filePath);
-			}
+			TabText = LocalizationManager.GetString(
+				"CommonToMultipleViews.GenericFileTypeViewer.TabText", "View");
+			if (_browser?.Tag is string filePath)
+				DisplayFile(filePath);
 
 			base.HandleStringsLocalized(sender, e);
 		}

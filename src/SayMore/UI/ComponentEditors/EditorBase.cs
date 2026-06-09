@@ -60,9 +60,7 @@ namespace SayMore.UI.ComponentEditors
 			ControlRemoved += HandleControlRemoved;
 			Layout += HandleLayout;
 
-			if (_localizationManager != null)
-				_localizationManager.UiLanguageChanged += HandleStringsLocalized;
-			HandleStringsLocalized(null, EventArgs.Empty);
+			_localizationManager?.UiLanguageChanged += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -181,6 +179,7 @@ namespace SayMore.UI.ComponentEditors
 		protected override void OnLoad(EventArgs e)
 		{
 			SetLabelFonts(this, FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold));
+			HandleStringsLocalized(null, EventArgs.Empty);
 			base.OnLoad(e);
 		}
 
@@ -190,8 +189,7 @@ namespace SayMore.UI.ComponentEditors
 			base.OnHandleCreated(e);
 
 			var owningTabControl = FindParent<TabControl>(this);
-			if (owningTabControl != null)
-				owningTabControl.VisibleChanged += (sender, args) => OnParentTabControlVisibleChanged();
+			owningTabControl?.VisibleChanged += (sender, args) => OnParentTabControlVisibleChanged();
 
 			if (_setWorkingFontWhenHandleIsCreated)
 				SetWorkingLanguageFont();

@@ -13,7 +13,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public AudioComponentEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer)
-			: base(file, null, imageKey, autoCompleteProvider, fieldGatherer)
+			: base(file, imageKey, autoCompleteProvider, fieldGatherer)
 		{
 			Name = "Audio File Information";
 		}

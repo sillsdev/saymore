@@ -33,7 +33,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public ContributorsEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, PersonInformant personInformant) :
-			base(file, null, imageKey)
+			base(file, imageKey)
 		{
 			InitializeComponent();
 			Name = "Contributors";

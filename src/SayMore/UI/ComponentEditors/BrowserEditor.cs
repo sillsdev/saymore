@@ -17,7 +17,7 @@ namespace SayMore.UI.ComponentEditors
 		private HtmlElement _fileLink;
 
 		/// ------------------------------------------------------------------------------------
-		public BrowserEditor(ComponentFile file, string imageKey) : base(file, null, imageKey)
+		public BrowserEditor(ComponentFile file, string imageKey) : base(file, imageKey)
 		{
 			InitializeComponent();
 			Name = "Browser";

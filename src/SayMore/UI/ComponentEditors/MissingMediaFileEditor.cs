@@ -12,7 +12,7 @@ namespace SayMore.UI.ComponentEditors
 	{
 		/// ------------------------------------------------------------------------------------
 		public MissingMediaFileEditor(ComponentFile file, string imageKey)
-			: base(file, null, imageKey)
+			: base(file, imageKey)
 		{
 			Logger.WriteEvent("MissingMediaFileEditor constructor. file = {0}", file);
 			InitializeComponent();

@@ -38,7 +38,7 @@ namespace SayMore.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		public TextAnnotationEditor(ComponentFile file, string imageKey, Project project)
-			: base(file, null, imageKey)
+			: base(file, imageKey)
 		{
 			Logger.WriteEvent("TextAnnotationEditor constructor. file = {0}; imagekey = {1}", file, imageKey);
 			InitializeComponent();

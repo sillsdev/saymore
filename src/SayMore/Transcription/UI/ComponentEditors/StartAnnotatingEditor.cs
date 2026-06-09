@@ -21,7 +21,7 @@ namespace SayMore.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		public StartAnnotatingEditor(ComponentFile file, Project project) :
-			base(file, null, null)
+			base(file, null)
 		{
 			_project = project;
 			Logger.WriteEvent("OralAnnotationEditor constructor. file = {0}", file);

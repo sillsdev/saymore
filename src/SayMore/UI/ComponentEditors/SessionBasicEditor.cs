@@ -42,7 +42,7 @@ namespace SayMore.UI.ComponentEditors
 		public SessionBasicEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer,
 			PersonInformant personInformant)
-			: base(file, null, imageKey)
+			: base(file, imageKey)
 		{
 			Logger.WriteEvent("PersonBasicEditor constructor. file = {0}", file);
 

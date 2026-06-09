@@ -17,7 +17,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public BasicFieldGridEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer)
-			: base(file, null, imageKey)
+			: base(file, imageKey)
 		{
 			InitializeComponent();
 			Name = "BasicFieldGridEditor";

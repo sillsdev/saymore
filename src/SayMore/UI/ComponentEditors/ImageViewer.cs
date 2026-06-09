@@ -18,7 +18,7 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		public ImageViewer(ComponentFile file) :
-			base(file, null, "Image")
+			base(file, "Image")
 		{
 			Logger.WriteEvent("ImageViewer constructor. file = {0}", file);
 			InitializeComponent();

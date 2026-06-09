@@ -18,7 +18,6 @@ namespace SayMore.UI.ComponentEditors
 		Control Control { get; }
 		string TabText { get; }
 		string ImageKey { get; }
-		void Initialize(string tabText, string imageKey);
 		void SetComponentFile(ComponentFile file);
 		bool ComponentFileDeletionInitiated(ComponentFile file);
 		Action<string, Type> ComponentFileListRefreshAction { set; }
@@ -64,10 +63,10 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public EditorBase(ComponentFile file, string tabText, string imageKey) : this()
+		public EditorBase(ComponentFile file, string imageKey) : this()
 		{
 			_file = file;
-			Initialize(tabText, imageKey);
+			ImageKey = imageKey;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -87,13 +86,6 @@ namespace SayMore.UI.ComponentEditors
 				// now make this exception impossible, but since I can't reproduce the crash, it
 				// is hard to know for sure.)
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void Initialize(string tabText, string imageKey)
-		{
-			TabText = tabText ?? TabText;
-			ImageKey = imageKey;
 		}
 
 		/// ------------------------------------------------------------------------------------

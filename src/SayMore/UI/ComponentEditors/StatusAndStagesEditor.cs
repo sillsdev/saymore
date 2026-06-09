@@ -23,7 +23,7 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ----------------------------------------------------------------------------------------
 		public StatusAndStagesEditor(ComponentFile file, string imageKey,
-			IEnumerable<ComponentRole> componentRoles) : base(file, null, imageKey)
+			IEnumerable<ComponentRole> componentRoles) : base(file, imageKey)
 		{
 			InitializeComponent();
 			Name = "StatusAndStages";

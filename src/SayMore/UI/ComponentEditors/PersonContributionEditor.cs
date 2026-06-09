@@ -20,7 +20,7 @@ namespace SayMore.UI.ComponentEditors
 		private string _personCode;
 
 		public PersonContributionEditor(ComponentFile file, string imageKey)
-			: base(file, null, imageKey)
+			: base(file, imageKey)
 		{
 			InitializeComponent();
 			RememberPersonId(file);

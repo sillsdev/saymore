@@ -14,7 +14,7 @@ namespace SayMore.UI.ComponentEditors
 		private string _origTabText;
 
 		/// ------------------------------------------------------------------------------------
-		public NotesEditor(ComponentFile file) : base(file, null, "Notes")
+		public NotesEditor(ComponentFile file) : base(file, "Notes")
 		{
 			InitializeComponent();
 			Name = "Notes";

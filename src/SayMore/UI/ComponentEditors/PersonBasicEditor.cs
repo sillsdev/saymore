@@ -51,7 +51,7 @@ namespace SayMore.UI.ComponentEditors
 		public PersonBasicEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer,
 			ImageFileType imgFileType)
-			: base(file, null, imageKey)
+			: base(file, imageKey)
 		{
 			Logger.WriteEvent("PersonBasicEditor constructor. file = {0}", file);
 

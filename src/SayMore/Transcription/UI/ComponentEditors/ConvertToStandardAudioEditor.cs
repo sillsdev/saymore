@@ -19,7 +19,7 @@ namespace SayMore.Transcription.UI
 		private static Bitmap s_informationIconAsBitmap;
 		/// ------------------------------------------------------------------------------------
 		public ConvertToStandardAudioEditor(ComponentFile file) :
-			base(file, null, null)
+			base(file, null)
 		{
 			Logger.WriteEvent("ConvertToStandardAudioEditor constructor. file = {0}", file);
 			InitializeComponent();

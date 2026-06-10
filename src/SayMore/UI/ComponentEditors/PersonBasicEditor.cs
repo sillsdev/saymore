@@ -22,12 +22,16 @@ using static System.String;
 using static System.StringComparison;
 using static SayMore.UI.LowLevelControls.ParentType;
 using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
+using static System.Text.NormalizationForm;
 
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public sealed partial class PersonBasicEditor : EditorBase
 	{
+		private const int kMaleIndex = 0;
+		private const int kFemaleIndex = 1;
+
 		public delegate PersonBasicEditor Factory(ComponentFile file, string imageKey);
 
 		private readonly List<ParentButton> _fatherButtons = new List<ParentButton>();
@@ -38,6 +42,7 @@ namespace SayMore.UI.ComponentEditors
 		private readonly ImageFileType _imgFileType;
 
 		private bool _loaded;
+		private int? _pendingSelectedGenderIndex;
 
 		// SP-846: Do not save parent languages while setting them
 		private bool _loadingLanguages;
@@ -817,18 +822,18 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			TabText = LocalizationManager.GetString("PeopleView.MetadataEditor.TabText",
-				"Person");
+			TabText = LocalizationManager.GetString("PeopleView.MetadataEditor.TabText", "Person");
 
 			if (_gender != null)
 			{
-				int i = _gender.SelectedIndex;
+				int selectedIndex =	_pendingSelectedGenderIndex ?? _gender.SelectedIndex;
+				_pendingSelectedGenderIndex = null;
 				_gender.Items.Clear();
 				_gender.Items.Add(LocalizationManager.GetString(
 					"PeopleView.MetadataEditor.GenderSelector.Male", "Male"));
 				_gender.Items.Add(LocalizationManager.GetString(
 					"PeopleView.MetadataEditor.GenderSelector.Female", "Female"));
-				_gender.SelectedIndex = i;
+				_gender.SelectedIndex = selectedIndex;
 			}
 
 			base.HandleStringsLocalized(sender, e);
@@ -836,10 +841,25 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Instead of letting the binding helper set the gender combo box value from the
-		/// value in the file (which will be the English text for male or female), we'll
-		/// intercept the process since the text in the gender combo box may have been
-		/// localized to non-English text.
+		/// Localized forms of "Male" known to have been written by versions of SayMore affected
+		/// by SP-847.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static readonly HashSet<string> s_maleGenderValues =
+		[
+			"Male",
+			"Macho",
+			"Mâle".Normalize(FormD),
+			"Мужской".Normalize(FormD),
+			"男性".Normalize(FormD),
+		];
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// A former bug (SP-847) caused gender metadata to be saved as a localized form rather
+		/// than the standard (English) values. So, instead of letting the binding helper set the
+		/// index of the gender combo box from the value in the file, recognize the localized
+		/// versions as well.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleBinderTranslateBoundValueBeingRetrieved(object sender,
@@ -847,15 +867,12 @@ namespace SayMore.UI.ComponentEditors
 		{
 			if (args.BoundControl == _gender)
 			{
-				// Because of a former bug (SP-847), gender metadata was saved as localized
-				// string instead of English, so when retrieving, recognize those versions of the
-				// values for "Male" as well.
-				string valueFromFile = args.ValueFromFile.Normalize(NormalizationForm.FormD);
-				_gender.SelectedIndex = (valueFromFile == "Male" ||
-					valueFromFile == "Macho" ||
-					valueFromFile == "Mâle".Normalize(NormalizationForm.FormD) ||
-					valueFromFile == "Мужской".Normalize(NormalizationForm.FormD) ||
-					valueFromFile == "男性".Normalize(NormalizationForm.FormD) ? 0 : 1);
+				string valueFromFile = args.ValueFromFile.Normalize(FormD);
+				int index = s_maleGenderValues.Contains(valueFromFile) ? kMaleIndex : kFemaleIndex;
+				if (_gender.Items.Count < 2)
+					_pendingSelectedGenderIndex = index;
+				else
+					_gender.SelectedIndex = index;
 				args.Handled = true;
 			}
 		}

@@ -109,9 +109,9 @@ namespace SayMoreTests.Model
 
 			var componentRoles = new List<ComponentRole>
 			{
-				new ComponentRole(null, ComponentRole.kConsentComponentRoleId, null,
+				new ComponentRole(null, ComponentRole.kConsentComponentRoleId, () => null,
 				ComponentRole.MeasurementTypes.None, null, null, Color.Empty, Color.Empty),
-				new ComponentRole(null, ComponentRole.kSourceComponentRoleId, null,
+				new ComponentRole(null, ComponentRole.kSourceComponentRoleId, () => null,
 				ComponentRole.MeasurementTypes.Time, FileSystemUtils.GetIsAudioVideo,
 				ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Source", Color.Empty, Color.Empty)
 			};

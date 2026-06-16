@@ -348,6 +348,11 @@ namespace SayMore.UI.ComponentEditors
 							_toolTip.SetToolTip(radioButton, toolTip);
 					}
 				}
+				if (_stageCheckBoxes != null)
+				{
+					foreach (var checkBox in _stageCheckBoxes)
+						checkBox.UpdateText();
+				}
 			}
 
 			base.HandleStringsLocalized(lm);
@@ -418,23 +423,29 @@ namespace SayMore.UI.ComponentEditors
 				}
 			}
 
-			var roleFormat = LocalizationManager.GetString(
-				"SessionsView.StatusAndStagesEditor.StageNameDisplayFormat", "{0} (on auto-pilot)");
-
 			if (_completeType == StageCompleteType.Auto)
-			{
-				Text = string.Format(roleFormat, Role.Name);
 				CheckState = CheckState.Indeterminate;
-			}
 			else
-			{
-				Text = Role.Name;
-				CheckState = (_completeType == StageCompleteType.Complete ?
-					CheckState.Checked : CheckState.Unchecked);
-			}
+				CheckState = _completeType == StageCompleteType.Complete ?
+					CheckState.Checked : CheckState.Unchecked;
+
+			UpdateText();
 
 			stageCompletedControlValues[Role.Id] = _completeType;
 			return _completeType.ToString();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void UpdateText()
+		{
+			if (_completeType == StageCompleteType.Auto)
+			{
+				var roleFormat = LocalizationManager.GetString(
+					"SessionsView.StatusAndStagesEditor.StageNameDisplayFormat", "{0} (on auto-pilot)");
+				Text = string.Format(roleFormat, Role.Name);
+			}
+			else
+				Text = Role.Name;
 		}
 
 		/// ------------------------------------------------------------------------------------

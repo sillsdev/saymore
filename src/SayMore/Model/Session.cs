@@ -17,6 +17,7 @@ using SIL.Archiving;
 using SIL.Extensions;
 using SIL.Core.ClearShare;
 using System.Text.RegularExpressions;
+using static SIL.Archiving.ArchivingDlgViewModel.MessageType;
 
 namespace SayMore.Model
 {
@@ -474,7 +475,7 @@ namespace SayMore.Model
 		public void InitializeModel(ArchivingDlgViewModel model)
 		{
 			model.GetOverriddenPreArchivingMessages = GetOverriddenPreArchivingMessages;
-			model.InitialFileGroupDisplayMessageType = ArchivingDlgViewModel.MessageType.Progress;
+			model.InitialFileGroupDisplayMessageType = Progress;
 			model.OverrideGetFileGroupDisplayMessage = GetFileGroupDisplayMessage;
 		}
 
@@ -501,30 +502,23 @@ namespace SayMore.Model
 				yield return new Tuple<string, ArchivingDlgViewModel.MessageType>(
 					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1",
 					"The following session and contributor files will be added to your archive."),
-					ArchivingDlgViewModel.MessageType.Normal);
+					Normal);
 			}
 			else
 			{
 				yield return new Tuple<string, ArchivingDlgViewModel.MessageType>(
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg",
-					"There are no contributors for this session."), ArchivingDlgViewModel.MessageType.Warning);
+					ArchivingHelper.NoContributorsForSessionMsg, Warning);
 
 				yield return new Tuple<string, ArchivingDlgViewModel.MessageType>(
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2",
-					"The following session files will be added to your archive."), ArchivingDlgViewModel.MessageType.Progress);
+					ArchivingHelper.PrearchivingSessionsStatusMsg, Progress);
 			}
 		}
 
 		public string GetFileGroupDisplayMessage(string groupKey)
 		{
-			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingProgressMsg", "     {0}: {1}",
-				"The first parameter is 'Session' or 'Contributor'. The second parameter is the session or contributor name.");
-
-			var element = groupKey == string.Empty ?
-				LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Session") :
-				LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor");
-
-			return string.Format(fmt, element, groupKey == string.Empty ? Title : groupKey);
+			var isSession = groupKey.Length == 0;
+			return ArchivingHelper.FormatArchivingDlgProgressMsg(isSession,
+				isSession ? Title : groupKey);
 		}
 
 		/// ------------------------------------------------------------------------------------

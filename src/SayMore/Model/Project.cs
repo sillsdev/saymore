@@ -28,6 +28,7 @@ using SayMore.Utilities;
 using SIL.Core.ClearShare;
 using SIL.IO;
 using static System.IO.Path;
+using static SIL.Archiving.ArchivingDlgViewModel.MessageType;
 
 namespace SayMore.Model
 {
@@ -639,34 +640,50 @@ namespace SayMore.Model
 
 			if (fileLists.Count > 1)
 			{
-				model.DisplayMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1",
-					"The following session and contributor files will be added to your archive."), ArchivingDlgViewModel.MessageType.Normal);
+				model.DisplayMessage(LocalizationManager.GetString(
+					"DialogBoxes.ArchivingDlg.ProjectPreArchivingStatusMsg",
+					"The following files will be added to your archive."), Normal);
 			}
 			else
 			{
-				model.DisplayMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg",
-					"There are no contributors for this session."), ArchivingDlgViewModel.MessageType.Warning);
-
-				model.DisplayMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2",
-					"The following session files will be added to your archive."), ArchivingDlgViewModel.MessageType.Progress);
+				model.DisplayMessage(ArchivingHelper.NoContributorsForSessionMsg, Warning);
+				model.DisplayMessage(ArchivingHelper.PrearchivingSessionsStatusMsg, Progress);
 			}
-
-			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingProgressMsg", "     {0}: {1}",
-				"The first parameter is 'Session' or 'Contributor'. The second parameter is the session or contributor name.");
 
 			foreach (var kvp in fileLists)
 			{
 				if (cancellationToken.IsCancellationRequested)
 					throw new OperationCanceledException();
-				var element = (kvp.Key.StartsWith("\n") || kvp.Key.Length > 0 ?
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor") :
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Sessions"));
 
-				model.DisplayMessage(string.Format(fmt, element, (kvp.Key.StartsWith("\n") || kvp.Key.Length > 0 ? kvp.Key.Substring(1) : Title)),
-					ArchivingDlgViewModel.MessageType.Progress);
+				if (kvp.Key == ProjectOtherDocsScreen.kArchiveSessionName)
+				{
+					model.DisplayMessage(ArchivingHelper.ArchivingProgressMsgIndent +
+						LocalizationManager.GetString(
+							"DialogBoxes.ArchivingDlg.OtherProjectDoccuments",
+							"OtherProjectDoccuments"),
+					Progress);
+				}
+				else
+				{
+					var elementName = kvp.Key.TrimStart('\n');
+
+					if (elementName.Length == 0)
+					{
+						model.DisplayMessage(ArchivingHelper.ArchivingProgressMsgIndent +
+							LocalizationManager.GetString(
+								"DialogBoxes.ArchivingDlg.ZippedSessions",
+								"Sessions:"),
+							Progress);
+					}
+					else
+					{
+						model.DisplayMessage(ArchivingHelper.FormatArchivingDlgProgressMsg(
+							false, elementName), Progress);
+					}
+				}
 
 				foreach (var file in kvp.Value.Item1)
-					model.DisplayMessage(GetFileName(file), ArchivingDlgViewModel.MessageType.Bullet);
+					model.DisplayMessage(GetFileName(file), Bullet);
 			}
 		}
 
@@ -689,15 +706,21 @@ namespace SayMore.Model
 		public void SetFilesToArchive(ArchivingDlgViewModel model,
 			CancellationToken cancellationToken)
 		{
+			Dictionary<string, HashSet<string>> contributorFiles = new Dictionary<string, HashSet<string>>();
+			Type archiveType = model.GetType();
+
 			if (model is RampArchivingDlgViewModel)
 			{
-				Dictionary<string, HashSet<string>> contributorFiles = new Dictionary<string, HashSet<string>>();
-				model.AddFileGroup(string.Empty, GetSessionFilesToArchive(model.GetType(), cancellationToken), AddingSessionFilesProgressMsg);
-				var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
+				model.AddFileGroup(string.Empty,
+					GetSessionFilesToArchive(archiveType, cancellationToken),
+					AddingSessionFilesProgressMsg);
+				var fmt = LocalizationManager.GetString(
+					"DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg",
+					"Adding Files for Contributor '{0}'");
 				var participants = new HashSet<string>();
 				foreach (var session in GetAllSessions(cancellationToken))
 				{
-					foreach (var person in session.GetParticipantFilesToArchive(model.GetType(), cancellationToken))
+					foreach (var person in session.GetParticipantFilesToArchive(archiveType, cancellationToken))
 					{
 						if (cancellationToken.IsCancellationRequested)
 							throw new OperationCanceledException();
@@ -720,13 +743,11 @@ namespace SayMore.Model
 			}
 			else
 			{
-				Dictionary<string, HashSet<string>> contributorFiles = new Dictionary<string, HashSet<string>>();
-				Type archiveType = model.GetType();
 				foreach (var session in GetAllSessions(cancellationToken))
 				{
 					model.AddFileGroup(session.Id, session.GetSessionFilesToArchive(archiveType, cancellationToken),
 						session.AddingSessionFilesProgressMsg);
-					foreach (var person in session.GetParticipantFilesToArchive(model.GetType(), cancellationToken))
+					foreach (var person in session.GetParticipantFilesToArchive(archiveType, cancellationToken))
 					{
 						if (!contributorFiles.ContainsKey(person.Key))
 							contributorFiles.Add(person.Key, new HashSet<string>());

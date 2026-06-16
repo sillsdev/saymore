@@ -425,6 +425,35 @@ namespace SayMore.Model
 			return imdiSession;
 		}
 
+		internal static string NoContributorsForSessionMsg =>
+			LocalizationManager.GetString("DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg",
+				"There are no contributors for this session.");
+
+		internal static string PrearchivingSessionsStatusMsg =>
+			LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2",
+				"The following session files will be added to your archive.");
+
+		private static string ArchivingProgressMsgFmt => LocalizationManager.GetString(
+			"DialogBoxes.ArchivingDlg.ArchivingProgressMsg",
+			"     {0}: {1}",
+			"Param 0: \"Session\" (DialogBoxes.ArchivingDlg.SessionElementName) or " +
+			"\"Contributor\" (DialogBoxes.ArchivingDlg.ContributorElementName); " +
+			"Param 1: the session or contributor name.");
+
+		internal static string ArchivingProgressMsgIndent =>
+			new string(ArchivingProgressMsgFmt.TakeWhile(char.IsWhiteSpace).ToArray());
+
+		internal static string FormatArchivingDlgProgressMsg(bool isSession, string elementName)
+		{
+			var elementType = isSession
+				? LocalizationManager.GetString(
+					"DialogBoxes.ArchivingDlg.SessionElementName", "Session")
+				: LocalizationManager.GetString(
+					"DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor");
+
+			return Format(ArchivingProgressMsgFmt, elementType, elementName);
+		}
+
 		private static string GetAnalysisLanguageIdentifier(Project sayMoreProject)
 		{
 			var analysisLanguage = sayMoreProject?.AnalysisISO3CodeAndName;

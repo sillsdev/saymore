@@ -29,7 +29,7 @@ namespace SayMore.Model.Files
 		public const string kTranscriptionComponentRoleId = "transcription";
 		public const string kFreeTranslationComponentRoleId = "transcriptionN";
 
-		private readonly string _englishLabel;
+		private readonly Func<string> _nameProvider;
 
 		public enum MeasurementTypes { None, Time, Words }
 
@@ -44,13 +44,13 @@ namespace SayMore.Model.Files
 		private readonly string _renamingTemplate;
 
 		/// ------------------------------------------------------------------------------------
-		public ComponentRole(Type relevantElementType, string id, string englishLabel,
+		public ComponentRole(Type relevantElementType, string id, Func<string> nameProvider,
 			MeasurementTypes measurementType, Func<string, bool> elligibilityFilter,
 			string renamingTemplate, Color color, Color textColor)
 		{
 			Id = id;
 			RelevantElementType = relevantElementType;
-			_englishLabel = englishLabel;
+			_nameProvider = nameProvider;
 			MeasurementType = measurementType;
 			_elligibilityFilter = elligibilityFilter;
 			_renamingTemplate = renamingTemplate;
@@ -90,10 +90,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string Name
-		{
-			get { return _englishLabel; }
-		}
+		public string Name => _nameProvider?.Invoke();
 
 		/// ------------------------------------------------------------------------------------
 		public static bool GetCanHaveTranscriptionRole(string path)

@@ -82,7 +82,6 @@ jobs:
         with:
           components: |
             Microsoft.Component.MSBuild
-            Microsoft.VisualStudio.Component.VC.Tools.x86.x64
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2

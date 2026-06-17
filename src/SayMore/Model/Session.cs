@@ -500,8 +500,7 @@ namespace SayMore.Model
 			if (fileLists.Count > 1)
 			{
 				yield return new Tuple<string, ArchivingDlgViewModel.MessageType>(
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1",
-					"The following session and contributor files will be added to your archive."),
+					ArchivingHelper.PrearchivingSessionsAndContributorsStatusMsg,
 					Normal);
 			}
 			else

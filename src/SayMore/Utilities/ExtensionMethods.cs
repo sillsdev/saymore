@@ -15,7 +15,7 @@ namespace SayMore.Utilities
 		{
 			var val = birthYear.Trim();
 
-			// year must be a 4 digit integer
+			// year must be a 4-digit integer
 			return string.IsNullOrEmpty(val) || (val.Length == 4 && int.TryParse(val, out _));
 		}
 

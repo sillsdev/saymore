@@ -55,7 +55,6 @@ namespace SayMore.Model
 		private const string kTranscriptionFont = "transcriptionFont";
 		private const string kFreeTranslationFont = "freeTranslationFont";
 		private const string kWorkingLanguageFont = "workingLanguageFont";
-
 		private ElementRepository<Session>.Factory _sessionsRepoFactory;
 		private readonly SessionFileType _sessionFileType;
 		private string _accessProtocol;
@@ -640,9 +639,13 @@ namespace SayMore.Model
 
 			if (fileLists.Count > 1)
 			{
-				model.DisplayMessage(LocalizationManager.GetString(
-					"DialogBoxes.ArchivingDlg.ProjectPreArchivingStatusMsg",
-					"The following files will be added to your archive."), Normal);
+				var message = model is RampArchivingDlgViewModel ?
+					ArchivingHelper.PrearchivingSessionsAndContributorsStatusMsg :
+					LocalizationManager.GetString(
+						"DialogBoxes.ArchivingDlg.ProjectPreArchivingStatusMsg",
+						"The following files will be added to your archive.");
+
+				model.DisplayMessage(message, Normal);
 			}
 			else
 			{
@@ -659,14 +662,15 @@ namespace SayMore.Model
 				{
 					model.DisplayMessage(ArchivingHelper.ArchivingProgressMsgIndent +
 						LocalizationManager.GetString(
-							"DialogBoxes.ArchivingDlg.OtherProjectDoccuments",
-							"OtherProjectDoccuments"),
+							"DialogBoxes.ArchivingDlg.OtherProjectDocuments",
+							"Other Project Documents"),
 					Progress);
 				}
 				else
 				{
-					var elementName = kvp.Key.TrimStart('\n');
+					var elementName = kvp.Key;
 
+					// In a RAMP archive, the key for sessions will be empty.
 					if (elementName.Length == 0)
 					{
 						model.DisplayMessage(ArchivingHelper.ArchivingProgressMsgIndent +
@@ -677,8 +681,15 @@ namespace SayMore.Model
 					}
 					else
 					{
+						// In an IMDI archive, the key for contributors will start with a newline.
+						bool isSession = true;
+						if (elementName.StartsWith("\n") || model is RampArchivingDlgViewModel)
+						{
+							isSession = false;
+							elementName = elementName.TrimStart('\n');
+						}
 						model.DisplayMessage(ArchivingHelper.FormatArchivingDlgProgressMsg(
-							false, elementName), Progress);
+							isSession, elementName), Progress);
 					}
 				}
 

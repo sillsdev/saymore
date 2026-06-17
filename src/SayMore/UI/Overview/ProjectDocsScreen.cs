@@ -225,7 +225,7 @@ namespace SayMore.UI.Overview
 		{
 			string howTheseAreArchivedMsg = string.Format(
 				LocalizationManager.GetString("ProjectView.ProjectDocuments.HowArchivedMsg",
-					"In an IMDI project archive, these files will be exported in a special session named {0}"),
+					"In an IMDI project archive, these files will be exported in a special session named {0}."),
 				ArchiveSessionName);
 
 			MessageBox.Show(Program.ProjectWindow, howTheseAreArchivedMsg, Program.ProjectWindow.Text);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns:sil="http://sil.org/software/XLiff" xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" product-version="3.7.0.0" original="SayMore.exe" datatype="plaintext" target-language="tr">
+  <file source-language="en" product-version="4.0.0.0" original="SayMore.exe" datatype="plaintext" target-language="tr">
     <body>
       <trans-unit id="BuildType.Alpha">
         <source xml:lang="en">Alpha</source>
@@ -534,8 +534,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Continents.Europe.Text" sil:dynamic="true">
         <source xml:lang="en">Europe</source>
-        <target xml:lang="tr" state="translated">
-Avrupa</target>
+        <target xml:lang="tr" state="translated">Avrupa</target>
         <note>ID: CommonToMultipleViews.ListItems.Continents.Europe.Text</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Continents.Middle-America.Text" sil:dynamic="true">
@@ -2069,7 +2068,7 @@ Avrupa</target>
         <note>ID: DialogBoxes.ArchivingDlg.InvalidAgeMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.InvalidBirthYearMsg">
-        <source xml:lang="en">The Birth Year for {0} should be a 4 digit number. It is used to calculate the age for the IMDI export.</source>
+        <source xml:lang="en">The Birth Year for {0} should be a 4-digit number. It is used to calculate the age for the IMDI export.</source>
         <target xml:lang="tr" state="translated">{0} için doğum yılı boş ya da 4 basamaklı bir sayı olmalıdır.</target>
         <note>ID: DialogBoxes.ArchivingDlg.InvalidBirthYearMsg</note>
       </trans-unit>
@@ -2077,6 +2076,11 @@ Avrupa</target>
         <source xml:lang="en">There are no contributors for this session.</source>
         <target xml:lang="tr" state="translated">Bu oturum için hiçbir katkıda bulunmaktadır.</target>
         <note>ID: DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.OtherProjectDocuments">
+        <source xml:lang="en">Other Project Documents</source>
+        <target xml:lang="tr" state="needs-translation">Other Project Documents</target>
+        <note>ID: DialogBoxes.ArchivingDlg.OtherProjectDocuments</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.PersonNotParticipating">
         <source xml:lang="en">{0} is listed as a contributor but not a participant in {1} session.</source>
@@ -2098,10 +2102,20 @@ Avrupa</target>
         <target xml:lang="tr" state="translated">Arşiv korpusu, bu proje ile ilgili gerekli tüm dosyaları ve verileri içerecektir.</target>
         <note>ID: DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails</note>
       </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.ProjectPreArchivingStatusMsg">
+        <source xml:lang="en">The following files will be added to your archive.</source>
+        <target xml:lang="tr" state="needs-translation">The following files will be added to your archive.</target>
+        <note>ID: DialogBoxes.ArchivingDlg.ProjectPreArchivingStatusMsg</note>
+      </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.SessionElementName">
         <source xml:lang="en">Session</source>
         <target xml:lang="tr" state="translated">Oturum</target>
         <note>ID: DialogBoxes.ArchivingDlg.SessionElementName</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.ZippedSessions">
+        <source xml:lang="en">Sessions:</source>
+        <target xml:lang="tr" state="needs-translation">Sessions:</target>
+        <note>ID: DialogBoxes.ArchivingDlg.ZippedSessions</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.GettingInfoErrorMsg">
         <source xml:lang="en">There was an error trying to get more information for the media file:\n\n{0}</source>
@@ -3104,12 +3118,12 @@ Avrupa</target>
         <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelFinishedHint</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint">
-        <source xml:lang="en">To listen to the source recording, press and hold the SPACE BAR</source>
+        <source xml:lang="en">To listen to the source recording, press and hold the SPACE BAR.</source>
         <target xml:lang="tr" state="translated">Kaynak kaydı dinlemek için, BOŞLUK ÇUBUĞUNU basılı tutun.</target>
         <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint">
-        <source xml:lang="en">To record, press and hold the SPACE BAR</source>
+        <source xml:lang="en">To record, press and hold the SPACE BAR.</source>
         <target xml:lang="tr" state="translated">Kaydetmek için, BOŞLUK ÇUBUĞUNU tuşlayın ve basılı tutun.</target>
         <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint</note>
       </trans-unit>
@@ -3283,19 +3297,24 @@ Avrupa</target>
         <target xml:lang="tr" state="translated">{0} Web adresini ziyaret edin.</target>
         <note>ID: DialogBoxes.WelcomeDlg._linkSayMoreWebsite</note>
       </trans-unit>
+      <trans-unit id="ExportToFieldWorksInterlinearDlg._labelImportInstructions">
+        <source xml:lang="en">When importing this file into {0}, be sure to have the project analysis language set to {1} .</source>
+        <target xml:lang="tr" state="needs-translation">When importing this file into {0}, be sure to have the project analysis language set to {1} .</target>
+        <note>ID: ExportToFieldWorksInterlinearDlg._labelImportInstructions</note>
+      </trans-unit>
       <trans-unit id="General.NeedToDisambiguateLanguages">
         <source xml:lang="en">One or more of the languages spoken by included participants are specified in a way that could be ambiguous. For each one, you will be asked to identify the intended language.</source>
         <target xml:lang="tr" state="needs-translation">One or more of the languages spoken by included participants are specified in a way that could be ambiguous. For each one, you will be asked to identify the intended language.</target>
         <note>ID: General.NeedToDisambiguateLanguages</note>
       </trans-unit>
       <trans-unit id="MainWindow.AutoCompleteValueGathererError">
-        <source xml:lang="en">An error of type {0} ocurred trying to gather information from file: {1}</source>
+        <source xml:lang="en">An error of type {0} occurred trying to gather information from file: {1}</source>
         <target xml:lang="tr" state="translated">Dosya {1}'den bilgi toplamaya çalışılırken {0} türünde bir hata oluştu</target>
         <note>ID: MainWindow.AutoCompleteValueGathererError</note>
       </trans-unit>
       <trans-unit id="MainWindow.ConfirmDeleteUserSettingsFile">
         <source xml:lang="en">Do you want to delete your user settings? (This will clear your most-recently-used project list, window positions, UI language settings, etc. It will not affect your SayMore project data.)</source>
-        <target xml:lang="tr" state="translated">Kullanıcı ayarlarını gerçekten silmek ister miziniz? (SayMore proje verileriniz etkilenmeyecek. En son kullanılan proje listesi, pencere pozisyonları, kullanıcı arabirimi ayarıları, vs silinecek.) </target>
+        <target xml:lang="tr" state="translated">Kullanıcı ayarlarını gerçekten silmek ister miziniz? (SayMore proje verileriniz etkilenmeyecek. En son kullanılan proje listesi, pencere pozisyonları, kullanıcı arabirimi ayarıları, vs silinecek.)</target>
         <note>ID: MainWindow.ConfirmDeleteUserSettingsFile</note>
       </trans-unit>
       <trans-unit id="MainWindow.ConfirmStopFileSync">
@@ -3340,7 +3359,7 @@ Avrupa</target>
       </trans-unit>
       <trans-unit id="MainWindow.Export.ExportFileSaveFileDlg.Caption">
         <source xml:lang="en">Export Data</source>
-        <target xml:lang="tr" state="translated"> Veriler Dışa Aktar</target>
+        <target xml:lang="tr" state="translated">Veriler Dışa Aktar</target>
         <note>ID: MainWindow.Export.ExportFileSaveFileDlg.Caption</note>
       </trans-unit>
       <trans-unit id="MainWindow.LoadingProjectErrorMsg">
@@ -4094,7 +4113,7 @@ Avrupa</target>
         <note>ID: ProjectView.ProjectDocuments.DescriptionDocumentsInformationLabel</note>
       </trans-unit>
       <trans-unit id="ProjectView.ProjectDocuments.HowArchivedMsg">
-        <source xml:lang="en">In an IMDI project archive, these files will be exported in a special session named {0}</source>
+        <source xml:lang="en">In an IMDI project archive, these files will be exported in a special session named {0}.</source>
         <target xml:lang="tr" state="translated">Bir IMDI proje arşivinde, bu dosyalar {0} adlı özel bir oturuma aktarılır.</target>
         <note>ID: ProjectView.ProjectDocuments.HowArchivedMsg</note>
       </trans-unit>
@@ -4640,7 +4659,7 @@ Avrupa</target>
       </trans-unit>
       <trans-unit id="SessionsView.StatusAndStagesEditor.StatusToolTips.Skipped">
         <source xml:lang="en">I've decided to not develop\nthis session at this time.</source>
-        <target xml:lang="tr" state="translated">Bu oturumda bu defa\ngeliştirmemeye karar verdim</target>
+        <target xml:lang="tr" state="translated">Bu oturumda bu defa\ngeliştirmemeye karar verdim.</target>
         <note>ID: SessionsView.StatusAndStagesEditor.StatusToolTips.Skipped</note>
       </trans-unit>
       <trans-unit id="SessionsView.StatusAndStagesEditor.TabText">
@@ -4664,7 +4683,7 @@ Avrupa</target>
         <note>ID: SessionsView.StatusAndStagesEditor._labelStages</note>
       </trans-unit>
       <trans-unit id="SessionsView.StatusAndStagesEditor._labelStagesHint">
-        <source xml:lang="en">Stages are normally automatic indicators of what  has been done, based on file names and annotation work you've done. Click any item to take control of this indicator.</source>
+        <source xml:lang="en">Stages are normally automatic indicators of what has been done, based on file names and annotation work you've done. Click any stage to take control of this indicator.</source>
         <target xml:lang="tr" state="translated">Aşamalar normalde dosya adlarına veya yaptığınız açıklama çalışmalarına dayalı otomatik göstergelerdir. Bu göstergeyi denetlemek için herhangi bir öğeyi tıklayın.</target>
         <note>ID: SessionsView.StatusAndStagesEditor._labelStagesHint</note>
       </trans-unit>
@@ -4854,7 +4873,7 @@ Avrupa</target>
         <note>ID: SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethodQuestion</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._radioButtonAudacity">
-        <source xml:lang="en">Read an Audacity Label file</source>
+        <source xml:lang="en">Import an Audacity Label file</source>
         <target xml:lang="tr" state="translated">Bir Audacity Etiket dosyası oku</target>
         <note>ID: SessionsView.Transcription.StartAnnotatingTab._radioButtonAudacity</note>
       </trans-unit>

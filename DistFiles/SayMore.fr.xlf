@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns:sil="http://sil.org/software/XLiff" xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" product-version="3.7.0.0" original="SayMore.exe" datatype="plaintext" target-language="fr">
+  <file source-language="en" product-version="4.0.0.0" original="SayMore.exe" datatype="plaintext" target-language="fr">
     <body>
       <trans-unit id="BuildType.Alpha">
         <source xml:lang="en">Alpha</source>
@@ -2068,7 +2068,7 @@
         <note>ID: DialogBoxes.ArchivingDlg.InvalidAgeMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.InvalidBirthYearMsg">
-        <source xml:lang="en">The Birth Year for {0} should be a 4 digit number. It is used to calculate the age for the IMDI export.</source>
+        <source xml:lang="en">The Birth Year for {0} should be a 4-digit number. It is used to calculate the age for the IMDI export.</source>
         <target xml:lang="fr" state="translated">L'année de naissance pour {0} doit être vide ou un nombre à 4 chiffres.</target>
         <note>ID: DialogBoxes.ArchivingDlg.InvalidBirthYearMsg</note>
       </trans-unit>
@@ -2076,6 +2076,11 @@
         <source xml:lang="en">There are no contributors for this session.</source>
         <target xml:lang="fr" state="translated">Il n'y a pas de contributeur pour cette session.</target>
         <note>ID: DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.OtherProjectDocuments">
+        <source xml:lang="en">Other Project Documents</source>
+        <target xml:lang="fr" state="translated">Autres documents de projet</target>
+        <note>ID: DialogBoxes.ArchivingDlg.OtherProjectDocuments</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.PersonNotParticipating">
         <source xml:lang="en">{0} is listed as a contributor but not a participant in {1} session.</source>
@@ -2097,10 +2102,20 @@
         <target xml:lang="fr" state="translated">L'archive inclura tous les fichiers et les données requis qui sont associés à ce projet.</target>
         <note>ID: DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails</note>
       </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.ProjectPreArchivingStatusMsg">
+        <source xml:lang="en">The following files will be added to your archive.</source>
+        <target xml:lang="fr" state="needs-translation">The following files will be added to your archive.</target>
+        <note>ID: DialogBoxes.ArchivingDlg.ProjectPreArchivingStatusMsg</note>
+      </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.SessionElementName">
         <source xml:lang="en">Session</source>
         <target xml:lang="fr" state="translated">Session</target>
         <note>ID: DialogBoxes.ArchivingDlg.SessionElementName</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.ZippedSessions">
+        <source xml:lang="en">Sessions:</source>
+        <target xml:lang="fr" state="translated">Sessions :</target>
+        <note>ID: DialogBoxes.ArchivingDlg.ZippedSessions</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.GettingInfoErrorMsg">
         <source xml:lang="en">There was an error trying to get more information for the media file:\n\n{0}</source>
@@ -3103,13 +3118,13 @@
         <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelFinishedHint</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint">
-        <source xml:lang="en">To listen to the source recording, press and hold the SPACE BAR</source>
-        <target xml:lang="fr" state="translated">Pour écouter l'enregistrement original, tenir enfoncé la barre d'espace</target>
+        <source xml:lang="en">To listen to the source recording, press and hold the SPACE BAR.</source>
+        <target xml:lang="fr" state="translated">Pour écouter l'enregistrement original, tenir enfoncé la barre d'espace.</target>
         <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint">
-        <source xml:lang="en">To record, press and hold the SPACE BAR</source>
-        <target xml:lang="fr" state="translated">Pour enregistrer, tenir enfoncé la barre d'espace</target>
+        <source xml:lang="en">To record, press and hold the SPACE BAR.</source>
+        <target xml:lang="fr" state="translated">Pour enregistrer, tenir enfoncé la barre d'espace.</target>
         <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.OralTranslationRecorderDlg.WindowTitle">
@@ -3282,13 +3297,18 @@
         <target xml:lang="fr" state="translated">Visiter le site web {0}</target>
         <note>ID: DialogBoxes.WelcomeDlg._linkSayMoreWebsite</note>
       </trans-unit>
+      <trans-unit id="ExportToFieldWorksInterlinearDlg._labelImportInstructions">
+        <source xml:lang="en">When importing this file into {0}, be sure to have the project analysis language set to {1} .</source>
+        <target xml:lang="fr" state="needs-translation">When importing this file into {0}, be sure to have the project analysis language set to {1} .</target>
+        <note>ID: ExportToFieldWorksInterlinearDlg._labelImportInstructions</note>
+      </trans-unit>
       <trans-unit id="General.NeedToDisambiguateLanguages">
         <source xml:lang="en">One or more of the languages spoken by included participants are specified in a way that could be ambiguous. For each one, you will be asked to identify the intended language.</source>
         <target xml:lang="fr" state="needs-translation">One or more of the languages spoken by included participants are specified in a way that could be ambiguous. For each one, you will be asked to identify the intended language.</target>
         <note>ID: General.NeedToDisambiguateLanguages</note>
       </trans-unit>
       <trans-unit id="MainWindow.AutoCompleteValueGathererError">
-        <source xml:lang="en">An error of type {0} ocurred trying to gather information from file: {1}</source>
+        <source xml:lang="en">An error of type {0} occurred trying to gather information from file: {1}</source>
         <target xml:lang="fr" state="translated">Une erreur de type {0} est produite en essayant de recueillir des informations du fichier : {1}</target>
         <note>ID: MainWindow.AutoCompleteValueGathererError</note>
       </trans-unit>
@@ -4093,7 +4113,7 @@
         <note>ID: ProjectView.ProjectDocuments.DescriptionDocumentsInformationLabel</note>
       </trans-unit>
       <trans-unit id="ProjectView.ProjectDocuments.HowArchivedMsg">
-        <source xml:lang="en">In an IMDI project archive, these files will be exported in a special session named {0}</source>
+        <source xml:lang="en">In an IMDI project archive, these files will be exported in a special session named {0}.</source>
         <target xml:lang="fr" state="translated">Dans une archive IMDI, ces fichiers seront exportés en session spéciale nommée {0}</target>
         <note>ID: ProjectView.ProjectDocuments.HowArchivedMsg</note>
       </trans-unit>
@@ -4663,7 +4683,7 @@
         <note>ID: SessionsView.StatusAndStagesEditor._labelStages</note>
       </trans-unit>
       <trans-unit id="SessionsView.StatusAndStagesEditor._labelStagesHint">
-        <source xml:lang="en">Stages are normally automatic indicators of what  has been done, based on file names and annotation work you've done. Click any item to take control of this indicator.</source>
+        <source xml:lang="en">Stages are normally automatic indicators of what has been done, based on file names and annotation work you've done. Click any stage to take control of this indicator.</source>
         <target xml:lang="fr" state="translated">Les étapes sont normalement indicateurs automatiques de ce qui a été fait, basé sur les noms de fichiers et le travail d'annotation que vous avez fait. Cliquez sur n'importe quel élément pour prendre contrôle de cet indicateur.</target>
         <note>ID: SessionsView.StatusAndStagesEditor._labelStagesHint</note>
       </trans-unit>
@@ -4853,8 +4873,8 @@
         <note>ID: SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethodQuestion</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._radioButtonAudacity">
-        <source xml:lang="en">Read an Audacity Label file</source>
-        <target xml:lang="fr" state="translated">Lire un fichier d'étiquette d'Audacity (Audacity label file)</target>
+        <source xml:lang="en">Import an Audacity Label file</source>
+        <target xml:lang="fr" state="translated">Importer un fichier d'étiquette d'Audacity (Audacity label file)</target>
         <note>ID: SessionsView.Transcription.StartAnnotatingTab._radioButtonAudacity</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._radioButtonAutoSegmenter">

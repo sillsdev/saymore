@@ -79,8 +79,6 @@ jobs:
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
-        with:
-          vs-version: '[17.0,18.0)'
 
       - name: Build
         run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /p:Version=$env:Version /m
@@ -95,9 +93,6 @@ jobs:
           name: saymore-test-results
           if-no-files-found: warn
           path: output/x64/${{ env.Configuration }}/net48/TestResults.xml
-
-      - name: Copy CHM file into DistFiles
-        run: copy "docs\SayMore.chm" "DistFiles\SayMore.chm"
 
       - name: Create HTML release notes
         run: msbuild build\SayMore.proj /t:ConvertReleaseNotesToHtml /p:Version=$env:Version /m

@@ -358,6 +358,10 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<Component Id="irrKlang.NET4.x64" Guid="{F0CAECD1-8D7E-4D4F-9147-A4E8ED2B742B}" Win64="yes">
 				<File Id="irrKlang.NET4.x64" Name="irrKlang.NET4.dll" KeyPath="yes" Source="$(var.OutputDir)lib\win-x64\irrKlang.NET4.dll" />
 			</Component>
+
+			<Component Id="SayMore.chm" Guid="{8a822c10-ac11-40d1-8c2e-a33b7236ccd1}" Win64="yes">
+				<File Id="SayMore.chm" Name="SayMore.chm" KeyPath="yes" Source="..\..\docs\SayMore.chm" />
+			</Component>
 		</Directory>
 	  </Directory>
 	</Directory>
@@ -419,6 +423,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="ikpFlac.x64"/>
 		<ComponentRef Id="ikpMP3.x64"/>
 		<ComponentRef Id="irrKlang.NET4.x64"/>
+		<ComponentRef Id="SayMore.chm"/>
 		<ComponentRef Id="IMDILists"/>
 		<ComponentGroupRef Id="DistFiles"/>
 	</Feature>

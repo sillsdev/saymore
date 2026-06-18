@@ -317,7 +317,7 @@ namespace SayMore.UI.ProjectWindow
 		private void HandleHelpClick(object sender, EventArgs e)
 		{
 			//nb: when the file is in our source code, and not in the program directory, windows security will squawk and then not show content.
-			var path = FileLocationUtilities.GetFileDistributedWithApplication(false,"SayMore.chm");
+			var path = Program.GetHelpFilePath();
 			try
 			{
 				Process.Start(path);

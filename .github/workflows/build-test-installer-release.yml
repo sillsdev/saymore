@@ -98,7 +98,6 @@ jobs:
         run: msbuild build\SayMore.proj /t:ConvertReleaseNotesToHtml /p:Version=$env:Version /m
 
       - name: Build installer
-        if: ${{ github.event_name != 'pull_request' }}
         run: msbuild build\SayMore.proj /t:Installer /p:Configuration=$env:Configuration /p:Version=$env:Version /m
 
       - name: Sign installer
@@ -110,7 +109,6 @@ jobs:
           files-folder-filter: SayMoreInstaller*.msi
 
       - name: Upload installer artifacts
-        if: ${{ github.event_name != 'pull_request' }}
         uses: actions/upload-artifact@v4
         with:
           name: saymore-installer

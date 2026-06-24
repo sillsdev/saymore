@@ -2104,7 +2104,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.ProjectPreArchivingStatusMsg">
         <source xml:lang="en">The following files will be added to your archive.</source>
-        <target xml:lang="pt-BR" state="needs-translation">The following files will be added to your archive.</target>
+        <target xml:lang="pt-BR" state="translated">Os seguintes arquivos serão adicionados ao seu arquivo.</target>
         <note>ID: DialogBoxes.ArchivingDlg.ProjectPreArchivingStatusMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.SessionElementName" approved="yes">
@@ -2374,7 +2374,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkCareful_ToolTip_" approved="yes">
         <source xml:lang="en">Careful Speech:\nSlow, careful speech re-speaking\nof the source recording.</source>
-        <target xml:lang="pt-BR" state="final">Fala Cuidadosa: \nFala pausada e bem pronunciada,\n repetindo a gravação original.</target>
+        <target xml:lang="pt-BR" state="final">Fala Cuidadosa:\nFala pausada e bem pronunciada,\n repetindo a gravação original.</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkCareful_ToolTip_</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkConsent" approved="yes">
@@ -2384,7 +2384,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkConsent_ToolTip_" approved="yes">
         <source xml:lang="en">Informed Consent:\nA scan or recording of consent covering\nthe use of this person's contribution.</source>
-        <target xml:lang="pt-BR" state="final">Permissão Informada: Digitalização ou gravação da permissão de uso da contribuição dessa pessoa.</target>
+        <target xml:lang="pt-BR" state="final">Permissão Informada:\nDigitalização ou gravação da permissão\nde uso da contribuição dessa pessoa.</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkConsent_ToolTip_</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkOralTranslation" approved="yes">
@@ -2394,7 +2394,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkOralTranslation_ToolTip_" approved="yes">
         <source xml:lang="en">Oral Translation:\nRecording of a translation\nof the source recording.</source>
-        <target xml:lang="pt-BR" state="final">Tradução Oral: Gravação de uma tradução da gravação original.</target>
+        <target xml:lang="pt-BR" state="final">Tradução Oral:\nGravação de uma tradução\nda gravação original.</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkOralTranslation_ToolTip_</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkSource" approved="yes">
@@ -2402,9 +2402,9 @@
         <target xml:lang="pt-BR" state="final">Original</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkSource</note>
       </trans-unit>
-      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkSource_ToolTip_" approved="yes">
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkSource_ToolTip_">
         <source xml:lang="en">Source:\nThe recording of the session. Used to satisfy\nthe 'Source Recording' stage of the session.</source>
-        <target xml:lang="pt-BR" state="final">Original: Gravação da sessão. Usada para corresponder ao estágio de "Gravação Original" da sessão.</target>
+        <target xml:lang="pt-BR" state="translated">Original:\nGravação da sessão. Usada para corresponder\nà etapa de "Gravação Original" da sessão.</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkSource_ToolTip_</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkTranscription" approved="yes">
@@ -2414,7 +2414,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkTranscription_ToolTip_" approved="yes">
         <source xml:lang="en">Transcription:\nWritten transcription of\nthe source recording.</source>
-        <target xml:lang="pt-BR" state="final">Transcrição: Transcrição escrita da gravação original.</target>
+        <target xml:lang="pt-BR" state="final">Transcrição:\nTranscrição escrita da\ngravação original.</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkTranscription_ToolTip_</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation" approved="yes">
@@ -2424,7 +2424,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation_ToolTip_" approved="yes">
         <source xml:lang="en">Written Translation:\nWritten translation of\nthe source recording.</source>
-        <target xml:lang="pt-BR" state="final">Tradução Escrita: Tradução escrita da gravação original.</target>
+        <target xml:lang="pt-BR" state="final">Tradução Escrita:\nTradução escrita da\ngravação original.</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation_ToolTip_</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ConvertMediaDlg.AvailableConversionsLabel" approved="yes">
@@ -2877,9 +2877,9 @@
         <target xml:lang="pt-BR" state="final">Cancelar</target>
         <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CancelButton</note>
       </trans-unit>
-      <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg1">
+      <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg1" approved="yes">
         <source xml:lang="en">In order to export, we need to find a writing system ID that {1} will accept. {2} tried to find a list of writing systems which {1} knows about by looking in {0}, but it doesn't exist. We recommend that you let the code be 'en' (English), then change it inside of {1}.</source>
-        <target xml:lang="pt-BR" state="translated">Para exportar, precisamos encontrar um código de sistema de escrita aceito pelo {1}. O {2} tentou encontrar uma lista de sistemas de escrita reconhecidos pelo {1} procurando em {0}, mas ela não existe. Recomendamos deixar o código como “en” (inglês) e alterá-lo depois dentro do {1}.</target>
+        <target xml:lang="pt-BR" state="final">Para poder exportar, precisamos encontrar um ID de sistema de escrita que {1} aceite. {2} tentou encontrar uma lista de sistemas de escrita conhecidos por {1}, procurando em {0}, mas ela não existe. Recomendamos que você deixe o código como 'en' (inglês) e depois o altere dentro de {1}.</target>
         <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg1</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg2" approved="yes">
@@ -4662,9 +4662,9 @@
         <target xml:lang="pt-BR" state="final">Decidi não desenvolver esta sessão no momento.</target>
         <note>ID: SessionsView.StatusAndStagesEditor.StatusToolTips.Skipped</note>
       </trans-unit>
-      <trans-unit id="SessionsView.StatusAndStagesEditor.TabText">
+      <trans-unit id="SessionsView.StatusAndStagesEditor.TabText" approved="yes">
         <source xml:lang="en">Status &amp;&amp; Stages</source>
-        <target xml:lang="pt-BR" state="translated">Status e Estágios</target>
+        <target xml:lang="pt-BR" state="final">Status e Etapas</target>
         <note>ID: SessionsView.StatusAndStagesEditor.TabText</note>
       </trans-unit>
       <trans-unit id="SessionsView.StatusAndStagesEditor._labelReadAboutStages" approved="yes">
@@ -4682,9 +4682,9 @@
         <target xml:lang="pt-BR" state="final">Etapas</target>
         <note>ID: SessionsView.StatusAndStagesEditor._labelStages</note>
       </trans-unit>
-      <trans-unit id="SessionsView.StatusAndStagesEditor._labelStagesHint">
+      <trans-unit id="SessionsView.StatusAndStagesEditor._labelStagesHint" approved="yes">
         <source xml:lang="en">Stages are normally automatic indicators of what has been done, based on file names and annotation work you've done. Click any stage to take control of this indicator.</source>
-        <target xml:lang="pt-BR" state="translated">As etapas normalmente são indicadores automáticos do que já foi feito, baseado nos nomes dos arquivos e no trabalho de anotação realizado. Clique em qualquer etapa para alterar o indicador manualmente.</target>
+        <target xml:lang="pt-BR" state="final">As etapas normalmente são indicadores automáticos do que já foi feito, baseado nos nomes dos arquivos e no trabalho de anotação realizado. Clique em qualquer etapa para alterar o indicador manualmente.</target>
         <note>ID: SessionsView.StatusAndStagesEditor._labelStagesHint</note>
       </trans-unit>
       <trans-unit id="SessionsView.StatusAndStagesEditor._labelStatus" approved="yes">

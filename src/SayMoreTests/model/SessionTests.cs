@@ -13,6 +13,7 @@ using SayMore.Utilities;
 using SIL.Core.ClearShare;
 using SIL.IO;
 using SayMore.UI.ComponentEditors;
+using L10NSharp;
 
 namespace SayMoreTests.Model
 {
@@ -29,6 +30,7 @@ namespace SayMoreTests.Model
 		[SetUp]
 		public void Setup()
 		{
+			LocalizationManager.StrictInitializationMode = false;
 			_parentFolder = new TemporaryFolder("sessionTest");
 		}
 
@@ -110,7 +112,7 @@ namespace SayMoreTests.Model
 			var componentRoles = new List<ComponentRole>
 			{
 				new ComponentRole(null, ComponentRole.kConsentComponentRoleId, () => null,
-				ComponentRole.MeasurementTypes.None, null, null, Color.Empty, Color.Empty),
+				ComponentRole.MeasurementTypes.None, s => true, "", Color.Empty, Color.Empty),
 				new ComponentRole(null, ComponentRole.kSourceComponentRoleId, () => null,
 				ComponentRole.MeasurementTypes.Time, FileSystemUtils.GetIsAudioVideo,
 				ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Source", Color.Empty, Color.Empty)

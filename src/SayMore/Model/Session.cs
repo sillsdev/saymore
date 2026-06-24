@@ -463,7 +463,7 @@ namespace SayMore.Model
 		{
 			Dictionary<string, IEnumerable<string>> d = new Dictionary<string, IEnumerable<string>>();
 
-			foreach (var person in GetAllParticipants().Select(n => _personInformant.GetPersonByNameOrCode(n)).Where(p => p != null))
+			foreach (var person in GetAllParticipants().Select(_personInformant.GetPersonByNameOrCode).Where(p => p != null))
 			{
 				var filesInDir = Directory.GetFiles(person.FolderPath);
 				d[person.Id] = filesInDir.Where(f => ArchivingHelper.IncludeFileInArchive(f,

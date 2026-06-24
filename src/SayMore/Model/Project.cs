@@ -717,7 +717,6 @@ namespace SayMore.Model
 		public void SetFilesToArchive(ArchivingDlgViewModel model,
 			CancellationToken cancellationToken)
 		{
-			Dictionary<string, HashSet<string>> contributorFiles = new Dictionary<string, HashSet<string>>();
 			Type archiveType = model.GetType();
 
 			if (model is RampArchivingDlgViewModel)
@@ -738,22 +737,13 @@ namespace SayMore.Model
 						if (!participants.Add(person.Key))
 							continue;
 						model.AddFileGroup(person.Key, person.Value, string.Format(fmt, person.Key));
-
-						if (!contributorFiles.ContainsKey(person.Key))
-							contributorFiles.Add(person.Key, new HashSet<string>());
-
-						foreach (var file in person.Value)
-						{
-							if (cancellationToken.IsCancellationRequested)
-								throw new OperationCanceledException();
-
-							contributorFiles[person.Key].Add(file);
-						}
 					}
 				}
 			}
 			else
 			{
+				Dictionary<string, HashSet<string>> contributorFiles = new Dictionary<string, HashSet<string>>();
+
 				foreach (var session in GetAllSessions(cancellationToken))
 				{
 					model.AddFileGroup(session.Id, session.GetSessionFilesToArchive(archiveType, cancellationToken),

@@ -688,15 +688,19 @@ namespace SayMore
 		internal static string GetHelpFilePath()
 		{
 			const string kHelpFileName = "SayMore.chm";
-			var path = FileLocationUtilities.GetFileDistributedWithApplication(false, kHelpFileName);
+			var path = FileLocationUtilities.GetFileDistributedWithApplication(true, kHelpFileName);
 			if (path != null)
 				return path;
 			// In the dev environment, SayMore.chm is in the docs submodule, not DistFiles.
 			// TODO: Replace once SIL.IO's FileLocationUtilities supports AdditionalSearchDirectories.
-			var docsDir = FileLocationUtilities.GetDirectoryDistributedWithApplication(false, "docs");
+			var docsDir = FileLocationUtilities.GetDirectoryDistributedWithApplication(true, "docs");
 			if (docsDir != null)
-				return Path.Combine(docsDir, kHelpFileName);
-			throw new FileNotFoundException($"Could not find {kHelpFileName}.");
+			{
+				path = Path.Combine(docsDir, kHelpFileName);
+				if (File.Exists(path))
+					return path;	
+			}
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------

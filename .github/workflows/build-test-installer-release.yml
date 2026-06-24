@@ -77,10 +77,14 @@ jobs:
       - name: Restore NuGet packages
         run: nuget restore SayMore.sln
 
+      - name: Install MSBuild workload
+        uses: microsoft/visualstudio-installer-action@v1
+        with:
+          components: |
+            Microsoft.Component.MSBuild
+
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
-        with:
-          vs-version: '[17.0,18.0)'
 
       - name: Build
         run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /p:Version=$env:Version /m

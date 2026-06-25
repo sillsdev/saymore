@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Person>
   <primaryLanguage type="string">etr:Edolo</primaryLanguage>
   <primaryLanguageLearnedIn type="string">Huya</primaryLanguageLearnedIn>
@@ -10,7 +10,8 @@
   <gender type="string">Male</gender>
   <education type="string">Grade 2</education>
   <primaryOccupation type="string">Subsistence Farmer</primaryOccupation>
+  <privacyProtection type="string">false</privacyProtection>
   <CustomFields>
-	<Current_Village type="string">Huya</Current_Village>
+    <Current_Village type="string">Huya</Current_Village>
   </CustomFields>
 </Person>

@@ -209,7 +209,7 @@ namespace SayMore.UI.ElementListScreen
 
 	    public string NameForUsageReporting
 	    {
-            get { return "Sessions"; }
+            get { return "Sessionsc"; }
 	    }
 	}
 }

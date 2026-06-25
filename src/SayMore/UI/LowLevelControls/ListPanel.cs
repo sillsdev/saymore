@@ -19,7 +19,20 @@ namespace SayMore.UI.LowLevelControls
 		public event EventHandler NewButtonClicked;
 		public event EventHandler DeleteButtonClicked;
 
+	/// <summary>
+	/// Raised when the text in the search box changes.
+	/// </summary>
+	public event EventHandler SearchTextChanged;
+
+	/// <summary>
+	/// Raised when the user types in the search box and a search should be performed.
+	/// Only fired when there are three or more characters in the search box.
+	/// </summary>
+	public event EventHandler SearchRequested;
+
 		private readonly List<Button> _buttons = new List<Button>();
+
+		private System.Windows.Forms.Timer _searchTimer;
 
 		public Color ButtonPanelBackColor1 { get; set; }
 		public Color ButtonPanelBackColor2 { get; set; }
@@ -31,6 +44,12 @@ namespace SayMore.UI.LowLevelControls
 
 		protected Control _listControl;
 		protected bool _showColumnChooserButton;
+
+		// Backing field for whether the header search box is shown. Developers can set
+		// the ShowSearchBar property to hide or show the search box at runtime.
+		private bool _showSearchBar;
+
+		//private TextBox searchbox;
 
 		/// ------------------------------------------------------------------------------------
 		public ListPanel()
@@ -51,6 +70,23 @@ namespace SayMore.UI.LowLevelControls
 				return;
 
 			_headerLabel.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
+
+			if (_searchTextBox != null)
+			{
+				_searchTextBox.Visible = false;
+               _searchTextBox.KeyUp += _searchTextBox_KeyUp;
+
+            _searchTimer = new System.Windows.Forms.Timer();
+			_searchTimer.Interval = 1500; // default 1.5 seconds; will be adjusted as needed
+			_searchTimer.Tick += (s, e) =>
+			{
+				_searchTimer.Stop();
+				// When the timer fires, re-evaluate the current text and raise SearchRequested.
+				var textNow = _searchTextBox.Text ?? string.Empty;
+				// Invoke SearchRequested for whatever the current text warrants (filtered or full list).
+				SearchRequested?.Invoke(this, EventArgs.Empty);
+			};
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -227,5 +263,65 @@ namespace SayMore.UI.LowLevelControls
 			foreach (var b in _buttons)
 				_buttonsFlowLayoutPanel.Controls.Add(b);
 		}
+
+		/// <summary>
+		/// Handle key input in the search box. 
+		/// </summary>
+		private void _searchTextBox_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (_searchTextBox == null)
+				return;
+
+			var text = _searchTextBox.Text ?? string.Empty;
+           // If there are three or more characters, request a filtered search.
+			// If there are two or one characters, request a filtered search after a delay.
+            if (text.Length >= 3)
+			{
+				// For 3+ chars, perform the filtered after a half second to prevent searching on each keystroke
+				_searchTimer.Interval = 500;
+				_searchTimer.Stop();
+				_searchTimer.Start();
+				//SearchRequested?.Invoke(this, EventArgs.Empty);
+			}
+			else if (text.Length == 0)
+			{
+				// If the search box is empty, show the full list immediately.
+				_searchTimer.Stop();
+				SearchRequested?.Invoke(this, EventArgs.Empty);
+			}
+			else // For 1-2 chars, delay the action by 1.5 seconds to avoid excessive refreshes.
+			{
+				_searchTimer.Interval = 1500;
+				_searchTimer.Stop();
+				_searchTimer.Start();
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets whether the search box in the header is visible.
+		/// Developers can hide or show the search box using this property.
+		/// </summary>
+		[DefaultValue(false)]
+		public bool ShowSearchBar
+		{
+			get { return _searchTextBox != null && _searchTextBox.Visible; }
+			set
+			{
+				if (_searchTextBox == null)
+					return;
+				_searchTextBox.Visible = value;
+			}
+		}
+
+		/// <summary>
+		/// Current text in the search box.
+		/// </summary>
+		[Browsable(false)]
+		public string SearchText
+		{
+			get { return _searchTextBox?.Text ?? string.Empty; }
+			set { if (_searchTextBox != null) _searchTextBox.Text = value; }
+		}
+
 	}
 }

@@ -660,7 +660,7 @@ namespace SayMore.Model
 					throw new OperationCanceledException();
 				var element = (kvp.Key.StartsWith("\n") || kvp.Key.Length > 0 ?
 					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor") :
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Sessions"));
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SessionElementName", "Sessionsg"));
 
 				model.DisplayMessage(string.Format(fmt, element, (kvp.Key.StartsWith("\n") || kvp.Key.Length > 0 ? kvp.Key.Substring(1) : Title)),
 					ArchivingDlgViewModel.MessageType.Progress);

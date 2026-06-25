@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Session>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Session version="2.0">
   <title type="string">The story behind how we catch fish with poison bark</title>
-  <participants type="string">Awi Heole; Ilawi Amosa</participants>
+  <participants type="string">Awi Heole; Hatton; Ilawi Amosa</participants>
   <genre type="string">narrative</genre>
   <access type="string">Open</access>
   <location type="string">Huya</location>
@@ -10,4 +10,33 @@
   <date type="string">2010-06-06</date>
   <notes type="string">hello</notes>
   <status type="string">Incoming</status>
+  <CustomFields>
+    <EarthTYpe type="string">Magma</EarthTYpe>
+  </CustomFields>
+  <contributions type="xml">
+    <contributor>
+      <name>Awi Heole</name>
+      <role>participant</role>
+      <date>0001-01-01</date>
+      <notes></notes>
+    </contributor>
+    <contributor>
+      <name>Ilawi Amosa</name>
+      <role>participant</role>
+      <date>0001-01-01</date>
+      <notes></notes>
+    </contributor>
+    <contributor>
+      <name>Hatton</name>
+      <role>recorder</role>
+      <date>2010-09-10</date>
+      <notes></notes>
+    </contributor>
+    <contributor>
+      <name>Awi Heole</name>
+      <role>speaker</role>
+      <date>2010-09-10</date>
+      <notes></notes>
+    </contributor>
+  </contributions>
 </Session>

@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Windows.Forms;
 
 namespace SayMoreTests.UI.LowLevelControls
 {
@@ -10,6 +11,30 @@ namespace SayMoreTests.UI.LowLevelControls
 	[TestFixture]
 	public class ListPanelTests
 	{
+        [Test]
+        public void SearchRequested_Fires_Only_When_SearchText_Has_3_Or_More_Chars()
+        {
+            var panel = new SayMore.UI.LowLevelControls.ListPanel();
+
+            bool fired = false;
+            panel.SearchRequested += (s, e) => fired = true;
+
+            // simulate typing 2 chars
+            panel.SearchText = "ab";
+            var mi = typeof(SayMore.UI.LowLevelControls.ListPanel)
+                .GetMethod("_searchTextBox_KeyUp", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            Assert.IsNotNull(mi, "Could not find private _searchTextBox_KeyUp method via reflection");
+
+            fired = false;
+            mi.Invoke(panel, new object[] { panel, new KeyEventArgs(Keys.A) });
+            Assert.IsFalse(fired, "SearchRequested should not fire for fewer than 3 characters.");
+
+            // simulate typing 3 chars
+            panel.SearchText = "abc";
+            fired = false;
+            mi.Invoke(panel, new object[] { panel, new KeyEventArgs(Keys.A) });
+            Assert.IsTrue(fired, "SearchRequested should fire when there are 3 or more characters.");
+        }
 		//private ListPanel _lp;
 
 		///// ------------------------------------------------------------------------------------

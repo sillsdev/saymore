@@ -3362,10 +3362,20 @@
         <target xml:lang="es-ES" state="final">Exportar datos</target>
         <note>ID: MainWindow.Export.ExportFileSaveFileDlg.Caption</note>
       </trans-unit>
+      <trans-unit id="MainWindow.HelpFileMissing" approved="yes">
+        <source xml:lang="en">Could not locate the {0} Help file.</source>
+        <target xml:lang="es-ES" state="final">No se pudo encontrar el archivo de ayuda {0}.</target>
+        <note>ID: MainWindow.HelpFileMissing</note>
+      </trans-unit>
       <trans-unit id="MainWindow.LoadingProjectErrorMsg" approved="yes">
         <source xml:lang="en">{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.</source>
         <target xml:lang="es-ES" state="final">{0} tuvo un problema al cargar el proyecto {1}. Favor de comunicar este problema a los programadores haciendo click en 'Detalles'.</target>
         <note>ID: MainWindow.LoadingProjectErrorMsg</note>
+      </trans-unit>
+      <trans-unit id="MainWindow.PossibleInstallationProblem" approved="yes">
+        <source xml:lang="en">There might be a problem with your installation.</source>
+        <target xml:lang="es-ES" state="final">Puede haber un problema con la instalación.</target>
+        <note>ID: MainWindow.PossibleInstallationProblem</note>
       </trans-unit>
       <trans-unit id="MainWindow.ProblemOpeningSayMoreProject" approved="yes">
         <source xml:lang="en">There was a problem opening the SayMore project which might require that you restart your computer.</source>

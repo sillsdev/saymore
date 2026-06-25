@@ -77,12 +77,6 @@ jobs:
       - name: Restore NuGet packages
         run: nuget restore SayMore.sln
 
-      - name: Install MSBuild workload
-        uses: microsoft/visualstudio-installer-action@v1
-        with:
-          components: |
-            Microsoft.Component.MSBuild
-
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 

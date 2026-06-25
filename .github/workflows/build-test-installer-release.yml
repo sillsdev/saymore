@@ -100,14 +100,10 @@ jobs:
           if-no-files-found: warn
           path: output/x64/${{ env.Configuration }}/net48/TestResults.xml
 
-      - name: Copy CHM file into DistFiles
-        run: copy "docs\SayMore.chm" "DistFiles\SayMore.chm"
-
       - name: Create HTML release notes
         run: msbuild build\SayMore.proj /t:ConvertReleaseNotesToHtml /p:Version=$env:Version /m
 
       - name: Build installer
-        if: ${{ github.event_name != 'pull_request' }}
         run: msbuild build\SayMore.proj /t:Installer /p:Configuration=$env:Configuration /p:Version=$env:Version /m
 
       - name: Sign installer
@@ -119,7 +115,6 @@ jobs:
           files-folder-filter: SayMoreInstaller*.msi
 
       - name: Upload installer artifacts
-        if: ${{ github.event_name != 'pull_request' }}
         uses: actions/upload-artifact@v4
         with:
           name: saymore-installer

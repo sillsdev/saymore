@@ -202,8 +202,8 @@ namespace SayMore.Transcription.UI
             this._labelImportInstructions.Padding = new System.Windows.Forms.Padding(0, 10, 0, 10);
             this._labelImportInstructions.Size = new System.Drawing.Size(254, 46);
             this._labelImportInstructions.TabIndex = 8;
-            this._labelImportInstructions.Text = "When importing this file into {0}, be sure to have the project anlysis language s" +
-    "et to {1} .";
+            this._labelImportInstructions.Text = "When importing this file into {0}, be sure to have the project analysis language " +
+    "set to {1} .";
             // 
             // locExtender
             // 

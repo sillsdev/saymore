@@ -192,8 +192,8 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayoutOuter.SetRowSpan(this._labelStagesHint, 5);
 			this._labelStagesHint.Size = new System.Drawing.Size(196, 65);
 			this._labelStagesHint.TabIndex = 28;
-			this._labelStagesHint.Text = "Stages are normally automatic indicators of what  has been done, based on file na" +
-    "mes and annotation work you\'ve done. Click any item to take control of this indi" +
+			this._labelStagesHint.Text = "Stages are normally automatic indicators of what has been done, based on file nam" +
+    "es and annotation work you\'ve done. Click any stage to take control of this indi" +
     "cator.";
 			// 
 			// _buttonReadAboutStages

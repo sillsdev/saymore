@@ -217,7 +217,8 @@ namespace SayMore.Transcription.UI
 				"Adding a segment break here would split a segment which has existing oral " +
 				"annotations of the following types:{0}" +
 				"Would you like to proceed with the addition of this segment break and delete" +
-				" the oral annotations?");
+				" the oral annotations?",
+				"Do not add spaces around the Param 0 placeholder; line breaks are inserted automatically.");
 
 			var parameter = new StringBuilder();
 			parameter.AppendLine();

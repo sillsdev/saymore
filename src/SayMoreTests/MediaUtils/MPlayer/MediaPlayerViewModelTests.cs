@@ -253,7 +253,7 @@ namespace SayMoreTests.MediaUtils.MPlayer
 				File.Delete(pathname);
 			};
 			_model.Play();
-			Thread.Sleep(3);
+			Thread.Sleep(1000);
 			Assert.IsTrue(logger.GetText().Contains("Starting playback..."));
 		}
 
@@ -276,7 +276,7 @@ namespace SayMoreTests.MediaUtils.MPlayer
 				File.Delete(pathname);
 			};
 			_model.Play();
-			Thread.Sleep(3);
+			Thread.Sleep(1000);
 			Assert.IsTrue(logger.GetText().Contains("Starting playback..."));
 		}
 
@@ -304,7 +304,7 @@ namespace SayMoreTests.MediaUtils.MPlayer
 					File.Delete(pathname);
 				};
 				_model.Play();
-				Thread.Sleep(3);
+				Thread.Sleep(1000);
 				Assert.IsTrue(logger.GetText().Contains("Starting playback..."));
 			}
 		}

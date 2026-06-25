@@ -145,7 +145,7 @@ namespace SayMore.Transcription.UI
 			this._labelRecordHint.Name = "_labelRecordHint";
 			this._labelRecordHint.Size = new System.Drawing.Size(248, 13);
 			this._labelRecordHint.TabIndex = 3;
-			this._labelRecordHint.Text = "To record, press and hold the SPACE BAR";
+			this._labelRecordHint.Text = "To record, press and hold the SPACE BAR.";
 			//
 			// _panelPeakMeter
 			//
@@ -186,7 +186,7 @@ namespace SayMore.Transcription.UI
 			this._labelListenHint.Name = "_labelListenHint";
 			this._labelListenHint.Size = new System.Drawing.Size(378, 13);
 			this._labelListenHint.TabIndex = 10;
-			this._labelListenHint.Text = "To listen to the source recording, press and hold the SPACE BAR";
+			this._labelListenHint.Text = "To listen to the source recording, press and hold the SPACE BAR.";
 			//
 			// _labelFinishedHint
 			//

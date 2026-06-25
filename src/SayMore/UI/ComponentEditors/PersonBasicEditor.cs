@@ -826,14 +826,26 @@ namespace SayMore.UI.ComponentEditors
 
 			if (_gender != null)
 			{
-				int selectedIndex =	_pendingSelectedGenderIndex ?? _gender.SelectedIndex;
+				// If a pending selected index was recorded earlier (before we had populated
+				// the items), prefer that; otherwise use the current SelectedIndex. We'll
+				// populate the localized items and then clamp the selected index to a valid
+				// range to avoid exceptions during startup/initialization.
+				int selectedIndex = _pendingSelectedGenderIndex ?? _gender.SelectedIndex;
 				_pendingSelectedGenderIndex = null;
 				_gender.Items.Clear();
 				_gender.Items.Add(LocalizationManager.GetString(
 					"PeopleView.MetadataEditor.GenderSelector.Male", "Male"));
 				_gender.Items.Add(LocalizationManager.GetString(
 					"PeopleView.MetadataEditor.GenderSelector.Female", "Female"));
-				_gender.SelectedIndex = selectedIndex;
+				// Ensure the index is within bounds in case of unusual state during startup.
+				if (_gender.Items.Count > 0)
+				{
+					if (selectedIndex < 0)
+						selectedIndex = 0;
+					if (selectedIndex >= _gender.Items.Count)
+						selectedIndex = _gender.Items.Count - 1;
+					_gender.SelectedIndex = selectedIndex;
+				}
 			}
 
 			base.HandleStringsLocalized(sender, e);
@@ -867,12 +879,14 @@ namespace SayMore.UI.ComponentEditors
 		{
 			if (args.BoundControl == _gender)
 			{
+				// Normalize and map any localized "male" values to our canonical indices.
 				string valueFromFile = args.ValueFromFile.Normalize(FormD);
 				int index = s_maleGenderValues.Contains(valueFromFile) ? kMaleIndex : kFemaleIndex;
-				if (_gender.Items.Count < 2)
-					_pendingSelectedGenderIndex = index;
-				else
-					_gender.SelectedIndex = index;
+				// Record the desired index and defer actually setting SelectedIndex until the
+				// localized items have been populated (see HandleStringsLocalized). This avoids
+				// attempting to set SelectedIndex on a ComboBox that hasn't been filled yet,
+				// which can throw in certain initialization sequences.
+				_pendingSelectedGenderIndex = index;
 				args.Handled = true;
 			}
 		}

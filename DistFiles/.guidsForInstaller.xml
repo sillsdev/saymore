@@ -9,8 +9,6 @@
   <File Id="ProgramDir.Genres.xml" Guid="86a67200-5a58-46ae-9ad5-eee1a75300d6" />
   <File Id="ProgramDir.license.rtf" Guid="c515cf6a-3364-4578-bf4e-a3999294087c" />
   <File Id="ProgramDir.releaseNotes.md" Guid="bdbc42c3-9be7-4ca5-a2bc-9c91d58883f0" />
-  <File Id="ProgramDir.SayMore.chm" Guid="8a822c10-ac11-40d1-8c2e-a33b7236ccd1" />
-  <File Id="ProgramDir.SayMore.chw" Guid="91b6685c-df54-45a3-b2f0-accfd76991aa" />
   <File Id="ProgramDir.SessionFileInfoTemplates.xml" Guid="79c9620d-5ae8-4fbb-bdcf-3a88a57c9ae0" />
   <File Id="ProgramDir.SayMore.es.xlf" Guid="ba5a04a9-3330-49e6-8f70-30f912c3014b" />
   <File Id="ProgramDir.SayMore.fr.xlf" Guid="ca34e91c-f353-46ec-b2b0-d36a4e75c19e" />

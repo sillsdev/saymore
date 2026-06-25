@@ -32,6 +32,7 @@ using SIL.Windows.Forms.Miscellaneous;
 using SIL.Windows.Forms.Privacy;
 using static System.String;
 using static SayMore.Utilities.FileSystemUtils;
+using System.ComponentModel;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -317,16 +318,32 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void HandleHelpClick(object sender, EventArgs e)
 		{
-			//nb: when the file is in our source code, and not in the program directory, windows security will squawk and then not show content.
-			var path = FileLocationUtilities.GetFileDistributedWithApplication(false,"SayMore.chm");
+			// Windows Security Zone restrictions may silently block content when the help file
+			// is opened from a dev source path rather than the installed program directory.
+			string helpFilePath = null;
 			try
 			{
-				Process.Start(path);
+				helpFilePath = Program.GetHelpFilePath();
+				if (helpFilePath == null)
+				{
+					throw new ApplicationException(Format(
+						LocalizationManager.GetString("MainWindow.HelpFileMissing",
+						"Could not locate the {0} Help file.",
+						"Parameter is \"SayMore\" (product name)"), Program.ProductName));
+				}
+				Process.Start(helpFilePath);
+			}
+			catch (Win32Exception ex)
+			{
+				// User cancelling a security warning here shouldn't lead to a crash.
+				Logger.WriteEvent($"Error trying to open help file ({helpFilePath ?? "null"}): " +
+					ex.Message);
 			}
 			catch (Exception ex)
 			{
-				//user cancelling a security warning here shouldn't lead to a crash
-				Debug.Print(ex.Message);
+				ErrorReport.ReportNonFatalExceptionWithMessage(ex,
+					LocalizationManager.GetString("MainWindow.PossibleInstallationProblem",
+					"There might be a problem with your installation."));
 			}
 			Analytics.Track("Show Help from main menu");
 		}

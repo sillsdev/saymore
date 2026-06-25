@@ -32,8 +32,6 @@ UpgradeLog.XML
 RAMP, REAP, METS/cat_mets.ppt
 UpgradeLog2.XML
 Interface Design Strategies for Computer-Assisted Speech Transcription.pdf
-DistFiles/SayMore.chm
-SayMore.chm
 
 HG Setup.eml
 *.orig
@@ -49,7 +47,6 @@ SayMore Lightning Talk (Conf. 2011).docx
 SayMore Presentation.docx
 DistFiles/mplayer/media/*
 artwork/layer1-9.png
-DistFiles/SayMore.chw
 Thumbs.db
 src/AutoSegmenter/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 /DistFiles/Palaso.*.xlf

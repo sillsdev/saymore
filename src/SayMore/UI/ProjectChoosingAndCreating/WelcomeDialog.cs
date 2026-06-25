@@ -87,8 +87,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Sets up the link label with proper localizations. This method gets called from the
-		/// constructor and whenever the UI locale changes.
+		/// Sets up the link labels with proper localizations.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void LocalizationInitiated()
@@ -140,7 +139,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		{
 			using (var dlg = new OpenFileDialog())
 			{
-				dlg.Title = LocalizationManager.GetString("DialogBoxes.WelcomeDlg.OpenFileDlgCaption", "Open SayMore Project");
+				dlg.Title = LocalizationManager.GetString(
+					"DialogBoxes.WelcomeDlg.OpenFileDlgCaption", "Open SayMore Project");
 				var prjFilterText = LocalizationManager.GetString("DialogBoxes.WelcomeDlg.ProjectFileType",
 					"SayMore Project") + String.Format("(*.{0})|*.{0}", Project.ProjectSettingsFileExtension);
 

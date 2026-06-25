@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns:sil="http://sil.org/software/XLiff" xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" product-version="3.7.0.0" original="SayMore.exe" datatype="plaintext" target-language="ru">
+  <file source-language="en" product-version="4.0.0.0" original="SayMore.exe" datatype="plaintext" target-language="ru">
     <body>
       <trans-unit id="BuildType.Alpha">
         <source xml:lang="en">Alpha</source>
@@ -426,6 +426,16 @@
         <source xml:lang="en">Semi-interactive</source>
         <target xml:lang="ru" state="needs-translation">Semi-interactive</target>
         <note>ID: CommonToMultipleViews.ListItems.Content-Interactivity.Semi-interactive.Text</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.ListItems.Content-Interactivity.Unknown.Text" sil:dynamic="true">
+        <source xml:lang="en">Unknown</source>
+        <target xml:lang="ru" state="needs-translation">Unknown</target>
+        <note>ID: CommonToMultipleViews.ListItems.Content-Interactivity.Unknown.Text</note>
+      </trans-unit>
+      <trans-unit id="CommonToMultipleViews.ListItems.Content-Interactivity.Unspecified.Text" sil:dynamic="true">
+        <source xml:lang="en">Unspecified</source>
+        <target xml:lang="ru" state="needs-translation">Unspecified</target>
+        <note>ID: CommonToMultipleViews.ListItems.Content-Interactivity.Unspecified.Text</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Content-Involvement.Elicited.Definition" sil:dynamic="true">
         <source xml:lang="en">Investigator asks speaker(s) to produce isolated phonemes/ words/ utterances / grammatical structures.</source>
@@ -2058,7 +2068,7 @@
         <note>ID: DialogBoxes.ArchivingDlg.InvalidAgeMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.InvalidBirthYearMsg">
-        <source xml:lang="en">The Birth Year for {0} should be a 4 digit number. It is used to calculate the age for the IMDI export.</source>
+        <source xml:lang="en">The Birth Year for {0} should be a 4-digit number. It is used to calculate the age for the IMDI export.</source>
         <target xml:lang="ru" state="translated">Год рождения для {0} должен быть пустым либо числом из 4</target>
         <note>ID: DialogBoxes.ArchivingDlg.InvalidBirthYearMsg</note>
       </trans-unit>
@@ -2066,6 +2076,11 @@
         <source xml:lang="en">There are no contributors for this session.</source>
         <target xml:lang="ru" state="translated">Не существуют составители этого события.</target>
         <note>ID: DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.OtherProjectDocuments">
+        <source xml:lang="en">Other Project Documents</source>
+        <target xml:lang="ru" state="needs-translation">Other Project Documents</target>
+        <note>ID: DialogBoxes.ArchivingDlg.OtherProjectDocuments</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.PersonNotParticipating">
         <source xml:lang="en">{0} is listed as a contributor but not a participant in {1} session.</source>
@@ -2087,10 +2102,20 @@
         <target xml:lang="ru" state="translated">Архивный корпус будет включать в себя все необходимые файлы и данные, связанные с этим проектом.</target>
         <note>ID: DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails</note>
       </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.ProjectPreArchivingStatusMsg">
+        <source xml:lang="en">The following files will be added to your archive.</source>
+        <target xml:lang="ru" state="needs-translation">The following files will be added to your archive.</target>
+        <note>ID: DialogBoxes.ArchivingDlg.ProjectPreArchivingStatusMsg</note>
+      </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.SessionElementName">
         <source xml:lang="en">Session</source>
         <target xml:lang="ru" state="translated">Событие</target>
         <note>ID: DialogBoxes.ArchivingDlg.SessionElementName</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.ZippedSessions">
+        <source xml:lang="en">Sessions:</source>
+        <target xml:lang="ru" state="needs-translation">Sessions:</target>
+        <note>ID: DialogBoxes.ArchivingDlg.ZippedSessions</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.GettingInfoErrorMsg">
         <source xml:lang="en">There was an error trying to get more information for the media file:\n\n{0}</source>
@@ -3097,13 +3122,13 @@ A или запись согласия covering
         <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelFinishedHint</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint">
-        <source xml:lang="en">To listen to the source recording, press and hold the SPACE BAR</source>
-        <target xml:lang="ru" state="translated">Чтобы прослушать запись источника, нажмите и удерживайте ПРОБЕЛ</target>
+        <source xml:lang="en">To listen to the source recording, press and hold the SPACE BAR.</source>
+        <target xml:lang="ru" state="translated">Чтобы прослушать запись источника, нажмите и удерживайте ПРОБЕЛ.</target>
         <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint">
-        <source xml:lang="en">To record, press and hold the SPACE BAR</source>
-        <target xml:lang="ru" state="translated">Для записи, нажмите и удерживайте ПРОБЕЛ</target>
+        <source xml:lang="en">To record, press and hold the SPACE BAR.</source>
+        <target xml:lang="ru" state="translated">Для записи, нажмите и удерживайте ПРОБЕЛ.</target>
         <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.OralTranslationRecorderDlg.WindowTitle">
@@ -3276,14 +3301,19 @@ A или запись согласия covering
         <target xml:lang="ru" state="translated">Посетите веб-сайт {0}.</target>
         <note>ID: DialogBoxes.WelcomeDlg._linkSayMoreWebsite</note>
       </trans-unit>
+      <trans-unit id="ExportToFieldWorksInterlinearDlg._labelImportInstructions">
+        <source xml:lang="en">When importing this file into {0}, be sure to have the project analysis language set to {1} .</source>
+        <target xml:lang="ru" state="needs-translation">When importing this file into {0}, be sure to have the project analysis language set to {1} .</target>
+        <note>ID: ExportToFieldWorksInterlinearDlg._labelImportInstructions</note>
+      </trans-unit>
       <trans-unit id="General.NeedToDisambiguateLanguages">
         <source xml:lang="en">One or more of the languages spoken by included participants are specified in a way that could be ambiguous. For each one, you will be asked to identify the intended language.</source>
         <target xml:lang="ru" state="needs-translation">One or more of the languages spoken by included participants are specified in a way that could be ambiguous. For each one, you will be asked to identify the intended language.</target>
         <note>ID: General.NeedToDisambiguateLanguages</note>
       </trans-unit>
       <trans-unit id="MainWindow.AutoCompleteValueGathererError">
-        <source xml:lang="en">An error of type {0} ocurred trying to gather information from file: {1}</source>
-        <target xml:lang="ru" state="needs-translation">An error of type {0} ocurred trying to gather information from file: {1}</target>
+        <source xml:lang="en">An error of type {0} occurred trying to gather information from file: {1}</source>
+        <target xml:lang="ru" state="needs-translation">An error of type {0} occurred trying to gather information from file: {1}</target>
         <note>ID: MainWindow.AutoCompleteValueGathererError</note>
       </trans-unit>
       <trans-unit id="MainWindow.ConfirmDeleteUserSettingsFile">
@@ -4087,7 +4117,7 @@ A или запись согласия covering
         <note>ID: ProjectView.ProjectDocuments.DescriptionDocumentsInformationLabel</note>
       </trans-unit>
       <trans-unit id="ProjectView.ProjectDocuments.HowArchivedMsg">
-        <source xml:lang="en">In an IMDI project archive, these files will be exported in a special session named {0}</source>
+        <source xml:lang="en">In an IMDI project archive, these files will be exported in a special session named {0}.</source>
         <target xml:lang="ru" state="translated">В архиве проекта IMDI эти файлы будут экспортированы в специальной сессии с именем {0}</target>
         <note>ID: ProjectView.ProjectDocuments.HowArchivedMsg</note>
       </trans-unit>
@@ -4657,7 +4687,7 @@ A или запись согласия covering
         <note>ID: SessionsView.StatusAndStagesEditor._labelStages</note>
       </trans-unit>
       <trans-unit id="SessionsView.StatusAndStagesEditor._labelStagesHint">
-        <source xml:lang="en">Stages are normally automatic indicators of what  has been done, based on file names and annotation work you've done. Click any item to take control of this indicator.</source>
+        <source xml:lang="en">Stages are normally automatic indicators of what has been done, based on file names and annotation work you've done. Click any stage to take control of this indicator.</source>
         <target xml:lang="ru" state="translated">Этапы обычно являются автоматическими индикаторами сделанной работы, основанные на именах файлов и внесенных вами аннотаций. Щелкните любой элемент, чтобы контролировать этот показатель.</target>
         <note>ID: SessionsView.StatusAndStagesEditor._labelStagesHint</note>
       </trans-unit>
@@ -4847,8 +4877,8 @@ A или запись согласия covering
         <note>ID: SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethodQuestion</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._radioButtonAudacity">
-        <source xml:lang="en">Read an Audacity Label file</source>
-        <target xml:lang="ru" state="translated">Читать файл Audacity Label</target>
+        <source xml:lang="en">Import an Audacity Label file</source>
+        <target xml:lang="ru" state="translated">Импортировать файл Audacity Label</target>
         <note>ID: SessionsView.Transcription.StartAnnotatingTab._radioButtonAudacity</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._radioButtonAutoSegmenter">

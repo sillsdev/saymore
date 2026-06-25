@@ -425,6 +425,39 @@ namespace SayMore.Model
 			return imdiSession;
 		}
 
+		internal static string NoContributorsForSessionMsg =>
+			LocalizationManager.GetString("DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg",
+				"There are no contributors for this session.");
+
+		internal static string PrearchivingSessionsStatusMsg =>
+			LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2",
+				"The following session files will be added to your archive.");
+
+		internal static string PrearchivingSessionsAndContributorsStatusMsg =>
+			LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1",
+					"The following session and contributor files will be added to your archive.");
+
+		private static string ArchivingProgressMsgFmt => LocalizationManager.GetString(
+			"DialogBoxes.ArchivingDlg.ArchivingProgressMsg",
+			"     {0}: {1}",
+			"Param 0: \"Session\" (DialogBoxes.ArchivingDlg.SessionElementName) or " +
+			"\"Contributor\" (DialogBoxes.ArchivingDlg.ContributorElementName); " +
+			"Param 1: the session or contributor name.");
+
+		internal static string ArchivingProgressMsgIndent =>
+			new string(ArchivingProgressMsgFmt.TakeWhile(char.IsWhiteSpace).ToArray());
+
+		internal static string FormatArchivingDlgProgressMsg(bool isSession, string elementName)
+		{
+			var elementType = isSession
+				? LocalizationManager.GetString(
+					"DialogBoxes.ArchivingDlg.SessionElementName", "Session")
+				: LocalizationManager.GetString(
+					"DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor");
+
+			return Format(ArchivingProgressMsgFmt, elementType, elementName);
+		}
+
 		private static string GetAnalysisLanguageIdentifier(Project sayMoreProject)
 		{
 			var analysisLanguage = sayMoreProject?.AnalysisISO3CodeAndName;
@@ -519,7 +552,11 @@ namespace SayMore.Model
 			if (!birthYear.IsValidBirthYear() || IsNullOrEmpty(birthYear))
 			{
 				var msg = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.InvalidBirthYearMsg",
-					"The Birth Year for {0} should be a 4 digit number. It is used to calculate the age for the IMDI export.");
+					"The Birth Year for {0} should be a 4-digit number. " +
+					"It is used to calculate the age for the IMDI export.",
+					"Param 0: The ID of a person (contributor/participant); " +
+					"Note that the localization for \"Birth Year\" should match " +
+					"PeopleView.MetadataEditor._labelBirthYear (but omit the ampersand)");
 				model.AdditionalMessages[Format(msg, person.Id)] = ArchivingDlgViewModel.MessageType.Warning;
 			}
 			else

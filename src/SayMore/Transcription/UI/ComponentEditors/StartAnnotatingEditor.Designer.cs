@@ -313,7 +313,7 @@ namespace SayMore.Transcription.UI
 			this._radioButtonAudacity.Size = new System.Drawing.Size(155, 17);
 			this._radioButtonAudacity.TabIndex = 9;
 			this._radioButtonAudacity.TabStop = true;
-			this._radioButtonAudacity.Text = "Read an Audacity Label file";
+			this._radioButtonAudacity.Text = "Import an Audacity Label file";
 			this._radioButtonAudacity.UseVisualStyleBackColor = true;
 			this._radioButtonAudacity.CheckedChanged += new System.EventHandler(this._radioButtonAudacity_CheckedChanged);
 			// 

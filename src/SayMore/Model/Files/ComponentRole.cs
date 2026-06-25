@@ -29,7 +29,7 @@ namespace SayMore.Model.Files
 		public const string kTranscriptionComponentRoleId = "transcription";
 		public const string kFreeTranslationComponentRoleId = "transcriptionN";
 
-		private readonly string _englishLabel;
+		private readonly Func<string> _nameProvider;
 
 		public enum MeasurementTypes { None, Time, Words }
 
@@ -40,20 +40,20 @@ namespace SayMore.Model.Files
 		public Color TextColor { get; private set; }
 
 		//tells whether this file looks like it *might* be filling this role
-		private readonly Func<string, bool> _elligibilityFilter;
+		private readonly Func<string, bool> _eligibilityFilter;
 		private readonly string _renamingTemplate;
 
 		/// ------------------------------------------------------------------------------------
-		public ComponentRole(Type relevantElementType, string id, string englishLabel,
-			MeasurementTypes measurementType, Func<string, bool> elligibilityFilter,
+		public ComponentRole(Type relevantElementType, string id, Func<string> nameProvider,
+			MeasurementTypes measurementType, Func<string, bool> eligibilityFilter,
 			string renamingTemplate, Color color, Color textColor)
 		{
-			Id = id;
+			Id = id ?? throw new ArgumentNullException(nameof(id));
 			RelevantElementType = relevantElementType;
-			_englishLabel = englishLabel;
+			_nameProvider = nameProvider ?? throw new ArgumentNullException(nameof(nameProvider));
 			MeasurementType = measurementType;
-			_elligibilityFilter = elligibilityFilter;
-			_renamingTemplate = renamingTemplate;
+			_eligibilityFilter = eligibilityFilter ?? throw new ArgumentNullException(nameof(eligibilityFilter));
+			_renamingTemplate = renamingTemplate ?? throw new ArgumentNullException(nameof(renamingTemplate));
 			Color = color;
 			TextColor = textColor;
 		}
@@ -72,11 +72,14 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public bool IsMatch(string path)
 		{
+			if (!_eligibilityFilter(path))
+				return false;
+
 			var nameWithoutExtension = Path.GetFileNameWithoutExtension(path);
 
-			return (_elligibilityFilter(path) && nameWithoutExtension != null &&
+			return nameWithoutExtension != null &&
 				(nameWithoutExtension.Contains(GetRenamingTemplateSuffix(true)) ||
-					(Id == kSourceComponentRoleId && nameWithoutExtension.Contains("_Original"))));
+					(Id == kSourceComponentRoleId && nameWithoutExtension.Contains("_Original")));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -86,14 +89,11 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public bool IsPotential(string path)
 		{
-			return _elligibilityFilter(path);
+			return _eligibilityFilter(path);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string Name
-		{
-			get { return _englishLabel; }
-		}
+		public string Name => _nameProvider?.Invoke();
 
 		/// ------------------------------------------------------------------------------------
 		public static bool GetCanHaveTranscriptionRole(string path)

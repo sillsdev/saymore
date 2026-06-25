@@ -153,7 +153,7 @@ namespace SayMore
 			{
 				yield return new
 					ComponentRole(typeof(Session), ComponentRole.kSourceComponentRoleId,
-						LocalizationManager.GetString("SessionsView.SessionsList.Stages.SourceRecording", "Source Recording"),
+						() => LocalizationManager.GetString("SessionsView.SessionsList.Stages.SourceRecording", "Source Recording"),
 						ComponentRole.MeasurementTypes.Time,
 						FileSystemUtils.GetIsAudioVideo, ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Source",
 						Settings.Default.WorkflowStageColor1,
@@ -161,14 +161,14 @@ namespace SayMore
 
 				yield return
 					new ComponentRole(typeof(ProjectElement), ComponentRole.kConsentComponentRoleId,
-						LocalizationManager.GetString("SessionsView.SessionsList.Stages.InformedConsent", "Informed Consent"),
+						() => LocalizationManager.GetString("SessionsView.SessionsList.Stages.InformedConsent", "Informed Consent"),
 						ComponentRole.MeasurementTypes.None, (p => true), ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Consent",
 						Settings.Default.WorkflowStageColor2,
 						Settings.Default.WorkflowStageTextColor2);
 
 				yield return
 					new ComponentRole(typeof(Session), ComponentRole.kCarefulSpeechComponentRoleId,
-						LocalizationManager.GetString("SessionsView.SessionsList.Stages.CarefulSpeech", "Careful Speech"),
+						() => LocalizationManager.GetString("SessionsView.SessionsList.Stages.CarefulSpeech", "Careful Speech"),
 						ComponentRole.MeasurementTypes.Time,
 						FileSystemUtils.GetIsAudioVideo, ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Careful",
 						Settings.Default.WorkflowStageColor3,
@@ -176,7 +176,7 @@ namespace SayMore
 
 				yield return
 					new ComponentRole(typeof(Session), ComponentRole.kOralTranslationComponentRoleId,
-						LocalizationManager.GetString("SessionsView.SessionsList.Stages.OralTranslation", "Oral Translation"),
+						() => LocalizationManager.GetString("SessionsView.SessionsList.Stages.OralTranslation", "Oral Translation"),
 						ComponentRole.MeasurementTypes.Time,
 						FileSystemUtils.GetIsAudioVideo, ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Translation",
 						Settings.Default.WorkflowStageColor4,
@@ -184,7 +184,7 @@ namespace SayMore
 
 				yield return
 					new ComponentRole(typeof(Session), ComponentRole.kTranscriptionComponentRoleId,
-						LocalizationManager.GetString("SessionsView.SessionsList.Stages.Transcription", "Transcription"),
+						() => LocalizationManager.GetString("SessionsView.SessionsList.Stages.Transcription", "Transcription"),
 						ComponentRole.MeasurementTypes.Words,
 						FileUtils.GetIsText, ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Transcription",
 						Settings.Default.WorkflowStageColor5,
@@ -192,7 +192,7 @@ namespace SayMore
 
 				yield return
 					new ComponentRole(typeof(Session), ComponentRole.kFreeTranslationComponentRoleId,
-						LocalizationManager.GetString("SessionsView.SessionsList.Stages.WrittenTranslation", "Written Translation"),
+						() => LocalizationManager.GetString("SessionsView.SessionsList.Stages.WrittenTranslation", "Written Translation"),
 						ComponentRole.MeasurementTypes.Words,
 						FileUtils.GetIsText, ComponentRole.kElementIdToken + ComponentRole.kFileSuffixSeparator + "Translation",
 						Settings.Default.WorkflowStageColor6,

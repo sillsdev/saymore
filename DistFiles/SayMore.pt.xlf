@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns:sil="http://sil.org/software/XLiff" xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" product-version="3.7.0.0" original="SayMore.exe" datatype="plaintext" target-language="pt-BR">
+  <file source-language="en" product-version="4.0.0.0" original="SayMore.exe" datatype="plaintext" target-language="pt-BR">
     <body>
       <trans-unit id="BuildType.Alpha" approved="yes">
         <source xml:lang="en">Alpha</source>
@@ -69,7 +69,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ContributorsEditor.TabText" approved="yes">
         <source xml:lang="en">Contributors</source>
-        <target xml:lang="pt-BR" state="final">Contribuidores</target>
+        <target xml:lang="pt-BR" state="final">Colaboradores</target>
         <note>ID: CommonToMultipleViews.ContributorsEditor.TabText</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ElementList.ColumnChooserButton_ToolTip_" approved="yes">
@@ -164,7 +164,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileList.AddFiles.CannotAddFilesOfElementType">
         <source xml:lang="en">Additional {0} files cannot be added to an existing {0}.</source>
-        <target xml:lang="pt-BR" state="translated">Arquivos {0} adicionais não podem ser adicionados a uma {0} existente.</target>
+        <target xml:lang="pt-BR" state="translated">Arquivos adicionais de {0} não podem ser adicionados a uma {0} existente.</target>
         <note>ID: CommonToMultipleViews.FileList.AddFiles.CannotAddFilesOfElementType</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.Caption" approved="yes">
@@ -254,7 +254,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileList.CouldNotLoadFileErrorMsg">
         <source xml:lang="en">{0} could not load the file: {1}</source>
-        <target xml:lang="pt-BR" state="needs-translation">{0} could not load the file: {1}</target>
+        <target xml:lang="pt-BR" state="translated">{0} não pôde carregar o arquivo: {1}</target>
         <note>ID: CommonToMultipleViews.FileList.CouldNotLoadFileErrorMsg</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.FileList.DeleteFileMenuText" approved="yes">
@@ -344,12 +344,12 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.GenericFileTypeViewer.FailedToLoadOtherFile">
         <source xml:lang="en">Failed to load file:\n{0}\nIf this is not an essential file, you can safely delete it and/or ignore this error.</source>
-        <target xml:lang="pt-BR" state="needs-translation">Failed to load file:\n{0}\nIf this is not an essential file, you can safely delete it and/or ignore this error.</target>
+        <target xml:lang="pt-BR" state="translated">Falha ao carregar o arquivo:\n{0}\nSe este não for um arquivo essencial, você pode excluí-lo com segurança e/ou ignorar este erro.</target>
         <note>ID: CommonToMultipleViews.GenericFileTypeViewer.FailedToLoadOtherFile</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.GenericFileTypeViewer.FailedToOpen">
         <source xml:lang="en">Failed to open file: {0}</source>
-        <target xml:lang="pt-BR" state="needs-translation">Failed to open file: {0}</target>
+        <target xml:lang="pt-BR" state="translated">Falha ao abrir o arquivo: {0}</target>
         <note>ID: CommonToMultipleViews.GenericFileTypeViewer.FailedToOpen</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.GenericFileTypeViewer.FileLabel" approved="yes">
@@ -444,7 +444,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Content-Involvement.Elicited.Text" sil:dynamic="true" approved="yes">
         <source xml:lang="en">Elicited</source>
-        <target xml:lang="pt-BR" state="final">Estimulado</target>
+        <target xml:lang="pt-BR" state="final">Por elicitação</target>
         <note>ID: CommonToMultipleViews.ListItems.Content-Involvement.Elicited.Text</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Content-Involvement.No-observer.Definition" sil:dynamic="true" approved="yes">
@@ -464,12 +464,12 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Content-Involvement.Non-elicited.Text" sil:dynamic="true" approved="yes">
         <source xml:lang="en">Non-elicited</source>
-        <target xml:lang="pt-BR" state="final">Não Estimulado</target>
+        <target xml:lang="pt-BR" state="final">Natural (Não Eliciado)</target>
         <note>ID: CommonToMultipleViews.ListItems.Content-Involvement.Non-elicited.Text</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Content-PlanningType.Planned.Definition" sil:dynamic="true" approved="yes">
         <source xml:lang="en">The speaker prepares in detail the structure and content of his/her "performance" in advance Comments: This differs from 'Elicitation' (involvement), where the performer/consultant is given a framework but does not necessary plan his/her answer.</source>
-        <target xml:lang="pt-BR" state="final">O falante prepara prévia e detalhadamente a estrutura de sua "performance". Observação: Diferente de "Estímulo" (envolvimento), onde o consultor recebe uma estrutura mas não necessariamente planeja suas respostas.</target>
+        <target xml:lang="pt-BR" state="final">O falante detalhadamente a estrutura e o conteúdo de sua apresentação com antecedência. Observação: Difere de 'Elicitação' (envolvimento), onde o consultor recebe uma estrutura, mas não planeja necessariamente sua resposta.</target>
         <note>ID: CommonToMultipleViews.ListItems.Content-PlanningType.Planned.Definition</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Content-PlanningType.Planned.Text" sil:dynamic="true" approved="yes">
@@ -1009,7 +1009,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Countries.Germany.Text" sil:dynamic="true" approved="yes">
         <source xml:lang="en">Germany</source>
-        <target xml:lang="pt-BR" state="final">Alamanha</target>
+        <target xml:lang="pt-BR" state="final">Alemanha</target>
         <note>ID: CommonToMultipleViews.ListItems.Countries.Germany.Text</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Countries.Ghana.Text" sil:dynamic="true" approved="yes">
@@ -1499,7 +1499,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Countries.Papua New Guinea.Text" sil:dynamic="true" approved="yes">
         <source xml:lang="en">Papua New Guinea</source>
-        <target xml:lang="pt-BR" state="final">Papua Nova Guiné</target>
+        <target xml:lang="pt-BR" state="final">Papua-Nova Guiné</target>
         <note>ID: CommonToMultipleViews.ListItems.Countries.Papua New Guinea.Text</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.ListItems.Countries.Paracel Islands.Text" sil:dynamic="true" approved="yes">
@@ -1999,7 +1999,7 @@
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.NotesEditor.TabText" approved="yes">
         <source xml:lang="en">Notes</source>
-        <target xml:lang="pt-BR" state="final">Notas</target>
+        <target xml:lang="pt-BR" state="final">Observações</target>
         <note>ID: CommonToMultipleViews.NotesEditor.TabText</note>
       </trans-unit>
       <trans-unit id="CommonToMultipleViews.PercentFormat" approved="yes">
@@ -2024,12 +2024,12 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg" approved="yes">
         <source xml:lang="en">Adding Files for Contributor '{0}'</source>
-        <target xml:lang="pt-BR" state="final">Adicionando Arquivos para Contribuidor '{0}'</target>
+        <target xml:lang="pt-BR" state="final">Adicionando arquivos para o colaborador '{0}'</target>
         <note>ID: DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.AddingContributorFilesToIMDIArchiveProgressMsg" approved="yes">
         <source xml:lang="en">Adding Files for Contributors...</source>
-        <target xml:lang="pt-BR" state="final">Adicionando Arquivos para Contribuidores...</target>
+        <target xml:lang="pt-BR" state="final">Adicionando arquivos para colaboradores...</target>
         <note>ID: DialogBoxes.ArchivingDlg.AddingContributorFilesToIMDIArchiveProgressMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.AddingOtherProjectDocumentsToIMDIArchiveProgressMsg" approved="yes">
@@ -2049,7 +2049,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.ArchivingInfoDetails" approved="yes">
         <source xml:lang="en">The archive package will include all required files and data related to a session and its contributors.</source>
-        <target xml:lang="pt-BR" state="final">O patote de arquivos incluirá todas as informações e arquivos relacionadas à sessão e aos seus contribuidores.</target>
+        <target xml:lang="pt-BR" state="final">O pacote de arquivos incluirá todas as informações e arquivos relacionadas à sessão e aos seus colaboradores.</target>
         <note>ID: DialogBoxes.ArchivingDlg.ArchivingInfoDetails</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.ArchivingProgressMsg" approved="yes">
@@ -2059,7 +2059,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.ContributorElementName" approved="yes">
         <source xml:lang="en">Contributor</source>
-        <target xml:lang="pt-BR" state="final">Contribuidor</target>
+        <target xml:lang="pt-BR" state="final">Colaborador</target>
         <note>ID: DialogBoxes.ArchivingDlg.ContributorElementName</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.InvalidAgeMsg">
@@ -2068,14 +2068,19 @@
         <note>ID: DialogBoxes.ArchivingDlg.InvalidAgeMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.InvalidBirthYearMsg" approved="yes">
-        <source xml:lang="en">The Birth Year for {0} should be a 4 digit number. It is used to calculate the age for the IMDI export.</source>
-        <target xml:lang="pt-BR" state="final">O ano de nascimento para {0} deve ter 4 dígitos ou permanecer em branco.</target>
+        <source xml:lang="en">The Birth Year for {0} should be a 4-digit number. It is used to calculate the age for the IMDI export.</source>
+        <target xml:lang="pt-BR" state="final">O ano de nascimento de {0} deve ser um número de 4 dígitos. Ele é usado para calcular a idade na exportação para o IMDI.</target>
         <note>ID: DialogBoxes.ArchivingDlg.InvalidBirthYearMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg" approved="yes">
         <source xml:lang="en">There are no contributors for this session.</source>
-        <target xml:lang="pt-BR" state="final">Não há contribuidores para esta sessão.</target>
+        <target xml:lang="pt-BR" state="final">Não há colaboradores para esta sessão.</target>
         <note>ID: DialogBoxes.ArchivingDlg.NoContributorsForSessionMsg</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.OtherProjectDocuments">
+        <source xml:lang="en">Other Project Documents</source>
+        <target xml:lang="pt-BR" state="translated">Outros documentos do projeto</target>
+        <note>ID: DialogBoxes.ArchivingDlg.OtherProjectDocuments</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.PersonNotParticipating">
         <source xml:lang="en">{0} is listed as a contributor but not a participant in {1} session.</source>
@@ -2084,23 +2089,33 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1" approved="yes">
         <source xml:lang="en">The following session and contributor files will be added to your archive.</source>
-        <target xml:lang="pt-BR" state="final">A seguinte sessão e arquivos de contribuidores serão adicionados ao seu arquivo.</target>
+        <target xml:lang="pt-BR" state="final">Os seguintes arquivos de sessão e de colaboradores serão adicionados ao seu arquivo.</target>
         <note>ID: DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2" approved="yes">
         <source xml:lang="en">The following session files will be added to your archive.</source>
-        <target xml:lang="pt-BR" state="final">Os seguintes arquivos de sessões serão adicionados ao seu arquivo.</target>
+        <target xml:lang="pt-BR" state="final">Os seguintes arquivos de sessão serão adicionados ao seu arquivo.</target>
         <note>ID: DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails" approved="yes">
         <source xml:lang="en">The archive corpus will include all required files and data related to this project.</source>
-        <target xml:lang="pt-BR" state="final">O corpo do arquivo incluirá todas as informações e arquivos e necessários relacionados a esse projeto.</target>
+        <target xml:lang="pt-BR" state="final">O corpus do arquivo incluirá todos os arquivos e dados necessários relacionados a este projeto.</target>
         <note>ID: DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.ProjectPreArchivingStatusMsg">
+        <source xml:lang="en">The following files will be added to your archive.</source>
+        <target xml:lang="pt-BR" state="translated">Os seguintes arquivos serão adicionados ao seu arquivo.</target>
+        <note>ID: DialogBoxes.ArchivingDlg.ProjectPreArchivingStatusMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ArchivingDlg.SessionElementName" approved="yes">
         <source xml:lang="en">Session</source>
         <target xml:lang="pt-BR" state="final">Sessão</target>
         <note>ID: DialogBoxes.ArchivingDlg.SessionElementName</note>
+      </trans-unit>
+      <trans-unit id="DialogBoxes.ArchivingDlg.ZippedSessions">
+        <source xml:lang="en">Sessions:</source>
+        <target xml:lang="pt-BR" state="translated">Sessões:</target>
+        <note>ID: DialogBoxes.ArchivingDlg.ZippedSessions</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.GettingInfoErrorMsg" approved="yes">
         <source xml:lang="en">There was an error trying to get more information for the media file:\n\n{0}</source>
@@ -2124,12 +2139,12 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.AverageFrameRate">
         <source xml:lang="en">Average frame rate:</source>
-        <target xml:lang="pt-BR" state="needs-translation">Average frame rate:</target>
+        <target xml:lang="pt-BR" state="translated">Taxa de quadros média:</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.AverageFrameRate</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.BitDepth">
         <source xml:lang="en">Bit depth:</source>
-        <target xml:lang="pt-BR" state="needs-translation">Bit depth:</target>
+        <target xml:lang="pt-BR" state="translated">Profundidade de bits:</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.BitDepth</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.BitsPerRawSample">
@@ -2144,22 +2159,22 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.ChannelLayout">
         <source xml:lang="en">Channel layout:</source>
-        <target xml:lang="pt-BR" state="needs-translation">Channel layout:</target>
+        <target xml:lang="pt-BR" state="translated">Configuração de canais:</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.ChannelLayout</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.CodecLongName">
         <source xml:lang="en">Codec long name:</source>
-        <target xml:lang="pt-BR" state="needs-translation">Codec long name:</target>
+        <target xml:lang="pt-BR" state="translated">Nome completo do codec:</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.CodecLongName</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.CodecName">
         <source xml:lang="en">Codec name:</source>
-        <target xml:lang="pt-BR" state="needs-translation">Codec name:</target>
+        <target xml:lang="pt-BR" state="translated">Nome do Codec:</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.CodecName</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.CodecTag">
         <source xml:lang="en">Codec tag:</source>
-        <target xml:lang="pt-BR" state="needs-translation">Codec tag:</target>
+        <target xml:lang="pt-BR" state="translated">Tag do codec:</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.CodecTag</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.CompleteName">
@@ -2169,12 +2184,12 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.DisplayAspectRatio">
         <source xml:lang="en">Display aspect ratio:</source>
-        <target xml:lang="pt-BR" state="needs-translation">Display aspect ratio:</target>
+        <target xml:lang="pt-BR" state="translated">Proporção de tela:</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.DisplayAspectRatio</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Disposition">
         <source xml:lang="en">Disposition</source>
-        <target xml:lang="pt-BR" state="needs-translation">Disposition</target>
+        <target xml:lang="pt-BR" state="translated">Disposição</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Disposition</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Duration">
@@ -2184,7 +2199,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.ErrorData">
         <source xml:lang="en">Error data</source>
-        <target xml:lang="pt-BR" state="needs-translation">Error data</target>
+        <target xml:lang="pt-BR" state="translated">Dados de erro</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.ErrorData</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FileSize">
@@ -2194,7 +2209,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FmtLongName">
         <source xml:lang="en">Long name:</source>
-        <target xml:lang="pt-BR" state="needs-translation">Long name:</target>
+        <target xml:lang="pt-BR" state="translated">Nome completo:</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FmtLongName</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FmtName">
@@ -2204,12 +2219,12 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FmtProbeScore">
         <source xml:lang="en">Probe score:</source>
-        <target xml:lang="pt-BR" state="needs-translation">Probe score:</target>
+        <target xml:lang="pt-BR" state="translated">Pontoação de análise:</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FmtProbeScore</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FmtStreamCount">
         <source xml:lang="en">Stream count:</source>
-        <target xml:lang="pt-BR" state="needs-translation">Stream count:</target>
+        <target xml:lang="pt-BR" state="translated">Contagem de faixas:</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.FmtStreamCount</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Format">
@@ -2224,7 +2239,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.General">
         <source xml:lang="en">General</source>
-        <target xml:lang="pt-BR" state="needs-translation">General</target>
+        <target xml:lang="pt-BR" state="translated">Geral</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.General</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Height">
@@ -2239,12 +2254,12 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.NumberedAudioStream">
         <source xml:lang="en">Audio Stream #{0}</source>
-        <target xml:lang="pt-BR" state="needs-translation">Audio Stream #{0}</target>
+        <target xml:lang="pt-BR" state="translated">Faixa de Áudio #{0}</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.NumberedAudioStream</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.NumberedVideoStream">
         <source xml:lang="en">Video Stream #{0}</source>
-        <target xml:lang="pt-BR" state="needs-translation">Video Stream #{0}</target>
+        <target xml:lang="pt-BR" state="translated">Faixa de Vídeo #{0}</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.NumberedVideoStream</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.PixelFormat">
@@ -2264,12 +2279,12 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.SampleAspectRatio">
         <source xml:lang="en">Sample aspect ratio:</source>
-        <target xml:lang="pt-BR" state="needs-translation">Sample aspect ratio:</target>
+        <target xml:lang="pt-BR" state="translated">Proporção de tela:</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.SampleAspectRatio</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.SampleRateHz">
         <source xml:lang="en">Sample rate (Hz):</source>
-        <target xml:lang="pt-BR" state="needs-translation">Sample rate (Hz):</target>
+        <target xml:lang="pt-BR" state="translated">Taxa de amostragem (Hz):</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.SampleRateHz</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Source">
@@ -2284,12 +2299,12 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.SubtitleStreamCount">
         <source xml:lang="en">Subtitle stream count:</source>
-        <target xml:lang="pt-BR" state="needs-translation">Subtitle stream count:</target>
+        <target xml:lang="pt-BR" state="translated">Número de faixas de legenda:</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.SubtitleStreamCount</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Tags">
         <source xml:lang="en">Tags</source>
-        <target xml:lang="pt-BR" state="needs-translation">Tags</target>
+        <target xml:lang="pt-BR" state="translated">Etiquetas</target>
         <note>ID: DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Tags</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentEditors.MediaFileMoreInfoDlg.HtmlLabels.Video">
@@ -2334,12 +2349,12 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._labelNonSayMoreImportHint" approved="yes">
         <source xml:lang="en">Use the following only when you are importing annotations produced outside of SayMore</source>
-        <target xml:lang="pt-BR" state="final">Usar apenas quando estiver importanto anotações feitas fora do SayMore:</target>
+        <target xml:lang="pt-BR" state="final">Utilize esta opção apenas ao importar anotações produzidas fora do SayMore</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._labelNonSayMoreImportHint</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._labelReadAboutRenaming" approved="yes">
         <source xml:lang="en">Read About How SayMore Uses Names</source>
-        <target xml:lang="pt-BR" state="final">Ler Sobre Como o SayMore Usa Nomes</target>
+        <target xml:lang="pt-BR" state="final">Leia sobre como o SayMore usa nomes</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._labelReadAboutRenaming</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._labelShortcuts" approved="yes">
@@ -2349,7 +2364,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._labelShortcutsHint" approved="yes">
         <source xml:lang="en">(hover over each link to read about how it is used)</source>
-        <target xml:lang="pt-BR" state="final">(mantenha a seta sobre o link para saber como usá-lo)</target>
+        <target xml:lang="pt-BR" state="final">(posicione o cursor sobre cada link para ler sobre o uso)</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._labelShortcutsHint</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkCareful" approved="yes">
@@ -2359,7 +2374,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkCareful_ToolTip_" approved="yes">
         <source xml:lang="en">Careful Speech:\nSlow, careful speech re-speaking\nof the source recording.</source>
-        <target xml:lang="pt-BR" state="final">Fala Cuidadosa: Fala cuidadosa, meticulosa, refazer a gravação original.</target>
+        <target xml:lang="pt-BR" state="final">Fala Cuidadosa:\nFala pausada e bem pronunciada,\n repetindo a gravação original.</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkCareful_ToolTip_</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkConsent" approved="yes">
@@ -2369,7 +2384,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkConsent_ToolTip_" approved="yes">
         <source xml:lang="en">Informed Consent:\nA scan or recording of consent covering\nthe use of this person's contribution.</source>
-        <target xml:lang="pt-BR" state="final">Permissão Informada: Digitalização ou gravação da permissão de uso da contribuição dessa pessoa.</target>
+        <target xml:lang="pt-BR" state="final">Permissão Informada:\nDigitalização ou gravação da permissão\nde uso da contribuição dessa pessoa.</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkConsent_ToolTip_</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkOralTranslation" approved="yes">
@@ -2379,7 +2394,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkOralTranslation_ToolTip_" approved="yes">
         <source xml:lang="en">Oral Translation:\nRecording of a translation\nof the source recording.</source>
-        <target xml:lang="pt-BR" state="final">Tradução Oral: Gravação de uma tradução da gravação original.</target>
+        <target xml:lang="pt-BR" state="final">Tradução Oral:\nGravação de uma tradução\nda gravação original.</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkOralTranslation_ToolTip_</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkSource" approved="yes">
@@ -2387,9 +2402,9 @@
         <target xml:lang="pt-BR" state="final">Original</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkSource</note>
       </trans-unit>
-      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkSource_ToolTip_" approved="yes">
+      <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkSource_ToolTip_">
         <source xml:lang="en">Source:\nThe recording of the session. Used to satisfy\nthe 'Source Recording' stage of the session.</source>
-        <target xml:lang="pt-BR" state="final">Original: Gravação da sessão. Usada para corresponder ao estágio de "Gravação Original" da sessão.</target>
+        <target xml:lang="pt-BR" state="translated">Original:\nGravação da sessão. Usada para corresponder\nà etapa de "Gravação Original" da sessão.</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkSource_ToolTip_</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkTranscription" approved="yes">
@@ -2399,7 +2414,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkTranscription_ToolTip_" approved="yes">
         <source xml:lang="en">Transcription:\nWritten transcription of\nthe source recording.</source>
-        <target xml:lang="pt-BR" state="final">Transcrição: Transcrição escrita da gravação original.</target>
+        <target xml:lang="pt-BR" state="final">Transcrição:\nTranscrição escrita da\ngravação original.</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkTranscription_ToolTip_</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation" approved="yes">
@@ -2409,7 +2424,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation_ToolTip_" approved="yes">
         <source xml:lang="en">Written Translation:\nWritten translation of\nthe source recording.</source>
-        <target xml:lang="pt-BR" state="final">Tradução Escrita: Tradução escrita da gravação original.</target>
+        <target xml:lang="pt-BR" state="final">Tradução Escrita:\nTradução escrita da\ngravação original.</target>
         <note>ID: DialogBoxes.ComponentFileRenamingDlg._linkWrittenTranslation_ToolTip_</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.ConvertMediaDlg.AvailableConversionsLabel" approved="yes">
@@ -2519,7 +2534,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.DeleteMessageBox._buttonDelete" approved="yes">
         <source xml:lang="en">Delete</source>
-        <target xml:lang="pt-BR" state="final">Deletar</target>
+        <target xml:lang="pt-BR" state="final">Excluir</target>
         <note>ID: DialogBoxes.DeleteMessageBox._buttonDelete</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.FileLoadErrorsReportDlg.SaveFileDialog.Title">
@@ -2554,7 +2569,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.MediaFileMoreInfoDlg.EvenMoreInfoDisclaimer">
         <source xml:lang="en">The information shown here is obtained using {0}. Some of the details might differ from what {1} reported.</source>
-        <target xml:lang="pt-BR" state="needs-translation">The information shown here is obtained using {0}. Some of the details might differ from what {1} reported.</target>
+        <target xml:lang="pt-BR" state="translated">As informações exibidas aqui foram obtidas usando {0}. Alguns detalhes podem diferir do que foi relatado por {1}.</target>
         <note>ID: DialogBoxes.MediaFileMoreInfoDlg.EvenMoreInfoDisclaimer</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.MediaFileMoreInfoDlg.LessInfoButton" approved="yes">
@@ -2569,7 +2584,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.NewProjectDlg.InvalidPathMsg" approved="yes">
         <source xml:lang="en">Unable to create a new project by that name.</source>
-        <target xml:lang="pt-BR" state="final">Não é possível criar um novo projeto com esse nome.</target>
+        <target xml:lang="pt-BR" state="final">Esse nome não pode ser usado para um novo projeto.</target>
         <note>ID: DialogBoxes.NewProjectDlg.InvalidPathMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.NewProjectDlg.WindowTitle" approved="yes">
@@ -2589,7 +2604,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.NewProjectDlg._labelMessage" approved="yes">
         <source xml:lang="en">What would you like to call this project?</source>
-        <target xml:lang="pt-BR" state="final">Que nome gostaria de dar a este projeto?</target>
+        <target xml:lang="pt-BR" state="final">Como você gostaria de chamar este projeto?</target>
         <note>ID: DialogBoxes.NewProjectDlg._labelMessage</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.NewProjectDlg._labelNewProjectPath" approved="yes">
@@ -2604,7 +2619,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.NewSessionsFromFilesDlg.FolderBrowserDlgDescription" approved="yes">
         <source xml:lang="en">Choose a Folder of Media Files.</source>
-        <target xml:lang="pt-BR" state="final">Escolha uma Pasta ou Arquivos de Mídia.</target>
+        <target xml:lang="pt-BR" state="final">Escolha uma pasta de arquivos de mídia.</target>
         <note>ID: DialogBoxes.NewSessionsFromFilesDlg.FolderBrowserDlgDescription</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.NewSessionsFromFilesDlg.NoFilesSelectedCreateButtonText" approved="yes">
@@ -2644,7 +2659,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.NewSessionsFromFilesDlg._labelInstructions" approved="yes">
         <source xml:lang="en">Mark each file which represents a source recording of a session. For each one, SayMore will create a new session and copy the file into it.</source>
-        <target xml:lang="pt-BR" state="final">Identifique todos os arquivos de gravação original da sessão. O SayMore copiará os arquivos para uma sessão exclusiva que criará para cada um.</target>
+        <target xml:lang="pt-BR" state="final">Marque cada arquivo que representa a gravação original de uma sessão. Para cada um deles, o SayMore criará uma nova sessão e copiará o arquivo para dentro dela.</target>
         <note>ID: DialogBoxes.NewSessionsFromFilesDlg._labelInstructions</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.NewSessionsFromFilesDlg._labelProgress" approved="yes">
@@ -2734,7 +2749,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.SessionRecorderDlg.RetryAfterUnauthorizedAccessExceptionMsg" approved="yes">
         <source xml:lang="en">If you can determine which program is using this file, close it and click Retry.</source>
-        <target xml:lang="pt-BR" state="final">Se souber que programa está usando este arquivo, feche-o e clique em Tentar Novamente.</target>
+        <target xml:lang="pt-BR" state="final">Se souber qual programa está usando este arquivo, feche-o e clique em Tentar Novamente.</target>
         <note>ID: DialogBoxes.SessionRecorderDlg.RetryAfterUnauthorizedAccessExceptionMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.SessionRecorderDlg.StopButtonText" approved="yes">
@@ -2774,12 +2789,12 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg.NoVideoHelpMsg">
         <source xml:lang="en">Sorry, we don't actually have a video for this yet. Contributions welcome!</source>
-        <target xml:lang="pt-BR" state="needs-translation">Sorry, we don't actually have a video for this yet. Contributions welcome!</target>
+        <target xml:lang="pt-BR" state="translated">Desculpe, nós ainda não temos um vídeo para isso. Contribuições são bem-vindas!</target>
         <note>ID: DialogBoxes.Transcription.CommonAnnotationSegmenterDlg.NoVideoHelpMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg.WindowTitle">
         <source xml:lang="en">Change this text</source>
-        <target xml:lang="pt-BR" state="translated">Mudar esse texto</target>
+        <target xml:lang="pt-BR" state="translated">Mudar este texto</target>
         <note>ID: DialogBoxes.Transcription.CommonAnnotationSegmenterDlg.WindowTitle</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonCancel" approved="yes">
@@ -2794,7 +2809,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._comboBoxZoom_ToolTip_" approved="yes">
         <source xml:lang="en">Ctrl+1: In; Ctrl+2: 100%; Ctrl+3: Out</source>
-        <target xml:lang="pt-BR" state="final">Ctrl+1: Dentro; Ctrl+2: 100%; Ctrl+3: Fora</target>
+        <target xml:lang="pt-BR" state="final">Ctrl+1: Aumentar; Ctrl+2: 100%; Ctrl+3: Diminuir</target>
         <note>ID: DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._comboBoxZoom_ToolTip_</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._ignoreToolStripMenuItem" approved="yes">
@@ -2844,7 +2859,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.FileTypeString" approved="yes">
         <source xml:lang="en">Audacity Label File (*.txt)|*.txt</source>
-        <target xml:lang="pt-BR" state="final">Etiqueta de Arquivo Audacity (*.txt)|*.txt</target>
+        <target xml:lang="pt-BR" state="final">Arquivo de rótulo de Audacity (*.txt)|*.txt</target>
         <note>ID: DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.FileTypeString</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanFileTypeString" approved="yes">
@@ -2864,7 +2879,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg1" approved="yes">
         <source xml:lang="en">In order to export, we need to find a writing system ID that {1} will accept. {2} tried to find a list of writing systems which {1} knows about by looking in {0}, but it doesn't exist. We recommend that you let the code be 'en' (English), then change it inside of {1}.</source>
-        <target xml:lang="pt-BR" state="final">Para exportar, precisamos encontrar um código de sistema de escrita que o {1} aceite. O {2} tentou procurar em {0} uma lista de sistemas de escrita que o {1} conhece, mas não existe. Recomentamos que deixe o código 'en' (inglês), e depois mude dentro do {1}.</target>
+        <target xml:lang="pt-BR" state="final">Para poder exportar, precisamos encontrar um ID de sistema de escrita que {1} aceite. {2} tentou encontrar uma lista de sistemas de escrita conhecidos por {1}, procurando em {0}, mas ela não existe. Recomendamos que você deixe o código como 'en' (inglês) e depois o altere dentro de {1}.</target>
         <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg1</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg2" approved="yes">
@@ -2889,7 +2904,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FLExWritingSystemRepositoryMsg">
         <source xml:lang="en">There was a problem initializing the Writing System Repository: "{0}".We recommend that you let the code be '{1}' (English), then change it inside of {2}.</source>
-        <target xml:lang="pt-BR" state="needs-translation">There was a problem initializing the Writing System Repository: "{0}".We recommend that you let the code be '{1}' (English), then change it inside of {2}.</target>
+        <target xml:lang="pt-BR" state="translated">Houve um problema ao inicializar o Repositório de Sistemas de Escrita: "{0}". Recomendamos que você deixe o código como '{1}' (inglês) e depois o altere dentro do {2}.</target>
         <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FLExWritingSystemRepositoryMsg</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationLabel" approved="yes">
@@ -2909,7 +2924,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.WindowTitle" approved="yes">
         <source xml:lang="en">Export Annotations For FieldWorks Interlinear</source>
-        <target xml:lang="pt-BR" state="final">Exportar Anotações para Field Works Interninear</target>
+        <target xml:lang="pt-BR" state="final">Exportar Anotações para FieldWorks Textos Interlinearizados</target>
         <note>ID: DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.WindowTitle</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg.ButtonTextWhenSegmentTooShort" approved="yes">
@@ -2924,17 +2939,17 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotationsForAddedBreak" approved="yes">
         <source xml:lang="en">Adding a segment break here would split a segment which has existing oral annotations of the following types:{0}Would you like to proceed with the addition of this segment break and delete the oral annotations?</source>
-        <target xml:lang="pt-BR" state="final">Adicionar um intervado de segmento aqui irá romper um segmento que já tem anotações orais dos seguintes tipos: {0} Gostaria de adicionar este intervalo de segmento assim mesmo e deletar as anotações orais?</target>
+        <target xml:lang="pt-BR" state="final">Adicionar um intervalo de segmento aqui dividiria um segmento que possui anotações orais existentes dos seguintes tipos: {0}Deseja prosseguir com a adição deste intervalo de segmento e excluir as anotações orais?</target>
         <note>ID: DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotationsForAddedBreak</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotationsForDeletedBreak" approved="yes">
         <source xml:lang="en">Would you like to proceed with the deletion of this segment break and delete the oral annotations?</source>
-        <target xml:lang="pt-BR" state="final">Deseja deletar este intervalo de segmento e também as anotações orais?</target>
+        <target xml:lang="pt-BR" state="final">Deseja excluir este intervalo de segmento e também as anotações orais?</target>
         <note>ID: DialogBoxes.Transcription.ManualSegmenterDlg.ConfirmDeletionOfOralAnnotationsForDeletedBreak</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg.DeletionOfBreakWillDeleteOralAnnotations" approved="yes">
         <source xml:lang="en">Deleting this segment break would delete a segment which has existing oral annotations:</source>
-        <target xml:lang="pt-BR" state="final">Deletar este intervalo de segmento deletará um segmento que já tem anotações orais:</target>
+        <target xml:lang="pt-BR" state="final">Excluir esta intervalo de segmento excluiria um segmento que possui anotações orais existentes:</target>
         <note>ID: DialogBoxes.Transcription.ManualSegmenterDlg.DeletionOfBreakWillDeleteOralAnnotations</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.ManualSegmenterDlg.FollowingSegment" approved="yes">
@@ -3102,14 +3117,14 @@
         <target xml:lang="pt-BR" state="final">Concluído</target>
         <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelFinishedHint</note>
       </trans-unit>
-      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint" approved="yes">
-        <source xml:lang="en">To listen to the source recording, press and hold the SPACE BAR</source>
-        <target xml:lang="pt-BR" state="final">Para ouvir a gravação original, mantenha pressionada a BARRA DE ESPAÇO</target>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint">
+        <source xml:lang="en">To listen to the source recording, press and hold the SPACE BAR.</source>
+        <target xml:lang="pt-BR" state="translated">Para ouvir a gravação original, mantenha pressionada a BARRA DE ESPAÇO.</target>
         <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint</note>
       </trans-unit>
-      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint" approved="yes">
-        <source xml:lang="en">To record, press and hold the SPACE BAR</source>
-        <target xml:lang="pt-BR" state="final">Para gravar, mantenha pressionada a BARRA DE ESPAÇO</target>
+      <trans-unit id="DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint">
+        <source xml:lang="en">To record, press and hold the SPACE BAR.</source>
+        <target xml:lang="pt-BR" state="translated">Para gravar, mantenha pressionada a BARRA DE ESPAÇO.</target>
         <note>ID: DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.OralTranslationRecorderDlg.WindowTitle" approved="yes">
@@ -3124,7 +3139,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.SegmenterDlgBase.MessageWhenSegmentTooShortManualDragging" approved="yes">
         <source xml:lang="en">Whoops! The segment will be too short.</source>
-        <target xml:lang="pt-BR" state="final">Opa! O segmento é curto de mais.</target>
+        <target xml:lang="pt-BR" state="final">Opa! O segmento é curto demais.</target>
         <note>ID: DialogBoxes.Transcription.SegmenterDlgBase.MessageWhenSegmentTooShortManualDragging</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.SegmenterDlgBase.PlayOriginalToolTipMsg" approved="yes">
@@ -3282,13 +3297,18 @@
         <target xml:lang="pt-BR" state="final">Visite {0} na Web.</target>
         <note>ID: DialogBoxes.WelcomeDlg._linkSayMoreWebsite</note>
       </trans-unit>
+      <trans-unit id="ExportToFieldWorksInterlinearDlg._labelImportInstructions">
+        <source xml:lang="en">When importing this file into {0}, be sure to have the project analysis language set to {1} .</source>
+        <target xml:lang="pt-BR" state="translated">Ao importar este arquivo para {0}, certifique-se de que o idioma de análise do projeto está definido como {1}.</target>
+        <note>ID: ExportToFieldWorksInterlinearDlg._labelImportInstructions</note>
+      </trans-unit>
       <trans-unit id="General.NeedToDisambiguateLanguages">
         <source xml:lang="en">One or more of the languages spoken by included participants are specified in a way that could be ambiguous. For each one, you will be asked to identify the intended language.</source>
-        <target xml:lang="pt-BR" state="needs-translation">One or more of the languages spoken by included participants are specified in a way that could be ambiguous. For each one, you will be asked to identify the intended language.</target>
+        <target xml:lang="pt-BR" state="translated">Um ou mais dos idiomas falados pelos participantes incluídos foram especificados de forma ambígua. Você precisará identificar o idioma correto de cada um.</target>
         <note>ID: General.NeedToDisambiguateLanguages</note>
       </trans-unit>
       <trans-unit id="MainWindow.AutoCompleteValueGathererError" approved="yes">
-        <source xml:lang="en">An error of type {0} ocurred trying to gather information from file: {1}</source>
+        <source xml:lang="en">An error of type {0} occurred trying to gather information from file: {1}</source>
         <target xml:lang="pt-BR" state="final">Ocorreu um erro tipo {0} ao buscar informações do arquivo: {1}</target>
         <note>ID: MainWindow.AutoCompleteValueGathererError</note>
       </trans-unit>
@@ -3299,7 +3319,7 @@
       </trans-unit>
       <trans-unit id="MainWindow.ConfirmStopFileSync">
         <source xml:lang="en">It looks like this project is in a directory that is being synchronized with {0}. This is known to cause problems due to files being locked. Would you like to disable {0} temporarily until you close SayMore?</source>
-        <target xml:lang="pt-BR" state="needs-translation">It looks like this project is in a directory that is being synchronized with {0}. This is known to cause problems due to files being locked. Would you like to disable {0} temporarily until you close SayMore?</target>
+        <target xml:lang="pt-BR" state="translated">Parece que este projeto está em um diretório que está sendo sincronizado com o {0}. Isso costuma causar problemas devido ao bloqueio de arquivos. Deseja desativar o {0} temporariamente até fechar o SayMore?</target>
         <note>ID: MainWindow.ConfirmStopFileSync</note>
       </trans-unit>
       <trans-unit id="MainWindow.DeleteOneItemMsg" approved="yes">
@@ -3309,17 +3329,17 @@
       </trans-unit>
       <trans-unit id="MainWindow.DeletePersonMenuText" approved="yes">
         <source xml:lang="en">&amp;Delete Person...</source>
-        <target xml:lang="pt-BR" state="final">Deletar Pessoa...</target>
+        <target xml:lang="pt-BR" state="final">&amp;Excluir Pessoa...</target>
         <note>ID: MainWindow.DeletePersonMenuText</note>
       </trans-unit>
       <trans-unit id="MainWindow.DeleteSessionMenuText" approved="yes">
         <source xml:lang="en">&amp;Delete Session...</source>
-        <target xml:lang="pt-BR" state="final">Deletar Sessão...</target>
+        <target xml:lang="pt-BR" state="final">&amp;Excluir Sessão...</target>
         <note>ID: MainWindow.DeleteSessionMenuText</note>
       </trans-unit>
       <trans-unit id="MainWindow.ElementFolderMissingOrUnavailable">
         <source xml:lang="en">It looks like the {0} folder is no longer accessible. If you are able to fix this, {1} will retry. Otherwise, please report this ({2}).</source>
-        <target xml:lang="pt-BR" state="needs-translation">It looks like the {0} folder is no longer accessible. If you are able to fix this, {1} will retry. Otherwise, please report this ({2}).</target>
+        <target xml:lang="pt-BR" state="translated">Parece que a pasta {0} não está acessível mais. Se conseguir resolver este problema, {1} tentará novamente. Caso contrário, por favor, comunique este problema ({2}).</target>
         <note>ID: MainWindow.ElementFolderMissingOrUnavailable</note>
       </trans-unit>
       <trans-unit id="MainWindow.ElementNoLongerExistsMsg" approved="yes">
@@ -3379,7 +3399,7 @@
       </trans-unit>
       <trans-unit id="MainWindow.WaitingForOtherSayMoreInstance" approved="yes">
         <source xml:lang="en">Waiting for other instance of SayMore to finish...</source>
-        <target xml:lang="pt-BR" state="final">Esperando até que outra área do SayMore termine...</target>
+        <target xml:lang="pt-BR" state="final">Esperando até que outra instância do SayMore termine...</target>
         <note>ID: MainWindow.WaitingForOtherSayMoreInstance</note>
       </trans-unit>
       <trans-unit id="MainWindow.WindowTitleWithProject" approved="yes">
@@ -3434,12 +3454,12 @@
       </trans-unit>
       <trans-unit id="MainWindow._menuReleaseNotes" approved="yes">
         <source xml:lang="en">Release &amp;Notes...</source>
-        <target xml:lang="pt-BR" state="final">Liberar Notas...</target>
+        <target xml:lang="pt-BR" state="final">&amp;Notas de versão...</target>
         <note>ID: MainWindow._menuReleaseNotes</note>
       </trans-unit>
       <trans-unit id="MainWindow._menuShortFileNameWarningSettings">
         <source xml:lang="en">&amp;Short Filename Warning Settings...</source>
-        <target xml:lang="pt-BR" state="needs-translation">&amp;Short Filename Warning Settings...</target>
+        <target xml:lang="pt-BR" state="translated">&amp;Configurações para alerta de nome de arquivo curto...</target>
         <note>ID: MainWindow._menuShortFileNameWarningSettings</note>
       </trans-unit>
       <trans-unit id="Miscellaneous.CopyFilesControl.CopyFailedMsg" approved="yes">
@@ -3514,7 +3534,7 @@
       </trans-unit>
       <trans-unit id="PeopleView.ContributionEditor.oral_translation_speaker" sil:dynamic="true">
         <source xml:lang="en">Oral Translation Speaker</source>
-        <target xml:lang="pt-BR" state="needs-translation">Oral Translation Speaker</target>
+        <target xml:lang="pt-BR" state="translated">Gravador da Tradução Oral</target>
         <note>ID: PeopleView.ContributionEditor.oral_translation_speaker</note>
       </trans-unit>
       <trans-unit id="PeopleView.FileList.AddPersonButtonToolTip" approved="yes">
@@ -3594,7 +3614,7 @@
       </trans-unit>
       <trans-unit id="PeopleView.MetadataEditor.InvalidBcp47Code.ExplanationAndQuestion">
         <source xml:lang="en">{0} Although {1} allows you to enter anything you want in this field (e.g., just a language name or abbreviation), for archiving purposes, a recognizable code is generally preferable. Would you like to try to look up the intended language?</source>
-        <target xml:lang="pt-BR" state="needs-translation">{0} Although {1} allows you to enter anything you want in this field (e.g., just a language name or abbreviation), for archiving purposes, a recognizable code is generally preferable. Would you like to try to look up the intended language?</target>
+        <target xml:lang="pt-BR" state="translated">{0} Embora {1} permita que você digite o que quiser neste campo (por exemplo, apenas o nome ou a abreviação de uma língua), para fins de arquivamento, geralmente é preferível usar um código reconhecível. Deseja tentar pesquisar o código desta língua?</target>
         <note>ID: PeopleView.MetadataEditor.InvalidBcp47Code.ExplanationAndQuestion</note>
       </trans-unit>
       <trans-unit id="PeopleView.MetadataEditor.InvalidBcp47Code.Other">
@@ -3759,7 +3779,7 @@
       </trans-unit>
       <trans-unit id="ProgressView.ByStagesHeadingText" approved="yes">
         <source xml:lang="en">Completed Stages</source>
-        <target xml:lang="pt-BR" state="final">Por Estágios</target>
+        <target xml:lang="pt-BR" state="final">Etapas concluídas</target>
         <note>ID: ProgressView.ByStagesHeadingText</note>
       </trans-unit>
       <trans-unit id="ProgressView.CopyMenuItemText" approved="yes">
@@ -3849,7 +3869,7 @@
       </trans-unit>
       <trans-unit id="Project.WorkingLanguageFontDescription">
         <source xml:lang="en">Working Language</source>
-        <target xml:lang="pt-BR" state="translated">Língua de trabalho</target>
+        <target xml:lang="pt-BR" state="translated">Língua de análise</target>
         <note>ID: Project.WorkingLanguageFontDescription</note>
       </trans-unit>
       <trans-unit id="ProjectMetadataScreen.linkLabel1">
@@ -3949,7 +3969,7 @@
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._labelFundingProject" approved="yes">
         <source xml:lang="en">&amp;Funding Project</source>
-        <target xml:lang="pt-BR" state="final">Nome do Projeto Financiado</target>
+        <target xml:lang="pt-BR" state="final">&amp;Projeto de Financiamento</target>
         <note>ID: ProjectView.MetadataScreen._labelFundingProject</note>
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._labelMainLocation">
@@ -3959,7 +3979,7 @@
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._labelProjectBasics">
         <source xml:lang="en">Project Basics</source>
-        <target xml:lang="pt-BR" state="needs-translation">Project Basics</target>
+        <target xml:lang="pt-BR" state="translated">Informações básicas do projeto</target>
         <note>ID: ProjectView.MetadataScreen._labelProjectBasics</note>
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._labelProjectTitle" approved="yes">
@@ -3972,9 +3992,9 @@
         <target xml:lang="pt-BR" state="final">Região</target>
         <note>ID: ProjectView.MetadataScreen._labelRegion</note>
       </trans-unit>
-      <trans-unit id="ProjectView.MetadataScreen._labelResponsibilities">
+      <trans-unit id="ProjectView.MetadataScreen._labelResponsibilities" approved="yes">
         <source xml:lang="en">Responsibilities</source>
-        <target xml:lang="pt-BR" state="translated">Responsabilidades</target>
+        <target xml:lang="pt-BR" state="final">Responsáveis</target>
         <note>ID: ProjectView.MetadataScreen._labelResponsibilities</note>
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._labelRightsHolder" approved="yes">
@@ -3984,42 +4004,42 @@
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._labelsubDate">
         <source xml:lang="en">date</source>
-        <target xml:lang="pt-BR" state="needs-translation">date</target>
+        <target xml:lang="pt-BR" state="translated">data</target>
         <note>ID: ProjectView.MetadataScreen._labelsubDate</note>
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._labelsubLikeStateOrProvince">
         <source xml:lang="en">like state or province</source>
-        <target xml:lang="pt-BR" state="needs-translation">like state or province</target>
+        <target xml:lang="pt-BR" state="translated">estado ou província, por exemplo</target>
         <note>ID: ProjectView.MetadataScreen._labelsubLikeStateOrProvince</note>
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._labelsubOfTheProject">
         <source xml:lang="en">of the project</source>
-        <target xml:lang="pt-BR" state="needs-translation">of the project</target>
+        <target xml:lang="pt-BR" state="translated">do projeto</target>
         <note>ID: ProjectView.MetadataScreen._labelsubOfTheProject</note>
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._labelsubOrSimilar">
         <source xml:lang="en">or similar</source>
-        <target xml:lang="pt-BR" state="needs-translation">or similar</target>
+        <target xml:lang="pt-BR" state="translated">ou equivalente</target>
         <note>ID: ProjectView.MetadataScreen._labelsubOrSimilar</note>
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._labelsubPerson1">
         <source xml:lang="en">person</source>
-        <target xml:lang="pt-BR" state="needs-translation">person</target>
+        <target xml:lang="pt-BR" state="translated">pessoa</target>
         <note>ID: ProjectView.MetadataScreen._labelsubPerson1</note>
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._labelsubPerson2">
         <source xml:lang="en">person</source>
-        <target xml:lang="pt-BR" state="needs-translation">person</target>
+        <target xml:lang="pt-BR" state="translated">pessoa</target>
         <note>ID: ProjectView.MetadataScreen._labelsubPerson2</note>
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._labelsubPerson3">
         <source xml:lang="en">person</source>
-        <target xml:lang="pt-BR" state="needs-translation">person</target>
+        <target xml:lang="pt-BR" state="translated">pessoa</target>
         <note>ID: ProjectView.MetadataScreen._labelsubPerson3</note>
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._labelsubTitle">
         <source xml:lang="en">title</source>
-        <target xml:lang="pt-BR" state="needs-translation">title</target>
+        <target xml:lang="pt-BR" state="translated">nome do projeto</target>
         <note>ID: ProjectView.MetadataScreen._labelsubTitle</note>
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._linkHelp" approved="yes">
@@ -4029,12 +4049,12 @@
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._linkSelectContentLanguage">
         <source xml:lang="en">Content Language</source>
-        <target xml:lang="pt-BR" state="translated">Língua do conteúdo</target>
+        <target xml:lang="pt-BR" state="translated">Língua vernácula</target>
         <note>ID: ProjectView.MetadataScreen._linkSelectContentLanguage</note>
       </trans-unit>
       <trans-unit id="ProjectView.MetadataScreen._linkSelectWorkingLanguage">
         <source xml:lang="en">Working Language</source>
-        <target xml:lang="pt-BR" state="translated">Língua de trabalho</target>
+        <target xml:lang="pt-BR" state="translated">Língua de análise</target>
         <note>ID: ProjectView.MetadataScreen._linkSelectWorkingLanguage</note>
       </trans-unit>
       <trans-unit id="ProjectView.OtherDocumentsTitle" approved="yes">
@@ -4093,7 +4113,7 @@
         <note>ID: ProjectView.ProjectDocuments.DescriptionDocumentsInformationLabel</note>
       </trans-unit>
       <trans-unit id="ProjectView.ProjectDocuments.HowArchivedMsg" approved="yes">
-        <source xml:lang="en">In an IMDI project archive, these files will be exported in a special session named {0}</source>
+        <source xml:lang="en">In an IMDI project archive, these files will be exported in a special session named {0}.</source>
         <target xml:lang="pt-BR" state="final">Em um arquivo de projeto IMDI, esses arquivos serão exportados para uma sessão especial chamada {0}</target>
         <note>ID: ProjectView.ProjectDocuments.HowArchivedMsg</note>
       </trans-unit>
@@ -4109,7 +4129,7 @@
       </trans-unit>
       <trans-unit id="ProjectView.TabText_ToolTip_" approved="yes">
         <source xml:lang="en">Project View</source>
-        <target xml:lang="pt-BR" state="final">Projetar Exibição</target>
+        <target xml:lang="pt-BR" state="final">Visualização do Projeto</target>
         <note>ID: ProjectView.TabText_ToolTip_</note>
       </trans-unit>
       <trans-unit id="ProjectWindow.archiveRAMPProjectToolStripMenuItem">
@@ -4174,22 +4194,22 @@
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.AILCA.F" sil:dynamic="true" approved="yes">
         <source xml:lang="en">access is Free to all</source>
-        <target xml:lang="pt-BR" state="final">acesso gratuito a todos</target>
+        <target xml:lang="pt-BR" state="final">acesso é Livre para todos</target>
         <note>ID: SessionsView.MetadataEditor.AccessProtocol.AILCA.F</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.AILCA.RC" sil:dynamic="true" approved="yes">
         <source xml:lang="en">Researchers and Community members are allowed access</source>
-        <target xml:lang="pt-BR" state="final">Aceso liberado para pesquisadores e membros da comuniade</target>
+        <target xml:lang="pt-BR" state="final">Acesso liberado para pesquisadores e membros da comunidade</target>
         <note>ID: SessionsView.MetadataEditor.AccessProtocol.AILCA.RC</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.AILCA.S" sil:dynamic="true" approved="yes">
         <source xml:lang="en">only Subscribers are allowed access (requires application to Depositor)</source>
-        <target xml:lang="pt-BR" state="final">acesso restrito a assinantes (necessário solicitar depositante)</target>
+        <target xml:lang="pt-BR" state="final">acesso restrito a assinantes (é necessário enviar uma solicitação ao depositante)</target>
         <note>ID: SessionsView.MetadataEditor.AccessProtocol.AILCA.S</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.AILCA.U" sil:dynamic="true" approved="yes">
         <source xml:lang="en">all Users can access (requires registration)</source>
-        <target xml:lang="pt-BR" state="final">acesso liberado para todos os usuários (é preciso se registrar)</target>
+        <target xml:lang="pt-BR" state="final">acesso liberado para todos os usuários (requer registro)</target>
         <note>ID: SessionsView.MetadataEditor.AccessProtocol.AILCA.U</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.AILLA.Level 1" sil:dynamic="true" approved="yes">
@@ -4219,7 +4239,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.ELAR.S" sil:dynamic="true" approved="yes">
         <source xml:lang="en">only Subscribers are allowed access (requires application to Depositor)</source>
-        <target xml:lang="pt-BR" state="final">acesso restrito a assinantes (necessária permissão do depositante)</target>
+        <target xml:lang="pt-BR" state="final">acesso restrito a assinantes (requer solicitação ao depositante)</target>
         <note>ID: SessionsView.MetadataEditor.AccessProtocol.ELAR.S</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AccessProtocol.ELAR.U" sil:dynamic="true" approved="yes">
@@ -4269,22 +4289,22 @@
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AdditionalFields.Location Address" sil:dynamic="true" approved="yes">
         <source xml:lang="en">Location Address</source>
-        <target xml:lang="pt-BR" state="final">Endereço Local</target>
+        <target xml:lang="pt-BR" state="final">Local: Endereço</target>
         <note>ID: SessionsView.MetadataEditor.AdditionalFields.Location Address</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AdditionalFields.Location Continent" sil:dynamic="true" approved="yes">
         <source xml:lang="en">Location Continent</source>
-        <target xml:lang="pt-BR" state="final">Continente Local </target>
+        <target xml:lang="pt-BR" state="final">Local: Continente</target>
         <note>ID: SessionsView.MetadataEditor.AdditionalFields.Location Continent</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AdditionalFields.Location Country" sil:dynamic="true" approved="yes">
         <source xml:lang="en">Location Country</source>
-        <target xml:lang="pt-BR" state="final">País Local</target>
+        <target xml:lang="pt-BR" state="final">Local: País</target>
         <note>ID: SessionsView.MetadataEditor.AdditionalFields.Location Country</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AdditionalFields.Location Region" sil:dynamic="true" approved="yes">
         <source xml:lang="en">Location Region</source>
-        <target xml:lang="pt-BR" state="final">Região Local</target>
+        <target xml:lang="pt-BR" state="final">Local: Região</target>
         <note>ID: SessionsView.MetadataEditor.AdditionalFields.Location Region</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.AdditionalFields.Planning Type" sil:dynamic="true" approved="yes">
@@ -4314,7 +4334,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.Genre.formulaic_discourse" sil:dynamic="true" approved="yes">
         <source xml:lang="en">Formulaic Discourse</source>
-        <target xml:lang="pt-BR" state="final">Fala Formulada</target>
+        <target xml:lang="pt-BR" state="final">Discurso Formulado</target>
         <note>ID: SessionsView.MetadataEditor.Genre.formulaic_discourse</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.Genre.instrumental_music" sil:dynamic="true" approved="yes">
@@ -4324,12 +4344,12 @@
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.Genre.interactive_discourse" sil:dynamic="true" approved="yes">
         <source xml:lang="en">Interactive Discourse</source>
-        <target xml:lang="pt-BR" state="final">Fala Interativa</target>
+        <target xml:lang="pt-BR" state="final">Discurso Interativo</target>
         <note>ID: SessionsView.MetadataEditor.Genre.interactive_discourse</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.Genre.language_play" sil:dynamic="true" approved="yes">
         <source xml:lang="en">Language Play</source>
-        <target xml:lang="pt-BR" state="final">Reprodução da Língua</target>
+        <target xml:lang="pt-BR" state="final">Jogos de Linguagem</target>
         <note>ID: SessionsView.MetadataEditor.Genre.language_play</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.Genre.narrative" sil:dynamic="true" approved="yes">
@@ -4339,17 +4359,17 @@
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.Genre.oratory" sil:dynamic="true" approved="yes">
         <source xml:lang="en">Oratory</source>
-        <target xml:lang="pt-BR" state="final">Retórica</target>
+        <target xml:lang="pt-BR" state="final">Oratório</target>
         <note>ID: SessionsView.MetadataEditor.Genre.oratory</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.Genre.procedural_discourse" sil:dynamic="true" approved="yes">
         <source xml:lang="en">Procedural Discourse</source>
-        <target xml:lang="pt-BR" state="final">Fala Processual</target>
+        <target xml:lang="pt-BR" state="final">Discurso Processual</target>
         <note>ID: SessionsView.MetadataEditor.Genre.procedural_discourse</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.Genre.report" sil:dynamic="true" approved="yes">
         <source xml:lang="en">Report</source>
-        <target xml:lang="pt-BR" state="final">Enviar Relatório</target>
+        <target xml:lang="pt-BR" state="final">Relatório</target>
         <note>ID: SessionsView.MetadataEditor.Genre.report</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.Genre.singing" sil:dynamic="true" approved="yes">
@@ -4364,7 +4384,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.TabText" approved="yes">
         <source xml:lang="en">Session</source>
-        <target xml:lang="pt-BR" state="final">Sessões</target>
+        <target xml:lang="pt-BR" state="final">Sessão</target>
         <note>ID: SessionsView.MetadataEditor.TabText</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor.UnknownGenre" approved="yes">
@@ -4379,7 +4399,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor._labelCustomFields" approved="yes">
         <source xml:lang="en">&amp;Custom Fields</source>
-        <target xml:lang="pt-BR" state="final">Campos Customizados</target>
+        <target xml:lang="pt-BR" state="final">&amp;Campos Personalizados</target>
         <note>ID: SessionsView.MetadataEditor._labelCustomFields</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor._labelDate" approved="yes">
@@ -4419,7 +4439,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor._labelSetting" approved="yes">
         <source xml:lang="en">S&amp;etting</source>
-        <target xml:lang="pt-BR" state="final">Configuração</target>
+        <target xml:lang="pt-BR" state="final">Cenário local</target>
         <note>ID: SessionsView.MetadataEditor._labelSetting</note>
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor._labelSituation" approved="yes">
@@ -4429,7 +4449,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.MetadataEditor._labelTitle" approved="yes">
         <source xml:lang="en">&amp;Title</source>
-        <target xml:lang="pt-BR" state="final">Nome do Projeto</target>
+        <target xml:lang="pt-BR" state="final">&amp;Nome da Sessão</target>
         <note>ID: SessionsView.MetadataEditor._labelTitle</note>
       </trans-unit>
       <trans-unit id="SessionsView.Miscellaneous.NewSessionNamePrefix" approved="yes">
@@ -4449,7 +4469,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.MissingMediaFileEditor.TabText" approved="yes">
         <source xml:lang="en">Missing Media File</source>
-        <target xml:lang="pt-BR" state="final">Falta o Arquivo de Mídia</target>
+        <target xml:lang="pt-BR" state="final">Arquivo de Mídia Ausente</target>
         <note>ID: SessionsView.MissingMediaFileEditor.TabText</note>
       </trans-unit>
       <trans-unit id="SessionsView.MissingMediaFileEditor.lblExplanation" approved="yes">
@@ -4474,27 +4494,27 @@
       </trans-unit>
       <trans-unit id="SessionsView.SessionStatus.InProgress" approved="yes">
         <source xml:lang="en">In Progress</source>
-        <target xml:lang="pt-BR" state="final">Em progresso</target>
+        <target xml:lang="pt-BR" state="final">Em andamento</target>
         <note>ID: SessionsView.SessionStatus.InProgress</note>
       </trans-unit>
       <trans-unit id="SessionsView.SessionStatus.Incoming" approved="yes">
         <source xml:lang="en">Incoming</source>
-        <target xml:lang="pt-BR" state="final">A caminho</target>
+        <target xml:lang="pt-BR" state="final">Recebida</target>
         <note>ID: SessionsView.SessionStatus.Incoming</note>
       </trans-unit>
       <trans-unit id="SessionsView.SessionStatus.Skipped" approved="yes">
         <source xml:lang="en">Skipped</source>
-        <target xml:lang="pt-BR" state="final">Pulado</target>
+        <target xml:lang="pt-BR" state="final">Adiada</target>
         <note>ID: SessionsView.SessionStatus.Skipped</note>
       </trans-unit>
       <trans-unit id="SessionsView.SessionStatus.TooltipFormatText" approved="yes">
         <source xml:lang="en">Status: {0}</source>
-        <target xml:lang="pt-BR" state="final">Estado: {0}</target>
+        <target xml:lang="pt-BR" state="final">Status: {0}</target>
         <note>ID: SessionsView.SessionStatus.TooltipFormatText</note>
       </trans-unit>
       <trans-unit id="SessionsView.SessionsList.ClickNewButtonHelpPrompt" approved="yes">
         <source xml:lang="en">Click 'New' to add a new session.</source>
-        <target xml:lang="pt-BR" state="final">Clique 'Nova' para adicionar nova sessão</target>
+        <target xml:lang="pt-BR" state="final">Clique em 'Nova' para adicionar uma nova sessão.</target>
         <note>ID: SessionsView.SessionsList.ClickNewButtonHelpPrompt</note>
       </trans-unit>
       <trans-unit id="SessionsView.SessionsList.ColumnHeadings.Date" approved="yes">
@@ -4519,17 +4539,17 @@
       </trans-unit>
       <trans-unit id="SessionsView.SessionsList.ColumnHeadings.Stages" approved="yes">
         <source xml:lang="en">Stages</source>
-        <target xml:lang="pt-BR" state="final">Estágios</target>
+        <target xml:lang="pt-BR" state="final">Etapas</target>
         <note>ID: SessionsView.SessionsList.ColumnHeadings.Stages</note>
       </trans-unit>
       <trans-unit id="SessionsView.SessionsList.ColumnHeadings.Status" approved="yes">
         <source xml:lang="en">Status</source>
-        <target xml:lang="pt-BR" state="final">Estado</target>
+        <target xml:lang="pt-BR" state="final">Status</target>
         <note>ID: SessionsView.SessionsList.ColumnHeadings.Status</note>
       </trans-unit>
       <trans-unit id="SessionsView.SessionsList.ColumnHeadings.Title" approved="yes">
         <source xml:lang="en">Title</source>
-        <target xml:lang="pt-BR" state="final">Nome do Projeto</target>
+        <target xml:lang="pt-BR" state="final">Nome da Sessão</target>
         <note>ID: SessionsView.SessionsList.ColumnHeadings.Title</note>
       </trans-unit>
       <trans-unit id="SessionsView.SessionsList.HeadingText" approved="yes">
@@ -4574,7 +4594,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.SessionsList.Stages.InformedConsent" approved="yes">
         <source xml:lang="en">Informed Consent</source>
-        <target xml:lang="pt-BR" state="final">Permisão Informada</target>
+        <target xml:lang="pt-BR" state="final">Consentimento Informado</target>
         <note>ID: SessionsView.SessionsList.Stages.InformedConsent</note>
       </trans-unit>
       <trans-unit id="SessionsView.SessionsList.Stages.OralTranslation" approved="yes">
@@ -4644,37 +4664,37 @@
       </trans-unit>
       <trans-unit id="SessionsView.StatusAndStagesEditor.TabText" approved="yes">
         <source xml:lang="en">Status &amp;&amp; Stages</source>
-        <target xml:lang="pt-BR" state="final">Estado / Estágios</target>
+        <target xml:lang="pt-BR" state="final">Status e Etapas</target>
         <note>ID: SessionsView.StatusAndStagesEditor.TabText</note>
       </trans-unit>
       <trans-unit id="SessionsView.StatusAndStagesEditor._labelReadAboutStages" approved="yes">
         <source xml:lang="en">Read About SayMore Stages</source>
-        <target xml:lang="pt-BR" state="final">Ler Sobre Estágios do SayMore</target>
+        <target xml:lang="pt-BR" state="final">Ler sobre as Etapas do SayMore</target>
         <note>ID: SessionsView.StatusAndStagesEditor._labelReadAboutStages</note>
       </trans-unit>
       <trans-unit id="SessionsView.StatusAndStagesEditor._labelReadAboutStatus" approved="yes">
         <source xml:lang="en">Read About SayMore Status Indicators</source>
-        <target xml:lang="pt-BR" state="final">Ler Sobre Indicadores de Estado do SayMore</target>
+        <target xml:lang="pt-BR" state="final">Ler sobre os indicadores de status do SayMore</target>
         <note>ID: SessionsView.StatusAndStagesEditor._labelReadAboutStatus</note>
       </trans-unit>
       <trans-unit id="SessionsView.StatusAndStagesEditor._labelStages" approved="yes">
         <source xml:lang="en">Stages</source>
-        <target xml:lang="pt-BR" state="final">Estágios</target>
+        <target xml:lang="pt-BR" state="final">Etapas</target>
         <note>ID: SessionsView.StatusAndStagesEditor._labelStages</note>
       </trans-unit>
       <trans-unit id="SessionsView.StatusAndStagesEditor._labelStagesHint" approved="yes">
-        <source xml:lang="en">Stages are normally automatic indicators of what  has been done, based on file names and annotation work you've done. Click any item to take control of this indicator.</source>
-        <target xml:lang="pt-BR" state="final">Normalmente, estágios são indicadores automáticos do que já foi feito, baseado nos nomes dos arquivos e anotações que você já fez. Clique em qualquer item para controlar o respectivo indicador.</target>
+        <source xml:lang="en">Stages are normally automatic indicators of what has been done, based on file names and annotation work you've done. Click any stage to take control of this indicator.</source>
+        <target xml:lang="pt-BR" state="final">As etapas normalmente são indicadores automáticos do que já foi feito, baseado nos nomes dos arquivos e no trabalho de anotação realizado. Clique em qualquer etapa para alterar o indicador manualmente.</target>
         <note>ID: SessionsView.StatusAndStagesEditor._labelStagesHint</note>
       </trans-unit>
       <trans-unit id="SessionsView.StatusAndStagesEditor._labelStatus" approved="yes">
         <source xml:lang="en">Status</source>
-        <target xml:lang="pt-BR" state="final">Estado</target>
+        <target xml:lang="pt-BR" state="final">Status</target>
         <note>ID: SessionsView.StatusAndStagesEditor._labelStatus</note>
       </trans-unit>
       <trans-unit id="SessionsView.StatusAndStagesEditor._labelStatusHint" approved="yes">
         <source xml:lang="en">Use the status to mark the big picture of this session.</source>
-        <target xml:lang="pt-BR" state="final">Use o estado para registrar a ideia geral dessa sessão</target>
+        <target xml:lang="pt-BR" state="final">Use o status para registrar o estado geral dessa sessão.</target>
         <note>ID: SessionsView.StatusAndStagesEditor._labelStatusHint</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.AnnotationFileNotFoundMsg" approved="yes">
@@ -4719,7 +4739,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg" approved="yes">
         <source xml:lang="en">Generating Oral Annotation file...</source>
-        <target xml:lang="pt-BR" state="final">Gerar arquivo de Anotações Orais</target>
+        <target xml:lang="pt-BR" state="final">Gerando um arquivo de Anotações Orais...</target>
         <note>ID: SessionsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.GeneratedOralAnnotationView.HelpButton" approved="yes">
@@ -4734,7 +4754,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.GeneratedOralAnnotationView.OralAnnotationFilePossiblyTooLarge" approved="yes">
         <source xml:lang="en">The generated oral annotation file may be too large to display or play correctly.</source>
-        <target xml:lang="pt-BR" state="final">É possível que o arquivo de anotações gerado seja grande de mais para ser apresentado ou reproduzido da forma correta.</target>
+        <target xml:lang="pt-BR" state="final">O arquivo de anotação oral gerado pode ser muito grande para ser exibido ou reproduzido corretamente.</target>
         <note>ID: SessionsView.Transcription.GeneratedOralAnnotationView.OralAnnotationFilePossiblyTooLarge</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.GeneratedOralAnnotationView.OralAnnotationFileProblem" approved="yes">
@@ -4799,7 +4819,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelHeading" approved="yes">
         <source xml:lang="en">File Conversion Required</source>
-        <target xml:lang="pt-BR" state="final">Necessário Converter Arquivo</target>
+        <target xml:lang="pt-BR" state="final">Conversão de arquivo necessária</target>
         <note>ID: SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelHeading</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForAudio" approved="yes">
@@ -4809,7 +4829,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForVideo" approved="yes">
         <source xml:lang="en">In order to annotate, SayMore needs to convert this video to WAV PCM audio. During the conversion process, a standard audio file will be created from the source and added to the session's file list. The name of the new audio file will be the same as the name of the source with the suffix "{0}" added to the end. The source file will remain unchanged in the session's file list.</source>
-        <target xml:lang="pt-BR" state="final">Para inserir anotações, o SayMore precisa convertê-lo para WAV PCM, que é uma boa escolha padrão de arquivamento. Durante o processo de conversão, será criado um arquivo de áudio padrão do original e será adicionado à lista de arquivos da seção. O nome do novo arquivo de áudio será o mesmo que o original com o sufixo "{1}" no final. O arquivo original não será modificado na lista dos arquivos da seção.  </target>
+        <target xml:lang="pt-BR" state="final">Para realizar a anotação, o SayMore precisa converter este vídeo em áudio WAV PCM. Durante o processo de conversão, será criado um arquivo de áudio padrão a partir do arquivo original, que será adicionado à lista de arquivos da sessão. O nome do novo arquivo de áudio será o mesmo do arquivo original, com o sufixo “{0}” adicionado ao final. O arquivo original permanecerá inalterado na lista de arquivos da sessão.</target>
         <note>ID: SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForVideo</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelSourceFileName" approved="yes">
@@ -4824,7 +4844,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab.TabText" approved="yes">
         <source xml:lang="en">Start Annotating</source>
-        <target xml:lang="pt-BR" state="final">Começar a fazer anotações</target>
+        <target xml:lang="pt-BR" state="final">Iniciar anotação</target>
         <note>ID: SessionsView.Transcription.StartAnnotatingTab.TabText</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._buttonGetStarted" approved="yes">
@@ -4834,7 +4854,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._labelAudacityLabelTier">
         <source xml:lang="en">Import label text into</source>
-        <target xml:lang="pt-BR" state="needs-translation">Import label text into</target>
+        <target xml:lang="pt-BR" state="translated">Importar texto de rótulo para</target>
         <note>ID: SessionsView.Transcription.StartAnnotatingTab._labelAudacityLabelTier</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._labelIntroduction" approved="yes">
@@ -4853,8 +4873,8 @@
         <note>ID: SessionsView.Transcription.StartAnnotatingTab._labelSegmentationMethodQuestion</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._radioButtonAudacity" approved="yes">
-        <source xml:lang="en">Read an Audacity Label file</source>
-        <target xml:lang="pt-BR" state="final">Ler um arquivo Audacity Label</target>
+        <source xml:lang="en">Import an Audacity Label file</source>
+        <target xml:lang="pt-BR" state="final">Importar um arquivo de rótulos do Audacity</target>
         <note>ID: SessionsView.Transcription.StartAnnotatingTab._radioButtonAudacity</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._radioButtonAutoSegmenter" approved="yes">
@@ -4874,12 +4894,12 @@
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.StartAnnotatingTab._radioButtonManual" approved="yes">
         <source xml:lang="en">Use Manual Segmentation Tool</source>
-        <target xml:lang="pt-BR" state="final">Use a Ferramenta Segmentação Manual</target>
+        <target xml:lang="pt-BR" state="final">Usar a ferramenta de segmentação manual</target>
         <note>ID: SessionsView.Transcription.StartAnnotatingTab._radioButtonManual</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.TextAnnotation.CarefulSpeechFileDescriptor">
         <source xml:lang="en">Careful Speech File ({0})</source>
-        <target xml:lang="pt-BR" state="translated">Arquivo de fala cuidadoso ({0})</target>
+        <target xml:lang="pt-BR" state="translated">Arquivo de fala cuidadosa ({0})</target>
         <note>ID: SessionsView.Transcription.TextAnnotation.CarefulSpeechFileDescriptor</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.TextAnnotation.CommaSeparatedValuesFileDescriptor">
@@ -4894,7 +4914,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslation" approved="yes">
         <source xml:lang="en">Audacity Label File (Free Translation)...</source>
-        <target xml:lang="pt-BR" state="final">Etiqueta de Arquivo Audacity (Tradução Livre)...</target>
+        <target xml:lang="pt-BR" state="final">Arquivo de rótulo Audacity (Tradução Livre)...</target>
         <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslation</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityFreeTranslationFilenameSuffix" approved="yes">
@@ -4904,7 +4924,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscription" approved="yes">
         <source xml:lang="en">Audacity Label File (Transcription)...</source>
-        <target xml:lang="pt-BR" state="final">Etiqueta de Arquivo Audacity (Transcrição)...</target>
+        <target xml:lang="pt-BR" state="final">Arquivo de rótulo de Audacity (Transcrição)...</target>
         <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscription</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.AudacityTranscriptionFilenameSuffix" approved="yes">
@@ -4944,12 +4964,12 @@
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.ToolboxExport" approved="yes">
         <source xml:lang="en">Toolbox File...</source>
-        <target xml:lang="pt-BR" state="final">Arquivo Caixa de Ferramentas...</target>
+        <target xml:lang="pt-BR" state="final">Arquivo de Toolbox...</target>
         <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.ToolboxExport</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.commaSeparatedValueExport" approved="yes">
         <source xml:lang="en">Spreadsheet (CSV) File...</source>
-        <target xml:lang="pt-BR" state="final">Planilha Arquivo (CSV)...</target>
+        <target xml:lang="pt-BR" state="final">Arquivo de Planilha (CSV)...</target>
         <note>ID: SessionsView.Transcription.TextAnnotation.ExportMenu.commaSeparatedValueExport</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.TextAnnotation.ExportMenu.plainTextExport" approved="yes">
@@ -5049,7 +5069,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg" approved="yes">
         <source xml:lang="en">There was an error loading the annotation file '{0}'.</source>
-        <target xml:lang="pt-BR" state="final">Ocorreu um erro ao carregar o arquivo de comentário "{0}".</target>
+        <target xml:lang="pt-BR" state="final">Ocorreu um erro ao carregar o arquivo de anotações "{0}".</target>
         <note>ID: SessionsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg" approved="yes">
@@ -5064,7 +5084,7 @@
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.RecordButton" approved="yes">
         <source xml:lang="en">Oral Annotations Tools</source>
-        <target xml:lang="pt-BR" state="final">Ferramentas de Anotações Orais</target>
+        <target xml:lang="pt-BR" state="final">Ferramentas de anotação oral</target>
         <note>ID: SessionsView.Transcription.TextAnnotationEditor.RecordButton</note>
       </trans-unit>
       <trans-unit id="SessionsView.Transcription.TextAnnotationEditor.RecordButton_ToolTip_" approved="yes">

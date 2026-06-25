@@ -460,23 +460,23 @@ namespace SayMoreTests.Model.Files
 		{
 			var componentRoles = new[]
 			{
-				new ComponentRole(typeof(Session), ComponentRole.kOralTranslationComponentRoleId, "translation",
+				new ComponentRole(typeof(Session), ComponentRole.kOralTranslationComponentRoleId, () => "translation",
 					ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"),
 					"$ElementId$_Translation", Color.Magenta, Color.Black),
 
-				new ComponentRole(typeof(Session), ComponentRole.kFreeTranslationComponentRoleId, "Written Translation",
+				new ComponentRole(typeof(Session), ComponentRole.kFreeTranslationComponentRoleId, () => "Written Translation",
 					ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"),
 					"$ElementId$_Transcription", Color.Magenta, Color.Black),
 
-				new ComponentRole(typeof(Session), ComponentRole.kSourceComponentRoleId, "Source Recording",
+				new ComponentRole(typeof(Session), ComponentRole.kSourceComponentRoleId, () => "Source Recording",
 					ComponentRole.MeasurementTypes.Time, FileSystemUtils.GetIsAudioVideo,
 					"$ElementId$_Source", Color.Magenta, Color.Black),
 
-				new ComponentRole(typeof(Person), ComponentRole.kConsentComponentRoleId, "Informed Consent",
+				new ComponentRole(typeof(Person), ComponentRole.kConsentComponentRoleId, () => "Informed Consent",
 					ComponentRole.MeasurementTypes.None, (p => p.Contains("_Consent.")),
 					"$ElementId$_Consent", Color.Magenta, Color.Black),
 
-				new ComponentRole(typeof(Person), ComponentRole.kCarefulSpeechComponentRoleId, "Careful Speech",
+				new ComponentRole(typeof(Person), ComponentRole.kCarefulSpeechComponentRoleId, () => "Careful Speech",
 					ComponentRole.MeasurementTypes.None, (p => p.Contains("_Careful.")),
 					"$ElementId$_Consent", Color.Magenta, Color.Black)
 			};
@@ -566,7 +566,7 @@ namespace SayMoreTests.Model.Files
 		public void IdentifyAsRole_FileRenamed()
 		{
 			var f = CreateComponentFile("abc.txt");
-			var role = new ComponentRole(typeof (Session), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
+			var role = new ComponentRole(typeof (Session), "someRole", () => "someRole", ComponentRole.MeasurementTypes.None,
 										 p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta, Color.Black);
 			f.AssignRole(role);
 			Assert.AreEqual(ParentFolderName + "_someRole.txt", Path.GetFileName(f.PathToAnnotatedFile));

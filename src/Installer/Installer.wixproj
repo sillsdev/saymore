@@ -1,4 +1,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <!-- Wix.targets (imported below) doesn't pull in Microsoft.Common.targets like a normal project, so without this
+       import, NuGet's PackageReference restore hooks (needed for the SIL.Installer package) never get wired up. -->
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
 	<Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
 	<OutputPath>..\..\output\installer\</OutputPath>
@@ -7,11 +10,16 @@
 	<ProjectGuid>{be2c52bc-6b66-4f8b-8b50-2cba58a8027d}</ProjectGuid>
 	<SchemaVersion>2.0</SchemaVersion>
 	<OutputName>SayMoreInstaller</OutputName>
+	<!-- Set explicitly: importing Microsoft.Common.targets (below, needed for PackageReference restore) defaults
+	     TargetName to the project file name ("Installer") before Wix.targets gets a chance to fall back to OutputName. -->
+	<TargetName>$(OutputName)</TargetName>
 	<OutputType>Package</OutputType>
 	<DefineSolutionProperties>false</DefineSolutionProperties>
+	<TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+	<DefineConstants>ProductName=SayMore</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-	<DefineConstants>Debug</DefineConstants>
+	<DefineConstants>Debug;ProductName=SayMore</DefineConstants>
 	<AllowIdenticalRows>False</AllowIdenticalRows>
 	<CabinetCachePath>
 	</CabinetCachePath>
@@ -58,6 +66,9 @@
 	<Compile Include="..\..\output\installer\GeneratedDistFiles.wxs" />
   </ItemGroup>
   <ItemGroup>
+	<PackageReference Include="SIL.Installer" Version="18.0.0-beta0032" />
+  </ItemGroup>
+  <ItemGroup>
 	<WixExtension Include="WixUtilExtension">
 	  <HintPath>C:\Program Files\Windows Installer XML v3.9\bin\WixUtilExtension.dll</HintPath>
 	</WixExtension>
@@ -68,5 +79,8 @@
 	  <HintPath>C:\Program Files\Windows Installer XML v3.9\bin\WixUIExtension.dll</HintPath>
 	</WixExtension>
   </ItemGroup>
+  <!-- Provides the NuGet PackageReference restore targets; imported before Wix.targets so Wix.targets' own
+       Build/Clean target definitions (which follow) take precedence over Common.targets' generic ones. -->
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets" />
 </Project>

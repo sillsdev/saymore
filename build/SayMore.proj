@@ -153,6 +153,12 @@
 
     <Message Text="Making Installer Version: $(Version)" Importance="high"  />
 
+    <!-- Installer.wixproj uses PackageReference (for SIL.Installer), which requires an explicit restore before the WiX build.
+         This must run as a separate process (not a nested MSBuild Restore-target call): MSBuild caches the evaluated
+         project instance per node, so a nested call would build against the pre-restore evaluation and silently
+         miss the Analytics.wxs/AnalyticsNavigation.wxs items that restore adds via SIL.Installer.targets. -->
+    <Exec Command="dotnet restore &quot;$(RootDir)\src\Installer\Installer.wixproj&quot;" />
+
     <MSBuild
         Projects="$(RootDir)\src\Installer\Installer.wixproj"
         Properties="Configuration=$(Configuration)"

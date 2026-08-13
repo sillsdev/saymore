@@ -49,18 +49,18 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Segment.Analytics.CSharp" Version="2.4.2" />
     <PackageReference Include="Serialization.NET" Version="1.4.1" />
-    <PackageReference Include="SIL.Archiving" Version="18.0.0-beta0026" />
-    <PackageReference Include="SIL.Core" Version="18.0.0-beta0026" />
+    <PackageReference Include="SIL.Archiving" Version="18.0.0-beta0032" />
+    <PackageReference Include="SIL.Core" Version="18.0.0-beta0032" />
     <PackageReference Include="SIL.DesktopAnalytics" Version="6.1.0" />
     <PackageReference Include="SIL.libpalaso.l10ns" Version="18.0.0-beta0012" />
-    <PackageReference Include="SIL.Media" Version="18.0.0-beta0026" />
+    <PackageReference Include="SIL.Media" Version="18.0.0-beta0032" />
     <PackageReference Include="SIL.ReleaseTasks" Version="3.2.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="SIL.Windows.Forms" Version="18.0.0-beta0026" />
-    <PackageReference Include="SIL.Windows.Forms.Archiving" Version="18.0.0-beta0026" />
-    <PackageReference Include="SIL.Windows.Forms.Keyboarding" Version="18.0.0-beta0026" />
-    <PackageReference Include="SIL.Windows.Forms.WritingSystems" Version="18.0.0-beta0026" />
+    <PackageReference Include="SIL.Windows.Forms" Version="18.0.0-beta0032" />
+    <PackageReference Include="SIL.Windows.Forms.Archiving" Version="18.0.0-beta0032" />
+    <PackageReference Include="SIL.Windows.Forms.Keyboarding" Version="18.0.0-beta0032" />
+    <PackageReference Include="SIL.Windows.Forms.WritingSystems" Version="18.0.0-beta0032" />
     <PackageReference Include="Spart" Version="1.0.0" />
     <PackageReference Include="System.IO.Pipelines" Version="9.0.11" />
     <PackageReference Include="System.Memory" Version="4.6.3" />

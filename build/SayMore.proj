@@ -12,8 +12,7 @@
     <BuildOutputDir>$(OutputRootDir)x64\$(Configuration)\net48\</BuildOutputDir>
     <NuGetPackageRoot Condition="'$(NuGetPackageRoot)'==''">$(USERPROFILE)\.nuget\packages\</NuGetPackageRoot>
     <LocalPackagesRoot Condition="'$(LocalPackagesRoot)'==''">$(RootDir)/packages/</LocalPackagesRoot>
-    <PalasoL10nsVersion>16.2.0</PalasoL10nsVersion>
-    <PalasoL10nsRootDir>$(NuGetPackageRoot)SIL.libpalaso.l10ns/$(PalasoL10nsVersion)/</PalasoL10nsRootDir>
+    <SayMoreCsproj>$(RootDir)\src\SayMore\SayMore.csproj</SayMoreCsproj>
     <SILReleaseTasksProps>$(NuGetPackageRoot)SIL.ReleaseTasks/3.2.0/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
     <BuildTasksVersionFolder Condition="'$(BuildTasksVersionFolder)' == ''">$(LocalPackagesRoot)SIL.BuildTasks/</BuildTasksVersionFolder>
     <BuildTasksDll>$(BuildTasksVersionFolder)tools/SIL.BuildTasks.dll</BuildTasksDll>
@@ -194,7 +193,22 @@
     <Delete Files="$(InstallerOutputDir)SayMoreInstaller.msi" TreatErrorsAsWarnings="false" />
   </Target>
 
-  <Target Name="copyLibL10ns">
+  <Target Name="ResolvePalasoL10nsVersion">
+    <!-- Read the version from SayMore.csproj's PackageReference so it can't drift out of sync with what NuGet actually restores. -->
+    <XmlPeek XmlInputPath="$(SayMoreCsproj)"
+        Query="//PackageReference[@Include='SIL.libpalaso.l10ns']/@Version">
+      <Output TaskParameter="Result" ItemName="_PalasoL10nsVersionResult" />
+    </XmlPeek>
+    <PropertyGroup>
+      <PalasoL10nsVersion>@(_PalasoL10nsVersionResult)</PalasoL10nsVersion>
+      <PalasoL10nsRootDir>$(NuGetPackageRoot)SIL.libpalaso.l10ns/$(PalasoL10nsVersion)/</PalasoL10nsRootDir>
+    </PropertyGroup>
+    <Message Text="Resolved SIL.libpalaso.l10ns version $(PalasoL10nsVersion) from $(SayMoreCsproj); expecting package at $(PalasoL10nsRootDir)" Importance="high" />
+    <Error Text="Could not find a SIL.libpalaso.l10ns PackageReference version in $(SayMoreCsproj)"
+        Condition="'$(PalasoL10nsVersion)' == ''" />
+  </Target>
+
+  <Target Name="copyLibL10ns" DependsOnTargets="ResolvePalasoL10nsVersion">
     <Error Text="Palaso L10ns package missing. Expected at $(PalasoL10nsRootDir)"
         Condition="!Exists('$(PalasoL10nsRootDir)/SIL.libpalaso.l10ns.$(PalasoL10nsVersion).nupkg')" />
     <ItemGroup>

@@ -72,13 +72,13 @@ jobs:
           echo "no tag push; using $Version"
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v2
+        uses: NuGet/setup-nuget@v4
 
       - name: Restore NuGet packages
         run: nuget restore SayMore.sln
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
 
       - name: Build
         run: msbuild build\SayMore.proj /t:Build /p:Configuration=$env:Configuration /p:Version=$env:Version /m
@@ -88,7 +88,7 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: saymore-test-results
           if-no-files-found: warn
@@ -109,7 +109,7 @@ jobs:
           files-folder-filter: SayMoreInstaller*.msi
 
       - name: Upload installer artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: saymore-installer
           if-no-files-found: error

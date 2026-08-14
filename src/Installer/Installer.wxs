@@ -195,6 +195,10 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 				<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="yes" Source="$(var.OutputDir)L10NSharp.dll"/>
 			</Component>
 
+			<Component Id="L10NSharp.Windows.Forms.dll" Guid="{B78AFC88-DC2E-49C2-B925-EC00E13B4493}" Win64="yes">
+				<File Id="L10NSharp.Windows.Forms.dll" Name="L10NSharp.Windows.Forms.dll" KeyPath="yes" Source="$(var.OutputDir)L10NSharp.Windows.Forms.dll"/>
+			</Component>
+
 			<Component Id="Markdig.Signed.dll" Guid="{50F41AE6-6BC3-4BB0-A6A9-A200154A070B}" Win64="yes">
 				<File Id="Markdig.Signed.dll" Name="Markdig.Signed.dll" KeyPath="yes" Source="$(var.OutputDir)Markdig.Signed.dll"/>
 			</Component>
@@ -388,6 +392,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="icu.net.dll"/>
 		<ComponentRef Id="Instances.dll"/>
 		<ComponentRef Id="L10NSharp.dll"/>
+		<ComponentRef Id="L10NSharp.Windows.Forms.dll"/>
 		<ComponentRef Id="Markdig.Signed.dll"/>
 		<ComponentRef Id="MediaInfo.dll"/>
 		<ComponentRef Id="MediaInfoDLL.dll"/>

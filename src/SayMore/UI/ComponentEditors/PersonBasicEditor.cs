@@ -882,11 +882,17 @@ namespace SayMore.UI.ComponentEditors
 				// Normalize and map any localized "male" values to our canonical indices.
 				string valueFromFile = args.ValueFromFile.Normalize(FormD);
 				int index = s_maleGenderValues.Contains(valueFromFile) ? kMaleIndex : kFemaleIndex;
-				// Record the desired index and defer actually setting SelectedIndex until the
-				// localized items have been populated (see HandleStringsLocalized). This avoids
-				// attempting to set SelectedIndex on a ComboBox that hasn't been filled yet,
-				// which can throw in certain initialization sequences.
-				_pendingSelectedGenderIndex = index;
+				// If the combo box hasn't been populated with localized items yet (e.g., during
+				// initial construction, before HandleStringsLocalized has run), defer setting
+				// SelectedIndex until it has been (see HandleStringsLocalized), since setting it
+				// on an empty/underfilled ComboBox can throw. Otherwise (e.g., when the editor is
+				// reused for a different person after having already loaded once), set it
+				// immediately: HandleStringsLocalized won't run again just because the bound file
+				// changed, so deferring here would leave the previous person's gender showing.
+				if (_gender.Items.Count < 2)
+					_pendingSelectedGenderIndex = index;
+				else
+					_gender.SelectedIndex = index;
 				args.Handled = true;
 			}
 		}

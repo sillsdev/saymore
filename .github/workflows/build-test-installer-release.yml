@@ -49,26 +49,31 @@ jobs:
             Version="${GITHUB_REF#refs/tags/}"
             Version="${Version#v}"
             echo "version=$Version" >> $GITHUB_OUTPUT
+            echo "Version=$Version" >> $GITHUB_ENV
             echo "detected tag push: $Version"
             exit 0
           fi
 
-          # Otherwise find the latest tag that starts with v
+          # Otherwise, this is a non-release build (PR, branch push, workflow_dispatch). Give it a version that
+          # sorts well above any real release so testers/updaters never mistake it for one: same major.minor as
+          # the last release, but with a patch number at least 1000 higher, growing with every commit since that
+          # release so successive test builds are still ordered correctly relative to each other.
           LAST_TAG=$(git describe --tags --match "v*" --abbrev=0 2>/dev/null || echo "")
 
-          # Compute a build number based on number of commits since that tag
           if [[ -n "$LAST_TAG" ]]; then
-            # Tag found, count commits since that tag
+            BASE_VERSION="${LAST_TAG#v}"
+            MAJOR_MINOR="${BASE_VERSION%.*}"
+            LAST_PATCH="${BASE_VERSION##*.}"
             COMMITS_SINCE_TAG=$(git rev-list ${LAST_TAG}..HEAD --count)
-            # Final version: X.Y.Z.build
-            Version="${LAST_TAG#v}.${COMMITS_SINCE_TAG}"
+            Version="${MAJOR_MINOR}.$((LAST_PATCH + 1000 + COMMITS_SINCE_TAG))"
           else
-            # No tag found, use 0.0.0 and count all commits
+            # No release tag exists at all; fall back to counting all commits.
             COMMITS_SINCE_TAG=$(git rev-list HEAD --count)
-            Version="0.0.0.${COMMITS_SINCE_TAG}"
+            Version="0.0.$((1000 + COMMITS_SINCE_TAG))"
           fi
 
           echo "version=$Version" >> $GITHUB_OUTPUT
+          echo "Version=$Version" >> $GITHUB_ENV
           echo "no tag push; using $Version"
 
       - name: Setup NuGet

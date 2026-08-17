@@ -205,14 +205,21 @@ namespace SayMore
 
             s_userInfo = new UserInfo {UILanguageCode = Settings.Default.UserInterfaceLanguage};
 
+			// Needed in every build configuration so Help > Privacy Settings has something to show,
+			// even though only the release path below uses AllowTracking to gate initial tracking.
+			AnalyticsImpl = new AnalyticsConsent(Application.ProductName);
+			AnalyticsImpl.AllowTrackingChanged += (_, allowTrackingChangedEventArgs) =>
+			{
+				Analytics.AllowTracking = allowTrackingChangedEventArgs.IsTrackingAllowed;
+			};
+
 #if DEBUG
-			// Always track if this is a debug build, but track to a different segment.io project
+			// Always default to track if this is a debug build, but targets a different segment.io project.
+			// This *can* be disabled (for this session) in the Privacy Settings dialog.
 			using (new Analytics("twa75xkko9", s_userInfo))
 #else
 			// If this is a release build, then allow opt-out.
-			var allowTracking = IsAnalyticsEnabled;
-
-			using (new Analytics("jtfe7dyef3", s_userInfo, allowTracking))
+			using (new Analytics("jtfe7dyef3", s_userInfo, IsAnalyticsEnabled))
 #endif
 			{
 				foreach (var exception in _pendingExceptionsToReportToAnalytics)
@@ -258,12 +265,6 @@ namespace SayMore
 		{
 			get
 			{
-				AnalyticsImpl = new AnalyticsConsent(Application.ProductName);
-				AnalyticsImpl.AllowTrackingChanged += (_, allowTrackingChangedEventArgs) =>
-				{
-					Analytics.AllowTracking = allowTrackingChangedEventArgs.IsTrackingAllowed;
-				};
-
 				// For testers (so they aren't generating false analytics)
 				var feedbackSetting = GetEnvironmentVariable("FEEDBACK")?.ToLowerInvariant();
 				if (!IsNullOrEmpty(feedbackSetting))

@@ -99,8 +99,11 @@ namespace SayMore.Model
 				
 				_initialNumberOfSessions = _model.SessionInformant.NumberOfSessions;
 				_initialNumberOfPersons = _model.PersonInformant.NumberOfPeople;
+				// Keyed by the role's stable Id, not its (possibly live-localized) Name, so that a
+				// UI language change between the initial snapshot and the later update doesn't
+				// cause the same role to be treated as a brand-new one with Initial == Zero.
 				_mediaDurationStats = _model.GetComponentRoleStatisticsPairs()
-					.ToDictionary(s => s.Name, s => new MediaDurationStats(s.Length));
+					.ToDictionary(s => s.Id, s => new MediaDurationStats(s.Length));
 
 				_sessionRoleStats = _model.SessionInformant.GetSessionsCategorizedByStage()
 					.Where(s => s.Key.MeasurementType != Time)
@@ -117,11 +120,11 @@ namespace SayMore.Model
 
 				foreach (var stat in _model.GetComponentRoleStatisticsPairs())
 				{
-					if (_mediaDurationStats.TryGetValue(stat.Name, out var entry))
+					if (_mediaDurationStats.TryGetValue(stat.Id, out var entry))
 						entry.Current = stat.Length;
 					else
 					{
-						_mediaDurationStats[stat.Name] =
+						_mediaDurationStats[stat.Id] =
 							new MediaDurationStats(TimeSpan.Zero)
 							{
 								Current = stat.Length
@@ -316,8 +319,12 @@ namespace SayMore.Model
 
 				_progressStats = null;
 				_progressStats = null; // Probably already done, but it also had a copy of _statisticsViewModel.
-				_statisticsViewModel?.Dispose();
-				_statisticsViewModel = null;
+				if (_statisticsViewModel != null)
+				{
+					_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
+					_statisticsViewModel.Dispose();
+					_statisticsViewModel = null;
+				}
 			}
 
 			_sessionsRepoFactory = null;
@@ -1016,10 +1023,20 @@ namespace SayMore.Model
 		{
 			lock (_statisticsLock)
 			{
-				_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
+				// The project (and _statisticsViewModel) may have been disposed after this event was
+				// raised but before this handler got the lock (e.g., the background gatherer thread
+				// finishing right as the project closes). Bail out rather than touch disposed state.
+				if (_disposed)
+					return;
+
+				// Use sender (the StatisticsViewModel instance that actually raised this event) rather
+				// than the _statisticsViewModel field, which could differ (or be null) if a newer
+				// StatisticsViewModel has since been tracked.
+				var statisticsViewModel = (StatisticsViewModel)sender;
+				statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
 				Debug.Assert(_progressStats == null);
 
-				_progressStats = new ProgressStats(_statisticsViewModel);
+				_progressStats = new ProgressStats(statisticsViewModel);
 			}
 		}
 	}

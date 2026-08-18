@@ -345,11 +345,11 @@ namespace SayMore.UI.ComponentEditors
 					if (toolTip != null)
 						_toolTip.SetToolTip(radioButton, toolTip);
 				}
-				if (_stageCheckBoxes != null)
-				{
-					foreach (var checkBox in _stageCheckBoxes)
-						checkBox.UpdateText();
-				}
+			}
+			if (_stageCheckBoxes != null)
+			{
+				foreach (var checkBox in _stageCheckBoxes)
+					checkBox.UpdateText();
 			}
 
 			base.HandleStringsLocalized(sender, e);

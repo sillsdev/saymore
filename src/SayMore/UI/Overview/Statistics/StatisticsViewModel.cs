@@ -82,6 +82,7 @@ namespace SayMore.UI.Overview.Statistics
 
 				yield return new ComponentRoleStatistics
 				{
+					Id = role.Id,
 					Name = role.Name,
 					Length = GetRecordingDurations(role),
 					Size = bytes
@@ -137,6 +138,7 @@ namespace SayMore.UI.Overview.Statistics
 
 	public class ComponentRoleStatistics
 	{
+		public string Id { get; set; }
 		public string Name { get; set; }
 		public TimeSpan Length { get; set; }
 		public long Size { get; set; }

@@ -1036,7 +1036,38 @@ namespace SayMore.Model
 				statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
 				Debug.Assert(_progressStats == null);
 
-				_progressStats = new ProgressStats(statisticsViewModel);
+				_progressStats = CreateProgressStatsWithRetry(statisticsViewModel);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// ProgressStats' constructor enumerates the session repository (via
+		/// SessionWorkflowInformant.GetSessionsCategorizedByStage), which can be mutated on the
+		/// UI thread (e.g., a session being added or removed) while this runs on the background
+		/// statistics-gathering thread that raised the event that led here. That's the same
+		/// transient "Collection was modified" hazard already worked around elsewhere in this
+		/// codebase (see SP-854, SP-1020 in ChartBarInfo/HTMLChartBuilder); retry a few times
+		/// rather than let it escape into BackgroundFileProcessor.StartWorking's catch-all and
+		/// show the user a spurious "Background file watching failed" error.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static ProgressStats CreateProgressStatsWithRetry(StatisticsViewModel statisticsViewModel)
+		{
+			const int kMaxAttempts = 5;
+			for (var attempt = 1; ; attempt++)
+			{
+				try
+				{
+					return new ProgressStats(statisticsViewModel);
+				}
+				catch (InvalidOperationException e) when (attempt < kMaxAttempts)
+				{
+					Logger.WriteEvent(
+						"Retrying ProgressStats snapshot after transient exception (attempt {0}): {1}",
+						attempt, e.Message);
+					Thread.Sleep(1);
+				}
 			}
 		}
 	}

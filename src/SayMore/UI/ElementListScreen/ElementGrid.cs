@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.UI;
+using L10NSharp.Windows.Forms;
 using SIL.Extensions;
 using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model;
@@ -27,8 +27,8 @@ namespace SayMore.UI.ElementListScreen
 		public Action DeleteAction;
 
 		protected FileType _fileType;
-		private IEnumerable<ProjectElement> _items = new ProjectElement[] { };
-		protected ContextMenuStrip _contextMenuStrip = new ContextMenuStrip();
+		private IEnumerable<ProjectElement> _items = [];
+		protected ContextMenuStrip _contextMenuStrip = new();
 		protected readonly L10NSharpExtender _locExtender;
 
 		/// ------------------------------------------------------------------------------------

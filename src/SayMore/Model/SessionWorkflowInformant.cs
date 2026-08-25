@@ -14,7 +14,7 @@ namespace SayMore.Model
 	public class SessionWorkflowInformant
 	{
 		private readonly ElementRepository<Session> _sessionRepository;
-		private IEnumerable<ComponentRole> _componentRoles;
+		private readonly IEnumerable<ComponentRole> _componentRoles;
 
 		[Obsolete("For mocking only")]
 		public SessionWorkflowInformant(){}
@@ -28,10 +28,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public int NumberOfSessions
-		{
-			get { return _sessionRepository.AllItems.Count(); }
-		}
+		public int NumberOfSessions => _sessionRepository.AllItems.Count();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -111,10 +108,17 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public IDictionary<ComponentRole, IEnumerable<Session>> GetSessionsCategorizedByStage()
 		{
-			return _componentRoles.ToDictionary(role => role, role =>
-				from session in _sessionRepository.AllItems
-				where session.GetCompletedStages().SingleOrDefault(r => r.Id == role.Id) != null
-				select session);
+			// Snapshot once so every role is categorized against the exact same state of the
+			// session list, rather than each role separately re-enumerating (and separately
+			// racing) the live, mutable repository. AllItems can be mutated on the UI thread
+			// (sessions added/removed) while this is called from a background thread.
+			var sessions = _sessionRepository.AllItems.ToArray();
+
+			return _componentRoles.ToDictionary(role => role,
+				role => (IEnumerable<Session>)(
+					from session in sessions
+					where session.GetCompletedStages().SingleOrDefault(r => r.Id == role.Id) != null
+					select session));
 		}
 	}
 }

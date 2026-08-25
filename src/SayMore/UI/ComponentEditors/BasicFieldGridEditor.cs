@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Forms;
 using L10NSharp;
 using SayMore.Model.Files;
@@ -16,7 +17,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public BasicFieldGridEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer)
-			: base(file, null, imageKey)
+			: base(file, imageKey)
 		{
 			InitializeComponent();
 			Name = "BasicFieldGridEditor";
@@ -49,12 +50,11 @@ namespace SayMore.UI.ComponentEditors
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-				TabText = GetPropertiesTabText();
+			TabText = GetPropertiesTabText();
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 	}
 }

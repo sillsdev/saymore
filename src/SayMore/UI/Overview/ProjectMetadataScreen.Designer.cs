@@ -81,7 +81,7 @@ namespace SayMore.UI.Overview
 			this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
 			this._labelsubOfTheProject = new System.Windows.Forms.Label();
 			this._labelDescription = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
 			this._tableLayout.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
@@ -1014,7 +1014,7 @@ namespace SayMore.UI.Overview
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private System.Windows.Forms.Label _labelSelectedContentLanguage;
 		private System.Windows.Forms.LinkLabel _linkSelectContentLanguage;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Label _labelRegion;
 		private System.Windows.Forms.TextBox _region;
 		private System.Windows.Forms.Label _labelDateAvailable;

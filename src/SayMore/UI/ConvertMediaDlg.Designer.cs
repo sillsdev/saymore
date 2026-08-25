@@ -49,7 +49,7 @@ namespace SayMore.UI
 			this._textBoxOutput = new System.Windows.Forms.TextBox();
 			this._labelOutputFile = new System.Windows.Forms.Label();
 			this._labelOutputFileValue = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._tableLayoutOuter.SuspendLayout();
 			this._flowLayoutBottomButtons.SuspendLayout();
 			this._flowLayoutShowHideButtons.SuspendLayout();
@@ -413,7 +413,7 @@ namespace SayMore.UI
 		private System.Windows.Forms.Button _buttonShowOutput;
 		private System.Windows.Forms.Button _buttonHideOutput;
 		private System.Windows.Forms.TextBox _textBoxOutput;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Label _labelOutputFile;
 		private System.Windows.Forms.Label _labelOutputFileValue;
 	}

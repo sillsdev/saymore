@@ -4,8 +4,6 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.XLiffUtils;
-using L10NSharp.UI;
 using SIL.Reporting;
 using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Model;
@@ -17,8 +15,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Incapsulates the welcome dialog box, in which users may create new projects, or open
-	/// existing projects via browsing the file systsem or by choosing a recently used project.
+	/// Encapsulates the welcome dialog box, in which users may create new projects, or open
+	/// existing projects via browsing the file system or by choosing a recently used project.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public sealed partial class WelcomeDialog : Form
@@ -49,8 +47,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 
 			LoadMRUButtons();
 
-			LocalizeItemDlg<XLiffDocument>.StringsLocalized += LocalizationInitiated;
-			LocalizationInitiated(null);
+			LocalizationInitiated();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -93,11 +90,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		/// Sets up the link labels with proper localizations.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LocalizationInitiated(ILocalizationManager lm)
+		private void LocalizationInitiated()
 		{
-			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
-				return;
-
 			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text, BuildType.Current);
 
 			_linkSILWebsite.Text = String.Format(_linkSILWebsite.Text, Application.CompanyName);
@@ -106,7 +100,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			_linkSILWebsite.Links.Clear();
 			_linkSayMoreWebsite.Links.Clear();
 
-			// Add the underline and link for SIL's website.
+			// Add the underline and link for the SIL Global website.
 			int i = _linkSILWebsite.Text.IndexOf(Application.CompanyName, StringComparison.Ordinal);
 			if (i >= 0)
 				_linkSILWebsite.Links.Add(i, Application.CompanyName.Length, Settings.Default.SilWebSite);
@@ -156,7 +150,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 				// context stuff well enough.
 
 				// JH says: The di approach is to inject, not reach out.
-				// I.e., it should be a parameter to the contructor of this class.
+				// I.e., it should be a parameter to the constructor of this class.
 				var projPath = Path.Combine(
 					Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SayMore");
 
@@ -179,22 +173,19 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		{
 			var viewModel = new NewProjectDlgViewModel();
 
-			using (var dlg = new NewProjectDlg(viewModel))
+			using var dlg = new NewProjectDlg(viewModel);
+			if (dlg.ShowDialog() == DialogResult.OK)
 			{
-				if (dlg.ShowDialog() == DialogResult.OK)
-				{
-					Model.SetRequestedPath(NewProjectDlgViewModel.ParentFolderPathForNewProject, viewModel.NewProjectName);
-					DialogResult = DialogResult.OK;
-					Close();
-				}
+				Model.SetRequestedPath(NewProjectDlgViewModel.ParentFolderPathForNewProject, viewModel.NewProjectName);
+				DialogResult = DialogResult.OK;
+				Close();
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleMruClick(object sender, EventArgs e)
 		{
-			var tsb = sender as ToolStripButton;
-			if (tsb != null)
+			if (sender is ToolStripButton tsb)
 			{
 				Model.ProjectSettingsFilePath = tsb.Name;
 				DialogResult = DialogResult.OK;

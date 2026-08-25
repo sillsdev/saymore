@@ -14,7 +14,8 @@ namespace SayMore.UI.ElementListScreen
 	{
 		/// ------------------------------------------------------------------------------------
 		public PersonListScreen(ElementListViewModel<Person> presentationModel,
-			PersonGrid.Factory personGridFactory) : base(presentationModel)
+			PersonGrid.Factory personGridFactory, ILocalizationManager localizationManager) :
+			base(presentationModel, localizationManager)
 		{
 			Logger.WriteEvent("PersonListScreen constructor");
 
@@ -47,8 +48,9 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
+			var lm = (ILocalizationManager)sender;	
 			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
 			{
 				_personComponentFileGrid.AddFileButtonTooltipText =
@@ -93,28 +95,16 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Image Image
-		{
-			get { return ResourceImageCache.People; }
-		}
+		public Image Image => ResourceImageCache.People;
 
 		/// ------------------------------------------------------------------------------------
-		public string NameForUsageReporting
-		{
-			get { return "People"; }
-		}
+		public string NameForUsageReporting => "People";
 
 		/// ------------------------------------------------------------------------------------
-		protected override Color ComponentEditorBackgroundColor
-		{
-			get { return Settings.Default.PersonEditorsBackgroundColor; }
-		}
+		protected override Color ComponentEditorBackgroundColor => Settings.Default.PersonEditorsBackgroundColor;
 
 		/// ------------------------------------------------------------------------------------
-		protected override Color ComponentEditorBorderColor
-		{
-			get { return Settings.Default.PersonEditorsBorderColor; }
-		}
+		protected override Color ComponentEditorBorderColor => Settings.Default.PersonEditorsBorderColor;
 
 		/// ------------------------------------------------------------------------------------
 		public void AddTabToTabGroup(ViewTabGroup viewTabGroup)
@@ -161,18 +151,18 @@ namespace SayMore.UI.ElementListScreen
 	/// <summary>
 	/// This class is used to overcome a limitation in the VS 2008 designer:
 	/// not only can it not design a generic class, but it cannot even design a class which
-	/// directly inhertis from a generic class! So we have this intermediate class.
+	/// directly inherits from a generic class! So we have this intermediate class.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class ConcretePersonListScreen : ElementListScreen<Person>
 	{
 		//design time only
-		private ConcretePersonListScreen()
-			: base(null)
+		private ConcretePersonListScreen() : base(null, null)
 		{}
 
-		public ConcretePersonListScreen(ElementListViewModel<Person> presentationModel)
-			: base(presentationModel)
+		public ConcretePersonListScreen(ElementListViewModel<Person> presentationModel,
+			ILocalizationManager localizationManager)
+			: base(presentationModel, localizationManager)
 		{}
 	}
 }

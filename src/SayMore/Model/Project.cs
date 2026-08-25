@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Drawing;
+using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
@@ -13,21 +13,23 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using DesktopAnalytics;
 using L10NSharp;
-using SIL.Extensions;
-using SIL.Reporting;
-using SIL.Windows.Forms;
+using SayMore.Model.Files;
+using SayMore.Properties;
+using SayMore.Transcription.Model;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.Overview;
+using SayMore.UI.Overview.Statistics;
+using SayMore.Utilities;
 using SIL.Archiving;
 using SIL.Archiving.Generic;
 using SIL.Archiving.IMDI;
-using SayMore.Properties;
-using SayMore.Transcription.Model;
-using SayMore.Model.Files;
-using SayMore.Utilities;
 using SIL.Core.ClearShare;
+using SIL.Extensions;
 using SIL.IO;
+using SIL.Reporting;
+using SIL.Windows.Forms;
 using static System.IO.Path;
+using static SayMore.Model.Files.ComponentRole.MeasurementTypes;
 using static SIL.Archiving.ArchivingDlgViewModel.MessageType;
 
 namespace SayMore.Model
@@ -63,6 +65,123 @@ namespace SayMore.Model
 		private bool _needToDisposeFreeTranslationFont;
 		private Font _workingLanguageFont;
 		private bool _needToDisposeWorkingLanguageFont;
+		private bool _disposed = false;
+
+		private sealed class ProgressStats
+		{
+			private readonly StatisticsViewModel _model;
+				
+			private readonly int _initialNumberOfSessions;
+			private readonly int _initialNumberOfPersons;
+
+			private sealed class MediaDurationStats(TimeSpan initial)
+			{
+				private TimeSpan Initial { get; } = initial;
+				public TimeSpan Current { get; set; } = initial;
+
+				public TimeSpan Delta => Current - Initial;
+			}
+
+			private sealed class RoleCountStats(int initial)
+			{
+				private int Initial { get; } = initial;
+				public int Current { get; set; } = initial;
+
+				public int Delta => Current - Initial;
+			}
+
+			private readonly Dictionary<string, MediaDurationStats> _mediaDurationStats;
+			private readonly Dictionary<string, RoleCountStats> _sessionRoleStats;
+
+			internal ProgressStats(StatisticsViewModel model)
+			{
+				_model = model;
+				
+				_initialNumberOfSessions = _model.SessionInformant.NumberOfSessions;
+				_initialNumberOfPersons = _model.PersonInformant.NumberOfPeople;
+				// Keyed by the role's stable Id, not its (possibly live-localized) Name, so that a
+				// UI language change between the initial snapshot and the later update doesn't
+				// cause the same role to be treated as a brand-new one with Initial == Zero.
+				_mediaDurationStats = _model.GetComponentRoleStatisticsPairs()
+					.ToDictionary(s => s.Id, s => new MediaDurationStats(s.Length));
+
+				_sessionRoleStats = _model.SessionInformant.GetSessionsCategorizedByStage()
+					.Where(s => s.Key.MeasurementType != Time)
+					.ToDictionary(s => s.Key.Id, s => new RoleCountStats(s.Value.Count()));
+			}
+
+			internal void ReportUpdatedStatistics()
+			{
+				if (_model.IsBusy)
+					Thread.Sleep(200); // Give it a fighting chance to finish.
+				
+				var sessionDelta = _model.SessionInformant.NumberOfSessions - _initialNumberOfSessions;
+				var personDelta = _model.PersonInformant.NumberOfPeople - _initialNumberOfPersons;
+
+				foreach (var stat in _model.GetComponentRoleStatisticsPairs())
+				{
+					if (_mediaDurationStats.TryGetValue(stat.Id, out var entry))
+						entry.Current = stat.Length;
+					else
+					{
+						_mediaDurationStats[stat.Id] =
+							new MediaDurationStats(TimeSpan.Zero)
+							{
+								Current = stat.Length
+							};
+					}
+				}
+
+				foreach (var stat in _model.SessionInformant.GetSessionsCategorizedByStage()
+					         .Where(s => s.Key.MeasurementType != Time))
+				{
+					if (_sessionRoleStats.TryGetValue(stat.Key.Id, out var entry))
+						entry.Current = stat.Value.Count();
+					else
+					{
+						_sessionRoleStats[stat.Key.Id] = new RoleCountStats(0)
+						{
+							Current = stat.Value.Count()
+						};
+					}
+				}
+
+				var properties = new Dictionary<string, string>();
+
+				if (sessionDelta > 0)
+					properties["SessionsAdded"] = sessionDelta.ToString();
+
+				if (personDelta > 0)
+					properties["PersonsAdded"] = personDelta.ToString();
+
+				foreach (var kvp in _mediaDurationStats)
+				{
+					var delta = kvp.Value.Delta;
+					if (delta > TimeSpan.Zero)
+					{
+						properties[$"MediaDurationAdded.{kvp.Key}"] =
+							delta.TotalSeconds.ToString("F0");
+					}
+				}
+
+				foreach (var kvp in _sessionRoleStats)
+				{
+					var delta = kvp.Value.Delta;
+					if (delta > 0)
+					{
+						properties[$"CompletedStages.{kvp.Key}"] =
+							delta.ToString();
+					}
+				}
+
+				if (properties.Any())
+					Analytics.Track("ProjectProgress", properties);
+			}
+		}
+
+		private readonly object _statisticsLock = new();
+		private StatisticsViewModel _statisticsViewModel;
+		private ProgressStats _progressStats;
 
 		public delegate Project Factory(string desiredOrExistingFilePath);
 
@@ -105,30 +224,40 @@ namespace SayMore.Model
 				throw new ArgumentException("Invalid project path specified", nameof(desiredOrExistingSettingsFilePath));
 			var saveNeeded = false;
 
+			var projectInfo = new Dictionary<string, string> {{"projectName", Name}};
+
 			if (File.Exists(desiredOrExistingSettingsFilePath))
 			{
 				RenameEventsToSessions(projectDirectory);
 				Load();
+				projectInfo["vernacularISO3CodeAndName"] = VernacularISO3CodeAndName;
+				projectInfo["analysisISO3CodeAndName"] = AnalysisISO3CodeAndName;
+				projectInfo["projectLocation"] = Location;
+				projectInfo["projectRegion"] = Region;
+				projectInfo["projectCountry"] = Country;
+				projectInfo["projectContinent"] = Continent;
 			}
 			else
 			{
+				Analytics.Track("Project Created", projectInfo);
 				Directory.CreateDirectory(projectDirectory);
 				Title = Name;
 				saveNeeded = true;
 			}
 
-			if (TranscriptionFont == null)
-				TranscriptionFont = Program.DialogFont;
+			TranscriptionFont ??= Program.DialogFont;
+			projectInfo["transcriptionFont"] = TranscriptionFont.Name;
+			FreeTranslationFont ??= Program.DialogFont;
+			projectInfo["freeTranslationFont"] = FreeTranslationFont.Name;
 
-			if (FreeTranslationFont == null)
-				FreeTranslationFont = Program.DialogFont;
+			Analytics.Track("Project Opened", projectInfo);
 
 			if (AutoSegmenterMinimumSegmentLengthInMilliseconds < Settings.Default.MinimumSegmentLengthInMilliseconds ||
-				AutoSegmenterMaximumSegmentLengthInMilliseconds <= 0 ||
-				AutoSegmenterMinimumSegmentLengthInMilliseconds >= AutoSegmenterMaximumSegmentLengthInMilliseconds ||
-				AutoSegmenterPreferredPauseLengthInMilliseconds <= 0 ||
-				AutoSegmenterPreferredPauseLengthInMilliseconds > AutoSegmenterMaximumSegmentLengthInMilliseconds ||
-				AutoSegmenterOptimumLengthClampingFactor <= 0)
+				    AutoSegmenterMaximumSegmentLengthInMilliseconds <= 0 ||
+				    AutoSegmenterMinimumSegmentLengthInMilliseconds >= AutoSegmenterMaximumSegmentLengthInMilliseconds ||
+				    AutoSegmenterPreferredPauseLengthInMilliseconds <= 0 ||
+				    AutoSegmenterPreferredPauseLengthInMilliseconds > AutoSegmenterMaximumSegmentLengthInMilliseconds ||
+				    AutoSegmenterOptimumLengthClampingFactor <= 0)
 			{
 				saveNeeded = AutoSegmenterMinimumSegmentLengthInMilliseconds != 0 || AutoSegmenterMaximumSegmentLengthInMilliseconds != 0 ||
 					AutoSegmenterPreferredPauseLengthInMilliseconds != 0 || !AutoSegmenterOptimumLengthClampingFactor.Equals(0) || saveNeeded;
@@ -144,8 +273,60 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void ReportProgressIfAny()
+		{
+			if (Monitor.TryEnter(_statisticsLock, TimeSpan.FromMilliseconds(200)))
+			{
+				try
+				{
+					if (_statisticsViewModel == null)
+						return;
+
+					_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
+
+					// Really unlikely, but if we get here before the initial gathering is done, we can't do anything.
+					if (_progressStats == null)
+						return;
+
+					try
+					{
+						_progressStats.ReportUpdatedStatistics();
+					}
+					catch (ObjectDisposedException e)
+					{
+						// This probably should be impossible, but just in case, we don't want reporting stats to
+						// crash the program.
+						Logger.WriteError(e);
+					}
+					_progressStats = null; // This ensures we only report once per project open.
+				}
+				finally
+				{
+					Monitor.Exit(_statisticsLock);
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
+			lock (_statisticsLock)
+			{
+				if (_disposed)
+					return;
+
+				_disposed = true;
+
+				_progressStats = null;
+				_progressStats = null; // Probably already done, but it also had a copy of _statisticsViewModel.
+				if (_statisticsViewModel != null)
+				{
+					_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
+					_statisticsViewModel.Dispose();
+					_statisticsViewModel = null;
+				}
+			}
+
 			_sessionsRepoFactory = null;
 			if (_needToDisposeTranscriptionFont)
 				TranscriptionFont.Dispose();
@@ -329,54 +510,6 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetFileDescription(string key, string file)
-		{
-			var description = (key == string.Empty ? "SayMore Session File" : "SayMore Contributor File");
-
-			if (file.ToLower().EndsWith(Settings.Default.SessionFileExtension))
-				description = "SayMore Session Metadata (XML)";
-			else if (file.ToLower().EndsWith(Settings.Default.PersonFileExtension))
-				description = "SayMore Contributor Metadata (XML)";
-			else if (file.ToLower().EndsWith(Settings.Default.MetadataFileExtension))
-				description = "SayMore File Metadata (XML)";
-
-			return description;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void SetAdditionalMetsData(RampArchivingDlgViewModel model)
-		{
-			foreach (var session in GetAllSessions(CancellationToken.None))
-			{
-				model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
-				model.SetDomains(SilDomain.Ling_LanguageDocumentation);
-
-				var value = session.MetaDataFile.GetStringValue(SessionFileType.kDateFieldName, null);
-				if (!string.IsNullOrEmpty(value))
-					model.SetCreationDate(value);
-
-				// Return the session's note as the abstract portion of the package's description.
-				value = session.MetaDataFile.GetStringValue(SessionFileType.kSynopsisFieldName, null);
-				if (!string.IsNullOrEmpty(value))
-					model.SetAbstract(value, string.Empty);
-
-				// Set contributors
-				var contribsVal = session.MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null);
-				if (contribsVal is ContributionCollection contributions && contributions.Count > 0)
-					model.SetContributors(contributions);
-
-				// Return total duration of source audio/video recordings.
-				TimeSpan totalDuration = session.GetTotalDurationOfSourceMedia();
-				if (totalDuration.Ticks > 0)
-					model.SetAudioVideoExtent($"Total Length of Source Recordings: {totalDuration}");
-
-				//First session details are enough for "Archive RAMP (SIL)..." from Project menu
-				break;
-			}
-		}
-
-
-		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
 			// SP-791: Invalid URI: The hostname could not be parsed.
@@ -483,26 +616,26 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string GetStringSettingValue(XElement project, string elementName, string defaultValue)
+		private static string GetStringSettingValue(XElement project, string elementName, string defaultValue)
 		{
 			var element = project.Element(elementName);
 			return element == null ? defaultValue : element.Value;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private int GetIntAttributeValue(XElement project, string attribName, string fallbackAttribName = null)
+		private static int GetIntAttributeValue(XElement project, string attribName, string fallbackAttribName = null)
 		{
 			var attrib = project.Attribute(attribName);
 			if (attrib == null && fallbackAttribName != null)
 				attrib = project.Attribute(fallbackAttribName);
-			return (attrib != null && Int32.TryParse(attrib.Value, out var val)) ? val : default;
+			return attrib != null && Int32.TryParse(attrib.Value, out var val) ? val : 0;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private double GetDoubleAttributeValue(XElement project, string attribName)
+		private static double GetDoubleAttributeValue(XElement project, string attribName)
 		{
 			var attrib = project.Attribute(attribName);
-			return (attrib != null && Double.TryParse(attrib.Value, out var val)) ? val : default;
+			return attrib != null && Double.TryParse(attrib.Value, out var val) ? val : 0;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -558,6 +691,53 @@ namespace SayMore.Model
 		}
 
 		#region Archiving
+		/// ------------------------------------------------------------------------------------
+		public string GetFileDescription(string key, string file)
+		{
+			var description = key == string.Empty ? "SayMore Session File" : "SayMore Contributor File";
+
+			if (file.ToLower().EndsWith(Settings.Default.SessionFileExtension))
+				description = "SayMore Session Metadata (XML)";
+			else if (file.ToLower().EndsWith(Settings.Default.PersonFileExtension))
+				description = "SayMore Contributor Metadata (XML)";
+			else if (file.ToLower().EndsWith(Settings.Default.MetadataFileExtension))
+				description = "SayMore File Metadata (XML)";
+
+			return description;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetAdditionalMetsData(RampArchivingDlgViewModel model)
+		{
+			foreach (var session in GetAllSessions(CancellationToken.None))
+			{
+				model.SetScholarlyWorkType(ScholarlyWorkType.PrimaryData);
+				model.SetDomains(SilDomain.Ling_LanguageDocumentation);
+
+				var value = session.MetaDataFile.GetStringValue(SessionFileType.kDateFieldName, null);
+				if (!string.IsNullOrEmpty(value))
+					model.SetCreationDate(value);
+
+				// Return the session's note as the abstract portion of the package's description.
+				value = session.MetaDataFile.GetStringValue(SessionFileType.kSynopsisFieldName, null);
+				if (!string.IsNullOrEmpty(value))
+					model.SetAbstract(value, string.Empty);
+
+				// Set contributors
+				var contribsVal = session.MetaDataFile.GetValue(SessionFileType.kContributionsFieldName, null);
+				if (contribsVal is ContributionCollection contributions && contributions.Count > 0)
+					model.SetContributors(contributions);
+
+				// Return total duration of source audio/video recordings.
+				TimeSpan totalDuration = session.GetTotalDurationOfSourceMedia();
+				if (totalDuration.Ticks > 0)
+					model.SetAudioVideoExtent($"Total Length of Source Recordings: {totalDuration}");
+
+				//First session details are enough for "Archive RAMP (SIL)..." from Project menu
+				break;
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public string ArchiveInfoDetails =>
 			LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ProjectArchivingInfoDetails",
@@ -821,5 +1001,74 @@ namespace SayMore.Model
 					Settings.Default.SessionFileExtension, CancellationToken.None));
 		}
 		#endregion
+
+		public void TrackStatistics(StatisticsViewModel statisticsViewModel)
+		{
+			lock (_statisticsLock)
+			{
+				if (_statisticsViewModel != null)
+					_statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
+
+				_statisticsViewModel = statisticsViewModel;
+				_statisticsViewModel.FinishedGatheringStatisticsForAllFiles += FinishedGatheringStatistics;
+				if (_statisticsViewModel.IsDataUpToDate)
+				{
+					// It finished before we could hook the event.
+					FinishedGatheringStatistics(_statisticsViewModel, null);
+				}
+			}
+		}
+
+		private void FinishedGatheringStatistics(object sender, EventArgs e)
+		{
+			lock (_statisticsLock)
+			{
+				// The project (and _statisticsViewModel) may have been disposed after this event was
+				// raised but before this handler got the lock (e.g., the background gatherer thread
+				// finishing right as the project closes). Bail out rather than touch disposed state.
+				if (_disposed)
+					return;
+
+				// Use sender (the StatisticsViewModel instance that actually raised this event) rather
+				// than the _statisticsViewModel field, which could differ (or be null) if a newer
+				// StatisticsViewModel has since been tracked.
+				var statisticsViewModel = (StatisticsViewModel)sender;
+				statisticsViewModel.FinishedGatheringStatisticsForAllFiles -= FinishedGatheringStatistics;
+				Debug.Assert(_progressStats == null);
+
+				_progressStats = CreateProgressStatsWithRetry(statisticsViewModel);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// ProgressStats' constructor enumerates the session repository (via
+		/// SessionWorkflowInformant.GetSessionsCategorizedByStage), which can be mutated on the
+		/// UI thread (e.g., a session being added or removed) while this runs on the background
+		/// statistics-gathering thread that raised the event that led here. That's the same
+		/// transient "Collection was modified" hazard already worked around elsewhere in this
+		/// codebase (see SP-854, SP-1020 in ChartBarInfo/HTMLChartBuilder); retry a few times
+		/// rather than let it escape into BackgroundFileProcessor.StartWorking's catch-all and
+		/// show the user a spurious "Background file watching failed" error.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static ProgressStats CreateProgressStatsWithRetry(StatisticsViewModel statisticsViewModel)
+		{
+			const int kMaxAttempts = 5;
+			for (var attempt = 1; ; attempt++)
+			{
+				try
+				{
+					return new ProgressStats(statisticsViewModel);
+				}
+				catch (InvalidOperationException e) when (attempt < kMaxAttempts)
+				{
+					Logger.WriteEvent(
+						"Retrying ProgressStats snapshot after transient exception (attempt {0}): {1}",
+						attempt, e.Message);
+					Thread.Sleep(1);
+				}
+			}
+		}
 	}
 }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Configuration;
-using System.Drawing;
-using System.Linq;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
 using System.Text;
@@ -15,20 +15,23 @@ using System.Windows.Forms;
 using System.Xml;
 using DesktopAnalytics;
 using L10NSharp;
-using SIL.Code;
-using SIL.Extensions;
-using SIL.IO;
-using SIL.Reporting;
-using SIL.Windows.Forms.Miscellaneous;
-using SIL.Windows.Forms.PortableSettingsProvider;
+using L10NSharp.Windows.Forms;
 using SayMore.Media;
+using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI;
 using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
-using SayMore.Model;
 using SayMore.Utilities;
+using SIL.Code;
+using SIL.Core.Desktop.Privacy;
+using SIL.Extensions;
+using SIL.IO;
+using SIL.Reporting;
 using SIL.Windows.Forms.Extensions;
+using SIL.Windows.Forms.Miscellaneous;
+using SIL.Windows.Forms.PortableSettingsProvider;
+using SIL.Windows.Forms.Privacy;
 using SIL.Windows.Forms.Reporting;
 using SIL.WritingSystems;
 using static System.Environment;
@@ -60,6 +63,7 @@ namespace SayMore
 
 		private static readonly List<Exception> _pendingExceptionsToReportToAnalytics = new List<Exception>();
 		private static UserInfo s_userInfo;
+		internal static IAnalyticsConsent AnalyticsImpl;
 
 		private static bool s_handlingFirstChanceExceptionThreadsafe = false;
 		private static bool s_handlingFirstChanceExceptionUnsafe = false;
@@ -201,17 +205,21 @@ namespace SayMore
 
             s_userInfo = new UserInfo {UILanguageCode = Settings.Default.UserInterfaceLanguage};
 
+			// Needed in every build configuration so Help > Privacy Settings has something to show,
+			// even though only the release path below uses AllowTracking to gate initial tracking.
+			AnalyticsImpl = new AnalyticsConsent(Application.ProductName);
+			AnalyticsImpl.AllowTrackingChanged += (_, allowTrackingChangedEventArgs) =>
+			{
+				Analytics.AllowTracking = allowTrackingChangedEventArgs.IsTrackingAllowed;
+			};
+
 #if DEBUG
-			// Always track if this is a debug build, but track to a different segment.io project
+			// Always default to track if this is a debug build, but targets a different segment.io project.
+			// This *can* be disabled (for this session) in the Privacy Settings dialog.
 			using (new Analytics("twa75xkko9", s_userInfo))
 #else
-			// If this is a release build, then allow an environment variable to be set to false
-			// so that testers aren't generating false analytics
-			string feedbackSetting = System.Environment.GetEnvironmentVariable("FEEDBACK");
-
-			var allowTracking = IsNullOrEmpty(feedbackSetting) || feedbackSetting.ToLower() == "yes" || feedbackSetting.ToLower() == "true";
-
-			using (new Analytics("jtfe7dyef3", s_userInfo, allowTracking))
+			// If this is a release build, then allow opt-out.
+			using (new Analytics("jtfe7dyef3", s_userInfo, IsAnalyticsEnabled))
 #endif
 			{
 				foreach (var exception in _pendingExceptionsToReportToAnalytics)
@@ -235,6 +243,8 @@ namespace SayMore
 				{
 					Application.Run();
 					Settings.Default.Save();
+					_projectContext?.Project.ReportProgressIfAny();
+					Analytics.FlushClient();
 					Logger.WriteEvent("SayMore shutting down");
 					if (s_countOfContiguousFirstChanceOutOfMemoryExceptions > 1)
 						Logger.WriteEvent("Total number of contiguous OutOfMemoryExceptions: {0}", s_countOfContiguousFirstChanceOutOfMemoryExceptions);
@@ -248,6 +258,19 @@ namespace SayMore
 					Sldr.Cleanup();
 					FileSyncHelper.RestartAllStoppedClients();
 				}
+			}
+		}
+
+		private static bool IsAnalyticsEnabled
+		{
+			get
+			{
+				// For testers (so they aren't generating false analytics)
+				var feedbackSetting = GetEnvironmentVariable("FEEDBACK")?.ToLowerInvariant();
+				if (!IsNullOrEmpty(feedbackSetting))
+					return feedbackSetting == "yes" || feedbackSetting == "true";
+
+				return AnalyticsImpl.AllowTracking;
 			}
 		}
 
@@ -581,23 +604,23 @@ namespace SayMore
 
 			while (true)
 			{
-				using (var dlg = _applicationContainer.CreateWelcomeDialog())
+				using var dlg = _applicationContainer.CreateWelcomeDialog();
+				if (dlg.ShowDialog() != DialogResult.OK)
 				{
-					if (dlg.ShowDialog() != DialogResult.OK)
-					{
-						Application.Exit();
-						return;
-					}
-
-					if (OpenProjectWindow(dlg.Model.ProjectSettingsFilePath))
-						return;
+					Application.Exit();
+					return;
 				}
+
+				if (OpenProjectWindow(dlg.Model.ProjectSettingsFilePath))
+					return;
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		static void HandleProjectWindowClosed(object sender, EventArgs e)
+		private static void HandleProjectWindowClosed(object sender, EventArgs e)
 		{
+			_projectContext?.Project.ReportProgressIfAny();
+
 			SafelyDisposeProjectContext();
 			ReleaseMutexForThisProject();
 
@@ -833,7 +856,7 @@ namespace SayMore
             Analytics.IdentifyUpdate(s_userInfo);
             Settings.Default.UserInterfaceLanguage = languageId;
             Logger.WriteEvent("Changed UI Locale to: " + languageId);
-            LocalizationManager.SetUILanguage(languageId, true);
+            LocalizationManagerWinforms.SetUILanguage(languageId, true);
         }
     }
 }

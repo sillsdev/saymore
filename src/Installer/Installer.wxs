@@ -7,6 +7,7 @@
 <?define Property_UpgradeCode = "{CBCDEE93-B8EF-445e-98A9-B8CAF9502F0D}" ?>
 
 <?define OutputDir = "..\..\output\x64\$(var.Configuration)\net48\" ?>
+<?define NativeAssetsDir = "$(var.OutputDir)lib\win-x64\" ?>
 
 <!-- good intro to the component vs. file thing, and why each file here is a separate component:
 http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
@@ -14,26 +15,28 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
 	
   <!-- Id = "*" means auto-generate a new guid each time. This is "a unique identifier for the particular product release" -->
-  <Product Id="*" Name="SayMore $(var.Property_ProductVersion)" Language="1033"
+  <Product Id="*" Name="$(var.ProductName) $(var.Property_ProductVersion)" Language="1033"
 			 Version="$(var.Property_ProductVersion)" Manufacturer="SIL"
 			 UpgradeCode="$(var.Property_UpgradeCode)">
 
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" Platform="x64" />
 
-	  <MajorUpgrade   Schedule="afterInstallInitialize"
-	  DowngradeErrorMessage="A later version of SayMore is already installed. If you really want to downgrade, first uninstall SayMore, then do this install again."/>
+	<MajorUpgrade Schedule="afterInstallInitialize"
+	  DowngradeErrorMessage="A later version of $(var.ProductName) is already installed. If you really want to downgrade, first uninstall $(var.ProductName), then do this install again."/>
 
 	<Upgrade Id="$(var.Property_UpgradeCode)" >
 	  <UpgradeVersion Minimum="$(var.Property_ProductVersion)" OnlyDetect="yes" Property="NEWVERSIONDETECTED" />
 	  <UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="$(var.Property_ProductVersion)" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED" />
 	</Upgrade >
 
-	<!-- show the license page -->
-	<UIRef Id="WixUI_Minimal"/>
-	<!-- Top banner / 493 × 58 -->
+<!-- Use FeatureTree UI (Welcome → License → ...) but skip the feature/dir dialogs -->
+<UIRef Id="WixUI_FeatureTree"/>
+
+	<!-- Top banner / 493 x 58 -->
 	<WixVariable Id='WixUIBannerBmp' Value='installerBanner.jpg' />
-	<!-- Background bitmap used on the welcome and completion dialogs / 493 × 312 -->
+	<!-- Background bitmap used on the welcome and completion dialogs / 493 x 312 -->
 	<WixVariable Id='WixUIDialogBmp' Value='installerBackground.jpg' />
+	<!-- show the license page -->
 	<WixVariable Id="WixUILicenseRtf" Value="..\..\distfiles\License.rtf" />
 
 	<!--
@@ -44,13 +47,13 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 
 	<PropertyRef Id="NETFRAMEWORK40CLIENT" />
 	<PropertyRef Id="NETFRAMEWORK40FULL" />
-	<Condition Message="Before SayMore can install, you need to install Microsoft's free .NET Framework 4.0 Client Profile. A full discussion of SayMore's requirements can be found at software.sil.org/saymore/download/.">
+	<Condition Message="Before $(var.ProductName) can install, you need to install Microsoft's free .NET Framework 4.0 Client Profile. A full discussion of $(var.ProductName)'s requirements can be found at software.sil.org/$(var.ProductName)/download/.">
 	  <![CDATA[Installed OR (NETFRAMEWORK40CLIENT OR NETFRAMEWORK40FULL)]]>
 	</Condition>
 
 	<Directory Id="TARGETDIR" Name="SourceDir">
 
-	  <Directory Id="CommonAppDataFolder">
+		<Directory Id="CommonAppDataFolder">
 		<Directory Id="SILCommonAppData" Name="SIL">
 		  <!--<Directory Id="SayMoreCommonAppData" Name="SayMore">
 			<Directory Id="SampleDataDir" Name="Samples">
@@ -192,12 +195,20 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 				<File Id="L10NSharp.dll" Name="L10NSharp.dll" KeyPath="yes" Source="$(var.OutputDir)L10NSharp.dll"/>
 			</Component>
 
+			<Component Id="L10NSharp.Windows.Forms.dll" Guid="{B78AFC88-DC2E-49C2-B925-EC00E13B4493}" Win64="yes">
+				<File Id="L10NSharp.Windows.Forms.dll" Name="L10NSharp.Windows.Forms.dll" KeyPath="yes" Source="$(var.OutputDir)L10NSharp.Windows.Forms.dll"/>
+			</Component>
+
 			<Component Id="Markdig.Signed.dll" Guid="{50F41AE6-6BC3-4BB0-A6A9-A200154A070B}" Win64="yes">
 				<File Id="Markdig.Signed.dll" Name="Markdig.Signed.dll" KeyPath="yes" Source="$(var.OutputDir)Markdig.Signed.dll"/>
 			</Component>
 
 			<Component Id="MediaInfo.dll" Guid="{FFEDAD9A-D4A0-482C-B256-3062CB4DFDDC}" Win64="yes">
 				<File Id="MediaInfo.dll" Name="MediaInfo.dll" KeyPath="yes" Source="$(var.OutputDir)MediaInfo.dll"/>
+			</Component>
+
+			<Component Id="MediaInfoDLL.dll" Guid="{370327F7-D3D9-4673-87C6-6EFE3ED7DB8E}" Win64="yes">
+				<File Id="MediaInfoDLL.dll" Name="MediaInfoDLL.dll" KeyPath="yes" Source="$(var.OutputDir)MediaInfoDLL.dll"/>
 			</Component>
 
 			<Component Id="NetSparkle.Net40.dll" Guid="{36870B13-214E-4F3E-8226-2FE689C7EEDE}" Win64="yes">
@@ -341,22 +352,22 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			</Component>
 
 			<Component Id="icudt59.x64" Guid="{F0CAECD1-8D7E-4D4F-9147-A4E8ED2B741B}" Win64="yes">
-				<File Id="icudt59.x64" Name="icudt59.dll" KeyPath="yes" Source="$(var.OutputDir)lib\win-x64\icudt59.dll" />
+				<File Id="icudt59.x64" Name="icudt59.dll" KeyPath="yes" Source="$(var.NativeAssetsDir)icudt59.dll" />
 			</Component>
 			<Component Id="icuin59.x64" Guid="{F0CAECD1-8D7E-4D4F-9147-A4E8ED2B741C}" Win64="yes">
-				<File Id="icuin59.x64" Name="icuin59.dll" KeyPath="yes" Source="$(var.OutputDir)lib\win-x64\icuin59.dll" />
+				<File Id="icuin59.x64" Name="icuin59.dll" KeyPath="yes" Source="$(var.NativeAssetsDir)icuin59.dll" />
 			</Component>
 			<Component Id="icuuc59.x64" Guid="{F0CAECD1-8D7E-4D4F-9147-A4E8ED2B741D}" Win64="yes">
-				<File Id="icuuc59.x64" Name="icuuc59.dll" KeyPath="yes" Source="$(var.OutputDir)lib\win-x64\icuuc59.dll" />
+				<File Id="icuuc59.x64" Name="icuuc59.dll" KeyPath="yes" Source="$(var.NativeAssetsDir)icuuc59.dll" />
 			</Component>
 			<Component Id="ikpFlac.x64" Guid="{F0CAECD1-8D7E-4D4F-9147-A4E8ED2B741E}" Win64="yes">
-				<File Id="ikpFlac.x64" Name="ikpFlac.dll" KeyPath="yes" Source="$(var.OutputDir)lib\win-x64\ikpFlac.dll" />
+				<File Id="ikpFlac.x64" Name="ikpFlac.dll" KeyPath="yes" Source="$(var.NativeAssetsDir)ikpFlac.dll" />
 			</Component>
 			<Component Id="ikpMP3.x64" Guid="{F0CAECD1-8D7E-4D4F-9147-A4E8ED2B742A}" Win64="yes">
-				<File Id="ikpMP3.x64" Name="ikpMP3.dll" KeyPath="yes" Source="$(var.OutputDir)lib\win-x64\ikpMP3.dll" />
+				<File Id="ikpMP3.x64" Name="ikpMP3.dll" KeyPath="yes" Source="$(var.NativeAssetsDir)ikpMP3.dll" />
 			</Component>
 			<Component Id="irrKlang.NET4.x64" Guid="{F0CAECD1-8D7E-4D4F-9147-A4E8ED2B742B}" Win64="yes">
-				<File Id="irrKlang.NET4.x64" Name="irrKlang.NET4.dll" KeyPath="yes" Source="$(var.OutputDir)lib\win-x64\irrKlang.NET4.dll" />
+				<File Id="irrKlang.NET4.x64" Name="irrKlang.NET4.dll" KeyPath="yes" Source="$(var.NativeAssetsDir)irrKlang.NET4.dll" />
 			</Component>
 
 			<Component Id="SayMore.chm" Guid="{8a822c10-ac11-40d1-8c2e-a33b7236ccd1}" Win64="yes">
@@ -367,6 +378,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	</Directory>
 
 	<Feature Id="ProductFeature" Level="1" Title="Basic Stuff">
+		<ComponentGroupRef Id="SilAnalyticsComponents" />
 		<ComponentRef Id="removeShortcutDir"/>
 		<ComponentRef Id="SayMore.exe"/>
 		<ComponentRef Id="SayMore.exe.config"/>
@@ -380,8 +392,10 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="icu.net.dll"/>
 		<ComponentRef Id="Instances.dll"/>
 		<ComponentRef Id="L10NSharp.dll"/>
+		<ComponentRef Id="L10NSharp.Windows.Forms.dll"/>
 		<ComponentRef Id="Markdig.Signed.dll"/>
 		<ComponentRef Id="MediaInfo.dll"/>
+		<ComponentRef Id="MediaInfoDLL.dll"/>
 		<ComponentRef Id="NetSparkle.Net40.dll"/>
 		<ComponentRef Id="Microsoft.Bcl.AsyncInterfaces.dll"/>
 		<ComponentRef Id="Microsoft.Extensions.DependencyModel.dll"/>
@@ -429,9 +443,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	</Feature>
 
 	<Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+	<!-- what you see in add/remove programs control panel -->
 	<Icon Id="SayMore.exe" SourceFile="$(var.OutputDir)SayMore.exe" />
 	<Property Id="ARPPRODUCTICON" Value="SayMore.exe" />
-	<!-- what you see in add/remove programs control panel -->
 
 	<CustomAction Id="LaunchSayMore"
 				  FileKey="SayMore.exe"

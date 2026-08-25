@@ -25,7 +25,7 @@ namespace SayMore.UI
 			this.lblProductName = new System.Windows.Forms.Label();
 			this._labelLoading = new System.Windows.Forms.Label();
 			this._labelVersionInfo = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this.pictureBox2 = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.m_panel.SuspendLayout();
@@ -188,7 +188,7 @@ namespace SayMore.UI
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(126, 13);
 			this.label1.TabIndex = 7;
-			this.label1.Text = "© 2011-2025 SIL Global";
+			this.label1.Text = "© 2011-2026 SIL Global";
 			// 
 			// SplashScreenForm
 			// 
@@ -231,7 +231,7 @@ namespace SayMore.UI
 
 		private System.Windows.Forms.Label _labelLoading;
 		private System.Windows.Forms.Label _labelVersionInfo;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.PictureBox pictureBox2;
 		private System.Windows.Forms.Label label1;
 

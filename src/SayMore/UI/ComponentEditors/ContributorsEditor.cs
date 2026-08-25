@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.UI;
+using L10NSharp.Windows.Forms;
 using SIL.Windows.Forms.ClearShare;
 using SIL.Windows.Forms.ClearShare.WinFormsUI;
 using SayMore.Model;
@@ -33,7 +33,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public ContributorsEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, PersonInformant personInformant) :
-			base(file, null, imageKey)
+			base(file, imageKey)
 		{
 			InitializeComponent();
 			Name = "Contributors";
@@ -154,12 +154,12 @@ namespace SayMore.UI.ComponentEditors
 
 			// set the localizable column header text
 			string[] headerText =
-			{
+			[
 				@"_L10N_:SessionsView.ContributorsEditor.NameColumnTitle!Name",
 				@"_L10N_:SessionsView.ContributorsEditor.RoleColumnTitle!Role",
 				@"_L10N_:SessionsView.ContributorsEditor.DateColumnTitle!Date",
 				@"_L10N_:SessionsView.ContributorsEditor.CommentColumnTitle!Comments"
-			};
+			];
 
 			for (var i = 0; i < headerText.Length; i++)
 			{
@@ -416,15 +416,12 @@ namespace SayMore.UI.ComponentEditors
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = LocalizationManager.GetString(
-					"CommonToMultipleViews.ContributorsEditor.TabText", "Contributors");
-			}
+			TabText = LocalizationManager.GetString(
+				"CommonToMultipleViews.ContributorsEditor.TabText", "Contributors");
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 	}
 }

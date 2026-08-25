@@ -3609,12 +3609,12 @@
       </trans-unit>
       <trans-unit id="PeopleView.MetadataEditor.GenderSelector.Female" approved="yes">
         <source xml:lang="en">Female</source>
-        <target xml:lang="es-ES" state="final">Hembra</target>
+        <target xml:lang="es-ES" state="final">Feminina</target>
         <note>ID: PeopleView.MetadataEditor.GenderSelector.Female</note>
       </trans-unit>
       <trans-unit id="PeopleView.MetadataEditor.GenderSelector.Male" approved="yes">
         <source xml:lang="en">Male</source>
-        <target xml:lang="es-ES" state="final">Macho</target>
+        <target xml:lang="es-ES" state="final">Masculino</target>
         <note>ID: PeopleView.MetadataEditor.GenderSelector.Male</note>
       </trans-unit>
       <trans-unit id="PeopleView.MetadataEditor.ImageFileTypes" approved="yes">

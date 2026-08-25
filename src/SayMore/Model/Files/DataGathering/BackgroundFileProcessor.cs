@@ -12,14 +12,6 @@ using ThreadState = System.Threading.ThreadState;
 namespace SayMore.Model.Files.DataGathering
 {
 	/// ----------------------------------------------------------------------------------------
-	public interface ISingleListDataGatherer
-	{
-		event EventHandler NewDataAvailable;
-		event EventHandler FinishedProcessingAllFiles;
-		IEnumerable<string> GetValues();
-	}
-
-	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Gives lists of data, indexed by a key into a dictionary
 	/// </summary>
@@ -27,7 +19,6 @@ namespace SayMore.Model.Files.DataGathering
 	public interface IMultiListDataProvider
 	{
 		event EventHandler NewDataAvailable;
-		event EventHandler FinishedProcessingAllFiles;
 		Dictionary<string, IEnumerable<string>> GetValueLists(bool includeUnattestedFactoryChoices);
 	}
 
@@ -35,7 +26,7 @@ namespace SayMore.Model.Files.DataGathering
 	/// <summary>
 	/// This is the base class for processes which live in the background,
 	/// gathering data about the files in the collection so that this data
-	/// is quickly accesible when needed.
+	/// is quickly accessible when needed.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public abstract class BackgroundFileProcessor<T> : IDisposable where T : class
@@ -49,17 +40,17 @@ namespace SayMore.Model.Files.DataGathering
 		protected readonly IEnumerable<FileType> _typesOfFilesToProcess;
 		protected readonly Func<string, T> _fileDataFactory;
 		protected bool _restartRequested = true;
-		protected Dictionary<string, T> _fileToDataDictionary = new Dictionary<string, T>();
+		protected Dictionary<string, T> _fileToDataDictionary = new();
 		private readonly Queue<FileSystemEventArgs> _pendingFileEvents;
 		private volatile int _suspendEventProcessingCount;
-		private readonly object _lockObj = new object();
-		private readonly object _lockSuspendObj = new object();
+		private readonly object _lockObj = new();
+		private readonly object _lockSuspendObj = new();
 
 		public event EventHandler NewDataAvailable;
 		public event EventHandler FinishedProcessingAllFiles;
 
 		/// ------------------------------------------------------------------------------------
-		public BackgroundFileProcessor(string rootDirectoryPath,
+		protected BackgroundFileProcessor(string rootDirectoryPath,
 			IEnumerable<FileType> typesOfFilesToProcess, Func<string, T> fileDataFactory)
 		{
 			RootDirectoryPath = rootDirectoryPath;
@@ -72,8 +63,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
-			if (_workerThread != null)
-				_workerThread.Abort(); //will eventually lead to it stopping
+			_workerThread?.Abort(); //will eventually lead to it stopping
 			_workerThread = null;
 		}
 
@@ -122,22 +112,21 @@ namespace SayMore.Model.Files.DataGathering
 		protected virtual bool GetDoIncludeFile(string path)
 		{
 			var fileName = Path.GetFileName(path);
-			return (fileName != null && !fileName.StartsWith(".") &&
-				(_typesOfFilesToProcess.Any(t => t.IsMatch(path))));
+			return fileName != null && !fileName.StartsWith(".") &&
+			       _typesOfFilesToProcess.Any(t => t.IsMatch(path));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual ThreadPriority ThreadPriority
-		{
-			get { return ThreadPriority.Lowest; }
-		}
+		protected virtual ThreadPriority ThreadPriority => ThreadPriority.Lowest;
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void Start()
 		{
-			_workerThread = new Thread(StartWorking);
-			_workerThread.Name = GetType().Name;
-			_workerThread.Priority = ThreadPriority;
+			_workerThread = new Thread(StartWorking)
+			{
+				Name = GetType().Name,
+				Priority = ThreadPriority
+			};
 			_workerThread.TrySetApartmentState(ApartmentState.STA);//needed in case we eventually show an error & need to talk to email.
 			_workerThread.Start();
 		}
@@ -145,8 +134,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnNewDataAvailable(T fileData)
 		{
-			if (NewDataAvailable != null)
-				NewDataAvailable(this, EventArgs.Empty);
+			NewDataAvailable?.Invoke(this, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -154,7 +142,7 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			try
 			{
-				Status = kWorkingStatus; //NB: this helps simplify unit tests, if go to the busy state before returning
+				Status = kWorkingStatus; //NB: this helps simplify unit tests, if we go to the busy state before returning
 
 				using (var watcher = new FileSystemWatcher(RootDirectoryPath))
 				{
@@ -189,11 +177,11 @@ namespace SayMore.Model.Files.DataGathering
 			}
 			catch (ThreadAbortException)
 			{
-				//this is fine, it happens when we quit
+				// This is fine, it happens when we quit
 			}
 			catch (Exception error)
 			{
-				SIL.Reporting.ErrorReport.NotifyUserOfProblem(error, "Background file watching failed.");
+				ErrorReport.NotifyUserOfProblem(error, "Background file watching failed.");
 			}
 		}
 
@@ -216,13 +204,11 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			try
 			{
-				if (fileEvent is RenamedEventArgs)
+				if (fileEvent is RenamedEventArgs e)
 				{
-					var e = fileEvent as RenamedEventArgs;
 					lock (((ICollection)_fileToDataDictionary).SyncRoot)
 					{
-						T fileData;
-						if (_fileToDataDictionary.TryGetValue(e.OldFullPath, out fileData))
+						if (_fileToDataDictionary.TryGetValue(e.OldFullPath, out var fileData))
 						{
 							_fileToDataDictionary.Remove(e.OldFullPath);
 							_fileToDataDictionary[e.FullPath] = fileData;
@@ -244,7 +230,7 @@ namespace SayMore.Model.Files.DataGathering
 				Debug.WriteLine(e.Message);
 				Logger.WriteEvent("Handled Exception in {0}.ProcessingFileEvent:\r\n{1}", GetType().Name, e.ToString());
 #if  DEBUG
-				SIL.Reporting.ErrorReport.NotifyUserOfProblem(e, "Error gathering data");
+				ErrorReport.NotifyUserOfProblem(e, "Error gathering data");
 #endif
 				//nothing here is worth crashing over
 			}
@@ -255,14 +241,13 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			lock (((ICollection)_fileToDataDictionary).SyncRoot)
 			{
-				T stats;
-				if (_fileToDataDictionary.TryGetValue(filePath, out stats))
+				if (_fileToDataDictionary.TryGetValue(filePath, out var stats))
 					return stats;
 
 				if (GetDoIncludeFile(filePath))
 				{
 					CollectDataForFile(filePath);
-					return (_fileToDataDictionary.TryGetValue(filePath, out stats) ? stats : null);
+					return _fileToDataDictionary.TryGetValue(filePath, out stats) ? stats : null;
 				}
 				return null;
 			}
@@ -310,7 +295,7 @@ namespace SayMore.Model.Files.DataGathering
 				{
 					ErrorReport.NotifyUserOfProblem(new ShowOncePerSessionBasedOnExactMessagePolicy(), e,
 						string.Format(LocalizationManager.GetString("MainWindow.AutoCompleteValueGathererError",
-						"An error of type {0} ocurred trying to gather information from file: {1}",
+						"An error of type {0} occurred trying to gather information from file: {1}",
 						"Parameter 0 is an exception type; parameter 1 is a file name"), e.GetType(), path));
 				}
 				else
@@ -356,7 +341,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public virtual void ProcessAllFiles()
 		{
-			//now that the watcher is up and running, gather up all existing files
+			// Now that the watcher is up and running, gather all existing files
 			lock (((ICollection)_fileToDataDictionary).SyncRoot)
 			{
 				_fileToDataDictionary.Clear();
@@ -405,8 +390,7 @@ namespace SayMore.Model.Files.DataGathering
 
 			Status = kUpToDataStatus;
 
-			if (FinishedProcessingAllFiles != null)
-				FinishedProcessingAllFiles(this, EventArgs.Empty);
+			FinishedProcessingAllFiles?.Invoke(this, EventArgs.Empty);
 		}
 
 		private static List<string> WalkDirectoryTree(string topLevelFolder, SearchOption searchOption)
@@ -416,7 +400,7 @@ namespace SayMore.Model.Files.DataGathering
 			// First, process all the files directly under this folder
 			try
 			{
-				// SP-879: Crash reading .DS_Store file on MacOS
+				// SP-879: Crash reading .DS_Store file on macOS
 				files = Directory.GetFiles(topLevelFolder, "*.*").Where(name =>
 				{
 					var fileName = Path.GetFileName(name);
@@ -435,13 +419,13 @@ namespace SayMore.Model.Files.DataGathering
 				Debug.Print("Directory not found: " + topLevelFolder);
 			}
 
-			if ((files != null) && (searchOption == SearchOption.AllDirectories))
+			if (files != null && searchOption == SearchOption.AllDirectories)
 			{
 				// Now find all the subdirectories under this directory.
 				var dirs = Directory.GetDirectories(topLevelFolder);
 				foreach (var dir in dirs)
 				{
-					// Resursive call for each subdirectory.
+					// Recursive call for each subdirectory.
 					returnVal.AddRange(WalkDirectoryTree(dir, searchOption));
 				}
 			}
@@ -468,16 +452,10 @@ namespace SayMore.Model.Files.DataGathering
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool Busy
-		{
-			get { return Status.StartsWith(kWorkingStatus); }
-		}
+		public bool Busy => Status.StartsWith(kWorkingStatus);
 
 		/// ------------------------------------------------------------------------------------
-		public bool DataUpToDate
-		{
-			get { return Status == kUpToDataStatus; }
-		}
+		public bool DataUpToDate => Status == kUpToDataStatus;
 
 		/// ------------------------------------------------------------------------------------
 		public string Status

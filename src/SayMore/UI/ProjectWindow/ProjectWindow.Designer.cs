@@ -1,4 +1,5 @@
-using L10NSharp.UI;
+using L10NSharp.Windows.Forms;
+using L10NSharp.Windows.Forms.UIComponents;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -19,7 +20,7 @@ namespace SayMore.UI.ProjectWindow
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectWindow));
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._mainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this._menuProject = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuOpenProject = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,6 +39,7 @@ namespace SayMore.UI.ProjectWindow
 			this._menuReleaseNotes = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuHelp = new System.Windows.Forms.ToolStripMenuItem();
+			this._menuPrivacy = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this._viewTabGroup = new SayMore.UI.ProjectWindow.ViewTabGroup();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -203,6 +205,7 @@ namespace SayMore.UI.ProjectWindow
             this._menuReleaseNotes,
             this.toolStripSeparator1,
             this._menuHelp,
+            this._menuPrivacy,
             this._menuAbout});
 			this.locExtender.SetLocalizableToolTip(this._mainMenuHelp, null);
 			this.locExtender.SetLocalizationComment(this._mainMenuHelp, null);
@@ -236,9 +239,19 @@ namespace SayMore.UI.ProjectWindow
 			this._menuHelp.Size = new System.Drawing.Size(156, 22);
 			this._menuHelp.Text = "&Help...";
 			this._menuHelp.Click += new System.EventHandler(this.HandleHelpClick);
-			// 
+			//
+			// _menuPrivacy
+			//
+			this.locExtender.SetLocalizableToolTip(this._menuPrivacy, null);
+			this.locExtender.SetLocalizationComment(this._menuPrivacy, null);
+			this.locExtender.SetLocalizingId(this._menuPrivacy, "MainWindow._menuPrivacy");
+			this._menuPrivacy.Name = "_menuPrivacy";
+			this._menuPrivacy.Size = new System.Drawing.Size(156, 22);
+			this._menuPrivacy.Text = "&Privacy Settings...";
+			this._menuPrivacy.Click += new System.EventHandler(this.HandlePrivacyMenuClick);
+			//
 			// _menuAbout
-			// 
+			//
 			this.locExtender.SetLocalizableToolTip(this._menuAbout, null);
 			this.locExtender.SetLocalizationComment(this._menuAbout, null);
 			this.locExtender.SetLocalizingId(this._menuAbout, "MainWindow._menuAbout");
@@ -298,6 +311,7 @@ namespace SayMore.UI.ProjectWindow
 		private SayMore.UI.ProjectWindow.ViewTabGroup _viewTabGroup;
 		private System.Windows.Forms.ToolStripMenuItem _mainMenuHelp;
 		private System.Windows.Forms.ToolStripMenuItem _menuAbout;
+	private System.Windows.Forms.ToolStripMenuItem _menuPrivacy;
 		private System.Windows.Forms.ToolStripMenuItem _menuReleaseNotes;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem _menuHelp;

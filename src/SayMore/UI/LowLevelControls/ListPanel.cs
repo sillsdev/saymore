@@ -11,15 +11,14 @@ namespace SayMore.UI.LowLevelControls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Control encapsulating a heading, list view and 'New'/'Delete' buttons.
+	/// Control encapsulating a heading, list view and 'New' button.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public partial class ListPanel : UserControl
 	{
 		public event EventHandler NewButtonClicked;
-		public event EventHandler DeleteButtonClicked;
 
-		private readonly List<Button> _buttons = new List<Button>();
+		private readonly List<Button> _buttons = [];
 
 		public Color ButtonPanelBackColor1 { get; set; }
 		public Color ButtonPanelBackColor2 { get; set; }
@@ -45,7 +44,7 @@ namespace SayMore.UI.LowLevelControls
 
 			InitializeComponent();
 
-			_headerLabel.MouseDown += (sender, args) => base.OnMouseDown(args);
+			_headerLabel.MouseDown += (_, args) => base.OnMouseDown(args);
 
 			if (DesignMode)
 				return;
@@ -60,10 +59,8 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (components != null))
-			{
+			if (disposing && components != null)
 				components.Dispose();
-			}
 
 			base.Dispose(disposing);
 		}
@@ -73,7 +70,7 @@ namespace SayMore.UI.LowLevelControls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Control ListControl
 		{
-			get { return _listControl; }
+			get => _listControl;
 			set
 			{
 				if (_listControl != null)
@@ -93,7 +90,7 @@ namespace SayMore.UI.LowLevelControls
 		[DefaultValue(false)]
 		public bool ShowColumnChooserButton
 		{
-			get { return _showColumnChooserButton; }
+			get => _showColumnChooserButton;
 			set
 			{
 				_showColumnChooserButton = value;
@@ -110,14 +107,14 @@ namespace SayMore.UI.LowLevelControls
 				return;
 			}
 
-			_buttonColChooser.Visible = (_showColumnChooserButton && _listControl is DataGridView);
+			_buttonColChooser.Visible = _showColumnChooserButton && _listControl is DataGridView;
 			_buttonColChooser.Grid = _listControl as DataGridView;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public new string Name
 		{
-			get { return base.Name; }
+			get => base.Name;
 			set
 			{
 				var prevName = base.Name;
@@ -125,15 +122,13 @@ namespace SayMore.UI.LowLevelControls
 
 				if (!string.IsNullOrEmpty(prevName))
 				{
-					//_buttonDelete.Name = _buttonDelete.Name.Replace(prevName + "_", string.Empty);
 					_buttonNew.Name = _buttonNew.Name.Replace(prevName + "_", string.Empty);
 				}
 
 				if (!string.IsNullOrEmpty(value))
 				{
-					// Setting these names are for the sake of testing.
-					//_buttonDelete.Name = string.Format("{0}_{1}", value, _buttonDelete.Name);
-					_buttonNew.Name = string.Format("{0}_{1}", value, _buttonNew.Name);
+					// Setting this name is for the sake of testing.
+					_buttonNew.Name = $"{value}_{_buttonNew.Name}";
 				}
 			}
 		}
@@ -147,8 +142,8 @@ namespace SayMore.UI.LowLevelControls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
 		public override string Text
 		{
-			get { return _headerLabel.Text; }
-			set { _headerLabel.Text = value; }
+			get => _headerLabel.Text;
+			set => _headerLabel.Text = value;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -204,7 +199,7 @@ namespace SayMore.UI.LowLevelControls
 		/// <summary>
 		/// Inserts the specified button in the panel of buttons at the bottom of the control.
 		/// The button will be inserted at the specified index, where zero is before the New
-		/// button, 1 is between the New and Delete button and so forth.
+		/// button and 1+ is somewhere after the New button.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void InsertButton(int index, Button btn)

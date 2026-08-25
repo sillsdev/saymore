@@ -20,7 +20,7 @@ namespace SayMore.UI.ComponentEditors
 		private string _personCode;
 
 		public PersonContributionEditor(ComponentFile file, string imageKey)
-			: base(file, null, imageKey)
+			: base(file, imageKey)
 		{
 			InitializeComponent();
 			RememberPersonId(file);
@@ -131,15 +131,12 @@ namespace SayMore.UI.ComponentEditors
 			return new object[] { description, localizedRole, formattedDate, contrib.Contribution.Comments };
 		}
 
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = LocalizationManager.GetString(
-					"PeopleView.ContributionEditor.TabText", "Contributions");
-			}
+			TabText = LocalizationManager.GetString(
+				"PeopleView.ContributionEditor.TabText", "Contributions");
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 
 		public override void SetComponentFile(ComponentFile file)

@@ -6,8 +6,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.XLiffUtils;
-using L10NSharp.UI;
 using SIL.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Utilities;
@@ -20,7 +18,6 @@ namespace SayMore.UI.ComponentEditors
 		Control Control { get; }
 		string TabText { get; }
 		string ImageKey { get; }
-		void Initialize(string tabText, string imageKey);
 		void SetComponentFile(ComponentFile file);
 		bool ComponentFileDeletionInitiated(ComponentFile file);
 		Action<string, Type> ComponentFileListRefreshAction { set; }
@@ -37,6 +34,7 @@ namespace SayMore.UI.ComponentEditors
 	// Should be abstract, but that messes up the Designer
 	public class EditorBase : UserControl, IEditorProvider
 	{
+		private readonly ILocalizationManager _localizationManager;
 		private bool _setWorkingFontWhenHandleIsCreated = false;
 		private BindingHelper _binder;
 		protected ComponentFile _file;
@@ -48,8 +46,9 @@ namespace SayMore.UI.ComponentEditors
 		public Action<string, Type> ComponentFileListRefreshAction { protected get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public EditorBase()
+		protected EditorBase()
 		{
+			_localizationManager = ApplicationContainer.SayMoreLocalizationManager;
 			DoubleBuffered = true;
 			BackColor = AppColors.DataEntryPanelBegin;
 			Padding = new Padding(7);
@@ -60,23 +59,21 @@ namespace SayMore.UI.ComponentEditors
 			ControlRemoved += HandleControlRemoved;
 			Layout += HandleLayout;
 
-			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
-			HandleStringsLocalized(null);
+			_localizationManager?.UiLanguageChanged += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public EditorBase(ComponentFile file, string tabText, string imageKey) : this()
+		public EditorBase(ComponentFile file, string imageKey) : this()
 		{
 			_file = file;
-			Initialize(tabText, imageKey);
+			ImageKey = imageKey;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing)
-				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= HandleStringsLocalized;
-
+			if (disposing && _localizationManager != null)
+				_localizationManager.UiLanguageChanged -= HandleStringsLocalized;
 			try
 			{
 				base.Dispose(disposing);
@@ -89,13 +86,6 @@ namespace SayMore.UI.ComponentEditors
 				// now make this exception impossible, but since I can't reproduce the crash, it
 				// is hard to know for sure.)
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void Initialize(string tabText, string imageKey)
-		{
-			TabText = tabText ?? TabText;
-			ImageKey = imageKey;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -181,6 +171,7 @@ namespace SayMore.UI.ComponentEditors
 		protected override void OnLoad(EventArgs e)
 		{
 			SetLabelFonts(this, FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold));
+			HandleStringsLocalized(null, EventArgs.Empty);
 			base.OnLoad(e);
 		}
 
@@ -190,8 +181,7 @@ namespace SayMore.UI.ComponentEditors
 			base.OnHandleCreated(e);
 
 			var owningTabControl = FindParent<TabControl>(this);
-			if (owningTabControl != null)
-				owningTabControl.VisibleChanged += (sender, args) => OnParentTabControlVisibleChanged();
+			owningTabControl?.VisibleChanged += (sender, args) => OnParentTabControlVisibleChanged();
 
 			if (_setWorkingFontWhenHandleIsCreated)
 				SetWorkingLanguageFont();
@@ -208,7 +198,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleStringsLocalized(ILocalizationManager lm)
+		protected virtual void HandleStringsLocalized(object sender, EventArgs e)
 		{
 		}
 

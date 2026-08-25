@@ -176,7 +176,7 @@ namespace SayMore.UI.ComponentEditors
 			var transformedHtml = reader.ReadToEnd();
 			outputStream.Close();
 
-			var styleInfo = $"\r<style type=\"text/css\">{Resources.MoreMediaInfoStyles}</style>";
+			var styleInfo = $"\r\n<style type=\"text/css\">{Resources.MoreMediaInfoStyles}</style>";
 
 			transformedHtml = transformedHtml.Replace("<html>", HTMLChartBuilder.XMLDocTypeInfo);
 			transformedHtml = transformedHtml.Replace("</head>", styleInfo + "</head>");

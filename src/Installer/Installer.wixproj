@@ -66,7 +66,7 @@
 	<Compile Include="..\..\output\installer\GeneratedDistFiles.wxs" />
   </ItemGroup>
   <ItemGroup>
-	<PackageReference Include="SIL.Installer" Version="18.0.0-beta0032" />
+	<PackageReference Include="SIL.Installer" Version="18.0.0" />
   </ItemGroup>
   <ItemGroup>
 	<WixExtension Include="WixUtilExtension">

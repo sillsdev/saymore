@@ -60,6 +60,7 @@ namespace SayMore.UI.ComponentEditors
 			Layout += HandleLayout;
 
 			_localizationManager?.UiLanguageChanged += HandleStringsLocalized;
+			HandleStringsLocalized(null, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------

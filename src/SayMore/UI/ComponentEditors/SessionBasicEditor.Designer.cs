@@ -62,7 +62,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelCustomFields = new System.Windows.Forms.Label();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._moreFieldsToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this._tableLayout.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
@@ -631,7 +631,7 @@ namespace SayMore.UI.ComponentEditors
 		private AutoCompleteHelper _autoCompleteHelper;
 		private System.Windows.Forms.Panel _panelGrid;
 		private System.Windows.Forms.Label _labelDate;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.ComboBox _access;
 		private System.Windows.Forms.Label _labelMoreFields;
 		private System.Windows.Forms.Panel _panelAdditionalGrid;

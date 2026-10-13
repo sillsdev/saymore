@@ -38,7 +38,7 @@ namespace SayMore.Transcription.UI
 			this._panelOralAnnotationWaveViewer = new SIL.Windows.Forms.Widgets.EnhancedPanel();
 			this._oralAnnotationWaveViewer = new SayMore.Transcription.UI.OralAnnotationWaveViewer();
 			this._labelCursorTime = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this._toolStrip.SuspendLayout();
 			this._panelOralAnnotationWaveViewer.SuspendLayout();
@@ -227,7 +227,7 @@ namespace SayMore.Transcription.UI
 		private OralAnnotationWaveViewer _oralAnnotationWaveViewer;
 		private System.Windows.Forms.ToolStripButton _buttonPlay;
 		private System.Windows.Forms.ToolStripButton _buttonStop;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.ToolStripButton _buttonRegenerate;
 		private System.Windows.Forms.Label _labelCursorTime;
 

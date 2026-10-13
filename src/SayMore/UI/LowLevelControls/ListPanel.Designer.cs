@@ -1,5 +1,6 @@
 using L10NSharp;
-using L10NSharp.UI;
+using L10NSharp.Windows.Forms;
+using L10NSharp.Windows.Forms.UIComponents;
 
 namespace SayMore.UI.LowLevelControls
 {
@@ -20,7 +21,7 @@ namespace SayMore.UI.LowLevelControls
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListPanel));
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._outerPanel = new SIL.Windows.Forms.Widgets.EnhancedPanel();
 			this._buttonsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this._buttonNew = new System.Windows.Forms.Button();

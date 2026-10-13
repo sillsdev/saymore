@@ -21,11 +21,11 @@ namespace SayMore.UI.Overview
 		protected abstract string FolderName { get; }
 		protected abstract string ArchiveSessionName { get; }
 
-		private readonly ImageList _tabControlImages = new ImageList();
+		private readonly ImageList _tabControlImages = new();
 		private ComponentEditorsTabControl _tabCtrl;
 		protected string _toolTipText;
 
-		protected ProjectDocsScreen()
+		protected ProjectDocsScreen() : base()
 		{
 			Logger.WriteEvent("ProjectDocsScreen constructor");
 
@@ -87,10 +87,10 @@ namespace SayMore.UI.Overview
 			LocalizeStrings();
 		}
 
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			base.HandleStringsLocalized(lm);
-			if ((lm == null || lm.Id == kSayMoreLocalizationId) && _descriptionFileGrid != null)
+			base.HandleStringsLocalized(sender, e);
+			if (_descriptionFileGrid != null)
 				LocalizeStrings();
 		}
 
@@ -145,7 +145,7 @@ namespace SayMore.UI.Overview
 		{
 			var dir = Path.Combine(Program.CurrentProject.FolderPath, FolderName);
 			if (!Directory.Exists(dir))
-				return new ComponentFile[0];
+				return [];
 
 			var unknownFileType = new FileType[]
 			{new UnknownFileType(null, null), new AudioFileType(null, null, null), new VideoFileType(null, null, null), new ImageFileType(null, null) };
@@ -237,7 +237,7 @@ namespace SayMore.UI.Overview
 		internal static string kFolderName = "DescriptionDocuments";
 		internal static string kArchiveSessionName = "Project Description Documents";
 
-		public ProjectDescriptionDocsScreen()
+		public ProjectDescriptionDocsScreen() : base()
 		{
 			_descriptionFileGrid.InitializeGrid("ProjectDescriptionDocuments");
 		}
@@ -263,7 +263,7 @@ namespace SayMore.UI.Overview
 		internal static string kFolderName = "OtherDocuments";
 		internal static string kArchiveSessionName = "Other Project Documents";
 
-		public ProjectOtherDocsScreen()
+		public ProjectOtherDocsScreen() : base()
 		{
 			_descriptionFileGrid.InitializeGrid("ProjectOtherDocuments");
 		}

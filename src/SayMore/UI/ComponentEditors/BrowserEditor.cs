@@ -17,7 +17,7 @@ namespace SayMore.UI.ComponentEditors
 		private HtmlElement _fileLink;
 
 		/// ------------------------------------------------------------------------------------
-		public BrowserEditor(ComponentFile file, string imageKey) : base(file, null, imageKey)
+		public BrowserEditor(ComponentFile file, string imageKey) : base(file, imageKey)
 		{
 			InitializeComponent();
 			Name = "Browser";
@@ -193,17 +193,14 @@ namespace SayMore.UI.ComponentEditors
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = LocalizationManager.GetString(
-					"CommonToMultipleViews.GenericFileTypeViewer.TabText", "View");
-				if (_browser?.Tag is string filePath)
-					DisplayFile(filePath);
-			}
+			TabText = LocalizationManager.GetString(
+				"CommonToMultipleViews.GenericFileTypeViewer.TabText", "View");
+			if (_browser?.Tag is string filePath)
+				DisplayFile(filePath);
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 	}
 }

@@ -7,10 +7,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
-using L10NSharp.UI;
-using L10NSharp.XLiffUtils;
 using SayMore.Utilities;
-using SIL.Windows.Forms.Extensions;
 using SIL.Windows.Forms.PortableSettingsProvider;
 using static System.String;
 using Process = SIL.Program.Process;
@@ -241,8 +238,6 @@ namespace SayMore.UI
 				StartPosition = FormStartPosition.CenterParent;
 				Settings.Default.ShortFileNameWarningDlg = FormSettings.Create(this);
 			}
-
-			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -274,7 +269,7 @@ namespace SayMore.UI
 		private void InitializeFilenamesChecklist()
 		{
 			var filenameWarningsToSuppress = Settings.Default.ShortFilenameWarningsToSuppress
-				.Split(new [] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+				.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
 			PopulateChecklist(_checkedListBoxFiles, filenameWarningsToSuppress);
 			_checkedListBoxFiles.Tag = new Action(() =>
@@ -295,33 +290,29 @@ namespace SayMore.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void HandleStringsLocalized(ILocalizationManager lm = null)
+		protected void HandleStringsLocalized()
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			const string fsUtil8dot3 = "fsutil 8dot3name";
+			_linkLabelFsUtilMsg.Text = Format(_linkLabelFsUtilMsg.Text, fsUtil8dot3);
+
+			_linkLabelFsUtilMsg.LinkArea = new LinkArea(
+				_linkLabelFsUtilMsg.Text.IndexOf(fsUtil8dot3, StringComparison.Ordinal),
+				fsUtil8dot3.Length);
+
+			if (_flowLayoutFailedActions.Controls.Count == 0)
 			{
-				const string fsUtil8dot3 = "fsutil 8dot3name";
-
-				_linkLabelFsUtilMsg.Text = Format(_linkLabelFsUtilMsg.Text, fsUtil8dot3);
-
-				_linkLabelFsUtilMsg.LinkArea = new LinkArea(
-					_linkLabelFsUtilMsg.Text.IndexOf(fsUtil8dot3, StringComparison.Ordinal),
-					fsUtil8dot3.Length);
-
-				if (_flowLayoutFailedActions.Controls.Count == 0)
-				{
-					_failedActionsLabelOrigText = _lblFailedActions.Text;
-					_lblFailedActions.Text = Format(LocalizationManager.GetString(
-							"ShortFileNameWarningDlg.lblFailedActionsNoCurrentFailures",
-							"This will help to avoid problems with certain utilities that {0} uses.",
-							"Param is \"SayMore\" (program name)"),
-						Program.ProductName);
-				}
-
-				_chkDoNotReportAnymoreThisSession.Text =
-					Format(_chkDoNotReportAnymoreThisSession.Text, Program.ProductName);
+				_failedActionsLabelOrigText = _lblFailedActions.Text;
+				_lblFailedActions.Text = Format(LocalizationManager.GetString(
+						"ShortFileNameWarningDlg.lblFailedActionsNoCurrentFailures",
+						"This will help to avoid problems with certain utilities that {0} uses.",
+						"Param is \"SayMore\" (program name)"),
+					Program.ProductName);
 			}
+
+			_chkDoNotReportAnymoreThisSession.Text =
+				Format(_chkDoNotReportAnymoreThisSession.Text, Program.ProductName);
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		private void _linkLabelFsUtilMsg_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{

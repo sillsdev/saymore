@@ -20,7 +20,8 @@ namespace SayMore.Transcription.UI
 		private string _fileTooLongMsgDisplayedForFile;
 
 		/// ------------------------------------------------------------------------------------
-		public OralAnnotationEditor(ComponentFile file) : base(file, null, "Audio")
+		public OralAnnotationEditor(ComponentFile file) :
+			base(file, "Audio")
 		{
 			Logger.WriteEvent("OralAnnotationEditor constructor. file = {0}", file);
 			InitializeComponent();
@@ -268,16 +269,13 @@ namespace SayMore.Transcription.UI
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = LocalizationManager.GetString(
-					"SessionsView.Transcription.GeneratedOralAnnotationView.TabText",
-					"Generated Audio");
-			}
+			TabText = LocalizationManager.GetString(
+				"SessionsView.Transcription.GeneratedOralAnnotationView.TabText",
+				"Generated Audio");
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 	}
 }

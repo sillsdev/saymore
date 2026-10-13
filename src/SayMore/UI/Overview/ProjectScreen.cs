@@ -1,9 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using L10NSharp;
 using System.Windows.Forms;
-using L10NSharp.XLiffUtils;
-using L10NSharp.UI;
 using SIL.Reporting;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;
@@ -22,10 +21,13 @@ namespace SayMore.UI.Overview
 		private readonly ProjectAccessScreen _accessView;
 		private readonly ProjectDocsScreen _descriptionDocsView;
 		private readonly ProjectOtherDocsScreen _otherDocsView;
+		private readonly ILocalizationManager _localizationManager;
 		private bool _statsViewActivated;
 
 		/// ------------------------------------------------------------------------------------
-		public ProjectScreen(ProjectMetadataScreen metadataView, ProjectAccessScreen accessView, ProgressScreen progressView, ProjectDescriptionDocsScreen descriptionDocsView, ProjectOtherDocsScreen otherDocsView)
+		public ProjectScreen(ProjectMetadataScreen metadataView, ProjectAccessScreen accessView,
+			ProgressScreen progressView, ProjectDescriptionDocsScreen descriptionDocsView, 
+			ProjectOtherDocsScreen otherDocsView, ILocalizationManager localizationManager)
 		{
 			Logger.WriteEvent("ProjectScreen constructor");
 
@@ -34,10 +36,11 @@ namespace SayMore.UI.Overview
 			_accessView = accessView;
 			_descriptionDocsView = descriptionDocsView;
 			_otherDocsView = otherDocsView;
+			_localizationManager = localizationManager;
 
 			InitializeComponent();
 
-			HandleStringsLocalized(null);
+			HandleStringsLocalized(null, EventArgs.Empty);
 			_splitter.Panel2.BackColor = Color.FromArgb(230, 150, 100);
 			_metadataView.BackColor = _splitter.Panel2.BackColor;
 			_progressView.BackColor = _splitter.Panel2.BackColor;
@@ -45,7 +48,7 @@ namespace SayMore.UI.Overview
 			_descriptionDocsView.BackColor = _splitter.Panel2.BackColor;
 			_otherDocsView.BackColor = _splitter.Panel2.BackColor;
 
-			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
+			localizationManager.UiLanguageChanged += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -58,7 +61,7 @@ namespace SayMore.UI.Overview
 			if (disposing)
 			{
 				// SP-788: "Cannot access a disposed object" when changing UI language
-				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= HandleStringsLocalized;
+				_localizationManager.UiLanguageChanged -= HandleStringsLocalized;
 
 				if (components != null)
 					components.Dispose();
@@ -68,8 +71,9 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleStringsLocalized(ILocalizationManager lm)
+		private void HandleStringsLocalized(object sender, EventArgs e)
 		{
+			var lm = (ILocalizationManager)sender;
 			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
 				return;
 

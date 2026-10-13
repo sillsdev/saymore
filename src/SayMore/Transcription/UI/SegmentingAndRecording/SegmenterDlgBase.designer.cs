@@ -36,7 +36,7 @@ namespace SayMore.Transcription.UI
 			this._labelSourceRecording = new System.Windows.Forms.Label();
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._buttonCancel = new System.Windows.Forms.Button();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
 			this._tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this._panelWaveControl.SuspendLayout();
@@ -417,7 +417,7 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		protected System.Windows.Forms.Button _buttonOK;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
 		protected Panel _panelWaveControl;
 		protected System.Windows.Forms.Label _labelSourceRecording;

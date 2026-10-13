@@ -9,13 +9,15 @@ namespace SayMoreTests.Model
 	[TestFixture]
 	public class ElementRepositoryTests
 	{
+#pragma warning disable CS0618
 		[Test]
 		public void GetById_NotFound_ReturnsNull()
 		{
 			var repo = new ElementRepository<ProjectElement>();
 			Assert.IsNull(repo.GetById("foo"));
 		}
-
+#pragma warning restore CS0618
+		
 		[Test]
 		public void GetById_Found_ReturnsItem()
 		{

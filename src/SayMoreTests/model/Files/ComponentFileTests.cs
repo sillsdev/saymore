@@ -527,6 +527,7 @@ namespace SayMoreTests.Model.Files
 			Assert.AreEqual(1, f.GetAssignedRoles().Count());
 		}
 
+#pragma warning disable CS0618
 		[Test]
 		[Category("SkipOnCI")]
 		public void GetAssignedRoles_ForConsentAndSessionType_ReturnsEmptyEnumerator()
@@ -558,7 +559,8 @@ namespace SayMoreTests.Model.Files
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Translation-xyz.txt");
 			Assert.AreEqual("translation", f.GetAssignedRoles(new Session()).First().Name);
 		}
-
+#pragma warning restore CS0618
+		
 		[Test]
 		[Category("SkipOnCI")]
 		public void IdentifyAsRole_FileRenamed()

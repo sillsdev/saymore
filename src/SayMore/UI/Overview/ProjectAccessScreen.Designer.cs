@@ -1,5 +1,4 @@
-using L10NSharp.XLiffUtils;
-using L10NSharp.UI;
+using L10NSharp.Windows.Forms.UIComponents;
 
 namespace SayMore.UI.Overview
 {
@@ -18,7 +17,7 @@ namespace SayMore.UI.Overview
 		{
 			if (disposing)
 			{
-				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= HandleStringsLocalized;
+				_localizationManager.UiLanguageChanged -= HandleStringsLocalized;
 				if (components != null)
 					components.Dispose();
 			}
@@ -40,7 +39,7 @@ namespace SayMore.UI.Overview
 			this._labelCustomAccess = new System.Windows.Forms.Label();
 			this._labelCustomInstructions = new System.Windows.Forms.Label();
 			this._customAccessChoices = new System.Windows.Forms.TextBox();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._webBrowser = new System.Windows.Forms.WebBrowser();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this._linkHelp = new System.Windows.Forms.LinkLabel();
@@ -233,7 +232,7 @@ namespace SayMore.UI.Overview
 		private System.Windows.Forms.TableLayoutPanel _layoutTable;
 		private System.Windows.Forms.Label _labelAccessProtocol;
 		private System.Windows.Forms.ComboBox _projectAccess;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Label _labelCustomAccess;
 		private System.Windows.Forms.Label _labelCustomInstructions;
 		private System.Windows.Forms.TextBox _customAccessChoices;

@@ -6,8 +6,6 @@ using System.Windows.Forms;
 using System.Linq;
 using DesktopAnalytics;
 using L10NSharp;
-using L10NSharp.XLiffUtils;
-using L10NSharp.UI;
 using SIL.Media.Naudio.UI;
 using SIL.Reporting;
 using SIL.Windows.Forms;
@@ -72,9 +70,9 @@ namespace SayMore.Transcription.UI
 		public static OralAnnotationRecorderBaseDlg Create(
 			OralAnnotationRecorderDlgViewModel viewModel, AudioRecordingType annotationType)
 		{
-			return (annotationType == AudioRecordingType.Careful ?
-				new CarefulSpeechRecorderDlg(viewModel) as OralAnnotationRecorderBaseDlg :
-				new OralTranslationRecorderDlg(viewModel));
+			return annotationType == AudioRecordingType.Careful ?
+				new CarefulSpeechRecorderDlg(viewModel) :
+				new OralTranslationRecorderDlg(viewModel);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -177,8 +175,6 @@ namespace SayMore.Transcription.UI
 				_hotPlaySourceButton.Dispose();
 				_hotRecordAnnotationButton.Dispose();
 				_waveControl?.Dispose();
-
-				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= HandleStringsLocalized;
 			}
 
 			base.Dispose(disposing);
@@ -363,8 +359,6 @@ namespace SayMore.Transcription.UI
 			_videoHelpMenu.Font = _labelSourceRecording.Font;
 
 			_annotationSegmentFont = FontHelper.MakeFont(Program.DialogFont, 8, FontStyle.Bold);
-
-			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
 		private const int kNumberOfRows = 4;
@@ -522,11 +516,10 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized()
 		{
-			base.HandleStringsLocalized(lm);
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-				UpdateDisplay();
+			base.HandleStringsLocalized();
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1285,11 +1278,9 @@ namespace SayMore.Transcription.UI
 			try
 			{
 				// Draw the oral annotation's wave in the bottom, reserved area of the wave control.
-				using (var painter = new WavePainterBasic { ForeColor = Color.Black, BackColor = Color.Black })
-				{
-					painter.SetSamplesToDraw(ViewModel.GetSegmentSamples(segment, (uint)rc.Width));
-					painter.Draw(e, rc);
-				}
+				using var painter = new WavePainterBasic { ForeColor = Color.Black, BackColor = Color.Black };
+				painter.SetSamplesToDraw(ViewModel.GetSegmentSamples(segment, (uint)rc.Width));
+				painter.Draw(e, rc);
 			}
 			catch (IOException)
 			{
@@ -1304,10 +1295,8 @@ namespace SayMore.Transcription.UI
 			if (x > 0 && x >= rc.X && x <= rc.Right)
 			{
 				rc.Inflate(0, 3);
-				using (var pen = new Pen(_waveControl.Painter.CursorColor))
-				{
-					e.Graphics.DrawLine(pen, x, rc.Y, x, rc.Bottom);
-				}
+				using var pen = new Pen(_waveControl.Painter.CursorColor);
+				e.Graphics.DrawLine(pen, x, rc.Y, x, rc.Bottom);
 			}
 		}
 
@@ -1360,8 +1349,8 @@ namespace SayMore.Transcription.UI
 				var rc = GetReadyToRecordCursorRectangle();
 				if (rc != Rectangle.Empty)
 				{
-					using (var brush = new SolidBrush(_labelRecordButton.ForeColor))
-						e.Graphics.FillRectangle(brush, rc);
+					using var brush = new SolidBrush(_labelRecordButton.ForeColor);
+					e.Graphics.FillRectangle(brush, rc);
 				}
 			}
 
@@ -1396,16 +1385,14 @@ namespace SayMore.Transcription.UI
 			if (_labelRecordButton.ClientRectangle.Contains(_labelRecordButton.PointToClient(MousePosition)) ||
 				ViewModel.GetIsRecording())
 			{
-				using (var pen = new Pen(_labelRecordButton.ForeColor))
-				{
-					var rcHighlight = rc;
-					rcHighlight.Y--;
-					rcHighlight.Width--;
-					rcHighlight.Inflate(-1, -1);
-					g.DrawRectangle(pen, rcHighlight);
-					rcHighlight.Inflate(-1, -1);
-					g.DrawRectangle(pen, rcHighlight);
-				}
+				using var pen = new Pen(_labelRecordButton.ForeColor);
+				var rcHighlight = rc;
+				rcHighlight.Y--;
+				rcHighlight.Width--;
+				rcHighlight.Inflate(-1, -1);
+				g.DrawRectangle(pen, rcHighlight);
+				rcHighlight.Inflate(-1, -1);
+				g.DrawRectangle(pen, rcHighlight);
 			}
 		}
 
@@ -1517,11 +1504,9 @@ namespace SayMore.Transcription.UI
 		{
 			var rc = _tableLayoutMediaButtons.ClientRectangle;
 
-			using (var pen = new Pen(Settings.Default.BarColorBorder))
-			{
-				e.Graphics.DrawLine(pen, rc.X, rc.Y, rc.X, rc.Bottom);
-				e.Graphics.DrawLine(pen, rc.Right - 1, rc.Y, rc.Right - 1, rc.Bottom);
-			}
+			using var pen = new Pen(Settings.Default.BarColorBorder);
+			e.Graphics.DrawLine(pen, rc.X, rc.Y, rc.X, rc.Bottom);
+			e.Graphics.DrawLine(pen, rc.Right - 1, rc.Y, rc.Right - 1, rc.Bottom);
 		}
 
 		#endregion

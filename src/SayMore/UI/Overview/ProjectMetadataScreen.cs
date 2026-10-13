@@ -23,7 +23,7 @@ namespace SayMore.UI.Overview
 		private string _fmtFontForWorkingLanguage;
 		private readonly IMDIItemList _countryList;
 
-		public ProjectMetadataScreen()
+		public ProjectMetadataScreen() : base()
 		{
 			Logger.WriteEvent("ProjectMetadataScreen constructor");
 
@@ -52,16 +52,17 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 
+			var lm = (ILocalizationManager)sender;
 			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
 				return;
 
 			if (_linkSelectFontForWorkingLanguage == null)
 			{
-				Load += (o, args) =>
+				Load += (_, _) =>
 				{
 					Debug.Assert(_linkSelectFontForWorkingLanguage != null);
 					_fmtFontForWorkingLanguage = _linkSelectFontForWorkingLanguage.Text;

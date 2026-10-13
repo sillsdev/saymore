@@ -47,7 +47,7 @@
 			this._flowLayoutFailedActions = new System.Windows.Forms.FlowLayoutPanel();
 			this._checkDone = new System.Windows.Forms.CheckBox();
 			this._btnClose = new System.Windows.Forms.Button();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._tableLayoutPanelMain.SuspendLayout();
@@ -295,7 +295,7 @@
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutPanelMain;
 		private System.Windows.Forms.Button _btnClose;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.LinkLabel _linkLabelFsUtilMsg;
 		private System.Windows.Forms.Label _lblFailedActions;
 		private System.Windows.Forms.Label _lblDoNotReportForVolumes;

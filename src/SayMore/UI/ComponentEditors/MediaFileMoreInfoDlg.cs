@@ -6,8 +6,6 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Xsl;
 using L10NSharp;
-using L10NSharp.UI;
-using L10NSharp.XLiffUtils;
 using SIL.Reporting;
 using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media;
@@ -21,7 +19,7 @@ namespace SayMore.UI.ComponentEditors
 	{
         private readonly string _mediaFilePath;
         private string _source;
-        private static bool alreadyDisplayedEvenMoreInfoDisclaimer = false;
+        private static bool s_alreadyDisplayedEvenMoreInfoDisclaimer = false;
 
 		/// ------------------------------------------------------------------------------------
 		public MediaFileMoreInfoDlg()
@@ -29,7 +27,6 @@ namespace SayMore.UI.ComponentEditors
 			InitializeComponent();
 
 			_buttonClose.Click += delegate { Close(); };
-            LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 
             HandleStringsLocalized();
         }
@@ -49,13 +46,10 @@ namespace SayMore.UI.ComponentEditors
         
 
         /// ------------------------------------------------------------------------------------
-        protected void HandleStringsLocalized(ILocalizationManager lm = null)
+        protected void HandleStringsLocalized()
         {
-            if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-            {
-                _lblSource.Tag = _lblSource.Text;
-                UpdateSourceLabelDisplay();
-            }
+            _lblSource.Tag = _lblSource.Text;
+            UpdateSourceLabelDisplay();
         }
 
         /// ------------------------------------------------------------------------------------
@@ -105,8 +99,9 @@ namespace SayMore.UI.ComponentEditors
                 return false;
 
 			_webBrowserInfo.DocumentStream = TransformInfoOutput(html);
-			_webBrowserInfo.Document.Encoding = "utf-8";
-            return true;
+			if (_webBrowserInfo.Document != null)
+				_webBrowserInfo.Document.Encoding = "utf-8";
+			return true;
         }
 
         /// ------------------------------------------------------------------------------------
@@ -158,13 +153,11 @@ namespace SayMore.UI.ComponentEditors
 					var inputReader = XmlReader.Create(inputStream);
 					var outputWriter = XmlWriter.Create(outputStream);
 
-					using (var xsltReader = new XmlTextReader(xsltStream))
-					{
-						var xslt = new XslCompiledTransform(true);
-						xslt.Load(xsltReader);
-						xslt.Transform(inputReader, outputWriter);
-						xsltReader.Close();
-					}
+					using var xsltReader = new XmlTextReader(xsltStream);
+					var xslt = new XslCompiledTransform(true);
+					xslt.Load(xsltReader);
+					xslt.Transform(inputReader, outputWriter);
+					xsltReader.Close();
 				}
 				catch
 				{
@@ -183,8 +176,7 @@ namespace SayMore.UI.ComponentEditors
 			var transformedHtml = reader.ReadToEnd();
 			outputStream.Close();
 
-			var styleInfo = Format("\r\n<style type=\"text/css\">{0}</style>",
-				Resources.MoreMediaInfoStyles);
+			var styleInfo = $"\r\n<style type=\"text/css\">{Resources.MoreMediaInfoStyles}</style>";
 
 			transformedHtml = transformedHtml.Replace("<html>", HTMLChartBuilder.XMLDocTypeInfo);
 			transformedHtml = transformedHtml.Replace("</head>", styleInfo + "</head>");
@@ -199,7 +191,7 @@ namespace SayMore.UI.ComponentEditors
 			_buttonLessInfo.Visible = true;
             var origSource = _source;
             if (LoadBrowserControl() && origSource != _source &&
-                !alreadyDisplayedEvenMoreInfoDisclaimer)
+                !s_alreadyDisplayedEvenMoreInfoDisclaimer)
             {
                 // Note: I'm hard-coding the utility program names in the localizer comment
                 // because as things currently stand, that's definitely what they will be.
@@ -212,7 +204,7 @@ namespace SayMore.UI.ComponentEditors
                     "Parameters are utility program names. Param 0: \"MediaInfo.DLL\";" +
                     " Param 1: \"FFprobe\""), _source, origSource);
                 MessageBox.Show(this, msg, ProductName, MessageBoxButtons.OK);
-                alreadyDisplayedEvenMoreInfoDisclaimer = true;
+                s_alreadyDisplayedEvenMoreInfoDisclaimer = true;
             }
 		}
 

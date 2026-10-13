@@ -6,8 +6,6 @@ using System.IO;
 using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
-using L10NSharp.XLiffUtils;
-using L10NSharp.UI;
 using SIL.Media.Naudio.UI;
 using SIL.Reporting;
 using SIL.Windows.Forms.PortableSettingsProvider;
@@ -15,6 +13,7 @@ using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
 using SIL.Media;
+using SIL.Windows.Forms;
 
 namespace SayMore.UI.SessionRecording
 {
@@ -90,14 +89,6 @@ namespace SayMore.UI.SessionRecording
 			_peakMeter = AudioUtils.CreatePeakMeterControl(_panelPeakMeter);
 			SetupRecordingDeviceButton();
 
-			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleStringsLocalized(ILocalizationManager lm)
-		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-				_recordedLengthLabelFormat = _labelRecLength.Text;
 		}
 
 		/// ------------------------------------------------------------------------------------

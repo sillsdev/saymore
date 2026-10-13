@@ -34,37 +34,51 @@ namespace SayMore.UI.ProjectWindow
 			this._labelLanguage = new System.Windows.Forms.Label();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._buttonOK = new System.Windows.Forms.Button();
-			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._linkIWantToLocalize = new System.Windows.Forms.LinkLabel();
+			this._linkHelpOnLocalizing = new System.Windows.Forms.LinkLabel();
+			this._lblTextScale = new System.Windows.Forms.Label();
+			this._numUpDownScale = new System.Windows.Forms.NumericUpDown();
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
+			this._btnReset = new System.Windows.Forms.Button();
 			this._tableLayoutPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._numUpDownScale)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
-			// 
+			//
 			// _tableLayoutPanel
-			// 
+			//
+			this._tableLayoutPanel.AutoSize = true;
+			this._tableLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._tableLayoutPanel.ColumnCount = 3;
 			this._tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutPanel.Controls.Add(this._comboUILanguage, 1, 0);
 			this._tableLayoutPanel.Controls.Add(this._labelLanguage, 0, 0);
-			this._tableLayoutPanel.Controls.Add(this._buttonCancel, 2, 2);
-			this._tableLayoutPanel.Controls.Add(this._buttonOK, 1, 2);
-			this._tableLayoutPanel.Controls.Add(this._linkIWantToLocalize, 0, 1);
+			this._tableLayoutPanel.Controls.Add(this._buttonCancel, 2, 4);
+			this._tableLayoutPanel.Controls.Add(this._buttonOK, 1, 4);
+			this._tableLayoutPanel.Controls.Add(this._linkIWantToLocalize, 0, 2);
+			this._tableLayoutPanel.Controls.Add(this._linkHelpOnLocalizing, 0, 3);
+			this._tableLayoutPanel.Controls.Add(this._lblTextScale, 0, 1);
+			this._tableLayoutPanel.Controls.Add(this._numUpDownScale, 1, 1);
+			this._tableLayoutPanel.Controls.Add(this._btnReset, 2, 1);
 			this._tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._tableLayoutPanel.Location = new System.Drawing.Point(20, 20);
 			this._tableLayoutPanel.Name = "_tableLayoutPanel";
-			this._tableLayoutPanel.RowCount = 3;
-			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayoutPanel.RowCount = 5;
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutPanel.Size = new System.Drawing.Size(298, 126);
+			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutPanel.Size = new System.Drawing.Size(298, 147);
 			this._tableLayoutPanel.TabIndex = 0;
-			// 
+			//
 			// _comboUILanguage
-			// 
+			//
 			this._comboUILanguage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutPanel.SetColumnSpan(this._comboUILanguage, 2);
+			this._comboUILanguage.DisplayMember = "NativeName";
 			this._comboUILanguage.DropDownHeight = 200;
 			this._comboUILanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this._comboUILanguage.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold);
@@ -74,36 +88,36 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this._comboUILanguage, null);
 			this.locExtender.SetLocalizationPriority(this._comboUILanguage, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._comboUILanguage, "UILanguageDlg._comboUILanguage");
-			this._comboUILanguage.Location = new System.Drawing.Point(63, 6);
-			this._comboUILanguage.Margin = new System.Windows.Forms.Padding(0);
+			this._comboUILanguage.Location = new System.Drawing.Point(95, 0);
+			this._comboUILanguage.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this._comboUILanguage.Name = "_comboUILanguage";
 			this._comboUILanguage.ShowOnlyLanguagesHavingLocalizations = true;
-			this._comboUILanguage.Size = new System.Drawing.Size(235, 21);
+			this._comboUILanguage.Size = new System.Drawing.Size(203, 21);
 			this._comboUILanguage.TabIndex = 1;
-			// 
+			//
 			// _labelLanguage
-			// 
+			//
 			this._labelLanguage.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelLanguage.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelLanguage, null);
 			this.locExtender.SetLocalizationComment(this._labelLanguage, null);
 			this.locExtender.SetLocalizingId(this._labelLanguage, "DialogBoxes.UserInterfaceLanguageDlg.LanguageLabel");
-			this._labelLanguage.Location = new System.Drawing.Point(0, 10);
+			this._labelLanguage.Location = new System.Drawing.Point(0, 5);
 			this._labelLanguage.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
 			this._labelLanguage.Name = "_labelLanguage";
 			this._labelLanguage.Size = new System.Drawing.Size(58, 13);
 			this._labelLanguage.TabIndex = 0;
 			this._labelLanguage.Text = "&Language:";
-			// 
+			//
 			// _buttonCancel
-			// 
+			//
 			this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonCancel.AutoSize = true;
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
 			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.UserInterfaceLanguageDlg.CancelButton");
-			this._buttonCancel.Location = new System.Drawing.Point(223, 100);
+			this._buttonCancel.Location = new System.Drawing.Point(223, 122);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(3, 20, 0, 0);
 			this._buttonCancel.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonCancel.Name = "_buttonCancel";
@@ -111,16 +125,16 @@ namespace SayMore.UI.ProjectWindow
 			this._buttonCancel.TabIndex = 5;
 			this._buttonCancel.Text = "Cancel";
 			this._buttonCancel.UseVisualStyleBackColor = true;
-			// 
+			//
 			// _buttonOK
-			// 
+			//
 			this._buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonOK.AutoSize = true;
 			this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.locExtender.SetLocalizableToolTip(this._buttonOK, null);
 			this.locExtender.SetLocalizationComment(this._buttonOK, null);
 			this.locExtender.SetLocalizingId(this._buttonOK, "DialogBoxes.UserInterfaceLanguageDlg.OKButton");
-			this._buttonOK.Location = new System.Drawing.Point(142, 100);
+			this._buttonOK.Location = new System.Drawing.Point(142, 122);
 			this._buttonOK.Margin = new System.Windows.Forms.Padding(0, 20, 3, 0);
 			this._buttonOK.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonOK.Name = "_buttonOK";
@@ -128,20 +142,16 @@ namespace SayMore.UI.ProjectWindow
 			this._buttonOK.TabIndex = 4;
 			this._buttonOK.Text = "OK";
 			this._buttonOK.UseVisualStyleBackColor = true;
-			// 
-			// locExtender
-			// 
-			this.locExtender.LocalizationManagerId = "SayMore";
-			// 
+			//
 			// _linkIWantToLocalize
-			// 
+			//
 			this._linkIWantToLocalize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._linkIWantToLocalize.AutoSize = true;
 			this._tableLayoutPanel.SetColumnSpan(this._linkIWantToLocalize, 3);
 			this.locExtender.SetLocalizableToolTip(this._linkIWantToLocalize, null);
 			this.locExtender.SetLocalizationComment(this._linkIWantToLocalize, null);
 			this.locExtender.SetLocalizingId(this._linkIWantToLocalize, "DialogBoxes.UserInterfaceLanguageDlg.IWantToLocalizeLink");
-			this._linkIWantToLocalize.Location = new System.Drawing.Point(0, 44);
+			this._linkIWantToLocalize.Location = new System.Drawing.Point(0, 66);
 			this._linkIWantToLocalize.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._linkIWantToLocalize.Name = "_linkIWantToLocalize";
 			this._linkIWantToLocalize.Size = new System.Drawing.Size(298, 13);
@@ -150,13 +160,101 @@ namespace SayMore.UI.ProjectWindow
 			this._linkIWantToLocalize.Text = "I want to localize SayMore for another language...";
 			this._linkIWantToLocalize.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleIWantToLocalizeLinkClicked);
 			//
+			// _linkHelpOnLocalizing
+			//
+			this._linkHelpOnLocalizing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._linkHelpOnLocalizing.AutoSize = true;
+			this._tableLayoutPanel.SetColumnSpan(this._linkHelpOnLocalizing, 3);
+			this.locExtender.SetLocalizableToolTip(this._linkHelpOnLocalizing, null);
+			this.locExtender.SetLocalizationComment(this._linkHelpOnLocalizing, "Unconditionally hidden (but left in case we ever want to show it)");
+			this.locExtender.SetLocalizationPriority(this._linkHelpOnLocalizing, L10NSharp.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._linkHelpOnLocalizing, "DialogBoxes.UserInterfaceLanguageDlg.HelpOnLocalizingLink");
+			this._linkHelpOnLocalizing.Location = new System.Drawing.Point(0, 89);
+			this._linkHelpOnLocalizing.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
+			this._linkHelpOnLocalizing.Name = "_linkHelpOnLocalizing";
+			this._linkHelpOnLocalizing.Size = new System.Drawing.Size(298, 13);
+			this._linkHelpOnLocalizing.TabIndex = 3;
+			this._linkHelpOnLocalizing.TabStop = true;
+			this._linkHelpOnLocalizing.Text = "Help on localization";
+			this._linkHelpOnLocalizing.Visible = false;
+			//
+			// _lblTextScale
+			//
+			this._lblTextScale.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._lblTextScale.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._lblTextScale, null);
+			this.locExtender.SetLocalizationComment(this._lblTextScale, null);
+			this.locExtender.SetLocalizingId(this._lblTextScale, "UILanguageDlg._lblTextScale");
+			this._lblTextScale.Location = new System.Drawing.Point(3, 33);
+			this._lblTextScale.Name = "_lblTextScale";
+			this._lblTextScale.Size = new System.Drawing.Size(89, 13);
+			this._lblTextScale.TabIndex = 6;
+			this._lblTextScale.Text = "Scale UI Text by:";
+			//
+			// _numUpDownScale
+			//
+			this._numUpDownScale.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._numUpDownScale.Increment = new decimal(new int[] {
+			10,
+			0,
+			0,
+			0});
+			this.locExtender.SetLocalizableToolTip(this._numUpDownScale, null);
+			this.locExtender.SetLocalizationComment(this._numUpDownScale, null);
+			this.locExtender.SetLocalizationPriority(this._numUpDownScale, L10NSharp.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._numUpDownScale, "UILanguageDlg._numUpDownScale");
+			this._numUpDownScale.Location = new System.Drawing.Point(95, 30);
+			this._numUpDownScale.Margin = new System.Windows.Forms.Padding(0, 3, 8, 3);
+			this._numUpDownScale.Maximum = new decimal(new int[] {
+			500,
+			0,
+			0,
+			0});
+			this._numUpDownScale.Minimum = new decimal(new int[] {
+			70,
+			0,
+			0,
+			0});
+			this._numUpDownScale.Name = "_numUpDownScale";
+			this._numUpDownScale.Size = new System.Drawing.Size(117, 20);
+			this._numUpDownScale.TabIndex = 7;
+			this._numUpDownScale.Value = new decimal(new int[] {
+			100,
+			0,
+			0,
+			0});
+			this._numUpDownScale.ValueChanged += new System.EventHandler(this._numUpDownScale_ValueChanged);
+			//
+			// locExtender
+			//
+			this.locExtender.LocalizationManagerId = "SayMore";
+			this.locExtender.PrefixForNewItems = null;
+			//
+			// _btnReset
+			//
+			this._btnReset.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this._btnReset.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._btnReset, null);
+			this.locExtender.SetLocalizationComment(this._btnReset, null);
+			this.locExtender.SetLocalizingId(this._btnReset, "UILanguageDlg._btnReset");
+			this._btnReset.Location = new System.Drawing.Point(223, 27);
+			this._btnReset.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+			this._btnReset.Name = "_btnReset";
+			this._btnReset.Size = new System.Drawing.Size(75, 26);
+			this._btnReset.TabIndex = 8;
+			this._btnReset.Text = "Reset";
+			this._btnReset.UseVisualStyleBackColor = true;
+			this._btnReset.Click += new System.EventHandler(this._btnReset_Click);
+			//
 			// UILanguageDlg
-			// 
+			//
 			this.AcceptButton = this._buttonOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoSize = true;
+			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.CancelButton = this._buttonCancel;
-			this.ClientSize = new System.Drawing.Size(338, 166);
+			this.ClientSize = new System.Drawing.Size(338, 187);
 			this.Controls.Add(this._tableLayoutPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
@@ -172,8 +270,10 @@ namespace SayMore.UI.ProjectWindow
 			this.Text = "User Interface Language";
 			this._tableLayoutPanel.ResumeLayout(false);
 			this._tableLayoutPanel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this._numUpDownScale)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -186,5 +286,9 @@ namespace SayMore.UI.ProjectWindow
 		private System.Windows.Forms.Button _buttonOK;
 		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.LinkLabel _linkIWantToLocalize;
+		private System.Windows.Forms.LinkLabel _linkHelpOnLocalizing;
+		private System.Windows.Forms.Label _lblTextScale;
+		private System.Windows.Forms.NumericUpDown _numUpDownScale;
+		private System.Windows.Forms.Button _btnReset;
 	}
 }

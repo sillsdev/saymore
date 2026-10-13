@@ -57,6 +57,7 @@ namespace SayMore
 		private static string _pathOfLoadedProjectFile;
 		private static ApplicationContainer _applicationContainer;
 		private static Font _dialogFont;
+		private static Font _scaledDialogFont;
 
 		public delegate void PersonMetadataChangedHandler();
 		public static event PersonMetadataChangedHandler PersonDataChanged;
@@ -92,7 +93,7 @@ namespace SayMore
 			// Don't use SystemFonts.DefaultFont because that always returns "Microsoft Sans Serif"
 			// and SystemFonts.DialogFont always returns "Tahoma", regardless of OS.
 			// See: https://benhollis.net/blog/2007/04/11/setting-the-correct-default-font-in-net-windows-forms-apps/
-			_dialogFont = new Font(SystemFonts.MessageBoxFont, FontStyle.Regular);
+			DialogFont = new Font(SystemFonts.MessageBoxFont, FontStyle.Regular);
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
@@ -464,7 +465,41 @@ namespace SayMore
 			Path.Combine(SilCommonDataFolder, Application.ProductName);
 
 		/// ------------------------------------------------------------------------------------
-		public static Font DialogFont => _dialogFont ?? SystemFonts.MessageBoxFont;
+		public static Font DialogFont
+		{
+			get => _dialogFont ?? SystemFonts.MessageBoxFont;
+			set
+			{
+				_dialogFont = value;
+				SetScaledDialogFont();
+			}
+		}
+
+		public static Font ScaledDialogFont
+		{
+			get
+			{
+				if (_scaledDialogFont == null)
+					SetScaledDialogFont();
+
+				return _scaledDialogFont;
+			}
+		}
+
+		private static void SetScaledDialogFont()
+		{
+			try
+			{
+				_scaledDialogFont = new Font(DialogFont.FontFamily,
+					DialogFont.Size * Settings.Default.UITextScale / 100f,
+					DialogFont.Style);
+			}
+			catch (Exception e)
+			{
+				ErrorReport.ReportNonFatalException(e);
+				_scaledDialogFont = DialogFont;
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		private static void StartUpShellBasedOnMostRecentUsedIfPossible()

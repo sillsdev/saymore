@@ -14,6 +14,7 @@ using SayMore.Media.Audio;
 using SayMore.Media.MPlayer;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using SayMore.Utilities;
 using SIL.Media;
 using SIL.Windows.Forms.Extensions;
 using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
@@ -519,6 +520,7 @@ namespace SayMore.Transcription.UI
 		protected override void HandleStringsLocalized()
 		{
 			base.HandleStringsLocalized();
+			this.ScaleUIFont();
 			UpdateDisplay();
 		}
 

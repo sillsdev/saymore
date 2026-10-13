@@ -11,6 +11,8 @@ using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
+using SayMore.Utilities;
+
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------
@@ -48,12 +50,12 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnLoad(e);
 
-			_labelConvertHeading.Font = FontHelper.MakeFont(Program.DialogFont, 10, FontStyle.Bold);
-			_labelConvertIntroduction.Font = Program.DialogFont;
-			_labelSourceFileName.Font = Program.DialogFont;
+			_labelConvertHeading.Font = FontHelper.MakeFont(Program.DialogFont,
+				10, FontStyle.Bold);
 			_labelSourceFileNameValue.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
-			_labelStandardAudioFileName.Font = Program.DialogFont;
 			_labelStandardAudioFileNameValue.Font = _labelSourceFileNameValue.Font;
+
+			this.ScaleUIFont();
 
 			SetComponentFile(_file);
 		}

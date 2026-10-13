@@ -10,6 +10,7 @@ using SIL.Extensions;
 using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Model.Files;
+using SayMore.Utilities;
 using SIL.Windows.Forms;
 using SIL.Windows.Forms.Extensions;
 using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
@@ -290,7 +291,7 @@ namespace SayMore.UI.ElementListScreen
 
 				_contextMenuStrip.Items.Clear();
 				_contextMenuStrip.Items.AddRange(GetMenuCommands().ToArray());
-				_contextMenuStrip.Show(contextMenuPosition);
+				_contextMenuStrip.ShowScaledContextMenuStrip(contextMenuPosition);
 			}, nameof(OnCellMouseDown), IgnoreIfDisposed);
 		}
 

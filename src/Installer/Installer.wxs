@@ -347,10 +347,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 				<File Id="System.Threading.Tasks.Extensions.dll" Name="System.Threading.Tasks.Extensions.dll" KeyPath="yes" Source="$(var.OutputDir)System.Threading.Tasks.Extensions.dll"/>
 			</Component>
 
-			<Component Id="System.ValueTuple.dll" Guid="{5DA71FB5-1A8B-415C-8ED0-BF4E8042D5E3}" Win64="yes">
-				<File Id="System.ValueTuple.dll" Name="System.ValueTuple.dll" KeyPath="yes" Source="$(var.OutputDir)System.ValueTuple.dll"/>
-			</Component>
-
 			<Component Id="icudt59.x64" Guid="{F0CAECD1-8D7E-4D4F-9147-A4E8ED2B741B}" Win64="yes">
 				<File Id="icudt59.x64" Name="icudt59.dll" KeyPath="yes" Source="$(var.NativeAssetsDir)icudt59.dll" />
 			</Component>
@@ -430,7 +426,6 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		<ComponentRef Id="System.Text.Encodings.Web.dll"/>
 		<ComponentRef Id="System.Text.Json.dll"/>
 		<ComponentRef Id="System.Threading.Tasks.Extensions.dll"/>
-		<ComponentRef Id="System.ValueTuple.dll"/>
 		<ComponentRef Id="icudt59.x64"/>
 		<ComponentRef Id="icuin59.x64"/>
 		<ComponentRef Id="icuuc59.x64"/>

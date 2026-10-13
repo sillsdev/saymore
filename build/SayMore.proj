@@ -13,7 +13,11 @@
     <NuGetPackageRoot Condition="'$(NuGetPackageRoot)'==''">$(USERPROFILE)\.nuget\packages\</NuGetPackageRoot>
     <LocalPackagesRoot Condition="'$(LocalPackagesRoot)'==''">$(RootDir)/packages/</LocalPackagesRoot>
     <SayMoreCsproj>$(RootDir)\src\SayMore\SayMore.csproj</SayMoreCsproj>
-    <SILReleaseTasksProps>$(NuGetPackageRoot)SIL.ReleaseTasks/3.2.0/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
+    <!-- Read the version straight from SayMore.csproj's PackageReference so it can't drift out of
+         sync with what NuGet actually restores. This can't use XmlPeek because the Import right below
+         needs the path before any Target runs, and XmlPeek only works inside a Target. -->
+    <SILReleaseTasksPackageVersion>$([System.Text.RegularExpressions.Regex]::Match($([System.IO.File]::ReadAllText('$(SayMoreCsproj)')), 'Include="SIL\.ReleaseTasks"\s+Version="([^"]+)"').Groups[1].Value)</SILReleaseTasksPackageVersion>
+    <SILReleaseTasksProps>$(NuGetPackageRoot)SIL.ReleaseTasks/$(SILReleaseTasksPackageVersion)/build/SIL.ReleaseTasks.props</SILReleaseTasksProps>
     <BuildTasksVersionFolder Condition="'$(BuildTasksVersionFolder)' == ''">$(LocalPackagesRoot)SIL.BuildTasks/</BuildTasksVersionFolder>
     <BuildTasksDll>$(BuildTasksVersionFolder)tools/SIL.BuildTasks.dll</BuildTasksDll>
     <SILBuildTasksProps>$(BuildTasksVersionFolder)build/SIL.BuildTasks.props</SILBuildTasksProps>

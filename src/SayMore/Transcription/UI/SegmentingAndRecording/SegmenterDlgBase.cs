@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using static System.Windows.Forms.MessageBoxButtons;
+using static System.Windows.Forms.MessageBoxIcon;
 using L10NSharp;
 using L10NSharp.Windows.Forms;
 using NAudio.Wave;
@@ -485,16 +487,28 @@ namespace SayMore.Transcription.UI
 			// case whether they want to save changes is ambiguous. So ask them.
 			if (DialogResult == DialogResult.Cancel && _viewModel.WereChangesMade)
 			{
-				DialogResult = DialogResult.OK;
-
 				var msg = LocalizationManager.GetString(
 					"DialogBoxes.Transcription.SegmenterDlgBase.SaveChangesQuestion",
 					"Would you like to save your changes?");
 
-				DialogResult = MessageBox.Show(this, msg, Application.ProductName, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-				if (DialogResult == DialogResult.Cancel)
-					return;
-				DialogResult = DialogResult.OK;
+				// Translate the answer into the DialogResult callers actually check for
+				switch (MessageBox.Show(this, msg, Application.ProductName, YesNoCancel, Question))
+				{
+					case DialogResult.Yes:
+						// OK means "changes should be saved."
+						DialogResult = DialogResult.OK;
+						break;
+					case DialogResult.No:
+						// Abort means "close without saving."
+						DialogResult = DialogResult.Abort;
+						break;
+					default: // Cancel
+						// Prevent the form from attempting to close again the next time 
+						// DialogResult is checked (e.g., after the next playback completes),
+						// re-triggering this save prompt.
+						DialogResult = DialogResult.None;
+						return;
+				}
 			}
 
 			if (_waveControl.IsPlaying)

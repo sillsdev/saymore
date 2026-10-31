@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using NAudio.Wave;
 using SIL.IO;
 using L10NSharp;
+using SayMore.UI;
 using SayMore.Utilities;
 using static SIL.IO.FileLocationUtilities;
 
@@ -274,7 +275,7 @@ namespace SayMore.Media.MPlayer
 
 	#region MPlayerOutputLogForm class
 	/// ------------------------------------------------------------------------------------
-	public class MPlayerOutputLogForm : Form, ILogger
+	public class MPlayerOutputLogForm : SayMoreFormBase, ILogger
 	{
 		private readonly TextBox _textBox;
 

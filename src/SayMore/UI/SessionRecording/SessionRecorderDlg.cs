@@ -12,13 +12,14 @@ using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
+using SayMore.UI;
 using SIL.Media;
 using SIL.Windows.Forms;
 
 namespace SayMore.UI.SessionRecording
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class SessionRecorderDlg : Form
+	public partial class SessionRecorderDlg : SayMoreFormBase
 	{
 		private readonly SessionRecorderDlgViewModel _viewModel;
 		private string _recordedLengthLabelFormat;

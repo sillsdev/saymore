@@ -8,6 +8,7 @@ using NAudio.Wave;
 using SayMore.Properties;
 using SIL.Reporting;
 using SayMore.Transcription.Model;
+using SayMore.Utilities;
 using static System.Drawing.FontStyle;
 using static SIL.Windows.Forms.FontHelper;
 
@@ -419,7 +420,7 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		protected virtual void DrawFormatNotSupportedMessage(Graphics g, Rectangle rc, string msg)
 		{
-			using (var fnt = MakeFont(Program.DialogFont, 10 * Settings.Default.UITextScale / 100f, Bold))
+			using (var fnt = MakeFont(Program.DialogFont, 10 * UITextScaler.ClampScalePercent(Settings.Default.UITextScale) / 100f, Bold))
 			{
 				const TextFormatFlags fmt = TextFormatFlags.VerticalCenter |
 					TextFormatFlags.HorizontalCenter | TextFormatFlags.WordBreak |

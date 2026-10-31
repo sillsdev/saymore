@@ -8,6 +8,7 @@ using SIL.Reporting;
 using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Model;
 using SayMore.Properties;
+using SayMore.UI;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 using SayMore.Utilities;
 
@@ -19,7 +20,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 	/// existing projects via browsing the file system or by choosing a recently used project.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public sealed partial class WelcomeDialog : Form
+	public sealed partial class WelcomeDialog : SayMoreFormBase
 	{
 		public WelcomeDialogViewModel Model { get; set; }
 

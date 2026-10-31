@@ -15,7 +15,7 @@ using Settings = SayMore.Properties.Settings;
 
 namespace SayMore.UI
 {
-	public partial class ShortFileNameWarningDlg : Form
+	public partial class ShortFileNameWarningDlg : SayMoreFormBase
 	{
 		private bool _suppressWarnings;
 		private string _failedActionsLabelOrigText;

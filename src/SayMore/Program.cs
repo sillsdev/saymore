@@ -43,6 +43,14 @@ namespace SayMore
 {
 	static class Program
 	{
+		static Program()
+		{
+			// Invalidate the cached scaled font so it gets recomputed from the current
+			// UITextScale setting the next time it's requested, rather than staying frozen
+			// at whatever the scale was when it was first computed.
+			UITextScaler.ScaleChanged += (sender, e) => _scaledDialogFont = null;
+		}
+
 		public const string kCompanyAbbrev = "SIL";
 		public const int kFileLoadError = 13;
 
@@ -491,7 +499,7 @@ namespace SayMore
 			try
 			{
 				_scaledDialogFont = new Font(DialogFont.FontFamily,
-					DialogFont.Size * Settings.Default.UITextScale / 100f,
+					DialogFont.Size * UITextScaler.ClampScalePercent(Settings.Default.UITextScale) / 100f,
 					DialogFont.Style);
 			}
 			catch (Exception e)

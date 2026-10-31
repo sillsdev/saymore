@@ -12,7 +12,7 @@ using SayMore.Properties;
 
 namespace SayMore.UI
 {
-	public partial class ConvertMediaDlg : Form
+	public partial class ConvertMediaDlg : SayMoreFormBase
 	{
 		private readonly ConvertMediaDlgViewModel _viewModel;
 		private string _conversionInProgressStatusFormat;

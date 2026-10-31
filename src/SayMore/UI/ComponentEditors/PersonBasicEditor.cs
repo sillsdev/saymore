@@ -165,6 +165,8 @@ namespace SayMore.UI.ComponentEditors
 						_education.Font = font;
 						_primaryOccupation.Font = font;
 					}
+
+					_gridCustomFields.SetWorkingLanguageFont(font);
 				}, $"{GetType().Name}.{nameof(SetWorkingLanguageFont)}", IgnoreAll);
 		}
 

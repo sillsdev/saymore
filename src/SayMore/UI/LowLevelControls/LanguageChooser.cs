@@ -9,10 +9,11 @@
 // --------------------------------------------------------------------------------------------
 using System.Windows.Forms;
 using SIL.Windows.Forms.WritingSystems;
+using SayMore.UI;
 
 namespace SayMore.UI.LowLevelControls
 {
-	public partial class LanguageChooser : Form
+	public partial class LanguageChooser : SayMoreFormBase
 	{
 		public LanguageChooser(WritingSystemSetupModel model)
 		{

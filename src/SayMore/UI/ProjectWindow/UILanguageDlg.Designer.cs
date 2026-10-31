@@ -38,6 +38,7 @@ namespace SayMore.UI.ProjectWindow
 			this._linkHelpOnLocalizing = new System.Windows.Forms.LinkLabel();
 			this._lblTextScale = new System.Windows.Forms.Label();
 			this._numUpDownScale = new System.Windows.Forms.NumericUpDown();
+			this._lblScaleRecommendationHint = new System.Windows.Forms.Label();
 			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._btnReset = new System.Windows.Forms.Button();
 			this._tableLayoutPanel.SuspendLayout();
@@ -55,17 +56,19 @@ namespace SayMore.UI.ProjectWindow
 			this._tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutPanel.Controls.Add(this._comboUILanguage, 1, 0);
 			this._tableLayoutPanel.Controls.Add(this._labelLanguage, 0, 0);
-			this._tableLayoutPanel.Controls.Add(this._buttonCancel, 2, 4);
-			this._tableLayoutPanel.Controls.Add(this._buttonOK, 1, 4);
-			this._tableLayoutPanel.Controls.Add(this._linkIWantToLocalize, 0, 2);
-			this._tableLayoutPanel.Controls.Add(this._linkHelpOnLocalizing, 0, 3);
+			this._tableLayoutPanel.Controls.Add(this._buttonCancel, 2, 5);
+			this._tableLayoutPanel.Controls.Add(this._buttonOK, 1, 5);
+			this._tableLayoutPanel.Controls.Add(this._linkIWantToLocalize, 0, 3);
+			this._tableLayoutPanel.Controls.Add(this._linkHelpOnLocalizing, 0, 4);
 			this._tableLayoutPanel.Controls.Add(this._lblTextScale, 0, 1);
 			this._tableLayoutPanel.Controls.Add(this._numUpDownScale, 1, 1);
 			this._tableLayoutPanel.Controls.Add(this._btnReset, 2, 1);
+			this._tableLayoutPanel.Controls.Add(this._lblScaleRecommendationHint, 0, 2);
 			this._tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._tableLayoutPanel.Location = new System.Drawing.Point(20, 20);
 			this._tableLayoutPanel.Name = "_tableLayoutPanel";
-			this._tableLayoutPanel.RowCount = 5;
+			this._tableLayoutPanel.RowCount = 6;
+			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -89,11 +92,12 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationPriority(this._comboUILanguage, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._comboUILanguage, "UILanguageDlg._comboUILanguage");
 			this._comboUILanguage.Location = new System.Drawing.Point(95, 0);
-			this._comboUILanguage.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
+			this._comboUILanguage.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
 			this._comboUILanguage.Name = "_comboUILanguage";
 			this._comboUILanguage.ShowOnlyLanguagesHavingLocalizations = true;
 			this._comboUILanguage.Size = new System.Drawing.Size(203, 21);
 			this._comboUILanguage.TabIndex = 1;
+			this._comboUILanguage.SelectedIndexChanged += new System.EventHandler(this._comboUILanguage_SelectedIndexChanged);
 			//
 			// _labelLanguage
 			//
@@ -103,7 +107,7 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this._labelLanguage, null);
 			this.locExtender.SetLocalizingId(this._labelLanguage, "DialogBoxes.UserInterfaceLanguageDlg.LanguageLabel");
 			this._labelLanguage.Location = new System.Drawing.Point(0, 5);
-			this._labelLanguage.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
+			this._labelLanguage.Margin = new System.Windows.Forms.Padding(0, 0, 5, 6);
 			this._labelLanguage.Name = "_labelLanguage";
 			this._labelLanguage.Size = new System.Drawing.Size(58, 13);
 			this._labelLanguage.TabIndex = 0;
@@ -186,13 +190,11 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this._lblTextScale, null);
 			this.locExtender.SetLocalizingId(this._lblTextScale, "UILanguageDlg._lblTextScale");
 			this._lblTextScale.Location = new System.Drawing.Point(3, 33);
+			this._lblTextScale.Margin = new System.Windows.Forms.Padding(0, 6, 8, 6);
 			this._lblTextScale.Name = "_lblTextScale";
 			this._lblTextScale.Size = new System.Drawing.Size(89, 13);
 			this._lblTextScale.TabIndex = 6;
-			this._lblTextScale.Text = "Scale UI Text by:";
-			//
-			// _numUpDownScale
-			//
+			this._lblTextScale.Text = "Scale UI Text by (%):";
 			this._numUpDownScale.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._numUpDownScale.Increment = new decimal(new int[] {
 			10,
@@ -204,9 +206,9 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationPriority(this._numUpDownScale, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._numUpDownScale, "UILanguageDlg._numUpDownScale");
 			this._numUpDownScale.Location = new System.Drawing.Point(95, 30);
-			this._numUpDownScale.Margin = new System.Windows.Forms.Padding(0, 3, 8, 3);
+			this._numUpDownScale.Margin = new System.Windows.Forms.Padding(0, 6, 8, 6);
 			this._numUpDownScale.Maximum = new decimal(new int[] {
-			500,
+			200,
 			0,
 			0,
 			0});
@@ -225,6 +227,22 @@ namespace SayMore.UI.ProjectWindow
 			0});
 			this._numUpDownScale.ValueChanged += new System.EventHandler(this._numUpDownScale_ValueChanged);
 			//
+			// _lblScaleRecommendationHint
+			//
+			this._lblScaleRecommendationHint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._lblScaleRecommendationHint.AutoSize = true;
+			this._tableLayoutPanel.SetColumnSpan(this._lblScaleRecommendationHint, 3);
+			this.locExtender.SetLocalizableToolTip(this._lblScaleRecommendationHint, null);
+			this.locExtender.SetLocalizationComment(this._lblScaleRecommendationHint, null);
+			this.locExtender.SetLocalizingId(this._lblScaleRecommendationHint, "UILanguageDlg._lblScaleRecommendationHint");
+			this._lblScaleRecommendationHint.ForeColor = System.Drawing.SystemColors.GrayText;
+			this._lblScaleRecommendationHint.Margin = new System.Windows.Forms.Padding(0, 6, 0, 6);
+			this._lblScaleRecommendationHint.Name = "_lblScaleRecommendationHint";
+			this._lblScaleRecommendationHint.Size = new System.Drawing.Size(298, 13);
+			this._lblScaleRecommendationHint.TabIndex = 9;
+			this._lblScaleRecommendationHint.Text = "Text in this language is often more legible at a larger scale.";
+			this._lblScaleRecommendationHint.Visible = false;
+			//
 			// locExtender
 			//
 			this.locExtender.LocalizationManagerId = "SayMore";
@@ -238,7 +256,7 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this._btnReset, null);
 			this.locExtender.SetLocalizingId(this._btnReset, "UILanguageDlg._btnReset");
 			this._btnReset.Location = new System.Drawing.Point(223, 27);
-			this._btnReset.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+			this._btnReset.Margin = new System.Windows.Forms.Padding(8, 6, 0, 6);
 			this._btnReset.Name = "_btnReset";
 			this._btnReset.Size = new System.Drawing.Size(75, 26);
 			this._btnReset.TabIndex = 8;
@@ -289,6 +307,7 @@ namespace SayMore.UI.ProjectWindow
 		private System.Windows.Forms.LinkLabel _linkHelpOnLocalizing;
 		private System.Windows.Forms.Label _lblTextScale;
 		private System.Windows.Forms.NumericUpDown _numUpDownScale;
+		private System.Windows.Forms.Label _lblScaleRecommendationHint;
 		private System.Windows.Forms.Button _btnReset;
 	}
 }

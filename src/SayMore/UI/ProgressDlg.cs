@@ -6,7 +6,7 @@ using SayMore.UI.LowLevelControls;
 namespace SayMore.UI
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class ProgressDlg : Form
+	public partial class ProgressDlg : SayMoreFormBase
 	{
 		private readonly IProgressViewModel _model;
 

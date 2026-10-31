@@ -401,5 +401,8 @@
     <Setting Name="ShortFileNameWarningDlg" Type="SIL.Windows.Forms.PortableSettingsProvider.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="UITextScale" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

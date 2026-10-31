@@ -40,9 +40,8 @@ namespace SayMore.Model.Files
 
 		public string Name { get; protected set; }
 		public virtual string RootElementName => null;
-		public virtual string TypeDescription { get { return null; } }
-		public virtual Image SmallIcon { get { return null; } }
-		public virtual string FileSize { get { return null; } }
+		public virtual Image SmallIcon => null;
+		public virtual string FileSize => null;
 
 		/// ------------------------------------------------------------------------------------
 		public static FileType Create(string name, string matchForEndOfFileName)
@@ -70,16 +69,10 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string FieldsGridSettingsName
-		{
-			get { return "UnknownFileFieldsGrid"; }
-		}
+		public virtual string FieldsGridSettingsName => "UnknownFileFieldsGrid";
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool CanBeConverted
-		{
-			get { return false; }
-		}
+		public virtual bool CanBeConverted => false;
 
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetShowInFileExplorerMenuText()
@@ -99,9 +92,8 @@ namespace SayMore.Model.Files
 		public virtual IEnumerable<IEditorProvider> GetEditorProviders(int hashCode, ComponentFile file)
 		{
 			List<IEditorProvider> editorList;
-			IEnumerable<IEditorProvider> editors;
 
-			if (_editors.TryGetValue(hashCode, out editors))
+			if (_editors.TryGetValue(hashCode, out var editors))
 			{
 				editorList = editors.ToList();
 				foreach (var editor in editorList)
@@ -133,28 +125,16 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool IsForUnknownFileTypes
-		{
-			get { return false; }
-		}
+		public virtual bool IsForUnknownFileTypes => false;
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool IsAudioOrVideo
-		{
-			get { return IsAudio || IsVideo; }
-		}
+		public virtual bool IsAudioOrVideo => IsAudio || IsVideo;
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool IsAudio
-		{
-			get { return false; }
-		}
+		public virtual bool IsAudio => false;
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool IsVideo
-		{
-			get { return false; }
-		}
+		public virtual bool IsVideo => false;
 
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<FieldDefinition> FactoryFields
@@ -382,13 +362,20 @@ namespace SayMore.Model.Files
 
 		public override string RootElementName => Name;
 
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Initializes a new instance of the <see cref="SessionFileType"/> class with the specified
+		/// factories for creating session-related editors.
 		/// </summary>
-		/// <param name="sessionBasicEditorFactoryLazy">This is to get us around a circular
-		/// dependency error in autofac.</param>
-		/// ------------------------------------------------------------------------------------
+		/// <param name="sessionBasicEditorFactoryLazy">
+		/// A lazy factory for creating instances of <see cref="SessionBasicEditor"/>. This helps
+		/// resolve circular dependency issues in Autofac.
+		/// </param>
+		/// <param name="statusAndStagesEditorFactoryLazy">
+		/// A lazy factory for creating instances of <see cref="StatusAndStagesEditor"/>.
+		/// </param>
+		/// <param name="sessionContributorEditorFactoryLazy">
+		/// A lazy factory for creating instances of <see cref="ContributorsEditor"/>.
+		/// </param>
 		public SessionFileType(Lazy<Func<SessionBasicEditor.Factory>> sessionBasicEditorFactoryLazy,
 			Lazy<Func<StatusAndStagesEditor.Factory>> statusAndStagesEditorFactoryLazy,
 			Lazy<Func<ContributorsEditor.Factory>> sessionContributorEditorFactoryLazy)
@@ -1026,8 +1013,8 @@ namespace SayMore.Model.Files
 		{
 			get
 			{
-				foreach (var field in base.FactoryFields)
-					yield return field;
+				foreach (var fieldDef in base.FactoryFields)
+					yield return fieldDef;
 
 				// Add video only fields
 				yield return new FieldDefinition("Video_Bit_Rate") { ReadOnly = true };
@@ -1073,17 +1060,14 @@ namespace SayMore.Model.Files
 		public ImageFileType(
 			Func<BasicFieldGridEditor.Factory> basicFieldGridEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
-			: base("Image", p => SIL.IO.FileUtils.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())))
+			: base("Image", p => FileUtils.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())))
 		{
 			_basicFieldGridEditorFactoryLazy = basicFieldGridEditorFactoryLazy;
 			_contributorsEditorFactoryLazy = contributorsEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string FieldsGridSettingsName
-		{
-			get { return "ImageFileFieldsGrid"; }
-		}
+		public override string FieldsGridSettingsName => "ImageFileFieldsGrid";
 
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
@@ -1095,10 +1079,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override Image SmallIcon
-		{
-			get { return ResourceImageCache.ImageFileImage; }
-		}
+		public override Image SmallIcon => ResourceImageCache.ImageFileImage;
 	}
 
 	#endregion

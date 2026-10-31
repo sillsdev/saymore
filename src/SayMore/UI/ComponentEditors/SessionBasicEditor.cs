@@ -42,9 +42,9 @@ namespace SayMore.UI.ComponentEditors
 		public SessionBasicEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer,
 			PersonInformant personInformant)
-			: base(file, null, imageKey)
+			: base(file, imageKey)
 		{
-			Logger.WriteEvent("PersonBasicEditor constructor. file = {0}", file);
+			Logger.WriteEvent("SessionBasicEditor constructor. file = {0}", file);
 
 			InitializeComponent();
 			Name = "SessionEditor";
@@ -431,31 +431,28 @@ namespace SayMore.UI.ComponentEditors
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			TabText = LocalizationManager.GetString("SessionsView.MetadataEditor.TabText",
+				"Session");
+			if (_genre != null && !String.IsNullOrEmpty(_genre.Text))
 			{
-				TabText = LocalizationManager.GetString("SessionsView.MetadataEditor.TabText",
-					"Session");
-				if (_genre != null && !String.IsNullOrEmpty(_genre.Text))
-				{
-					var genreId = GenreDefinition.TranslateNameToId(_genre.Text);
-					if (genreId != _genre.Text)
-						_genre.Text = GenreDefinition.TranslateIdToName(genreId);
-				}
+				var genreId = GenreDefinition.TranslateNameToId(_genre.Text);
+				if (genreId != _genre.Text)
+					_genre.Text = GenreDefinition.TranslateIdToName(genreId);
+			}
 
-				if (_gridAdditionalFields != null)
+			if (_gridAdditionalFields != null)
+			{
+				for (int iRow = 0; iRow < _gridAdditionalFields.RowCount; iRow++)
 				{
-					for (int iRow = 0; iRow < _gridAdditionalFields.RowCount; iRow++)
-					{
-						var comboBoxCell = _gridAdditionalFields[1, iRow] as DataGridViewComboBoxCell;
-						if (comboBoxCell?.DataSource is IMDIItemList list)
-							list.Localize(Localize);
-					}
+					var comboBoxCell = _gridAdditionalFields[1, iRow] as DataGridViewComboBoxCell;
+					if (comboBoxCell?.DataSource is IMDIItemList list)
+						list.Localize(Localize);
 				}
 			}
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -501,6 +498,9 @@ namespace SayMore.UI.ComponentEditors
 					_location.Font = font;
 					_synopsis.Font = font;
 				}
+
+				_gridAdditionalFields.SetWorkingLanguageFont(font);
+				_gridCustomFields.SetWorkingLanguageFont(font);
 			}, $"{GetType().Name}.{nameof(SetWorkingLanguageFont)}", IgnoreAll);
 		}
 

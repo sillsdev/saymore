@@ -4,7 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using SIL.TestUtilities;
 using SayMore.Transcription.Model;
-using SayMoreTests.Model.Files;
+using SayMoreTests.MediaUtils;
 
 namespace SayMoreTests.Transcription.Model
 {

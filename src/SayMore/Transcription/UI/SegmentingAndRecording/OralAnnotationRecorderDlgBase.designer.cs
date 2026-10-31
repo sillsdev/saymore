@@ -18,7 +18,7 @@ namespace SayMore.Transcription.UI
 			this.components = new System.ComponentModel.Container();
 			this._panelListen = new System.Windows.Forms.Panel();
 			this._labelListenButton = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._labelRecordButton = new System.Windows.Forms.Label();
 			this._pictureRecording = new System.Windows.Forms.PictureBox();
 			this._labelErrorInfo = new System.Windows.Forms.Label();
@@ -145,7 +145,7 @@ namespace SayMore.Transcription.UI
 			this._labelRecordHint.Name = "_labelRecordHint";
 			this._labelRecordHint.Size = new System.Drawing.Size(248, 13);
 			this._labelRecordHint.TabIndex = 3;
-			this._labelRecordHint.Text = "To record, press and hold the SPACE BAR";
+			this._labelRecordHint.Text = "To record, press and hold the SPACE BAR.";
 			//
 			// _panelPeakMeter
 			//
@@ -186,7 +186,7 @@ namespace SayMore.Transcription.UI
 			this._labelListenHint.Name = "_labelListenHint";
 			this._labelListenHint.Size = new System.Drawing.Size(378, 13);
 			this._labelListenHint.TabIndex = 10;
-			this._labelListenHint.Text = "To listen to the source recording, press and hold the SPACE BAR";
+			this._labelListenHint.Text = "To listen to the source recording, press and hold the SPACE BAR.";
 			//
 			// _labelFinishedHint
 			//
@@ -355,7 +355,7 @@ namespace SayMore.Transcription.UI
 
 		#endregion
 
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Timer _scrollTimer;
 		private System.Windows.Forms.Timer _cursorBlinkTimer;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutRecordAnnotations;

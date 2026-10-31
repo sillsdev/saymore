@@ -38,7 +38,7 @@ namespace SayMore.UI.ComponentEditors
 			this.colRole = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colComments = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -118,6 +118,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.DataGridViewTextBoxColumn colRole;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDate;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colComments;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 	}
 }

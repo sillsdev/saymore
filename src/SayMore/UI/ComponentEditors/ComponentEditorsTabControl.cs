@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using SayMore.Utilities;
 using SIL.Windows.Forms.Extensions;
 
 namespace SayMore.UI.ComponentEditors
@@ -22,7 +23,7 @@ namespace SayMore.UI.ComponentEditors
 			Color componentEditorBorderColor)
 		{
 			ImageList = imgList;
-			Font = Program.DialogFont;
+			Font = Program.ScaledDialogFont;
 			Dock = DockStyle.Fill;
 			Visible = false;
 			ProviderKey = providerKey;
@@ -31,7 +32,26 @@ namespace SayMore.UI.ComponentEditors
 			_componentEditorBackColor = componentEditorBackColor;
 			_componentEditorBorderColor = componentEditorBorderColor;
 
+			UITextScaler.ScaleChanged += HandleScaleChanged;
+
 			MakeAppropriateEditorsVisible();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+				UITextScaler.ScaleChanged -= HandleScaleChanged;
+
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleScaleChanged(object sender, EventArgs e)
+		{
+			// Unlike ViewTabGroup's hand-rolled tabs, native TabControl re-measures and
+			// relayouts its own tab headers automatically when Font changes.
+			Font = Program.ScaledDialogFont;
 		}
 
 		/// ------------------------------------------------------------------------------------

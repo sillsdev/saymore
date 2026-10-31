@@ -7,19 +7,18 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.XLiffUtils;
-using L10NSharp.UI;
+using L10NSharp.Windows.Forms;
 using NAudio.Wave;
-using SIL.Windows.Forms;
-using SIL.Windows.Forms.Miscellaneous;
-using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media.Audio;
+using SayMore.Media.MPlayer;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.UI.LowLevelControls;
-using SayMore.Media.MPlayer;
 using SayMore.Utilities;
+using SIL.Windows.Forms;
 using SIL.Windows.Forms.Extensions;
+using SIL.Windows.Forms.Miscellaneous;
+using SIL.Windows.Forms.PortableSettingsProvider;
 using Timer = System.Windows.Forms.Timer;
 
 namespace SayMore.Transcription.UI
@@ -81,8 +80,6 @@ namespace SayMore.Transcription.UI
 
 			_segmentXofYFormat = _labelSegmentXofY.Text;
 			_segmentNumberFormat = _labelSegmentNumber.Text;
-
-			LocalizeItemDlg<XLiffDocument>.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -157,7 +154,7 @@ namespace SayMore.Transcription.UI
 			_undoToolStripMenuItem.Height *= 2;
 			_ignoreToolStripMenuItem.Height = _undoToolStripMenuItem.Height;
 
-			HandleStringsLocalized(null);
+			HandleStringsLocalized();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -186,10 +183,7 @@ namespace SayMore.Transcription.UI
 		{
 			if (disposing)
 			{
-				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= HandleStringsLocalized;
-
-				if (components != null)
-					components.Dispose();
+				components?.Dispose();
 
 				if (_waveControl != null)
 				{
@@ -213,14 +207,11 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleStringsLocalized(ILocalizationManager lm)
+		protected virtual void HandleStringsLocalized()
 		{
-			if (lm != null && lm.Id != ApplicationContainer.kSayMoreLocalizationId)
-				return;
-
 			_segmentXofYFormat = _labelSegmentXofY.Text;
 			_segmentNumberFormat = _labelSegmentNumber.Text;
-			var zoomToolTip = LocalizationManager.GetLocalizedToolTipForControl(_comboBoxZoom);
+			var zoomToolTip = LocalizationManagerWinforms.GetLocalizedToolTipForControl(_comboBoxZoom);
 			if (!string.IsNullOrEmpty(zoomToolTip))
 				_tooltip.SetToolTip(_labelZoom, zoomToolTip);
 		}

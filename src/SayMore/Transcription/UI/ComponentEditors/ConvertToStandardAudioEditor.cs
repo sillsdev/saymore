@@ -11,6 +11,8 @@ using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
+using SayMore.Utilities;
+
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------
@@ -18,7 +20,8 @@ namespace SayMore.Transcription.UI
 	{
 		private static Bitmap s_informationIconAsBitmap;
 		/// ------------------------------------------------------------------------------------
-		public ConvertToStandardAudioEditor(ComponentFile file) : base(file, null, null)
+		public ConvertToStandardAudioEditor(ComponentFile file) :
+			base(file, null)
 		{
 			Logger.WriteEvent("ConvertToStandardAudioEditor constructor. file = {0}", file);
 			InitializeComponent();
@@ -38,8 +41,7 @@ namespace SayMore.Transcription.UI
 			// Finally, I "solved" the problem by caching and reusing the bitmap each time it is
 			// needed rather than create a new one. So now that bitmap stays in memory the whole
 			// time, but at least it's just one.
-			if (s_informationIconAsBitmap == null)
-				s_informationIconAsBitmap = SystemIcons.Information.ToBitmap();
+			s_informationIconAsBitmap ??= SystemIcons.Information.ToBitmap();
 			_pictureInfo.Image = s_informationIconAsBitmap;
 		}
 
@@ -48,12 +50,12 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnLoad(e);
 
-			_labelConvertHeading.Font = FontHelper.MakeFont(Program.DialogFont, 10, FontStyle.Bold);
-			_labelConvertIntroduction.Font = Program.DialogFont;
-			_labelSourceFileName.Font = Program.DialogFont;
+			_labelConvertHeading.Font = FontHelper.MakeFont(Program.DialogFont,
+				10, FontStyle.Bold);
 			_labelSourceFileNameValue.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
-			_labelStandardAudioFileName.Font = Program.DialogFont;
 			_labelStandardAudioFileNameValue.Font = _labelSourceFileNameValue.Font;
+
+			this.ScaleUIFont();
 
 			SetComponentFile(_file);
 		}
@@ -102,25 +104,17 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override bool IsOKToShow
-		{
-			get
-			{
-				return (_file != null && !_file.GetDoesHaveAnnotationFile() &&
-					_file.GetNeedsConvertingToStandardAudio() &&
-					!File.Exists(_file.GetSuggestedPathToStandardAudioFile()));
-			}
-		}
+		public override bool IsOKToShow =>
+			_file != null && !_file.GetDoesHaveAnnotationFile() &&
+			_file.GetNeedsConvertingToStandardAudio() &&
+			!File.Exists(_file.GetSuggestedPathToStandardAudioFile());
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = CommonUIStrings.StartAnnotatingTabText;
-			}
+			TabText = CommonUIStrings.StartAnnotatingTabText;
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 
 		/// ------------------------------------------------------------------------------------

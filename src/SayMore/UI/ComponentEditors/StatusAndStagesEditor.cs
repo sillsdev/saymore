@@ -23,7 +23,7 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ----------------------------------------------------------------------------------------
 		public StatusAndStagesEditor(ComponentFile file, string imageKey,
-			IEnumerable<ComponentRole> componentRoles) : base(file, null, imageKey)
+			IEnumerable<ComponentRole> componentRoles) : base(file, imageKey)
 		{
 			InitializeComponent();
 			Name = "StatusAndStages";
@@ -331,26 +331,28 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			TabText = LocalizationManager.GetString(
+				"SessionsView.StatusAndStagesEditor.TabText", "Status && Stages");
+			if (_statusRadioButtons != null)
 			{
-				TabText = LocalizationManager.GetString(
-					"SessionsView.StatusAndStagesEditor.TabText", "Status && Stages");
-				if (_statusRadioButtons != null)
+				foreach (var radioButton in _statusRadioButtons.Where(b => b.Tag is Session.Status))
 				{
-					foreach (var radioButton in _statusRadioButtons.Where(b => b.Tag is Session.Status))
-					{
-						var status = (Session.Status)radioButton.Tag;
-						radioButton.Text = Session.GetLocalizedStatus(status.ToString());
-						var toolTip = GetStatusToolTip(status);
-						if (toolTip != null)
-							_toolTip.SetToolTip(radioButton, toolTip);
-					}
+					var status = (Session.Status)radioButton.Tag;
+					radioButton.Text = Session.GetLocalizedStatus(status.ToString());
+					var toolTip = GetStatusToolTip(status);
+					if (toolTip != null)
+						_toolTip.SetToolTip(radioButton, toolTip);
 				}
 			}
+			if (_stageCheckBoxes != null)
+			{
+				foreach (var checkBox in _stageCheckBoxes)
+					checkBox.UpdateText();
+			}
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -418,23 +420,29 @@ namespace SayMore.UI.ComponentEditors
 				}
 			}
 
-			var roleFormat = LocalizationManager.GetString(
-				"SessionsView.StatusAndStagesEditor.StageNameDisplayFormat", "{0} (on auto-pilot)");
-
 			if (_completeType == StageCompleteType.Auto)
-			{
-				Text = string.Format(roleFormat, Role.Name);
 				CheckState = CheckState.Indeterminate;
-			}
 			else
-			{
-				Text = Role.Name;
-				CheckState = (_completeType == StageCompleteType.Complete ?
-					CheckState.Checked : CheckState.Unchecked);
-			}
+				CheckState = _completeType == StageCompleteType.Complete ?
+					CheckState.Checked : CheckState.Unchecked;
+
+			UpdateText();
 
 			stageCompletedControlValues[Role.Id] = _completeType;
 			return _completeType.ToString();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void UpdateText()
+		{
+			if (_completeType == StageCompleteType.Auto)
+			{
+				var roleFormat = LocalizationManager.GetString(
+					"SessionsView.StatusAndStagesEditor.StageNameDisplayFormat", "{0} (on auto-pilot)");
+				Text = string.Format(roleFormat, Role.Name);
+			}
+			else
+				Text = Role.Name;
 		}
 
 		/// ------------------------------------------------------------------------------------

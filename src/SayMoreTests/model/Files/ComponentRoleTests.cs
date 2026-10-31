@@ -70,9 +70,24 @@ namespace SayMoreTests.Model.Files
 
 		private static ComponentRole GetRoleForSourceRecording()
 		{
-			return new ComponentRole(typeof(Session), ComponentRole.kSourceComponentRoleId, "Source Recording",
+			return new ComponentRole(typeof(Session), ComponentRole.kSourceComponentRoleId,
+				() => "Source Recording",
 				ComponentRole.MeasurementTypes.Time, FileSystemUtils.GetIsAudioVideo,
 				"$ElementId$_Source", Color.Magenta, Color.Black);
+		}
+
+		[Test]
+		public void Name_AlwaysCallsDelegate_ReturnsCurrentValue()
+		{
+			var callCount = 0;
+			var labels = new[] { "Source Recording", "Grabación de origen" };
+			var role = new ComponentRole(typeof(Session), ComponentRole.kSourceComponentRoleId,
+				() => labels[callCount], ComponentRole.MeasurementTypes.Time,
+				FileSystemUtils.GetIsAudioVideo, "$ElementId$_Source", Color.Magenta, Color.Black);
+
+			Assert.That(role.Name, Is.EqualTo("Source Recording"));
+			callCount = 1;
+			Assert.That(role.Name, Is.EqualTo("Grabación de origen"));
 		}
 
 		[Test]

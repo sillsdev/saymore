@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using L10NSharp;
 using NUnit.Framework;
 using SIL.TestUtilities;
 using SayMore.Model;
@@ -23,6 +24,7 @@ namespace SayMoreTests.Model.Files
 		[SetUp]
 		public void Setup()
 		{
+			LocalizationManager.StrictInitializationMode = false;
 			_parentFolder = new TemporaryFolder("componentFileTest");
 			_fileTypes = new List<FileType> { new AnnotationFileType(null, null) };
 		}
@@ -458,23 +460,23 @@ namespace SayMoreTests.Model.Files
 		{
 			var componentRoles = new[]
 			{
-				new ComponentRole(typeof(Session), ComponentRole.kOralTranslationComponentRoleId, "translation",
+				new ComponentRole(typeof(Session), ComponentRole.kOralTranslationComponentRoleId, () => "translation",
 					ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"),
 					"$ElementId$_Translation", Color.Magenta, Color.Black),
 
-				new ComponentRole(typeof(Session), ComponentRole.kFreeTranslationComponentRoleId, "Written Translation",
+				new ComponentRole(typeof(Session), ComponentRole.kFreeTranslationComponentRoleId, () => "Written Translation",
 					ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"),
 					"$ElementId$_Transcription", Color.Magenta, Color.Black),
 
-				new ComponentRole(typeof(Session), ComponentRole.kSourceComponentRoleId, "Source Recording",
+				new ComponentRole(typeof(Session), ComponentRole.kSourceComponentRoleId, () => "Source Recording",
 					ComponentRole.MeasurementTypes.Time, FileSystemUtils.GetIsAudioVideo,
 					"$ElementId$_Source", Color.Magenta, Color.Black),
 
-				new ComponentRole(typeof(Person), ComponentRole.kConsentComponentRoleId, "Informed Consent",
+				new ComponentRole(typeof(Person), ComponentRole.kConsentComponentRoleId, () => "Informed Consent",
 					ComponentRole.MeasurementTypes.None, (p => p.Contains("_Consent.")),
 					"$ElementId$_Consent", Color.Magenta, Color.Black),
 
-				new ComponentRole(typeof(Person), ComponentRole.kCarefulSpeechComponentRoleId, "Careful Speech",
+				new ComponentRole(typeof(Person), ComponentRole.kCarefulSpeechComponentRoleId, () => "Careful Speech",
 					ComponentRole.MeasurementTypes.None, (p => p.Contains("_Careful.")),
 					"$ElementId$_Consent", Color.Magenta, Color.Black)
 			};
@@ -525,6 +527,7 @@ namespace SayMoreTests.Model.Files
 			Assert.AreEqual(1, f.GetAssignedRoles().Count());
 		}
 
+#pragma warning disable CS0618
 		[Test]
 		[Category("SkipOnCI")]
 		public void GetAssignedRoles_ForConsentAndSessionType_ReturnsEmptyEnumerator()
@@ -556,13 +559,14 @@ namespace SayMoreTests.Model.Files
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Translation-xyz.txt");
 			Assert.AreEqual("translation", f.GetAssignedRoles(new Session()).First().Name);
 		}
-
+#pragma warning restore CS0618
+		
 		[Test]
 		[Category("SkipOnCI")]
 		public void IdentifyAsRole_FileRenamed()
 		{
 			var f = CreateComponentFile("abc.txt");
-			var role = new ComponentRole(typeof (Session), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
+			var role = new ComponentRole(typeof (Session), "someRole", () => "someRole", ComponentRole.MeasurementTypes.None,
 										 p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta, Color.Black);
 			f.AssignRole(role);
 			Assert.AreEqual(ParentFolderName + "_someRole.txt", Path.GetFileName(f.PathToAnnotatedFile));

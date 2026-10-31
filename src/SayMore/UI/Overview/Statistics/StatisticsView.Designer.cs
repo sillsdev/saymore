@@ -13,10 +13,11 @@ namespace SayMore.UI.Overview.Statistics
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing)
             {
-                components.Dispose();
-            }
+                components?.Dispose();
+                _localizationManager.UiLanguageChanged -= UpdateDisplay;
+			}
             base.Dispose(disposing);
         }
 
@@ -35,7 +36,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._tableLayoutWorking = new System.Windows.Forms.TableLayoutPanel();
 			this._labelWorking = new System.Windows.Forms.Label();
 			this._pictureWorking = new System.Windows.Forms.PictureBox();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._toolStripActions = new SayMore.UI.LowLevelControls.ElementBar();
 			this._buttonRefresh = new System.Windows.Forms.ToolStripButton();
 			this._buttonCopy = new System.Windows.Forms.ToolStripButton();
@@ -289,7 +290,7 @@ namespace SayMore.UI.Overview.Statistics
 		private SIL.Windows.Forms.Widgets.EnhancedPanel _panelWorking;
 		private System.Windows.Forms.PictureBox _pictureWorking;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutWorking;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.ToolStripButton _buttonCopy;
 		private System.Windows.Forms.ToolStripButton _buttonSave;
 		private System.Windows.Forms.ToolStripButton _buttonPrint;

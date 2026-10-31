@@ -38,7 +38,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelReadAboutStages = new System.Windows.Forms.Label();
 			this._labelStagesHint = new System.Windows.Forms.Label();
 			this._buttonReadAboutStages = new System.Windows.Forms.Button();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this._tableLayoutOuter.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -192,8 +192,8 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayoutOuter.SetRowSpan(this._labelStagesHint, 5);
 			this._labelStagesHint.Size = new System.Drawing.Size(196, 65);
 			this._labelStagesHint.TabIndex = 28;
-			this._labelStagesHint.Text = "Stages are normally automatic indicators of what  has been done, based on file na" +
-    "mes and annotation work you\'ve done. Click any item to take control of this indi" +
+			this._labelStagesHint.Text = "Stages are normally automatic indicators of what has been done, based on file nam" +
+    "es and annotation work you\'ve done. Click any stage to take control of this indi" +
     "cator.";
 			// 
 			// _buttonReadAboutStages
@@ -253,7 +253,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Label _labelReadAboutStages;
 		private System.Windows.Forms.Label _labelStagesHint;
 		private System.Windows.Forms.Button _buttonReadAboutStages;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.ToolTip _toolTip;
 	}
 }

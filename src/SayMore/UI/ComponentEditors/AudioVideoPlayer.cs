@@ -18,7 +18,8 @@ namespace SayMore.UI.ComponentEditors
 		private readonly MediaPlayer _mediaPlayer;
 
 		/// ------------------------------------------------------------------------------------
-		public AudioVideoPlayer(ComponentFile file, string imageKey) : base(file, null, imageKey)
+		public AudioVideoPlayer(ComponentFile file, string imageKey) :
+			base(file, imageKey)
 		{
 			Logger.WriteEvent("AudioVideoPlayer constructor. file = {0}; imageKey = {1}", file, imageKey);
 			InitializeComponent();
@@ -38,7 +39,7 @@ namespace SayMore.UI.ComponentEditors
 			SetComponentFile(file);
 
 			// SP-831: tab is being localized before the file has been set in the base class
-			HandleStringsLocalized(null);
+			HandleStringsLocalized(null, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -64,22 +65,19 @@ namespace SayMore.UI.ComponentEditors
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
 			// SP-831: tab is being localized before the file has been set in the base class
 			if (_file == null)
 				return;
 
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = _file.FileType.IsVideo ?
-					LocalizationManager.GetString(
-						"CommonToMultipleViews.MediaPlayer.TabText-Video", "Video") :
-					LocalizationManager.GetString(
-						"CommonToMultipleViews.MediaPlayer.TabText-Audio", "Audio");
-			}
+			TabText = _file.FileType.IsVideo ?
+				LocalizationManager.GetString(
+					"CommonToMultipleViews.MediaPlayer.TabText-Video", "Video") :
+				LocalizationManager.GetString(
+					"CommonToMultipleViews.MediaPlayer.TabText-Audio", "Audio");
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -120,7 +118,7 @@ namespace SayMore.UI.ComponentEditors
 						Invoke((Action)(() => ErrorReport.NotifyUserOfProblem(e.Message)));
 					else
 						ErrorReport.NotifyUserOfProblem(e.Message);
-				};
+				}
 			}
 		}
 
@@ -136,12 +134,6 @@ namespace SayMore.UI.ComponentEditors
 			_mediaPlayerViewModel.VolumeChanged = null;
 			_mediaPlayerViewModel.ShutdownMPlayerProcess();
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//private static void HandleMediaError(object sender, _WMPOCXEvents_MediaErrorEvent e)
-		//{
-		//    SIL.Reporting.ErrorReport.NotifyUserOfProblem("Media error: " + e.pMediaObject);
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnParentChanged(EventArgs e)

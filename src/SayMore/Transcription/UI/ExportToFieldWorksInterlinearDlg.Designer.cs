@@ -1,4 +1,4 @@
-using L10NSharp.UI;
+using L10NSharp.Windows.Forms.UIComponents;
 using L10NSharp.XLiffUtils;
 
 namespace SayMore.Transcription.UI
@@ -17,11 +17,7 @@ namespace SayMore.Transcription.UI
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing && (components != null))
-			{
 				components.Dispose();
-				
-				LocalizeItemDlg<XLiffDocument>.StringsLocalized -= HandleStringsLocalized;
-			}
 			base.Dispose(disposing);
 		}
 
@@ -43,7 +39,7 @@ namespace SayMore.Transcription.UI
             this._comboTranslationWs = new System.Windows.Forms.ComboBox();
             this._labelOverview = new System.Windows.Forms.Label();
             this._labelImportInstructions = new System.Windows.Forms.Label();
-            this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+            this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
             this._tableLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
             this.SuspendLayout();
@@ -202,8 +198,8 @@ namespace SayMore.Transcription.UI
             this._labelImportInstructions.Padding = new System.Windows.Forms.Padding(0, 10, 0, 10);
             this._labelImportInstructions.Size = new System.Drawing.Size(254, 46);
             this._labelImportInstructions.TabIndex = 8;
-            this._labelImportInstructions.Text = "When importing this file into {0}, be sure to have the project anlysis language s" +
-    "et to {1} .";
+            this._labelImportInstructions.Text = "When importing this file into {0}, be sure to have the project analysis language " +
+    "set to {1} .";
             // 
             // locExtender
             // 
@@ -249,7 +245,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Label _labelFreeTranslationColumnHeadingText;
 		private System.Windows.Forms.ComboBox _comboTranslationWs;
 		private System.Windows.Forms.Label _labelOverview;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Label _labelImportInstructions;
 	}
 }

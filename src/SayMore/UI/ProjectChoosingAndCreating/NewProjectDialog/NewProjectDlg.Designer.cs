@@ -1,4 +1,5 @@
-using L10NSharp.UI;
+using L10NSharp.Windows.Forms;
+using L10NSharp.Windows.Forms.UIComponents;
 
 namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 {
@@ -32,7 +33,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._textBoxName = new System.Windows.Forms.TextBox();
 			this._labelNewProjectPath = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 

@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
+using SayMore.Properties;
+using SayMore.Utilities;
 using SIL.Windows.Forms;
 using SIL.Windows.Forms.Extensions;
 using SIL.Windows.Forms.Widgets;
@@ -51,7 +53,7 @@ namespace SayMore.UI.ProjectWindow
 			Visible = true;
 			base.DoubleBuffered = true;
 			base.BackColor = SystemColors.Control;
-			TabFont = FontHelper.MakeFont(Program.DialogFont, 9, FontStyle.Bold);
+			TabFont = MakeScaledTabFont();
 			_tooltip = new ToolTip();
 
 			SetupOuterTabCollectionContainer();
@@ -60,6 +62,8 @@ namespace SayMore.UI.ProjectWindow
 			SetupScrollPanel();
 
 			Tabs = new List<ViewTab>();
+
+			UITextScaler.ScaleChanged += HandleScaleChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -67,6 +71,8 @@ namespace SayMore.UI.ProjectWindow
 		{
 			if (disposing)
 			{
+				UITextScaler.ScaleChanged -= HandleScaleChanged;
+
 				if (Tabs != null)
 				{
 					for (int i = Tabs.Count - 1; i >= 0; i--)
@@ -78,6 +84,48 @@ namespace SayMore.UI.ProjectWindow
 			}
 
 			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static Font MakeScaledTabFont()
+		{
+			return FontHelper.MakeFont(Program.DialogFont,
+				9f * UITextScaler.ClampScalePercent(Settings.Default.UITextScale) / 100f,
+				FontStyle.Bold);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// AutoSize is deliberately off for ViewTab (see its constructor), and nothing resizes
+		/// it in response to a Font change the way the generic recursive UI scaling pass does
+		/// for ordinary controls, so the tab strip needs its own explicit re-measure here: the
+		/// font itself, each tab's width, and the header band/tab panel height.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleScaleChanged(object sender, EventArgs e)
+		{
+			TabFont = MakeScaledTabFont();
+
+			using (var g = CreateGraphics())
+			{
+				_panelHdrBand.Height = TextRenderer.MeasureText(g, "X",
+					TabFont, Size.Empty, kTxtFmtFlags).Height + 27;
+				_panelTabs.Height = _panelHdrBand.Height - 5;
+
+				foreach (var tab in Tabs)
+				{
+					tab.Font = TabFont;
+					tab.Width = TextRenderer.MeasureText(g, tab.Text, tab.Font,
+						Size.Empty, kTxtFmtFlags).Width;
+
+					if (tab.View is ISayMoreView sayMoreView && sayMoreView.Image != null)
+						tab.Width += sayMoreView.Image.Width + 5;
+
+					tab.Width += 6;
+				}
+			}
+
+			AdjustTabContainerWidth(true);
 		}
 
 		/// ------------------------------------------------------------------------------------

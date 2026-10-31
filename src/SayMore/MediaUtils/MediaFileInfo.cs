@@ -199,7 +199,7 @@ namespace SayMore.Media
 		/// The following was some debugging code written to evaluate the differences between the
 		/// information gleaned using MediaInfo.DLL vs. FFprobe. I decided to keep it around in
 		/// case at some point I get some more insight into the pros and/or cons of one or both
-		/// utlities and want to re-evaluate.
+		/// utilities and want to re-evaluate.
 		/// </summary>
 		private void CompareMediaInfoResults(MediaFileInfo mediaInfo, MediaFileInfo mediaInfoFromDll)
 		{

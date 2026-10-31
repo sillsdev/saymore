@@ -5,11 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
+using L10NSharp;
 using NUnit.Framework;
 using SIL.Reporting;
 using SIL.TestUtilities;
 using SayMore.Transcription.Model;
-using SayMoreTests.Model.Files;
+using SayMoreTests.MediaUtils;
 
 namespace SayMoreTests.Transcription.Model
 {
@@ -35,6 +36,7 @@ namespace SayMoreTests.Transcription.Model
 		[SetUp]
 		public void Setup()
 		{
+			LocalizationManager.StrictInitializationMode = false;
 			ErrorReport.IsOkToInteractWithUser = false;
 			_folder = new TemporaryFolder("AnnotationFileHelperTests");
 			_basicEafFileName = _folder.Combine("basic.eaf");

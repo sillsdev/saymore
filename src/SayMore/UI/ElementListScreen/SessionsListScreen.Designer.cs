@@ -26,7 +26,7 @@ namespace SayMore.UI.ElementListScreen
 			this._componentsSplitter = new System.Windows.Forms.SplitContainer();
 			this._sessionComponentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._labelClickNewHelpPrompt = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this._elementListSplitter)).BeginInit();
 			this._elementListSplitter.Panel1.SuspendLayout();
 			this._elementListSplitter.Panel2.SuspendLayout();
@@ -204,7 +204,7 @@ namespace SayMore.UI.ElementListScreen
 		private ComponentFileGrid _sessionComponentFileGrid;
 		private System.Windows.Forms.Button _buttonNewFromFiles;
 		private System.Windows.Forms.Label _labelClickNewHelpPrompt;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Button _buttonNewFromRecording;
 
 	    public string NameForUsageReporting

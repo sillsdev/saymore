@@ -14,8 +14,8 @@ namespace SayMore.UI.ComponentEditors
 		private Image _image;
 
 		public Image Image {
-			get { return _image;  }
-			private set { _image = value; }
+			get => _image;
+			private set => _image = value;
 		}
 
 		public int[] ClickZoomPercentages { get; private set; }

@@ -48,7 +48,7 @@ namespace SayMore.Transcription.UI
 			this._buttonAutoSegmenterHelp = new System.Windows.Forms.Button();
 			this._cboAudacityLabelTier = new System.Windows.Forms.ComboBox();
 			this._labelAudacityLabelTier = new System.Windows.Forms.Label();
-			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
+			this.locExtender = new L10NSharp.Windows.Forms.L10NSharpExtender(this.components);
 			this._tableLayoutGetStarted.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -313,7 +313,7 @@ namespace SayMore.Transcription.UI
 			this._radioButtonAudacity.Size = new System.Drawing.Size(155, 17);
 			this._radioButtonAudacity.TabIndex = 9;
 			this._radioButtonAudacity.TabStop = true;
-			this._radioButtonAudacity.Text = "Read an Audacity Label file";
+			this._radioButtonAudacity.Text = "Import an Audacity Label file";
 			this._radioButtonAudacity.UseVisualStyleBackColor = true;
 			this._radioButtonAudacity.CheckedChanged += new System.EventHandler(this._radioButtonAudacity_CheckedChanged);
 			// 
@@ -411,7 +411,7 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutGetStarted;
-		private L10NSharp.UI.L10NSharpExtender locExtender;
+		private L10NSharp.Windows.Forms.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Label _labelSegmentationMethodQuestion;
 		private System.Windows.Forms.Label _labelSegmentationMethod;
 		private System.Windows.Forms.Label _labelIntroduction;

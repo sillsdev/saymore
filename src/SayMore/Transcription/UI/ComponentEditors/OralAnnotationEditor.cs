@@ -7,6 +7,7 @@ using SIL.Windows.Forms.Miscellaneous;
 using SayMore.Model.Files;
 using SayMore.Media.MPlayer;
 using SayMore.UI.ComponentEditors;
+using SayMore.Utilities;
 using SIL.Windows.Forms;
 using SIL.Windows.Forms.Extensions;
 using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
@@ -20,7 +21,8 @@ namespace SayMore.Transcription.UI
 		private string _fileTooLongMsgDisplayedForFile;
 
 		/// ------------------------------------------------------------------------------------
-		public OralAnnotationEditor(ComponentFile file) : base(file, null, "Audio")
+		public OralAnnotationEditor(ComponentFile file) :
+			base(file, "Audio")
 		{
 			Logger.WriteEvent("OralAnnotationEditor constructor. file = {0}", file);
 			InitializeComponent();
@@ -210,6 +212,7 @@ namespace SayMore.Transcription.UI
 		{
 			SetComponentFile(_file);
 			_labelCursorTime.Font = Program.DialogFont;
+			this.ScaleUIFont();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -268,16 +271,13 @@ namespace SayMore.Transcription.UI
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = LocalizationManager.GetString(
-					"SessionsView.Transcription.GeneratedOralAnnotationView.TabText",
-					"Generated Audio");
-			}
+			TabText = LocalizationManager.GetString(
+				"SessionsView.Transcription.GeneratedOralAnnotationView.TabText",
+				"Generated Audio");
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 	}
 }

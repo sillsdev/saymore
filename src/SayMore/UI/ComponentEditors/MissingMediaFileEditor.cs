@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Forms;
 using L10NSharp;
 using SIL.Reporting;
@@ -11,12 +12,12 @@ namespace SayMore.UI.ComponentEditors
 	{
 		/// ------------------------------------------------------------------------------------
 		public MissingMediaFileEditor(ComponentFile file, string imageKey)
-			: base(file, null, imageKey)
+			: base(file, imageKey)
 		{
 			Logger.WriteEvent("MissingMediaFileEditor constructor. file = {0}", file);
 			InitializeComponent();
 			SetComponentFile(file);
-			HandleStringsLocalized(null);
+			HandleStringsLocalized(null, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -28,14 +29,14 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnVisibleChanged(System.EventArgs e)
+		protected override void OnVisibleChanged(EventArgs e)
 		{
 			base.OnVisibleChanged(e);
 			ReselectFilePathAndScrollIntoViewAsMuchAsPossible();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnSizeChanged(System.EventArgs e)
+		protected override void OnSizeChanged(EventArgs e)
 		{
 			base.OnSizeChanged(e);
 			ReselectFilePathAndScrollIntoViewAsMuchAsPossible();
@@ -55,25 +56,22 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				TabText = LocalizationManager.GetString(
-					"SessionsView.MissingMediaFileEditor.TabText", "Missing Media File");
-				
-				if (lblExplanation == null)
-					return;
+			TabText = LocalizationManager.GetString(
+				"SessionsView.MissingMediaFileEditor.TabText", "Missing Media File");
 
-				lblExplanation.Text = LocalizationManager.GetString(
-					"SessionsView.MissingMediaFileEditor.lblExplanation",
-					"This can happen if the media file is inadvertently deleted or renamed outside of SayMore. " +
-					"It could also happen if a properly named ELAN file is added to a SayMore session but internally " +
-					"refers to a media file that is not where SayMore expects to find it. If you have access to the media " +
-					"file and would like to be able to annotate it in SayMore, please copy it to the above location.");
-			}
+			if (lblExplanation == null)
+				return;
+
+			lblExplanation.Text = LocalizationManager.GetString(
+				"SessionsView.MissingMediaFileEditor.lblExplanation",
+				"This can happen if the media file is inadvertently deleted or renamed outside of SayMore. " +
+				"It could also happen if a properly named ELAN file is added to a SayMore session but internally " +
+				"refers to a media file that is not where SayMore expects to find it. If you have access to the media " +
+				"file and would like to be able to annotate it in SayMore, please copy it to the above location.");
 		}
 	}
 }

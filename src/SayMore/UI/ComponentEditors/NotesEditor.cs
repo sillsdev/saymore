@@ -14,7 +14,7 @@ namespace SayMore.UI.ComponentEditors
 		private string _origTabText;
 
 		/// ------------------------------------------------------------------------------------
-		public NotesEditor(ComponentFile file) : base(file, null, "Notes")
+		public NotesEditor(ComponentFile file) : base(file, "Notes")
 		{
 			InitializeComponent();
 			Name = "Notes";
@@ -67,15 +67,12 @@ namespace SayMore.UI.ComponentEditors
 		/// Update the tab text in case it was localized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
-			{
-				_origTabText = TabText = LocalizationManager.GetString(
-					"CommonToMultipleViews.NotesEditor.TabText", "Notes");
-			}
+			_origTabText = TabText = LocalizationManager.GetString(
+				"CommonToMultipleViews.NotesEditor.TabText", "Notes");
 
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 
 		private void NotesEditor_Load(object sender, EventArgs e)

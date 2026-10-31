@@ -3,10 +3,11 @@ using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.UI;
+using L10NSharp.Windows.Forms;
 using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
+using SayMore.Utilities;
 using SIL.Windows.Forms;
 
 namespace SayMore.UI.ComponentEditors
@@ -15,7 +16,8 @@ namespace SayMore.UI.ComponentEditors
 	public class FieldsValuesGrid : BetterGrid
 	{
 		private readonly FieldsValuesGridViewModel _model;
-		private readonly Font _factoryFieldFont;
+		private Font _factoryFieldFont;
+		private Font _workingLanguageFont;
 		private readonly Color _focusedSelectionBackColor;
 		private bool _adjustHeightToFitRows = true;
 		protected readonly L10NSharpExtender _locExtender;
@@ -31,8 +33,9 @@ namespace SayMore.UI.ComponentEditors
 			_locExtender.SetLocalizingId(this, "FieldsAndValuesGrid");
 
 			VirtualMode = true;
-			Font = Program.DialogFont;
+			Font = Program.ScaledDialogFont;
 			_factoryFieldFont = new Font(Font, FontStyle.Bold);
+			UITextScaler.ScaleChanged += HandleScaleChanged;
 
 			AllowUserToDeleteRows = true;
 			MultiSelect = false;
@@ -69,6 +72,59 @@ namespace SayMore.UI.ComponentEditors
 		{
 			get => base.Font;
 			set => base.Font = value;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+				UITextScaler.ScaleChanged -= HandleScaleChanged;
+
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleScaleChanged(object sender, EventArgs e)
+		{
+			Font = Program.ScaledDialogFont;
+			_factoryFieldFont = new Font(Font, FontStyle.Bold);
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sets the font to use for cells whose content is expected to be in the project's
+		/// working language (as opposed to fixed, localized UI vocabulary like factory field
+		/// names and dropdown options, which always use the UI font).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetWorkingLanguageFont(Font font)
+		{
+			_workingLanguageFont = font;
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Field names are either a fixed, localized factory field name (UI font) or a
+		/// user-typed custom field name (Working Language font).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal static Font GetFieldNameFont(bool isCustomField, Font factoryFieldFont,
+			Font workingLanguageFont)
+		{
+			return isCustomField ? workingLanguageFont : factoryFieldFont;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Values are either chosen from a fixed, localized dropdown list (UI font) or typed
+		/// freely by the user (Working Language font).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal static Font GetValueFont(bool isComboBoxCell, Font uiFont, Font workingLanguageFont)
+		{
+			return isComboBoxCell ? uiFont : workingLanguageFont;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -204,8 +260,8 @@ namespace SayMore.UI.ComponentEditors
 					if (e.ColumnIndex == 0)
 					{
 						this[0, e.RowIndex].ReadOnly = !isCustom;
-						if (!isCustom)
-							e.CellStyle.Font = _factoryFieldFont;
+						e.CellStyle.Font = GetFieldNameFont(isCustom, _factoryFieldFont,
+							_workingLanguageFont ?? Font);
 					}
 					else
 					{
@@ -214,6 +270,9 @@ namespace SayMore.UI.ComponentEditors
 						{
 							this[1, e.RowIndex].Style.ForeColor = Color.Gray;
 						}
+
+						e.CellStyle.Font = GetValueFont(this[1, e.RowIndex] is DataGridViewComboBoxCell,
+							Font, _workingLanguageFont ?? Font);
 					}
 				}
 			}
@@ -390,8 +449,8 @@ namespace SayMore.UI.ComponentEditors
 			var msg = LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.VerifyDeleteFieldQuestion",
 				"Do you want to delete the field '{0}' and its contents from the entire project?");
 
-			using (var dlg = new DeleteMessageBox(string.Format(msg, id)))
-				return (dlg.ShowDialog() == DialogResult.OK);
+			using var dlg = new DeleteMessageBox(string.Format(msg, id));
+			return dlg.ShowDialog() == DialogResult.OK;
 		}
 	}
 }

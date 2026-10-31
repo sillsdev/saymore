@@ -5,11 +5,12 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using L10NSharp.UI;
+using L10NSharp.Windows.Forms;
 using SIL.Extensions;
 using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model;
 using SayMore.Model.Files;
+using SayMore.Utilities;
 using SIL.Windows.Forms;
 using SIL.Windows.Forms.Extensions;
 using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
@@ -27,8 +28,8 @@ namespace SayMore.UI.ElementListScreen
 		public Action DeleteAction;
 
 		protected FileType _fileType;
-		private IEnumerable<ProjectElement> _items = new ProjectElement[] { };
-		protected ContextMenuStrip _contextMenuStrip = new ContextMenuStrip();
+		private IEnumerable<ProjectElement> _items = [];
+		protected ContextMenuStrip _contextMenuStrip = new();
 		protected readonly L10NSharpExtender _locExtender;
 
 		/// ------------------------------------------------------------------------------------
@@ -290,7 +291,7 @@ namespace SayMore.UI.ElementListScreen
 
 				_contextMenuStrip.Items.Clear();
 				_contextMenuStrip.Items.AddRange(GetMenuCommands().ToArray());
-				_contextMenuStrip.Show(contextMenuPosition);
+				_contextMenuStrip.ShowScaledContextMenuStrip(contextMenuPosition);
 			}, nameof(OnCellMouseDown), IgnoreIfDisposed);
 		}
 

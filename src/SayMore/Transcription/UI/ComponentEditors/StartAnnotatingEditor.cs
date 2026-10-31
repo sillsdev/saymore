@@ -11,6 +11,7 @@ using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Media;
 using SayMore.UI.ComponentEditors;
+using SayMore.Utilities;
 
 namespace SayMore.Transcription.UI
 {
@@ -21,7 +22,7 @@ namespace SayMore.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		public StartAnnotatingEditor(ComponentFile file, Project project) :
-			base(file, null, null)
+			base(file, null)
 		{
 			_project = project;
 			Logger.WriteEvent("OralAnnotationEditor constructor. file = {0}", file);
@@ -63,7 +64,9 @@ namespace SayMore.Transcription.UI
 			_radioButtonAudacity.Font = Program.DialogFont;
 			_labelAudacityLabelTier.Font = Program.DialogFont;
 			_radioButtonAutoSegmenter.Font = Program.DialogFont;
-        }
+			
+			this.ScaleUIFont();
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public override bool IsOKToShow
@@ -78,22 +81,19 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleStringsLocalized(ILocalizationManager lm)
+		protected override void HandleStringsLocalized(object sender, EventArgs e)
 		{
-			if (lm == null || lm.Id == ApplicationContainer.kSayMoreLocalizationId)
+			TabText = CommonUIStrings.StartAnnotatingTabText;
+
+			if (_cboAudacityLabelTier != null)
 			{
-				TabText = CommonUIStrings.StartAnnotatingTabText;
+				var selectedIndex = _cboAudacityLabelTier.SelectedIndex;
+				_cboAudacityLabelTier.Items.Clear();
+				PopulateAudacityLabelTierItems();
+				_cboAudacityLabelTier.SelectedIndex = selectedIndex >= 0 ? selectedIndex : 0;
+			}
 
-                if (_cboAudacityLabelTier != null)
-                {
-                    var selectedIndex = _cboAudacityLabelTier.SelectedIndex;
-                    _cboAudacityLabelTier.Items.Clear();
-                    PopulateAudacityLabelTierItems();
-                    _cboAudacityLabelTier.SelectedIndex = selectedIndex >= 0 ? selectedIndex : 0;
-                }
-            }
-
-			base.HandleStringsLocalized(lm);
+			base.HandleStringsLocalized(sender, e);
 		}
 
         private void PopulateAudacityLabelTierItems()

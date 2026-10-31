@@ -34,7 +34,7 @@ namespace SayMoreTests.UI.Overview.Statistics
 
 		private StatisticsViewModel CreateModel()
 		{
-			var nullRole = new ComponentRole(typeof(Session), "someRole", "someRole",
+			var nullRole = new ComponentRole(typeof(Session), "someRole", () => "someRole",
 				ComponentRole.MeasurementTypes.None,
 				p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta, Color.Black);
 
@@ -55,7 +55,7 @@ namespace SayMoreTests.UI.Overview.Statistics
 		{
 			//Mock<ComponentRole> role = new Mock<ComponentRole>();
 			//role.Setup(x => x.IsMatch("zzzz")).Returns(false);
-			var role = new ComponentRole(typeof (Session), "blah", "blah", ComponentRole.MeasurementTypes.Time,
+			var role = new ComponentRole(typeof (Session), "blah", () => "blah", ComponentRole.MeasurementTypes.Time,
 										 FileSystemUtils.GetIsAudioVideo, "CantMatchThis", Color.Magenta, Color.Black);
 			Assert.AreEqual(new TimeSpan(0),
 							   CreateModel().GetRecordingDurations(role));
@@ -90,9 +90,9 @@ namespace SayMoreTests.UI.Overview.Statistics
 		 [Test]
 		public void GetRecordingDurations_DistinguishesBetweenRoles()
 		{
-			ComponentRole firstRole = new ComponentRole(typeof (Session), "matchAnything", "matchAnything",
+			ComponentRole firstRole = new ComponentRole(typeof (Session), "matchAnything", () => "matchAnything",
 														ComponentRole.MeasurementTypes.Time,
-														(x => true), "$ElementId$_someRole");
+														(x => true), "$ElementId$_someRole", Color.Magenta, Color.Black);
 
 			CreateCanonciallyNamedRecordingInSession(firstRole, "SomeSessionId");
 
@@ -100,8 +100,8 @@ namespace SayMoreTests.UI.Overview.Statistics
 			TimeSpan t = CreateModel().GetRecordingDurations(firstRole);
 			 Assert.AreNotEqual(new TimeSpan(0), t, "should find one file with the first role");
 
-			ComponentRole secondRole = new ComponentRole(typeof (Session), "blah", "blah", ComponentRole.MeasurementTypes.Time,
-														 (x => true), "CantMatchThis");
+			ComponentRole secondRole = new ComponentRole(typeof (Session), "blah", () => "blah", ComponentRole.MeasurementTypes.Time,
+														 (x => true), "CantMatchThis", Color.Magenta, Color.Black);
 
 			TimeSpan t = CreateModel().GetRecordingDurations(secondRole);
 			Assert.AreEqual(new TimeSpan(0), t, "should not find any files with the second role");

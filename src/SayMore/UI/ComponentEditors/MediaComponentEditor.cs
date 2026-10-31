@@ -26,9 +26,9 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public MediaComponentEditor(ComponentFile file, string tabText, string imageKey,
+		public MediaComponentEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer)
-			: base(file, tabText, imageKey)
+			: base(file, imageKey)
 		{
 			InitializeComponent();
 			InitializeGrid(autoCompleteProvider, fieldGatherer);

@@ -2,6 +2,7 @@ using System.IO;
 using NUnit.Framework;
 using SIL.TestUtilities;
 using SayMore.Model.Files;
+using SayMoreTests.MediaUtils;
 
 namespace SayMoreTests.Model.Files
 {

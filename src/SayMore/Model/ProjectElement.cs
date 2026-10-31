@@ -47,9 +47,9 @@ namespace SayMore.Model
 		protected internal string ParentFolderPath { get; set; }
 		protected abstract string ExtensionWithoutPeriod { get; }
 
-		private readonly object _componentFilesSync = new object();
+		private readonly object _componentFilesSync = new();
 		protected HashSet<ComponentFile> _componentFiles;
-		private readonly object _fileWatcherSync = new object();
+		private readonly object _fileWatcherSync = new();
 		FileSystemWatcher _watcher;
 
 		/// ------------------------------------------------------------------------------------
@@ -131,17 +131,15 @@ namespace SayMore.Model
 			lock (_componentFilesSync)
 			{
 				if (MetaDataFile == null) // We are disposed
-					return new ComponentFile[0];
+					return [];
 
 				// Return a copy of the list to guard against changes
 				// on another thread (i.e., from the FileSystemWatcher)
 				if (_componentFiles != null)
 					return _componentFiles.ToArray();
 
-				_componentFiles = new HashSet<ComponentFile>();
-
 				// This is the actual person or session data
-				_componentFiles.Add(MetaDataFile);
+				_componentFiles = [MetaDataFile];
 
 				// These are the other files we find in the folder
 				var otherFiles = from f in Directory.GetFiles(FolderPath, "*.*")
@@ -151,7 +149,7 @@ namespace SayMore.Model
 
 				foreach (var filename in otherFiles)
 				{
-					ComponentFile newComponentFile = null;
+					ComponentFile newComponentFile;
 					try
 					{
 						newComponentFile = _componentFileFactory(this, filename);
@@ -204,8 +202,8 @@ namespace SayMore.Model
 						{
 							file = _componentFiles.FirstOrDefault(f => f.PathToAnnotatedFile == e.FullPath);
 						}
-						if (file != null)
-							file.Refresh();
+
+						file?.Refresh();
 					};
 				}
 
@@ -251,8 +249,8 @@ namespace SayMore.Model
 			get
 			{
 				yield return new FieldInstance("id", Id);
-				foreach (var field in MetaDataFile.MetaDataFieldValues)
-					yield return field;
+				foreach (var fieldInst in MetaDataFile.MetaDataFieldValues)
+					yield return fieldInst;
 			}
 		}
 
@@ -297,7 +295,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public bool AddComponentFile(string fileToAdd)
 		{
-			return AddComponentFiles(new[] { fileToAdd });
+			return AddComponentFiles([fileToAdd]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -518,7 +516,10 @@ namespace SayMore.Model
 					Directory.Move(FolderPath + "Renaming", FolderPath);
 					return true;
 				}
-				catch { }
+				catch
+				{
+					// Keep trying until timeout
+				}
 			}
 
 			return false;
@@ -580,7 +581,7 @@ namespace SayMore.Model
 				return new List<ComponentRole>(0);
 			}
 
-			//TODO: eventually, we need to differentiate between a file sitting there that
+			// TODO: eventually, we need to differentiate between a file sitting there that
 			// is in progress, and one that is in fact marked as completed. For now, just
 			// being there gets you the gold star.
 

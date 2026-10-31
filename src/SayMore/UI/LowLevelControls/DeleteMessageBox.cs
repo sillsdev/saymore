@@ -1,10 +1,11 @@
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Reporting;
+using SayMore.UI;
 
 namespace SayMore.UI.LowLevelControls
 {
-	public partial class DeleteMessageBox : Form
+	public partial class DeleteMessageBox : SayMoreFormBase
 	{
 		/// ------------------------------------------------------------------------------------
 		public static DialogResult Show(string msg)

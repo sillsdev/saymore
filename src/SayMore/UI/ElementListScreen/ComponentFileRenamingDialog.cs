@@ -8,12 +8,13 @@ using L10NSharp;
 using SIL.Reporting;
 using SIL.Windows.Forms;
 using SayMore.Model.Files;
+using SayMore.UI;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 
 namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class ComponentFileRenamingDialog : Form
+	public partial class ComponentFileRenamingDialog : SayMoreFormBase
 	{
 		private readonly PathValidator _pathValidator;
 		private readonly ComponentFile _componentFile;

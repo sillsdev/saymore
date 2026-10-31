@@ -59,7 +59,7 @@ namespace SayMoreTests.UI.ProjectWindow
 		private void CopySampleProject()
 		{
 			var sampleDataPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Substring(6);
-			sampleDataPath += @"\..\..\SampleData";
+			sampleDataPath += @"\..\..\..\..\SampleData";
 			CopyDir(sampleDataPath, _projectsFolder.Path);
 		}
 

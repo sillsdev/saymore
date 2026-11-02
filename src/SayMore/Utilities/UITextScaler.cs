@@ -11,8 +11,7 @@ namespace SayMore.Utilities
 	{
 		// UILanguageDlg's constructor overwrites _numUpDownScale's Designer-configured
 		// Minimum/Maximum with these at construction time, so these are the actual source
-		// of truth even though the Designer file also sets (matching, but not authoritative)
-		// values of its own.
+		// of truth even though the Designer file also sets the values.
 		public const int kMinScalePercent = 70;
 		public const int kMaxScalePercent = 200;
 
@@ -23,6 +22,9 @@ namespace SayMore.Utilities
 			new Dictionary<string, int> { ["bo"] = 130 };
 
 		private static readonly ConditionalWeakTable<Control, Font> s_origFonts = new ConditionalWeakTable<Control, Font>();
+
+		private static readonly ConditionalWeakTable<ComboBox, StrongBox<int>> s_baselineDropDownWidths =
+			new ConditionalWeakTable<ComboBox, StrongBox<int>>();
 
 		public static event EventHandler ScaleChanged;
 
@@ -60,12 +62,12 @@ namespace SayMore.Utilities
 			if (s_origFonts.TryGetValue(control, out var font))
 			{
 				// Ensure that the font family and style are still the same; otherwise, reset.
-				// A mismatch here is expected, not a bug: it happens, for example, when the UI
-				// language dialog is closed with OK but the scale percentage didn't actually
-				// change (NotifyScaleChanged still fires, re-triggering a scaling pass over
-				// controls that were already scaled), or when a control's baseline font family
-				// genuinely differs from an ancestor's (e.g. a mixed-family Designer file). In
-				// either case, the control's current font is simply the new baseline to track.
+				// Mismatches here can happen, for example, when the UI language dialog is closed
+				// with OK but the scale percentage didn't actually change (NotifyScaleChanged 
+				// still fires, re-triggering a scaling pass over controls that were already
+				// scaled), or when a control's baseline font family genuinely differs from an
+				// ancestor's (e.g. a mixed-family Designer file). In either case, the control's
+				// current font is simply the new baseline to track.
 				if (control.Font.FontFamily.Equals(font.FontFamily) &&
 					control.Font.Style == font.Style)
 				{
@@ -125,19 +127,13 @@ namespace SayMore.Utilities
 				formScale.AutoScaleMode = AutoScaleMode.None;
 			}
 			
-			if (!string.IsNullOrEmpty(control.Text))
-			{
-				// Always rebuilt from this control's own cached original -- family, style, and
-				// (critically) unit -- rather than reusing newFont (computed from some ancestor's
-				// original). A descendant's baseline font can legitimately differ from an
-				// ancestor's in family (e.g. a mixed-family Designer file) or in GraphicsUnit
-				// (e.g. ListPanel's _outerPanel.Font is declared in World units, unlike the Point
-				// units used almost everywhere else); reusing newFont in either case would
-				// silently apply the wrong family, or re-express the same numeric size in the
-				// wrong unit, inflating or shrinking the rendered text even at 100% scale.
-				var origFont = GetOriginalFont(control);
-				control.Font = new Font(origFont.FontFamily, origFont.Size * scale, origFont.Style, origFont.Unit);
-			}
+			// Always rebuilt from this control's own cached original -- family, style, and
+			// unit -- rather than reusing newFont (computed from some ancestor's original). A
+			// descendant's baseline font can legitimately differ from an ancestor's; reusing
+			// newFont could silently apply the wrong family, re-express the same numeric size in
+			// the wrong unit, etc.
+			var origFont = GetOriginalFont(control);
+			control.Font = new Font(origFont.FontFamily, origFont.Size * scale, origFont.Style, origFont.Unit);
 
 			ForceResizeIfAutoSizeWithMinimumSize(control);
 
@@ -154,8 +150,8 @@ namespace SayMore.Utilities
 					case Panel _:
 					case UserControl _:
 						child.ApplyFontRecursively(newFont, scale);
-						if (control.ContextMenuStrip != null)
-							ApplyFontToToolStripItems(control.ContextMenuStrip.Items, newFont);
+						if (child.ContextMenuStrip != null)
+							ApplyFontToToolStripItems(child.ContextMenuStrip.Items, newFont);
 						break;
 					case ComboBox combo:
 						child.ApplyFontRecursively(newFont, scale);
@@ -168,11 +164,16 @@ namespace SayMore.Utilities
 						// scaling. This has no effect on width, since Dock/Anchor still govern that.
 						combo.AutoSize = true;
 
-						int baselineDropDownWidth = -1;
-						if (combo.Tag == null)
-							combo.Tag = baselineDropDownWidth = combo.DropDownWidth;
-						else if (combo.Tag is int baselineWidth && baselineWidth > combo.Width)
-							baselineDropDownWidth = baselineWidth;
+						int baselineDropDownWidth;
+						if (!s_baselineDropDownWidths.TryGetValue(combo, out var baselineWidthBox))
+						{
+							baselineDropDownWidth = combo.DropDownWidth;
+							s_baselineDropDownWidths.Add(combo, new StrongBox<int>(baselineDropDownWidth));
+						}
+						else if (baselineWidthBox.Value > combo.Width)
+							baselineDropDownWidth = baselineWidthBox.Value;
+						else
+							baselineDropDownWidth = -1;
 						if (baselineDropDownWidth > 1) // sanity check
 							combo.DropDownWidth = (int)Math.Ceiling(baselineDropDownWidth * scale);
 						if (combo.DropDownStyle == ComboBoxStyle.DropDownList)

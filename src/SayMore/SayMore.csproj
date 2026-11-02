@@ -80,4 +80,8 @@
     <None Include="SayMore.ico" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="UI\ComponentEditors\ModifyMediaFileInfoOutput.xslt" />
+  </ItemGroup>
+
 </Project>

@@ -130,14 +130,12 @@ namespace SayMoreTests.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Reproduces a real crash: closing UILanguageDlg with OK fires NotifyScaleChanged
-		/// unconditionally, even when the scale percentage didn't actually change, re-triggering
-		/// a scaling pass over controls already scaled in a prior pass. Combined with a control
-		/// whose cached original font family no longer matches its current one (e.g. redundant
-		/// passes, or a mixed-family Designer hierarchy like SessionBasicEditor's _tableLayout
-		/// vs. its children), this used to hit a Debug.Fail that could pop a real blocking
-		/// dialog -- even under an automated NUnit run. The fix: treat a family/style mismatch
-		/// as the control's font legitimately changing out from under us, not a bug to flag.
+		/// Guards against a Debug.Fail -- which pops a blocking dialog, even under an automated
+		/// NUnit run -- when a control's cached original font no longer matches its current font
+		/// family/style on a redundant scaling pass (e.g. a scale-changed notification firing
+		/// even though the percentage didn't actually change, or a mixed-family Designer
+		/// hierarchy). The fix: treat a mismatch as the control's font legitimately changing out
+		/// from under us, not a bug to flag.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
@@ -162,15 +160,11 @@ namespace SayMoreTests.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Reproduces a real bug: ListPanel's _outerPanel.Font is declared in Designer as
-		/// ("Segoe UI", 11F, Regular, GraphicsUnit.World) -- not the GraphicsUnit.Point used
-		/// almost everywhere else in this codebase (11 World units is roughly equivalent to the
-		/// app's usual ~8.25pt text, just expressed in different units). Every control that
-		/// ambient-inherits this font (e.g. SessionsListScreen's "New"/"New From Recording..."/
-		/// "New From Files..." buttons, once reparented into ListPanel's button flow panel) was
-		/// getting visibly enlarged -- even at a neutral 100% scale -- because every font
-		/// reconstruction in UITextScaler used the 3-argument Font constructor, which always
-		/// creates a GraphicsUnit.Point font, silently discarding the original's unit.
+		/// Guards against reconstructing a font from its family, size, and style while
+		/// discarding its GraphicsUnit. A control's baseline font can be declared in a unit
+		/// other than Point (e.g. World, as the 3-argument Font constructor's default would
+		/// silently convert to); losing that unit re-expresses the same numeric size in a
+		/// different unit, inflating or shrinking the rendered text even at a neutral 100% scale.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
@@ -190,6 +184,30 @@ namespace SayMoreTests.Utilities
 					"Reconstructing the font must preserve the original GraphicsUnit, not silently convert it to Point.");
 				Assert.AreEqual(11f, button.Font.Size, 0.01f,
 					"At 100% scale the numeric size (in its original unit) should be unchanged.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// A control's Text is a mutable, independent property -- a Label with empty Text now
+		/// can have text set into it later (e.g. a status message, or a field populated after a
+		/// slower load). Skipping the Font assignment while Text happens to be empty would leave
+		/// that control's Font un-set (ambient) only until the next time its own Font is ever
+		/// explicitly assigned for any reason.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_ControlHasEmptyText_FontIsStillScaled()
+		{
+			Settings.Default.UITextScale = 200;
+
+			using (var label = new Label { Text = "", Font = new Font(FontFamily.GenericSansSerif, 9f) })
+			{
+				var originalSize = label.Font.Size;
+
+				label.ScaleUIFont();
+
+				Assert.Greater(label.Font.Size, originalSize);
 			}
 		}
 	}

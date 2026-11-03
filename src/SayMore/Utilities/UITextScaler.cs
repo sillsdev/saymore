@@ -26,6 +26,9 @@ namespace SayMore.Utilities
 		private static readonly ConditionalWeakTable<ComboBox, StrongBox<int>> s_baselineDropDownWidths =
 			new ConditionalWeakTable<ComboBox, StrongBox<int>>();
 
+		private static readonly ConditionalWeakTable<DataGridViewColumn, Font> s_origColumnHeaderFonts =
+			new ConditionalWeakTable<DataGridViewColumn, Font>();
+
 		public static event EventHandler ScaleChanged;
 
 		public static void NotifyScaleChanged()
@@ -121,6 +124,27 @@ namespace SayMore.Utilities
 
 		public static void ApplyFontRecursively(this Control control, Font newFont, float scale)
 		{
+			// A control that has never had its own Font explicitly set ambient-tracks its
+			// parent's Font, so reading it as that control's "original" is only valid before
+			// any ancestor in this same pass has already been rescaled. Caching every
+			// descendant's original font up front, against the pre-scale tree, prevents an
+			// ambient-tracking control several levels deep from picking up an ancestor's
+			// already-scaled Font as its own baseline and having the scale factor compound
+			// once per ambient level (e.g. scale^3 for a three-level chain).
+			CacheOriginalFontsRecursively(control);
+			control.ApplyFontCore(newFont, scale);
+		}
+
+		private static void CacheOriginalFontsRecursively(Control control)
+		{
+			GetOriginalFont(control);
+
+			foreach (Control child in control.Controls)
+				CacheOriginalFontsRecursively(child);
+		}
+
+		private static void ApplyFontCore(this Control control, Font newFont, float scale)
+		{
 			if (!scale.Equals(1f) && control is Form formScale)
 			{
 				// Prevent auto-scaling from interfering
@@ -149,12 +173,12 @@ namespace SayMore.Utilities
 					case GroupBox _:
 					case Panel _:
 					case UserControl _:
-						child.ApplyFontRecursively(newFont, scale);
+						child.ApplyFontCore(newFont, scale);
 						if (child.ContextMenuStrip != null)
 							ApplyFontToToolStripItems(child.ContextMenuStrip.Items, newFont);
 						break;
 					case ComboBox combo:
-						child.ApplyFontRecursively(newFont, scale);
+						child.ApplyFontCore(newFont, scale);
 
 						// A ComboBox's own rendered height always tracks its Font correctly (the
 						// OS enforces PreferredHeight regardless of AutoSize), but when one sits
@@ -189,7 +213,22 @@ namespace SayMore.Utilities
 						break;
 					case DataGridView dgv:
 						foreach (DataGridViewColumn col in dgv.Columns)
-							col.HeaderCell.Style.Font = newFont;
+						{
+							if (!s_origColumnHeaderFonts.TryGetValue(col, out var origHeaderFont))
+							{
+								// HeaderCell.Style.Font is null unless the column explicitly set
+								// its own (e.g. TextAnnotationColumnWithMenu's intentionally bold
+								// header); fall back to the grid's own cached original font so an
+								// unstyled header still scales consistently with the rest of the
+								// grid, instead of losing a column's own distinct styling to the
+								// ancestor-derived newFont every time this case is reached.
+								origHeaderFont = col.HeaderCell.Style.Font ?? GetOriginalFont(dgv);
+								s_origColumnHeaderFonts.Add(col, origHeaderFont);
+							}
+
+							col.HeaderCell.Style.Font = new Font(origHeaderFont.FontFamily,
+								origHeaderFont.Size * scale, origHeaderFont.Style, origHeaderFont.Unit);
+						}
 						// REVIEW: recurse to apply to child controls within DataGridView (rare)?
 						break;
 					// REVIEW: no ListView/TreeView case. The one current usage
@@ -202,8 +241,8 @@ namespace SayMore.Utilities
 					case SplitContainer split:
 						// SplitContainer doesn't derive from Panel, so its panels (e.g. a
 						// left-hand sidebar) would otherwise be silently skipped.
-						split.Panel1.ApplyFontRecursively(newFont, scale);
-						split.Panel2.ApplyFontRecursively(newFont, scale);
+						split.Panel1.ApplyFontCore(newFont, scale);
+						split.Panel2.ApplyFontCore(newFont, scale);
 						break;
 				}
 			}

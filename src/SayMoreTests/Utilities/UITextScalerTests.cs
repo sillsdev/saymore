@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows.Forms;
 using NUnit.Framework;
 using SayMore.Properties;
+using SayMore.UI;
 using SayMore.Utilities;
 
 namespace SayMoreTests.Utilities
@@ -13,6 +14,8 @@ namespace SayMoreTests.Utilities
 	[NonParallelizable]
 	public class UITextScalerTests
 	{
+		private class DiagnosticForm : SayMoreFormBase { }
+
 		/// ------------------------------------------------------------------------------------
 		[TearDown]
 		public void TearDown()
@@ -213,10 +216,10 @@ namespace SayMoreTests.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// ApplyFontRecursively only recurses into a hardcoded allowlist of container types
-		/// (Panel, UserControl, ComboBox, DataGridView, ToolStrip). SplitContainer isn't a Panel
-		/// subclass, so content inside a SplitContainer's panels (e.g. a left-hand sidebar) was
-		/// silently skipped, even though the SplitContainer itself was reached.
+		/// The recursive scaling pass only recurses into a hardcoded allowlist of container
+		/// types. SplitContainer isn't a Panel subclass, so without explicit handling, content
+		/// inside its Panel1/Panel2 (e.g. a left-hand sidebar) would be silently skipped even
+		/// though the SplitContainer itself is reached.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
@@ -241,12 +244,11 @@ namespace SayMoreTests.Utilities
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// A Control with both AutoSize=true and an explicit MinimumSize (common for buttons
-		/// throughout the app, e.g. SessionsListScreen's "New From Recording..." button) grows
-		/// correctly as its font grows, but once its preferred size has exceeded MinimumSize,
-		/// shrinking the font back down doesn't reliably shrink the control back down on its own --
-		/// a known WinForms quirk. This needs to be fixed in the shared recursive scaling pass
-		/// itself (ApplyFontRecursively), not per-dialog, since every scaled Form/UserControl in
-		/// the app goes through it.
+		/// throughout the app) grows correctly as its font grows, but once its preferred size
+		/// has exceeded MinimumSize, shrinking the font back down doesn't reliably shrink the
+		/// control back down on its own -- a known WinForms quirk. Handling this centrally, in
+		/// the shared recursive scaling pass, means every scaled Form/UserControl in the app
+		/// gets the fix automatically, rather than needing it repeated per-dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
@@ -281,17 +283,16 @@ namespace SayMoreTests.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Reproduces a reported "Open dropdown gets cut off at 130% scaling" bug in
-		/// SessionBasicEditor's _access ComboBox, which sits in the last row of an AutoSize
-		/// TableLayoutPanel. The initial hypothesis was a margin-scaling gap, then a nested-AutoSize-
-		/// TableLayoutPanel caching bug; neither held up. The real cause: WinForms' TableLayoutPanel
-		/// under-measures an AutoSize row containing a ComboBox, because ComboBox.AutoSize defaults
-		/// to false and the panel's row-AutoSize calculation doesn't fall back to GetPreferredSize()
-		/// for non-AutoSize children the way it does for e.g. Labels. This reproduces even with a
-		/// single (non-nested) TableLayoutPanel and a ComboBox whose large font was never the result
-		/// of scaling at all -- it's a pre-existing WinForms quirk, not something our scaling code
-		/// introduced. ComboBox's own rendered height is always correct (the OS enforces
-		/// PreferredHeight regardless of AutoSize); only the PARENT's row-height bookkeeping is wrong.
+		/// A ComboBox docked in the last row of an AutoSize TableLayoutPanel can end up with its
+		/// row too short to contain it after scaling, even though the ComboBox's own rendered
+		/// height is always correct (the OS enforces PreferredHeight regardless of AutoSize). The
+		/// cause: WinForms' TableLayoutPanel under-measures an AutoSize row containing a ComboBox,
+		/// because ComboBox.AutoSize defaults to false and the panel's row-AutoSize calculation
+		/// doesn't fall back to GetPreferredSize() for non-AutoSize children the way it does for
+		/// e.g. Labels -- a pre-existing WinForms quirk, not something the scaling pass introduces.
+		/// Scaling isn't required to trigger it: a single TableLayoutPanel and a ComboBox given a
+		/// large font directly reproduces it just as well; only the parent's row-height
+		/// bookkeeping is wrong.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
@@ -338,10 +339,10 @@ namespace SayMoreTests.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// ApplyFontRecursively's DataGridView case used to overwrite every column's
-		/// HeaderCell.Style.Font with the ancestor-derived font, destroying any column's own
-		/// distinct header styling (e.g. TextAnnotationColumnWithMenu's intentionally bold
-		/// header).
+		/// A DataGridView column with its own explicit HeaderCell.Style.Font (e.g. an
+		/// intentionally bold header) must keep that styling through a scaling pass, not have it
+		/// replaced by an ancestor-derived font that would strip the Bold and any other distinct
+		/// styling.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
@@ -434,6 +435,93 @@ namespace SayMoreTests.Utilities
 				Assert.AreEqual(outer.Font.Size, button.Font.Size, 0.01f,
 					"A control several levels of unset Font below the scaled root should end up " +
 					"at the same scaled size as the root, not compounded once per ambient level.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// A DataGridView's own Font must be scaled too, not just its column headers: an
+		/// unstyled cell/column inherits through it, and code that paints directly onto the grid
+		/// (e.g. a drag-and-drop hint message) reads it directly, since that code has no
+		/// per-cell style of its own to pull from.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_DataGridView_ScalesGridsOwnFont()
+		{
+			Settings.Default.UITextScale = 200;
+
+			using (var host = new Panel())
+			using (var grid = new DataGridView())
+			{
+				host.Controls.Add(grid);
+				var originalSize = grid.Font.Size;
+
+				host.ScaleUIFont();
+
+				Assert.Greater(grid.Font.Size, originalSize);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// A control added to an already-loaded Form's tree well after that Form's own
+		/// one-time Load-triggered scaling pass -- e.g. a view a screen swaps into a
+		/// placeholder panel only once the user navigates to it, such as ProjectScreen's project
+		/// sub-views -- should get scaled at the point it's swapped in.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_CalledOnControlSwappedIntoAlreadyLoadedForm_FontIsScaled()
+		{
+			Settings.Default.UITextScale = 200;
+
+			using (var form = new DiagnosticForm())
+			using (var panel2 = new Panel { Dock = DockStyle.Fill })
+			using (var label = new Label { AutoSize = true, Text = "Caption",
+				Font = new Font(FontFamily.GenericSansSerif, 8.25f) })
+			{
+				form.Controls.Add(panel2);
+				var originalSize = label.Font.Size;
+
+				form.Show();
+				try
+				{
+					// Simulates a screen swapping a new sub-view into an already-loaded Form,
+					// the way ProjectScreen.ShowControl does.
+					panel2.Controls.Add(label);
+					label.ScaleUIFont();
+
+					Assert.Greater(label.Font.Size, originalSize);
+				}
+				finally
+				{
+					form.Close();
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// A ToolStrip's (e.g. MenuStrip's) own Font must be scaled too, not just its items'
+		/// fonts: it governs the strip's own layout/height independent of the items' fonts, so
+		/// an unscaled strip can end up too short to properly display the now-larger item text.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_ToolStrip_ScalesStripsOwnFont()
+		{
+			Settings.Default.UITextScale = 200;
+
+			using (var host = new Panel())
+			using (var menuStrip = new MenuStrip())
+			{
+				host.Controls.Add(menuStrip);
+				var originalSize = menuStrip.Font.Size;
+
+				host.ScaleUIFont();
+
+				Assert.Greater(menuStrip.Font.Size, originalSize);
 			}
 		}
 	}

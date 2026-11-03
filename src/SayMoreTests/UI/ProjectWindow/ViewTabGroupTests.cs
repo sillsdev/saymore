@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using L10NSharp;
 using NUnit.Framework;
 using SayMore.Properties;
+using SayMore.UI;
 using SayMore.UI.ProjectWindow;
 using SayMore.Utilities;
 
@@ -20,6 +21,8 @@ namespace SayMoreTests.UI.ProjectWindow
 	[NonParallelizable]
 	public class ViewTabGroupTests
 	{
+		private class DiagnosticForm : SayMoreFormBase { }
+
 		/// ------------------------------------------------------------------------------------
 		[OneTimeSetUp]
 		public void FixtureSetup()
@@ -51,6 +54,43 @@ namespace SayMoreTests.UI.ProjectWindow
 				UITextScaler.NotifyScaleChanged();
 
 				Assert.Greater(tab.Width, widthAt100Percent);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// A ViewTab is still a Label, so the generic recursive UI scaling pass (triggered once
+		/// at the owning Form's Load) reaches it too -- but it's already been correctly scaled
+		/// by ViewTabGroup's own mechanism at construction time. Without an exclusion, the
+		/// generic pass treats that already-scaled font as a fresh 100% baseline and scales it
+		/// again on top, compounding the result.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_ViewTabAlreadyScaledByViewTabGroup_DoesNotCompound()
+		{
+			Settings.Default.UITextScale = 130;
+
+			using (var form = new DiagnosticForm())
+			using (var tabGroup = new ViewTabGroup())
+			using (var view = new UserControl { Text = "Project" })
+			{
+				form.Controls.Add(tabGroup);
+				var tab = tabGroup.AddTab(view);
+
+				// ViewTabGroup's own constructor already set this correctly from Settings.
+				var sizeBeforeGenericScaling = tab.Font.Size;
+
+				form.Show();
+				try
+				{
+					Assert.AreEqual(sizeBeforeGenericScaling, tab.Font.Size, 0.01f,
+						"The generic scaling pass must not compound on top of ViewTabGroup's own already-correct tab font.");
+				}
+				finally
+				{
+					form.Close();
+				}
 			}
 		}
 	}

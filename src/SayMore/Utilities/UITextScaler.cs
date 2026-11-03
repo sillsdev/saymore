@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using SayMore.UI.ProjectWindow;
 
 namespace SayMore.Utilities
 {
@@ -165,6 +166,12 @@ namespace SayMore.Utilities
 			{
 				switch (child)
 				{
+					// ViewTab maintains its own already-correctly-scaled font (see
+					// ViewTabGroup.HandleScaleChanged/MakeScaledTabFont); since it's a Label, it
+					// would otherwise also be reached by the Label case below, which would treat
+					// that already-scaled font as a fresh 100% baseline and compound on top of it.
+					case ViewTab _:
+						break;
 					// List of types we explicitly support
 					case Label _:
 					case Button _:
@@ -212,6 +219,15 @@ namespace SayMore.Utilities
 
 						break;
 					case DataGridView dgv:
+						// The grid's own Font cascades to any column/cell that doesn't set its
+						// own style, and is also what code that paints directly onto the grid
+						// (e.g. a drag-and-drop hint message) reads, since it has no per-cell
+						// style of its own to pull from -- so it needs rescaling here too, not
+						// just the column headers below.
+						var origGridFont = GetOriginalFont(dgv);
+						dgv.Font = new Font(origGridFont.FontFamily, origGridFont.Size * scale,
+							origGridFont.Style, origGridFont.Unit);
+
 						foreach (DataGridViewColumn col in dgv.Columns)
 						{
 							if (!s_origColumnHeaderFonts.TryGetValue(col, out var origHeaderFont))
@@ -222,7 +238,7 @@ namespace SayMore.Utilities
 								// unstyled header still scales consistently with the rest of the
 								// grid, instead of losing a column's own distinct styling to the
 								// ancestor-derived newFont every time this case is reached.
-								origHeaderFont = col.HeaderCell.Style.Font ?? GetOriginalFont(dgv);
+								origHeaderFont = col.HeaderCell.Style.Font ?? origGridFont;
 								s_origColumnHeaderFonts.Add(col, origHeaderFont);
 							}
 
@@ -236,6 +252,12 @@ namespace SayMore.Utilities
 					// text, so scaling its font is questionable even though scaling its size for
 					// visual consistency might be worth doing; see the REVIEW comment there.
 					case ToolStrip toolStrip: // This also includes ToolStripDropDown
+						// The strip's own Font (e.g. MenuStrip's) governs its layout/height
+						// independent of its items' fonts; leaving it unscaled can leave the
+						// strip too short to properly display the now-larger item text.
+						var origStripFont = GetOriginalFont(toolStrip);
+						toolStrip.Font = new Font(origStripFont.FontFamily,
+							origStripFont.Size * scale, origStripFont.Style, origStripFont.Unit);
 						ApplyFontToToolStripItems(toolStrip.Items, newFont);
 						break;
 					case SplitContainer split:

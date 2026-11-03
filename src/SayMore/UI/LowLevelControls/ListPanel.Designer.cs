@@ -27,6 +27,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonNew = new System.Windows.Forms.Button();
 			this._headerLabel = new SIL.Windows.Forms.Widgets.HeaderLabel();
 			this._buttonColChooser = new SayMore.UI.LowLevelControls.ColumnChooserButton();
+			this._searchTextBox = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._outerPanel.SuspendLayout();
 			this._buttonsFlowLayoutPanel.SuspendLayout();
@@ -61,7 +62,7 @@ namespace SayMore.UI.LowLevelControls
 			this._outerPanel.MnemonicGeneratesClick = false;
 			this._outerPanel.Name = "_outerPanel";
 			this._outerPanel.PaintExplorerBarBackground = false;
-			this._outerPanel.Size = new System.Drawing.Size(170, 277);
+			this._outerPanel.Size = new System.Drawing.Size(405, 317);
 			this._outerPanel.TabIndex = 1;
 			// 
 			// _buttonsFlowLayoutPanel
@@ -70,10 +71,10 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonsFlowLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._buttonsFlowLayoutPanel.Controls.Add(this._buttonNew);
 			this._buttonsFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this._buttonsFlowLayoutPanel.Location = new System.Drawing.Point(0, 239);
+			this._buttonsFlowLayoutPanel.Location = new System.Drawing.Point(0, 279);
 			this._buttonsFlowLayoutPanel.Name = "_buttonsFlowLayoutPanel";
 			this._buttonsFlowLayoutPanel.Padding = new System.Windows.Forms.Padding(2);
-			this._buttonsFlowLayoutPanel.Size = new System.Drawing.Size(168, 36);
+			this._buttonsFlowLayoutPanel.Size = new System.Drawing.Size(403, 36);
 			this._buttonsFlowLayoutPanel.TabIndex = 3;
 			this._buttonsFlowLayoutPanel.TabStop = true;
 			this._buttonsFlowLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleButtonPanelPaint);
@@ -100,6 +101,7 @@ namespace SayMore.UI.LowLevelControls
 			this._headerLabel.ClipTextForChildControls = true;
 			this._headerLabel.ControlReceivingFocusOnMnemonic = null;
 			this._headerLabel.Controls.Add(this._buttonColChooser);
+			this._headerLabel.Controls.Add(this._searchTextBox);
 			this._headerLabel.Dock = System.Windows.Forms.DockStyle.Top;
 			this._headerLabel.DoubleBuffered = true;
 			this._headerLabel.DrawOnlyBottomBorder = false;
@@ -116,13 +118,13 @@ namespace SayMore.UI.LowLevelControls
 			this._headerLabel.Name = "_headerLabel";
 			this._headerLabel.PaintExplorerBarBackground = false;
 			this._headerLabel.ShowWindowBackgroundOnTopAndRightEdge = true;
-			this._headerLabel.Size = new System.Drawing.Size(168, 23);
+			this._headerLabel.Size = new System.Drawing.Size(403, 23);
 			this._headerLabel.TabIndex = 0;
 			this._headerLabel.Text = "Change this text";
 			this._headerLabel.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleHeaderPanelPaint);
-			// 
+			//
 			// _buttonColChooser
-			// 
+			//
 			this._buttonColChooser.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this._buttonColChooser.BackColor = System.Drawing.Color.Transparent;
 			this._buttonColChooser.CanBeChecked = false;
@@ -135,13 +137,26 @@ namespace SayMore.UI.LowLevelControls
 			this.locExtender.SetLocalizableToolTip(this._buttonColChooser, "Choose Columns");
 			this.locExtender.SetLocalizationComment(this._buttonColChooser, null);
 			this.locExtender.SetLocalizingId(this._buttonColChooser, "CommonToMultipleViews.ElementList.ColumnChooserButton");
-			this._buttonColChooser.Location = new System.Drawing.Point(149, 2);
+			this._buttonColChooser.Location = new System.Drawing.Point(384, 2);
 			this._buttonColChooser.Name = "_buttonColChooser";
 			this._buttonColChooser.Size = new System.Drawing.Size(20, 20);
 			this._buttonColChooser.TabIndex = 0;
-			// 
+			//
+			// _searchTextBox
+			//
+			this._searchTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this._searchTextBox.Dock = System.Windows.Forms.DockStyle.Right;
+			this.locExtender.SetLocalizableToolTip(this._searchTextBox, null);
+			this.locExtender.SetLocalizationComment(this._searchTextBox, null);
+			this.locExtender.SetLocalizingId(this._searchTextBox, "ListPanel._searchTextBox");
+			this._searchTextBox.Location = new System.Drawing.Point(221, 0);
+			this._searchTextBox.Margin = new System.Windows.Forms.Padding(2);
+			this._searchTextBox.Name = "_searchTextBox";
+			this._searchTextBox.Size = new System.Drawing.Size(180, 23);
+			this._searchTextBox.TabIndex = 1;
+			//
 			// ListPanel
-			// 
+			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._outerPanel);
@@ -152,13 +167,14 @@ namespace SayMore.UI.LowLevelControls
 			this.locExtender.SetLocalizingId(this, "ListPanel.ListPanel");
 			this.MinimumSize = new System.Drawing.Size(125, 0);
 			this.Name = "ListPanel";
-			this.Size = new System.Drawing.Size(170, 277);
+			this.Size = new System.Drawing.Size(405, 317);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this._outerPanel.ResumeLayout(false);
 			this._outerPanel.PerformLayout();
 			this._buttonsFlowLayoutPanel.ResumeLayout(false);
 			this._buttonsFlowLayoutPanel.PerformLayout();
 			this._headerLabel.ResumeLayout(false);
+			this._headerLabel.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -171,5 +187,6 @@ namespace SayMore.UI.LowLevelControls
 		public System.Windows.Forms.Button _buttonNew;
 		private System.Windows.Forms.FlowLayoutPanel _buttonsFlowLayoutPanel;
 		private ColumnChooserButton _buttonColChooser;
+		private System.Windows.Forms.TextBox _searchTextBox;
 	}
 }

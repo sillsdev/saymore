@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using SayMore.Utilities;
 using SIL.Windows.Forms.Extensions;
 
 namespace SayMore.UI.ComponentEditors
@@ -22,7 +23,7 @@ namespace SayMore.UI.ComponentEditors
 			Color componentEditorBorderColor)
 		{
 			ImageList = imgList;
-			Font = Program.DialogFont;
+			Font = Program.ScaledDialogFont;
 			Dock = DockStyle.Fill;
 			Visible = false;
 			ProviderKey = providerKey;
@@ -31,7 +32,26 @@ namespace SayMore.UI.ComponentEditors
 			_componentEditorBackColor = componentEditorBackColor;
 			_componentEditorBorderColor = componentEditorBorderColor;
 
+			UITextScaler.ScaleChanged += HandleScaleChanged;
+
 			MakeAppropriateEditorsVisible();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+				UITextScaler.ScaleChanged -= HandleScaleChanged;
+
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleScaleChanged(object sender, EventArgs e)
+		{
+			// Unlike ViewTabGroup's hand-rolled tabs, native TabControl re-measures and
+			// relayouts its own tab headers automatically when Font changes.
+			Font = Program.ScaledDialogFont;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -76,7 +96,14 @@ namespace SayMore.UI.ComponentEditors
 				}
 
 				this.SetWindowRedraw(false);
-				TabPages.Clear();
+
+				// Merely clearing TabPages would detach the old pages but not dispose them,
+				// so any event subscription a page (or its editor control) made to something
+				// outside itself -- e.g. UITextScaler.ScaleChanged -- would stay registered,
+				// keeping the page and everything it references reachable indefinitely.
+				// Disposing a page removes it from TabPages, so this drains the collection.
+				while (TabPages.Count > 0)
+					TabPages[0].Dispose();
 
 				foreach (var editor in EditorProviders.Where(ep => ep.IsOKToShow))
 				{

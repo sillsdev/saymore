@@ -23,7 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -78,6 +78,10 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="SayMore.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="UI\ComponentEditors\ModifyMediaFileInfoOutput.xslt" />
   </ItemGroup>
 
 </Project>

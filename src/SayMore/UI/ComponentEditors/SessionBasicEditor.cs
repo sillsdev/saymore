@@ -498,6 +498,9 @@ namespace SayMore.UI.ComponentEditors
 					_location.Font = font;
 					_synopsis.Font = font;
 				}
+
+				_gridAdditionalFields.SetWorkingLanguageFont(font);
+				_gridCustomFields.SetWorkingLanguageFont(font);
 			}, $"{GetType().Name}.{nameof(SetWorkingLanguageFont)}", IgnoreAll);
 		}
 

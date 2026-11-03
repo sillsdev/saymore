@@ -11,6 +11,7 @@ using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Media;
 using SayMore.UI.ComponentEditors;
+using SayMore.Utilities;
 
 namespace SayMore.Transcription.UI
 {
@@ -63,7 +64,9 @@ namespace SayMore.Transcription.UI
 			_radioButtonAudacity.Font = Program.DialogFont;
 			_labelAudacityLabelTier.Font = Program.DialogFont;
 			_radioButtonAutoSegmenter.Font = Program.DialogFont;
-        }
+			
+			this.ScaleUIFont();
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public override bool IsOKToShow

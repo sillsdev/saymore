@@ -460,6 +460,8 @@ namespace SayMore.Transcription.UI
 			TabText = LocalizationManager.GetString(
 				"SessionsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
 
+				this.ScaleUIFont();
+
 			base.HandleStringsLocalized(sender, e);
 		}
 

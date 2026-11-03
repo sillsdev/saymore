@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using SayMore.Utilities;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -66,7 +67,10 @@ namespace SayMore.UI.ComponentEditors
 		public void SetProvider(IEditorProvider provider)
 		{
 			if (EditorProvider != null)
+			{
 				EditorProvider.TabTextChanged -= HandleEditorTextChanged;
+				UITextScaler.ScaleChanged -= HandleScaleChanged;
+			}
 
 			EditorProvider = provider;
 			Text = provider.TabText;
@@ -76,6 +80,24 @@ namespace SayMore.UI.ComponentEditors
 			control.Dock = DockStyle.Fill;
 			Controls.Add(control);
 			ImageKey = EditorProvider.ImageKey;
+
+			control.ScaleUIFont();
+			UITextScaler.ScaleChanged += HandleScaleChanged;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleScaleChanged(object sender, EventArgs e)
+		{
+			EditorProvider?.Control.ScaleUIFont();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+				UITextScaler.ScaleChanged -= HandleScaleChanged;
+
+			base.Dispose(disposing);
 		}
 
 		/// ------------------------------------------------------------------------------------

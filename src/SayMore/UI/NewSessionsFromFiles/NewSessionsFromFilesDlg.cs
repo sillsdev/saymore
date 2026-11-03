@@ -11,6 +11,7 @@ using SIL.Windows.Forms.PortableSettingsProvider;
 using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
+using SayMore.UI;
 
 namespace SayMore.UI.NewSessionsFromFiles
 {
@@ -20,7 +21,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 	/// most likely from a recorder or flash memory.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class NewSessionsFromFilesDlg : Form
+	public partial class NewSessionsFromFilesDlg : SayMoreFormBase
 	{
 		//private readonly AxWindowsMediaPlayer _winMediaPlayer;
 		private readonly NewSessionsFromFileDlgViewModel _viewModel;

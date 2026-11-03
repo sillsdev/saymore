@@ -7,6 +7,7 @@ using SIL.Windows.Forms.Miscellaneous;
 using SayMore.Model.Files;
 using SayMore.Media.MPlayer;
 using SayMore.UI.ComponentEditors;
+using SayMore.Utilities;
 using SIL.Windows.Forms;
 using SIL.Windows.Forms.Extensions;
 using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
@@ -211,6 +212,7 @@ namespace SayMore.Transcription.UI
 		{
 			SetComponentFile(_file);
 			_labelCursorTime.Font = Program.DialogFont;
+			this.ScaleUIFont();
 		}
 
 		/// ------------------------------------------------------------------------------------

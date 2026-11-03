@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Reporting;
+using SayMore.UI;
 
 namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 {
@@ -10,7 +11,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 	/// Dialog for allowing user to enter the name of a new project.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class NewProjectDlg : Form
+	public partial class NewProjectDlg : SayMoreFormBase
 	{
 		private readonly NewProjectDlgViewModel _viewModel;
 

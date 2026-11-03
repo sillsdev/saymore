@@ -1,10 +1,11 @@
 using System;
 using System.Windows.Forms;
 using SIL.Windows.Forms.Reporting;
+using SayMore.UI;
 
 namespace SayMore.UI.LowLevelControls
 {
-	public class MonitorKeyPressDlg : Form, IMessageFilter
+	public class MonitorKeyPressDlg : SayMoreFormBase, IMessageFilter
 	{
 		public const int WM_KEYDOWN = 0x100;
 		private const int WM_KEYUP = 0x101;

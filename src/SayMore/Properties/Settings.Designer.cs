@@ -1455,5 +1455,17 @@ namespace SayMore.Properties {
                 this["ShortFileNameWarningDlg"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int UITextScale {
+            get {
+                return ((int)(this["UITextScale"]));
+            }
+            set {
+                this["UITextScale"] = value;
+            }
+        }
     }
 }

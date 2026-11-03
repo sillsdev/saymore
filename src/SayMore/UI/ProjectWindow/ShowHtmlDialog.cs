@@ -1,12 +1,13 @@
 using System;
 using System.Windows.Forms;
+using SayMore.UI;
 
 namespace SayMore.UI.ProjectWindow
 {
 	/// <summary>
 	/// Just shows a simple dialog containing the html pointed to by the Path property
 	/// </summary>
-	public partial class ShowHtmlDialog : Form
+	public partial class ShowHtmlDialog : SayMoreFormBase
 	{
 		public ShowHtmlDialog()
 		{

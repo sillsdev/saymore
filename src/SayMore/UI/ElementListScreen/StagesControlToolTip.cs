@@ -7,10 +7,12 @@ using System.Windows.Forms;
 using L10NSharp;
 using SIL.Reporting;
 using SayMore.Model.Files;
+using SayMore.UI;
+using SayMore.Utilities;
 
 namespace SayMore.UI.ElementListScreen
 {
-	public partial class StagesControlToolTip : Form
+	public partial class StagesControlToolTip : SayMoreFormBase
 	{
 #if !__MonoCS__
 		[DllImport("user32.dll", EntryPoint = "SetWindowPos")]
@@ -104,6 +106,15 @@ namespace SayMore.UI.ElementListScreen
 		public void Show(Point pt, IEnumerable<ComponentRole> completedRoles)
 		{
 			SetComponentStage(completedRoles);
+
+			// SetComponentStage just (re)built _tableLayout's row of labels from scratch, with
+			// unscaled fonts. SayMoreFormBase only scales automatically on the form's one-time
+			// Load event and when the scale setting changes, neither of which covers labels
+			// created on a later call to Show() on this same, reused tooltip instance. Scale
+			// explicitly here, before measuring Size below, so the tooltip is sized to fit the
+			// text it will actually display.
+			this.ScaleUIFont();
+
 			Location = pt;
 			Size = new Size(_tableLayout.Width + (_tableLayout.Left * 2),
 				_tableLayout.Height + (_tableLayout.Top * 2));

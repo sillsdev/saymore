@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using SIL.Reporting;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ProjectWindow;
+using SayMore.Utilities;
 
 namespace SayMore.UI.Overview
 {
@@ -189,6 +190,11 @@ namespace SayMore.UI.Overview
 
 			_splitter.Panel2.Controls.Add(control);
 			control.Dock = DockStyle.Fill;
+
+			// This sub-view isn't part of the tree until now, so it missed the Form's one-time
+			// Load-triggered scaling pass (and any scale change that happened while some other
+			// sub-view was showing).
+			control.ScaleUIFont();
 		}
 
 		/// ------------------------------------------------------------------------------------

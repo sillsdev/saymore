@@ -73,18 +73,11 @@ namespace SayMore.UI.LowLevelControls
 			if (_searchTextBox != null)
 			{
 				_searchTextBox.Visible = false;
-               _searchTextBox.KeyUp += _searchTextBox_KeyUp;
+				_searchTextBox.KeyUp += HandleSearchTextBoxKeyUp;
 
-            _searchTimer = new System.Windows.Forms.Timer();
-			_searchTimer.Interval = 1500; // default 1.5 seconds; will be adjusted as needed
-			_searchTimer.Tick += (s, e) =>
-			{
-				_searchTimer.Stop();
-				// When the timer fires, re-evaluate the current text and raise SearchRequested.
-				var textNow = _searchTextBox.Text ?? string.Empty;
-				// Invoke SearchRequested for whatever the current text warrants (filtered or full list).
-				SearchRequested?.Invoke(this, EventArgs.Empty);
-			};
+				_searchTimer = new System.Windows.Forms.Timer();
+				_searchTimer.Interval = 1500; // default 1.5 seconds; will be adjusted as needed
+				_searchTimer.Tick += HandleSearchTimerTick;
 			}
 		}
 
@@ -260,36 +253,42 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// <summary>
-		/// Handle key input in the search box. 
+		/// Handle key input in the search box.
+		/// Internal so tests can simulate a keystroke directly.
 		/// </summary>
-		private void _searchTextBox_KeyUp(object sender, KeyEventArgs e)
+		internal void HandleSearchTextBoxKeyUp(object sender, KeyEventArgs e)
 		{
 			if (_searchTextBox == null)
 				return;
 
-			var text = _searchTextBox.Text ?? string.Empty;
-           // If there are three or more characters, request a filtered search.
-			// If there are two or one characters, request a filtered search after a delay.
-            if (text.Length >= 3)
-			{
-				// For 3+ chars, perform the filtered after a half second to prevent searching on each keystroke
-				_searchTimer.Interval = 500;
-				_searchTimer.Stop();
-				_searchTimer.Start();
-				//SearchRequested?.Invoke(this, EventArgs.Empty);
-			}
-			else if (text.Length == 0)
+			var length = (_searchTextBox.Text ?? string.Empty).Length;
+
+			_searchTimer.Stop();
+
+			if (length == 0)
 			{
 				// If the search box is empty, show the full list immediately.
-				_searchTimer.Stop();
 				SearchRequested?.Invoke(this, EventArgs.Empty);
+				return;
 			}
-			else // For 1-2 chars, delay the action by 1.5 seconds to avoid excessive refreshes.
-			{
-				_searchTimer.Interval = 1500;
-				_searchTimer.Stop();
-				_searchTimer.Start();
-			}
+
+			// Debouncing delay (to prevent searching on each keystroke) depends on the length of
+			// the search text. Shorter searches are more likely to be useless, so we delay longer
+			// for them. For 3+ chars, wait half a second. For 1-2 chars, which are more likely to be
+			// too short to be useful for filtering, wait longer to avoid excessive refreshes.
+			_searchTimer.Interval = length >= 3 ? 500 : 1500;
+			_searchTimer.Start();
+		}
+
+		/// <summary>
+		/// Raises SearchRequested as if the debounce timer had elapsed.
+		/// Internal (rather than a private lambda) so tests can simulate the timer firing
+		/// directly, instead of relying on reflection against a private field.
+		/// </summary>
+		internal void HandleSearchTimerTick(object sender, EventArgs e)
+		{
+			_searchTimer.Stop();
+			SearchRequested?.Invoke(this, EventArgs.Empty);
 		}
 
 		/// <summary>

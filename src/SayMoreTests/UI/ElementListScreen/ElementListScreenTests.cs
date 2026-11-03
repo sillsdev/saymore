@@ -16,10 +16,14 @@ namespace SayMoreTests.UI.ElementListScreen
             [System.Obsolete("For Mocking Only")]
             public TestRepo(IEnumerable<SayMore.Model.Session> items) : base() { _items = items; }
             public override IEnumerable<SayMore.Model.Session> AllItems => _items;
+
+            // ElementGrid.SetFileType needs a non-null FileType to build its columns from.
+            public override SayMore.Model.Files.FileType ElementFileType =>
+                new SayMore.Model.Files.FileType("Test", path => true);
         }
 
         [Test]
-        public void ElementListScreen_Reloads_FilteredList_When_SearchRequested_Fires()
+        public void LoadElementList_FiltersGridToMatchingIds_WhenSearchRequestedFires()
         {
             // Create two sessions (uses the obsolete ctor available for tests)
             var s1 = new SayMore.Model.Session();
@@ -55,11 +59,10 @@ namespace SayMoreTests.UI.ElementListScreen
             // Set the search text to a value that should match only s1
             listPanel.SearchText = "match";
 
-            // Invoke the private keyup handler to simulate typing (this will raise SearchRequested)
-            var mi = typeof(SayMore.UI.LowLevelControls.ListPanel)
-                .GetMethod("_searchTextBox_KeyUp", BindingFlags.Instance | BindingFlags.NonPublic);
-            Assert.IsNotNull(mi);
-            mi.Invoke(listPanel, new object[] { listPanel, new KeyEventArgs(Keys.A) });
+            // Simulate typing (starts the debounce timer) and then the timer elapsing
+            // (which is what actually raises SearchRequested).
+            listPanel.HandleSearchTextBoxKeyUp(listPanel, new KeyEventArgs(Keys.A));
+            listPanel.HandleSearchTimerTick(listPanel, System.EventArgs.Empty);
 
             // Get the items currently in the grid and assert filtering applied
             var items = grid.Items.Cast<SayMore.Model.ProjectElement>().ToList();

@@ -40,7 +40,9 @@ namespace SayMoreTests.UI.ElementListScreen
             repoField.SetValue(vm, repo);
 
             // Create the concrete screen and ensure it has an ElementGrid instance
-            var screen = new SayMore.UI.ElementListScreen.ConcreteSessionScreen(vm);
+            // (localization manager is irrelevant to the filtering behavior under test,
+            // and is never dereferenced since the control's handle is never created here)
+            var screen = new SayMore.UI.ElementListScreen.ConcreteSessionScreen(vm, null);
             var grid = new SayMore.UI.ElementListScreen.ElementGrid();
             var gridField = screen.GetType().GetField("_elementsGrid", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy);
             gridField.SetValue(screen, grid);

@@ -40,18 +40,20 @@ namespace SayMoreTests.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
-		public void ScaleChanged_ScaleIncreased_WidensTabToFitLargerText()
+		public void ScaleUIFont_HostContainsViewTabGroup_WidensTabToFitLargerText()
 		{
 			Settings.Default.UITextScale = 100;
 
+			using (var host = new Panel())
 			using (var group = new ViewTabGroup())
 			{
+				host.Controls.Add(group);
 				var view = new Panel { Text = "Sessions" };
 				var tab = group.AddTab(view);
 				var widthAt100Percent = tab.Width;
 
 				Settings.Default.UITextScale = 300;
-				UITextScaler.NotifyScaleChanged();
+				host.ScaleUIFont();
 
 				Assert.Greater(tab.Width, widthAt100Percent);
 			}

@@ -601,5 +601,67 @@ namespace SayMoreTests.Utilities
 				Assert.Greater(menuStrip.Font.Size, originalSize);
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		private class FakeScalablePanel : Panel, IUiScalable
+		{
+			public int ApplyScaleCallCount { get; private set; }
+			public void ApplyScale(float scale) => ApplyScaleCallCount++;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private class FakeScalableDataGridView : DataGridView, IUiScalable
+		{
+			public int ApplyScaleCallCount { get; private set; }
+			public void ApplyScale(float scale) => ApplyScaleCallCount++;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// ViewTabGroup is a Panel that also implements IUiScalable. The switch in ApplyFontCore
+		/// matches case patterns in textual order -- the first match wins, so the IUiScalable
+		/// case must come before the generic Panel case or a Panel-derived IUiScalable would be
+		/// handled by the wrong one and ApplyScale would never be called.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_ChildIsPanelThatImplementsIUiScalable_DispatchesToApplyScaleNotGenericPanelCase()
+		{
+			Settings.Default.UITextScale = 200;
+
+			using (var host = new Panel())
+			using (var child = new FakeScalablePanel())
+			{
+				host.Controls.Add(child);
+
+				host.ScaleUIFont();
+
+				Assert.AreEqual(1, child.ApplyScaleCallCount,
+					"A Panel-derived IUiScalable must be dispatched via its own ApplyScale, not the generic Panel case.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// FieldsValuesGrid is a DataGridView that also implements IUiScalable. Same ordering
+		/// requirement as the Panel case above, but for the DataGridView case.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_ChildIsDataGridViewThatImplementsIUiScalable_DispatchesToApplyScaleNotGenericDataGridViewCase()
+		{
+			Settings.Default.UITextScale = 200;
+
+			using (var host = new Panel())
+			using (var child = new FakeScalableDataGridView())
+			{
+				host.Controls.Add(child);
+
+				host.ScaleUIFont();
+
+				Assert.AreEqual(1, child.ApplyScaleCallCount,
+					"A DataGridView-derived IUiScalable must be dispatched via its own ApplyScale, not the generic DataGridView case.");
+			}
+		}
 	}
 }

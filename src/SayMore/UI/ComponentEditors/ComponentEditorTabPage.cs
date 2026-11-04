@@ -64,13 +64,17 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// No separate live-rescale wiring needed here: TabPage derives from Panel, so once this
+		/// page's TabControl ancestor is reached (see ComponentEditorsTabControl.ApplyScale),
+		/// UITextScaler's generic recursive switch reaches this page -- and, through it, the
+		/// hosted editor Control -- on its own via the ordinary Panel case.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public void SetProvider(IEditorProvider provider)
 		{
 			if (EditorProvider != null)
-			{
 				EditorProvider.TabTextChanged -= HandleEditorTextChanged;
-				UITextScaler.ScaleChanged -= HandleScaleChanged;
-			}
 
 			EditorProvider = provider;
 			Text = provider.TabText;
@@ -82,13 +86,6 @@ namespace SayMore.UI.ComponentEditors
 			ImageKey = EditorProvider.ImageKey;
 
 			control.ScaleUIFont();
-			UITextScaler.ScaleChanged += HandleScaleChanged;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleScaleChanged(object sender, EventArgs e)
-		{
-			EditorProvider?.Control.ScaleUIFont();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -96,8 +93,6 @@ namespace SayMore.UI.ComponentEditors
 		{
 			if (disposing)
 			{
-				UITextScaler.ScaleChanged -= HandleScaleChanged;
-
 				// EditorProvider.Control is a long-lived instance owned by FileType's own
 				// editor cache, reused across element selections -- not owned by this TabPage.
 				// Without removing it first, disposing this TabPage would cascade Dispose()

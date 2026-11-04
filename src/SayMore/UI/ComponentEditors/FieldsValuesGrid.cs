@@ -13,7 +13,7 @@ using SIL.Windows.Forms;
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
-	public class FieldsValuesGrid : BetterGrid
+	public class FieldsValuesGrid : BetterGrid, IUiScalable
 	{
 		private readonly FieldsValuesGridViewModel _model;
 		private Font _factoryFieldFont;
@@ -35,7 +35,6 @@ namespace SayMore.UI.ComponentEditors
 			VirtualMode = true;
 			Font = Program.ScaledDialogFont;
 			_factoryFieldFont = new Font(Font, FontStyle.Bold);
-			UITextScaler.ScaleChanged += HandleScaleChanged;
 
 			AllowUserToDeleteRows = true;
 			MultiSelect = false;
@@ -75,16 +74,13 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-				UITextScaler.ScaleChanged -= HandleScaleChanged;
-
-			base.Dispose(disposing);
-		}
-
+		/// <summary>
+		/// FieldsValuesGrid is also a DataGridView; UITextScaler.ApplyFontCore's IUiScalable
+		/// case is checked before its DataGridView case specifically so this is reached here,
+		/// with its own _factoryFieldFont handling, instead of the generic DataGridView case.
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleScaleChanged(object sender, EventArgs e)
+		public void ApplyScale(float scale)
 		{
 			Font = Program.ScaledDialogFont;
 			_factoryFieldFont?.Dispose();

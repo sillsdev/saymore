@@ -1,5 +1,4 @@
 using System.Drawing;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Moq;
@@ -55,16 +54,18 @@ namespace SayMoreTests.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
-		public void ScaleChanged_TabPageAlreadyCreated_RescalesEditorControlFontLive()
+		public void ScaleUIFont_HostContainsAlreadyCreatedTabPage_RescalesEditorControlFontLive()
 		{
 			Settings.Default.UITextScale = 100;
 
-			using (new ComponentEditorTabPage(_provider.Object, Color.Black))
+			using (var host = new TabControl())
+			using (var tabPage = new ComponentEditorTabPage(_provider.Object, Color.Black))
 			{
+				host.Controls.Add(tabPage);
 				var sizeAt100Percent = _label.Font.Size;
 
 				Settings.Default.UITextScale = 300;
-				UITextScaler.NotifyScaleChanged();
+				host.ScaleUIFont();
 
 				Assert.Greater(_label.Font.Size, sizeAt100Percent);
 			}
@@ -88,33 +89,6 @@ namespace SayMoreTests.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// SetProvider is public, so nothing stops a future caller from reassigning a tab page's
-		/// provider after construction. Unlike its own TabTextChanged subscription (unsubscribed
-		/// defensively if EditorProvider is already set), the original code unconditionally
-		/// re-subscribed to the static ScaleChanged event on every call, so a second call left
-		/// two registrations where Dispose only ever removes one. The dangling registration would
-		/// then keep firing HandleScaleChanged against a disposed tab page on every future scale
-		/// change for the lifetime of the process. Asserted by counting ScaleChanged's actual
-		/// subscriber delta, since a disposed control's Font setter doesn't reliably throw, so
-		/// Assert.DoesNotThrow can't tell a dangling subscription from a correctly removed one.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Test, Apartment(ApartmentState.STA)]
-		public void Dispose_SetProviderCalledTwiceBeforeDispose_FullyUnsubscribesFromScaleChanged()
-		{
-			Settings.Default.UITextScale = 100;
-			var baselineSubscriberCount = GetScaleChangedSubscriberCount();
-
-			var tabPage = new ComponentEditorTabPage(_provider.Object, Color.Black);
-			tabPage.SetProvider(_provider.Object);
-			tabPage.Dispose();
-
-			Assert.AreEqual(baselineSubscriberCount, GetScaleChangedSubscriberCount(),
-				"Dispose should leave no dangling ScaleChanged subscriptions, however many times SetProvider was called.");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// EditorProvider.Control is a long-lived instance owned by FileType's own editor cache,
 		/// reused across element selections -- not owned by this TabPage. Disposing the TabPage
 		/// must not cascade Dispose() onto it, or the next selection that needs to show it again
@@ -133,12 +107,29 @@ namespace SayMoreTests.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static int GetScaleChangedSubscriberCount()
+		/// <summary>
+		/// TabPage derives from Panel, so it's already reached by the generic recursive switch's
+		/// Panel case whenever its own ancestor is traversable -- confirms that removing this
+		/// class's own direct UITextScaler.ScaleChanged subscription doesn't lose that reach.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_HostContainsTabPage_ScalesEditorControlFont()
 		{
-			var field = typeof(UITextScaler).GetField("ScaleChanged",
-				BindingFlags.NonPublic | BindingFlags.Static);
-			var del = (System.Delegate)field.GetValue(null);
-			return del?.GetInvocationList().Length ?? 0;
+			Settings.Default.UITextScale = 100;
+
+			using (var host = new TabControl())
+			using (var tabPage = new ComponentEditorTabPage(_provider.Object, Color.Black))
+			{
+				host.Controls.Add(tabPage);
+				var originalSize = _label.Font.Size;
+
+				Settings.Default.UITextScale = 200;
+				host.ScaleUIFont();
+
+				Assert.Greater(_label.Font.Size, originalSize);
+			}
 		}
+
 	}
 }

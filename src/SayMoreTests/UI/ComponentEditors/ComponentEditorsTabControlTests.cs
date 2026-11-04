@@ -30,19 +30,59 @@ namespace SayMoreTests.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
-		public void ScaleChanged_ScaleIncreased_UpdatesFontLive()
+		public void ScaleUIFont_HostContainsTabControl_UpdatesFontLive()
 		{
 			Settings.Default.UITextScale = 100;
 
+			using (var host = new Panel())
 			using (var tabControl = new ComponentEditorsTabControl("key", null,
 				       Array.Empty<IEditorProvider>(), Color.White, Color.Black))
 			{
+				host.Controls.Add(tabControl);
 				var sizeAt100Percent = tabControl.Font.Size;
 
 				Settings.Default.UITextScale = 200;
+				// ComponentEditorsTabControl.ApplyScale reads Program.ScaledDialogFont, whose
+				// cache is only invalidated by the ScaleChanged event -- NotifyScaleChanged is
+				// what a real settings change always fires alongside a live form's own
+				// ScaleUIFont() call (see SayMoreFormBase.HandleScaleChanged).
 				UITextScaler.NotifyScaleChanged();
+				host.ScaleUIFont();
 
 				Assert.Greater(tabControl.Font.Size, sizeAt100Percent);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// EditorProvider.Control is reached entirely via ComponentEditorsTabControl's own
+		/// ApplyScale -- TabControl isn't otherwise matched by the generic recursive switch, so
+		/// this is the only path that scales a hosted editor's Control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_HostContainsTabControlWithVisibleEditor_ScalesEditorControlFont()
+		{
+			Settings.Default.UITextScale = 100;
+
+			var editorControl = new Label { Text = "Hello", Font = new Font(FontFamily.GenericSansSerif, 10f) };
+			var provider = new Mock<IEditorProvider>();
+			provider.SetupGet(p => p.Control).Returns(editorControl);
+			provider.SetupGet(p => p.TabText).Returns("Test Editor");
+			provider.SetupGet(p => p.ImageKey).Returns((string)null);
+			provider.SetupGet(p => p.IsOKToShow).Returns(true);
+
+			using (var host = new Panel())
+			using (var tabControl = new ComponentEditorsTabControl("key", null,
+				       new[] { provider.Object }, Color.White, Color.Black))
+			{
+				host.Controls.Add(tabControl);
+				var originalSize = editorControl.Font.Size;
+
+				Settings.Default.UITextScale = 200;
+				host.ScaleUIFont();
+
+				Assert.Greater(editorControl.Font.Size, originalSize);
 			}
 		}
 

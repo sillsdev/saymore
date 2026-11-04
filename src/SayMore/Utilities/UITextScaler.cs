@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using SIL.Windows.Forms.Extensions;
-using SayMore.UI.ProjectWindow;
 
 namespace SayMore.Utilities
 {
@@ -192,11 +191,14 @@ namespace SayMore.Utilities
 			{
 				switch (child)
 				{
-					// ViewTab maintains its own already-correctly-scaled font (see
-					// ViewTabGroup.HandleScaleChanged/MakeScaledTabFont); since it's a Label, it
-					// would otherwise also be reached by the Label case below, which would treat
-					// that already-scaled font as a fresh 100% baseline and compound on top of it.
-					case ViewTab _:
+					// Checked first: a composite control's own ApplyScale takes full
+					// responsibility for its own state and descendants (e.g. ViewTabGroup's
+					// TabFont, FieldsValuesGrid's _factoryFieldFont), so this must be matched
+					// before any case below that would otherwise also structurally match it
+					// (ViewTabGroup is a Panel; FieldsValuesGrid is a DataGridView) and handle
+					// it with the wrong, generic logic instead.
+					case IUiScalable scalable:
+						scalable.ApplyScale(scale);
 						break;
 					// List of types we explicitly support
 					case Label _:

@@ -14,7 +14,7 @@ using SIL.Windows.Forms.Widgets;
 namespace SayMore.UI.ProjectWindow
 {
 	/// ----------------------------------------------------------------------------------------
-	public class ViewTabGroup : Panel
+	public class ViewTabGroup : Panel, IUiScalable
 	{
 		public delegate void ViewTabChangedHandler(ViewTabGroup sender, ViewTab affectedTab);
 		public event ViewTabChangedHandler ViewActivated;
@@ -62,8 +62,6 @@ namespace SayMore.UI.ProjectWindow
 			SetupScrollPanel();
 
 			Tabs = new List<ViewTab>();
-
-			UITextScaler.ScaleChanged += HandleScaleChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -71,8 +69,6 @@ namespace SayMore.UI.ProjectWindow
 		{
 			if (disposing)
 			{
-				UITextScaler.ScaleChanged -= HandleScaleChanged;
-
 				if (Tabs != null)
 				{
 					for (int i = Tabs.Count - 1; i >= 0; i--)
@@ -99,10 +95,12 @@ namespace SayMore.UI.ProjectWindow
 		/// AutoSize is deliberately off for ViewTab (see its constructor), and nothing resizes
 		/// it in response to a Font change the way the generic recursive UI scaling pass does
 		/// for ordinary controls, so the tab strip needs its own explicit re-measure here: the
-		/// font itself, each tab's width, and the header band/tab panel height.
+		/// font itself, each tab's width, and the header band/tab panel height. ViewTabGroup is
+		/// also a Panel; UITextScaler.ApplyFontCore's IUiScalable case is checked before its
+		/// Panel case specifically so this is reached here instead of the generic Panel case.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleScaleChanged(object sender, EventArgs e)
+		public void ApplyScale(float scale)
 		{
 			TabFont = MakeScaledTabFont();
 

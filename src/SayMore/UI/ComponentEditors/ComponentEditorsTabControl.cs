@@ -9,7 +9,7 @@ using SIL.Windows.Forms.Extensions;
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
-	public class ComponentEditorsTabControl : TabControl
+	public class ComponentEditorsTabControl : TabControl, IUiScalable
 	{
 		public string ProviderKey { get; private set; }
 		public IEnumerable<IEditorProvider> EditorProviders { get; }
@@ -32,26 +32,25 @@ namespace SayMore.UI.ComponentEditors
 			_componentEditorBackColor = componentEditorBackColor;
 			_componentEditorBorderColor = componentEditorBorderColor;
 
-			UITextScaler.ScaleChanged += HandleScaleChanged;
-
 			MakeAppropriateEditorsVisible();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-				UITextScaler.ScaleChanged -= HandleScaleChanged;
-
-			base.Dispose(disposing);
-		}
-
+		/// <summary>
+		/// TabControl isn't matched by UITextScaler's generic recursive switch, so without this,
+		/// the walk would never recurse into TabPages at all -- even though TabPage itself (a
+		/// Panel subclass) would otherwise be reached just fine once inside. Reached via
+		/// IUiScalable rather than a direct ScaleChanged subscription.
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleScaleChanged(object sender, EventArgs e)
+		public void ApplyScale(float scale)
 		{
 			// Unlike ViewTabGroup's hand-rolled tabs, native TabControl re-measures and
 			// relayouts its own tab headers automatically when Font changes.
 			Font = Program.ScaledDialogFont;
+
+			foreach (TabPage page in TabPages)
+				page.ScaleUIFont();
 		}
 
 		/// ------------------------------------------------------------------------------------

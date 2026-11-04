@@ -10,6 +10,7 @@ using SIL.Extensions;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.UI.LowLevelControls;
+using SayMore.Utilities;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -166,7 +167,7 @@ namespace SayMore.UI.ComponentEditors
 
 			foreach (var ctrl in _boundControls)
 			{
-				ctrl.Font = Program.DialogFont;
+				ctrl.ScaleUIFont();
 				BindControl(ctrl);
 			}
 		}

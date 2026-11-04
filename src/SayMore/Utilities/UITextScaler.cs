@@ -132,8 +132,14 @@ namespace SayMore.Utilities
 			// recursive pass below touches many independently-laid-out nested containers, so a
 			// correction made after the control is already visible (e.g. SayMoreFormBase's
 			// Form.Shown safety net, or a live scale change while a dialog is open) applies as
-			// one batched repaint instead of a visible per-control cascade.
-			control.SetWindowRedraw(false);
+			// one batched repaint instead of a visible per-control cascade. Only done for a
+			// control that's actually visible on screen: sending WM_SETREDRAW to a hidden window
+			// is a documented Win32 quirk that can make it visible again as a side effect (e.g.
+			// StagesControlToolTip, a long-lived hidden form reused between hovers, would
+			// reappear as a stale "ghost" the next time any open dialog's scale changes).
+			var suppressRepaint = control.IsHandleCreated && control.Visible;
+			if (suppressRepaint)
+				control.SetWindowRedraw(false);
 			try
 			{
 				control.ApplyFontRecursively(scaledFont, scale);
@@ -144,7 +150,8 @@ namespace SayMore.Utilities
 			}
 			finally
 			{
-				control.SetWindowRedraw(true);
+				if (suppressRepaint)
+					control.SetWindowRedraw(true);
 			}
 		}
 
@@ -210,8 +217,11 @@ namespace SayMore.Utilities
 					case UserControl _:
 						child.ApplyFontCore(newFont, scale);
 						if (child.ContextMenuStrip != null)
+						{
+							CacheOriginalToolStripItemFontsRecursively(child.ContextMenuStrip.Items);
 							ApplyFontToToolStripItems(child.ContextMenuStrip.Items,
 								GetOriginalFont(child.ContextMenuStrip), scale);
+						}
 						break;
 					case ComboBox combo:
 						child.ApplyFontCore(newFont, scale);
@@ -276,6 +286,15 @@ namespace SayMore.Utilities
 					// text, so scaling its font is questionable even though scaling its size for
 					// visual consistency might be worth doing; see the REVIEW comment there.
 					case ToolStrip toolStrip: // This also includes ToolStripDropDown
+						// Every item's original font must be cached before the strip's own Font
+						// is mutated below: an item with no explicit Font of its own ambiently
+						// reads its owner strip's CURRENT Font, so caching after the mutation
+						// would capture the already-scaled strip font as the item's "original"
+						// and compound the scale on every pass from then on -- the same ambient-
+						// tracking hazard CacheOriginalFontsRecursively exists to prevent for
+						// ordinary Controls.
+						CacheOriginalToolStripItemFontsRecursively(toolStrip.Items);
+
 						// The strip's own Font (e.g. MenuStrip's) governs its layout/height
 						// independent of its items' fonts; leaving it unscaled can leave the
 						// strip too short to properly display the now-larger item text.
@@ -317,20 +336,38 @@ namespace SayMore.Utilities
 			}
 		}
 
+		/// <summary>
+		/// Caches every item's (and, recursively, every submenu item's) current Font as its
+		/// original baseline, before anything in the same pass has a chance to mutate the Font
+		/// any of them would ambiently read. ToolStripItem.Font is never null -- an item with no
+		/// explicit Font of its own returns its owner strip's current Font -- so this must run
+		/// before the owner strip's own Font is changed, or an unstyled item would cache the
+		/// already-scaled strip font as its "original" and compound the scale on every pass from
+		/// then on, including back down to 100%.
+		/// </summary>
+		private static void CacheOriginalToolStripItemFontsRecursively(ToolStripItemCollection items)
+		{
+			foreach (ToolStripItem item in items)
+			{
+				if (!s_origToolStripItemFonts.TryGetValue(item, out _))
+					s_origToolStripItemFonts.Add(item, item.Font);
+
+				if (item is ToolStripDropDownItem dropDownItem && dropDownItem.HasDropDownItems)
+					CacheOriginalToolStripItemFontsRecursively(dropDownItem.DropDownItems);
+			}
+		}
+
+		/// <summary>
+		/// Requires CacheOriginalToolStripItemFontsRecursively to have already run over the same
+		/// items (and their submenu items) in this pass, before anything mutated a Font any of
+		/// them could ambiently read.
+		/// </summary>
 		private static void ApplyFontToToolStripItems(ToolStripItemCollection items, Font ancestorOrigFont, float scale)
 		{
 			foreach (ToolStripItem item in items)
 			{
 				if (!s_origToolStripItemFonts.TryGetValue(item, out var origItemFont))
-				{
-					// item.Font is null unless the item explicitly set its own (e.g.
-					// SegmenterDlgBase's intentionally bold Undo menu item); fall back to the
-					// strip's own cached original font so an unstyled item still scales
-					// consistently with the rest of the strip, instead of losing an item's own
-					// distinct styling to the ancestor-derived newFont every time this is reached.
-					origItemFont = item.Font ?? ancestorOrigFont;
-					s_origToolStripItemFonts.Add(item, origItemFont);
-				}
+					origItemFont = ancestorOrigFont; // Defensive: should already be cached.
 
 				item.Font = new Font(origItemFont.FontFamily, origItemFont.Size * scale,
 					origItemFont.Style, origItemFont.Unit);
@@ -343,6 +380,7 @@ namespace SayMore.Utilities
 		internal static void ShowScaledContextMenuStrip(this ContextMenuStrip contextMenu, Point location)
 		{
 			contextMenu.GetScaledFont(out var scale);
+			CacheOriginalToolStripItemFontsRecursively(contextMenu.Items);
 			ApplyFontToToolStripItems(contextMenu.Items, contextMenu.Font, scale);
 			contextMenu.Show(location);
 		}

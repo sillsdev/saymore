@@ -98,6 +98,12 @@ namespace SayMore.UI.ProjectWindow
 		/// font itself, each tab's width, and the header band/tab panel height. ViewTabGroup is
 		/// also a Panel; UITextScaler.ApplyFontCore's IUiScalable case is checked before its
 		/// Panel case specifically so this is reached here instead of the generic Panel case.
+		///
+		/// ViewTab's constructor adds the hosted view itself (the actual Sessions/People/Project
+		/// screen content, not just the tab header) as a direct child of this ViewTabGroup, so
+		/// being dispatched via IUiScalable also means the generic recursive pass no longer
+		/// reaches that content on its own the way it did when this was handled by the generic
+		/// Panel case -- each hosted view must be rescaled here explicitly instead.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void ApplyScale(float scale)
@@ -120,6 +126,8 @@ namespace SayMore.UI.ProjectWindow
 						tab.Width += sayMoreView.Image.Width + 5;
 
 					tab.Width += 6;
+
+					tab.View?.ScaleUIFont();
 				}
 			}
 

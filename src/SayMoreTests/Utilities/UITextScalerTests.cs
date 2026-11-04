@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using NUnit.Framework;
@@ -585,6 +586,71 @@ namespace SayMoreTests.Utilities
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// An item with no explicit Font of its own ambiently reads its owner strip's current
+		/// Font. The strip's own Font is scaled before its items are processed, so caching an
+		/// unstyled item's "original" after that point would wrongly capture the already-scaled
+		/// strip font, compounding the scale on every subsequent pass -- including a pass back
+		/// down to 100%, which must still fully recover the original size.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_ToolStripItemHasNoExplicitFont_DoesNotCompoundAcrossRepeatedScaleChanges()
+		{
+			Settings.Default.UITextScale = 100;
+
+			using (var host = new Panel())
+			using (var menuStrip = new MenuStrip())
+			{
+				var item = new ToolStripMenuItem("Open");
+				menuStrip.Items.Add(item);
+				host.Controls.Add(menuStrip);
+				var originalSize = item.Font.Size;
+
+				Settings.Default.UITextScale = 200;
+				host.ScaleUIFont();
+
+				Assert.AreEqual(originalSize * 2f, item.Font.Size, 0.1f,
+					"An unstyled item must scale by exactly the configured factor, not compound with the strip's own already-scaled font.");
+
+				Settings.Default.UITextScale = 100;
+				host.ScaleUIFont();
+
+				Assert.AreEqual(originalSize, item.Font.Size, 0.1f,
+					"Returning to 100% must fully recover the original size, not stay corrupted from a bad cached baseline.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Same ambient-tracking hazard as the sibling-item case above, but for a submenu item,
+		/// which ambiently reads its parent item's Font rather than the strip's.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_UnstyledSubmenuItem_DoesNotCompound()
+		{
+			Settings.Default.UITextScale = 100;
+
+			using (var host = new Panel())
+			using (var menuStrip = new MenuStrip())
+			{
+				var topItem = new ToolStripMenuItem("File");
+				var subItem = new ToolStripMenuItem("Open");
+				topItem.DropDownItems.Add(subItem);
+				menuStrip.Items.Add(topItem);
+				host.Controls.Add(menuStrip);
+				var originalSize = subItem.Font.Size;
+
+				Settings.Default.UITextScale = 200;
+				host.ScaleUIFont();
+
+				Assert.AreEqual(originalSize * 2f, subItem.Font.Size, 0.1f,
+					"A submenu item must scale by exactly the configured factor, not compound through its parent item's already-scaled font.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
 		public void ScaleUIFont_ToolStrip_ScalesStripsOwnFont()
 		{
@@ -661,6 +727,35 @@ namespace SayMoreTests.Utilities
 
 				Assert.AreEqual(1, child.ApplyScaleCallCount,
 					"A DataGridView-derived IUiScalable must be dispatched via its own ApplyScale, not the generic DataGridView case.");
+			}
+		}
+
+		[DllImport("user32.dll")]
+		private static extern bool IsWindowVisible(IntPtr hWnd);
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sending WM_SETREDRAW(TRUE) to a hidden window is a documented Win32 quirk that can
+		/// make the window visible again as a side effect, even though WinForms' own Visible
+		/// property still (wrongly) reports false -- e.g. StagesControlToolTip, a long-lived
+		/// hidden form reused between hovers, would reappear as a stale "ghost" the next time
+		/// any open dialog's scale changes. ScaleUIFont must not suppress/restore repaint on a
+		/// control that isn't actually visible on screen.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_ControlIsHidden_DoesNotMakeNativeWindowVisible()
+		{
+			Settings.Default.UITextScale = 200;
+
+			using (var form = new Form { Visible = false })
+			{
+				var handle = form.Handle; // Forces native handle creation while still hidden.
+
+				form.ScaleUIFont();
+
+				Assert.IsFalse(IsWindowVisible(handle),
+					"Scaling a hidden control must not make its native window visible.");
 			}
 		}
 	}

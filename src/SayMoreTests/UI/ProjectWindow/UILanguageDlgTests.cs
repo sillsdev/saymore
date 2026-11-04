@@ -175,10 +175,11 @@ namespace SayMoreTests.UI.ProjectWindow
 		[Test]
 		public void ResolveScaleForLanguageChange_RecommendedLanguageSelectedAtDefaultValue_BumpsValue()
 		{
-			var result = UILanguageDlg.ResolveScaleForLanguageChange(100, false, 130);
+			var result = UILanguageDlg.ResolveScaleForLanguageChange(100, false, null, 130);
 
 			Assert.AreEqual(130, result.NewValue);
 			Assert.IsTrue(result.AutoBumped);
+			Assert.AreEqual(100, result.PreBumpValue);
 			Assert.IsTrue(result.ShowHint);
 		}
 
@@ -186,17 +187,18 @@ namespace SayMoreTests.UI.ProjectWindow
 		[Test]
 		public void ResolveScaleForLanguageChange_ValueBelowRecommendedButNotExactly100_BumpsValue()
 		{
-			var result = UILanguageDlg.ResolveScaleForLanguageChange(110, false, 130);
+			var result = UILanguageDlg.ResolveScaleForLanguageChange(110, false, null, 130);
 
 			Assert.AreEqual(130, result.NewValue);
 			Assert.IsTrue(result.AutoBumped);
+			Assert.AreEqual(110, result.PreBumpValue);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void ResolveScaleForLanguageChange_RecommendedLanguageSelectedButValueAlreadyCustomized_LeavesValueAlone()
 		{
-			var result = UILanguageDlg.ResolveScaleForLanguageChange(150, false, 130);
+			var result = UILanguageDlg.ResolveScaleForLanguageChange(150, false, null, 130);
 
 			Assert.AreEqual(150, result.NewValue);
 			Assert.IsFalse(result.AutoBumped);
@@ -207,11 +209,35 @@ namespace SayMoreTests.UI.ProjectWindow
 		[Test]
 		public void ResolveScaleForLanguageChange_SwitchingAwayFromAutoBumpedLanguage_UndoesBump()
 		{
-			var result = UILanguageDlg.ResolveScaleForLanguageChange(130, true, null);
+			var result = UILanguageDlg.ResolveScaleForLanguageChange(130, true, 100, null);
 
 			Assert.AreEqual(100, result.NewValue);
 			Assert.IsFalse(result.AutoBumped);
+			Assert.IsNull(result.PreBumpValue, "Once undone, there's nothing left to undo further.");
 			Assert.IsFalse(result.ShowHint);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// A value the user had already set for themselves (110) before a language switch
+		/// auto-bumped it (to 130) must be fully restored when the bump is undone -- not
+		/// collapsed to 100, which would silently discard the user's own choice.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ResolveScaleForLanguageChange_UndoingBumpFromNonDefaultValue_RestoresThatValueNotOneHundred()
+		{
+			// User at 110% selects a language recommending 130%.
+			var bumped = UILanguageDlg.ResolveScaleForLanguageChange(110, false, null, 130);
+			Assert.AreEqual(130, bumped.NewValue);
+			Assert.AreEqual(110, bumped.PreBumpValue);
+
+			// Then switches to a language with no recommendation.
+			var result = UILanguageDlg.ResolveScaleForLanguageChange(
+				bumped.NewValue, bumped.AutoBumped, bumped.PreBumpValue, null);
+
+			Assert.AreEqual(110, result.NewValue);
+			Assert.IsFalse(result.AutoBumped);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -220,7 +246,7 @@ namespace SayMoreTests.UI.ProjectWindow
 		{
 			// _scaleWasAutoBumped would already be false here because the ValueChanged handler
 			// clears it as soon as the user (not our own code) edits the spinner.
-			var result = UILanguageDlg.ResolveScaleForLanguageChange(150, false, null);
+			var result = UILanguageDlg.ResolveScaleForLanguageChange(150, false, null, null);
 
 			Assert.AreEqual(150, result.NewValue);
 			Assert.IsFalse(result.AutoBumped);
@@ -231,10 +257,11 @@ namespace SayMoreTests.UI.ProjectWindow
 		[Test]
 		public void ResolveScaleForLanguageChange_SwitchingBetweenTwoRecommendedLanguages_UndoesThenReapplies()
 		{
-			var result = UILanguageDlg.ResolveScaleForLanguageChange(130, true, 140);
+			var result = UILanguageDlg.ResolveScaleForLanguageChange(130, true, 100, 140);
 
 			Assert.AreEqual(140, result.NewValue);
 			Assert.IsTrue(result.AutoBumped);
+			Assert.AreEqual(100, result.PreBumpValue);
 			Assert.IsTrue(result.ShowHint);
 		}
 
@@ -242,7 +269,7 @@ namespace SayMoreTests.UI.ProjectWindow
 		[Test]
 		public void ResolveScaleForLanguageChange_NeitherLanguageHasRecommendation_NoOp()
 		{
-			var result = UILanguageDlg.ResolveScaleForLanguageChange(100, false, null);
+			var result = UILanguageDlg.ResolveScaleForLanguageChange(100, false, null, null);
 
 			Assert.AreEqual(100, result.NewValue);
 			Assert.IsFalse(result.AutoBumped);

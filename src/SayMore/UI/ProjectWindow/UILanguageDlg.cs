@@ -25,6 +25,7 @@ namespace SayMore.UI.ProjectWindow
 		private int _initialScalePercent;
 		private bool _isSettingScaleValueProgrammatically;
 		private bool _scaleWasAutoBumped;
+		private int? _preAutoBumpScalePercent;
 		private bool _isInitializing = true;
 		private Dictionary<Control, Padding> _baselineMargins;
 		public delegate UILanguageDlg Factory(); //autofac uses this
@@ -159,29 +160,32 @@ namespace SayMore.UI.ProjectWindow
 		/// recommendation; a value already at or above it is left untouched. If our own earlier
 		/// auto-bump for the previously-selected language is still in effect (the user hasn't
 		/// touched the value since), it's undone before possibly re-applying for the new
-		/// language, so switching back and forth never leaves behind a stale, unexplained
-		/// bumped value.
+		/// language, restoring whatever value it bumped from -- not always 100 -- so switching
+		/// back and forth never leaves behind a stale, unexplained bumped value, and never
+		/// discards a value the user had already set for themselves before the bump.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal static (int NewValue, bool AutoBumped, bool ShowHint) ResolveScaleForLanguageChange(
-			int currentValue, bool wasAutoBumped, int? recommendedForNewLanguage)
+		internal static (int NewValue, bool AutoBumped, int? PreBumpValue, bool ShowHint) ResolveScaleForLanguageChange(
+			int currentValue, bool wasAutoBumped, int? preBumpValue, int? recommendedForNewLanguage)
 		{
 			var value = currentValue;
 			var autoBumped = wasAutoBumped;
 
 			if (autoBumped)
 			{
-				value = 100;
+				value = preBumpValue ?? 100;
 				autoBumped = false;
+				preBumpValue = null;
 			}
 
 			if (recommendedForNewLanguage.HasValue && value < recommendedForNewLanguage.Value)
 			{
+				preBumpValue = value;
 				value = recommendedForNewLanguage.Value;
 				autoBumped = true;
 			}
 
-			return (value, autoBumped, recommendedForNewLanguage.HasValue);
+			return (value, autoBumped, preBumpValue, recommendedForNewLanguage.HasValue);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -223,12 +227,13 @@ namespace SayMore.UI.ProjectWindow
 		{
 			var recommended = GetRecommendedScaleForSelectedLanguage();
 			var result = ResolveScaleForLanguageChange(GetScalePercent(_numUpDownScale.Value),
-				_scaleWasAutoBumped, recommended);
+				_scaleWasAutoBumped, _preAutoBumpScalePercent, recommended);
 
 			if (result.NewValue != _numUpDownScale.Value)
 				SetScaleValue(result.NewValue);
 
 			_scaleWasAutoBumped = result.AutoBumped;
+			_preAutoBumpScalePercent = result.PreBumpValue;
 			RefreshHintAndResetButtonDisplay();
 		}
 
@@ -292,6 +297,7 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void _btnReset_Click(object sender, EventArgs e)
 		{
+			_preAutoBumpScalePercent = GetScalePercent(_numUpDownScale.Value);
 			SetScaleValue(GetResetTargetValue(GetRecommendedScaleForSelectedLanguage()));
 			_scaleWasAutoBumped = true;
 			UpdateResetButtonEnabled();
@@ -301,7 +307,10 @@ namespace SayMore.UI.ProjectWindow
 		private void _numUpDownScale_ValueChanged(object sender, EventArgs e)
 		{
 			if (!_isSettingScaleValueProgrammatically)
+			{
 				_scaleWasAutoBumped = false;
+				_preAutoBumpScalePercent = null;
+			}
 
 			UpdateResetButtonEnabled();
 

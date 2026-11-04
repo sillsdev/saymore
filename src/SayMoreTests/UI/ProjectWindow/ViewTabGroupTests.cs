@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using L10NSharp;
@@ -93,6 +94,41 @@ namespace SayMoreTests.UI.ProjectWindow
 				{
 					form.Close();
 				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// AddTab adds the hosted view itself as a direct child of ViewTabGroup (see ViewTab's
+		/// constructor), not just the tab header -- this is where the actual Sessions/People/
+		/// Project screen content lives. ViewTabGroup's own ApplyScale must therefore also scale
+		/// each hosted view, not just the tab strip, since being dispatched via IUiScalable means
+		/// the generic recursive pass that used to reach ViewTabGroup's own Controls (including
+		/// each view) no longer does.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_HostContainsViewTabGroup_ScalesHostedViewContent()
+		{
+			Settings.Default.UITextScale = 100;
+
+			using (var host = new Panel())
+			using (var group = new ViewTabGroup())
+			using (var view = new Panel())
+			using (var label = new Label { Text = "Hello", Font = new Font(FontFamily.GenericSansSerif, 10f) })
+			{
+				view.Controls.Add(label);
+				host.Controls.Add(group);
+				group.AddTab(view);
+				var originalSize = label.Font.Size;
+
+				Settings.Default.UITextScale = 200;
+				host.ScaleUIFont();
+
+				Assert.Greater(label.Font.Size, originalSize,
+					"ViewTabGroup.ApplyScale must also scale the content of each hosted view, " +
+					"not just the tab strip -- this content used to be reached by the generic " +
+					"recursive pass before ViewTabGroup was dispatched via IUiScalable.");
 			}
 		}
 	}

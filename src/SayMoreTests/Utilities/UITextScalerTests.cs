@@ -163,6 +163,27 @@ namespace SayMoreTests.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// A control's baseline font can be declared in a unit other than Point (e.g. World); a
+		/// staleness check that only compares FontFamily/Style would silently treat a Unit-only
+		/// change as "still the same baseline" and return the stale original.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void GetOriginalFont_ControlsCurrentFontUnitDiffersFromCachedOriginal_RecachesCurrentFont()
+		{
+			using (var control = new Label { Font = new Font(FontFamily.GenericSansSerif, 9f, FontStyle.Regular, GraphicsUnit.Point) })
+			{
+				UITextScaler.GetOriginalFont(control);
+
+				control.Font = new Font(FontFamily.GenericSansSerif, 9f, FontStyle.Regular, GraphicsUnit.World);
+
+				var recached = UITextScaler.GetOriginalFont(control);
+				Assert.AreEqual(GraphicsUnit.World, recached.Unit);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Guards against reconstructing a font from its family, size, and style while
 		/// discarding its GraphicsUnit. A control's baseline font can be declared in a unit
 		/// other than Point (e.g. World, as the 3-argument Font constructor's default would

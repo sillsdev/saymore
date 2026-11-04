@@ -69,15 +69,27 @@ namespace SayMore.Utilities
 		{
 			if (s_origFonts.TryGetValue(control, out var font))
 			{
-				// Ensure that the font family and style are still the same; otherwise, reset.
-				// Mismatches here can happen, for example, when the UI language dialog is closed
-				// with OK but the scale percentage didn't actually change (NotifyScaleChanged 
-				// still fires, re-triggering a scaling pass over controls that were already
-				// scaled), or when a control's baseline font family genuinely differs from an
-				// ancestor's (e.g. a mixed-family Designer file). In either case, the control's
-				// current font is simply the new baseline to track.
+				// Ensure the font hasn't changed out from under us; otherwise, reset. Mismatches
+				// here can happen, for example, when the UI language dialog is closed with OK
+				// but the scale percentage didn't actually change (NotifyScaleChanged still
+				// fires, re-triggering a scaling pass over controls that were already scaled),
+				// or when a control's baseline font genuinely differs from an ancestor's (e.g.
+				// a mixed-family Designer file). In either case, the control's current font is
+				// simply the new baseline to track.
+				//
+				// Deliberately not using SIL.Windows.Forms.FontHelper.AreFontsSame here: it also
+				// compares Size, which this check must not do. A control several levels below an
+				// ambiently-scaled ancestor reads that ancestor's Font -- already resized to the
+				// new scale -- partway through the very same recursive pass that's in the middle
+				// of resizing it (the ancestor's own ApplyFontCore call already ran by the time
+				// this descendant's is reached), so its Size legitimately differs from its cached
+				// original even though nothing about its baseline actually changed. Comparing
+				// Size here would misread that as a changed baseline and re-cache the
+				// already-scaled font as a fresh one, compounding the scale with every ambient
+				// level (confirmed by ScaleUIFont_ButtonAmbientlyInheritsFontThroughMultipleUnsetLevels_DoesNotCompoundScale).
 				if (control.Font.FontFamily.Equals(font.FontFamily) &&
-					control.Font.Style == font.Style)
+					control.Font.Style == font.Style &&
+					control.Font.Unit == font.Unit)
 				{
 					return font;
 				}

@@ -197,6 +197,13 @@ namespace SayMore.Transcription.UI
 			
 			InitializeTableLayoutButtonControls();
 			InitializeHintLabelsAndButtonFonts();
+
+			// InitializeHintLabelsAndButtonFonts just reset these controls to their unscaled
+			// baseline font after the base.OnLoad(e) call above already triggered the
+			// Load-based scaling pass, so they need to be rescaled again here before anything
+			// is painted.
+			this.ScaleUIFont();
+
 			ViewModel.RemoveInvalidAnnotationFiles();
 			WavePainter.UnsegmentedBackgroundColor = _panelListen.BackColor;
 			WavePainter.SegmentedBackgroundColor = Settings.Default.BarColorBegin;

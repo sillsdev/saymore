@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using SIL.Windows.Forms.Extensions;
 using SayMore.UI.ProjectWindow;
 
 namespace SayMore.Utilities
@@ -113,6 +114,12 @@ namespace SayMore.Utilities
 			if (scaledFont == null)
 				return;
 
+			// Suppresses actual window repainting (not just the layout engine) while the
+			// recursive pass below touches many independently-laid-out nested containers, so a
+			// correction made after the control is already visible (e.g. SayMoreFormBase's
+			// Form.Shown safety net, or a live scale change while a dialog is open) applies as
+			// one batched repaint instead of a visible per-control cascade.
+			control.SetWindowRedraw(false);
 			try
 			{
 				control.ApplyFontRecursively(scaledFont, scale);
@@ -120,6 +127,10 @@ namespace SayMore.Utilities
 			catch (Exception e)
 			{
 				ErrorReport.ReportNonFatalException(e);
+			}
+			finally
+			{
+				control.SetWindowRedraw(true);
 			}
 		}
 

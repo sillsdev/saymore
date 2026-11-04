@@ -114,6 +114,25 @@ namespace SayMoreTests.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// EditorProvider.Control is a long-lived instance owned by FileType's own editor cache,
+		/// reused across element selections -- not owned by this TabPage. Disposing the TabPage
+		/// must not cascade Dispose() onto it, or the next selection that needs to show it again
+		/// would throw ObjectDisposedException when re-adding it to a new TabPage.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void Dispose_PageDisposed_DoesNotDisposeEditorControl()
+		{
+			var tabPage = new ComponentEditorTabPage(_provider.Object, Color.Black);
+
+			tabPage.Dispose();
+
+			Assert.IsFalse(_editorControl.IsDisposed,
+				"Disposing the TabPage must not dispose the long-lived editor Control it hosted.");
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private static int GetScaleChangedSubscriberCount()
 		{
 			var field = typeof(UITextScaler).GetField("ScaleChanged",

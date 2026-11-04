@@ -95,7 +95,17 @@ namespace SayMore.UI.ComponentEditors
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
+			{
 				UITextScaler.ScaleChanged -= HandleScaleChanged;
+
+				// EditorProvider.Control is a long-lived instance owned by FileType's own
+				// editor cache, reused across element selections -- not owned by this TabPage.
+				// Without removing it first, disposing this TabPage would cascade Dispose()
+				// onto it too, and the next selection that needs to show it again would throw
+				// ObjectDisposedException when re-adding it to a new TabPage.
+				if (EditorProvider?.Control != null)
+					Controls.Remove(EditorProvider.Control);
+			}
 
 			base.Dispose(disposing);
 		}

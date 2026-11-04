@@ -500,7 +500,7 @@ namespace SayMore
 			{
 				_scaledDialogFont = new Font(DialogFont.FontFamily,
 					DialogFont.Size * UITextScaler.ClampScalePercent(Settings.Default.UITextScale) / 100f,
-					DialogFont.Style);
+					DialogFont.Style, DialogFont.Unit);
 			}
 			catch (Exception e)
 			{

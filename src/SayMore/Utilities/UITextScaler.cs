@@ -234,15 +234,10 @@ namespace SayMore.Utilities
 							baselineDropDownWidth = -1;
 						if (baselineDropDownWidth > 1) // sanity check
 							combo.DropDownWidth = (int)Math.Ceiling(baselineDropDownWidth * scale);
-						if (combo.DropDownStyle == ComboBoxStyle.DropDownList)
-						{
-							// Apply font to the items in the dropdown list
-							foreach (var item in combo.Items)
-							{
-								if (item is Control itemControl)
-									itemControl.Font = newFont;
-							}
-						}
+
+						// A ComboBox's dropdown items are plain objects rendered via ToString() or
+						// owner-draw painting (DrawItem); WinForms never hosts them as child
+						// Controls, so there's nothing here for a font-scaling pass to reach directly.
 
 						break;
 					case DataGridView dgv:

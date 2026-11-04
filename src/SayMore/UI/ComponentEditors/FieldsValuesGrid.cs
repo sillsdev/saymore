@@ -87,6 +87,7 @@ namespace SayMore.UI.ComponentEditors
 		private void HandleScaleChanged(object sender, EventArgs e)
 		{
 			Font = Program.ScaledDialogFont;
+			_factoryFieldFont?.Dispose();
 			_factoryFieldFont = new Font(Font, FontStyle.Bold);
 			Invalidate();
 		}

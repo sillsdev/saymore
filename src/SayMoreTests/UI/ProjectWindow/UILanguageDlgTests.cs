@@ -184,6 +184,16 @@ namespace SayMoreTests.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void ResolveScaleForLanguageChange_ValueBelowRecommendedButNotExactly100_BumpsValue()
+		{
+			var result = UILanguageDlg.ResolveScaleForLanguageChange(110, false, 130);
+
+			Assert.AreEqual(130, result.NewValue);
+			Assert.IsTrue(result.AutoBumped);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void ResolveScaleForLanguageChange_RecommendedLanguageSelectedButValueAlreadyCustomized_LeavesValueAlone()
 		{
 			var result = UILanguageDlg.ResolveScaleForLanguageChange(150, false, 130);

@@ -155,10 +155,12 @@ namespace SayMore.UI.ProjectWindow
 		/// <summary>
 		/// Decides what the scale value, auto-bumped flag, and hint-label visibility should be
 		/// when the selected language changes (including the initial selection at dialog load).
-		/// If our own earlier auto-bump is still in effect (the user hasn't touched the value
-		/// since), it's undone before possibly re-applying for the newly selected language, so
-		/// switching back and forth never leaves behind a stale, unexplained bumped value. A
-		/// value the user deliberately set (even if it happens to equal 100) is never touched.
+		/// Any value below the newly-selected language's recommended scale is bumped up to that
+		/// recommendation; a value already at or above it is left untouched. If our own earlier
+		/// auto-bump for the previously-selected language is still in effect (the user hasn't
+		/// touched the value since), it's undone before possibly re-applying for the new
+		/// language, so switching back and forth never leaves behind a stale, unexplained
+		/// bumped value.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		internal static (int NewValue, bool AutoBumped, bool ShowHint) ResolveScaleForLanguageChange(
@@ -173,7 +175,7 @@ namespace SayMore.UI.ProjectWindow
 				autoBumped = false;
 			}
 
-			if (recommendedForNewLanguage.HasValue && value == 100)
+			if (recommendedForNewLanguage.HasValue && value < recommendedForNewLanguage.Value)
 			{
 				value = recommendedForNewLanguage.Value;
 				autoBumped = true;

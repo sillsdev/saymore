@@ -48,6 +48,14 @@ namespace SayMoreTests.UI.ElementListScreen
             // and is never dereferenced since the control's handle is never created here)
             var screen = new SayMore.UI.ElementListScreen.ConcreteSessionScreen(vm, null);
             var grid = new SayMore.UI.ElementListScreen.ElementGrid();
+
+            // Our mock Sessions have no real MetaDataFile (they're built with the
+            // "For Mocking Only" constructor), so ElementGrid.GetValueForField would
+            // throw a NullReferenceException if the grid tried to read a cell value to
+            // measure row height. Disabling row auto-sizing avoids that measurement pass;
+            // it has no bearing on the filtering behavior this test actually verifies.
+            grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
             var gridField = screen.GetType().GetField("_elementsGrid", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy);
             gridField.SetValue(screen, grid);
 

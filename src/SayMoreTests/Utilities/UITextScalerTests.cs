@@ -508,6 +508,62 @@ namespace SayMoreTests.Utilities
 		/// an unscaled strip can end up too short to properly display the now-larger item text.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// A ToolStripItem with its own Designer-set styling (e.g. SegmenterDlgBase's Bold
+		/// "Undo" menu item) must keep that styling through scaling, not have it replaced by an
+		/// ancestor-derived font that strips the Bold -- the same class of bug already fixed for
+		/// DataGridViewColumn header fonts.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_ToolStripItemHasExplicitBoldFont_PreservesBoldAndScalesSize()
+		{
+			Settings.Default.UITextScale = 200;
+
+			using (var host = new Panel())
+			using (var menuStrip = new MenuStrip())
+			{
+				var item = new ToolStripMenuItem("Undo") { Font = new Font(menuStrip.Font, FontStyle.Bold) };
+				menuStrip.Items.Add(item);
+				host.Controls.Add(menuStrip);
+				var originalSize = item.Font.Size;
+
+				host.ScaleUIFont();
+
+				Assert.IsTrue(item.Font.Bold, "Scaling must not strip a tool strip item's own explicit Bold styling.");
+				Assert.Greater(item.Font.Size, originalSize);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Guards against a redundant scaling pass compounding the scale factor on top of an
+		/// already-scaled tool strip item font, or losing the Bold styling on a second pass.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_ToolStripItemCalledTwiceWithSameScale_DoesNotCompoundSizeAndKeepsBold()
+		{
+			Settings.Default.UITextScale = 200;
+
+			using (var host = new Panel())
+			using (var menuStrip = new MenuStrip())
+			{
+				var item = new ToolStripMenuItem("Undo") { Font = new Font(menuStrip.Font, FontStyle.Bold) };
+				menuStrip.Items.Add(item);
+				host.Controls.Add(menuStrip);
+
+				host.ScaleUIFont();
+				var sizeAfterFirstPass = item.Font.Size;
+
+				host.ScaleUIFont();
+
+				Assert.AreEqual(sizeAfterFirstPass, item.Font.Size, 0.01f);
+				Assert.IsTrue(item.Font.Bold);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
 		public void ScaleUIFont_ToolStrip_ScalesStripsOwnFont()
 		{

@@ -31,6 +31,9 @@ namespace SayMore.Utilities
 		private static readonly ConditionalWeakTable<DataGridViewColumn, Font> s_origColumnHeaderFonts =
 			new ConditionalWeakTable<DataGridViewColumn, Font>();
 
+		private static readonly ConditionalWeakTable<ToolStripItem, Font> s_origToolStripItemFonts =
+			new ConditionalWeakTable<ToolStripItem, Font>();
+
 		public static event EventHandler ScaleChanged;
 
 		public static void NotifyScaleChanged()
@@ -193,7 +196,8 @@ namespace SayMore.Utilities
 					case UserControl _:
 						child.ApplyFontCore(newFont, scale);
 						if (child.ContextMenuStrip != null)
-							ApplyFontToToolStripItems(child.ContextMenuStrip.Items, newFont);
+							ApplyFontToToolStripItems(child.ContextMenuStrip.Items,
+								GetOriginalFont(child.ContextMenuStrip), scale);
 						break;
 					case ComboBox combo:
 						child.ApplyFontCore(newFont, scale);
@@ -269,7 +273,7 @@ namespace SayMore.Utilities
 						var origStripFont = GetOriginalFont(toolStrip);
 						toolStrip.Font = new Font(origStripFont.FontFamily,
 							origStripFont.Size * scale, origStripFont.Style, origStripFont.Unit);
-						ApplyFontToToolStripItems(toolStrip.Items, newFont);
+						ApplyFontToToolStripItems(toolStrip.Items, origStripFont, scale);
 						break;
 					case SplitContainer split:
 						// SplitContainer doesn't derive from Panel, so its panels (e.g. a
@@ -304,20 +308,33 @@ namespace SayMore.Utilities
 			}
 		}
 
-		private static void ApplyFontToToolStripItems(ToolStripItemCollection items, Font newFont)
+		private static void ApplyFontToToolStripItems(ToolStripItemCollection items, Font ancestorOrigFont, float scale)
 		{
 			foreach (ToolStripItem item in items)
 			{
-				item.Font = newFont;
+				if (!s_origToolStripItemFonts.TryGetValue(item, out var origItemFont))
+				{
+					// item.Font is null unless the item explicitly set its own (e.g.
+					// SegmenterDlgBase's intentionally bold Undo menu item); fall back to the
+					// strip's own cached original font so an unstyled item still scales
+					// consistently with the rest of the strip, instead of losing an item's own
+					// distinct styling to the ancestor-derived newFont every time this is reached.
+					origItemFont = item.Font ?? ancestorOrigFont;
+					s_origToolStripItemFonts.Add(item, origItemFont);
+				}
+
+				item.Font = new Font(origItemFont.FontFamily, origItemFont.Size * scale,
+					origItemFont.Style, origItemFont.Unit);
 
 				if (item is ToolStripDropDownItem dropDownItem && dropDownItem.HasDropDownItems)
-					ApplyFontToToolStripItems(dropDownItem.DropDownItems, newFont);
+					ApplyFontToToolStripItems(dropDownItem.DropDownItems, ancestorOrigFont, scale);
 			}
 		}
 
 		internal static void ShowScaledContextMenuStrip(this ContextMenuStrip contextMenu, Point location)
 		{
-			ApplyFontToToolStripItems(contextMenu.Items, contextMenu.GetScaledFont(out _));
+			contextMenu.GetScaledFont(out var scale);
+			ApplyFontToToolStripItems(contextMenu.Items, contextMenu.Font, scale);
 			contextMenu.Show(location);
 		}
 	}

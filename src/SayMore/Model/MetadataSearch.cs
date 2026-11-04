@@ -9,8 +9,13 @@ namespace SayMore.Model
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// The class that contains the data searching methods.
+	/// A method class that contains the data search functionality for a project, specifically
+	/// session metadata and contributor-notes.
 	/// </summary>
+	/// <remarks>
+	/// Eventually, this will likely be extended to include searching for matches in additional
+	/// project data (see https://github.com/sillsdev/saymore/issues/262).
+	/// </remarks>
 	/// ----------------------------------------------------------------------------------------
 	public class MetadataSearch
 	{
@@ -71,16 +76,22 @@ namespace SayMore.Model
 			"speaker"
 		};
 
+		// Overridable so tests can supply sessions without a full ProjectContext/Project.
+		protected virtual IEnumerable<Session> GetAllSessions()
+		{
+			return _projectContext.Project.GetAllSessions(CancellationToken.None);
+		}
+
 		public IEnumerable<string> SearchSessions(string query)
 		{
-			var allSessions = _projectContext.Project.GetAllSessions(CancellationToken.None);
+			var allSessions = GetAllSessions();
 
 			foreach (var session in allSessions)
 			{
 				bool found = false;
 				foreach (var componentFile in session.GetComponentFiles())
 				{
-					// Determins what file type is being searched for to determine searchable tags.
+					// Determines what file type is being searched for to determine searchable tags.
 					HashSet<string> searchableTags;
 					if (componentFile.FileType is SessionFileType)
 					{
@@ -99,7 +110,7 @@ namespace SayMore.Model
 						searchableTags = new HashSet<string>(otherFileSearchableTags.Union(GetCustomFieldIds(componentFile)));
 					}
 
-					// Actually peforms the search and yields the session ID if found.
+					// Actually performs the search and yields the session ID if found.
 					var fields = componentFile.MetaDataFieldValues;
 
 					foreach (var field in fields)
@@ -113,14 +124,15 @@ namespace SayMore.Model
 						}
 					}
 
-					// If the query wasn't found in the offical fields or the custom fields, check the contributer notes.
+					// If the query wasn't found in the official fields or the custom fields, check the contributor notes.
 					if (!found && componentFile.FileType is SessionFileType && ContainsContributorNotes(componentFile, query))
 					{
 						found = true;
 						yield return session.Id;
 					}
 				}
-				if (found) break;
+				if (found)
+					continue;
 			}
 		}
 
@@ -143,7 +155,7 @@ namespace SayMore.Model
 			return customFields;
 		}
 
-		// Checks through contributer notes of a given component file for a query.
+		// Checks through contributor notes of a given component file for a query.
 		private static bool ContainsContributorNotes(ComponentFile file, string query)
 		{
 			var contributionsField = file.MetaDataFieldValues

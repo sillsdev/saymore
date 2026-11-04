@@ -5,10 +5,13 @@ using System.IO;
 using System.Linq;
 using L10NSharp;
 using NUnit.Framework;
+using SIL.Core.ClearShare;
 using SIL.TestUtilities;
 using SayMore.Model;
+using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
+using SayMore.UI.ComponentEditors;
 using SayMore.Utilities;
 using SayMoreTests.Transcription.Model;
 
@@ -587,5 +590,73 @@ namespace SayMoreTests.Model.Files
 
 			return succeeded;
 		}
+
+		#region IsMatch tests
+		// ProjectElementComponentFile's "for mocking only" constructor always sets FileType to
+		// null, so this lets tests give it a real FileType (e.g., a SessionFileType) without
+		// needing a full ProjectElement.
+		private class TestProjectElementComponentFile : ProjectElementComponentFile
+		{
+			public TestProjectElementComponentFile(FileType fileType)
+			{
+				FileType = fileType;
+			}
+		}
+
+		private static SessionFileType CreateSessionFileType()
+		{
+			return new SessionFileType(
+				new Lazy<Func<SessionBasicEditor.Factory>>(() => null),
+				new Lazy<Func<StatusAndStagesEditor.Factory>>(() => null),
+				new Lazy<Func<ContributorsEditor.Factory>>(() => null));
+		}
+
+		[Test]
+		public void IsMatch_PlainComponentFile_QueryMatchesSearchableField_ReturnsTrue()
+		{
+			var f = new ComponentFile(new UnknownFileType(null, null));
+			f.MetaDataFieldValues.Add(new FieldInstance(FileType.kNotesFieldName, "found a needle in the haystack"));
+			Assert.IsTrue(f.IsMatch("needle"));
+		}
+
+		[Test]
+		public void IsMatch_PlainComponentFile_QueryMatchesNonSearchableField_ReturnsFalse()
+		{
+			// "genre" is only searchable for a session's own metadata file (see
+			// IsMatch_ProjectElementComponentFileIsSessionFileType_QueryMatchesGenre_ReturnsTrue),
+			// not for a generic file like this one.
+			var f = new ComponentFile(new UnknownFileType(null, null));
+			f.MetaDataFieldValues.Add(new FieldInstance(SessionFileType.kGenreFieldName, "needle-felting"));
+			Assert.IsFalse(f.IsMatch("needle"));
+		}
+
+		[Test]
+		public void IsMatch_ProjectElementComponentFileIsSessionFileType_QueryMatchesGenre_ReturnsTrue()
+		{
+			var f = new TestProjectElementComponentFile(CreateSessionFileType());
+			f.MetaDataFieldValues.Add(new FieldInstance(SessionFileType.kGenreFieldName, "needle-felting"));
+			Assert.IsTrue(f.IsMatch("needle"));
+		}
+
+		[Test]
+		public void IsMatch_ProjectElementComponentFileIsNotSessionFileType_QueryMatchesGenre_ReturnsFalse()
+		{
+			var f = new TestProjectElementComponentFile(null);
+			f.MetaDataFieldValues.Add(new FieldInstance(SessionFileType.kGenreFieldName, "needle-felting"));
+			Assert.IsFalse(f.IsMatch("needle"));
+		}
+
+		[Test]
+		public void IsMatch_ProjectElementComponentFileIsSessionFileType_QueryMatchesContributorNotes_ReturnsTrue()
+		{
+			var f = new TestProjectElementComponentFile(CreateSessionFileType());
+			var contributions = new ContributionCollection(new[]
+			{
+				new Contribution("Jane Doe", null) { Comments = "found a needle in here" }
+			});
+			f.MetaDataFieldValues.Add(new FieldInstance(SessionFileType.kContributionsFieldName, contributions));
+			Assert.IsTrue(f.IsMatch("needle"));
+		}
+		#endregion
 	}
 }

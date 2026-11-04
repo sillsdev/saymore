@@ -244,20 +244,19 @@ namespace SayMore.UI.ElementListScreen
 			IEnumerable<ProjectElement> items = _model.Elements.OrderBy(x => x.Id);
 
 			// If a search parameter was provided, restrict to elements whose Id
-			// contains the search text (case-insensitive). This applies to any
-			// non-empty searchParam (including 1-2 char searches).
+			// contains the search text (case-insensitive) or which match the metadata search.
 			if(!string.IsNullOrWhiteSpace(searchParam)) 
 			{
 				if (_metadataSearchMatchingIds != null)
 				{
 					// Match by metadata OR by ID substring
-					items = items.Where(x => !string.IsNullOrEmpty(x.Id) &&
-						(_metadataSearchMatchingIds.Contains(x.Id) ||
-						 x.Id.IndexOf(searchParam, StringComparison.OrdinalIgnoreCase) >= 0));
+					items = items.Where(x =>
+						_metadataSearchMatchingIds.Contains(x.Id) ||
+						 x.Id.IndexOf(searchParam, StringComparison.OrdinalIgnoreCase) >= 0);
 				}
 				else
 				{
-					items = items.Where(x => !string.IsNullOrEmpty(x.Id) &&
+					items = items.Where(x =>
 						x.Id.IndexOf(searchParam, StringComparison.OrdinalIgnoreCase) >= 0);
 				}
 			}

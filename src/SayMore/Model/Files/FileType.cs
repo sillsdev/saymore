@@ -32,6 +32,9 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class FileType
 	{
+		// Defined via FactoryFields below for (almost) every file type.
+		public const string kNotesFieldName = "notes";
+
 		protected Func<BasicFieldGridEditor.Factory> _basicFieldGridEditorFactoryLazy;
 		protected Func<string, bool> _isMatchPredicate;
 
@@ -141,7 +144,7 @@ namespace SayMore.Model.Files
 		{
 			get
 			{
-				yield return new FieldDefinition("notes");
+				yield return new FieldDefinition(kNotesFieldName);
 			}
 		}
 
@@ -339,6 +342,8 @@ namespace SayMore.Model.Files
 		public const string kSynopsisFieldName = "synopsis";
 		public const string kAccessFieldName = "access";
 		public const string kLocationFieldName = "location";
+		public const string kSettingFieldName = "setting";
+		public const string kSituationFieldName = "situation";
 		public const string kGenreFieldName = "genre";
 		public const string kParticipantsFieldName = "participants";
 		public const string kTitleFieldName = "title";
@@ -422,8 +427,8 @@ namespace SayMore.Model.Files
 					kSynopsisFieldName,
 					kAccessFieldName,
 					kLocationFieldName,
-					"setting",
-					"situation",
+					kSettingFieldName,
+					kSituationFieldName,
 					kGenreFieldName,
 					kParticipantsFieldName,
 					kTitleFieldName,
@@ -961,7 +966,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override bool GetShowInPresetOptions(string key)
 		{
-			return (base.GetShowInPresetOptions(key) && key != "notes");
+			return (base.GetShowInPresetOptions(key) && key != kNotesFieldName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1029,7 +1034,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override bool GetShowInPresetOptions(string key)
 		{
-			return (base.GetShowInPresetOptions(key) && key != "notes");
+			return (base.GetShowInPresetOptions(key) && key != kNotesFieldName);
 		}
 
 		/// ------------------------------------------------------------------------------------

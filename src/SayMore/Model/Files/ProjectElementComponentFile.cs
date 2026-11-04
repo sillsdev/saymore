@@ -152,5 +152,58 @@ namespace SayMore.Model.Files
 			return MetaDataFieldValues.Where(
 				val => val.FieldId.StartsWith(XmlFileSerializer.kCustomFieldIdPrefix));
 		}
+
+		// The metadata fields (besides any custom fields) that are worth searching for a
+		// session's own metadata file.
+		private static readonly HashSet<string> sessionFileSearchableTags = new HashSet<string>
+		{
+			SessionFileType.kGenreFieldName,
+			SessionFileType.kTitleFieldName,
+			SessionFileType.kSettingFieldName,
+			SessionFileType.kParticipantsFieldName,
+			SessionFileType.kSituationFieldName,
+			SessionFileType.kSynopsisFieldName,
+			SessionFileType.kLocationFieldName,
+			SessionFileType.kAccessFieldName,
+			FileType.kNotesFieldName,
+			SessionFileType.kCountryFieldName,
+			SessionFileType.kContinentFieldName,
+			SessionFileType.kRegionFieldName,
+			SessionFileType.kAddressFieldName,
+			SessionFileType.kSubGenreFieldName,
+			SessionFileType.kInteractivityFieldName,
+			SessionFileType.kPlanningTypeFieldName,
+			SessionFileType.kInvolvementFieldName,
+			SessionFileType.kSocialContextFieldName,
+			SessionFileType.kTaskFieldName
+		};
+
+		/// ------------------------------------------------------------------------------------
+		protected override HashSet<string> GetCustomFieldIds()
+		{
+			return new HashSet<string>(GetCustomFields()
+				.Select(f => f.FieldId)
+				.Where(id => !string.IsNullOrEmpty(id)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override HashSet<string> GetSearchableFieldIds()
+		{
+			return FileType is SessionFileType
+				? new HashSet<string>(sessionFileSearchableTags.Union(GetCustomFieldIds()))
+				: base.GetSearchableFieldIds();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// A session's own metadata file also matches if the query is found among its
+		/// contributors' notes, which aren't represented by a searchable field.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override bool IsMatch(string query)
+		{
+			return base.IsMatch(query) ||
+				(FileType is SessionFileType && ContainsContributorNotes(query));
+		}
 	}
 }

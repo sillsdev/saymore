@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using DesktopAnalytics;
 using L10NSharp;
 using SIL.Code;
+using SIL.Core.ClearShare;
 using SIL.Reporting;
 using SIL.Windows.Forms.FileSystem;
 using SayMore.Media.Audio;
@@ -20,6 +21,7 @@ using SayMore.UI.ElementListScreen;
 using SayMore.Utilities;
 using System.ComponentModel;
 using SayMore.Media;
+using static System.StringComparison;
 
 namespace SayMore.Model.Files
 {
@@ -425,6 +427,88 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Returns true if any contributor's comments on this file contain the given query.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool ContainsContributorNotes(string query)
+		{
+			var contributionsField = MetaDataFieldValues
+				.FirstOrDefault(f => f.FieldId == SessionFileType.kContributionsFieldName);
+
+			if (contributionsField?.Value is ContributionCollection contributions)
+			{
+				foreach (var contribution in contributions)
+				{
+					if (!string.IsNullOrEmpty(contribution.Comments) &&
+						contribution.Comments.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		// The metadata fields (besides any custom fields) that are worth searching for a
+		// file that isn't a session/person's own metadata file (e.g., a media file).
+		private static readonly HashSet<string> metadataSearchableTags = new HashSet<string>
+		{
+			FileType.kNotesFieldName,
+			"microphone",
+			"device",
+			"participants",
+			"recordist",
+			"speaker"
+		};
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the IDs (including any custom fields) of this file's metadata fields that are
+		/// worth matching against a search query. Overridden by subclasses whose files have
+		/// different (or additional) fields a user might search for.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual HashSet<string> GetSearchableFieldIds()
+		{
+			return new HashSet<string>(metadataSearchableTags.Union(GetCustomFieldIds()));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the IDs of this file's custom fields, if any. If SayMore's UI allows a user to
+		/// add custom fields to a file (e.g., a session or person metadata file), then the 
+		/// subclass that represents that file type (e.g., 
+		/// <see cref="ProjectElementComponentFile"/>) should override this.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual HashSet<string> GetCustomFieldIds()
+		{
+			return new HashSet<string>();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns true if this file's metadata matches the given search query. Overridden by
+		/// subclasses whose content isn't represented in MetaDataFieldValues (e.g., annotation
+		/// text) or that shouldn't be searched at all (e.g., auto-generated oral annotation
+		/// metadata).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual bool IsMatch(string query)
+		{
+			var searchableFieldIds = GetSearchableFieldIds();
+
+			// ENHANCE: Technically, the query matching should be specific to the culture the data
+			// is in (mostly the project analysis language, but in some cases the current system
+			// locale or ordinal).
+			// See https://github.com/sillsdev/saymore/issues/262#issuecomment-6641448242
+			return MetaDataFieldValues.Any(field =>
+				searchableFieldIds.Contains(field.FieldId, StringComparer.OrdinalIgnoreCase) &&
+				(field.Value?.ToString() ?? string.Empty).IndexOf(query, OrdinalIgnoreCase) >= 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Sets the value for persisting, and returns the same value, potentially modified
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -710,7 +794,7 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Rename the file so that it is clear (visually and programatically) that this file
+		/// Rename the file so that it is clear (visually and programmatically) that this file
 		/// plays this role.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

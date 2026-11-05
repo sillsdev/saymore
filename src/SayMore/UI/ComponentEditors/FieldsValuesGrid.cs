@@ -85,6 +85,7 @@ namespace SayMore.UI.ComponentEditors
 			Font = Program.ScaledDialogFont;
 			_factoryFieldFont?.Dispose();
 			_factoryFieldFont = new Font(Font, FontStyle.Bold);
+			ColumnHeadersDefaultCellStyle.Font = Font;
 			Invalidate();
 		}
 

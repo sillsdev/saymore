@@ -57,6 +57,19 @@ namespace SayMore.Model.Files
 		public virtual TierCollection Tiers { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns true if any of this file's text tiers (transcription, free translation, or
+		/// any custom tiers) contain a segment whose text includes the given query.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override bool IsMatch(string query)
+		{
+			return Tiers.OfType<TextTier>().SelectMany(t => t.Segments)
+				.Any(s => !string.IsNullOrEmpty(s.Text) &&
+					s.Text.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public string GetPathToAssociatedMediaFile()
 		{
 			return PathToAnnotatedFile.Substring(0,

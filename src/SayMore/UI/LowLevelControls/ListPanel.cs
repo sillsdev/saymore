@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using L10NSharp;
 using SIL.Windows.Forms;
 using SayMore.Utilities;
 
@@ -18,7 +19,15 @@ namespace SayMore.UI.LowLevelControls
 	{
 		public event EventHandler NewButtonClicked;
 
+		/// <summary>
+		/// Raised when the user types in the search box and a search should be performed.
+		/// Only fired when there are three or more characters in the search box.
+		/// </summary>
+		public event EventHandler SearchRequested;
+
 		private readonly List<Button> _buttons = [];
+
+		private System.Windows.Forms.Timer _searchTimer;
 
 		public Color ButtonPanelBackColor1 { get; set; }
 		public Color ButtonPanelBackColor2 { get; set; }
@@ -30,6 +39,38 @@ namespace SayMore.UI.LowLevelControls
 
 		protected Control _listControl;
 		protected bool _showColumnChooserButton;
+
+		//private TextBox searchbox;
+
+		// Native cue banners (EM_SETCUEBANNER) don't expose a color, and the OS-chosen shade
+		// isn't reliably distinguishable from real typed text. Instead, the placeholder is
+		// plain text we swap in and out of _searchTextBox ourselves, in a color we control.
+		private static readonly Color PlaceholderForeColor = Color.FromArgb(128, 128, 128);
+
+		// Read fresh each time rather than cached, so a UI locale change made while the
+		// program is running is reflected the next time the placeholder is (re)shown.
+		private static string PlaceholderText => LocalizationManager.GetString(
+			"CommonToMultipleViews.ElementList.SearchBoxCueBanner", "Filter");
+
+		private bool IsShowingPlaceholder => _searchTextBox.ForeColor == PlaceholderForeColor;
+
+		private void ShowPlaceholderIfEmpty()
+		{
+			if (_searchTextBox.Text.Length == 0)
+			{
+				_searchTextBox.Text = PlaceholderText;
+				_searchTextBox.ForeColor = PlaceholderForeColor;
+			}
+		}
+
+		private void HidePlaceholder()
+		{
+			if (IsShowingPlaceholder)
+			{
+				_searchTextBox.Text = string.Empty;
+				_searchTextBox.ForeColor = SystemColors.WindowText;
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public ListPanel()
@@ -50,6 +91,30 @@ namespace SayMore.UI.LowLevelControls
 				return;
 
 			_headerLabel.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
+
+			_searchPanel.Visible = false;
+			_searchTextBox.KeyUp += HandleSearchTextBoxKeyUp;
+
+			_searchTimer = new System.Windows.Forms.Timer();
+			_searchTimer.Interval = 1500; // default 1.5 seconds; will be adjusted as needed
+			_searchTimer.Tick += HandleSearchTimerTick;
+
+			_searchTextBox.Enter += (sender, args) => HidePlaceholder();
+			_searchTextBox.Leave += (sender, args) => ShowPlaceholderIfEmpty();
+
+			// Switching tabs away from and back to this screen can tear down and recreate the
+			// search box's handle without ever raising Leave on it (e.g., if the tab switcher
+			// removes/re-adds the screen instead of just hiding it), which would otherwise leave
+			// the placeholder suppressed for good. Re-check whenever it becomes visible again.
+			_searchTextBox.VisibleChanged += (sender, args) =>
+			{
+				if (_searchTextBox.Visible)
+					ShowPlaceholderIfEmpty();
+			};
+
+			ShowPlaceholderIfEmpty();
+
+			_searchIcon.Click += (sender, args) => _searchTextBox.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -59,8 +124,20 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && components != null)
-				components.Dispose();
+			if (disposing)
+			{
+				// Stop and dispose the debounce timer so a pending Tick can't fire (and raise
+				// SearchRequested) after this control and its search box have been disposed.
+				if (_searchTimer != null)
+				{
+					_searchTimer.Stop();
+					_searchTimer.Tick -= HandleSearchTimerTick;
+					_searchTimer.Dispose();
+				}
+
+				if (components != null)
+					components.Dispose();
+			}
 
 			base.Dispose(disposing);
 		}
@@ -179,6 +256,19 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Draws a single flat border around the filter icon and search box together, instead
+		/// of relying on the native Edit control's own themed border (which varies by OS/theme
+		/// and doesn't match the rest of SayMore's flat chrome).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleSearchContainerPaint(object sender, PaintEventArgs e)
+		{
+			AppColors.PaintBorder(e.Graphics, _headerLabel.BorderColor,
+				((Control)sender).ClientRectangle, BorderSides.All);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleHeaderPanelPaint(object sender, PaintEventArgs e)
 		{
 			var rc = _headerLabel.ClientRectangle;
@@ -222,5 +312,70 @@ namespace SayMore.UI.LowLevelControls
 			foreach (var b in _buttons)
 				_buttonsFlowLayoutPanel.Controls.Add(b);
 		}
+
+		/// <summary>
+		/// Handle key input in the search box.
+		/// Internal so tests can simulate a keystroke directly.
+		/// </summary>
+		internal void HandleSearchTextBoxKeyUp(object sender, KeyEventArgs e)
+		{
+			var length = _searchTextBox.Text.Length;
+
+			_searchTimer.Stop();
+
+			if (length == 0)
+			{
+				// If the search box is empty, show the full list immediately.
+				SearchRequested?.Invoke(this, EventArgs.Empty);
+				return;
+			}
+
+			// Debouncing delay (to prevent searching on each keystroke) depends on the length of
+			// the search text. Shorter searches are more likely to be useless, so we delay longer
+			// for them. For 3+ chars, wait half a second. For 1-2 chars, which are more likely to be
+			// too short to be useful for filtering, wait longer to avoid excessive refreshes.
+			_searchTimer.Interval = length >= 3 ? 500 : 1500;
+			_searchTimer.Start();
+		}
+
+		/// <summary>
+		/// Raises SearchRequested as if the debounce timer had elapsed.
+		/// Internal (rather than a private lambda) so tests can simulate the timer firing
+		/// directly, instead of relying on reflection against a private field.
+		/// </summary>
+		internal void HandleSearchTimerTick(object sender, EventArgs e)
+		{
+			_searchTimer.Stop();
+			SearchRequested?.Invoke(this, EventArgs.Empty);
+		}
+
+		/// <summary>
+		/// Gets or sets whether the search box in the header is visible.
+		/// Developers can hide or show the search box using this property.
+		/// </summary>
+		[DefaultValue(false)]
+		public bool ShowSearchBar
+		{
+			get { return _searchPanel.Visible; }
+			set { _searchPanel.Visible = value; }
+		}
+
+		/// <summary>
+		/// Current text in the search box, or an empty string while it's showing the
+		/// "Filter" placeholder rather than something the user actually typed.
+		/// </summary>
+		[Browsable(false)]
+		public string SearchText
+		{
+			get { return IsShowingPlaceholder ? string.Empty : _searchTextBox.Text; }
+			set
+			{
+				_searchTextBox.ForeColor = SystemColors.WindowText;
+				_searchTextBox.Text = value ?? string.Empty;
+				if (!_searchTextBox.Focused)
+					ShowPlaceholderIfEmpty();
+			}
+		}
+
 	}
 }

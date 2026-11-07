@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Windows.Forms;
 
 namespace SayMoreTests.UI.LowLevelControls
 {
@@ -10,6 +11,31 @@ namespace SayMoreTests.UI.LowLevelControls
 	[TestFixture]
 	public class ListPanelTests
 	{
+        [Test]
+        public void SearchRequested_FiresWhenDebounceTimerTickIsSimulated_NotImmediatelyOnKeyUp()
+        {
+            var panel = new SayMore.UI.LowLevelControls.ListPanel();
+
+            bool fired = false;
+            panel.SearchRequested += (s, e) => fired = true;
+
+            // Typing fewer than 3 characters starts the (slower) debounce timer, but
+            // does not fire SearchRequested immediately.
+            panel.SearchText = "ab";
+            panel.HandleSearchTextBoxKeyUp(panel, new KeyEventArgs(Keys.A));
+            Assert.IsFalse(fired, "SearchRequested should not fire immediately on key-up.");
+
+            // Typing 3 or more characters also defers to the debounce timer rather
+            // than firing immediately...
+            panel.SearchText = "abc";
+            panel.HandleSearchTextBoxKeyUp(panel, new KeyEventArgs(Keys.C));
+            Assert.IsFalse(fired, "SearchRequested should not fire immediately on key-up.");
+
+            // ...but does fire once the debounce timer's tick is simulated (we don't wait out
+            // the real timer here, since that would make this test slow and timing-dependent).
+            panel.HandleSearchTimerTick(panel, System.EventArgs.Empty);
+            Assert.IsTrue(fired, "SearchRequested should fire when the debounce timer tick is simulated.");
+        }
 		//private ListPanel _lp;
 
 		///// ------------------------------------------------------------------------------------

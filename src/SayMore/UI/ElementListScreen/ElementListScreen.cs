@@ -40,9 +40,27 @@ namespace SayMore.UI.ElementListScreen
 		protected ComponentFileGrid _componentFilesControl;
 		protected Control _tabControlHostControl;
 		protected ImageList _tabControlImages;
+		protected HashSet<string> _metadataSearchMatchingIds;
 
 		protected Dictionary<string, ComponentEditorsTabControl> _tabControls =
 			new Dictionary<string, ComponentEditorsTabControl>();
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handle a search request from the list panel by reloading the element list
+		/// filtered by the search text coming from the panel.
+		/// </summary>
+		private void HandleSearchRequested(object sender, EventArgs e)
+		{
+           // Forward the current search text to the overload of LoadElementList that accepts a searchParam.
+			// If the search text is 2 or fewer characters, treat it as no search (show full list).
+            var search = _elementsListPanel?.SearchText;
+			// If empty or whitespace, show full list. Otherwise pass the search text
+			if (string.IsNullOrWhiteSpace(search))
+				LoadElementList(null, null);
+			else
+				LoadElementList(null, search);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public ToolStripMenuItem MainMenuItem { get; }
@@ -79,6 +97,7 @@ namespace SayMore.UI.ElementListScreen
 
 			_elementsListPanel = elementsListPanel;
 			_elementsListPanel.NewButtonClicked += HandleAddingNewElement;
+			_elementsListPanel.SearchRequested += HandleSearchRequested;
 			_elementsListPanel.ListControl = _elementsGrid;
 
 			_componentFilesControl = componentGrid;
@@ -213,15 +232,38 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void LoadElementList()
 		{
-			LoadElementList(null);
+			// Backward-compatible parameterless call - forwards to the overload that
+			// now accepts an optional search parameter.
+			LoadElementList(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void LoadElementList(object itemToSelectAfterLoad)
+     protected virtual void LoadElementList(object itemToSelectAfterLoad, string searchParam = null)
 		{
-			_elementsGrid.Items = _model.Elements.OrderBy(x => x.Id);
+			// Start with all elements, ordered by id
+			IEnumerable<ProjectElement> items = _model.Elements.OrderBy(x => x.Id);
 
-			if (_model.Elements.Any())
+			// If a search parameter was provided, restrict to elements whose Id
+			// contains the search text (case-insensitive) or which match the metadata search.
+			if(!string.IsNullOrWhiteSpace(searchParam)) 
+			{
+				if (_metadataSearchMatchingIds != null)
+				{
+					// Match by metadata OR by ID substring
+					items = items.Where(x =>
+						_metadataSearchMatchingIds.Contains(x.Id) ||
+						 x.Id.IndexOf(searchParam, StringComparison.OrdinalIgnoreCase) >= 0);
+				}
+				else
+				{
+					items = items.Where(x =>
+						x.Id.IndexOf(searchParam, StringComparison.OrdinalIgnoreCase) >= 0);
+				}
+			}
+
+			_elementsGrid.Items = items;
+
+			if (items.Any())
 			{
 				switch (itemToSelectAfterLoad)
 				{
@@ -245,6 +287,7 @@ namespace SayMore.UI.ElementListScreen
 
 			_elementsGrid.Refresh();
 		}
+		
 
 		/// ------------------------------------------------------------------------------------
 		protected void UpdateComponentFileList()
@@ -552,6 +595,7 @@ namespace SayMore.UI.ElementListScreen
 
 				_elementsGrid.SelectedElementChanged -= HandleSelectedElementChanged;
 				_elementsListPanel.NewButtonClicked -= HandleAddingNewElement;
+				_elementsListPanel.SearchRequested -= HandleSearchRequested;
 
 				var frm = FindForm();
 				if (frm != null)

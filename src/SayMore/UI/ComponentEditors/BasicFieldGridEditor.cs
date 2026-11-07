@@ -29,7 +29,7 @@ namespace SayMore.UI.ComponentEditors
 			FieldGatherer fieldGatherer)
 		{
 			_gridViewModel = new FieldsValuesGridViewModel(_file, autoCompleteProvider,
-				fieldGatherer, key => key != "notes");
+				fieldGatherer, key => key != FileType.kNotesFieldName);
 
 			_grid = new FieldsValuesGrid(_gridViewModel, "BasicFieldGridEditor._grid");
 			_grid.Dock = DockStyle.Fill;

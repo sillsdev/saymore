@@ -212,11 +212,11 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		/// Spanish's translated strings stay well within the dialog's width at every supported
 		/// text scale, so this never shows up for them; Tibetan's longer translated strings,
 		/// especially at a larger scale, routinely do not. Constraining the panel's
-		/// MaximumSize to the dialog's own current width (not the narrower pnlOptions box
-		/// above it, which leaves a little unused width spare) lets WrapContents move the
+		/// MaximumSize to the dialog's own current width lets WrapContents move the
 		/// second link onto its own line -- derived from the first link's real measured
 		/// bounds -- only once that's genuinely needed to stay on screen, rather than every
-		/// time the row happens to be wider than the box above it.
+		/// time the row happens to be wider than the full width the dialog actually has
+		/// available for it.
 		///
 		/// Wrapping onto a second line (or simply a single scaled line growing taller than
 		/// the Designer ever budgeted room for) can need more height than this small,

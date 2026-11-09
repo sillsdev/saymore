@@ -52,6 +52,14 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 
 			UITextScaler.ScaleChanged += HandleUiTextScaleChangedForSubTitle;
 			Disposed += (s, e) => UITextScaler.ScaleChanged -= HandleUiTextScaleChangedForSubTitle;
+
+			// Set once here (in addition to the Resize-driven updates below) so the very
+			// first layout pass -- including a cold start directly into a language whose
+			// recommended text scale is already applied before the dialog is first shown
+			// -- already has the correct wrap width, instead of only correcting itself
+			// after a later event fires.
+			ConstrainWelcomeLinksRowWidth();
+			Resize += (s, e) => ConstrainWelcomeLinksRowWidth();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -161,6 +169,32 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 				_labelSubTitle.Height = TextRenderer.MeasureText(g, "X", _labelSubTitle.Font,
 					Size.Empty, TextFormatFlags.NoPadding).Height;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// _linkSILWebsite and _linkSayMoreWebsite sit side by side in flowLayoutPanel1, and
+		/// each one is already AutoSize, so the second link's position already comes from the
+		/// first link's actual measured width -- there is no fixed pixel offset between them.
+		/// But flowLayoutPanel1 is itself AutoSize with no MaximumSize, so its WrapContents
+		/// setting never has a width to wrap against: the panel just keeps growing its own
+		/// bounds to fit both links on one row no matter how wide their combined (localized,
+		/// scaled) text gets, carrying the second link past the dialog's visible right edge
+		/// once that combined width exceeds the space actually available there. English and
+		/// Spanish's translated strings stay well within that space at every supported text
+		/// scale, so this never shows up for them; Tibetan's longer translated strings
+		/// routinely exceed it, especially at a larger scale. Giving the panel a MaximumSize
+		/// derived from pnlOptions's own (Anchor-tracked) right edge -- the same horizontal
+		/// extent the row is meant to line up with -- lets WrapContents move the second link
+		/// onto its own line, positioned from the first link's real measured bounds, instead
+		/// of letting it run off-screen.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ConstrainWelcomeLinksRowWidth()
+		{
+			var availableWidth = pnlOptions.Right - flowLayoutPanel1.Left;
+			if (availableWidth > 0)
+				flowLayoutPanel1.MaximumSize = new Size(availableWidth, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -27,6 +27,9 @@ namespace SayMore.Utilities
 		private static readonly ConditionalWeakTable<ComboBox, StrongBox<int>> s_baselineDropDownWidths =
 			new ConditionalWeakTable<ComboBox, StrongBox<int>>();
 
+		private static readonly ConditionalWeakTable<ComboBox, StrongBox<int>> s_baselineComboWidths =
+			new ConditionalWeakTable<ComboBox, StrongBox<int>>();
+
 		private static readonly ConditionalWeakTable<DataGridViewColumn, Font> s_origColumnHeaderFonts =
 			new ConditionalWeakTable<DataGridViewColumn, Font>();
 
@@ -238,8 +241,43 @@ namespace SayMore.Utilities
 						// in a TableLayoutPanel row with SizeType.AutoSize, the panel's row-height
 						// calculation only measures that correctly if AutoSize is also true here;
 						// otherwise the row is left too short, clipping the taller combo box after
-						// scaling. This has no effect on width, since Dock/Anchor still govern that.
+						// scaling.
 						combo.AutoSize = true;
+
+						// A ComboBox anchored Right (stretching horizontally to fill its
+						// TableLayoutPanel cell, e.g. ProjectMetadataScreen's Country/Continent
+						// fields) tracks whatever width the panel computes for that cell -- which
+						// isn't self-determined by the combo at all. In a column sized by
+						// SizeType.Percent, that computed width shrinks as neighboring
+						// SizeType.AutoSize columns (e.g. bold field labels) grow during the very
+						// same scaling pass, so the cell -- and the combo stretching to fill it --
+						// can end up narrower than its own (correctly scaled, and now larger) Font
+						// needs, cramping the displayed text instead of growing to fit it. Setting
+						// a scaled MinimumSize.Width here gives the layout engine a floor it
+						// honors whenever the row/column has any room to spare, keeping the combo
+						// proportional to its own (now larger) Font instead of silently losing out
+						// to a growing sibling column every time -- matching this plan's general
+						// preference for scale-to-fit over clipping. A column squeezed so tight
+						// that even this floor can't be honored is a container-width problem this
+						// floor alone doesn't solve; see the task report for that residual case.
+						if ((combo.Anchor & AnchorStyles.Right) != 0 || combo.Dock != DockStyle.None)
+						{
+							int baselineComboWidth;
+							if (!s_baselineComboWidths.TryGetValue(combo, out var baselineComboWidthBox))
+							{
+								baselineComboWidth = combo.Width;
+								s_baselineComboWidths.Add(combo, new StrongBox<int>(baselineComboWidth));
+							}
+							else
+								baselineComboWidth = baselineComboWidthBox.Value;
+
+							if (baselineComboWidth > 1) // sanity check
+							{
+								combo.MinimumSize = new Size((int)Math.Ceiling(baselineComboWidth * scale),
+									combo.MinimumSize.Height);
+								ForceResizeIfAutoSizeWithMinimumSize(combo);
+							}
+						}
 
 						int baselineDropDownWidth;
 						if (!s_baselineDropDownWidths.TryGetValue(combo, out var baselineWidthBox))

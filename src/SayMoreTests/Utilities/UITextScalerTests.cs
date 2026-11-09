@@ -361,6 +361,81 @@ namespace SayMoreTests.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// A ComboBox anchored Right (stretching to fill its TableLayoutPanel cell, e.g.
+		/// ProjectMetadataScreen's Country/Continent fields) tracks whatever width the panel
+		/// computes for that cell. When the cell's own column is sized by SizeType.Percent and a
+		/// neighboring SizeType.AutoSize column holds a label that grows during the same scaling
+		/// pass, the Percent column's share of the available width shrinks -- taking the
+		/// Right-anchored combo's rendered width down with it, even though its Font just grew.
+		/// Without a scaled MinimumSize floor, the combo can end up narrower after scaling than
+		/// before, cramming its (now larger) selected text into a smaller box instead of growing
+		/// to fit it.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_RightAnchoredComboInPercentColumnSqueezedByGrowingAutoSizeLabel_DoesNotShrinkBelowScaledWidth()
+		{
+			Settings.Default.UITextScale = 100;
+
+			using (var host = new Panel { Size = new Size(900, 200) })
+			{
+				var panel = BuildCountryLikeRow(out var combo);
+				host.Controls.Add(panel);
+				host.CreateControl();
+				panel.PerformLayout();
+
+				var widthAt100 = combo.Width;
+
+				Settings.Default.UITextScale = 200;
+				host.ScaleUIFont();
+
+				Assert.GreaterOrEqual(combo.Width, widthAt100,
+					"A Right-anchored ComboBox in a Percent-sized TableLayoutPanel column must not " +
+					"end up narrower after scaling, even though a neighboring AutoSize column's " +
+					"label grows at the same time and would otherwise squeeze the Percent column's " +
+					"share of the available width.");
+			}
+
+			Settings.Default.UITextScale = 100;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static TableLayoutPanel BuildCountryLikeRow(out ComboBox combo)
+		{
+			var labelFont = new Font(FontFamily.GenericSansSerif, 9.75f, FontStyle.Bold);
+			var comboFont = new Font(FontFamily.GenericSansSerif, 12f);
+
+			var label = new Label
+			{
+				AutoSize = true,
+				Text = "Some Fairly Long Field Label",
+				Font = labelFont
+			};
+
+			combo = new ComboBox
+			{
+				Font = comboFont,
+				Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
+				Width = 300
+			};
+
+			var panel = new TableLayoutPanel
+			{
+				Dock = DockStyle.Top,
+				ColumnCount = 2,
+				RowCount = 1,
+				Width = 900
+			};
+			panel.ColumnStyles.Add(new ColumnStyle());
+			panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+			panel.RowStyles.Add(new RowStyle());
+			panel.Controls.Add(label, 0, 0);
+			panel.Controls.Add(combo, 1, 0);
+			return panel;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// A DataGridView column with its own explicit HeaderCell.Style.Font (e.g. an
 		/// intentionally bold header) must keep that styling through a scaling pass, not have it
 		/// replaced by an ancestor-derived font that would strip the Bold and any other distinct

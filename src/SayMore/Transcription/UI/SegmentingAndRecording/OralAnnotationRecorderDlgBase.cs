@@ -67,6 +67,13 @@ namespace SayMore.Transcription.UI
 		protected WaveControlWithRangeSelection _waveControl;
 		private bool _needToShowRecordingAbortedMessage;
 
+		// The vertical space below each icon that's available for its "Listen"/"Speak" text,
+		// measured once at the Designer's own (unscaled) Label.Height and Image.Height, before
+		// either label has ever been resized. Captured per-label since a future Designer change
+		// could legitimately give them different heights.
+		private int _labelListenButtonBaselineTextGap;
+		private int _labelRecordButtonBaselineTextGap;
+
 		/// ------------------------------------------------------------------------------------
 		public static OralAnnotationRecorderBaseDlg Create(
 			OralAnnotationRecorderDlgViewModel viewModel, AudioRecordingType annotationType)
@@ -91,6 +98,13 @@ namespace SayMore.Transcription.UI
 			: base(viewModel)
 		{
 			InitializeComponent();
+
+			// Captured here, before anything (including the Designer-assigned Image) is ever
+			// touched by a scaling pass, so later rescales always compute from the same
+			// unscaled baseline instead of compounding onto a previously-adjusted Height.
+			_labelListenButtonBaselineTextGap = _labelListenButton.Height - _labelListenButton.Image.Height;
+			_labelRecordButtonBaselineTextGap = _labelRecordButton.Height - _labelRecordButton.Image.Height;
+			UITextScaler.ScaleChanged += HandleUiTextScaleChangedForListenAndRecordButtons;
 
 			_cursorBlinkTimer.Tag = true;
 
@@ -170,7 +184,8 @@ namespace SayMore.Transcription.UI
 			if (disposing)
 			{
 				AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrown;
-				
+				UITextScaler.ScaleChanged -= HandleUiTextScaleChangedForListenAndRecordButtons;
+
 				components?.Dispose();
 				_annotationSegmentFont.Dispose();
 				_hotPlaySourceButton.Dispose();
@@ -203,6 +218,7 @@ namespace SayMore.Transcription.UI
 			// Load-based scaling pass, so they need to be rescaled again here before anything
 			// is painted.
 			this.ScaleUIFont();
+			ResizeListenAndRecordButtonsForCurrentTextScale();
 
 			ViewModel.RemoveInvalidAnnotationFiles();
 			WavePainter.UnsegmentedBackgroundColor = _panelListen.BackColor;
@@ -367,6 +383,37 @@ namespace SayMore.Transcription.UI
 			_videoHelpMenu.Font = _labelSourceRecording.Font;
 
 			_annotationSegmentFont = FontHelper.MakeFont(Program.DialogFont, 8, FontStyle.Bold);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleUiTextScaleChangedForListenAndRecordButtons(object sender, EventArgs e)
+		{
+			ResizeListenAndRecordButtonsForCurrentTextScale();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// _labelListenButton and _labelRecordButton each show an icon (ImageAlign TopCenter)
+		/// with its label text below it (TextAlign BottomCenter), inside a Label whose own
+		/// Height is a fixed Designer value. The icon is a raster image -- including the
+		/// shadow drawn into the bottom of its artwork -- that keeps its native pixel size
+		/// regardless of UI text scale, so growing the label's Font without also growing its
+		/// Height only leaves the same, unscaled sliver of room below the icon for
+		/// now-larger text, letting that text climb up into the icon's shadow. Resizing the
+		/// label by the same scale factor applied to its Font keeps the ratio between the
+		/// icon and its text's vertical space the same as it is at 100%, so the two stay
+		/// just as clear of each other at every scale.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ResizeListenAndRecordButtonsForCurrentTextScale()
+		{
+			var scale = UITextScaler.ClampScalePercent(Settings.Default.UITextScale) / 100f;
+
+			_labelListenButton.Height = _labelListenButton.Image.Height +
+				(int)Math.Ceiling(_labelListenButtonBaselineTextGap * scale);
+
+			_labelRecordButton.Height = _labelRecordButton.Image.Height +
+				(int)Math.Ceiling(_labelRecordButtonBaselineTextGap * scale);
 		}
 
 		private const int kNumberOfRows = 4;

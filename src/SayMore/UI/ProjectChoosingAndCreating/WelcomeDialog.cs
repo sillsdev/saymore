@@ -49,6 +49,9 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			LoadMRUButtons();
 
 			LocalizationInitiated();
+
+			UITextScaler.ScaleChanged += HandleUiTextScaleChangedForSubTitle;
+			Disposed += (s, e) => UITextScaler.ScaleChanged -= HandleUiTextScaleChangedForSubTitle;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -117,6 +120,12 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		{
 			Settings.Default.WelcomeDialog.InitializeForm(this);
 			base.OnLoad(e);
+
+			// base.OnLoad(e) just raised Load, which SayMoreFormBase's own handler used to
+			// apply the current text scale's font to every control, including _labelSubTitle.
+			// Re-measuring here, now that the scaled font is in place, keeps its Height in
+			// sync with that same pass from the moment the dialog first appears.
+			ResizeSubTitleForCurrentTextScale();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -124,6 +133,34 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		{
 			base.OnFormClosing(e);
 			Settings.Default.Save();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleUiTextScaleChangedForSubTitle(object sender, EventArgs e)
+		{
+			ResizeSubTitleForCurrentTextScale();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// _labelSubTitle has AutoSize off (needed so AutoEllipsis can truncate it against the
+		/// dialog's width instead of growing wider than its anchored space), so nothing resizes
+		/// it in response to a Font change the way the generic recursive UI scaling pass does
+		/// for an AutoSize label. Its Height stays at the Designer's fixed, unscaled value no
+		/// matter how large its Font grows, leaving the same unscaled sliver of room for a
+		/// taller scaled line and clipping its descenders (e.g. the "g" in "Language" and
+		/// "Management") off the bottom. Re-measuring the current Font's own line height and
+		/// growing the label to match keeps the full scaled line, descenders included, inside
+		/// its bounds at every scale.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ResizeSubTitleForCurrentTextScale()
+		{
+			using (var g = CreateGraphics())
+			{
+				_labelSubTitle.Height = TextRenderer.MeasureText(g, "X", _labelSubTitle.Font,
+					Size.Empty, TextFormatFlags.NoPadding).Height;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

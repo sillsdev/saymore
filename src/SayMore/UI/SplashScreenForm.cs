@@ -399,6 +399,14 @@ if (attributes.Length > 0)
 				var measured = TextRenderer.MeasureText(text, candidate);
 				if (measured.Width <= maxBounds.Width && measured.Height <= maxBounds.Height)
 					return candidate;
+
+				// Only the font this method eventually returns should survive: every
+				// rejected candidate holds a GDI font handle that needs to be released
+				// explicitly rather than left for the finalizer, since a label with very
+				// little real headroom (e.g. label1/_labelVersionInfo) can iterate this
+				// loop close to 100 times per call, and ApplyLabelScaling runs on every
+				// SetMessage call throughout startup.
+				candidate.Dispose();
 			}
 
 			return baseFont;

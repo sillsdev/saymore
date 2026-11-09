@@ -198,6 +198,13 @@ namespace SayMore.Utilities
 			{
 				switch (child)
 				{
+					// Image and BackgroundImage are intentionally left unscaled by this walk:
+					// resizing a raster image to match a font-scale factor produces visible
+					// pixelation. PictureBox and other image-only controls are not matched here
+					// for that reason; a control that needs more room for a fixed-size image
+					// alongside its scaled text (e.g. SessionRecorderDlg's recording
+					// ToolStripButtons) grows its own Size/container to fit both instead.
+					//
 					// Checked first: a composite control's own ApplyScale takes full
 					// responsibility for its own state and descendants (e.g. ViewTabGroup's
 					// TabFont, FieldsValuesGrid's _factoryFieldFont), so this must be matched

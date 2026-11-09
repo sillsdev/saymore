@@ -282,14 +282,13 @@ namespace SayMore.UI.SessionRecording
 		/// 24px budgeted for the unscaled font, the content that no longer fits -- most visibly
 		/// the record/playback icon's own fixed, unstretched bottom edge, but also a descender
 		/// on a letter like the "y" in "Play Back Recording" -- gets clipped against that frozen
-		/// Size. Re-measuring each button's own single-line text (forcing
-		/// <see cref="TextFormatFlags.SingleLine"/> rather than trusting
-		/// <see cref="ToolStripItem.GetPreferredSize"/>'s own unconstrained measurement, which
-		/// this investigation found can report an implausibly large, seemingly wrapped result at
-		/// large scales) plus its fixed-size icon against the current Font, and growing -- never
-		/// shrinking below the Designer's own baseline -- keeps the native-size icon and the
-		/// full scaled text line, descenders included, inside the button's bounds at every
-		/// scale.
+		/// Size. Re-measuring each button's own single-line text against the current Font --
+		/// forcing <see cref="TextFormatFlags.SingleLine"/> rather than
+		/// <see cref="ToolStripItem.GetPreferredSize"/>, which can report an unconstrained,
+		/// seemingly-wrapped size for a Table-layout ToolStripButton at large scales --
+		/// plus its fixed-size icon, and growing -- never shrinking below the Designer's own
+		/// baseline -- keeps the native-size icon and the full scaled text line, descenders
+		/// included, inside the button's bounds at every scale.
 		///
 		/// Growing the buttons alone is not sufficient: toolStrip1 sits in
 		/// tableLayoutPanel1's one Percent-sized row, which only ever receives whatever height
@@ -348,11 +347,16 @@ namespace SayMore.UI.SessionRecording
 				// Margin* (TableLayoutPanel sizes an AutoSize row to fit the control plus its
 				// margin, not the bare control alone), so every term below adds Margin.Vertical
 				// alongside Height, the same way row1's sum already does via toolStripRowMargin.
+				//
+				// Row1's own need comes only from the three recording buttons: _panelPeakMeter
+				// (row1's other occupant) is Anchor=Top|Bottom, so it always stretches to match
+				// whatever height row1 ends up with rather than ever setting a floor of its own
+				// -- the dialog-level Math.Max against _designTimeClientHeight below is what
+				// already keeps row1 (and so _panelPeakMeter) from ending up shorter than the
+				// Designer's original layout ever intended.
 				const int toolStripRowMargin = 5; // matches each recording button's own Margin(0, 0, 0, 5)
-				var row1Needed = Math.Max(
-					_buttonRecord.Height + _buttonPlayback.Height + _buttonStop.Height +
-						3 * toolStripRowMargin,
-					_panelPeakMeter.Height);
+				var row1Needed = _buttonRecord.Height + _buttonPlayback.Height + _buttonStop.Height +
+					3 * toolStripRowMargin;
 				var row2Needed = _labelRecLength.Height + _labelRecLength.Margin.Vertical;
 				var row3Needed = Math.Max(Math.Max(
 					_buttonOK.Height + _buttonOK.Margin.Vertical,

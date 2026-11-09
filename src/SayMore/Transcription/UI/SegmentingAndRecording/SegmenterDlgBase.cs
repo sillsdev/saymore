@@ -97,6 +97,8 @@ namespace SayMore.Transcription.UI
 
 			_labelTimeDisplay.Text = MediaPlayerViewModel.GetTimeDisplay(0f,
 				(float)_viewModel.OrigWaveStream.TotalTime.TotalSeconds);
+
+			UITextScaler.ScaleChanged += HandleUiTextScaleChangedForZoomCombo;
 		}
 		#endregion
 
@@ -158,6 +160,7 @@ namespace SayMore.Transcription.UI
 			// base.OnLoad(e) call above already triggered the Load-based scaling pass, so they
 			// need to be rescaled again here before anything is painted.
 			this.ScaleUIFont();
+			ResizeZoomComboForCurrentTextScale();
 
 			HandleStringsLocalized();
 		}
@@ -189,6 +192,7 @@ namespace SayMore.Transcription.UI
 			if (disposing)
 			{
 				components?.Dispose();
+				UITextScaler.ScaleChanged -= HandleUiTextScaleChangedForZoomCombo;
 
 				if (_waveControl != null)
 				{
@@ -234,6 +238,41 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual float DefaultZoomPercentage =>
 			_pctFormatter.Format(_comboBoxZoom.Items[0] as string, out var value) != null ? (float)value : 100f;
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleUiTextScaleChangedForZoomCombo(object sender, EventArgs e)
+		{
+			ResizeZoomComboForCurrentTextScale();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// _comboBoxZoom's closed-control Width is a fixed Designer value sized to fit "100%"
+		/// at the unscaled font. A ComboBox's own rendered height always tracks its Font
+		/// correctly, but WinForms gives it no equivalent, AutoSize-driven way to grow its
+		/// Width, so this measures every zoom percentage string at the combo's current
+		/// (scaled) font and sizes the control to the widest one, plus a fixed allowance for
+		/// the border and dropdown button -- the same approach already used elsewhere in
+		/// SayMore for sizing a combo box to its items (see ProjectAccessScreen and
+		/// ProjectMetadataScreen's "SizeXxxComboBox" methods) -- so every zoom percentage
+		/// stays fully visible in the closed control at any scale. _tableLayoutZoom, which
+		/// hosts the combo, is an AutoSize TableLayoutPanel, so growing the combo's own Width
+		/// is also enough for that panel (and its own AutoSize parent, _tableLayoutWaveDetails)
+		/// to grow to accommodate it.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ResizeZoomComboForCurrentTextScale()
+		{
+			var maxWidth = 0;
+			foreach (var item in _comboBoxZoom.Items)
+			{
+				var itemWidth = TextRenderer.MeasureText(item.ToString(), _comboBoxZoom.Font).Width;
+				if (itemWidth > maxWidth)
+					maxWidth = itemWidth;
+			}
+
+			_comboBoxZoom.Width = maxWidth + 30;
+		}
 
 		#endregion
 

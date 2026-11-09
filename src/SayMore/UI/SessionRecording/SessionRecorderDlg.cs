@@ -350,10 +350,15 @@ namespace SayMore.UI.SessionRecording
 				//
 				// Row1's own need comes only from the three recording buttons: _panelPeakMeter
 				// (row1's other occupant) is Anchor=Top|Bottom, so it always stretches to match
-				// whatever height row1 ends up with rather than ever setting a floor of its own
-				// -- the dialog-level Math.Max against _designTimeClientHeight below is what
-				// already keeps row1 (and so _panelPeakMeter) from ending up shorter than the
-				// Designer's original layout ever intended.
+				// whatever height row1 ends up with rather than ever setting a floor of its own.
+				// The Math.Max against _designTimeClientHeight below floors the dialog's whole
+				// ClientSize, not row1's own share of it specifically -- once another row (2 or
+				// 3) genuinely needs more room than the Designer baseline provided, row1 (and so
+				// _panelPeakMeter) can end up with less of the resulting taller client than it
+				// had at the original 100% layout. That's the correct trade, not a gap to guard
+				// against: row1Needed is always recomputed fresh from the buttons' own current
+				// Height each call, so it never reflects a stale or previously-grown value --
+				// the room goes to whichever row's content actually needs it this time.
 				const int toolStripRowMargin = 5; // matches each recording button's own Margin(0, 0, 0, 5)
 				var row1Needed = _buttonRecord.Height + _buttonPlayback.Height + _buttonStop.Height +
 					3 * toolStripRowMargin;

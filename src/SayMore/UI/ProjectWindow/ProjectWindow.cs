@@ -305,6 +305,15 @@ namespace SayMore.UI.ProjectWindow
 			using var dlg = new SILAboutBox(FileLocationUtilities.GetFileDistributedWithApplication("aboutbox.htm"));
 			dlg.Text += "\u2122";
 			dlg.CheckForUpdatesClicked += HandleAboutDialogCheckForUpdatesClick;
+
+			// SILAboutBox is a third-party Form, not a SayMoreFormBase, so it never goes
+			// through that base class's automatic Load/Shown scaling. Its native controls
+			// (version/build-date labels, Check for Updates button, Release Notes link) are
+			// ordinary WinForms controls that ScaleUIFont can reach directly, even though the
+			// embedded HTML content in aboutbox.htm is not. The dialog is shown modally, so
+			// there's no opportunity for the scale setting to change again while it's open.
+			dlg.ScaleUIFont();
+
 			dlg.ShowDialog(this);
 		}
 
@@ -354,8 +363,15 @@ namespace SayMore.UI.ProjectWindow
 		{
 			using var dlg = new PrivacyDlg(Program.AnalyticsImpl);
 			dlg.RestartLabelColor = Color.Orange;
-			dlg.ShowDialog(this);
 
+			// PrivacyDlg is a third-party Form, not a SayMoreFormBase, so it never goes
+			// through that base class's automatic Load/Shown scaling. Every one of its
+			// controls (labels, checkboxes, buttons) is a type ScaleUIFont already knows how
+			// to scale directly. The dialog is shown modally, so there's no opportunity for
+			// the scale setting to change again while it's open.
+			dlg.ScaleUIFont();
+
+			dlg.ShowDialog(this);
 		}
 
 		/// ------------------------------------------------------------------------------------

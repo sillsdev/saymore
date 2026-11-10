@@ -101,6 +101,36 @@ namespace SayMoreTests.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// ColumnHeadersHeight defaults to a fixed pixel value (EnableResizing sizing mode),
+		/// never recalculated from the header font -- so even with the header font correctly
+		/// scaled, the row stays at its old small height and clips the larger glyphs down to
+		/// looking unscaled.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_HostContainsFieldsValuesGrid_GrowsHeaderRowHeightWhenScaled()
+		{
+			Settings.Default.UITextScale = 100;
+
+			using (var host = new Panel())
+			using (var grid = CreateGrid())
+			{
+				host.Controls.Add(grid);
+				host.CreateControl();
+				var headerHeightAt100 = grid.ColumnHeadersHeight;
+
+				Settings.Default.UITextScale = 200;
+				UITextScaler.NotifyScaleChanged();
+				host.ScaleUIFont();
+
+				Assert.Greater(grid.ColumnHeadersHeight, headerHeightAt100,
+					"The header row must auto-size to fit the scaled font, or the larger " +
+					"glyphs get clipped down to looking unscaled.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// EnableHeadersVisualStyles defaults to true, which makes the OS theme paint every
 		/// header cell and ignore ColumnHeadersDefaultCellStyle.Font entirely -- so the header
 		/// font assigned above never actually renders unless this is turned off. It must stay

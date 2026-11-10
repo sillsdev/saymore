@@ -40,6 +40,11 @@ namespace SayMore.UI.ComponentEditors
 			MultiSelect = false;
 			Margin = new Padding(0, Margin.Top, 0, Margin.Bottom);
 			RowHeadersVisible = false;
+
+			// ColumnHeadersHeight defaults to a fixed pixel value that's never recalculated
+			// from the header font, so a scaled-up header font would otherwise get clipped
+			// down to looking unscaled instead of actually growing the row that holds it.
+			ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
 
 			_focusedSelectionBackColor = ColorHelper.CalculateColor(Color.White,
@@ -87,11 +92,24 @@ namespace SayMore.UI.ComponentEditors
 			_factoryFieldFont = new Font(Font, FontStyle.Bold);
 			ColumnHeadersDefaultCellStyle.Font = Font;
 
+			// CustomDataGridTextBoxColumn's constructor explicitly sets each column's own
+			// HeaderCell.Style.Font to SystemFonts.MenuFont (SP-848), and a column's own
+			// header style always wins over ColumnHeadersDefaultCellStyle above -- so every
+			// column's header font has to be set directly here too, or it stays pinned to
+			// that fixed, unscaled font regardless of what the grid-level default says.
+			foreach (DataGridViewColumn col in Columns)
+				col.HeaderCell.Style.Font = Font;
+
 			// EnableHeadersVisualStyles (true by default) hands header painting to the OS
-			// theme, which ignores ColumnHeadersDefaultCellStyle.Font outright -- so the
-			// scaled header font above never actually renders unless this is off. Keeping it
-			// on at 100% preserves the native themed header look for anyone not using scaling.
+			// theme, which ignores the header cell styles above outright -- so the scaled
+			// header font never actually renders unless this is off. Keeping it on at 100%
+			// preserves the native themed header look for anyone not using scaling.
 			EnableHeadersVisualStyles = scale.Equals(1f);
+
+			// ColumnHeadersHeightSizeMode.AutoSize (set in the constructor) recomputes from
+			// the per-column header font change above; this forces it immediately rather
+			// than waiting on the next layout pass.
+			AutoResizeColumnHeadersHeight();
 
 			Invalidate();
 		}

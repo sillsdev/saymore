@@ -707,6 +707,36 @@ namespace SayMoreTests.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// ColumnHeadersHeight defaults to a fixed pixel value (EnableResizing sizing mode),
+		/// never recalculated from the header font -- so even with the header font correctly
+		/// scaled, the row stays at its old small height and clips the larger glyphs down to
+		/// looking unscaled.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_DataGridView_GrowsHeaderRowHeightWhenScaled()
+		{
+			Settings.Default.UITextScale = 100;
+
+			using (var host = new Panel())
+			using (var grid = new DataGridView())
+			{
+				grid.Columns.Add("col1", "Column 1");
+				host.Controls.Add(grid);
+				host.CreateControl();
+				var headerHeightAt100 = grid.ColumnHeadersHeight;
+
+				Settings.Default.UITextScale = 200;
+				host.ScaleUIFont();
+
+				Assert.Greater(grid.ColumnHeadersHeight, headerHeightAt100,
+					"The header row must auto-size to fit the scaled font, or the larger " +
+					"glyphs get clipped down to looking unscaled.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// EnableHeadersVisualStyles defaults to true, which makes the OS theme paint every
 		/// header cell and ignore HeaderCell.Style.Font entirely -- so the column header font
 		/// this case scales never actually renders unless this is turned off. It must stay on

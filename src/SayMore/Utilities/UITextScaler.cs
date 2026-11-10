@@ -409,6 +409,12 @@ namespace SayMore.Utilities
 						// for anyone not using scaling.
 						dgv.EnableHeadersVisualStyles = scale.Equals(1f);
 
+						// ColumnHeadersHeight defaults to a fixed pixel value that's never
+						// recalculated from the header font, so a scaled-up header font would
+						// otherwise get clipped down to looking unscaled instead of actually
+						// growing the row that holds it.
+						dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+
 						// REVIEW: recurse to apply to child controls within DataGridView (rare)?
 						break;
 					// REVIEW: no ListView/TreeView case. The one current usage

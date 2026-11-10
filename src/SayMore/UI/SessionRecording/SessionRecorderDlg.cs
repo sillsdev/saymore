@@ -43,6 +43,10 @@ namespace SayMore.UI.SessionRecording
 		private readonly (ToolStripButton Button, Size DesignTimeSize)[] _scalableToolStripButtons;
 		private readonly int _designTimeClientHeight;
 		private readonly int _designTimeMinimumHeight;
+		// The ClientSize.Height ResizeRecordingControlsForCurrentTextScale itself most recently
+		// set. While the dialog is still at exactly this height, nothing else (the user dragging
+		// an edge, or restored window settings) has chosen a height of its own since.
+		private int _lastContentDrivenClientHeight;
 		private bool _resizingRecordingControlsForTextScale;
 
 		/// ------------------------------------------------------------------------------------
@@ -60,6 +64,7 @@ namespace SayMore.UI.SessionRecording
 			};
 			_designTimeClientHeight = ClientSize.Height;
 			_designTimeMinimumHeight = MinimumSize.Height;
+			_lastContentDrivenClientHeight = _designTimeClientHeight;
 
 			_recordedLengthLabelFormat = _labelRecLength.Text;
 			_labelRecLength.Text = string.Format(_recordedLengthLabelFormat, "00.0");
@@ -352,13 +357,14 @@ namespace SayMore.UI.SessionRecording
 				// (row1's other occupant) is Anchor=Top|Bottom, so it always stretches to match
 				// whatever height row1 ends up with rather than ever setting a floor of its own.
 				// The Math.Max against _designTimeClientHeight below floors the dialog's whole
-				// ClientSize, not row1's own share of it specifically -- once another row (2 or
-				// 3) genuinely needs more room than the Designer baseline provided, row1 (and so
-				// _panelPeakMeter) can end up with less of the resulting taller client than it
-				// had at the original 100% layout. That's the correct trade, not a gap to guard
-				// against: row1Needed is always recomputed fresh from the buttons' own current
-				// Height each call, so it never reflects a stale or previously-grown value --
-				// the room goes to whichever row's content actually needs it this time.
+				// ClientSize, not row1's own share of it specifically. Every row's need, row1's
+				// included, is recomputed fresh from its controls' current Height on each call,
+				// and the dialog's height is never left below the sum of those needs. Row1 (and
+				// so _panelPeakMeter) receives whatever height remains after rows 2 and 3 take
+				// their full natural height, so that remainder is always at least row1Needed and
+				// the recording buttons keep their full measured height. Any height beyond the
+				// rows' combined need -- from the Designer baseline, or from the user enlarging
+				// the dialog -- also goes to row1, giving the peak meter that extra room.
 				const int toolStripRowMargin = 5; // matches each recording button's own Margin(0, 0, 0, 5)
 				var row1Needed = _buttonRecord.Height + _buttonPlayback.Height + _buttonStop.Height +
 					3 * toolStripRowMargin;
@@ -371,11 +377,24 @@ namespace SayMore.UI.SessionRecording
 					Padding.Top + Padding.Bottom;
 				var targetClientHeight = Math.Max(_designTimeClientHeight, neededClientHeight);
 
-				if (ClientSize.Height != targetClientHeight)
+				// targetClientHeight is a floor: MinimumSize always tracks it, so neither the
+				// user nor a restored window setting can make the dialog shorter than its
+				// content needs. ClientSize itself grows whenever it is below that floor, and
+				// shrinks back toward it only while the dialog is still at the height this
+				// method last set -- a taller height chosen by the user (dragging an edge) or
+				// by restored window settings stays exactly as chosen.
+				var growth = Math.Max(0, targetClientHeight - _designTimeClientHeight);
+				var minimumHeight = _designTimeMinimumHeight + growth;
+				if (MinimumSize.Height != minimumHeight)
+					MinimumSize = new Size(MinimumSize.Width, minimumHeight);
+
+				var currentClientHeight = ClientSize.Height;
+				if (currentClientHeight < targetClientHeight ||
+					(currentClientHeight > targetClientHeight &&
+						currentClientHeight == _lastContentDrivenClientHeight))
 				{
-					var growth = Math.Max(0, targetClientHeight - _designTimeClientHeight);
-					MinimumSize = new Size(MinimumSize.Width, _designTimeMinimumHeight + growth);
 					ClientSize = new Size(ClientSize.Width, targetClientHeight);
+					_lastContentDrivenClientHeight = targetClientHeight;
 				}
 			}
 			finally

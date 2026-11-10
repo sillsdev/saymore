@@ -449,9 +449,9 @@ namespace SayMoreTests.Utilities
 		/// neighboring SizeType.AutoSize column holds a label that grows during the same scaling
 		/// pass, the Percent column's share of the available width shrinks -- taking the
 		/// Right-anchored combo's rendered width down with it, even though its Font just grew.
-		/// Without a scaled MinimumSize floor, the combo can end up narrower after scaling than
-		/// before, cramming its (now larger) selected text into a smaller box instead of growing
-		/// to fit it.
+		/// The combo's scaled MinimumSize floor keeps it wide enough to show its widest item in
+		/// full at the new, larger Font, even when the squeezed column alone would leave it
+		/// narrower than that.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]
@@ -466,16 +466,69 @@ namespace SayMoreTests.Utilities
 				host.CreateControl();
 				panel.PerformLayout();
 
+				Settings.Default.UITextScale = 200;
+				host.ScaleUIFont();
+
+				var widestScaledItemWidth = 0;
+				foreach (var item in combo.Items)
+				{
+					widestScaledItemWidth = Math.Max(widestScaledItemWidth,
+						TextRenderer.MeasureText(combo.GetItemText(item), combo.Font).Width);
+				}
+				var squeezedColumnWidth = panel.ClientSize.Width - panel.GetColumnWidths()[0] -
+					combo.Margin.Horizontal;
+				Assert.Less(squeezedColumnWidth, widestScaledItemWidth,
+					"Precondition: the growing label must squeeze the combo's column narrower " +
+					"than the combo's widest item at 200%, or this test exercises nothing.");
+
+				Assert.GreaterOrEqual(combo.Width, widestScaledItemWidth,
+					"A Right-anchored ComboBox in a Percent-sized TableLayoutPanel column must stay " +
+					"wide enough for its widest item at the scaled Font, even though a neighboring " +
+					"AutoSize column's label grows at the same time and squeezes the Percent " +
+					"column's share of the available width.");
+			}
+
+			Settings.Default.UITextScale = 100;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// A Right-anchored ComboBox's scaled width floor comes from its own content (its
+		/// longest item at the current scaled font), and applies only above 100%. Once the scale
+		/// is back at 100%, the combo's width is entirely the layout's to decide again, so
+		/// narrowing its container lets it shrink below whatever width it happened to have when
+		/// it was first scaled.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_RightAnchoredComboScaledUpThenBackTo100_ShrinksWithNarrowedContainer()
+		{
+			Settings.Default.UITextScale = 100;
+
+			using (var host = new Panel { Size = new Size(900, 200) })
+			{
+				var panel = BuildCountryLikeRow(out var combo);
+				host.Controls.Add(panel);
+				host.CreateControl();
+				panel.PerformLayout();
+
+				// SayMoreFormBase runs a scaling pass when each form loads, at whatever the
+				// current scale is -- commonly 100% -- so the combo's first scaling pass sees
+				// its full, unsqueezed 100% layout width.
+				host.ScaleUIFont();
 				var widthAt100 = combo.Width;
 
 				Settings.Default.UITextScale = 200;
 				host.ScaleUIFont();
+				Settings.Default.UITextScale = 100;
+				host.ScaleUIFont();
 
-				Assert.GreaterOrEqual(combo.Width, widthAt100,
-					"A Right-anchored ComboBox in a Percent-sized TableLayoutPanel column must not " +
-					"end up narrower after scaling, even though a neighboring AutoSize column's " +
-					"label grows at the same time and would otherwise squeeze the Percent column's " +
-					"share of the available width.");
+				host.Width = 600;
+				panel.PerformLayout();
+
+				Assert.Less(combo.Width, widthAt100,
+					"Back at 100%, a Right-anchored ComboBox's width must follow its narrowed " +
+					"container, including below the width it had when it was first scaled.");
 			}
 
 			Settings.Default.UITextScale = 100;
@@ -490,7 +543,7 @@ namespace SayMoreTests.Utilities
 			var label = new Label
 			{
 				AutoSize = true,
-				Text = "Some Fairly Long Field Label",
+				Text = "Some Fairly Long Field Label That Keeps On Going",
 				Font = labelFont
 			};
 
@@ -500,6 +553,16 @@ namespace SayMoreTests.Utilities
 				Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
 				Width = 300
 			};
+			combo.Items.AddRange(new object[]
+			{
+				"Chad",
+				"Nepal",
+				"Bhutan",
+				"Papua New Guinea",
+				"Saint Vincent and the Grenadines",
+				"Democratic Republic of the Congo"
+			});
+			combo.SelectedIndex = 4;
 
 			var panel = new TableLayoutPanel
 			{

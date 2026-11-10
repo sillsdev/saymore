@@ -27,9 +27,6 @@ namespace SayMore.Utilities
 		private static readonly ConditionalWeakTable<ComboBox, StrongBox<int>> s_baselineDropDownWidths =
 			new ConditionalWeakTable<ComboBox, StrongBox<int>>();
 
-		private static readonly ConditionalWeakTable<ComboBox, StrongBox<int>> s_baselineComboWidths =
-			new ConditionalWeakTable<ComboBox, StrongBox<int>>();
-
 		private static readonly ConditionalWeakTable<DataGridViewColumn, Font> s_origColumnHeaderFonts =
 			new ConditionalWeakTable<DataGridViewColumn, Font>();
 
@@ -340,29 +337,21 @@ namespace SayMore.Utilities
 						// SizeType.AutoSize columns (e.g. bold field labels) grow during the very
 						// same scaling pass, so the cell -- and the combo stretching to fill it --
 						// can end up narrower than its own (correctly scaled, and now larger) Font
-						// needs, cramping the displayed text instead of growing to fit it. Setting
-						// a scaled MinimumSize.Width here gives the layout engine a floor it
-						// honors whenever the row/column has any room to spare, keeping the combo
-						// proportional to its own (now larger) Font instead of silently losing out
-						// to a growing sibling column every time -- matching this plan's general
-						// preference for scale-to-fit over clipping. A column squeezed so tight
-						// that even this floor can't be honored is a container-width problem this
-						// floor alone doesn't solve; see the task report for that residual case.
+						// needs, cramping the displayed text. Above 100%, MinimumSize.Width is set
+						// to the width the combo's own content needs at its current scaled Font
+						// (see GetComboContentWidth), giving the layout engine a floor it honors
+						// whenever the row/column has any room to spare, so the text keeps fitting
+						// as a growing sibling column claims its share. A column squeezed so tight
+						// that even this floor can't be honored is a container-width limit outside
+						// what a per-combo floor can address. At or below 100%, the floor is
+						// cleared: the layout-determined width is correct as-is there, and the
+						// combo stays free to follow its container as the window is resized.
 						if ((combo.Anchor & AnchorStyles.Right) != 0 || combo.Dock != DockStyle.None)
 						{
-							int baselineComboWidth;
-							if (!s_baselineComboWidths.TryGetValue(combo, out var baselineComboWidthBox))
+							var floorWidth = scale > 1f ? GetComboContentWidth(combo) : 0;
+							if (combo.MinimumSize.Width != floorWidth)
 							{
-								baselineComboWidth = combo.Width;
-								s_baselineComboWidths.Add(combo, new StrongBox<int>(baselineComboWidth));
-							}
-							else
-								baselineComboWidth = baselineComboWidthBox.Value;
-
-							if (baselineComboWidth > 1) // sanity check
-							{
-								combo.MinimumSize = new Size((int)Math.Ceiling(baselineComboWidth * scale),
-									combo.MinimumSize.Height);
+								combo.MinimumSize = new Size(floorWidth, combo.MinimumSize.Height);
 								ForceResizeIfAutoSizeWithMinimumSize(combo);
 							}
 						}
@@ -450,6 +439,35 @@ namespace SayMore.Utilities
 				// Use normal OS-based scaling
 				formNormal.AutoScaleMode = AutoScaleMode.Font;
 			}
+		}
+
+		/// <summary>
+		/// Room a ComboBox needs beyond its measured text: its dropdown arrow and borders. Same
+		/// allowance ProjectAccessScreen.SizeProtocolsComboBox and
+		/// ProjectMetadataScreen.SizeContinentComboBox use when sizing a combo to its items.
+		/// </summary>
+		private const int kComboBoxChromeWidth = 30;
+
+		/// <summary>
+		/// The width a ComboBox needs to show its widest item (or, for a combo with no items,
+		/// its current text) in full at its current Font, including its own chrome. Returns 0
+		/// when there is no text to measure at all, so an empty combo gets no floor.
+		/// </summary>
+		private static int GetComboContentWidth(ComboBox combo)
+		{
+			var maxTextWidth = 0;
+			if (combo.Items.Count > 0)
+			{
+				foreach (var item in combo.Items)
+				{
+					maxTextWidth = Math.Max(maxTextWidth,
+						TextRenderer.MeasureText(combo.GetItemText(item), combo.Font).Width);
+				}
+			}
+			else if (!string.IsNullOrEmpty(combo.Text))
+				maxTextWidth = TextRenderer.MeasureText(combo.Text, combo.Font).Width;
+
+			return maxTextWidth > 0 ? maxTextWidth + kComboBoxChromeWidth : 0;
 		}
 
 		/// <summary>

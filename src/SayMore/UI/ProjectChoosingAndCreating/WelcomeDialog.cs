@@ -31,6 +31,10 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		private readonly int _designTimeClientHeight;
 		private readonly int _designTimeMinimumHeight;
 		private readonly int _designTimeLinksRowBottomMargin;
+		// The ClientSize.Height ConstrainWelcomeLinksRowLayout itself most recently set. While
+		// the dialog is still at exactly this height, nothing else (the user dragging an edge,
+		// or restored window settings) has chosen a height of its own since.
+		private int _lastContentDrivenClientHeight;
 		private bool _constrainingWelcomeLinksRowLayout;
 
 		/// ------------------------------------------------------------------------------------
@@ -43,6 +47,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			_designTimeClientHeight = ClientSize.Height;
 			_designTimeMinimumHeight = MinimumSize.Height;
 			_designTimeLinksRowBottomMargin = ClientSize.Height - flowLayoutPanel1.Bottom;
+			_lastContentDrivenClientHeight = _designTimeClientHeight;
 
 			Font = SystemFonts.MessageBoxFont; //use the default OS UI font
 
@@ -220,14 +225,14 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		///
 		/// Wrapping onto a second line (or simply a single scaled line growing taller than
 		/// the Designer ever budgeted room for) can need more height than this small,
-		/// fixed-size dialog currently has below this row. Growing the dialog to fit is safe
-		/// on its own, but flowLayoutPanel1 stays Anchor = Top|Left (fixed, absolute
-		/// position) while _labelVersionInfo above it is Anchor = Bottom: growing
-		/// ClientSize.Height would otherwise drag _labelVersionInfo down toward/into this
-		/// row as a side effect, since its Bottom anchor was captured against the dialog's
-		/// original (smaller) height. Restoring _labelVersionInfo's own position afterward
-		/// keeps it exactly where it was, so growing the dialog only ever adds room below
-		/// this row, never disturbs anything above it.
+		/// fixed-size dialog currently has below this row, so this method grows the dialog's
+		/// ClientSize.Height to fit. flowLayoutPanel1 is Anchor = Top|Left (fixed, absolute
+		/// position), while the two controls above it follow the dialog's bottom edge:
+		/// _labelVersionInfo is Anchor = Bottom, and pnlOptions is Anchor = Top|Bottom, so it
+		/// stretches with the dialog's height. Whenever this method changes ClientSize.Height,
+		/// it puts _labelVersionInfo's Top and pnlOptions's Height back to their values from
+		/// before the change. Both stay exactly where they were, clear of this row, and the
+		/// added height appears only below this row.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void ConstrainWelcomeLinksRowLayout()
@@ -247,15 +252,37 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 					flowLayoutPanel1.MaximumSize = new Size(availableWidth, 0);
 				flowLayoutPanel1.PerformLayout();
 
+				var clientHeightBeforeResize = ClientSize.Height;
 				var labelVersionInfoTopBeforeResize = _labelVersionInfo.Top;
+				var optionsPanelHeightBeforeResize = pnlOptions.Height;
+
 				var neededClientHeight = flowLayoutPanel1.Bottom + _designTimeLinksRowBottomMargin;
 				var targetClientHeight = Math.Max(_designTimeClientHeight, neededClientHeight);
-				if (ClientSize.Height != targetClientHeight)
+
+				// targetClientHeight is a floor: MinimumSize always tracks it, so neither the
+				// user nor a restored window setting can make the dialog shorter than the links
+				// row needs. ClientSize itself grows whenever it is below that floor, and shrinks
+				// back toward it only while the dialog is still at the height this method last
+				// set -- a taller height chosen by the user (dragging an edge) or by restored
+				// window settings stays exactly as chosen.
+				var growth = Math.Max(0, targetClientHeight - _designTimeClientHeight);
+				var minimumHeight = _designTimeMinimumHeight + growth;
+				if (MinimumSize.Height != minimumHeight)
+					MinimumSize = new Size(MinimumSize.Width, minimumHeight);
+
+				var currentClientHeight = ClientSize.Height;
+				if (currentClientHeight < targetClientHeight ||
+					(currentClientHeight > targetClientHeight &&
+						currentClientHeight == _lastContentDrivenClientHeight))
 				{
-					var growth = Math.Max(0, targetClientHeight - _designTimeClientHeight);
-					MinimumSize = new Size(MinimumSize.Width, _designTimeMinimumHeight + growth);
 					ClientSize = new Size(ClientSize.Width, targetClientHeight);
+					_lastContentDrivenClientHeight = targetClientHeight;
+				}
+
+				if (ClientSize.Height != clientHeightBeforeResize)
+				{
 					_labelVersionInfo.Top = labelVersionInfoTopBeforeResize;
+					pnlOptions.Height = optionsPanelHeightBeforeResize;
 				}
 			}
 			finally

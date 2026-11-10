@@ -164,6 +164,7 @@ namespace SayMore.UI.ComponentEditors
 						_howToContact.Font = font;
 						_education.Font = font;
 						_primaryOccupation.Font = font;
+						_ethnicGroup.Font = font;
 					}
 
 					_gridCustomFields.SetWorkingLanguageFont(font);

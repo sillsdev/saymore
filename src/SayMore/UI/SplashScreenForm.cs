@@ -1,14 +1,3 @@
-// --------------------------------------------------------------------------------------------
-#region // Copyright © 2025, SIL Global. All Rights Reserved.
-// <copyright from='2012' to='2025' company='SIL Global'>
-//		Copyright (c) 2025, SIL Global. All Rights Reserved.
-//
-//		Distributable under the terms of the MIT License (https://sil.mit-license.org/)
-// </copyright>
-#endregion
-//
-// File: SplashScreenForm.cs
-// --------------------------------------------------------------------------------------------
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -61,6 +50,8 @@ namespace SayMore.UI
 		private readonly bool m_showBuildNum;
 		private PictureBox picLoadingWheel;
 		private readonly string m_buildFmt;
+		private int _unscaledBottomLabelsTop;
+		private int _unscaledClientHeight;
 		#endregion
 
 		#region Constructor
@@ -93,6 +84,12 @@ namespace SayMore.UI
 			lblMessage.Font = SystemInformation.MenuFont;
 			lblBuildNumber.Font = SystemInformation.MenuFont;
 			Opacity = 0;
+
+			// Captured here, before any scaling has run, as the floor ApplyLabelScaling grows
+			// from and shrinks back to -- not the Designer's own values, since Width/Height
+			// above already replaced those with sizes computed from the logo bitmaps.
+			_unscaledBottomLabelsTop = label1.Top;
+			_unscaledClientHeight = ClientSize.Height;
 
 			ApplyLabelScaling();
 			UITextScaler.ScaleChanged += HandleUiTextScaleChanged;
@@ -252,7 +249,7 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		public virtual void SetCopyright(string value)
 		{
-			lblCopyright.Text = value.Replace("(C)", "©");
+			lblCopyright.Text = value.Replace("(C)", "Â©");
 		}
 		#endregion
 
@@ -342,13 +339,12 @@ if (attributes.Length > 0)
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Grows _labelLoading, label1 (the copyright notice), and _labelVersionInfo as large
-		/// as the current UI text scale setting allows. This form's own Size is computed once,
-		/// in its constructor, from the two logo bitmaps drawn in OnPaint -- it has no
-		/// resizable border to grow into afterward -- and pictureBox2 sits at a fixed,
-		/// anchor-computed position, so each label is measured against whichever boundary
-		/// would actually stop it from growing any further: the window edge, the next label
-		/// down, or pictureBox2. Each one is given the largest font that still fits that space,
-		/// even when that's less than the full requested scale.
+		/// as the current UI text scale setting allows. label1 and _labelVersionInfo are
+		/// allowed to grow this form's own ClientSize.Height to fit, so _labelLoading (which
+		/// stops above label1's fixed position, not at the window edge) and the two bottom
+		/// labels (constrained only by the available width, not a height tied to the window's
+		/// current size) are each given the largest font that still fits its own space, even
+		/// when that's less than the full requested scale.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void ApplyLabelScaling()
@@ -358,17 +354,40 @@ if (attributes.Length > 0)
 			_labelLoading.Font = GetLargestFontThatFits(_labelLoading.Text,
 				UITextScaler.GetOriginalFont(_labelLoading), desiredScalePercent,
 				new Size(ClientSize.Width - _labelLoading.Left - kLabelBoundsMargin,
-					ClientSize.Height - _labelLoading.Top - kLabelBoundsMargin));
+					_unscaledBottomLabelsTop - _labelLoading.Top - kLabelBoundsMargin));
+
+			var bottomLabelMaxBounds = new Size(
+				pictureBox2.Left - label1.Left - kLabelBoundsMargin, int.MaxValue / 2);
 
 			label1.Font = GetLargestFontThatFits(label1.Text,
-				UITextScaler.GetOriginalFont(label1), desiredScalePercent,
-				new Size(pictureBox2.Left - label1.Left - kLabelBoundsMargin,
-					_labelVersionInfo.Top - label1.Top - kLabelBoundsMargin));
+				UITextScaler.GetOriginalFont(label1), desiredScalePercent, bottomLabelMaxBounds);
 
 			_labelVersionInfo.Font = GetLargestFontThatFits(_labelVersionInfo.Text,
-				UITextScaler.GetOriginalFont(_labelVersionInfo), desiredScalePercent,
-				new Size(pictureBox2.Left - _labelVersionInfo.Left - kLabelBoundsMargin,
-					ClientSize.Height - _labelVersionInfo.Top - kLabelBoundsMargin));
+				UITextScaler.GetOriginalFont(_labelVersionInfo), desiredScalePercent, bottomLabelMaxBounds);
+
+			var neededHeight = PositionBottomLabelsAndGetRequiredClientHeight(label1,
+				_labelVersionInfo, _unscaledBottomLabelsTop, _unscaledClientHeight, kLabelBoundsMargin);
+
+			if (neededHeight != ClientSize.Height)
+				ClientSize = new Size(ClientSize.Width, neededHeight);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// topLabel and bottomLabel are both Anchor = Bottom|Left, so simply growing
+		/// ClientSize.Height shifts both down together by the same amount without changing the
+		/// gap between them -- so this instead stacks bottomLabel directly below topLabel
+		/// (pinning topLabel back at its unscaled position first) and returns the client
+		/// height needed to fit both, never smaller than unscaledClientHeight.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal static int PositionBottomLabelsAndGetRequiredClientHeight(Label topLabel,
+			Label bottomLabel, int unscaledTopLabelTop, int unscaledClientHeight, int margin)
+		{
+			topLabel.Top = unscaledTopLabelTop;
+			bottomLabel.Top = topLabel.Bottom + margin;
+
+			return Math.Max(unscaledClientHeight, bottomLabel.Bottom + margin);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -385,7 +404,8 @@ if (attributes.Length > 0)
 		/// represent it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal static Font GetLargestFontThatFits(string text, Font baseFont, int desiredScalePercent, Size maxBounds)
+		internal static Font GetLargestFontThatFits(string text, Font baseFont,
+			int desiredScalePercent, Size maxBounds)
 		{
 			if (desiredScalePercent <= 100)
 			{
@@ -393,23 +413,38 @@ if (attributes.Length > 0)
 					new Font(baseFont.FontFamily, baseFont.Size * desiredScalePercent / 100f, baseFont.Style, baseFont.Unit);
 			}
 
-			for (var percent = desiredScalePercent; percent > 100; percent--)
+			// Binary search for the largest percent in (100, desiredScalePercent] at which the
+			// text still measures within maxBounds: fit is monotonic in font size (a larger
+			// font never measures smaller), so this needs ~log2(desiredScalePercent - 100)
+			// candidates instead of checking every integer percent down from
+			// desiredScalePercent one at a time, which could be close to 100 for a label with
+			// very little real headroom (e.g. label1/_labelVersionInfo), and this runs on
+			// every SetMessage call throughout startup.
+			var lo = 100;
+			var hi = desiredScalePercent;
+			Font best = null;
+			while (lo < hi)
 			{
-				var candidate = new Font(baseFont.FontFamily, baseFont.Size * percent / 100f, baseFont.Style, baseFont.Unit);
+				var mid = lo + (hi - lo + 1) / 2;
+				var candidate = new Font(baseFont.FontFamily, baseFont.Size * mid / 100f, baseFont.Style, baseFont.Unit);
 				var measured = TextRenderer.MeasureText(text, candidate);
 				if (measured.Width <= maxBounds.Width && measured.Height <= maxBounds.Height)
-					return candidate;
-
-				// Only the font this method eventually returns should survive: every
-				// rejected candidate holds a GDI font handle that needs to be released
-				// explicitly rather than left for the finalizer, since a label with very
-				// little real headroom (e.g. label1/_labelVersionInfo) can iterate this
-				// loop close to 100 times per call, and ApplyLabelScaling runs on every
-				// SetMessage call throughout startup.
-				candidate.Dispose();
+				{
+					// Only the font this method eventually returns should survive: every
+					// rejected candidate holds a GDI font handle that needs to be released
+					// explicitly rather than left for the finalizer.
+					best?.Dispose();
+					best = candidate;
+					lo = mid;
+				}
+				else
+				{
+					candidate.Dispose();
+					hi = mid - 1;
+				}
 			}
 
-			return baseFont;
+			return best ?? baseFont;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -707,6 +707,43 @@ namespace SayMoreTests.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// EnableHeadersVisualStyles defaults to true, which makes the OS theme paint every
+		/// header cell and ignore HeaderCell.Style.Font entirely -- so the column header font
+		/// this case scales never actually renders unless this is turned off. It must stay on
+		/// at 100% scale so upgrading users see the native themed header they always had.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_DataGridView_DisablesHeaderVisualStylesOnlyWhenScaled()
+		{
+			Settings.Default.UITextScale = 100;
+
+			using (var host = new Panel())
+			using (var grid = new DataGridView())
+			{
+				grid.Columns.Add("col1", "Column 1");
+				host.Controls.Add(grid);
+				Assert.IsTrue(grid.EnableHeadersVisualStyles,
+					"At the default 100% scale, headers must keep the OS-themed look.");
+
+				Settings.Default.UITextScale = 200;
+				host.ScaleUIFont();
+
+				Assert.IsFalse(grid.EnableHeadersVisualStyles,
+					"Visual-style theming ignores HeaderCell.Style.Font entirely, so it must be " +
+					"turned off whenever the UI text scale isn't 100%, or the scaled header font " +
+					"never actually renders.");
+
+				Settings.Default.UITextScale = 100;
+				host.ScaleUIFont();
+
+				Assert.IsTrue(grid.EnableHeadersVisualStyles,
+					"Returning to 100% must restore the native themed header look.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// A control added to an already-loaded Form's tree well after that Form's own
 		/// one-time Load-triggered scaling pass -- e.g. a view a screen swaps into a
 		/// placeholder panel only once the user navigates to it, such as ProjectScreen's project

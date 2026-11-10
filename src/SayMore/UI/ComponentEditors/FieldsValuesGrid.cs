@@ -86,6 +86,13 @@ namespace SayMore.UI.ComponentEditors
 			_factoryFieldFont?.Dispose();
 			_factoryFieldFont = new Font(Font, FontStyle.Bold);
 			ColumnHeadersDefaultCellStyle.Font = Font;
+
+			// EnableHeadersVisualStyles (true by default) hands header painting to the OS
+			// theme, which ignores ColumnHeadersDefaultCellStyle.Font outright -- so the
+			// scaled header font above never actually renders unless this is off. Keeping it
+			// on at 100% preserves the native themed header look for anyone not using scaling.
+			EnableHeadersVisualStyles = scale.Equals(1f);
+
 			Invalidate();
 		}
 

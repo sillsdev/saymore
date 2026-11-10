@@ -101,6 +101,44 @@ namespace SayMoreTests.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// EnableHeadersVisualStyles defaults to true, which makes the OS theme paint every
+		/// header cell and ignore ColumnHeadersDefaultCellStyle.Font entirely -- so the header
+		/// font assigned above never actually renders unless this is turned off. It must stay
+		/// on at 100% scale so upgrading users see the native themed header they always had.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_HostContainsFieldsValuesGrid_DisablesHeaderVisualStylesOnlyWhenScaled()
+		{
+			Settings.Default.UITextScale = 100;
+
+			using (var host = new Panel())
+			using (var grid = CreateGrid())
+			{
+				host.Controls.Add(grid);
+				Assert.IsTrue(grid.EnableHeadersVisualStyles,
+					"At the default 100% scale, headers must keep the OS-themed look.");
+
+				Settings.Default.UITextScale = 200;
+				UITextScaler.NotifyScaleChanged();
+				host.ScaleUIFont();
+
+				Assert.IsFalse(grid.EnableHeadersVisualStyles,
+					"Visual-style theming ignores ColumnHeadersDefaultCellStyle.Font entirely, so it " +
+					"must be turned off whenever the UI text scale isn't 100%, or the scaled header " +
+					"font never actually renders.");
+
+				Settings.Default.UITextScale = 100;
+				UITextScaler.NotifyScaleChanged();
+				host.ScaleUIFont();
+
+				Assert.IsTrue(grid.EnableHeadersVisualStyles,
+					"Returning to 100% must restore the native themed header look.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Working-language cell fonts are applied per cell in OnCellFormatting, which no
 		/// Control-recursive scaling walk reaches, so the grid itself keeps them tracking the
 		/// current UI text scale.

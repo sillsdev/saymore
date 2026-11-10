@@ -401,6 +401,14 @@ namespace SayMore.Utilities
 							col.HeaderCell.Style.Font = new Font(origHeaderFont.FontFamily,
 								origHeaderFont.Size * scale, origHeaderFont.Style, origHeaderFont.Unit);
 						}
+
+						// EnableHeadersVisualStyles (true by default) hands header painting to
+						// the OS theme, which ignores HeaderCell.Style.Font outright -- so the
+						// scaled header fonts set above never actually render unless this is
+						// off. Keeping it on at 100% preserves the native themed header look
+						// for anyone not using scaling.
+						dgv.EnableHeadersVisualStyles = scale.Equals(1f);
+
 						// REVIEW: recurse to apply to child controls within DataGridView (rare)?
 						break;
 					// REVIEW: no ListView/TreeView case. The one current usage

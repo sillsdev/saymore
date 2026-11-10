@@ -151,16 +151,13 @@ namespace SayMore.Transcription.UI
 				FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
 			_undoToolStripMenuItem.AutoSize = false;
 			_ignoreToolStripMenuItem.AutoSize = false;
-			_undoToolStripMenuItem.Width = _ignoreToolStripMenuItem.Width =
-				Math.Max(_ignoreToolStripMenuItem.Width, _undoToolStripMenuItem.Width);
-			_undoToolStripMenuItem.Height *= 2;
-			_ignoreToolStripMenuItem.Height = _undoToolStripMenuItem.Height;
 
 			// The controls just set above were reset to their unscaled baseline font after the
 			// base.OnLoad(e) call above already triggered the Load-based scaling pass, so they
 			// need to be rescaled again here before anything is painted.
 			this.ScaleUIFont();
 			ResizeZoomComboForCurrentTextScale();
+			ResizeMenuItemsToMatchForCurrentTextScale(_undoToolStripMenuItem, _ignoreToolStripMenuItem);
 
 			HandleStringsLocalized();
 		}
@@ -243,6 +240,7 @@ namespace SayMore.Transcription.UI
 		private void HandleUiTextScaleChangedForZoomCombo(object sender, EventArgs e)
 		{
 			ResizeZoomComboForCurrentTextScale();
+			ResizeMenuItemsToMatchForCurrentTextScale(_undoToolStripMenuItem, _ignoreToolStripMenuItem);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -272,6 +270,27 @@ namespace SayMore.Transcription.UI
 			}
 
 			_comboBoxZoom.Width = maxWidth + 30;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// _undoToolStripMenuItem/_ignoreToolStripMenuItem have AutoSize turned off (so the
+		/// two can be forced to match each other's width/height), which means neither grows on
+		/// its own when their Font is scaled -- unlike a Label or Button, a ToolStripItem's
+		/// GetPreferredSize keeps working correctly with AutoSize off, so this measures each
+		/// item at its current (scaled) font and re-applies the same match-the-wider-one sizing
+		/// the Designer values originally captured only for the unscaled baseline font. Height
+		/// is doubled, matching the original Designer-time sizing, to keep the same visual
+		/// padding above/below the text at any scale.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal static void ResizeMenuItemsToMatchForCurrentTextScale(ToolStripItem a, ToolStripItem b)
+		{
+			var preferredA = a.GetPreferredSize(Size.Empty);
+			var preferredB = b.GetPreferredSize(Size.Empty);
+
+			a.Width = b.Width = Math.Max(preferredA.Width, preferredB.Width);
+			a.Height = b.Height = Math.Max(preferredA.Height, preferredB.Height) * 2;
 		}
 
 		#endregion

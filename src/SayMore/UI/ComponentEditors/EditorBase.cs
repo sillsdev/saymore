@@ -61,6 +61,21 @@ namespace SayMore.UI.ComponentEditors
 
 			_localizationManager?.UiLanguageChanged += HandleStringsLocalized;
 			HandleStringsLocalized(null, EventArgs.Empty);
+
+			UITextScaler.ScaleChanged += HandleUiTextScaleChanged;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Working-language fonts are scaled by the editors themselves (see
+		/// <see cref="SetWorkingLanguageFont(Font)"/>), so each editor re-applies its
+		/// working-language font whenever the UI text scale changes.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleUiTextScaleChanged(object sender, EventArgs e)
+		{
+			if (!IsDisposed)
+				SetWorkingLanguageFont();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -73,8 +88,12 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && _localizationManager != null)
-				_localizationManager.UiLanguageChanged -= HandleStringsLocalized;
+			if (disposing)
+			{
+				UITextScaler.ScaleChanged -= HandleUiTextScaleChanged;
+				if (_localizationManager != null)
+					_localizationManager.UiLanguageChanged -= HandleStringsLocalized;
+			}
 			try
 			{
 				base.Dispose(disposing);
@@ -234,6 +253,13 @@ namespace SayMore.UI.ComponentEditors
 		/// Editors can override this to set controls to display text using the working language
 		/// font. The base implementation is a no-op and need not be called.
 		/// </summary>
+		/// <param name="font">The project's working-language font as the project defines it,
+		/// unscaled. Overrides displaying it alongside UI text pass it through
+		/// <see cref="UITextScaler.GetScaledWorkingLanguageFont(Font)"/> (or hand it to
+		/// <see cref="FieldsValuesGrid.SetWorkingLanguageFont"/>, which does so itself) and
+		/// exclude the controls they assign it to from generic UI font scaling (see
+		/// <see cref="UITextScaler.ExcludeFromUIFontScaling"/>). This is called again whenever
+		/// the UI text scale changes, so those controls stay at the current scale.</param>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void SetWorkingLanguageFont(Font font)
 		{

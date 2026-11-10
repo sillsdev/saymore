@@ -36,6 +36,14 @@ namespace SayMore.Utilities
 		private static readonly ConditionalWeakTable<ToolStripItem, Font> s_origToolStripItemFonts =
 			new ConditionalWeakTable<ToolStripItem, Font>();
 
+		private static readonly ConditionalWeakTable<Control, object> s_controlsExcludedFromUIFontScaling =
+			new ConditionalWeakTable<Control, object>();
+
+		private static readonly object s_scaledWorkingLanguageFontLock = new object();
+		private static Font s_scaledWorkingLanguageFontBaseline;
+		private static int s_scaledWorkingLanguageFontPercent;
+		private static Font s_scaledWorkingLanguageFont;
+
 		public static event EventHandler ScaleChanged;
 
 		public static void NotifyScaleChanged()
@@ -66,6 +74,80 @@ namespace SayMore.Utilities
 				? percent
 				: (int?)null;
 		}
+
+		/// <summary>
+		/// Returns the working-language font to display at the given UI text scale: the
+		/// project's baseline working-language font with only its size scaled. Family, style,
+		/// and unit always stay exactly as the project defines them, because working-language
+		/// content must render in the font chosen for that language regardless of the UI
+		/// language's font.
+		/// </summary>
+		public static Font GetScaledWorkingLanguageFont(Font baseline, int scalePercent)
+		{
+			if (baseline == null)
+				return null;
+
+			return new Font(baseline.FontFamily,
+				baseline.Size * ClampScalePercent(scalePercent) / 100f,
+				baseline.Style, baseline.Unit);
+		}
+
+		/// <summary>
+		/// Returns the working-language font for the given baseline at the current
+		/// <c>Settings.Default.UITextScale</c>. Every control that shows
+		/// working-language content (editor text boxes and FieldsValuesGrid cells alike) gets
+		/// its font from here, so they all render at the same size. The result is cached and
+		/// shared until the baseline or the scale changes; a superseded Font is left for the
+		/// garbage collector rather than disposed, since controls may still be displaying it
+		/// until they are given the new one.
+		/// </summary>
+		public static Font GetScaledWorkingLanguageFont(Font baseline)
+		{
+			if (baseline == null)
+				return null;
+
+			var scalePercent = ClampScalePercent(Properties.Settings.Default.UITextScale);
+			lock (s_scaledWorkingLanguageFontLock)
+			{
+				if (s_scaledWorkingLanguageFont == null ||
+					!ReferenceEquals(s_scaledWorkingLanguageFontBaseline, baseline) ||
+					s_scaledWorkingLanguageFontPercent != scalePercent)
+				{
+					Font scaled;
+					try
+					{
+						scaled = GetScaledWorkingLanguageFont(baseline, scalePercent);
+					}
+					catch (Exception e)
+					{
+						ErrorReport.ReportNonFatalException(e);
+						scaled = baseline;
+					}
+
+					s_scaledWorkingLanguageFontBaseline = baseline;
+					s_scaledWorkingLanguageFontPercent = scalePercent;
+					s_scaledWorkingLanguageFont = scaled;
+				}
+
+				return s_scaledWorkingLanguageFont;
+			}
+		}
+
+		/// <summary>
+		/// Marks a control whose font is assigned and kept at the current scale by its own
+		/// code (e.g. a working-language text box, which its editor gives an already-scaled
+		/// working-language font). Scaling passes leave such a control's font untouched:
+		/// rescaling an already-scaled font would compound the scale factor, and its cached
+		/// "original" font would not be the working-language baseline anyway.
+		/// </summary>
+		public static void ExcludeFromUIFontScaling(Control control)
+		{
+			if (!s_controlsExcludedFromUIFontScaling.TryGetValue(control, out _))
+				s_controlsExcludedFromUIFontScaling.Add(control, new object());
+		}
+
+		private static bool IsExcludedFromUIFontScaling(Control control) =>
+			s_controlsExcludedFromUIFontScaling.TryGetValue(control, out _);
 
 		public static Font GetOriginalFont(Control control)
 		{
@@ -127,6 +209,9 @@ namespace SayMore.Utilities
 
 		public static void ScaleUIFont(this Control control)
 		{
+			if (IsExcludedFromUIFontScaling(control))
+				return;
+
 			var scaledFont = control.GetScaledFont(out var scale);
 			if (scaledFont == null)
 				return;
@@ -199,6 +284,9 @@ namespace SayMore.Utilities
 
 			foreach (Control child in control.Controls)
 			{
+				if (IsExcludedFromUIFontScaling(child))
+					continue;
+
 				switch (child)
 				{
 					// Image and BackgroundImage are intentionally left unscaled by this walk:

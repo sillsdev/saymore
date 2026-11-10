@@ -5,6 +5,7 @@ using NUnit.Framework;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
+using SayMore.Utilities;
 
 namespace SayMoreTests.UI.ComponentEditors
 {
@@ -45,6 +46,37 @@ namespace SayMoreTests.UI.ComponentEditors
 				helper.SetComponentFile(file);
 
 				Assert.Greater(ctrl.Font.Size, originalUnscaledSize);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Working-language text boxes are bound too, but their editor assigns them an
+		/// already-scaled working-language font; selecting another element must leave that
+		/// font exactly as assigned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void SetComponentFile_BoundControlExcludedFromUIFontScaling_KeepsAssignedFont()
+		{
+			Settings.Default.UITextScale = 130;
+
+			using (var helper = new BindingHelper())
+			using (var ctrl = new TextBox { Name = "_education" })
+			{
+				UITextScaler.ExcludeFromUIFontScaling(ctrl);
+				helper.SetIsBound(ctrl, true);
+				var file = new ComponentFile(FileType.Create("Text", ".txt"));
+				helper.SetComponentFile(file);
+
+				var assigned = new Font("Times New Roman", 14f * 1.3f);
+				ctrl.Font = assigned;
+
+				// Two calls simulate selecting another element and then reselecting this one.
+				helper.SetComponentFile(file);
+				helper.SetComponentFile(file);
+
+				Assert.AreEqual(assigned, ctrl.Font);
 			}
 		}
 	}

@@ -17,7 +17,7 @@ namespace SayMore.UI.ComponentEditors
 	{
 		private readonly FieldsValuesGridViewModel _model;
 		private Font _factoryFieldFont;
-		private Font _workingLanguageFont;
+		private Font _workingLanguageBaselineFont;
 		private readonly Color _focusedSelectionBackColor;
 		private bool _adjustHeightToFitRows = true;
 		protected readonly L10NSharpExtender _locExtender;
@@ -91,16 +91,30 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Sets the font to use for cells whose content is expected to be in the project's
-		/// working language (as opposed to fixed, localized UI vocabulary like factory field
-		/// names and dropdown options, which always use the UI font).
+		/// Sets the project's (unscaled) working-language font, used for cells whose content
+		/// is expected to be in the project's working language (as opposed to fixed, localized
+		/// UI vocabulary like factory field names and dropdown options, which always use the
+		/// UI font). Those cells display it at the current UI text scale; see
+		/// <see cref="WorkingLanguageFont"/>.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void SetWorkingLanguageFont(Font font)
+		public void SetWorkingLanguageFont(Font baseline)
 		{
-			_workingLanguageFont = font;
+			_workingLanguageBaselineFont = baseline;
 			Invalidate();
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The working-language font at the current UI text scale, or null if none has been
+		/// set. Cell fonts are chosen per cell in OnCellFormatting, which reads this on every
+		/// formatting pass, so working-language cells track the current scale on the very next
+		/// repaint (ApplyScale's Invalidate triggers one) -- the same shared font the editor's
+		/// working-language text boxes use.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal Font WorkingLanguageFont =>
+			UITextScaler.GetScaledWorkingLanguageFont(_workingLanguageBaselineFont);
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -255,11 +269,12 @@ namespace SayMore.UI.ComponentEditors
 					this[1, e.RowIndex].ReadOnly = true;
 				else if ((NewRowIndex < 0) || (e.RowIndex < NewRowIndex))
 				{
+					var workingLanguageFont = WorkingLanguageFont ?? Font;
 					if (e.ColumnIndex == 0)
 					{
 						this[0, e.RowIndex].ReadOnly = !isCustom;
 						e.CellStyle.Font = GetFieldNameFont(isCustom, _factoryFieldFont,
-							_workingLanguageFont ?? Font);
+							workingLanguageFont);
 					}
 					else
 					{
@@ -270,7 +285,7 @@ namespace SayMore.UI.ComponentEditors
 						}
 
 						e.CellStyle.Font = GetValueFont(this[1, e.RowIndex] is DataGridViewComboBoxCell,
-							Font, _workingLanguageFont ?? Font);
+							Font, workingLanguageFont);
 					}
 				}
 			}

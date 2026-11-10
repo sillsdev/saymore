@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using L10NSharp;
 using NUnit.Framework;
 using SIL.TestUtilities;
+using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
@@ -55,7 +56,10 @@ namespace SayMoreTests.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private FieldsValuesGrid CreateGrid()
+		private FieldsValuesGrid CreateGrid() => CreateGrid(out _);
+
+		/// ------------------------------------------------------------------------------------
+		private FieldsValuesGrid CreateGrid(out FieldsValuesGridViewModel model)
 		{
 			const string fileName = "test.txt";
 			File.WriteAllText(_parentFolder.Combine(fileName), "hello");
@@ -67,7 +71,7 @@ namespace SayMoreTests.UI.ComponentEditors
 			file.Save();
 
 			_fieldGatherer = new FieldGatherer(_parentFolder.Path, fileTypes, path => null);
-			var model = new FieldsValuesGridViewModel(file, null, _fieldGatherer, null);
+			model = new FieldsValuesGridViewModel(file, null, _fieldGatherer, null);
 			return new FieldsValuesGrid(model, "testGrid");
 		}
 
@@ -93,6 +97,69 @@ namespace SayMoreTests.UI.ComponentEditors
 					"FieldsValuesGrid.ApplyScale must rescale the column header font (the 'Field'/'Value' " +
 					"headings), not just cell content -- it currently only rescales Font and _factoryFieldFont.");
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Working-language cell fonts are applied per cell in OnCellFormatting, which no
+		/// Control-recursive scaling walk reaches, so the grid itself keeps them tracking the
+		/// current UI text scale.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void FieldsValuesGrid_WorkingLanguageCellFont_RescalesWithUIScale()
+		{
+			Settings.Default.UITextScale = 100;
+			UITextScaler.NotifyScaleChanged();
+
+			using (var workingLanguageFont = new Font("Times New Roman", 14f))
+			using (var grid = CreateGrid(out var model))
+			{
+				model.RowData.Add(new FieldInstance("myCustomField", "free text"));
+				grid.RowCount = model.RowData.Count + (grid.AllowUserToAddRows ? 1 : 0);
+				grid.SetWorkingLanguageFont(workingLanguageFont);
+
+				var fontAt100 = GetFreeTextValueCellFont(grid);
+				Assert.AreEqual(workingLanguageFont.FontFamily, fontAt100.FontFamily);
+				Assert.AreEqual(14f, fontAt100.Size, 0.01f);
+
+				Settings.Default.UITextScale = 200;
+				UITextScaler.NotifyScaleChanged();
+
+				var fontAt200 = GetFreeTextValueCellFont(grid);
+				Assert.AreEqual(workingLanguageFont.FontFamily, fontAt200.FontFamily,
+					"Scaling must change only the working-language font's size, never its family.");
+				Assert.AreEqual(28f, fontAt200.Size, 0.01f);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns the font FieldsValuesGrid.OnCellFormatting selects for the free-text value
+		/// cell in the first row, by triggering a real formatting pass for that cell.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static Font GetFreeTextValueCellFont(FieldsValuesGrid grid)
+		{
+			Font font = null;
+			void Capture(object sender, DataGridViewCellFormattingEventArgs e)
+			{
+				if (e.ColumnIndex == 1 && e.RowIndex == 0)
+					font = e.CellStyle.Font;
+			}
+
+			grid.CellFormatting += Capture;
+			try
+			{
+				_ = grid[1, 0].FormattedValue;
+			}
+			finally
+			{
+				grid.CellFormatting -= Capture;
+			}
+
+			Assert.IsNotNull(font, "Expected a formatting pass for the first row's value cell.");
+			return font;
 		}
 	}
 }

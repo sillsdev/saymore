@@ -52,6 +52,14 @@ namespace SayMore.UI.ComponentEditors
 		private readonly HashSet<string> _suppressValidation = new HashSet<string>();
 		private readonly Dictionary<TextBox, Color> _languageFieldsDefaultForeColor;
 
+		/// <summary>
+		/// Free-text fields whose content is in the project's working language. Their font is
+		/// owned by <see cref="SetWorkingLanguageFont(Font)"/>, which keeps it at the current
+		/// UI text scale, so they are excluded from generic UI font scaling (including the
+		/// BindingHelper's per-selection pass over every bound control).
+		/// </summary>
+		private readonly TextBox[] _workingLanguageTextBoxes;
+
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer,
@@ -62,6 +70,11 @@ namespace SayMore.UI.ComponentEditors
 
 			InitializeComponent();
 			Name = "PersonEditor";
+
+			_workingLanguageTextBoxes = new[] { _primaryLanguageLearnedIn, _howToContact,
+				_education, _primaryOccupation, _ethnicGroup };
+			foreach (var textBox in _workingLanguageTextBoxes)
+				UITextScaler.ExcludeFromUIFontScaling(textBox);
 
 			_imgFileType = imgFileType;
 
@@ -158,13 +171,11 @@ namespace SayMore.UI.ComponentEditors
 		{
 			this.SafeInvoke(() =>
 				{
-					if (!font.Equals(_primaryLanguageLearnedIn.Font))
+					var scaledFont = UITextScaler.GetScaledWorkingLanguageFont(font);
+					if (!scaledFont.Equals(_primaryLanguageLearnedIn.Font))
 					{
-						_primaryLanguageLearnedIn.Font = font;
-						_howToContact.Font = font;
-						_education.Font = font;
-						_primaryOccupation.Font = font;
-						_ethnicGroup.Font = font;
+						foreach (var textBox in _workingLanguageTextBoxes)
+							textBox.Font = scaledFont;
 					}
 
 					_gridCustomFields.SetWorkingLanguageFont(font);

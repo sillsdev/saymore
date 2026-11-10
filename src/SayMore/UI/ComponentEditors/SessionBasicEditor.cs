@@ -13,6 +13,7 @@ using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.UI.LowLevelControls;
+using SayMore.Utilities;
 using SIL.Archiving.Generic.AccessProtocol;
 using SIL.Archiving.IMDI.Lists;
 using SIL.Core.ClearShare;
@@ -38,6 +39,14 @@ namespace SayMore.UI.ComponentEditors
 		private List<AccessOption> _accessOptions;
 		private DataGridViewComboBoxEditingControl _moreFieldsComboBox;
 
+		/// <summary>
+		/// Free-text fields whose content is in the project's working language. Their font is
+		/// owned by <see cref="SetWorkingLanguageFont(Font)"/>, which keeps it at the current
+		/// UI text scale, so they are excluded from generic UI font scaling (including the
+		/// BindingHelper's per-selection pass over every bound control).
+		/// </summary>
+		private readonly TextBox[] _workingLanguageTextBoxes;
+
 		/// ------------------------------------------------------------------------------------
 		public SessionBasicEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer,
@@ -48,6 +57,10 @@ namespace SayMore.UI.ComponentEditors
 
 			InitializeComponent();
 			Name = "SessionEditor";
+
+			_workingLanguageTextBoxes = new[] { _title, _situation, _setting, _location, _synopsis };
+			foreach (var textBox in _workingLanguageTextBoxes)
+				UITextScaler.ExcludeFromUIFontScaling(textBox);
 
 			_personInformant = personInformant;
 
@@ -490,13 +503,11 @@ namespace SayMore.UI.ComponentEditors
 		{
 			this.SafeInvoke(() =>
 			{
-				if (!font.Equals(_title.Font))
+				var scaledFont = UITextScaler.GetScaledWorkingLanguageFont(font);
+				if (!scaledFont.Equals(_title.Font))
 				{
-					_title.Font = font;
-					_situation.Font = font;
-					_setting.Font = font;
-					_location.Font = font;
-					_synopsis.Font = font;
+					foreach (var textBox in _workingLanguageTextBoxes)
+						textBox.Font = scaledFont;
 				}
 
 				_gridAdditionalFields.SetWorkingLanguageFont(font);

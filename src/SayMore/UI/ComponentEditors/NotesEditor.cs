@@ -1,5 +1,6 @@
 using L10NSharp;
 using SayMore.Model.Files;
+using SayMore.Utilities;
 using SIL.Windows.Forms.Extensions;
 using System;
 using System.Drawing;
@@ -18,6 +19,11 @@ namespace SayMore.UI.ComponentEditors
 		{
 			InitializeComponent();
 			Name = "Notes";
+
+			// _notes holds working-language content; its font is owned by
+			// SetWorkingLanguageFont, which keeps it at the current UI text scale.
+			UITextScaler.ExcludeFromUIFontScaling(_notes);
+
 			_binder.SetComponentFile(file);
 			SetBindingHelper(_binder);
 
@@ -29,8 +35,8 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void SetWorkingLanguageFont(Font font)
 		{
-			this.SafeInvoke(() => { _notes.Font = font; }, $"{GetType().Name}.{nameof(SetWorkingLanguageFont)}",
-				IgnoreAll);
+			this.SafeInvoke(() => { _notes.Font = UITextScaler.GetScaledWorkingLanguageFont(font); },
+				$"{GetType().Name}.{nameof(SetWorkingLanguageFont)}", IgnoreAll);
 		}
 
 		/// ------------------------------------------------------------------------------------

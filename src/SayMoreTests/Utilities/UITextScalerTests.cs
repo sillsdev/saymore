@@ -133,6 +133,88 @@ namespace SayMoreTests.Utilities
 		}
 
 		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetScaledWorkingLanguageFont_200Percent_DoublesSize()
+		{
+			using (var baseline = new Font("Times New Roman", 14f, FontStyle.Italic))
+			using (var scaled = UITextScaler.GetScaledWorkingLanguageFont(baseline, 200))
+			{
+				Assert.AreEqual(28f, scaled.Size, 0.01f);
+				Assert.AreEqual(baseline.FontFamily, scaled.FontFamily,
+					"Scaling must change only the working-language font's size, never its family.");
+				Assert.AreEqual(baseline.Style, scaled.Style);
+				Assert.AreEqual(baseline.Unit, scaled.Unit);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetScaledWorkingLanguageFont_PercentAboveMaximum_ClampsToMaximum()
+		{
+			using (var baseline = new Font("Times New Roman", 10f))
+			using (var scaled = UITextScaler.GetScaledWorkingLanguageFont(baseline, 10000))
+			{
+				Assert.AreEqual(10f * UITextScaler.kMaxScalePercent / 100f, scaled.Size, 0.01f);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetScaledWorkingLanguageFont_NullBaseline_ReturnsNull()
+		{
+			Assert.IsNull(UITextScaler.GetScaledWorkingLanguageFont(null, 150));
+			Assert.IsNull(UITextScaler.GetScaledWorkingLanguageFont(null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Text boxes and FieldsValuesGrid cells showing working-language content all call this
+		/// same overload, so for a given baseline and scale they all render with one shared Font.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetScaledWorkingLanguageFont_CurrentScale_SharedUntilScaleChanges()
+		{
+			using (var baseline = new Font("Times New Roman", 14f))
+			{
+				Settings.Default.UITextScale = 100;
+				var first = UITextScaler.GetScaledWorkingLanguageFont(baseline);
+				Assert.AreSame(first, UITextScaler.GetScaledWorkingLanguageFont(baseline));
+				Assert.AreEqual(14f, first.Size, 0.01f);
+
+				Settings.Default.UITextScale = 150;
+				var afterScaleChange = UITextScaler.GetScaledWorkingLanguageFont(baseline);
+				Assert.AreEqual(21f, afterScaleChange.Size, 0.01f);
+				Assert.AreEqual(baseline.FontFamily, afterScaleChange.FontFamily);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// A control whose font is owned by other code (e.g. a working-language text box, whose
+		/// editor assigns it an already-scaled working-language font) must keep that font through
+		/// a scaling pass; rescaling it again would compound the scale factor.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test, Apartment(ApartmentState.STA)]
+		public void ScaleUIFont_ControlExcludedFromUIFontScaling_KeepsItsFont()
+		{
+			using (var host = new Panel())
+			using (var excluded = new Label { Font = new Font("Times New Roman", 18f) })
+			{
+				host.Controls.Add(excluded);
+				UITextScaler.ExcludeFromUIFontScaling(excluded);
+				Settings.Default.UITextScale = 200;
+
+				host.ScaleUIFont();
+				Assert.AreEqual(18f, excluded.Font.Size, 0.01f, "Reached through an ancestor's walk");
+
+				excluded.ScaleUIFont();
+				Assert.AreEqual(18f, excluded.Font.Size, 0.01f, "Scaled directly");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Guards against a Debug.Fail -- which pops a blocking dialog, even under an automated
 		/// NUnit run -- when a control's cached original font no longer matches its current font

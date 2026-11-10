@@ -74,6 +74,12 @@ namespace SayMore.Transcription.UI
 		private int _labelListenButtonBaselineTextGap;
 		private int _labelRecordButtonBaselineTextGap;
 
+		// _tableLayoutButtons' total Height (Designer value plus _videoHelpMenuStrip's own
+		// AutoSize row, added once in InitializeTableLayoutButtonControls), captured before any
+		// scaling pass -- the floor ResizeHintLabelsRowForCurrentTextScale grows from and
+		// shrinks back to.
+		private int _unscaledTableLayoutButtonsHeight;
+
 		/// ------------------------------------------------------------------------------------
 		public static OralAnnotationRecorderBaseDlg Create(
 			OralAnnotationRecorderDlgViewModel viewModel, AudioRecordingType annotationType)
@@ -211,6 +217,7 @@ namespace SayMore.Transcription.UI
 			AudioUtils.NAudioExceptionThrown += HandleNAudioExceptionThrown;
 			
 			InitializeTableLayoutButtonControls();
+			_unscaledTableLayoutButtonsHeight = _tableLayoutButtons.Height;
 			InitializeHintLabelsAndButtonFonts();
 
 			// InitializeHintLabelsAndButtonFonts just reset these controls to their unscaled
@@ -219,6 +226,7 @@ namespace SayMore.Transcription.UI
 			// is painted.
 			this.ScaleUIFont();
 			ResizeListenAndRecordButtonsForCurrentTextScale();
+			ResizeHintLabelsRowForCurrentTextScale();
 
 			ViewModel.RemoveInvalidAnnotationFiles();
 			WavePainter.UnsegmentedBackgroundColor = _panelListen.BackColor;
@@ -389,6 +397,7 @@ namespace SayMore.Transcription.UI
 		private void HandleUiTextScaleChangedForListenAndRecordButtons(object sender, EventArgs e)
 		{
 			ResizeListenAndRecordButtonsForCurrentTextScale();
+			ResizeHintLabelsRowForCurrentTextScale();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -414,6 +423,32 @@ namespace SayMore.Transcription.UI
 
 			_labelRecordButton.Height = _labelRecordButton.Image.Height +
 				(int)Math.Ceiling(_labelRecordButtonBaselineTextGap * scale);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// _labelListenHint/_labelRecordHint/_labelErrorInfo share three equal Percent rows in
+		/// _tableLayoutButtons (only one or two are ever visible at a time, toggled via each
+		/// row's own Height percentage), and _tableLayoutButtons' own total Height is a fixed
+		/// value set once in InitializeTableLayoutButtonControls -- so a Percent row's actual
+		/// pixel height stays fixed regardless of UI text scale, clipping a scaled-up hint
+		/// label's text. Sized for the tallest of the three at the current font, so whichever
+		/// one is currently showing always has enough room, even at 100% of a row's own share.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ResizeHintLabelsRowForCurrentTextScale()
+		{
+			_tableLayoutButtons.Height = GetRequiredTableLayoutButtonsHeight(
+				new[] { _labelListenHint, _labelRecordHint, _labelErrorInfo },
+				_videoHelpMenuStrip.Height, _unscaledTableLayoutButtonsHeight);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static int GetRequiredTableLayoutButtonsHeight(IReadOnlyList<Label> hintLabels,
+			int videoHelpHeight, int unscaledHeight)
+		{
+			var tallestHint = hintLabels.Max(label => label.GetPreferredSize(Size.Empty).Height);
+			return Math.Max(unscaledHeight, tallestHint + videoHelpHeight);
 		}
 
 		private const int kNumberOfRows = 4;

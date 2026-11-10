@@ -28,7 +28,10 @@ namespace SayMore.UI.SessionRecording
 		// enough to read as normal button padding rather than text crowding the button's edge.
 		private const int kToolStripButtonContentGap = 4;
 		private const int kToolStripButtonRightPadding = 6;
-		private const int kToolStripButtonVerticalSlack = 2;
+		// TextFormatFlags.NoPadding gives the tightest possible bounding box for the measured
+		// text, which can still leave a descender (e.g. the "y" in "Play Back Recording")
+		// reading as slightly clipped at larger scales; 2px of slack wasn't quite enough.
+		private const int kToolStripButtonVerticalSlack = 4;
 
 		private readonly SessionRecorderDlgViewModel _viewModel;
 		private string _recordedLengthLabelFormat;

@@ -1,25 +1,27 @@
 using System;
+using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using System.Linq;
 using DesktopAnalytics;
 using L10NSharp;
 using L10NSharp.Windows.Forms;
-using SIL.Reporting;
-using SIL.Windows.Forms.Extensions;
 using SayMore.Media.Audio;
+using SayMore.Media.MPlayer;
+using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.Model.Exporters;
 using SayMore.UI.ComponentEditors;
-using SayMore.Media.MPlayer;
-using SayMore.Model;
 using SayMore.Utilities;
+using SIL.Reporting;
 using SIL.Windows.Forms;
+using SIL.Windows.Forms.Extensions;
 
 // ReSharper disable once CheckNamespace
 namespace SayMore.Transcription.UI
@@ -118,7 +120,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void LoadPlaybackSpeedCombo()
 		{
-			var pctFormatter = new PercentageFormatter();
+			var pctFormatter = new PercentageFormatter((DesignMode ||
+				GetService(typeof(IDesignerHost)) != null) ||
+				(LicenseManager.UsageMode == LicenseUsageMode.Designtime));
 
 			for (int i = 10; i > 0; i--)
 				_comboPlaybackSpeed.Items.Add(pctFormatter.Format(i * 10));

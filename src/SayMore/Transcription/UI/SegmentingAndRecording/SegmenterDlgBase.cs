@@ -49,7 +49,7 @@ namespace SayMore.Transcription.UI
 		protected Size _playButtonSize = ResourceImageCache.ListenToSegment.Size;
 		private Rectangle _lastPlayButtonRc;
 
-		protected PercentageFormatter _pctFormatter = new PercentageFormatter();
+		protected PercentageFormatter _pctFormatter;
 		private bool _changeActiveControlOnEnter;
 		private bool _inHandleZoomKeyDown;
 		private bool _closeDlgRequested;
@@ -106,6 +106,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
+			_pctFormatter = new PercentageFormatter(_moreReliableDesignMode);
+
 			base.OnLoad(e);
 
 			if (_moreReliableDesignMode)

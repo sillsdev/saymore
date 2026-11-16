@@ -314,28 +314,15 @@ namespace SayMore.UI.ProjectWindow
 			// there's no opportunity for the scale setting to change again while it's open.
 			dlg.ScaleUIFont();
 
-			// _checkForUpdates is a plain Button with AutoSize left at its (false) default and
-			// a fixed Designer Size, inside a Form this code can't modify -- so rather than
-			// trying to grow a box it doesn't own, its font is shrunk to whatever the existing
-			// box actually fits, the same approach already used for GetLargestFontThatFits.
-			if (dlg.Controls.Find("_checkForUpdates", true).FirstOrDefault() is Button checkForUpdatesButton)
-			{
-				ShrinkButtonFontToFit(checkForUpdatesButton,
-					UITextScaler.ClampScalePercent(Settings.Default.UITextScale));
-			}
+			// SILAboutBox's buttons are plain Buttons from a package this code doesn't own, so
+			// any of them could have AutoSize left off with a fixed Designer Size that
+			// ScaleUIFont's font-only pass overruns, with no way to fix that structurally from
+			// here. Sweeping every Button and shrinking only whichever ones don't fit their own
+			// box handles that without naming a specific control.
+			FontFitting.ShrinkOversizedButtonsToFit(dlg,
+				UITextScaler.ClampScalePercent(Settings.Default.UITextScale));
 
 			dlg.ShowDialog(this);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static void ShrinkButtonFontToFit(Button button, int desiredScalePercent, int margin = 8)
-		{
-			var maxBounds = new Size(
-				Math.Max(0, button.ClientSize.Width - margin),
-				Math.Max(0, button.ClientSize.Height - margin));
-
-			button.Font = FontFitting.GetLargestFontThatFits(button.Text,
-				UITextScaler.GetOriginalFont(button), desiredScalePercent, maxBounds);
 		}
 
 		private static void HandleAboutDialogCheckForUpdatesClick(object sender, EventArgs e)

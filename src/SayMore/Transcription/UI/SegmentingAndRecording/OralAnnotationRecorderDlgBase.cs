@@ -80,6 +80,23 @@ namespace SayMore.Transcription.UI
 		// shrinks back to.
 		private int _unscaledTableLayoutButtonsHeight;
 
+		// This Form's own ClientSize.Height and MinimumSize.Height, captured before anything
+		// scales -- the floor ResizeHintLabelsRowForCurrentTextScale grows the Form itself from,
+		// since _tableLayoutButtons is Dock=Bottom within it and simply setting its own Height
+		// gets silently reclamped to whatever fits the current ClientSize on the next layout pass
+		// otherwise.
+		private readonly int _designTimeClientHeight;
+		private readonly int _designTimeMinimumHeight;
+
+		// The ClientSize.Height ResizeHintLabelsRowForCurrentTextScale itself most recently
+		// set. While the Form is still at exactly this height, nothing else (the user
+		// dragging an edge, restored window settings) has chosen a height of its own since,
+		// so it's still safe to shrink back toward the design-time baseline.
+		private int _lastContentDrivenClientHeight;
+
+		// Re-entrancy guard for ResizeHintLabelsRowForCurrentTextScale
+		private bool _resizingTableLayoutButtonsForTextScale;
+
 		/// ------------------------------------------------------------------------------------
 		public static OralAnnotationRecorderBaseDlg Create(
 			OralAnnotationRecorderDlgViewModel viewModel, AudioRecordingType annotationType)
@@ -108,8 +125,14 @@ namespace SayMore.Transcription.UI
 			// Captured here, before anything (including the Designer-assigned Image) is ever
 			// touched by a scaling pass, so later rescales always compute from the same
 			// unscaled baseline instead of compounding onto a previously-adjusted Height.
-			_labelListenButtonBaselineTextGap = _labelListenButton.Height - _labelListenButton.Image.Height;
-			_labelRecordButtonBaselineTextGap = _labelRecordButton.Height - _labelRecordButton.Image.Height;
+			_designTimeClientHeight = ClientSize.Height;
+			_designTimeMinimumHeight = MinimumSize.Height;
+			_lastContentDrivenClientHeight = _designTimeClientHeight;
+
+			_labelListenButtonBaselineTextGap =
+				_labelListenButton.Height - _labelListenButton.Image.Height;
+			_labelRecordButtonBaselineTextGap =
+				_labelRecordButton.Height - _labelRecordButton.Image.Height;
 			UITextScaler.ScaleChanged += HandleUiTextScaleChangedForListenAndRecordButtons;
 
 			_cursorBlinkTimer.Tag = true;
@@ -227,6 +250,12 @@ namespace SayMore.Transcription.UI
 			this.ScaleUIFont();
 			ResizeListenAndRecordButtonsForCurrentTextScale();
 			ResizeHintLabelsRowForCurrentTextScale();
+			ResizeSourceRecordingLabelForCurrentTextScale();
+
+			// The hint labels' wrap width comes from _tableLayoutButtons' column widths, which 
+			// change on any resize. Subscribed here, after InitializeTableLayoutButtonControls, 
+			// since the handler relies on that method's row/column setup already being in place.
+			Resize += HandleResizeForHintLabels;
 
 			ViewModel.RemoveInvalidAnnotationFiles();
 			WavePainter.UnsegmentedBackgroundColor = _panelListen.BackColor;
@@ -239,11 +268,18 @@ namespace SayMore.Transcription.UI
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
-			
+
 			Logger.WriteEvent("OralAnnotationRecorderBaseDlg shown");
 
 			if (_moreReliableDesignMode)
 				return;
+
+			// base.OnShown restores this dialog's persisted Bounds, which can leave it a
+			// different width than when OnLoad computed the sizing above -- so re-run it now
+			// against the Form's actual final width.
+			ResizeListenAndRecordButtonsForCurrentTextScale();
+			ResizeHintLabelsRowForCurrentTextScale();
+			ResizeSourceRecordingLabelForCurrentTextScale();
 
 			ViewModel.PlaybackErrorAction = HandlePlaybackError;
 			ViewModel.RecordingErrorAction = HandleRecordingError;
@@ -362,6 +398,29 @@ namespace SayMore.Transcription.UI
 			_labelSourceRecording.Margin = margin;
 			panel.Controls.Add(_labelSourceRecording);
 			_labelSourceRecording.Location = new Point(3, 10);
+			_labelSourceRecording.AutoEllipsis = true;
+
+			// panel is AutoSize inside an AutoSize row, so an Anchor-stretched AutoSize label
+			// here has no real width to stretch to -- panel and label would each wait on the
+			// other, so the label just keeps demanding more width instead of wrapping. Capping
+			// MaximumSize gives AutoSize an actual boundary to wrap within.
+			ResizeSourceRecordingLabelForCurrentTextScale();
+		}
+
+		private const int kMaxSourceRecordingLabelLines = 2;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Row 0 (AutoSize, holds _labelSourceRecording) would otherwise grow as tall as a long
+		/// wrapped label needs, squeezing the Percent row below it (the Listen/Speak buttons).
+		/// Capping height to kMaxSourceRecordingLabelLines of the current font -- recomputed on
+		/// load and every scale change -- bounds that growth; overflow is clipped instead.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ResizeSourceRecordingLabelForCurrentTextScale()
+		{
+			_labelSourceRecording.MaximumSize = new Size(_labelListenButton.Width,
+				_labelSourceRecording.Font.Height * kMaxSourceRecordingLabelLines);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -398,20 +457,25 @@ namespace SayMore.Transcription.UI
 		{
 			ResizeListenAndRecordButtonsForCurrentTextScale();
 			ResizeHintLabelsRowForCurrentTextScale();
+			ResizeSourceRecordingLabelForCurrentTextScale();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleResizeForHintLabels(object sender, EventArgs e)
+		{
+			if (_moreReliableDesignMode)
+				return;
+
+			ResizeHintLabelsRowForCurrentTextScale();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// _labelListenButton and _labelRecordButton each show an icon (ImageAlign TopCenter)
-		/// with its label text below it (TextAlign BottomCenter), inside a Label whose own
-		/// Height is a fixed Designer value. The icon is a raster image -- including the
-		/// shadow drawn into the bottom of its artwork -- that keeps its native pixel size
-		/// regardless of UI text scale, so growing the label's Font without also growing its
-		/// Height only leaves the same, unscaled sliver of room below the icon for
-		/// now-larger text, letting that text climb up into the icon's shadow. Resizing the
-		/// label by the same scale factor applied to its Font keeps the ratio between the
-		/// icon and its text's vertical space the same as it is at 100%, so the two stay
-		/// just as clear of each other at every scale.
+		/// _labelListenButton/_labelRecordButton show a fixed-size icon above text, inside a
+		/// Label whose own Height is a Designer-fixed value. Growing the Font without also
+		/// growing Height leaves the same unscaled sliver of room for now-larger text, letting
+		/// it climb into the icon. Scaling Height by the same factor as the Font keeps that
+		/// ratio constant at every scale.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void ResizeListenAndRecordButtonsForCurrentTextScale()
@@ -427,27 +491,112 @@ namespace SayMore.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// _labelListenHint/_labelRecordHint/_labelErrorInfo share three equal Percent rows in
-		/// _tableLayoutButtons (only one or two are ever visible at a time, toggled via each
-		/// row's own Height percentage), and _tableLayoutButtons' own total Height is a fixed
-		/// value set once in InitializeTableLayoutButtonControls -- so a Percent row's actual
-		/// pixel height stays fixed regardless of UI text scale, clipping a scaled-up hint
-		/// label's text. Sized for the tallest of the three at the current font, so whichever
-		/// one is currently showing always has enough room, even at 100% of a row's own share.
+		/// _labelListenHint/_labelRecordHint/_labelErrorInfo are AutoSize, Anchor=Left labels
+		/// that would otherwise grow to their full unwrapped width, overflowing
+		/// _tableLayoutButtons' column. ResizeHintLabelsRowForCurrentTextScale caps each one's
+		/// MaximumSize to this column's real width and to kMaxHintLabelLines of the current
+		/// font, so none of them is ever assigned more height than that many lines need.
+		///
+		/// At very narrow widths, where a hint's text would need more than kMaxHintLabelLines
+		/// lines to show in full, the row/Form sizing below doesn't necessarily keep up --
+		/// known, accepted edge case; not fully root-caused.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		private const int kMaxHintLabelLines = 3;
+
 		private void ResizeHintLabelsRowForCurrentTextScale()
 		{
-			_tableLayoutButtons.Height = GetRequiredTableLayoutButtonsHeight(
-				new[] { _labelListenHint, _labelRecordHint, _labelErrorInfo },
-				_videoHelpMenuStrip.Height, _unscaledTableLayoutButtonsHeight);
+			// Re-entrancy guard: changing ClientSize.Height below raises this form's own
+			// Resize event, which a future Resize subscription (matching
+			// SessionRecorderDlg's pattern) could wire back to this same method.
+			if (_resizingTableLayoutButtonsForTextScale)
+				return;
+
+			_resizingTableLayoutButtonsForTextScale = true;
+			try
+			{
+				var hintLabels = new[] { _labelListenHint, _labelRecordHint, _labelErrorInfo };
+
+				var columnWidth = _tableLayoutButtons.GetColumnWidths()
+					.Skip(_tableLayoutButtons.GetColumn(_labelListenHint))
+					.Take(_tableLayoutButtons.GetColumnSpan(_labelListenHint))
+					.Sum();
+
+				// Font.Height * kMaxHintLabelLines under-measures a real wrapped label's height
+				// by a few pixels, and WordBreak drops a line that doesn't fully fit rather than
+				// clipping it -- so a throwaway Label is measured instead, via the same
+				// GetPreferredSize code path the real hint labels use.
+				int maxHeight;
+				using (var measuringLabel = new Label { AutoSize = true, Font = _labelListenHint.Font })
+				{
+					var singleLineHeight = hintLabels.Max(label =>
+					{
+						measuringLabel.Text = label.Text;
+						return measuringLabel.GetPreferredSize(Size.Empty).Height;
+					});
+					maxHeight = singleLineHeight * kMaxHintLabelLines;
+				}
+				var constrainedSize = new Size(columnWidth, maxHeight);
+
+				foreach (var label in hintLabels)
+				{
+					label.MaximumSize = constrainedSize;
+
+					// MaximumSize caps how wide the label CAN get, but TableLayoutPanel can
+					// still assign it a narrower actual Width, causing more wrapping than
+					// constrainedSize accounted for. Pinning MinimumSize.Width to the same
+					// value fixes the width exactly; Height stays free up to MaximumSize.Height.
+					label.MinimumSize = new Size(constrainedSize.Width, 0);
+				}
+
+				// No one particular control in row 3 can be assumed to dictate the row height at
+				// all scale values.
+				var row3Height = _tableLayoutButtons.Controls.Cast<Control>()
+					.Where(c => _tableLayoutButtons.GetRow(c) == kNumberOfRows - 1)
+					.Max(c => c.Height + c.Margin.Vertical);
+
+				var neededTableLayoutButtonsHeight = GetRequiredTableLayoutButtonsHeight(
+					hintLabels, constrainedSize, row3Height, _unscaledTableLayoutButtonsHeight);
+
+				var growth = Math.Max(0,
+					neededTableLayoutButtonsHeight - _unscaledTableLayoutButtonsHeight);
+				var targetClientHeight = _designTimeClientHeight + growth;
+				var minimumHeight = _designTimeMinimumHeight + growth;
+				if (MinimumSize.Height != minimumHeight)
+					MinimumSize = new Size(MinimumSize.Width, minimumHeight);
+
+				var currentClientHeight = ClientSize.Height;
+				if (currentClientHeight < targetClientHeight ||
+					(currentClientHeight > targetClientHeight &&
+						currentClientHeight == _lastContentDrivenClientHeight))
+				{
+					ClientSize = new Size(ClientSize.Width, targetClientHeight);
+					_lastContentDrivenClientHeight = targetClientHeight;
+				}
+
+				_tableLayoutButtons.Height = neededTableLayoutButtonsHeight;
+			}
+			finally
+			{
+				_resizingTableLayoutButtonsForTextScale = false;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Uses GetPreferredSize rather than each label's current Height, since a Percent-type
+		/// cell can clamp an AutoSize child below what it actually wants -- reading .Height
+		/// here would be circular, reflecting the very constraint this method decides is too
+		/// small. Margin.Vertical is added explicitly because GetPreferredSize reports only
+		/// the label's own content size, not the space TableLayoutPanel reserves around it for
+		/// Margin (the same reason row3Height above adds the buttons' own Margin.Vertical).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		internal static int GetRequiredTableLayoutButtonsHeight(IReadOnlyList<Label> hintLabels,
-			int videoHelpHeight, int unscaledHeight)
+			Size constrainedSize, int videoHelpHeight, int unscaledHeight)
 		{
-			var tallestHint = hintLabels.Max(label => label.GetPreferredSize(Size.Empty).Height);
+			var tallestHint = hintLabels.Max(label =>
+				label.GetPreferredSize(constrainedSize).Height + label.Margin.Vertical);
 			return Math.Max(unscaledHeight, tallestHint + videoHelpHeight);
 		}
 
@@ -486,6 +635,12 @@ namespace SayMore.Transcription.UI
 			_tableLayoutButtons.Controls.Add(_labelErrorInfo, 1, 0);
 			_tableLayoutButtons.Controls.Add(_labelListenHint, 1, 1);
 			_tableLayoutButtons.Controls.Add(_labelRecordHint, 1, 2);
+
+			// Columns 2/3 (_buttonOK/_buttonCancel's columns) hold nothing in the hint/error label
+			// rows, so it is safe to span into them.
+			_tableLayoutButtons.SetColumnSpan(_labelErrorInfo, 3);
+			_tableLayoutButtons.SetColumnSpan(_labelListenHint, 3);
+			_tableLayoutButtons.SetColumnSpan(_labelRecordHint, 3);
 
 			_tableLayoutButtons.ColumnStyles[0].SizeType = SizeType.AutoSize;
 			_tableLayoutButtons.ColumnStyles[1].SizeType = SizeType.Percent;

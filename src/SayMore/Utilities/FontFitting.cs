@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -58,6 +59,48 @@ namespace SayMore.Utilities
 			}
 
 			return best ?? baseFont;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Shrinks button's font to the largest size that fits its own current ClientSize
+		/// (minus the given margin), if the font ScaleUIFont already assigned doesn't fit.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void ShrinkButtonFontToFit(Button button, int desiredScalePercent, 
+			int margin = 8)
+		{
+			var maxBounds = new Size(
+				Math.Max(0, button.ClientSize.Width - margin),
+				Math.Max(0, button.ClientSize.Height - margin));
+
+			button.Font = GetLargestFontThatFits(button.Text,
+				UITextScaler.GetOriginalFont(button), desiredScalePercent, maxBounds);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Recursively finds every Button under root and shrinks its font to fit if the font a
+		/// generic scaling pass already assigned overruns the button's own ClientSize (minus the
+		/// given margin). This is intended primarily for use with controls we don't control (e.g.
+		/// a Form from a third-party package). Applying GetLargestFontThatFits to every Button 
+		/// costs nothing extra for any whose box already fits its scaled font (the binary search's
+		/// first candidate is the full requested scale, so a Button that already fits is a same-
+		/// font no-op), and the sweep self-heals automatically if a Button that once needed
+		/// shrinking no longer does.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void ShrinkOversizedButtonsToFit(Control root, int desiredScalePercent,
+			int margin = 8)
+		{
+			foreach (Control child in root.Controls)
+			{
+				if (child is Button button)
+					ShrinkButtonFontToFit(button, desiredScalePercent, margin);
+
+				if (child.Controls.Count > 0)
+					ShrinkOversizedButtonsToFit(child, desiredScalePercent, margin);
+			}
 		}
 	}
 }

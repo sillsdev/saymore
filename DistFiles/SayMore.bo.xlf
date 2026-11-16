@@ -2759,7 +2759,7 @@
       </trans-unit>
       <trans-unit id="DialogBoxes.SplashScreen.VersionInfoLabel">
         <source xml:lang="en">Version {0}.{1}.{2} {3}    Built on {4}</source>
-        <target xml:lang="bo">ཐོན་རིམ་{0}。{1}.{2} {3} འདིའི་ཐོག་{4}</target>
+        <target xml:lang="bo">ཐོན་རིམ་ཐོན་རིམ་{0}.{1}.{2} {3}    བཟོས་པའི་ཚེས་གྲངས་ {4}</target>
         <note>ID: DialogBoxes.SplashScreen.VersionInfoLabel</note>
       </trans-unit>
       <trans-unit id="DialogBoxes.Transcription.CarefulSpeechRecorderDlg.WindowTitle">

@@ -1058,10 +1058,27 @@ namespace SayMoreTests.Transcription.UI
 		public void GetButtonRectangleForSegment_SingleButtonTooWide_EmptyRectangle(
 			int buttonWidth, int buttonHeight, int bottomMargin)
 		{
-			// Note: Current design should prevent this.
-			var rect = new Rectangle(0, 0, buttonWidth + SegmenterDlgBase.kMinimalHorizontalMargin * 2 - 1, buttonHeight + bottomMargin);
+			// Note: Current design should prevent this. The deficit here (beyond the 20% the
+			// button is allowed to shrink by) ensures this is still too narrow even after
+			// GetButtonRectangleForSegment tries shrinking the button to fit.
+			var rect = new Rectangle(0, 0, buttonWidth + SegmenterDlgBase.kMinimalHorizontalMargin * 2 - (int)(buttonWidth * 0.2) - 1, buttonHeight + bottomMargin);
 			Assert.AreEqual(Rectangle.Empty,
 				SegmenterDlgBase.GetButtonRectangleForSegment(rect, bottomMargin, new[] {new Size(buttonWidth, buttonHeight)}, 1000, 0));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[TestCase(32, 36, 6)]
+		[TestCase(20, 44, 8)]
+		public void GetButtonRectangleForSegment_SingleButtonSlightlyTooWide_ShrunkToFit(
+			int buttonWidth, int buttonHeight, int bottomMargin)
+		{
+			// One pixel narrower than the minimal-margins width, but well within the 20%
+			// shrink allowance, so the button should shrink rather than disappear.
+			var rect = new Rectangle(0, 0, buttonWidth + SegmenterDlgBase.kMinimalHorizontalMargin * 2 - 1, buttonHeight + bottomMargin);
+			var result = SegmenterDlgBase.GetButtonRectangleForSegment(rect, bottomMargin, new[] {new Size(buttonWidth, buttonHeight)}, 1000, 0);
+			Assert.AreNotEqual(Rectangle.Empty, result);
+			Assert.Less(result.Width, buttonWidth);
+			Assert.Less(result.Height, buttonHeight);
 		}
 
 		// Note: We could add tests for various cases where the (combined) button height(s) are too

@@ -291,11 +291,35 @@ namespace SayMore.Transcription.UI
 		{
 			Debug.Assert(buttonSizes.Count == 1 || indexOfFirstRightAlignedButton < buttonSizes.Count);
 
+			if (rcSegment.IsEmpty)
+				return Rectangle.Empty;
+
 			var btnWidth = buttonSizes[index].Width;
 			var btnHeight = buttonSizes[index].Height;
 
-			if (rcSegment.IsEmpty || btnWidth + (kMinimalHorizontalMargin * 2) > rcSegment.Width)
-				return Rectangle.Empty; // No way to fit the button, even with minimal margins
+			// REVIEW: Shrinking the button icon below its native size renders it from a
+			// fixed-size bitmap resource, so it comes out softer than at native size. This is
+			// a deliberate (and currently the only) exception to that rule in the app, accepted
+			// here because the alternative is no button at all on a short trailing segment.
+			// TODO (SP-118): Generate dedicated smaller PNG variants of the affected icons
+			// (ListenToSegmentsAnnotation, RecordOralAnnotation, RerecordOralAnnoation; SVG
+			// sources are in artwork/) so this case renders crisply instead of stretching the
+			// full-size bitmap down.
+			var testWidth = btnWidth + (kMinimalHorizontalMargin * 2);
+			if (testWidth > rcSegment.Width)
+			{
+				// Try shrinking the button to fit the space available.
+				var diffX = testWidth - rcSegment.Width;
+
+				// Only allow a 20% reduction in size.
+				if (diffX / (float)btnWidth > 0.2)
+					return Rectangle.Empty; // No way to fit the button, even with minimal margins
+
+				// Reduce the height by the same percentage.
+				var diffY = (int)Math.Ceiling(diffX * (float)btnHeight / btnWidth);
+				btnWidth -= diffX;
+				btnHeight -= diffY;
+			}
 
 			// Set the default top
 			var buttonRectangleTop = rcSegment.Bottom - bottomMargin - btnHeight;

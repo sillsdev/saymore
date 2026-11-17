@@ -501,6 +501,22 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Returns true if the given field's searchable text matches the query, for use by
+		/// IsMatch. The default just checks the field's raw stored value. Overridden by
+		/// subclasses where a field's stored value differs from what the user sees and is likely
+		/// to search for (e.g., session genre, which is stored as an untranslated ID but displayed
+		/// as a localized name) - such overrides may also call the base implementation and 
+		/// consider the result in addition to checking the localized/surface form.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool MatchesField(FieldInstance field, string query)
+		{
+			return (field.Value?.ToString() ?? string.Empty)
+				.IndexOf(query, OrdinalIgnoreCase) >= 0;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Returns true if this file's metadata matches the given search query. Overridden by
 		/// subclasses whose content isn't represented in MetaDataFieldValues (e.g., annotation
 		/// text) or that shouldn't be searched at all (e.g., auto-generated oral annotation
@@ -526,7 +542,7 @@ namespace SayMore.Model.Files
 			// InvalidOperationException ("Collection was modified") in that narrow window.
 			return MetaDataFieldValues.ToArray().Any(field =>
 				searchableFieldIds.Contains(field.FieldId) &&
-				(field.Value?.ToString() ?? string.Empty).IndexOf(query, OrdinalIgnoreCase) >= 0) ||
+				MatchesField(field, query)) ||
 				(FileType is FileTypeWithContributors && ContainsContributorNotes(query));
 		}
 

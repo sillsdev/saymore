@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -98,6 +99,88 @@ namespace SayMoreTests.Model
 			var search = new TestableMetadataSearch(new[] { nonMatchingSession1, nonMatchingSession2 });
 
 			var results = search.SearchSessions("needle").ToList();
+
+			Assert.That(results, Is.Empty);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>Creates a minimal, file-backed DummySession whose metadata includes the
+		/// given (untranslated) genre ID.</summary>
+		/// ------------------------------------------------------------------------------------
+		private DummySession CreateSessionWithGenre(string sessionName, string genreId)
+		{
+			var session = CreateSessionWithMatchingField(sessionName, SessionFileType.kGenreFieldName, genreId);
+
+			// GetSearchableFieldIds only treats genre as searchable when FileType is a
+			// SessionFileType, but the mocked meta file (built via ProjectElementComponentFile's
+			// "for mocking only" parameterless constructor) never gets one. ComponentFile.FileType
+			// has a protected setter, so reflection is needed to poke a real SessionFileType into
+			// the mock from here.
+			typeof(ComponentFile).GetProperty(nameof(ComponentFile.FileType))
+				?.GetSetMethod(true)
+				?.Invoke(session.MetaFile.Object, new object[]
+				{
+					new SessionFileType(new Lazy<Func<SessionBasicEditor.Factory>>(() => null),
+						new Lazy<Func<StatusAndStagesEditor.Factory>>(() => null),
+						new Lazy<Func<ContributorsEditor.Factory>>(() => null))
+				});
+
+			return session;
+		}
+
+		[Test]
+		public void SearchSessions_QueryMatchesDisplayedGenreName_ReturnsSessionId()
+		{
+			LocalizationManager.StrictInitializationMode = false;
+			var matchingSession = CreateSessionWithGenre("Zeta", "language_play");
+			var nonMatchingSession = CreateSessionWithGenre("Eta", "singing");
+
+			var search = new TestableMetadataSearch(new[] { matchingSession, nonMatchingSession });
+
+			var results = search.SearchSessions("Language Play").ToList();
+
+			Assert.That(results, Is.EquivalentTo(new[] { matchingSession.Id }));
+		}
+
+		[Test]
+		public void SearchSessions_QueryMatchesStoredGenreId_ReturnsSessionId()
+		{
+			var matchingSession = CreateSessionWithGenre("Theta", "language_play");
+			var nonMatchingSession = CreateSessionWithGenre("Iota", "singing");
+
+			var search = new TestableMetadataSearch(new[] { matchingSession, nonMatchingSession });
+
+			var results = search.SearchSessions("language_play").ToList();
+
+			Assert.That(results, Is.EquivalentTo(new[] { matchingSession.Id }));
+		}
+
+		[Test]
+		public void SearchSessions_QueryMatchesUnrelatedGenresDisplayedName_ReturnsEmpty()
+		{
+			LocalizationManager.StrictInitializationMode = false;
+			var nonMatchingSession = CreateSessionWithGenre("Kappa", "narrative");
+
+			var search = new TestableMetadataSearch(new[] { nonMatchingSession });
+
+			// "Oratory" is a different genre's displayed name - unrelated to "narrative"'s
+			// stored ID or its own displayed name ("Narrative").
+			var results = search.SearchSessions("Oratory").ToList();
+
+			Assert.That(results, Is.Empty);
+		}
+
+		[Test]
+		public void SearchSessions_QuerySpansBoundaryBetweenGenreIdAndDisplayedName_ReturnsEmpty()
+		{
+			LocalizationManager.StrictInitializationMode = false;
+			var nonMatchingSession = CreateSessionWithGenre("Lambda", "language_play");
+
+			var search = new TestableMetadataSearch(new[] { nonMatchingSession });
+
+			// Neither the stored ID ("language_play") nor the displayed name ("Language Play")
+			// contains "lay Lang" - it only appears if the two are concatenated together.
+			var results = search.SearchSessions("lay Lang").ToList();
 
 			Assert.That(results, Is.Empty);
 		}

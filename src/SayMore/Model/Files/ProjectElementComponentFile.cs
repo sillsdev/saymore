@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SayMore.Model.Fields;
+using static System.StringComparison;
 
 namespace SayMore.Model.Files
 {
@@ -198,6 +199,27 @@ namespace SayMore.Model.Files
 				? new HashSet<string>(sessionFileSearchableTags.Union(GetCustomFieldIds()),
 					StringComparer.OrdinalIgnoreCase)
 				: base.GetSearchableFieldIds();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Session genre is stored as an untranslated genre ID (e.g., "language_play") but
+		/// displayed to the user as the localized genre name (e.g., "Language Play" or its
+		/// translation). Match against both, as two independent checks, so a search for either
+		/// the stored ID or the displayed name finds it.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool MatchesField(FieldInstance field, string query)
+		{
+			if (base.MatchesField(field, query))
+				return true;
+
+			if (field.FieldId != SessionFileType.kGenreFieldName)
+				return false;
+
+			var id = field.Value?.ToString();
+			return id != null &&
+				GenreDefinition.TranslateIdToName(id).IndexOf(query, OrdinalIgnoreCase) >= 0;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Guidance for Claude Code when working in this repository.
+Guidance for Claude Code when working in this repository. See `Agents.md` for general build/test/style/PR conventions that apply to any coding agent; this file covers Claude-Code-specific gotchas only, and doesn't duplicate what's there.
 
 ## `docs/` is a git submodule
 

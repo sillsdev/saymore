@@ -78,7 +78,6 @@ namespace SayMore.UI.LowLevelControls
 			this._textBoxPrompt.Dock = System.Windows.Forms.DockStyle.Top;
 			this._textBoxPrompt.Location = new System.Drawing.Point(5, 5);
 			this._textBoxPrompt.Name = "_textBoxPrompt";
-			this._textBoxPrompt.PromptText = "Put Prompt Here";
 			this._textBoxPrompt.Size = new System.Drawing.Size(149, 20);
 			this._textBoxPrompt.TabIndex = 0;
 			// 

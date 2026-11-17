@@ -236,6 +236,19 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Returns true if this session matches the given search query, i.e., if any of its
+		/// component files (its own metadata file, its media files, or their annotation files)
+		/// reports a match. Each file type knows how to match itself; this session doesn't need
+		/// to know the details.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual bool IsMatch(string query)
+		{
+			return GetComponentFiles().Any(f => f.IsMatch(query));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// We get this message from the person informant when a person's name has changed.
 		/// When that happens, we need to make sure we update the participant field in case
 		/// it contains a name that changed.
@@ -357,6 +370,8 @@ namespace SayMore.Model
 
 				var role = GetRoleFromOlacList(GetValueFromXmlString(testString, "role"));
 				var date = ParseDate(GetValueFromXmlString(testString, "date"));
+				// This "notes" is the legacy XML tag for a contribution's comments (see
+				// ContributionSerializer); it's unrelated to FileType.kNotesFieldName.
 				var note = GetValueFromXmlString(testString, "notes");
 
 				yield return new SessionContribution(this, fileName,

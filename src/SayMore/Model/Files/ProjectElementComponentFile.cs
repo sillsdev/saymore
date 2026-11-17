@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SayMore.Model.Fields;
+using static System.StringComparison;
 
 namespace SayMore.Model.Files
 {
@@ -149,8 +150,88 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<FieldInstance> GetCustomFields()
 		{
-			return MetaDataFieldValues.Where(
+			// ToArray() snapshots the list eagerly, right here, rather than deferring the
+			// enumeration to whenever a caller iterates the returned IEnumerable. This method
+			// is public, so any caller enumerating it concurrently with the UI thread adding a
+			// field to this same list could otherwise hit an InvalidOperationException
+			// ("Collection was modified").
+			return MetaDataFieldValues.ToArray().Where(
 				val => val.FieldId.StartsWith(XmlFileSerializer.kCustomFieldIdPrefix));
+		}
+
+		// The metadata fields (besides any custom fields) that are worth searching for a
+		// session's own metadata file.
+		private static readonly HashSet<string> sessionFileSearchableTags = new HashSet<string>
+		{
+			SessionFileType.kGenreFieldName,
+			SessionFileType.kTitleFieldName,
+			SessionFileType.kSettingFieldName,
+			SessionFileType.kParticipantsFieldName,
+			SessionFileType.kSituationFieldName,
+			SessionFileType.kSynopsisFieldName,
+			SessionFileType.kLocationFieldName,
+			SessionFileType.kAccessFieldName,
+			FileType.kNotesFieldName,
+			SessionFileType.kCountryFieldName,
+			SessionFileType.kContinentFieldName,
+			SessionFileType.kRegionFieldName,
+			SessionFileType.kAddressFieldName,
+			SessionFileType.kSubGenreFieldName,
+			SessionFileType.kInteractivityFieldName,
+			SessionFileType.kPlanningTypeFieldName,
+			SessionFileType.kInvolvementFieldName,
+			SessionFileType.kSocialContextFieldName,
+			SessionFileType.kTaskFieldName
+		};
+
+		/// ------------------------------------------------------------------------------------
+		protected override HashSet<string> GetCustomFieldIds()
+		{
+			return new HashSet<string>(GetCustomFields()
+				.Select(f => f.FieldId)
+				.Where(id => !string.IsNullOrEmpty(id)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override HashSet<string> GetSearchableFieldIds()
+		{
+			return FileType is SessionFileType
+				? new HashSet<string>(sessionFileSearchableTags.Union(GetCustomFieldIds()),
+					StringComparer.OrdinalIgnoreCase)
+				: base.GetSearchableFieldIds();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Session genre is stored as an untranslated genre ID (e.g., "language_play") but
+		/// displayed to the user as the localized genre name (e.g., "Language Play" or its
+		/// translation). Match against both, as two independent checks, so a search for either
+		/// the stored ID or the displayed name finds it.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool MatchesField(FieldInstance field, string query)
+		{
+			if (base.MatchesField(field, query))
+				return true;
+
+			if (field.FieldId != SessionFileType.kGenreFieldName)
+				return false;
+
+			var id = field.Value?.ToString();
+			return id != null &&
+				GenreDefinition.TranslateIdToName(id).IndexOf(query, OrdinalIgnoreCase) >= 0;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// A session's own metadata file also matches if the query is found among its
+		/// contributors' notes, which aren't represented by a searchable field.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override bool IsMatch(string query)
+		{
+			return base.IsMatch(query) ||
+				(FileType is SessionFileType && ContainsContributorNotes(query));
 		}
 	}
 }

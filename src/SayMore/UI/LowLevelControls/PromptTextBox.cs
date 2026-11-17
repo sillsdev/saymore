@@ -63,24 +63,47 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[Browsable(true)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-		public string PromptText
+		/// <summary>
+		/// Supplies the prompt text, re-evaluated every time the prompt might be (re)shown,
+		/// so it reflects a UI language change made after this was set.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private Func<string> _getPromptText;
+
+		[Browsable(false)]
+		public Func<string> GetPromptText
 		{
-			get { return _labelPrompt.Text; }
+			get { return _getPromptText; }
 			set
 			{
-				_labelPrompt.Text = value;
+				_getPromptText = value;
 				ManagePromptDisplay();
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Re-evaluates whether the prompt should be shown right now (based on current text
+		/// and focus state) and refreshes its text from GetPromptText if set. Useful when
+		/// something outside the normal Enter/Leave/TextChanged path may have desynced the
+		/// prompt's visibility from whether this control is actually focused - e.g. a parent
+		/// container being disabled while this control had focus, which silently steals focus
+		/// away without raising Leave.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void RefreshPromptDisplay()
+		{
+			ManagePromptDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void ManagePromptDisplay()
 		{
-			var promptVisible = (Text.Length == 0 && !Focused && !string.IsNullOrEmpty(_labelPrompt.Text));
-			if (_labelPrompt.Visible != promptVisible)
-				_labelPrompt.Visible = promptVisible;
+			if (GetPromptText != null)
+				_labelPrompt.Text = GetPromptText();
+
+			_labelPrompt.Visible = Text.Length == 0 && !Focused &&
+				!string.IsNullOrEmpty(_labelPrompt.Text);
 		}
 	}
 }

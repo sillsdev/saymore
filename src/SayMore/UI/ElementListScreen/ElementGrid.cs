@@ -364,7 +364,10 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual object GetValueForField(ProjectElement element, string fieldName)
 		{
-			var value = element.MetaDataFile.GetStringValue(fieldName, string.Empty);
+			// MetaDataFile can be null (e.g., a disposed element); treat that the same as an
+			// empty value rather than throwing, consistent with how other model code already
+			// handles a null MetaDataFile (see Person.UiId, Session.GetShouldReportHaveConsent).
+			var value = element.MetaDataFile?.GetStringValue(fieldName, string.Empty) ?? string.Empty;
 
 			if (fieldName != SessionFileType.kDateFieldName || string.IsNullOrEmpty(value))
 				return value;

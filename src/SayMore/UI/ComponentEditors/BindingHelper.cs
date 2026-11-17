@@ -337,10 +337,10 @@ namespace SayMore.UI.ComponentEditors
 			{
 				if (error is AmbiguousDateException)
 				{
-					var notesField = ComponentFile.MetaDataFieldValues.FirstOrDefault(f => f.FieldId == "notes");
+					var notesField = ComponentFile.MetaDataFieldValues.FirstOrDefault(f => f.FieldId == FileType.kNotesFieldName);
 					if (notesField == null)
 					{
-						notesField = new FieldInstance("notes", "");
+						notesField = new FieldInstance(FileType.kNotesFieldName, "");
 						ComponentFile.MetaDataFieldValues.Add(notesField);
 					}
 

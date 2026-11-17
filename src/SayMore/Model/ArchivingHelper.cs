@@ -278,7 +278,7 @@ namespace SayMore.Model
 			imdiSession.SocialContext = GetFieldValue(sessionFile, "additional_Social_Context");
 			imdiSession.Task = GetFieldValue(sessionFile, "additional_Task");
 
-			imdiSession.AddContentDescription(new LanguageString { Value = GetFieldValue(sessionFile, "notes"), Iso3LanguageId = analysisLanguage });
+			imdiSession.AddContentDescription(new LanguageString { Value = GetFieldValue(sessionFile, FileType.kNotesFieldName), Iso3LanguageId = analysisLanguage });
 
 			// custom session fields (the custom prefix is used internally)
 			foreach (var item in sayMoreSession.MetaDataFile.GetCustomFields())
@@ -365,7 +365,7 @@ namespace SayMore.Model
 
 				// Description (notes)
 				var notes = (from metaDataFieldValue in person.MetaDataFile.MetaDataFieldValues
-					where metaDataFieldValue.FieldId == "notes"
+					where metaDataFieldValue.FieldId == FileType.kNotesFieldName
 					select metaDataFieldValue.ValueAsString).FirstOrDefault();
 				if (!IsNullOrEmpty(notes))
 					imdiSession.AddActorDescription(actor, new LanguageString {Value = notes, Iso3LanguageId = analysisLanguage});
@@ -396,7 +396,7 @@ namespace SayMore.Model
 				if (info == null)
 					continue;
 				var notes = (from infoValue in info.MetaDataFieldValues
-					where infoValue.FieldId == "notes"
+					where infoValue.FieldId == FileType.kNotesFieldName
 					select infoValue.ValueAsString).FirstOrDefault();
 				if (!IsNullOrEmpty(notes))
 					imdiSession.AddFileDescription(file, new LanguageString { Value = notes, Iso3LanguageId = analysisLanguage });

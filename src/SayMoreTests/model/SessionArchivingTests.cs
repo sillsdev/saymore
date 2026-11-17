@@ -497,7 +497,7 @@ namespace SayMoreTests.Utilities
 		public void AddIMDISession_AddNotes_AddContentDescription()
 		{
 			const string sampleNote = "Recording was made externally";
-			_session.MetaFile.Setup(f => f.GetStringValue("notes", It.IsAny<string>())).Returns(sampleNote);
+			_session.MetaFile.Setup(f => f.GetStringValue(FileType.kNotesFieldName, It.IsAny<string>())).Returns(sampleNote);
 			var model = AddIMDISessionTestSetup();
 			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object)
 				as SIL.Archiving.IMDI.Schema.Session;
@@ -550,7 +550,7 @@ namespace SayMoreTests.Utilities
 		public void AddIMDISession_PersonNotes_AddPersonDescription()
 		{
 			const string sampleValue = "I met him in college";
-			_personMetaFile.Object.MetaDataFieldValues.Add(new FieldInstance("notes", sampleValue));
+			_personMetaFile.Object.MetaDataFieldValues.Add(new FieldInstance(FileType.kNotesFieldName, sampleValue));
 			var model = AddIMDISessionTestSetup();
 			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object) 
 				as SIL.Archiving.IMDI.Schema.Session;
@@ -565,7 +565,7 @@ namespace SayMoreTests.Utilities
 		{
 			const string sampleNote = "A personal history";
 			var sourceMediaFile1 = IMDIMediaFileSetup();
-			sourceMediaFile1.Object.MetaDataFieldValues.Add(new FieldInstance("notes", sampleNote));
+			sourceMediaFile1.Object.MetaDataFieldValues.Add(new FieldInstance(FileType.kNotesFieldName, sampleNote));
 			var model = AddIMDISessionTestSetup(sourceMediaFile1.Object);
 			var imdiSession = ArchivingHelper.AddIMDISession(_session, model.Object) 
 				as SIL.Archiving.IMDI.Schema.Session;

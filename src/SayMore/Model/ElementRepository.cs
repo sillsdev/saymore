@@ -179,7 +179,7 @@ namespace SayMore.Model
 		public virtual string PathToFolder => _rootFolder;
 
 		/// ------------------------------------------------------------------------------------
-		public FileType ElementFileType { get; }
+		public virtual FileType ElementFileType { get; }
 
 		/// ------------------------------------------------------------------------------------
 		public T CreateNew(string id)

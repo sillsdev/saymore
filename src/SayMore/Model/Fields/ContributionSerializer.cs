@@ -18,6 +18,9 @@ namespace SayMore.Model.Fields
 	/// ----------------------------------------------------------------------------------------
 	public class ContributionSerializer : FieldSerializer
 	{
+		// This is this serialization format's XML element name for a
+		// contribution's comments; it's unrelated to FileType.kNotesFieldName.
+		private const string kNotesElementName = "notes";
 		private readonly OlacSystem _olacSystem = new OlacSystem();
 
 		/// ------------------------------------------------------------------------------------
@@ -52,7 +55,7 @@ namespace SayMore.Model.Fields
 					contrib.Date = DateTime.MinValue;
 					// looked like it would take hours to change scores of methods to propagate a progress thing (e.g. ErrorCollector) down this far. Sigh...  progress.WriteError("SayMore had trouble understanding the date '{0}', on a contribution by {1}. For now, it was replaced by {2}", d, contrib.ContributorName, contrib.Date.ToString(CultureInfo.CurrentCulture));
 				}
-				contrib.Comments = e.Element("notes")?.Value;
+				contrib.Comments = e.Element(kNotesElementName)?.Value;
 				return contrib;
 			}).ToArray();
 
@@ -77,7 +80,7 @@ namespace SayMore.Model.Fields
 					e.Add(new XElement("name", c.ContributorName));
 					e.Add(new XElement("role", c.Role.Code));
 					e.Add(new XElement("date", c.Date.ToISO8601TimeFormatDateOnlyString()));
-					e.Add(new XElement("notes", c.Comments));
+					e.Add(new XElement(kNotesElementName, c.Comments));
 					element.Add(e);
 				}
 

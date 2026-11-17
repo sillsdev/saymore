@@ -120,19 +120,54 @@
   <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <metadata name="_outerPanel.LocalizingId" xml:space="preserve">
+    <value>ListPanel._outerPanel</value>
+  </metadata>
+  <metadata name="_outerPanel.LocalizableToolTip" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </metadata>
+  <metadata name="_outerPanel.LocalizationComment" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </metadata>
+  <metadata name="_headerLabel.LocalizingId" xml:space="preserve">
+    <value>ListPanel._headerLabel</value>
+  </metadata>
+  <metadata name="_headerLabel.LocalizableToolTip" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </metadata>
+  <metadata name="_headerLabel.LocalizationComment" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="_buttonColChooser.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAACwwAAAsMAT9AIsgAAAAGYktHRAD/AP8A/6C9p5MAAAAHdElNRQfaDA8VGwEmPvIp
-        AAAAGXRFWHRDb21tZW50AENyZWF0ZWQgd2l0aCBHSU1QV4EOFwAAAXVJREFUOE+lkt9KwmAYxr0PL0O6
-        iO7Bsy6jow4666SgYEl/SESLwNJEMXNiiWWOCkukTBEqkQr7p67N7WnvbOv7nFjQwbPxfOz9Pe/3MBeA
-        f8l8ZKQ6UoUqEvlrRLNl7KRLCCUkBGKn8EfyWAvnsLKdxfKmCCGYwlIgaYwxALFYg67rtmZ9CYfvyhra
-        H3002yomJqd4QOrkFvP+JOZW45hZ3MX0QnSsdwBo9eFEemuaDlnRTN96UdF4VFC5/3QC9g7LHIASWQD5
-        sYCwURoLoERF1fDe0/D01jf9TVNBqSGjUO05AaG4xAEokQWQHwsIxAr2sNofbGA1XmspppdqMnKVHtKX
-        XSdgI3LMASiRBZAfAggcYD18ZBf22hnc2SrsvC6bPnPVxf5FB/GzDgG8HID+MhZAiQSgVX+TCfBtiXZh
-        d8+qmUiFJYvNkUOMPPYGLIA2sBqP5h9GDZI89hWE4MGoDywJhrxDZ3wHf5Ex5P4edv+cw/UFY2MK+Kin
-        IFYAAAAASUVORK5CYII=
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        DAAACwwBP0AiyAAAAAd0SU1FB9oMDxUbASY+8ikAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJ
+        TVBXgQ4XAAABb0lEQVQ4T6WS3UoCURSFfQ8fI3wI36E7H6OrLrrrpqBgkn5IRIvA0kQxU7HEMocKS6RM
+        ESqRCvtTpxlnVuxjDufMAQu6WDOsM+xvr7MYFwDXf8QeObWJdKmOZPEGsXwVu5kKwkkVwfgZAtEi1iMF
+        rO7ksbKVhRJKYzmYggDIlhuwLMvWnD8p+b5movs5RLtrwOP1iYD06R0WAinMryUwu7SHmcXYRC8BKLpz
+        I71N04Kmm8x3Xg20nnTUHr5kwP5RVQDQRh5AfiIgkqlICXTDxMfAxPP7kPnbto5KS0OpPpAB4YQqJeAB
+        5CcCgvGSPWwMRwnGjTc6OvNqQ0OhNkDmqi8DNqMnAoA28gDyDoAiADYix3Zhb73RnceFXTQ15nPXfRxc
+        9pA47xFgWgDQX8YDaCMBKOpvYgD/dtYu7P7FYBupsFS5LQ04NGUn4AGUYNx4rPjoHLKH7SsooUPnR14K
+        3dlxJnbwF3m8PvfPsJs//wZjYwr4kYhkSAAAAABJRU5ErkJggg==
 </value>
   </data>
+  <metadata name="$this.LocalizingId" xml:space="preserve">
+    <value>ListPanel.ListPanel</value>
+  </metadata>
+  <metadata name="$this.LocalizingId" xml:space="preserve">
+    <value>ListPanel.ListPanel</value>
+  </metadata>
+  <metadata name="$this.LocalizableToolTip" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </metadata>
+  <metadata name="$this.LocalizableToolTip" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </metadata>
+  <metadata name="$this.LocalizationComment" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </metadata>
+  <metadata name="$this.LocalizationComment" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </metadata>
 </root>

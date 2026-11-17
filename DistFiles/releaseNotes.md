@@ -2,6 +2,8 @@
 * SayMore is now a 64-bit application, so it will make better use of available memory and avoid out-of-memory errors.
 * SayMore now targets .Net Framework 4.8, which is the latest version supported on Windows 7 through Windows 11. It will not run on Windows versions earlier than 7.
 * Added ability (both in the installer and in a dialog inside SayMore) to opt out of sending analytics data to SIL.
+* Added session metadata searching for most data files except audio file custom fields and audio annotations.
+* Added search bar feature to the UI for the sessions tab
 
 ## 3.7.4 (30 July 2025)
 * Small improvement in the logic to guess at the correct initial writing system for translations when exporting FLEx Interlinear files (flextext).

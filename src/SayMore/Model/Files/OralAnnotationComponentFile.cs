@@ -40,6 +40,17 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This file's metadata is auto-generated (recording device, duration, etc.); none of
+		/// it is something a user would think to search for.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override bool IsMatch(string query)
+		{
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override bool CanBeRenamedForRole
 		{
 			get { return false; }

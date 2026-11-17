@@ -149,7 +149,12 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<FieldInstance> GetCustomFields()
 		{
-			return MetaDataFieldValues.Where(
+			// ToArray() snapshots the list eagerly, right here, rather than deferring the
+			// enumeration to whenever a caller iterates the returned IEnumerable. This method
+			// is public, so any caller enumerating it concurrently with the UI thread adding a
+			// field to this same list could otherwise hit an InvalidOperationException
+			// ("Collection was modified").
+			return MetaDataFieldValues.ToArray().Where(
 				val => val.FieldId.StartsWith(XmlFileSerializer.kCustomFieldIdPrefix));
 		}
 
@@ -190,7 +195,8 @@ namespace SayMore.Model.Files
 		protected override HashSet<string> GetSearchableFieldIds()
 		{
 			return FileType is SessionFileType
-				? new HashSet<string>(sessionFileSearchableTags.Union(GetCustomFieldIds()))
+				? new HashSet<string>(sessionFileSearchableTags.Union(GetCustomFieldIds()),
+					StringComparer.OrdinalIgnoreCase)
 				: base.GetSearchableFieldIds();
 		}
 

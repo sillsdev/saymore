@@ -29,7 +29,7 @@ namespace SayMore.UI.LowLevelControls
             this._headerControls = new System.Windows.Forms.TableLayoutPanel();
             this._searchPanel = new System.Windows.Forms.TableLayoutPanel();
             this._searchIcon = new System.Windows.Forms.PictureBox();
-            this._searchTextBox = new System.Windows.Forms.TextBox();
+            this._searchTextBox = new SayMore.UI.LowLevelControls.PromptTextBox();
             this._buttonColChooser = new SayMore.UI.LowLevelControls.ColumnChooserButton();
             ((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
             this._outerPanel.SuspendLayout();
@@ -124,7 +124,6 @@ namespace SayMore.UI.LowLevelControls
             this._headerLabel.MnemonicGeneratesClick = false;
             this._headerLabel.Name = "_headerLabel";
             this._headerLabel.PaintExplorerBarBackground = false;
-            this._headerLabel.ShowWindowBackgroudOnTopAndRightEdge = true;
             this._headerLabel.ShowWindowBackgroundOnTopAndRightEdge = true;
             this._headerLabel.Size = new System.Drawing.Size(403, 23);
             this._headerLabel.TabIndex = 0;
@@ -227,6 +226,10 @@ namespace SayMore.UI.LowLevelControls
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this._outerPanel);
             this.DoubleBuffered = true;
+            this.locExtender.SetLocalizableToolTip(this, null);
+            this.locExtender.SetLocalizationComment(this, null);
+            this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizingId(this, "ListPanel.ListPanel");
             this.MinimumSize = new System.Drawing.Size(125, 0);
             this.Name = "ListPanel";
             this.Size = new System.Drawing.Size(405, 317);
@@ -254,7 +257,7 @@ namespace SayMore.UI.LowLevelControls
 		public System.Windows.Forms.Button _buttonNew;
 		private System.Windows.Forms.FlowLayoutPanel _buttonsFlowLayoutPanel;
 		private ColumnChooserButton _buttonColChooser;
-		private System.Windows.Forms.TextBox _searchTextBox;
+		private PromptTextBox _searchTextBox;
 		private System.Windows.Forms.PictureBox _searchIcon;
 		private System.Windows.Forms.TableLayoutPanel _headerControls;
 		private System.Windows.Forms.TableLayoutPanel _searchPanel;

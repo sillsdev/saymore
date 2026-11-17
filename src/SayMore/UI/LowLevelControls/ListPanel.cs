@@ -20,8 +20,7 @@ namespace SayMore.UI.LowLevelControls
 		public event EventHandler NewButtonClicked;
 
 		/// <summary>
-		/// Raised when the user types in the search box and a search should be performed.
-		/// Only fired when there are three or more characters in the search box.
+		/// Raised when the text in the search box changes and a search should be performed.
 		/// </summary>
 		public event EventHandler SearchRequested;
 
@@ -40,37 +39,8 @@ namespace SayMore.UI.LowLevelControls
 		protected Control _listControl;
 		protected bool _showColumnChooserButton;
 
-		//private TextBox searchbox;
-
-		// Native cue banners (EM_SETCUEBANNER) don't expose a color, and the OS-chosen shade
-		// isn't reliably distinguishable from real typed text. Instead, the placeholder is
-		// plain text we swap in and out of _searchTextBox ourselves, in a color we control.
-		private static readonly Color PlaceholderForeColor = Color.FromArgb(128, 128, 128);
-
-		// Read fresh each time rather than cached, so a UI locale change made while the
-		// program is running is reflected the next time the placeholder is (re)shown.
 		private static string PlaceholderText => LocalizationManager.GetString(
 			"CommonToMultipleViews.ElementList.SearchBoxCueBanner", "Filter");
-
-		private bool IsShowingPlaceholder => _searchTextBox.ForeColor == PlaceholderForeColor;
-
-		private void ShowPlaceholderIfEmpty()
-		{
-			if (_searchTextBox.Text.Length == 0)
-			{
-				_searchTextBox.Text = PlaceholderText;
-				_searchTextBox.ForeColor = PlaceholderForeColor;
-			}
-		}
-
-		private void HidePlaceholder()
-		{
-			if (IsShowingPlaceholder)
-			{
-				_searchTextBox.Text = string.Empty;
-				_searchTextBox.ForeColor = SystemColors.WindowText;
-			}
-		}
 
 		/// ------------------------------------------------------------------------------------
 		public ListPanel()
@@ -93,26 +63,14 @@ namespace SayMore.UI.LowLevelControls
 			_headerLabel.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
 
 			_searchPanel.Visible = false;
-			_searchTextBox.KeyUp += HandleSearchTextBoxKeyUp;
+
+			_searchTextBox.TextChanged += HandleSearchTextBoxTextChanged;
 
 			_searchTimer = new System.Windows.Forms.Timer();
 			_searchTimer.Interval = 1500; // default 1.5 seconds; will be adjusted as needed
 			_searchTimer.Tick += HandleSearchTimerTick;
 
-			_searchTextBox.Enter += (sender, args) => HidePlaceholder();
-			_searchTextBox.Leave += (sender, args) => ShowPlaceholderIfEmpty();
-
-			// Switching tabs away from and back to this screen can tear down and recreate the
-			// search box's handle without ever raising Leave on it (e.g., if the tab switcher
-			// removes/re-adds the screen instead of just hiding it), which would otherwise leave
-			// the placeholder suppressed for good. Re-check whenever it becomes visible again.
-			_searchTextBox.VisibleChanged += (sender, args) =>
-			{
-				if (_searchTextBox.Visible)
-					ShowPlaceholderIfEmpty();
-			};
-
-			ShowPlaceholderIfEmpty();
+			_searchTextBox.GetPromptText = () => PlaceholderText;
 
 			_searchIcon.Click += (sender, args) => _searchTextBox.Focus();
 		}
@@ -314,10 +272,10 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// <summary>
-		/// Handle key input in the search box.
-		/// Internal so tests can simulate a keystroke directly.
+		/// Handle any change to the search box's text.
+		/// Internal so tests can simulate a text change directly.
 		/// </summary>
-		internal void HandleSearchTextBoxKeyUp(object sender, KeyEventArgs e)
+		internal void HandleSearchTextBoxTextChanged(object sender, EventArgs e)
 		{
 			var length = _searchTextBox.Text.Length;
 
@@ -361,20 +319,26 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// <summary>
-		/// Current text in the search box, or an empty string while it's showing the
-		/// "Filter" placeholder rather than something the user actually typed.
+		/// Current text in the search box (not the placeholder text).
 		/// </summary>
 		[Browsable(false)]
 		public string SearchText
 		{
-			get { return IsShowingPlaceholder ? string.Empty : _searchTextBox.Text; }
-			set
-			{
-				_searchTextBox.ForeColor = SystemColors.WindowText;
-				_searchTextBox.Text = value ?? string.Empty;
-				if (!_searchTextBox.Focused)
-					ShowPlaceholderIfEmpty();
-			}
+			get { return _searchTextBox.Text; }
+			set { _searchTextBox.Text = value ?? string.Empty; }
+		}
+
+		/// <summary>
+		/// If the search box is shown and doesn't currently have focus, makes sure its
+		/// placeholder prompt is displayed. Call this when reactivating a view: a parent
+		/// container being disabled while the search box had focus (see
+		/// ElementListScreen.ViewActivated/ViewDeactivated) silently steals focus away without
+		/// raising the normal Leave event that would otherwise show the prompt automatically.
+		/// </summary>
+		public void RefreshSearchPromptIfNeeded()
+		{
+			if (ShowSearchBar && !_searchTextBox.Focused)
+				_searchTextBox.RefreshPromptDisplay();
 		}
 
 	}

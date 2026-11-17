@@ -421,7 +421,13 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual object GetValue(string key, object defaultValue)
 		{
-			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
+			// Snapshot via ToArray() (not a direct enumeration of the live list) since this
+			// can run on a background thread (see IsMatch/ContainsContributorNotes, used by
+			// the session search) concurrently with the UI thread adding a field to this same
+			// list (e.g. the user typing into a previously-empty field) - a plain
+			// FirstOrDefault() over the live list would risk an InvalidOperationException
+			// ("Collection was modified") in that narrow window.
+			var field = MetaDataFieldValues.ToArray().FirstOrDefault(v => v.FieldId == key);
 			return (field == null ? defaultValue : field.Value);
 		}
 
@@ -432,12 +438,15 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public bool ContainsContributorNotes(string query)
 		{
-			var contributionsField = MetaDataFieldValues
-				.FirstOrDefault(f => f.FieldId == SessionFileType.kContributionsFieldName);
+			if (query == null)
+				return false;
 
-			if (contributionsField?.Value is ContributionCollection contributions)
+			if (GetValue(SessionFileType.kContributionsFieldName, null) is ContributionCollection contributions)
 			{
-				foreach (var contribution in contributions)
+				// ToArray() snapshot for the same reason as GetValue()/IsMatch() above: this
+				// can run on a background thread concurrently with the UI thread adding or
+				// removing a contributor via the Contributors editor.
+				foreach (var contribution in contributions.ToArray())
 				{
 					if (!string.IsNullOrEmpty(contribution.Comments) &&
 						contribution.Comments.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0)
@@ -465,12 +474,16 @@ namespace SayMore.Model.Files
 		/// <summary>
 		/// Gets the IDs (including any custom fields) of this file's metadata fields that are
 		/// worth matching against a search query. Overridden by subclasses whose files have
-		/// different (or additional) fields a user might search for.
+		/// different (or additional) fields a user might search for. The returned HashSet must
+		/// be constructed with StringComparer.OrdinalIgnoreCase: IsMatch calls Contains on it
+		/// with no comparer argument, relying on the set itself to do case-insensitive lookups
+		/// in O(1) - an override that omits the comparer will silently become case-sensitive.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual HashSet<string> GetSearchableFieldIds()
 		{
-			return new HashSet<string>(metadataSearchableTags.Union(GetCustomFieldIds()));
+			return new HashSet<string>(metadataSearchableTags.Union(GetCustomFieldIds()),
+				StringComparer.OrdinalIgnoreCase);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -496,15 +509,25 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual bool IsMatch(string query)
 		{
+			if (query == null)
+				return false;
+
 			var searchableFieldIds = GetSearchableFieldIds();
 
 			// ENHANCE: Technically, the query matching should be specific to the culture the data
 			// is in (mostly the project analysis language, but in some cases the current system
 			// locale or ordinal).
 			// See https://github.com/sillsdev/saymore/issues/262#issuecomment-6641448242
-			return MetaDataFieldValues.Any(field =>
-				searchableFieldIds.Contains(field.FieldId, StringComparer.OrdinalIgnoreCase) &&
-				(field.Value?.ToString() ?? string.Empty).IndexOf(query, OrdinalIgnoreCase) >= 0);
+			//
+			// Snapshot via ToArray() (not a direct enumeration of the live list) since this can
+			// run on a background thread (the session search debounces onto one) concurrently
+			// with the UI thread adding a field to this same list (e.g. the user typing into a
+			// previously-empty field) - a plain Any() over the live list would risk an
+			// InvalidOperationException ("Collection was modified") in that narrow window.
+			return MetaDataFieldValues.ToArray().Any(field =>
+				searchableFieldIds.Contains(field.FieldId) &&
+				(field.Value?.ToString() ?? string.Empty).IndexOf(query, OrdinalIgnoreCase) >= 0) ||
+				(FileType is FileTypeWithContributors && ContainsContributorNotes(query));
 		}
 
 		/// ------------------------------------------------------------------------------------

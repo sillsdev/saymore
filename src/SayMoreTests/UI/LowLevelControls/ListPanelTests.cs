@@ -1,5 +1,7 @@
 using NUnit.Framework;
+using System.Reflection;
 using System.Windows.Forms;
+using L10NSharp;
 
 namespace SayMoreTests.UI.LowLevelControls
 {
@@ -11,8 +13,56 @@ namespace SayMoreTests.UI.LowLevelControls
 	[TestFixture]
 	public class ListPanelTests
 	{
+        [SetUp]
+        public void Setup()
+        {
+            LocalizationManager.StrictInitializationMode = false;
+        }
+
         [Test]
-        public void SearchRequested_FiresWhenDebounceTimerTickIsSimulated_NotImmediatelyOnKeyUp()
+        public void RefreshSearchPromptIfNeeded_SearchBarShownAndNotFocused_ShowsPlaceholder()
+        {
+            // Simulates the pre-existing focus-desync bug (a parent container being disabled
+            // while the search box has focus silently steals focus without raising Leave),
+            // which otherwise leaves the placeholder stuck hidden even though nothing has
+            // focus. This lets a view re-check and correct that when it's reactivated.
+            var panel = new SayMore.UI.LowLevelControls.ListPanel { ShowSearchBar = true };
+
+            var label = GetSearchBoxPromptLabel(panel);
+            label.Visible = false;
+
+            panel.RefreshSearchPromptIfNeeded();
+
+            Assert.IsTrue(label.Visible);
+        }
+
+        [Test]
+        public void RefreshSearchPromptIfNeeded_SearchBarNotShown_DoesNothing()
+        {
+            var panel = new SayMore.UI.LowLevelControls.ListPanel(); // ShowSearchBar defaults to false
+
+            var label = GetSearchBoxPromptLabel(panel);
+            label.Visible = false;
+
+            panel.RefreshSearchPromptIfNeeded();
+
+            Assert.IsFalse(label.Visible,
+                "Nothing should change when the search bar isn't shown.");
+        }
+
+        private static Label GetSearchBoxPromptLabel(SayMore.UI.LowLevelControls.ListPanel panel)
+        {
+            var searchTextBoxField = typeof(SayMore.UI.LowLevelControls.ListPanel)
+                .GetField("_searchTextBox", BindingFlags.Instance | BindingFlags.NonPublic);
+            var searchTextBox = (SayMore.UI.LowLevelControls.PromptTextBox)searchTextBoxField.GetValue(panel);
+
+            var labelField = typeof(SayMore.UI.LowLevelControls.PromptTextBox)
+                .GetField("_labelPrompt", BindingFlags.Instance | BindingFlags.NonPublic);
+            return (Label)labelField.GetValue(searchTextBox);
+        }
+
+        [Test]
+        public void SearchRequested_FiresWhenDebounceTimerTickIsSimulated_NotImmediatelyAfterTyping()
         {
             var panel = new SayMore.UI.LowLevelControls.ListPanel();
 
@@ -22,19 +72,34 @@ namespace SayMoreTests.UI.LowLevelControls
             // Typing fewer than 3 characters starts the (slower) debounce timer, but
             // does not fire SearchRequested immediately.
             panel.SearchText = "ab";
-            panel.HandleSearchTextBoxKeyUp(panel, new KeyEventArgs(Keys.A));
-            Assert.IsFalse(fired, "SearchRequested should not fire immediately on key-up.");
+            Assert.IsFalse(fired, "SearchRequested should not fire immediately while typing.");
 
             // Typing 3 or more characters also defers to the debounce timer rather
             // than firing immediately...
             panel.SearchText = "abc";
-            panel.HandleSearchTextBoxKeyUp(panel, new KeyEventArgs(Keys.C));
-            Assert.IsFalse(fired, "SearchRequested should not fire immediately on key-up.");
+            Assert.IsFalse(fired, "SearchRequested should not fire immediately while typing.");
 
             // ...but does fire once the debounce timer's tick is simulated (we don't wait out
             // the real timer here, since that would make this test slow and timing-dependent).
             panel.HandleSearchTimerTick(panel, System.EventArgs.Empty);
             Assert.IsTrue(fired, "SearchRequested should fire when the debounce timer tick is simulated.");
+        }
+
+        [Test]
+        public void SearchRequested_FiresImmediately_WhenSearchTextIsCleared()
+        {
+            var panel = new SayMore.UI.LowLevelControls.ListPanel();
+
+            bool fired = false;
+            panel.SearchRequested += (s, e) => fired = true;
+
+            panel.SearchText = "abc";
+            Assert.IsFalse(fired, "SearchRequested should not fire immediately while typing.");
+
+            panel.SearchText = "";
+            Assert.IsTrue(fired,
+                "Clearing the search box should show the full list immediately, rather than " +
+                "waiting for the debounce timer.");
         }
 		//private ListPanel _lp;
 

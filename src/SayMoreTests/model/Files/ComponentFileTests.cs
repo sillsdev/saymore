@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using L10NSharp;
 using NUnit.Framework;
 using SIL.Core.ClearShare;
@@ -612,6 +613,21 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
+		public void GetSearchableFieldIds_ReturnsSetWithCaseInsensitiveComparer_ForEfficientLookup()
+		{
+			// searchableFieldIds.Contains(id) needs a case-insensitive HashSet comparer baked
+			// in to be a real O(1) lookup. Without it, IsMatch's case-insensitive membership
+			// check falls back to the O(n) 3-arg Enumerable.Contains(..., comparer) overload,
+			// rebuilt and rescanned for every field of every file on every search keystroke.
+			var f = new ComponentFile(new UnknownFileType(null, null));
+			var method = typeof(ComponentFile).GetMethod("GetSearchableFieldIds",
+				BindingFlags.Instance | BindingFlags.NonPublic);
+			var result = (HashSet<string>)method.Invoke(f, null);
+
+			Assert.AreEqual(StringComparer.OrdinalIgnoreCase, result.Comparer);
+		}
+
+		[Test]
 		public void IsMatch_PlainComponentFile_QueryMatchesSearchableField_ReturnsTrue()
 		{
 			var f = new ComponentFile(new UnknownFileType(null, null));
@@ -656,6 +672,42 @@ namespace SayMoreTests.Model.Files
 			});
 			f.MetaDataFieldValues.Add(new FieldInstance(SessionFileType.kContributionsFieldName, contributions));
 			Assert.IsTrue(f.IsMatch("needle"));
+		}
+
+		[Test]
+		public void IsMatch_PlainComponentFileIsAnnotationFileType_QueryMatchesContributorNotes_ReturnsTrue()
+		{
+			// A contributor comment left on an individual recording's own Contributors tab
+			// (not the session's own metadata file) should also be found by search. Annotation
+			// (and audio/video) files are plain ComponentFile instances, not
+			// ProjectElementComponentFile, so this exercises ComponentFile.IsMatch directly.
+			var f = new ComponentFile(new AnnotationFileType(null, null));
+			var contributions = new ContributionCollection(new[]
+			{
+				new Contribution("Jane Doe", null) { Comments = "found a needle in here" }
+			});
+			f.MetaDataFieldValues.Add(new FieldInstance(SessionFileType.kContributionsFieldName, contributions));
+			Assert.IsTrue(f.IsMatch("needle"));
+		}
+
+		[Test]
+		public void IsMatch_NullQuery_ReturnsFalseInsteadOfThrowing()
+		{
+			var f = new ComponentFile(new UnknownFileType(null, null));
+			f.MetaDataFieldValues.Add(new FieldInstance(FileType.kNotesFieldName, "some notes"));
+			Assert.IsFalse(f.IsMatch(null));
+		}
+
+		[Test]
+		public void ContainsContributorNotes_NullQuery_ReturnsFalseInsteadOfThrowing()
+		{
+			var f = new TestProjectElementComponentFile(CreateSessionFileType());
+			var contributions = new ContributionCollection(new[]
+			{
+				new Contribution("Jane Doe", null) { Comments = "some comments" }
+			});
+			f.MetaDataFieldValues.Add(new FieldInstance(SessionFileType.kContributionsFieldName, contributions));
+			Assert.IsFalse(f.ContainsContributorNotes(null));
 		}
 		#endregion
 	}

@@ -33,7 +33,7 @@ namespace SayMore.UI.ElementListScreen
 	public partial class ElementListScreen<T> : UserControl where T : ProjectElement
 	{
 		protected readonly ElementListViewModel<T> _model;
-		private readonly ILocalizationManager _localizationManagerm;
+		private readonly ILocalizationManager _localizationManager;
 		protected ElementGrid _elementsGrid;
 		protected TabControl _selectedEditorsTabControl;
 		protected ListPanel _elementsListPanel;
@@ -52,14 +52,7 @@ namespace SayMore.UI.ElementListScreen
 		/// </summary>
 		private void HandleSearchRequested(object sender, EventArgs e)
 		{
-           // Forward the current search text to the overload of LoadElementList that accepts a searchParam.
-			// If the search text is 2 or fewer characters, treat it as no search (show full list).
-            var search = _elementsListPanel?.SearchText;
-			// If empty or whitespace, show full list. Otherwise pass the search text
-			if (string.IsNullOrWhiteSpace(search))
-				LoadElementList(null, null);
-			else
-				LoadElementList(null, search);
+			LoadElementList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -69,7 +62,7 @@ namespace SayMore.UI.ElementListScreen
 		public ElementListScreen(ElementListViewModel<T> presentationModel, ILocalizationManager lm)
 		{
 			_model = presentationModel;
-			_localizationManagerm = lm;
+			_localizationManager = lm;
 			MainMenuItem = new ToolStripMenuItem();
 		}
 
@@ -119,13 +112,13 @@ namespace SayMore.UI.ElementListScreen
 		{
 			base.OnHandleCreated(e);
 			HandleStringsLocalized(null, EventArgs.Empty);
-			_localizationManagerm.UiLanguageChanged += HandleStringsLocalized;
+			_localizationManager.UiLanguageChanged += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			_localizationManagerm.UiLanguageChanged -= HandleStringsLocalized;
+			_localizationManager.UiLanguageChanged -= HandleStringsLocalized;
 			base.OnHandleDestroyed(e);
 		}
 
@@ -230,40 +223,49 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void LoadElementList()
+		/// <summary>
+		/// Reloads the grid from the model, filtered by whatever search text is currently in
+		/// the search box (if any). If itemToSelectAfterLoad is a ProjectElement that the
+		/// active filter would hide, the filter is cleared first (clearing it synchronously
+		/// re-enters this method via SearchRequested to reload unfiltered; this call then
+		/// continues below and reloads again, this time correctly selecting
+		/// itemToSelectAfterLoad) rather than leaving that as something every caller has to
+		/// avoid - ElementGrid.SelectElement(ProjectElement) throws an ArgumentException if the
+		/// element isn't among the filtered rows.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void LoadElementList(object itemToSelectAfterLoad = null)
 		{
-			// Backward-compatible parameterless call - forwards to the overload that
-			// now accepts an optional search parameter.
-			LoadElementList(null, null);
+			var searchParam = _elementsListPanel?.SearchText;
+
+			if (!string.IsNullOrWhiteSpace(searchParam) &&
+				itemToSelectAfterLoad is ProjectElement elementToSelect &&
+				!MatchesSearch(elementToSelect, searchParam))
+			{
+				_elementsListPanel.SearchText = string.Empty;
+				searchParam = string.Empty;
+			}
+
+			if (!string.IsNullOrWhiteSpace(searchParam))
+				DoAsyncMetadataSearch(searchParam, itemToSelectAfterLoad);
+
+			LoadFilteredElementList(itemToSelectAfterLoad, searchParam);
 		}
 
 		/// ------------------------------------------------------------------------------------
-     protected virtual void LoadElementList(object itemToSelectAfterLoad, string searchParam = null)
+		protected void LoadFilteredElementList(object itemToSelectAfterLoad, string searchParam)
 		{
 			// Start with all elements, ordered by id
 			IEnumerable<ProjectElement> items = _model.Elements.OrderBy(x => x.Id);
 
 			// If a search parameter was provided, restrict to elements whose Id
 			// contains the search text (case-insensitive) or which match the metadata search.
-			if(!string.IsNullOrWhiteSpace(searchParam)) 
-			{
-				if (_metadataSearchMatchingIds != null)
-				{
-					// Match by metadata OR by ID substring
-					items = items.Where(x =>
-						_metadataSearchMatchingIds.Contains(x.Id) ||
-						 x.Id.IndexOf(searchParam, StringComparison.OrdinalIgnoreCase) >= 0);
-				}
-				else
-				{
-					items = items.Where(x =>
-						x.Id.IndexOf(searchParam, StringComparison.OrdinalIgnoreCase) >= 0);
-				}
-			}
+			if (!string.IsNullOrWhiteSpace(searchParam))
+				items = items.Where(x => MatchesSearch(x, searchParam));
 
 			_elementsGrid.Items = items;
 
-			if (items.Any())
+			if (_elementsGrid.Items.Any())
 			{
 				switch (itemToSelectAfterLoad)
 				{
@@ -274,7 +276,13 @@ namespace SayMore.UI.ElementListScreen
 						_elementsGrid.SelectElement(element);
 						break;
 					case int index:
-						_elementsGrid.SelectElement(index);
+						// index was computed against a row count that can be stale by the time
+						// this runs (e.g. DeleteSelectedElements computes it before the reload,
+						// against the pre-deletion row count, which a search filter can make
+						// larger than this reload's actual row count) - clamp rather than
+						// trust it, since ElementGrid.SelectElement(int) throws otherwise.
+						_elementsGrid.SelectElement(Math.Max(0,
+							Math.Min(index, _elementsGrid.RowCount - 1)));
 						break;
 					case string itemId:
 						_elementsGrid.SelectElement(itemId);
@@ -282,12 +290,55 @@ namespace SayMore.UI.ElementListScreen
 				}
 			}
 
-			if (_elementsGrid.GridSettings == null)
+			if (ShouldAutoResizeGridColumns(searchParam))
 				_elementsGrid.AutoResizeColumns();
 
 			_elementsGrid.Refresh();
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Hook for a derived class whose search is backed by more than an ID substring match
+		/// (e.g. SessionsListScreen's metadata search). Called with a non-blank searchParam
+		/// right before the matching synchronous filter pass runs, so an override can reset
+		/// whatever state that filter consults and kick off whatever (potentially expensive,
+		/// off-UI-thread) search will eventually refine it by calling LoadFilteredElementList
+		/// again. searchParam is pinned to this call rather than meant to be re-read live
+		/// later, so a result that arrives after the user has typed something else doesn't get
+		/// paired with a newer, different filter text.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void DoAsyncMetadataSearch(string searchParam, object itemToSelectAfterLoad)
+		{
+			// No-op by default; overridden in SessionsListScreen.
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns whether element matches the given (non-blank) search text: either by
+		/// metadata search (if one was previously run and recorded matching ids), or by a
+		/// case-insensitive id substring match.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool MatchesSearch(ProjectElement element, string searchParam)
+		{
+			return (_metadataSearchMatchingIds?.Contains(element.Id) ?? false) ||
+				element.Id.IndexOf(searchParam, StringComparison.OrdinalIgnoreCase) >= 0;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Decides whether to auto-size the grid's columns to fit their content: only when the
+		/// user hasn't customized them (no saved GridSettings) AND this load isn't a reload
+		/// triggered by an active search. Without the latter check, a user who hasn't
+		/// persisted column widths would get a full column-width remeasurement pass over just
+		/// the currently filtered rows on every debounced search keystroke.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool ShouldAutoResizeGridColumns(string searchParam)
+		{
+			return _elementsGrid.GridSettings == null && string.IsNullOrWhiteSpace(searchParam);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		protected void UpdateComponentFileList()
@@ -499,12 +550,12 @@ namespace SayMore.UI.ElementListScreen
 					break; //bail after the first 'cancel'
 			}
 
-			int newElementCount = _model.Elements.Count();
-			while (currElementIndex >= newElementCount)
-				currElementIndex--;
-
-			if (currElementIndex >= 0)
+			if (_model.Elements.Any())
 			{
+				// LoadElementList clamps this to a valid row regardless of how many rows are
+				// actually displayed after the reload (e.g. fewer than before, if a search
+				// filter is active), so passing the pre-deletion row index selects whatever
+				// is now at (or nearest to) that same position.
 				LoadElementList(currElementIndex);
 				_model.SetSelectedElement(_elementsGrid.GetCurrentElement() as T);
 				UpdateComponentFileList();
@@ -546,6 +597,11 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public virtual void ViewActivated(bool firstTime)
 		{
+			// A pre-existing WinForms quirk (ViewDeactivated below disables this control, and
+			// disabling a control that has focus silently steals focus away without raising
+			// the normal Leave event) can leave the search box's placeholder stuck hidden even
+			// though nothing has focus after reactivation. Re-check and correct that here.
+			_elementsListPanel?.RefreshSearchPromptIfNeeded();
 		}
 
 		/// ------------------------------------------------------------------------------------

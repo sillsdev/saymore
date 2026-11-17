@@ -7,8 +7,9 @@ using SayMore.UI.NewSessionsFromFiles;
 using SayMore.UI.ProjectWindow;
 using SayMore.UI.SessionRecording;
 using SIL.Reporting;
+using SIL.Windows.Forms.Extensions;
+using static SIL.Windows.Forms.Extensions.ControlExtensions.ErrorHandlingAction;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -19,6 +20,7 @@ namespace SayMore.UI.ElementListScreen
 	{
 		private readonly NewSessionsFromFileDlgViewModel.Factory _newSessionsFromFileDlgViewModel;
 		private readonly MetadataSearch _metadataSearch;
+		private readonly AsyncMetadataSearch _asyncMetadataSearch;
 
 		/// ------------------------------------------------------------------------------------
 		public SessionsListScreen(ElementListViewModel<Session> presentationModel,
@@ -32,6 +34,12 @@ namespace SayMore.UI.ElementListScreen
 			_elementsGrid = sessionGridFactory();
 			_elementsGrid.Name = "SessionsGrid";
 			_metadataSearch = metadataSearch;
+
+			// Runs the (potentially expensive) metadata search off the UI thread, so a project
+			// with many sessions doesn't visibly stall the UI while typing in the search box.
+			_asyncMetadataSearch = new AsyncMetadataSearch(_metadataSearch.SearchSessions,
+				action => this.SafeInvoke(action, nameof(AsyncMetadataSearch), IgnoreIfDisposed));
+
 			_newSessionsFromFileDlgViewModel = newSessionsFromFileDlgViewModel;
 			InitializeComponent();
 
@@ -65,12 +73,25 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.HeaderPanelBottomBorderColor = Settings.Default.SessionEditorsBorderColor;
 		}
 
-		protected override void LoadElementList(object itemToSelectAfterLoad, string searchParam = null)
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Clears any matches found by a now-superseded search (the base class's synchronous
+		/// filter pass that follows this call will apply the cheap ID-substring filter
+		/// immediately, so the UI responds right away) and kicks off the (potentially
+		/// expensive) metadata search off the UI thread, so a project with many sessions
+		/// doesn't visibly stall the UI while typing in the search box. Once results are
+		/// ready, this refines the filter by reloading again.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void DoAsyncMetadataSearch(string searchParam, object itemToSelectAfterLoad)
 		{
-			_metadataSearchMatchingIds = !string.IsNullOrWhiteSpace(searchParam)
-				? new HashSet<string>(_metadataSearch.SearchSessions(searchParam))
-				: null;
-			base.LoadElementList(itemToSelectAfterLoad, searchParam);
+			_metadataSearchMatchingIds = null;
+
+			_asyncMetadataSearch.Search(searchParam, matchingIds =>
+			{
+				_metadataSearchMatchingIds = matchingIds;
+				LoadFilteredElementList(itemToSelectAfterLoad, searchParam);
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------

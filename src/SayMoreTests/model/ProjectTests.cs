@@ -227,6 +227,70 @@ namespace SayMoreTests.Model
 			Assert.IsTrue(File.Exists(_parentFolder.Combine("foo", "foo." + Project.ProjectSettingsFileExtension)));
 		}
 
+		[Test, Apartment(ApartmentState.STA)]
+		public void Constructor_RootlessSettingsPathNotFoundAnywhere_ResolvesUnderDefaultProjectsFolder()
+		{
+			var originalSetting = Settings.Default.DefaultFolderForNewProjects;
+			Settings.Default.DefaultFolderForNewProjects = _parentFolder.Path;
+			try
+			{
+				var rootlessPath = Path.Combine("rootlessProj", "rootlessProj." + Project.ProjectSettingsFileExtension);
+				var prj = new Project(rootlessPath, _projectContext.ResolveForTests<ElementRepository<Session>.Factory>(),
+					_projectContext.ResolveForTests<SessionFileType>());
+
+				Assert.AreEqual(Path.Combine(_parentFolder.Path, rootlessPath), prj.SettingsFilePath);
+				Assert.IsTrue(Path.IsPathRooted(prj.FolderPath));
+			}
+			finally
+			{
+				Settings.Default.DefaultFolderForNewProjects = originalSetting;
+			}
+		}
+
+		[Test, Apartment(ApartmentState.STA)]
+		public void Constructor_RootlessSettingsPathExistsRelativeToCwd_ResolvesThereInstead()
+		{
+			var originalSetting = Settings.Default.DefaultFolderForNewProjects;
+			var originalCwd = Environment.CurrentDirectory;
+			// Point the "known folder" fallback at a real but otherwise-unrelated, empty temp folder
+			// (DefaultProjectsFolder only honors a configured value that Directory.Exists), so a pass
+			// can only mean the CWD-relative project was actually found and used, not the fallback.
+			using (var notUsedFolder = new TemporaryFolder("notUsed"))
+			{
+				Settings.Default.DefaultFolderForNewProjects = notUsedFolder.Path;
+				Environment.CurrentDirectory = _parentFolder.Path;
+				try
+				{
+					var existingProject = CreateProject(_parentFolder); // creates _parentFolder/foo/foo.sprj
+					var rootlessPath = Path.Combine("foo", "foo." + Project.ProjectSettingsFileExtension);
+
+					var prj = new Project(rootlessPath, _projectContext.ResolveForTests<ElementRepository<Session>.Factory>(),
+						_projectContext.ResolveForTests<SessionFileType>());
+
+					Assert.AreEqual(existingProject.SettingsFilePath, prj.SettingsFilePath);
+				}
+				finally
+				{
+					Settings.Default.DefaultFolderForNewProjects = originalSetting;
+					Environment.CurrentDirectory = originalCwd;
+				}
+			}
+		}
+
+		[Test, Apartment(ApartmentState.STA)]
+		public void ResolveProjectSettingsPath_InvalidPathCharacters_ReturnsInputUnchanged()
+		{
+			// Colon outside drive position: NotSupportedException, thrown from Path.GetFullPath.
+			const string colonPath = "foo:bar.sprj";
+			Assert.AreEqual(colonPath, Project.ResolveProjectSettingsPath(colonPath));
+
+			// A restricted character: ArgumentException, thrown from Path.IsPathRooted itself on .NET
+			// Framework - covers the case where the whole method body needs the guard, not just the
+			// GetFullPath/Combine calls past the rootedness check.
+			const string invalidCharPath = "foo<bar.sprj";
+			Assert.AreEqual(invalidCharPath, Project.ResolveProjectSettingsPath(invalidCharPath));
+		}
+
 		#region SetFilesToArchive Tests
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]

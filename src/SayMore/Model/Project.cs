@@ -217,6 +217,7 @@ namespace SayMore.Model
 		{
 			_sessionsRepoFactory = sessionsRepoFactory;
 			_sessionFileType = sessionFileType;
+			desiredOrExistingSettingsFilePath = ResolveProjectSettingsPath(desiredOrExistingSettingsFilePath);
 			SettingsFilePath = desiredOrExistingSettingsFilePath;
 			Name = GetFileNameWithoutExtension(desiredOrExistingSettingsFilePath);
 			var projectDirectory = GetDirectoryName(desiredOrExistingSettingsFilePath);
@@ -669,6 +670,49 @@ namespace SayMore.Model
 		{
 			var p = Combine(parentFolderPath, newProjectName);
 			return Combine(p, newProjectName + "." + ProjectSettingsFileExtension);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string DefaultProjectsFolder
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(Settings.Default.DefaultFolderForNewProjects) ||
+					!Directory.Exists(Settings.Default.DefaultFolderForNewProjects))
+				{
+					return Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SayMore");
+				}
+				return Settings.Default.DefaultFolderForNewProjects;
+			}
+		}
+
+		// A rootless project path (a stale MRU entry, or a command-line argument) might genuinely be
+		// relative to the current working directory - honor that if it actually points at a real,
+		// existing project. Otherwise, don't let the OS silently resolve it against whatever the CWD
+		// happens to be (e.g. the install folder); treat it as relative to the well-known projects
+		// folder instead, so an existing project there is found and a new one is created there.
+		// (In the near-impossible case where a matching project exists in both places, CWD wins, since
+		// that's the ordinary, least-surprising meaning of "a relative path" for anyone relying on it.)
+		public static string ResolveProjectSettingsPath(string settingsFilePath)
+		{
+			try
+			{
+				if (IsPathRooted(settingsFilePath))
+					return settingsFilePath;
+
+				var cwdRelativePath = GetFullPath(settingsFilePath);
+				if (File.Exists(cwdRelativePath))
+					return cwdRelativePath;
+
+				return Combine(DefaultProjectsFolder, settingsFilePath);
+			}
+			catch (Exception e) when (e is ArgumentException or PathTooLongException or NotSupportedException)
+			{
+				// settingsFilePath has characters or a format .NET's path APIs reject (e.g. a garbled
+				// command-line argument or MRU entry). Hand back the original string unchanged, so a
+				// caller's own File.Exists-style checks fail normally instead of this throwing here.
+				return settingsFilePath;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

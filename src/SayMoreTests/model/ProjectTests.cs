@@ -291,6 +291,21 @@ namespace SayMoreTests.Model
 			Assert.AreEqual(invalidCharPath, Project.ResolveProjectSettingsPath(invalidCharPath));
 		}
 
+		[Test, Apartment(ApartmentState.STA)]
+		public void Constructor_SettingsPathHasInvalidCharacters_ThrowsArgumentException()
+		{
+			// GetFileNameWithoutExtension throws ArgumentException for a restricted character.
+			Assert.Throws<ArgumentException>(() => new Project("foo<bar." + Project.ProjectSettingsFileExtension,
+				_projectContext.ResolveForTests<ElementRepository<Session>.Factory>(),
+				_projectContext.ResolveForTests<SessionFileType>()));
+
+			// GetDirectoryName returns "" (not null) for a colon outside drive position, which would
+			// otherwise reach Directory.CreateDirectory("") uncaught.
+			Assert.Throws<ArgumentException>(() => new Project("foo:bar." + Project.ProjectSettingsFileExtension,
+				_projectContext.ResolveForTests<ElementRepository<Session>.Factory>(),
+				_projectContext.ResolveForTests<SessionFileType>()));
+		}
+
 		#region SetFilesToArchive Tests
 		/// ------------------------------------------------------------------------------------
 		[Test, Apartment(ApartmentState.STA)]

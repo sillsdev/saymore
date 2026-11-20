@@ -610,7 +610,8 @@ namespace SayMore
 					return;
 				}
 
-				if (OpenProjectWindow(dlg.Model.ProjectSettingsFilePath))
+				var projectPath = Project.ResolveProjectSettingsPath(dlg.Model.ProjectSettingsFilePath);
+				if (File.Exists(projectPath) && OpenProjectWindow(projectPath))
 					return;
 			}
 		}

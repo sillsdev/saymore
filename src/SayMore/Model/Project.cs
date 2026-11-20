@@ -219,9 +219,17 @@ namespace SayMore.Model
 			_sessionFileType = sessionFileType;
 			desiredOrExistingSettingsFilePath = ResolveProjectSettingsPath(desiredOrExistingSettingsFilePath);
 			SettingsFilePath = desiredOrExistingSettingsFilePath;
-			Name = GetFileNameWithoutExtension(desiredOrExistingSettingsFilePath);
-			var projectDirectory = GetDirectoryName(desiredOrExistingSettingsFilePath);
-			if (projectDirectory == null)
+			string projectDirectory;
+			try
+			{
+				Name = GetFileNameWithoutExtension(desiredOrExistingSettingsFilePath);
+				projectDirectory = GetDirectoryName(desiredOrExistingSettingsFilePath);
+			}
+			catch (ArgumentException e)
+			{
+				throw new ArgumentException("Invalid project path specified", nameof(desiredOrExistingSettingsFilePath), e);
+			}
+			if (string.IsNullOrEmpty(projectDirectory))
 				throw new ArgumentException("Invalid project path specified", nameof(desiredOrExistingSettingsFilePath));
 			var saveNeeded = false;
 

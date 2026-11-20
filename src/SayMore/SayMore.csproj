@@ -52,7 +52,7 @@
     <PackageReference Include="Serialization.NET" Version="1.4.1" />
     <PackageReference Include="SIL.Archiving" Version="18.0.0" />
     <PackageReference Include="SIL.Core" Version="18.0.0" />
-    <PackageReference Include="SIL.DesktopAnalytics" Version="6.1.0" />
+    <PackageReference Include="SIL.DesktopAnalytics" Version="6.1.1" />
     <PackageReference Include="SIL.libpalaso.l10ns" Version="18.0.0-beta0012" />
     <PackageReference Include="SIL.Media" Version="18.0.0" />
     <PackageReference Include="SIL.ReleaseTasks" Version="4.0.0">

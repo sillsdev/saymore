@@ -1,8 +1,6 @@
-using System;
-using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
-using SayMore.Properties;
+using SayMore.Model;
 
 namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 {
@@ -42,19 +40,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected static string DefaultProjectsFolder
-		{
-			get
-			{
-				if (string.IsNullOrEmpty(Settings.Default.DefaultFolderForNewProjects) ||
-					!Directory.Exists(Settings.Default.DefaultFolderForNewProjects))
-				{
-					return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SayMore");
-				}
-
-				return Settings.Default.DefaultFolderForNewProjects;
-			}
-		}
+		protected static string DefaultProjectsFolder => Project.DefaultProjectsFolder;
 
 		/// ------------------------------------------------------------------------------------
 		public static string ParentFolderPathForNewProject => DefaultProjectsFolder;

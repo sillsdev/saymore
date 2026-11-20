@@ -158,8 +158,7 @@ namespace SayMore
 					{
 						ErrorReport.NotifyUserOfProblem("We apologize for the inconvenience, but to complete this upgrade, SayMore needs to exit. Please run it again to complete the upgrade.");
 
-						var s = Application.LocalUserAppDataPath;
-						s = s.Substring(0, s.IndexOf("Local", StringComparison.InvariantCultureIgnoreCase) + 5);
+						var s = GetFolderPath(LocalApplicationData);
 						path = s.CombineForPath("SayMore", "SayMore.Settings");
 						File.Delete(path);
 
@@ -229,7 +228,7 @@ namespace SayMore
 				var args = GetCommandLineArgs();
 				if (args.Length > 1)
 				{
-					var possibleProjFile = args[1];
+					var possibleProjFile = Project.ResolveProjectSettingsPath(args[1]);
 					startedWithCommandLineProject =
 						possibleProjFile.EndsWith(Settings.Default.ProjectFileExtension) &&
 							File.Exists(possibleProjFile) &&
@@ -389,8 +388,7 @@ namespace SayMore
 		{
 			get
 			{
-				var s = Application.LocalUserAppDataPath;
-				s = s.Substring(0, s.IndexOf("Local", StringComparison.InvariantCultureIgnoreCase) + 5);
+				var s = GetFolderPath(LocalApplicationData);
 				return Path.Combine(s, "SayMore", "lastFilePath.txt");
 			}
 		}
@@ -475,10 +473,11 @@ namespace SayMore
 			// nothing... as in the app. is not launched. Therefore, running SayMore with the
 			// 'nl' command-line option will also suppress loading the last project.
 			var noLoadArg = GetCommandLineArgs().FirstOrDefault(a => "-nl-NL/nl/NL".Contains(a));
+			var latestProjectPath = MruFiles.Latest == null ? null : Project.ResolveProjectSettingsPath(MruFiles.Latest);
 
-			if (MruFiles.Latest == null || !File.Exists(MruFiles.Latest) ||
+			if (latestProjectPath == null || !File.Exists(latestProjectPath) ||
 				(Control.ModifierKeys == Keys.Shift) || noLoadArg != null ||
-				!OpenProjectWindow(MruFiles.Latest))
+				!OpenProjectWindow(latestProjectPath))
 			{
 				//since the message pump hasn't started yet, show the UI for choosing when it is
 				Application.Idle += ChooseAnotherProject;
@@ -611,7 +610,8 @@ namespace SayMore
 					return;
 				}
 
-				if (OpenProjectWindow(dlg.Model.ProjectSettingsFilePath))
+				var projectPath = Project.ResolveProjectSettingsPath(dlg.Model.ProjectSettingsFilePath);
+				if (File.Exists(projectPath) && OpenProjectWindow(projectPath))
 					return;
 			}
 		}

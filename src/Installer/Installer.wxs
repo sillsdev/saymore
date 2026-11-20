@@ -39,6 +39,16 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 	<!-- show the license page -->
 	<WixVariable Id="WixUILicenseRtf" Value="..\..\distfiles\License.rtf" />
 
+	<!-- Offer to launch SayMore from the Finish dialog, as the installing user (not elevated) -->
+	<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch $(var.ProductName) now" />
+	<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXCHECKED" Value="1" />
+
+	<UI>
+	  <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchSayMore">
+		WIXUI_EXITDIALOGOPTIONALCHECKBOXCHECKED = 1 and NOT Installed
+	  </Publish>
+	</UI>
+
 	<!--
 	"from the list: Don't use Advertise="yes" Advertised shortcuts are designed to allow
 users to install just the shortcut for your app, then demand-install the
@@ -442,14 +452,12 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	<Icon Id="SayMore.exe" SourceFile="$(var.OutputDir)SayMore.exe" />
 	<Property Id="ARPPRODUCTICON" Value="SayMore.exe" />
 
+	<!-- Scheduled from the ExitDialog's Finish button (see Publish above), not from
+		 InstallExecuteSequence: actions there run in the elevated Windows Installer service
+		 context (effectively SYSTEM), not as the installing user. -->
 	<CustomAction Id="LaunchSayMore"
 				  FileKey="SayMore.exe"
 				  ExeCommand=""
 				  Return="asyncNoWait"/>
-
-	<InstallExecuteSequence>
-	  <!--We need the condition here so that we only launch the executable when we make an installation but not when we remove the product-->
-		  <Custom Action='LaunchSayMore' After="InstallFinalize">NOT Installed</Custom>
-	</InstallExecuteSequence>
   </Product>
 </Wix>

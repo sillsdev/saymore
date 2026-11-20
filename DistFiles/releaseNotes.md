@@ -2,6 +2,7 @@
 * SayMore is now a 64-bit application, so it will make better use of available memory and avoid out-of-memory errors.
 * SayMore now targets .Net Framework 4.8, which is the latest version supported on Windows 7 through Windows 11. It will not run on Windows versions earlier than 7.
 * Added ability (both in the installer and in a dialog inside SayMore) to opt out of sending analytics data to SIL.
+* If a project file is specified on the command line without a full (rooted) path, SayMore will first attempt to find it relative to the current working directory, and failing that, will look for it in the standard SayMore project location (typically the "SayMore" folder in the user's Documents folder).
 
 ## 3.7.4 (30 July 2025)
 * Small improvement in the logic to guess at the correct initial writing system for translations when exporting FLEx Interlinear files (flextext).

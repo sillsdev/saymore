@@ -187,7 +187,7 @@
         Condition="!Exists('$(InstallerSourceMsi)')" />
 
     <!-- Copy + rename with version -->
-    <Copy SourceFiles="$(InstallerOutputDir)SayMoreInstaller.msi"
+    <Copy SourceFiles="$(InstallerSourceMsi)"
           DestinationFiles="$(VersionedMsi)"
           />
 

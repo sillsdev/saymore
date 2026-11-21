@@ -11,8 +11,16 @@ using ListViewItem = System.Windows.Forms.ListViewItem;
 
 namespace SayMore.UI
 {
-	public partial class FileLoadErrorsReportDlg : Form
+	public partial class FileLoadErrorsReportDlg : SayMoreFormBase
 	{
+		// REVIEW: m_listFileErrors is deliberately not in UITextScaler.ApplyFontRecursively's
+		// switch, so its row text stays at the Designer's baseline size even as the rest of this
+		// dialog scales. Its content (fileLoadError.Message / InnerException.Message below) comes
+		// straight from .NET/XML exceptions, so it's typically in the OS's language rather than
+		// SayMore's selected UI language, and definitely isn't covered by SayMore's own
+		// localizations. Scaling the control's size for visual consistency with the rest of the
+		// dialog might still be worth doing, but this is a rare error-reporting dialog, so that
+		// uncertainty is unresolved yet.
 		private readonly List<XmlException> m_fileLoadErrors;
 
 		public FileLoadErrorsReportDlg(List<XmlException> fileLoadErrors)

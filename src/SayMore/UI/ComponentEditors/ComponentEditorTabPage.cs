@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using SayMore.Utilities;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -63,6 +64,13 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// No separate live-rescale wiring needed here: TabPage derives from Panel, so once this
+		/// page's TabControl ancestor is reached (see ComponentEditorsTabControl.ApplyScale),
+		/// UITextScaler's generic recursive switch reaches this page -- and, through it, the
+		/// hosted editor Control -- on its own via the ordinary Panel case.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public void SetProvider(IEditorProvider provider)
 		{
 			if (EditorProvider != null)
@@ -76,6 +84,25 @@ namespace SayMore.UI.ComponentEditors
 			control.Dock = DockStyle.Fill;
 			Controls.Add(control);
 			ImageKey = EditorProvider.ImageKey;
+
+			control.ScaleUIFont();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				// EditorProvider.Control is a long-lived instance owned by FileType's own
+				// editor cache, reused across element selections -- not owned by this TabPage.
+				// Without removing it first, disposing this TabPage would cascade Dispose()
+				// onto it too, and the next selection that needs to show it again would throw
+				// ObjectDisposedException when re-adding it to a new TabPage.
+				if (EditorProvider?.Control != null)
+					Controls.Remove(EditorProvider.Control);
+			}
+
+			base.Dispose(disposing);
 		}
 
 		/// ------------------------------------------------------------------------------------

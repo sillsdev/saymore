@@ -11,7 +11,7 @@ using SayMore.Utilities;
 
 namespace SayMore.UI
 {
-	public partial class LoadingDlg : Form
+	public partial class LoadingDlg : SayMoreFormBase
 	{
 		public BackgroundWorker BackgroundWorker { get; set; }
 		public string GenericErrorMessage { get; set; }

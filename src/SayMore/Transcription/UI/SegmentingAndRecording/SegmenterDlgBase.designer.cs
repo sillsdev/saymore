@@ -330,12 +330,14 @@ namespace SayMore.Transcription.UI
 			// _buttonCancel
 			//
 			this._buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this._buttonCancel.AutoSize = true;
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Abort;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
 			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonCancel");
 			this._buttonCancel.Location = new System.Drawing.Point(664, 17);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(3, 12, 0, 12);
+			this._buttonCancel.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonCancel.Name = "_buttonCancel";
 			this._tableLayoutButtons.SetRowSpan(this._buttonCancel, 3);
 			this._buttonCancel.Size = new System.Drawing.Size(75, 26);

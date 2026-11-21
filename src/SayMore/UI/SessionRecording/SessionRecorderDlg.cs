@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using DesktopAnalytics;
@@ -12,19 +13,44 @@ using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
+using SayMore.UI;
+using SayMore.Utilities;
 using SIL.Media;
 using SIL.Windows.Forms;
 
 namespace SayMore.UI.SessionRecording
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class SessionRecorderDlg : Form
+	public partial class SessionRecorderDlg : SayMoreFormBase
 	{
+		// Extra room (beyond the fixed-size icon and the single-line text itself) left around
+		// a recording ToolStripButton's content when growing it to fit the current text scale;
+		// enough to read as normal button padding rather than text crowding the button's edge.
+		private const int kToolStripButtonContentGap = 4;
+		private const int kToolStripButtonRightPadding = 6;
+		// TextFormatFlags.NoPadding gives the tightest possible bounding box for the measured
+		// text, which can still leave a descender (e.g. the "y" in "Play Back Recording")
+		// reading as slightly clipped at larger scales; 2px of slack wasn't quite enough.
+		private const int kToolStripButtonVerticalSlack = 4;
+
 		private readonly SessionRecorderDlgViewModel _viewModel;
 		private string _recordedLengthLabelFormat;
 		private readonly bool _moreReliableDesignMode;
 		private readonly PeakMeterCtrl _peakMeter;
 		private RecordingDeviceIndicator _recDeviceIndicator;
+
+		// Captured once, immediately after InitializeComponent() and before anything has a
+		// chance to scale a font or resize the window, so later layout passes always have the
+		// dialog's true, pristine Designer-authored baseline to measure against instead of
+		// whatever an earlier pass already changed it to.
+		private readonly (ToolStripButton Button, Size DesignTimeSize)[] _scalableToolStripButtons;
+		private readonly int _designTimeClientHeight;
+		private readonly int _designTimeMinimumHeight;
+		// The ClientSize.Height ResizeRecordingControlsForCurrentTextScale itself most recently
+		// set. While the dialog is still at exactly this height, nothing else (the user dragging
+		// an edge, or restored window settings) has chosen a height of its own since.
+		private int _lastContentDrivenClientHeight;
+		private bool _resizingRecordingControlsForTextScale;
 
 		/// ------------------------------------------------------------------------------------
 		public SessionRecorderDlg()
@@ -32,6 +58,16 @@ namespace SayMore.UI.SessionRecording
 			Logger.WriteEvent("SessionRecorderDlg constructor");
 
 			InitializeComponent();
+
+			_scalableToolStripButtons = new[]
+			{
+				(_buttonRecord, _buttonRecord.Size),
+				(_buttonPlayback, _buttonPlayback.Size),
+				(_buttonStop, _buttonStop.Size)
+			};
+			_designTimeClientHeight = ClientSize.Height;
+			_designTimeMinimumHeight = MinimumSize.Height;
+			_lastContentDrivenClientHeight = _designTimeClientHeight;
 
 			_recordedLengthLabelFormat = _labelRecLength.Text;
 			_labelRecLength.Text = string.Format(_recordedLengthLabelFormat, "00.0");
@@ -65,6 +101,16 @@ namespace SayMore.UI.SessionRecording
 				StartPosition = FormStartPosition.CenterScreen;
 				Settings.Default.SessionRecorderDlg = FormSettings.Create(this);
 			}
+
+			UITextScaler.ScaleChanged += HandleUiTextScaleChangedForRecordingControls;
+			Disposed += (s, e) => UITextScaler.ScaleChanged -= HandleUiTextScaleChangedForRecordingControls;
+
+			// The Format label (row3) can also wrap to a second line purely from the dialog
+			// being resized narrower by hand, with no text-scale change involved; re-running
+			// the same fit-to-content pass on Resize keeps every row -- not just the ones a
+			// scale change touches -- free of the TableLayoutPanel-clamping this method guards
+			// against (see its own doc comment) regardless of what triggered the wrap.
+			Resize += (s, e) => ResizeRecordingControlsForCurrentTextScale();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -123,6 +169,22 @@ namespace SayMore.UI.SessionRecording
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
+
+			if (_moreReliableDesignMode)
+				return;
+
+			// base.OnLoad(e) just raised Load, which SayMoreFormBase's own handler used to
+			// apply the current text scale's font to every control, including the recording
+			// buttons and the Format/Recorded-Length labels. Re-measuring here, now that the
+			// scaled fonts are in place, keeps the dialog in sync with that same pass from the
+			// moment it first appears.
+			ResizeRecordingControlsForCurrentTextScale();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
 			Settings.Default.SessionRecorderDlg.InitializeForm(this);
@@ -130,6 +192,12 @@ namespace SayMore.UI.SessionRecording
 
 			if (_moreReliableDesignMode)
 				return;
+
+			// Same safety-net reasoning as SayMoreFormBase's own Load/Shown pair
+			// (src/SayMore/UI/SayMoreFormBase.cs): Shown is guaranteed to fire only after the
+			// entire OnLoad chain has returned, so it catches anything a subclass set after
+			// OnLoad's own call to ResizeRecordingControlsForCurrentTextScale above.
+			ResizeRecordingControlsForCurrentTextScale();
 
 			_viewModel.Recorder.BeginMonitoring();
 			UpdateDisplay();
@@ -205,6 +273,137 @@ namespace SayMore.UI.SessionRecording
 
 			_buttonOK.Enabled = !_viewModel.IsPlaying && !_viewModel.IsRecording && _viewModel.CanPlay;
 			_buttonCancel.Enabled = !_viewModel.IsPlaying && !_viewModel.IsRecording;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleUiTextScaleChangedForRecordingControls(object sender, EventArgs e)
+		{
+			ResizeRecordingControlsForCurrentTextScale();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// _buttonRecord/_buttonPlayback/_buttonStop are ToolStripButtons with AutoSize=false
+		/// and a Designer-fixed Size, so nothing resizes them in response to a Font change the
+		/// way the generic recursive UI scaling pass does for an AutoSize control. Once the
+		/// current Font's own single-line text height grows past the small, Designer-authored
+		/// 24px budgeted for the unscaled font, the content that no longer fits -- most visibly
+		/// the record/playback icon's own fixed, unstretched bottom edge, but also a descender
+		/// on a letter like the "y" in "Play Back Recording" -- gets clipped against that frozen
+		/// Size. Re-measuring each button's own single-line text against the current Font --
+		/// forcing <see cref="TextFormatFlags.SingleLine"/> rather than
+		/// <see cref="ToolStripItem.GetPreferredSize"/>, which can report an unconstrained,
+		/// seemingly-wrapped size for a Table-layout ToolStripButton at large scales --
+		/// plus its fixed-size icon, and growing -- never shrinking below the Designer's own
+		/// baseline -- keeps the native-size icon and the full scaled text line, descenders
+		/// included, inside the button's bounds at every scale.
+		///
+		/// Growing the buttons alone is not sufficient: toolStrip1 sits in
+		/// tableLayoutPanel1's one Percent-sized row, which only ever receives whatever height
+		/// is left over after the dialog's other, Designer-fixed-size rows (the Recorded-Length
+		/// label and the OK/Cancel/Format row) take their own share -- and TableLayoutPanel
+		/// clamps an AutoSize control's actual bounds to its row's available height, so
+		/// toolStrip1 (and the buttons inside it) would still end up clipped at larger scales if
+		/// the dialog's own ClientSize never grows to make that leftover large enough. Measuring
+		/// every row's own current content height and growing ClientSize/MinimumSize to fit --
+		/// again, only ever growing, never shrinking below the Designer's baseline -- keeps
+		/// every row, not just the buttons themselves, free of this same frozen-container
+		/// clipping at every scale.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ResizeRecordingControlsForCurrentTextScale()
+		{
+			// Re-entrancy guard: changing ClientSize.Height below raises this form's own
+			// Resize event, which this dialog's constructor wires back to this same method.
+			if (_resizingRecordingControlsForTextScale)
+				return;
+
+			_resizingRecordingControlsForTextScale = true;
+			try
+			{
+				using (var g = CreateGraphics())
+				{
+					foreach (var (button, designTimeSize) in _scalableToolStripButtons)
+					{
+						var textSize = TextRenderer.MeasureText(g, button.Text, button.Font,
+							Size.Empty, TextFormatFlags.SingleLine | TextFormatFlags.NoPadding);
+						var imageSize = button.Image?.Size ?? Size.Empty;
+						var neededWidth = imageSize.Width + kToolStripButtonContentGap +
+							textSize.Width + kToolStripButtonRightPadding;
+						var neededHeight = Math.Max(imageSize.Height, textSize.Height) +
+							kToolStripButtonVerticalSlack;
+						var targetSize = new Size(Math.Max(designTimeSize.Width, neededWidth),
+							Math.Max(designTimeSize.Height, neededHeight));
+						if (button.Size != targetSize)
+							button.Size = targetSize;
+					}
+				}
+
+				toolStrip1.PerformLayout();
+				tableLayoutPanel1.PerformLayout();
+
+				// Rows 2 and 3 are AutoSize rows: TableLayoutPanel always grants an AutoSize
+				// row its own full natural height first -- including whatever height
+				// _labelRecordingFormat's anchor-driven wrap just settled on above -- and only
+				// the single Percent row (row1, toolStrip1/_panelPeakMeter's row) ever absorbs a
+				// shortfall by being clamped smaller than its content needs. That means rows 2
+				// and 3's own current (post-layout) height already reflects their true need
+				// unclamped, unlike PreferredSize.Height, which -- for an anchored, wrapping
+				// Label like _labelRecordingFormat -- reports its unconstrained single-line size
+				// and misses however much taller its actual current wrap just made it. A row's
+				// own height is its tallest control's Height *plus that control's own vertical
+				// Margin* (TableLayoutPanel sizes an AutoSize row to fit the control plus its
+				// margin, not the bare control alone), so every term below adds Margin.Vertical
+				// alongside Height, the same way row1's sum already does via toolStripRowMargin.
+				//
+				// Row1's own need comes only from the three recording buttons: _panelPeakMeter
+				// (row1's other occupant) is Anchor=Top|Bottom, so it always stretches to match
+				// whatever height row1 ends up with rather than ever setting a floor of its own.
+				// The Math.Max against _designTimeClientHeight below floors the dialog's whole
+				// ClientSize, not row1's own share of it specifically. Every row's need, row1's
+				// included, is recomputed fresh from its controls' current Height on each call,
+				// and the dialog's height is never left below the sum of those needs. Row1 (and
+				// so _panelPeakMeter) receives whatever height remains after rows 2 and 3 take
+				// their full natural height, so that remainder is always at least row1Needed and
+				// the recording buttons keep their full measured height. Any height beyond the
+				// rows' combined need -- from the Designer baseline, or from the user enlarging
+				// the dialog -- also goes to row1, giving the peak meter that extra room.
+				const int toolStripRowMargin = 5; // matches each recording button's own Margin(0, 0, 0, 5)
+				var row1Needed = _buttonRecord.Height + _buttonPlayback.Height + _buttonStop.Height +
+					3 * toolStripRowMargin;
+				var row2Needed = _labelRecLength.Height + _labelRecLength.Margin.Vertical;
+				var row3Needed = Math.Max(Math.Max(
+					_buttonOK.Height + _buttonOK.Margin.Vertical,
+					_buttonCancel.Height + _buttonCancel.Margin.Vertical),
+					_labelRecordingFormat.Height + _labelRecordingFormat.Margin.Vertical);
+				var neededClientHeight = row1Needed + row2Needed + row3Needed +
+					Padding.Top + Padding.Bottom;
+				var targetClientHeight = Math.Max(_designTimeClientHeight, neededClientHeight);
+
+				// targetClientHeight is a floor: MinimumSize always tracks it, so neither the
+				// user nor a restored window setting can make the dialog shorter than its
+				// content needs. ClientSize itself grows whenever it is below that floor, and
+				// shrinks back toward it only while the dialog is still at the height this
+				// method last set -- a taller height chosen by the user (dragging an edge) or
+				// by restored window settings stays exactly as chosen.
+				var growth = Math.Max(0, targetClientHeight - _designTimeClientHeight);
+				var minimumHeight = _designTimeMinimumHeight + growth;
+				if (MinimumSize.Height != minimumHeight)
+					MinimumSize = new Size(MinimumSize.Width, minimumHeight);
+
+				var currentClientHeight = ClientSize.Height;
+				if (currentClientHeight < targetClientHeight ||
+					(currentClientHeight > targetClientHeight &&
+						currentClientHeight == _lastContentDrivenClientHeight))
+				{
+					ClientSize = new Size(ClientSize.Width, targetClientHeight);
+					_lastContentDrivenClientHeight = targetClientHeight;
+				}
+			}
+			finally
+			{
+				_resizingRecordingControlsForTextScale = false;
+			}
 		}
 	}
 }

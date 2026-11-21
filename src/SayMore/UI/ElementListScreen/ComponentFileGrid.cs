@@ -14,6 +14,7 @@ using SIL.Reporting;
 using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.Utilities;
 using SIL.Reflection;
 using GridSettings = SIL.Windows.Forms.Widgets.BetterGrid.GridSettings;
 using SIL.Windows.Forms;
@@ -374,7 +375,7 @@ namespace SayMore.UI.ElementListScreen
 				_contextMenuStrip.Items.Add(_menuDeleteFile);
 			}
 
-			_contextMenuStrip.Show(MousePosition);
+			_contextMenuStrip.ShowScaledContextMenuStrip(MousePosition);
 		}
 
 		/// ------------------------------------------------------------------------------------

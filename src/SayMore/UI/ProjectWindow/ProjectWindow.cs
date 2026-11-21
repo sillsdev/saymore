@@ -25,6 +25,7 @@ using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
+using SayMore.UI;
 using SayMore.UI.Overview;
 using SayMore.Utilities;
 using SIL.Windows.Forms.Extensions;
@@ -41,7 +42,7 @@ namespace SayMore.UI.ProjectWindow
 	/// Class for the main window of the application.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class ProjectWindow : Form
+	public partial class ProjectWindow : SayMoreFormBase
 	{
 		public delegate ProjectWindow Factory(string projectPath, IEnumerable<ISayMoreView> views); //autofac uses this
 
@@ -304,6 +305,23 @@ namespace SayMore.UI.ProjectWindow
 			using var dlg = new SILAboutBox(FileLocationUtilities.GetFileDistributedWithApplication("aboutbox.htm"));
 			dlg.Text += "\u2122";
 			dlg.CheckForUpdatesClicked += HandleAboutDialogCheckForUpdatesClick;
+
+			// SILAboutBox is a third-party Form, not a SayMoreFormBase, so it never goes
+			// through that base class's automatic Load/Shown scaling. Its native controls
+			// (version/build-date labels, Check for Updates button, Release Notes link) are
+			// ordinary WinForms controls that ScaleUIFont can reach directly, even though the
+			// embedded HTML content in aboutbox.htm is not. The dialog is shown modally, so
+			// there's no opportunity for the scale setting to change again while it's open.
+			dlg.ScaleUIFont();
+
+			// SILAboutBox's buttons are plain Buttons from a package this code doesn't own, so
+			// any of them could have AutoSize left off with a fixed Designer Size that
+			// ScaleUIFont's font-only pass overruns, with no way to fix that structurally from
+			// here. Sweeping every Button and shrinking only whichever ones don't fit their own
+			// box handles that without naming a specific control.
+			FontFitting.ShrinkOversizedButtonsToFit(dlg,
+				UITextScaler.ClampScalePercent(Settings.Default.UITextScale));
+
 			dlg.ShowDialog(this);
 		}
 
@@ -353,8 +371,15 @@ namespace SayMore.UI.ProjectWindow
 		{
 			using var dlg = new PrivacyDlg(Program.AnalyticsImpl);
 			dlg.RestartLabelColor = Color.Orange;
-			dlg.ShowDialog(this);
 
+			// PrivacyDlg is a third-party Form, not a SayMoreFormBase, so it never goes
+			// through that base class's automatic Load/Shown scaling. Every one of its
+			// controls (labels, checkboxes, buttons) is a type ScaleUIFont already knows how
+			// to scale directly. The dialog is shown modally, so there's no opportunity for
+			// the scale setting to change again while it's open.
+			dlg.ScaleUIFont();
+
+			dlg.ShowDialog(this);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -89,7 +89,7 @@ namespace SayMore.Model
 
 			using (var dlg = new IMDIArchivingDlg(model, element.ArchiveInfoDetails,
 				       ApplicationContainer.kSayMoreLocalizationId,
-				       Program.DialogFont, Settings.Default.ArchivingDialog))
+				       Program.ScaledDialogFont, Settings.Default.ArchivingDialog))
 			{
 				dlg.ShowDialog(parentForm);
 				Settings.Default.ArchivingDialog = dlg.FormSettings;
@@ -122,7 +122,7 @@ namespace SayMore.Model
 
 			using (var dlg = new ArchivingDlg(model, element.ArchiveInfoDetails,
 				ApplicationContainer.kSayMoreLocalizationId,
-				Program.DialogFont, Settings.Default.ArchivingDialog))
+				Program.ScaledDialogFont, Settings.Default.ArchivingDialog))
 			{
 				dlg.ShowDialog(parentForm);
 				Settings.Default.ArchivingDialog = dlg.FormSettings;

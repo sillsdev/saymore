@@ -10,12 +10,13 @@ using SIL.Reporting;
 using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Media;
 using SayMore.Properties;
+using SayMore.UI;
 using SayMore.UI.Charts;
 using static System.String;
 
 namespace SayMore.UI.ComponentEditors
 {
-	public partial class MediaFileMoreInfoDlg : Form
+	public partial class MediaFileMoreInfoDlg : SayMoreFormBase
 	{
         private readonly string _mediaFilePath;
         private string _source;

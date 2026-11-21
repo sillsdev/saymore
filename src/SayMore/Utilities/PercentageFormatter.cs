@@ -19,9 +19,13 @@ namespace SayMore.Utilities
 		private readonly string _pctFmt;
 		private readonly IFormatProvider _formatInfo;
 
-		public PercentageFormatter()
+		public PercentageFormatter(bool designMode)
 		{
-			_pctFmt = LocalizationManager.GetString("CommonToMultipleViews.PercentFormat", "{0}%");
+			// No localization manager in design mode, so just use the default format string.
+			_pctFmt = designMode ? "{0}%" :
+				LocalizationManager.GetString("CommonToMultipleViews.PercentFormat", "{0}%",
+					"The format string used to display a percentage in the UI. The parameter is " +
+					"the number (formatted for the target UI culture, if possible).");
 			try
 			{
 				_formatInfo = CultureInfo.GetCultureInfo(LocalizationManager.UILanguageId);

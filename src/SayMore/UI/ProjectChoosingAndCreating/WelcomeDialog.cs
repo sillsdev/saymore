@@ -8,6 +8,7 @@ using SIL.Reporting;
 using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Model;
 using SayMore.Properties;
+using SayMore.UI;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 using SayMore.Utilities;
 
@@ -19,9 +20,22 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 	/// existing projects via browsing the file system or by choosing a recently used project.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public sealed partial class WelcomeDialog : Form
+	public sealed partial class WelcomeDialog : SayMoreFormBase
 	{
 		public WelcomeDialogViewModel Model { get; set; }
+
+		// Captured once, immediately after InitializeComponent() and before anything has a
+		// chance to scale a font or resize the window, so later layout passes always have
+		// the dialog's true, pristine Designer-authored baseline to measure against instead
+		// of whatever an earlier pass already changed it to.
+		private readonly int _designTimeClientHeight;
+		private readonly int _designTimeMinimumHeight;
+		private readonly int _designTimeLinksRowBottomMargin;
+		// The ClientSize.Height ConstrainWelcomeLinksRowLayout itself most recently set. While
+		// the dialog is still at exactly this height, nothing else (the user dragging an edge,
+		// or restored window settings) has chosen a height of its own since.
+		private int _lastContentDrivenClientHeight;
+		private bool _constrainingWelcomeLinksRowLayout;
 
 		/// ------------------------------------------------------------------------------------
 		public WelcomeDialog(WelcomeDialogViewModel viewModel)
@@ -29,6 +43,11 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			Logger.WriteEvent("WelcomeDialog constructor");
 
 			InitializeComponent();
+
+			_designTimeClientHeight = ClientSize.Height;
+			_designTimeMinimumHeight = MinimumSize.Height;
+			_designTimeLinksRowBottomMargin = ClientSize.Height - flowLayoutPanel1.Bottom;
+			_lastContentDrivenClientHeight = _designTimeClientHeight;
 
 			Font = SystemFonts.MessageBoxFont; //use the default OS UI font
 
@@ -48,6 +67,20 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			LoadMRUButtons();
 
 			LocalizationInitiated();
+
+			UITextScaler.ScaleChanged += HandleUiTextScaleChangedForSubTitle;
+			Disposed += (s, e) => UITextScaler.ScaleChanged -= HandleUiTextScaleChangedForSubTitle;
+
+			UITextScaler.ScaleChanged += HandleUiTextScaleChangedForLinksRow;
+			Disposed += (s, e) => UITextScaler.ScaleChanged -= HandleUiTextScaleChangedForLinksRow;
+
+			// Set once here (in addition to the Resize- and ScaleChanged-driven updates
+			// elsewhere) so the very first layout pass -- including a cold start directly
+			// into a language whose recommended text scale is already applied before the
+			// dialog is first shown -- already has the correct wrap width, instead of only
+			// correcting itself after a later event fires.
+			ConstrainWelcomeLinksRowLayout();
+			Resize += (s, e) => ConstrainWelcomeLinksRowLayout();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -116,6 +149,18 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		{
 			Settings.Default.WelcomeDialog.InitializeForm(this);
 			base.OnLoad(e);
+
+			// base.OnLoad(e) just raised Load, which SayMoreFormBase's own handler used to
+			// apply the current text scale's font to every control, including _labelSubTitle.
+			// Re-measuring here, now that the scaled font is in place, keeps its Height in
+			// sync with that same pass from the moment the dialog first appears.
+			ResizeSubTitleForCurrentTextScale();
+
+			// Same reasoning as above, for the website links row: now that the scaled font
+			// is in place and flowLayoutPanel1 has already re-measured against it, re-check
+			// whether that row now needs more room than the dialog has from the moment the
+			// dialog first appears, rather than only on a later Resize/ScaleChanged event.
+			ConstrainWelcomeLinksRowLayout();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -123,6 +168,127 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		{
 			base.OnFormClosing(e);
 			Settings.Default.Save();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleUiTextScaleChangedForSubTitle(object sender, EventArgs e)
+		{
+			ResizeSubTitleForCurrentTextScale();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleUiTextScaleChangedForLinksRow(object sender, EventArgs e)
+		{
+			ConstrainWelcomeLinksRowLayout();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// _labelSubTitle has AutoSize off (needed so AutoEllipsis can truncate it against the
+		/// dialog's width instead of growing wider than its anchored space), so nothing resizes
+		/// it in response to a Font change the way the generic recursive UI scaling pass does
+		/// for an AutoSize label. Its Height stays at the Designer's fixed, unscaled value no
+		/// matter how large its Font grows, leaving the same unscaled sliver of room for a
+		/// taller scaled line and clipping its descenders (e.g. the "g" in "Language" and
+		/// "Management") off the bottom. Re-measuring the current Font's own line height and
+		/// growing the label to match keeps the full scaled line, descenders included, inside
+		/// its bounds at every scale.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ResizeSubTitleForCurrentTextScale()
+		{
+			using (var g = CreateGraphics())
+			{
+				_labelSubTitle.Height = TextRenderer.MeasureText(g, "X", _labelSubTitle.Font,
+					Size.Empty, TextFormatFlags.NoPadding).Height;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// _linkSILWebsite and _linkSayMoreWebsite sit side by side in flowLayoutPanel1, and
+		/// each one is already AutoSize, so the second link's position already comes from the
+		/// first link's actual measured width -- there is no fixed pixel offset between them.
+		/// But flowLayoutPanel1 is itself AutoSize with no MaximumSize, so its WrapContents
+		/// setting never has a width to wrap against: the panel just keeps growing its own
+		/// bounds to fit both links on one row no matter how wide their combined (localized,
+		/// scaled) text gets, carrying the second link past the dialog's visible right edge
+		/// once that combined width exceeds the space actually available there. English and
+		/// Spanish's translated strings stay well within the dialog's width at every supported
+		/// text scale, so this never shows up for them; Tibetan's longer translated strings,
+		/// especially at a larger scale, routinely do not. Constraining the panel's
+		/// MaximumSize to the dialog's own current width lets WrapContents move the
+		/// second link onto its own line -- derived from the first link's real measured
+		/// bounds -- only once that's genuinely needed to stay on screen, rather than every
+		/// time the row happens to be wider than the full width the dialog actually has
+		/// available for it.
+		///
+		/// Wrapping onto a second line (or simply a single scaled line growing taller than
+		/// the Designer ever budgeted room for) can need more height than this small,
+		/// fixed-size dialog currently has below this row, so this method grows the dialog's
+		/// ClientSize.Height to fit. flowLayoutPanel1 is Anchor = Top|Left (fixed, absolute
+		/// position), while the two controls above it follow the dialog's bottom edge:
+		/// _labelVersionInfo is Anchor = Bottom, and pnlOptions is Anchor = Top|Bottom, so it
+		/// stretches with the dialog's height. Whenever this method changes ClientSize.Height,
+		/// it puts _labelVersionInfo's Top and pnlOptions's Height back to their values from
+		/// before the change. Both stay exactly where they were, clear of this row, and the
+		/// added height appears only below this row.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ConstrainWelcomeLinksRowLayout()
+		{
+			// Re-entrancy guard: changing ClientSize.Height below raises this form's own
+			// Resize event synchronously, which is also wired to this same method.
+			if (_constrainingWelcomeLinksRowLayout)
+				return;
+
+			_constrainingWelcomeLinksRowLayout = true;
+			try
+			{
+				const int rightMargin = 2; // small cosmetic gap from the dialog's own edge
+
+				var availableWidth = ClientSize.Width - flowLayoutPanel1.Left - rightMargin;
+				if (availableWidth > 0)
+					flowLayoutPanel1.MaximumSize = new Size(availableWidth, 0);
+				flowLayoutPanel1.PerformLayout();
+
+				var clientHeightBeforeResize = ClientSize.Height;
+				var labelVersionInfoTopBeforeResize = _labelVersionInfo.Top;
+				var optionsPanelHeightBeforeResize = pnlOptions.Height;
+
+				var neededClientHeight = flowLayoutPanel1.Bottom + _designTimeLinksRowBottomMargin;
+				var targetClientHeight = Math.Max(_designTimeClientHeight, neededClientHeight);
+
+				// targetClientHeight is a floor: MinimumSize always tracks it, so neither the
+				// user nor a restored window setting can make the dialog shorter than the links
+				// row needs. ClientSize itself grows whenever it is below that floor, and shrinks
+				// back toward it only while the dialog is still at the height this method last
+				// set -- a taller height chosen by the user (dragging an edge) or by restored
+				// window settings stays exactly as chosen.
+				var growth = Math.Max(0, targetClientHeight - _designTimeClientHeight);
+				var minimumHeight = _designTimeMinimumHeight + growth;
+				if (MinimumSize.Height != minimumHeight)
+					MinimumSize = new Size(MinimumSize.Width, minimumHeight);
+
+				var currentClientHeight = ClientSize.Height;
+				if (currentClientHeight < targetClientHeight ||
+					(currentClientHeight > targetClientHeight &&
+						currentClientHeight == _lastContentDrivenClientHeight))
+				{
+					ClientSize = new Size(ClientSize.Width, targetClientHeight);
+					_lastContentDrivenClientHeight = targetClientHeight;
+				}
+
+				if (ClientSize.Height != clientHeightBeforeResize)
+				{
+					_labelVersionInfo.Top = labelVersionInfoTopBeforeResize;
+					pnlOptions.Height = optionsPanelHeightBeforeResize;
+				}
+			}
+			finally
+			{
+				_constrainingWelcomeLinksRowLayout = false;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

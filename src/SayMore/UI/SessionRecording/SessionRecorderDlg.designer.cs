@@ -107,7 +107,7 @@ namespace SayMore.UI.SessionRecording
 			//
 			// _buttonCancel
 			//
-			this._buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonCancel.AutoSize = true;
 			this.tableLayoutPanel1.SetColumnSpan(this._buttonCancel, 2);
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;

@@ -1,14 +1,3 @@
-// --------------------------------------------------------------------------------------------
-#region // Copyright © 2025, SIL Global. All Rights Reserved.
-// <copyright from='2012' to='2025' company='SIL Global'>
-//		Copyright (c) 2025, SIL Global. All Rights Reserved.
-//
-//		Distributable under the terms of the MIT License (https://sil.mit-license.org/)
-// </copyright>
-#endregion
-//
-// File: SplashScreenForm.cs
-// --------------------------------------------------------------------------------------------
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -35,6 +24,15 @@ namespace SayMore.UI
 
 		private const int kLogoTextImageTop = 18;
 
+		// Gap kept between a label's measured text and whatever boundary (the window edge, the
+		// next label, or pictureBox2) bounds its available space. This covers two things: a
+		// small visual buffer so text never grows all the way to touch that boundary, and the
+		// gap between TextRenderer.MeasureText's result (what GetLargestFontThatFits measures
+		// against) and a Label's own, somewhat taller AutoSize-driven preferred size (what the
+		// Label actually becomes once its Font is set) -- confirmed empirically to be up to
+		// about 8px across these labels' font sizes.
+		private const int kLabelBoundsMargin = 8;
+
 		private readonly int _logoTextLeft;
 		// NOTE: we use a Forms.Timer here (compared to Threading.Timer in FW)
 		// because we can't set the stack size of a thread in the thread pool which the
@@ -52,6 +50,8 @@ namespace SayMore.UI
 		private readonly bool m_showBuildNum;
 		private PictureBox picLoadingWheel;
 		private readonly string m_buildFmt;
+		private int _unscaledBottomLabelsTop;
+		private int _unscaledClientHeight;
 		#endregion
 
 		#region Constructor
@@ -84,6 +84,15 @@ namespace SayMore.UI
 			lblMessage.Font = SystemInformation.MenuFont;
 			lblBuildNumber.Font = SystemInformation.MenuFont;
 			Opacity = 0;
+
+			// Captured here, before any scaling has run, as the floor ApplyLabelScaling grows
+			// from and shrinks back to -- not the Designer's own values, since Width/Height
+			// above already replaced those with sizes computed from the logo bitmaps.
+			_unscaledBottomLabelsTop = label1.Top;
+			_unscaledClientHeight = ClientSize.Height;
+
+			ApplyLabelScaling();
+			UITextScaler.ScaleChanged += HandleUiTextScaleChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -128,6 +137,8 @@ namespace SayMore.UI
 
 				if (m_timer != null)
 					m_timer.Dispose();
+
+				UITextScaler.ScaleChanged -= HandleUiTextScaleChanged;
 			}
 
 			m_timer = null;
@@ -149,6 +160,7 @@ namespace SayMore.UI
 
 			m_waitHandle = waitHandle;
 			InitControlLabels();
+			ApplyLabelScaling();
 			m_useFading = useFading;
 
 			if (!useFading)
@@ -193,6 +205,7 @@ namespace SayMore.UI
 		public virtual void SetMessage(string value)
 		{
 			_labelLoading.Text = string.Format("Loading: {0}...", value);
+			ApplyLabelScaling();
 
 			// In some rare cases, setting the text causes an exception which should just
 			// be ignored.
@@ -236,7 +249,7 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		public virtual void SetCopyright(string value)
 		{
-			lblCopyright.Text = value.Replace("(C)", "©");
+			lblCopyright.Text = value.Replace("(C)", "Â©");
 		}
 		#endregion
 
@@ -317,6 +330,65 @@ if (attributes.Length > 0)
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		private void HandleUiTextScaleChanged(object sender, EventArgs e)
+		{
+			ApplyLabelScaling();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Grows _labelLoading, label1 (the copyright notice), and _labelVersionInfo as large
+		/// as the current UI text scale setting allows. label1 and _labelVersionInfo are
+		/// allowed to grow this form's own ClientSize.Height to fit, so _labelLoading (which
+		/// stops above label1's fixed position, not at the window edge) and the two bottom
+		/// labels (constrained only by the available width, not a height tied to the window's
+		/// current size) are each given the largest font that still fits its own space, even
+		/// when that's less than the full requested scale.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ApplyLabelScaling()
+		{
+			var desiredScalePercent = UITextScaler.ClampScalePercent(Properties.Settings.Default.UITextScale);
+
+			_labelLoading.Font = FontFitting.GetLargestFontThatFits(_labelLoading.Text,
+				UITextScaler.GetOriginalFont(_labelLoading), desiredScalePercent,
+				new Size(ClientSize.Width - _labelLoading.Left - kLabelBoundsMargin,
+					_unscaledBottomLabelsTop - _labelLoading.Top - kLabelBoundsMargin));
+
+			var bottomLabelMaxBounds = new Size(
+				pictureBox2.Left - label1.Left - kLabelBoundsMargin, int.MaxValue / 2);
+
+			label1.Font = FontFitting.GetLargestFontThatFits(label1.Text,
+				UITextScaler.GetOriginalFont(label1), desiredScalePercent, bottomLabelMaxBounds);
+
+			_labelVersionInfo.Font = FontFitting.GetLargestFontThatFits(_labelVersionInfo.Text,
+				UITextScaler.GetOriginalFont(_labelVersionInfo), desiredScalePercent, bottomLabelMaxBounds);
+
+			var neededHeight = PositionBottomLabelsAndGetRequiredClientHeight(label1,
+				_labelVersionInfo, _unscaledBottomLabelsTop, _unscaledClientHeight, kLabelBoundsMargin);
+
+			if (neededHeight != ClientSize.Height)
+				ClientSize = new Size(ClientSize.Width, neededHeight);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// topLabel and bottomLabel are both Anchor = Bottom|Left, so simply growing
+		/// ClientSize.Height shifts both down together by the same amount without changing the
+		/// gap between them -- so this instead stacks bottomLabel directly below topLabel
+		/// (pinning topLabel back at its unscaled position first) and returns the client
+		/// height needed to fit both, never smaller than unscaledClientHeight.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal static int PositionBottomLabelsAndGetRequiredClientHeight(Label topLabel,
+			Label bottomLabel, int unscaledTopLabelTop, int unscaledClientHeight, int margin)
+		{
+			topLabel.Top = unscaledTopLabelTop;
+			bottomLabel.Top = topLabel.Bottom + margin;
+
+			return Math.Max(unscaledClientHeight, bottomLabel.Bottom + margin);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaint(PaintEventArgs e)

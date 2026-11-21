@@ -1,5 +1,6 @@
 using L10NSharp;
 using SayMore.Properties;
+using SayMore.UI;
 using SIL.Reporting;
 using SIL.WritingSystems;
 using System;
@@ -12,7 +13,7 @@ using static System.String;
 
 namespace SayMore.Transcription.UI
 {
-	public partial class ExportToFieldWorksInterlinearDlg : Form
+	public partial class ExportToFieldWorksInterlinearDlg : SayMoreFormBase
 	{
 		private const string kFlexTextExt = ".flextext";
 		private const string kFlexProgramName = "FLEx";

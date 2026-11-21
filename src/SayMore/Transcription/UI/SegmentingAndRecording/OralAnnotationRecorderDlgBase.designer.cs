@@ -332,6 +332,8 @@ namespace SayMore.Transcription.UI
 			this.Name = "OralAnnotationRecorderBaseDlg";
 			this.Opacity = 1D;
 			this.Text = "Change this text";
+			this.Controls.SetChildIndex(this._tableLayoutButtons, 0);
+			this.Controls.SetChildIndex(this._tableLayoutOuter, 0);
 			this.Controls.SetChildIndex(this._tableLayoutMediaButtons, 0);
 			this.Controls.SetChildIndex(this._labelErrorInfo, 0);
 			this.Controls.SetChildIndex(this._labelListenHint, 0);

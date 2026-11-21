@@ -57,3 +57,4 @@ build/SIL.BuildTasks.*
 IMDI_3_0_Fix.py
 icu4c.readme.txt
 /.claude/*.local.json
+/nunit-agent*.log

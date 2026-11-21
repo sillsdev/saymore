@@ -7,15 +7,17 @@ using L10NSharp.Windows.Forms;
 using SIL.Windows.Forms.Widgets.BetterGrid;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
+using SayMore.Utilities;
 using SIL.Windows.Forms;
 
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
-	public class FieldsValuesGrid : BetterGrid
+	public class FieldsValuesGrid : BetterGrid, IUiScalable
 	{
 		private readonly FieldsValuesGridViewModel _model;
-		private readonly Font _factoryFieldFont;
+		private Font _factoryFieldFont;
+		private Font _workingLanguageBaselineFont;
 		private readonly Color _focusedSelectionBackColor;
 		private bool _adjustHeightToFitRows = true;
 		protected readonly L10NSharpExtender _locExtender;
@@ -31,13 +33,18 @@ namespace SayMore.UI.ComponentEditors
 			_locExtender.SetLocalizingId(this, "FieldsAndValuesGrid");
 
 			VirtualMode = true;
-			Font = Program.DialogFont;
+			Font = Program.ScaledDialogFont;
 			_factoryFieldFont = new Font(Font, FontStyle.Bold);
 
 			AllowUserToDeleteRows = true;
 			MultiSelect = false;
 			Margin = new Padding(0, Margin.Top, 0, Margin.Bottom);
 			RowHeadersVisible = false;
+
+			// ColumnHeadersHeight defaults to a fixed pixel value that's never recalculated
+			// from the header font, so a scaled-up header font would otherwise get clipped
+			// down to looking unscaled instead of actually growing the row that holds it.
+			ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
 
 			_focusedSelectionBackColor = ColorHelper.CalculateColor(Color.White,
@@ -69,6 +76,92 @@ namespace SayMore.UI.ComponentEditors
 		{
 			get => base.Font;
 			set => base.Font = value;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// FieldsValuesGrid is also a DataGridView; UITextScaler.ApplyFontCore's IUiScalable
+		/// case is checked before its DataGridView case specifically so this is reached here,
+		/// with its own _factoryFieldFont handling, instead of the generic DataGridView case.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ApplyScale(float scale)
+		{
+			Font = Program.ScaledDialogFont;
+			_factoryFieldFont?.Dispose();
+			_factoryFieldFont = new Font(Font, FontStyle.Bold);
+			ColumnHeadersDefaultCellStyle.Font = Font;
+
+			// CustomDataGridTextBoxColumn's constructor explicitly sets each column's own
+			// HeaderCell.Style.Font to SystemFonts.MenuFont (SP-848), and a column's own
+			// header style always wins over ColumnHeadersDefaultCellStyle above -- so every
+			// column's header font has to be set directly here too, or it stays pinned to
+			// that fixed, unscaled font regardless of what the grid-level default says.
+			foreach (DataGridViewColumn col in Columns)
+				col.HeaderCell.Style.Font = Font;
+
+			// EnableHeadersVisualStyles (true by default) hands header painting to the OS
+			// theme, which ignores the header cell styles above outright -- so the scaled
+			// header font never actually renders unless this is off. Keeping it on at 100%
+			// preserves the native themed header look for anyone not using scaling.
+			EnableHeadersVisualStyles = scale.Equals(1f);
+
+			// ColumnHeadersHeightSizeMode.AutoSize (set in the constructor) recomputes from
+			// the per-column header font change above; this forces it immediately rather
+			// than waiting on the next layout pass.
+			AutoResizeColumnHeadersHeight();
+
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sets the project's (unscaled) working-language font, used for cells whose content
+		/// is expected to be in the project's working language (as opposed to fixed, localized
+		/// UI vocabulary like factory field names and dropdown options, which always use the
+		/// UI font). Those cells display it at the current UI text scale; see
+		/// <see cref="WorkingLanguageFont"/>.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetWorkingLanguageFont(Font baseline)
+		{
+			_workingLanguageBaselineFont = baseline;
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The working-language font at the current UI text scale, or null if none has been
+		/// set. Cell fonts are chosen per cell in OnCellFormatting, which reads this on every
+		/// formatting pass, so working-language cells track the current scale on the very next
+		/// repaint (ApplyScale's Invalidate triggers one) -- the same shared font the editor's
+		/// working-language text boxes use.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal Font WorkingLanguageFont =>
+			UITextScaler.GetScaledWorkingLanguageFont(_workingLanguageBaselineFont);
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Field names are either a fixed, localized factory field name (UI font) or a
+		/// user-typed custom field name (Working Language font).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal static Font GetFieldNameFont(bool isCustomField, Font factoryFieldFont,
+			Font workingLanguageFont)
+		{
+			return isCustomField ? workingLanguageFont : factoryFieldFont;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Values are either chosen from a fixed, localized dropdown list (UI font) or typed
+		/// freely by the user (Working Language font).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal static Font GetValueFont(bool isComboBoxCell, Font uiFont, Font workingLanguageFont)
+		{
+			return isComboBoxCell ? uiFont : workingLanguageFont;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -201,11 +294,12 @@ namespace SayMore.UI.ComponentEditors
 					this[1, e.RowIndex].ReadOnly = true;
 				else if ((NewRowIndex < 0) || (e.RowIndex < NewRowIndex))
 				{
+					var workingLanguageFont = WorkingLanguageFont ?? Font;
 					if (e.ColumnIndex == 0)
 					{
 						this[0, e.RowIndex].ReadOnly = !isCustom;
-						if (!isCustom)
-							e.CellStyle.Font = _factoryFieldFont;
+						e.CellStyle.Font = GetFieldNameFont(isCustom, _factoryFieldFont,
+							workingLanguageFont);
 					}
 					else
 					{
@@ -214,6 +308,9 @@ namespace SayMore.UI.ComponentEditors
 						{
 							this[1, e.RowIndex].Style.ForeColor = Color.Gray;
 						}
+
+						e.CellStyle.Font = GetValueFont(this[1, e.RowIndex] is DataGridViewComboBoxCell,
+							Font, workingLanguageFont);
 					}
 				}
 			}

@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using SIL.Reporting;
 using SIL.Windows.Forms.PortableSettingsProvider;
 using SayMore.Properties;
+using SayMore.UI;
 
 namespace SayMore.Media.MPlayer
 {
@@ -14,7 +15,7 @@ namespace SayMore.Media.MPlayer
 	}
 
 
-	public partial class MPlayerDebuggingOutputWindow : Form, ILogger
+	public partial class MPlayerDebuggingOutputWindow : SayMoreFormBase, ILogger
 	{
 		/// ------------------------------------------------------------------------------------
 		public MPlayerDebuggingOutputWindow()

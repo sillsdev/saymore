@@ -12,6 +12,7 @@ using SIL.Windows.Forms.ClearShare.WinFormsUI;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
+using SayMore.Utilities;
 using SIL.Core.ClearShare;
 using SIL.Windows.Forms.Extensions;
 using SIL.Windows.Forms.Widgets.BetterGrid;
@@ -285,7 +286,7 @@ namespace SayMore.UI.ComponentEditors
 						{
 							var style = new DataGridViewCellStyle(col.DefaultCellStyle)
 							{
-								Font = font
+								Font = UITextScaler.GetScaledWorkingLanguageFont(font)
 							};
 							col.CellTemplate.Style = col.DefaultCellStyle = style;
 							// REVIEW: No matter what I do, I can't seem to find a way to force the
